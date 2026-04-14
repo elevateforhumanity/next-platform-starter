@@ -3,7 +3,7 @@ export const siteConfig = {
   url: 'https://www.elevateforhumanity.org',
   description:
     'Career training, workforce pathways, and community-centered education programs.',
-  learnUrl: 'https://learn.elevateforhumanity.org',
+  learnUrl: 'https://www.elevateforhumanity.org',
   phone: '(317) 314-3757',
   email: 'info@elevateforhumanity.org',
   address: 'Indianapolis, IN',
@@ -16,9 +16,9 @@ export const siteConfig = {
     { label: 'Contact', href: '/contact' },
   ],
   handoff: {
-    apply: 'https://learn.elevateforhumanity.org/apply',
-    login: 'https://learn.elevateforhumanity.org/login',
-    checkout: 'https://learn.elevateforhumanity.org/checkout',
-    enrollment: 'https://learn.elevateforhumanity.org/enrollment',
+    apply: 'https://www.elevateforhumanity.org/apply',
+    login: 'https://www.elevateforhumanity.org/login',
+    checkout: 'https://www.elevateforhumanity.org/checkout',
+    enrollment: 'https://www.elevateforhumanity.org/enrollment',
   },
 };
