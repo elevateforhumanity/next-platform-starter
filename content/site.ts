@@ -16,9 +16,11 @@ export const siteConfig = {
     { label: 'Contact', href: '/contact' },
   ],
   handoff: {
-    apply: 'https://www.elevateforhumanity.org/apply',
-    login: 'https://www.elevateforhumanity.org/login',
-    checkout: 'https://www.elevateforhumanity.org/checkout',
-    enrollment: 'https://www.elevateforhumanity.org/enrollment',
+    apply: 'https://learn.elevateforhumanity.org/apply',
+    login: 'https://learn.elevateforhumanity.org/login',
+    checkout: 'https://learn.elevateforhumanity.org/checkout',
+    enrollment: 'https://learn.elevateforhumanity.org/enrollment',
+    lms: 'https://learn.elevateforhumanity.org/lms/programs',
+    studentPortal: 'https://learn.elevateforhumanity.org/learner/dashboard',
   },
 };

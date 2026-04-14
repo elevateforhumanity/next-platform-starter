@@ -1,0 +1,33 @@
+# Cloudflare Pages redirects
+# State-named flat routes → slug routes
+/career-training-illinois    /career-training/illinois    301
+/career-training-indiana     /career-training/indiana     301
+/career-training-ohio        /career-training/ohio        301
+/career-training-tennessee   /career-training/tennessee   301
+/career-training-texas       /career-training/texas       301
+/community-services-illinois   /community-services/illinois   301
+/community-services-indiana    /community-services/indiana    301
+/community-services-ohio       /community-services/ohio       301
+/community-services-tennessee  /community-services/tennessee  301
+/community-services-texas      /community-services/texas      301
+
+# Deep supersonic routes → supersonic root
+/supersonic-fast-cash/*   /supersonic-fast-cash   302
+
+# Deep tax routes → tax root
+/tax/*   /tax   302
+
+# Deep platform routes → platform root
+/platform/*   /platform   302
+
+# Deep workforce-board routes → workforce-board root
+/workforce-board/*   /workforce-board   302
+
+# Deep drug-testing routes → drug-testing root
+/drug-testing/*   /drug-testing   302
+
+# Deep rise-foundation routes not individually defined → rise-foundation root
+/rise-foundation/*   /rise-foundation   302
+
+# Anything else unknown → home
+/*   /   302
