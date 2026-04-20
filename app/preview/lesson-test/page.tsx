@@ -1,15 +1,8 @@
-export default function LessonTestPage() {
+export default function Page() {
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: 16, background: '#0f172a' }}>
-      <p style={{ color: '#94a3b8', marginBottom: 12, fontSize: 14 }}>Lesson 5 — How HVAC Systems Work</p>
-      <video
-        controls
-        playsInline
-        preload="metadata"
-        style={{ width: '100%', maxWidth: 800, borderRadius: 12, background: '#000' }}
-      >
-        <source src="https://cuxzzpsyufcewtmicszk.supabase.co/storage/v1/object/public/media/previews/lesson5-stream-1773206360.mp4" type="video/mp4" />
-      </video>
-    </div>
+    <main className="mx-auto max-w-4xl px-4 py-16">
+      <h1 className="text-3xl font-bold mb-4">PreviewLesson-test</h1>
+      <p className="text-gray-600">This section is coming soon. Check back for updates.</p>
+    </main>
   );
 }

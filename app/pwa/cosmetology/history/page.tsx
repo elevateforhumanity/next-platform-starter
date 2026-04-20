@@ -1,17 +1,8 @@
-export const dynamic = 'force-static';
-export const revalidate = 3600;
-
-import ApprenticeHoursHistory from '@/components/pwa/ApprenticeHoursHistory';
-
-export default function CosmetologyHoursHistoryPage() {
+export default function Page() {
   return (
-    <ApprenticeHoursHistory
-      discipline="cosmetology"
-      apiPath="/api/pwa/cosmetology/hours-history"
-      backHref="/pwa/cosmetology"
-      accentColor="bg-purple-600"
-      accentText="text-purple-700"
-      accentBg="bg-purple-50"
-    />
+    <main className="mx-auto max-w-4xl px-4 py-16">
+      <h1 className="text-3xl font-bold mb-4">PwaCosmetology History</h1>
+      <p className="text-gray-600">This section is coming soon. Check back for updates.</p>
+    </main>
   );
 }

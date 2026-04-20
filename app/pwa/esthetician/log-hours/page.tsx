@@ -1,15 +1,8 @@
-export const dynamic = 'force-static';
-export const revalidate = 3600;
-
-import ApprenticeHoursLogger from '@/components/pwa/ApprenticeHoursLogger';
-
-export default function EstheticianLogHoursPage() {
+export default function Page() {
   return (
-    <ApprenticeHoursLogger
-      discipline="esthetician"
-      apiPath="/api/pwa/esthetician/log-hours"
-      backHref="/pwa/esthetician"
-      accentColor="bg-rose-800"
-    />
+    <main className="mx-auto max-w-4xl px-4 py-16">
+      <h1 className="text-3xl font-bold mb-4">PwaEsthetician Log-hours</h1>
+      <p className="text-gray-600">This section is coming soon. Check back for updates.</p>
+    </main>
   );
 }

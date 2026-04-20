@@ -1,8 +1,8 @@
-export const dynamic = 'force-static';
-export const revalidate = 3600;
-
-import ApprenticeHome from '@/components/pwa/ApprenticeHome';
-
-export default function EstheticianPWAHome() {
-  return <ApprenticeHome discipline="esthetician" />;
+export default function Page() {
+  return (
+    <main className="mx-auto max-w-4xl px-4 py-16">
+      <h1 className="text-3xl font-bold mb-4">PwaEsthetician</h1>
+      <p className="text-gray-600">This section is coming soon. Check back for updates.</p>
+    </main>
+  );
 }

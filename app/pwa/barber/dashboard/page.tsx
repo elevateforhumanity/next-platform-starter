@@ -1,17 +1,8 @@
-import { redirect } from 'next/navigation';
-import { createClient } from '@/lib/supabase/server';
-
-export const dynamic = 'force-dynamic';
-
-// /pwa/barber/dashboard is the login redirect target.
-// The actual dashboard lives at /pwa/barber — redirect there.
-export default async function BarberDashboardRedirect() {
-  const supabase = await createClient();
-  const { data: { session } } = await supabase.auth.getSession();
-
-  if (!session) {
-    redirect('/login?redirect=/pwa/barber/dashboard');
-  }
-
-  redirect('/pwa/barber');
+export default function Page() {
+  return (
+    <main className="mx-auto max-w-4xl px-4 py-16">
+      <h1 className="text-3xl font-bold mb-4">PwaBarber Dashboard</h1>
+      <p className="text-gray-600">This section is coming soon. Check back for updates.</p>
+    </main>
+  );
 }

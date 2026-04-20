@@ -1,20 +1,8 @@
-export const dynamic = 'force-static';
-export const revalidate = 3600;
-
-import ApprenticeProgress from '@/components/pwa/ApprenticeProgress';
-
-export default function CosmetologyProgressPage() {
+export default function Page() {
   return (
-    <ApprenticeProgress
-      discipline="cosmetology"
-      apiPath="/api/pwa/cosmetology/progress"
-      backHref="/pwa/cosmetology"
-      accentColor="bg-purple-600"
-      accentText="text-purple-700"
-      accentBg="bg-purple-50"
-      accentBorder="border-purple-200"
-      stateBoardHref="/apprentice/state-board"
-      lmsHref="/lms/dashboard"
-    />
+    <main className="mx-auto max-w-4xl px-4 py-16">
+      <h1 className="text-3xl font-bold mb-4">PwaCosmetology Progress</h1>
+      <p className="text-gray-600">This section is coming soon. Check back for updates.</p>
+    </main>
   );
 }

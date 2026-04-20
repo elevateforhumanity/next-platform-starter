@@ -1,20 +1,8 @@
-export const dynamic = 'force-static';
-export const revalidate = 3600;
-
-import ApprenticeProgress from '@/components/pwa/ApprenticeProgress';
-
-export default function NailTechProgressPage() {
+export default function Page() {
   return (
-    <ApprenticeProgress
-      discipline="nail-tech"
-      apiPath="/api/pwa/nail-tech/progress"
-      backHref="/pwa/nail-tech"
-      accentColor="bg-pink-600"
-      accentText="text-pink-700"
-      accentBg="bg-pink-50"
-      accentBorder="border-pink-200"
-      stateBoardHref="/apprentice/state-board"
-      lmsHref="/lms/dashboard"
-    />
+    <main className="mx-auto max-w-4xl px-4 py-16">
+      <h1 className="text-3xl font-bold mb-4">PwaNail-tech Progress</h1>
+      <p className="text-gray-600">This section is coming soon. Check back for updates.</p>
+    </main>
   );
 }

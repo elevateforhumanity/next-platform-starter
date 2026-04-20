@@ -1,15 +1,8 @@
-export const dynamic = 'force-static';
-export const revalidate = 3600;
-
-import ApprenticeHoursLogger from '@/components/pwa/ApprenticeHoursLogger';
-
-export default function NailTechLogHoursPage() {
+export default function Page() {
   return (
-    <ApprenticeHoursLogger
-      discipline="nail-tech"
-      apiPath="/api/pwa/nail-tech/log-hours"
-      backHref="/pwa/nail-tech"
-      accentColor="bg-pink-800"
-    />
+    <main className="mx-auto max-w-4xl px-4 py-16">
+      <h1 className="text-3xl font-bold mb-4">PwaNail-tech Log-hours</h1>
+      <p className="text-gray-600">This section is coming soon. Check back for updates.</p>
+    </main>
   );
 }
