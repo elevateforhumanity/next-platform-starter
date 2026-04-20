@@ -38,6 +38,11 @@ export const siteConfig = {
     { label: 'Accreditation', href: '/accreditation' },
     { label: 'Alumni', href: '/alumni' },
     { label: 'Workforce Board', href: '/workforce-board' },
+    // Brand verticals
+    { label: 'Curvature Body Sculpting', href: '/curvature-body-sculpting' },
+    { label: 'Selfish Inc', href: '/selfish-inc' },
+    { label: 'Rise Foundation', href: '/rise-foundation' },
+    { label: 'VITA', href: '/vita' },
   ],
   handoff: {
     apply: 'https://learn.elevateforhumanity.org/apply',
