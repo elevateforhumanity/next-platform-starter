@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import { legalDocs } from '@/content/legal';
-import { buildMetadata } from '@/lib/seo';
+import { legalDocs } from '@/content/cf-legal';
+import { buildMetadata } from '@/lib/cf-seo';
 
 export const metadata = buildMetadata({
   title: 'Legal',
@@ -12,7 +12,7 @@ export default function LegalPage() {
   return (
     <section className="mx-auto max-w-4xl px-4 py-16">
       <h1 className="text-3xl font-bold">Legal</h1>
-      <p className="mt-4 text-gray-600">
+      <p className="mt-4 text-slate-700">
         Legal agreements, disclosures, and documents governing use of Elevate for Humanity
         programs and platforms.
       </p>
@@ -22,7 +22,7 @@ export default function LegalPage() {
             <Link href={`/legal/${doc.slug}`} className="font-medium hover:underline">
               {doc.title}
             </Link>
-            <p className="mt-1 text-sm text-gray-600">{doc.summary}</p>
+            <p className="mt-1 text-sm text-slate-700">{doc.summary}</p>
           </li>
         ))}
       </ul>

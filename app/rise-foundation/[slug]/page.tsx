@@ -1,5 +1,5 @@
-import { buildMetadata } from '@/lib/seo';
-import { siteConfig } from '@/content/site';
+import { buildMetadata } from '@/lib/cf-seo';
+import { siteConfig } from '@/content/cf-site';
 
 const pages: Record<string, { title: string; body: string }> = {
   about: { title: 'About RISE Foundation', body: 'The RISE Foundation supports recovery, healing, and community wellness through evidence-based programs and community partnerships.' },
@@ -14,9 +14,7 @@ const pages: Record<string, { title: string; body: string }> = {
   curvature: { title: 'Curvature Program', body: 'A RISE Foundation wellness initiative supporting body-positive health and community care.' },
 };
 
-export function generateStaticParams() {
-  return Object.keys(pages).map((slug) => ({ slug }));
-}
+export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -32,10 +30,10 @@ export default async function RiseFoundationSubPage({ params }: { params: Promis
   return (
     <section className="mx-auto max-w-4xl px-4 py-16">
       <h1 className="text-3xl font-bold">{page.title}</h1>
-      <p className="mt-6 text-gray-600">{page.body}</p>
+      <p className="mt-6 text-slate-700">{page.body}</p>
       <div className="mt-10 flex gap-4">
         <a href="mailto:info@elevateforhumanity.org" className="rounded bg-black px-5 py-3 text-white hover:bg-gray-800">Contact Us</a>
-        <a href="/rise-foundation" className="rounded border px-5 py-3 hover:bg-gray-50">Back to RISE</a>
+        <a href="/rise-foundation" className="rounded border px-5 py-3 hover:bg-slate-50">Back to RISE</a>
       </div>
     </section>
   );

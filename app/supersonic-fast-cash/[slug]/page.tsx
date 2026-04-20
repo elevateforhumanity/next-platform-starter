@@ -1,11 +1,9 @@
 import { notFound } from 'next/navigation';
-import { supersonicServices } from '@/content/supersonic-fast-cash';
-import { findBySlug, staticParamsFromSlugs } from '@/lib/content-helpers';
-import { buildMetadata } from '@/lib/seo';
+import { supersonicServices } from '@/content/cf-supersonic-fast-cash';
+import { findBySlug, staticParamsFromSlugs } from '@/lib/cf-content-helpers';
+import { buildMetadata } from '@/lib/cf-seo';
 
-export function generateStaticParams() {
-  return staticParamsFromSlugs(supersonicServices);
-}
+export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -26,13 +24,13 @@ export default async function SupersonicServicePage({ params }: { params: Promis
   return (
     <section className="mx-auto max-w-4xl px-4 py-16">
       <h1 className="text-3xl font-bold">{service.title}</h1>
-      <p className="mt-4 text-lg text-gray-600">{service.description}</p>
+      <p className="mt-4 text-lg text-slate-700">{service.description}</p>
 
       <div className="mt-8">
         <h2 className="text-xl font-semibold">What&apos;s included</h2>
         <ul className="mt-4 space-y-2">
           {service.features.map((f) => (
-            <li key={f} className="flex items-start gap-2 text-sm text-gray-600">
+            <li key={f} className="flex items-start gap-2 text-sm text-slate-700">
               <span>·</span> {f}
             </li>
           ))}

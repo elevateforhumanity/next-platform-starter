@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import { buildMetadata } from '@/lib/seo';
-import { siteConfig } from '@/content/site';
+import { buildMetadata } from '@/lib/cf-seo';
+import { siteConfig } from '@/content/cf-site';
 
 export const metadata = buildMetadata({
   title: 'Platform',
@@ -20,12 +20,12 @@ export default function PlatformPage() {
   return (
     <section className="mx-auto max-w-6xl px-4 py-16">
       <h1 className="text-3xl font-bold">Platform</h1>
-      <p className="mt-4 text-gray-600">Connecting learners, employers, workforce boards, and training providers.</p>
+      <p className="mt-4 text-slate-700">Connecting learners, employers, workforce boards, and training providers.</p>
       <div className="mt-10 grid gap-6 md:grid-cols-2">
         {sections.map((s) => (
-          <article key={s.slug} className="rounded border p-6 hover:bg-gray-50">
+          <article key={s.slug} className="rounded border p-6 hover:bg-slate-50">
             <h2 className="text-xl font-semibold">{s.title}</h2>
-            <p className="mt-2 text-sm text-gray-600">{s.summary}</p>
+            <p className="mt-2 text-sm text-slate-700">{s.summary}</p>
             <Link href={`/platform/${s.slug}`} className="mt-4 inline-block text-sm underline">Learn more</Link>
           </article>
         ))}
