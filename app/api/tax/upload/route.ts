@@ -1,0 +1,114 @@
+import { createClient } from '@/lib/supabase/server';
+
+import { NextResponse } from 'next/server';
+import { applyRateLimit } from '@/lib/api/withRateLimit';
+import { withApiAudit } from '@/lib/audit/withApiAudit';
+export const runtime = 'nodejs';
+export const maxDuration = 60;
+
+export const dynamic = 'force-dynamic';
+
+async function _POST(request: Request) {
+  try {
+    const rateLimited = await applyRateLimit(request, 'contact');
+    if (rateLimited) return rateLimited;
+
+    const supabase = await createClient();
+
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const formData = await request.formData();
+    const file = formData.get('file') as File;
+    const documentCategory = formData.get('document_category') as string;
+    const taxYear = formData.get('tax_year') as string;
+
+    if (!file) {
+      return NextResponse.json({ error: 'No file provided' }, { status: 400 });
+    }
+
+    // Validate file size (max 10MB)
+    const maxSize = 10 * 1024 * 1024;
+    if (file.size > maxSize) {
+      return NextResponse.json(
+        { error: 'File size exceeds 10MB limit' },
+        { status: 400 }
+      );
+    }
+
+    // Validate file type
+    const allowedTypes = [
+      'application/pdf',
+      'image/jpeg',
+      'image/jpg',
+      'image/png',
+      'application/msword',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    ];
+
+    if (!allowedTypes.includes(file.type)) {
+      return NextResponse.json(
+        { error: 'Invalid file type. Allowed: PDF, JPG, PNG, DOC, DOCX' },
+        { status: 400 }
+      );
+    }
+
+    // Generate unique file path
+    const timestamp = Date.now();
+    const sanitizedFileName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
+    const filePath = `${user.id}/tax-documents/${timestamp}_${sanitizedFileName}`;
+
+    // Upload to Supabase Storage
+    const { data: uploadData, error: uploadError } = await supabase.storage
+      .from('documents')
+      .upload(filePath, file, {
+        cacheControl: '3600',
+        upsert: false,
+      });
+
+    if (uploadError) {
+      return NextResponse.json(
+        { error: 'Failed to upload file' },
+        { status: 500 }
+      );
+    }
+
+    // Create database record
+    const { data: document, error: dbError } = await supabase
+      .from('tax_documents')
+      .insert({
+        email: user.email!,
+        phone: '', // Will be updated by user
+        file_path: filePath,
+        file_name: file.name,
+        file_type: file.type,
+        file_size: file.size,
+        status: 'pending_review',
+      })
+      .select()
+      .maybeSingle();
+
+    if (dbError) {
+      // Cleanup uploaded file if database insert fails
+      await supabase.storage.from('documents').remove([filePath]);
+      return NextResponse.json({ error: 'Database operation failed' }, { status: 500 });
+    }
+
+    return NextResponse.json({
+      success: true,
+      document,
+      message: 'File uploaded successfully.',
+    });
+  } catch (error) { 
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    );
+  }
+}
+export const POST = withApiAudit('/api/tax/upload', _POST);
