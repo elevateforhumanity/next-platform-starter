@@ -1,127 +1,46 @@
-// PUBLIC ROUTE: tax appointment booking form
-
-import { NextResponse } from 'next/server';
-
-import { createClient } from '@supabase/supabase-js';
-import { resend } from '@/lib/resend';
-import { hydrateProcessEnv } from '@/lib/secrets';
+// PUBLIC ROUTE: tax appointment booking — no auth required
+import { NextRequest, NextResponse } from 'next/server';
+import { getAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
-import { logger } from '@/lib/logger';
-import { withApiAudit } from '@/lib/audit/withApiAudit';
-import { requireDbWrite, success, failure } from '@/lib/api/safe-handler';
-export const runtime = 'nodejs';
-export const maxDuration = 60;
+import { safeError, safeInternalError } from '@/lib/api/safe-error';
+import { sendTeamsMessage } from '@/lib/notifications/teams';
 
-export const dynamic = 'force-dynamic';
+export async function POST(request: NextRequest) {
+  const limited = await applyRateLimit(request, 'contact');
+  if (limited) return limited;
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
-
-async function _POST(req: Request) {
   try {
-  await hydrateProcessEnv();
-    const rateLimited = await applyRateLimit(req, 'contact');
-    if (rateLimited) return rateLimited;
+    const body = await request.json();
+    const { name, email, phone, service_type, preferred_date, preferred_time, notes } = body;
 
-    const body = await req.json();
-    const { appointmentData } = body;
-
-    // Validate required fields
-    if (
-      !appointmentData?.firstName ||
-      !appointmentData?.lastName ||
-      !appointmentData?.email ||
-      !appointmentData?.phone ||
-      !appointmentData?.serviceType ||
-      !appointmentData?.appointmentType ||
-      !appointmentData?.date ||
-      !appointmentData?.time
-    ) {
-      return NextResponse.json(
-        { error: 'Missing required fields' },
-        { status: 400 }
-      );
+    if (!name || !email || !service_type) {
+      return safeError('name, email, and service_type are required', 400);
     }
 
-    // Create Supabase client with service role key
-    const supabase = createClient(supabaseUrl, supabaseServiceKey);
-
-    // DB write is required — no fallthrough on failure
-    const appointment = await requireDbWrite(
-      supabase.from('appointments').insert([{
-        service_type: appointmentData.serviceType,
-        appointment_type: appointmentData.appointmentType,
-        appointment_date: appointmentData.date,
-        appointment_time: appointmentData.time,
-        first_name: appointmentData.firstName,
-        last_name: appointmentData.lastName,
-        email: appointmentData.email,
-        phone: appointmentData.phone,
-        tax_situation: appointmentData.taxSituation || null,
-        has_w2: appointmentData.hasW2 || false,
-        has_1099: appointmentData.has1099 || false,
-        has_business_income: appointmentData.hasBusinessIncome || false,
-        has_rental_income: appointmentData.hasRentalIncome || false,
-        needs_refund_advance: appointmentData.needsRefundAdvance || false,
-        refund_advance_amount: appointmentData.refundAdvanceAmount || null,
-        location: appointmentData.location || null,
+    const db = getAdminClient();
+    const { data, error } = await db
+      .from('tax_appointments')
+      .insert({
+        name,
+        email,
+        phone: phone ?? null,
+        service_type,
+        preferred_date: preferred_date ?? null,
+        preferred_time: preferred_time ?? null,
+        notes: notes ?? null,
         status: 'pending',
-      }]).select().maybeSingle(),
-      'Failed to create appointment. Please call (317) 314-3757.'
-    );
+      })
+      .select('id')
+      .single();
 
-    // Send confirmation email to customer
-    try {
-      await resend.emails.send({
-        from: 'SupersonicFastCash <noreply@elevateforhumanity.org>',
-        to: appointmentData.email,
-        subject: 'Tax Appointment Confirmation - SupersonicFastCash',
-        html: `
-          <h2>Your Tax Appointment is Confirmed!</h2>
-          <p>Hi ${appointmentData.firstName},</p>
-          <p>Thank you for booking with SupersonicFastCash. Here are your appointment details:</p>
-          <ul>
-            <li><strong>Service:</strong> ${appointmentData.serviceType}</li>
-            <li><strong>Type:</strong> ${appointmentData.appointmentType}</li>
-            <li><strong>Date:</strong> ${appointmentData.date}</li>
-            <li><strong>Time:</strong> ${appointmentData.time}</li>
-          </ul>
-          <p>We'll send you a reminder 24 hours before your appointment.</p>
-          <p>If you need to reschedule, please call us at (317) 314-3757.</p>
-          <p>Best regards,<br>SupersonicFastCash Team</p>
-        `,
-      });
-    } catch (emailError) {
-        logger.error("Unhandled error", emailError instanceof Error ? emailError : undefined);
-      }
+    if (error) return safeError('Failed to book appointment', 500);
 
-    // Send notification to staff
-    try {
-      await resend.emails.send({
-        from: 'SupersonicFastCash <noreply@elevateforhumanity.org>',
-        to: 'elevate4humanityedu@gmail.com',
-        subject: 'New Tax Appointment Booked',
-        html: `
-          <h2>New Appointment Booked</h2>
-          <ul>
-            <li><strong>Client:</strong> ${appointmentData.firstName} ${appointmentData.lastName}</li>
-            <li><strong>Email:</strong> ${appointmentData.email}</li>
-            <li><strong>Phone:</strong> ${appointmentData.phone}</li>
-            <li><strong>Service:</strong> ${appointmentData.serviceType}</li>
-            <li><strong>Type:</strong> ${appointmentData.appointmentType}</li>
-            <li><strong>Date:</strong> ${appointmentData.date}</li>
-            <li><strong>Time:</strong> ${appointmentData.time}</li>
-            <li><strong>Refund Advance:</strong> ${appointmentData.needsRefundAdvance ? 'Yes' : 'No'}</li>
-          </ul>
-        `,
-      });
-    } catch { /* non-fatal */ }
+    await sendTeamsMessage(
+      `📅 New tax appointment request\n**${name}** (${email}) — ${service_type}\nPreferred: ${preferred_date ?? 'flexible'} ${preferred_time ?? ''}`
+    ).catch(() => {});
 
-    return success({ appointment });
-  } catch (err: unknown) {
-    const message = 'Internal server error';
-    logger.error('Tax book-appointment error:', err);
-    return failure(message);
+    return NextResponse.json({ success: true, id: data.id });
+  } catch (err) {
+    return safeInternalError(err, 'Failed to book appointment');
   }
 }
-export const POST = withApiAudit('/api/tax/book-appointment', _POST);

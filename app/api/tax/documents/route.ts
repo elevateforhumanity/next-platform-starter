@@ -1,62 +1,57 @@
-import { createClient } from '@/lib/supabase/server';
-
-import { NextResponse } from 'next/server';
+// PUBLIC ROUTE: tax document upload — identified by email, no auth required
+import { NextRequest, NextResponse } from 'next/server';
+import { getAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
-import { withApiAudit } from '@/lib/audit/withApiAudit';
-export const runtime = 'nodejs';
-export const maxDuration = 60;
+import { safeError, safeInternalError } from '@/lib/api/safe-error';
 
-export const dynamic = 'force-dynamic';
+export async function POST(request: NextRequest) {
+  const limited = await applyRateLimit(request, 'contact');
+  if (limited) return limited;
 
-async function _GET(request: Request) {
   try {
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
+    const form = await request.formData();
+    const file = form.get('file') as File | null;
+    const email = form.get('email') as string | null;
+    const documentType = form.get('document_type') as string | null;
 
-    const supabase = await createClient();
-
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-
-    if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    if (!file || !email || !documentType) {
+      return safeError('file, email, and document_type are required', 400);
     }
 
-    // Get user's documents
-    const { data: documents, error } = await supabase
-      .from('tax_documents')
-      .select('*')
-      .eq('email', user.email)
-      .order('created_at', { ascending: false });
-
-    if (error) {
-      return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    if (file.size > 10 * 1024 * 1024) {
+      return safeError('File exceeds 10MB limit', 400);
     }
 
-    // Generate signed URLs for documents
-    const documentsWithUrls = await Promise.all(
-      (documents || []).map(async (doc) => {
-        const { data: urlData } = await supabase.storage
-          .from('documents')
-          .createSignedUrl(doc.file_path, 60); // 60-second expiry for PII documents
+    const db = getAdminClient();
+    const ext = file.name.split('.').pop() ?? 'bin';
+    const path = `tax-documents/${email.replace('@', '_at_')}/${documentType}-${Date.now()}.${ext}`;
 
-        return {
-          ...doc,
-          download_url: urlData?.signedUrl || null,
-        };
-      })
-    );
+    const { error: storageError } = await db.storage
+      .from('documents')
+      .upload(path, await file.arrayBuffer(), {
+        contentType: file.type,
+        upsert: false,
+      });
 
-    return NextResponse.json({
-      documents: documentsWithUrls,
-      total: documents?.length || 0,
+    if (storageError) return safeError('Storage upload failed', 500);
+
+    // Record in tax_documents table
+    const { error: dbError } = await db.from('tax_documents').insert({
+      email,
+      document_type: documentType,
+      file_name: file.name,
+      storage_path: path,
+      file_size: file.size,
+      status: 'pending_review',
     });
-  } catch (error) { 
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+
+    if (dbError) {
+      // Storage succeeded but DB record failed — log but don't fail the user
+      console.error('tax_documents insert failed:', dbError.message);
+    }
+
+    return NextResponse.json({ success: true, path });
+  } catch (err) {
+    return safeInternalError(err, 'Document upload failed');
   }
 }
-export const GET = withApiAudit('/api/tax/documents', _GET);
