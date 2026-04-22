@@ -1,130 +1,84 @@
 -- Supersonic Fast Cash — canonical intake spine
--- Phase 2.2: every form on the SFC site writes one sfc_leads row.
--- Phase 3.3: documents attach to lead_id via sfc_documents.
--- Phase 3.4: appointments link back via sfc_leads.appointment_id.
--- Apply in Supabase Dashboard → SQL Editor
+-- sfc_leads: every form on the SFC site writes one row
+-- sfc_documents: uploaded files attach to a lead
 
--- ── Leads ────────────────────────────────────────────────────────────────
-
-CREATE TABLE IF NOT EXISTS public.sfc_leads (
-  id                      uuid        PRIMARY KEY DEFAULT gen_random_uuid(),
-  created_at              timestamptz NOT NULL DEFAULT now(),
-  updated_at              timestamptz NOT NULL DEFAULT now(),
-
-  -- Identity
-  first_name              text        NOT NULL,
-  last_name               text        NOT NULL,
-  email                   text        NOT NULL,
-  phone                   text,
-  preferred_contact_method text       CHECK (preferred_contact_method IN ('phone','email','text')) DEFAULT 'phone',
-
-  -- Attribution
-  source                  text        NOT NULL DEFAULT 'website',
-                            CHECK (source IN ('calculator','service_page','contact','state_page','book_appointment','start','upload','referral','website')),
-  source_detail           text,       -- e.g. 'tax-preparation-indiana', 'refund-advance'
-  utm_campaign            text,
-  utm_medium              text,
-
-  -- Qualification
-  service_type            text        CHECK (service_type IN ('tax_prep','refund_advance','bookkeeping','payroll','diy','audit_protection','cash_advance')),
-  state                   text,
-  filing_status           text        CHECK (filing_status IN ('single','married_joint','married_separate','head_of_household')),
-  income_range            text        CHECK (income_range IN ('under_25k','25k_50k','50k_75k','75k_100k','over_100k')),
-  refund_estimate         numeric(10,2),
-  has_1099                boolean,
-  has_dependents          boolean,
-  dependents_count        int,
-  needs_refund_advance    boolean,
-
-  -- Pipeline status
-  status                  text        NOT NULL DEFAULT 'new',
-                            CHECK (status IN ('new','contacted','docs_pending','docs_received','in_preparation','filed','completed','lost')),
-
-  -- Links
-  appointment_id          uuid,       -- FK set after appointment is created
-  notes                   text
-
-  UNIQUE (email)           -- one canonical lead per email; use upsert for duplicates
+create table if not exists public.sfc_leads (
+  id                       uuid        primary key default gen_random_uuid(),
+  created_at               timestamptz not null default now(),
+  updated_at               timestamptz not null default now(),
+  first_name               text        not null,
+  last_name                text        not null,
+  email                    text        not null unique,
+  phone                    text,
+  preferred_contact_method text        default 'phone' check (preferred_contact_method in ('phone','email','text')),
+  source                   text        not null default 'website' check (source in ('calculator','service_page','contact','state_page','book_appointment','start','upload','referral','website')),
+  source_detail            text,
+  utm_campaign             text,
+  utm_medium               text,
+  service_type             text        check (service_type in ('tax_prep','refund_advance','bookkeeping','payroll','diy','audit_protection','cash_advance')),
+  state                    text,
+  filing_status            text        check (filing_status in ('single','married_joint','married_separate','head_of_household')),
+  income_range             text        check (income_range in ('under_25k','25k_50k','50k_75k','75k_100k','over_100k')),
+  refund_estimate          numeric(10,2),
+  has_1099                 boolean,
+  has_dependents           boolean,
+  dependents_count         int,
+  needs_refund_advance     boolean,
+  status                   text        not null default 'new' check (status in ('new','contacted','docs_pending','docs_received','in_preparation','filed','completed','lost')),
+  appointment_id           uuid,
+  notes                    text
 );
 
-CREATE INDEX IF NOT EXISTS idx_sfc_leads_status      ON public.sfc_leads(status);
-CREATE INDEX IF NOT EXISTS idx_sfc_leads_source      ON public.sfc_leads(source);
-CREATE INDEX IF NOT EXISTS idx_sfc_leads_created_at  ON public.sfc_leads(created_at DESC);
-CREATE INDEX IF NOT EXISTS idx_sfc_leads_service     ON public.sfc_leads(service_type);
+create index if not exists idx_sfc_leads_status     on public.sfc_leads(status);
+create index if not exists idx_sfc_leads_source     on public.sfc_leads(source);
+create index if not exists idx_sfc_leads_created_at on public.sfc_leads(created_at desc);
+create index if not exists idx_sfc_leads_service    on public.sfc_leads(service_type);
 
--- ── Documents ─────────────────────────────────────────────────────────────
-
-CREATE TABLE IF NOT EXISTS public.sfc_documents (
-  id            uuid        PRIMARY KEY DEFAULT gen_random_uuid(),
-  created_at    timestamptz NOT NULL DEFAULT now(),
-
-  lead_id       uuid        NOT NULL REFERENCES public.sfc_leads(id) ON DELETE CASCADE,
-  file_url      text        NOT NULL,
-  file_name     text,
-  file_type     text,       -- 'pdf','jpg','png','heic'
-  file_size     bigint,
-  doc_category  text        CHECK (doc_category IN ('w2','1099','id','ssn_card','prior_return','other')),
-  uploaded_at   timestamptz NOT NULL DEFAULT now()
+create table if not exists public.sfc_documents (
+  id           uuid        primary key default gen_random_uuid(),
+  created_at   timestamptz not null default now(),
+  lead_id      uuid        not null references public.sfc_leads(id) on delete cascade,
+  file_url     text        not null,
+  file_name    text,
+  file_type    text,
+  file_size    bigint,
+  doc_category text        check (doc_category in ('w2','1099','id','ssn_card','prior_return','other')),
+  uploaded_at  timestamptz not null default now()
 );
 
-CREATE INDEX IF NOT EXISTS idx_sfc_documents_lead_id ON public.sfc_documents(lead_id);
+create index if not exists idx_sfc_documents_lead_id on public.sfc_documents(lead_id);
 
--- ── Row-level security ─────────────────────────────────────────────────────
--- Service-role writes (via admin client) are unrestricted.
--- Authenticated admin/staff can read all rows.
--- Public: no direct access — all mutations go through the API.
+alter table public.sfc_leads     enable row level security;
+alter table public.sfc_documents enable row level security;
 
-ALTER TABLE public.sfc_leads     ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.sfc_documents ENABLE ROW LEVEL SECURITY;
+drop policy if exists sfc_leads_admin_read     on public.sfc_leads;
+drop policy if exists sfc_documents_admin_read on public.sfc_documents;
+drop policy if exists sfc_leads_admin_write    on public.sfc_leads;
 
--- Admin read policy
-DROP POLICY IF EXISTS sfc_leads_admin_read     ON public.sfc_leads;
-DROP POLICY IF EXISTS sfc_documents_admin_read ON public.sfc_documents;
-
-CREATE POLICY sfc_leads_admin_read ON public.sfc_leads
-  FOR SELECT
-  USING (
-    EXISTS (
-      SELECT 1 FROM public.profiles p
-      WHERE p.id = auth.uid()
-        AND p.role IN ('admin','super_admin','staff')
-    )
+create policy sfc_leads_admin_read on public.sfc_leads
+  for select using (
+    exists (select 1 from public.profiles where id = auth.uid() and role in ('admin','super_admin','staff'))
   );
 
-CREATE POLICY sfc_documents_admin_read ON public.sfc_documents
-  FOR SELECT
-  USING (
-    EXISTS (
-      SELECT 1 FROM public.profiles p
-      WHERE p.id = auth.uid()
-        AND p.role IN ('admin','super_admin','staff')
-    )
+create policy sfc_documents_admin_read on public.sfc_documents
+  for select using (
+    exists (select 1 from public.profiles where id = auth.uid() and role in ('admin','super_admin','staff'))
   );
 
--- Admin write policy (status updates, notes)
-DROP POLICY IF EXISTS sfc_leads_admin_write     ON public.sfc_leads;
-
-CREATE POLICY sfc_leads_admin_write ON public.sfc_leads
-  FOR UPDATE
-  USING (
-    EXISTS (
-      SELECT 1 FROM public.profiles p
-      WHERE p.id = auth.uid()
-        AND p.role IN ('admin','super_admin','staff')
-    )
+create policy sfc_leads_admin_write on public.sfc_leads
+  for update using (
+    exists (select 1 from public.profiles where id = auth.uid() and role in ('admin','super_admin','staff'))
   );
 
--- ── Timestamp trigger ─────────────────────────────────────────────────────
-
-CREATE OR REPLACE FUNCTION public.sfc_leads_set_updated_at()
-  RETURNS TRIGGER LANGUAGE plpgsql AS $$
-BEGIN
-  NEW.updated_at = now();
-  RETURN NEW;
-END;
+create or replace function public.sfc_leads_set_updated_at()
+  returns trigger language plpgsql as $$
+begin
+  new.updated_at = now();
+  return new;
+end;
 $$;
 
-DROP TRIGGER IF EXISTS sfc_leads_updated_at ON public.sfc_leads;
-CREATE TRIGGER sfc_leads_updated_at
-  BEFORE UPDATE ON public.sfc_leads
-  FOR EACH ROW EXECUTE FUNCTION public.sfc_leads_set_updated_at();
+drop trigger if exists sfc_leads_updated_at on public.sfc_leads;
+create trigger sfc_leads_updated_at
+  before update on public.sfc_leads
+  for each row execute function public.sfc_leads_set_updated_at();
