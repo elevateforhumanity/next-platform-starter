@@ -1,0 +1,1 @@
+{"id":"/videos/supersonic-learn-script.txt","path":"/videos/supersonic-learn-script.txt","sha":"756c7f29d3a5f81ee0be80fb31b6554425c9b4fa","mime_type":"text/plain","size":2753,"site_id":"0a9378d2-a1d1-4062-9e9a-7be3105044df","deploy_id":"69df0487a1f5810008a809b3"}
