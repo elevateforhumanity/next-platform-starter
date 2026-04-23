@@ -154,6 +154,19 @@ const nextConfig = {
     // large apps (2,670 pages+routes). Documented in Next.js memory usage guide.
     webpackBuildWorker: true,
 
+    // Split compilation into two passes to reduce peak heap on Netlify's 8 GB
+    // containers. Pass 1 compiles everything except /admin. Pass 2 compiles
+    // /admin. The onBeforeDeferredEntries callback runs GC between passes,
+    // reclaiming memory from pass 1 before pass 2 begins.
+    // /admin is the largest section (366 pages) — deferring it cuts pass 1
+    // peak by ~13% and lets the GC reclaim before the second spike.
+    deferredEntries: ['/admin'],
+    onBeforeDeferredEntries: async () => {
+      if (typeof global.gc === 'function') {
+        global.gc();
+      }
+    },
+
   },
   
   // Suppress middleware deprecation warning (middleware.ts is still correct for our use case)

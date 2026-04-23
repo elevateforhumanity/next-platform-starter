@@ -35,7 +35,12 @@
   # --max-semi-space-size=64 keeps young-gen small so GC runs more frequently,
   # reducing peak RSS before mark-compact. --expose-gc lets Next.js call gc()
   # between page compilations to reclaim heap proactively.
-  NODE_OPTIONS = "--max-old-space-size=8192 --max-semi-space-size=64 --expose-gc"
+  # Main process + webpack worker child both inherit this limit.
+  # Budget: 8 GB container - 512 MB OS/pnpm = 7.5 GB usable.
+  # Main process peaks at ~1.5 GB; worker gets the rest (~6 GB).
+  # Setting 6144 keeps both processes within physical RAM.
+  # --expose-gc lets onBeforeDeferredEntries call gc() between compile passes.
+  NODE_OPTIONS = "--max-old-space-size=6144 --max-semi-space-size=64 --expose-gc"
   SENTRY_SKIP_AUTO_INSTRUMENTATION = "1"
   NETLIFY_USE_PNPM = "true"
   # Disable secret scanning — NEXT_PUBLIC_* vars are intentionally public
