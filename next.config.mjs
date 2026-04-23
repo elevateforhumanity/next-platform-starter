@@ -155,12 +155,14 @@ const nextConfig = {
     webpackBuildWorker: true,
 
     // Split compilation into two passes to reduce peak heap on Netlify's 8 GB
-    // containers. Pass 1 compiles everything except /admin. Pass 2 compiles
-    // /admin. The onBeforeDeferredEntries callback runs GC between passes,
-    // reclaiming memory from pass 1 before pass 2 begins.
-    // /admin is the largest section (366 pages) — deferring it cuts pass 1
-    // peak by ~13% and lets the GC reclaim before the second spike.
-    deferredEntries: ['/admin'],
+    // containers.
+    // Pass 1: everything except /admin and /api/admin (~1515 entries)
+    // Pass 2: /admin (366 pages) + /api/admin (237 routes) = 603 entries
+    // GC runs between passes via onBeforeDeferredEntries, reclaiming heap
+    // from pass 1 before pass 2 begins.
+    // Combined, /admin + /api/admin = 603 of 2118 entries (28%). Deferring
+    // them cuts the heaviest pass from 2118 to 1515 entries.
+    deferredEntries: ['/admin', '/api/admin'],
     onBeforeDeferredEntries: async () => {
       if (typeof global.gc === 'function') {
         global.gc();
