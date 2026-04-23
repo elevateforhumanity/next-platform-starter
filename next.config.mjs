@@ -148,6 +148,11 @@ const nextConfig = {
     optimizeCss: false,
     parallelServerCompiles: false,
     parallelServerBuildTraces: false,
+    // Run webpack compilation in a dedicated worker thread so its heap is
+    // isolated from the main Next.js process. The worker can be GC'd between
+    // client and server compilation phases, cutting peak RSS significantly on
+    // large apps (2,670 pages+routes). Documented in Next.js memory usage guide.
+    webpackBuildWorker: true,
 
   },
   
@@ -167,20 +172,23 @@ const nextConfig = {
       };
     }
 
-    // Limit parallelism to reduce peak memory on CI (Netlify has ~8 GB total).
-    // 1 worker on Netlify minimizes concurrent young-gen allocation pressure.
-    // Locally: 2 workers (faster, more RAM available).
-    config.parallelism = process.env.NETLIFY === 'true' ? 1 : 2;
+    // Limit parallelism to 1 on all builds — this is a 2,670-file app and
+    // webpack holds all in-flight module graphs in memory simultaneously.
+    // 2 workers doubles peak heap; 1 worker keeps it manageable.
+    config.parallelism = 1;
 
     // Filesystem cache — reuse compiled modules across builds.
     // On Netlify, .next/cache persists between deploys of the same branch,
     // so only changed files are recompiled. Cuts peak heap by ~40% on warm builds.
+    // memoryCacheUnaffected: evict unchanged modules from the in-memory cache
+    // during compilation, reducing peak RSS on cold builds.
     config.cache = {
       type: 'filesystem',
       buildDependencies: {
         config: [new URL(import.meta.url).pathname],
       },
       compression: false, // compression itself allocates — skip on memory-constrained CI
+      memoryCacheUnaffected: true,
     };
 
     // Use Next.js default splitChunks — the custom config above was creating
@@ -301,6 +309,8 @@ const nextConfig = {
       { source: '/admin/course-studio-ai', destination: '/admin/programs/builder', permanent: true },
       { source: '/admin/course-studio-simple', destination: '/admin/programs/builder', permanent: true },
       { source: '/admin/courses/builder', destination: '/admin/programs/builder', permanent: true },
+      { source: '/admin/courses/ai-builder', destination: '/admin/programs/builder?tab=ai', permanent: true },
+      { source: '/admin/courses/generate', destination: '/admin/programs/builder?tab=ai', permanent: true },
       { source: '/admin/program-generator', destination: '/admin/programs/builder', permanent: true },
       { source: '/ai/course-builder', destination: '/admin/programs/builder', permanent: true },
       { source: '/builder', destination: '/admin/programs/builder', permanent: true },
@@ -437,6 +447,7 @@ const nextConfig = {
       { source: '/programs/cdl-transportation', destination: '/programs/cdl-training', permanent: true },
       // CNA — /programs/cna is the canonical page
       { source: '/programs/cna-cert', destination: '/programs/cna', permanent: true },
+      { source: '/programs/cna-certification', destination: '/programs/cna', permanent: true },
       // HVAC
       { source: '/programs/hvac', destination: '/programs/hvac-technician', permanent: true },
       // Barber & Beauty

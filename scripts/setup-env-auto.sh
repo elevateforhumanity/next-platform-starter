@@ -32,6 +32,14 @@ if check_env_var "NEXT_PUBLIC_SUPABASE_URL" && check_env_var "SUPABASE_SERVICE_R
     exit 0
 fi
 
+# .env.local exists but credentials are empty/placeholder — still usable for dev.
+# Don't block the dev server; Next.js will start and show runtime errors only
+# for features that actually need Supabase.
+if [ -f .env.local ]; then
+    [ ! -z "$VERBOSE" ] && echo "⚠️  .env.local exists but Supabase credentials are empty — starting dev server anyway"
+    exit 0
+fi
+
 echo "⚠️  Supabase credentials not found in .env.local"
 echo ""
 
