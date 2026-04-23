@@ -65,13 +65,10 @@ export default function robots(): MetadataRoute.Robots {
 
           // Internal
           '/programs/admin/',
-          '/pwa/',
-
           '/shop/checkout',
           '/shop/onboarding',
 
           // Preview and builder
-          '/preview/',
           '/builder/',
 
           // Query-string variants — not canonical, block indexing

@@ -61,7 +61,6 @@ const EXCLUDED_PREFIXES = [
   '/test-images',
   '/unauthorized',
   '/access-paused',
-  '/preview',
   '/builder',
   '/onboarding',
   '/programs/admin',
@@ -80,7 +79,6 @@ const EXCLUDED_PREFIXES = [
   '/partner/settings',
   '/partner-portal',
   '/partner/onboarding',
-  '/pwa',
 
   '/shop/checkout',
   '/shop/onboarding',
@@ -94,12 +92,10 @@ const EXCLUDED_PREFIXES = [
 
   // Portal/role-specific routes — auth-gated, not public content
   '/apprentice',
-  '/employee',
   '/partner',          // /partner/* (role portal) — /partners/* (public partner pages) is allowed
   '/program-holder',
   '/compliance',
   '/ferpa',
-  '/hub',
   '/leaderboard',
   '/messages',
   '/notifications',
@@ -120,11 +116,6 @@ const EXCLUDED_PREFIXES = [
   '/docs/api',
   '/docs/lms',
   '/docs/ENV',
-
-  // Community internal pages
-  '/community/admins',
-  '/community/classroom',
-  '/community/developers',
 
   // Employer portal sub-routes (employer landing page /employer is public)
   '/employer/analytics',
