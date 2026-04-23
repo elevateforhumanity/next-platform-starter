@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import { policies } from '@/content/cf-policies';
-import { findBySlug, staticParamsFromSlugs } from '@/lib/cf-content-helpers';
+import { findBySlug, staticParamsFromSlugs } from '@/lib/content-helpers';
 import { buildMetadata } from '@/lib/cf-seo';
 import { siteConfig } from '@/content/cf-site';
 
