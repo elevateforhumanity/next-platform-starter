@@ -1,188 +1,112 @@
-# Canonical Component Map
+# Canonical Components
 
-This document records the canonical version of each diverged component family.
-When migrating callers, update imports to the canonical path and delete dead copies.
+Verified: 2026-04-23. Importer counts from live grep across `app/` and `components/`,
+excluding `_archived/`, `node_modules/`, and `.next/`.
 
----
+## Status key
 
-## Status Key
-
-- ✅ **Canonical** — this is the one source of truth
-- 🔴 **Dead** — zero importers, safe to delete after confirming no dynamic imports
-- 🟡 **Active non-canonical** — has importers, needs migration before deletion
-- ⚠️ **Review** — context-specific, may be intentionally different
+- **Canonical** — single source of truth; all new code imports from here
+- **Intentionally parallel** — different API or responsibility; do not merge
+- **Dead** — zero live importers; safe to delete when confirmed
 
 ---
 
 ## Breadcrumbs
 
-Two distinct components — different APIs, different purposes. Both are canonical.
+| Path | Status | Importers | Notes |
+|------|--------|-----------|-------|
+| `components/ui/Breadcrumbs.tsx` | **Canonical** | 805 | Controlled: takes explicit `items: BreadcrumbItem[]`. Use for all new pages. |
+| `components/seo/Breadcrumbs.tsx` | **Intentionally parallel** | 7 | Auto-generates from `usePathname()`; emits JSON-LD structured data. No props. Different API — do not merge. |
 
-| Path | Importers | Status | Purpose |
-|------|-----------|--------|---------|
-| `components/ui/Breadcrumbs.tsx` | 806 | ✅ Canonical | Explicit `items[]` prop, controlled, no JSON-LD |
-| `components/seo/Breadcrumbs.tsx` | 7 | ✅ Canonical | Zero-prop, auto-generates from `usePathname()`, includes JSON-LD structured data |
-| `components/Breadcrumbs.tsx` | 0 | 🔴 Delete | Dead copy — deleted |
-
-**Action:** None. Both variants are intentional. `components/Breadcrumbs.tsx` was deleted (zero importers).
+Pending: audit the 7 `seo/Breadcrumbs` importers — if JSON-LD is not needed, migrate to `ui/Breadcrumbs`.
 
 ---
 
 ## Button
 
-Two distinct components — different APIs, different purposes. Both are canonical.
-
-| Path | Importers | Status | Purpose |
-|------|-----------|--------|---------|
-| `components/ui/Button.tsx` | 67 | ✅ Canonical | Full design-system button: `loading`, `size`, `fullWidth`, extends `HTMLButtonElement` |
-| `components/locked/Button.tsx` | 1 | ✅ Canonical | Link-aware button: `href` renders as `<Link>`, `arrow` prop — used in locked/gated pages |
-| `components/ui/design-system/Button.tsx` | 0 | 🔴 Delete | Dead copy — deleted |
-
-**Action:** `design-system/Button` was deleted (zero importers). `locked/Button` is intentionally different — it supports `href` and `arrow` which `ui/Button` does not.
+| Path | Status | Importers | Notes |
+|------|--------|-----------|-------|
+| `components/ui/Button.tsx` | **Canonical** | 65 | Full design-system button. Variants, sizes, loading state, `asChild`. Use for all new code. |
+| `components/locked/Button.tsx` | **Intentionally parallel** | 1 | Marketing button with `href` (renders as `<Link>`) and `arrow` prop. Used only by `components/programs/ProgramPageLocked.tsx`. Incompatible API — do not merge. |
 
 ---
 
-## HeroVideo
+## Hero (page-builder block)
 
-| Path | Importers | Status |
-|------|-----------|--------|
-| `components/marketing/HeroVideo.tsx` | 30 | ✅ Canonical |
-| `components/HeroVideo.tsx` | 0 | 🔴 Delete |
-| `components/home/HeroVideo.tsx` | 0 | 🔴 Delete |
-| `components/ui/HeroVideo.tsx` | 0 | 🔴 Delete |
-
-**Action:** Delete the 3 dead copies immediately.
-
----
-
-## NotificationBell
-
-| Path | Importers | Status |
-|------|-----------|--------|
-| `components/lms/NotificationBell.tsx` | 1 | ✅ Canonical (LMS context) |
-| `components/NotificationBell.tsx` | 0 | 🔴 Delete |
-| `components/community/NotificationBell.tsx` | 0 | 🔴 Delete |
-| `components/navigation/NotificationBell.tsx` | 0 | 🔴 Delete |
-| `components/notifications/NotificationBell.tsx` | 0 | 🔴 Delete |
-
-**Action:** Delete the 4 dead copies. Verify `components/lms/NotificationBell` is the right
-long-term home or move to `components/ui/` if it needs to be used outside LMS.
-
----
-
-## LoadingSpinner
-
-| Path | Importers | Status |
-|------|-----------|--------|
-| `components/LoadingSpinner.tsx` | 1 | ✅ Canonical (used by RouteGuard) |
-| `components/lms/LoadingSpinner.tsx` | 0 | 🔴 Delete |
-| `components/ui/LoadingSpinner.tsx` | 0 | 🔴 Delete |
-
-**Action:** Delete the 2 dead copies. Consider moving canonical to `components/ui/` and
-updating the 1 importer (`components/RouteGuard.tsx`).
-
----
-
-## VideoPlayer
-
-| Path | Importers | Status |
-|------|-----------|--------|
-| `components/VideoPlayer.tsx` | 0 | 🔴 Delete |
-| `components/lms/VideoPlayer.tsx` | 0 | 🔴 Delete |
-| `components/video/VideoPlayer.tsx` | 0 | 🔴 Delete |
-
-**Note:** Active video playback uses `components/lms/InteractiveVideoPlayer` (30+ importers)
-and `components/video/ProfessionalVideoPlayer`. The `VideoPlayer` family is entirely dead.
-
-**Action:** Delete all 3 copies.
-
----
-
-## Hero
-
-| Path | Importers | Status |
-|------|-----------|--------|
-| `components/blocks/Hero.tsx` | 1 | ✅ Canonical (only active copy) |
-| `components/Hero.tsx` | 0 | 🔴 Delete |
-| `components/home/Hero.tsx` | 0 | 🔴 Delete |
-| `components/marketing/Hero.tsx` | 0 | 🔴 Delete |
-
-**Action:** Delete the 3 dead copies.
+| Path | Status | Importers | Notes |
+|------|--------|-----------|-------|
+| `components/blocks/Hero.tsx` | **Canonical** | 1 (via `lib/components/registry.ts`) | Registered in `ComponentRegistry` for admin page-builder rendering. Not imported directly by pages. Do not delete. |
 
 ---
 
 ## HeroSection
 
-Two distinct components — different APIs, different purposes. Both are canonical.
+| Path | Status | Importers | Notes |
+|------|--------|-----------|-------|
+| `components/ui/HeroSection.tsx` | **Canonical** | 0 direct (used via templates) | Full-featured: image/video variants (`full`, `split`, `illustration`), `data-hero` attribute, no gradient overlays. Use for new pages. |
+| `components/sections/HeroSection.tsx` | **Intentionally parallel** | 2 | Simpler hero for program/category templates. Props: `title`, `description`, `badges[]`, `primaryCTA`, `secondaryCTA`. No image/video support. Used by `CategoryPageTemplate` and `ProgramDetailTemplate`. |
 
-| Path | Importers | Status | Purpose |
-|------|-----------|--------|---------|
-| `components/ui/HeroSection.tsx` | 1 | ✅ Canonical | Design-system hero: `full`/`split`/`illustration`/`video` variants, exports `HeroVariant`, `HeroHeight`, `HeroCTA` types used by `lib/hero-config.ts` |
-| `components/sections/HeroSection.tsx` | 2 | ✅ Canonical | Template hero: simpler API (`title`, `description`, `badges`, `primaryCTA`/`secondaryCTA` as `{text, href}`) — used by category page templates |
-| `components/home/HeroSection.tsx` | 0 | 🔴 Delete | Dead copy — deleted |
-| `components/layout/HeroSection.tsx` | 0 | 🔴 Delete | Dead copy — deleted |
-
-**Action:** Dead copies deleted. Both active variants are intentional — do not merge without unifying the prop APIs first.
+APIs are incompatible. Do not merge.
 
 ---
 
-## CTASection
+## HeroVideo
 
-| Path | Importers | Status |
-|------|-----------|--------|
-| `components/sections/CTASection.tsx` | 2 | ✅ Canonical |
-| `components/blocks/CTASection.tsx` | 0 | 🔴 Delete |
-| `components/shared/CTASection.tsx` | 0 | 🔴 Delete |
+| Path | Status | Importers | Notes |
+|------|--------|-----------|-------|
+| `components/marketing/HeroVideo.tsx` | **Canonical** | 30 | Premium video hero. Used across learner dashboard, program pages, and marketing pages. Single implementation. |
 
-**Action:** Delete the 2 dead copies.
+---
+
+## NotificationBell
+
+| Path | Status | Importers | Notes |
+|------|--------|-----------|-------|
+| `components/lms/NotificationBell.tsx` | **Canonical** | 4 | LMS notification bell. Used by `LMSNavigation`, `LMSSidebar`, `EnhancedDashboard`, LMS dashboard page. Single implementation. |
 
 ---
 
 ## CoursePlayer
 
-| Path | Importers | Status |
-|------|-----------|--------|
-| `app/career-services/courses/[slug]/learn/CoursePlayer.tsx` | 1 | ⚠️ Route-local, keep |
-| `app/courses/[courseId]/learn/CoursePlayer.tsx` | 0 | 🔴 Delete (unused) |
-| `components/CoursePlayer.tsx` | 0 | 🔴 Delete |
-| `components/course/CoursePlayer.tsx` | 0 | 🔴 Delete |
+| Path | Status | Importers | Notes |
+|------|--------|-----------|-------|
+| `app/career-services/courses/[slug]/learn/CoursePlayer.tsx` | **Intentionally parallel** | 2 | Career-services-specific player, co-located with its route. |
+| `components/UniversalCoursePlayer.tsx` | **Canonical** | multiple | Universal player for HSI and partner LMS routes. |
 
-**Action:** Delete the 3 dead copies. The career-services copy is route-local and intentional.
+Different feature domains. Do not merge.
 
 ---
 
-## Summary: Immediate Safe Deletes (all zero importers)
+## VideoPlayer
 
-```
-components/Breadcrumbs.tsx
-components/ui/design-system/Button.tsx
-components/HeroVideo.tsx
-components/home/HeroVideo.tsx
-components/ui/HeroVideo.tsx
-components/NotificationBell.tsx
-components/community/NotificationBell.tsx
-components/navigation/NotificationBell.tsx
-components/notifications/NotificationBell.tsx
-components/lms/LoadingSpinner.tsx
-components/ui/LoadingSpinner.tsx
-components/VideoPlayer.tsx
-components/lms/VideoPlayer.tsx
-components/video/VideoPlayer.tsx
-components/Hero.tsx
-components/home/Hero.tsx
-components/marketing/Hero.tsx
-components/home/HeroSection.tsx
-components/layout/HeroSection.tsx
-components/blocks/CTASection.tsx
-components/shared/CTASection.tsx
-app/courses/[courseId]/learn/CoursePlayer.tsx
-components/CoursePlayer.tsx
-components/course/CoursePlayer.tsx
-```
+No `VideoPlayer.tsx` files found in live code. Not applicable.
 
-24 files. Verify with `grep -r "ComponentName" app/ components/ --include="*.tsx"` before each delete.
+---
 
-## Pending Migrations Before Delete
+## Loading boundaries
 
-None. All previously flagged "migrations" were API-incompatible components serving distinct
-purposes. They are documented above as intentional dual-canonical pairs.
+| Path | Status | Importers | Notes |
+|------|--------|-----------|-------|
+| `components/LoadingSpinner.tsx` | **Canonical** | 1 (`components/RouteGuard.tsx`) | Simple inline spinner. |
+| `components/system/FullScreenSpinner.tsx` | **Canonical** | 4 (loading.tsx delegates) | Full-screen centered blue spinner for route-segment loading boundaries (`funding`, `employer-portal`, `onboarding`, `instructor`). Created 2026-04-23. |
+| `components/system/LoadingFallback.tsx` | **Canonical** | multiple | Red spinner with "Loading..." text, `min-h-[60vh]`. For content-area loading states. |
+
+Three spinners serve three distinct contexts. Do not merge.
+
+---
+
+## CTASection
+
+| Path | Status | Importers | Notes |
+|------|--------|-----------|-------|
+| `components/sections/CTASection.tsx` | **Canonical** | 2 | Single implementation. |
+
+---
+
+## Migrations still required
+
+| Item | Action needed |
+|------|--------------|
+| `components/seo/Breadcrumbs.tsx` (7 importers) | Audit whether JSON-LD is needed on those pages; if not, migrate to `ui/Breadcrumbs` |
+| `components/locked/Button.tsx` (1 importer) | If `ProgramPageLocked.tsx` is refactored, migrate to `ui/Button` with `asChild` + `<Link>` |
+| `components/blocks/Hero.tsx` | Document props schema in page-builder admin UI |
