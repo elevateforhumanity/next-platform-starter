@@ -192,23 +192,9 @@ const nextConfig = {
     // 2 workers doubles peak heap; 1 worker keeps it manageable.
     config.parallelism = 1;
 
-    // Filesystem cache — reuse compiled modules across builds.
-    // On Netlify, .next/cache persists between deploys of the same branch,
-    // so only changed files are recompiled. Cuts peak heap by ~40% on warm builds.
-    // memoryCacheUnaffected: evict unchanged modules from the in-memory cache
-    // during compilation, reducing peak RSS on cold builds.
-    // maxMemoryGenerations: 1 tells webpack to keep only the current generation
-    // of modules in memory (not prior generations), cutting peak heap on large
-    // apps. 0 = disable memory cache entirely (slower but lowest RSS).
-    config.cache = {
-      type: 'filesystem',
-      buildDependencies: {
-        config: [new URL(import.meta.url).pathname],
-      },
-      compression: false, // compression itself allocates — skip on memory-constrained CI
-      memoryCacheUnaffected: true,
-      maxMemoryGenerations: 1,
-    };
+    // Note: config.cache is intentionally not set here.
+    // Next.js overwrites any custom cache config with its own filesystem cache
+    // pointing to .next/cache/webpack/. Setting it here is a no-op.
 
     // Use Next.js default splitChunks — the custom config above was creating
     // one chunk per npm package (name() function), generating thousands of

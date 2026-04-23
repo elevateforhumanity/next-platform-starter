@@ -35,12 +35,12 @@
   # --max-semi-space-size=64 keeps young-gen small so GC runs more frequently,
   # reducing peak RSS before mark-compact. --expose-gc lets Next.js call gc()
   # between page compilations to reclaim heap proactively.
-  # Main process + webpack worker child both inherit this limit.
-  # Budget: 8 GB container - 512 MB OS/pnpm = 7.5 GB usable.
-  # Main process peaks at ~1.5 GB; worker gets the rest (~6 GB).
-  # Setting 6144 keeps both processes within physical RAM.
-  # --expose-gc lets onBeforeDeferredEntries call gc() between compile passes.
-  NODE_OPTIONS = "--max-old-space-size=6144 --max-semi-space-size=64 --expose-gc"
+  # Both the main Next.js process and the webpack worker child inherit this.
+  # Netlify containers have ~8 GB RAM. At 6144 MB each, two processes can
+  # exceed physical RAM and trigger OOM kills. Set to 4096 so both fit:
+  #   Main: ~1.5 GB peak + Worker: ~4 GB peak = ~5.5 GB total.
+  # --expose-gc enables gc() call between deferredEntries compile passes.
+  NODE_OPTIONS = "--max-old-space-size=4096 --max-semi-space-size=64 --expose-gc"
   SENTRY_SKIP_AUTO_INSTRUMENTATION = "1"
   NETLIFY_USE_PNPM = "true"
   # Disable secret scanning — NEXT_PUBLIC_* vars are intentionally public
