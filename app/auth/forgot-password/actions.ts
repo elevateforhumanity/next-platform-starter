@@ -4,10 +4,16 @@ import { getAdminClient } from '@/lib/supabase/admin';
 import { sendEmail } from '@/lib/email/sendgrid';
 import { logger } from '@/lib/logger';
 
-// Always use the canonical domain for password reset links.
+// Always use the canonical www domain for password reset links.
 // NETLIFY_URL is the deploy-preview URL — using it would set the session cookie
 // on a different origin than the user's browser, breaking the reset flow.
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+// NEXT_PUBLIC_SITE_URL must be set to https://www.elevateforhumanity.org (with www)
+// in Netlify env vars. If it is set to the non-www variant, Supabase will reject
+// the redirectTo as unauthorized and fall back to the homepage.
+const RAW_SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+// Normalize: ensure www prefix so Supabase's allowed-redirect check passes.
+const SITE_URL = RAW_SITE_URL.replace('https://elevateforhumanity.org', 'https://www.elevateforhumanity.org')
+                              .replace('http://elevateforhumanity.org', 'https://www.elevateforhumanity.org');
 
 /**
  * Generate a password recovery link via Supabase Admin API and send it
@@ -34,9 +40,12 @@ export async function sendRecoveryEmail(email: string): Promise<{ success: boole
       type: 'recovery',
       email,
       options: {
-        // Must go through /auth/confirm so the server can call verifyOtp
-        // and set the session cookie before the reset form loads.
-        redirectTo: `${SITE_URL}/auth/confirm?next=/auth/reset-password`,
+        // generateLink() uses Supabase's own verify endpoint which sets the
+        // session cookie server-side before redirecting. The user lands at
+        // redirectTo with a valid session already established — no token_hash
+        // is passed, so /auth/confirm's verifyOtp path is not needed here.
+        // Send directly to the reset form.
+        redirectTo: `${SITE_URL}/auth/reset-password`,
       },
     });
 
