@@ -43,7 +43,6 @@ const EXCLUDED_PREFIXES = [
   '/pay',
   '/invoice',
   '/billing',
-  '/demo',
   '/test',
   '/dev',
   '/debug',
@@ -64,10 +63,7 @@ const EXCLUDED_PREFIXES = [
   '/access-paused',
   '/preview',
   '/builder',
-  '/studio',
   '/onboarding',
-  '/franchise/admin',
-  '/franchise/office',
   '/programs/admin',
   '/creator',
   '/instructor',
@@ -91,8 +87,6 @@ const EXCLUDED_PREFIXES = [
 
   '/workforce-board',
   '/help/admin',
-  // Separate domain — not part of this sitemap
-  '/supersonic-fast-cash',
   '/supersonic',
   // Redirect-only routes — canonical URLs are elsewhere
   '/programs/cna',
@@ -169,7 +163,6 @@ const EXCLUDED_SEGMENTS = [
   '/login',
   '/signup',
   '/admin',
-  '/demo',
 ];
 
 // Route suffixes that indicate enrollment flows, success pages, or internal actions

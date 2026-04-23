@@ -64,9 +64,6 @@ export default function robots(): MetadataRoute.Robots {
           '/payment/',
 
           // Internal
-          '/demo/',
-          '/franchise/admin/',
-          '/franchise/office/',
           '/programs/admin/',
           '/pwa/',
 
@@ -76,7 +73,6 @@ export default function robots(): MetadataRoute.Robots {
           // Preview and builder
           '/preview/',
           '/builder/',
-          '/studio/',
 
           // Query-string variants — not canonical, block indexing
           '/programs?*',

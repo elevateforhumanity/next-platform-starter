@@ -182,6 +182,9 @@ const nextConfig = {
     // so only changed files are recompiled. Cuts peak heap by ~40% on warm builds.
     // memoryCacheUnaffected: evict unchanged modules from the in-memory cache
     // during compilation, reducing peak RSS on cold builds.
+    // maxMemoryGenerations: 1 tells webpack to keep only the current generation
+    // of modules in memory (not prior generations), cutting peak heap on large
+    // apps. 0 = disable memory cache entirely (slower but lowest RSS).
     config.cache = {
       type: 'filesystem',
       buildDependencies: {
@@ -189,6 +192,7 @@ const nextConfig = {
       },
       compression: false, // compression itself allocates — skip on memory-constrained CI
       memoryCacheUnaffected: true,
+      maxMemoryGenerations: 1,
     };
 
     // Use Next.js default splitChunks — the custom config above was creating
@@ -275,7 +279,7 @@ const nextConfig = {
       { source: '/programs/direct-support-professional', destination: '/programs/peer-recovery-specialist', permanent: true },
       { source: '/programs/drug-collector', destination: '/drug-testing/training', permanent: true },
       { source: '/programs/esthetician-apprenticeship', destination: '/programs/cosmetology-apprenticeship', permanent: true },
-      { source: '/programs/professional-esthetician', destination: '/programs/cosmetology-apprenticeship', permanent: true },
+      { source: '/programs/professional-esthetician', destination: '/programs/esthetician', permanent: true },
       // forklift now has its own detail page — redirect removed
       { source: '/programs/it-support', destination: '/programs/it-help-desk', permanent: true },
       { source: '/programs/jri', destination: '/programs/peer-recovery-specialist', permanent: true },
@@ -456,7 +460,7 @@ const nextConfig = {
       // Business
       // Tax — real page is /programs/tax-preparation
       { source: '/programs/tax-prep', destination: '/programs/tax-preparation', permanent: true },
-      { source: '/programs/tax-entrepreneurship', destination: '/programs/tax-preparation', permanent: true },
+      { source: '/programs/tax-entrepreneurship', destination: '/programs/entrepreneurship', permanent: true },
       { source: '/programs/tax-prep-financial-services', destination: '/programs/tax-preparation', permanent: true },
       // Healthcare aliases
       // Human Services

@@ -3,6 +3,9 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 import { createPublicClient } from '@/lib/supabase/public';
 import { programs as staticPrograms } from '@/content/cf-programs';
+import { getStaticProgram } from '@/data/programs/index';
+import ProgramDetailPageComponent from '@/components/programs/ProgramDetailPage';
+import { ProgramStructuredData } from '@/components/seo/CourseStructuredData';
 import { CheckCircle, Clock, Award, DollarSign, ArrowRight, ShieldCheck } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
@@ -21,6 +24,14 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       description: data.short_description || data.description || '',
     };
   }
+  // Static ProgramSchema programs (richer data)
+  const sp = getStaticProgram(slug);
+  if (sp) return {
+    title: sp.metaTitle || `${sp.title} | Elevate for Humanity`,
+    description: sp.metaDescription || sp.subtitle || '',
+    alternates: { canonical: `/programs/${slug}` },
+  };
+  // cf-programs fallback
   const p = staticPrograms.find((p) => p.slug === slug);
   if (!p) return {};
   return { title: `${p.title} | Elevate for Humanity`, description: p.summary };
@@ -307,7 +318,30 @@ export default async function ProgramDetailPage({ params }: { params: Promise<{ 
     }
   }
 
-  // Static fallback
+  // Static ProgramSchema programs — richer renderer
+  const sp = getStaticProgram(slug);
+  if (sp) {
+    return (
+      <>
+        <ProgramStructuredData
+          program={{
+            id: sp.slug,
+            name: sp.title,
+            slug: sp.slug,
+            description: sp.subtitle,
+            duration_weeks: sp.durationWeeks,
+            price: parseInt(sp.selfPayCost.replace(/[^0-9]/g, ''), 10),
+            image_url: sp.heroImage,
+            category: sp.category,
+            outcomes: sp.outcomes.map((o) => o.statement),
+          }}
+        />
+        <ProgramDetailPageComponent program={sp} />
+      </>
+    );
+  }
+
+  // cf-programs fallback (legacy marketing data)
   const p = staticPrograms.find((p) => p.slug === slug);
   if (!p) return notFound();
 

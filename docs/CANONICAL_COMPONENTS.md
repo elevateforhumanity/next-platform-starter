@@ -18,7 +18,7 @@ excluding `_archived/`, `node_modules/`, and `.next/`.
 | `components/ui/Breadcrumbs.tsx` | **Canonical** | 805 | Controlled: takes explicit `items: BreadcrumbItem[]`. Use for all new pages. |
 | `components/seo/Breadcrumbs.tsx` | **Intentionally parallel** | 7 | Auto-generates from `usePathname()`; emits JSON-LD structured data. No props. Different API — do not merge. |
 
-Pending: audit the 7 `seo/Breadcrumbs` importers — if JSON-LD is not needed, migrate to `ui/Breadcrumbs`.
+Audited 2026-04-23: JSON-LD is the ONLY structured data on all 7 pages (/programs/technology, /programs/healthcare, /programs/skilled-trades + their PageClient files). Keep seo/Breadcrumbs on all 7. Do not migrate — would silently drop BreadcrumbList JSON-LD with no replacement. Note: TechnologyPageClient.tsx, HealthcarePageClient.tsx, SkilledTradesPageClient.tsx have zero importers and are dead code (separate cleanup task).
 
 ---
 
@@ -27,7 +27,7 @@ Pending: audit the 7 `seo/Breadcrumbs` importers — if JSON-LD is not needed, m
 | Path | Status | Importers | Notes |
 |------|--------|-----------|-------|
 | `components/ui/Button.tsx` | **Canonical** | 65 | Full design-system button. Variants, sizes, loading state, `asChild`. Use for all new code. |
-| `components/locked/Button.tsx` | **Intentionally parallel** | 1 | Marketing button with `href` (renders as `<Link>`) and `arrow` prop. Used only by `components/programs/ProgramPageLocked.tsx`. Incompatible API — do not merge. |
+| `components/locked/Button.tsx` | **Deleted 2026-04-23** | 0 | Migrated to `ui/Button` with `asChild` + `<a>`. `components/locked/` directory removed. |
 
 ---
 
@@ -108,5 +108,4 @@ Three spinners serve three distinct contexts. Do not merge.
 | Item | Action needed |
 |------|--------------|
 | `components/seo/Breadcrumbs.tsx` (7 importers) | Audit whether JSON-LD is needed on those pages; if not, migrate to `ui/Breadcrumbs` |
-| `components/locked/Button.tsx` (1 importer) | If `ProgramPageLocked.tsx` is refactored, migrate to `ui/Button` with `asChild` + `<Link>` |
 | `components/blocks/Hero.tsx` | Document props schema in page-builder admin UI |

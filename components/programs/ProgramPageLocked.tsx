@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { Button } from '@/components/locked/Button';
+import { Button } from '@/components/ui/Button';
 import {
   Clock,
   DollarSign,
@@ -225,8 +225,8 @@ export function ProgramPageLocked({
             </div>
           </div>
 
-          <Button variant="secondary" href="/apply" arrow>
-            Apply Now
+          <Button variant="secondary" asChild>
+            <a href="/apply">Apply Now <ArrowRight className="w-4 h-4" /></a>
           </Button>
         </div>
       </section>
