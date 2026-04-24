@@ -28,6 +28,8 @@ const RAILWAY_APP_PREFIXES = [
   'app/lms',
   'app/learner',
   'app/api/lms',
+  // Video generation — LMS owns lesson video delivery
+  'app/api/videos',
   'app/api/generate-video',
   'app/api/health',
   'app/api/webhooks',

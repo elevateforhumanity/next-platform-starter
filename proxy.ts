@@ -347,8 +347,23 @@ export async function proxy(request: NextRequest) {
   // When RAILWAY_LMS_URL is set (Netlify production), proxy LMS + admin +
   // video generation routes to the Railway service.
   // This keeps Netlify's bundle lean and lets Railway handle heavy workloads.
+  // RAILWAY_ADMIN_URL — admin service (Elevate-admin on Railway)
+  const RAILWAY_ADMIN_URL = process.env.RAILWAY_ADMIN_URL ?? '';
+
+  if (RAILWAY_ADMIN_URL) {
+    const ADMIN_PREFIXES = ['/admin', '/instructor', '/api/admin'];
+    if (ADMIN_PREFIXES.some(prefix => pathname.startsWith(prefix))) {
+      const target = new URL(pathname, RAILWAY_ADMIN_URL);
+      target.search = request.nextUrl.search;
+      return NextResponse.rewrite(target, {
+        headers: { 'x-forwarded-host': host, 'x-forwarded-proto': 'https' },
+      });
+    }
+  }
+
   if (RAILWAY_LMS_URL) {
-    const LMS_PREFIXES = ['/lms', '/admin', '/learner', '/api/admin', '/api/generate-video'];
+    // LMS + video generation — both live on the LMS Railway service
+    const LMS_PREFIXES = ['/lms', '/learner', '/api/lms', '/api/videos', '/api/generate-video'];
     if (LMS_PREFIXES.some(prefix => pathname.startsWith(prefix))) {
       const target = new URL(pathname, RAILWAY_LMS_URL);
       target.search = request.nextUrl.search;
