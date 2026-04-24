@@ -49,9 +49,12 @@ ENV NEXT_TELEMETRY_DISABLED=1
 # --expose-gc lets Next.js call gc() between page compilations.
 ENV NODE_OPTIONS="--max-old-space-size=7168 --max-semi-space-size=64 --expose-gc"
 
+# Quarantine marketing-only app/ dirs before Next.js route discovery.
+# Same mechanism as Netlify quarantine but inverted — Railway keeps LMS/admin,
+# removes public marketing pages. Cuts compiled pages from ~1500 to ~300.
+RUN node scripts/railway-quarantine-marketing-routes.mjs
+
 # Swap in the Railway-specific Next.js config before building.
-# Next.js always reads next.config.mjs — we rename ours into place,
-# build, then restore so the file tree stays consistent.
 RUN cp next.config.mjs next.config.mjs.netlify \
  && cp next.config.railway.mjs next.config.mjs \
  && pnpm next build \
