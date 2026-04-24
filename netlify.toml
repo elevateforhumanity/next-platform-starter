@@ -255,6 +255,45 @@
     # DOM / test (not needed in SSR)
     "jsdom",
     "happy-dom",
+    # 3D / physics (browser-only)
+    "three",
+    "three-stdlib",
+    "@react-three/fiber",
+    "@react-three/drei",
+    "@dimforge/rapier3d-compat",
+    # PDF (client-side generators)
+    "jspdf",
+    "jspdf-autotable",
+    "pdfjs-dist",
+    "pdfkit",
+    "fontkit",
+    "hyphen",
+    # Video / media (browser-only)
+    "hls.js",
+    "video.js",
+    "@videojs/http-streaming",
+    "@videojs/vhs-utils",
+    "mediabunny",
+    # Native canvas binding
+    "canvas",
+    "@napi-rs/canvas",
+    # ML vision (browser/native only)
+    "@mediapipe/tasks-vision",
+    # PDF text extractor
+    "pdf-parse",
+    # node-pty — terminal emulator
+    "node-pty",
+    # Charting (client-only)
+    "recharts",
+    # Icons (client-only)
+    "lucide-react",
+    # Polyfill not needed in modern Node
+    "web-streams-polyfill",
+    # SWC compiler (build-time only)
+    "@swc/core",
+    # rspack — build tool
+    "@rspack/core",
+    "@rspack/binding",
     # Build tools (not needed at runtime)
     "typescript",
     "core-js",

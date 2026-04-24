@@ -61,6 +61,45 @@ const PRUNE_PACKAGES = [
   'lucide-react',
   'recharts',
   'html2canvas',
+  // ── node-pty — terminal emulator, not needed in Lambda ───────────────────────
+  'node-pty',
+  // ── 3D / physics (browser-only) ──────────────────────────────────────────────
+  'three',
+  'three-stdlib',
+  '@react-three',
+  '@dimforge',
+  // ── PDF (client-side generators) ─────────────────────────────────────────────
+  'jspdf',
+  'pdfjs-dist',
+  'pdfkit',
+  'fontkit',
+  'hyphen',
+  // ── Video / media (browser-only) ─────────────────────────────────────────────
+  'hls.js',
+  'hls',
+  'video.js',
+  '@videojs',
+  'mediabunny',
+  // ── Native canvas binding ─────────────────────────────────────────────────────
+  'canvas',
+  '@napi-rs',
+  // ── ML vision (browser/native only) ──────────────────────────────────────────
+  '@mediapipe',
+  // ── PDF text extractor ────────────────────────────────────────────────────────
+  'pdf-parse',
+  // ── Sentry CLI binary (build-time only) ──────────────────────────────────────
+  '@sentry/cli',
+  // ── Code formatter (build-time only) ─────────────────────────────────────────
+  'prettier',
+  // ── Utility lib (tree-shaken at build, not needed at runtime) ────────────────
+  'es-toolkit',
+  // ── Polyfill not needed in modern Node ───────────────────────────────────────
+  'web-streams-polyfill',
+  // ── SWC compiler (build-time only) ───────────────────────────────────────────
+  '@swc/core',
+  '@swc/cli',
+  // ── rspack — Turbopack/webpack build tool ────────────────────────────────────
+  '@rspack',
   // ── Dev / test tools ─────────────────────────────────────────────────────────
   'typescript',
   'prettier',

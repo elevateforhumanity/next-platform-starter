@@ -93,6 +93,7 @@ const PRUNE_PACKAGES = [
   'html2canvas',
   // Sentry CLI
   '@sentry+cli-linux-x64',
+  '@sentry/cli',
   // Build / dev tools
   'typescript',
   'prettier',
@@ -118,6 +119,43 @@ const PRUNE_PACKAGES = [
   'jszip',
   'marked',
   'cheerio',
+  // node-pty — terminal emulator
+  'node-pty',
+  // 3D / physics (browser-only)
+  'three',
+  'three-stdlib',
+  '@react-three',
+  '@dimforge',
+  // PDF (client-side generators)
+  'jspdf',
+  'pdfjs-dist',
+  'pdfkit',
+  'fontkit',
+  'hyphen',
+  // Video / media (browser-only)
+  'hls.js',
+  'hls',
+  'video.js',
+  '@videojs',
+  'mediabunny',
+  // Native canvas binding
+  'canvas',
+  '@napi-rs',
+  // ML vision (browser/native only)
+  '@mediapipe',
+  // PDF text extractor
+  'pdf-parse',
+  // Utility lib (tree-shaken at build)
+  'es-toolkit',
+  // Polyfill not needed in modern Node
+  'web-streams-polyfill',
+  // SWC compiler (build-time only)
+  '@swc/core',
+  '@swc+core',
+  // rspack — Turbopack/webpack build tool
+  '@rspack',
+  // core-js — polyfill, build-time only
+  'core-js',
 ];
 
 async function main() {
@@ -133,8 +171,14 @@ async function main() {
   for (const entry of entries) {
     const matches = PRUNE_PACKAGES.some(pkg => {
       // pnpm dir format: pkg@version or @scope+pkg@version
-      return entry.startsWith(pkg + '@') || entry === pkg ||
-             entry.startsWith(pkg.replace('@', '').replace('/', '+') + '@');
+      // e.g. "hls.js@1.6" or "@swc+core-linux-x64-gnu@1.15" or "three@0.183"
+      const bare = pkg.replace(/^@/, '').replace('/', '+'); // "@swc/core" → "swc+core"
+      return entry.startsWith(pkg + '@') ||
+             entry === pkg ||
+             entry.startsWith(bare + '@') ||
+             entry.startsWith(bare + '-') ||  // platform suffix: swc+core-linux-x64-gnu@...
+             entry.startsWith('@' + bare + '@') ||
+             entry.startsWith('@' + bare + '-'); // @swc+core-linux-x64-gnu@...
     });
     if (matches) {
       try {

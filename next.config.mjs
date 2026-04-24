@@ -275,8 +275,86 @@ const nextConfig = {
       '**/node_modules/.pnpm/@ffmpeg*/**',
       // Remotion source compositions — only used by Remotion CLI renderer
       'remotion-src/**',
+      // rspack — Turbopack/webpack build tool, never needed at runtime
       '**/node_modules/@rspack/**',
       '**/node_modules/.pnpm/@rspack*/**',
+      // Monaco editor — browser-only code editor, never runs server-side
+      '**/node_modules/monaco-editor/**',
+      '**/node_modules/.pnpm/monaco-editor*/**',
+      '**/node_modules/@monaco-editor/**',
+      '**/node_modules/.pnpm/@monaco-editor*/**',
+      // node-pty — terminal emulator, browser/desktop only
+      '**/node_modules/node-pty/**',
+      '**/node_modules/.pnpm/node-pty*/**',
+      // lucide-react — icon library, client components only (42MB)
+      '**/node_modules/lucide-react/**',
+      '**/node_modules/.pnpm/lucide-react*/**',
+      // three.js — 3D library, browser-only (38MB + 29MB stdlib)
+      '**/node_modules/three/**',
+      '**/node_modules/.pnpm/three*/**',
+      '**/node_modules/three-stdlib/**',
+      '**/node_modules/.pnpm/three-stdlib*/**',
+      '**/node_modules/@react-three/**',
+      '**/node_modules/.pnpm/@react-three*/**',
+      '**/node_modules/@dimforge/**',
+      '**/node_modules/.pnpm/@dimforge*/**',
+      // jspdf — full package (not just dist/) — client-side PDF generation
+      '**/node_modules/jspdf/**',
+      '**/node_modules/.pnpm/jspdf*/**',
+      // pdfjs-dist — browser PDF renderer (28MB)
+      '**/node_modules/pdfjs-dist/**',
+      '**/node_modules/.pnpm/pdfjs-dist*/**',
+      // hls.js — browser HLS video player (24MB)
+      '**/node_modules/hls.js/**',
+      '**/node_modules/.pnpm/hls.js*/**',
+      // canvas — native Node canvas binding, not needed in Lambda
+      '**/node_modules/canvas/**',
+      '**/node_modules/.pnpm/canvas*/**',
+      '**/node_modules/@napi-rs/**',
+      '**/node_modules/.pnpm/@napi-rs*/**',
+      // @mediapipe — ML vision library, browser/native only (20MB)
+      '**/node_modules/@mediapipe/**',
+      '**/node_modules/.pnpm/@mediapipe*/**',
+      // video.js — browser video player (19MB)
+      '**/node_modules/video.js/**',
+      '**/node_modules/.pnpm/video.js*/**',
+      '**/node_modules/@videojs/**',
+      '**/node_modules/.pnpm/@videojs*/**',
+      // pdf-parse — heavy PDF text extractor (19MB)
+      '**/node_modules/pdf-parse/**',
+      '**/node_modules/.pnpm/pdf-parse*/**',
+      // @sentry/cli — Sentry release CLI binary, build-time only (21MB)
+      '**/node_modules/@sentry/cli/**',
+      '**/node_modules/.pnpm/@sentry+cli*/**',
+      // prettier — code formatter, build-time only (19MB)
+      '**/node_modules/prettier/**',
+      '**/node_modules/.pnpm/prettier*/**',
+      // es-toolkit — utility library, tree-shaken at build time (9.5MB)
+      '**/node_modules/es-toolkit/**',
+      '**/node_modules/.pnpm/es-toolkit*/**',
+      // recharts — charting library, client components only (7.6MB)
+      '**/node_modules/recharts/**',
+      '**/node_modules/.pnpm/recharts*/**',
+      // mediabunny — media processing, not needed in SSR (6.8MB)
+      '**/node_modules/mediabunny/**',
+      '**/node_modules/.pnpm/mediabunny*/**',
+      // pdfkit — server PDF generation but heavy (5.9MB) — use API route instead
+      '**/node_modules/pdfkit/**',
+      '**/node_modules/.pnpm/pdfkit*/**',
+      // fontkit / hyphen — PDF font/hyphenation libs pulled in by pdfkit (5.8MB each)
+      '**/node_modules/fontkit/**',
+      '**/node_modules/.pnpm/fontkit*/**',
+      '**/node_modules/hyphen/**',
+      '**/node_modules/.pnpm/hyphen*/**',
+      // web-streams-polyfill — polyfill not needed in modern Node (8.8MB)
+      '**/node_modules/web-streams-polyfill/**',
+      '**/node_modules/.pnpm/web-streams-polyfill*/**',
+      // @swc/core — SWC compiler, build-time only (28MB)
+      '**/node_modules/@swc/core/**',
+      '**/node_modules/.pnpm/@swc+core*/**',
+      // happy-dom — test DOM, never needed at runtime (18MB)
+      '**/node_modules/happy-dom/**',
+      '**/node_modules/.pnpm/happy-dom*/**',
       // Source files not needed at runtime
       'app/**/*.tsx',
       'app/**/*.ts',
