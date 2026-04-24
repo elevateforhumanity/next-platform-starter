@@ -12,9 +12,25 @@
  *   node scripts/netlify-quarantine-railway-routes.mjs --restore # restore
  */
 
-import { rename, mkdir, readdir, stat, access } from 'fs/promises';
+import { rename, mkdir, readdir, stat, access, cp, rm } from 'fs/promises';
 import { join, dirname } from 'path';
 import { existsSync } from 'fs';
+
+// Cross-device safe move: try rename first (fast, same device),
+// fall back to cp+rm (works across Docker layers / different filesystems).
+async function moveDir(src, dest) {
+  await mkdir(dirname(dest), { recursive: true });
+  try {
+    await rename(src, dest);
+  } catch (e) {
+    if (e.code === 'EXDEV') {
+      await cp(src, dest, { recursive: true });
+      await rm(src, { recursive: true, force: true });
+    } else {
+      throw e;
+    }
+  }
+}
 
 const RESTORE = process.argv.includes('--restore');
 
@@ -168,8 +184,7 @@ async function quarantine() {
   for (const entry of toMove) {
     const src = join('app', entry);
     const dest = join(QUARANTINE_ROOT, 'app', entry);
-    await mkdir(dirname(dest), { recursive: true });
-    await rename(src, dest);
+    await moveDir(src, dest);
     console.log(`  ✓ ${src}`);
     moved++;
   }
@@ -190,8 +205,7 @@ async function restore() {
   for (const entry of entries) {
     const src = join(quarantinedApp, entry);
     const dest = join('app', entry);
-    await mkdir(dirname(dest), { recursive: true });
-    await rename(src, dest);
+    await moveDir(src, dest);
     restored++;
   }
   console.log(`[quarantine] Restored ${restored} directories.`);
