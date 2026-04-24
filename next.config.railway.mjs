@@ -49,6 +49,15 @@ const railwayConfig = {
   output: 'standalone',
 
   serverExternalPackages: [
+    // Remotion — never bundle. The local remotion/ dir conflicts with the npm
+    // package name under Turbopack. External forces Node require() which finds
+    // node_modules/remotion instead of ./remotion/index.ts
+    'remotion',
+    '@remotion/core',
+    '@remotion/bundler',
+    '@remotion/renderer',
+    '@remotion/cli',
+    '@remotion/compositor-linux-x64-gnu',
     'sharp',
     'pdf-parse',
     'pdfkit',
@@ -94,10 +103,16 @@ const railwayConfig = {
     return process.env.RAILWAY_GIT_COMMIT_SHA?.slice(0, 8) ?? `railway-${Date.now()}`;
   },
 
-  // Next.js 16 uses Turbopack by default — empty config uses all defaults.
-  turbopack: {},
+  // Turbopack: resolve 'remotion' to the npm package, not our local remotion/ dir.
+  // The local remotion/ directory is only used by the Remotion CLI renderer at
+  // runtime — it must never be bundled into the Next.js app bundle.
+  turbopack: {
+    resolveAlias: {
+      // Force 'remotion' imports to resolve from node_modules, not local dir
+      remotion: 'remotion',
+    },
+  },
 
-  // webpack kept for --webpack flag compatibility only (no custom plugins)
   webpack: (config, { isServer }) => {
     if (!isServer) {
       config.resolve.fallback = { ...config.resolve.fallback, fs: false, net: false, tls: false };

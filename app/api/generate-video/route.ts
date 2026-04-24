@@ -28,7 +28,12 @@ import { safeError, safeInternalError } from '@/lib/api/safe-error';
 import { logger } from '@/lib/logger';
 import { generateEdgeTTS, EDGE_TTS_VOICES } from '@/lib/video/edge-tts';
 import { getPexelsVideoClip, getPexelsImage, getPollinationsImage } from '@/lib/video/pexels';
-import { calcSlideLessonFrames, type SceneData, type SlideLessonProps } from '@/remotion/compositions/SlideLesson';
+// Types only — dynamic import at render time to avoid Turbopack tracing remotion/
+import type { SceneData, SlideLessonProps } from '@/remotion/compositions/SlideLesson';
+async function calcSlideLessonFrames(scenes: Pick<SceneData, 'durationFrames'>[]) {
+  const { calcSlideLessonFrames: fn } = await import('@/remotion/compositions/SlideLesson');
+  return fn(scenes);
+}
 
 export const runtime = 'nodejs';
 export const maxDuration = 600; // 10 min — rendering takes time

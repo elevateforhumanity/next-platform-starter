@@ -31,6 +31,8 @@ const adminConfig = {
   output: 'standalone',
 
   serverExternalPackages: [
+    'remotion', '@remotion/core', '@remotion/bundler', '@remotion/renderer',
+    '@remotion/cli', '@remotion/compositor-linux-x64-gnu',
     'sharp', 'pdf-parse', 'pdfkit', 'pdf-lib',
     '@aws-sdk/client-s3', '@aws-sdk/s3-request-presigner',
     'pg', 'openai', 'stripe', 'ioredis', 'redis',
