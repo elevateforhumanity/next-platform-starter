@@ -59,22 +59,64 @@ const RAILWAY_ONLY_PATTERNS = [
   /^ONBOARDING_/,
 ];
 
-const env = process.env;
-const entries = Object.entries(env)
-  .filter(([key, val]) => {
-    if (KNOWN_LARGE.has(key)) return false;
-    // Skip Netlify system-injected build vars — these are not user-set secrets
-    // and are not injected into Lambda functions at runtime.
-    if (SYSTEM_PREFIXES.some(p => key.startsWith(p))) return false;
-    // Skip other well-known system vars
-    if (['PATH', 'HOME', 'USER', 'SHELL', 'TERM', 'LANG', 'PWD', 'SHLVL',
-         'HOSTNAME', 'LOGNAME', 'TMPDIR', 'COLORTERM', 'OLDPWD',
-         'NETLIFY', 'CI', 'CONTINUOUS_INTEGRATION', 'NEXT_TELEMETRY_DISABLED',
-         'NEXT_PRIVATE_BUILD_WORKER_COUNT'].includes(key)) return false;
-    return true;
-  })
-  .map(([key, val]) => ({ key, bytes: Buffer.byteLength(val ?? '', 'utf8') }))
-  .sort((a, b) => b.bytes - a.bytes);
+// Netlify Lambda functions only receive vars set in Netlify site/team settings.
+// Build-time system vars (PATH, HOME, NETLIFY_*, BUILD_*, npm_*, etc.) are
+// NOT injected into Lambda at runtime. We audit only user-set vars.
+//
+// Strategy: use the Netlify API to get the actual site+team env if
+// NETLIFY_SITE_ID and NETLIFY_AUTH_TOKEN are available. Otherwise fall back
+// to process.env with aggressive system-var filtering.
+
+async function getUserSetEnvEntries() {
+  const siteId = process.env.SITE_ID || process.env.NETLIFY_SITE_ID;
+  const token  = process.env.NETLIFY_AUTH_TOKEN || process.env.NETLIFY_TOKEN;
+
+  if (siteId && token) {
+    // Fetch actual site env from Netlify API — these are the only vars
+    // that get injected into Lambda functions.
+    try {
+      const res = await fetch(
+        `https://api.netlify.com/api/v1/sites/${siteId}/env?context_name=all&source=ui`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      if (res.ok) {
+        const data = await res.json();
+        if (Array.isArray(data)) {
+          console.log('[env-size] Using Netlify API — auditing actual Lambda env vars.');
+          return data.map(v => ({
+            key: v.key,
+            bytes: Buffer.byteLength(v.values?.[0]?.value ?? '', 'utf8'),
+          })).sort((a, b) => b.bytes - a.bytes);
+        }
+      }
+    } catch (_) { /* fall through to process.env */ }
+  }
+
+  // Fallback: filter process.env aggressively to approximate user-set vars.
+  console.log('[env-size] No Netlify API credentials — filtering process.env.');
+  return Object.entries(process.env)
+    .filter(([key]) => {
+      if (KNOWN_LARGE.has(key)) return false;
+      if (SYSTEM_PREFIXES.some(p => key.startsWith(p))) return false;
+      // Well-known OS / build system vars never injected into Lambda
+      const SKIP = new Set([
+        'PATH', 'HOME', 'USER', 'SHELL', 'TERM', 'LANG', 'PWD', 'SHLVL',
+        'HOSTNAME', 'LOGNAME', 'TMPDIR', 'COLORTERM', 'OLDPWD', 'CI',
+        'CONTINUOUS_INTEGRATION', 'NETLIFY', 'NEXT_TELEMETRY_DISABLED',
+        'NEXT_PRIVATE_BUILD_WORKER_COUNT', 'NEXT_PRIVATE_WORKERS_PER_JOB',
+        'SENTRY_SKIP_AUTO_INSTRUMENTATION', 'NETLIFY_USE_PNPM',
+        'SECRETS_SCAN_ENABLED', 'SECRETS_SCAN_OMIT_KEYS',
+        'PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD', 'PUPPETEER_SKIP_DOWNLOAD',
+        'ENABLE_ADMIN_DEVTOOLS', 'NHA_ACCOUNT_NUMBER', 'NHA_PORTAL_URL',
+        'FEATURE_FLAGS',  // build-time only, not a Lambda secret
+      ]);
+      return !SKIP.has(key);
+    })
+    .map(([key, val]) => ({ key, bytes: Buffer.byteLength(val ?? '', 'utf8') }))
+    .sort((a, b) => b.bytes - a.bytes);
+}
+
+const entries = await getUserSetEnvEntries();
 
 let totalBytes = 0;
 let hasError = false;
