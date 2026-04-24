@@ -13,10 +13,9 @@
  *   --verbose    Show all routes, not just violations
  */
 
-import { readFileSync, existsSync, renameSync } from 'fs';
+import { readFileSync, existsSync, renameSync, mkdirSync } from 'fs';
 import { join, relative, dirname } from 'path';
 import { globSync } from 'glob';
-import { mkdirSync } from 'fs';
 
 const ROOT = process.cwd();
 const MANIFEST_PATH = join(ROOT, 'quarantine-routes.json');
@@ -64,20 +63,13 @@ const REF_PATTERNS = [
 
 // ── ES module import ref detection ──────────────────────────────────────────
 // Detects: import X from '@/app/foo/Bar' or import X from './Bar'
-// Returns file paths (not route paths) that are referenced via import
-function extractImportRefs(content, sourceFile) {
-  const refs = new Set();
-  // Match: from '@/app/...' or from './...' or from '../...'
-  const importRe = /from\s+['"](@\/app\/[^'"]+|\.\.?\/[^'"]+)['"]/g;
-  // Also match: export { X } from '@/app/...'
-  const exportRe = /export\s+\{[^}]+\}\s+from\s+['"](@\/app\/[^'"]+|\.\.?\/[^'"]+)['"]/g;
-  for (const re of [importRe, exportRe]) {
-    let m;
-    while ((m = re.exec(content)) !== null) {
-      refs.add(m[1]);
-    }
-  }
-  return refs;
+const IMPORT_RE = /from\s+['"](@\/app\/[^'"]+|\.\.?\/[^'"]+)['"]/g;
+const EXPORT_RE = /export\s+\{[^}]+\}\s+from\s+['"](@\/app\/[^'"]+|\.\.?\/[^'"]+)['"]/g;
+
+function resolveImport(imp, sourceFile) {
+  if (imp.startsWith('@/app/')) return imp.replace('@/', '');
+  if (imp.startsWith('.')) return relative(ROOT, join(dirname(sourceFile), imp));
+  return null;
 }
 
 function extractRefs(content) {
@@ -147,7 +139,20 @@ const sourceFiles = globSync('**/*.{tsx,ts}', {
 });
 
 const allRefs = new Map(); // route-prefix → Set<sourceFile>
-const allImportRefs = new Map(); // resolved file path → Set<sourceFile>
+// importedQuarantinedFiles: quarantined-file-path → Set<sourceFile>
+// Built by scanning ALL live files for imports that resolve into quarantined dirs.
+const importedQuarantinedFiles = new Map();
+
+// Build a map of all quarantined files (key = path without extension)
+const allQuarantinedFiles = globSync('app/**/*.{tsx,ts}', {
+  cwd: ROOT,
+  ignore: ['node_modules/**', '.next/**'],
+}).filter(isQuarantined);
+
+const quarantinedFileMap = new Map(); // key → quarantined path
+for (const f of allQuarantinedFiles) {
+  quarantinedFileMap.set(f.replace(/\.(tsx?|jsx?)$/, ''), f);
+}
 
 for (const file of sourceFiles) {
   const rel = relative(ROOT, file);
@@ -161,22 +166,21 @@ for (const file of sourceFiles) {
     allRefs.get(ref).add(rel);
   }
 
-  // ES module import refs
-  const importRefs = extractImportRefs(content, rel);
-  for (const importPath of importRefs) {
-    // Normalize to a file path relative to ROOT
-    let resolved;
-    if (importPath.startsWith('@/app/')) {
-      resolved = importPath.replace('@/', '');
-    } else {
-      // Relative import — resolve from source file's dir
-      const sourceDir = dirname(file);
-      resolved = relative(ROOT, join(sourceDir, importPath));
+  // ES module import refs — resolve each import to a file path and check
+  // if it lands inside a quarantined directory
+  for (const re of [IMPORT_RE, EXPORT_RE]) {
+    const r = new RegExp(re.source, re.flags);
+    let m;
+    while ((m = r.exec(content)) !== null) {
+      const resolved = resolveImport(m[1], file);
+      if (!resolved) continue;
+      const key = resolved.replace(/\.(tsx?|jsx?)$/, '');
+      if (quarantinedFileMap.has(key)) {
+        const qf = quarantinedFileMap.get(key);
+        if (!importedQuarantinedFiles.has(qf)) importedQuarantinedFiles.set(qf, new Set());
+        importedQuarantinedFiles.get(qf).add(rel);
+      }
     }
-    // Strip extension if present, we'll match by prefix
-    const key = resolved.replace(/\.(tsx?|jsx?)$/, '');
-    if (!allImportRefs.has(key)) allImportRefs.set(key, new Set());
-    allImportRefs.get(key).add(rel);
   }
 }
 
@@ -244,27 +248,20 @@ for (const file of quarantinedFiles) {
     }
   }
 
-  // Check 3: quarantined FILE is imported by a live file (ES module import)
-  // This catches component files and re-export shims inside quarantined dirs
-  const fileKey = file.replace(/\.(tsx?|jsx?)$/, '');
-  let importRefCount = 0;
-  const importRefFiles = [];
-  for (const [key, files] of allImportRefs) {
-    if (fileKey === key || fileKey.startsWith(key) || key.startsWith(fileKey)) {
-      importRefCount += files.size;
-      importRefFiles.push(...files);
-    }
-  }
-
-  if (importRefCount > 0 && refCount === 0) { // avoid double-reporting
+  // Check 3: quarantined FILE is directly imported by a live file (ES module import).
+  // Uses the pre-built importedQuarantinedFiles map which resolves every import
+  // path to its actual file on disk — catches co-located components swept into
+  // quarantine alongside their parent directory.
+  const importers = importedQuarantinedFiles.get(file);
+  if (importers && importers.size > 0 && refCount === 0) {
     violations.push({
       severity: 'error',
       rule: 'quarantined-file-imported',
       route,
       file,
-      refCount: importRefCount,
-      refFiles: [...new Set(importRefFiles)].slice(0, 5),
-      message: `Quarantined file is imported by ${importRefCount} live file(s)`,
+      refCount: importers.size,
+      refFiles: [...importers].slice(0, 5),
+      message: `Quarantined file is imported by ${importers.size} live file(s)`,
     });
     if (FIX) {
       const restored = restoreFile(file);
