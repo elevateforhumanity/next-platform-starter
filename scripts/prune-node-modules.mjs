@@ -54,6 +54,13 @@ const PRUNE_PACKAGES = [
   'pdfjs-dist',
   'jspdf',
   '@react-pdf',
+  // Remotion — native binaries, Railway-only (~80MB)
+  'remotion',
+  '@remotion',
+  // TTS + FFmpeg — Railway-only
+  'edge-tts',
+  'ffmpeg-static',
+  '@ffmpeg',
   // FFmpeg
   '@ffmpeg-installer',
   '@ffprobe-installer',

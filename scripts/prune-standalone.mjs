@@ -23,6 +23,13 @@ const PRUNE_PACKAGES = [
   '@next/swc-darwin-x64',
   '@next/swc-darwin-arm64',
   '@next/swc-win32-x64-msvc',
+  // ── Remotion + native compositor binaries (Railway-only, ~80MB) ─────────────
+  'remotion',
+  '@remotion',
+  // ── TTS + FFmpeg (Railway-only, native binaries) ─────────────────────────────
+  'edge-tts',
+  'ffmpeg-static',
+  '@ffmpeg',
   // ── esbuild binary (build-time only) ────────────────────────────────────────
   '@esbuild',
   'esbuild',

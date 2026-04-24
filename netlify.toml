@@ -227,6 +227,22 @@
     "@opentelemetry/exporter-trace-otlp-http",
     "@opentelemetry/resources",
     "@opentelemetry/semantic-conventions",
+    # Remotion video rendering — native binaries, Railway-only
+    "remotion",
+    "@remotion/bundler",
+    "@remotion/renderer",
+    "@remotion/cli",
+    "@remotion/core",
+    "@remotion/compositor-linux-x64-gnu",
+    "@remotion/compositor-linux-x64-musl",
+    "@remotion/compositor-darwin-arm64",
+    "@remotion/compositor-darwin-x64",
+    "@remotion/compositor-win32-x64-msvc",
+    # TTS + FFmpeg — Railway-only, native binaries
+    "edge-tts",
+    "ffmpeg-static",
+    "@ffmpeg/ffmpeg",
+    "@ffmpeg/core",
     # Browser automation (not needed in SSR)
     "puppeteer",
     "puppeteer-core",

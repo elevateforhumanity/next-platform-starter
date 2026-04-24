@@ -262,11 +262,19 @@ const nextConfig = {
       '**/node_modules/pdf-lib/**',
       '**/node_modules/.pnpm/pdf-lib*/**',
       // @apm-js-collab is a hard runtime require() of @sentry/node-core — must NOT be excluded
-      // Remotion native binaries — large, only needed for video rendering, not SSR
+      // Remotion + TTS + FFmpeg — Railway-only, never needed on Netlify SSR
       '**/node_modules/@remotion/**',
       '**/node_modules/.pnpm/@remotion*/**',
       '**/node_modules/remotion/**',
       '**/node_modules/.pnpm/remotion*/**',
+      '**/node_modules/edge-tts/**',
+      '**/node_modules/.pnpm/edge-tts*/**',
+      '**/node_modules/ffmpeg-static/**',
+      '**/node_modules/.pnpm/ffmpeg-static*/**',
+      '**/node_modules/@ffmpeg/**',
+      '**/node_modules/.pnpm/@ffmpeg*/**',
+      // Remotion source compositions — only used by Remotion CLI renderer
+      'remotion-src/**',
       '**/node_modules/@rspack/**',
       '**/node_modules/.pnpm/@rspack*/**',
       // Source files not needed at runtime
