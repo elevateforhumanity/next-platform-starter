@@ -120,34 +120,34 @@ export default function HomePage() {
                 href: '/apply',
                 cta: 'Apply Now',
                 ctaClass: 'bg-brand-red-600 hover:bg-brand-red-700',
-                accent: 'border-brand-red-500',
+                accent: 'border-slate-900',
               },
               {
                 label: 'Workforce Agencies',
                 desc: 'Refer participants, track outcomes, and document WIOA compliance through a single system.',
                 href: '/for-agencies',
                 cta: 'Agency Info',
-                ctaClass: 'bg-brand-blue-600 hover:bg-brand-blue-700',
-                accent: 'border-brand-blue-500',
+                ctaClass: 'bg-brand-red-600 hover:bg-brand-red-700',
+                accent: 'border-brand-red-500',
               },
               {
                 label: 'Employers',
                 desc: 'Hire trained graduates, sponsor registered apprentices, and access OJT wage reimbursement.',
                 href: '/for-employers',
                 cta: 'Employer Info',
-                ctaClass: 'bg-brand-green-600 hover:bg-brand-green-700',
-                accent: 'border-brand-green-500',
+                ctaClass: 'bg-brand-red-600 hover:bg-brand-red-700',
+                accent: 'border-brand-red-500',
               },
               {
                 label: 'Program Holders',
                 desc: 'Deliver programs on Elevate infrastructure — LMS, compliance tracking, credentialing, and payments.',
                 href: '/program-holder',
                 cta: 'Partner With Us',
-                ctaClass: 'bg-slate-700 hover:bg-slate-800',
-                accent: 'border-slate-500',
+                ctaClass: 'bg-brand-red-600 hover:bg-brand-red-700',
+                accent: 'border-brand-red-500',
               },
             ].map((b) => (
-              <div key={b.label} className={`bg-white border-t-4 ${b.accent} rounded-xl shadow-sm p-6 flex flex-col`}>
+              <div key={b.label} className={`bg-white border border-slate-200 border-t-4 ${b.accent} rounded-xl shadow-sm p-6 flex flex-col`}>
                 <h3 className="text-base font-bold text-slate-900 mb-2">{b.label}</h3>
                 <p className="text-sm text-slate-800 leading-relaxed flex-1 mb-5">{b.desc}</p>
                 <Link href={b.href} className={`${b.ctaClass} text-white text-sm font-bold px-4 py-2.5 rounded-lg text-center transition-colors`}>
