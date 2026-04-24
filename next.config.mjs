@@ -1,5 +1,4 @@
 import { withSentryConfig } from '@sentry/nextjs';
-import webpack from 'webpack';
 
 // ── Netlify build isolation ───────────────────────────────────────────────────
 // On Netlify, only marketing pages compile. LMS, admin, and all API routes
@@ -216,7 +215,7 @@ const nextConfig = {
       fullUrl: false,
     },
   },
-  webpack: (config, { isServer }) => {
+  webpack: (config, { isServer, webpack }) => {
     if (!isServer) {
       config.resolve.fallback = {
         ...config.resolve.fallback,
