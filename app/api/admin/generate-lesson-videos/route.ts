@@ -11,6 +11,7 @@ import {
   generateSoraVideo,
   getAvailableServices,
 } from '@/lib/video/generate';
+import { renderLessonVideo, inferDomainKey } from '@/lib/video/remotion-render';
 import { getInstructorForCourse } from '@/lib/ai-instructors';
 import { mkdir } from 'fs/promises';
 import path from 'path';
@@ -181,10 +182,45 @@ async function generateForLesson(
 
     return { success: true, videoUrl: audioUrl, method: 'tts-1-hd' };
   } catch (err) {
-    const msg = err instanceof Error ? err.message : 'unknown';
-    logger.error('[VideoGen] generateForLesson failed:', msg);
-    return { success: false, error: 'Video generation failed' };
+    logger.warn(`[VideoGen] tts-1-hd failed: ${err instanceof Error ? err.message : err}`);
   }
+
+  // 5. Free pipeline: edge-tts + Pexels/Pollinations + Remotion MP4
+  // Zero API keys required — always available as last resort.
+  try {
+    logger.info(`[VideoGen] Remotion free pipeline: "${lesson.title}"`);
+    const courseName = lesson.training_courses?.course_name || 'Course';
+    const domainKey = inferDomainKey(courseName, lesson.title);
+
+    const result = await renderLessonVideo({
+      lessonId: lesson.id,
+      title: lesson.title,
+      moduleTitle: lesson.module_title || courseName,
+      objective: lesson.objective || lesson.title,
+      keyPoints: Array.isArray(lesson.key_points) && lesson.key_points.length
+        ? lesson.key_points
+        : (lesson.content || '').split(/\.\s+/).filter(Boolean).slice(0, 5),
+      example: lesson.example || lesson.content?.substring(0, 300) || '',
+      summary: lesson.summary || lesson.content?.substring(0, 150) || lesson.title,
+      quizTeaser: 'Complete the knowledge check to continue.',
+      domainKey,
+      instructorId: instructor.id,
+      courseName,
+    });
+
+    if (result.success && result.videoUrl) {
+      await supabase.from('training_lessons')
+        .update({ video_url: result.videoUrl, updated_at: new Date().toISOString() })
+        .eq('id', lesson.id);
+
+      return { success: true, videoUrl: result.videoUrl, method: 'remotion-free' };
+    }
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : 'unknown';
+    logger.error('[VideoGen] Remotion free pipeline failed: ' + msg);
+  }
+
+  return { success: false, error: 'All generation methods exhausted' };
 }
 
 // ── POST /api/admin/generate-lesson-videos ──────────────────────────────
@@ -269,7 +305,7 @@ async function _POST(request: NextRequest) {
     });
 
   } catch (error) {
-    logger.error('[VideoGen] Route error:', error);
+    logger.error('[VideoGen] Route error', error instanceof Error ? error : undefined);
     return NextResponse.json({ error: 'Failed to generate videos' }, { status: 500 });
   }
 }
