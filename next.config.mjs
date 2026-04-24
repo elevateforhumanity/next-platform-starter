@@ -1,35 +1,6 @@
 import { withSentryConfig } from '@sentry/nextjs';
 
-// ── Netlify build isolation ───────────────────────────────────────────────────
-// On Netlify, only marketing pages compile. LMS, admin, and all API routes
-// are served by Railway — Netlify must never see them.
-//
-// NETLIFY_ROUTE_BLOCKLIST: app/ subdirectories that belong to Railway.
-// Any route under these paths is excluded from the Netlify webpack build graph
-// via IgnorePlugin. Adding a new Railway-only directory here is sufficient —
-// no other config changes needed.
-const NETLIFY_ROUTE_BLOCKLIST = [
-  // ── LMS / student-facing ──────────────────────────────────────────────────
-  'lms', 'learner', 'student', 'student-portal', 'my-dashboard', 'dashboard',
-  'onboarding', 'orientation', 'courses', 'course-preview',
-  // ── Admin / internal ──────────────────────────────────────────────────────
-  'admin', 'staff-portal', 'case-manager', 'proctor', 'builder', 'creator',
-  'generate', 'reports', 'approvals',
-  // ── Instructor / employer / partner portals ───────────────────────────────
-  'instructor', 'employer', 'employer-portal', 'partner', 'program-holder',
-  'mentor', 'workforce-board',
-  // ── All API routes ────────────────────────────────────────────────────────
-  'api',
-  // ── Authenticated user flows ──────────────────────────────────────────────
-  'account', 'profile', 'settings', 'billing', 'checkout', 'pay', 'payment',
-  'enroll', 'enrollment', 'messages', 'notifications', 'search',
-  'certificates', 'credentials', 'achievements', 'transcript',
-  'advising', 'next-steps', 'sign', 'documents', 'compliance',
-  'apprentice', 'schedule',
-  // ── Heavy/internal tools ──────────────────────────────────────────────────
-  'supersonic', 'tax', 'pwa', 'videos', 'video', 'demos', 'ai',
-  'ai-chat', 'ai-studio', 'ai-tutor', 'generate',
-];
+
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -203,9 +174,8 @@ const nextConfig = {
     // deferredEntries + onBeforeDeferredEntries already handle GC between passes.
     webpackBuildWorker: false,
 
-    // deferredEntries removed — Netlify no longer compiles /admin or /api at all.
-    // The webpack IgnorePlugin above excludes all Railway-only routes from the
-    // build graph, making the two-pass workaround unnecessary.
+    // deferredEntries: removed — OOM is now controlled via single worker +
+    // 4GB heap. Two-pass compilation added complexity without enough benefit.
 
   },
   
@@ -215,7 +185,7 @@ const nextConfig = {
       fullUrl: false,
     },
   },
-  webpack: (config, { isServer, webpack }) => {
+  webpack: (config, { isServer }) => {
     if (!isServer) {
       config.resolve.fallback = {
         ...config.resolve.fallback,
@@ -225,20 +195,8 @@ const nextConfig = {
       };
     }
 
-    // ── Netlify: exclude Railway-only routes from the build graph ─────────────
-    // On Netlify (NETLIFY=true), webpack never resolves modules under these
-    // app/ subdirectories. This drops ~1,400 pages from the compilation,
-    // cutting build time and peak heap by ~80%.
-    //
-    // Railway builds are unaffected — NETLIFY is not set there.
-    if (process.env.NETLIFY === 'true') {
-      const blockedPattern = new RegExp(
-        `[\\\\/]app[\\\\/](${NETLIFY_ROUTE_BLOCKLIST.join('|')})[\\\\/]`
-      );
-      config.plugins.push(
-        new webpack.IgnorePlugin({ resourceRegExp: blockedPattern })
-      );
-    }
+
+
 
     // Limit parallelism to 1 on all builds — this is a 2,670-file app and
     // webpack holds all in-flight module graphs in memory simultaneously.
