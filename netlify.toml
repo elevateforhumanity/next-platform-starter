@@ -41,8 +41,8 @@
   #   Main: ~1.5 GB peak + Worker: ~4 GB peak = ~5.5 GB total.
   # --expose-gc enables gc() call between deferredEntries compile passes.
   # 4096MB heap. Quarantine removes ~1,400 Railway pages before next build,
-  # so webpack only compiles ~100 marketing pages — well within this limit.
-  # Single worker, no parallelism needed at this page count.
+  # leaving ~247 marketing routes. webpack comfortably fits in 4GB at this scale.
+  # If this OOMs, the quarantine is leaking — fix the allowlist, not the heap.
   NODE_OPTIONS = "--max-old-space-size=4096 --max-semi-space-size=32 --expose-gc"
   NEXT_PRIVATE_WORKERS_PER_JOB = "1"
   SENTRY_SKIP_AUTO_INSTRUMENTATION = "1"
