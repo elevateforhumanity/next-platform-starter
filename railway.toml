@@ -8,6 +8,8 @@
 [build]
 builder = "DOCKERFILE"
 dockerfilePath = "Dockerfile.railway"
+# Builds only LMS + admin + instructor routes (~500 pages vs 1,500 on Netlify)
+# Public marketing pages are served by Netlify and proxied via RAILWAY_LMS_URL
 
 [deploy]
 startCommand = "node server.js"

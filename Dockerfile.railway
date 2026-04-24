@@ -44,13 +44,16 @@ COPY . .
 ENV RAILWAY=true
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
-# 7GB heap for the webpack build — Railway build containers have 8GB RAM.
+# 7GB heap — Railway build containers have 8GB RAM.
 # --max-semi-space-size=64 keeps young-gen small so GC runs more frequently.
 # --expose-gc lets Next.js call gc() between page compilations.
 ENV NODE_OPTIONS="--max-old-space-size=7168 --max-semi-space-size=64 --expose-gc"
 
-# Build with standalone output (set in next.config.mjs when RAILWAY=true)
-RUN pnpm run build
+# Use the Railway-specific Next.js config which stubs out the ~1,100 public
+# marketing pages served by Netlify, cutting the build from ~1,500 to ~500 pages.
+ENV NEXT_CONFIG_FILE=next.config.railway.mjs
+
+RUN pnpm next build --config next.config.railway.mjs
 
 # ── Stage 3: runner ───────────────────────────────────────────────────────────
 FROM node:20-bookworm-slim AS runner
