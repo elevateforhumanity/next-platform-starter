@@ -18,13 +18,25 @@ const TOTAL_LIMIT      = 3800;  // bytes — hard fail (Lambda 4KB minus overhea
 const WARN_THRESHOLD   = 200;   // bytes — flag large individual vars
 
 // Vars that are expected to be large or are build-time-only (not injected into functions)
+// Netlify injects ~60 system vars into every build. We only want to audit
+// vars that are USER-SET in Netlify site/team settings — not system vars.
+// System var prefixes injected by Netlify's build infrastructure:
+const SYSTEM_PREFIXES = [
+  'npm_', 'NETLIFY', 'BUILD_', 'DEPLOY_', 'CONTEXT', 'BRANCH',
+  'HEAD', 'COMMIT_REF', 'CACHED_COMMIT_REF', 'PULL_REQUEST',
+  'REVIEW_ID', 'URL', 'REPOSITORY_URL', 'SITE_', 'INCOMING_HOOK',
+  'LANG', 'LC_', 'HOME', 'USER', 'SHELL', 'TERM', 'COLORTERM',
+  'LOGNAME', 'TMPDIR', 'XDG_', 'DBUS_', 'INVOCATION_ID',
+  'JOURNAL_', 'SYSTEMD_', 'HOSTNAME', 'PWD', 'OLDPWD', 'SHLVL',
+  'MANPATH', 'LS_COLORS', 'LESS', 'PAGER', 'EDITOR', 'VISUAL',
+];
+
 const KNOWN_LARGE = new Set([
-  'NODE_OPTIONS',
-  'npm_config_cache',
-  'npm_package_json',
-  'PATH',
-  'MANPATH',
-  'LS_COLORS',
+  'NODE_OPTIONS', 'NODE_PATH', 'NODE_VERSION',
+  'npm_config_cache', 'npm_package_json',
+  'PATH', 'MANPATH', 'LS_COLORS',
+  // Netlify build system vars
+  'NETLIFY_IMAGES_CDN_DOMAIN',
 ]);
 
 // Vars that should NOT be present in Netlify marketing functions
@@ -49,7 +61,18 @@ const RAILWAY_ONLY_PATTERNS = [
 
 const env = process.env;
 const entries = Object.entries(env)
-  .filter(([key]) => !key.startsWith('npm_') && !KNOWN_LARGE.has(key))
+  .filter(([key, val]) => {
+    if (KNOWN_LARGE.has(key)) return false;
+    // Skip Netlify system-injected build vars — these are not user-set secrets
+    // and are not injected into Lambda functions at runtime.
+    if (SYSTEM_PREFIXES.some(p => key.startsWith(p))) return false;
+    // Skip other well-known system vars
+    if (['PATH', 'HOME', 'USER', 'SHELL', 'TERM', 'LANG', 'PWD', 'SHLVL',
+         'HOSTNAME', 'LOGNAME', 'TMPDIR', 'COLORTERM', 'OLDPWD',
+         'NETLIFY', 'CI', 'CONTINUOUS_INTEGRATION', 'NEXT_TELEMETRY_DISABLED',
+         'NEXT_PRIVATE_BUILD_WORKER_COUNT'].includes(key)) return false;
+    return true;
+  })
   .map(([key, val]) => ({ key, bytes: Buffer.byteLength(val ?? '', 'utf8') }))
   .sort((a, b) => b.bytes - a.bytes);
 
