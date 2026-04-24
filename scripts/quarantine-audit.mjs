@@ -180,8 +180,8 @@ for (const file of sourceFiles) {
   }
 }
 
-// ── Collect quarantined routes ───────────────────────────────────────────────
-const quarantinedFiles = globSync('app/**/+(page.tsx|route.ts)', {
+// ── Collect quarantined files (routes AND co-located components) ─────────────
+const quarantinedFiles = globSync('app/**/*.{tsx,ts}', {
   cwd: ROOT,
   ignore: ['node_modules/**', '.next/**'],
 }).filter(isQuarantined);
@@ -193,10 +193,11 @@ const fixed = [];
 for (const file of quarantinedFiles) {
   const liveFile = quarantinedToLive(file);
   const route = appPathToRoute(liveFile);
+  const isPageOrRoute = file.endsWith('page.tsx') || file.endsWith('route.ts');
   const type = file.endsWith('page.tsx') ? 'page' : 'route';
 
-  // Check 1: high-risk route is quarantined
-  if (isHighRisk(route)) {
+  // Check 1: high-risk route is quarantined (only applies to page/route files)
+  if (isPageOrRoute && isHighRisk(route)) {
     violations.push({
       severity: 'error',
       rule: 'high-risk-quarantined',
@@ -212,31 +213,34 @@ for (const file of quarantinedFiles) {
   }
 
   // Check 2: quarantined route has live inbound route refs (href, fetch, etc.)
+  // Only applies to page.tsx and route.ts files
   let refCount = 0;
   const refFiles = [];
-  for (const [ref, files] of allRefs) {
-    const routeBase = route.replace(/\/\[[^\]]+\]/g, '');
-    if (ref === route || ref.startsWith(route + '/') ||
-        (routeBase && ref.startsWith(routeBase))) {
-      refCount += files.size;
-      refFiles.push(...files);
+  if (isPageOrRoute) {
+    for (const [ref, files] of allRefs) {
+      const routeBase = route.replace(/\/\[[^\]]+\]/g, '');
+      if (ref === route || ref.startsWith(route + '/') ||
+          (routeBase && ref.startsWith(routeBase))) {
+        refCount += files.size;
+        refFiles.push(...files);
+      }
     }
-  }
 
-  if (refCount > 0) {
-    const isApi = route.startsWith('/api/');
-    violations.push({
-      severity: 'error',
-      rule: isApi ? 'api-dynamically-referenced' : 'quarantined-has-live-ref',
-      route,
-      file,
-      refCount,
-      refFiles: [...new Set(refFiles)].slice(0, 5),
-      message: `Quarantined route has ${refCount} live inbound ref(s)`,
-    });
-    if (FIX) {
-      const restored = restoreFile(file);
-      fixed.push({ route, restored });
+    if (refCount > 0) {
+      const isApi = route.startsWith('/api/');
+      violations.push({
+        severity: 'error',
+        rule: isApi ? 'api-dynamically-referenced' : 'quarantined-has-live-ref',
+        route,
+        file,
+        refCount,
+        refFiles: [...new Set(refFiles)].slice(0, 5),
+        message: `Quarantined route has ${refCount} live inbound ref(s)`,
+      });
+      if (FIX) {
+        const restored = restoreFile(file);
+        fixed.push({ route, restored });
+      }
     }
   }
 
