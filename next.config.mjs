@@ -152,11 +152,13 @@ const nextConfig = {
     optimizeCss: false,
     parallelServerCompiles: false,
     parallelServerBuildTraces: false,
-    // Run webpack compilation in a dedicated worker thread so its heap is
-    // isolated from the main Next.js process. The worker can be GC'd between
-    // client and server compilation phases, cutting peak RSS significantly on
-    // large apps (2,670 pages+routes). Documented in Next.js memory usage guide.
-    webpackBuildWorker: true,
+    // webpackBuildWorker: disabled.
+    // When true, Next.js spawns a child worker with isolatedMemory: false,
+    // meaning the child inherits the full NODE_OPTIONS heap (7168 MB).
+    // Main process + worker = up to 14 GB on an 8 GB Netlify container → SIGKILL.
+    // Running webpack in-process keeps peak RSS within the single 7168 MB budget.
+    // deferredEntries + onBeforeDeferredEntries already handle GC between passes.
+    webpackBuildWorker: false,
 
     // Split compilation into two passes to reduce peak heap on Netlify's 8 GB
     // containers.
