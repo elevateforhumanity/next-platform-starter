@@ -44,38 +44,19 @@ const adminConfig = {
   ],
 
   typescript: { ignoreBuildErrors: true },
-  eslint: { ignoreDuringBuilds: true },
   devIndicators: { appIsrStatus: false, buildActivity: false },
 
   generateBuildId: async () =>
     process.env.RAILWAY_GIT_COMMIT_SHA?.slice(0, 8) ?? `admin-${Date.now()}`,
 
-  webpack: (config, { isServer, webpack }) => {
+  // Next.js 16 uses Turbopack by default
+  turbopack: {},
+
+  webpack: (config, { isServer }) => {
     if (!isServer) {
       config.resolve.fallback = { ...config.resolve.fallback, fs: false, net: false, tls: false };
     }
     config.parallelism = 1;
-
-    // Stub every route outside ADMIN_PREFIXES
-    config.plugins.push(
-      new webpack.NormalModuleReplacementPlugin(
-        /[\\/]app[\\/](.+)\.(page|layout|route|loading|error|not-found|template|default)\.(tsx?|jsx?)$/,
-        (resource) => {
-          const rel = resource.request
-            .replace(/\\/g, '/')
-            .replace(/^.*?\/app\//, 'app/');
-
-          const isAdminRoute = ADMIN_PREFIXES.some(p =>
-            rel.startsWith(p + '/') || rel === p
-          );
-
-          if (!isAdminRoute) {
-            resource.request = require.resolve('./lib/railway-page-stub.tsx');
-          }
-        }
-      )
-    );
-
     return config;
   },
 

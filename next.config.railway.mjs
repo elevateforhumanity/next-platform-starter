@@ -83,9 +83,8 @@ const railwayConfig = {
     'ffmpeg-static',
   ],
 
-  // Skip type checking and linting — already validated on Netlify CI
+  // Skip type checking — already validated on Netlify CI
   typescript: { ignoreBuildErrors: true },
-  eslint: { ignoreDuringBuilds: true },
 
   // Suppress dev indicators
   devIndicators: { appIsrStatus: false, buildActivity: false },
@@ -95,39 +94,15 @@ const railwayConfig = {
     return process.env.RAILWAY_GIT_COMMIT_SHA?.slice(0, 8) ?? `railway-${Date.now()}`;
   },
 
-  webpack: (config, { isServer, webpack }) => {
+  // Next.js 16 uses Turbopack by default — empty config uses all defaults.
+  turbopack: {},
+
+  // webpack kept for --webpack flag compatibility only (no custom plugins)
+  webpack: (config, { isServer }) => {
     if (!isServer) {
       config.resolve.fallback = { ...config.resolve.fallback, fs: false, net: false, tls: false };
     }
-
-    // Single worker — same OOM protection as main config
     config.parallelism = 1;
-
-    // Stub out non-Railway app routes so webpack doesn't compile them.
-    // Any page.tsx / layout.tsx / route.ts under app/ that is NOT in
-    // RAILWAY_APP_PREFIXES gets replaced with an empty module.
-    // This cuts compilation from ~1,500 pages to ~500.
-    config.plugins.push(
-      new webpack.NormalModuleReplacementPlugin(
-        // Match any file under app/ that is a Next.js route file
-        /[\\/]app[\\/](.+)\.(page|layout|route|loading|error|not-found|template|default)\.(tsx?|jsx?)$/,
-        (resource) => {
-          const rel = resource.request
-            .replace(/\\/g, '/')
-            .replace(/^.*?\/app\//, 'app/');
-
-          const isRailwayRoute = RAILWAY_APP_PREFIXES.some(prefix =>
-            rel.startsWith(prefix + '/') || rel === prefix
-          );
-
-          if (!isRailwayRoute) {
-            // Replace with a stub that exports a minimal valid Next.js page
-            resource.request = require.resolve('./lib/railway-page-stub.tsx');
-          }
-        }
-      )
-    );
-
     return config;
   },
 
