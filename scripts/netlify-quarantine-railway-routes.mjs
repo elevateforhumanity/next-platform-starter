@@ -30,18 +30,22 @@ const QUARANTINE_DIR = join(ROOT, '.netlify-quarantine', 'app');
 
 // ALLOWLIST: top-level app/ directories Netlify may compile.
 // Everything else is quarantined automatically.
+// 'components' and 'actions' are shared infrastructure imported by layout.tsx —
+// they contain no page.tsx/route.ts so Next.js does not treat them as routes.
 const ALLOWED_TOP_LEVEL = new Set([
   'about', 'contact', 'programs', 'apply', 'check-eligibility',
   'eligibility', 'privacy', 'terms', 'accessibility', 'providers',
   'resources', 'funding', 'partners',
+  'components', 'actions',
 ]);
 
-// Root-level files that must stay (Next.js requires them)
+// Root-level files that must stay (Next.js requires them, or layout.tsx imports them)
 const ALLOWED_ROOT_FILES = new Set([
   'page.tsx', 'page.ts', 'layout.tsx', 'layout.ts', 'globals.css',
   'not-found.tsx', 'not-found.ts', 'error.tsx', 'error.ts',
   'loading.tsx', 'loading.ts', 'template.tsx', 'template.ts',
   'robots.ts', 'sitemap.ts', 'favicon.ico',
+  'RootWidgets.tsx', 'HomeClientShell.tsx', 'HomeHeroVideo.tsx',
 ]);
 
 // Forbidden nested segments — quarantine even inside allowed top-level dirs
