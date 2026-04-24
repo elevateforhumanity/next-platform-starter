@@ -362,7 +362,7 @@ function WrapupSegment({ props, frame, fps }: { props: ElevateLessonProps; frame
 
 // ── Main composition ──────────────────────────────────────────────────────────
 
-export function ElevateLesson(props: ElevateLessonProps) {
+export function ElevateLesson(props: ElevateLessonProps & Record<string, unknown>) {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 

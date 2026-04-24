@@ -93,6 +93,107 @@ export function getPollinationsImage(domainKey: string): string {
   return `https://image.pollinations.ai/prompt/${encoded}?width=1920&height=1080&nologo=true`;
 }
 
+// ── Pexels Video API ──────────────────────────────────────────────────────────
+
+interface PexelsVideoFile {
+  id: number;
+  quality: string;
+  file_type: string;
+  link: string;
+  width: number;
+  height: number;
+}
+
+interface PexelsVideo {
+  id: number;
+  duration: number;
+  video_files: PexelsVideoFile[];
+}
+
+interface PexelsVideoResponse {
+  videos: PexelsVideo[];
+  total_results: number;
+}
+
+/**
+ * Fetch a stock video clip URL from Pexels for a given keyword.
+ * Prefers landscape HD (1280×720 or better). Falls back to any available file.
+ * Returns null if Pexels is unavailable — caller should use a static image instead.
+ */
+export async function getPexelsVideoClip(
+  keyword: string,
+  options: { minDuration?: number; maxDuration?: number; perPage?: number } = {}
+): Promise<string | null> {
+  const apiKey = process.env.PEXELS_API_KEY;
+  if (!apiKey) {
+    logger.warn('[pexels] PEXELS_API_KEY not set — no video clip available');
+    return null;
+  }
+
+  const { minDuration = 5, maxDuration = 30, perPage = 10 } = options;
+
+  try {
+    const url = new URL('https://api.pexels.com/videos/search');
+    url.searchParams.set('query', keyword);
+    url.searchParams.set('orientation', 'landscape');
+    url.searchParams.set('size', 'medium');
+    url.searchParams.set('per_page', String(perPage));
+
+    const res = await fetch(url.toString(), {
+      headers: { Authorization: apiKey },
+      next: { revalidate: 3600 },
+    });
+
+    if (!res.ok) {
+      logger.warn('[pexels] Video API error', { status: res.status });
+      return null;
+    }
+
+    const data: PexelsVideoResponse = await res.json();
+    if (!data.videos?.length) return null;
+
+    // Filter by duration, pick a random result for variety
+    const suitable = data.videos.filter(
+      v => v.duration >= minDuration && v.duration <= maxDuration
+    );
+    const pool = suitable.length ? suitable : data.videos;
+    const video = pool[Math.floor(Math.random() * pool.length)];
+
+    // Prefer HD landscape file
+    const hdFile = video.video_files.find(
+      f => f.quality === 'hd' && f.width >= 1280
+    ) ?? video.video_files.find(
+      f => f.quality === 'sd' && f.width >= 640
+    ) ?? video.video_files[0];
+
+    return hdFile?.link ?? null;
+
+  } catch (err) {
+    logger.warn('[pexels] video fetch error', { err });
+    return null;
+  }
+}
+
+/**
+ * Batch-fetch video clips for an array of scene keywords.
+ * Returns a map of keyword → clip URL (or null if unavailable).
+ */
+export async function getSceneVideoClips(
+  keywords: string[]
+): Promise<Record<string, string | null>> {
+  const unique = [...new Set(keywords)];
+  const results: Record<string, string | null> = {};
+
+  // Sequential to avoid hammering the Pexels rate limit (200 req/hour free tier)
+  for (const keyword of unique) {
+    results[keyword] = await getPexelsVideoClip(keyword);
+    // Small delay between requests
+    await new Promise(r => setTimeout(r, 200));
+  }
+
+  return results;
+}
+
 // ── Batch fetch for a full course ─────────────────────────────────────────────
 
 export async function getCourseBackgroundImages(
