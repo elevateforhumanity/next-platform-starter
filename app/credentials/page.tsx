@@ -105,7 +105,33 @@ export default function CredentialsPage() {
               </div>
             ))}
           </div>
-          <p className="text-slate-500 text-xs mt-6">
+          <div className="mt-6 flex flex-wrap gap-4 text-xs">
+            <a
+              href="https://intraining.dwd.in.gov"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-slate-500 hover:text-brand-red-600 hover:underline transition-colors"
+            >
+              ↗ Verify ETPL listing (INTraining — search &ldquo;2Exclusive&rdquo;)
+            </a>
+            <a
+              href="https://www.apprenticeship.gov/apprenticeship-finder"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-slate-500 hover:text-brand-red-600 hover:underline transition-colors"
+            >
+              ↗ Verify DOL Apprenticeship registration
+            </a>
+            <a
+              href="https://www.certiport.com/portal/desktopdefault.aspx?page=common/pagelibrary/locator.htm"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-slate-500 hover:text-brand-red-600 hover:underline transition-colors"
+            >
+              ↗ Verify Certiport Testing Center
+            </a>
+          </div>
+          <p className="text-slate-500 text-xs mt-3">
             Workforce agencies and employers can request compliance documentation, ETPL verification, or DOL registration confirmation.{' '}
             <Link href="/contact" className="text-brand-red-400 hover:underline">Request documentation →</Link>
           </p>

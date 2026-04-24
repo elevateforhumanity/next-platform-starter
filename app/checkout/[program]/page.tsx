@@ -250,7 +250,7 @@ function CheckoutPageInner() {
           {program === 'barber-apprenticeship' && (
             <p className="text-sm text-slate-600 mt-1">
               Fee-based enrollment within a USDOL Registered Apprenticeship framework.<br />
-              Sponsor of Record: 2Exclusive LLC (Elevate for Humanity program).
+              Sponsor of Record: 2Exclusive LLC-S d/b/a Elevate for Humanity Career & Technical Institute.
             </p>
           )}
         </div>
@@ -321,7 +321,7 @@ function CheckoutPageInner() {
                       Registration Details (USDOL)
                     </summary>
                     <div className="px-4 py-3 border-t border-slate-200 text-slate-600 space-y-2">
-                      <p>Elevate for Humanity is the program brand operated by 2Exclusive LLC, the USDOL Registered Apprenticeship Sponsor of Record.</p>
+                      <p>Elevate for Humanity is the program brand operated by 2Exclusive LLC-S, the USDOL Registered Apprenticeship Sponsor of Record.</p>
                       <p>This program is fee-based and not funded by the State of Indiana.</p>
                       <p>Registration documentation available upon request.</p>
                     </div>

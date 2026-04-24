@@ -2,10 +2,12 @@ import { MetadataRoute } from 'next';
 import fs from 'fs';
 import path from 'path';
 
-// Cache sitemap for 24 hours — the filesystem scan is expensive (1,486 pages)
-// and crawlers hit /sitemap.xml repeatedly. Without this, every hit does a full
-// recursive fs.readdirSync walk which causes the 10s response times.
-export const revalidate = 86400;
+// Force static generation at build time.
+// The Netlify lambda filesystem is read-only at runtime, so fs.readdirSync
+// would return nothing and produce an empty sitemap. Generating statically
+// at build time captures the full page list and serves it from CDN.
+export const dynamic = 'force-static';
+export const revalidate = false;
 
 const ELEVATE_URL = 'https://www.elevateforhumanity.org';
 
@@ -228,26 +230,31 @@ function getChangeFreq(route: string): 'always' | 'hourly' | 'daily' | 'weekly' 
 
 
 
-// Recursively find all page.tsx files
+// Recursively find all page.tsx files.
+// Only runs at build time (dynamic = 'force-static'). The Netlify lambda
+// filesystem is read-only at runtime and does not contain the app/ source tree,
+// so this function would return nothing if called at request time.
 function findAllPages(dir: string, basePath: string = ''): string[] {
   const routes: string[] = [];
-  
+
+  if (!fs.existsSync(dir)) return routes;
+
   try {
     const items = fs.readdirSync(dir, { withFileTypes: true });
-    
+
     for (const item of items) {
       const fullPath = path.join(dir, item.name);
-      
+
       if (item.isDirectory()) {
-        // Skip dynamic routes [param] and route groups (name)
-        if (item.name.startsWith('[') || item.name.startsWith('_')) continue;
-        
-        // Handle route groups - strip the parentheses
+        // Skip dynamic routes [param], private dirs (__), and hidden dirs
+        if (item.name.startsWith('[') || item.name.startsWith('_') || item.name.startsWith('.')) continue;
+
+        // Route groups (name) — strip parens, don't add to path
         let routePart = item.name;
         if (item.name.startsWith('(') && item.name.endsWith(')')) {
           routePart = '';
         }
-        
+
         const newBasePath = routePart ? `${basePath}/${routePart}` : basePath;
         routes.push(...findAllPages(fullPath, newBasePath));
       } else if (item.name === 'page.tsx' || item.name === 'page.ts') {
@@ -255,9 +262,9 @@ function findAllPages(dir: string, basePath: string = ''): string[] {
       }
     }
   } catch {
-    // Directory doesn't exist or can't be read
+    // Unreadable directory — skip silently
   }
-  
+
   return routes;
 }
 

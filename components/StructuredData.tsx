@@ -55,6 +55,9 @@ export default function StructuredData() {
       'https://www.linkedin.com/in/elevate-for-humanity-b5a2b3339/',
       'https://www.instagram.com/elevateforhumanity',
       'https://www.youtube.com/@elevateforhumanity',
+      // Government verification sources — crawlable authority signals
+      'https://www.apprenticeship.gov/apprenticeship-finder',
+      'https://www.intrain.in.gov/training-provider-search',
     ],
     priceRange: '$0 - $5,000',
     openingHoursSpecification: [
@@ -65,13 +68,8 @@ export default function StructuredData() {
         closes: '17:00',
       },
     ],
-    aggregateRating: {
-      '@type': 'AggregateRating',
-      ratingValue: '4.9',
-      reviewCount: '127',
-      bestRating: '5',
-      worstRating: '1',
-    },
+    // aggregateRating intentionally omitted — fabricated review counts
+    // violate Google's rich result policies and can trigger manual penalties.
     hasOfferCatalog: {
       '@type': 'OfferCatalog',
       name: 'Career Training Programs',
@@ -81,7 +79,9 @@ export default function StructuredData() {
           itemOffered: {
             '@type': 'Course',
             name: 'HVAC Technician Training',
-            description: 'Free HVAC training with EPA certification and job placement',
+            description: 'EPA 608 certification prep and HVAC fundamentals. WIOA and Workforce Ready Grant eligible.',
+            url: 'https://www.elevateforhumanity.org/programs/hvac-technician',
+            provider: { '@id': 'https://www.elevateforhumanity.org/#organization' },
           },
         },
         {
@@ -89,15 +89,49 @@ export default function StructuredData() {
           itemOffered: {
             '@type': 'Course',
             name: 'Barber Apprenticeship',
-            description: 'DOL registered apprenticeship program - 1500 hours',
+            description: 'DOL-registered apprenticeship — 1,500 OJT hours. RAPIDS program 2025-IN-132301.',
+            url: 'https://www.elevateforhumanity.org/programs/barber-apprenticeship',
+            provider: { '@id': 'https://www.elevateforhumanity.org/#organization' },
           },
         },
         {
           '@type': 'Offer',
           itemOffered: {
             '@type': 'Course',
-            name: 'Direct Support Professional',
-            description: 'Healthcare career training with certification',
+            name: 'CNA Training',
+            description: 'Indiana state-approved Certified Nursing Assistant training. WIOA eligible.',
+            url: 'https://www.elevateforhumanity.org/programs/cna',
+            provider: { '@id': 'https://www.elevateforhumanity.org/#organization' },
+          },
+        },
+        {
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Course',
+            name: 'IT Help Desk',
+            description: 'CompTIA A+ certification prep. WIOA and Workforce Ready Grant eligible.',
+            url: 'https://www.elevateforhumanity.org/programs/it-help-desk',
+            provider: { '@id': 'https://www.elevateforhumanity.org/#organization' },
+          },
+        },
+        {
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Course',
+            name: 'CDL Training',
+            description: 'Commercial Driver License Class A training. WIOA eligible.',
+            url: 'https://www.elevateforhumanity.org/programs/cdl-training',
+            provider: { '@id': 'https://www.elevateforhumanity.org/#organization' },
+          },
+        },
+        {
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Course',
+            name: 'Peer Recovery Specialist',
+            description: 'Indiana DMHA-aligned peer recovery certification. FSSA IMPACT eligible.',
+            url: 'https://www.elevateforhumanity.org/programs/peer-recovery-specialist',
+            provider: { '@id': 'https://www.elevateforhumanity.org/#organization' },
           },
         },
       ],
