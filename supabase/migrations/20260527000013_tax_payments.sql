@@ -24,6 +24,7 @@ CREATE INDEX IF NOT EXISTS tax_payments_status_idx      ON public.tax_payments(s
 -- RLS: clients can read their own payment records
 ALTER TABLE public.tax_payments ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "users_read_own_payments" ON public.tax_payments;
 CREATE POLICY "users_read_own_payments"
   ON public.tax_payments FOR SELECT
   USING (client_id = auth.uid());
