@@ -243,9 +243,8 @@ function getPlaceholderVideos(query: string) {
     {
       id: 'placeholder-1',
       type: 'video',
-      url: 'https://www.pexels.com/video/3195394/download/',
-      thumbnail:
-        'https://images.pexels.com/videos/3195394/free-video-3195394.jpg?w=400',
+      url: '/videos/hero-home.mp4',
+      thumbnail: '/images/pages/features-hero.jpg',
       width: 1920,
       height: 1080,
       duration: 10,
