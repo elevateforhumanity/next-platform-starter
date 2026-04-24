@@ -1,15 +1,15 @@
-# Railway deployment — Elevate LMS service
+# Railway deployment — Elevate LMS + Admin services
 # Project: 625c22f0-6b8c-47a2-b75c-9f1c903fb263
 #
-# This service runs the LMS, admin dashboard, and video rendering.
-# Netlify continues to serve the public marketing site.
-# Both deployments share the same Supabase database and storage.
+# Two services, same repo, different Dockerfiles:
+#   Elevate-lms   (da04d075) — /lms, /learner, /api/lms, /api/generate-video
+#   Elevate-admin (ec557bf2) — /admin, /instructor, /api/admin
+#
+# Netlify serves public marketing pages and proxies LMS/admin to Railway.
 
 [build]
 builder = "DOCKERFILE"
 dockerfilePath = "Dockerfile.railway"
-# Builds only LMS + admin + instructor routes (~500 pages vs 1,500 on Netlify)
-# Public marketing pages are served by Netlify and proxied via RAILWAY_LMS_URL
 
 [deploy]
 startCommand = "node server.js"
@@ -17,6 +17,3 @@ healthcheckPath = "/api/health"
 healthcheckTimeout = 30
 restartPolicyType = "ON_FAILURE"
 restartPolicyMaxRetries = 3
-
-[[services]]
-name = "lms"

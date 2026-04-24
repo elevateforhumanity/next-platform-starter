@@ -23,17 +23,15 @@
 import { withSentryConfig } from '@sentry/nextjs';
 
 // Routes Railway serves — everything else gets a lightweight stub at build time
+// LMS service: no admin or instructor routes — those are on Elevate-admin service
 const RAILWAY_APP_PREFIXES = [
   'app/lms',
-  'app/admin',
   'app/learner',
-  'app/instructor',
-  'app/api/admin',
   'app/api/lms',
   'app/api/generate-video',
   'app/api/health',
-  'app/api/webhooks',   // Stripe webhooks needed on Railway too
-  // Auth routes needed for login flow
+  'app/api/webhooks',
+  // Auth routes needed for LMS login flow
   'app/(auth)',
   'app/login',
   'app/signup',
