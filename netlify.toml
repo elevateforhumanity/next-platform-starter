@@ -6,6 +6,8 @@
   # libxml2-utils provides xmllint, required for IRS MeF XSD validation.
   # Without it, schema-validator.ts returns XMLLINT_NOT_AVAILABLE and blocks all submissions.
   command = "corepack enable && pnpm install --no-frozen-lockfile && npx tsx scripts/ci-token-gate.ts && node scripts/netlify-quarantine-railway-routes.mjs && node scripts/netlify-route-guard.mjs && pnpm run build && node scripts/prune-standalone.mjs && node scripts/prune-node-modules.mjs"
+  # Quarantine runs before route guard, route guard runs before build.
+  # Do not increase heap to hide leakage — fix the quarantine allowlist instead.
   # publish is intentionally omitted — @netlify/plugin-nextjs manages the output directory.
   # Setting publish = ".next" causes Turbopack to error: distDirRoot navigates outside projectPath.
   functions = "netlify/functions"
@@ -43,8 +45,9 @@
   # 4096MB heap. Quarantine removes ~1,400 Railway pages before next build,
   # leaving ~247 marketing routes. webpack comfortably fits in 4GB at this scale.
   # If this OOMs, the quarantine is leaking — fix the allowlist, not the heap.
-  NODE_OPTIONS = "--max-old-space-size=4096 --max-semi-space-size=32 --expose-gc"
+  NODE_OPTIONS = "--max-old-space-size=4096 --max-semi-space-size=32"
   NEXT_PRIVATE_WORKERS_PER_JOB = "1"
+  NEXT_PRIVATE_BUILD_WORKER_COUNT = "1"
   SENTRY_SKIP_AUTO_INSTRUMENTATION = "1"
   NETLIFY_USE_PNPM = "true"
   # Disable secret scanning — NEXT_PUBLIC_* vars are intentionally public
