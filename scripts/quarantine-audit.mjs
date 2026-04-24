@@ -62,6 +62,24 @@ const REF_PATTERNS = [
   /router\.(push|replace)\s*\(\s*`(\/[^`$]+)/g,
 ];
 
+// ── ES module import ref detection ──────────────────────────────────────────
+// Detects: import X from '@/app/foo/Bar' or import X from './Bar'
+// Returns file paths (not route paths) that are referenced via import
+function extractImportRefs(content, sourceFile) {
+  const refs = new Set();
+  // Match: from '@/app/...' or from './...' or from '../...'
+  const importRe = /from\s+['"](@\/app\/[^'"]+|\.\.?\/[^'"]+)['"]/g;
+  // Also match: export { X } from '@/app/...'
+  const exportRe = /export\s+\{[^}]+\}\s+from\s+['"](@\/app\/[^'"]+|\.\.?\/[^'"]+)['"]/g;
+  for (const re of [importRe, exportRe]) {
+    let m;
+    while ((m = re.exec(content)) !== null) {
+      refs.add(m[1]);
+    }
+  }
+  return refs;
+}
+
 function extractRefs(content) {
   const refs = new Set();
   for (const pattern of REF_PATTERNS) {
@@ -129,15 +147,36 @@ const sourceFiles = globSync('**/*.{tsx,ts}', {
 });
 
 const allRefs = new Map(); // route-prefix → Set<sourceFile>
+const allImportRefs = new Map(); // resolved file path → Set<sourceFile>
 
 for (const file of sourceFiles) {
   const rel = relative(ROOT, file);
   if (isQuarantined(rel)) continue;
   const content = readFileSync(file, 'utf8');
+
+  // Route refs (href, fetch, router.push, etc.)
   const refs = extractRefs(content);
   for (const ref of refs) {
     if (!allRefs.has(ref)) allRefs.set(ref, new Set());
     allRefs.get(ref).add(rel);
+  }
+
+  // ES module import refs
+  const importRefs = extractImportRefs(content, rel);
+  for (const importPath of importRefs) {
+    // Normalize to a file path relative to ROOT
+    let resolved;
+    if (importPath.startsWith('@/app/')) {
+      resolved = importPath.replace('@/', '');
+    } else {
+      // Relative import — resolve from source file's dir
+      const sourceDir = dirname(file);
+      resolved = relative(ROOT, join(sourceDir, importPath));
+    }
+    // Strip extension if present, we'll match by prefix
+    const key = resolved.replace(/\.(tsx?|jsx?)$/, '');
+    if (!allImportRefs.has(key)) allImportRefs.set(key, new Set());
+    allImportRefs.get(key).add(rel);
   }
 }
 
@@ -172,7 +211,7 @@ for (const file of quarantinedFiles) {
     continue;
   }
 
-  // Check 2: quarantined route has live inbound refs
+  // Check 2: quarantined route has live inbound route refs (href, fetch, etc.)
   let refCount = 0;
   const refFiles = [];
   for (const [ref, files] of allRefs) {
@@ -194,6 +233,34 @@ for (const file of quarantinedFiles) {
       refCount,
       refFiles: [...new Set(refFiles)].slice(0, 5),
       message: `Quarantined route has ${refCount} live inbound ref(s)`,
+    });
+    if (FIX) {
+      const restored = restoreFile(file);
+      fixed.push({ route, restored });
+    }
+  }
+
+  // Check 3: quarantined FILE is imported by a live file (ES module import)
+  // This catches component files and re-export shims inside quarantined dirs
+  const fileKey = file.replace(/\.(tsx?|jsx?)$/, '');
+  let importRefCount = 0;
+  const importRefFiles = [];
+  for (const [key, files] of allImportRefs) {
+    if (fileKey === key || fileKey.startsWith(key) || key.startsWith(fileKey)) {
+      importRefCount += files.size;
+      importRefFiles.push(...files);
+    }
+  }
+
+  if (importRefCount > 0 && refCount === 0) { // avoid double-reporting
+    violations.push({
+      severity: 'error',
+      rule: 'quarantined-file-imported',
+      route,
+      file,
+      refCount: importRefCount,
+      refFiles: [...new Set(importRefFiles)].slice(0, 5),
+      message: `Quarantined file is imported by ${importRefCount} live file(s)`,
     });
     if (FIX) {
       const restored = restoreFile(file);
