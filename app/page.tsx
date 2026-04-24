@@ -55,13 +55,13 @@ export default function HomePage() {
       <MarqueeBanner />
 
       {/* PLATFORM POSITIONING */}
-      <section className="bg-slate-950 py-16 px-6 border-b border-slate-800">
+      <section className="bg-white py-16 px-6 border-b border-slate-100">
         <div className="max-w-6xl mx-auto">
-          <p className="text-brand-red-400 text-xs font-bold uppercase tracking-widest text-center mb-3">What we actually built</p>
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-white text-center mb-4">
+          <p className="text-brand-red-600 text-xs font-bold uppercase tracking-widest text-center mb-3">What we actually built</p>
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 text-center mb-4">
             More than a training provider.
           </h2>
-          <p className="text-slate-400 text-sm sm:text-base text-center max-w-2xl mx-auto mb-12">
+          <p className="text-slate-600 text-sm sm:text-base text-center max-w-2xl mx-auto mb-12">
             Elevate runs the full workforce cycle — from intake and funding documentation to credentialing, employer placement, and compliance reporting. One system. Every stakeholder.
           </p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -87,10 +87,10 @@ export default function HomePage() {
                 body: 'WIOA, Workforce Ready Grant, FSSA IMPACT, and Job Ready Indy — documented and tracked automatically.',
               },
             ].map((item) => (
-              <div key={item.title} className="bg-slate-900 border border-slate-800 rounded-xl p-6">
+              <div key={item.title} className="bg-slate-50 border border-slate-200 rounded-xl p-6">
                 <div className="text-2xl mb-3">{item.icon}</div>
-                <h3 className="text-white font-bold text-sm mb-2">{item.title}</h3>
-                <p className="text-slate-400 text-xs leading-relaxed">{item.body}</p>
+                <h3 className="text-slate-900 font-bold text-sm mb-2">{item.title}</h3>
+                <p className="text-slate-600 text-xs leading-relaxed">{item.body}</p>
               </div>
             ))}
           </div>
@@ -98,7 +98,7 @@ export default function HomePage() {
             <Link href="/for-agencies" className="inline-block bg-brand-red-600 hover:bg-brand-red-700 text-white font-bold px-8 py-3.5 rounded-lg transition-colors text-sm mr-4">
               How It Works for Agencies
             </Link>
-            <Link href="/program-holder" className="inline-block border border-slate-600 text-slate-300 hover:text-white hover:border-slate-400 font-bold px-8 py-3.5 rounded-lg transition-colors text-sm">
+            <Link href="/program-holder" className="inline-block border border-slate-300 text-slate-700 hover:text-slate-900 hover:border-slate-400 font-bold px-8 py-3.5 rounded-lg transition-colors text-sm">
               License the Platform
             </Link>
           </div>
