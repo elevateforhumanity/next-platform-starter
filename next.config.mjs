@@ -28,7 +28,11 @@ const nextConfig = {
     'nodemailer',
     '@sentry/nextjs',
     '@sentry/node',
+    '@sentry/node-core',
     '@sentry/core',
+    // Hard runtime require() inside @sentry/node-core — must travel with it
+    '@apm-js-collab/tracing-hooks',
+    '@apm-js-collab/code-transformer',
     '@opentelemetry/api',
     '@opentelemetry/sdk-node',
     '@opentelemetry/exporter-trace-otlp-http',
@@ -243,8 +247,7 @@ const nextConfig = {
       '**/node_modules/jspdf/dist/**',
       '**/node_modules/pdf-lib/**',
       '**/node_modules/.pnpm/pdf-lib*/**',
-      '**/node_modules/@apm-js-collab/**',
-      '**/node_modules/.pnpm/@apm-js-collab*/**',
+      // @apm-js-collab is a hard runtime require() of @sentry/node-core — must NOT be excluded
       // Source files not needed at runtime
       'app/**/*.tsx',
       'app/**/*.ts',
