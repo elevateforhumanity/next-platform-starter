@@ -56,23 +56,50 @@ export default async function ProgramsPage() {
         analyticsName={heroBanners['programs'].analyticsName}
       />
       <section className="mx-auto max-w-6xl px-4 py-16">
-      <div className="mt-8 grid gap-6 md:grid-cols-2">
-        {programs.map((program) => (
-          <article key={program.slug} className="rounded border p-6 hover:bg-slate-50">
-            <h2 className="text-xl font-semibold text-slate-900">{program.title}</h2>
-            {program.description && (
-              <p className="mt-2 text-sm text-slate-700">{program.description}</p>
-            )}
-            <Link
-              href={`/programs/${program.slug}`}
-              className="mt-4 inline-block text-sm font-medium text-brand-red-600 underline hover:text-brand-red-700"
-            >
-              View program
-            </Link>
-          </article>
-        ))}
-      </div>
-    </section>
+        {/* Catalog filter entry point */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-10">
+          <div>
+            <h2 className="text-2xl font-extrabold text-slate-900">Training Programs</h2>
+            <p className="text-sm text-slate-500 mt-1">
+              Healthcare, skilled trades, technology, business, and more.
+            </p>
+          </div>
+          <Link
+            href="/programs/catalog"
+            className="inline-flex items-center gap-2 bg-brand-red-600 hover:bg-brand-red-700 text-white font-semibold text-sm px-5 py-2.5 rounded-lg transition-colors shrink-0"
+          >
+            Filter &amp; Search All Programs →
+          </Link>
+        </div>
+
+        <div className="grid gap-6 md:grid-cols-2">
+          {programs.map((program) => (
+            <article key={program.slug} className="rounded-xl border border-slate-200 p-6 hover:bg-slate-50 transition-colors">
+              <h2 className="text-lg font-bold text-slate-900">{program.title}</h2>
+              {program.description && (
+                <p className="mt-2 text-sm text-slate-600 leading-relaxed line-clamp-2">{program.description}</p>
+              )}
+              <Link
+                href={`/programs/${program.slug}`}
+                className="mt-4 inline-block text-sm font-semibold text-brand-red-600 hover:text-brand-red-700 hover:underline"
+              >
+                View program →
+              </Link>
+            </article>
+          ))}
+        </div>
+
+        {/* Bottom catalog CTA */}
+        <div className="mt-12 text-center">
+          <p className="text-sm text-slate-500 mb-3">Looking for something specific?</p>
+          <Link
+            href="/programs/catalog"
+            className="inline-flex items-center gap-2 border border-slate-300 text-slate-700 hover:border-brand-red-500 hover:text-brand-red-600 font-semibold text-sm px-6 py-2.5 rounded-lg transition-colors"
+          >
+            Browse Full Program Catalog with Filters
+          </Link>
+        </div>
+      </section>
     </>
   );
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import {
@@ -16,6 +16,9 @@ import {
   LayoutList,
   ChevronRight,
   ExternalLink,
+  Loader2,
+  Globe,
+  AlertCircle,
 } from 'lucide-react';
 import dynamic from 'next/dynamic';
 
@@ -174,7 +177,12 @@ export default function ProgramBuilderClient({
           <AITab aiPrograms={aiPrograms} />
         )}
         {activeTab === 'publish' && (
-          <PublishTab program={selectedProgram} programs={programs} onSelectProgram={setSelectedProgramId} />
+          <PublishTab
+            program={selectedProgram}
+            programs={programs}
+            onSelectProgram={setSelectedProgramId}
+            onPublished={() => router.refresh()}
+          />
         )}
       </div>
     </div>
@@ -553,11 +561,21 @@ function PublishTab({
   program,
   programs,
   onSelectProgram,
+  onPublished,
 }: {
   program?: Program;
   programs: Program[];
   onSelectProgram: (id: string) => void;
+  onPublished?: (id: string) => void;
 }) {
+  const [publishing, setPublishing] = useState(false);
+  const [toast, setToast] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
+
+  const showToast = useCallback((type: 'success' | 'error', message: string) => {
+    setToast({ type, message });
+    setTimeout(() => setToast(null), 5000);
+  }, []);
+
   if (!program) {
     return (
       <ProgramSelector
@@ -570,9 +588,55 @@ function PublishTab({
 
   const isPublished = program.published;
 
+  const checklist = [
+    { label: 'Program title set',    done: !!program.title?.trim() },
+    { label: 'Program slug set',     done: !!program.slug?.trim() },
+    { label: 'Category assigned',    done: !!program.category?.trim() },
+  ];
+  const requiredPassing = checklist.filter(c => c.done).length === checklist.length;
+
+  async function handlePublish() {
+    if (!program || publishing) return;
+    setPublishing(true);
+    try {
+      const res = await fetch(
+        `/api/admin/programs/${program.id}/publish-direct`,
+        { method: 'POST', headers: { 'Content-Type': 'application/json' } },
+      );
+      const json = await res.json();
+      if (!res.ok) {
+        const detail = json.missing?.length
+          ? `Missing: ${json.missing.join(', ')}`
+          : (json.error ?? 'Publish failed');
+        showToast('error', detail);
+      } else {
+        showToast('success', `"${program.title}" is now live at /programs/${json.slug ?? program.slug}`);
+        onPublished?.(program.id);
+      }
+    } catch {
+      showToast('error', 'Network error — please try again');
+    } finally {
+      setPublishing(false);
+    }
+  }
+
   return (
     <div className="space-y-6">
       <ProgramBreadcrumb program={program} />
+
+      {/* Toast */}
+      {toast && (
+        <div className={`flex items-start gap-3 px-4 py-3 rounded-lg text-sm font-medium ${
+          toast.type === 'success'
+            ? 'bg-green-50 border border-green-200 text-green-800'
+            : 'bg-red-50 border border-red-200 text-red-800'
+        }`}>
+          {toast.type === 'success'
+            ? <CheckCircle className="w-4 h-4 mt-0.5 shrink-0" />
+            : <AlertCircle className="w-4 h-4 mt-0.5 shrink-0" />}
+          {toast.message}
+        </div>
+      )}
 
       <div className="bg-white rounded-xl border border-slate-200 p-6">
         <div className="flex items-center justify-between mb-6">
@@ -582,29 +646,20 @@ function PublishTab({
               Check completeness before making this program available to learners
             </p>
           </div>
-          <span
-            className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold ${
-              isPublished ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'
-            }`}
-          >
+          <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold ${
+            isPublished ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'
+          }`}>
             {isPublished ? 'Published' : 'Draft'}
           </span>
         </div>
 
         {/* Checklist */}
         <div className="space-y-3 mb-6">
-          {[
-            { label: 'Program title and category set', done: !!program.title && !!program.category },
-            { label: 'Program has at least one course', done: false }, // resolved at runtime
-            { label: 'Curriculum lessons added', done: false },
-            { label: 'Compliance and funding tags reviewed', done: false },
-          ].map((item) => (
+          {checklist.map((item) => (
             <div key={item.label} className="flex items-center gap-3 text-sm">
-              <span
-                className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 ${
-                  item.done ? 'bg-green-100 text-green-600' : 'bg-slate-100 text-slate-400'
-                }`}
-              >
+              <span className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 text-xs ${
+                item.done ? 'bg-green-100 text-green-600' : 'bg-slate-100 text-slate-400'
+              }`}>
                 {item.done ? '✓' : '○'}
               </span>
               <span className={item.done ? 'text-slate-700' : 'text-slate-400'}>{item.label}</span>
@@ -612,21 +667,66 @@ function PublishTab({
           ))}
         </div>
 
-        <div className="flex items-center gap-3">
+        {/* Public URL preview */}
+        {program.slug && (
+          <div className="mb-6 flex items-center gap-2 text-xs text-slate-500 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2">
+            <Globe className="w-3.5 h-3.5 shrink-0" />
+            <span>Public URL: <span className="font-mono text-slate-700">/programs/{program.slug}</span></span>
+            {isPublished && (
+              <a
+                href={`/programs/${program.slug}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="ml-auto text-brand-red-600 hover:underline flex items-center gap-1"
+              >
+                View live <ExternalLink className="w-3 h-3" />
+              </a>
+            )}
+          </div>
+        )}
+
+        <div className="flex flex-wrap items-center gap-3">
+          {/* Publish / Unpublish */}
+          {!isPublished ? (
+            <button
+              onClick={handlePublish}
+              disabled={!requiredPassing || publishing}
+              className="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 disabled:bg-slate-300 disabled:cursor-not-allowed text-white px-5 py-2.5 rounded-lg text-sm font-semibold transition-colors"
+            >
+              {publishing
+                ? <><Loader2 className="w-4 h-4 animate-spin" /> Publishing…</>
+                : <><Globe className="w-4 h-4" /> Publish Program</>}
+            </button>
+          ) : (
+            <span className="inline-flex items-center gap-2 bg-green-50 border border-green-200 text-green-700 px-5 py-2.5 rounded-lg text-sm font-semibold">
+              <CheckCircle className="w-4 h-4" /> Live
+            </span>
+          )}
+
           <Link
             href={`/admin/programs/${program.id}`}
-            className="inline-flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 transition-colors"
+            className="inline-flex items-center gap-2 border border-slate-200 text-slate-700 px-4 py-2.5 rounded-lg text-sm font-medium hover:bg-slate-50 transition-colors"
           >
-            <Settings className="w-4 h-4" /> Edit Program Settings
+            <Settings className="w-4 h-4" /> Edit Settings
           </Link>
-          <Link
-            href={`/lms/programs/${program.slug ?? program.id}`}
-            target="_blank"
-            className="inline-flex items-center gap-2 border border-slate-200 text-slate-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-slate-50 transition-colors"
-          >
-            <Eye className="w-4 h-4" /> Preview Learner View
-          </Link>
+
+          {program.slug && (
+            <a
+              href={`/programs/${program.slug}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 border border-slate-200 text-slate-700 px-4 py-2.5 rounded-lg text-sm font-medium hover:bg-slate-50 transition-colors"
+            >
+              <Eye className="w-4 h-4" /> Preview
+            </a>
+          )}
         </div>
+
+        {!requiredPassing && (
+          <p className="mt-3 text-xs text-amber-600">
+            Complete all checklist items above before publishing.
+          </p>
+        )}
       </div>
     </div>
   );

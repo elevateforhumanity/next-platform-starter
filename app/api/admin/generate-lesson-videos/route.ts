@@ -11,7 +11,19 @@ import {
   generateSoraVideo,
   getAvailableServices,
 } from '@/lib/video/generate';
-import { renderLessonVideo, inferDomainKey } from '@/lib/video/remotion-render';
+// @remotion/bundler uses @rspack/core which ships native .node binaries.
+// Static import causes webpack to trace into those binaries at build time
+// and fail with "Unexpected character '\x7f'" (ELF header).
+// Dynamic import keeps remotion-render out of the webpack module graph entirely.
+// The module is only resolved at runtime when this code path is actually hit.
+type RemotionRender = typeof import('@/lib/video/remotion-render');
+let _remotionRender: RemotionRender | null = null;
+async function getRemotionRender(): Promise<RemotionRender> {
+  if (!_remotionRender) {
+    _remotionRender = await import('@/lib/video/remotion-render');
+  }
+  return _remotionRender;
+}
 import { getInstructorForCourse } from '@/lib/ai-instructors';
 import { mkdir } from 'fs/promises';
 import path from 'path';
@@ -190,6 +202,7 @@ async function generateForLesson(
   try {
     logger.info(`[VideoGen] Remotion free pipeline: "${lesson.title}"`);
     const courseName = lesson.training_courses?.course_name || 'Course';
+    const { renderLessonVideo, inferDomainKey } = await getRemotionRender();
     const domainKey = inferDomainKey(courseName, lesson.title);
 
     const result = await renderLessonVideo({

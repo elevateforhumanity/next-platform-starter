@@ -33,6 +33,17 @@ const nextConfig = {
     // Hard runtime require() inside @sentry/node-core — must travel with it
     '@apm-js-collab/tracing-hooks',
     '@apm-js-collab/code-transformer',
+    // Remotion + its native bundler deps — ship .node binaries webpack cannot parse.
+    // The route uses a dynamic import() so webpack never traces these at build time,
+    // but listing them here ensures they are never accidentally inlined if the
+    // dynamic import boundary is ever removed.
+    '@remotion/bundler',
+    '@remotion/renderer',
+    '@remotion/compositor-linux-x64-gnu',
+    '@rspack/core',
+    '@rspack/binding',
+    '@rspack/binding-linux-x64-gnu',
+    'remotion',
     '@opentelemetry/api',
     '@opentelemetry/sdk-node',
     '@opentelemetry/exporter-trace-otlp-http',
@@ -250,6 +261,13 @@ const nextConfig = {
       '**/node_modules/pdf-lib/**',
       '**/node_modules/.pnpm/pdf-lib*/**',
       // @apm-js-collab is a hard runtime require() of @sentry/node-core — must NOT be excluded
+      // Remotion native binaries — large, only needed for video rendering, not SSR
+      '**/node_modules/@remotion/**',
+      '**/node_modules/.pnpm/@remotion*/**',
+      '**/node_modules/remotion/**',
+      '**/node_modules/.pnpm/remotion*/**',
+      '**/node_modules/@rspack/**',
+      '**/node_modules/.pnpm/@rspack*/**',
       // Source files not needed at runtime
       'app/**/*.tsx',
       'app/**/*.ts',
