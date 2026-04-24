@@ -44,6 +44,10 @@ COPY . .
 ENV RAILWAY=true
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
+# 7GB heap for the webpack build — Railway build containers have 8GB RAM.
+# --max-semi-space-size=64 keeps young-gen small so GC runs more frequently.
+# --expose-gc lets Next.js call gc() between page compilations.
+ENV NODE_OPTIONS="--max-old-space-size=7168 --max-semi-space-size=64 --expose-gc"
 
 # Build with standalone output (set in next.config.mjs when RAILWAY=true)
 RUN pnpm run build
