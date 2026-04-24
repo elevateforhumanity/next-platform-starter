@@ -18,7 +18,7 @@ import { generateEdgeTTS, buildLessonScript, EDGE_TTS_VOICES, type EdgeTTSVoice 
 import { getPexelsImage } from './pexels';
 import { logger } from '@/lib/logger';
 // Type-only import — never bundled, only used for type checking
-import type { ElevateLessonProps } from '@/remotion/compositions/ElevateLesson';
+import type { ElevateLessonProps } from '@/remotion-src/compositions/ElevateLesson';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type RemotionProps = Record<string, any>;
 
@@ -172,7 +172,7 @@ async function getBundleUrl(): Promise<string> {
   if (_bundleUrl) return _bundleUrl;
 
   logger.info('[RemotionRender] Bundling Remotion composition...');
-  const entryPoint = path.join(process.cwd(), 'remotion', 'index.ts');
+  const entryPoint = path.join(process.cwd(), 'remotion-src', 'index.ts');
 
   _bundleUrl = await bundle({
     entryPoint,

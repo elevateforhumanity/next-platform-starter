@@ -29,9 +29,9 @@ import { logger } from '@/lib/logger';
 import { generateEdgeTTS, EDGE_TTS_VOICES } from '@/lib/video/edge-tts';
 import { getPexelsVideoClip, getPexelsImage, getPollinationsImage } from '@/lib/video/pexels';
 // Types only — dynamic import at render time to avoid Turbopack tracing remotion/
-import type { SceneData, SlideLessonProps } from '@/remotion/compositions/SlideLesson';
+import type { SceneData, SlideLessonProps } from '@/remotion-src/compositions/SlideLesson';
 async function calcSlideLessonFrames(scenes: Pick<SceneData, 'durationFrames'>[]) {
-  const { calcSlideLessonFrames: fn } = await import('@/remotion/compositions/SlideLesson');
+  const { calcSlideLessonFrames: fn } = await import('@/remotion-src/compositions/SlideLesson');
   return fn(scenes);
 }
 

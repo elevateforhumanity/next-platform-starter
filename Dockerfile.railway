@@ -84,7 +84,7 @@ COPY --from=builder /app/.next/static ./.next/static
 COPY --from=builder /app/public ./public
 
 # Copy Remotion compositions (needed at render time, not bundled into standalone)
-COPY --from=builder /app/remotion ./remotion
+COPY --from=builder /app/remotion-src ./remotion-src
 
 # Non-root user for security
 RUN addgroup --system --gid 1001 nodejs && \
