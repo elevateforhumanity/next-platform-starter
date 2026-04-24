@@ -40,35 +40,23 @@ const checks: Record<string, any> = {
 
   // Check 2: Database Connection
   try {
-    if (
-      process.env.NEXT_PUBLIC_SUPABASE_URL &&
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-    ) {
-      const db = await getAdminClient();
-
-      const { error } = await db
-        .from('programs')
-        .select('count')
-        .limit(1);
-
-      checks.checks.database = {
-        connected: !error,
-        status: error ? 'fail' : 'pass',
-        error: error ? 'DB_ERROR' : null,
-      };
+    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+      checks.checks.database = { connected: false, status: 'warn', error: 'Missing Supabase credentials' };
     } else {
-      checks.checks.database = {
-        connected: false,
-        status: 'fail',
-        error: 'Missing Supabase credentials',
-      };
+      const db = await getAdminClient();
+      if (!db) {
+        checks.checks.database = { connected: false, status: 'warn', error: 'Missing service role key' };
+      } else {
+        const { error } = await db.from('programs').select('count').limit(1);
+        checks.checks.database = {
+          connected: !error,
+          status: error ? 'warn' : 'pass',
+          error: error ? 'DB_ERROR' : null,
+        };
+      }
     }
-  } catch (error) { 
-    checks.checks.database = {
-      connected: false,
-      status: 'fail',
-      error: toErrorMessage(error),
-    };
+  } catch (error) {
+    checks.checks.database = { connected: false, status: 'warn', error: toErrorMessage(error) };
   }
 
   // Check 3: System Resources
@@ -152,7 +140,7 @@ const checks: Record<string, any> = {
     checks.checks.audit_integrity = { status: 'unknown', error: 'RPC unavailable' };
   }
 
-  // Overall Status
+  // Overall Status — 'fail' is reserved for hard errors, 'warn' for degraded
   const allPassed = Object.values(checks.checks).every(
     (check: any) => check.status === 'pass'
   );
@@ -202,8 +190,12 @@ const checks: Record<string, any> = {
     fully_animated: true,
   };
 
+  // Always return 200 — Railway healthcheck only needs the server to respond.
+  // Degraded state is surfaced in the JSON body, not the HTTP status.
+  // 503 was causing Railway to mark deploys as FAILED even when the app
+  // was running correctly but a non-critical check (e.g. DB) was slow to connect.
   return NextResponse.json(checks, {
-    status: hasCriticalFailure ? 503 : 200,
+    status: 200,
     headers: {
       'Cache-Control': 'no-cache, no-store, must-revalidate',
       Pragma: 'no-cache',

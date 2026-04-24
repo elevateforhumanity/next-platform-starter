@@ -96,8 +96,8 @@ RUN addgroup --system --gid 1001 nodejs && \
 
 USER nextjs
 
-EXPOSE 3000
-ENV PORT=3000
+# Railway injects PORT at runtime — do not hardcode it here.
+# Next.js standalone reads PORT from the environment automatically.
 ENV HOSTNAME=0.0.0.0
 
 CMD ["node", "server.js"]
