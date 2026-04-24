@@ -362,14 +362,18 @@ export async function proxy(request: NextRequest) {
   }
 
   if (RAILWAY_LMS_URL) {
-    // LMS + video generation — both live on the LMS Railway service
-    const LMS_PREFIXES = ['/lms', '/learner', '/api/lms', '/api/videos', '/api/generate-video'];
-    if (LMS_PREFIXES.some(prefix => pathname.startsWith(prefix))) {
+    // All /api/* routes go to Railway LMS — Netlify has no API routes (quarantined).
+    // Webhooks are excluded: they must hit Netlify's own function handlers.
+    const WEBHOOK_BYPASS = ['/api/webhooks/', '/api/stripe/webhook', '/api/license/webhook',
+      '/api/store/webhook', '/api/donations/webhook'];
+    const isWebhookPath = WEBHOOK_BYPASS.some(p => pathname.startsWith(p));
+
+    const LMS_PREFIXES = ['/lms', '/learner', '/api/'];
+    if (!isWebhookPath && LMS_PREFIXES.some(prefix => pathname.startsWith(prefix))) {
       const target = new URL(pathname, RAILWAY_LMS_URL);
       target.search = request.nextUrl.search;
       return NextResponse.rewrite(target, {
         headers: {
-          // Forward the original host so Railway auth guards work correctly
           'x-forwarded-host': host,
           'x-forwarded-proto': 'https',
         },
