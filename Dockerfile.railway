@@ -1,0 +1,91 @@
+# Dockerfile.railway
+#
+# Multi-stage build for Railway deployment.
+# Runs the LMS, admin dashboard, and video rendering (Remotion + edge-tts).
+# Uses Next.js standalone output so only the minimal server is shipped.
+#
+# Key differences from Netlify:
+#   - Persistent Node.js server (next start), not serverless Lambdas
+#   - No 250 MB bundle limit
+#   - ffmpeg + edge-tts native binaries work fine
+#   - Remotion renderer runs without restrictions
+
+# ── Stage 1: deps ─────────────────────────────────────────────────────────────
+FROM node:20-bookworm-slim AS deps
+
+# Install system deps needed at build time and runtime
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ffmpeg \
+    chromium \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+# Enable corepack for pnpm
+RUN corepack enable && corepack prepare pnpm@10.28.2 --activate
+
+WORKDIR /app
+
+# Copy lockfile and manifests first for layer caching
+COPY package.json pnpm-lock.yaml ./
+COPY .npmrc* ./
+
+# Install all deps (including devDeps needed for build)
+RUN pnpm install --frozen-lockfile
+
+# ── Stage 2: builder ──────────────────────────────────────────────────────────
+FROM deps AS builder
+
+WORKDIR /app
+
+# Copy full source
+COPY . .
+
+# Inject Railway-specific env so next.config.mjs can gate Netlify-only behaviour
+ENV RAILWAY=true
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
+
+# Build with standalone output (set in next.config.mjs when RAILWAY=true)
+RUN pnpm run build
+
+# ── Stage 3: runner ───────────────────────────────────────────────────────────
+FROM node:20-bookworm-slim AS runner
+
+# Runtime system deps: ffmpeg for Remotion, chromium for any headless work
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ffmpeg \
+    chromium \
+    ca-certificates \
+    fonts-liberation \
+    && rm -rf /var/lib/apt/lists/*
+
+# Tell Remotion/Puppeteer where Chromium lives
+ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
+ENV CHROMIUM_PATH=/usr/bin/chromium
+
+WORKDIR /app
+
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV RAILWAY=true
+
+# Copy standalone server output
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
+COPY --from=builder /app/public ./public
+
+# Copy Remotion compositions (needed at render time, not bundled into standalone)
+COPY --from=builder /app/remotion ./remotion
+
+# Non-root user for security
+RUN addgroup --system --gid 1001 nodejs && \
+    adduser --system --uid 1001 nextjs && \
+    chown -R nextjs:nodejs /app
+
+USER nextjs
+
+EXPOSE 3000
+ENV PORT=3000
+ENV HOSTNAME=0.0.0.0
+
+CMD ["node", "server.js"]

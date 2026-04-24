@@ -1,0 +1,20 @@
+# Railway deployment — Elevate LMS service
+# Project: 625c22f0-6b8c-47a2-b75c-9f1c903fb263
+#
+# This service runs the LMS, admin dashboard, and video rendering.
+# Netlify continues to serve the public marketing site.
+# Both deployments share the same Supabase database and storage.
+
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile.railway"
+
+[deploy]
+startCommand = "node server.js"
+healthcheckPath = "/api/health"
+healthcheckTimeout = 30
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 3
+
+[[services]]
+name = "lms"

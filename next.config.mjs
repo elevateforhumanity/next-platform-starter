@@ -86,8 +86,9 @@ const nextConfig = {
   generateBuildId: async () => {
     return process.env.COMMIT_REF || process.env.GITHUB_SHA || `build-${Date.now()}`;
   },
-  // Netlify uses 'export' or default, not 'standalone'
-  // output: 'standalone', // Commented out for Netlify compatibility
+  // Railway needs standalone for the persistent Node server.
+  // Netlify breaks with standalone — gate behind RAILWAY env var.
+  ...(process.env.RAILWAY === 'true' ? { output: 'standalone' } : {}),
   // edge-tts@1.0.1 ships index.ts as its entry point (uncompiled TypeScript).
   // transpilePackages tells Next.js to run it through the TypeScript compiler
   // so webpack can parse it. serverExternalPackages does not help here because

@@ -11,6 +11,12 @@ const CONNECTS_DOMAIN = 'elevateconnects.org';
 // LMS subdomain — learn.elevateforhumanity.org → /lms
 const LEARN_SUBDOMAIN = 'learn.elevateforhumanity.org';
 
+// Railway LMS service — handles /lms, /admin, /learner, /api/generate-video
+// Set RAILWAY_LMS_URL in Netlify env vars to the Railway service public URL
+// e.g. https://elevate-lms.up.railway.app
+// When unset, all routes are handled locally (dev + fallback).
+const RAILWAY_LMS_URL = process.env.RAILWAY_LMS_URL ?? '';
+
 
 
 // Supersonic Fast Cash domain - routes to /supersonic-fast-cash paths
@@ -335,6 +341,25 @@ export async function proxy(request: NextRequest) {
   // Dead legacy path — /student-portal/education never existed, redirect to student portal
   if (pathname === '/student-portal/education' || pathname.startsWith('/student-portal/education/')) {
     return NextResponse.redirect(new URL('/student-portal', request.url), 301);
+  }
+
+  // ── Railway LMS proxy ────────────────────────────────────────────────────
+  // When RAILWAY_LMS_URL is set (Netlify production), proxy LMS + admin +
+  // video generation routes to the Railway service.
+  // This keeps Netlify's bundle lean and lets Railway handle heavy workloads.
+  if (RAILWAY_LMS_URL) {
+    const LMS_PREFIXES = ['/lms', '/admin', '/learner', '/api/admin', '/api/generate-video'];
+    if (LMS_PREFIXES.some(prefix => pathname.startsWith(prefix))) {
+      const target = new URL(pathname, RAILWAY_LMS_URL);
+      target.search = request.nextUrl.search;
+      return NextResponse.rewrite(target, {
+        headers: {
+          // Forward the original host so Railway auth guards work correctly
+          'x-forwarded-host': host,
+          'x-forwarded-proto': 'https',
+        },
+      });
+    }
   }
 
   // learn.elevateforhumanity.org → /lms
