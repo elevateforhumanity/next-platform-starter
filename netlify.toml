@@ -40,10 +40,10 @@
   # exceed physical RAM and trigger OOM kills. Set to 4096 so both fit:
   #   Main: ~1.5 GB peak + Worker: ~4 GB peak = ~5.5 GB total.
   # --expose-gc enables gc() call between deferredEntries compile passes.
-  # 4GB per worker × 2 workers = ~8GB peak, within Netlify's build container limit.
-  # 6144 × 5 workers was OOM-killing the build at "Collecting page data".
+  # Single worker to stay within Netlify's ~7GB build container.
+  # Multiple workers × 4GB each was OOM-killing the build at "Collecting page data".
   NODE_OPTIONS = "--max-old-space-size=4096 --max-semi-space-size=32 --expose-gc"
-  NEXT_PRIVATE_WORKERS_PER_JOB = "2"
+  NEXT_PRIVATE_WORKERS_PER_JOB = "1"
   SENTRY_SKIP_AUTO_INSTRUMENTATION = "1"
   NETLIFY_USE_PNPM = "true"
   # Disable secret scanning — NEXT_PUBLIC_* vars are intentionally public
