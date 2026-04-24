@@ -1,58 +1,56 @@
 /**
  * netlify-route-guard.mjs
  *
- * Prebuild check that runs on Netlify only. Fails the build if any Railway-only
- * route directory is found under app/ without a double-underscore prefix
- * (__ prefix = archived/disabled, safe to ignore).
- *
- * Run via netlify.toml build command before `pnpm next build`.
- * No-ops silently outside Netlify (NETLIFY env var not set).
+ * Runs AFTER quarantine, BEFORE `next build` on Netlify.
+ * Hard-fails the build if any Railway-only route is still visible under app/.
  */
 
 import { existsSync } from 'fs';
-import { join } from 'path';
 
 if (!process.env.NETLIFY) {
+  console.log('[route-guard] Not on Netlify — skipping.');
   process.exit(0);
 }
 
-// Must match NETLIFY_ROUTE_BLOCKLIST in next.config.mjs exactly.
-const RAILWAY_ONLY_DIRS = [
-  'lms', 'learner', 'student', 'student-portal', 'my-dashboard', 'dashboard',
-  'onboarding', 'orientation', 'courses', 'course-preview',
-  'admin', 'staff-portal', 'case-manager', 'proctor', 'builder', 'creator',
-  'generate', 'reports', 'approvals',
-  'instructor', 'employer', 'employer-portal', 'partner', 'program-holder',
-  'mentor', 'workforce-board',
-  'api',
-  'account', 'profile', 'settings', 'billing', 'checkout', 'pay', 'payment',
-  'enroll', 'enrollment', 'messages', 'notifications', 'search',
-  'certificates', 'credentials', 'achievements', 'transcript',
-  'advising', 'next-steps', 'sign', 'documents', 'compliance',
-  'apprentice', 'schedule',
-  'supersonic', 'tax', 'pwa', 'videos', 'video', 'demos', 'ai',
-  'ai-chat', 'ai-studio', 'ai-tutor',
+// Must match RAILWAY_DIRS in netlify-quarantine-railway-routes.mjs exactly.
+const MUST_NOT_EXIST = [
+  'app/admin',
+  'app/api',
+  'app/lms',
+  'app/learner',
+  'app/instructor',
+  'app/employer',
+  'app/employer-portal',
+  'app/partner',
+  'app/partner-portal',
+  'app/program-holder',
+  'app/my-dashboard',
+  'app/dashboard',
+  'app/staff-portal',
+  'app/case-manager',
+  'app/builder',
+  'app/creator',
+  'app/onboarding',
+  'app/student',
+  'app/student-portal',
+  'app/messages',
+  'app/billing',
+  'app/checkout',
+  'app/certificates',
+  'app/compliance',
+  'app/supersonic',
+  'app/tax',
+  'app/videos',
+  'app/video',
 ];
 
-let leaked = [];
-
-for (const dir of RAILWAY_ONLY_DIRS) {
-  const path = join('app', dir);
-  if (existsSync(path)) {
-    leaked.push(path);
-  }
-}
+const leaked = MUST_NOT_EXIST.filter(d => existsSync(d));
 
 if (leaked.length > 0) {
-  console.error('\n[netlify-route-guard] ❌ Railway-only routes detected in Netlify build:');
-  leaked.forEach(p => console.error(`  ${p}`));
-  console.error('\nThese routes must not compile on Netlify.');
-  console.error('Either prefix the directory with __ to archive it, or add it to NETLIFY_ROUTE_BLOCKLIST in next.config.mjs.\n');
-  // Exit 0 intentionally — the IgnorePlugin handles exclusion at build time.
-  // This script warns but does not hard-fail, because the directories are
-  // expected to exist (Railway needs them). The guard confirms the blocklist
-  // is in sync with what's on disk.
-  process.exit(0);
+  console.error('\n[route-guard] HARD FAIL — Railway routes still visible to Next.js:');
+  leaked.forEach(d => console.error('  ' + d));
+  console.error('\nAdd them to RAILWAY_DIRS in scripts/netlify-quarantine-railway-routes.mjs\n');
+  process.exit(1);
 }
 
-console.log('[netlify-route-guard] ✅ No Railway route leakage detected.');
+console.log('[route-guard] All Railway routes quarantined. Netlify sees marketing only.');

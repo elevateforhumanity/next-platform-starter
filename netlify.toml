@@ -5,7 +5,7 @@
 [build]
   # libxml2-utils provides xmllint, required for IRS MeF XSD validation.
   # Without it, schema-validator.ts returns XMLLINT_NOT_AVAILABLE and blocks all submissions.
-  command = "corepack enable && pnpm install --no-frozen-lockfile && npx tsx scripts/ci-token-gate.ts && node scripts/netlify-route-guard.mjs && pnpm run build && node scripts/prune-standalone.mjs && node scripts/prune-node-modules.mjs"
+  command = "corepack enable && pnpm install --no-frozen-lockfile && npx tsx scripts/ci-token-gate.ts && node scripts/netlify-quarantine-railway-routes.mjs && node scripts/netlify-route-guard.mjs && pnpm run build && node scripts/prune-standalone.mjs && node scripts/prune-node-modules.mjs"
   # publish is intentionally omitted — @netlify/plugin-nextjs manages the output directory.
   # Setting publish = ".next" causes Turbopack to error: distDirRoot navigates outside projectPath.
   functions = "netlify/functions"
@@ -40,10 +40,10 @@
   # exceed physical RAM and trigger OOM kills. Set to 4096 so both fit:
   #   Main: ~1.5 GB peak + Worker: ~4 GB peak = ~5.5 GB total.
   # --expose-gc enables gc() call between deferredEntries compile passes.
-  # 5120MB heap — webpack compilation peaks at ~3.8GB, needs headroom above that.
-  # 4096MB was too tight (OOM at 3762MB during compilation).
-  # Single worker keeps total RSS within Netlify's ~7GB container limit.
-  NODE_OPTIONS = "--max-old-space-size=5120 --max-semi-space-size=32 --expose-gc"
+  # 4096MB heap. Quarantine removes ~1,400 Railway pages before next build,
+  # so webpack only compiles ~100 marketing pages — well within this limit.
+  # Single worker, no parallelism needed at this page count.
+  NODE_OPTIONS = "--max-old-space-size=4096 --max-semi-space-size=32 --expose-gc"
   NEXT_PRIVATE_WORKERS_PER_JOB = "1"
   SENTRY_SKIP_AUTO_INSTRUMENTATION = "1"
   NETLIFY_USE_PNPM = "true"
