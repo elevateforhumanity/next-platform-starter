@@ -48,7 +48,16 @@ function parseAddress(raw: string): { address: string; city: string; state: stri
 }
 
 export async function getApprovedShops(program?: ProgramKey): Promise<HostShop[]> {
-  const db = await getAdminClient();
+  // Admin client requires SUPABASE_SERVICE_ROLE_KEY — not available at Netlify
+  // build time. Return empty list so static generation succeeds; ISR will
+  // populate real data at runtime.
+  let db: Awaited<ReturnType<typeof getAdminClient>>;
+  try {
+    db = await getAdminClient();
+  } catch {
+    return [];
+  }
+  if (!db) return [];
 
   const [{ data: barberRows }, { data: hostRows }] = await Promise.all([
     db.from('barbershop_partner_applications')

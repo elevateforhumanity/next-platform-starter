@@ -1,3 +1,7 @@
+// Revalidate every 5 minutes — host shop list changes infrequently.
+// dynamic = 'force-dynamic' is intentionally NOT set: we want ISR, not SSR.
+// On Netlify (no SUPABASE_SERVICE_ROLE_KEY at build time), getApprovedShops()
+// returns [] and the page renders with empty state — no build failure.
 export const revalidate = 300;
 
 import type { Metadata } from 'next';
