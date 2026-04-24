@@ -12,9 +12,9 @@ import ToasterClient from '@/components/ui/ToasterClient';
 import { SkipToContent } from '@/components/ui/SkipToContent';
 import { DMCATrackingPixel } from '@/components/InvisibleWatermark';
 import { GoogleAnalytics } from '@/components/analytics/google-analytics';
-import RootWidgets from './RootWidgets';
+import RootWidgets from '@/components/layout/RootWidgets';
 
-import PWAManager from '@/app/components/PWAManager';
+import PWAManager from '@/components/PWAManager';
 
 const inter = { variable: '' };
 

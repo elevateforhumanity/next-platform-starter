@@ -3,7 +3,7 @@
 import React from 'react';
 
 import { useEffect } from 'react';
-import { logSecurityEventAction } from '@/app/actions/security';
+import { logSecurityEventAction } from '@/lib/actions/security';
 
 /**
  * Security Monitor Component

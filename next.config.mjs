@@ -378,8 +378,9 @@ const nextConfig = {
       { source: '/lms/messages/support/new', destination: '/lms/messages', permanent: true },
       { source: '/programs/building-maintenance-tech', destination: '/programs/hvac-technician', permanent: true },
       { source: '/programs/building-services-technician', destination: '/programs/hvac-technician', permanent: true },
-      { source: '/programs/business-financial', destination: '/programs/tax-preparation', permanent: true },
-      { source: '/programs/cpr-first-aid-hsi', destination: '/programs/cpr-first-aid', permanent: true },
+      { source: '/programs/business-financial', destination: '/programs/finance-bookkeeping-accounting', permanent: true },
+      // cpr-first-aid has no page — cpr-first-aid-hsi is the real page
+      { source: '/programs/cpr-first-aid', destination: '/programs/cpr-first-aid-hsi', permanent: true },
       { source: '/programs/direct-support-professional', destination: '/programs/peer-recovery-specialist', permanent: true },
       { source: '/programs/drug-collector', destination: '/drug-testing/training', permanent: true },
       { source: '/programs/esthetician-apprenticeship', destination: '/programs/cosmetology-apprenticeship', permanent: true },
@@ -562,10 +563,11 @@ const nextConfig = {
       { source: '/programs/barber', destination: '/programs/barber-apprenticeship', permanent: true },
       { source: '/programs/beauty', destination: '/programs/barber-apprenticeship', permanent: true },
       // Business
-      // Tax — real page is /programs/tax-preparation
-      { source: '/programs/tax-prep', destination: '/programs/tax-preparation', permanent: true },
+      // Tax programs — no tax page in this repo; send to contact
+      { source: '/programs/tax-preparation', destination: '/contact', permanent: false },
+      { source: '/programs/tax-prep', destination: '/contact', permanent: false },
       { source: '/programs/tax-entrepreneurship', destination: '/programs/entrepreneurship', permanent: true },
-      { source: '/programs/tax-prep-financial-services', destination: '/programs/tax-preparation', permanent: true },
+      { source: '/programs/tax-prep-financial-services', destination: '/contact', permanent: false },
       // Healthcare aliases
       // Human Services
       // Skilled Trades aliases
@@ -577,10 +579,112 @@ const nextConfig = {
 
       // Partner consolidation — /partner-with-us handled by Netlify (Rule A)
       { source: '/partner-application/:path*', destination: '/partners/:path*', permanent: true },
+
+      // Partner onboarding flows — auth-gated Railway pages.
+      // Unauthenticated hits get sent to login; Railway serves the page post-auth.
+      { source: '/partners/barbershop-apprenticeship/forms', destination: '/login?redirect=/partners/barbershop-apprenticeship/forms', permanent: false },
+      { source: '/partners/barbershop-apprenticeship/handbook', destination: '/login?redirect=/partners/barbershop-apprenticeship/handbook', permanent: false },
+      { source: '/partners/barbershop-apprenticeship/sign-mou', destination: '/login?redirect=/partners/barbershop-apprenticeship/sign-mou', permanent: false },
+      { source: '/partners/barbershop-apprenticeship/policy-acknowledgment', destination: '/login?redirect=/partners/barbershop-apprenticeship/policy-acknowledgment', permanent: false },
+      { source: '/partners/cosmetology-apprenticeship/forms', destination: '/login?redirect=/partners/cosmetology-apprenticeship/forms', permanent: false },
+      { source: '/partners/cosmetology-apprenticeship/handbook', destination: '/login?redirect=/partners/cosmetology-apprenticeship/handbook', permanent: false },
+      { source: '/partners/cosmetology-apprenticeship/sign-mou', destination: '/login?redirect=/partners/cosmetology-apprenticeship/sign-mou', permanent: false },
+      { source: '/partners/cosmetology-apprenticeship/policy-acknowledgment', destination: '/login?redirect=/partners/cosmetology-apprenticeship/policy-acknowledgment', permanent: false },
       { source: '/partner-courses/:path*', destination: '/partners/:path*', permanent: true },
       { source: '/partner-playbook/:path*', destination: '/partners/:path*', permanent: true },
 
       // Auth consolidation
+      { source: '/reset-password', destination: '/login', permanent: false },
+
+      // Missing public pages — redirect to closest marketing equivalent
+      { source: '/apply/student', destination: '/apply', permanent: false },
+      { source: '/apply/program-holder', destination: '/apply', permanent: false },
+      { source: '/apply/employer', destination: '/employers', permanent: false },
+      { source: '/for-employers', destination: '/employers', permanent: true },
+      { source: '/for-agencies', destination: '/contact', permanent: false },
+      { source: '/partnerships', destination: '/partners', permanent: true },
+      { source: '/program-holder', destination: '/apply', permanent: false },
+      { source: '/program-holder/:path*', destination: '/login?redirect=/program-holder/:path*', permanent: false },
+      { source: '/cna-waitlist', destination: '/programs', permanent: false },
+      { source: '/credentials/checksheets', destination: '/programs', permanent: false },
+      { source: '/credentials/hvac-standards', destination: '/programs/hvac-technician', permanent: false },
+      { source: '/credentials/:path*', destination: '/programs', permanent: false },
+      { source: '/careers', destination: '/contact', permanent: false },
+      { source: '/donate', destination: '/contact', permanent: false },
+      { source: '/philanthropy', destination: '/contact', permanent: false },
+      { source: '/tuition-fees', destination: '/tuition', permanent: true },
+      { source: '/faq', destination: '/support', permanent: true },
+      { source: '/how-it-works', destination: '/about', permanent: false },
+      { source: '/mission', destination: '/about', permanent: false },
+      { source: '/impact', destination: '/about', permanent: false },
+      { source: '/site-map', destination: '/programs', permanent: false },
+      { source: '/security-and-data-protection', destination: '/privacy-policy', permanent: false },
+      { source: '/consumer-education', destination: '/resources', permanent: false },
+      { source: '/equal-opportunity', destination: '/about', permanent: false },
+      { source: '/federal-compliance', destination: '/disclosures', permanent: false },
+      { source: '/grievance', destination: '/contact', permanent: false },
+      { source: '/satisfactory-academic-progress', destination: '/disclosures', permanent: false },
+      { source: '/policies/:path*', destination: '/disclosures', permanent: false },
+      { source: '/hire-graduates', destination: '/employers', permanent: true },
+      { source: '/apprenticeship-sponsor', destination: '/partners', permanent: false },
+      { source: '/events', destination: '/contact', permanent: false },
+      { source: '/schedule', destination: '/contact', permanent: false },
+      { source: '/orientation/schedule', destination: '/contact', permanent: false },
+      { source: '/onboarding/learner', destination: '/login', permanent: false },
+      { source: '/onboarding/:path*', destination: '/login', permanent: false },
+      { source: '/funding/dol', destination: '/funding', permanent: false },
+      { source: '/funding/federal-programs', destination: '/funding', permanent: false },
+      { source: '/funding/jri', destination: '/funding', permanent: false },
+      { source: '/funding/state-programs', destination: '/funding', permanent: false },
+      { source: '/funding/wrg', destination: '/funding', permanent: false },
+      { source: '/jri', destination: '/funding', permanent: false },
+      { source: '/partners/jri', destination: '/partners', permanent: false },
+      { source: '/partners/reentry', destination: '/partners', permanent: false },
+      { source: '/partners/sales', destination: '/partners', permanent: false },
+      { source: '/partners/technology', destination: '/partners', permanent: false },
+      { source: '/partners/workforce', destination: '/partners', permanent: false },
+      { source: '/fssa-partnership-request', destination: '/contact', permanent: false },
+      { source: '/checkout/:path*', destination: '/apply', permanent: false },
+      { source: '/pay', destination: '/apply', permanent: false },
+      { source: '/enroll', destination: '/apply', permanent: false },
+      { source: '/enroll/:path*', destination: '/apply', permanent: false },
+      { source: '/compliance/:path*', destination: '/disclosures', permanent: false },
+      { source: '/docs/:path*', destination: '/resources', permanent: false },
+      { source: '/videos/:path*', destination: '/resources', permanent: false },
+      { source: '/workone-partner-packet', destination: '/partners', permanent: false },
+      // Railway portal redirects — send to login so Railway handles post-auth
+      { source: '/learner', destination: '/login', permanent: false },
+      { source: '/learner/:path*', destination: '/login', permanent: false },
+      { source: '/dashboard', destination: '/login', permanent: false },
+      { source: '/my-dashboard', destination: '/login', permanent: false },
+      { source: '/instructor/:path*', destination: '/login', permanent: false },
+      { source: '/employer', destination: '/employers', permanent: false },
+      { source: '/employer/:path*', destination: '/login', permanent: false },
+      { source: '/partner/dashboard', destination: '/login', permanent: false },
+      { source: '/partner/:path*', destination: '/login', permanent: false },
+      { source: '/staff-portal/:path*', destination: '/login', permanent: false },
+      { source: '/case-manager/:path*', destination: '/login', permanent: false },
+      { source: '/provider/:path*', destination: '/login', permanent: false },
+      { source: '/approvals', destination: '/login', permanent: false },
+      { source: '/account/:path*', destination: '/login', permanent: false },
+      { source: '/admin/:path*', destination: '/login', permanent: false },
+      { source: '/lms/:path*', destination: '/login', permanent: false },
+      { source: '/program-holder/:path*', destination: '/login', permanent: false },
+      // Missing public pages with no Railway equivalent
+      { source: '/cert/verify', destination: '/verify', permanent: true },
+      { source: '/certiport-exam', destination: '/testing', permanent: false },
+      { source: '/microclasses', destination: '/programs', permanent: false },
+      { source: '/outcomes/indiana', destination: '/about', permanent: false },
+      { source: '/orientation', destination: '/apply', permanent: false },
+      { source: '/help/:path*', destination: '/support', permanent: false },
+      { source: '/compliance', destination: '/disclosures', permanent: false },
+      { source: '/credentials', destination: '/programs', permanent: false },
+      { source: '/enroll', destination: '/apply', permanent: false },
+      { source: '/enroll/:path*', destination: '/apply', permanent: false },
+      { source: '/pay', destination: '/apply', permanent: false },
+      { source: '/checkout/:path*', destination: '/apply', permanent: false },
+      { source: '/schedule', destination: '/contact', permanent: false },
+      { source: '/videos/:path*', destination: '/resources', permanent: false },
 
       // Legal consolidation
       { source: '/privacy', destination: '/privacy-policy', permanent: true },
@@ -602,11 +706,9 @@ const nextConfig = {
       { source: '/forgot-password', destination: '/reset-password', permanent: true },
       { source: '/partners/login', destination: '/partner/login', permanent: true },
 
-      // Tax aliases
-      { source: '/tax-preparation', destination: '/supersonic-fast-cash/services/tax-preparation', permanent: true },
-      { source: '/tax-faq', destination: '/supersonic-fast-cash/support', permanent: true },
-      { source: '/refund-advance', destination: '/supersonic-fast-cash/services/refund-advance', permanent: true },
-      { source: '/tax/upload', destination: '/documents/upload', permanent: true },
+      // Tax / SupersonicFastCash — these belong in a separate repository.
+      // Do not add redirects here that point to /supersonic, /tax, or /supersonic-fast-cash.
+      // Those routes are not compiled in this Netlify marketing deploy.
 
       // Store / platform aliases
       { source: '/store/demo', destination: '/store/demos', permanent: true },

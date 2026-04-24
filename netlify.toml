@@ -5,8 +5,8 @@
 [build]
   # libxml2-utils provides xmllint, required for IRS MeF XSD validation.
   # Without it, schema-validator.ts returns XMLLINT_NOT_AVAILABLE and blocks all submissions.
-  command = "corepack enable && pnpm install --no-frozen-lockfile && npx tsx scripts/ci-token-gate.ts && node scripts/netlify-quarantine-railway-routes.mjs && pnpm run build && node scripts/netlify-route-guard.mjs && node scripts/prune-standalone.mjs && node scripts/prune-node-modules.mjs"
-  # Order: quarantine (removes Railway routes from app/) → build → route guard (inspects .next output).
+  command = "corepack enable && pnpm install --no-frozen-lockfile && npx tsx scripts/ci-token-gate.ts && node scripts/check-netlify-env-size.mjs && node scripts/netlify-quarantine-railway-routes.mjs && node scripts/netlify-quarantine-functions.mjs && pnpm run build && node scripts/netlify-route-guard.mjs && node scripts/check-netlify-public-links.mjs && node scripts/prune-standalone.mjs && node scripts/prune-node-modules.mjs"
+  # Order: env-size → quarantine routes → quarantine functions → build → route guard → public link check → prune.
   # Do not increase heap to hide leakage — fix the quarantine allowlist instead.
   # publish is intentionally omitted — @netlify/plugin-nextjs manages the output directory.
   # Setting publish = ".next" causes Turbopack to error: distDirRoot navigates outside projectPath.
@@ -490,6 +490,29 @@
 
 [functions."cron-school-application-followup"]
   schedule = "0 14 * * *"
+
+# PWA onboarding entry points — redirect to learner dashboard.
+# These are post-enrollment links sent to new apprentices. The /pwa/* sub-pages
+# (e.g. /pwa/barber/onboarding) still work; only the bare index was missing.
+[[redirects]]
+  from = "/pwa/barber"
+  to = "/learner/dashboard"
+  status = 302
+
+[[redirects]]
+  from = "/pwa/cosmetology"
+  to = "/learner/dashboard"
+  status = 302
+
+[[redirects]]
+  from = "/pwa/esthetician"
+  to = "/learner/dashboard"
+  status = 302
+
+[[redirects]]
+  from = "/pwa/nail-tech"
+  to = "/learner/dashboard"
+  status = 302
 
 # DOMAIN REDIRECTS
 # www.elevateforhumanity.org = LMS (this site)
