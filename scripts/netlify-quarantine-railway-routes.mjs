@@ -37,7 +37,7 @@ const ALLOWED_TOP_LEVEL = new Set([
   'eligibility', 'privacy', 'terms', 'accessibility', 'providers',
   'resources', 'funding', 'partners',
   // Auth entry points — static shells that compile cleanly on Netlify
-  'login', 'signup', 'forgot-password',
+  'login', 'signup',
   // Public marketing pages linked from compiled routes (verified to exist in app/)
   'inquiry', 'wioa-eligibility', 'career-services', 'career-training', 'community-services',
   'testimonials', 'verify',
@@ -72,7 +72,7 @@ const FORBIDDEN_SEGMENTS = new Set([
   'schedule', 'videos', 'video', 'ai', 'ai-chat', 'ai-studio', 'ai-tutor',
   'supersonic', 'tax', 'pwa',
   // Auth/app flows — belong to Railway runtime, not Netlify static build
-  'reset-password', 'confirm', 'enrollment-success', 'enrollment', 'orientation', 'training',
+  'reset-password', 'forgot-password', 'confirm', 'enrollment-success', 'enrollment', 'orientation', 'training',
 ]);
 
 async function moveEntry(src, dest) {
