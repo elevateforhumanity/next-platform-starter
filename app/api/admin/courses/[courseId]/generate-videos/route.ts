@@ -114,13 +114,13 @@ export async function POST(
       };
 
       const videoUrl = await processLesson(lessonWithModule as any, profile, tmpDir, {
-        onProgress: (msg) => logger.info(`[${lesson.title}] ${msg}`),
+        onProgress: (msg) => logger.info('[' + lesson.title + '] ' + msg),
       });
 
       await sb.from('course_lessons').update({ video_url: videoUrl }).eq('id', lesson.id);
       results.push({ id: lesson.id, title: lesson.title, video_url: videoUrl });
     } catch (err: any) {
-      logger.error(`Video gen failed for ${lesson.title}:`, err);
+      logger.error('Video gen failed for ' + lesson.title + ':', err);
       results.push({ id: lesson.id, title: lesson.title, error: err.message });
     }
   }
