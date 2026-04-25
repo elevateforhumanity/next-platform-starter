@@ -68,7 +68,7 @@ export const NAV_REGISTRY: NavCategory[] = [
       { label: 'Partner With Us', href: '/partners', description: 'Become a training partner' },
       { label: 'Employers', href: '/employers', description: 'Hire our graduates' },
       { label: 'Training Providers', href: '/training-providers', description: 'Partner as a provider' },
-      { label: 'Workforce Boards', href: '/workforce-partners', description: 'Workforce board partnerships' },
+      { label: 'Workforce Boards', href: '/partners', description: 'Workforce board partnerships' },
       { label: 'License the Platform', href: '/platform', description: 'Deploy our platform' },
       { label: 'Platform Licensing', href: '/platform/licensing', description: 'Licensing options' },
     ],
@@ -88,7 +88,7 @@ export const NAV_REGISTRY: NavCategory[] = [
     label: 'Resources',
     key: 'resources',
     items: [
-      { label: 'Blog', href: '/blog', description: 'Latest news and updates' },
+      { label: 'Blog', href: '/resources', description: 'Latest news and updates' },
       { label: 'Help Center', href: '/help', description: 'Get support' },
       { label: 'Accessibility', href: '/accessibility', description: 'Accessibility statement' },
       { label: 'Privacy Policy', href: '/privacy-policy', description: 'How we protect your data' },
