@@ -12,41 +12,11 @@ export const maxDuration = 60;
 
 export const dynamic = 'force-dynamic';
 
-interface LessonContext {
-  courseId: string;
-  lessonId: string;
-  courseTitle: string;
-  lessonTitle: string;
-  moduleTitle: string;
-  stepType: string;
-  contentSnippet: string;
-}
-
-const BASE_PROMPTS: Record<string, string> = {
+const SYSTEM_PROMPTS: Record<string, string> = {
   chat: `You are an AI tutor for Elevate for Humanity, a workforce development platform in Indianapolis, Indiana. You help students studying for career certifications in healthcare, skilled trades, technology, business, and other fields. Provide clear, accurate, educational responses. Reference Indiana-specific licensing requirements, employers, and resources when relevant. Keep responses focused and practical.`,
   essay: `You are an essay writing assistant for Elevate for Humanity students. Help students improve their writing with constructive feedback, structural suggestions, grammar corrections, and clarity improvements. Be encouraging but honest.`,
   'study-guide': `You are a study guide creator for Elevate for Humanity students preparing for career certification exams. Create comprehensive study materials including key concepts, definitions, practice questions, and exam tips. Structure content clearly with headers and bullet points.`,
 };
-
-function buildSystemPrompt(mode: string, lessonContext: LessonContext | null): string {
-  const base = BASE_PROMPTS[mode] ?? BASE_PROMPTS.chat;
-  if (!lessonContext) return base;
-
-  const contextBlock = [
-    `\n\n--- CURRENT LESSON CONTEXT ---`,
-    `Course: ${lessonContext.courseTitle}`,
-    `Module: ${lessonContext.moduleTitle}`,
-    `Lesson: ${lessonContext.lessonTitle}`,
-    `Type: ${lessonContext.stepType}`,
-    lessonContext.contentSnippet
-      ? `\nLesson content (excerpt):\n${lessonContext.contentSnippet}`
-      : '',
-    `--- END CONTEXT ---`,
-    `\nThe student is currently studying this lesson. Prioritize answering questions about it. When generating practice questions or study guides, base them on this lesson's content.`,
-  ].join('\n');
-
-  return base + contextBlock;
-}
 
 const FALLBACK_RESPONSES: Record<string, string[]> = {
   chat: [
@@ -125,7 +95,7 @@ async function _POST(request: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const { message, conversationId, mode, lessonContext } = await request.json();
+  const { message, conversationId, mode } = await request.json();
 
   if (!message) {
     return NextResponse.json({ error: 'Message required' }, { status: 400 });
@@ -163,7 +133,7 @@ async function _POST(request: NextRequest) {
     // Add user message
     messages.push({ role: 'user', content: message });
 
-    const systemPrompt = buildSystemPrompt(mode as string, lessonContext ?? null);
+    const systemPrompt = SYSTEM_PROMPTS[mode as string] || SYSTEM_PROMPTS.chat;
     let aiContent: string | null = null;
 
     // Try Gemini first (free), fall back to OpenAI

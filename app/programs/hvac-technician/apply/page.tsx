@@ -201,20 +201,20 @@ export default function HvacApplyPage() {
         return;
       }
 
-      // Stripe BNPL (Afterpay/Klarna) — routes through same Stripe Checkout endpoint
-      // with BNPL payment methods enabled on the session
+      // Stripe BNPL (Afterpay/Klarna) — uses same /api/enroll/payment endpoint
+      // Stripe automatically enables BNPL methods when the session amount qualifies
       if (paymentOption === 'stripe-bnpl') {
-        const bnplResponse = await fetch('/api/enrollments/checkout', {
+        const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+        const bnplResponse = await fetch('/api/enroll/payment', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            firstName: formData.firstName,
-            lastName: formData.lastName,
-            email: formData.email,
-            phone: formData.phone,
-            programSlug: 'hvac-technician',
-            fundingSource: 'self_pay',
-            paymentMethod: 'bnpl',
+            amount: PRICING.depositAmount,
+            program: 'hvac',
+            paymentType: 'deposit',
+            description: `HVAC Technician — Deposit via Afterpay/Klarna ($${PRICING.depositAmount})`,
+            successUrl: `${siteUrl}/programs/hvac-technician/apply/success?payment=bnpl`,
+            cancelUrl: `${siteUrl}/programs/hvac-technician/apply`,
           }),
         });
         const bnplData = await bnplResponse.json();
@@ -228,22 +228,27 @@ export default function HvacApplyPage() {
         return;
       }
 
-      // Stripe checkout (full or weekly)
-      const checkoutResponse = await fetch('/api/enrollments/checkout', {
+      // Stripe checkout (full or weekly/deposit)
+      // Uses /api/enroll/payment — no auth required, accepts program slug + amount
+      const isFullPay = paymentOption === 'full';
+      const chargeAmount = isFullPay ? PRICING.fullPrice : PRICING.depositAmount;
+      const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+
+      const checkoutResponse = await fetch('/api/enroll/payment', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          firstName: formData.firstName,
-          lastName: formData.lastName,
-          email: formData.email,
-          phone: formData.phone,
-          programSlug: 'hvac-technician',
+          amount: chargeAmount,
+          program: 'hvac',
+          paymentType: isFullPay ? 'full' : 'deposit',
+          description: `HVAC Technician — ${isFullPay ? 'Full payment' : 'Deposit'} ($${chargeAmount})`,
+          successUrl: `${siteUrl}/programs/hvac-technician/apply/success?payment=stripe`,
+          cancelUrl: `${siteUrl}/programs/hvac-technician/apply`,
         }),
       });
 
       const checkoutData = await checkoutResponse.json();
 
-      // API returns checkoutUrl (not url)
       if (checkoutResponse.ok && (checkoutData.checkoutUrl || checkoutData.url)) {
         window.location.href = checkoutData.checkoutUrl || checkoutData.url;
       } else {

@@ -1,6 +1,9 @@
-import { redirect } from 'next/navigation';
+import { requireRole } from '@/lib/auth/require-role';
+import PageClient from './PageClient';
 
-// Consolidated into /admin/courses/create — all three builders (AI, Blueprint, Manual) live there.
-export default function CourseBuilderPage() {
-  redirect('/admin/courses/create');
+export const dynamic = 'force-dynamic';
+
+export default async function CourseBuilderPage() {
+  await requireRole(['admin', 'super_admin', 'staff']);
+  return <PageClient />;
 }

@@ -106,28 +106,6 @@ export async function publishCourse(formData: FormData) {
   }).eq('id', courseId);
 
   if (error) throw new Error(error.message);
-
-  // Also publish the linked programs row so the course appears on /programs
-  const { data: courseRow } = await db
-    .from('courses')
-    .select('program_id')
-    .eq('id', courseId)
-    .maybeSingle();
-
-  if (courseRow?.program_id) {
-    const { data: prog } = await db
-      .from('programs')
-      .update({ published: true, is_active: true, updated_at: new Date().toISOString() })
-      .eq('id', courseRow.program_id)
-      .select('slug')
-      .maybeSingle();
-
-    if (prog?.slug) {
-      revalidatePath(`/programs/${prog.slug}`);
-      revalidatePath('/programs');
-    }
-  }
-
   revalidatePath(`/admin/courses/${courseId}`);
   revalidatePath('/admin/courses');
 }
