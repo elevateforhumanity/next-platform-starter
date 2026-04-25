@@ -29,8 +29,38 @@ import { PROJECT_MANAGEMENT } from './project-management';
 import { SOFTWARE_DEV } from './software-development';
 import { WEB_DEVELOPMENT } from './web-development';
 import { TAX_PREPARATION } from './tax-preparation';
+import { WELDING } from './welding';
+import { PLUMBING } from './plumbing';
+import { ELECTRICAL } from './electrical';
+import { CDL_TRAINING } from './cdl-training';
+import { MEDICAL_ASSISTANT } from './medical-assistant';
+import { COSMETOLOGY } from './cosmetology-apprenticeship';
+import { CNA } from './cna';
+import { ESTHETICIAN } from './esthetician';
+import { NAIL_TECH } from './nail-technician-apprenticeship';
+import { CULINARY } from './culinary-apprenticeship';
+import { SANITATION } from './sanitation-infection-control';
+import { PEER_RECOVERY } from './peer-recovery-specialist';
+import { HVAC_TECHNICIAN } from './hvac-technician';
+import { BARBER_APPRENTICESHIP } from './barber-apprenticeship';
 
 const STATIC_PROGRAMS: ProgramSchema[] = [
+  // Programs with dedicated page.tsx — registered here for [slug] fallback and sitemap
+  BARBER_APPRENTICESHIP,
+  HVAC_TECHNICIAN,
+  WELDING,
+  PLUMBING,
+  ELECTRICAL,
+  CDL_TRAINING,
+  MEDICAL_ASSISTANT,
+  COSMETOLOGY,
+  CNA,
+  ESTHETICIAN,
+  NAIL_TECH,
+  CULINARY,
+  SANITATION,
+  PEER_RECOVERY,
+  // Programs served via [slug]/page.tsx dynamic renderer
   BEAUTY_CAREER_EDUCATOR,
   BOOKKEEPING,
   BUSINESS_ADMIN,

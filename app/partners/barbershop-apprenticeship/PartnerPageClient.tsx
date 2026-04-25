@@ -235,7 +235,7 @@ export default function PartnerPageClient({ isApproved = false }: Props) {
           </div>
           <div className="grid sm:grid-cols-2 gap-4">
             <Link
-              href="/partners/barbershop-apprenticeship/handbook"
+              href="/login?redirect=/__partners/barbershop-apprenticeship/handbook"
               className="flex items-start gap-4 bg-white rounded-xl border border-slate-200 p-5 hover:border-brand-blue-400 hover:shadow-sm transition group"
             >
               <div className="w-10 h-10 rounded-full bg-brand-blue-100 text-brand-blue-700 flex items-center justify-center flex-shrink-0 font-bold text-lg group-hover:bg-brand-blue-600 group-hover:text-white transition">
@@ -251,7 +251,7 @@ export default function PartnerPageClient({ isApproved = false }: Props) {
             </Link>
 
             <Link
-              href="/partners/barbershop-apprenticeship/policy-acknowledgment"
+              href="/login?redirect=/__partners/barbershop-apprenticeship/policy-acknowledgment"
               className="flex items-start gap-4 bg-white rounded-xl border border-slate-200 p-5 hover:border-brand-blue-400 hover:shadow-sm transition group"
             >
               <div className="w-10 h-10 rounded-full bg-brand-blue-100 text-brand-blue-700 flex items-center justify-center flex-shrink-0 font-bold text-lg group-hover:bg-brand-blue-600 group-hover:text-white transition">
@@ -267,7 +267,7 @@ export default function PartnerPageClient({ isApproved = false }: Props) {
             </Link>
 
             <Link
-              href="/partners/barbershop-apprenticeship/forms"
+              href="/login?redirect=/__partners/barbershop-apprenticeship/forms"
               className="flex items-start gap-4 bg-white rounded-xl border border-slate-200 p-5 hover:border-brand-blue-400 hover:shadow-sm transition group"
             >
               <div className="w-10 h-10 rounded-full bg-brand-blue-100 text-brand-blue-700 flex items-center justify-center flex-shrink-0 font-bold text-lg group-hover:bg-brand-blue-600 group-hover:text-white transition">
@@ -283,7 +283,7 @@ export default function PartnerPageClient({ isApproved = false }: Props) {
             </Link>
 
             <Link
-              href="/partners/barbershop-apprenticeship/sign-mou"
+              href="/login?redirect=/__partners/barbershop-apprenticeship/sign-mou"
               className="flex items-start gap-4 bg-white rounded-xl border border-slate-200 p-5 hover:border-brand-blue-400 hover:shadow-sm transition group"
             >
               <div className="w-10 h-10 rounded-full bg-brand-blue-100 text-brand-blue-700 flex items-center justify-center flex-shrink-0 font-bold text-lg group-hover:bg-brand-blue-600 group-hover:text-white transition">

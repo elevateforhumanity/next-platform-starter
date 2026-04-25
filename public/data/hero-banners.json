@@ -315,7 +315,8 @@
       "Apprenticeship pathway available"
     ],
     "transcript": "Train for NCCER Core Curriculum and OSHA 30 Construction credentials in 12 weeks, building skills in residential wiring, NEC code, load calculations, and conduit bending. Entry-level electrician helpers commonly earn $35,000 to $45,000. WIOA and Next Level Jobs funding available for eligible Indiana residents.",
-    "analyticsName": "electrical"
+    "analyticsName": "electrical",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hvac-hero-final.mp4"
   },
   "welding": {
     "pageKey": "welding",
@@ -342,7 +343,8 @@
       "Welder pay $38K\u2013$62K"
     ],
     "transcript": "Train for AWS D1.1 certification in 10 weeks, building MIG, TIG, and stick welding skills on structural steel. Testing is conducted by a Certified Welding Inspector at an AWS Authorized Test Facility. Welders commonly earn $38,000 to $62,000. WIOA and Next Level Jobs funding available for eligible Indiana residents.",
-    "analyticsName": "welding"
+    "analyticsName": "welding",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hvac-hero-final.mp4"
   },
   "plumbing": {
     "pageKey": "plumbing",
@@ -369,7 +371,8 @@
       "Apprenticeship pathway available"
     ],
     "transcript": "Train for NCCER Core Curriculum and OSHA 10 Construction credentials in 10 weeks, building skills in residential and commercial plumbing systems, pipe fitting, and code compliance. Plumbing helpers commonly earn $36,000 to $52,000. WIOA and Next Level Jobs funding available for eligible Indiana residents.",
-    "analyticsName": "plumbing"
+    "analyticsName": "plumbing",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hvac-hero-final.mp4"
   },
   "diesel-mechanic": {
     "pageKey": "diesel-mechanic",
@@ -800,7 +803,8 @@
       "Professional kitchen training"
     ],
     "transcript": "Earn ServSafe Manager certification through a DOL Registered Culinary Apprenticeship of 2,000 hours in a professional kitchen, building skills in food preparation, kitchen operations, and food safety. Culinary professionals commonly earn $28,000 to $45,000. Wages begin on day one.",
-    "analyticsName": "culinary-apprenticeship"
+    "analyticsName": "culinary-apprenticeship",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero.mp4"
   },
   "esthetician": {
     "pageKey": "esthetician",
@@ -1313,7 +1317,8 @@
       "Enrolled Agent exam prep"
     ],
     "transcript": "Earn IRS PTIN, QuickBooks Certified User, and Enrolled Agent exam preparation through a tiered credential pathway completed in 12 weeks, covering tax preparation, bookkeeping, payroll, and accounting. Finance professionals commonly earn $42,000 to $62,000. WIOA funding available for eligible Indiana residents.",
-    "analyticsName": "finance-bookkeeping-accounting"
+    "analyticsName": "finance-bookkeeping-accounting",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4"
   },
   "peer-recovery-specialist": {
     "pageKey": "peer-recovery-specialist",
@@ -2391,5 +2396,61 @@
     ],
     "transcript": "Start your career training journey at Elevate. Tell us about yourself and we will match you with the right program and funding pathway.",
     "analyticsName": "start"
+  },
+  "esthetician-apprenticeship": {
+    "pageKey": "esthetician-apprenticeship",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero.mp4",
+    "posterImage": "/hero-images/barber-beauty-cat-new.jpg",
+    "microLabel": "DOL Registered Apprenticeship",
+    "credentialLabel": "Indiana Esthetician License",
+    "durationLabel": "1,500 hours",
+    "salaryRangeLabel": "$32,000 to $52,000",
+    "belowHeroHeadline": "Esthetician Apprenticeship \u2014 earn while you train.",
+    "belowHeroSubheadline": "DOL Registered Apprenticeship. Hands-on training at a licensed salon. Graduate with your Indiana Esthetician License and a paying clientele. Wages from day one.",
+    "primaryCta": {
+      "label": "Apply Now",
+      "href": "/apply?program=esthetician-apprenticeship"
+    },
+    "secondaryCta": {
+      "label": "Check Eligibility",
+      "href": "/check-eligibility",
+      "variant": "secondary"
+    },
+    "trustIndicators": [
+      "DOL Registered Apprenticeship",
+      "Earn wages from day one",
+      "Indiana Esthetician License",
+      "Licensed salon training"
+    ],
+    "transcript": "Earn your Indiana Esthetician License through a DOL Registered Apprenticeship of 1,500 hours at a licensed salon, building skills in skincare, facials, waxing, and client services. Estheticians commonly earn $32,000 to $52,000. Wages begin on day one.",
+    "analyticsName": "esthetician-apprenticeship"
+  },
+  "barber": {
+    "pageKey": "barber",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero.mp4",
+    "posterImage": "/hero-images/barber-hero.jpg",
+    "microLabel": "DOL Registered Apprenticeship",
+    "credentialLabel": "Indiana Barber License",
+    "durationLabel": "2,000 hours",
+    "salaryRangeLabel": "$30,000 to $65,000",
+    "belowHeroHeadline": "Barber Apprenticeship \u2014 earn while you train.",
+    "belowHeroSubheadline": "DOL Registered Apprenticeship. Train at a licensed barbershop, earn wages from day one, and graduate with your Indiana Barber License. WIOA and Workforce Ready Grant funding available.",
+    "primaryCta": {
+      "label": "Apply Now",
+      "href": "/programs/barber-apprenticeship/apply"
+    },
+    "secondaryCta": {
+      "label": "Check Eligibility",
+      "href": "/check-eligibility",
+      "variant": "secondary"
+    },
+    "trustIndicators": [
+      "DOL Registered Apprenticeship",
+      "Earn $12\u2013$15/hr while training",
+      "Indiana Barber License",
+      "WIOA funding available"
+    ],
+    "transcript": "Earn your Indiana Barber License through a DOL Registered Apprenticeship of 2,000 hours at a licensed barbershop, building skills in cutting, styling, shaving, and business operations. Barbers commonly earn $30,000 to $65,000. Wages begin on day one. WIOA and Workforce Ready Grant funding available for eligible Indiana residents.",
+    "analyticsName": "barber"
   }
 }

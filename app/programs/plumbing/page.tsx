@@ -1,10 +1,15 @@
-import { requireRole } from '@/lib/auth/require-role';
-import { getEnrollmentCount } from '@/lib/programs/getEnrollmentCount';
-import { PlumbingProgramPageClient } from './PlumbingProgramPageClient';
+import type { Metadata } from 'next';
+import ProgramDetailPage from '@/components/programs/ProgramDetailPage';
+import { PLUMBING } from '@/data/programs/plumbing';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 86400;
 
-export default async function PlumbingProgramPage() {
-  const enrollmentCount = await getEnrollmentCount('plumbing');
-  return <PlumbingProgramPageClient enrollmentCount={enrollmentCount} />;
+export const metadata: Metadata = {
+  title: PLUMBING.metaTitle ?? `${PLUMBING.title} | Elevate for Humanity`,
+  description: PLUMBING.metaDescription ?? PLUMBING.subtitle,
+  alternates: { canonical: '/programs/plumbing' },
+};
+
+export default function Page() {
+  return <ProgramDetailPage program={PLUMBING} />;
 }

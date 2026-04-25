@@ -102,14 +102,14 @@ export default function CosmetologySalonApplyPage() {
             </ol>
           </div>
           <Link
-            href="/login?redirect=/partners/cosmetology-apprenticeship/sign-mou"
+            href="/login?redirect=/__partners/cosmetology-apprenticeship/sign-mou"
             className="inline-flex items-center gap-2 px-6 py-3 bg-purple-600 text-white font-bold rounded-lg hover:bg-purple-700 transition"
           >
             Log In &amp; Sign the MOU <ArrowRight className="w-4 h-4" />
           </Link>
           <p className="text-sm text-slate-500 mt-4">
             Don&apos;t have an account?{' '}
-            <Link href="/signup?redirect=/partners/cosmetology-apprenticeship/sign-mou" className="text-purple-600 hover:underline font-medium">
+            <Link href="/signup?redirect=/__partners/cosmetology-apprenticeship/sign-mou" className="text-purple-600 hover:underline font-medium">
               Create one free
             </Link>
           </p>
@@ -286,7 +286,7 @@ export default function CosmetologySalonApplyPage() {
               <input type="checkbox" className="mt-1 w-4 h-4 accent-purple-600" checked={formData.mouAcknowledged} onChange={e => set('mouAcknowledged', e.target.checked)} />
               <span className="text-sm text-slate-700">
                 I have read and agree to the{' '}
-                <Link href="/partners/cosmetology-apprenticeship/sign-mou" target="_blank" className="text-purple-600 hover:underline font-medium">Memorandum of Understanding</Link>{' '}
+                <Link href="/login?redirect=/__partners/cosmetology-apprenticeship/sign-mou" className="text-purple-600 hover:underline font-medium">Memorandum of Understanding</Link>{' '}
                 for the Cosmetology Apprenticeship Program and understand my responsibilities as a host salon.
               </span>
             </label>

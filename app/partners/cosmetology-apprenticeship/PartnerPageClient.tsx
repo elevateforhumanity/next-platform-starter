@@ -201,7 +201,7 @@ export default function CosmetologyPartnerPageClient({ isApproved = false }: Pro
           </div>
           <div className="grid sm:grid-cols-2 gap-4">
             <Link
-              href="/partners/cosmetology-apprenticeship/handbook"
+              href="/login?redirect=/__partners/cosmetology-apprenticeship/handbook"
               className="flex items-start gap-4 bg-white rounded-xl border border-slate-200 p-5 hover:border-purple-400 hover:shadow-sm transition group"
             >
               <div className="w-10 h-10 rounded-full bg-purple-100 text-purple-700 flex items-center justify-center flex-shrink-0 font-bold text-lg group-hover:bg-purple-600 group-hover:text-white transition">
@@ -217,7 +217,7 @@ export default function CosmetologyPartnerPageClient({ isApproved = false }: Pro
             </Link>
 
             <Link
-              href="/partners/cosmetology-apprenticeship/policy-acknowledgment"
+              href="/login?redirect=/__partners/cosmetology-apprenticeship/policy-acknowledgment"
               className="flex items-start gap-4 bg-white rounded-xl border border-slate-200 p-5 hover:border-purple-400 hover:shadow-sm transition group"
             >
               <div className="w-10 h-10 rounded-full bg-purple-100 text-purple-700 flex items-center justify-center flex-shrink-0 font-bold text-lg group-hover:bg-purple-600 group-hover:text-white transition">
@@ -233,7 +233,7 @@ export default function CosmetologyPartnerPageClient({ isApproved = false }: Pro
             </Link>
 
             <Link
-              href="/partners/cosmetology-apprenticeship/forms"
+              href="/login?redirect=/__partners/cosmetology-apprenticeship/forms"
               className="flex items-start gap-4 bg-white rounded-xl border border-slate-200 p-5 hover:border-purple-400 hover:shadow-sm transition group"
             >
               <div className="w-10 h-10 rounded-full bg-purple-100 text-purple-700 flex items-center justify-center flex-shrink-0 font-bold text-lg group-hover:bg-purple-600 group-hover:text-white transition">
@@ -249,7 +249,7 @@ export default function CosmetologyPartnerPageClient({ isApproved = false }: Pro
             </Link>
 
             <Link
-              href="/partners/cosmetology-apprenticeship/sign-mou"
+              href="/login?redirect=/__partners/cosmetology-apprenticeship/sign-mou"
               className="flex items-start gap-4 bg-white rounded-xl border border-slate-200 p-5 hover:border-purple-400 hover:shadow-sm transition group"
             >
               <div className="w-10 h-10 rounded-full bg-purple-100 text-purple-700 flex items-center justify-center flex-shrink-0 font-bold text-lg group-hover:bg-purple-600 group-hover:text-white transition">
