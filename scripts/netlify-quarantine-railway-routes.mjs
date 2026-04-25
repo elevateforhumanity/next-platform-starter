@@ -36,9 +36,13 @@ const ALLOWED_TOP_LEVEL = new Set([
   'about', 'contact', 'programs', 'apply', 'check-eligibility',
   'eligibility', 'privacy', 'terms', 'accessibility', 'providers',
   'resources', 'funding', 'partners',
-  // Public marketing pages linked from compiled routes
+  // Public marketing pages linked from compiled routes (verified to exist in app/)
   'inquiry', 'wioa-eligibility', 'career-services', 'career-training', 'community-services',
   'testimonials', 'verify',
+  'accreditation', 'alumni', 'apprenticeships', 'cert', 'cna-waitlist', 'cookies',
+  'disclosures', 'employers', 'events', 'faq', 'forms', 'governance', 'legal',
+  'ojt-and-funding', 'pathways', 'privacy-policy', 'refund-policy', 'start',
+  'support', 'terms-of-service', 'verify-credentials',
   'components', 'actions',
 ]);
 
