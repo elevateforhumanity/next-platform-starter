@@ -18,7 +18,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { createAdminClient } from '@/lib/supabase/admin';
+import { getAdminClient } from '@/lib/supabase/admin';
 import { sendEmail } from '@/lib/email/sendgrid';
 import {
   pendingFundingFollowupHtml,
@@ -62,7 +62,10 @@ export async function GET(req: NextRequest) {
     }
   }
 
-  const supabase = createAdminClient();
+  const supabase = await getAdminClient();
+  if (!supabase) {
+    return NextResponse.json({ error: 'Service unavailable' }, { status: 503 });
+  }
   const now = new Date();
   const results: Record<string, { sent: number; flagged: number; errors: number }> = {
     pending_funding: { sent: 0, flagged: 0, errors: 0 },
