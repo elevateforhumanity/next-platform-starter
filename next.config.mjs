@@ -222,6 +222,8 @@ const nextConfig = {
   // Removed staticPageGenerationTimeout - use route segment config instead
   // See: https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config
   outputFileTracingExcludes: {
+    '/api/devstudio/files': ['**/*'],
+    '/api/devstudio/shell': ['**/*'],
     '/api/accreditation/report': ['**/*'],
     // Exclude heavy/dev files from ALL routes to reduce Netlify handler size
     '*': [

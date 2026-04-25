@@ -3,6 +3,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import SitePreviewPanelWrapper from './SitePreviewPanelWrapper';
 import { AdminGreeting } from "@/components/admin/AdminGreeting";
 import {
   ArrowRight, AlertTriangle, CheckCircle2,
@@ -386,6 +387,11 @@ export function DashboardShell({ data }: { data: AdminDashboardData }) {
             </div>
           </div>
         )}
+
+        {/* Live site preview */}
+        <div className="mt-8">
+          <SitePreviewPanelWrapper />
+        </div>
 
       </div>
     </div>

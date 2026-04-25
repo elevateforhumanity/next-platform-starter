@@ -92,6 +92,15 @@ const railwayConfig = {
     'ffmpeg-static',
   ],
 
+  // edge-tts ships uncompiled TypeScript — must transpile before webpack sees it
+  transpilePackages: ['edge-tts'],
+
+  // Prevent Turbopack from tracing the entire repo for fs-heavy devstudio routes
+  outputFileTracingExcludes: {
+    '/api/devstudio/files': ['**/*'],
+    '/api/devstudio/shell': ['**/*'],
+  },
+
   // Skip type checking — already validated on Netlify CI
   typescript: { ignoreBuildErrors: true },
 

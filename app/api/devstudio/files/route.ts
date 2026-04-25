@@ -24,6 +24,7 @@ import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
 
 export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
 
 const ROOT = process.cwd();
 const MAX_FILE_BYTES = 512 * 1024; // 512 KB
