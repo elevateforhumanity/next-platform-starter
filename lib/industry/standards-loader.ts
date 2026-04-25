@@ -151,7 +151,7 @@ async function loadFromCache(
     .from('occupation_standards')
     .select('*')
     .eq('soc_code', socCode)
-    .eq('is_stale', false);
+    .gt('expires_at', new Date().toISOString());
 
   if (!rows || rows.length === 0) return null;
 

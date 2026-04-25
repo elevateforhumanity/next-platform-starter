@@ -42,14 +42,15 @@ CREATE TABLE IF NOT EXISTS public.occupation_standards (
   fetched_at            timestamptz NOT NULL DEFAULT now(),
   expires_at            timestamptz NOT NULL DEFAULT (now() + interval '30 days'),
   fetch_error           text,    -- last error if fetch failed
-  is_stale              boolean GENERATED ALWAYS AS (now() > expires_at) STORED,
+  -- is_stale is computed at query time: (now() > expires_at)
+  -- GENERATED ALWAYS AS is not supported here (now() is not immutable)
 
   UNIQUE (soc_code, source)
 );
 
 -- Index for fast lookup by SOC code
 CREATE INDEX IF NOT EXISTS idx_occupation_standards_soc ON public.occupation_standards (soc_code);
-CREATE INDEX IF NOT EXISTS idx_occupation_standards_stale ON public.occupation_standards (is_stale) WHERE is_stale = true;
+CREATE INDEX IF NOT EXISTS idx_occupation_standards_expires ON public.occupation_standards (expires_at);
 
 -- Compliance domains table — stores credentialing body domain weights
 -- (IC&RC, NAADAC, NHA, NCCER, state boards, etc.)
