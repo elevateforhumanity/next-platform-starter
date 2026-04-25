@@ -16,7 +16,7 @@ import {
   ChevronDown, ChevronRight, Plus, Save, RefreshCw,
   Eye, Edit3, GripVertical, Video, FileText, CheckSquare,
   FlaskConical, BookOpen, Award, Loader2, ExternalLink,
-  PanelLeftClose, PanelLeftOpen,
+  PanelLeftClose, PanelLeftOpen, Sparkles, X,
 } from 'lucide-react';
 
 // ── Types ────────────────────────────────────────────────────────────────────
@@ -95,6 +95,13 @@ export default function LiveCourseBuilder({ courseId, courseTitle, initialModule
   const [editPassingScore, setEditPassingScore] = useState('');
   const [editStatus, setEditStatus] = useState<'draft' | 'published'>('draft');
 
+  // Add module / lesson state
+  const [addingModule, setAddingModule] = useState(false);
+  const [newModuleTitle, setNewModuleTitle] = useState('');
+  const [addingLessonToModule, setAddingLessonToModule] = useState<string | null>(null);
+  const [newLessonTitle, setNewLessonTitle] = useState('');
+  const [quickAddLoading, setQuickAddLoading] = useState(false);
+
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
   // Derived: selected lesson
@@ -134,6 +141,61 @@ export default function LiveCourseBuilder({ courseId, courseTitle, initialModule
     setSelectedLessonId(lessonId);
     setSaveStatus('idle');
   }
+
+  const handleAddModule = async () => {
+    if (!newModuleTitle.trim()) return;
+    setQuickAddLoading(true);
+    try {
+      const res = await fetch('/api/admin/course-builder/quick-add', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: 'module', courseId, title: newModuleTitle.trim() }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.ok) throw new Error(data.error || 'Failed');
+      const newMod: Module = {
+        id: data.module.id,
+        title: data.module.title,
+        slug: data.module.slug,
+        module_order: data.module.module_order,
+        lessons: [],
+      };
+      setModules(prev => [...prev, newMod]);
+      setExpandedModules(prev => new Set([...prev, newMod.id]));
+      setSelectedModuleId(newMod.id);
+      setNewModuleTitle('');
+      setAddingModule(false);
+    } catch (err: any) {
+      alert(`Failed to add module: ${err.message}`);
+    } finally {
+      setQuickAddLoading(false);
+    }
+  };
+
+  const handleAddLesson = async (moduleId: string) => {
+    if (!newLessonTitle.trim()) return;
+    setQuickAddLoading(true);
+    try {
+      const res = await fetch('/api/admin/course-builder/quick-add', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: 'lesson', courseId, moduleId, title: newLessonTitle.trim() }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.ok) throw new Error(data.error || 'Failed');
+      setModules(prev => prev.map(m =>
+        m.id === moduleId ? { ...m, lessons: [...m.lessons, data.lesson] } : m
+      ));
+      setSelectedModuleId(moduleId);
+      setSelectedLessonId(data.lesson.id);
+      setNewLessonTitle('');
+      setAddingLessonToModule(null);
+    } catch (err: any) {
+      alert(`Failed to add lesson: ${err.message}`);
+    } finally {
+      setQuickAddLoading(false);
+    }
+  };
 
   const refreshPreview = useCallback(() => {
     setPreviewKey(k => k + 1);
@@ -211,58 +273,134 @@ export default function LiveCourseBuilder({ courseId, courseTitle, initialModule
           {modules.map((mod, mi) => (
             <div key={mod.id}>
               {/* Module row */}
-              <button
-                onClick={() => toggleModule(mod.id)}
-                className="w-full flex items-center gap-2 px-3 py-2 text-left hover:bg-slate-50 group"
-              >
-                <GripVertical className="w-3.5 h-3.5 text-slate-300 flex-shrink-0 opacity-0 group-hover:opacity-100" />
-                {expandedModules.has(mod.id)
-                  ? <ChevronDown className="w-3.5 h-3.5 text-slate-400 flex-shrink-0" />
-                  : <ChevronRight className="w-3.5 h-3.5 text-slate-400 flex-shrink-0" />
-                }
-                <span className="text-xs font-bold text-slate-600 truncate flex-1">
-                  {mi + 1}. {mod.title}
-                </span>
-                <span className="text-[10px] text-slate-400 flex-shrink-0">{mod.lessons.length}</span>
-              </button>
+              <div className="group flex items-center gap-1 px-3 py-2 hover:bg-slate-50">
+                <button
+                  onClick={() => toggleModule(mod.id)}
+                  className="flex items-center gap-2 flex-1 text-left min-w-0"
+                >
+                  <GripVertical className="w-3.5 h-3.5 text-slate-300 flex-shrink-0 opacity-0 group-hover:opacity-100" />
+                  {expandedModules.has(mod.id)
+                    ? <ChevronDown className="w-3.5 h-3.5 text-slate-400 flex-shrink-0" />
+                    : <ChevronRight className="w-3.5 h-3.5 text-slate-400 flex-shrink-0" />
+                  }
+                  <span className="text-xs font-bold text-slate-600 truncate flex-1">
+                    {mi + 1}. {mod.title}
+                  </span>
+                  <span className="text-[10px] text-slate-400 flex-shrink-0 mr-1">{mod.lessons.length}</span>
+                </button>
+                {/* Add lesson to this module */}
+                <button
+                  onClick={() => { setAddingLessonToModule(mod.id); setNewLessonTitle(''); setExpandedModules(prev => new Set([...prev, mod.id])); }}
+                  className="opacity-0 group-hover:opacity-100 p-1 rounded hover:bg-slate-200 text-slate-400 hover:text-slate-700 flex-shrink-0 transition-opacity"
+                  title="Add lesson"
+                >
+                  <Plus className="w-3 h-3" />
+                </button>
+              </div>
 
               {/* Lesson rows */}
-              {expandedModules.has(mod.id) && mod.lessons.map((les, li) => (
-                <button
-                  key={les.id}
-                  onClick={() => selectLesson(mod.id, les.id)}
-                  className={`w-full flex items-center gap-2 pl-8 pr-3 py-1.5 text-left transition-colors ${
-                    selectedLessonId === les.id
-                      ? 'bg-brand-red-50 border-r-2 border-brand-red-500'
-                      : 'hover:bg-slate-50'
-                  }`}
-                >
-                  <GripVertical className="w-3 h-3 text-slate-200 flex-shrink-0" />
-                  {stepIcon(les.step_type)}
-                  <span className={`text-xs truncate flex-1 ${
-                    selectedLessonId === les.id ? 'text-brand-red-700 font-semibold' : 'text-slate-600'
-                  }`}>
-                    {li + 1}. {les.title}
-                  </span>
-                  {les.status === 'draft' && (
-                    <span className="text-[9px] bg-slate-100 text-slate-400 px-1.5 py-0.5 rounded font-bold flex-shrink-0">
-                      DRAFT
-                    </span>
+              {expandedModules.has(mod.id) && (
+                <>
+                  {mod.lessons.map((les, li) => (
+                    <button
+                      key={les.id}
+                      onClick={() => selectLesson(mod.id, les.id)}
+                      className={`w-full flex items-center gap-2 pl-8 pr-3 py-1.5 text-left transition-colors ${
+                        selectedLessonId === les.id
+                          ? 'bg-brand-red-50 border-r-2 border-brand-red-500'
+                          : 'hover:bg-slate-50'
+                      }`}
+                    >
+                      <GripVertical className="w-3 h-3 text-slate-200 flex-shrink-0" />
+                      {stepIcon(les.step_type)}
+                      <span className={`text-xs truncate flex-1 ${
+                        selectedLessonId === les.id ? 'text-brand-red-700 font-semibold' : 'text-slate-600'
+                      }`}>
+                        {li + 1}. {les.title}
+                      </span>
+                      {les.status === 'draft' && (
+                        <span className="text-[9px] bg-slate-100 text-slate-400 px-1.5 py-0.5 rounded font-bold flex-shrink-0">
+                          DRAFT
+                        </span>
+                      )}
+                    </button>
+                  ))}
+
+                  {/* Inline add-lesson input */}
+                  {addingLessonToModule === mod.id && (
+                    <div className="pl-8 pr-3 py-2 flex items-center gap-1.5">
+                      <input
+                        autoFocus
+                        type="text"
+                        value={newLessonTitle}
+                        onChange={e => setNewLessonTitle(e.target.value)}
+                        onKeyDown={e => {
+                          if (e.key === 'Enter') handleAddLesson(mod.id);
+                          if (e.key === 'Escape') { setAddingLessonToModule(null); setNewLessonTitle(''); }
+                        }}
+                        placeholder="Lesson title…"
+                        className="flex-1 text-xs border border-slate-300 rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-brand-red-400"
+                      />
+                      <button
+                        onClick={() => handleAddLesson(mod.id)}
+                        disabled={quickAddLoading || !newLessonTitle.trim()}
+                        className="p-1 bg-brand-red-600 text-white rounded hover:bg-brand-red-700 disabled:opacity-40"
+                      >
+                        {quickAddLoading ? <Loader2 className="w-3 h-3 animate-spin" /> : <Plus className="w-3 h-3" />}
+                      </button>
+                      <button
+                        onClick={() => { setAddingLessonToModule(null); setNewLessonTitle(''); }}
+                        className="p-1 text-slate-400 hover:text-slate-600"
+                      >
+                        <X className="w-3 h-3" />
+                      </button>
+                    </div>
                   )}
-                </button>
-              ))}
+                </>
+              )}
             </div>
           ))}
+
+          {/* Inline add-module input */}
+          {addingModule && (
+            <div className="px-3 py-2 flex items-center gap-1.5 border-t border-slate-100 mt-1">
+              <input
+                autoFocus
+                type="text"
+                value={newModuleTitle}
+                onChange={e => setNewModuleTitle(e.target.value)}
+                onKeyDown={e => {
+                  if (e.key === 'Enter') handleAddModule();
+                  if (e.key === 'Escape') { setAddingModule(false); setNewModuleTitle(''); }
+                }}
+                placeholder="Module title…"
+                className="flex-1 text-xs border border-slate-300 rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-brand-red-400"
+              />
+              <button
+                onClick={handleAddModule}
+                disabled={quickAddLoading || !newModuleTitle.trim()}
+                className="p-1 bg-brand-red-600 text-white rounded hover:bg-brand-red-700 disabled:opacity-40"
+              >
+                {quickAddLoading ? <Loader2 className="w-3 h-3 animate-spin" /> : <Plus className="w-3 h-3" />}
+              </button>
+              <button
+                onClick={() => { setAddingModule(false); setNewModuleTitle(''); }}
+                className="p-1 text-slate-400 hover:text-slate-600"
+              >
+                <X className="w-3 h-3" />
+              </button>
+            </div>
+          )}
         </div>
 
-        {/* Add lesson button */}
-        <div className="p-3 border-t border-slate-100 flex-shrink-0">
+        {/* Sidebar footer — Add Module */}
+        <div className="p-3 border-t border-slate-100 flex-shrink-0 space-y-2">
           <button
-            onClick={() => window.open(`/admin/curriculum/${courseId}`, '_blank')}
+            onClick={() => { setAddingModule(true); setNewModuleTitle(''); }}
             className="w-full flex items-center justify-center gap-2 text-xs font-semibold text-slate-500 hover:text-slate-700 py-2 rounded-lg hover:bg-slate-50 border border-dashed border-slate-200 transition-colors"
           >
             <Plus className="w-3.5 h-3.5" />
-            Manage in Curriculum Builder
+            Add Module
           </button>
         </div>
       </aside>
@@ -365,6 +503,8 @@ export default function LiveCourseBuilder({ courseId, courseTitle, initialModule
             <div className="flex-1 overflow-y-auto p-6 bg-white">
               <EditPanel
                 lesson={selectedLesson}
+                courseTitle={courseTitle}
+                moduleTitle={selectedModule?.title}
                 title={editTitle} setTitle={setEditTitle}
                 content={editContent} setContent={setEditContent}
                 videoUrl={editVideoUrl} setVideoUrl={setEditVideoUrl}
@@ -395,6 +535,8 @@ export default function LiveCourseBuilder({ courseId, courseTitle, initialModule
           <div className="flex-1 overflow-y-auto p-4">
             <EditPanel
               lesson={selectedLesson}
+              courseTitle={courseTitle}
+              moduleTitle={selectedModule?.title}
               title={editTitle} setTitle={setEditTitle}
               content={editContent} setContent={setEditContent}
               videoUrl={editVideoUrl} setVideoUrl={setEditVideoUrl}
@@ -426,6 +568,8 @@ export default function LiveCourseBuilder({ courseId, courseTitle, initialModule
 
 interface EditPanelProps {
   lesson: Lesson | null;
+  courseTitle: string;
+  moduleTitle?: string;
   title: string; setTitle: (v: string) => void;
   content: string; setContent: (v: string) => void;
   videoUrl: string; setVideoUrl: (v: string) => void;
@@ -439,10 +583,40 @@ interface EditPanelProps {
 }
 
 function EditPanel({
-  lesson, title, setTitle, content, setContent, videoUrl, setVideoUrl,
-  stepType, setStepType, duration, setDuration, passingScore, setPassingScore,
-  status, setStatus, saving, saveStatus, onSave,
+  lesson, courseTitle, moduleTitle, title, setTitle, content, setContent,
+  videoUrl, setVideoUrl, stepType, setStepType, duration, setDuration,
+  passingScore, setPassingScore, status, setStatus, saving, saveStatus, onSave,
 }: EditPanelProps) {
+  const [aiWriting, setAiWriting] = useState(false);
+  const [aiInstruction, setAiInstruction] = useState('');
+  const [showAiInput, setShowAiInput] = useState(false);
+
+  const handleAiWrite = async () => {
+    setAiWriting(true);
+    try {
+      const res = await fetch('/api/admin/course-builder/ai-write', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          lessonTitle: title || lesson?.title,
+          courseTitle,
+          moduleTitle,
+          existingContent: content || undefined,
+          instruction: aiInstruction || undefined,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'AI write failed');
+      setContent(data.content);
+      setShowAiInput(false);
+      setAiInstruction('');
+    } catch (err: any) {
+      alert(`AI write failed: ${err.message}`);
+    } finally {
+      setAiWriting(false);
+    }
+  };
+
   if (!lesson) {
     return (
       <div className="flex flex-col items-center justify-center h-40 text-slate-400 text-sm gap-2">
@@ -499,15 +673,60 @@ function EditPanel({
 
       {/* Content */}
       <div>
-        <label className="block text-xs font-bold text-slate-600 mb-1.5 uppercase tracking-wider flex items-center gap-1.5">
-          <FileText className="w-3.5 h-3.5" /> Content
-        </label>
+        <div className="flex items-center justify-between mb-1.5">
+          <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider flex items-center gap-1.5">
+            <FileText className="w-3.5 h-3.5" /> Content
+          </label>
+          <button
+            onClick={() => setShowAiInput(v => !v)}
+            className="flex items-center gap-1 text-[10px] font-bold text-purple-600 hover:text-purple-800 bg-purple-50 hover:bg-purple-100 px-2 py-1 rounded-md transition-colors"
+          >
+            <Sparkles className="w-3 h-3" />
+            {content ? 'Rewrite with AI' : 'Write with AI'}
+          </button>
+        </div>
+
+        {/* AI instruction input */}
+        {showAiInput && (
+          <div className="mb-2 p-2.5 bg-purple-50 border border-purple-200 rounded-lg space-y-2">
+            <p className="text-[10px] text-purple-700 font-semibold">
+              {content ? 'Rewriting existing content' : 'Generating new content'} for: <em>{title || lesson.title}</em>
+            </p>
+            <input
+              type="text"
+              value={aiInstruction}
+              onChange={e => setAiInstruction(e.target.value)}
+              onKeyDown={e => { if (e.key === 'Enter') handleAiWrite(); if (e.key === 'Escape') setShowAiInput(false); }}
+              placeholder="Optional: any specific focus or instruction…"
+              className="w-full text-xs border border-purple-200 rounded px-2 py-1.5 focus:outline-none focus:ring-1 focus:ring-purple-400 bg-white"
+            />
+            <div className="flex gap-2">
+              <button
+                onClick={handleAiWrite}
+                disabled={aiWriting}
+                className="flex-1 flex items-center justify-center gap-1.5 bg-purple-600 text-white text-xs font-bold py-1.5 rounded-lg hover:bg-purple-700 disabled:opacity-50"
+              >
+                {aiWriting
+                  ? <><Loader2 className="w-3 h-3 animate-spin" /> Writing…</>
+                  : <><Sparkles className="w-3 h-3" /> Generate</>
+                }
+              </button>
+              <button
+                onClick={() => setShowAiInput(false)}
+                className="px-3 text-xs text-slate-500 hover:text-slate-700 border border-slate-200 rounded-lg"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        )}
+
         <textarea
           value={content}
           onChange={e => setContent(e.target.value)}
           rows={8}
           className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-brand-red-400 font-mono resize-y"
-          placeholder="Lesson content (HTML or markdown)..."
+          placeholder="Lesson content (markdown)… or click 'Write with AI' above"
         />
       </div>
 
