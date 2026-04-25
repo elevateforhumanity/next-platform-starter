@@ -148,7 +148,40 @@ export default function LessonManagerClient({ course, initialLessons, courseId }
   };
 
   const totalDuration = lessons.reduce((sum, l) => sum + (l.duration_minutes || 0), 0);
-  const videoCount = lessons.filter(l => l.video_url).length;
+  const videoCount = lessons.filter(l => l.video_url && l.video_url.includes('supabase.co')).length;
+  const missingVideos = lessons.filter(l => !l.video_url || !l.video_url.includes('supabase.co')).length;
+
+  const [generatingVideos, setGeneratingVideos] = useState(false);
+  const [videoGenResult, setVideoGenResult] = useState<string | null>(null);
+
+  const handleGenerateVideos = async (force = false) => {
+    if (!confirm(force
+      ? `Regenerate ALL ${lessons.length} lesson videos? This will take several minutes.`
+      : `Generate videos for ${missingVideos} lessons missing video? This may take several minutes.`
+    )) return;
+    setGeneratingVideos(true);
+    setVideoGenResult(null);
+    try {
+      const res = await fetch(`/api/admin/courses/${courseId}/generate-videos`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ force }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setVideoGenResult(`❌ ${data.error || 'Failed'}`);
+      } else {
+        setVideoGenResult(`✅ Generated ${data.generated} videos${data.failed ? `, ${data.failed} failed` : ''}`);
+        // Refresh lesson list to show updated video_url
+        const { data: updated } = await supabase.from('training_lessons').select('*').eq('course_id', courseId).order('order_index');
+        if (updated) setLessons(updated as any);
+      }
+    } catch (err: any) {
+      setVideoGenResult(`❌ ${err.message}`);
+    } finally {
+      setGeneratingVideos(false);
+    }
+  };
 
   return (
     <>
@@ -160,12 +193,30 @@ export default function LessonManagerClient({ course, initialLessons, courseId }
         </div>
         <div className="flex gap-3">
           <Link href="/admin/course-builder" className="px-4 py-2 border rounded-lg hover:bg-gray-50">Back to Courses</Link>
+          {missingVideos > 0 && (
+            <button
+              onClick={() => handleGenerateVideos(false)}
+              disabled={generatingVideos}
+              className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 flex items-center gap-2 disabled:opacity-50"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.069A1 1 0 0121 8.82v6.36a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+              {generatingVideos ? 'Generating…' : `Generate ${missingVideos} Videos`}
+            </button>
+          )}
           <button onClick={openCreateModal} className="bg-brand-blue-600 text-white px-4 py-2 rounded-lg hover:bg-brand-blue-700 flex items-center gap-2">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
             Add Lesson
           </button>
         </div>
       </div>
+
+      {/* Video generation result */}
+      {videoGenResult && (
+        <div className={`mb-4 p-3 rounded-lg text-sm ${videoGenResult.startsWith('✅') ? 'bg-green-50 text-green-800 border border-green-200' : 'bg-red-50 text-red-800 border border-red-200'}`}>
+          {videoGenResult}
+          <button onClick={() => setVideoGenResult(null)} className="ml-4 opacity-60 hover:opacity-100">✕</button>
+        </div>
+      )}
 
       {/* Error Display */}
       {error && (
