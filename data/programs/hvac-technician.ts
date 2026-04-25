@@ -198,7 +198,7 @@ export const HVAC_TECHNICIAN: ProgramSchema = {
   ],
 
   cta: {
-    applyHref: '/apply/student?program=hvac-technician',
+    applyHref: '/programs/hvac-technician/apply',
     requestInfoHref: '/contact?program=hvac-technician',
   },
 

@@ -226,7 +226,7 @@ export const BARBER_APPRENTICESHIP: ProgramSchema = {
   ],
 
   cta: {
-    applyHref: '/apply?program=barber-apprenticeship',
+    applyHref: '/programs/barber-apprenticeship/apply',
     requestInfoHref: '/programs/barber-apprenticeship/request-info',
     careerConnectHref: 'https://www.indianacareerconnect.com/jobs/search?q=barber&location=Indiana',
     advisorHref: '/contact',

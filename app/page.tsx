@@ -133,7 +133,7 @@ export default function HomePage() {
 
       {/* FULL-WIDTH IMAGE BREAK */}
       <div className="relative h-64 sm:h-80 w-full overflow-hidden">
-        <Image src="/images/pages/graduation-ceremony.jpg" alt="Elevate for Humanity graduation ceremony" fill className="object-cover object-top" sizes="100vw" />
+        <Image src="/images/pages/career-services-hero.jpg" alt="Elevate for Humanity career services" fill className="object-cover object-center" sizes="100vw" />
         <div className="absolute inset-0 bg-slate-900/40 flex items-center justify-center">
           <p className="text-white text-xl sm:text-3xl font-extrabold text-center px-6 drop-shadow-lg">
             Real credentials. Real jobs. Real lives changed.
