@@ -644,14 +644,14 @@
 
 [[redirects]]
   from = "/store/licenses/managed"
-  to = "/admin/licenses"
-  status = 301
+  to = "/programs"
+  status = 302
   force = true
 
 [[redirects]]
   from = "/store/licenses/managed/*"
-  to = "/admin/licenses"
-  status = 301
+  to = "/programs"
+  status = 302
   force = true
 
 [[headers]]
@@ -715,6 +715,19 @@
 # CDN edge so they never reach the Next.js server handler or Lambda functions.
 # Bots and stale bookmarks hitting these get a 302 to the nearest public page.
 # ─────────────────────────────────────────────────────────────────────────────
+
+# Admin — Railway-owned dashboard, never served by Netlify
+[[redirects]]
+  from = "/admin"
+  to = "/login"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/admin/*"
+  to = "/login"
+  status = 302
+  force = true
 
 # PWA — apprentice onboarding app lives in a separate repo
 [[redirects]]
@@ -847,11 +860,8 @@
   force = true
 
 # Backward-compat: /admin/applications/:id → /admin/applications/review/:id
-# Replaces the removed [id] dynamic route that conflicted with [type]
-[[redirects]]
-  from = "/admin/applications/:id"
-  to = "/admin/applications/review/:id"
-  status = 301
+# /admin/applications/:id → /admin/applications/review/:id was here but is
+# unreachable — /admin/* force-redirects to /login above. Removed.
 
 
 

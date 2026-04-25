@@ -405,31 +405,9 @@ const nextConfig = {
       // proxy.ts handles auth; these are pure path consolidation.
       // ============================================
 
-      // Admin login lives at /admin-login (outside /admin layout auth gate)
-      // /admin/login redirects here to avoid the layout auth loop
-      { source: '/admin/login', destination: '/admin-login', permanent: true },
-      { source: '/admin/audits', destination: '/admin/compliance', permanent: true },
-      { source: '/admin/compliance-dashboard', destination: '/admin/compliance', permanent: true },
-      { source: '/admin/course-authoring', destination: '/admin/course-builder', permanent: true },
-      { source: '/admin/course-builder/new', destination: '/admin/course-builder', permanent: true },
-      // All course/program builder variants consolidated into /admin/programs/builder
-      { source: '/admin/course-generator', destination: '/admin/programs/builder', permanent: true },
-      { source: '/admin/course-studio', destination: '/admin/programs/builder', permanent: true },
-      { source: '/admin/course-studio-ai', destination: '/admin/programs/builder', permanent: true },
-      { source: '/admin/course-studio-simple', destination: '/admin/programs/builder', permanent: true },
-      { source: '/admin/courses/builder', destination: '/admin/programs/builder', permanent: true },
-      { source: '/admin/courses/ai-builder', destination: '/admin/programs/builder?tab=ai', permanent: true },
-      { source: '/admin/courses/generate', destination: '/admin/programs/builder?tab=ai', permanent: true },
-      { source: '/admin/program-generator', destination: '/admin/programs/builder', permanent: true },
-      { source: '/ai/course-builder', destination: '/admin/programs/builder', permanent: true },
-      { source: '/builder', destination: '/admin/programs/builder', permanent: true },
-      { source: '/lms/builder', destination: '/admin/programs/builder', permanent: true },
-      { source: '/admin/dashboard-enhanced', destination: '/admin/dashboard', permanent: true },
-      { source: '/admin/enrollment', destination: '/admin/enrollments', permanent: true },
-      { source: '/admin/lms-dashboard', destination: '/admin/dashboard', permanent: true },
-      { source: '/admin/marketplace', destination: '/admin/store', permanent: true },
-      { source: '/admin/master-dashboard', destination: '/admin/dashboard', permanent: true },
-      { source: '/admin/programs/catalog/preview', destination: '/admin/programs', permanent: true },
+      // /admin/* — all admin routes are Railway-owned.
+      // Netlify edge (netlify.toml) force-redirects /admin and /admin/* to /login.
+      // Internal /admin/* → /admin/* path consolidation is handled by Railway's next.config.
 
       // Apprentice
       { source: '/apprentice/dashboard', destination: '/apprentice', permanent: true },
@@ -515,12 +493,11 @@ const nextConfig = {
       },
       // /home → / handled by Netlify (public SEO route, Rule A)
       
-      // Dashboard consolidation - canonical student entry is /student-portal
-      { source: '/student', destination: '/student-portal', permanent: true },
+      // /student, /student/:path*, /learner, /learner/:path*, /lms/:path* →
+      // handled by Netlify edge (netlify.toml [[redirects]] → /login). Removed here to avoid conflict.
       // Exact match first: /portal → portal chooser. Wildcard below catches /portal/anything → /lms/anything.
       { source: '/portal', destination: '/portals', permanent: true },
       { source: '/portal/:path*', destination: '/lms/:path*', permanent: true },
-      { source: '/student/:path*', destination: '/lms/:path*', permanent: true },
       { source: '/students/:path*', destination: '/lms/:path*', permanent: true },
       { source: '/learners/:path*', destination: '/lms/:path*', permanent: true },
       { source: '/program-holder-portal/:path*', destination: '/program-holder/:path*', permanent: true },
@@ -579,6 +556,9 @@ const nextConfig = {
 
       // Partner consolidation — /partner-with-us handled by Netlify (Rule A)
       { source: '/partner-application/:path*', destination: '/partners/:path*', permanent: true },
+
+      // apply/barber — dedicated partner application flow (was a redirect-only page.tsx, moved here)
+      { source: '/apply/barber', destination: '/partners/barbershop-apprenticeship/apply', permanent: true },
 
       // Partner onboarding flows — auth-gated Railway pages.
       // Unauthenticated hits get sent to login; Railway serves the page post-auth.
@@ -644,7 +624,6 @@ const nextConfig = {
       { source: '/partners/technology', destination: '/partners', permanent: false },
       { source: '/partners/workforce', destination: '/partners', permanent: false },
       { source: '/fssa-partnership-request', destination: '/contact', permanent: false },
-      { source: '/checkout/:path*', destination: '/apply', permanent: false },
       { source: '/pay', destination: '/apply', permanent: false },
       { source: '/enroll', destination: '/apply', permanent: false },
       { source: '/enroll/:path*', destination: '/apply', permanent: false },
@@ -652,23 +631,19 @@ const nextConfig = {
       { source: '/docs/:path*', destination: '/resources', permanent: false },
       { source: '/videos/:path*', destination: '/resources', permanent: false },
       { source: '/workone-partner-packet', destination: '/partners', permanent: false },
-      // Railway portal redirects — send to login so Railway handles post-auth
-      { source: '/learner', destination: '/login', permanent: false },
-      { source: '/learner/:path*', destination: '/login', permanent: false },
+      // Railway portal redirects — handled by Netlify edge (netlify.toml) for:
+      //   /checkout/:path*, /lms/:path*, /learner, /learner/:path*, /student, /student/:path*,
+      //   /instructor/:path*, /staff-portal/:path*, /case-manager/:path*, /partner/dashboard, /partner/dashboard/*
+      // Remaining next.config-only portal redirects (no netlify.toml equivalent):
       { source: '/dashboard', destination: '/login', permanent: false },
       { source: '/my-dashboard', destination: '/login', permanent: false },
-      { source: '/instructor/:path*', destination: '/login', permanent: false },
       { source: '/employer', destination: '/employers', permanent: false },
       { source: '/employer/:path*', destination: '/login', permanent: false },
-      { source: '/partner/dashboard', destination: '/login', permanent: false },
       { source: '/partner/:path*', destination: '/login', permanent: false },
-      { source: '/staff-portal/:path*', destination: '/login', permanent: false },
-      { source: '/case-manager/:path*', destination: '/login', permanent: false },
       { source: '/provider/:path*', destination: '/login', permanent: false },
       { source: '/approvals', destination: '/login', permanent: false },
       { source: '/account/:path*', destination: '/login', permanent: false },
-      { source: '/admin/:path*', destination: '/login', permanent: false },
-      { source: '/lms/:path*', destination: '/login', permanent: false },
+      // /admin/:path* — handled by Netlify edge (netlify.toml force redirect). Removed here.
       { source: '/program-holder/:path*', destination: '/login', permanent: false },
       // Missing public pages with no Railway equivalent
       { source: '/cert/verify', destination: '/verify', permanent: true },
@@ -679,12 +654,7 @@ const nextConfig = {
       { source: '/help/:path*', destination: '/support', permanent: false },
       { source: '/compliance', destination: '/disclosures', permanent: false },
       { source: '/credentials', destination: '/programs', permanent: false },
-      { source: '/enroll', destination: '/apply', permanent: false },
-      { source: '/enroll/:path*', destination: '/apply', permanent: false },
-      { source: '/pay', destination: '/apply', permanent: false },
-      { source: '/checkout/:path*', destination: '/apply', permanent: false },
       { source: '/schedule', destination: '/contact', permanent: false },
-      { source: '/videos/:path*', destination: '/resources', permanent: false },
 
       // Legal consolidation
       { source: '/privacy', destination: '/privacy-policy', permanent: true },
@@ -736,9 +706,8 @@ const nextConfig = {
       { source: '/forums/:path*', destination: '/blog', permanent: true },
       // /alumni/page.tsx exists (182 lines) — do not redirect away from it
       // { source: '/alumni/:path*', destination: '/about', permanent: true },
-      { source: '/board/:path*', destination: '/admin/:path*', permanent: true },
+      // /board → /admin and /delegate → /admin are Railway-internal; removed from Netlify.
       { source: '/receptionist/:path*', destination: '/staff-portal/:path*', permanent: true },
-      { source: '/delegate/:path*', destination: '/admin/:path*', permanent: true },
       { source: '/forum/:path*', destination: '/blog', permanent: true },
       // /news/page.tsx exists (137 lines) — do not redirect away from it
       // { source: '/news/:path*', destination: '/blog/:path*', permanent: true },
@@ -809,9 +778,7 @@ const nextConfig = {
       { source: '/for-workforce-boards', destination: '/workforce-board', permanent: true },
       { source: '/get-started', destination: '/start', permanent: true },
       
-      // Admin route consolidation
-      { source: '/admin/autopilots', destination: '/admin/autopilot', permanent: true },
-      { source: '/admin/analytics-dashboard', destination: '/admin/analytics', permanent: true },
+      // /admin/* consolidation is Railway-internal — handled there, not here.
       
       // /outcomes/indiana is a public page — do not redirect it
       // Other outcomes sub-routes redirect to programs until data exists

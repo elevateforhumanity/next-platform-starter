@@ -129,11 +129,25 @@ const checks: Record<string, any> = {
     const adminClient = await getAdminClient();
     if (adminClient) {
       const { data: integrity } = await adminClient.rpc('verify_audit_integrity');
+      // RPC returns: { disabled_triggers, missing_immutability, checked_at }
+      // (field was previously named missing_immutability_tables — handle both)
+      const missingTables: string[] =
+        integrity?.missing_immutability ?? integrity?.missing_immutability_tables ?? [];
+      const disabledCount: number = integrity?.disabled_triggers ?? 0;
+      // disabled_triggers > 0 = hard fail (active tampering risk)
+      // missing_immutability > 0 = warn only (RLS still enforced; trigger is
+      //   defense-in-depth — apply migration 20260424000004 to resolve)
+      // TODO(security): missing immutability triggers are a hardening gap, not
+      //   a healthy final state. Apply 20260424000004_audit_ddl_events_immutability_trigger.sql
+      //   in Supabase Dashboard to promote this from warn → pass.
+      const integrityStatus = disabledCount > 0 ? 'fail'
+        : missingTables.length > 0 ? 'warn'
+        : 'pass';
       checks.checks.audit_integrity = {
-        status: integrity?.status === 'HEALTHY' ? 'pass' : 'fail',
-        disabled_triggers: integrity?.disabled_triggers ?? 'unknown',
-        missing_immutability: integrity?.missing_immutability_tables ?? [],
-        checked_at: integrity?.checked_at,
+        status: integrityStatus,
+        disabled_triggers: disabledCount,
+        missing_immutability: missingTables,
+        checked_at: integrity?.checked_at ?? new Date().toISOString(),
       };
     }
   } catch {

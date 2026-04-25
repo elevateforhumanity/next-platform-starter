@@ -49,9 +49,15 @@ ENV NEXT_TELEMETRY_DISABLED=1
 # --expose-gc lets Next.js call gc() between page compilations.
 ENV NODE_OPTIONS="--max-old-space-size=7168 --max-semi-space-size=64 --expose-gc"
 
+# SERVICE_ROLE selects which routes to compile:
+#   lms   — LMS, learner, student portals (~79 dirs)
+#   admin — Admin, instructor, staff portals (~76 dirs)
+# Set via Railway service env var. Defaults to 'all' if unset (not recommended).
+ARG SERVICE_ROLE=all
+ENV SERVICE_ROLE=${SERVICE_ROLE}
+
 # Quarantine marketing-only app/ dirs before Next.js route discovery.
-# Same mechanism as Netlify quarantine but inverted — Railway keeps LMS/admin,
-# removes public marketing pages. Cuts compiled pages from ~1500 to ~300.
+# SERVICE_ROLE controls which routes survive — cuts ~1,500 pages to ~200-300.
 RUN node scripts/railway-quarantine-marketing-routes.mjs
 
 # Swap in the Railway-specific Next.js config before building.

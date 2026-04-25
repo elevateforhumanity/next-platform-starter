@@ -58,6 +58,8 @@ const FORBIDDEN_SEGMENTS = new Set([
   'credentials', 'transcript', 'advising', 'documents', 'compliance', 'apprentice',
   'schedule', 'videos', 'video', 'ai', 'ai-chat', 'ai-studio', 'ai-tutor',
   'supersonic', 'tax', 'pwa',
+  // Auth-gated post-enrollment flows — not marketing pages
+  'confirm', 'enrollment-success', 'orientation', 'training',
 ]);
 
 async function moveEntry(src, dest) {

@@ -2,16 +2,15 @@
 export const revalidate = 3600;
 
 import { Metadata } from 'next';
-import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import Logo from '@/components/ui/Logo';
 import ApplyHeroVideo from './ApplyHeroVideo';
+import ApplyProgramRedirect from './ApplyProgramRedirect';
 
 
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { ArrowRight } from 'lucide-react';
-import { resolveProgram } from '@/lib/program-registry';
 
 export const metadata: Metadata = {
   title: 'Apply | Check Eligibility for Funded Training | Elevate for Humanity',
@@ -30,19 +29,10 @@ export default async function ApplyPage({
   const qualified = params.qualified; // 'true' | 'false' | undefined — set by EligibilityScreener
   const rawProgram = (params?.program || params?.pathway || '').trim();
 
-  // With a program param, resolve and redirect to student form
-  if (rawProgram) {
-    const entry = resolveProgram(rawProgram);
-    if (entry) {
-      if (entry.dedicatedApplyPage) {
-        redirect(entry.dedicatedApplyPage);
-      }
-      redirect(`/apply/student?program=${entry.slug}`);
-    }
-  }
-
   return (
     <div className="min-h-screen bg-white">
+      {/* Client-side program redirect — resolves ?program= param without blocking static render */}
+      {rawProgram && <ApplyProgramRedirect program={rawProgram} />}
       {/* Breadcrumbs */}
       <div className="bg-white border-b border-slate-100">
         <div className="max-w-6xl mx-auto px-4 py-3">
