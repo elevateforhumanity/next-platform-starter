@@ -61,7 +61,7 @@ export default async function StudentApplicationPage({
           </h1>
           <p className="text-black text-base sm:text-lg max-w-2xl leading-relaxed">
             This application helps us understand your goals and match you with the right
-            training program. Many programs have funding available through WIOA, WRG, and Job Ready Indy grants.
+            training program. Many programs have funding available through WIOA, WRG, FSSA IMPACT, and Job Ready Indy grants.
           </p>
         </div>
       </section>

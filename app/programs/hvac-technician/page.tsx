@@ -8,7 +8,7 @@ import { getPublishedProgramBySlug, formatTrackCost } from '@/lib/programs/getPr
 import { ProgramComingSoon } from '@/components/programs/ProgramComingSoon';
 import HeroVideo from '@/components/marketing/HeroVideo';
 import heroBanners from '@/content/heroBanners';
-import { EPA608_LEAD_OFFER, EPA608_UPSELL_OFFER, EPA608_ONLINE_PRODUCTS } from '@/lib/testing/providers/epa608-pricing';
+
 
 export const revalidate = 3600; // 1 hour — flat parallel queries are fast enough
 export const maxDuration = 20; // Netlify Pro allows up to 26s; stay under
@@ -402,8 +402,8 @@ export default async function HVACTechnicianPage() {
           <aside className="self-start rounded-2xl border border-slate-200 p-6">
             <h2 className="text-xl font-bold">Enrollment Options</h2>
             <div className="mt-4 space-y-4">
-              {program.program_tracks.length > 0 ? (
-                program.program_tracks.map((track) => (
+              {program.program_tracks.filter(t => t.available).length > 0 ? (
+                program.program_tracks.filter(t => t.available).map((track) => (
                   <div key={track.id} className="rounded-xl border border-slate-200 p-4">
                     <div className="flex items-start justify-between gap-4">
                       <h3 className="font-semibold text-slate-900">{track.title}</h3>
@@ -413,11 +413,6 @@ export default async function HVACTechnicianPage() {
                     </div>
                     {track.description && (
                       <p className="mt-2 text-sm text-black">{track.description}</p>
-                    )}
-                    {!track.available && track.coming_soon_message && (
-                      <p className="mt-3 rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900">
-                        {track.coming_soon_message}
-                      </p>
                     )}
                   </div>
                 ))
@@ -537,111 +532,21 @@ export default async function HVACTechnicianPage() {
       <section className="border-t border-slate-200 bg-white py-14 px-6">
         <div className="mx-auto max-w-5xl">
           <div className="mb-8">
-            <p className="text-xs font-bold uppercase tracking-widest text-orange-600 mb-2">
-              EPA 608 Certification — Online Enrollment
+            <p className="text-xs font-bold uppercase tracking-widest text-brand-orange-600 mb-2">
+              EPA 608 Certification
             </p>
             <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-2">
-              Get Certified Without the Full Program
+              EPA 608 Universal — proctored on-site
             </h2>
             <p className="text-slate-600 max-w-2xl">
-              Already have HVAC experience? Enroll directly in EPA 608 certification online.
-              Includes learner support and scheduling assistance. Study kit provided at no charge.
+              The EPA 608 Universal exam is proctored on-site at our Indianapolis training center as part of the HVAC Technician program. Students who complete the program are prepared and scheduled for the exam before graduation.
             </p>
-          </div>
-
-          {/* Two primary offers side by side */}
-          <div className="grid sm:grid-cols-2 gap-6 mb-8">
-
-            {/* Lead offer — Basic Bundle */}
-            <div className="rounded-2xl border-2 border-orange-500 bg-white shadow-sm overflow-hidden flex flex-col">
-              <div className="bg-orange-600 px-6 py-4 flex items-center justify-between">
-                <h3 className="font-extrabold text-white text-lg">{EPA608_LEAD_OFFER.label}</h3>
-                <span className="bg-white text-orange-700 text-xs font-bold px-2 py-1 rounded-full">Most Popular</span>
-              </div>
-              <div className="px-6 py-5 flex-1 flex flex-col">
-                <p className="text-4xl font-extrabold text-slate-900 mb-1">${EPA608_LEAD_OFFER.retailPrice}</p>
-                <p className="text-slate-500 text-sm mb-4">{EPA608_LEAD_OFFER.description}</p>
-                <ul className="space-y-2 mb-6 flex-1">
-                  {[
-                    'Online exam access via EPATest platform',
-                    'Unlimited vendor-level retakes',
-                    'Free study kit included',
-                    'Scheduling support',
-                    'Learner support throughout',
-                  ].map(item => (
-                    <li key={item} className="flex items-start gap-2 text-sm text-slate-600">
-                      <CheckCircle className="w-4 h-4 text-orange-500 flex-shrink-0 mt-0.5" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-                <Link
-                  href="/testing/book?provider=esco&type=bundle_basic"
-                  className="flex items-center justify-center w-full bg-orange-600 hover:bg-orange-700 text-white font-bold px-4 py-3.5 rounded-xl transition-colors text-sm"
-                >
-                  Enroll Now — ${EPA608_LEAD_OFFER.retailPrice}
-                </Link>
-              </div>
-            </div>
-
-            {/* Upsell — Premium Bundle */}
-            <div className="rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden flex flex-col">
-              <div className="bg-slate-800 px-6 py-4">
-                <h3 className="font-extrabold text-white text-lg">{EPA608_UPSELL_OFFER.label}</h3>
-              </div>
-              <div className="px-6 py-5 flex-1 flex flex-col">
-                <p className="text-4xl font-extrabold text-slate-900 mb-1">${EPA608_UPSELL_OFFER.retailPrice}</p>
-                <p className="text-slate-500 text-sm mb-4">{EPA608_UPSELL_OFFER.description}</p>
-                <ul className="space-y-2 mb-6 flex-1">
-                  {[
-                    'Everything in Basic Enrollment',
-                    '200+ page reference manual included',
-                    'Best for first-time test-takers',
-                  ].map(item => (
-                    <li key={item} className="flex items-start gap-2 text-sm text-slate-600">
-                      <CheckCircle className="w-4 h-4 text-slate-400 flex-shrink-0 mt-0.5" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-                <Link
-                  href="/testing/book?provider=esco&type=bundle_premium"
-                  className="flex items-center justify-center w-full bg-slate-800 hover:bg-slate-900 text-white font-bold px-4 py-3.5 rounded-xl transition-colors text-sm"
-                >
-                  Enroll Now — ${EPA608_UPSELL_OFFER.retailPrice}
-                </Link>
-              </div>
+            <div className="mt-6">
+              <Link href="/programs/hvac-technician/apply" className="inline-block bg-brand-orange-600 hover:bg-brand-orange-700 text-white font-bold px-7 py-3.5 rounded-lg transition-colors text-sm">
+                Apply to the HVAC Program
+              </Link>
             </div>
           </div>
-
-          {/* A la carte options — secondary, collapsed visually */}
-          <details className="bg-slate-50 rounded-xl border border-slate-200 overflow-hidden">
-            <summary className="px-6 py-4 cursor-pointer text-sm font-semibold text-slate-700 hover:bg-slate-100 transition-colors list-none flex items-center justify-between">
-              <span>Individual options (exam only, paper exam, reference manual)</span>
-              <span className="text-slate-400 text-xs">A la carte</span>
-            </summary>
-            <div className="border-t border-slate-200 divide-y divide-slate-100">
-              {EPA608_ONLINE_PRODUCTS
-                .filter(p => ['online_exam','paper_exam','reference_manual'].includes(p.key))
-                .map(product => (
-                  <div key={product.key} className="flex items-center justify-between px-6 py-4">
-                    <div>
-                      <p className="font-semibold text-slate-800 text-sm">{product.label}</p>
-                      <p className="text-slate-500 text-xs mt-0.5">{product.description}</p>
-                    </div>
-                    <div className="text-right flex-shrink-0 ml-4">
-                      <p className="font-extrabold text-slate-900">${product.retailPrice}</p>
-                      <Link
-                        href={`/testing/book?provider=esco&type=${product.key}`}
-                        className="text-orange-600 hover:underline text-xs font-semibold"
-                      >
-                        Enroll →
-                      </Link>
-                    </div>
-                  </div>
-                ))}
-            </div>
-          </details>
         </div>
       </section>
 

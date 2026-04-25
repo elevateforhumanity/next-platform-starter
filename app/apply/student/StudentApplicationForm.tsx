@@ -328,7 +328,7 @@ export default function StudentApplicationForm({ initialProgram = '' }: { initia
             <p className="text-sm text-amber-700 leading-relaxed">
               Enrollment is not finalized until payment is received or funding is verified.
               If you plan to use <strong>WIOA, WorkOne, EmployIndy, Workforce Ready Grant,
-              or any state or federal funding</strong>, you must have written approval from
+              FSSA IMPACT, or any state or federal funding</strong>, you must have written approval from
               your funding agency before enrollment can be completed.{' '}
               <a href="https://www.workone.in.gov" target="_blank" rel="noopener noreferrer"
                  className="underline font-semibold">Find your WorkOne office →</a>

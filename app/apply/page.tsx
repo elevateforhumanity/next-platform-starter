@@ -179,6 +179,9 @@ export default async function ApplyPage({
                 <Link href="/funding" className="block text-sm text-brand-blue-600 hover:text-brand-blue-800 hover:underline">
                   <strong>WRG</strong> — Workforce Ready Grant covers high-demand certifications
                 </Link>
+                <Link href="/funding/state-programs" className="block text-sm text-brand-blue-600 hover:text-brand-blue-800 hover:underline">
+                  <strong>FSSA IMPACT</strong> — Indiana Family and Social Services covers SNAP/TANF participants
+                </Link>
               </div>
               <Link href="/employer" className="inline-flex items-center gap-2 bg-brand-blue-600 text-white font-semibold px-5 py-2.5 rounded-lg text-sm hover:bg-brand-blue-700 transition-colors">
                 Partner With Us <ArrowRight className="w-4 h-4" />
@@ -228,7 +231,7 @@ export default async function ApplyPage({
                 image: '/images/pages/apply-page-1.jpg',
                 alt: 'Funding assistance',
                 title: 'Funding & Grants',
-                desc: 'WIOA covers tuition, books, and supplies for qualifying adults and dislocated workers. WRG (Workforce Ready Grant) funds high-demand certifications in Indiana. Job Ready Indy supports individuals with justice involvement.',
+                desc: 'WIOA covers tuition, books, and supplies for qualifying adults and dislocated workers. WRG (Workforce Ready Grant) funds high-demand certifications in Indiana. FSSA IMPACT covers SNAP and TANF participants. Job Ready Indy supports individuals with justice involvement.',
                 link: '/funding',
                 linkLabel: 'View Funding Options',
               },
