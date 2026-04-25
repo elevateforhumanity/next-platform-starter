@@ -36,6 +36,8 @@ const ALLOWED_TOP_LEVEL = new Set([
   'about', 'contact', 'programs', 'apply', 'check-eligibility',
   'eligibility', 'privacy', 'terms', 'accessibility', 'providers',
   'resources', 'funding', 'partners',
+  // Public marketing pages linked from compiled routes
+  'inquiry', 'wioa-eligibility', 'career-services', 'career-training', 'community-services',
   'components', 'actions',
 ]);
 
