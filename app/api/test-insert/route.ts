@@ -5,8 +5,11 @@ export const maxDuration = 60;
 
 import { NextResponse } from 'next/server';
 import { getAdminClient } from '@/lib/supabase/admin';
+import { apiRequireAdmin } from '@/lib/admin/guards';
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const auth = await apiRequireAdmin(request);
+  if (auth.error) return auth.error;
   return NextResponse.json({
     message: 'Use POST to test insert',
     example: {

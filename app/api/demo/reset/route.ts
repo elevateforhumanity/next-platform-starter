@@ -1,3 +1,4 @@
+import { NextRequest } from 'next/server';
 import { logger } from '@/lib/logger';
 /**
  * Demo Reset API
@@ -11,6 +12,7 @@ import { applyRateLimit } from '@/lib/api/withRateLimit';
 
 import { auditMutation } from '@/lib/api/withAudit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
+import { apiRequireAdmin } from '@/lib/admin/guards';
 
 export const dynamic = 'force-dynamic';
 

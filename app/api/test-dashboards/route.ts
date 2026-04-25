@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { apiRequireAdmin } from '@/lib/admin/guards';
 
 export const runtime = 'edge';
 export const maxDuration = 60;
@@ -9,7 +10,9 @@ export const maxDuration = 60;
  *
  * Tests all role-based dashboards and routing
  */
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const auth = await apiRequireAdmin(request);
+  if (auth.error) return auth.error;
   try {
     const results: any = {
       timestamp: new Date().toISOString(),
