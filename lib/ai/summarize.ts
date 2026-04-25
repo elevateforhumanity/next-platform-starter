@@ -19,7 +19,7 @@ export async function summarizeText(text: string, maxLength = 200) {
 
   try {
     const res = await client.chat.completions.create({
-      model: "gpt-4-turbo-preview",
+      model: "gpt-4.1",
       messages: [
         {
           role: "system",

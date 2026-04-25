@@ -158,7 +158,7 @@ export async function compileLesson(args: CompileLessonArgs): Promise<CompiledLe
   const openai = getOpenAIClient();
 
   const response = await openai.chat.completions.create({
-    model: 'gpt-4o',
+    model: 'gpt-4.1',
     messages: [
       { role: 'system', content: LESSON_COMPILER_SYSTEM },
       { role: 'user', content: buildLessonCompilerPrompt(args) },

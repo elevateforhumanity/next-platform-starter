@@ -111,7 +111,7 @@ Keep responses concise but helpful. Use bullet points for clarity when listing i
 
     // Call OpenAI
     const completion = await openai.chat.completions.create({
-      model: 'gpt-4o-mini',
+      model: 'gpt-4.1-mini',
       messages: [
         { role: 'system', content: systemPrompt },
         ...conversationHistory,
@@ -149,7 +149,7 @@ Keep responses concise but helpful. Use bullet points for clarity when listing i
             last_response: aiResponse,
           },
           tokens_used: completion.usage?.total_tokens || 0,
-          model: 'gpt-4o-mini',
+          model: 'gpt-4.1-mini',
         });
       } catch (err) {
           logger.error("Unhandled error", err instanceof Error ? err : undefined);

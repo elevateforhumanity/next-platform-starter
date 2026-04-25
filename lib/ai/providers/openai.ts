@@ -26,7 +26,7 @@ export class OpenAIProvider implements AIProvider, AIImageProvider {
   async chat(options: ChatCompletionOptions): Promise<ChatCompletionResult> {
     const client = this.getClient();
     const res = await client.chat.completions.create({
-      model: options.model || 'gpt-4o-mini',
+      model: options.model || 'gpt-4.1-mini',
       messages: options.messages,
       temperature: options.temperature ?? 0.7,
       max_tokens: options.maxTokens || 2048,

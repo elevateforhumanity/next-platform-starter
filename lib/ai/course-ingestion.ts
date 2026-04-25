@@ -279,7 +279,7 @@ export async function ingestCourse(input: IngestInput): Promise<CourseBlueprint>
   if (input.source_type === 'document') {
     try {
       const classRes = await openai.chat.completions.create({
-        model: 'gpt-4o-mini',
+        model: 'gpt-4.1-mini',
         messages: [{ role: 'user', content: CLASSIFICATION_PROMPT(input.source_text) }],
         temperature: 0,
         max_tokens: 120,
@@ -303,7 +303,7 @@ export async function ingestCourse(input: IngestInput): Promise<CourseBlueprint>
       for (const chunk of chunks.slice(0, 5)) {
         try {
           const sumRes = await openai.chat.completions.create({
-            model: 'gpt-4o-mini',
+            model: 'gpt-4.1-mini',
             messages: [{
               role: 'user',
               content: `Summarize the key topics, structure, and learning content from this section. Preserve all topic names, objectives, and section headings.\n\n${chunk}`,
@@ -327,7 +327,7 @@ export async function ingestCourse(input: IngestInput): Promise<CourseBlueprint>
     ?? 'You are an expert instructional designer and course architect. Output only valid JSON.';
 
   const extractRes = await openai.chat.completions.create({
-    model: 'gpt-4o',
+    model: 'gpt-4.1',
     messages: [
       {
         role: 'system',

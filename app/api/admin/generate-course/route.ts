@@ -218,7 +218,7 @@ export async function POST(request: NextRequest) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'gpt-4o',
+        model: 'gpt-4.1',
         temperature: 0.3,       // low temp = consistent structure
         max_tokens: 16000,
         response_format: { type: 'json_object' },
@@ -270,7 +270,7 @@ export async function POST(request: NextRequest) {
       meta: {
         courseName: body.courseName,
         generatedAt: new Date().toISOString(),
-        model: 'gpt-4o',
+        model: 'gpt-4.1',
         tokensUsed: data.usage?.total_tokens ?? null,
         nextStep: `Save as lib/curriculum/blueprints/${blueprint.id}.ts then run: pnpm tsx scripts/seed-course-from-blueprint.ts --blueprint ${blueprint.id}`,
       },

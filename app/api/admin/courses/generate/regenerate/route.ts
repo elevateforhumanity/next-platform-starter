@@ -63,7 +63,7 @@ Return ONLY a JSON object for a single lesson:
 Minimum 2 quiz questions. Real instructional content only.`;
 
     const completion = await openai.chat.completions.create({
-      model: 'gpt-4o',
+      model: 'gpt-4.1',
       messages: [{ role: 'user', content: prompt }],
       temperature: 0.4,
       max_tokens: 2000,

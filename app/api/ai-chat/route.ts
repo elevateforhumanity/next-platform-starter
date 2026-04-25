@@ -140,7 +140,7 @@ You are the Elevate for Humanity AI Assistant - a warm, helpful guide for prospe
     `.trim();
 
     const payload = {
-      model: "gpt-4o-mini", // Using gpt-4o-mini instead of gpt-5.1-mini
+      model: "gpt-4.1-mini", // Using gpt-4o-mini instead of gpt-5.1-mini
       messages: [
         { role: "system", content: systemPrompt },
         ...messages
@@ -191,7 +191,7 @@ You are the Elevate for Humanity AI Assistant - a warm, helpful guide for prospe
         user_id: user?.id || null,
         user_message: userMessage,
         assistant_response: reply,
-        model: 'gpt-4o-mini',
+        model: 'gpt-4.1-mini',
       }).catch(() => {});
     } catch (err) {
         logger.error("Unhandled error", err instanceof Error ? err : undefined);

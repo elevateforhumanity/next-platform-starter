@@ -260,7 +260,7 @@ function getDefaultConfig(copilotType: string): Record<string, unknown> {
   switch (copilotType) {
     case 'ai_tutor':
       return {
-        model: 'gpt-4',
+        model: 'gpt-4.1',
         temperature: 0.7,
         maxTokens: 2000,
         systemPrompt: 'You are a helpful tutor for vocational training students.',
@@ -269,7 +269,7 @@ function getDefaultConfig(copilotType: string): Record<string, unknown> {
       };
     case 'admin_assistant':
       return {
-        model: 'gpt-4',
+        model: 'gpt-4.1',
         temperature: 0.3,
         maxTokens: 1500,
         systemPrompt: 'You are an administrative assistant for the LMS platform.',
@@ -278,7 +278,7 @@ function getDefaultConfig(copilotType: string): Record<string, unknown> {
       };
     case 'support_bot':
       return {
-        model: 'gpt-3.5-turbo',
+        model: 'gpt-4.1-mini',
         temperature: 0.5,
         maxTokens: 1000,
         systemPrompt: 'You are a support agent helping users with the LMS platform.',

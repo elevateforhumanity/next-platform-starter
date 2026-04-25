@@ -78,7 +78,7 @@ Return ONLY valid JSON, no markdown.`;
 
     const openai = getOpenAI();
     const completion = await openai.chat.completions.create({
-      model: 'gpt-4o',
+      model: 'gpt-4.1',
       messages: [
         { role: 'system', content: 'You are a site configuration generator. Return only valid JSON.' },
         { role: 'user', content: prompt }

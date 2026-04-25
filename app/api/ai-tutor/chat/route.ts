@@ -155,7 +155,7 @@ async function _POST(request: NextRequest) {
           Authorization: `Bearer ${openaiKey}`,
         },
         body: JSON.stringify({
-          model: 'gpt-4-turbo-preview',
+          model: 'gpt-4.1',
           messages: openaiMessages,
           temperature: 0.7,
           max_tokens: 1000,

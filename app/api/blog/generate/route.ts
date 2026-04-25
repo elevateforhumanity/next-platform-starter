@@ -72,7 +72,7 @@ async function _POST(request: NextRequest) {
 
     // Generate blog post using OpenAI
     const completion = await openai.chat.completions.create({
-      model: 'gpt-4',
+      model: 'gpt-4.1',
       messages: [
         {
           role: 'system',
@@ -91,7 +91,7 @@ async function _POST(request: NextRequest) {
 
     // Generate title and excerpt
     const metaCompletion = await openai.chat.completions.create({
-      model: 'gpt-4',
+      model: 'gpt-4.1',
       messages: [
         {
           role: 'system',

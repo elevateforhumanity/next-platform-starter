@@ -230,7 +230,7 @@ export async function generateCourse(opts: CourseGeneratorOptions): Promise<Gene
   try {
     const result = await aiChat({
       messages,
-      model: 'gpt-4o',
+      model: 'gpt-4.1',
       temperature: 0.7,
       maxTokens: 8000,
     });
@@ -256,7 +256,7 @@ export async function generateCourse(opts: CourseGeneratorOptions): Promise<Gene
             content: 'Your response was not valid JSON. Return only the JSON object, no other text.',
           },
         ],
-        model: 'gpt-4o',
+        model: 'gpt-4.1',
         temperature: 0.2,
         maxTokens: 8000,
       });

@@ -103,7 +103,7 @@ export async function lessonToScenes(input: LessonInput): Promise<{
  */
 async function planScenes(input: LessonInput, plainContent: string): Promise<ScenePlan> {
   const res = await getOpenAI().chat.completions.create({
-    model: 'gpt-4o',
+    model: 'gpt-4.1',
     temperature: 0.5,
     max_tokens: 4000,
     messages: [{

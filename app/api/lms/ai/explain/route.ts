@@ -56,7 +56,7 @@ export async function POST(req: NextRequest) {
 
   try {
     const response = await getClient().chat.completions.create({
-      model: 'gpt-4o-mini',
+      model: 'gpt-4.1-mini',
       max_tokens: 800,
       messages: [
         {

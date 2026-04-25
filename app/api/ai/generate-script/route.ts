@@ -50,7 +50,7 @@ Guidelines:
 Write the complete script now:`;
 
     const completion = await openai.chat.completions.create({
-      model: 'gpt-4o',
+      model: 'gpt-4.1',
       messages: [
         {
           role: 'system',

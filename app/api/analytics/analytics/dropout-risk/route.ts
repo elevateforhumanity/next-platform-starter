@@ -103,7 +103,7 @@ ${JSON.stringify(features, null, 2)}
 
   try {
     const completion = await client.chat.completions.create({
-      model: 'gpt-4-turbo-preview',
+      model: 'gpt-4.1',
       messages: [{ role: 'user', content: prompt }],
       temperature: 0.3,
     });

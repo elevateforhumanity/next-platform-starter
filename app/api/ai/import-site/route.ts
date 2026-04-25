@@ -271,7 +271,7 @@ Return ONLY valid JSON.`;
   try {
     const openai = getOpenAI();
     const completion = await openai.chat.completions.create({
-      model: 'gpt-4o',
+      model: 'gpt-4.1',
       messages: [
         { role: 'system', content: 'You are a website migration expert. Return only valid JSON.' },
         { role: 'user', content: prompt }

@@ -37,7 +37,7 @@ ${fileContext || 'No file currently open'}
 Be concise and direct. Provide working code.`;
 
     const response = await getOpenAI().chat.completions.create({
-      model: 'gpt-4o',
+      model: 'gpt-4.1',
       messages: [
         { role: 'system', content: systemPrompt },
         ...messages,

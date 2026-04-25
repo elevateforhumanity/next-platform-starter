@@ -112,7 +112,7 @@ export async function generateLessonScript(input: LessonInput): Promise<LessonSc
     }
 
     const res = await openai.chat.completions.create({
-      model: 'gpt-4o',
+      model: 'gpt-4.1',
       messages,
       temperature: attempt === 0 ? 0.7 : 0.5, // slightly higher temp on first call for variety
       max_tokens: 3000,

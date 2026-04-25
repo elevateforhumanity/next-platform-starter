@@ -41,7 +41,7 @@ async function generateOutline(
   prompt: string,
 ): Promise<Array<{ title: string; sort_order: number; description: string }>> {
   const completion = await openai.chat.completions.create({
-    model: 'gpt-4o',
+    model: 'gpt-4.1',
     messages: [
       {
         role: 'system',
@@ -78,7 +78,7 @@ async function generateLessonContent(
   lessonDescription: string,
 ): Promise<string> {
   const completion = await openai.chat.completions.create({
-    model: 'gpt-4o',
+    model: 'gpt-4.1',
     messages: [
       {
         role: 'system',

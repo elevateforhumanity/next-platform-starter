@@ -64,7 +64,7 @@ async function _POST(req: NextRequest) {
     const finalPrompt = `${basePrompts[mode]}\n\nUser request: ${prompt}\n\nIMPORTANT: Return ONLY valid JSON, no markdown formatting or code blocks.`;
 
     const response = await client.chat.completions.create({
-      model: 'gpt-4-turbo-preview',
+      model: 'gpt-4.1',
       messages: [
         { role: 'system', content: systemPrompt },
         { role: 'user', content: finalPrompt },

@@ -146,7 +146,7 @@ async function _POST(req: NextRequest) {
 
     const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
     const completion = await openai.chat.completions.create({
-      model: 'gpt-4o',
+      model: 'gpt-4.1',
       messages: [
         { role: 'system', content: SYSTEM_PROMPT },
         { role: 'user', content: `Input type: ${input_type || 'syllabus'}\n\n${raw_text.trim()}` },

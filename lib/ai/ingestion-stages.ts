@@ -64,7 +64,7 @@ export function chunkText(text: string, maxChars = CHUNK_SIZE): string[] {
 /** Summarize a single chunk via gpt-4o-mini */
 async function summarizeChunk(openai: ReturnType<typeof getOpenAIClient>, chunk: string): Promise<string> {
   const res = await openai.chat.completions.create({
-    model: 'gpt-4o-mini',
+    model: 'gpt-4.1-mini',
     messages: [{
       role: 'user',
       content: `Summarize the key topics, structure, and learning content from this section. Preserve all topic names, objectives, section headings, and any assessment cues.\n\n${chunk}`,

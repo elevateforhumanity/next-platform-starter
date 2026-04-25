@@ -462,7 +462,7 @@ Be decisive. If the intent is clear, act. If ambiguous, use ask_question to clar
         ];
 
         const response = await getOpenAI().chat.completions.create({
-          model: 'gpt-4o',
+          model: 'gpt-4.1',
           messages,
           tools: TOOLS,
           tool_choice: 'required',

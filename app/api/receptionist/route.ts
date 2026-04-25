@@ -75,7 +75,7 @@ async function _POST(req: Request) {
 
     // Call OpenAI with streaming disabled for faster response
     const completion = await openai.chat.completions.create({
-      model: 'gpt-3.5-turbo', // Fast and cost-effective
+      model: 'gpt-4.1-mini', // Fast and cost-effective
       messages,
       max_tokens: 150, // Keep responses concise
       temperature: 0.7,

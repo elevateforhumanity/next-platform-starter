@@ -15,7 +15,7 @@ export class AzureProvider implements AIProvider, AIImageProvider {
 
   private get endpoint() { return process.env.AZURE_OPENAI_ENDPOINT || ''; }
   private get apiKey() { return process.env.AZURE_OPENAI_API_KEY || ''; }
-  private get deployment() { return process.env.AZURE_OPENAI_DEPLOYMENT || 'gpt-4o-mini'; }
+  private get deployment() { return process.env.AZURE_OPENAI_DEPLOYMENT || 'gpt-4.1-mini'; }
   private get apiVersion() { return process.env.AZURE_OPENAI_API_VERSION || '2024-02-01'; }
 
   isAvailable(): boolean {
