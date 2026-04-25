@@ -211,8 +211,13 @@ export default function TemplateGallery() {
   const [seeding, setSeedingId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [expandedId, setExpandedId] = useState<string | null>(null);
-  const [programId, setProgramId] = useState('');
-  const [showProgramInput, setShowProgramInput] = useState<string | null>(null);
+
+  // Program creation form state — shown instead of UUID input
+  const [showForm, setShowForm] = useState<string | null>(null);
+  const [programName, setProgramName] = useState('');
+  const [programCode, setProgramCode] = useState('');
+  const [fundingEligible, setFundingEligible] = useState(true);
+  const [durationWeeks, setDurationWeeks] = useState('');
 
   const filtered = TEMPLATES.filter(t => {
     const matchCat = category === 'All' || t.category === category;
@@ -220,14 +225,19 @@ export default function TemplateGallery() {
     return matchCat && matchSearch;
   });
 
-  async function handleUseTemplate(template: CourseTemplate) {
-    if (template.isBlueprint && !programId && showProgramInput === template.id) {
-      setError('Enter a Program ID to seed this blueprint');
-      return;
-    }
+  function openForm(template: CourseTemplate) {
+    setShowForm(template.id);
+    setProgramName(template.name);
+    setProgramCode(template.id.toUpperCase().replace(/-/g, '_'));
+    setFundingEligible(template.fundingEligible);
+    setDurationWeeks(String(template.durationWeeks || ''));
+    setError(null);
+  }
 
-    if (template.isBlueprint && showProgramInput !== template.id) {
-      setShowProgramInput(template.id);
+  async function handleUseTemplate(template: CourseTemplate) {
+    // Blueprints: show program creation form first
+    if (template.isBlueprint && showForm !== template.id) {
+      openForm(template);
       return;
     }
 
@@ -236,15 +246,35 @@ export default function TemplateGallery() {
 
     try {
       if (template.isBlueprint && template.blueprintId) {
+        // Step 1: create the program row — get back a real UUID
+        const progRes = await fetch('/api/admin/programs', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            code: programCode || template.id.toUpperCase().replace(/-/g, '_'),
+            title: programName || template.name,
+            funding_eligible: fundingEligible,
+            duration_weeks: durationWeeks ? parseInt(durationWeeks) : template.durationWeeks || null,
+            status: 'draft',
+            category: template.category,
+          }),
+        });
+        const progData = await progRes.json();
+        if (!progRes.ok) throw new Error(progData.error || 'Failed to create program');
+        const programId = progData.data?.id ?? progData.id;
+        if (!programId) throw new Error('Program created but no ID returned');
+
+        // Step 2: seed the course from the blueprint
         const res = await fetch('/api/admin/course-builder/generate-from-blueprint', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ blueprintId: template.blueprintId, programId: programId || undefined }),
+          body: JSON.stringify({ blueprintId: template.blueprintId, programId }),
         });
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || 'Seeding failed');
         router.push(`/admin/course-builder/${data.courseId ?? ''}`);
       } else {
+        // Scaffold: generate a blank course structure
         const res = await fetch('/api/admin/courses/generate', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -330,7 +360,7 @@ export default function TemplateGallery() {
           const Icon = template.icon;
           const isExpanded = expandedId === template.id;
           const isSeeding = seeding === template.id;
-          const needsProgramInput = showProgramInput === template.id;
+          const isShowingForm = showForm === template.id;
 
           return (
             <div
@@ -436,21 +466,54 @@ export default function TemplateGallery() {
                   </div>
                 )}
 
-                {/* Program ID input for blueprints */}
-                {needsProgramInput && (
-                  <div className="mb-3">
-                    <label className="block text-xs font-bold text-slate-600 mb-1">
-                      Program ID <span className="text-slate-400 font-normal">(UUID from programs table)</span>
+                {/* Program creation form — shown instead of UUID input */}
+                {showForm === template.id && (
+                  <div className="mb-3 space-y-2 bg-slate-50 border border-slate-200 rounded-xl p-3">
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">
+                      New Program Details
+                    </p>
+                    <div>
+                      <label className="block text-xs font-semibold text-slate-600 mb-1">Program Name</label>
+                      <input
+                        type="text"
+                        value={programName}
+                        onChange={e => setProgramName(e.target.value)}
+                        className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-red-400"
+                        placeholder="e.g. HVAC Technician"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-slate-600 mb-1">Program Code</label>
+                      <input
+                        type="text"
+                        value={programCode}
+                        onChange={e => setProgramCode(e.target.value.toUpperCase())}
+                        className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-brand-red-400"
+                        placeholder="e.g. HVAC_TECH"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-slate-600 mb-1">Duration (weeks)</label>
+                      <input
+                        type="number"
+                        value={durationWeeks}
+                        onChange={e => setDurationWeeks(e.target.value)}
+                        className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-red-400"
+                        placeholder="e.g. 12"
+                        min={1}
+                      />
+                    </div>
+                    <label className="flex items-center gap-2 text-sm text-slate-700 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={fundingEligible}
+                        onChange={e => setFundingEligible(e.target.checked)}
+                        className="w-4 h-4 rounded"
+                      />
+                      WIOA / WRG funding eligible
                     </label>
-                    <input
-                      type="text"
-                      value={programId}
-                      onChange={e => setProgramId(e.target.value)}
-                      placeholder="e.g. 4226f7f6-fbc1-44b5-83e8-b12ea149e4c7"
-                      className="w-full border border-slate-200 rounded-lg px-3 py-2 text-xs font-mono focus:outline-none focus:ring-2 focus:ring-brand-red-400"
-                    />
-                    <p className="text-[10px] text-slate-400 mt-1">
-                      Leave blank to create without a program link.
+                    <p className="text-[10px] text-slate-400">
+                      A new program record will be created automatically — no UUID needed.
                     </p>
                   </div>
                 )}
@@ -467,18 +530,18 @@ export default function TemplateGallery() {
                     } disabled:opacity-60`}
                   >
                     {isSeeding ? (
-                      <><Loader2 className="w-4 h-4 animate-spin" /> Seeding course...</>
-                    ) : needsProgramInput ? (
-                      <><Play className="w-4 h-4" /> Confirm & Seed</>
+                      <><Loader2 className="w-4 h-4 animate-spin" /> Creating program &amp; seeding course...</>
+                    ) : isShowingForm ? (
+                      <><Play className="w-4 h-4" /> Create Program &amp; Seed Course</>
                     ) : template.isBlueprint ? (
                       <><Zap className="w-4 h-4" /> Seed from Blueprint</>
                     ) : (
                       <><ArrowRight className="w-4 h-4" /> Use Template</>
                     )}
                   </button>
-                  {template.isBlueprint && !needsProgramInput && (
+                  {template.isBlueprint && !isShowingForm && (
                     <p className="text-[10px] text-center text-slate-400 mt-1.5">
-                      Seeds all modules, lessons, quizzes & videos
+                      Creates a program record + seeds all modules, lessons &amp; quizzes
                     </p>
                   )}
                 </div>
