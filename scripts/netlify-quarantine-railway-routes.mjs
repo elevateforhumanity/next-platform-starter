@@ -121,9 +121,9 @@ const FORBIDDEN_SUBPATHS = new Set([
   'policies/wioa',
   'policies/wrg',
   // partners onboarding flows — Railway-only (require auth)
-  'partners/barbershop-apprenticeship/onboarding',
+  // Move the entire (onboarding) route group; do NOT list sub-dirs separately
+  // or the script will try to move them after the parent is already gone.
   'partners/barbershop-apprenticeship/(onboarding)',
-  'partners/cosmetology-apprenticeship/onboarding',
   'partners/cosmetology-apprenticeship/(onboarding)',
   'partners/create-program',
   'partners/jri',
@@ -158,6 +158,10 @@ const FORBIDDEN_SEGMENTS = new Set([
 ]);
 
 async function moveEntry(src, dest) {
+  if (!existsSync(src)) {
+    console.warn(`[quarantine] Skipping missing path: ${src.replace(ROOT + '/', '')}`);
+    return;
+  }
   await mkdir(dirname(dest), { recursive: true });
   try {
     await rename(src, dest);
