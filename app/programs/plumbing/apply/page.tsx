@@ -36,7 +36,7 @@ export default function ApplyPage() {
       email:     (form.elements.namedItem('email')     as HTMLInputElement).value,
       phone:     (form.elements.namedItem('phone')     as HTMLInputElement).value,
       city:      (form.elements.namedItem('city')      as HTMLInputElement).value,
-      programInterest: 'plumbing',
+      program: 'plumbing',
       source: 'student-application',
     };
     try {

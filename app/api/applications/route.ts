@@ -51,7 +51,7 @@ async function _POST(req: Request) {
     ];
 
     // Program is required but can come from different field names
-    const program = body.program || body.programSlug;
+    const program = body.program || body.programSlug || body.programInterest;
     if (!program) {
       return NextResponse.json(
         { error: 'Missing required field: program' },
