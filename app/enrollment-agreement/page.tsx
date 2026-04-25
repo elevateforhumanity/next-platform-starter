@@ -101,7 +101,7 @@ export default function EnrollmentAgreementPage() {
             <li>Attend all scheduled classes and training sessions as required</li>
             <li>Complete all online coursework and assignments by specified deadlines</li>
             <li>Maintain satisfactory academic progress as defined in the <Link href="/satisfactory-academic-progress" className="text-brand-orange-600 hover:underline">SAP Policy</Link></li>
-            <li>Comply with the <Link href="/attendance-policy" className="text-brand-orange-600 hover:underline">Attendance Policy</Link></li>
+            <li>Comply with the <Link href="/policies/attendance" className="text-brand-orange-600 hover:underline">Attendance Policy</Link></li>
             <li>Pay all tuition and fees according to the agreed payment schedule</li>
             <li>Conduct themselves professionally and respectfully</li>
             <li>Notify the School promptly of any changes to contact information</li>

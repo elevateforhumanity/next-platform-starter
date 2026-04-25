@@ -154,7 +154,7 @@ export default function InstructorCredentialsPage() {
       <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
           <Breadcrumbs items={[
-            { label: 'Instructional Framework', href: '/instructional-framework' },
+            { label: 'Instructional Framework', href: '/instructor-credentials' },
             { label: 'Instructor Credentials' },
           ]} />
         </div>
@@ -376,7 +376,7 @@ export default function InstructorCredentialsPage() {
         <div className="max-w-4xl mx-auto px-4">
           <div className="flex flex-wrap gap-3">
             <Link
-              href="/instructional-framework"
+              href="/instructor-credentials"
               className="inline-flex items-center gap-2 px-4 py-2 bg-brand-blue-600 text-white rounded-lg text-sm font-medium hover:bg-brand-blue-700 transition"
             >
               Instructional Framework

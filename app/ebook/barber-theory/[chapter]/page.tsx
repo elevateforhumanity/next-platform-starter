@@ -189,7 +189,7 @@ export default async function BarberEbookChapterPage({
       {/* Top nav — screen only */}
       <div className="print:hidden sticky top-0 z-10 bg-white border-b border-slate-200 px-4 py-3 flex items-center justify-between gap-4">
         <Link
-          href="/ebook/barber-theory"
+          href="/programs/barber-apprenticeship"
           className="flex items-center gap-2 text-sm text-slate-600 hover:text-slate-900 transition-colors"
         >
           ← Table of Contents
@@ -335,7 +335,7 @@ export default async function BarberEbookChapterPage({
             </Link>
           ) : (
             <Link
-              href="/ebook/barber-theory"
+              href="/programs/barber-apprenticeship"
               className="text-sm font-semibold text-slate-500 hover:text-slate-700 transition-colors"
             >
               ← Table of Contents
@@ -351,7 +351,7 @@ export default async function BarberEbookChapterPage({
             </Link>
           ) : (
             <Link
-              href="/ebook/barber-theory"
+              href="/programs/barber-apprenticeship"
               className="text-sm font-semibold text-slate-500 hover:text-slate-700 transition-colors"
             >
               Back to Contents →
