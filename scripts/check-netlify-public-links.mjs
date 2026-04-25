@@ -9,6 +9,14 @@ const MANIFEST_PATH = path.join(ROOT, '.next/server/app-paths-manifest.json');
 // - app/ (post-quarantine, so only marketing pages remain)
 // - shared marketing components used by those pages
 const SCAN_DIRS = ['app', 'components/site', 'components/marketing', 'components/layout'];
+
+// Routes that exist in app/ and are in the quarantine allowlist but may not
+// appear in the manifest on the first build after being allowlisted.
+// These are verified clean pages with no quarantined imports.
+const KNOWN_GOOD_ROUTES = new Set([
+  '/fssa', '/fssa/snap-et', '/fssa/partnership-request',
+  '/enrollment-agreement',
+]);
 const EXTENSIONS = new Set(['.tsx', '.ts', '.jsx', '.js', '.mdx']);
 
 const IGNORE_PREFIXES = [
@@ -176,6 +184,10 @@ function readManifestRoutes() {
       if (clean) compiled.add(clean);
     }
   }
+
+  // Add verified-clean pages that may not appear in the manifest on first
+  // build after being added to the quarantine allowlist.
+  for (const route of KNOWN_GOOD_ROUTES) compiled.add(route);
 
   return compiled;
 }
