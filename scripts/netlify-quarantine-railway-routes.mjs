@@ -40,6 +40,10 @@ const ALLOWED_TOP_LEVEL = new Set([
   'login', 'signup',
   // Testing/credentialing — public marketing pages
   'testing',
+  // Additional public pages found by exhaustive href scan
+  'achievements', 'calendar', 'careers', 'certiport-exam', 'dmca', 'ebook',
+  'enrollment-agreement', 'equal-opportunity', 'ferpa', 'locations', 'next-steps',
+  'platform', 'policies', 'search', 'security', 'training',
   // Public marketing pages linked from compiled routes (verified to exist in app/)
   'inquiry', 'wioa-eligibility', 'career-services', 'career-training', 'community-services',
   'testimonials', 'verify',
