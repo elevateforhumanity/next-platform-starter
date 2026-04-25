@@ -38,6 +38,7 @@ const ALLOWED_TOP_LEVEL = new Set([
   'resources', 'funding', 'partners',
   // Public marketing pages linked from compiled routes
   'inquiry', 'wioa-eligibility', 'career-services', 'career-training', 'community-services',
+  'testimonials', 'verify',
   'components', 'actions',
 ]);
 
