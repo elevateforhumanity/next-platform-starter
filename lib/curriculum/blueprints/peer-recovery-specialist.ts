@@ -5,7 +5,8 @@ export const peerRecoverySpecialistBlueprint: CredentialBlueprint = {
   version: '1.0.0',
   credentialSlug: 'peer-recovery-specialist',
   credentialTitle: 'Indiana Peer Recovery Specialist',
-  credentialCode: 'IN-PRS',
+  credentialCode: 'ICRC-PRS',   // maps to credential_domains table
+  socCode: '21-1093.00',        // O*NET: Social and Human Service Assistants
   state: 'IN',
   programSlug: 'peer-recovery-specialist',
   trackVariants: ['standard'],

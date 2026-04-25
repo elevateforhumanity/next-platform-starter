@@ -294,6 +294,8 @@ export type CredentialBlueprint = {
 
   /** Short credential code for display, e.g. 'EPA-608', 'IN-PRS' */
   credentialCode: string;
+  /** O*NET Standard Occupational Classification code — used for industry standards injection */
+  socCode?: string;
 
   /** Exam track variants this program supports */
   trackVariants: string[];

@@ -4,6 +4,12 @@ import { useState } from 'react';
 import { Sparkles, Layers, PenLine } from 'lucide-react';
 import CourseIngestionWizard from './CourseIngestionWizard';
 import { CourseBuilderPageClient } from '@/app/admin/course-builder/CourseBuilderPageClient';
+import dynamic from 'next/dynamic';
+
+const IndustryStandardsPanel = dynamic(
+  () => import('@/components/admin/IndustryStandardsPanel'),
+  { ssr: false, loading: () => null },
+);
 
 interface Props {
   programs: { id: string; title: string }[];
@@ -67,7 +73,11 @@ export default function CourseBuilderTabs({ programs, complianceProfiles }: Prop
 
       {/* Tab content */}
       {tab === 'ai' && (
-        <CourseIngestionWizard programs={programs} />
+        <div className="space-y-4">
+          {/* Industry standards panel — shown above the wizard so admin sees what data will be injected */}
+          <IndustryStandardsPanel />
+          <CourseIngestionWizard programs={programs} />
+        </div>
       )}
 
       {tab === 'blueprint' && (

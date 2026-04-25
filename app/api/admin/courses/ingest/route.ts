@@ -6,6 +6,9 @@ import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { ingestCourse } from '@/lib/ai/course-ingestion';
 import { saveBlueprintToCanonical } from '@/lib/db/save-blueprint-canonical';
 import { isOpenAIConfigured, getOpenAIClient } from '@/lib/openai-client';
+import { loadIndustryStandards } from '@/lib/industry/standards-loader';
+import { PROGRAM_SOC_CODES } from '@/lib/industry/onet';
+import { buildBlueprintSystemPrompt } from '@/lib/ai/prompts/course-blueprint';
 import {
   SAFE_CHARS, MAX_CHARS,
   summarizeForExtraction,
@@ -124,6 +127,33 @@ async function _POST(request: Request) {
       }
     }
 
+    // Load industry standards for prompt injection.
+    // If program_id is provided, look up its SOC code from the programs table.
+    // Falls back gracefully — standards are optional, not required.
+    let industryStandards = null;
+    try {
+      let socCode: string | null = null;
+      let credentialCode: string | null = body.credential_code ?? null;
+
+      if (program_id) {
+        const db = await getAdminClient();
+        const { data: prog } = await db
+          .from('programs')
+          .select('slug, occupation_code')
+          .eq('id', program_id)
+          .maybeSingle();
+        socCode = prog?.occupation_code ?? PROGRAM_SOC_CODES[prog?.slug ?? ''] ?? null;
+      } else if (body.soc_code) {
+        socCode = body.soc_code;
+      }
+
+      if (socCode) {
+        industryStandards = await loadIndustryStandards(socCode, credentialCode);
+      }
+    } catch {
+      // Standards are best-effort — never block course generation
+    }
+
     // Run the AI pipeline on the (possibly summarized) text.
     // compile_lessons=true triggers the second pass (narration, slides, quiz bank).
     // Skipped on preview_only calls to keep the review screen fast.
@@ -134,6 +164,11 @@ async function _POST(request: Request) {
       program_id: program_id || null,
       certificate_enabled: certificate_enabled ?? true,
       compile_lessons: !preview_only && (compile_lessons !== false),
+      // Pass standards-aware system prompt override
+      systemPromptOverride: industryStandards
+        ? buildBlueprintSystemPrompt(industryStandards)
+        : undefined,
+      industryStandards: industryStandards ?? undefined,
     });
 
     // Merge any large-doc warnings into blueprint warnings
