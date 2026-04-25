@@ -889,40 +889,14 @@
   force = true
 
 # ── Broken link fixes (audit 2026-04-25) ─────────────────────────────────────
-
-[[redirects]]
-  from = "/supersonic-fast-cash"
-  to = "/supersonic"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/supersonic-fast-cash/*"
-  to = "/supersonic"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/legal/terms-of-service"
-  to = "/legal/privacy"
-  status = 301
-  force = true
+# NOTE: supersonic-fast-cash, legal/*, financial-aid, community, store/demo
+# are handled in next.config.mjs redirects array — do NOT duplicate here.
+# Only add Netlify-edge redirects for paths that next.config cannot handle
+# (Railway portal routes, external domains, force-overrides).
 
 [[redirects]]
   from = "/legal/agreements"
   to = "/legal/enrollment-agreement"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/legal/governance/lms"
-  to = "/legal/governance/lms-standards"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/legal/governance/store"
-  to = "/legal/governance/store-payments"
   status = 301
   force = true
 
@@ -945,24 +919,6 @@
   force = true
 
 [[redirects]]
-  from = "/financial-aid"
-  to = "/funding"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/community"
-  to = "/community-services"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/community/*"
-  to = "/community-services"
-  status = 301
-  force = true
-
-[[redirects]]
   from = "/hvac"
   to = "/programs/hvac-technician"
   status = 301
@@ -972,12 +928,6 @@
   from = "/demo/admin"
   to = "/admin/dashboard"
   status = 302
-  force = true
-
-[[redirects]]
-  from = "/store/demo"
-  to = "/store"
-  status = 301
   force = true
 
 [[redirects]]
