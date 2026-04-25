@@ -73,7 +73,7 @@ const footerLinks = {
     { name: 'Check My Eligibility', href: '/start' },
     { name: 'Apply for Training', href: '/apply/student' },
     { name: 'WIOA Funding', href: '/wioa-eligibility' },
-    { name: 'Tuition & Fees', href: '/financial-aid' },
+    { name: 'Tuition & Fees', href: '/funding' },
     { name: 'Schedule Orientation', href: '/orientation' },
     { name: 'Consumer Education', href: '/consumer-education' },
     { name: 'Student Portal', href: '/learner' },

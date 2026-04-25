@@ -627,6 +627,8 @@ const nextConfig = {
       { source: '/pay', destination: '/apply', permanent: false },
       { source: '/enroll', destination: '/apply', permanent: false },
       { source: '/enroll/:path*', destination: '/apply', permanent: false },
+      { source: '/financial-aid', destination: '/funding', permanent: true },
+      { source: '/financial-support', destination: '/funding', permanent: true },
       { source: '/compliance/:path*', destination: '/disclosures', permanent: false },
       { source: '/docs/:path*', destination: '/resources', permanent: false },
       { source: '/videos/:path*', destination: '/resources', permanent: false },

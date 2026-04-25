@@ -59,57 +59,75 @@ const RAILWAY_ONLY_PATTERNS = [
   /^ONBOARDING_/,
 ];
 
-// Netlify Lambda functions only receive vars set in Netlify site/team settings.
-// Build-time system vars (PATH, HOME, NETLIFY_*, BUILD_*, npm_*, etc.) are
-// NOT injected into Lambda at runtime. We audit only user-set vars.
+// Netlify Lambda functions only receive vars explicitly set in Netlify
+// site/team settings. Build-time system vars (PATH, HOME, NETLIFY_*,
+// BUILD_*, npm_*, FEATURE_FLAGS injected by build plugins, etc.) are
+// NOT injected into Lambda at runtime.
 //
-// Strategy: use the Netlify API to get the actual site+team env if
-// NETLIFY_SITE_ID and NETLIFY_AUTH_TOKEN are available. Otherwise fall back
-// to process.env with aggressive system-var filtering.
+// Strategy: fetch the actual site+team env from the Netlify API using
+// credentials that must be set in Netlify site settings.
+
+const NETLIFY_SITE_ID = '0a9378d2-a1d1-4062-9e9a-7be3105044df';
+const NETLIFY_TEAM_ID = '6963287cefd141326e894542';
 
 async function getUserSetEnvEntries() {
-  const siteId = process.env.SITE_ID || process.env.NETLIFY_SITE_ID;
-  const token  = process.env.NETLIFY_AUTH_TOKEN || process.env.NETLIFY_TOKEN;
+  const token = process.env.NETLIFY_AUTH_TOKEN || process.env.NETLIFY_TOKEN;
 
-  if (siteId && token) {
-    // Fetch actual site env from Netlify API — these are the only vars
-    // that get injected into Lambda functions.
+  if (token) {
     try {
-      const res = await fetch(
-        `https://api.netlify.com/api/v1/sites/${siteId}/env?context_name=all&source=ui`,
+      // Fetch site-level env
+      const siteRes = await fetch(
+        `https://api.netlify.com/api/v1/sites/${NETLIFY_SITE_ID}/env?context_name=all&source=ui`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      if (res.ok) {
-        const data = await res.json();
-        if (Array.isArray(data)) {
-          console.log('[env-size] Using Netlify API — auditing actual Lambda env vars.');
-          return data.map(v => ({
-            key: v.key,
-            bytes: Buffer.byteLength(v.values?.[0]?.value ?? '', 'utf8'),
-          })).sort((a, b) => b.bytes - a.bytes);
-        }
+      // Fetch team-level env
+      const teamRes = await fetch(
+        `https://api.netlify.com/api/v1/accounts/${NETLIFY_TEAM_ID}/env?context_name=all&source=ui`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      if (siteRes.ok && teamRes.ok) {
+        const siteVars = await siteRes.json();
+        const teamVars = await teamRes.json();
+        const all = [...(Array.isArray(siteVars) ? siteVars : []),
+                     ...(Array.isArray(teamVars) ? teamVars : [])];
+        // Deduplicate (site overrides team)
+        const seen = new Set();
+        const deduped = all.filter(v => {
+          if (seen.has(v.key)) return false;
+          seen.add(v.key);
+          return true;
+        });
+        console.log(`[env-size] Using Netlify API — ${deduped.length} user-set vars (site + team).`);
+        return deduped.map(v => ({
+          key: v.key,
+          bytes: Buffer.byteLength(v.values?.[0]?.value ?? '', 'utf8'),
+        })).sort((a, b) => b.bytes - a.bytes);
       }
-    } catch (_) { /* fall through to process.env */ }
+    } catch (e) {
+      console.log('[env-size] Netlify API error:', e.message, '— falling back to process.env');
+    }
   }
 
-  // Fallback: filter process.env aggressively to approximate user-set vars.
-  console.log('[env-size] No Netlify API credentials — filtering process.env.');
+  // Fallback: filter process.env to exclude known build-system vars.
+  // FEATURE_FLAGS and similar are injected by Netlify's build system and
+  // are NOT passed to Lambda functions at runtime.
+  console.log('[env-size] No NETLIFY_AUTH_TOKEN — filtering process.env (build-system vars excluded).');
+  const SKIP = new Set([
+    'PATH', 'HOME', 'USER', 'SHELL', 'TERM', 'LANG', 'PWD', 'SHLVL',
+    'HOSTNAME', 'LOGNAME', 'TMPDIR', 'COLORTERM', 'OLDPWD', 'CI',
+    'CONTINUOUS_INTEGRATION', 'NETLIFY', 'NEXT_TELEMETRY_DISABLED',
+    'NEXT_PRIVATE_BUILD_WORKER_COUNT', 'NEXT_PRIVATE_WORKERS_PER_JOB',
+    'FEATURE_FLAGS',   // Netlify build plugin — not a Lambda secret
+    'SECRETS_SCAN_ENABLED', 'SECRETS_SCAN_OMIT_KEYS',
+    'PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD', 'PUPPETEER_SKIP_DOWNLOAD',
+    'ENABLE_ADMIN_DEVTOOLS', 'NHA_ACCOUNT_NUMBER', 'NHA_PORTAL_URL',
+    'NETLIFY_USE_PNPM', 'SENTRY_SKIP_AUTO_INSTRUMENTATION',
+  ]);
   return Object.entries(process.env)
     .filter(([key]) => {
       if (KNOWN_LARGE.has(key)) return false;
       if (SYSTEM_PREFIXES.some(p => key.startsWith(p))) return false;
-      // Well-known OS / build system vars never injected into Lambda
-      const SKIP = new Set([
-        'PATH', 'HOME', 'USER', 'SHELL', 'TERM', 'LANG', 'PWD', 'SHLVL',
-        'HOSTNAME', 'LOGNAME', 'TMPDIR', 'COLORTERM', 'OLDPWD', 'CI',
-        'CONTINUOUS_INTEGRATION', 'NETLIFY', 'NEXT_TELEMETRY_DISABLED',
-        'NEXT_PRIVATE_BUILD_WORKER_COUNT', 'NEXT_PRIVATE_WORKERS_PER_JOB',
-        'SENTRY_SKIP_AUTO_INSTRUMENTATION', 'NETLIFY_USE_PNPM',
-        'SECRETS_SCAN_ENABLED', 'SECRETS_SCAN_OMIT_KEYS',
-        'PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD', 'PUPPETEER_SKIP_DOWNLOAD',
-        'ENABLE_ADMIN_DEVTOOLS', 'NHA_ACCOUNT_NUMBER', 'NHA_PORTAL_URL',
-        'FEATURE_FLAGS',  // build-time only, not a Lambda secret
-      ]);
       return !SKIP.has(key);
     })
     .map(([key, val]) => ({ key, bytes: Buffer.byteLength(val ?? '', 'utf8') }))

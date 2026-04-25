@@ -36,6 +36,8 @@ const ALLOWED_TOP_LEVEL = new Set([
   'about', 'contact', 'programs', 'apply', 'check-eligibility',
   'eligibility', 'privacy', 'terms', 'accessibility', 'providers',
   'resources', 'funding', 'partners',
+  // Auth entry points — static shells that compile cleanly on Netlify
+  'login', 'signup', 'forgot-password',
   // Public marketing pages linked from compiled routes (verified to exist in app/)
   'inquiry', 'wioa-eligibility', 'career-services', 'career-training', 'community-services',
   'testimonials', 'verify',
