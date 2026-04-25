@@ -120,6 +120,11 @@ const railwayConfig = {
     resolveAlias: {
       // Force 'remotion' imports to resolve from node_modules, not local dir
       remotion: 'remotion',
+      // edge-tts ships index.ts as its entry point — Turbopack can't handle
+      // uncompiled TypeScript from node_modules. Aliasing it to itself tells
+      // Turbopack to treat it as a Node.js external (it's already in
+      // serverExternalPackages) rather than attempting to bundle the .ts file.
+      'edge-tts': 'edge-tts',
     },
   },
 

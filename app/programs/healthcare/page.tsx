@@ -40,7 +40,16 @@ const programImages: Record<string, string> = {
 export default function HealthcareProgramsPage() {
   const [programs, setPrograms] = useState<Program[]>([]);
   const [loading, setLoading] = useState(true);
-  const b = heroBanners['healthcare'];
+  const b = heroBanners['healthcare'] ?? {
+    videoSrcDesktop: 'https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/cna-hero.mp4',
+    posterImage: '/hero-images/healthcare-cat-new.jpg',
+    microLabel: 'Healthcare Programs',
+    analyticsName: 'healthcare',
+    belowHeroHeadline: 'Healthcare Careers — Certified, credentialed, job-ready.',
+    belowHeroSubheadline: 'CNA, Phlebotomy, Medical Assistant, Pharmacy Tech and more.',
+    ctas: [],
+    trustIndicators: [],
+  };
 
   useEffect(() => {
     async function fetchPrograms() {
