@@ -81,7 +81,7 @@ const footerLinks = {
     { name: 'Platform Overview', href: '/platform' },
     { name: 'Apply for Training', href: '/apply' },
     { name: 'Quick Application', href: '/apply/quick' },
-    { name: 'Features', href: '/features' },
+    { name: 'Features', href: '/platform' },
     { name: 'Credential Verification', href: '/verify-credentials' },
     { name: 'Site Map', href: '/site-map' },
   ],
