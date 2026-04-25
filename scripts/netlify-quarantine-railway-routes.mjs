@@ -43,6 +43,10 @@ const ALLOWED_TOP_LEVEL = new Set([
   'disclosures', 'employers', 'events', 'faq', 'forms', 'governance', 'legal',
   'ojt-and-funding', 'pathways', 'privacy-policy', 'refund-policy', 'start',
   'support', 'terms-of-service', 'verify-credentials',
+  'agencies', 'apprenticeship-sponsor', 'booking', 'employer-portal',
+  'employment-support', 'enrollment', 'federal-compliance', 'instructor-credentials',
+  'partner-with-us', 'partnerships', 'reset-password', 'snap-et-partner',
+  'success-stories', 'tuition-fees', 'workone-partner-packet',
   'components', 'actions',
 ]);
 

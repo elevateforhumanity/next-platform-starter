@@ -30,7 +30,7 @@ export function FinalCTA() {
                   I&apos;m ready to explore training
                 </Link>
                 <Link
-                  href="/employers"
+                  href="/for-employers"
                   className="inline-flex flex-1 items-center justify-center rounded-full border border-slate-600 px-6 py-3 text-sm font-semibold text-white hover:border-brand-red-300 hover:bg-slate-900"
                 >
                   I&apos;m an employer or partner

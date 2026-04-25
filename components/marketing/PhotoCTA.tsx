@@ -65,7 +65,7 @@ export function PhotoCTA() {
                 Start my Elevate journey
               </Link>
               <Link
-                href="/employers"
+                href="/for-employers"
                 className="inline-flex w-full items-center justify-center rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-black shadow-sm hover:border-brand-orange-300 hover:bg-brand-orange-50"
               >
                 I&apos;m an employer / court / partner

@@ -63,8 +63,8 @@ const footerLinks = {
     // Other
     { name: 'Peer Recovery Specialist', href: '/programs/peer-recovery-specialist' },
     { name: 'CPR & First Aid', href: '/programs/cpr-first-aid' },
-    { name: 'Certifications', href: '/training/certifications' },
-    { name: 'Testing & Exams', href: '/testing' },
+    { name: 'Certifications', href: '/programs' },
+    { name: 'Testing & Exams', href: '/check-eligibility' },
     { name: 'Credential Verification', href: '/verify-credentials' },
   ],
 
@@ -73,7 +73,7 @@ const footerLinks = {
     { name: 'Check My Eligibility', href: '/start' },
     { name: 'Apply for Training', href: '/apply/student' },
     { name: 'WIOA Funding', href: '/wioa-eligibility' },
-    { name: 'Tuition & Fees', href: '/tuition' },
+    { name: 'Tuition & Fees', href: '/financial-aid' },
     { name: 'Schedule Orientation', href: '/orientation' },
     { name: 'Consumer Education', href: '/consumer-education' },
     { name: 'Student Portal', href: '/learner' },
