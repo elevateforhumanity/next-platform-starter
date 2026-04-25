@@ -5,16 +5,22 @@ export const revalidate = 86400;
 
 export const metadata: Metadata = {
   title: 'Site Map | Elevate for Humanity',
-  description: 'Full directory of pages on the Elevate for Humanity website.',
+  description: 'Directory of public pages on elevateforhumanity.org',
   alternates: { canonical: 'https://www.elevateforhumanity.org/site-map' },
 };
 
 const SECTIONS = [
   {
+    title: 'Home',
+    links: [
+      { label: 'Home', href: '/' },
+    ],
+  },
+  {
     title: 'Programs',
     links: [
       { label: 'All Programs', href: '/programs' },
-      { label: 'Healthcare Programs', href: '/programs/healthcare' },
+      { label: 'HVAC Technician', href: '/programs/hvac-technician' },
       { label: 'CNA / Nursing Assistant', href: '/programs/cna' },
       { label: 'Medical Assistant', href: '/programs/medical-assistant' },
       { label: 'Phlebotomy', href: '/programs/phlebotomy' },
@@ -22,18 +28,17 @@ const SECTIONS = [
       { label: 'Home Health Aide', href: '/programs/home-health-aide' },
       { label: 'Peer Recovery Specialist', href: '/programs/peer-recovery-specialist' },
       { label: 'CPR & First Aid', href: '/programs/cpr-first-aid' },
-      { label: 'Skilled Trades', href: '/programs/skilled-trades' },
-      { label: 'HVAC Technician', href: '/programs/hvac-technician' },
       { label: 'Welding', href: '/programs/welding' },
       { label: 'Electrical', href: '/programs/electrical' },
       { label: 'Plumbing', href: '/programs/plumbing' },
       { label: 'Construction Trades', href: '/programs/construction-trades-certification' },
       { label: 'Forklift Operator', href: '/programs/forklift' },
       { label: 'Diesel Mechanic', href: '/programs/diesel-mechanic' },
+      { label: 'CDL Training', href: '/programs/cdl-training' },
       { label: 'Barber Apprenticeship', href: '/programs/barber-apprenticeship' },
       { label: 'Cosmetology Apprenticeship', href: '/programs/cosmetology-apprenticeship' },
       { label: 'Esthetician', href: '/programs/esthetician' },
-      { label: 'Nail Technician', href: '/programs/nail-technician-apprenticeship' },
+      { label: 'Nail Technician Apprenticeship', href: '/programs/nail-technician-apprenticeship' },
       { label: 'IT Help Desk', href: '/programs/it-help-desk' },
       { label: 'Cybersecurity Analyst', href: '/programs/cybersecurity-analyst' },
       { label: 'Network Administration', href: '/programs/network-administration' },
@@ -54,21 +59,18 @@ const SECTIONS = [
       { label: 'How Funding Works', href: '/funding/how-it-works' },
       { label: 'WIOA / WorkOne', href: '/funding/wioa' },
       { label: 'Workforce Ready Grant', href: '/funding/wrg' },
-      { label: 'Federal Programs', href: '/funding/federal-programs' },
       { label: 'State Programs', href: '/funding/state-programs' },
+      { label: 'SNAP E&T / FSSA IMPACT', href: '/snap-et-partner' },
       { label: 'Job Ready Indy (JRI)', href: '/partners/jri' },
-      { label: 'SNAP E&T', href: '/snap-et-partner' },
-      { label: 'WIOA Eligibility', href: '/wioa-eligibility' },
     ],
   },
   {
-    title: 'Apply & Enroll',
+    title: 'Apply',
     links: [
       { label: 'Apply for Training', href: '/apply' },
       { label: 'Quick Application', href: '/apply/quick' },
       { label: 'Full Application', href: '/apply/full' },
       { label: 'Check Application Status', href: '/apply/status' },
-      { label: 'Schedule Orientation', href: '/contact' },
     ],
   },
   {
@@ -82,26 +84,9 @@ const SECTIONS = [
       { label: 'Job Ready Indy', href: '/partners/jri' },
       { label: 'Barbershop Partners', href: '/partners/barbershop-apprenticeship' },
       { label: 'Cosmetology Partners', href: '/partners/cosmetology-apprenticeship' },
-      { label: 'Training Providers', href: '/partners/training-provider' },
       { label: 'Become a Partner', href: '/partners/join' },
-    ],
-  },
-  {
-    title: 'Employers',
-    links: [
       { label: 'For Employers', href: '/for-employers' },
       { label: 'Hire Our Graduates', href: '/hire-graduates' },
-      { label: 'Post a Job', href: '/employer/post-job' },
-      { label: 'OJT Partnerships', href: '/ojt-and-funding' },
-    ],
-  },
-  {
-    title: 'Testing & Credentials',
-    links: [
-      { label: 'Testing Overview', href: '/testing' },
-      { label: 'Book a Testing Session', href: '/testing/book' },
-      { label: 'Verify a Credential', href: '/verify' },
-      { label: 'Certifications', href: '/training/certifications' },
     ],
   },
   {
@@ -118,15 +103,9 @@ const SECTIONS = [
     ],
   },
   {
-    title: 'Student Resources',
+    title: 'Platform',
     links: [
-      { label: 'Student Portal', href: '/learner/dashboard' },
-      { label: 'Consumer Education', href: '/consumer-education' },
-      { label: 'Student Handbook', href: '/student-handbook' },
-      { label: 'Career Services', href: '/career-services' },
-      { label: 'FERPA Rights', href: '/ferpa' },
-      { label: 'Refund Policy', href: '/refund-policy' },
-      { label: 'Satisfactory Academic Progress', href: '/satisfactory-academic-progress' },
+      { label: 'Platform Overview', href: '/platform/overview' },
     ],
   },
   {
@@ -136,8 +115,9 @@ const SECTIONS = [
       { label: 'Terms of Service', href: '/terms-of-service' },
       { label: 'Security & Data Protection', href: '/security-and-data-protection' },
       { label: 'Accessibility', href: '/accessibility' },
-      { label: 'Cookie Policy', href: '/cookies' },
-      { label: 'Compliance', href: '/compliance' },
+      { label: 'Consumer Education', href: '/consumer-education' },
+      { label: 'FERPA Rights', href: '/ferpa' },
+      { label: 'Refund Policy', href: '/refund-policy' },
     ],
   },
 ];
@@ -148,15 +128,16 @@ export default function SiteMapPage() {
       <section className="bg-slate-900 text-white py-12 px-6">
         <div className="max-w-5xl mx-auto">
           <h1 className="text-3xl font-extrabold mb-2">Site Map</h1>
-          <p className="text-slate-400 text-sm">Full directory of pages on elevateforhumanity.org</p>
+          <p className="text-slate-400 text-sm">Public pages on elevateforhumanity.org</p>
         </div>
       </section>
-
       <section className="py-12 px-6">
         <div className="max-w-5xl mx-auto grid sm:grid-cols-2 lg:grid-cols-3 gap-10">
           {SECTIONS.map((section) => (
             <div key={section.title}>
-              <h2 className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-4 border-b border-slate-100 pb-2">{section.title}</h2>
+              <h2 className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-4 border-b border-slate-100 pb-2">
+                {section.title}
+              </h2>
               <ul className="space-y-2">
                 {section.links.map((link) => (
                   <li key={link.href}>

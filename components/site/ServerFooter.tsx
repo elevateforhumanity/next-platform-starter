@@ -11,119 +11,78 @@ import { SOCIAL_LINKS } from '@/config/social-links';
 import FooterAccordion from '@/components/site/FooterAccordion.client';
 
 // FOOTER STRUCTURE — 5 columns
-// Col 1: Programs (healthcare, trades, tech, beauty, business)
-// Col 2: Get Started (student path: apply → fund → enroll → portal)
-// Col 3: Employers & Partners
-// Col 4: Portals (role-gated — logged-in users only)
-// Col 5: Organization
+// Col 1: Programs
+// Col 2: Funding & Eligibility
+// Col 3: Partners & Employers
+// Col 4: About
+// Col 5: Platform / Apply / Contact
 // Bottom: Legal
 //
+// No portal/dashboard/LMS/admin links in the footer.
 // Footer links: static config (intentional). Footer changes require a deploy regardless.
-// Keeping links static avoids a DB round-trip on every page load. If CMS-editable
-// footer links are needed, use the navigation_items table (extend schema first —
-// add section, display_order int, is_active bool) and fetch with revalidate=3600.
 
 const footerLinks = {
-  // Column 1 — All program areas
+  // Column 1 — Programs by area
   programs: [
     { name: 'All Programs', href: '/programs' },
-    // Healthcare
-    { name: 'Healthcare', href: '/programs/healthcare' },
+    { name: 'HVAC Technician', href: '/programs/hvac-technician' },
     { name: 'CNA Training', href: '/programs/cna' },
     { name: 'Medical Assistant', href: '/programs/medical-assistant' },
     { name: 'Phlebotomy', href: '/programs/phlebotomy' },
-    { name: 'Home Health Aide', href: '/programs/home-health-aide' },
-    { name: 'Pharmacy Technician', href: '/programs/pharmacy-technician' },
-    // Skilled Trades
-    { name: 'Skilled Trades', href: '/programs/skilled-trades' },
-    { name: 'HVAC Technician', href: '/programs/hvac-technician' },
-
+    { name: 'IT Help Desk', href: '/programs/it-help-desk' },
+    { name: 'Cybersecurity Analyst', href: '/programs/cybersecurity-analyst' },
     { name: 'Welding', href: '/programs/welding' },
     { name: 'Electrical', href: '/programs/electrical' },
     { name: 'Plumbing', href: '/programs/plumbing' },
-    { name: 'Construction Trades', href: '/programs/construction-trades-certification' },
-    { name: 'Forklift Operator', href: '/programs/forklift' },
-    // Technology
-    { name: 'Technology', href: '/programs/technology' },
-    { name: 'IT Help Desk', href: '/programs/it-help-desk' },
-    { name: 'Cybersecurity Analyst', href: '/programs/cybersecurity-analyst' },
-    { name: 'Network Administration', href: '/programs/network-administration' },
-    { name: 'Software Development', href: '/programs/software-development' },
-    { name: 'Web Development', href: '/programs/web-development' },
-    // Beauty & Apprenticeships
     { name: 'Barber Apprenticeship', href: '/programs/barber-apprenticeship' },
-    { name: 'Cosmetology Apprenticeship', href: '/programs/cosmetology-apprenticeship' },
-    { name: 'Esthetician', href: '/programs/esthetician' },
-    { name: 'Nail Technician', href: '/programs/nail-technician-apprenticeship' },
-    // Business & Finance
-    { name: 'Business & Finance', href: '/programs/finance-bookkeeping-accounting' },
     { name: 'Bookkeeping', href: '/programs/bookkeeping' },
-    { name: 'Entrepreneurship', href: '/programs/entrepreneurship' },
     { name: 'Tax Preparation', href: '/programs/tax-preparation' },
-    { name: 'Project Management', href: '/programs/project-management' },
-    // Other
     { name: 'Peer Recovery Specialist', href: '/programs/peer-recovery-specialist' },
     { name: 'CPR & First Aid', href: '/programs/cpr-first-aid' },
-    { name: 'Certifications', href: '/programs' },
-    { name: 'Testing & Exams', href: '/check-eligibility' },
-    { name: 'Credential Verification', href: '/verify-credentials' },
   ],
 
-  // Column 2 — Student path: apply → fund → enroll → portal
-  getStarted: [
-    { name: 'Check My Eligibility', href: '/start' },
-    { name: 'Apply for Training', href: '/apply/student' },
-    { name: 'WIOA Funding', href: '/wioa-eligibility' },
-    { name: 'Tuition & Fees', href: '/funding' },
-    { name: 'Schedule Orientation', href: '/orientation' },
+  // Column 2 — Funding & Eligibility
+  funding: [
+    { name: 'Funding Overview', href: '/funding' },
+    { name: 'Check My Eligibility', href: '/check-eligibility' },
+    { name: 'WIOA / WorkOne', href: '/funding/wioa' },
+    { name: 'Workforce Ready Grant', href: '/funding/wrg' },
+    { name: 'FSSA IMPACT', href: '/funding/state-programs' },
+    { name: 'Federal Programs', href: '/funding/federal-programs' },
     { name: 'Consumer Education', href: '/consumer-education' },
-    { name: 'Student Portal', href: '/learner' },
+    { name: 'Tuition & Fees', href: '/tuition-fees' },
   ],
 
-  // Column 3 — Employers and all partner types
+  // Column 3 — Partners & Employers
   partners: [
+    { name: 'Partner Overview', href: '/partners' },
     { name: 'Hire Our Graduates', href: '/for-employers' },
-    { name: 'OJT Partnerships', href: '/partnerships' },
-    { name: 'Post a Job', href: '/employer/post-job' },
     { name: 'Workforce Agencies', href: '/partners/workforce' },
-    { name: 'Barbershop Partners', href: '/partners/barbershop-apprenticeship' },
-    { name: 'Training Providers', href: '/partners/training-provider' },
     { name: 'Reentry Organizations', href: '/partners/reentry' },
+    { name: 'Job Ready Indy', href: '/partners/jri' },
+    { name: 'Barbershop Partners', href: '/partners/barbershop-apprenticeship' },
     { name: 'Program Holders', href: '/program-holder' },
     { name: 'Become a Partner', href: '/partners/join' },
   ],
 
-  // Column 4 — Role portals (authenticated users)
-  portals: [
-    // Learners
-    { name: 'My Dashboard', href: '/my-dashboard', category: 'Learners' },
-    { name: 'My Learning', href: '/learner/dashboard', category: 'Learners' },
-    { name: 'My Courses', href: '/lms/dashboard', category: 'Learners' },
-    // Education staff
-    { name: 'Instructor Portal', href: '/instructor/dashboard', category: 'Education Staff' },
-    // Employers & partners
-    { name: 'Employer Portal', href: '/employer/dashboard', category: 'Employers & Partners' },
-    { name: 'Partner Portal', href: '/partner/dashboard', category: 'Employers & Partners' },
-    // Program administration
-    { name: 'Program Holder Portal', href: '/program-holder/dashboard', category: 'Program Administration' },
-    { name: 'Training Provider Portal', href: '/provider/dashboard', category: 'Program Administration' },
-    { name: 'Case Manager Portal', href: '/case-manager/dashboard', category: 'Program Administration' },
-    // Internal
-    { name: 'Staff Portal', href: '/staff-portal/dashboard', category: 'Internal' },
-    { name: 'Admin Dashboard', href: '/admin/dashboard', category: 'Internal' },
-  ],
-
-  // Column 5 — Organization
-  organization: [
+  // Column 4 — About
+  about: [
     { name: 'About Elevate', href: '/about' },
     { name: 'Our Team', href: '/about/team' },
     { name: 'Outcomes', href: '/outcomes/indiana' },
     { name: 'Accreditation', href: '/accreditation' },
-    { name: 'Compliance', href: '/compliance' },
-
     { name: 'Donate', href: '/donate' },
     { name: 'Careers', href: '/careers' },
     { name: 'Contact Us', href: '/contact' },
+  ],
+
+  // Column 5 — Platform / Apply
+  platform: [
+    { name: 'Platform Overview', href: '/platform' },
+    { name: 'Apply for Training', href: '/apply' },
+    { name: 'Quick Application', href: '/apply/quick' },
+    { name: 'Features', href: '/features' },
+    { name: 'Credential Verification', href: '/verify-credentials' },
     { name: 'Site Map', href: '/site-map' },
   ],
 

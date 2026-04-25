@@ -81,13 +81,6 @@ export const LazyStudentPortfolio = dynamic(
   }
 );
 
-export const LazyChatAssistant = dynamic(
-  () => import('@/components/ChatAssistant'),
-  {
-    ssr: false,
-    loading: () => null,
-  }
-);
 
 export const LazyAdvancedQuizBuilder = dynamic(
   () => import('@/components/AdvancedQuizBuilder'),
