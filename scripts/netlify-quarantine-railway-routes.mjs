@@ -44,7 +44,7 @@ const ALLOWED_TOP_LEVEL = new Set([
   'ojt-and-funding', 'pathways', 'privacy-policy', 'refund-policy', 'start',
   'support', 'terms-of-service', 'verify-credentials',
   'agencies', 'apprenticeship-sponsor', 'booking', 'employer-portal',
-  'employment-support', 'enrollment', 'federal-compliance', 'instructor-credentials',
+  'employment-support', 'federal-compliance', 'instructor-credentials',
   'partner-with-us', 'partnerships', 'snap-et-partner',
   'success-stories', 'tuition-fees', 'workone-partner-packet',
   'components', 'actions',
@@ -69,8 +69,8 @@ const FORBIDDEN_SEGMENTS = new Set([
   'credentials', 'transcript', 'advising', 'documents', 'compliance', 'apprentice',
   'schedule', 'videos', 'video', 'ai', 'ai-chat', 'ai-studio', 'ai-tutor',
   'supersonic', 'tax', 'pwa',
-  // Auth flows — belong to Railway runtime, not Netlify static build
-  'reset-password', 'confirm', 'enrollment-success', 'orientation', 'training',
+  // Auth/app flows — belong to Railway runtime, not Netlify static build
+  'reset-password', 'confirm', 'enrollment-success', 'enrollment', 'orientation', 'training',
 ]);
 
 async function moveEntry(src, dest) {
