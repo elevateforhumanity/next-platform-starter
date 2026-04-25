@@ -138,4 +138,10 @@ export const PEER_RECOVERY: ProgramSchema = {
       answer: 'After completing the program and practicum hours, you apply directly to Indiana FSSA DMHA. Processing typically takes 2–4 weeks.',
     },
   ],
+  cta: {
+    applyHref: '/programs/peer-recovery-specialist/apply',
+    requestInfoHref: '/contact?program=peer-recovery-specialist',
+    advisorHref: '/contact',
+    courseHref: '/programs/peer-recovery-specialist',
+  },
 };
