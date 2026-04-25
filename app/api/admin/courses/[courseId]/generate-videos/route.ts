@@ -125,7 +125,11 @@ export async function POST(
     }
   }
 
-  try { fs.rmSync(tmpDir, { recursive: true }); } catch {}
+  try {
+    fs.rmSync(tmpDir, { recursive: true });
+  } catch (err) {
+    logger.debug('Failed to clean video temp directory', { tmpDir, err });
+  }
 
   const generated = results.filter(r => r.video_url).length;
   const failed    = results.filter(r => r.error).length;
