@@ -399,7 +399,8 @@
       "Diesel tech pay $42K\u2013$58K"
     ],
     "transcript": "Train for ASE exam preparation and OSHA 10 Construction credentials in 12 weeks, building skills in diesel engine diagnosis, transmission repair, and hydraulic systems. Diesel technicians commonly earn $42,000 to $58,000. WIOA and Next Level Jobs funding available for eligible Indiana residents.",
-    "analyticsName": "diesel-mechanic"
+    "analyticsName": "diesel-mechanic",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hvac-hero-final.mp4"
   },
   "construction-trades-certification": {
     "pageKey": "construction-trades-certification",
@@ -426,7 +427,8 @@
       "Self-pay $3,800"
     ],
     "transcript": "Earn OSHA 30 Construction, EPA 608, and Forklift Operator Certification in 8 weeks \u2014 a multi-credential foundation for construction, HVAC, and logistics work. Entry-level construction workers commonly earn $32,000 to $48,000. WIOA and Next Level Jobs funding available for eligible Indiana residents.",
-    "analyticsName": "construction-trades-certification"
+    "analyticsName": "construction-trades-certification",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hvac-hero-final.mp4"
   },
   "forklift": {
     "pageKey": "forklift",
@@ -454,7 +456,8 @@
       "WIOA funding available"
     ],
     "transcript": "Earn OSHA 29 CFR 1910.178 compliant Forklift Operator Certification in 1 week at Elevate for Humanity. Training covers sit-down, stand-up, and reach truck forklifts. Certification is valid for 3 years and accepted by warehousing, logistics, and manufacturing employers. Self-pay is $500. WIOA funding available.",
-    "analyticsName": "forklift"
+    "analyticsName": "forklift",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hvac-hero-final.mp4"
   },
   "cna": {
     "pageKey": "cna",
@@ -626,7 +629,8 @@
       "ETPL approved"
     ],
     "transcript": "Earn NREMT Emergency Medical Responder, CPR/AED, First Aid, and OSHA 10 credentials in 4 weeks. Emergency health and safety roles commonly earn $32,000 to $45,000. Free with WIOA or Workforce Ready Grant for eligible Indiana residents. Self-pay is $4,950.",
-    "analyticsName": "emergency-health-safety"
+    "analyticsName": "emergency-health-safety",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4"
   },
   "cpr-first-aid": {
     "pageKey": "cpr-first-aid",
@@ -1008,7 +1012,8 @@
       "Network support pay $35K\u2013$48K"
     ],
     "transcript": "Train for Certiport IT Specialist Networking certification in 6 weeks, building skills in network support, cabling, and help desk operations. Network support technicians commonly earn $35,000 to $48,000. Free with WIOA or Next Level Jobs funding for eligible Indiana residents.",
-    "analyticsName": "network-support-technician"
+    "analyticsName": "network-support-technician",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4"
   },
   "software-development": {
     "pageKey": "software-development",
@@ -1095,7 +1100,8 @@
       "Designer pay $38K\u2013$58K"
     ],
     "transcript": "Train for Adobe Certified Professional in Visual Design in 10 weeks, building skills in Photoshop, Illustrator, and InDesign. Graphic designers commonly earn $38,000 to $58,000. WIOA and Next Level Jobs funding available for eligible Indiana residents. Apply now.",
-    "analyticsName": "graphic-design"
+    "analyticsName": "graphic-design",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4"
   },
   "cad-drafting": {
     "pageKey": "cad-drafting",
@@ -1122,7 +1128,8 @@
       "Drafter pay $42K\u2013$60K"
     ],
     "transcript": "Train for Autodesk Certified User credentials in 10 weeks, building skills in AutoCAD and Revit for architectural and mechanical drafting. Drafting technicians commonly earn $42,000 to $60,000. WIOA and Next Level Jobs funding available for eligible Indiana residents.",
-    "analyticsName": "cad-drafting"
+    "analyticsName": "cad-drafting",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hvac-hero-final.mp4"
   },
   "tax-preparation": {
     "pageKey": "tax-preparation",
@@ -1209,7 +1216,8 @@
       "Admin pay $32K\u2013$48K"
     ],
     "transcript": "Train for Microsoft Office Specialist Word and Excel certifications in 6 weeks, building skills in Word, Excel, PowerPoint, Outlook, and business communication. Office administrators commonly earn $32,000 to $48,000. Free with WIOA or Next Level Jobs funding for eligible Indiana residents.",
-    "analyticsName": "office-administration"
+    "analyticsName": "office-administration",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4"
   },
   "entrepreneurship": {
     "pageKey": "entrepreneurship",
@@ -1236,7 +1244,8 @@
       "Real business plan deliverable"
     ],
     "transcript": "Train for Certiport ESB certification in 6 weeks, building skills in business planning, marketing, and financial management. Small business owners and business support roles commonly earn $32,000 to $55,000. Evening schedule. Free with WIOA or grant funding for eligible Indiana residents.",
-    "analyticsName": "entrepreneurship"
+    "analyticsName": "entrepreneurship",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4"
   },
   "business-administration": {
     "pageKey": "business-administration",
@@ -1263,7 +1272,8 @@
       "Business admin pay $38K\u2013$55K"
     ],
     "transcript": "Train for Microsoft Office Specialist and Certiport ESB certifications in 8 weeks, building skills in Microsoft Office, QuickBooks, and business fundamentals. Business administrators commonly earn $38,000 to $55,000. WIOA and Next Level Jobs funding available for eligible Indiana residents.",
-    "analyticsName": "business-administration"
+    "analyticsName": "business-administration",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4"
   },
   "project-management": {
     "pageKey": "project-management",
@@ -1290,7 +1300,8 @@
       "PM pay $52K\u2013$75K"
     ],
     "transcript": "Train for Certiport Project Management certification in 6 weeks, building skills in Agile, Scrum, and traditional project management methodologies. Project managers commonly earn $52,000 to $75,000. Free with WIOA or Next Level Jobs funding for eligible Indiana residents.",
-    "analyticsName": "project-management"
+    "analyticsName": "project-management",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4"
   },
   "finance-bookkeeping-accounting": {
     "pageKey": "finance-bookkeeping-accounting",
@@ -2406,7 +2417,7 @@
     "durationLabel": "1,500 hours",
     "salaryRangeLabel": "$32,000 to $52,000",
     "belowHeroHeadline": "Esthetician Apprenticeship \u2014 earn while you train.",
-    "belowHeroSubheadline": "DOL Registered Apprenticeship. Hands-on training at a licensed salon. Graduate with your Indiana Esthetician License and a paying clientele. Wages from day one.",
+    "belowHeroSubheadline": "DOL Registered Apprenticeship. Hands-on training at a licensed salon. Graduate with your Indiana Esthetician License and a paying clientele.",
     "primaryCta": {
       "label": "Apply Now",
       "href": "/apply?program=esthetician-apprenticeship"
@@ -2419,10 +2430,9 @@
     "trustIndicators": [
       "DOL Registered Apprenticeship",
       "Earn wages from day one",
-      "Indiana Esthetician License",
-      "Licensed salon training"
+      "Indiana Esthetician License"
     ],
-    "transcript": "Earn your Indiana Esthetician License through a DOL Registered Apprenticeship of 1,500 hours at a licensed salon, building skills in skincare, facials, waxing, and client services. Estheticians commonly earn $32,000 to $52,000. Wages begin on day one.",
+    "transcript": "Earn your Indiana Esthetician License through a DOL Registered Apprenticeship of 1,500 hours at a licensed salon.",
     "analyticsName": "esthetician-apprenticeship"
   },
   "barber": {
@@ -2434,7 +2444,7 @@
     "durationLabel": "2,000 hours",
     "salaryRangeLabel": "$30,000 to $65,000",
     "belowHeroHeadline": "Barber Apprenticeship \u2014 earn while you train.",
-    "belowHeroSubheadline": "DOL Registered Apprenticeship. Train at a licensed barbershop, earn wages from day one, and graduate with your Indiana Barber License. WIOA and Workforce Ready Grant funding available.",
+    "belowHeroSubheadline": "DOL Registered Apprenticeship. Train at a licensed barbershop, earn wages from day one, and graduate with your Indiana Barber License.",
     "primaryCta": {
       "label": "Apply Now",
       "href": "/programs/barber-apprenticeship/apply"
@@ -2447,10 +2457,36 @@
     "trustIndicators": [
       "DOL Registered Apprenticeship",
       "Earn $12\u2013$15/hr while training",
-      "Indiana Barber License",
+      "Indiana Barber License"
+    ],
+    "transcript": "Earn your Indiana Barber License through a DOL Registered Apprenticeship of 2,000 hours at a licensed barbershop.",
+    "analyticsName": "barber"
+  },
+  "cybersecurity": {
+    "pageKey": "cybersecurity",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
+    "posterImage": "/hero-images/cybersecurity-hero.jpg",
+    "microLabel": "CompTIA Security+",
+    "credentialLabel": "CompTIA Security+",
+    "durationLabel": "12 weeks",
+    "salaryRangeLabel": "$55,000 to $85,000",
+    "belowHeroHeadline": "Cybersecurity Analyst \u2014 launch a tech career.",
+    "belowHeroSubheadline": "Earn CompTIA Security+ and CySA+ in 12 weeks. WIOA and Workforce Ready Grant funding available.",
+    "primaryCta": {
+      "label": "Apply Now",
+      "href": "/apply?program=cybersecurity"
+    },
+    "secondaryCta": {
+      "label": "Check Eligibility",
+      "href": "/check-eligibility",
+      "variant": "secondary"
+    },
+    "trustIndicators": [
+      "CompTIA Security+",
+      "CompTIA CySA+",
       "WIOA funding available"
     ],
-    "transcript": "Earn your Indiana Barber License through a DOL Registered Apprenticeship of 2,000 hours at a licensed barbershop, building skills in cutting, styling, shaving, and business operations. Barbers commonly earn $30,000 to $65,000. Wages begin on day one. WIOA and Workforce Ready Grant funding available for eligible Indiana residents.",
-    "analyticsName": "barber"
+    "transcript": "Earn CompTIA Security+ and CySA+ certifications in 12 weeks.",
+    "analyticsName": "cybersecurity"
   }
 }

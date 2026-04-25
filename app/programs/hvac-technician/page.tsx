@@ -72,9 +72,8 @@ export default async function HVACTechnicianPage() {
     program = null;
   }
 
-  if (program && !program.isComplete) {
-    return <ProgramComingSoon title={program.title} slug={program.slug} />;
-  }
+  // Do not gate on isComplete — HVAC has a full static fallback and is always live.
+  // ProgramComingSoon is reserved for programs with no static content at all.
 
   const banner = heroBanners['hvac-technician'];
 
@@ -141,24 +140,34 @@ export default async function HVACTechnicianPage() {
           </div>
         </section>
 
-        {/* Weekly curriculum */}
+        {/* Weekly curriculum — collapsed by default */}
         <section className="mx-auto max-w-7xl px-6 py-16">
-          <div className="mb-8">
-            <p className="text-sm font-semibold uppercase tracking-widest text-brand-orange-600 mb-2">Week by week</p>
-            <h2 className="text-3xl font-bold">What You&apos;ll Learn</h2>
-            <p className="mt-2 text-black">No fluff. Every week builds toward a job-ready skill set.</p>
-          </div>
-          <div className="grid md:grid-cols-2 gap-4">
-            {WEEKLY_CURRICULUM.map((item, i) => (
-              <div key={i} className="flex gap-4 rounded-xl border border-slate-200 p-5">
-                <div className="shrink-0 w-20 text-xs font-bold text-brand-orange-600 uppercase tracking-wide pt-0.5">{item.weeks}</div>
-                <div>
-                  <p className="font-semibold text-slate-900">{item.topic}</p>
-                  <p className="text-sm text-black mt-1">{item.detail}</p>
-                </div>
+          <details className="group">
+            <summary className="flex items-center justify-between cursor-pointer list-none mb-8">
+              <div>
+                <p className="text-sm font-semibold uppercase tracking-widest text-brand-orange-600 mb-2">Week by week</p>
+                <h2 className="text-3xl font-bold">What You&apos;ll Learn</h2>
+                <p className="mt-2 text-black">No fluff. Every week builds toward a job-ready skill set.</p>
               </div>
-            ))}
-          </div>
+              <span className="shrink-0 text-sm font-semibold text-brand-orange-600 border border-brand-orange-300 rounded-lg px-4 py-1.5 group-open:hidden ml-6">
+                Show curriculum ↓
+              </span>
+              <span className="shrink-0 text-sm font-semibold text-slate-500 border border-slate-200 rounded-lg px-4 py-1.5 hidden group-open:inline ml-6">
+                Collapse ↑
+              </span>
+            </summary>
+            <div className="grid md:grid-cols-2 gap-4">
+              {WEEKLY_CURRICULUM.map((item, i) => (
+                <div key={i} className="flex gap-4 rounded-xl border border-slate-200 p-5">
+                  <div className="shrink-0 w-20 text-xs font-bold text-brand-orange-600 uppercase tracking-wide pt-0.5">{item.weeks}</div>
+                  <div>
+                    <p className="font-semibold text-slate-900">{item.topic}</p>
+                    <p className="text-sm text-black mt-1">{item.detail}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </details>
         </section>
 
         {/* Career outcomes */}
@@ -310,24 +319,34 @@ export default async function HVACTechnicianPage() {
         </div>
       </section>
 
-      {/* What you'll learn — weekly breakdown */}
+      {/* What you'll learn — weekly breakdown, collapsed by default */}
       <section className="mx-auto max-w-7xl px-6 py-16">
-        <div className="mb-8">
-          <p className="text-sm font-semibold uppercase tracking-widest text-brand-orange-600 mb-2">Week by week</p>
-          <h2 className="text-3xl font-bold">What You&apos;ll Learn</h2>
-          <p className="mt-2 text-black">No fluff. Every week builds toward a job-ready skill set.</p>
-        </div>
-        <div className="grid md:grid-cols-2 gap-4">
-          {WEEKLY_CURRICULUM.map((item, i) => (
-            <div key={i} className="flex gap-4 rounded-xl border border-slate-200 p-5">
-              <div className="shrink-0 w-20 text-xs font-bold text-brand-orange-600 uppercase tracking-wide pt-0.5">{item.weeks}</div>
-              <div>
-                <p className="font-semibold text-slate-900">{item.topic}</p>
-                <p className="text-sm text-black mt-1">{item.detail}</p>
-              </div>
+        <details className="group">
+          <summary className="flex items-center justify-between cursor-pointer list-none mb-8">
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-widest text-brand-orange-600 mb-2">Week by week</p>
+              <h2 className="text-3xl font-bold">What You&apos;ll Learn</h2>
+              <p className="mt-2 text-black">No fluff. Every week builds toward a job-ready skill set.</p>
             </div>
-          ))}
-        </div>
+            <span className="shrink-0 text-sm font-semibold text-brand-orange-600 border border-brand-orange-300 rounded-lg px-4 py-1.5 group-open:hidden ml-6">
+              Show curriculum ↓
+            </span>
+            <span className="shrink-0 text-sm font-semibold text-slate-500 border border-slate-200 rounded-lg px-4 py-1.5 hidden group-open:inline ml-6">
+              Collapse ↑
+            </span>
+          </summary>
+          <div className="grid md:grid-cols-2 gap-4">
+            {WEEKLY_CURRICULUM.map((item, i) => (
+              <div key={i} className="flex gap-4 rounded-xl border border-slate-200 p-5">
+                <div className="shrink-0 w-20 text-xs font-bold text-brand-orange-600 uppercase tracking-wide pt-0.5">{item.weeks}</div>
+                <div>
+                  <p className="font-semibold text-slate-900">{item.topic}</p>
+                  <p className="text-sm text-black mt-1">{item.detail}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </details>
       </section>
 
       {/* Outcome clarity — training → job → money */}
@@ -383,69 +402,115 @@ export default async function HVACTechnicianPage() {
           <aside className="self-start rounded-2xl border border-slate-200 p-6">
             <h2 className="text-xl font-bold">Enrollment Options</h2>
             <div className="mt-4 space-y-4">
-              {program.program_tracks.map((track) => (
-                <div key={track.id} className="rounded-xl border border-slate-200 p-4">
-                  <div className="flex items-start justify-between gap-4">
-                    <h3 className="font-semibold text-slate-900">{track.title}</h3>
-                    <span className="shrink-0 text-sm font-semibold text-slate-700">
-                      {formatTrackCost(track.cost_cents)}
-                    </span>
+              {program.program_tracks.length > 0 ? (
+                program.program_tracks.map((track) => (
+                  <div key={track.id} className="rounded-xl border border-slate-200 p-4">
+                    <div className="flex items-start justify-between gap-4">
+                      <h3 className="font-semibold text-slate-900">{track.title}</h3>
+                      <span className="shrink-0 text-sm font-semibold text-slate-700">
+                        {formatTrackCost(track.cost_cents)}
+                      </span>
+                    </div>
+                    {track.description && (
+                      <p className="mt-2 text-sm text-black">{track.description}</p>
+                    )}
+                    {!track.available && track.coming_soon_message && (
+                      <p className="mt-3 rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900">
+                        {track.coming_soon_message}
+                      </p>
+                    )}
                   </div>
-                  {track.description && (
-                    <p className="mt-2 text-sm text-black">{track.description}</p>
-                  )}
-                  {!track.available && track.coming_soon_message && (
-                    <p className="mt-3 rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900">
-                      {track.coming_soon_message}
-                    </p>
-                  )}
-                </div>
-              ))}
+                ))
+              ) : (
+                /* Static self-pay fallback when DB tracks are not yet configured */
+                <>
+                  <div className="rounded-xl border-2 border-brand-orange-500 bg-orange-50 p-4">
+                    <div className="flex items-start justify-between gap-4 mb-2">
+                      <h3 className="font-semibold text-slate-900">WIOA / Funded Track</h3>
+                      <span className="shrink-0 text-sm font-bold text-brand-orange-600">$0</span>
+                    </div>
+                    <p className="text-sm text-slate-700 mb-3">Eligible Indiana residents pay nothing. WIOA and Workforce Ready Grant cover full tuition.</p>
+                    <Link href="/check-eligibility" className="block text-center bg-brand-orange-600 hover:bg-brand-orange-700 text-white font-bold px-4 py-2.5 rounded-lg text-sm transition-colors">Check My Eligibility</Link>
+                  </div>
+                  <div className="rounded-xl border border-slate-200 p-4">
+                    <div className="flex items-start justify-between gap-4 mb-2">
+                      <h3 className="font-semibold text-slate-900">Self-Pay</h3>
+                      <span className="shrink-0 text-sm font-semibold text-slate-700">$2,495</span>
+                    </div>
+                    <p className="text-sm text-slate-700 mb-3">Pay out of pocket. Payment plans available. Includes all materials and EPA 608 exam fee.</p>
+                    <Link href="/apply?program=hvac-technician&track=self-pay" className="block text-center border border-slate-300 hover:bg-slate-50 text-slate-700 font-bold px-4 py-2.5 rounded-lg text-sm transition-colors">Apply — Self-Pay</Link>
+                  </div>
+                  <div className="rounded-xl border border-slate-200 p-4">
+                    <div className="flex items-start justify-between gap-4 mb-2">
+                      <h3 className="font-semibold text-slate-900">Payment Plan</h3>
+                      <span className="shrink-0 text-sm font-semibold text-slate-700">$249/mo</span>
+                    </div>
+                    <p className="text-sm text-slate-700 mb-3">Split tuition into 10 monthly payments. No interest. Start training immediately.</p>
+                    <Link href="/apply?program=hvac-technician&track=payment-plan" className="block text-center border border-slate-300 hover:bg-slate-50 text-slate-700 font-bold px-4 py-2.5 rounded-lg text-sm transition-colors">Apply — Payment Plan</Link>
+                  </div>
+                </>
+              )}
             </div>
           </aside>
         </div>
       </section>
 
-      {/* Curriculum modules */}
-      <section className="mx-auto max-w-7xl px-6 pb-16">
-        <h2 className="mb-6 text-2xl font-bold">Full Curriculum</h2>
-        <div className="space-y-4">
-          {program.program_modules.map((mod) => (
-            <div key={mod.id} className="overflow-hidden rounded-2xl border border-slate-200">
-              <div className="border-b border-slate-200 bg-slate-50 px-6 py-4">
-                <div className="flex flex-wrap items-center justify-between gap-4">
-                  <div>
-                    <p className="text-xs font-semibold uppercase tracking-[0.16em] text-black">
-                      Module {mod.module_number}
-                    </p>
-                    <h3 className="text-lg font-semibold text-slate-900">{mod.title}</h3>
-                  </div>
-                  <div className="text-sm text-black">
-                    {mod.lesson_count} lessons{mod.duration_hours ? ` · ${mod.duration_hours}h` : ''}
-                  </div>
+      {/* Curriculum modules — collapsed by default, expandable */}
+      {program.program_modules.length > 0 && (
+        <section className="mx-auto max-w-7xl px-6 pb-16">
+          <details className="group">
+            <summary className="flex items-center justify-between cursor-pointer list-none mb-4">
+              <h2 className="text-2xl font-bold">Full Curriculum</h2>
+              <span className="text-sm font-semibold text-brand-orange-600 border border-brand-orange-300 rounded-lg px-4 py-1.5 group-open:hidden">
+                Show {program.program_modules.length} modules ↓
+              </span>
+              <span className="text-sm font-semibold text-slate-500 border border-slate-200 rounded-lg px-4 py-1.5 hidden group-open:inline">
+                Collapse ↑
+              </span>
+            </summary>
+            <div className="space-y-4">
+              {program.program_modules.map((mod) => (
+                <div key={mod.id} className="overflow-hidden rounded-2xl border border-slate-200">
+                  <details className="group/mod">
+                    <summary className="border-b border-slate-200 bg-slate-50 px-6 py-4 cursor-pointer list-none">
+                      <div className="flex flex-wrap items-center justify-between gap-4">
+                        <div>
+                          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-black">
+                            Module {mod.module_number}
+                          </p>
+                          <h3 className="text-lg font-semibold text-slate-900">{mod.title}</h3>
+                        </div>
+                        <div className="flex items-center gap-3 text-sm text-black">
+                          {mod.lesson_count} lessons{mod.duration_hours ? ` · ${mod.duration_hours}h` : ''}
+                          <span className="text-slate-400 group-open/mod:hidden">▸</span>
+                          <span className="text-slate-400 hidden group-open/mod:inline">▾</span>
+                        </div>
+                      </div>
+                      {mod.description && (
+                        <p className="mt-2 text-sm text-black">{mod.description}</p>
+                      )}
+                    </summary>
+                    {mod.program_lessons?.length > 0 && (
+                      <ol className="divide-y divide-slate-100">
+                        {mod.program_lessons.map((lesson) => (
+                          <li key={lesson.id} className="flex items-center justify-between gap-4 px-6 py-3">
+                            <span className="text-sm text-slate-800">
+                              {lesson.lesson_number}. {lesson.title}
+                            </span>
+                            <span className="shrink-0 text-xs uppercase tracking-wide text-black">
+                              {lesson.lesson_type}
+                            </span>
+                          </li>
+                        ))}
+                      </ol>
+                    )}
+                  </details>
                 </div>
-                {mod.description && (
-                  <p className="mt-2 text-sm text-black">{mod.description}</p>
-                )}
-              </div>
-              {mod.program_lessons?.length > 0 && (
-                <ol className="divide-y divide-slate-100">
-                  {mod.program_lessons.map((lesson) => (
-                    <li key={lesson.id} className="flex items-center justify-between gap-4 px-6 py-3">
-                      <span className="text-sm text-slate-800">
-                        {lesson.lesson_number}. {lesson.title}
-                      </span>
-                      <span className="shrink-0 text-xs uppercase tracking-wide text-black">
-                        {lesson.lesson_type}
-                      </span>
-                    </li>
-                  ))}
-                </ol>
-              )}
+              ))}
             </div>
-          ))}
-        </div>
-      </section>
+          </details>
+        </section>
+      )}
 
       {/* Program Resources */}
       <section className="border-t border-slate-200 bg-slate-50 py-12 px-6">
