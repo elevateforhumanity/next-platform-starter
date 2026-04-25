@@ -42,7 +42,7 @@ const ALLOWED_TOP_LEVEL = new Set([
   'testing',
   // Additional public pages found by exhaustive href scan
   'achievements', 'calendar', 'careers', 'certiport-exam', 'dmca', 'ebook',
-  'enrollment-agreement', 'equal-opportunity', 'ferpa', 'locations', 'next-steps',
+  'enrollment-agreement', 'equal-opportunity', 'locations', 'next-steps',
   'platform', 'policies', 'search', 'security', 'training',
   // Public marketing pages linked from compiled routes (verified to exist in app/)
   'inquiry', 'wioa-eligibility', 'career-services', 'career-training', 'community-services',
@@ -51,59 +51,87 @@ const ALLOWED_TOP_LEVEL = new Set([
   'disclosures', 'employers', 'events', 'faq', 'forms', 'governance', 'legal',
   'ojt-and-funding', 'pathways', 'privacy-policy', 'refund-policy', 'start',
   'support', 'terms-of-service', 'verify-credentials',
-  'agencies', 'apprenticeship-sponsor', 'booking', 'employer-portal',
+  'agencies', 'apprenticeship-sponsor', 'booking',
   'employment-support', 'federal-compliance', 'instructor-credentials',
   'partner-with-us', 'partnerships', 'snap-et-partner',
   'success-stories', 'tuition-fees', 'workone-partner-packet',
-  // Public informational pages (no auth required, verified clean)
-  'site-map', 'security-and-data-protection', 'donate', 'academic-calendar',
-  'academic-integrity', 'blog', 'outcomes', 'impact', 'mission', 'what-we-do',
-  'for-students', 'for-partners', 'workforce-partners', 'training-providers',
-  'career-counseling', 'career-training-indiana', 'career-training-illinois',
-  'career-training-ohio', 'career-training-tennessee', 'career-training-texas',
-  'community-services-indiana', 'community-services-illinois', 'community-services-ohio',
-  'community-services-tennessee', 'community-services-texas',
-  // Onboarding root — public landing page that redirects authenticated users.
-  // Sub-pages (learner, employer, instructor, staff, mou, etc.) are Railway-only
-  // and blocked via FORBIDDEN_SEGMENTS below.
-  'onboarding',
-
-  // Public pages verified clean (no auth guards) — restored 2026-04-25
-  'about', 'academic-calendar', 'academic-integrity', 'acceptable-use-policy',
-  'access-paused', 'admin-login', 'application-success', 'apps',
-  'banking', 'barber-apprenticeship', 'blog', 'booth-rental', 'calculator',
-  'call-now', 'career-counseling',
-  'career-training-illinois', 'career-training-indiana', 'career-training-ohio',
-  'career-training-tennessee', 'career-training-texas',
-  'careers', 'certification-testing', 'certifications', 'chat', 'client-portal',
-  'connect', 'connects', 'consumer-education', 'contracts', 'copyright',
-  'course-preview', 'courses', 'create-course', 'curriculumupload',
-  'dev', 'directory', 'docs', 'donate', 'donations', 'downloads',
-  'ecosystem', 'education', 'educatorhub', 'elevatelearn2earn', 'eligibility',
-  'email', 'employers', 'error', 'eula',
-  'for', 'for-partners', 'for-students', 'forms', 'forums', 'founder',
-  'funding', 'funding-impact', 'fundingimpact', 'getstarted', 'government',
-  'help', 'hvac', 'impact', 'import', 'industries', 'institutional-governance',
-  'intake', 'kingdom-konnect', 'leaderboard', 'learning', 'legal', 'lessons',
-  'license', 'license-agreement', 'license-suspended', 'licenses', 'licensing',
-  'licensing-partnerships', 'metrics', 'micro-classes', 'mission', 'network',
-  'news', 'offline', 'outcomes',
-  'partner-upload', 'payment-error', 'philanthropy', 'platform', 'policies',
-  'press', 'pricing', 'reels', 'register', 'resources', 'rise',
-  'schedule-consultation', 'scholarships', 'schools',
-  'security-and-data-protection', 'serene-comfort-care', 'services',
-  'share', 'sheets', 'shop', 'site-map', 'social', 'solutions', 'status',
-  'store', 'student-support', 'students', 'suboffice-onboarding', 'support',
-  'syllabi', 'tax-self-prep', 'team', 'thankyou', 'training', 'training-providers',
-  'transparency', 'tutoring', 'update-password', 'updates', 'urban-build-crew',
-  'usermanagement', 'verification-approvals', 'volunteer',
-  'what-we-do', 'what-we-offer', 'white-label', 'workbooks',
-  'workforce-partners', 'workkeys', 'writing-center',
-
   // Shared data modules imported by public pages — must never be quarantined
   'data',
-
   'components', 'actions',
+]);
+
+// Sub-paths inside allowed top-level dirs that must still be quarantined.
+// These are Railway-only pages that live under otherwise-public top-level dirs.
+const FORBIDDEN_SUBPATHS = new Set([
+  // ferpa/* — entire dir is Railway-only (FERPA records management)
+  'ferpa',
+  // employer-portal sub-pages are Railway app
+  'employer-portal',
+  // employers/* sub-pages that are Railway-only
+  'employers/apprenticeships',
+  'employers/benefits',
+  'employers/post-job',
+  'employers/talent-pipeline',
+  // instructor-credentials is Railway-only
+  'instructor-credentials',
+  // legal sub-pages that are Railway-only
+  'legal/employer-agreement',
+  'legal/governance/lms-standards',
+  'legal/governance/onboarding-ux',
+  'legal/student-handbook',
+  'legal/acceptable-use',
+  'legal/ferpa-consent',
+  'legal/marketplace-terms',
+  'legal/mou',
+  'legal/partner-mou',
+  // platform sub-pages that are Railway-only
+  'platform/program-holders',
+  // policies — only keep the public-facing index; quarantine all sub-pages
+  // (policies are internal governance docs, not public marketing)
+  'policies/academic-integrity',
+  'policies/acceptable-use',
+  'policies/admissions',
+  'policies/ai-usage',
+  'policies/attendance',
+  'policies/community-guidelines',
+  'policies/content',
+  'policies/copyright',
+  'policies/data-retention',
+  'policies/disaster-recovery',
+  'policies/disaster-recovery-test',
+  'policies/dr-test-report',
+  'policies/editorial',
+  'policies/federal-compliance',
+  'policies/ferpa',
+  'policies/funding-verification',
+  'policies/grant-application',
+  'policies/grievance',
+  'policies/incident-response',
+  'policies/jri',
+  'policies/moderation',
+  'policies/privacy-notice',
+  'policies/progress',
+  'policies/response-sla',
+  'policies/revocation',
+  'policies/sam-gov-eligibility',
+  'policies/sla',
+  'policies/student-code',
+  'policies/terms',
+  'policies/verification',
+  'policies/wioa',
+  'policies/wrg',
+  // partners onboarding flows — Railway-only (require auth)
+  'partners/barbershop-apprenticeship/onboarding',
+  'partners/barbershop-apprenticeship/(onboarding)',
+  'partners/cosmetology-apprenticeship/onboarding',
+  'partners/cosmetology-apprenticeship/(onboarding)',
+  'partners/create-program',
+  'partners/jri',
+  'partners/mou',
+  // resources sub-pages that are Railway-only
+  'resources/instructor-training',
+  // funding sub-pages that are Railway-only
+  'funding/wrg',
 ]);
 
 // Root-level files that must stay (Next.js requires them, or layout.tsx imports them)
@@ -127,9 +155,6 @@ const FORBIDDEN_SEGMENTS = new Set([
   'supersonic', 'tax', 'pwa',
   // Auth/app flows — belong to Railway runtime, not Netlify static build
   'reset-password', 'forgot-password', 'confirm', 'enrollment-success', 'enrollment', 'orientation', 'training',
-  // Onboarding sub-routes — authenticated flows, Railway-only
-  'learner', 'employer', 'instructor', 'staff', 'school', 'mou', 'payroll-setup',
-  'handbook', 'agreements', 'hiring-needs', 'verify-identity', 'complete',
 ]);
 
 async function moveEntry(src, dest) {
@@ -198,8 +223,31 @@ async function quarantine() {
       continue;
     }
 
-    // In allowlist — scan for forbidden nested segments
-    await collectForbiddenNested(src, dest, toMove);
+    // In allowlist — check forbidden sub-paths first, then scan nested segments
+    const relName = name;
+    let subpathQuarantined = false;
+    for (const forbidden of FORBIDDEN_SUBPATHS) {
+      if (forbidden === relName || forbidden.startsWith(relName + '/')) {
+        // The entire top-level dir or a specific sub-path is forbidden
+        const subRel = forbidden.slice(relName.length).replace(/^\//, '');
+        if (!subRel) {
+          // Entire dir is forbidden
+          toMove.push({ src, dest, label: name });
+          subpathQuarantined = true;
+          break;
+        } else {
+          // Specific sub-path inside this allowed dir
+          const subSrc  = join(src, subRel);
+          const subDest = join(dest, subRel);
+          if (existsSync(subSrc)) {
+            toMove.push({ src: subSrc, dest: subDest, label: `${name}/${subRel}` });
+          }
+        }
+      }
+    }
+    if (!subpathQuarantined) {
+      await collectForbiddenNested(src, dest, toMove);
+    }
   }
 
   console.log(`[quarantine] Before: ${before} routes in app/`);

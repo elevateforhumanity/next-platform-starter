@@ -36,7 +36,8 @@ const FORBIDDEN_PREFIXES = [
   '/dashboard',
   '/my-dashboard',
   '/instructor',
-  '/employer',
+  '/employer-portal',
+  '/employer/',  // /employer/* sub-routes (not /employers which is public)
   '/partner-dashboard',
   '/program-holder',
   '/staff-portal',
