@@ -153,6 +153,12 @@ export function AdminCoursesTable({ courses }: { courses: AdminCourseOverview[] 
                       Edit
                     </Link>
                     <Link
+                      href={`/admin/course-builder/${course.id}`}
+                      className="rounded border px-2.5 py-1.5 text-xs font-medium text-white bg-brand-red-600 hover:bg-brand-red-700 border-brand-red-600"
+                    >
+                      Live Builder
+                    </Link>
+                    <Link
                       href={`/lms/courses/${course.id}`}
                       className="rounded border px-2.5 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-50"
                     >

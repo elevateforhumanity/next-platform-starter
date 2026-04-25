@@ -144,7 +144,7 @@ export default function LiveCourseBuilder({ courseId, courseTitle, initialModule
     setSaving(true);
     setSaveStatus('idle');
     try {
-      const res = await fetch(`/api/admin/course-builder/lesson`, {
+      const res = await fetch(`/api/admin/course-builder/lesson-patch`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
