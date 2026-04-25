@@ -128,6 +128,28 @@ async function _POST(req: Request) {
       parseInt(body.transferHours ?? body.transfer_hours_claimed ?? '0') || 0
     );
 
+    // Determine application status based on funding type and eligibility.
+    // WIOA / WRG / FSSA applications require admin approval before enrollment.
+    // Students who have not yet been to Indiana Career Connect are saved as
+    // 'pending_funding' — they must complete the ICC process and reapply.
+    const FUNDED_TYPES = ['wioa', 'wrg', 'fssa'];
+    const fundingType = body.fundingType || body.fundingInterest || null;
+    const eligibilityStatus = body.fundingEligibilityStatus || null;
+    const isFunded = FUNDED_TYPES.includes(fundingType);
+    const needsICC = isFunded && eligibilityStatus === 'needs_appointment';
+
+    let applicationStatus: string;
+    if (needsICC) {
+      // Has not been to ICC yet — hold application, send them to ICC first
+      applicationStatus = 'pending_funding';
+    } else if (isFunded) {
+      // Has ICC approval or is in process — needs admin review before enrollment
+      applicationStatus = 'pending_admin_review';
+    } else {
+      // Self-pay, employer, unsure — standard submitted flow
+      applicationStatus = 'submitted';
+    }
+
     const { data, error }: any = await supabase
       .from('applications')
       .insert({
@@ -140,10 +162,12 @@ async function _POST(req: Request) {
         program_interest: program,
         program_slug: body.programSlug || body.program_slug || null,
         support_notes: notes,
-        status: 'submitted',
+        status: applicationStatus,
         source: body.source || 'website',
         contact_preference: body.preferredContact || 'phone',
         transfer_hours_claimed: transferHoursClaimed,
+        funding_type: fundingType,
+        funding_eligibility_status: eligibilityStatus,
         type: 'student',
         // transfer_hours_verified is null until staff reviews documentation
       })
@@ -164,36 +188,48 @@ async function _POST(req: Request) {
       );
     }
 
-    // Auto-approve through single pipeline
+    // Auto-approve only for self-pay / employer / unsure applications.
+    // WIOA / WRG / FSSA applications require admin review before enrollment.
+    // Students who have not been to ICC (pending_funding) are not enrolled at all —
+    // they must complete the ICC process and reapply.
     let userId: string | null = null;
     let passwordSetupLink: string | null = null;
-    try {
-      const programSlug = body.programSlug || body.program || 'barber-apprenticeship';
-      const { data: programRow } = await supabase
-        .from('programs')
-        .select('id')
-        .eq('slug', programSlug)
-        .maybeSingle();
+    if (!isFunded) {
+      try {
+        const programSlug = body.programSlug || body.program || 'barber-apprenticeship';
+        const { data: programRow } = await supabase
+          .from('programs')
+          .select('id')
+          .eq('slug', programSlug)
+          .maybeSingle();
 
-      const result = await approveApplication(supabase, {
-        applicationId: data.id,
-        programId: programRow?.id || null,
-        fundingType: body.fundingType || null,
-      });
-
-      if (result.success) {
-        userId = result.userId || null;
-        passwordSetupLink = result.passwordSetupLink || null;
-        logger.info('[Applications] Auto-approved', {
+        const result = await approveApplication(supabase, {
           applicationId: data.id,
-          userId,
-          hasPasswordLink: !!passwordSetupLink,
+          programId: programRow?.id || null,
+          fundingType: fundingType,
         });
-      } else {
-        logger.warn('[Applications] Auto-approve failed (non-fatal)', { error: result.error });
+
+        if (result.success) {
+          userId = result.userId || null;
+          passwordSetupLink = result.passwordSetupLink || null;
+          logger.info('[Applications] Auto-approved', {
+            applicationId: data.id,
+            userId,
+            hasPasswordLink: !!passwordSetupLink,
+          });
+        } else {
+          logger.warn('[Applications] Auto-approve failed (non-fatal)', { error: result.error });
+        }
+      } catch (approveErr) {
+        logger.warn('[Applications] Auto-approve threw (non-fatal)', approveErr);
       }
-    } catch (approveErr) {
-      logger.warn('[Applications] Auto-approve threw (non-fatal)', approveErr);
+    } else {
+      logger.info('[Applications] Funded application — skipping auto-approve, pending admin review', {
+        applicationId: data.id,
+        fundingType,
+        eligibilityStatus,
+        applicationStatus,
+      });
     }
 
     // Send email notifications — direct call, no self-fetch
@@ -215,62 +251,81 @@ async function _POST(req: Request) {
       ` : '';
 
       // Confirmation + onboarding email to applicant
+      // Build next-steps content based on application status
+      const fundingLabel: Record<string, string> = {
+        wioa: 'WIOA (Workforce Innovation and Opportunity Act)',
+        wrg: 'Workforce Ready Grant / Next Level Jobs',
+        fssa: 'FSSA IMPACT',
+      };
+      const fundingName = fundingType ? (fundingLabel[fundingType] || fundingType) : null;
+
+      const nextStepsHtml = needsICC ? `
+        <div style="background: #fffbeb; border: 2px solid #f59e0b; border-radius: 8px; padding: 20px; margin: 20px 0;">
+          <h3 style="margin-top: 0; color: #92400e;">Action Required — Complete Indiana Career Connect First</h3>
+          <p style="color: #78350f;">You selected <strong>${fundingName}</strong> as your funding option. Before we can enroll you, you must complete the Indiana Career Connect process and receive your funding approval.</p>
+          <h4 style="color: #92400e; margin-bottom: 8px;">Your next steps:</h4>
+          <ol style="color: #78350f; padding-left: 20px; line-height: 1.8;">
+            <li>Go to <a href="https://www.indianacareerconnect.com" style="color: #ea580c; font-weight: bold;">IndianaCareerConnect.com</a> and create a free account</li>
+            <li>Complete your profile and upload your resume</li>
+            <li>Schedule an appointment at your nearest WorkOne center</li>
+            <li>Receive your funding approval letter (ITA, WRG approval, or FSSA authorization)</li>
+            <li><strong>Come back and reapply</strong> — your application will be fast-tracked once you have your approval letter</li>
+          </ol>
+          <p style="margin-bottom: 12px; color: #78350f;"><strong>Need help?</strong> Our enrollment team can walk you through the process.</p>
+          <a href="https://www.indianacareerconnect.com" style="display: inline-block; background: #1d4ed8; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold; margin-right: 8px;">Go to Indiana Career Connect</a>
+          <a href="https://www.in.gov/dwd/find-a-workone-center/" style="display: inline-block; background: #374151; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold;">Find a WorkOne Center</a>
+        </div>
+        <p style="color: #64748b; font-size: 14px;">Once you have your approval letter, reapply at <a href="${siteUrl}/programs/hvac-technician/apply" style="color: #ea580c;">${siteUrl}/programs</a> and select your funding type. Your application will be prioritized.</p>
+      ` : isFunded ? `
+        <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 20px; margin: 20px 0;">
+          <h3 style="margin-top: 0; color: #1e40af;">Application Received — Pending Admin Review</h3>
+          <p style="color: #1e3a8a;">You selected <strong>${fundingName}</strong> as your funding option. Your application has been received and is pending review by our enrollment team.</p>
+          <h4 style="color: #1e40af; margin-bottom: 8px;">What happens next:</h4>
+          <ol style="color: #1e3a8a; padding-left: 20px; line-height: 1.8;">
+            <li>Our enrollment team reviews your application (1–2 business days)</li>
+            <li>We verify your funding status with ${fundingType === 'wioa' ? 'WorkOne' : fundingType === 'wrg' ? 'Indiana Career Connect' : 'FSSA'}</li>
+            <li>Once verified, we contact you to complete enrollment and schedule your start date</li>
+            <li>You begin training — no tuition due until funding is confirmed</li>
+          </ol>
+        </div>
+        ${passwordSection}
+      ` : `
+        ${passwordSection}
+        <h3 style="color: #0f172a;">What Happens Next</h3>
+        <table style="width: 100%; border-collapse: collapse;">
+          <tr><td style="padding: 10px 12px; vertical-align: top; width: 36px;"><div style="width: 28px; height: 28px; background: #ea580c; color: white; border-radius: 50%; text-align: center; line-height: 28px; font-weight: bold; font-size: 14px;">1</div></td><td style="padding: 10px 0;"><strong>Set your password</strong> using the button above to access your student portal.</td></tr>
+          <tr><td style="padding: 10px 12px; vertical-align: top;"><div style="width: 28px; height: 28px; background: #ea580c; color: white; border-radius: 50%; text-align: center; line-height: 28px; font-weight: bold; font-size: 14px;">2</div></td><td style="padding: 10px 0;"><strong>Complete orientation</strong> — a short online module (about 10 minutes) that unlocks your coursework.</td></tr>
+          <tr><td style="padding: 10px 12px; vertical-align: top;"><div style="width: 28px; height: 28px; background: #ea580c; color: white; border-radius: 50%; text-align: center; line-height: 28px; font-weight: bold; font-size: 14px;">3</div></td><td style="padding: 10px 0;"><strong>Advisor contact</strong> — we'll reach out within 1–2 business days via ${body.preferredContact || 'phone'}.</td></tr>
+          <tr><td style="padding: 10px 12px; vertical-align: top;"><div style="width: 28px; height: 28px; background: #ea580c; color: white; border-radius: 50%; text-align: center; line-height: 28px; font-weight: bold; font-size: 14px;">4</div></td><td style="padding: 10px 0;"><strong>Start training</strong> — once payment is confirmed, you begin your program.</td></tr>
+        </table>
+      `;
+
+      const emailSubject = needsICC
+        ? `Action Required — Complete Indiana Career Connect to Enroll [Ref: ${referenceNumber}]`
+        : isFunded
+        ? `Application Received — Pending Review [Ref: ${referenceNumber}]`
+        : `Welcome to Elevate for Humanity — ${body.program} [Ref: ${referenceNumber}]`;
+
       const studentEmailResult = await sendEmail({
         to: body.email,
-        subject: `Welcome to Elevate for Humanity — ${body.program} [Ref: ${referenceNumber}]`,
+        subject: emailSubject,
         html: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
             <div style="padding: 24px; text-align: center; border-radius: 8px 8px 0 0; border-bottom: 2px solid #e5e7eb;">
-              <h1 style="margin: 0; font-size: 24px;">Welcome to Elevate for Humanity!</h1>
+              <h1 style="margin: 0; font-size: 24px;">${needsICC ? 'Next Step Required' : 'Welcome to Elevate for Humanity!'}</h1>
             </div>
-
             <div style="padding: 24px; background: #ffffff; border: 1px solid #e2e8f0; border-top: none; border-radius: 0 0 8px 8px;">
               <p style="font-size: 16px;">Hi ${body.firstName},</p>
-              <p>Your application for <strong>${body.program}</strong> has been received and your enrollment is being processed.</p>
+              <p>Your application for <strong>${body.program}</strong> has been received${needsICC ? ', but there is one more step before we can enroll you.' : isFunded ? ' and is pending admin review.' : ' and your enrollment is being processed.'}</p>
 
-              ${passwordSection}
+              ${nextStepsHtml}
 
-              <h3 style="color: #0f172a;">What Happens Next</h3>
-              <table style="width: 100%; border-collapse: collapse;">
-                <tr>
-                  <td style="padding: 10px 12px; vertical-align: top; width: 36px;">
-                    <div style="width: 28px; height: 28px; background: #ea580c; color: white; border-radius: 50%; text-align: center; line-height: 28px; font-weight: bold; font-size: 14px;">1</div>
-                  </td>
-                  <td style="padding: 10px 0;">
-                    <strong>Set your password</strong> using the green button above to access your student portal.
-                  </td>
-                </tr>
-                <tr>
-                  <td style="padding: 10px 12px; vertical-align: top;">
-                    <div style="width: 28px; height: 28px; background: #ea580c; color: white; border-radius: 50%; text-align: center; line-height: 28px; font-weight: bold; font-size: 14px;">2</div>
-                  </td>
-                  <td style="padding: 10px 0;">
-                    <strong>Complete orientation</strong> — a short online module (about 10 minutes) that unlocks your coursework.
-                  </td>
-                </tr>
-                <tr>
-                  <td style="padding: 10px 12px; vertical-align: top;">
-                    <div style="width: 28px; height: 28px; background: #ea580c; color: white; border-radius: 50%; text-align: center; line-height: 28px; font-weight: bold; font-size: 14px;">3</div>
-                  </td>
-                  <td style="padding: 10px 0;">
-                    <strong>Advisor contact</strong> — we'll reach out within 1–2 business days via ${body.preferredContact || 'phone'} to discuss funding options and scheduling.
-                  </td>
-                </tr>
-                <tr>
-                  <td style="padding: 10px 12px; vertical-align: top;">
-                    <div style="width: 28px; height: 28px; background: #ea580c; color: white; border-radius: 50%; text-align: center; line-height: 28px; font-weight: bold; font-size: 14px;">4</div>
-                  </td>
-                  <td style="padding: 10px 0;">
-                    <strong>Start training</strong> — once funding is confirmed, you begin your program.
-                  </td>
-                </tr>
-              </table>
-
+              ${!needsICC ? `
               <div style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px; margin: 20px 0;">
                 <h3 style="margin-top: 0; color: #ea580c;">Want to Talk Sooner?</h3>
-                <p style="margin-bottom: 12px;">Schedule your advisor call now instead of waiting:</p>
+                <p style="margin-bottom: 12px;">Schedule your advisor call now:</p>
                 <a href="https://calendly.com/elevate4humanityedu" style="display: inline-block; background: #ea580c; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold;">Schedule Call Now</a>
-              </div>
+              </div>` : ''}
 
               <div style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px; margin: 20px 0;">
                 <p style="margin: 0 0 8px 0; font-size: 14px; color: #64748b;">Your Reference Number:</p>
@@ -278,12 +333,7 @@ async function _POST(req: Request) {
                 <p style="margin: 8px 0 0 0; font-size: 12px; color: #64748b;">Application ID: ${data.id}</p>
               </div>
 
-              <div style="text-align: center; margin: 24px 0;">
-                <a href="${siteUrl}/apply/track?id=${data.id}&email=${encodeURIComponent(body.email)}" style="display: inline-block; background: #ea580c; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold;">Track Application Status</a>
-              </div>
-
               <p>Questions? Call us at <a href="tel:3173143757" style="color: #ea580c; font-weight: bold;">317-314-3757</a> or email <a href="mailto:info@elevateforhumanity.org" style="color: #ea580c;">info@elevateforhumanity.org</a></p>
-
               <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 24px 0;" />
               <p style="color: #64748b; font-size: 13px; text-align: center;">
                 Elevate for Humanity Career &amp; Technical Institute<br />
@@ -296,11 +346,19 @@ async function _POST(req: Request) {
       });
 
       // Send staff email in parallel (don't wait for it to finish before responding)
+      const staffSubject = needsICC
+        ? `⚠ Pending Funding [${referenceNumber}]: ${body.firstName} ${body.lastName} — Needs ICC First`
+        : isFunded
+        ? `🔵 Admin Review Required [${referenceNumber}]: ${body.firstName} ${body.lastName} — ${fundingName}`
+        : `New Application [${referenceNumber}]: ${body.firstName} ${body.lastName} - ${body.program}`;
+
       const staffEmailPromise = sendEmail({
         to: 'elevate4humanityedu@gmail.com',
-        subject: `New Application [${referenceNumber}]: ${body.firstName} ${body.lastName} - ${body.program}`,
+        subject: staffSubject,
         html: `
           <h2>New Application Received</h2>
+          ${needsICC ? `<div style="background:#fffbeb;border:2px solid #f59e0b;border-radius:8px;padding:16px;margin-bottom:16px;"><strong>⚠ ACTION: Student has NOT been to Indiana Career Connect.</strong> Do NOT enroll. Student has been emailed instructions to complete ICC and reapply.</div>` : ''}
+          ${isFunded && !needsICC ? `<div style="background:#eff6ff;border:2px solid #3b82f6;border-radius:8px;padding:16px;margin-bottom:16px;"><strong>🔵 ADMIN REVIEW REQUIRED before enrollment.</strong> Verify ${fundingName} approval with the agency before approving this application.</div>` : ''}
           <p><strong>Reference:</strong> ${referenceNumber}</p>
           <p><strong>Name:</strong> ${body.firstName} ${body.lastName}</p>
           <p><strong>Email:</strong> ${body.email}</p>
@@ -308,7 +366,9 @@ async function _POST(req: Request) {
           <p><strong>Program:</strong> ${body.program}</p>
           <p><strong>Location:</strong> ${body.city || 'N/A'}, ${body.zip || 'N/A'}</p>
           <p><strong>Preferred Contact:</strong> ${body.preferredContact || 'phone'}</p>
-          <p><strong>Status:</strong> Pending admin approval</p>
+          <p><strong>Funding Type:</strong> ${fundingName || 'Self-pay / Not specified'}</p>
+          <p><strong>Funding Eligibility Status:</strong> ${eligibilityStatus || 'N/A'}</p>
+          <p><strong>Application Status:</strong> ${applicationStatus}</p>
           ${body.hasCaseManager ? `<p><strong>Has Case Manager:</strong> ${body.hasCaseManager}</p>` : ''}
           ${body.caseManagerAgency ? `<p><strong>Agency:</strong> ${body.caseManagerAgency}</p>` : ''}
           ${body.supportNeeds ? `<p><strong>Support Needs:</strong> ${body.supportNeeds}</p>` : ''}
