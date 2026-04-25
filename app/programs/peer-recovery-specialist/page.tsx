@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import ProgramDetailPage from '@/components/programs/ProgramDetailPage';
 import { PEER_RECOVERY } from '@/data/programs/peer-recovery-specialist';
+import heroBanners from '@/content/heroBanners';
 
 export const revalidate = 86400;
 
@@ -11,5 +12,6 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <ProgramDetailPage program={PEER_RECOVERY} />;
+  const banner = heroBanners['peer-recovery-specialist'] ?? null;
+  return <ProgramDetailPage program={PEER_RECOVERY} banner={banner} />;
 }

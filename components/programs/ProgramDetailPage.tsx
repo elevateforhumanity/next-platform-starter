@@ -11,7 +11,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import HeroVideo from '@/components/marketing/HeroVideo';
-import heroBanners from '@/content/heroBanners';
+import heroBanners, { type HeroBannerConfig } from '@/content/heroBanners';
 import {
   BookOpen, Clock, DollarSign,
   MapPin, Shield, TrendingUp, ChevronRight,
@@ -24,12 +24,14 @@ import { ICC_URL, ICC_INSTRUCTION } from '@/lib/page-design-tokens';
 
 interface Props {
   program: ProgramSchema;
+  /** Banner data passed from the server page — bypasses client-side JSON cache limitation. */
+  banner?: HeroBannerConfig | null;
   /** Replaces the default video/image hero entirely. */
   heroOverride?: React.ReactNode;
   children?: React.ReactNode;
 }
 
-export default function ProgramDetailPage({ program: p, heroOverride, children }: Props) {
+export default function ProgramDetailPage({ program: p, banner: bannerProp, heroOverride, children }: Props) {
   // Dev-time validation
   if (process.env.NODE_ENV === 'development') {
     const errors = validateProgram(p);
@@ -51,7 +53,9 @@ export default function ProgramDetailPage({ program: p, heroOverride, children }
       {/* A. HERO */}
       <section>
         {heroOverride ?? (() => {
-          const banner = heroBanners[p.slug];
+          // bannerProp is passed from the server page.tsx — use it first.
+          // heroBanners Proxy only works server-side; returns undefined on client.
+          const banner = bannerProp ?? heroBanners[p.slug];
           if (banner) {
             const bannerCtas = [
               banner.primaryCta,

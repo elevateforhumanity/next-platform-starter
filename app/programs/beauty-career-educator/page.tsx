@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import ProgramDetailPage from '@/components/programs/ProgramDetailPage';
 import { BEAUTY_CAREER_EDUCATOR } from '@/data/programs/beauty-career-educator';
+import heroBanners from '@/content/heroBanners';
 
 export const revalidate = 86400;
 
@@ -11,5 +12,6 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <ProgramDetailPage program={BEAUTY_CAREER_EDUCATOR} />;
+  const banner = heroBanners['beauty-career-educator'] ?? null;
+  return <ProgramDetailPage program={BEAUTY_CAREER_EDUCATOR} banner={banner} />;
 }

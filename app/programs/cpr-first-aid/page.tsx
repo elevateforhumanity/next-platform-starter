@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import ProgramDetailPage from '@/components/programs/ProgramDetailPage';
 import { CPR_FIRST_AID } from '@/data/programs/cpr-first-aid';
+import heroBanners from '@/content/heroBanners';
 
 export const revalidate = 86400;
 
@@ -11,5 +12,6 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <ProgramDetailPage program={CPR_FIRST_AID} />;
+  const banner = heroBanners['cpr-first-aid'] ?? null;
+  return <ProgramDetailPage program={CPR_FIRST_AID} banner={banner} />;
 }

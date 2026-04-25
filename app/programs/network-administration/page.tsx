@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import ProgramDetailPage from '@/components/programs/ProgramDetailPage';
 import { NETWORK_ADMIN } from '@/data/programs/network-administration';
+import heroBanners from '@/content/heroBanners';
 
 export const revalidate = 86400;
 
@@ -11,5 +12,6 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <ProgramDetailPage program={NETWORK_ADMIN} />;
+  const banner = heroBanners['network-administration'] ?? null;
+  return <ProgramDetailPage program={NETWORK_ADMIN} banner={banner} />;
 }

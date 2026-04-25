@@ -1364,28 +1364,25 @@
   "technology": {
     "pageKey": "technology",
     "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
     "posterImage": "/hero-images/technology-cat-new.jpg",
-    "videoSrcMobile": "/videos/it-technology.mp4",
-    "voiceoverSrc": "/audio/heroes/technology.mp3",
-    "microLabel": "Technology Programs",
-    "belowHeroHeadline": "Technology training with industry certifications.",
-    "belowHeroSubheadline": "IT Help Desk, Cybersecurity, Web Development, Software Development, and more. WIOA and Next Level Jobs funding available.",
+    "microLabel": "Indianapolis, Indiana",
+    "belowHeroHeadline": "Technology Career Training \u2014 CompTIA A+ in 12 weeks.",
+    "belowHeroSubheadline": "Launch an IT career with industry-recognized certifications. WIOA and Workforce Ready Grant funding available.",
     "primaryCta": {
-      "label": "Apply Now",
-      "href": "/apply?program=technology"
+      "href": "/apply?program=technology",
+      "label": "Apply Now"
     },
     "secondaryCta": {
-      "label": "Check Eligibility",
       "href": "/check-eligibility",
+      "label": "Check Eligibility",
       "variant": "secondary"
     },
     "trustIndicators": [
-      "WIOA funding available",
-      "CompTIA & Adobe certifications",
-      "Next Level Jobs accepted",
-      "Job placement assistance"
+      "CompTIA Authorized",
+      "WIOA Approved",
+      "Indianapolis, Indiana"
     ],
-    "transcript": "IT Support, Cybersecurity, Web Development, and more. Earn industry certifications for high-demand tech careers. Funding available through WIOA and Next Level Jobs. Launch your technology career at Elevate for Humanity.",
     "analyticsName": "technology"
   },
   "business": {
@@ -2488,5 +2485,29 @@
     ],
     "transcript": "Earn CompTIA Security+ and CySA+ certifications in 12 weeks.",
     "analyticsName": "cybersecurity"
+  },
+  "hospitality": {
+    "pageKey": "hospitality",
+    "videoSrcDesktop": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
+    "videoSrcMobile": "https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4",
+    "posterImage": "/hero-images/business-hero.jpg",
+    "microLabel": "Indianapolis, Indiana",
+    "belowHeroHeadline": "Hospitality & Customer Service \u2014 ServSafe certified in 8 weeks.",
+    "belowHeroSubheadline": "Build a career in hotels, restaurants, and event services. WIOA and Workforce Ready Grant funding available.",
+    "primaryCta": {
+      "href": "/apply?program=hospitality",
+      "label": "Apply Now"
+    },
+    "secondaryCta": {
+      "href": "/check-eligibility",
+      "label": "Check Eligibility",
+      "variant": "secondary"
+    },
+    "trustIndicators": [
+      "ServSafe Certified",
+      "WIOA Approved",
+      "Indianapolis, Indiana"
+    ],
+    "analyticsName": "hospitality"
   }
 }

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import ProgramDetailPage from '@/components/programs/ProgramDetailPage';
 import { FORKLIFT } from '@/data/programs/forklift';
+import heroBanners from '@/content/heroBanners';
 
 export const revalidate = 86400;
 
@@ -11,5 +12,6 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <ProgramDetailPage program={FORKLIFT} />;
+  const banner = heroBanners['forklift'] ?? null;
+  return <ProgramDetailPage program={FORKLIFT} banner={banner} />;
 }

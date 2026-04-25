@@ -8,6 +8,7 @@ import LogoImage from '@/components/site/LogoImage';
 import Copyright from '@/components/ui/Copyright';
 import { Facebook, Instagram, Linkedin, Youtube } from 'lucide-react';
 import { SOCIAL_LINKS } from '@/config/social-links';
+import FooterAccordion from '@/components/site/FooterAccordion.client';
 
 // FOOTER STRUCTURE — 5 columns
 // Col 1: Programs (healthcare, trades, tech, beauty, business)
@@ -159,64 +160,16 @@ export default function ServerFooter() {
           </div>
         </div>
 
-        {/* 4-Column Footer — mirrors nav hierarchy */}
-        <nav aria-label="Footer navigation" className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
-          {/* Column 1: Programs */}
-          <div>
-            <h3 className="font-semibold mb-4 text-white text-sm uppercase tracking-wide">Programs</h3>
-            <ul className="space-y-3">
-              {footerLinks.programs.map((link) => (
-                <li key={link.name}>
-                  <Link href={link.href} className="text-slate-400 hover:text-white text-sm transition-colors">
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Column 2: Get Started */}
-          <div>
-            <h3 className="font-semibold mb-4 text-white text-sm uppercase tracking-wide">Get Started</h3>
-            <ul className="space-y-3">
-              {footerLinks.getStarted.map((link) => (
-                <li key={link.name}>
-                  <Link href={link.href} className="text-slate-400 hover:text-white text-sm transition-colors">
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Column 3: Employers & Partners */}
-          <div>
-            <h3 className="font-semibold mb-4 text-white text-sm uppercase tracking-wide">Employers & Partners</h3>
-            <ul className="space-y-3">
-              {footerLinks.partners.map((link) => (
-                <li key={link.name}>
-                  <Link href={link.href} className="text-slate-400 hover:text-white text-sm transition-colors">
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Column 4: Organization */}
-          <div>
-            <h3 className="font-semibold mb-4 text-white text-sm uppercase tracking-wide">Organization</h3>
-            <ul className="space-y-3">
-              {footerLinks.organization.map((link) => (
-                <li key={link.name}>
-                  <Link href={link.href} className="text-slate-400 hover:text-white text-sm transition-colors">
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </nav>
+        {/* Footer Accordion — all screen sizes */}
+        <FooterAccordion
+          sections={[
+            { title: 'Programs', links: footerLinks.programs },
+            { title: 'Get Started', links: footerLinks.getStarted },
+            { title: 'Employers & Partners', links: footerLinks.partners },
+            { title: 'Portals', links: footerLinks.portals },
+            { title: 'Organization', links: footerLinks.organization },
+          ]}
+        />
 
         {/* Footer CTA */}
         <div className="border-t border-slate-800 pt-8 pb-8 mb-8 text-center">
