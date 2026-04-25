@@ -28,6 +28,12 @@ export interface IngestInput {
   certificate_enabled?: boolean;
   /** Run lesson compiler second pass to generate narration, slides, quiz bank per lesson */
   compile_lessons?: boolean;
+  /**
+   * Industry-grounded system prompt built from O*NET/BLS/CareerOneStop data.
+   * When provided, replaces the generic system message in the extraction step
+   * so the AI generates modules that trace back to real job tasks and credential domains.
+   */
+  systemPromptOverride?: string;
 }
 
 export interface QuizQuestionBlueprint {
@@ -315,12 +321,17 @@ export async function ingestCourse(input: IngestInput): Promise<CourseBlueprint>
   }
 
   // Step 3: extract + normalize
+  // Use the industry-grounded system prompt when available (built from O*NET/BLS/CareerOneStop).
+  // Falls back to a minimal baseline only when no industry data was loaded.
+  const extractionSystemPrompt = input.systemPromptOverride
+    ?? 'You are an expert instructional designer and course architect. Output only valid JSON.';
+
   const extractRes = await openai.chat.completions.create({
     model: 'gpt-4o',
     messages: [
       {
         role: 'system',
-        content: 'You are an expert instructional designer and course architect. Output only valid JSON.',
+        content: extractionSystemPrompt,
       },
       {
         role: 'user',
