@@ -74,7 +74,7 @@ export default function PlatformLicensingPage() {
                 Compare License Types
               </Link>
               <Link
-                href="/demos"
+                href="/contact"
                 className="inline-block bg-white/10 backdrop-blur-sm border-2 border-white text-white px-8 py-4 rounded-lg font-bold hover:bg-white/20 transition"
               >
                 See Live Demos
@@ -310,7 +310,7 @@ export default function PlatformLicensingPage() {
               </div>
 
               <Link
-                href="/license/pricing"
+                href="/programs"
                 className="block w-full bg-white text-brand-blue-600 hover:bg-white text-center px-6 py-4 rounded-lg font-bold transition text-lg"
               >
                 Learn More & Apply →
@@ -381,7 +381,7 @@ export default function PlatformLicensingPage() {
               </div>
 
               <Link
-                href="/license/pricing"
+                href="/programs"
                 className="block w-full bg-slate-900 hover:bg-slate-800 text-white text-center px-6 py-4 rounded-lg font-bold transition text-lg"
               >
                 Get Started →
@@ -450,7 +450,7 @@ export default function PlatformLicensingPage() {
               </div>
 
               <Link
-                href="/license/pricing"
+                href="/programs"
                 className="block w-full bg-brand-blue-600 hover:bg-brand-blue-700 text-white text-center px-6 py-4 rounded-lg font-bold transition text-lg"
               >
                 View Details →
@@ -520,7 +520,7 @@ export default function PlatformLicensingPage() {
               </div>
 
               <Link
-                href="/license/pricing"
+                href="/programs"
                 className="block w-full bg-brand-orange-600 hover:bg-brand-orange-700 text-white text-center px-6 py-4 rounded-lg font-bold transition text-lg"
               >
                 Build Package →
@@ -894,7 +894,7 @@ export default function PlatformLicensingPage() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
-              href="/demos"
+              href="/contact"
               className="inline-block bg-white text-brand-blue-600 px-8 py-4 rounded-lg font-bold hover:bg-white transition"
             >
               View Live Demos
