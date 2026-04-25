@@ -69,7 +69,9 @@ export default function EditorClient() {
 
   // Bottom panel
   const [bottomTab, setBottomTab] = useState<Tab>('terminal');
-  const [previewUrl, setPreviewUrl] = useState('http://localhost:3000');
+  const [previewUrl, setPreviewUrl] = useState(
+    process.env.NEXT_PUBLIC_ADMIN_URL ?? 'https://elevate-admin-production.up.railway.app'
+  );
   const [previewKey, setPreviewKey] = useState(0);
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
