@@ -91,10 +91,10 @@ const nextConfig = {
   // Railway needs standalone for the persistent Node server.
   // Netlify breaks with standalone — gate behind RAILWAY env var.
   ...(process.env.RAILWAY === 'true' ? { output: 'standalone' } : {}),
-  // edge-tts@1.0.1 ships index.ts as its entry point (uncompiled TypeScript).
-  // transpilePackages tells Next.js to run it through the TypeScript compiler
-  // so webpack can parse it. serverExternalPackages does not help here because
-  // the dynamic import() in the TTS route still causes webpack to trace it.
+  // edge-tts ships index.ts as its entry point (uncompiled TypeScript).
+  // Netlify/webpack build: transpilePackages compiles it so webpack can parse it.
+  // Railway build uses next.config.railway.mjs where edge-tts is in
+  // serverExternalPackages instead — a package cannot be in both arrays under Turbopack.
   transpilePackages: ['edge-tts'],
 
 
