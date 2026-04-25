@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 
-import { stripe } from '@/lib/stripe/client';
+import { getStripe } from '@/lib/stripe/client';
 import { getCatalogProduct } from '@/lib/store/db';
 import { STRIPE_PRICE_IDS, isPriceConfigured } from '@/lib/stripe/price-map';
 import { createClient } from '@/lib/supabase/server';

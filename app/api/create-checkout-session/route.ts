@@ -1,5 +1,5 @@
 
-import { stripe } from '@/lib/stripe/client';
+import { getStripe } from '@/lib/stripe/client';
 import { NextRequest, NextResponse } from 'next/server';
 import { logger } from '@/lib/logger';
 import { getRAPIDSMetadata, isRAPIDSProgram } from '@/lib/compliance/rapids-config';

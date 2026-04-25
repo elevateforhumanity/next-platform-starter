@@ -4,7 +4,7 @@ export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
 
 import { NextResponse } from 'next/server';
-import { stripe } from '@/lib/stripe/client';
+import { getStripe } from '@/lib/stripe/client';
 import { logger } from '@/lib/logger';
 
 

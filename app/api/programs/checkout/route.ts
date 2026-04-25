@@ -5,12 +5,14 @@ export const maxDuration = 60;
 
 import { NextRequest, NextResponse } from 'next/server';
 import { parseBody, getErrorMessage } from '@/lib/api-helpers';
-import { stripe } from '@/lib/stripe/client';
+import { getStripe } from '@/lib/stripe/client';
 import { createClient } from '@/lib/supabase/server';
 import { toError, toErrorMessage } from '@/lib/safe';
 
 
 export async function POST(request: NextRequest) {
+  const stripe = getStripe();
+  if (!stripe) return NextResponse.json({ error: "Payment system not configured." }, { status: 503 });
   if (!stripe) {
     return NextResponse.json(
       { error: 'Payment system not configured' },

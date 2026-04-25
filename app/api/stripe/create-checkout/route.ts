@@ -1,6 +1,6 @@
 
 import { NextResponse } from 'next/server';
-import { stripe } from '@/lib/stripe/client';
+import { getStripe } from '@/lib/stripe/client';
 import { createClient } from '@/lib/supabase/server';
 import { toErrorMessage } from '@/lib/safe';
 import { paymentRateLimit } from '@/lib/rate-limit';

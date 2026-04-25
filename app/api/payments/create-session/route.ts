@@ -1,7 +1,7 @@
 
 
 import type Stripe from 'stripe';
-import { stripe } from '@/lib/stripe/client';
+import { getStripe } from '@/lib/stripe/client';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { toErrorMessage } from '@/lib/safe';

@@ -1,20 +1,33 @@
 /**
  * /api/devstudio/execute
  *
- * SSE endpoint. Accepts a plain-English command, uses GPT-4o tool-calling to
+ * SSE endpoint. Accepts a plain-English command, uses GPT-4.1 tool-calling to
  * map it to an action, then streams progress back line-by-line.
  *
  * Supported actions:
- *   generate_course      → POST /api/admin/courses/generate
- *   generate_video       → POST /api/video/generate
- *   run_report           → GET  /api/admin/reports/:type
- *   get_analytics        → GET  /api/admin/analytics
- *   list_applications    → GET  /api/admin/applications
- *   list_students        → GET  /api/admin/students
- *   list_enrollments     → GET  /api/admin/enrollments
- *   send_test_email      → POST /api/admin/test-email
- *   check_system_health  → GET  /api/admin/webhook-health
- *   ask_question         → answered directly by the AI (no action)
+ *   generate_course         → POST /api/admin/courses/generate
+ *   generate_video          → POST /api/video/generate
+ *   run_report              → GET  /api/admin/reports/:type
+ *   get_analytics           → GET  /api/admin/analytics
+ *   list_applications       → GET  /api/admin/applications
+ *   approve_application     → POST /api/admin/applications/:id/approve
+ *   list_students           → GET  /api/admin/students
+ *   list_enrollments        → GET  /api/admin/enrollments
+ *   enroll_student          → POST /api/admin/enrollments
+ *   issue_certificate       → POST /api/admin/certificates/bulk
+ *   list_cohorts            → GET  /api/admin/cohorts
+ *   list_wioa               → GET  /api/admin/wioa
+ *   run_export              → GET  /api/admin/export/:type
+ *   list_programs           → GET  /api/admin/programs
+ *   flag_at_risk            → POST /api/admin/at-risk/flag
+ *   send_reminder           → POST /api/admin/send-reminder
+ *   list_payout_queue       → GET  /api/admin/enrollments/payout-queue
+ *   mark_payout_paid        → POST /api/admin/enrollments/mark-payout-paid
+ *   upload_document         → POST /api/documents/upload  (multipart)
+ *   send_document_for_sign  → POST /api/admin/sign-documents/send
+ *   send_test_email         → POST /api/admin/test-email
+ *   check_system_health     → GET  /api/admin/webhook-health
+ *   ask_question            → answered directly by the AI (no action)
  */
 
 import { NextRequest } from 'next/server';
@@ -153,6 +166,190 @@ const TOOLS: OpenAI.Chat.ChatCompletionTool[] = [
           to: { type: 'string', description: 'Recipient email address' },
         },
         required: ['to'],
+      },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'approve_application',
+      description: 'Approve a student application by application ID',
+      parameters: {
+        type: 'object',
+        properties: {
+          application_id: { type: 'string', description: 'Application UUID to approve' },
+          program_id: { type: 'string', description: 'Program UUID to enroll into (optional)' },
+          funding_type: { type: 'string', description: 'Funding type e.g. wioa, self_pay, employer (optional)' },
+        },
+        required: ['application_id'],
+      },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'enroll_student',
+      description: 'Enroll a student into a course or program',
+      parameters: {
+        type: 'object',
+        properties: {
+          user_id: { type: 'string', description: 'Student user UUID' },
+          course_id: { type: 'string', description: 'Course UUID to enroll into' },
+          program_id: { type: 'string', description: 'Program UUID (optional)' },
+        },
+        required: ['user_id', 'course_id'],
+      },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'issue_certificate',
+      description: 'Issue completion certificates to one or more students by enrollment ID',
+      parameters: {
+        type: 'object',
+        properties: {
+          enrollment_ids: { type: 'array', items: { type: 'string' }, description: 'List of enrollment UUIDs' },
+          template_id: { type: 'string', description: 'Certificate template UUID' },
+          signed_by: { type: 'string', description: 'Name of the signing authority (optional)' },
+        },
+        required: ['enrollment_ids', 'template_id'],
+      },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'list_cohorts',
+      description: 'List cohorts with optional program filter',
+      parameters: {
+        type: 'object',
+        properties: {
+          program_id: { type: 'string', description: 'Filter by program UUID (optional)' },
+          limit: { type: 'number', description: 'Max results (default 20)' },
+        },
+        required: [],
+      },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'list_wioa',
+      description: 'List WIOA cases with optional status filter',
+      parameters: {
+        type: 'object',
+        properties: {
+          status: { type: 'string', enum: ['pending', 'approved', 'denied', 'all'], description: 'Filter by status' },
+          limit: { type: 'number', description: 'Max results (default 20)' },
+        },
+        required: [],
+      },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'run_export',
+      description: 'Export data as CSV — students, enrollments, or weekly hours',
+      parameters: {
+        type: 'object',
+        properties: {
+          type: { type: 'string', enum: ['students', 'enrollments', 'weekly-hours'], description: 'Export type' },
+        },
+        required: ['type'],
+      },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'list_programs',
+      description: 'List all programs in the catalog',
+      parameters: {
+        type: 'object',
+        properties: {
+          status: { type: 'string', enum: ['published', 'draft', 'all'], description: 'Filter by status' },
+        },
+        required: [],
+      },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'flag_at_risk',
+      description: 'Flag a student as at-risk with a reason',
+      parameters: {
+        type: 'object',
+        properties: {
+          user_id: { type: 'string', description: 'Student user UUID' },
+          reason: { type: 'string', description: 'Reason for flagging' },
+        },
+        required: ['user_id', 'reason'],
+      },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'send_reminder',
+      description: 'Send a reminder email to a student or group',
+      parameters: {
+        type: 'object',
+        properties: {
+          user_id: { type: 'string', description: 'Student user UUID (optional — omit to send to all inactive)' },
+          message: { type: 'string', description: 'Custom reminder message (optional)' },
+        },
+        required: [],
+      },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'list_payout_queue',
+      description: 'List enrollments in the payout queue awaiting payment',
+      parameters: {
+        type: 'object',
+        properties: {
+          limit: { type: 'number', description: 'Max results (default 20)' },
+        },
+        required: [],
+      },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'mark_payout_paid',
+      description: 'Mark one or more enrollments as payout paid',
+      parameters: {
+        type: 'object',
+        properties: {
+          enrollment_ids: { type: 'array', items: { type: 'string' }, description: 'Enrollment UUIDs to mark paid' },
+        },
+        required: ['enrollment_ids'],
+      },
+    },
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'send_document_for_sign',
+      description: 'Generate and send a document (W-9, ACH, MOU, grant form) for e-signature via email',
+      parameters: {
+        type: 'object',
+        properties: {
+          document_type: {
+            type: 'string',
+            enum: ['w9', 'ach', 'mou', 'grant_application', 'enrollment_agreement'],
+            description: 'Type of document to generate and send',
+          },
+          recipient_email: { type: 'string', description: 'Email address to send the document to' },
+          recipient_name: { type: 'string', description: 'Full name of the recipient' },
+        },
+        required: ['document_type', 'recipient_email'],
       },
     },
   },
@@ -401,6 +598,288 @@ async function executeAction(
         const data = await res.json().catch(() => ({}));
         if (res.ok) {
           write('\x1b[32m✓  Test email sent\x1b[0m');
+        } else {
+          write(`\x1b[31m✗  Failed: ${data.error || res.statusText}\x1b[0m`);
+        }
+      } catch {
+        write('\x1b[31m✗  Network error — check server logs\x1b[0m');
+      }
+      break;
+    }
+
+    case 'approve_application': {
+      write(`\x1b[33m⚙  Approving application ${args.application_id}...\x1b[0m`);
+      try {
+        const res = await fetch(`${baseUrl}/api/admin/applications/${args.application_id}/approve`, {
+          method: 'POST',
+          headers,
+          body: JSON.stringify({ program_id: args.program_id, funding_type: args.funding_type }),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok) {
+          write('\x1b[32m✓  Application approved\x1b[0m');
+          if (data.enrollmentId) write(`   Enrollment ID: ${data.enrollmentId}`);
+          write(`   View at: /admin/applications`);
+        } else {
+          write(`\x1b[31m✗  Failed: ${data.error || res.statusText}\x1b[0m`);
+        }
+      } catch {
+        write('\x1b[31m✗  Network error — check server logs\x1b[0m');
+      }
+      break;
+    }
+
+    case 'enroll_student': {
+      write(`\x1b[33m⚙  Enrolling student ${args.user_id} into course ${args.course_id}...\x1b[0m`);
+      try {
+        const res = await fetch(`${baseUrl}/api/admin/enrollments`, {
+          method: 'POST',
+          headers,
+          body: JSON.stringify({ user_id: args.user_id, course_id: args.course_id, program_id: args.program_id }),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok) {
+          write('\x1b[32m✓  Student enrolled\x1b[0m');
+          if (data.data?.id) write(`   Enrollment ID: ${data.data.id}`);
+          write(`   View at: /admin/enrollments`);
+        } else {
+          write(`\x1b[31m✗  Failed: ${data.error || res.statusText}\x1b[0m`);
+        }
+      } catch {
+        write('\x1b[31m✗  Network error — check server logs\x1b[0m');
+      }
+      break;
+    }
+
+    case 'issue_certificate': {
+      const ids = args.enrollment_ids as string[];
+      write(`\x1b[33m⚙  Issuing certificates for ${ids.length} enrollment(s)...\x1b[0m`);
+      try {
+        const res = await fetch(`${baseUrl}/api/admin/certificates/bulk`, {
+          method: 'POST',
+          headers,
+          body: JSON.stringify({
+            enrollmentIds: ids,
+            templateId: args.template_id,
+            issueDate: new Date().toISOString().split('T')[0],
+            signedBy: args.signed_by || 'Elevate for Humanity',
+          }),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok) {
+          write('\x1b[32m✓  Certificates issued\x1b[0m');
+          if (data.issued !== undefined) write(`   Issued: ${data.issued}`);
+          if (data.failed !== undefined) write(`   Failed: ${data.failed}`);
+          write(`   View at: /admin/certificates`);
+        } else {
+          write(`\x1b[31m✗  Failed: ${data.error || res.statusText}\x1b[0m`);
+        }
+      } catch {
+        write('\x1b[31m✗  Network error — check server logs\x1b[0m');
+      }
+      break;
+    }
+
+    case 'list_cohorts': {
+      const limit = (args.limit as number) || 20;
+      write('\x1b[33m⚙  Loading cohorts...\x1b[0m');
+      try {
+        const url = new URL(`${baseUrl}/api/admin/cohorts`);
+        if (args.program_id) url.searchParams.set('program_id', args.program_id as string);
+        url.searchParams.set('limit', String(limit));
+        const res = await fetch(url.toString(), { headers });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok) {
+          const cohorts = Array.isArray(data) ? data : (data.cohorts ?? []);
+          write(`\x1b[32m✓  ${cohorts.length} cohort(s)\x1b[0m`);
+          cohorts.slice(0, 10).forEach((c: Record<string, unknown>) => {
+            write(`   ${c.name ?? c.id} — ${c.status ?? ''} — starts: ${c.start_date ?? 'TBD'}`);
+          });
+          write(`   Full list: /admin/cohorts`);
+        } else {
+          write(`\x1b[31m✗  Failed: ${data.error || res.statusText}\x1b[0m`);
+        }
+      } catch {
+        write('\x1b[31m✗  Network error — check server logs\x1b[0m');
+      }
+      break;
+    }
+
+    case 'list_wioa': {
+      const status = (args.status as string) || 'all';
+      const limit = (args.limit as number) || 20;
+      write(`\x1b[33m⚙  Loading WIOA cases (${status})...\x1b[0m`);
+      try {
+        const url = new URL(`${baseUrl}/api/admin/wioa`);
+        if (status !== 'all') url.searchParams.set('status', status);
+        url.searchParams.set('limit', String(limit));
+        const res = await fetch(url.toString(), { headers });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok) {
+          const cases = Array.isArray(data) ? data : (data.cases ?? data.data ?? []);
+          write(`\x1b[32m✓  ${cases.length} WIOA case(s)\x1b[0m`);
+          cases.slice(0, 10).forEach((c: Record<string, unknown>) => {
+            write(`   ${c.full_name ?? c.user_id ?? ''} — ${c.status ?? ''} — ${c.program ?? ''}`);
+          });
+          write(`   Full list: /admin/wioa`);
+        } else {
+          write(`\x1b[31m✗  Failed: ${data.error || res.statusText}\x1b[0m`);
+        }
+      } catch {
+        write('\x1b[31m✗  Network error — check server logs\x1b[0m');
+      }
+      break;
+    }
+
+    case 'run_export': {
+      const type = args.type as string;
+      write(`\x1b[33m⚙  Exporting ${type}...\x1b[0m`);
+      try {
+        const res = await fetch(`${baseUrl}/api/admin/export/${type}`, { headers });
+        if (res.ok) {
+          const contentDisposition = res.headers.get('content-disposition') || '';
+          const filename = contentDisposition.match(/filename="?([^"]+)"?/)?.[1] || `${type}.csv`;
+          write(`\x1b[32m✓  Export ready: ${filename}\x1b[0m`);
+          write(`   Download at: /admin/students/export (${type})`);
+        } else {
+          const data = await res.json().catch(() => ({}));
+          write(`\x1b[31m✗  Failed: ${data.error || res.statusText}\x1b[0m`);
+        }
+      } catch {
+        write('\x1b[31m✗  Network error — check server logs\x1b[0m');
+      }
+      break;
+    }
+
+    case 'list_programs': {
+      const status = (args.status as string) || 'all';
+      write('\x1b[33m⚙  Loading programs...\x1b[0m');
+      try {
+        const url = new URL(`${baseUrl}/api/admin/programs`);
+        if (status !== 'all') url.searchParams.set('status', status);
+        const res = await fetch(url.toString(), { headers });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok) {
+          const programs = Array.isArray(data) ? data : (data.programs ?? data.data ?? []);
+          write(`\x1b[32m✓  ${programs.length} program(s)\x1b[0m`);
+          programs.slice(0, 15).forEach((p: Record<string, unknown>) => {
+            write(`   ${p.title ?? p.name ?? p.id} — ${p.status ?? ''}`);
+          });
+          write(`   Full list: /admin/programs`);
+        } else {
+          write(`\x1b[31m✗  Failed: ${data.error || res.statusText}\x1b[0m`);
+        }
+      } catch {
+        write('\x1b[31m✗  Network error — check server logs\x1b[0m');
+      }
+      break;
+    }
+
+    case 'flag_at_risk': {
+      write(`\x1b[33m⚙  Flagging student ${args.user_id} as at-risk...\x1b[0m`);
+      try {
+        const res = await fetch(`${baseUrl}/api/admin/at-risk/flag`, {
+          method: 'POST',
+          headers,
+          body: JSON.stringify({ user_id: args.user_id, reason: args.reason }),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok) {
+          write('\x1b[32m✓  Student flagged as at-risk\x1b[0m');
+          write(`   View at: /admin/at-risk`);
+        } else {
+          write(`\x1b[31m✗  Failed: ${data.error || res.statusText}\x1b[0m`);
+        }
+      } catch {
+        write('\x1b[31m✗  Network error — check server logs\x1b[0m');
+      }
+      break;
+    }
+
+    case 'send_reminder': {
+      write('\x1b[33m⚙  Sending reminder...\x1b[0m');
+      try {
+        const res = await fetch(`${baseUrl}/api/admin/send-reminder`, {
+          method: 'POST',
+          headers,
+          body: JSON.stringify({ user_id: args.user_id, message: args.message }),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok) {
+          write('\x1b[32m✓  Reminder sent\x1b[0m');
+          if (data.sent) write(`   Sent to: ${data.sent} recipient(s)`);
+        } else {
+          write(`\x1b[31m✗  Failed: ${data.error || res.statusText}\x1b[0m`);
+        }
+      } catch {
+        write('\x1b[31m✗  Network error — check server logs\x1b[0m');
+      }
+      break;
+    }
+
+    case 'list_payout_queue': {
+      const limit = (args.limit as number) || 20;
+      write('\x1b[33m⚙  Loading payout queue...\x1b[0m');
+      try {
+        const url = new URL(`${baseUrl}/api/admin/enrollments/payout-queue`);
+        url.searchParams.set('limit', String(limit));
+        const res = await fetch(url.toString(), { headers });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok) {
+          const queue = Array.isArray(data) ? data : (data.queue ?? data.data ?? []);
+          write(`\x1b[32m✓  ${queue.length} payout(s) pending\x1b[0m`);
+          queue.slice(0, 10).forEach((p: Record<string, unknown>) => {
+            write(`   ${p.student_name ?? p.user_id ?? ''} — $${p.amount ?? '?'} — ${p.program_name ?? ''}`);
+          });
+          write(`   Full queue: /admin/payout-queue`);
+        } else {
+          write(`\x1b[31m✗  Failed: ${data.error || res.statusText}\x1b[0m`);
+        }
+      } catch {
+        write('\x1b[31m✗  Network error — check server logs\x1b[0m');
+      }
+      break;
+    }
+
+    case 'mark_payout_paid': {
+      const ids = args.enrollment_ids as string[];
+      write(`\x1b[33m⚙  Marking ${ids.length} payout(s) as paid...\x1b[0m`);
+      try {
+        const res = await fetch(`${baseUrl}/api/admin/enrollments/mark-payout-paid`, {
+          method: 'POST',
+          headers,
+          body: JSON.stringify({ enrollmentIds: ids }),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok) {
+          write('\x1b[32m✓  Payouts marked as paid\x1b[0m');
+          if (data.updated) write(`   Updated: ${data.updated}`);
+        } else {
+          write(`\x1b[31m✗  Failed: ${data.error || res.statusText}\x1b[0m`);
+        }
+      } catch {
+        write('\x1b[31m✗  Network error — check server logs\x1b[0m');
+      }
+      break;
+    }
+
+    case 'send_document_for_sign': {
+      write(`\x1b[33m⚙  Generating ${args.document_type} for ${args.recipient_email}...\x1b[0m`);
+      try {
+        const res = await fetch(`${baseUrl}/api/admin/sign-documents/send`, {
+          method: 'POST',
+          headers,
+          body: JSON.stringify({
+            documentType: args.document_type,
+            recipientEmail: args.recipient_email,
+            recipientName: args.recipient_name,
+          }),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok) {
+          write(`\x1b[32m✓  ${args.document_type?.toString().toUpperCase()} generated and sent\x1b[0m`);
+          write(`   Sent to: ${args.recipient_email}`);
+          if (data.messageId) write(`   Message ID: ${data.messageId}`);
         } else {
           write(`\x1b[31m✗  Failed: ${data.error || res.statusText}\x1b[0m`);
         }

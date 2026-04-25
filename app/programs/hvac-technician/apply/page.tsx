@@ -4,6 +4,7 @@ import { useState, useEffect} from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowLeft, Loader2, CreditCard, Info, Shield } from 'lucide-react';
+import FundingEligibilityFlow, { type EligibilityStatus } from '@/components/programs/FundingEligibilityFlow';
 
 const PRICING = {
   totalWeeks: 20,
@@ -62,6 +63,21 @@ export default function HvacApplyPage() {
     fundingInterest: '',
   });
 
+  // Tracks eligibility status from FundingEligibilityFlow — required before submit for WIOA/WRG/FSSA
+  const [fundingEligibilityStatus, setFundingEligibilityStatus] = useState<EligibilityStatus | null>(null);
+
+  // Reset eligibility status when funding type changes
+  const handleFundingChange = (value: string) => {
+    updateField('fundingInterest', value);
+    setFundingEligibilityStatus(null);
+  };
+
+  // Whether the submit button should be enabled for funded options
+  const fundedOptionsReady =
+    formData.fundingInterest === 'employer' ||
+    formData.fundingInterest === 'unsure' ||
+    ((['wioa', 'wrg', 'fssa'] as string[]).includes(formData.fundingInterest) && fundingEligibilityStatus !== null);
+
   const updateField = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
@@ -87,6 +103,7 @@ export default function HvacApplyPage() {
           program: 'HVAC Technician',
           programSlug: 'hvac-technician',
           fundingType: formData.fundingInterest === 'self-pay' ? 'self-pay' : formData.fundingInterest,
+          fundingEligibilityStatus: fundingEligibilityStatus ?? undefined,
           source: 'program-page',
           paymentOption,
         }),
@@ -462,68 +479,62 @@ export default function HvacApplyPage() {
                 </div>
 
                 {/* Funding Interest */}
-                <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-lg p-4">
-                  <label className="block text-sm font-medium text-brand-blue-900 mb-2">
+                <div>
+                  <label className="block text-sm font-bold text-slate-800 mb-3">
                     How do you plan to pay for training?
                   </label>
                   <div className="space-y-2">
-                    <label className="flex items-center gap-3 cursor-pointer">
-                      <input
-                        type="radio"
-                        name="fundingInterest"
-                        value="self-pay"
-                        checked={formData.fundingInterest === 'self-pay'}
-                        onChange={(e) => updateField('fundingInterest', e.target.value)}
-                        className="w-4 h-4 text-brand-blue-600"
-                      />
-                      <span className="text-brand-blue-800">Self-pay (card, BNPL, or payment plan)</span>
-                    </label>
-                    <label className="flex items-center gap-3 cursor-pointer">
-                      <input
-                        type="radio"
-                        name="fundingInterest"
-                        value="wioa"
-                        checked={formData.fundingInterest === 'wioa'}
-                        onChange={(e) => updateField('fundingInterest', e.target.value)}
-                        className="w-4 h-4 text-brand-blue-600"
-                      />
-                      <span className="text-brand-blue-800">WIOA funding (no cost if eligible)</span>
-                    </label>
-                    <label className="flex items-center gap-3 cursor-pointer">
-                      <input
-                        type="radio"
-                        name="fundingInterest"
-                        value="wrg"
-                        checked={formData.fundingInterest === 'wrg'}
-                        onChange={(e) => updateField('fundingInterest', e.target.value)}
-                        className="w-4 h-4 text-brand-blue-600"
-                      />
-                      <span className="text-brand-blue-800">Workforce Ready Grant / Next Level Jobs (no cost if eligible)</span>
-                    </label>
-                    <label className="flex items-center gap-3 cursor-pointer">
-                      <input
-                        type="radio"
-                        name="fundingInterest"
-                        value="employer"
-                        checked={formData.fundingInterest === 'employer'}
-                        onChange={(e) => updateField('fundingInterest', e.target.value)}
-                        className="w-4 h-4 text-brand-blue-600"
-                      />
-                      <span className="text-brand-blue-800">Employer-sponsored</span>
-                    </label>
-                    <label className="flex items-center gap-3 cursor-pointer">
-                      <input
-                        type="radio"
-                        name="fundingInterest"
-                        value="unsure"
-                        checked={formData.fundingInterest === 'unsure'}
-                        onChange={(e) => updateField('fundingInterest', e.target.value)}
-                        className="w-4 h-4 text-brand-blue-600"
-                      />
-                      <span className="text-brand-blue-800">Not sure — help me find funding</span>
-                    </label>
+                    {[
+                      { value: 'self-pay', label: 'Self-pay', sub: 'Card, BNPL, or payment plan — start immediately' },
+                      { value: 'wioa',     label: 'WIOA Funding', sub: 'Workforce Innovation & Opportunity Act — no cost if eligible' },
+                      { value: 'wrg',      label: 'Workforce Ready Grant / Next Level Jobs', sub: 'Indiana state grant — no cost if eligible' },
+                      { value: 'fssa',     label: 'FSSA IMPACT', sub: 'For current SNAP/TANF recipients — no cost if eligible' },
+                      { value: 'employer', label: 'Employer-sponsored', sub: 'OJT wage reimbursement or apprenticeship agreement' },
+                      { value: 'unsure',   label: 'Not sure', sub: 'Help me find the right funding option' },
+                    ].map(opt => (
+                      <label key={opt.value} className={`flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition-colors ${
+                        formData.fundingInterest === opt.value
+                          ? 'border-brand-blue-500 bg-brand-blue-50'
+                          : 'border-slate-200 bg-white hover:border-slate-300'
+                      }`}>
+                        <input
+                          type="radio"
+                          name="fundingInterest"
+                          value={opt.value}
+                          checked={formData.fundingInterest === opt.value}
+                          onChange={(e) => handleFundingChange(e.target.value)}
+                          className="mt-0.5 w-4 h-4 text-brand-blue-600"
+                        />
+                        <div>
+                          <p className="text-sm font-semibold text-slate-800">{opt.label}</p>
+                          <p className="text-xs text-slate-500 mt-0.5">{opt.sub}</p>
+                        </div>
+                      </label>
+                    ))}
                   </div>
                 </div>
+
+                {/* Eligibility flow for WIOA / WRG / FSSA */}
+                {(formData.fundingInterest === 'wioa' || formData.fundingInterest === 'wrg' || formData.fundingInterest === 'fssa') && (
+                  <FundingEligibilityFlow
+                    fundingType={formData.fundingInterest as 'wioa' | 'wrg' | 'fssa'}
+                    onReady={(status) => setFundingEligibilityStatus(status)}
+                  />
+                )}
+
+                {/* Employer / unsure — simple message */}
+                {(formData.fundingInterest === 'employer' || formData.fundingInterest === 'unsure') && (
+                  <div className="bg-green-50 border border-green-200 rounded-xl p-4 flex items-start gap-3">
+                    <Shield className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                    <div>
+                      <p className="text-sm font-bold text-green-800">No payment required today</p>
+                      <p className="text-sm text-green-700 mt-1">
+                        Submit your application and our enrollment team will contact you within 2 business days
+                        to verify your funding and walk you through next steps.
+                      </p>
+                    </div>
+                  </div>
+                )}
 
                 {/* Payment Options — only show for self-pay */}
                 {formData.fundingInterest === 'self-pay' && (
@@ -700,25 +711,21 @@ export default function HvacApplyPage() {
                   </>
                 )}
 
-                {/* Funding-assisted message */}
-                {(formData.fundingInterest === 'wioa' || formData.fundingInterest === 'wrg' || formData.fundingInterest === 'employer' || formData.fundingInterest === 'unsure') && (
-                  <div className="bg-brand-green-50 border border-brand-green-200 rounded-lg p-4">
-                    <div className="flex items-start gap-3">
-                      <Shield className="w-5 h-5 text-brand-green-600 flex-shrink-0 mt-0.5" />
-                      <div>
-                        <p className="font-medium text-brand-green-800">No payment required today</p>
-                        <p className="text-sm text-brand-green-700 mt-1">
-                          Submit your application and our enrollment team will contact you within 2 business days to verify your funding eligibility and walk you through next steps.
-                        </p>
-                      </div>
-                    </div>
+                {/* Gate message — WIOA/WRG/FSSA selected but eligibility not confirmed yet */}
+                {(['wioa', 'wrg', 'fssa'] as string[]).includes(formData.fundingInterest) && !fundingEligibilityStatus && (
+                  <div className="bg-amber-50 border border-amber-200 rounded-xl p-3 text-sm text-amber-800 font-medium">
+                    ⚠ Please answer the eligibility questions above before submitting.
                   </div>
                 )}
 
                 {/* Submit Button */}
                 <button
                   onClick={handlePayNow}
-                  disabled={loading}
+                  disabled={
+                    loading ||
+                    !formData.fundingInterest ||
+                    ((['wioa', 'wrg', 'fssa'] as string[]).includes(formData.fundingInterest) && !fundingEligibilityStatus)
+                  }
                   className="w-full bg-brand-red-600 hover:bg-brand-red-700 text-white py-4 rounded-xl font-bold text-lg transition-all hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 >
                   {loading ? (

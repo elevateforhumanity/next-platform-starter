@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import FundingEligibilityFlow, { type EligibilityStatus } from '@/components/programs/FundingEligibilityFlow';
 import Link from 'next/link';
 import { ArrowLeft, Loader2, CheckCircle, CreditCard } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -37,6 +38,7 @@ export default function EstheticianApplyPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [fundingType, setFundingType] = useState<FundingType>('wioa');
+  const [eligibilityStatus, setEligibilityStatus] = useState<EligibilityStatus | null>(null);
   const [paymentPlan, setPaymentPlan] = useState<'full' | 'deposit'>('deposit');
 
   // Auth guard
@@ -223,7 +225,13 @@ export default function EstheticianApplyPage() {
               </div>
             )}
 
-            {(fundingType === 'wioa' || fundingType === 'employer') && (
+            {fundingType === 'wioa' && (
+              <FundingEligibilityFlow
+                fundingType="wioa"
+                onReady={(status) => setEligibilityStatus(status)}
+              />
+            )}
+            {fundingType === 'employer' && (
               <div className="rounded-xl border border-green-200 bg-green-50 p-3 flex gap-3">
                 <CheckCircle className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" />
                 <div>

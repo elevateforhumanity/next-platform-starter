@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import FundingEligibilityFlow, { type EligibilityStatus } from '@/components/programs/FundingEligibilityFlow';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { CheckCircle, CreditCard, Loader2 } from 'lucide-react';
@@ -37,6 +38,7 @@ export default function PeerRecoveryApplyPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [fundingType, setFundingType] = useState<FundingType>('wioa');
+  const [eligibilityStatus, setEligibilityStatus] = useState<EligibilityStatus | null>(null);
   const [paymentPlan, setPaymentPlan] = useState<'full' | 'deposit'>('deposit');
   const [form, setForm] = useState({
     firstName: '', lastName: '', email: '', phone: '',
@@ -238,8 +240,14 @@ export default function PeerRecoveryApplyPage() {
             </div>
           )}
 
-          {/* WIOA / employer info */}
-          {(fundingType === 'wioa' || fundingType === 'employer') && (
+          {/* WIOA eligibility flow */}
+          {fundingType === 'wioa' && (
+            <FundingEligibilityFlow
+              fundingType="wioa"
+              onReady={(status) => setEligibilityStatus(status)}
+            />
+          )}
+          {fundingType === 'employer' && (
             <div className="rounded-xl border border-green-200 bg-green-50 p-4 flex gap-3">
               <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
               <div>

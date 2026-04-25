@@ -29,7 +29,7 @@
  */
 
 import type Stripe from 'stripe';
-import { stripe } from '@/lib/stripe/client';
+import { getStripe } from '@/lib/stripe/client';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { getAdminClient } from '@/lib/supabase/admin';

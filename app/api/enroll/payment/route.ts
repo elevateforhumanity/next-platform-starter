@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { logger } from '@/lib/logger';
 import { NextResponse } from 'next/server';
-import { stripe } from '@/lib/stripe/client';
+import { getStripe } from '@/lib/stripe/client';
 import { createClient } from '@/lib/supabase/server';
 import { toErrorMessage } from '@/lib/safe';
 import { paymentRateLimit } from '@/lib/rate-limit';
@@ -60,7 +60,8 @@ async function _POST(req: Request) {
       }
     }
 
-    if (!process.env.STRIPE_SECRET_KEY) {
+    const stripe = getStripe();
+    if (!stripe) {
       return NextResponse.json(
         { error: 'Payment system not configured. Please contact support.' },
         { status: 503 }

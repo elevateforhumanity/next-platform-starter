@@ -1,4 +1,4 @@
-import { stripe } from '@/lib/stripe/client';
+import { getStripe } from '@/lib/stripe/client';
 import { NextResponse } from 'next/server';
 
 import type { NextRequest } from 'next/server';

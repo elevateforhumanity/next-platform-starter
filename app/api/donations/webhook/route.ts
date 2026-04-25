@@ -2,7 +2,7 @@
 
 import { createClient } from '@/lib/supabase/server';
 import { NextResponse } from 'next/server';
-import { stripe } from '@/lib/stripe/client';
+import { getStripe } from '@/lib/stripe/client';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { withRuntime } from '@/lib/api/withRuntime';
 
