@@ -12,7 +12,7 @@ interface SecurityEvent {
   data: Record<string, unknown>;
 }
 
-import { getSeverity } from '@/lib/security-utils';
+import { getSeverity, CRITICAL_EVENTS } from '@/lib/security-utils';
 
 export async function logSecurityEventAction(event: SecurityEvent): Promise<void> {
   try {

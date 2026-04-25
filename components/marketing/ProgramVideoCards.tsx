@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -58,21 +60,19 @@ const PROGRAMS = [
 
 function ProgramCard({ prog, priority }: { prog: typeof PROGRAMS[number]; priority?: boolean }) {
   return (
-    <div className="group relative rounded-2xl overflow-hidden flex flex-col" style={{ aspectRatio: '9/14' }}>
-      {/* Background image */}
-      <Link href={prog.href} className="absolute inset-0">
-        <Image
-          src={prog.image}
-          alt={prog.full}
-          fill
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
-          style={{ objectPosition: prog.objectPosition }}
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-          priority={priority}
-          loading={priority ? undefined : 'lazy'}
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/60 to-transparent" />
-      </Link>
+    <div className="group relative rounded-2xl overflow-hidden" style={{ aspectRatio: '9/14' }}>
+      {/* Background image — not a link, avoids nested <a> */}
+      <Image
+        src={prog.image}
+        alt={prog.full}
+        fill
+        className="object-cover transition-transform duration-500 group-hover:scale-105"
+        style={{ objectPosition: prog.objectPosition }}
+        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+        priority={priority}
+        loading={priority ? undefined : 'lazy'}
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/60 to-transparent" />
 
       {/* Content */}
       <div className="absolute bottom-0 left-0 right-0 p-5 flex flex-col gap-3">
@@ -86,19 +86,17 @@ function ProgramCard({ prog, priority }: { prog: typeof PROGRAMS[number]; priori
           </div>
         </div>
 
-        {/* CTA buttons */}
+        {/* CTA buttons — flat links, no nesting */}
         <div className="flex flex-col gap-2">
           <Link
             href={prog.applyHref}
-            className="w-full text-center py-2 rounded-xl bg-brand-red-600 hover:bg-brand-red-700 text-white text-xs font-bold transition-colors z-10 relative"
-            onClick={e => e.stopPropagation()}
+            className="w-full text-center py-2 rounded-xl bg-brand-red-600 hover:bg-brand-red-700 text-white text-xs font-bold transition-colors"
           >
             {prog.price ? `Enroll · ${prog.price}` : 'Apply Now — Free'}
           </Link>
           <Link
             href={prog.href}
-            className="w-full text-center py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-semibold transition-colors z-10 relative"
-            onClick={e => e.stopPropagation()}
+            className="w-full text-center py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-semibold transition-colors"
           >
             View Program →
           </Link>
