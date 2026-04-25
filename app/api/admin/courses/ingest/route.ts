@@ -4,7 +4,7 @@ import { getAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { ingestCourse } from '@/lib/ai/course-ingestion';
-import { saveCourseBlueprint } from '@/lib/db/courses';
+import { saveBlueprintToCanonical } from '@/lib/db/save-blueprint-canonical';
 import { isOpenAIConfigured, getOpenAIClient } from '@/lib/openai-client';
 import {
   SAFE_CHARS, MAX_CHARS,
@@ -59,7 +59,7 @@ async function _POST(request: Request) {
   // In this case we skip AI entirely and go straight to persistence
   if (!preview_only && blueprint_override) {
     try {
-      const result = await saveCourseBlueprint(blueprint_override, {
+      const result = await saveBlueprintToCanonical(blueprint_override, {
         program_id: program_id || null,
         created_by: auth.profile.id,
       });
@@ -147,7 +147,7 @@ async function _POST(request: Request) {
     }
 
     // Save draft to database
-    const result = await saveCourseBlueprint(blueprint, {
+    const result = await saveBlueprintToCanonical(blueprint, {
       program_id: program_id || null,
       created_by: auth.profile.id,
     });

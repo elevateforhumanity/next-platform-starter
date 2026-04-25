@@ -73,7 +73,7 @@ const NAV_SECTIONS = [
     name: 'Content',
     icon: FileText,
     items: [
-      { name: 'Course Builder', href: '/admin/course-builder' },
+      { name: 'Course Builder', href: '/admin/courses/create' },
       { name: 'Documents', href: '/admin/documents' },
       { name: 'Blog', href: '/admin/blog' },
       { name: 'Media', href: '/admin/videos' },
