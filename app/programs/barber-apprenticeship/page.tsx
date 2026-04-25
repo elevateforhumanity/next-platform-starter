@@ -5,6 +5,8 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import { createClient } from '@/lib/supabase/server';
+import HeroVideo from '@/components/marketing/HeroVideo';
+import heroBanners from '@/content/heroBanners';
 import ReactMarkdown from 'react-markdown';
 import {
   ExternalLink,
@@ -35,17 +37,22 @@ export default async function BarberApprenticeshipPage() {
     .eq('slug', 'barber-apprenticeship')
     .maybeSingle();
 
+  const banner = heroBanners['barber-apprenticeship'];
+
   return (
     <div className="min-h-screen bg-slate-50">
-      <section className="relative w-full -mt-[72px]">
-        <div className="relative min-h-[100vh] sm:min-h-[70vh] md:min-h-[75vh] w-full overflow-hidden">
-          <img
-            src="/hero-images/barber-hero.jpg"
-            alt="Professional barber training apprenticeship program"
-            className="absolute inset-0 h-full w-full object-cover"
-          />
-        </div>
-      </section>
+      <HeroVideo
+        videoSrcDesktop={banner.videoSrcDesktop}
+        posterImage={banner.posterImage}
+        voiceoverSrc={banner.voiceoverSrc}
+        microLabel={banner.microLabel}
+        analyticsName={banner.analyticsName}
+        belowHeroHeadline={banner.belowHeroHeadline}
+        belowHeroSubheadline={banner.belowHeroSubheadline}
+        ctas={[banner.primaryCta, ...(banner.secondaryCta ? [banner.secondaryCta] : [])].filter(Boolean)}
+        trustIndicators={banner.trustIndicators}
+        transcript={banner.transcript}
+      />
 
       {/* Hero Content */}
       <section className="bg-slate-50">

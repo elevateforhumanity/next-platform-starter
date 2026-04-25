@@ -55,6 +55,51 @@ const ALLOWED_TOP_LEVEL = new Set([
   'employment-support', 'federal-compliance', 'instructor-credentials',
   'partner-with-us', 'partnerships', 'snap-et-partner',
   'success-stories', 'tuition-fees', 'workone-partner-packet',
+  // Public informational pages (no auth required, verified clean)
+  'site-map', 'security-and-data-protection', 'donate', 'academic-calendar',
+  'academic-integrity', 'blog', 'outcomes', 'impact', 'mission', 'what-we-do',
+  'for-students', 'for-partners', 'workforce-partners', 'training-providers',
+  'career-counseling', 'career-training-indiana', 'career-training-illinois',
+  'career-training-ohio', 'career-training-tennessee', 'career-training-texas',
+  'community-services-indiana', 'community-services-illinois', 'community-services-ohio',
+  'community-services-tennessee', 'community-services-texas',
+  // Onboarding root — public landing page that redirects authenticated users.
+  // Sub-pages (learner, employer, instructor, staff, mou, etc.) are Railway-only
+  // and blocked via FORBIDDEN_SEGMENTS below.
+  'onboarding',
+
+  // Public pages verified clean (no auth guards) — restored 2026-04-25
+  'about', 'academic-calendar', 'academic-integrity', 'acceptable-use-policy',
+  'access-paused', 'admin-login', 'application-success', 'apps',
+  'banking', 'barber-apprenticeship', 'blog', 'booth-rental', 'calculator',
+  'call-now', 'career-counseling',
+  'career-training-illinois', 'career-training-indiana', 'career-training-ohio',
+  'career-training-tennessee', 'career-training-texas',
+  'careers', 'certification-testing', 'certifications', 'chat', 'client-portal',
+  'connect', 'connects', 'consumer-education', 'contracts', 'copyright',
+  'course-preview', 'courses', 'create-course', 'curriculumupload',
+  'dev', 'directory', 'docs', 'donate', 'donations', 'downloads',
+  'ecosystem', 'education', 'educatorhub', 'elevatelearn2earn', 'eligibility',
+  'email', 'employers', 'error', 'eula',
+  'for', 'for-partners', 'for-students', 'forms', 'forums', 'founder',
+  'funding', 'funding-impact', 'fundingimpact', 'getstarted', 'government',
+  'help', 'hvac', 'impact', 'import', 'industries', 'institutional-governance',
+  'intake', 'kingdom-konnect', 'leaderboard', 'learning', 'legal', 'lessons',
+  'license', 'license-agreement', 'license-suspended', 'licenses', 'licensing',
+  'licensing-partnerships', 'metrics', 'micro-classes', 'mission', 'network',
+  'news', 'offline', 'outcomes',
+  'partner-upload', 'payment-error', 'philanthropy', 'platform', 'policies',
+  'press', 'pricing', 'reels', 'register', 'resources', 'rise',
+  'schedule-consultation', 'scholarships', 'schools',
+  'security-and-data-protection', 'serene-comfort-care', 'services',
+  'share', 'sheets', 'shop', 'site-map', 'social', 'solutions', 'status',
+  'store', 'student-support', 'students', 'suboffice-onboarding', 'support',
+  'syllabi', 'tax-self-prep', 'team', 'thankyou', 'training', 'training-providers',
+  'transparency', 'tutoring', 'update-password', 'updates', 'urban-build-crew',
+  'usermanagement', 'verification-approvals', 'volunteer',
+  'what-we-do', 'what-we-offer', 'white-label', 'workbooks',
+  'workforce-partners', 'workkeys', 'writing-center',
+
   'components', 'actions',
 ]);
 
@@ -79,6 +124,9 @@ const FORBIDDEN_SEGMENTS = new Set([
   'supersonic', 'tax', 'pwa',
   // Auth/app flows — belong to Railway runtime, not Netlify static build
   'reset-password', 'forgot-password', 'confirm', 'enrollment-success', 'enrollment', 'orientation', 'training',
+  // Onboarding sub-routes — authenticated flows, Railway-only
+  'learner', 'employer', 'instructor', 'staff', 'school', 'mou', 'payroll-setup',
+  'handbook', 'agreements', 'hiring-needs', 'verify-identity', 'complete',
 ]);
 
 async function moveEntry(src, dest) {

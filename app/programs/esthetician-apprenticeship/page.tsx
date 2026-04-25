@@ -16,6 +16,8 @@ import {
 } from 'lucide-react';
 import { HostShopRequirements } from '@/components/compliance/HostShopRequirements';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import HeroVideo from '@/components/marketing/HeroVideo';
+import heroBanners from '@/content/heroBanners';
 
 export const dynamic = 'force-dynamic';
 
@@ -52,47 +54,22 @@ export default async function EstheticianApprenticeshipPage() {
     .eq('slug', 'esthetician-apprenticeship')
     .single();
 
+  const banner = heroBanners['esthetician-apprenticeship'];
+
   return (
     <div className="min-h-screen bg-gray-50">
-      <Breadcrumbs
-        items={[
-          { label: 'Programs', href: '/programs' },
-          { label: 'Esthetician Apprenticeship' },
-        ]}
+      <HeroVideo
+        videoSrcDesktop={banner.videoSrcDesktop}
+        posterImage={banner.posterImage}
+        voiceoverSrc={banner.voiceoverSrc}
+        microLabel={banner.microLabel}
+        analyticsName={banner.analyticsName}
+        belowHeroHeadline={banner.belowHeroHeadline}
+        belowHeroSubheadline={banner.belowHeroSubheadline}
+        ctas={[banner.primaryCta, ...(banner.secondaryCta ? [banner.secondaryCta] : [])].filter(Boolean)}
+        trustIndicators={banner.trustIndicators}
+        transcript={banner.transcript}
       />
-      {/* Hero Section */}
-      <section className="relative w-full -mt-[72px] min-h-[70vh] flex items-center bg-gradient-to-br from-teal-500 via-emerald-600 to-green-700">
-        {/* overlay removed */}
-        <div className="relative z-10 mx-auto max-w-6xl px-6 py-32 md:py-40">
-          <div className="flex flex-wrap items-center gap-2 mb-4">
-            <FundingBadge type="self-pay" className="bg-amber-500 text-white border-0" />
-            <span className="px-3 py-2 bg-blue-600 text-white text-sm font-bold rounded-full shadow-lg">
-              DOL Registered
-            </span>
-            <span className="px-3 py-2 bg-purple-600 text-white text-sm font-bold rounded-full shadow-lg">
-              Apprenticeship Sponsorship
-            </span>
-          </div>
-
-          <h1 className="max-w-3xl text-4xl font-black leading-tight md:text-6xl text-white drop-shadow-2xl">
-            Registered Esthetician Apprenticeship
-          </h1>
-
-          <p className="mt-6 max-w-2xl text-lg md:text-xl text-white leading-relaxed drop-shadow-lg">
-            Registered Esthetician Apprenticeship Sponsorship, Oversight & Related Instruction (Milady Theory). 
-            This program provides federal apprenticeship sponsorship, employer coordination, compliance reporting, and related instruction.
-          </p>
-
-          <div className="mt-8 flex flex-col sm:flex-row gap-4">
-            <Link
-              href="/apply?pathway=esthetician-apprenticeship"
-              className="inline-flex items-center justify-center rounded-lg bg-teal-500 px-8 py-4 text-lg font-bold text-white hover:bg-teal-600 transition-all shadow-xl hover:shadow-2xl transform hover:scale-105"
-            >
-              Start Eligibility & Choose a Career Path
-            </Link>
-          </div>
-        </div>
-      </section>
 
       {/* Avatar Guide */}
       <PageAvatar videoSrc="/videos/avatars/esthetician-guide.mp4" title="Esthetician Apprenticeship Guide" />
