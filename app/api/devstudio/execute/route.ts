@@ -336,6 +336,23 @@ const TOOLS: OpenAI.Chat.ChatCompletionTool[] = [
   {
     type: 'function',
     function: {
+      name: 'send_email',
+      description: 'Compose and send an email to any recipient from inside the dev container',
+      parameters: {
+        type: 'object',
+        properties: {
+          to: { type: 'string', description: 'Recipient email address' },
+          subject: { type: 'string', description: 'Email subject line' },
+          body: { type: 'string', description: 'Email body — plain text or HTML' },
+          from_name: { type: 'string', description: 'Sender display name (optional, defaults to Elevate for Humanity)' },
+        },
+        required: ['to', 'subject', 'body'],
+      },
+    },
+  },
+  {
+    type: 'function',
+    function: {
       name: 'send_document_for_sign',
       description: 'Generate and send a document (W-9, ACH, MOU, grant form) for e-signature via email',
       parameters: {
@@ -854,6 +871,33 @@ async function executeAction(
         if (res.ok) {
           write('\x1b[32m✓  Payouts marked as paid\x1b[0m');
           if (data.updated) write(`   Updated: ${data.updated}`);
+        } else {
+          write(`\x1b[31m✗  Failed: ${data.error || res.statusText}\x1b[0m`);
+        }
+      } catch {
+        write('\x1b[31m✗  Network error — check server logs\x1b[0m');
+      }
+      break;
+    }
+
+    case 'send_email': {
+      write(`\x1b[33m⚙  Sending email to ${args.to}...\x1b[0m`);
+      write(`   Subject: ${args.subject}`);
+      try {
+        const res = await fetch(`${baseUrl}/api/admin/send-email`, {
+          method: 'POST',
+          headers,
+          body: JSON.stringify({
+            to: args.to,
+            subject: args.subject,
+            html: String(args.body).includes('<') ? args.body : `<p>${String(args.body).replace(/\n/g, '<br/>')}</p>`,
+            fromName: args.from_name || 'Elevate for Humanity',
+          }),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok) {
+          write(`\x1b[32m✓  Email sent to ${args.to}\x1b[0m`);
+          if (data.messageId) write(`   Message ID: ${data.messageId}`);
         } else {
           write(`\x1b[31m✗  Failed: ${data.error || res.statusText}\x1b[0m`);
         }
