@@ -115,14 +115,20 @@ export default async function ConfirmationPage() {
               </div>
             </div>
 
-            {/* Return Home */}
-            <div className="mt-8 pt-8 border-t border-slate-200">
+            {/* Next steps */}
+            <div className="mt-8 pt-8 border-t border-slate-200 flex flex-col sm:flex-row gap-3">
+              <Link
+                href="/onboarding/learner"
+                className="inline-flex items-center justify-center bg-brand-red-600 hover:bg-brand-red-700 text-white font-bold px-6 py-3 rounded-lg transition-colors text-sm"
+              >
+                Start Onboarding
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </Link>
               <Link
                 href="/"
-                className="inline-flex items-center text-emerald-600 hover:text-emerald-700 font-semibold"
+                className="inline-flex items-center justify-center border border-slate-300 text-slate-700 hover:bg-slate-50 font-semibold px-6 py-3 rounded-lg transition-colors text-sm"
               >
                 Return to Home
-                <ArrowRight className="w-4 h-4 ml-2" />
               </Link>
             </div>
           </div>
