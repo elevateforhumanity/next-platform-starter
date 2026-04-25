@@ -863,6 +863,31 @@
 # /admin/applications/:id → /admin/applications/review/:id was here but is
 # unreachable — /admin/* force-redirects to /login above. Removed.
 
+# Legacy public routes — redirect to canonical destinations
+[[redirects]]
+  from = "/micro-classes"
+  to = "/programs"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/micro-classes/*"
+  to = "/programs"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/training-providers"
+  to = "/platform/training-providers"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/training-providers/*"
+  to = "/platform/training-providers"
+  status = 301
+  force = true
+
 
 
 

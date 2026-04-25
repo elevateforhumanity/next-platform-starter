@@ -169,16 +169,6 @@ export const NAV_ITEMS = [
   {
     name: 'Sign In',
     href: '/login',
-    subItems: [
-      { name: '— Learners —', href: '/login', isHeader: true },
-      { name: 'Student Login', href: '/login' },
-      { name: 'Learner Dashboard', href: '/learner/dashboard' },
-      { name: '— Partners & Employers —', href: '/login', isHeader: true },
-      { name: 'Employer Portal', href: '/employer/dashboard' },
-      { name: 'Partner Portal', href: '/partner/dashboard' },
-      { name: 'Program Holder Portal', href: '/program-holder/dashboard' },
-      { name: 'Instructor Portal', href: '/instructor/dashboard' },
-    ],
   },
 ];
 
