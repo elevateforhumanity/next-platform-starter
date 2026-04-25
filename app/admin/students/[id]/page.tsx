@@ -292,7 +292,7 @@ export default async function StudentDetailPage({ params }: { params: Promise<{ 
             ) : (
               <div className="divide-y divide-slate-50">
                 {applications.map(a => (
-                  <Link key={a.id} href={`/admin/applications/review/${a.id}`} className="flex items-center gap-3 px-5 py-3 hover:bg-slate-50 transition-colors group">
+                  <Link key={a.id} href={'/admin/applications/review/' + a.id} className="flex items-center gap-3 px-5 py-3 hover:bg-slate-50 transition-colors group">
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium text-slate-800 truncate">
                         {a.program_interest || a.program_slug || 'Unknown program'}

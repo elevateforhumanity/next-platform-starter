@@ -25,6 +25,7 @@ import os from 'os';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { getAdminClient } from '@/lib/supabase/admin';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
+import { logger } from '@/lib/logger';
 import { processLesson, resolveVideoProfile } from '@/lib/video/pipeline';
 
 export const runtime = 'nodejs';
@@ -49,7 +50,8 @@ export async function POST(
   if (!process.env.OPENAI_API_KEY) return safeError('OPENAI_API_KEY not set', 503);
   if (!process.env.PEXELS_API_KEY) return safeError('PEXELS_API_KEY not set', 503);
 
-  const sb = getAdminClient();
+  const sb = await getAdminClient();
+  if (!sb) return safeError('Service unavailable', 503);
 
   // Load course to get video_profile / video_config
   const { data: course, error: courseErr } = await sb
@@ -112,13 +114,13 @@ export async function POST(
       };
 
       const videoUrl = await processLesson(lessonWithModule as any, profile, tmpDir, {
-        onProgress: (msg) => console.log(`[${lesson.title}] ${msg}`),
+        onProgress: (msg) => logger.info(`[${lesson.title}] ${msg}`),
       });
 
       await sb.from('course_lessons').update({ video_url: videoUrl }).eq('id', lesson.id);
       results.push({ id: lesson.id, title: lesson.title, video_url: videoUrl });
     } catch (err: any) {
-      console.error(`Video gen failed for ${lesson.title}:`, err.message);
+      logger.error(`Video gen failed for ${lesson.title}:`, err);
       results.push({ id: lesson.id, title: lesson.title, error: err.message });
     }
   }
