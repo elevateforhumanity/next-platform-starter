@@ -238,7 +238,7 @@ export default async function FERPAPortal() {
 
           {/* FERPA Compliance */}
           <Link
-            href="/ferpa/compliance"
+            href="/ferpa/documentation"
             className="group"
             aria-label="FERPA Compliance and Standards"
           >
@@ -275,7 +275,7 @@ export default async function FERPAPortal() {
 
           {/* Reports & Analytics */}
           <Link
-            href="/ferpa/reports"
+            href="/ferpa/records"
             className="group"
             aria-label="FERPA Reports and Analytics"
           >
@@ -400,7 +400,7 @@ export default async function FERPAPortal() {
               Process Request
             </Link>
             <Link
-              href="/ferpa/reports/generate"
+              href="/ferpa/records"
               className="px-4 py-3 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700 transition text-center font-medium"
               aria-label="Generate FERPA Report"
             >
