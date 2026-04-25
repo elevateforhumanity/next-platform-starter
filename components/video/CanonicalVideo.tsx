@@ -75,6 +75,14 @@ export default function CanonicalVideo({ src, poster, className, threshold = 0.1
   const handleTimeUpdate = useCallback(() => setPlaying(true), []);
   const handleEnded = useCallback(() => setEnded(true), []);
   const handleError = useCallback(() => setFailed(true), []);
+  // Recover from stall/waiting — browser buffered enough to resume, call play()
+  // again. This prevents the black-frame freeze that occurs when a looping hero
+  // video stalls at the loop point on a slow connection.
+  const handleStalled = useCallback(() => {
+    const video = ref.current;
+    if (!video || video.paused) return;
+    video.play().catch(() => {});
+  }, []);
 
   // Pause and clean up the video element on unmount to prevent background playback
   useEffect(() => {
@@ -222,6 +230,8 @@ export default function CanonicalVideo({ src, poster, className, threshold = 0.1
           onTimeUpdate={handleTimeUpdate}
           onEnded={handleEnded}
           onError={handleError}
+          onStalled={handleStalled}
+          onWaiting={handleStalled}
           style={{ zIndex: 2, position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }}
         />
       </>
@@ -241,6 +251,8 @@ export default function CanonicalVideo({ src, poster, className, threshold = 0.1
       aria-hidden="true"
       onEnded={handleEnded}
       onError={handleError}
+      onStalled={handleStalled}
+      onWaiting={handleStalled}
     />
   );
 }

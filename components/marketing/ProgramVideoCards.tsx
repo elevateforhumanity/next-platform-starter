@@ -10,9 +10,10 @@ const PROGRAMS = [
     funding: 'WIOA / WRG Eligible',
     fundingColor: 'text-green-400',
     image: '/images/pages/programs-cna-hero.jpg',
-    // subject is centered — keep top of frame
     objectPosition: 'center 20%',
     href: '/programs/cna',
+    applyHref: '/programs/cna/apply',
+    price: null, // funded — no price shown
   },
   {
     tag: 'Skilled Trades',
@@ -24,6 +25,8 @@ const PROGRAMS = [
     image: '/images/pages/programs-hvac-hero.jpg',
     objectPosition: 'center center',
     href: '/programs/hvac-technician',
+    applyHref: '/programs/hvac-technician/apply',
+    price: null,
   },
   {
     tag: 'Transportation',
@@ -35,6 +38,8 @@ const PROGRAMS = [
     image: '/images/pages/programs-cdl-hero.jpg',
     objectPosition: 'center center',
     href: '/programs/cdl-training',
+    applyHref: '/programs/cdl-training/apply',
+    price: null,
   },
   {
     tag: 'Apprenticeship',
@@ -46,37 +51,60 @@ const PROGRAMS = [
     image: '/images/pages/programs-barber-hero-new.jpg',
     objectPosition: 'center 15%',
     href: '/programs/barber-apprenticeship',
+    applyHref: '/programs/barber-apprenticeship/apply',
+    price: '$4,980',
   },
 ];
 
 function ProgramCard({ prog, priority }: { prog: typeof PROGRAMS[number]; priority?: boolean }) {
   return (
-    <Link href={prog.href} className="group relative rounded-2xl overflow-hidden block" style={{ aspectRatio: '9/14' }}>
-      <Image
-        src={prog.image}
-        alt={prog.full}
-        fill
-        className="object-cover transition-transform duration-500 group-hover:scale-105"
-        style={{ objectPosition: prog.objectPosition }}
-        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-        priority={priority}
-        loading={priority ? undefined : 'lazy'}
-      />
-      <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/50 to-transparent" />
+    <div className="group relative rounded-2xl overflow-hidden flex flex-col" style={{ aspectRatio: '9/14' }}>
+      {/* Background image */}
+      <Link href={prog.href} className="absolute inset-0">
+        <Image
+          src={prog.image}
+          alt={prog.full}
+          fill
+          className="object-cover transition-transform duration-500 group-hover:scale-105"
+          style={{ objectPosition: prog.objectPosition }}
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+          priority={priority}
+          loading={priority ? undefined : 'lazy'}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/60 to-transparent" />
+      </Link>
 
-      <div className="absolute bottom-0 left-0 right-0 p-5">
-        <p className="text-xs font-bold uppercase tracking-widest text-brand-red-400 mb-1">{prog.tag}</p>
-        <h3 className="font-extrabold text-white text-base leading-snug mb-3">{prog.full}</h3>
-        <div className="space-y-1">
-          <p className="text-xs text-white">{prog.duration}</p>
-          <p className="text-sm font-bold text-green-400">{prog.salary}</p>
-          <p className={`text-xs font-semibold ${prog.fundingColor}`}>{prog.funding}</p>
+      {/* Content */}
+      <div className="absolute bottom-0 left-0 right-0 p-5 flex flex-col gap-3">
+        <div>
+          <p className="text-xs font-bold uppercase tracking-widest text-brand-red-400 mb-1">{prog.tag}</p>
+          <h3 className="font-extrabold text-white text-base leading-snug">{prog.full}</h3>
+          <div className="mt-1.5 space-y-0.5">
+            <p className="text-xs text-slate-300">{prog.duration}</p>
+            <p className="text-sm font-bold text-green-400">{prog.salary}</p>
+            <p className={`text-xs font-semibold ${prog.fundingColor}`}>{prog.funding}</p>
+          </div>
         </div>
-        <div className="mt-4 inline-flex items-center gap-1.5 text-xs font-bold text-white bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-full transition-colors">
-          View Program →
+
+        {/* CTA buttons */}
+        <div className="flex flex-col gap-2">
+          <Link
+            href={prog.applyHref}
+            className="w-full text-center py-2 rounded-xl bg-brand-red-600 hover:bg-brand-red-700 text-white text-xs font-bold transition-colors z-10 relative"
+            onClick={e => e.stopPropagation()}
+          >
+            {prog.price ? `Enroll · ${prog.price}` : 'Apply Now — Free'}
+          </Link>
+          <Link
+            href={prog.href}
+            className="w-full text-center py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-semibold transition-colors z-10 relative"
+            onClick={e => e.stopPropagation()}
+          >
+            View Program →
+          </Link>
         </div>
       </div>
-    </Link>
+    </div>
   );
 }
 

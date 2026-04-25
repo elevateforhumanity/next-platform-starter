@@ -147,6 +147,7 @@ export default function HeroVideo({
           className="absolute inset-0 w-full h-full object-cover object-center"
           autoPlayOnMount
           loop
+          preloadFull
         />
 
         {/* Hidden audio element for voiceover */}

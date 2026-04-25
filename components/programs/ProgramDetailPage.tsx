@@ -406,11 +406,11 @@ export default function ProgramDetailPage({ program: p, banner: bannerProp, hero
                 )}
                 <Link
                   href={enrollmentTracks.funded.applyHref}
-                  className="block w-full text-center bg-brand-green-600 hover:bg-brand-green-700 text-white font-bold py-3.5 rounded-xl transition-colors text-sm"
+                  className="block w-full text-center bg-green-600 hover:bg-green-700 text-white font-bold py-3.5 rounded-xl transition-colors text-sm"
                 >
-                  See What I Qualify For
+                  Apply Now — $0 Tuition if Eligible
                 </Link>
-                <p className="text-center text-xs text-slate-500 mt-1">Free to apply · takes 2 minutes</p>
+                <p className="text-center text-xs text-slate-500 mt-1">Free to apply · no payment today · takes 2 minutes</p>
               </div>
             </div>
 
@@ -439,12 +439,18 @@ export default function ProgramDetailPage({ program: p, banner: bannerProp, hero
                 ))}
               </div>
               {enrollmentTracks.selfPay.available ? (
-                <Link
-                  href={enrollmentTracks.selfPay.applyHref}
-                  className="block w-full text-center bg-brand-blue-600 hover:bg-brand-blue-700 text-white font-bold py-3.5 rounded-xl transition-colors text-sm"
-                >
-                  Find My Best Path
-                </Link>
+                <div className="space-y-2">
+                  <Link
+                    href={enrollmentTracks.selfPay.applyHref}
+                    className="block w-full text-center bg-brand-red-600 hover:bg-brand-red-700 text-white font-bold py-3.5 rounded-xl transition-colors text-sm"
+                  >
+                    Enroll Now
+                    {enrollmentTracks.selfPay.cost ? ` · ${enrollmentTracks.selfPay.cost}` : ''}
+                  </Link>
+                  <p className="text-center text-xs text-slate-500">
+                    Payment plans, Affirm, Sezzle &amp; Afterpay available at checkout
+                  </p>
+                </div>
               ) : (
                 <div>
                   <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-3 text-sm text-amber-800">
