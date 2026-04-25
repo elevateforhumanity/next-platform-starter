@@ -100,6 +100,9 @@ const ALLOWED_TOP_LEVEL = new Set([
   'what-we-do', 'what-we-offer', 'white-label', 'workbooks',
   'workforce-partners', 'workkeys', 'writing-center',
 
+  // Shared data modules imported by public pages — must never be quarantined
+  'data',
+
   'components', 'actions',
 ]);
 
