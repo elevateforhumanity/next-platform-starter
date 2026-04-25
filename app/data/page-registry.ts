@@ -40,7 +40,7 @@ export const NAV_REGISTRY: NavCategory[] = [
       })),
       // Static program pages
       { label: 'All Programs', href: '/programs', description: 'View all training programs' },
-      { label: 'Micro Courses', href: '/micro-classes', description: 'Short certification courses' },
+      { label: 'Micro Courses', href: "/programs", description: 'Short certification courses' },
     ],
     // Featured programs for mega menu
     featured: [
@@ -67,7 +67,7 @@ export const NAV_REGISTRY: NavCategory[] = [
     items: [
       { label: 'Partner With Us', href: '/partners', description: 'Become a training partner' },
       { label: 'Employers', href: '/employers', description: 'Hire our graduates' },
-      { label: 'Training Providers', href: '/training-providers', description: 'Partner as a provider' },
+      { label: 'Training Providers', href: "/platform/training-providers", description: 'Partner as a provider' },
       { label: 'Workforce Boards', href: '/partners', description: 'Workforce board partnerships' },
       { label: 'License the Platform', href: '/platform', description: 'Deploy our platform' },
       { label: 'Platform Licensing', href: '/platform/licensing', description: 'Licensing options' },
