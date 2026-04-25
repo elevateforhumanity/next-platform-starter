@@ -20,6 +20,8 @@ interface Course {
   title: string;
   description: string | null;
   duration_hours: number | null;
+  video_config?: any;
+  video_profile?: any;
 }
 
 interface Props {
@@ -28,40 +30,32 @@ interface Props {
   courseId: string;
 }
 
+type VideoGenStatus = 'idle' | 'running' | 'done' | 'error';
+
 export default function LessonManagerClient({ course, initialLessons, courseId }: Props) {
   const [lessons, setLessons] = useState<Lesson[]>(initialLessons);
   const [showModal, setShowModal] = useState(false);
   const [editingLesson, setEditingLesson] = useState<Lesson | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [formData, setFormData] = useState({ title: '', content: '', video_url: '', duration_minutes: '' });
 
-  const [formData, setFormData] = useState({
-    title: '',
-    content: '',
-    video_url: '',
-    duration_minutes: '',
-  });
+  const [videoGenStatus, setVideoGenStatus] = useState<VideoGenStatus>('idle');
+  const [videoGenMessage, setVideoGenMessage] = useState<string | null>(null);
+  const [generatingLessonId, setGeneratingLessonId] = useState<string | null>(null);
 
   const supabase = createClient();
 
-  const resetForm = () => {
-    setFormData({ title: '', content: '', video_url: '', duration_minutes: '' });
-    setEditingLesson(null);
-    setError(null);
-  };
+  const hasVideoProfile = !!(course?.video_config || course?.video_profile);
+  const missingVideos = lessons.filter(l => !l.video_url || l.video_url.startsWith('/videos/')).length;
+  const supabaseVideos = lessons.filter(l => l.video_url && l.video_url.includes('supabase.co')).length;
+  const totalDuration = lessons.reduce((sum, l) => sum + (l.duration_minutes || 0), 0);
+  const videoGenRunning = videoGenStatus === 'running';
 
-  const openCreateModal = () => {
-    resetForm();
-    setShowModal(true);
-  };
-
+  const resetForm = () => { setFormData({ title: '', content: '', video_url: '', duration_minutes: '' }); setEditingLesson(null); setError(null); };
+  const openCreateModal = () => { resetForm(); setShowModal(true); };
   const openEditModal = (lesson: Lesson) => {
-    setFormData({
-      title: lesson.title,
-      content: lesson.content || '',
-      video_url: lesson.video_url || '',
-      duration_minutes: lesson.duration_minutes?.toString() || '',
-    });
+    setFormData({ title: lesson.title, content: lesson.content || '', video_url: lesson.video_url || '', duration_minutes: lesson.duration_minutes?.toString() || '' });
     setEditingLesson(lesson);
     setShowModal(true);
   };
@@ -70,7 +64,6 @@ export default function LessonManagerClient({ course, initialLessons, courseId }
     e.preventDefault();
     setLoading(true);
     setError(null);
-
     const lessonData = {
       course_id: courseId,
       title: formData.title,
@@ -78,283 +71,303 @@ export default function LessonManagerClient({ course, initialLessons, courseId }
       video_url: formData.video_url || null,
       duration_minutes: formData.duration_minutes ? parseInt(formData.duration_minutes) : null,
       order_index: editingLesson ? editingLesson.order_index : lessons.length,
-      // lesson_number is NOT NULL in DB — assign sequentially on create
       ...(editingLesson ? {} : { lesson_number: lessons.length + 1 }),
     };
-
     try {
       if (editingLesson) {
-        const { data, error: updateError } = await supabase
-          .from('training_lessons')
-          .update(lessonData)
-          .eq('id', editingLesson.id)
-          .select()
-          .single();
-
-        if (updateError) throw updateError;
+        const { data, error: e } = await supabase.from('training_lessons').update(lessonData).eq('id', editingLesson.id).select().single();
+        if (e) throw e;
         setLessons(lessons.map(l => l.id === editingLesson.id ? data : l));
       } else {
-        const { data, error: insertError } = await supabase
-          .from('training_lessons')
-          .insert(lessonData)
-          .select()
-          .single();
-
-        if (insertError) throw insertError;
+        const { data, error: e } = await supabase.from('training_lessons').insert(lessonData).select().single();
+        if (e) throw e;
         setLessons([...lessons, data]);
       }
-
-      setShowModal(false);
-      resetForm();
-    } catch (err: any) {
-      setError('An error occurred');
-    } finally {
-      setLoading(false);
-    }
+      setShowModal(false); resetForm();
+    } catch { setError('An error occurred saving the lesson.'); }
+    finally { setLoading(false); }
   };
 
   const handleDelete = async (lessonId: string) => {
-    if (!confirm('Are you sure you want to delete this lesson?')) return;
-
+    if (!confirm('Delete this lesson?')) return;
     setLoading(true);
     try {
-      const { error: deleteError } = await supabase.from('training_lessons').delete().eq('id', lessonId);
-      if (deleteError) throw deleteError;
+      const { error: e } = await supabase.from('training_lessons').delete().eq('id', lessonId);
+      if (e) throw e;
       setLessons(lessons.filter(l => l.id !== lessonId));
-    } catch (err: any) {
-      setError('An error occurred');
-    } finally {
-      setLoading(false);
-    }
+    } catch { setError('Failed to delete lesson.'); }
+    finally { setLoading(false); }
   };
 
   const moveLesson = async (index: number, direction: 'up' | 'down') => {
     if ((direction === 'up' && index === 0) || (direction === 'down' && index === lessons.length - 1)) return;
-
     const newIndex = direction === 'up' ? index - 1 : index + 1;
     const newLessons = [...lessons];
     [newLessons[index], newLessons[newIndex]] = [newLessons[newIndex], newLessons[index]];
-
-    // Update order_index for both lessons
     try {
       await Promise.all([
         supabase.from('training_lessons').update({ order_index: newIndex }).eq('id', newLessons[newIndex].id),
         supabase.from('training_lessons').update({ order_index: index }).eq('id', newLessons[index].id),
       ]);
       setLessons(newLessons.map((l, i) => ({ ...l, order_index: i })));
-    } catch (err: any) {
-      setError('Failed to reorder lessons');
-    }
+    } catch { setError('Failed to reorder lessons.'); }
   };
 
-  const totalDuration = lessons.reduce((sum, l) => sum + (l.duration_minutes || 0), 0);
-  const videoCount = lessons.filter(l => l.video_url && l.video_url.includes('supabase.co')).length;
-  const missingVideos = lessons.filter(l => !l.video_url || !l.video_url.includes('supabase.co')).length;
+  const refreshLessons = async () => {
+    const { data } = await supabase.from('course_lessons').select('*').eq('course_id', courseId).order('order_index');
+    if (data) setLessons(data as any);
+  };
 
-  const [generatingVideos, setGeneratingVideos] = useState(false);
-  const [videoGenResult, setVideoGenResult] = useState<string | null>(null);
+  const handleGenerateVideos = async (opts: { lessonId?: string; force?: boolean } = {}) => {
+    const { lessonId, force = false } = opts;
+    const label = lessonId
+      ? 'Regenerate video for this lesson?'
+      : force
+        ? `Regenerate ALL ${lessons.length} lesson videos? This will take several minutes.`
+        : `Generate videos for ${missingVideos} lessons missing video? This may take several minutes.`;
+    if (!confirm(label)) return;
 
-  const handleGenerateVideos = async (force = false) => {
-    if (!confirm(force
-      ? `Regenerate ALL ${lessons.length} lesson videos? This will take several minutes.`
-      : `Generate videos for ${missingVideos} lessons missing video? This may take several minutes.`
-    )) return;
-    setGeneratingVideos(true);
-    setVideoGenResult(null);
+    setVideoGenStatus('running');
+    setVideoGenMessage(lessonId ? 'Generating video…' : `Generating ${force ? lessons.length : missingVideos} videos…`);
+    if (lessonId) setGeneratingLessonId(lessonId);
+
     try {
       const res = await fetch(`/api/admin/courses/${courseId}/generate-videos`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ force }),
+        body: JSON.stringify({ lessonId, force }),
       });
       const data = await res.json();
       if (!res.ok) {
-        setVideoGenResult(`❌ ${data.error || 'Failed'}`);
+        setVideoGenStatus('error');
+        setVideoGenMessage(data.error || 'Video generation failed.');
       } else {
-        setVideoGenResult(`✅ Generated ${data.generated} videos${data.failed ? `, ${data.failed} failed` : ''}`);
-        // Refresh lesson list to show updated video_url
-        const { data: updated } = await supabase.from('training_lessons').select('*').eq('course_id', courseId).order('order_index');
-        if (updated) setLessons(updated as any);
+        setVideoGenStatus('done');
+        setVideoGenMessage(
+          `Generated ${data.generated} video${data.generated !== 1 ? 's' : ''}` +
+          (data.failed ? ` · ${data.failed} failed` : '') +
+          (data.profile ? ` · profile: ${data.profile}` : '')
+        );
+        await refreshLessons();
       }
     } catch (err: any) {
-      setVideoGenResult(`❌ ${err.message}`);
+      setVideoGenStatus('error');
+      setVideoGenMessage(err.message);
     } finally {
-      setGeneratingVideos(false);
+      setGeneratingLessonId(null);
     }
   };
 
   return (
     <>
       {/* Header */}
-      <div className="flex justify-between items-center mb-8">
+      <div className="flex justify-between items-center mb-8 flex-wrap gap-4">
         <div>
           <h1 className="text-3xl font-bold text-slate-900">{course?.title || 'Course Content'}</h1>
-          <p className="text-slate-700 mt-2">Manage lessons, videos, and materials</p>
+          <p className="text-slate-500 mt-1 text-sm">Manage lessons, videos, and materials</p>
         </div>
-        <div className="flex gap-3">
-          <Link href="/admin/course-builder" className="px-4 py-2 border rounded-lg hover:bg-gray-50">Back to Courses</Link>
-          {missingVideos > 0 && (
-            <button
-              onClick={() => handleGenerateVideos(false)}
-              disabled={generatingVideos}
-              className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 flex items-center gap-2 disabled:opacity-50"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.069A1 1 0 0121 8.82v6.36a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
-              {generatingVideos ? 'Generating…' : `Generate ${missingVideos} Videos`}
+        <div className="flex gap-3 flex-wrap">
+          <Link href="/admin/course-builder" className="px-4 py-2 border rounded-lg hover:bg-gray-50 text-sm">← Courses</Link>
+
+          {hasVideoProfile && missingVideos > 0 && (
+            <button onClick={() => handleGenerateVideos()} disabled={videoGenRunning}
+              className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 flex items-center gap-2 disabled:opacity-50 text-sm">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.069A1 1 0 0121 8.82v6.36a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+              </svg>
+              {videoGenRunning ? 'Generating…' : `Generate ${missingVideos} Videos`}
             </button>
           )}
-          <button onClick={openCreateModal} className="bg-brand-blue-600 text-white px-4 py-2 rounded-lg hover:bg-brand-blue-700 flex items-center gap-2">
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
+
+          {hasVideoProfile && missingVideos === 0 && lessons.length > 0 && (
+            <button onClick={() => handleGenerateVideos({ force: true })} disabled={videoGenRunning}
+              className="border border-purple-300 text-purple-700 px-4 py-2 rounded-lg hover:bg-purple-50 flex items-center gap-2 disabled:opacity-50 text-sm">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              </svg>
+              Regenerate All
+            </button>
+          )}
+
+          {!hasVideoProfile && (
+            <span className="text-xs text-slate-400 self-center italic">Set video_profile on course to enable generation</span>
+          )}
+
+          <button onClick={openCreateModal}
+            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center gap-2 text-sm">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+            </svg>
             Add Lesson
           </button>
         </div>
       </div>
 
-      {/* Video generation result */}
-      {videoGenResult && (
-        <div className={`mb-4 p-3 rounded-lg text-sm ${videoGenResult.startsWith('✅') ? 'bg-green-50 text-green-800 border border-green-200' : 'bg-red-50 text-red-800 border border-red-200'}`}>
-          {videoGenResult}
-          <button onClick={() => setVideoGenResult(null)} className="ml-4 opacity-60 hover:opacity-100">✕</button>
+      {/* Video gen status banner */}
+      {videoGenStatus !== 'idle' && videoGenMessage && (
+        <div className={`mb-4 p-3 rounded-lg text-sm flex items-center justify-between ${
+          videoGenStatus === 'running' ? 'bg-purple-50 text-purple-800 border border-purple-200' :
+          videoGenStatus === 'done'    ? 'bg-green-50 text-green-800 border border-green-200' :
+                                         'bg-red-50 text-red-800 border border-red-200'
+        }`}>
+          <span className="flex items-center gap-2">
+            {videoGenStatus === 'running' && (
+              <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/>
+              </svg>
+            )}
+            {videoGenStatus === 'done' && '✅ '}
+            {videoGenStatus === 'error' && '❌ '}
+            {videoGenMessage}
+          </span>
+          {videoGenStatus !== 'running' && (
+            <button onClick={() => { setVideoGenStatus('idle'); setVideoGenMessage(null); }} className="opacity-60 hover:opacity-100 ml-4">✕</button>
+          )}
         </div>
       )}
 
-      {/* Error Display */}
+      {/* Error */}
       {error && (
-        <div className="mb-6 p-4 bg-brand-red-50 border border-brand-red-200 rounded-lg text-brand-red-700">
+        <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 flex justify-between text-sm">
           {error}
-          <button onClick={() => setError(null)} className="ml-4 text-brand-red-500 hover:text-brand-red-700">Dismiss</button>
+          <button onClick={() => setError(null)} className="text-red-400 hover:text-red-600 ml-4">✕</button>
         </div>
       )}
 
       {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-        <div className="bg-white rounded-lg shadow-sm border p-4">
-          <p className="text-sm text-slate-700">Total Lessons</p>
-          <p className="text-2xl font-bold">{lessons.length}</p>
-        </div>
-        <div className="bg-white rounded-lg shadow-sm border p-4">
-          <p className="text-sm text-slate-700">Videos</p>
-          <p className="text-2xl font-bold">{videoCount}</p>
-        </div>
-        <div className="bg-white rounded-lg shadow-sm border p-4">
-          <p className="text-sm text-slate-700">Text Lessons</p>
-          <p className="text-2xl font-bold">{lessons.length - videoCount}</p>
-        </div>
-        <div className="bg-white rounded-lg shadow-sm border p-4">
-          <p className="text-sm text-slate-700">Total Duration</p>
-          <p className="text-2xl font-bold">{Math.floor(totalDuration / 60)}h {totalDuration % 60}m</p>
-        </div>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        {[
+          { label: 'Lessons', value: lessons.length, sub: null },
+          { label: 'Videos', value: supabaseVideos, sub: missingVideos > 0 ? `${missingVideos} missing` : null, subColor: 'text-amber-600' },
+          { label: 'Duration', value: `${Math.floor(totalDuration / 60)}h ${totalDuration % 60}m`, sub: null },
+          { label: 'Video Profile', value: hasVideoProfile ? '✅ Set' : 'Not set', sub: null, valueColor: hasVideoProfile ? 'text-green-600' : 'text-slate-400' },
+        ].map(stat => (
+          <div key={stat.label} className="bg-white rounded-lg shadow-sm border p-4">
+            <p className="text-xs text-slate-500 uppercase tracking-wide">{stat.label}</p>
+            <p className={`text-2xl font-bold mt-1 ${(stat as any).valueColor || ''}`}>{stat.value}</p>
+            {stat.sub && <p className={`text-xs mt-0.5 ${(stat as any).subColor || 'text-slate-400'}`}>{stat.sub}</p>}
+          </div>
+        ))}
       </div>
 
-      {/* Lessons List */}
+      {/* Lessons list */}
       <div className="bg-white rounded-lg shadow-sm border">
         <div className="p-6 border-b">
-          <h2 className="text-lg font-semibold">Course Lessons</h2>
-          <p className="text-sm text-slate-700">Use arrows to reorder lessons</p>
+          <h2 className="text-lg font-semibold">Lessons</h2>
+          <p className="text-xs text-slate-500 mt-0.5">Hover a row to see per-lesson actions · arrows to reorder</p>
         </div>
         <div className="divide-y">
-          {lessons.length > 0 ? (
-            lessons.map((lesson, index) => (
-              <div key={lesson.id} className="p-4 flex items-center gap-4 hover:bg-gray-50">
-                <div className="flex flex-col gap-1">
-                  <button onClick={() => moveLesson(index, 'up')} disabled={index === 0} className="text-slate-700 hover:text-slate-700 disabled:opacity-30">
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" /></svg>
+          {lessons.length > 0 ? lessons.map((lesson, index) => {
+            const hasVideo = !!(lesson.video_url && lesson.video_url.includes('supabase.co'));
+            const isGenerating = generatingLessonId === lesson.id;
+            return (
+              <div key={lesson.id} className="p-4 flex items-center gap-4 hover:bg-gray-50 group">
+                {/* Reorder */}
+                <div className="flex flex-col gap-0.5 shrink-0">
+                  <button onClick={() => moveLesson(index, 'up')} disabled={index === 0} className="text-slate-300 hover:text-slate-600 disabled:opacity-20">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7"/></svg>
                   </button>
-                  <button onClick={() => moveLesson(index, 'down')} disabled={index === lessons.length - 1} className="text-slate-700 hover:text-slate-700 disabled:opacity-30">
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+                  <button onClick={() => moveLesson(index, 'down')} disabled={index === lessons.length - 1} className="text-slate-300 hover:text-slate-600 disabled:opacity-20">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/></svg>
                   </button>
                 </div>
-                <span className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center text-sm font-medium">
-                  {index + 1}
-                </span>
-                <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-gray-100">
-                  {lesson.video_url ? (
-                    <svg className="w-5 h-5 text-brand-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+
+                {/* Index badge */}
+                <span className="w-7 h-7 bg-gray-100 rounded-full flex items-center justify-center text-xs font-medium shrink-0">{index + 1}</span>
+
+                {/* Video status icon */}
+                <div className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 ${isGenerating ? 'bg-purple-100' : hasVideo ? 'bg-blue-50' : 'bg-amber-50'}`}>
+                  {isGenerating ? (
+                    <svg className="w-4 h-4 text-purple-600 animate-spin" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/>
+                    </svg>
+                  ) : hasVideo ? (
+                    <svg className="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
                   ) : (
-                    <svg className="w-5 h-5 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                    <svg className="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                    </svg>
                   )}
                 </div>
-                <div className="flex-1">
-                  <p className="font-medium">{lesson.title}</p>
-                  <p className="text-sm text-slate-700">
-                    {lesson.video_url ? 'Video' : 'Text'} • {lesson.duration_minutes || 0} min
+
+                {/* Title + meta */}
+                <div className="flex-1 min-w-0">
+                  <p className="font-medium text-slate-900 truncate">{lesson.title}</p>
+                  <p className="text-xs text-slate-500 mt-0.5">
+                    {hasVideo ? 'Video' : 'No video'} · {lesson.duration_minutes || 0} min
+                    {hasVideo && <span className="ml-1 text-blue-400">· Supabase</span>}
                   </p>
                 </div>
-                <div className="flex gap-2">
+
+                {/* Per-row actions — visible on hover */}
+                <div className="flex gap-2 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
+                  {hasVideoProfile && (
+                    <button
+                      onClick={() => handleGenerateVideos({ lessonId: lesson.id, force: true })}
+                      disabled={videoGenRunning}
+                      title="Regenerate video for this lesson"
+                      className="px-2 py-1.5 text-xs border border-purple-200 text-purple-700 rounded-lg hover:bg-purple-50 disabled:opacity-40 whitespace-nowrap">
+                      {isGenerating ? '…' : '▶ Video'}
+                    </button>
+                  )}
                   <button onClick={() => openEditModal(lesson)} className="px-3 py-1.5 text-sm border rounded-lg hover:bg-gray-50">Edit</button>
-                  <button onClick={() => handleDelete(lesson.id)} className="px-3 py-1.5 text-sm text-brand-red-600 border border-brand-red-200 rounded-lg hover:bg-brand-red-50">Delete</button>
+                  <button onClick={() => handleDelete(lesson.id)} className="px-3 py-1.5 text-sm text-red-600 border border-red-200 rounded-lg hover:bg-red-50">Delete</button>
                 </div>
               </div>
-            ))
-          ) : (
-            <div className="p-8 text-center text-slate-700">
-              <p>No lessons yet</p>
-              <button onClick={openCreateModal} className="mt-2 text-brand-blue-600 hover:text-brand-blue-800">Add your first lesson</button>
+            );
+          }) : (
+            <div className="p-8 text-center text-slate-500">
+              <p>No lessons yet.</p>
+              <button onClick={openCreateModal} className="mt-2 text-blue-600 hover:text-blue-800 text-sm">Add your first lesson</button>
             </div>
           )}
         </div>
       </div>
 
-      {/* Create/Edit Modal */}
+      {/* Modal */}
       {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-white rounded-xl shadow-xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
             <div className="px-6 py-4 border-b flex items-center justify-between">
-              <h2 className="text-xl font-semibold">{editingLesson ? 'Edit Lesson' : 'Add New Lesson'}</h2>
-              <button onClick={() => { setShowModal(false); resetForm(); }} className="text-slate-700 hover:text-slate-700">
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+              <h2 className="text-xl font-semibold">{editingLesson ? 'Edit Lesson' : 'Add Lesson'}</h2>
+              <button onClick={() => { setShowModal(false); resetForm(); }} className="text-slate-400 hover:text-slate-700">
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12"/></svg>
               </button>
             </div>
             <form onSubmit={handleSubmit} className="p-6 space-y-4">
               <div>
-                <label className="block text-sm font-medium text-slate-900 mb-1">Lesson Title *</label>
-                <input
-                  type="text"
-                  required
-                  value={formData.title}
-                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                  className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
-                  placeholder="e.g., Introduction to Hair Cutting Techniques"
-                />
+                <label className="block text-sm font-medium text-slate-900 mb-1">Title *</label>
+                <input type="text" required value={formData.title} onChange={e => setFormData({ ...formData, title: e.target.value })}
+                  className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="e.g., Introduction to Hair Cutting Techniques"/>
               </div>
               <div>
-                <label className="block text-sm font-medium text-slate-900 mb-1">Video URL (optional)</label>
-                <input
-                  type="url"
-                  value={formData.video_url}
-                  onChange={(e) => setFormData({ ...formData, video_url: e.target.value })}
-                  className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
-                  placeholder="https://youtube.com/watch?v=... or Vimeo URL"
-                />
-                <p className="text-xs text-slate-700 mt-1">Leave empty for text-only lesson</p>
+                <label className="block text-sm font-medium text-slate-900 mb-1">Video URL</label>
+                <input type="url" value={formData.video_url} onChange={e => setFormData({ ...formData, video_url: e.target.value })}
+                  className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="https://… or leave empty to generate via pipeline"/>
+                <p className="text-xs text-slate-400 mt-1">Leave empty — the Generate Videos button will create it automatically.</p>
               </div>
               <div>
                 <label className="block text-sm font-medium text-slate-900 mb-1">Content</label>
-                <textarea
-                  rows={6}
-                  value={formData.content}
-                  onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-                  className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
-                  placeholder="Lesson content, instructions, or notes..."
-                />
+                <textarea rows={6} value={formData.content} onChange={e => setFormData({ ...formData, content: e.target.value })}
+                  className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="Lesson content (markdown). Used for narration script and b-roll selection."/>
               </div>
               <div>
                 <label className="block text-sm font-medium text-slate-900 mb-1">Duration (minutes)</label>
-                <input
-                  type="number"
-                  min="0"
-                  value={formData.duration_minutes}
-                  onChange={(e) => setFormData({ ...formData, duration_minutes: e.target.value })}
-                  className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
-                  placeholder="e.g., 15"
-                />
+                <input type="number" min="0" value={formData.duration_minutes} onChange={e => setFormData({ ...formData, duration_minutes: e.target.value })}
+                  className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="e.g., 15"/>
               </div>
               <div className="flex gap-3 pt-4">
-                <button type="button" onClick={() => { setShowModal(false); resetForm(); }} className="flex-1 px-4 py-2 border rounded-lg hover:bg-gray-50">
-                  Cancel
-                </button>
-                <button type="submit" disabled={loading} className="flex-1 px-4 py-2 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700 disabled:opacity-50">
-                  {loading ? 'Saving...' : (editingLesson ? 'Update Lesson' : 'Add Lesson')}
+                <button type="button" onClick={() => { setShowModal(false); resetForm(); }} className="flex-1 px-4 py-2 border rounded-lg hover:bg-gray-50">Cancel</button>
+                <button type="submit" disabled={loading} className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50">
+                  {loading ? 'Saving…' : editingLesson ? 'Update' : 'Add Lesson'}
                 </button>
               </div>
             </form>

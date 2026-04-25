@@ -20,7 +20,23 @@ export default async function CourseContentPage({ params }: { params: Promise<{ 
 
 
   const { data: rawCourse } = await supabase.from('training_courses').select('*').eq('id', courseId).maybeSingle();
-  const course = rawCourse ? { ...rawCourse, title: rawCourse.course_name || rawCourse.title } : null;
+
+  // Also check courses table for video_config / video_profile (set by blueprint seeder)
+  const { data: canonicalCourse } = await supabase
+    .from('courses')
+    .select('video_config, video_profile')
+    .eq('id', courseId)
+    .maybeSingle();
+
+  const course = rawCourse
+    ? {
+        ...rawCourse,
+        title: rawCourse.course_name || rawCourse.title,
+        video_config: canonicalCourse?.video_config ?? null,
+        video_profile: canonicalCourse?.video_profile ?? null,
+      }
+    : null;
+
   const { data: lessons } = await supabase.from('training_lessons').select('*').eq('course_id', courseId).order('lesson_number');
 
   // Extract quiz data from metadata JSONB (set by AI ingestion pipeline)
