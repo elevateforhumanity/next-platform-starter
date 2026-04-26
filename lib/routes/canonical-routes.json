@@ -72,6 +72,31 @@
       "source": "/partners/esthetician-apprenticeship",
       "destination": "/partners/cosmetology-apprenticeship",
       "permanent": true
+    },
+    {
+      "source": "/programs/peer-recovery-coach",
+      "destination": "/programs/peer-recovery-specialist",
+      "permanent": true
+    },
+    {
+      "source": "/programs/peer-recovery-specialist-jri",
+      "destination": "/programs/peer-recovery-specialist",
+      "permanent": true
+    },
+    {
+      "source": "/programs/certified-peer-recovery-coach",
+      "destination": "/programs/peer-recovery-specialist",
+      "permanent": true
+    },
+    {
+      "source": "/programs/it-support-specialist",
+      "destination": "/programs/it-help-desk",
+      "permanent": true
+    },
+    {
+      "source": "/programs/it-support",
+      "destination": "/programs/it-help-desk",
+      "permanent": true
     }
   ],
   "railwayOnlyPrefixes": [

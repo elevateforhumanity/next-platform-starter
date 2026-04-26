@@ -579,6 +579,7 @@ const SLUG_ALIASES: Record<string, string> = {
   // PRS: legacy DB slug → canonical public slug
   'peer-recovery-specialist-jri': 'peer-recovery-specialist',
   'peer-recovery': 'peer-recovery-specialist',
+  'peer-recovery-coach': 'peer-recovery-specialist',
   'certified-peer-recovery-coach': 'peer-recovery-specialist',
   'nail-technician-apprenticeship': 'nail-technician',
   'nail-tech-apprenticeship': 'nail-technician',
@@ -597,7 +598,7 @@ const SLUG_ALIASES: Record<string, string> = {
   // Category-level aliases
   healthcare: 'cna',
   'skilled-trades': 'hvac-technician',
-  technology: 'it-support-specialist',
+  technology: 'it-help-desk',
   beauty: 'cosmetology-apprenticeship',
   apprenticeship: 'barber-apprenticeship',
   'federal-funded': 'cna',
