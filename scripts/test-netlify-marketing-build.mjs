@@ -3,7 +3,7 @@
  *
  * Local validation of the Netlify marketing build pipeline.
  * Mirrors the exact Netlify command order:
- *   quarantine → [build] → route guard
+ *   quarantine routes/functions → [build] → route guard → public-links
  *
  * Restore always runs in a finally block so app/ is never left quarantined
  * even if build or route guard fails.
@@ -68,7 +68,7 @@ const FORBIDDEN_PREFIXES = [
   '/video',
 ];
 
-const APP_ROUTE_CEILING = 175; // app/ source routes after quarantine
+const APP_ROUTE_CEILING = 320; // app/ source routes after quarantine
 const COMPILED_ROUTE_CEILING = 300; // .next manifest entries after build
 
 function run(cmd, env = {}) {
@@ -95,16 +95,19 @@ async function collectAppRoutes(dir, routes = []) {
 // Always restore, even on failure
 async function restore() {
   console.log('\n=== Restore ===');
+  run('node scripts/netlify-quarantine-functions.mjs --restore');
   run('node scripts/netlify-quarantine-railway-routes.mjs --restore');
 }
 
 async function main() {
   // Step 1: restore any leftover quarantine from a previous interrupted run
   console.log('\n=== Step 1: Pre-flight restore ===');
+  run('node scripts/netlify-quarantine-functions.mjs --restore');
   run('node scripts/netlify-quarantine-railway-routes.mjs --restore');
 
   // Step 2: quarantine Railway routes
   console.log('\n=== Step 2: Quarantine ===');
+  run('node scripts/netlify-quarantine-functions.mjs --force');
   run('node scripts/netlify-quarantine-railway-routes.mjs --force');
 
   // Step 3: assert app/ source is clean (pre-build check)
@@ -133,7 +136,7 @@ async function main() {
 
   if (!passed) {
     console.error('\n❌ Pre-build check failed. Fix quarantine before building.\n');
-    process.exit(1);
+    throw new Error('Pre-build assertions failed');
   }
 
   // Step 4: optional full build (mirrors Netlify pipeline)
@@ -145,12 +148,16 @@ async function main() {
     console.log('\n=== Step 5: Post-build route guard ===');
     run('node scripts/netlify-route-guard.mjs', { NETLIFY: 'true' });
 
-    // Step 6: assert compiled manifest has no forbidden routes
-    console.log('\n=== Step 6: Post-build assertions (compiled manifest) ===');
+    // Step 6: public link audit
+    console.log('\n=== Step 6: Public links guard ===');
+    run('node scripts/check-netlify-public-links.mjs', { NETLIFY: 'true' });
+
+    // Step 7: assert compiled manifest has no forbidden routes
+    console.log('\n=== Step 7: Post-build assertions (compiled manifest) ===');
     const manifestPath = join(ROOT, '.next', 'server', 'app-paths-manifest.json');
     if (!existsSync(manifestPath)) {
       console.error('  ✗ FAIL: app-paths-manifest.json not found after build');
-      process.exit(1);
+      throw new Error('Missing app-paths-manifest.json after build');
     }
     const manifest = JSON.parse(await readFile(manifestPath, 'utf8'));
     const compiledRoutes = Object.keys(manifest);
@@ -179,7 +186,7 @@ async function main() {
 
     if (!passed) {
       console.error('\n❌ Post-build check failed.\n');
-      process.exit(1);
+      throw new Error('Post-build assertions failed');
     }
   } else {
     console.log('\n(Skipping build — pass --build to run full pipeline)');

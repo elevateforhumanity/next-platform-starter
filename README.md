@@ -162,11 +162,28 @@ See [docs/compliance-overview.md](docs/compliance-overview.md) for full complian
 | Email           | Resend                             | 6.4.2   |
 | AI              | OpenAI                             | 6.9.1   |
 | Monitoring      | Sentry                             | 10.32.1 |
-| Hosting         | Netlify                            | —       |
+| Hosting         | Netlify (marketing) + Railway (ops) | —      |
 | Package Manager | pnpm                               | 10.28.2 |
 | Node.js         | —                                  | 20.x    |
 
-**Integrations:** Stripe, Affirm, Resend, OpenAI, Supabase, Sentry, Netlify, JotForm, Certiport, D-ID.
+**Integrations:** Stripe, Affirm, Resend, OpenAI, Supabase, Sentry, Netlify, Railway, JotForm, Certiport, D-ID.
+
+---
+
+## Deployment Architecture (Split Deploy)
+
+- **Netlify (marketing only):** public pages and lightweight public surface (`/programs`, `/apply`, `/funding`, `/partners`, `/testing`, etc.)
+- **Railway (operational platform):** admin, LMS, learner/instructor/employer/partner/program-holder portals, authenticated workflows, internal APIs, jobs, AI/video/document processing, and operational dashboards
+
+### Enforcement
+
+- Netlify build pipeline runs:
+  - `scripts/netlify-quarantine-railway-routes.mjs`
+  - `scripts/netlify-quarantine-functions.mjs`
+  - `scripts/netlify-route-guard.mjs`
+  - `scripts/check-netlify-public-links.mjs`
+- Quarantine scripts are Netlify-gated (`NETLIFY=true`) and skip outside Netlify context.
+- Railway full-platform validation is run with `pnpm test:railway:full-platform-build`, which verifies operational route presence in compiled output.
 
 ---
 
