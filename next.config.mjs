@@ -637,7 +637,6 @@ const nextConfig = {
       { source: '/supersonic-fast-cash/:path*', destination: '/supersonic', permanent: true },
       { source: '/compliance/:path*', destination: '/disclosures', permanent: false },
       { source: '/docs/:path*', destination: '/resources', permanent: false },
-      { source: '/videos/:path*', destination: '/resources', permanent: false },
       { source: '/workone-partner-packet', destination: '/partners', permanent: false },
       // Railway portal redirects — handled by Netlify edge (netlify.toml) for:
       //   /checkout/:path*, /lms/:path*, /learner, /learner/:path*, /student, /student/:path*,
@@ -795,22 +794,13 @@ const nextConfig = {
       // ============================================
       // DEAD LINK FIXES — public-facing
       { source: '/logout', destination: '/login', permanent: false },
-      { source: '/demo/admin', destination: '/admin/dashboard', permanent: false },
       { source: '/student/support', destination: '/support', permanent: false },
       { source: '/community/groups', destination: '/community', permanent: false },
       { source: '/workforce-board/reports', destination: '/workforce-board', permanent: false },
 
-      { source: '/governance/security', destination: '/admin/governance/security', permanent: false },
-      { source: '/governance/compliance', destination: '/admin/governance/compliance', permanent: false },
-      { source: '/governance/operational-controls', destination: '/admin/governance/operational-controls', permanent: false },
 
-      { source: '/ferpa/reports', destination: '/admin/ferpa', permanent: false },
-      { source: '/store/licenses/starter-license', destination: '/store/licenses', permanent: false },
       { source: '/elevate-platform-overview.pdf', destination: '/resources', permanent: false },
 
-      { source: '/pwa/cosmetology', destination: '/programs/cosmetology-apprenticeship', permanent: false },
-      { source: '/pwa/esthetician', destination: '/programs/esthetician', permanent: false },
-      { source: '/pwa/nail-tech', destination: '/programs/nail-technician-apprenticeship', permanent: false },
       { source: '/pwa/barber/log-hours', destination: '/programs/barber-apprenticeship', permanent: false },
       { source: '/pwa/barber/training', destination: '/programs/barber-apprenticeship', permanent: false },
       { source: '/pwa/barber/progress', destination: '/programs/barber-apprenticeship', permanent: false },
