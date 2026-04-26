@@ -89,6 +89,15 @@ export interface CertProvider {
     amountCents: number;
     includes: string[];
   };
+  ncrcJobProfiles?: Array<{
+    level: string;
+    score: string;
+    color: string;
+    jobs: Array<{
+      title: string;
+      note?: string;
+    }>;
+  }>;
 }
 
 export interface ProctoringOptions {

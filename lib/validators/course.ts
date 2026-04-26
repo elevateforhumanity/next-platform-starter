@@ -160,7 +160,7 @@ export const ApplicationCreateSchema = z.object({
   status: z
     .enum(['submitted', 'under_review', 'approved', 'rejected', 'enrolled'])
     .default('submitted'),
-  eligibility_data: z.record(z.any()).optional().nullable(),
+  eligibility_data: z.record(z.string(), z.any()).optional().nullable(),
 });
 
 export const ApplicationUpdateSchema = z.object({
@@ -181,7 +181,7 @@ export const ApplicationUpdateSchema = z.object({
   reviewer_id: z.string().uuid().optional().nullable(),
   review_notes: z.string().optional().nullable(),
   reviewed_at: z.string().datetime().optional().nullable(),
-  eligibility_data: z.record(z.any()).optional().nullable(),
+  eligibility_data: z.record(z.string(), z.any()).optional().nullable(),
 });
 
 export type ApplicationCreate = z.infer<typeof ApplicationCreateSchema>;

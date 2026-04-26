@@ -67,7 +67,9 @@ export async function processVendorPayout(
       .maybeSingle();
 
     if (existing) {
-      logger.info('[vendor-payout] Already processed for enrollment:', request.enrollmentId);
+      logger.info('[vendor-payout] Already processed for enrollment', {
+        enrollmentId: request.enrollmentId,
+      });
       return { success: true, payoutId: existing.id, method: 'recorded_payable' };
     }
 
@@ -102,7 +104,7 @@ export async function processVendorPayout(
         });
         stripeTransferId = transfer.id;
         method = 'stripe_transfer';
-        logger.info('[vendor-payout] Stripe transfer created:', transfer.id);
+        logger.info('[vendor-payout] Stripe transfer created', { transferId: transfer.id });
       } catch (transferErr) {
         // Non-fatal: fall back to recorded payable
         logger.error(

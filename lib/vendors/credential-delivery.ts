@@ -77,7 +77,9 @@ export async function deliverCredentials(
       .maybeSingle();
 
     if (existing?.status === 'active' && existing?.metadata?.credentials_sent) {
-      logger.info('[credential-delivery] Already delivered for enrollment:', request.enrollmentId);
+      logger.info('[credential-delivery] Already delivered for enrollment', {
+        enrollmentId: request.enrollmentId,
+      });
       return {
         success: true,
         method: 'enrollment_link',
@@ -291,7 +293,7 @@ async function sendCredentialEmail(
         `,
       }),
     });
-    logger.info('[credential-delivery] Email sent to:', request.studentEmail);
+    logger.info('[credential-delivery] Email sent', { studentEmail: request.studentEmail });
   } catch (emailErr) {
     // Non-fatal: enrollment succeeds even if email fails
     logger.error(
@@ -321,7 +323,9 @@ async function queueManualDelivery(
       status: 'pending',
       created_at: new Date().toISOString(),
     });
-    logger.info('[credential-delivery] Queued for manual delivery:', request.enrollmentId);
+    logger.info('[credential-delivery] Queued for manual delivery', {
+      enrollmentId: request.enrollmentId,
+    });
   } catch (queueErr) {
     logger.error(
       '[credential-delivery] Failed to queue:',

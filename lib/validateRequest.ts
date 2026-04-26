@@ -16,10 +16,10 @@ export async function validateRequest<T>(
       return {
         data: null,
         error: NextResponse.json(
-          {
-            error: 'Validation failed',
-            details: error.errors,
-          },
+            {
+              error: 'Validation failed',
+              details: error.issues,
+            },
           { status: 400 },
         ),
       };

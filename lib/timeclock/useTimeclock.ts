@@ -145,7 +145,7 @@ export function useTimeclock(options: UseTimeclockOptions) {
         }
       },
       (error) => {
-        logger.warn('[Timeclock] GPS watch error:', error.message);
+        logger.warn('[Timeclock] GPS watch error', { message: error.message });
       },
       {
         enableHighAccuracy: true,
@@ -198,7 +198,10 @@ export function useTimeclock(options: UseTimeclockOptions) {
         stopHeartbeat();
       }
     } catch (error) {
-      logger.error('[Timeclock] Heartbeat error:', error);
+      logger.error(
+        '[Timeclock] Heartbeat error',
+        error instanceof Error ? error : new Error(String(error)),
+      );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.progressEntryId, gpsPosition, onAutoClockOut]);
@@ -294,7 +297,7 @@ export function useTimeclock(options: UseTimeclockOptions) {
   const lunchStart = useCallback(async () => {
     if (!state.progressEntryId) {
       onError?.('No active shift');
-      return;
+      return undefined;
     }
 
     setLoading(true);
@@ -343,7 +346,7 @@ export function useTimeclock(options: UseTimeclockOptions) {
   const lunchEnd = useCallback(async () => {
     if (!state.progressEntryId) {
       onError?.('No active shift');
-      return;
+      return undefined;
     }
 
     setLoading(true);
@@ -392,7 +395,7 @@ export function useTimeclock(options: UseTimeclockOptions) {
   const clockOut = useCallback(async () => {
     if (!state.progressEntryId) {
       onError?.('No active shift');
-      return;
+      return undefined;
     }
 
     setLoading(true);

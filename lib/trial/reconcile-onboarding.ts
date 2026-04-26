@@ -65,9 +65,8 @@ export async function reconcileTrialOnboarding(
       .eq('id', organizationId);
 
     // Log the reconciliation
-    await supabase
-      .from('license_events')
-      .insert({
+    try {
+      await supabase.from('license_events').insert({
         license_id: license.id,
         organization_id: organizationId,
         event_type: 'trial_onboarding_reconciled',
@@ -75,8 +74,10 @@ export async function reconcileTrialOnboarding(
           source: 'admin_layout_reconciliation',
           reason: 'onboarding_started_at was null on first dashboard load',
         },
-      })
-      .catch(() => {}); // Non-critical
+      });
+    } catch {
+      // Non-critical
+    }
 
     reconcileCache.set(organizationId, Date.now());
   } catch {
