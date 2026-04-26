@@ -119,7 +119,7 @@ function CommandTab() {
   }, [output]);
 
   const ansiToHtml = (text: string) => {
-    const esc = '\\u001b\\[';
+    const esc = '\u001b\\[';
 
     return text
       .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
