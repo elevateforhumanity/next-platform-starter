@@ -1249,8 +1249,9 @@ async function _PUT(request: NextRequest) {
       },
     });
 
-    // Update database
-    await supabase
+    // Update database — use admin client to bypass RLS on barber_subscriptions
+    const adminDb = await getAdminClient();
+    await adminDb
       .from('barber_subscriptions')
       .update({
         transferred_hours_verified,

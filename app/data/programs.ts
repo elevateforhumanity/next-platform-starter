@@ -953,7 +953,7 @@ export const programs: Program[] = [
     price: 4750,
   },
   {
-    slug: 'phlebotomy-technician',
+    slug: 'phlebotomy',
     name: 'Phlebotomy Technician Certification',
     heroTitle: 'Phlebotomy Technician Certification Program',
     heroSubtitle: '6-week program to become a certified Phlebotomy Technician',
@@ -1023,11 +1023,11 @@ export const programs: Program[] = [
     ],
     ctaPrimary: {
       label: 'Apply Now',
-      href: '/apply?program=phlebotomy-technician',
+      href: '/apply?program=phlebotomy',
     },
     ctaSecondary: {
       label: 'Request Information',
-      href: '/inquiry?program=phlebotomy-technician',
+      href: '/programs/phlebotomy/request-info',
     },
     price: 2800,
   },

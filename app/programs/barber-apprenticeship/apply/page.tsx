@@ -21,7 +21,8 @@ function calculateWeeklyPayment(
   deposit: number = PRICING.minDeposit,
 ) {
   const remainingHours = PRICING.totalHours - transferHours;
-  const weeks = Math.ceil(remainingHours / hoursPerWeek);
+  // Fixed 29-week payment term per lib/programs/pricing.ts — do not derive from hours
+  const weeks = 29;
   const remainingBalance = PRICING.fullPrice - deposit;
   const weeklyDollars = weeks > 0 ? Math.round((remainingBalance / weeks) * 100) / 100 : 0;
   return { weeklyDollars, weeks, remainingHours, remainingBalance };
