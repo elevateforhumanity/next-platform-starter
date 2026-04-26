@@ -1,13 +1,11 @@
 import { Metadata } from 'next';
-import { FAQStructuredData, BreadcrumbStructuredData } from '@/components/seo/StructuredData';
+import { FAQStructuredData, BreadcrumbStructuredData, ServiceStructuredData } from '@/components/seo/StructuredData';
 import SeoAuthorityHubPage from '@/components/seo/SeoAuthorityHubPage';
-import Script from 'next/script';
 
 export const dynamic = 'force-static';
 export const revalidate = false;
 
 const CANONICAL = 'https://www.elevateforhumanity.org/agency-referral-workforce-training-indiana';
-const SITE_URL = 'https://www.elevateforhumanity.org';
 
 export const metadata: Metadata = {
   title: 'Agency Referral Workforce Training Indiana | WorkOne & FSSA IMPACT Partner | Elevate for Humanity',
@@ -29,29 +27,6 @@ export const metadata: Metadata = {
     description: 'Indiana ETPL-approved, WIOA-compliant workforce training provider. WorkOne and FSSA IMPACT referrals accepted.',
     images: ['/og-default.jpg'],
   },
-};
-
-const serviceSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'Service',
-  name: 'Agency & Workforce Referral Training Services',
-  provider: {
-    '@type': 'EducationalOrganization',
-    name: 'Elevate for Humanity',
-    url: SITE_URL,
-    address: {
-      '@type': 'PostalAddress',
-      streetAddress: '8888 Keystone Crossing, Suite 1300',
-      addressLocality: 'Indianapolis',
-      addressRegion: 'IN',
-      postalCode: '46240',
-      addressCountry: 'US',
-    },
-  },
-  areaServed: { '@type': 'State', name: 'Indiana' },
-  description:
-    'ETPL-approved, WIOA-compliant workforce training provider accepting referrals from WorkOne offices, FSSA IMPACT, and other Indiana workforce agencies. Documentation and outcome reporting available.',
-  url: CANONICAL,
 };
 
 const faqs = [
@@ -90,10 +65,11 @@ const faqs = [
 export default function AgencyReferralWorkforceTrainingIndianaPage() {
   return (
     <>
-      <Script
-        id="service-jsonld-agency"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+      <ServiceStructuredData
+        name="Agency & Workforce Referral Training Services"
+        description="ETPL-approved, WIOA-compliant workforce training provider accepting referrals from WorkOne offices, FSSA IMPACT, and other Indiana workforce agencies. Documentation and outcome reporting available."
+        url="/agency-referral-workforce-training-indiana"
+        providerType="EducationalOrganization"
       />
       <BreadcrumbStructuredData
         items={[

@@ -1,13 +1,11 @@
 import { Metadata } from 'next';
-import { FAQStructuredData, BreadcrumbStructuredData } from '@/components/seo/StructuredData';
+import { FAQStructuredData, BreadcrumbStructuredData, ServiceStructuredData } from '@/components/seo/StructuredData';
 import SeoAuthorityHubPage from '@/components/seo/SeoAuthorityHubPage';
-import Script from 'next/script';
 
 export const dynamic = 'force-static';
 export const revalidate = false;
 
 const CANONICAL = 'https://www.elevateforhumanity.org/employer-workforce-partnerships-indiana';
-const SITE_URL = 'https://www.elevateforhumanity.org';
 
 export const metadata: Metadata = {
   title: 'Employer Workforce Partnerships Indiana | OJT, Apprenticeships & Wage Reimbursement | Elevate for Humanity',
@@ -29,29 +27,6 @@ export const metadata: Metadata = {
     description: 'OJT wage reimbursement, registered apprenticeships, WOTC tax credits. Partner with Indiana\'s workforce training provider.',
     images: ['/og-default.jpg'],
   },
-};
-
-const serviceSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'Service',
-  name: 'Employer Workforce Partnership Program',
-  provider: {
-    '@type': 'Organization',
-    name: 'Elevate for Humanity',
-    url: SITE_URL,
-    address: {
-      '@type': 'PostalAddress',
-      streetAddress: '8888 Keystone Crossing, Suite 1300',
-      addressLocality: 'Indianapolis',
-      addressRegion: 'IN',
-      postalCode: '46240',
-      addressCountry: 'US',
-    },
-  },
-  areaServed: { '@type': 'State', name: 'Indiana' },
-  description:
-    'Employer workforce partnership services including OJT wage reimbursement, registered apprenticeships, WOTC tax credit support, and trained candidate pipelines for Indiana employers.',
-  url: CANONICAL,
 };
 
 const faqs = [
@@ -90,10 +65,11 @@ const faqs = [
 export default function EmployerWorkforcePartnershipsIndianaPage() {
   return (
     <>
-      <Script
-        id="service-jsonld-employer"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+      <ServiceStructuredData
+        name="Employer Workforce Partnership Program"
+        description="Employer workforce partnership services including OJT wage reimbursement, registered apprenticeships, WOTC tax credit support, and trained candidate pipelines for Indiana employers."
+        url="/employer-workforce-partnerships-indiana"
+        providerType="Organization"
       />
       <BreadcrumbStructuredData
         items={[

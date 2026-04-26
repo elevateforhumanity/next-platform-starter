@@ -349,3 +349,53 @@ export function JobPostingStructuredData({
     />
   );
 }
+
+interface ServiceStructuredDataProps {
+  /** Schema @type: defaults to 'Service' */
+  serviceType?: 'Service' | 'EducationalOrganization';
+  name: string;
+  description: string;
+  url: string;
+  providerType?: 'Organization' | 'EducationalOrganization';
+}
+
+/**
+ * Service / EducationalOrganization service structured data (for hub pages)
+ */
+export function ServiceStructuredData({
+  serviceType = 'Service',
+  name,
+  description,
+  url,
+  providerType = 'Organization',
+}: ServiceStructuredDataProps) {
+  const data = {
+    '@context': 'https://schema.org',
+    '@type': serviceType,
+    name,
+    description,
+    url: `${SITE_URL}${url}`,
+    provider: {
+      '@type': providerType,
+      name: ORG_NAME,
+      url: SITE_URL,
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: '8888 Keystone Crossing, Suite 1300',
+        addressLocality: 'Indianapolis',
+        addressRegion: 'IN',
+        postalCode: '46240',
+        addressCountry: 'US',
+      },
+    },
+    areaServed: { '@type': 'State', name: 'Indiana' },
+  };
+
+  return (
+    <Script
+      id={`service-jsonld-${name.replace(/\s+/g, '-').toLowerCase()}`}
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+    />
+  );
+}
