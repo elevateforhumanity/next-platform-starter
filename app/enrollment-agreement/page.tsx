@@ -27,6 +27,7 @@ export default function EnrollmentAgreementPage() {
 
       {/* Hero Image */}
       <section className="relative h-[160px] sm:h-[220px] md:h-[280px] overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/enrollment-agreement-page-1.jpg"
           alt="Enrollment agreement"

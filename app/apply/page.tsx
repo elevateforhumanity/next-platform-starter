@@ -124,6 +124,7 @@ export default async function ApplyPage({
         >
           <div className="flex flex-col md:flex-row">
             <div className="relative w-full md:w-2/5 h-[200px] md:h-auto md:min-h-[280px] overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
               <Image
                 src="/images/pages/apply-page-2.jpg"
                 alt="Students in hands-on career training"

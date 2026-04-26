@@ -130,7 +130,7 @@ export default function AvatarGuide({
         className="fixed top-20 right-4 z-50 flex items-center gap-2 bg-brand-orange-600 hover:bg-brand-orange-700 text-white px-4 py-2 rounded-full shadow-lg transition-all hover:scale-105"
       >
         <div className="w-8 h-8 rounded-full overflow-hidden border-2 border-white">
-          <Image
+          <Image sizes="100vw"
             src={avatarImage}
             alt={avatarName}
             width={32}
@@ -151,7 +151,7 @@ export default function AvatarGuide({
           <div className="flex-shrink-0">
             <div className="relative">
               <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden border-4 border-brand-orange-500 shadow-lg">
-                <Image
+                <Image sizes="100vw"
                   src={avatarImage}
                   alt={avatarName}
                   width={96}

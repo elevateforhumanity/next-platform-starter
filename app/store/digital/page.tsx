@@ -157,6 +157,7 @@ export default function StoreDigitalPage() {
                 className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all group border border-slate-100"
               >
                 <div className="relative h-48 overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
                   <Image
                     src={product.image || '/images/pages/comp-universal-hero.jpg'}
                     alt={product.name}

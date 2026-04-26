@@ -63,6 +63,7 @@ export function BarberCredentials() {
                 className="bg-white rounded-xl overflow-hidden border border-slate-200 hover:shadow-lg transition-shadow"
               >
                 <div className="relative aspect-[4/3]" style={{ aspectRatio: '3/2' }}>
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
                   <Image
                     src={CURRICULUM_IMAGES[i] || CURRICULUM_IMAGES[0]}
                     alt={mod.title}

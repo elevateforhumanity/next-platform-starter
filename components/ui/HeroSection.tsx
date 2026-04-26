@@ -150,6 +150,7 @@ export function HeroSection({
         className={`relative ${heightClasses[height]} flex items-end`}
       >
         {/* Full-bleed image - NO overlay */}
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src={image}
           alt={imageAlt || title}

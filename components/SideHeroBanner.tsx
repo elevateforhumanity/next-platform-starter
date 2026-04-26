@@ -39,6 +39,7 @@ export default function SideHeroBanner() {
 
           {/* Right Side - Image */}
           <div className="relative h-[500px] rounded-2xl overflow-hidden shadow-2xl">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
             <Image
               alt="Program hero banner"
               loading="lazy"

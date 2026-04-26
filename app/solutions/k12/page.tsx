@@ -121,7 +121,8 @@ export default function K12SolutionsPage() {
       {/* Hero */}
       <section className="relative">
         <div className="relative h-[45vh] sm:h-[50vh] md:h-[55vh] min-h-[280px] w-full overflow-hidden">
-          <Image
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+          <Image sizes="100vw"
             src="/images/pages/k12-hero.jpg"
             alt="K-12 students in a career and technical education classroom"
             fill

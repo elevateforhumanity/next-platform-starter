@@ -72,6 +72,7 @@ export default function FAQPage() {
                 className="rounded-2xl overflow-hidden border border-slate-200 flex flex-col md:flex-row"
               >
                 <div className="relative h-40 md:h-auto md:w-48 flex-shrink-0">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
                   <Image
                     src={faq.image}
                     alt={faq.q}

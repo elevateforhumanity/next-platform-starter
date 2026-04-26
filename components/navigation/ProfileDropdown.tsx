@@ -210,7 +210,7 @@ export function ProfileDropdown({ className }: Props) {
         aria-expanded={isOpen}
       >
         {profile.avatar_url ? (
-          <Image
+          <Image sizes="100vw"
             src={profile.avatar_url}
             alt={profile.full_name}
             width={40}
@@ -236,7 +236,7 @@ export function ProfileDropdown({ className }: Props) {
             <div className="flex items-center gap-3">
               <div className="w-12 h-12 rounded-full bg-gradient-to-br from-brand-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold">
                 {profile.avatar_url ? (
-                  <Image
+                  <Image sizes="100vw"
                     src={profile.avatar_url}
                     alt={profile.full_name}
                     width={48}

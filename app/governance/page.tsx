@@ -17,6 +17,7 @@ export default function GovernancePage() {
     <div className="min-h-screen bg-white">
       {/* Hero */}
       <section className="relative h-[200px] sm:h-[260px] overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/governance-page-1.jpg"
           alt="Governance and program structure"

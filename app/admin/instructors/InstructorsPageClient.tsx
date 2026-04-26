@@ -80,6 +80,7 @@ export function InstructorsPageClient() {
 
       {/* Hero Section */}
       <section className="relative h-48 md:h-64 overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/admin-instructors-detail.jpg"
           alt="Instructors Management"

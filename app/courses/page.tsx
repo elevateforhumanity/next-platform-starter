@@ -79,6 +79,7 @@ export default async function CoursesPage() {
       {/* Hero */}
       <section className="relative w-full">
         <div className="relative h-[300px] md:h-[400px] w-full overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
           <Image
             src="/images/heroes/training-provider-3.jpg"
             alt="Career Training Courses"
@@ -156,7 +157,7 @@ export default async function CoursesPage() {
                 className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all border border-slate-100"
               >
                 <div className="relative h-48">
-                  <Image
+                  <Image sizes="100vw"
                     src={category.image}
                     alt={category.name}
                     fill
@@ -197,7 +198,7 @@ export default async function CoursesPage() {
                   className="bg-slate-800 rounded-2xl overflow-hidden hover:bg-slate-700 transition-all group"
                 >
                   <div className="relative h-40">
-                    <Image
+                    <Image sizes="100vw"
                       src={course.image_url || '/images/heroes/training-provider-3.jpg'}
                       alt={course.title}
                       fill

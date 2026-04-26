@@ -78,7 +78,7 @@ export default function ProfileEditForm({ user, profile }: ProfileEditFormProps)
           <div className="relative">
             <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
               {profile?.avatar_url ? (
-                <Image
+                <Image sizes="100vw"
                   src={profile.avatar_url}
                   alt={`${profile.full_name || 'User'} profile photo`}
                   width={96}

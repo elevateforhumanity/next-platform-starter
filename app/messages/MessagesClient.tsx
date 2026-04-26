@@ -176,7 +176,7 @@ export default function MessagesClient({
                     >
                       <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center flex-shrink-0">
                         {other.avatar_url ? (
-                          <Image
+                          <Image sizes="100vw"
                             src={other.avatar_url}
                             alt={other.full_name || 'Contact'}
                             width={48}
@@ -224,7 +224,7 @@ export default function MessagesClient({
                       <>
                         <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center">
                           {other.avatar_url ? (
-                            <Image
+                            <Image sizes="100vw"
                               src={other.avatar_url}
                               alt={other.full_name || 'Contact'}
                               width={48}

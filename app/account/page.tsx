@@ -91,7 +91,7 @@ export default async function AccountPage() {
           <div className="flex items-center gap-4">
             <div className="w-16 h-16 bg-brand-blue-100 rounded-full flex items-center justify-center">
               {profile?.avatar_url ? (
-                <Image
+                <Image sizes="100vw"
                   src={profile.avatar_url}
                   alt={profile.full_name || 'Profile'}
                   width={64}

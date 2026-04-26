@@ -278,6 +278,7 @@ export default async function SuccessStoriesPage() {
                 {/* Image/Video */}
                 <div className={`${index % 2 === 1 ? 'md:order-2' : ''}`}>
                   <div className="relative h-[400px] rounded-2xl overflow-hidden border-4 border-gray-200 group">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
                     <Image
                       priority
                       src={story.image}

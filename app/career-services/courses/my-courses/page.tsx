@@ -110,7 +110,7 @@ export default async function MyCoursesPage() {
                   className="bg-white rounded-xl shadow-sm border overflow-hidden hover:shadow-lg transition group"
                 >
                   <div className="relative h-40 overflow-hidden">
-                    <Image
+                    <Image sizes="100vw"
                       src={purchase.course?.image_url || '/images/pages/career-services-page-5.jpg'}
                       alt={purchase.course?.title}
                       fill
@@ -153,7 +153,7 @@ export default async function MyCoursesPage() {
                   className="bg-white rounded-xl shadow-sm border overflow-hidden"
                 >
                   <div className="relative h-40 overflow-hidden">
-                    <Image
+                    <Image sizes="100vw"
                       src={course.image_url || '/images/pages/apply-employer-hero.jpg'}
                       alt={course.title}
                       fill

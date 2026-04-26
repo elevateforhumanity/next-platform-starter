@@ -35,7 +35,8 @@ export default function BuildingServicesTechnicianPage() {
     <main className="min-h-screen bg-white text-black">
       {/* HERO */}
       <section className="relative h-[60vh] min-h-[400px] max-h-[500px]">
-        <Image
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        <Image sizes="100vw"
           src="/images/programs/efh-building-tech-hero.jpg"
           alt="Building Services Technician"
           fill
@@ -152,7 +153,7 @@ export default function BuildingServicesTechnicianPage() {
       <section className="max-w-5xl mx-auto px-6 pb-10">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-lg">
-            <Image
+            <Image sizes="100vw"
               src="/images/building-maintenance.jpg"
               alt="Building Maintenance"
               fill
@@ -160,7 +161,7 @@ export default function BuildingServicesTechnicianPage() {
             />
           </div>
           <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-lg">
-            <Image
+            <Image sizes="100vw"
               src="/images/programs/building-maintenance-hero.jpg"
               alt="Facility Services"
               fill
@@ -168,7 +169,7 @@ export default function BuildingServicesTechnicianPage() {
             />
           </div>
           <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-lg">
-            <Image
+            <Image sizes="100vw"
               src="/images/facility-hero.jpg"
               alt="Building Services"
               fill
@@ -201,7 +202,7 @@ export default function BuildingServicesTechnicianPage() {
             </p>
           </div>
           <div className="relative h-96 rounded-2xl overflow-hidden">
-            <Image
+            <Image sizes="100vw"
               src="/images/programs/efh-building-tech-card.jpg"
               alt="Building Services Training"
               fill

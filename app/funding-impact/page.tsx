@@ -85,6 +85,7 @@ export default async function FundingImpactPage() {
 
       {/* Hero */}
       <section className="relative h-[300px] sm:h-[380px] overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/impact-video-poster.jpg"
           alt="Workforce funding impact"

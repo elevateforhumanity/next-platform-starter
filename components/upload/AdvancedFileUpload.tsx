@@ -277,7 +277,7 @@ export function AdvancedFileUpload({
                 {/* Preview or Icon */}
                 <div className="flex-shrink-0">
                   {uploadFile.preview ? (
-                    <Image
+                    <Image sizes="100vw"
                       src={uploadFile.preview}
                       alt={uploadFile.file.name}
                       width={48}

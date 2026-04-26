@@ -66,6 +66,7 @@ export default function SiteLocatorPage() {
                 className="rounded-2xl overflow-hidden border border-slate-200 flex flex-col"
               >
                 <div className="relative h-52 flex-shrink-0">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
                   <Image
                     src={site.image}
                     alt={site.name}

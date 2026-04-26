@@ -52,6 +52,7 @@ export default function PublicLandingPage({ config }: { config: LandingPageConfi
         className="relative w-full overflow-hidden"
         style={{ minHeight: 'clamp(420px, 55vw, 640px)' }}
       >
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src={config.hero.image}
           alt={config.hero.title}

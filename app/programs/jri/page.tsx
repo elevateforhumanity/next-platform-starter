@@ -77,6 +77,7 @@ export default async function JRIProgramsPage() {
         className="relative overflow-hidden"
         style={{ minHeight: 'clamp(420px, 52vw, 600px)' }}
       >
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/jri-hero.jpg"
           alt="Second chance career training — JRI programs at Elevate for Humanity"

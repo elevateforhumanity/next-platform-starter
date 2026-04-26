@@ -96,7 +96,8 @@ export default async function Page() {
               </span>
             </div>
             <div className="relative h-[250px] rounded-xl overflow-hidden mt-6">
-              <Image
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+              <Image sizes="100vw"
                 src="/images/healthcare/healthcare-professional-portrait-1.jpg"
                 alt="Healthcare professional"
                 fill

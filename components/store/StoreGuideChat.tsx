@@ -215,7 +215,7 @@ export default function StoreGuideChat({ onStartTour, forceOpen = false }: Store
               <div
                 className={`w-14 h-14 rounded-full overflow-hidden border-2 flex-shrink-0 ${isSpeaking ? 'border-brand-red-500 animate-pulse' : 'border-slate-200'}`}
               >
-                <Image
+                <Image sizes="100vw"
                   src="/images/pages/store-guide-1.jpg"
                   alt="Store Guide"
                   width={56}
@@ -265,7 +265,7 @@ export default function StoreGuideChat({ onStartTour, forceOpen = false }: Store
                     >
                       {/* Choice Image */}
                       <div className="w-14 h-14 rounded-lg overflow-hidden flex-shrink-0">
-                        <Image
+                        <Image sizes="100vw"
                           src={choiceImages[choice.id] || '/images/pages/store-recommendations.jpg'}
                           alt={choice.label}
                           width={56}
@@ -296,7 +296,7 @@ export default function StoreGuideChat({ onStartTour, forceOpen = false }: Store
               /* Confirmation */
               <div className="text-center">
                 <div className="w-20 h-20 rounded-xl overflow-hidden mx-auto mb-4">
-                  <Image
+                  <Image sizes="100vw"
                     src={
                       choiceImages[selectedChoice?.id || ''] ||
                       '/images/pages/store-recommendations.jpg'

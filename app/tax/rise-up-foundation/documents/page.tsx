@@ -82,6 +82,7 @@ export default function DocumentsPage() {
                 className="rounded-2xl overflow-hidden border border-slate-200 flex flex-col"
               >
                 <div className="relative h-44 w-full flex-shrink-0">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
                   <Image
                     src={doc.image}
                     alt={doc.label}

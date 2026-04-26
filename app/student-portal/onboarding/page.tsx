@@ -209,6 +209,7 @@ export default function StudentOnboardingPage() {
     <div className="min-h-screen bg-slate-50">
       {/* Hero Image */}
       <section className="relative h-[160px] sm:h-[220px] md:h-[280px]">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/comp-home-highlight-success.jpg"
           alt="Student onboarding"

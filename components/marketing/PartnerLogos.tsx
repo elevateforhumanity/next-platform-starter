@@ -13,7 +13,8 @@ export default function PartnerLogos() {
         </p>
         <div className="flex justify-center items-center gap-8 md:gap-12 flex-wrap grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
           <div className="flex items-center justify-center h-16 w-32">
-            <Image
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+            <Image sizes="100vw"
               src="/images/partners/dwd.webp"
               alt="Indiana Department of Workforce Development"
               width={120}
@@ -22,7 +23,7 @@ export default function PartnerLogos() {
             />
           </div>
           <div className="flex items-center justify-center h-16 w-32">
-            <Image
+            <Image sizes="100vw"
               src="/images/partners/workone.webp"
               alt="WorkOne Indiana"
               width={120}
@@ -31,7 +32,7 @@ export default function PartnerLogos() {
             />
           </div>
           <div className="flex items-center justify-center h-16 w-32">
-            <Image
+            <Image sizes="100vw"
               src="/images/partners/usdol.webp"
               alt="US Department of Labor"
               width={120}
@@ -40,7 +41,7 @@ export default function PartnerLogos() {
             />
           </div>
           <div className="flex items-center justify-center h-16 w-32">
-            <Image
+            <Image sizes="100vw"
               src="/images/partners/osha.webp"
               alt="OSHA Authorized"
               width={120}
@@ -49,7 +50,7 @@ export default function PartnerLogos() {
             />
           </div>
           <div className="flex items-center justify-center h-16 w-32">
-            <Image
+            <Image sizes="100vw"
               src="/images/partners/nextleveljobs.webp"
               alt="Next Level Jobs"
               width={120}

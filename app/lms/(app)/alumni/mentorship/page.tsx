@@ -49,6 +49,7 @@ export default async function MentorshipPage() {
       {/* Hero */}
       <section className="relative w-full">
         <div className="relative h-[300px] md:h-[400px] w-full overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
           <Image
             src="/images/pages/mentorship-page-5.jpg"
             alt="Mentorship Program"

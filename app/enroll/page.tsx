@@ -47,7 +47,8 @@ export default async function EnrollPage() {
 
       {/* Hero - Image only */}
       <div className="relative h-[40vh] min-h-[300px]">
-        <Image
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        <Image sizes="100vw"
           src="/images/pages/programs-hero.jpg"
           alt="Enroll in Training"
           fill

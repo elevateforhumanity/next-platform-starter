@@ -109,6 +109,7 @@ export default function TrainingPage() {
               </a>
             </div>
             <div className="relative h-[420px] rounded-2xl overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
               <Image
                 src="/images/pages/admin-ferpa-training-hero.jpg"
                 alt="IRS Link and Learn training"

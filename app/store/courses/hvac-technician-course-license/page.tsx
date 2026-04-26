@@ -370,6 +370,7 @@ export default function HvacCourseLicensePage() {
                 className="rounded-xl overflow-hidden border border-slate-200"
               >
                 <div className="relative h-36">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
                   <Image
                     src={c.img}
                     alt={c.credential}

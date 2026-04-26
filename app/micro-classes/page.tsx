@@ -73,6 +73,7 @@ export default function MicroClassesPage() {
       {/* Hero */}
       <section className="relative w-full">
         <div className="relative h-[50vh] sm:h-[55vh] md:h-[60vh] lg:h-[65vh] min-h-[320px] w-full overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
           <Image
             src="/images/pages/micro-classes-hero.jpg"
             alt="Micro-classes"

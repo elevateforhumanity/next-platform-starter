@@ -17,7 +17,7 @@ export default function ProgramHolderConfirmationPage() {
       <div className="w-full max-w-lg">
         {/* Logo */}
         <div className="text-center mb-8">
-          <Image
+          <Image sizes="100vw"
             src="/images/Elevate_for_Humanity_logo_81bf0fab.jpg"
             alt="Elevate for Humanity"
             width={140}

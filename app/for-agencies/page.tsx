@@ -96,6 +96,7 @@ export default async function ForAgenciesPage() {
 
       {/* Hero */}
       <section className="relative h-[280px] sm:h-[360px] overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/government-1.jpg"
           alt="Workforce agency partnership"

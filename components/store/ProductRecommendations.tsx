@@ -85,7 +85,7 @@ export default function ProductRecommendations({
             <div className="bg-white rounded-xl p-4 border border-gray-200 flex gap-4">
               <div className="flex-shrink-0">
                 <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-brand-orange-500">
-                  <Image
+                  <Image sizes="100vw"
                     src="/images/pages/store-recommendations.jpg"
                     alt="Sales Guide"
                     width={48}

@@ -44,7 +44,8 @@ export default async function ForumsPage() {
       <div className="min-h-screen bg-white">
         {/* Hero */}
         <section className="relative min-h-[400px] flex items-center overflow-hidden">
-          <Image
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+          <Image sizes="100vw"
             src="/images/pages/success-stories-hero.jpg"
             alt="Community Forums"
             fill
@@ -132,7 +133,7 @@ export default async function ForumsPage() {
     <div className="min-h-screen bg-gray-50">
       {/* Hero */}
       <section className="relative min-h-[450px] flex items-center overflow-hidden">
-        <Image
+        <Image sizes="100vw"
           src="/images/pages/success-stories-hero.jpg"
           alt="Community Forums"
           fill

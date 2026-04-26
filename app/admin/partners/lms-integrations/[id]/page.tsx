@@ -96,6 +96,7 @@ export default async function LMSIntegrationDetailPage({ params }: Props) {
           <div className="flex items-center gap-4">
             <div className="w-16 h-16 bg-brand-blue-100 rounded-xl flex items-center justify-center">
               {provider.logo_url ? (
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
                 <Image
                   src={provider.logo_url}
                   alt={`${provider.provider_name} logo`}

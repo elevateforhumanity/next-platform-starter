@@ -131,7 +131,7 @@ export default function SalesAvatar({
         className={`fixed ${position === 'bottom-left' ? 'left-4' : 'right-4'} bottom-4 z-50 flex items-center gap-2 bg-brand-orange-600 hover:bg-brand-orange-700 text-white px-4 py-3 rounded-full shadow-lg transition-all hover:scale-105`}
       >
         <div className="w-8 h-8 rounded-full overflow-hidden border-2 border-white">
-          <Image
+          <Image sizes="100vw"
             src={avatarImage}
             alt={avatarName}
             width={32}
@@ -154,7 +154,7 @@ export default function SalesAvatar({
           <div className="flex-shrink-0">
             <div className="relative">
               <div className="w-16 h-16 rounded-full overflow-hidden border-3 border-brand-orange-500">
-                <Image
+                <Image sizes="100vw"
                   src={avatarImage}
                   alt={avatarName}
                   width={64}
@@ -239,7 +239,7 @@ export default function SalesAvatar({
         <div className="bg-slate-900 text-white p-3 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-brand-orange-500">
-              <Image
+              <Image sizes="100vw"
                 src={avatarImage}
                 alt={avatarName}
                 width={40}

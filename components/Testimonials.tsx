@@ -43,7 +43,7 @@ export default function Testimonials() {
           {TESTIMONIALS.map((t) => (
             <div key={t.name} className="card p-6">
               <div className="flex items-center gap-4">
-                <Image
+                <Image sizes="100vw"
                   src={t.avatar}
                   alt={t.name}
                   width={48}

@@ -95,7 +95,8 @@ export default async function Page() {
               facilities, day programs, and community settings.
             </p>
             <div className="relative h-[300px] rounded-xl overflow-hidden mt-6">
-              <Image
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+              <Image sizes="100vw"
                 src="/images/gallery/image2.jpg"
                 alt="DSP training session"
                 fill

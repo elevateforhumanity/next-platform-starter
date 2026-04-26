@@ -31,6 +31,7 @@ export default function JobReadyIndyPage() {
 
       {/* Hero */}
       <section className="relative h-[200px] sm:h-[260px] overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/jri-hero.jpg"
           alt="Job Ready Indy workforce training"

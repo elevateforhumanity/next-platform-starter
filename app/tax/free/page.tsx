@@ -17,7 +17,8 @@ export default function FreeTaxPage() {
       </div>
       {/* Hero */}
       <section className="relative h-[400px] w-full overflow-hidden">
-        <Image
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        <Image sizes="100vw"
           src="/images/business/office-admin.jpg"
           alt="Free Tax Preparation"
           width={800}

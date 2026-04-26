@@ -296,6 +296,7 @@ export default async function TaxFilingAdminPage() {
                   </ul>
                 </div>
                 <div className="relative h-[60vh] min-h-[400px] max-h-[720px] rounded-2xl overflow-hidden shadow-2xl">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
                   <Image
                     src="/images/pages/admin-tax-filing-hero.jpg"
                     alt="Tax filing preparation"

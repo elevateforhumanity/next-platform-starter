@@ -12,7 +12,7 @@ export function ProgramCard({ title, description, image, href }: ProgramCardProp
   return (
     <div className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
       <div className="aspect-video relative overflow-hidden">
-        <Image src={image} alt={title} fill className="object-cover" />
+        <Image sizes="100vw" src={image} alt={title} fill className="object-cover" />
       </div>
       <div className="p-6">
         <h3 className="text-xl font-semibold mb-2 text-black">{title}</h3>

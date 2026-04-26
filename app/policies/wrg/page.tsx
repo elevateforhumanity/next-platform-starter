@@ -30,6 +30,7 @@ export default async function WRGPage() {
       {/* Hero */}
       <section className="relative w-full">
         <div className="relative h-[300px] md:h-[400px] w-full overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
           <Image
             src="/hero-images/federal-funded-hero.jpg"
             alt="Workforce Ready Grant"

@@ -107,7 +107,7 @@ export default function TestimonialsSection({
               {/* Author */}
               <div className="flex items-center gap-3">
                 {testimonial.image_url && (
-                  <Image
+                  <Image sizes="100vw"
                     src={testimonial.image_url}
                     alt={testimonial.name}
                     width={48}

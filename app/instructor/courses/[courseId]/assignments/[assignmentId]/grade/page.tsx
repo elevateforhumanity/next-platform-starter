@@ -116,6 +116,7 @@ export default async function SpeedGraderPage({ params }: { params: Params }) {
     <>
       {/* Hero Image */}
       <section className="relative h-[160px] sm:h-[220px] md:h-[280px] overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/instructor-page-4.jpg"
           alt="Instructor portal"

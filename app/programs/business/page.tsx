@@ -49,7 +49,8 @@ export default async function BusinessPage() {
           <h2 className="text-3xl font-bold text-black mb-8">At-a-Glance</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="flex items-start gap-4">
-              <Image
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+              <Image sizes="100vw"
                 src="/images/icons/clock.png"
                 alt="Duration"
                 width={24}
@@ -63,7 +64,7 @@ export default async function BusinessPage() {
               </div>
             </div>
             <div className="flex items-start gap-4">
-              <Image
+              <Image sizes="100vw"
                 src="/images/icons/dollar.png"
                 alt="Cost"
                 width={24}
@@ -77,7 +78,7 @@ export default async function BusinessPage() {
               </div>
             </div>
             <div className="flex items-start gap-4">
-              <Image
+              <Image sizes="100vw"
                 src="/images/icons/shield.png"
                 alt="Format"
                 width={24}
@@ -91,7 +92,7 @@ export default async function BusinessPage() {
               </div>
             </div>
             <div className="flex items-start gap-4">
-              <Image
+              <Image sizes="100vw"
                 src="/images/icons/award.png"
                 alt="Outcome"
                 width={24}
@@ -212,7 +213,7 @@ export default async function BusinessPage() {
           <div className="bg-white rounded-xl p-8 shadow-sm">
             <ul className="space-y-3">
               <li className="flex items-start gap-3">
-                <Image
+                <Image sizes="100vw"
                   src="/images/icons/users.png"
                   alt="Users"
                   width={20}
@@ -223,7 +224,7 @@ export default async function BusinessPage() {
                 <span className="text-black">Case management</span>
               </li>
               <li className="flex items-start gap-3">
-                <Image
+                <Image sizes="100vw"
                   src="/images/icons/users.png"
                   alt="Users"
                   width={20}
@@ -234,7 +235,7 @@ export default async function BusinessPage() {
                 <span className="text-black">Career counseling and job placement</span>
               </li>
               <li className="flex items-start gap-3">
-                <Image
+                <Image sizes="100vw"
                   src="/images/icons/users.png"
                   alt="Users"
                   width={20}
@@ -245,7 +246,7 @@ export default async function BusinessPage() {
                 <span className="text-black">Entrepreneurship mentoring</span>
               </li>
               <li className="flex items-start gap-3">
-                <Image
+                <Image sizes="100vw"
                   src="/images/icons/users.png"
                   alt="Users"
                   width={20}
@@ -256,7 +257,7 @@ export default async function BusinessPage() {
                 <span className="text-black">Transportation resources</span>
               </li>
               <li className="flex items-start gap-3">
-                <Image
+                <Image sizes="100vw"
                   src="/images/icons/users.png"
                   alt="Users"
                   width={20}

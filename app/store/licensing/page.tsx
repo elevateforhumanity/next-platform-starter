@@ -100,6 +100,7 @@ export default function StoreLicensesPage() {
               </p>
             </div>
             <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden shadow-xl border border-slate-200">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
               <Image
                 src="/images/pages/store-licensing-hero.jpg"
                 alt="Elevate platform admin dashboard"

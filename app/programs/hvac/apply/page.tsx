@@ -15,7 +15,8 @@ export default function ApplyPage() {
     <main className="min-h-screen bg-white">
       {/* Hero Banner */}
       <section className="relative h-[40vh] min-h-[300px] max-h-[400px]">
-        <Image
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        <Image sizes="100vw"
           src="/images/pages/hvac-hero.jpg"
           alt="HVAC Technician Training"
           fill

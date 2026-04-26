@@ -167,7 +167,8 @@ function LessonDrawer({
       <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
       <div className="relative w-full max-w-md bg-white shadow-2xl overflow-y-auto">
         <div className="relative h-44">
-          <Image
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+          <Image sizes="100vw"
             src={MODULE_PHOTO[index] || MODULE_PHOTO[0]}
             alt={module.title}
             fill
@@ -271,7 +272,7 @@ export default function HvacCourseHome({
     <div className="min-h-screen bg-white">
       {/* HERO */}
       <div className="relative h-[280px] md:h-[340px]">
-        <Image
+        <Image sizes="100vw"
           src="/images/pages/hvac-hero.jpg"
           alt="HVAC technician"
           fill
@@ -354,7 +355,7 @@ export default function HvacCourseHome({
             className="relative w-full max-w-2xl rounded-2xl overflow-hidden group cursor-pointer border border-slate-200 hover:border-slate-300 hover:shadow-xl transition-all"
           >
             <div className="relative aspect-video bg-slate-900">
-              <Image
+              <Image sizes="100vw"
                 src="/images/pages/comp-home-highlight-success.jpg"
                 alt="Student orientation"
                 fill
@@ -397,7 +398,7 @@ export default function HvacCourseHome({
                 className="text-left bg-white border border-slate-200 rounded-2xl overflow-hidden hover:shadow-xl hover:border-slate-300 transition-all duration-200 group"
               >
                 <div className="relative h-40 overflow-hidden">
-                  <Image
+                  <Image sizes="100vw"
                     src={MODULE_PHOTO[i]}
                     alt={mod.title}
                     fill

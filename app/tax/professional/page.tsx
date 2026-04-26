@@ -15,7 +15,8 @@ export default function ProfessionalTaxPage() {
       </div>
       {/* Hero */}
       <section className="relative h-[400px] w-full overflow-hidden">
-        <Image
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        <Image sizes="100vw"
           src="/images/pathways/business-hero.jpg"
           alt="Professional Tax Services"
           width={800}

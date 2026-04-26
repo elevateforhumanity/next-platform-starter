@@ -68,7 +68,8 @@ export function PortalPageLayout({
             <div className={`grid md:grid-cols-${Math.min(stats.length, 4)} gap-6 mb-12`}>
               {stats.map((stat, index) => (
                 <div key={index} className="rounded-xl overflow-hidden shadow-lg bg-white">
-                  <Image
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+                  <Image sizes="100vw"
                     src={stat.image}
                     alt={stat.label}
                     width={400}

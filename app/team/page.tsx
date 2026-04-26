@@ -63,7 +63,7 @@ export default async function TeamPage() {
               className="flex gap-4 rounded-xl border p-6 hover:bg-slate-50 transition"
             >
               {member.headshotSrc && (
-                <Image
+                <Image sizes="100vw"
                   src={member.headshotSrc}
                   alt={member.name}
                   width={80}

@@ -44,6 +44,7 @@ export default async function DocumentCenterPage() {
       </div>
       {/* Hero Section */}
       <section className="relative h-48 md:h-64 overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/admin-document-center-detail.jpg"
           alt="Document Center"

@@ -128,6 +128,7 @@ export default function StoreDemosPage() {
               >
                 {/* Image */}
                 <div className="w-full md:w-1/2 relative rounded-2xl overflow-hidden shadow-lg aspect-video">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
                   <Image
                     src={demo.image}
                     alt={demo.alt}

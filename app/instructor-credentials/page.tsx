@@ -181,6 +181,7 @@ export default function InstructorCredentialsPage() {
 
       {/* Hero */}
       <section className="relative h-[260px] sm:h-[340px] overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/instructor-credentials-page-1.jpg"
           alt="Professional instructor working with students"

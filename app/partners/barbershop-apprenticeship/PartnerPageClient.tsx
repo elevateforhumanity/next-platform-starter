@@ -31,6 +31,7 @@ export default function PartnerPageClient({ isApproved = false }: Props) {
 
       {/* Hero */}
       <div className="relative w-full h-[50vh] md:h-[65vh] overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/barber-shop-wide.jpg"
           alt="Professional barbershop — Indiana Barbershop Apprenticeship Program"

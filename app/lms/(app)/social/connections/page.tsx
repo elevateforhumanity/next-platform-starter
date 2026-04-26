@@ -123,7 +123,8 @@ export default async function ConnectionsPage() {
                   <div className="flex items-center gap-4">
                     <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center">
                       {request.profiles?.avatar_url ? (
-                        <Image
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+                        <Image sizes="100vw"
                           src={request.profiles.avatar_url}
                           alt={`${request.profiles.full_name || 'User'} avatar`}
                           width={48}
@@ -176,7 +177,7 @@ export default async function ConnectionsPage() {
                   <div className="flex items-center gap-3">
                     <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center">
                       {conn.profiles?.avatar_url ? (
-                        <Image
+                        <Image sizes="100vw"
                           src={conn.profiles.avatar_url}
                           alt={`${conn.profiles.full_name || 'User'} avatar`}
                           width={48}
@@ -233,7 +234,7 @@ export default async function ConnectionsPage() {
                   <div className="flex items-start gap-3">
                     <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center flex-shrink-0">
                       {person.avatar_url ? (
-                        <Image
+                        <Image sizes="100vw"
                           src={person.avatar_url}
                           alt={`${person.full_name || 'User'} avatar`}
                           width={48}

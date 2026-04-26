@@ -204,7 +204,8 @@ export default async function CourseDetailPage({
       {/* Hero Banner */}
       <section className="relative overflow-hidden bg-slate-900">
         <div className="absolute inset-0">
-          <Image
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+          <Image sizes="100vw"
             src={heroImage}
             alt={`${course.course_name} training program`}
             fill

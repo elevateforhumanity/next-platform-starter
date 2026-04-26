@@ -150,7 +150,7 @@ export default function ScheduleForm({
               >
                 <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center mb-3">
                   {advisor.avatar_url ? (
-                    <Image
+                    <Image sizes="100vw"
                       src={advisor.avatar_url}
                       alt={advisor.full_name || 'Advisor'}
                       width={48}

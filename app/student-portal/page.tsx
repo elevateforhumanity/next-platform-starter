@@ -274,6 +274,7 @@ export default async function StudentPortalPage() {
       </div>
       {/* Hero Section */}
       <section className="relative h-48 md:h-64 overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/student-portal-page-7.jpg"
           alt="Student Portal"

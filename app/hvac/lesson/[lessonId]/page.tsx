@@ -164,7 +164,7 @@ export default async function HvacLessonPage({
           <div className="bg-slate-800 rounded-xl p-6">
             <h2 className="text-sky-400 font-bold text-lg mb-4">System Diagram</h2>
             <div className="relative w-full aspect-[4/3] rounded-lg overflow-hidden bg-slate-700">
-              <Image
+              <Image sizes="100vw"
                 src={diagramUrl}
                 alt={`${lesson.lessonTitle} diagram`}
                 fill

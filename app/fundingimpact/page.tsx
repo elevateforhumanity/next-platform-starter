@@ -92,6 +92,7 @@ export default function FundingImpactPage() {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-200">
               <div className="relative h-40 overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
                 <Image
                   src="/images/pages/admin-business-hero.jpg"
                   alt="Participants in training"

@@ -151,6 +151,7 @@ export default async function AdminLandingPage() {
     <div className="bg-white min-h-screen">
       {/* Hero */}
       <div className="relative w-full aspect-[21/6] sm:aspect-[21/5] overflow-hidden bg-white border-b border-gray-100">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/admin-dashboard-hero.jpg"
           alt="Admin dashboard"

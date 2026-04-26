@@ -82,7 +82,7 @@ export default async function ReviewApplicationPage({
     <div className="min-h-screen bg-slate-50 pb-24">
       {/* HERO */}
       <div className="relative w-full h-[220px] sm:h-[280px]">
-        <Image
+        <Image sizes="100vw"
           src="/images/pages/admin-applicants-detail.jpg"
           alt="Review Application"
           fill

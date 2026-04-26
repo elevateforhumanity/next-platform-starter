@@ -40,7 +40,8 @@ export default function JriPage() {
       {/* Hero Section */}
       <section className="relative min-h-[500px] flex items-center overflow-hidden">
         <div className="absolute inset-0">
-          <Image
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+          <Image sizes="100vw"
             src="/images/pages/jri-hero.jpg"
             alt="Second chance career training"
             fill
@@ -227,7 +228,7 @@ export default function JriPage() {
                 className="bg-white rounded-xl overflow-hidden shadow-lg border group hover:shadow-xl transition-shadow"
               >
                 <div className="relative h-48">
-                  <Image
+                  <Image sizes="100vw"
                     src={program.image}
                     alt={program.title}
                     fill

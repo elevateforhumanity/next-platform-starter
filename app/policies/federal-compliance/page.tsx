@@ -38,7 +38,8 @@ export default async function FederalCompliancePage() {
       </div>
       {/* Hero */}
       <section className="relative min-h-[400px] flex items-center overflow-hidden">
-        <Image
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        <Image sizes="100vw"
           src="/images/heroes/training-provider-2.jpg"
           alt="Federal Compliance"
           fill

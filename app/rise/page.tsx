@@ -46,6 +46,7 @@ export default async function RiseFoundationPage() {
       </div>
       {/* Hero Section */}
       <section className="relative h-[600px] overflow-hidden bg-slate-900">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/barber/gallery-1.jpg"
           alt="RISE Foundation"

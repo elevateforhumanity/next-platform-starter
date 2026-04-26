@@ -118,7 +118,7 @@ export default function MarcusInstructor({ lessonNumber, lessonTitle }: Props) {
         >
           <div className="relative flex-shrink-0">
             <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-white/20">
-              <Image
+              <Image sizes="100vw"
                 src="/images/team/instructors/instructor-trades.jpg"
                 alt="Marcus Johnson"
                 width={48}
@@ -149,7 +149,7 @@ export default function MarcusInstructor({ lessonNumber, lessonTitle }: Props) {
       <div className="flex items-center gap-3 mb-4">
         <div className="relative flex-shrink-0">
           <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-slate-200">
-            <Image
+            <Image sizes="100vw"
               src="/images/team/instructors/instructor-trades.jpg"
               alt="Marcus Johnson"
               width={40}
@@ -201,7 +201,7 @@ export default function MarcusInstructor({ lessonNumber, lessonTitle }: Props) {
                   {/* Avatar */}
                   {msg.role === 'assistant' ? (
                     <div className="w-7 h-7 rounded-full overflow-hidden flex-shrink-0 mt-0.5">
-                      <Image
+                      <Image sizes="100vw"
                         src="/images/team/instructors/instructor-trades.jpg"
                         alt="Marcus"
                         width={28}
@@ -232,7 +232,7 @@ export default function MarcusInstructor({ lessonNumber, lessonTitle }: Props) {
               {loading && messages.length > 0 && (
                 <div className="flex gap-3">
                   <div className="w-7 h-7 rounded-full overflow-hidden flex-shrink-0">
-                    <Image
+                    <Image sizes="100vw"
                       src="/images/team/instructors/instructor-trades.jpg"
                       alt="Marcus"
                       width={28}

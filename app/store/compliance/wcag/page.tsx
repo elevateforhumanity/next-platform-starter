@@ -112,6 +112,7 @@ export default function WCAGCompliancePage() {
       {/* Hero */}
       <section className="relative w-full">
         <div className="relative h-[300px] md:h-[400px] w-full overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
           <Image
             src="/images/pages/store-compliance-wcag-hero.jpg"
             alt="WCAG"

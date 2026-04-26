@@ -174,6 +174,7 @@ export default async function BeautyProgramsPage() {
                 className="group bg-white rounded-xl border border-slate-200 hover:border-brand-blue-400 shadow-sm hover:shadow-md transition-all overflow-hidden flex flex-col"
               >
                 <div className="relative w-full h-48 overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
                   <Image
                     src={p.image}
                     alt={p.title}

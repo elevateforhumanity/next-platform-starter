@@ -133,6 +133,7 @@ export default function ApprenticeshipStructurePage() {
 
       {/* Hero — hidden on print */}
       <section className="relative h-[240px] sm:h-[300px] print:hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/apprenticeship-structure.jpg"
           alt="Workforce training program overview"

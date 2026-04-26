@@ -100,6 +100,7 @@ function LoginForm() {
     <div className="min-h-screen bg-white">
       {/* Hero Banner */}
       <section className="relative h-[200px] w-full overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/login-page-1.jpg"
           alt="Elevate for Humanity login"

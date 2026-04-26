@@ -66,7 +66,7 @@ export default async function SocialPage() {
               <div className="px-4 pb-4">
                 <div className="w-16 h-16 bg-gray-200 rounded-full border-4 border-white -mt-8 flex items-center justify-center">
                   {profile?.avatar_url ? (
-                    <Image
+                    <Image sizes="100vw"
                       src={profile.avatar_url}
                       alt={profile?.full_name || 'Your profile'}
                       width={48}
@@ -130,7 +130,7 @@ export default async function SocialPage() {
               <div className="flex gap-4">
                 <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center flex-shrink-0">
                   {profile?.avatar_url ? (
-                    <Image
+                    <Image sizes="100vw"
                       src={profile.avatar_url}
                       alt={profile?.full_name || 'Your profile'}
                       width={48}

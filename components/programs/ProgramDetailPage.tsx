@@ -97,6 +97,7 @@ export default function ProgramDetailPage({
             // Fallback: plain image hero for programs without a banner entry
             return (
               <div className="relative h-[45vh] min-h-[280px] max-h-[560px] w-full overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
                 <Image
                   src={p.heroImage}
                   alt={p.heroImageAlt}

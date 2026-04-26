@@ -90,7 +90,8 @@ export default async function BarberApprenticeshipPage() {
           {/* Funding & Payment Options */}
           <div className="mt-8 p-6 bg-brand-green-50 border-2 border-brand-green-300 rounded-lg max-w-2xl">
             <div className="flex items-start gap-3 mb-4">
-              <Image
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+              <Image sizes="100vw"
                 src="/images/icons/dollar.png"
                 alt="Funding"
                 width={24}
@@ -151,7 +152,7 @@ export default async function BarberApprenticeshipPage() {
           {/* Self-Pay Option */}
           <div className="mt-8 p-6 bg-amber-50 border-2 border-amber-300 rounded-lg max-w-2xl">
             <div className="flex items-start gap-3 mb-4">
-              <Image
+              <Image sizes="100vw"
                 src="/images/icons/dollar.png"
                 alt="Cost"
                 width={24}
@@ -401,7 +402,7 @@ export default async function BarberApprenticeshipPage() {
             {/* Transfer Hours Explanation */}
             <div className="mt-6 p-6 bg-brand-blue-50 border-2 border-brand-blue-300 rounded-lg">
               <h4 className="text-lg font-bold text-black mb-3 flex items-center gap-2">
-                <Image
+                <Image sizes="100vw"
                   src="/images/icons/award.png"
                   alt="Award"
                   width={24}
@@ -416,7 +417,7 @@ export default async function BarberApprenticeshipPage() {
               </p>
               <ul className="space-y-2 text-black">
                 <li className="flex items-start gap-2">
-                  <Image
+                  <Image sizes="100vw"
                     src="/images/icons/check-circle.png"
                     alt="Check"
                     width={24}
@@ -429,7 +430,7 @@ export default async function BarberApprenticeshipPage() {
                   </span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <Image
+                  <Image sizes="100vw"
                     src="/images/icons/check-circle.png"
                     alt="Check"
                     width={24}
@@ -442,7 +443,7 @@ export default async function BarberApprenticeshipPage() {
                   </span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <Image
+                  <Image sizes="100vw"
                     src="/images/icons/check-circle.png"
                     alt="Check"
                     width={24}
@@ -454,7 +455,7 @@ export default async function BarberApprenticeshipPage() {
                   </span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <Image
+                  <Image sizes="100vw"
                     src="/images/icons/check-circle.png"
                     alt="Check"
                     width={24}
@@ -466,7 +467,7 @@ export default async function BarberApprenticeshipPage() {
                   </span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <Image
+                  <Image sizes="100vw"
                     src="/images/icons/check-circle.png"
                     alt="Check"
                     width={24}
@@ -507,7 +508,7 @@ export default async function BarberApprenticeshipPage() {
           <h2 className="text-3xl font-bold text-black mb-8">Program At-a-Glance</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="flex items-start gap-4">
-              <Image
+              <Image sizes="100vw"
                 src="/images/icons/clock.png"
                 alt="Duration"
                 width={24}
@@ -521,7 +522,7 @@ export default async function BarberApprenticeshipPage() {
               </div>
             </div>
             <div className="flex items-start gap-4">
-              <Image
+              <Image sizes="100vw"
                 src="/images/icons/dollar.png"
                 alt="Cost"
                 width={24}
@@ -535,7 +536,7 @@ export default async function BarberApprenticeshipPage() {
               </div>
             </div>
             <div className="flex items-start gap-4">
-              <Image
+              <Image sizes="100vw"
                 src="/images/icons/shield.png"
                 alt="Format"
                 width={24}
@@ -549,7 +550,7 @@ export default async function BarberApprenticeshipPage() {
               </div>
             </div>
             <div className="flex items-start gap-4">
-              <Image
+              <Image sizes="100vw"
                 src="/images/icons/award.png"
                 alt="Outcome"
                 width={24}
@@ -573,7 +574,7 @@ export default async function BarberApprenticeshipPage() {
           <div className="bg-white rounded-xl p-8 shadow-sm">
             <ul className="space-y-4">
               <li className="flex items-start gap-3">
-                <Image
+                <Image sizes="100vw"
                   src="/images/icons/check-circle.png"
                   alt="Check"
                   width={24}
@@ -583,7 +584,7 @@ export default async function BarberApprenticeshipPage() {
                 <span className="text-black">Individuals interested in barbering as a career</span>
               </li>
               <li className="flex items-start gap-3">
-                <Image
+                <Image sizes="100vw"
                   src="/images/icons/check-circle.png"
                   alt="Check"
                   width={24}
@@ -593,7 +594,7 @@ export default async function BarberApprenticeshipPage() {
                 <span className="text-black">No prior experience required</span>
               </li>
               <li className="flex items-start gap-3">
-                <Image
+                <Image sizes="100vw"
                   src="/images/icons/check-circle.png"
                   alt="Check"
                   width={24}
@@ -603,7 +604,7 @@ export default async function BarberApprenticeshipPage() {
                 <span className="text-black">Justice-impacted individuals welcome</span>
               </li>
               <li className="flex items-start gap-3">
-                <Image
+                <Image sizes="100vw"
                   src="/images/icons/check-circle.png"
                   alt="Check"
                   width={24}
@@ -651,7 +652,7 @@ export default async function BarberApprenticeshipPage() {
           <div className="bg-white rounded-xl p-8 shadow-sm">
             <ul className="space-y-3">
               <li className="flex items-start gap-3">
-                <Image
+                <Image sizes="100vw"
                   src="/images/icons/users.png"
                   alt="Users"
                   width={20}
@@ -661,7 +662,7 @@ export default async function BarberApprenticeshipPage() {
                 <span className="text-black">Case management</span>
               </li>
               <li className="flex items-start gap-3">
-                <Image
+                <Image sizes="100vw"
                   src="/images/icons/users.png"
                   alt="Users"
                   width={20}
@@ -671,7 +672,7 @@ export default async function BarberApprenticeshipPage() {
                 <span className="text-black">Justice navigation for returning citizens</span>
               </li>
               <li className="flex items-start gap-3">
-                <Image
+                <Image sizes="100vw"
                   src="/images/icons/users.png"
                   alt="Users"
                   width={20}
@@ -681,7 +682,7 @@ export default async function BarberApprenticeshipPage() {
                 <span className="text-black">Transportation resources</span>
               </li>
               <li className="flex items-start gap-3">
-                <Image
+                <Image sizes="100vw"
                   src="/images/icons/users.png"
                   alt="Users"
                   width={20}
@@ -691,7 +692,7 @@ export default async function BarberApprenticeshipPage() {
                 <span className="text-black">Childcare referrals</span>
               </li>
               <li className="flex items-start gap-3">
-                <Image
+                <Image sizes="100vw"
                   src="/images/icons/users.png"
                   alt="Users"
                   width={20}

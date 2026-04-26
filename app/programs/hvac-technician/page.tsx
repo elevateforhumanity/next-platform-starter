@@ -364,6 +364,7 @@ export default async function HVACTechnicianPage() {
           <div className="relative">
             <div className="overflow-hidden rounded-2xl border border-slate-200 bg-slate-100 shadow-sm">
               {hero?.url ? (
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
                 <Image
                   src={hero.url}
                   alt={hero.alt_text ?? program.title}

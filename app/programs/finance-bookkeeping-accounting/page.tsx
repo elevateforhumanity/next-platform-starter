@@ -600,6 +600,7 @@ export default async function FinancePathwayPage() {
                   href={prog.href}
                   className="group rounded-xl overflow-hidden border border-slate-200 hover:shadow-md transition-shadow"
                 >
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
                   <Image
                     src={prog.image}
                     alt={prog.title}
@@ -669,7 +670,7 @@ export default async function FinancePathwayPage() {
               { src: '/images/partners/workone.webp', alt: 'WorkOne Indiana' },
               { src: '/images/partners/nextleveljobs.webp', alt: 'Next Level Jobs' },
             ].map((logo) => (
-              <Image
+              <Image sizes="100vw"
                 key={logo.alt}
                 src={logo.src}
                 alt={logo.alt}

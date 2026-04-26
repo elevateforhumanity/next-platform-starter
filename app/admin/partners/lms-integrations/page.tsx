@@ -35,6 +35,7 @@ export default async function LmsIntegrationsPage() {
       {/* Hero Image */}
       {/* Hero Section */}
       <section className="relative h-48 md:h-64 overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/admin-partners-lms-detail.jpg"
           alt="Lms Integrations"

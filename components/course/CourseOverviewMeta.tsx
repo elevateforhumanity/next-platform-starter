@@ -90,7 +90,7 @@ export function CourseOverviewMeta({
       {instructor && (
         <div className="flex items-start gap-3 border-t pt-4">
           {instructor.avatar_url ? (
-            <Image
+            <Image sizes="100vw"
               src={instructor.avatar_url}
               alt={instructor.full_name || 'Instructor'}
               width={40}

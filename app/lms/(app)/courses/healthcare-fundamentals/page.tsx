@@ -160,6 +160,7 @@ export default function HealthcareFundamentalsCoursePage() {
             </div>
 
             <div className="relative h-[400px] rounded-2xl overflow-hidden shadow-2xl border-4 border-white/20">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
               <Image
                 src="/images/pages/lms-page-5.jpg"
                 alt="Healthcare Fundamentals Course"

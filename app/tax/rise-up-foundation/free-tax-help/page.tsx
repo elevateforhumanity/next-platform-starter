@@ -93,6 +93,7 @@ export default function FreeTaxHelpPage() {
               className="rounded-2xl overflow-hidden border-2 border-emerald-700 hover:shadow-xl transition-all duration-300 group"
             >
               <div className="relative h-44">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
                 <Image
                   src="/images/pages/admin-affiliates-new-hero.jpg"
                   alt="Schedule appointment"

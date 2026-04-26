@@ -123,7 +123,7 @@ export default async function CMLearnerDetailPage({ params }: Props) {
           <div className="flex items-center gap-4">
             <div className="w-16 h-16 bg-brand-blue-100 rounded-full flex items-center justify-center">
               {learner.avatar_url ? (
-                <Image
+                <Image sizes="100vw"
                   src={learner.avatar_url}
                   alt={`${learner.first_name} ${learner.last_name}`}
                   width={64}

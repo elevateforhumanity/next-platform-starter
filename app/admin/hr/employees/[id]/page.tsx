@@ -101,7 +101,8 @@ export default async function EmployeeDetailPage({ params }: Props) {
           <div className="flex items-center gap-4">
             <div className="w-16 h-16 bg-brand-blue-100 rounded-full flex items-center justify-center">
               {profile?.avatar_url ? (
-                <Image
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+                <Image sizes="100vw"
                   src={profile.avatar_url}
                   alt={`${profile?.first_name} ${profile?.last_name}`}
                   width={64}
