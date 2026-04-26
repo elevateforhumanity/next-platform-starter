@@ -47,6 +47,7 @@ export default function ProgramDetailPage({ program: p, banner: bannerProp, hero
   const enrollmentTracks = getEnrollmentTracks(p);
   const hasIndianaFunding = p.fundingOptions?.some(f => f === 'wioa' || f === 'wrg');
   const requestInfoHref = p.cta.requestInfoHref || `/contact?program=${encodeURIComponent(p.slug)}`;
+  const employerPartners = Array.isArray(p.employerPartners) ? p.employerPartners : [];
   const pathwaySteps = [
     {
       step: 'Step 1',
@@ -568,12 +569,14 @@ export default function ProgramDetailPage({ program: p, banner: bannerProp, hero
             <div className="rounded-xl border border-slate-200 bg-white p-5">
               <p className="text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-3">Named Employer Partners</p>
               <ul className="space-y-2">
-                {p.employerPartners.map((partner) => (
+                {employerPartners.length > 0 ? employerPartners.map((partner) => (
                   <li key={partner} className="flex items-start gap-2 text-sm text-slate-700">
                     <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-brand-red-500 flex-shrink-0" />
                     <span>{partner}</span>
                   </li>
-                ))}
+                )) : (
+                  <li className="text-sm text-slate-600">Employer partner list is being finalized for this pathway.</li>
+                )}
               </ul>
             </div>
             <div className="rounded-xl border border-slate-200 bg-white p-5">
