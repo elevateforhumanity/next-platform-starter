@@ -203,6 +203,14 @@ const EXCLUDED_SUFFIXES = [
 function getPriority(route: string): number {
   if (route === '/') return 1.0;
   if (route === '/apply' || route === '/programs') return 1.0;
+  // SEO authority hubs — buyer-intent local/Indiana search
+  if (route.startsWith('/workforce-training-indianapolis')) return 1.0;
+  if (route.startsWith('/wioa-funded-training-indiana')) return 1.0;
+  if (route.startsWith('/healthcare-training-indianapolis')) return 1.0;
+  if (route.startsWith('/skilled-trades-training-indiana')) return 1.0;
+  if (route.startsWith('/it-certification-training-indianapolis')) return 1.0;
+  if (route.startsWith('/employer-workforce-partnerships-indiana')) return 1.0;
+  if (route.startsWith('/agency-referral-workforce-training-indiana')) return 1.0;
   if (route.startsWith('/programs/')) return 0.9;
   if (route.startsWith('/apprenticeships')) return 0.9;
   if (route === '/employers' || route === '/how-it-works') return 0.9;
@@ -222,6 +230,16 @@ function getPriority(route: string): number {
 function getChangeFreq(route: string): 'always' | 'hourly' | 'daily' | 'weekly' | 'monthly' | 'yearly' | 'never' {
   if (route === '/' || route === '/apply') return 'daily';
   if (route.startsWith('/programs') || route.startsWith('/blog')) return 'weekly';
+  // SEO authority hubs — updated quarterly/monthly
+  if (
+    route.startsWith('/workforce-training-indianapolis') ||
+    route.startsWith('/wioa-funded-training-indiana') ||
+    route.startsWith('/healthcare-training-indianapolis') ||
+    route.startsWith('/skilled-trades-training-indiana') ||
+    route.startsWith('/it-certification-training-indianapolis') ||
+    route.startsWith('/employer-workforce-partnerships-indiana') ||
+    route.startsWith('/agency-referral-workforce-training-indiana')
+  ) return 'monthly';
   // State-specific pages update monthly
   if (route.startsWith('/career-training-') || route.startsWith('/community-services-')) return 'monthly';
   if (route.startsWith('/policies') || route.startsWith('/privacy')) return 'yearly';

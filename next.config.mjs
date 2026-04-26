@@ -794,6 +794,32 @@ const nextConfig = {
 
       // ============================================
       // DEAD LINK FIXES — public-facing
+
+      // ============================================
+      // SEO HUB CANONICAL REDIRECTS
+      // Redirect legacy/variant URLs to canonical hub pages or program pages.
+      // Canonical SEO hubs live at the slugs below — no duplicate content.
+      // ============================================
+
+      // CNA / healthcare — /programs/cna is canonical; /programs/cna-training is not a page
+      { source: '/training/cna', destination: '/programs/cna', permanent: true },
+      { source: '/programs/cna-training', destination: '/programs/cna', permanent: true },
+
+      // HVAC — /programs/hvac-technician is canonical
+      { source: '/training/hvac-technician', destination: '/programs/hvac-technician', permanent: true },
+      { source: '/programs/hvac-technician-program', destination: '/programs/hvac-technician', permanent: true },
+
+      // Hub aliases — redirect common variant slugs to canonical hub pages
+      { source: '/workforce-training', destination: '/workforce-training-indianapolis', permanent: true },
+      { source: '/workforce-training-indiana', destination: '/workforce-training-indianapolis', permanent: true },
+      { source: '/wioa-training', destination: '/wioa-funded-training-indiana', permanent: true },
+      { source: '/wioa-training-indiana', destination: '/wioa-funded-training-indiana', permanent: true },
+      { source: '/wioa-funded-training', destination: '/wioa-funded-training-indiana', permanent: true },
+      { source: '/healthcare-training', destination: '/healthcare-training-indianapolis', permanent: true },
+      { source: '/skilled-trades-training', destination: '/skilled-trades-training-indiana', permanent: true },
+      { source: '/it-certification-training', destination: '/it-certification-training-indianapolis', permanent: true },
+      { source: '/employer-workforce-partnerships', destination: '/employer-workforce-partnerships-indiana', permanent: true },
+      { source: '/agency-referral-workforce-training', destination: '/agency-referral-workforce-training-indiana', permanent: true },
     ];
   },
   async headers() {
