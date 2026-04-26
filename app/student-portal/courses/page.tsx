@@ -47,7 +47,7 @@ export default async function StudentCoursesPage() {
   }
 
   const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect('/login?next=/student-portal/courses');
+  if (!user) redirect('/login?redirect=/lms/courses');
 
   // Sample courses
   const courses: Course[] = [

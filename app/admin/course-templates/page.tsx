@@ -41,7 +41,7 @@ export default async function CourseTemplatesPage() {
             <h1 className="text-2xl font-bold text-slate-900">Course Templates</h1>
             <p className="text-slate-600 text-sm mt-1">{total ?? 0} templates</p>
           </div>
-          <Link href="/admin/course-studio" className="px-4 py-2 bg-brand-blue-600 text-white rounded-lg text-sm font-medium hover:bg-brand-blue-700">
+          <Link href="/admin/course-builder/templates" className="px-4 py-2 bg-brand-blue-600 text-white rounded-lg text-sm font-medium hover:bg-brand-blue-700">
             Create Template
           </Link>
         </div>

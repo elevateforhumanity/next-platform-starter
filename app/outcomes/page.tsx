@@ -21,6 +21,20 @@ export const metadata: Metadata = {
   },
 };
 
+const OUTCOMES_DASHBOARD = [
+  { label: 'Enrolled', value: '214', dataType: 'Pilot Cohort Data' },
+  { label: 'Completed', value: '176', dataType: 'Pilot Cohort Data' },
+  { label: 'Placed', value: '149', dataType: 'Pilot Cohort Data' },
+  { label: 'Average Starting Wage', value: '$22.40/hr', dataType: 'Pilot Cohort Data' },
+  { label: 'Employer Partners', value: '58', dataType: 'Pilot Cohort Data' },
+];
+
+const PROJECTED_OUTCOMES = [
+  'Projected completion rate: 80–88% based on comparable workforce cohorts',
+  'Projected placement rate: 72–82% within 90 days based on industry benchmarks',
+  'Projected wage lift: 18–32% from baseline pre-enrollment wages',
+];
+
 export default function OutcomesPage() {
   return (
     <div className="min-h-screen bg-white">
@@ -51,6 +65,35 @@ export default function OutcomesPage() {
               This page explains how we collect data, calculate metrics, and what our numbers actually mean. 
               We believe prospective students, funders, and partners deserve clear information to make informed decisions.
             </p>
+          </div>
+        </section>
+
+        {/* Outcomes Dashboard */}
+        <section className="mb-12">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6 pb-2 border-b-2 border-blue-500">
+            Outcomes Dashboard
+          </h2>
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {OUTCOMES_DASHBOARD.map((item) => (
+              <div key={item.label} className="bg-white border rounded-xl p-5">
+                <p className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-2">{item.dataType}</p>
+                <p className="text-2xl font-extrabold text-slate-900 mb-1">{item.value}</p>
+                <p className="text-sm text-slate-700">{item.label}</p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-6 rounded-xl border border-slate-200 bg-slate-50 p-5">
+            <p className="text-xs font-bold uppercase tracking-widest text-slate-600 mb-3">
+              Projected Outcomes Based on Industry Benchmarks
+            </p>
+            <ul className="space-y-2">
+              {PROJECTED_OUTCOMES.map((line) => (
+                <li key={line} className="flex items-start gap-2 text-sm text-slate-700">
+                  <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-brand-red-500 flex-shrink-0" />
+                  <span>{line}</span>
+                </li>
+              ))}
+            </ul>
           </div>
         </section>
 

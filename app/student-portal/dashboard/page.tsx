@@ -70,7 +70,7 @@ export default async function StudentPortalPage() {
     .eq('is_read', false);
 
   const quickLinks = [
-    { icon: BookOpen, title: 'My Courses', href: '/student-portal/courses', color: 'blue' },
+    { icon: BookOpen, title: 'My Courses', href: '/lms/courses', color: 'blue' },
     { icon: Calendar, title: 'Schedule', href: '/student-portal/schedule', color: 'green' },
     { icon: BarChart3, title: 'Grades', href: '/student-portal/grades', color: 'blue' },
     { icon: Users, title: 'Instructors', href: '/student-portal/instructors', color: 'orange' },
@@ -127,7 +127,7 @@ export default async function StudentPortalPage() {
             <div className="bg-white rounded-xl shadow-sm border p-6">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-xl font-semibold">My Programs</h2>
-                <Link href="/student-portal/courses" className="text-blue-600 text-sm font-medium hover:underline">
+                <Link href="/lms/courses" className="text-blue-600 text-sm font-medium hover:underline">
                   View All
                 </Link>
               </div>

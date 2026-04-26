@@ -45,6 +45,35 @@ export default function ProgramDetailPage({ program: p, banner: bannerProp, hero
   const hoursRange = getTotalHoursRange(p);
   const primaryCTA = getPrimaryCTA(p);
   const enrollmentTracks = getEnrollmentTracks(p);
+  const hasIndianaFunding = p.fundingOptions?.some(f => f === 'wioa' || f === 'wrg');
+  const requestInfoHref = p.cta.requestInfoHref || `/contact?program=${encodeURIComponent(p.slug)}`;
+  const pathwaySteps = [
+    {
+      step: 'Step 1',
+      title: 'Eligibility & Intake',
+      detail: 'Funding and readiness screening to start the right track immediately.',
+    },
+    {
+      step: 'Step 2',
+      title: 'Training & Assessments',
+      detail: 'Structured modules, lessons, and checkpoints in a tracked LMS path.',
+    },
+    {
+      step: 'Step 3',
+      title: 'Credential',
+      detail: 'Industry credential completion plus verifiable training records.',
+    },
+    {
+      step: 'Step 4',
+      title: 'Employer Placement',
+      detail: 'Placement support through named employer partners and matching workflow.',
+    },
+    {
+      step: 'Step 5',
+      title: 'Wage Outcome',
+      detail: `Target entry wages aligned to ${p.laborMarket?.salaryRange ?? 'regional labor data'}.`,
+    },
+  ];
 
 
 
@@ -242,6 +271,23 @@ export default function ProgramDetailPage({ program: p, banner: bannerProp, hero
               ))}
             </div>
           )}
+        </div>
+      </section>
+
+      {/* 5-STEP WORKFORCE PATHWAY */}
+      <section className="py-12 bg-slate-50 border-y border-slate-100">
+        <div className="max-w-6xl mx-auto px-4">
+          <h2 className="text-2xl font-extrabold text-slate-900 mb-2">Full Workforce Pathway</h2>
+          <p className="text-slate-600 text-sm mb-8">Built for agency deployment: intake to wage outcome in one system.</p>
+          <div className="grid gap-3 md:grid-cols-5">
+            {pathwaySteps.map((item) => (
+              <div key={item.step} className="rounded-xl border border-slate-200 bg-white p-4">
+                <p className="text-[10px] uppercase tracking-widest font-bold text-brand-red-600 mb-2">{item.step}</p>
+                <h3 className="text-sm font-extrabold text-slate-900 mb-1">{item.title}</h3>
+                <p className="text-xs text-slate-600 leading-relaxed">{item.detail}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -473,22 +519,81 @@ export default function ProgramDetailPage({ program: p, banner: bannerProp, hero
             Not sure which path is right? <Link href="/contact" className="text-brand-blue-600 hover:underline font-medium">Talk to an advisor</Link> — it&apos;s free and takes 10 minutes.
           </p>
 
-          {/* Indiana Career Connect */}
-          {p.fundingOptions?.some(f => f === 'wioa' || f === 'wrg') && (
-          <div className="mt-8 bg-brand-blue-50 border border-brand-blue-200 rounded-xl p-6">
-            <p className="text-brand-blue-900 font-semibold text-sm mb-1">Indiana Career Connect</p>
-            <p className="text-brand-blue-800 text-sm leading-relaxed mb-4">{ICC_INSTRUCTION}</p>
-            <a
-              href={ICC_URL}
-              target="_blank"
-                rel="noopener noreferrer"
-                className="inline-block bg-brand-blue-600 hover:bg-brand-blue-700 text-white font-bold px-6 py-2.5 rounded-lg transition-colors text-sm"
+          {/* Canonical CTA order */}
+          <div className="mt-8 rounded-xl border border-slate-200 bg-white p-5">
+            <p className="text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-4">Next Step</p>
+            <div className="flex flex-col sm:flex-row gap-3">
+              {primaryCTA && (
+                <Link
+                  href={primaryCTA.href}
+                  target={primaryCTA.external ? '_blank' : '_self'}
+                  rel={primaryCTA.external ? 'noopener noreferrer' : undefined}
+                  className="inline-flex items-center justify-center bg-brand-red-600 hover:bg-brand-red-700 text-white font-bold px-5 py-3 rounded-lg transition-colors text-sm"
+                >
+                  {primaryCTA.external ? primaryCTA.label : 'Apply Now'}
+                </Link>
+              )}
+              <Link
+                href={requestInfoHref}
+                className="inline-flex items-center justify-center border border-slate-300 hover:border-slate-400 text-slate-700 font-semibold px-5 py-3 rounded-lg transition-colors text-sm"
               >
-                Go to Indiana Career Connect
-              </a>
+                Request Information
+              </Link>
+              {hasIndianaFunding && (
+                <a
+                  href={ICC_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center bg-brand-blue-600 hover:bg-brand-blue-700 text-white font-bold px-5 py-3 rounded-lg transition-colors text-sm"
+                >
+                  Indiana Career Connect
+                </a>
+              )}
             </div>
-          )}
+            {hasIndianaFunding && (
+              <p className="text-slate-500 text-xs mt-3">{ICC_INSTRUCTION}</p>
+            )}
+          </div>
         </div>{/* max-w-5xl */}
+      </section>
+
+      {/* EMPLOYER PROOF */}
+      <section className="py-12 border-t border-slate-100 bg-slate-50">
+        <div className="max-w-6xl mx-auto px-4">
+          <h2 className="text-2xl font-extrabold text-slate-900 mb-2">Employer Proof & Placement Pipeline</h2>
+          <p className="text-slate-600 text-sm mb-6">
+            This pathway is aligned to active hiring demand. Placement follows intake profile matching, employer-ready credential completion, and supported introductions.
+          </p>
+          <div className="grid gap-6 lg:grid-cols-2">
+            <div className="rounded-xl border border-slate-200 bg-white p-5">
+              <p className="text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-3">Named Employer Partners</p>
+              <ul className="space-y-2">
+                {p.employerPartners.map((partner) => (
+                  <li key={partner} className="flex items-start gap-2 text-sm text-slate-700">
+                    <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-brand-red-500 flex-shrink-0" />
+                    <span>{partner}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="rounded-xl border border-slate-200 bg-white p-5">
+              <p className="text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-3">Placement Pipeline</p>
+              <ul className="space-y-2 text-sm text-slate-700">
+                {[
+                  'Intake profile maps learner goals, schedule, and funding pathway.',
+                  'Training milestones and credentials are tracked to completion.',
+                  'Employer introductions are prioritized for interview-ready graduates.',
+                  'Placement support continues through first wage outcome reporting window.',
+                ].map((line) => (
+                  <li key={line} className="flex items-start gap-2">
+                    <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-brand-red-500 flex-shrink-0" />
+                    <span>{line}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* CTA */}
