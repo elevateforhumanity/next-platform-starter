@@ -7,15 +7,6 @@ import { withApiAudit } from '@/lib/audit/withApiAudit';
 
 export const dynamic = 'force-dynamic';
 
-async function getAdminUser() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return null;
-  const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).maybeSingle();
-  if (!profile || !['admin', 'super_admin'].includes(profile.role)) return null;
-  return user;
-}
-
 // PATCH - Update module (script, video_url, etc.)
 async function _PATCH(
   req: NextRequest,
@@ -23,9 +14,8 @@ async function _PATCH(
 ) {
   const rateLimited = await applyRateLimit(req, 'api');
   if (rateLimited) return rateLimited;
-
-  const user = await getAdminUser();
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  const auth = await apiRequireAdmin(req);
+  if (auth.error) return auth.error;
 
   try {
     const { id } = await params;
@@ -71,7 +61,7 @@ async function _PATCH(
 
     await logAdminAudit({
       action: AdminAction.CAREER_MODULE_UPDATED,
-      actorId: user.id,
+      actorId: auth.id,
       entityType: 'career_course_modules',
       entityId: id,
       metadata: {},

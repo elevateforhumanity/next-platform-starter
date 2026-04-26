@@ -21,9 +21,7 @@ async function DashboardContent() {
   return (
     <>
       <DashboardShell data={data} />
-      <div className="max-w-7xl mx-auto px-4 pb-8">
-        <BuiltCoursesPanel />
-      </div>
+      <BuiltCoursesPanel />
     </>
   );
 }

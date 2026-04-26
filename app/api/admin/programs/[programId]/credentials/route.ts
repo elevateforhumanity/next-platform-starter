@@ -4,27 +4,16 @@ import { getAdminClient } from '@/lib/supabase/admin';
 import { z } from 'zod';
 import { logger } from '@/lib/logger';
 
-const ADMIN_ROLES = ['admin', 'super_admin', 'org_admin', 'staff'];
-
-async function authorize(supabase: any, db: any) {
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return null;
-  const { data: profile } = await db.from('profiles').select('role').eq('id', user.id).maybeSingle();
-  if (!profile || !ADMIN_ROLES.includes(profile.role)) return null;
-  return user;
-}
-
 // GET /api/admin/programs/[programId]/credentials
 // Returns all credential_registry rows linked to this program via program_credentials.
 export async function GET(
-  _req: NextRequest,
+  req: NextRequest,
   { params }: { params: Promise<{ programId: string }> }
 ) {
   const { programId } = await params;
-  const supabase = await createClient();
+  const auth = await apiRequireAdmin(req);
+  if (auth.error) return auth.error;
   const db = await getAdminClient();
-  const user = await authorize(supabase, db);
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   const { data, error } = await db
     .from('program_credentials')
@@ -60,10 +49,9 @@ export async function POST(
   { params }: { params: Promise<{ programId: string }> }
 ) {
   const { programId } = await params;
-  const supabase = await createClient();
+  const auth = await apiRequireAdmin(req);
+  if (auth.error) return auth.error;
   const db = await getAdminClient();
-  const user = await authorize(supabase, db);
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   const body = await req.json().catch(() => null);
   const parsed = LinkSchema.safeParse(body);

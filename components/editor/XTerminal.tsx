@@ -74,7 +74,7 @@ export default function XTerminal({ onCommand }: XTerminalProps) {
       term.writeln('');
 
       let currentLine = '';
-      let historyBuf: string[] = [];
+      const historyBuf: string[] = [];
       let historyIdx = -1;
 
       const prompt = () => {

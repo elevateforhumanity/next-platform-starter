@@ -9,7 +9,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { z } from 'zod';
 import { getAdminClient } from '@/lib/supabase/admin';
-import { getCurrentUser } from '@/lib/auth';
 import { logger } from '@/lib/logger';
 import { mapCourseRow, type RawCourseRow } from '@/lib/domain';
 
@@ -23,12 +22,12 @@ const AttachSchema = z.object({
 
 
 export async function GET(
-  _req: NextRequest,
+  req: NextRequest,
   { params }: { params: Promise<{ programId: string }> }
 ) {
   const { programId } = await params;
-  const user = await requireAdmin();
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  const auth = await apiRequireAdmin(req);
+  if (auth.error) return auth.error;
 
   const db = await getAdminClient();
   const { data, error } = await db
@@ -59,8 +58,8 @@ export async function POST(
   { params }: { params: Promise<{ programId: string }> }
 ) {
   const { programId } = await params;
-  const user = await requireAdmin();
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  const auth = await apiRequireAdmin(req);
+  if (auth.error) return auth.error;
 
   const body = await req.json().catch(() => null);
   if (!body) return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 });
@@ -86,6 +85,6 @@ export async function POST(
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 
-  logger.info('Internal course attached to program', { programId, courseId: parsed.data.course_id, userId: user.id });
+  logger.info('Internal course attached to program', { programId, courseId: parsed.data.course_id, userId: auth.id });
   return NextResponse.json({ item: data }, { status: 201 });
 }

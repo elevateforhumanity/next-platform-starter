@@ -123,7 +123,9 @@ export default function AICourseBuilderChat({ programs }: { programs: Program[] 
             } else if (event.type === 'error') {
               throw new Error(event.message);
             }
-          } catch {}
+          } catch {
+            continue;
+          }
         }
       }
     } catch (err: any) {

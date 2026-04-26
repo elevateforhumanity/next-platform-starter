@@ -41,7 +41,7 @@ export default async function CourseBuilderPage() {
         {(courses ?? []).slice(0, 5).map(c => (
           <Link
             key={c.id}
-            href={`/admin/course-builder/${c.id}`}
+            href={'/admin/course-builder/' + c.id}
             className="flex items-center gap-1.5 px-3 py-2 border border-slate-200 hover:border-brand-red-400 hover:bg-brand-red-50 text-slate-600 hover:text-brand-red-700 text-xs font-semibold rounded-lg transition-colors max-w-[180px] truncate"
             title={`Live Builder: ${c.title}`}
           >

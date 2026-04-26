@@ -118,17 +118,20 @@ function CommandTab() {
     if (outputRef.current) outputRef.current.scrollTop = outputRef.current.scrollHeight;
   }, [output]);
 
-  const ansiToHtml = (text: string) =>
-    text
+  const ansiToHtml = (text: string) => {
+    const esc = '\u001b\\[';
+
+    return text
       .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-      .replace(/\x1b\[0m/g, '</span>')
-      .replace(/\x1b\[1;36m/g, '<span style="color:#39c5cf;font-weight:bold">')
-      .replace(/\x1b\[1;33m/g, '<span style="color:#d29922;font-weight:bold">')
-      .replace(/\x1b\[32m/g, '<span style="color:#3fb950">')
-      .replace(/\x1b\[31m/g, '<span style="color:#f85149">')
-      .replace(/\x1b\[33m/g, '<span style="color:#d29922">')
-      .replace(/\x1b\[90m/g, '<span style="color:#6e7681">')
-      .replace(/\x1b\[\d+m/g, '');
+      .replace(new RegExp(`${esc}0m`, 'g'), '</span>')
+      .replace(new RegExp(`${esc}1;36m`, 'g'), '<span style="color:#39c5cf;font-weight:bold">')
+      .replace(new RegExp(`${esc}1;33m`, 'g'), '<span style="color:#d29922;font-weight:bold">')
+      .replace(new RegExp(`${esc}32m`, 'g'), '<span style="color:#3fb950">')
+      .replace(new RegExp(`${esc}31m`, 'g'), '<span style="color:#f85149">')
+      .replace(new RegExp(`${esc}33m`, 'g'), '<span style="color:#d29922">')
+      .replace(new RegExp(`${esc}90m`, 'g'), '<span style="color:#6e7681">')
+      .replace(new RegExp(`${esc}\\d+m`, 'g'), '');
+  };
 
   async function run(cmd: string) {
     if (!cmd.trim() || running) return;

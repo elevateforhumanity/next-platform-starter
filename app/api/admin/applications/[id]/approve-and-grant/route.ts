@@ -32,6 +32,8 @@ export async function POST(
   try {
     const rateLimited = await applyRateLimit(request, 'strict');
     if (rateLimited) return rateLimited;
+    const auth = await apiRequireAdmin(request);
+    if (auth.error) return auth.error;
 
     const { id: applicationId } = await params;
     const requestId = randomUUID();
@@ -42,17 +44,9 @@ export async function POST(
 
     if (!supabase) return safeError('Database not configured', 503);
 
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return safeError('Unauthorized', 401);
-
-    const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).maybeSingle();
-    if (!profile || !['admin', 'super_admin', 'staff'].includes(profile.role)) {
-      return safeError('Forbidden', 403);
-    }
-
     const { data, error } = await db.rpc('approve_application_and_grant_access_atomic', {
       p_application_id: applicationId,
-      p_actor_user_id:  user.id,
+      p_actor_user_id:  auth.id,
       p_request_id:     requestId,
     });
 

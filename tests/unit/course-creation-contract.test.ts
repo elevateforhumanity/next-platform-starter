@@ -60,7 +60,7 @@ function authorizedProfile() {
   mockFrom.mockReturnValue({
     select: vi.fn().mockReturnThis(),
     eq: vi.fn().mockReturnThis(),
-    single: vi.fn().mockResolvedValue({ data: { role: 'admin' }, error: null }),
+    maybeSingle: vi.fn().mockResolvedValue({ data: { role: 'admin' }, error: null }),
   });
 }
 
@@ -135,7 +135,7 @@ describe('POST /api/admin/lms/courses — response shape contract', () => {
     mockFrom.mockReturnValue({
       select: vi.fn().mockReturnThis(),
       eq: vi.fn().mockReturnThis(),
-      single: vi.fn().mockResolvedValue({ data: { role: 'student' }, error: null }),
+      maybeSingle: vi.fn().mockResolvedValue({ data: { role: 'student' }, error: null }),
     });
     const { POST } = await import('@/app/api/admin/lms/courses/route');
 

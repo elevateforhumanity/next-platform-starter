@@ -22,21 +22,10 @@ export async function GET(
 ) {
   const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;
-
-  const supabase = await createClient();
-  const { data: { user }, error: authError } = await supabase.auth.getUser();
-  if (authError || !user) return safeError('Unauthorized', 401);
+  const auth = await apiRequireAdmin(request);
+  if (auth.error) return auth.error;
 
   const db = await getAdminClient();
-  const { data: adminProfile } = await db
-    .from('profiles')
-    .select('role')
-    .eq('id', user.id)
-    .maybeSingle();
-
-  if (!adminProfile || !['admin', 'super_admin', 'staff'].includes(adminProfile.role)) {
-    return safeError('Forbidden', 403);
-  }
 
   const { id: enrollmentId } = await params;
 

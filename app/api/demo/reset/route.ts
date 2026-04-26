@@ -25,6 +25,8 @@ async function _POST(request: Request) {
   try {
     const rateLimited = await applyRateLimit(request, 'api');
     if (rateLimited) return rateLimited;
+    const auth = await apiRequireAdmin(request);
+    if (auth.error) return auth.error;
 
     // Check if demo mode is enabled
     if (!isDemoEnabled()) {

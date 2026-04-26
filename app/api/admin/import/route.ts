@@ -322,23 +322,19 @@ async function _POST(request: NextRequest) {
   try {
     const rateLimited = await applyRateLimit(request, 'api');
     if (rateLimited) return rateLimited;
+    const auth = await apiRequireAdmin(request);
+    if (auth.error) return auth.error;
 
     const supabase = await createClient();
 
-    // Get current user and tenant
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
+    // Get current tenant
     const { data: profile } = await supabase
-      .from('profiles')
-      .select('tenant_id, role')
-      .eq('id', user.id)
+      .from('profiles').select('tenant_id')
+      .eq('id', auth.id)
       .maybeSingle();
 
-    if (!profile || !['admin', 'super_admin'].includes(profile.role)) {
-      return NextResponse.json({ error: 'Admin access required' }, { status: 403 });
+    if (!profile) {
+      return NextResponse.json({ error: 'Profile not found' }, { status: 404 });
     }
 
     const tenantId = profile.tenant_id;
@@ -390,7 +386,7 @@ async function _POST(request: NextRequest) {
 
     await logAdminAudit({
       action: AdminAction.BULK_IMPORT_EXECUTED,
-      actorId: user.id,
+      actorId: auth.id,
       entityType: type,
       entityId: BULK_ENTITY_ID,
       metadata: {
