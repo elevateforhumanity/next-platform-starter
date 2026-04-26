@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -28,7 +28,7 @@ export function AdvancedVideoPlayer({
   onProgress,
   onComplete,
   startTime = 0,
-  subtitles = []
+  subtitles = [],
 }: AdvancedVideoPlayerProps) {
   const videoRef = useRef<HTMLDivElement>(null);
   const playerRef = useRef<Player | null>(null);
@@ -41,7 +41,7 @@ export function AdvancedVideoPlayer({
       videoElement.classList.add('vjs-big-play-centered');
       videoRef.current.appendChild(videoElement);
 
-      const player = playerRef.current = videojs(videoElement, {
+      const player = (playerRef.current = videojs(videoElement, {
         autoplay: false,
         controls: true,
         responsive: true,
@@ -61,11 +61,11 @@ export function AdvancedVideoPlayer({
             'descriptionsButton',
             'subsCapsButton',
             'audioTrackButton',
-            'fullscreenToggle'
-          ]
+            'fullscreenToggle',
+          ],
         },
         userActions: {
-          hotkeys: function(event: KeyboardEvent) {
+          hotkeys: function (event: KeyboardEvent) {
             // Space bar toggles play/pause
             if (event.which === 32) {
               event.preventDefault();
@@ -109,14 +109,14 @@ export function AdvancedVideoPlayer({
               event.preventDefault();
               this.muted(!this.muted());
             }
-          }
-        }
-      });
+          },
+        },
+      }));
 
       // Set source
       player.src({
         src: src,
-        type: 'video/mp4'
+        type: 'video/mp4',
       });
 
       // Set poster
@@ -126,12 +126,15 @@ export function AdvancedVideoPlayer({
 
       // Add subtitles
       subtitles.forEach((subtitle) => {
-        player.addRemoteTextTrack({
-          kind: 'subtitles',
-          src: subtitle.src,
-          srclang: subtitle.srclang,
-          label: subtitle.label
-        }, false);
+        player.addRemoteTextTrack(
+          {
+            kind: 'subtitles',
+            src: subtitle.src,
+            srclang: subtitle.srclang,
+            label: subtitle.label,
+          },
+          false,
+        );
       });
 
       // Resume from last position
@@ -191,13 +194,27 @@ export function AdvancedVideoPlayer({
       <div className="mt-4 p-4 bg-slate-50 rounded-lg text-xs text-black">
         <p className="font-semibold mb-2">Keyboard Shortcuts:</p>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-          <div><kbd className="px-2 py-2 bg-white border rounded">Space</kbd> Play/Pause</div>
-          <div><kbd className="px-2 py-2 bg-white border rounded">←</kbd> Rewind 10s</div>
-          <div><kbd className="px-2 py-2 bg-white border rounded">→</kbd> Forward 10s</div>
-          <div><kbd className="px-2 py-2 bg-white border rounded">↑</kbd> Volume Up</div>
-          <div><kbd className="px-2 py-2 bg-white border rounded">↓</kbd> Volume Down</div>
-          <div><kbd className="px-2 py-2 bg-white border rounded">F</kbd> Fullscreen</div>
-          <div><kbd className="px-2 py-2 bg-white border rounded">M</kbd> Mute</div>
+          <div>
+            <kbd className="px-2 py-2 bg-white border rounded">Space</kbd> Play/Pause
+          </div>
+          <div>
+            <kbd className="px-2 py-2 bg-white border rounded">←</kbd> Rewind 10s
+          </div>
+          <div>
+            <kbd className="px-2 py-2 bg-white border rounded">→</kbd> Forward 10s
+          </div>
+          <div>
+            <kbd className="px-2 py-2 bg-white border rounded">↑</kbd> Volume Up
+          </div>
+          <div>
+            <kbd className="px-2 py-2 bg-white border rounded">↓</kbd> Volume Down
+          </div>
+          <div>
+            <kbd className="px-2 py-2 bg-white border rounded">F</kbd> Fullscreen
+          </div>
+          <div>
+            <kbd className="px-2 py-2 bg-white border rounded">M</kbd> Mute
+          </div>
         </div>
       </div>
     </div>

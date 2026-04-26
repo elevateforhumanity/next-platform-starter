@@ -9,22 +9,22 @@
 
 ### 1. Scale Summary
 
-| Metric | Count |
-|---|---|
-| TypeScript/TSX files | 4,696 |
-| API routes (`app/api/**/route.ts`) | 926 |
-| Pages (`app/**/page.tsx`) | 1,574 |
-| Components (`components/*.tsx`) | 795 |
-| Supabase migrations | 71 (was 86 — some archived) |
-| Unique Supabase tables referenced | 753 `.from()` calls to unique table names |
-| Unique `process.env.*` variables | 340 |
-| `lib/` subdirectories | 98 |
-| Cron jobs (`app/api/cron/`) | 17 |
-| Static HTML pages (`public/*.html`) | 74 |
-| `package.json` dependencies | ~307 entries |
-| `netlify.toml` redirect rules | ~82 |
-| `next.config.mjs` | 589 lines |
-| `proxy.ts` (middleware) | 497 lines |
+| Metric                              | Count                                     |
+| ----------------------------------- | ----------------------------------------- |
+| TypeScript/TSX files                | 4,696                                     |
+| API routes (`app/api/**/route.ts`)  | 926                                       |
+| Pages (`app/**/page.tsx`)           | 1,574                                     |
+| Components (`components/*.tsx`)     | 795                                       |
+| Supabase migrations                 | 71 (was 86 — some archived)               |
+| Unique Supabase tables referenced   | 753 `.from()` calls to unique table names |
+| Unique `process.env.*` variables    | 340                                       |
+| `lib/` subdirectories               | 98                                        |
+| Cron jobs (`app/api/cron/`)         | 17                                        |
+| Static HTML pages (`public/*.html`) | 74                                        |
+| `package.json` dependencies         | ~307 entries                              |
+| `netlify.toml` redirect rules       | ~82                                       |
+| `next.config.mjs`                   | 589 lines                                 |
+| `proxy.ts` (middleware)             | 497 lines                                 |
 
 ---
 
@@ -32,12 +32,12 @@
 
 Three domains route through `proxy.ts`:
 
-| Domain | Routes To | Purpose |
-|---|---|---|
-| `www.elevateforhumanity.org` | `/` (default) | Main site, store, admin |
-| `elevateforhumanityeducation.com` | `/student-portal/*` | LMS learner experience |
-| `supersonicfastermoney.com` | `/supersonic-fast-cash/*` | Tax prep / fast cash product |
-| `platform.elevateforhumanity.org` | `/platform/licensing/*` | B2B licensing portal |
+| Domain                            | Routes To                 | Purpose                      |
+| --------------------------------- | ------------------------- | ---------------------------- |
+| `www.elevateforhumanity.org`      | `/` (default)             | Main site, store, admin      |
+| `elevateforhumanityeducation.com` | `/student-portal/*`       | LMS learner experience       |
+| `supersonicfastermoney.com`       | `/supersonic-fast-cash/*` | Tax prep / fast cash product |
+| `platform.elevateforhumanity.org` | `/platform/licensing/*`   | B2B licensing portal         |
 
 ---
 
@@ -45,124 +45,125 @@ Three domains route through `proxy.ts`:
 
 #### 3.1 Core Platform
 
-| Subsystem | API Routes | Pages | Lib Files | Key Tables |
-|---|---|---|---|---|
-| **Admin** | 100 | 281 | `lib/admin/` (2) | `profiles`, `audit_logs`, `audit_log` |
-| **Auth** | 14 | 7 | `lib/auth/` (10) | `profiles`, `user_profiles` |
-| **Enrollment** | 9+8+8 = 25 | 6+4+4 = 14 | `lib/enrollment/` (8), `lib/enrollments/` (1) | `enrollments` (408 refs), `student_enrollments` (33), `program_enrollments` (24) |
-| **Programs** | 8 | 91 | `lib/programs/` (5) | `programs` (152 refs) |
-| **Courses / LMS** | 22+6 = 28 | 25+79 = 104 | `lib/lms/` (4), `lib/courses/` (1) | `courses` (130), `lessons` (38), `lesson_progress` (26), `modules` (10) |
-| **Licensing** | 4+4 = 8 | 6+4 = 10 | `lib/licensing/` (11), `lib/license/` (8) | `licenses` (77), `license_events` (10), `license_purchases` (12) |
-| **Store / Checkout** | 19+9 = 28 | 63+5 = 68 | `lib/store/` (18), `lib/checkout/` (1) | `products` (15), `cart_items` (14) |
-| **Stripe / Billing** | 7+8 = 15 | — | `lib/stripe/` (9), `lib/billing/` (7), `lib/payments/` (1) | `payments` (20), `payment_logs` (11), `stripe_webhook_events` (10) |
-| **Trial** | 2 | — | `lib/trial/` (1) | `licenses` (trial state) |
-| **Analytics** | 20 | 1 | `lib/analytics/` (2) | `page_views` (11) |
+| Subsystem            | API Routes | Pages       | Lib Files                                                  | Key Tables                                                                       |
+| -------------------- | ---------- | ----------- | ---------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| **Admin**            | 100        | 281         | `lib/admin/` (2)                                           | `profiles`, `audit_logs`, `audit_log`                                            |
+| **Auth**             | 14         | 7           | `lib/auth/` (10)                                           | `profiles`, `user_profiles`                                                      |
+| **Enrollment**       | 9+8+8 = 25 | 6+4+4 = 14  | `lib/enrollment/` (8), `lib/enrollments/` (1)              | `enrollments` (408 refs), `student_enrollments` (33), `program_enrollments` (24) |
+| **Programs**         | 8          | 91          | `lib/programs/` (5)                                        | `programs` (152 refs)                                                            |
+| **Courses / LMS**    | 22+6 = 28  | 25+79 = 104 | `lib/lms/` (4), `lib/courses/` (1)                         | `courses` (130), `lessons` (38), `lesson_progress` (26), `modules` (10)          |
+| **Licensing**        | 4+4 = 8    | 6+4 = 10    | `lib/licensing/` (11), `lib/license/` (8)                  | `licenses` (77), `license_events` (10), `license_purchases` (12)                 |
+| **Store / Checkout** | 19+9 = 28  | 63+5 = 68   | `lib/store/` (18), `lib/checkout/` (1)                     | `products` (15), `cart_items` (14)                                               |
+| **Stripe / Billing** | 7+8 = 15   | —           | `lib/stripe/` (9), `lib/billing/` (7), `lib/payments/` (1) | `payments` (20), `payment_logs` (11), `stripe_webhook_events` (10)               |
+| **Trial**            | 2          | —           | `lib/trial/` (1)                                           | `licenses` (trial state)                                                         |
+| **Analytics**        | 20         | 1           | `lib/analytics/` (2)                                       | `page_views` (11)                                                                |
 
 #### 3.2 Workforce / Compliance
 
-| Subsystem | API Routes | Pages | Lib Files | Key Tables |
-|---|---|---|---|---|
-| **WIOA** | 9 | 4 | `lib/workforce/` (1) | compliance flags on `tenants` |
+| Subsystem                   | API Routes | Pages     | Lib Files                 | Key Tables                                                             |
+| --------------------------- | ---------- | --------- | ------------------------- | ---------------------------------------------------------------------- |
+| **WIOA**                    | 9          | 4         | `lib/workforce/` (1)      | compliance flags on `tenants`                                          |
 | **RAPIDS / Apprenticeship** | 2+6+4 = 12 | 14+2 = 16 | `lib/apprenticeship/` (2) | `apprentices` (26), `apprentice_hours_log` (11), `transfer_hours` (14) |
-| **Compliance** | 3 | 2 | `lib/compliance/` (15) | `documents` (72), `student_requirements` (10) |
-| **Drug Testing** | — | 8 | `lib/drug-testing/` (2) | — |
-| **Certificates** | 9+5 = 14 | 4+1 = 5 | `lib/certificates/` (3) | `certificates` (60) |
-| **Attendance / Timeclock** | 3+3 = 6 | — | `lib/timeclock/` (2) | — |
+| **Compliance**              | 3          | 2         | `lib/compliance/` (15)    | `documents` (72), `student_requirements` (10)                          |
+| **Drug Testing**            | —          | 8         | `lib/drug-testing/` (2)   | —                                                                      |
+| **Certificates**            | 9+5 = 14   | 4+1 = 5   | `lib/certificates/` (3)   | `certificates` (60)                                                    |
+| **Attendance / Timeclock**  | 3+3 = 6    | —         | `lib/timeclock/` (2)      | —                                                                      |
 
 #### 3.3 Partner / Franchise / B2B
 
-| Subsystem | API Routes | Pages | Lib Files | Key Tables |
-|---|---|---|---|---|
-| **Partners** | 10+8 = 18 | 21+17 = 38 | `lib/partners/` (14), `lib/partner/` (2) | `partners` (24), `partner_users` (26), `partner_lms_enrollments` (50), `partner_lms_providers` (14) |
-| **Franchise** | 13 | 28 | `lib/franchise/` (9) | `franchise_offices` (43), `franchise_preparers` (45), `franchise_clients` (13), `franchise_fee_schedules` (14), `franchise_preparer_payouts` (12), `franchise_return_submissions` (27) |
-| **Program Holders** | 19 | 39 | `lib/program-holder/` (2) | `program_holders` (48), `program_holder_documents` (11) |
-| **Employer** | 4 | 23 | — | `employers` (11), `employees` (11), `employment_outcomes` (12) |
+| Subsystem           | API Routes | Pages      | Lib Files                                | Key Tables                                                                                                                                                                             |
+| ------------------- | ---------- | ---------- | ---------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Partners**        | 10+8 = 18  | 21+17 = 38 | `lib/partners/` (14), `lib/partner/` (2) | `partners` (24), `partner_users` (26), `partner_lms_enrollments` (50), `partner_lms_providers` (14)                                                                                    |
+| **Franchise**       | 13         | 28         | `lib/franchise/` (9)                     | `franchise_offices` (43), `franchise_preparers` (45), `franchise_clients` (13), `franchise_fee_schedules` (14), `franchise_preparer_payouts` (12), `franchise_return_submissions` (27) |
+| **Program Holders** | 19         | 39         | `lib/program-holder/` (2)                | `program_holders` (48), `program_holder_documents` (11)                                                                                                                                |
+| **Employer**        | 4          | 23         | —                                        | `employers` (11), `employees` (11), `employment_outcomes` (12)                                                                                                                         |
 
 #### 3.4 Revenue Products
 
-| Subsystem | API Routes | Pages | Lib Files | Key Tables |
-|---|---|---|---|---|
-| **Supersonic Fast Cash** | 21 | 56 | — | Tax prep / refund advance product |
-| **Tax Software** | 10 | 18 | `lib/tax-software/` (20) | `mef_submissions` (12), `franchise_return_submissions` (27) |
-| **Sezzle (BNPL)** | 4 | — | `lib/sezzle/` (1) | — |
-| **Affirm (BNPL)** | 3 | — | `lib/affirm/` (1) | — |
-| **Marketplace** | 4 | 8 | — | `marketplace_creators` (12) |
-| **Shop** | 5 | 15 | `lib/shops/` (2) | `shops` (17), `shop_staff` (16) |
+| Subsystem                | API Routes | Pages | Lib Files                | Key Tables                                                  |
+| ------------------------ | ---------- | ----- | ------------------------ | ----------------------------------------------------------- |
+| **Supersonic Fast Cash** | 21         | 56    | —                        | Tax prep / refund advance product                           |
+| **Tax Software**         | 10         | 18    | `lib/tax-software/` (20) | `mef_submissions` (12), `franchise_return_submissions` (27) |
+| **Sezzle (BNPL)**        | 4          | —     | `lib/sezzle/` (1)        | —                                                           |
+| **Affirm (BNPL)**        | 3          | —     | `lib/affirm/` (1)        | —                                                           |
+| **Marketplace**          | 4          | 8     | —                        | `marketplace_creators` (12)                                 |
+| **Shop**                 | 5          | 15    | `lib/shops/` (2)         | `shops` (17), `shop_staff` (16)                             |
 
 #### 3.5 Engagement / Communication
 
-| Subsystem | API Routes | Pages | Lib Files | Key Tables |
-|---|---|---|---|---|
-| **Email** | 9+3+2 = 14 | 1 | `lib/email/` (18), `lib/email-templates/` (3) | `email_logs` (12), `email_campaigns` (14) |
-| **Notifications** | 5 | 1 | `lib/notifications/` (13) | `notifications` (46), `notification_outbox` (10), `push_subscriptions` (11) |
-| **Forums** | 5 | 1 | — | `forum_threads` (19), `forum_posts` (13) |
-| **Chat / Messages** | 2+2+2 = 6 | 1+4 = 5 | `lib/chat/` (1), `lib/chatbot/` (1) | `messages` (27), `conversations` (11) |
-| **Gamification** | 3 | 1 | `lib/gamification/` (1) | — |
-| **Social Media** | 4 | 1 | `lib/social/` (1) | — |
+| Subsystem           | API Routes | Pages   | Lib Files                                     | Key Tables                                                                  |
+| ------------------- | ---------- | ------- | --------------------------------------------- | --------------------------------------------------------------------------- |
+| **Email**           | 9+3+2 = 14 | 1       | `lib/email/` (18), `lib/email-templates/` (3) | `email_logs` (12), `email_campaigns` (14)                                   |
+| **Notifications**   | 5          | 1       | `lib/notifications/` (13)                     | `notifications` (46), `notification_outbox` (10), `push_subscriptions` (11) |
+| **Forums**          | 5          | 1       | —                                             | `forum_threads` (19), `forum_posts` (13)                                    |
+| **Chat / Messages** | 2+2+2 = 6  | 1+4 = 5 | `lib/chat/` (1), `lib/chatbot/` (1)           | `messages` (27), `conversations` (11)                                       |
+| **Gamification**    | 3          | 1       | `lib/gamification/` (1)                       | —                                                                           |
+| **Social Media**    | 4          | 1       | `lib/social/` (1)                             | —                                                                           |
 
 #### 3.6 AI / Content
 
-| Subsystem | API Routes | Pages | Lib Files | Key Tables |
-|---|---|---|---|---|
-| **AI** | 13+4+2+2 = 21 | 5+1+1 = 7 | `lib/ai/` (2), `lib/ai-instructor/` (1) | — |
-| **Studio** | 19 | 2 | `lib/devstudio/` (3) | — |
-| **Content** | 2 | 1 | `lib/content/` (2) | — |
-| **SCORM / xAPI** | 4+2 = 6 | — | `lib/scorm/` (3), `lib/xapi/` (2) | — |
-| **Video** | 3+1 = 4 | 2 | `lib/video/` (4) | — |
+| Subsystem        | API Routes    | Pages     | Lib Files                               | Key Tables |
+| ---------------- | ------------- | --------- | --------------------------------------- | ---------- |
+| **AI**           | 13+4+2+2 = 21 | 5+1+1 = 7 | `lib/ai/` (2), `lib/ai-instructor/` (1) | —          |
+| **Studio**       | 19            | 2         | `lib/devstudio/` (3)                    | —          |
+| **Content**      | 2             | 1         | `lib/content/` (2)                      | —          |
+| **SCORM / xAPI** | 4+2 = 6       | —         | `lib/scorm/` (3), `lib/xapi/` (2)       | —          |
+| **Video**        | 3+1 = 4       | 2         | `lib/video/` (4)                        | —          |
 
 #### 3.7 Infrastructure
 
-| Subsystem | Files | Purpose |
-|---|---|---|
-| **Proxy** (`proxy.ts`) | 497 lines | Domain routing, auth, role checks, onboarding gates, enrollment gates |
-| **Supabase client** | `lib/supabase/` (6) | Server/client/admin clients |
-| **Rate limiting** | `lib/rate-limit.ts` | Upstash Redis with in-memory fallback |
-| **Monitoring** | `lib/monitoring/` (4), `lib/observability/` (3) | — |
-| **Logging** | `lib/logging/` (4) | — |
-| **Security** | `lib/security/` (4) | — |
-| **PWA** | 32 pages, `lib/pwa/` (2), `lib/offline/` (5) | Progressive web app shell |
-| **Autopilot** | `lib/autopilot/` (16) | Automated workflows |
-| **Jobs** | `lib/jobs/` (6) | Background job processing |
+| Subsystem              | Files                                           | Purpose                                                               |
+| ---------------------- | ----------------------------------------------- | --------------------------------------------------------------------- |
+| **Proxy** (`proxy.ts`) | 497 lines                                       | Domain routing, auth, role checks, onboarding gates, enrollment gates |
+| **Supabase client**    | `lib/supabase/` (6)                             | Server/client/admin clients                                           |
+| **Rate limiting**      | `lib/rate-limit.ts`                             | Upstash Redis with in-memory fallback                                 |
+| **Monitoring**         | `lib/monitoring/` (4), `lib/observability/` (3) | —                                                                     |
+| **Logging**            | `lib/logging/` (4)                              | —                                                                     |
+| **Security**           | `lib/security/` (4)                             | —                                                                     |
+| **PWA**                | 32 pages, `lib/pwa/` (2), `lib/offline/` (5)    | Progressive web app shell                                             |
+| **Autopilot**          | `lib/autopilot/` (16)                           | Automated workflows                                                   |
+| **Jobs**               | `lib/jobs/` (6)                                 | Background job processing                                             |
 
 ---
 
 ### 4. Cron Jobs (17)
 
-| Cron | Purpose |
-|---|---|
-| `enrollment-automation` | Auto-advance enrollment states |
-| `missed-checkins` | Flag students who missed check-ins |
-| `career-course-emails` | Drip emails for career courses |
-| `weekly-verdicts` | Weekly compliance verdicts |
-| `inactivity-reminders` | Nudge inactive students |
-| `payment-monitoring` | Flag failed/overdue payments |
-| `morning-reminders` | Daily class reminders |
-| `check-licenses` | Validate license states |
-| `weekly-reminders` | Weekly engagement emails |
-| `trial-lifecycle` | Expire trials, flag abandoned, send warnings |
-| `process-notifications` | Drain notification outbox |
-| `check-expiring-documents` | Flag documents nearing expiry |
-| `daily-attendance-alerts` | Attendance anomaly alerts |
-| `process-provisioning-jobs` | Tenant provisioning queue |
-| `end-of-day-summary` | Daily admin digest |
-| `check-stuck-approvals` | Flag approvals stuck >N days |
-| `expire-licenses` | Hard-expire overdue licenses |
+| Cron                        | Purpose                                      |
+| --------------------------- | -------------------------------------------- |
+| `enrollment-automation`     | Auto-advance enrollment states               |
+| `missed-checkins`           | Flag students who missed check-ins           |
+| `career-course-emails`      | Drip emails for career courses               |
+| `weekly-verdicts`           | Weekly compliance verdicts                   |
+| `inactivity-reminders`      | Nudge inactive students                      |
+| `payment-monitoring`        | Flag failed/overdue payments                 |
+| `morning-reminders`         | Daily class reminders                        |
+| `check-licenses`            | Validate license states                      |
+| `weekly-reminders`          | Weekly engagement emails                     |
+| `trial-lifecycle`           | Expire trials, flag abandoned, send warnings |
+| `process-notifications`     | Drain notification outbox                    |
+| `check-expiring-documents`  | Flag documents nearing expiry                |
+| `daily-attendance-alerts`   | Attendance anomaly alerts                    |
+| `process-provisioning-jobs` | Tenant provisioning queue                    |
+| `end-of-day-summary`        | Daily admin digest                           |
+| `check-stuck-approvals`     | Flag approvals stuck >N days                 |
+| `expire-licenses`           | Hard-expire overdue licenses                 |
 
 ---
 
 ### 5. Webhook Handlers
 
-| Path | Lines | Events Handled |
-|---|---|---|
+| Path                               | Lines | Events Handled                                                                                                                                                                                                                                                         |
+| ---------------------------------- | ----- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `/api/webhooks/stripe` (canonical) | 1,889 | `checkout.session.completed`, `payment_intent.succeeded`, `payment_intent.payment_failed`, `customer.subscription.created`, `customer.subscription.updated`, `customer.subscription.deleted`, `invoice.payment_succeeded`, `invoice.payment_failed`, `charge.refunded` |
-| `/api/stripe/webhook` (deprecated) | 552 | Forwards to canonical |
-| `/api/license/webhook` | — | License lifecycle events |
+| `/api/stripe/webhook` (deprecated) | 552   | Forwards to canonical                                                                                                                                                                                                                                                  |
+| `/api/license/webhook`             | —     | License lifecycle events                                                                                                                                                                                                                                               |
 
 ---
 
 ### 6. Auth & Role Model
 
 **Roles** (from `proxy.ts` and `lib/auth/`):
+
 - `super_admin` — Platform owner (`elizabethpowell6262@gmail.com`)
 - `admin` — Full admin access
 - `staff` — Staff portal access
@@ -175,6 +176,7 @@ Three domains route through `proxy.ts`:
 **Auth flow**: Supabase Auth → `proxy.ts` checks session → queries `profiles.role` → enforces route-level access.
 
 **Gates in proxy.ts**:
+
 1. Webhook bypass (Stripe signature verification)
 2. Domain-based routing (3 domains)
 3. Role-based route protection
@@ -187,33 +189,33 @@ Three domains route through `proxy.ts`:
 
 ### 7. External Integrations (by env var clusters)
 
-| Category | Services |
-|---|---|
-| **Payments** | Stripe (core), Sezzle, Affirm |
-| **Auth** | Supabase Auth, Google OAuth, Facebook OAuth, GitHub OAuth, Azure AD, SAML, LDAP |
-| **Email** | Resend (primary), SendGrid, Mailchimp, SMTP |
-| **AI** | OpenAI, ElevenLabs, HeyGen, Synthesia, Suno, Runway, D-ID |
-| **Tax/IRS** | EPS (Electronic Processing System), IRS MeF (SOAP), CareerSafe, Certiport |
-| **Government** | SAM.gov, Grants.gov, RAPIDS, WOTC |
-| **CRM** | HubSpot, Salesforce |
-| **Communication** | Twilio (SMS), Zoom, Jitsi, Tawk, Tidio, Zendesk, Intercom |
-| **Media** | YouTube, Vimeo, Pexels, Pixabay, Unsplash |
-| **Social** | Facebook, Instagram, LinkedIn, Twitter/X |
-| **Infrastructure** | Netlify, Cloudflare R2, AWS S3, Sentry, Upstash Redis, BigQuery |
-| **LMS Standards** | SCORM, xAPI, LTI |
-| **Identity** | Stripe Identity, Turnstile, hCaptcha |
+| Category           | Services                                                                        |
+| ------------------ | ------------------------------------------------------------------------------- |
+| **Payments**       | Stripe (core), Sezzle, Affirm                                                   |
+| **Auth**           | Supabase Auth, Google OAuth, Facebook OAuth, GitHub OAuth, Azure AD, SAML, LDAP |
+| **Email**          | Resend (primary), SendGrid, Mailchimp, SMTP                                     |
+| **AI**             | OpenAI, ElevenLabs, HeyGen, Synthesia, Suno, Runway, D-ID                       |
+| **Tax/IRS**        | EPS (Electronic Processing System), IRS MeF (SOAP), CareerSafe, Certiport       |
+| **Government**     | SAM.gov, Grants.gov, RAPIDS, WOTC                                               |
+| **CRM**            | HubSpot, Salesforce                                                             |
+| **Communication**  | Twilio (SMS), Zoom, Jitsi, Tawk, Tidio, Zendesk, Intercom                       |
+| **Media**          | YouTube, Vimeo, Pexels, Pixabay, Unsplash                                       |
+| **Social**         | Facebook, Instagram, LinkedIn, Twitter/X                                        |
+| **Infrastructure** | Netlify, Cloudflare R2, AWS S3, Sentry, Upstash Redis, BigQuery                 |
+| **LMS Standards**  | SCORM, xAPI, LTI                                                                |
+| **Identity**       | Stripe Identity, Turnstile, hCaptcha                                            |
 
 ---
 
 ### 8. CI / Integrity Gates
 
-| Script | Purpose |
-|---|---|
-| `check-redirect-conflicts.mjs` | Blocks build on conflicting redirects |
-| `check-analytics-integrity.mjs` | Single GA4 injector, no hardcoded IDs |
-| `check-self-service-policy.mjs` | Warns on phone-first CTAs in funnel |
-| `ci-token-gate.ts` | Validates required env vars before build |
-| `integrity-gate.yml` | GitHub Actions workflow running all checks |
+| Script                          | Purpose                                    |
+| ------------------------------- | ------------------------------------------ |
+| `check-redirect-conflicts.mjs`  | Blocks build on conflicting redirects      |
+| `check-analytics-integrity.mjs` | Single GA4 injector, no hardcoded IDs      |
+| `check-self-service-policy.mjs` | Warns on phone-first CTAs in funnel        |
+| `ci-token-gate.ts`              | Validates required env vars before build   |
+| `integrity-gate.yml`            | GitHub Actions workflow running all checks |
 
 ---
 
@@ -249,12 +251,12 @@ Three domains route through `proxy.ts`:
 
 The database has **no single source of truth** for its schema:
 
-| Source | Tables Defined | Notes |
-|---|---|---|
-| `supabase/schema.sql` (716 lines) | ~45 tables | Aspirational "complete" schema, but predates many migrations |
-| 71 migration files | ~60+ CREATE TABLE statements | Incremental, many use `IF NOT EXISTS` |
-| Baseline migration | 0 (no-op) | States "428 tables already exist with RLS" — created via dashboard |
-| Application code | 753 unique `.from()` table names | Many reference tables not in any migration |
+| Source                            | Tables Defined                   | Notes                                                              |
+| --------------------------------- | -------------------------------- | ------------------------------------------------------------------ |
+| `supabase/schema.sql` (716 lines) | ~45 tables                       | Aspirational "complete" schema, but predates many migrations       |
+| 71 migration files                | ~60+ CREATE TABLE statements     | Incremental, many use `IF NOT EXISTS`                              |
+| Baseline migration                | 0 (no-op)                        | States "428 tables already exist with RLS" — created via dashboard |
+| Application code                  | 753 unique `.from()` table names | Many reference tables not in any migration                         |
 
 **Implication**: The live Supabase database is the only authoritative schema. The migration files and `schema.sql` are incomplete snapshots.
 
@@ -265,6 +267,7 @@ The database has **no single source of truth** for its schema:
 This is the most significant data model problem. Three tables serve overlapping purposes:
 
 #### `enrollments` (408 code references — most used)
+
 - **PK**: Composite `(user_id, course_id)` — no UUID
 - **Scope**: Course-level enrollment
 - **Key columns**: `user_id`, `course_id`, `status`, `progress_percent`, `enrollment_method`, `payment_id`, `funding_source`, `funding_program_id`, `partner_id`, `case_manager_name`, `case_manager_email`, `workone_region`
@@ -272,6 +275,7 @@ This is the most significant data model problem. Three tables serve overlapping 
 - **Defined in**: `schema.sql` section 3
 
 #### `student_enrollments` (33 code references)
+
 - **PK**: UUID `id`
 - **Scope**: Program-level enrollment (apprenticeships, barber programs)
 - **Key columns**: `student_id`, `program_id`, `program_slug`, `stripe_checkout_session_id`, `funding_source`, `amount_paid`, `region_id`, `transfer_hours`, `required_hours`, `has_host_shop`, `host_shop_name`, `case_id`
@@ -279,6 +283,7 @@ This is the most significant data model problem. Three tables serve overlapping 
 - **Defined in**: `20260201_student_enrollments_canonical.sql`
 
 #### `program_enrollments` (24 code references)
+
 - **PK**: UUID `id`
 - **Scope**: Training program enrollment with Stripe payment tracking
 - **Key columns**: `user_id`, `program_id`, `email`, `full_name`, `phone`, `amount_paid_cents`, `stripe_payment_intent_id`, `stripe_session_id`, `certificate_url`, `notes`
@@ -287,15 +292,15 @@ This is the most significant data model problem. Three tables serve overlapping 
 
 #### Overlap Analysis
 
-| Concern | `enrollments` | `student_enrollments` | `program_enrollments` |
-|---|---|---|---|
-| User reference | `user_id` | `student_id` | `user_id` |
-| What they enroll in | Course | Program | Training program |
-| Payment tracking | `payment_id` (Stripe PI) | `stripe_checkout_session_id` | `stripe_payment_intent_id` + `stripe_session_id` |
-| Funding source | ✅ | ✅ | ✅ |
-| Status | ✅ | ✅ | ✅ |
-| Hours tracking | ❌ | `transfer_hours`, `required_hours` | ❌ |
-| Progress | `progress_percent` | ❌ | ❌ |
+| Concern             | `enrollments`            | `student_enrollments`              | `program_enrollments`                            |
+| ------------------- | ------------------------ | ---------------------------------- | ------------------------------------------------ |
+| User reference      | `user_id`                | `student_id`                       | `user_id`                                        |
+| What they enroll in | Course                   | Program                            | Training program                                 |
+| Payment tracking    | `payment_id` (Stripe PI) | `stripe_checkout_session_id`       | `stripe_payment_intent_id` + `stripe_session_id` |
+| Funding source      | ✅                       | ✅                                 | ✅                                               |
+| Status              | ✅                       | ✅                                 | ✅                                               |
+| Hours tracking      | ❌                       | `transfer_hours`, `required_hours` | ❌                                               |
+| Progress            | `progress_percent`       | ❌                                 | ❌                                               |
 
 **Verdict**: `enrollments` is the LMS enrollment (course-level). `student_enrollments` is the workforce/apprenticeship enrollment (program-level, hours-based). `program_enrollments` is a third variant for paid training programs. All three are actively written to by the Stripe webhook handler. A buyer will need to understand which table to query for "is this person enrolled?"
 
@@ -304,6 +309,7 @@ This is the most significant data model problem. Three tables serve overlapping 
 ### 3. The Two User Tables
 
 #### `profiles` (830 code references)
+
 - **Not defined in any migration** — created via Supabase dashboard
 - Columns added by migrations: `role`, `is_active`, `phone`, `address`, `city`, `state`, `zip_code`, `tenant_id`, `onboarding_completed`, `onboarding_completed_at`
 - Used by `proxy.ts` for: `role`, `tenant_id`, `onboarding_completed`
@@ -311,6 +317,7 @@ This is the most significant data model problem. Three tables serve overlapping 
 - Referenced as FK target by: `applications`, `documents`, `audit_logs`, `hour_logs`
 
 #### `user_profiles` (39 code references)
+
 - **Defined in `schema.sql`** with columns: `user_id` (PK, FK to `auth.users`), `role` (enum), `first_name`, `last_name`, `phone`, `address`, `city`, `state`, `zip_code`, `bio`, `avatar_url`, `organization_id`, `program_holder_id`
 - Used by: certificate issuance, case manager views, funding admin, program holder admin
 
@@ -320,10 +327,10 @@ This is the most significant data model problem. Three tables serve overlapping 
 
 ### 4. The Two Audit Log Tables
 
-| Table | References | Defined In |
-|---|---|---|
-| `audit_logs` | 57 | `001_barber_hvac_reference.sql` and `20260118_audit_logs.sql` (defined twice) |
-| `audit_log` | 16 | Not in migrations — likely created via dashboard |
+| Table        | References | Defined In                                                                    |
+| ------------ | ---------- | ----------------------------------------------------------------------------- |
+| `audit_logs` | 57         | `001_barber_hvac_reference.sql` and `20260118_audit_logs.sql` (defined twice) |
+| `audit_log`  | 16         | Not in migrations — likely created via dashboard                              |
 
 Plus domain-specific audit tables: `franchise_audit_log`, `partner_audit_log`, `tax_audit_log`.
 
@@ -332,27 +339,32 @@ Plus domain-specific audit tables: `franchise_audit_log`, `partner_audit_log`, `
 ### 5. Key Table Schemas
 
 #### `licenses` (77 refs)
+
 ```
 id, license_key, domain, customer_email, tier (starter|business|enterprise),
 status (active|expired|suspended|cancelled), features (JSONB), max_deployments,
 max_users, issued_at, expires_at, last_validated_at, validation_count, metadata,
 tenant_id (added later)
 ```
+
 - Central to the B2B licensing model
 - `license_events` tracks state changes
 - `license_validations` logs each validation check
 
 #### `apprentices` (26 refs)
+
 ```
 id, user_id, application_id, program_id, program_name,
 status (pending|active|suspended|completed|withdrawn),
 total_hours_required (default 2000), hours_completed, transfer_hours_credited,
 enrollment_date, expected_completion_date, actual_completion_date, current_shop_id
 ```
+
 - Separate from `student_enrollments` despite similar purpose
 - Has its own `total_hours_required` (default 2000) vs `student_enrollments.required_hours` (default 1500)
 
 #### `training_programs` (referenced as `programs` in code — 152 refs)
+
 ```
 id, slug, name, category, description, duration_weeks, duration_formatted,
 tuition_cents, tuition_dollars, exam_fees_cents, exam_fees_dollars,
@@ -360,9 +372,11 @@ materials_cents, materials_dollars, total_cost_cents, total_cost_dollars,
 stripe_product_id, stripe_price_id, funding_types[], wioa_eligible,
 wrg_eligible, apprenticeship_registered, certification_name, certifying_body
 ```
+
 - Dual cents/dollars columns (redundant but harmless)
 
 #### `tenants` (34 refs)
+
 - Not defined in any migration file scanned
 - Referenced by `profiles.tenant_id`, license system, compliance system
 - Multi-tenant isolation boundary
@@ -371,11 +385,11 @@ wrg_eligible, apprenticeship_registered, certification_name, certifying_body
 
 ### 6. `required_hours` / `hours_needed` Analysis
 
-| Location | Column | Default | References |
-|---|---|---|---|
-| `student_enrollments` | `required_hours` | 1500 | 15 code refs |
-| `apprentices` | `total_hours_required` | 2000 | Via RAPIDS export |
-| Code fallbacks | — | 2000 | `app/apprentice/state-board/page.tsx`, `app/api/learner/dashboard/route.ts` |
+| Location              | Column                 | Default | References                                                                  |
+| --------------------- | ---------------------- | ------- | --------------------------------------------------------------------------- |
+| `student_enrollments` | `required_hours`       | 1500    | 15 code refs                                                                |
+| `apprentices`         | `total_hours_required` | 2000    | Via RAPIDS export                                                           |
+| Code fallbacks        | —                      | 2000    | `app/apprentice/state-board/page.tsx`, `app/api/learner/dashboard/route.ts` |
 
 `hours_needed` has **zero code references** — it was discussed as a potential canonical name but never implemented. The actual duplication is between `student_enrollments.required_hours` (1500 default) and `apprentices.total_hours_required` (2000 default).
 
@@ -398,17 +412,17 @@ Based on migration analysis:
 
 Indexes found in migrations:
 
-| Table | Indexed Columns |
-|---|---|
-| `enrollments` | `user_id`, `course_id` |
+| Table                 | Indexed Columns                                               |
+| --------------------- | ------------------------------------------------------------- |
+| `enrollments`         | `user_id`, `course_id`                                        |
 | `program_enrollments` | `user_id`, `program_id`, `status`, `stripe_payment_intent_id` |
-| `student_enrollments` | None defined in migration |
-| `licenses` | `domain`, `license_key`, `status`, `expires_at` |
-| `license_events` | `license_id`, `event_type`, `created_at DESC` |
-| `certificates` | `serial` (unique) |
-| `lesson_progress` | `user_id` |
-| `quiz_attempts` | `user_id` |
-| `login_events` | `(user_id, at DESC)` |
+| `student_enrollments` | None defined in migration                                     |
+| `licenses`            | `domain`, `license_key`, `status`, `expires_at`               |
+| `license_events`      | `license_id`, `event_type`, `created_at DESC`                 |
+| `certificates`        | `serial` (unique)                                             |
+| `lesson_progress`     | `user_id`                                                     |
+| `quiz_attempts`       | `user_id`                                                     |
+| `login_events`        | `(user_id, at DESC)`                                          |
 
 **Missing**: `student_enrollments` has no indexes at all. `profiles` index state is unknown (dashboard-created).
 
@@ -695,6 +709,7 @@ Scoring: 1 (absent) → 5 (production-grade). Each dimension assessed against wh
 ### Dimension 1: Authentication & Authorization — Score: 3/5
 
 **Strengths**:
+
 - Supabase Auth with email/password, Google, Facebook, GitHub OAuth
 - `proxy.ts` enforces role-based routing at the edge (497 lines)
 - 6 roles: `super_admin`, `admin`, `staff`, `instructor`, `student`, `partner`
@@ -703,6 +718,7 @@ Scoring: 1 (absent) → 5 (production-grade). Each dimension assessed against wh
 - SSO support scaffolded (SAML, LDAP, Azure AD env vars present)
 
 **Weaknesses**:
+
 - **18+ unguarded API routes** including `account/delete`, `account/export`, `security/log`, `exams/submit`, `progress`, `dev/seed-courses`
 - CSRF protection: 1 reference in entire codebase
 - `profiles` table has no defined schema — role column is unconstrained TEXT
@@ -714,12 +730,14 @@ Scoring: 1 (absent) → 5 (production-grade). Each dimension assessed against wh
 ### Dimension 2: Data Integrity & Schema — Score: 2/5
 
 **Strengths**:
+
 - `licenses` table has CHECK constraints on `tier` and `status`
 - `apprentices` table has CHECK constraint on `status`
 - Billing authority fails closed on unknown tiers
 - 546 RLS policy statements across migrations
 
 **Weaknesses**:
+
 - **Three enrollment tables** with overlapping purpose, no clear canonical
 - **Two user tables** (`profiles` vs `user_profiles`) both actively used
 - **Two audit log tables** (`audit_logs` vs `audit_log`)
@@ -735,12 +753,14 @@ Scoring: 1 (absent) → 5 (production-grade). Each dimension assessed against wh
 ### Dimension 3: Input Validation — Score: 2/5
 
 **Strengths**:
+
 - 279 Zod validation references across API routes
 - `lib/api/validation-schemas.ts` exists
 - Email validation in trial flow
 - Stripe webhook signature verification
 
 **Weaknesses**:
+
 - 926 API routes, only 279 validation references — ~70% of routes may lack input validation
 - No centralized validation middleware
 - Many routes accept `req.json()` without schema validation
@@ -751,6 +771,7 @@ Scoring: 1 (absent) → 5 (production-grade). Each dimension assessed against wh
 ### Dimension 4: Security Headers & Transport — Score: 4/5
 
 **Strengths**:
+
 - HSTS with preload (max-age=63072000)
 - X-Frame-Options: SAMEORIGIN
 - X-Content-Type-Options: nosniff
@@ -761,6 +782,7 @@ Scoring: 1 (absent) → 5 (production-grade). Each dimension assessed against wh
 - Preview environments get noindex/nofollow
 
 **Weaknesses**:
+
 - CSP includes `'unsafe-eval'` and `'unsafe-inline'` for scripts — weakens CSP significantly
 - `img-src *` allows loading images from any origin
 - `media-src *` allows loading media from any origin
@@ -771,12 +793,14 @@ Scoring: 1 (absent) → 5 (production-grade). Each dimension assessed against wh
 ### Dimension 5: Testing — Score: 1/5
 
 **Strengths**:
+
 - 57 test files exist
 - Playwright configured for E2E
 - Vitest configured for unit tests
 - Indiana compliance test exists
 
 **Weaknesses**:
+
 - 57 tests for 4,696 source files = ~1.2% coverage
 - No evidence tests are run in CI (CI workflow exists but test step unclear)
 - 926 API routes with no API-level test suite
@@ -789,6 +813,7 @@ Scoring: 1 (absent) → 5 (production-grade). Each dimension assessed against wh
 ### Dimension 6: Observability — Score: 3/5
 
 **Strengths**:
+
 - Structured logger (`lib/logger.ts`) with dev/prod formatting
 - 1,553 log statements across API routes
 - Sentry integration (86 references)
@@ -798,6 +823,7 @@ Scoring: 1 (absent) → 5 (production-grade). Each dimension assessed against wh
 - Admin monitoring endpoints exist
 
 **Weaknesses**:
+
 - No centralized error tracking dashboard beyond Sentry
 - No distributed tracing (correlation IDs exist but no trace propagation between services)
 - No alerting on error rate spikes
@@ -809,6 +835,7 @@ Scoring: 1 (absent) → 5 (production-grade). Each dimension assessed against wh
 ### Dimension 7: Compliance (FERPA/WIOA/RAPIDS) — Score: 3/5
 
 **Strengths**:
+
 - 12 FERPA pages, 25 compliance pages
 - WIOA eligibility tracking (9 API routes)
 - RAPIDS apprentice data migration exists
@@ -819,6 +846,7 @@ Scoring: 1 (absent) → 5 (production-grade). Each dimension assessed against wh
 - Certificate revocation support with audit view
 
 **Weaknesses**:
+
 - SSN encryption key falls back to `crypto.randomBytes(32)` if env var missing — different key per cold start = data loss
 - No FERPA access logging (who viewed what student data, when)
 - Compliance test coverage: 1 test file
@@ -830,6 +858,7 @@ Scoring: 1 (absent) → 5 (production-grade). Each dimension assessed against wh
 ### Dimension 8: Operational Readiness — Score: 2/5
 
 **Strengths**:
+
 - 17 cron jobs for lifecycle management
 - Netlify deployment with auto-deploy from GitHub
 - `netlify.toml` with build configuration
@@ -837,6 +866,7 @@ Scoring: 1 (absent) → 5 (production-grade). Each dimension assessed against wh
 - 10 GitHub Actions workflows
 
 **Weaknesses**:
+
 - **18+ test/debug/seed endpoints deployed to production** — `dev/seed-courses`, `debug/supabase`, `run-all-tests`, `simulate-user-journey`, `test-webhook`, etc.
 - No database backup workflow active (`.github/workflows-disabled-all/db-backup.yml`)
 - No disaster recovery plan
@@ -850,6 +880,7 @@ Scoring: 1 (absent) → 5 (production-grade). Each dimension assessed against wh
 ### Dimension 9: Code Quality & Maintainability — Score: 2/5
 
 **Strengths**:
+
 - TypeScript throughout
 - ESLint configured with custom rules (`no-toplevel-api-clients`, `no-unguarded-search-params`)
 - Prettier configured
@@ -857,6 +888,7 @@ Scoring: 1 (absent) → 5 (production-grade). Each dimension assessed against wh
 - Billing authority is well-designed (fail-closed, documented tiers)
 
 **Weaknesses**:
+
 - 255 `as any` type bypasses
 - Stripe code spread across 9+ locations
 - Enrollment logic in both webhook handler AND unified service (two paths)
@@ -870,18 +902,18 @@ Scoring: 1 (absent) → 5 (production-grade). Each dimension assessed against wh
 
 ### Summary Scorecard
 
-| # | Dimension | Score | Risk Level |
-|---|---|---|---|
-| 1 | Authentication & Authorization | 3/5 | Medium |
-| 2 | Data Integrity & Schema | 2/5 | **High** |
-| 3 | Input Validation | 2/5 | **High** |
-| 4 | Security Headers & Transport | 4/5 | Low |
-| 5 | Testing | 1/5 | **Critical** |
-| 6 | Observability | 3/5 | Medium |
-| 7 | Compliance (FERPA/WIOA/RAPIDS) | 3/5 | Medium |
-| 8 | Operational Readiness | 2/5 | **High** |
-| 9 | Code Quality & Maintainability | 2/5 | **High** |
-| | **Overall** | **22/45 (49%)** | |
+| #   | Dimension                      | Score           | Risk Level   |
+| --- | ------------------------------ | --------------- | ------------ |
+| 1   | Authentication & Authorization | 3/5             | Medium       |
+| 2   | Data Integrity & Schema        | 2/5             | **High**     |
+| 3   | Input Validation               | 2/5             | **High**     |
+| 4   | Security Headers & Transport   | 4/5             | Low          |
+| 5   | Testing                        | 1/5             | **Critical** |
+| 6   | Observability                  | 3/5             | Medium       |
+| 7   | Compliance (FERPA/WIOA/RAPIDS) | 3/5             | Medium       |
+| 8   | Operational Readiness          | 2/5             | **High**     |
+| 9   | Code Quality & Maintainability | 2/5             | **High**     |
+|     | **Overall**                    | **22/45 (49%)** |              |
 
 **Enterprise readiness verdict**: Not ready for government/enterprise procurement without remediation. The platform has strong architectural intent (billing authority, unified enrollment, correlation IDs, structured logging) but execution gaps in schema integrity, testing, and operational hygiene.
 
@@ -902,6 +934,7 @@ Prioritized by risk. Each item includes the specific files to change and the nat
 **Risk**: 32 test endpoints deployed to production. Several can seed data, run tests, or expose internal state.
 
 **Files to delete** (or gate behind `NODE_ENV !== 'production'`):
+
 ```
 app/api/test-get-students/route.ts
 app/api/test-supersonic-fast-cash/route.ts
@@ -931,6 +964,7 @@ app/api/admin/seed/route.ts
 ```
 
 **Fix**: Delete these files or add a production guard:
+
 ```typescript
 if (process.env.NODE_ENV === 'production') {
   return NextResponse.json({ error: 'Not available' }, { status: 404 });
@@ -946,6 +980,7 @@ if (process.env.NODE_ENV === 'production') {
 **File**: `lib/security/ssn-helper.ts`
 
 **Fix**: Replace fallback with hard failure:
+
 ```typescript
 const ENCRYPTION_KEY = process.env.SSN_ENCRYPTION_KEY;
 if (!ENCRYPTION_KEY) {
@@ -960,15 +995,16 @@ if (!ENCRYPTION_KEY) {
 **Risk**: 33 code references query this table with no indexes. Performance degrades with scale.
 
 **Migration**:
+
 ```sql
-CREATE INDEX IF NOT EXISTS idx_student_enrollments_student 
+CREATE INDEX IF NOT EXISTS idx_student_enrollments_student
   ON student_enrollments(student_id);
-CREATE INDEX IF NOT EXISTS idx_student_enrollments_program 
+CREATE INDEX IF NOT EXISTS idx_student_enrollments_program
   ON student_enrollments(program_id);
-CREATE INDEX IF NOT EXISTS idx_student_enrollments_status 
+CREATE INDEX IF NOT EXISTS idx_student_enrollments_status
   ON student_enrollments(status);
-CREATE UNIQUE INDEX IF NOT EXISTS idx_student_enrollments_stripe_session 
-  ON student_enrollments(stripe_checkout_session_id) 
+CREATE UNIQUE INDEX IF NOT EXISTS idx_student_enrollments_stripe_session
+  ON student_enrollments(stripe_checkout_session_id)
   WHERE stripe_checkout_session_id IS NOT NULL;
 ```
 
@@ -979,9 +1015,10 @@ CREATE UNIQUE INDEX IF NOT EXISTS idx_student_enrollments_stripe_session
 **Risk**: No referential integrity. Orphaned rows possible.
 
 **Migration**:
+
 ```sql
-ALTER TABLE student_enrollments 
-  ADD CONSTRAINT fk_student_enrollments_student 
+ALTER TABLE student_enrollments
+  ADD CONSTRAINT fk_student_enrollments_student
   FOREIGN KEY (student_id) REFERENCES auth.users(id) ON DELETE CASCADE;
 ```
 
@@ -996,6 +1033,7 @@ Note: `program_id` FK depends on whether it references `programs` or `training_p
 **Risk**: A buyer's technical reviewer will ask "which table is the enrollment table?" and find three answers.
 
 **Fix**: Add a `docs/DATA-MODEL.md` or a comment block in `lib/enrollment/unified-enrollment.ts` that explicitly states:
+
 - `enrollments` = course-level access (LMS)
 - `student_enrollments` = program-level with hours tracking (workforce/apprenticeship)
 - `program_enrollments` = paid training program enrollment (Stripe-linked)
@@ -1007,15 +1045,16 @@ Note: `program_id` FK depends on whether it references `programs` or `training_p
 #### 5.6 Add Status CHECK Constraints
 
 **Migration**:
+
 ```sql
 -- enrollments
-ALTER TABLE enrollments 
-  ADD CONSTRAINT chk_enrollments_status 
+ALTER TABLE enrollments
+  ADD CONSTRAINT chk_enrollments_status
   CHECK (status IN ('active','completed','expired','refunded','suspended','pending','dropped'));
 
 -- student_enrollments
-ALTER TABLE student_enrollments 
-  ADD CONSTRAINT chk_student_enrollments_status 
+ALTER TABLE student_enrollments
+  ADD CONSTRAINT chk_student_enrollments_status
   CHECK (status IN ('active','completed','expired','suspended','pending','withdrawn'));
 ```
 
@@ -1026,6 +1065,7 @@ ALTER TABLE student_enrollments
 **Risk**: Stripe initialization code in 9+ locations. Different error handling, different client configurations.
 
 **Files to audit**:
+
 ```
 lib/store/stripe.ts
 lib/store/stripe-products.ts
@@ -1049,6 +1089,7 @@ lib/stripe/stripe-client.ts
 **File**: `app/api/webhooks/stripe/route.ts`
 
 **Fix**: Extract each `case` block into a handler module:
+
 ```
 lib/webhooks/handle-program-enrollment.ts
 lib/webhooks/handle-donation.ts
@@ -1092,18 +1133,20 @@ Route handler becomes a dispatcher (~100 lines).
 #### 5.12 Add Unique Constraint to `student_enrollments`
 
 **Migration**:
+
 ```sql
 -- Prevent duplicate enrollments for same student+program
-ALTER TABLE student_enrollments 
-  ADD CONSTRAINT uq_student_enrollments_student_program 
+ALTER TABLE student_enrollments
+  ADD CONSTRAINT uq_student_enrollments_student_program
   UNIQUE (student_id, program_id);
 ```
 
 **Prerequisite**: Check for existing duplicates first:
+
 ```sql
-SELECT student_id, program_id, COUNT(*) 
-FROM student_enrollments 
-GROUP BY student_id, program_id 
+SELECT student_id, program_id, COUNT(*)
+FROM student_enrollments
+GROUP BY student_id, program_id
 HAVING COUNT(*) > 1;
 ```
 
@@ -1114,6 +1157,7 @@ HAVING COUNT(*) > 1;
 **Scope**: 255 instances across `app/`, `lib/`, `components/`.
 
 **Fix**: Prioritize files with the most instances. Generate proper types from Supabase schema:
+
 ```bash
 npx supabase gen types typescript --project-id <project-id> > lib/database.types.ts
 ```
@@ -1123,8 +1167,17 @@ npx supabase gen types typescript --project-id <project-id> > lib/database.types
 #### 5.14 Add CI Gate for Test Endpoints
 
 **Fix**: Add to `scripts/check-no-test-endpoints.mjs`:
+
 ```javascript
-const testPatterns = ['/api/test-', '/api/debug/', '/api/dev/', '/api/seed', '/api/simulate-', '/api/quick-test', '/api/run-all-tests'];
+const testPatterns = [
+  '/api/test-',
+  '/api/debug/',
+  '/api/dev/',
+  '/api/seed',
+  '/api/simulate-',
+  '/api/quick-test',
+  '/api/run-all-tests',
+];
 // Scan app/api for matching directories, fail CI if found
 ```
 
@@ -1142,11 +1195,11 @@ Add to `integrity-gate.yml`.
 
 ### Correction Priority Matrix
 
-| Priority | Items | Effort | Impact |
-|---|---|---|---|
-| **P0** | 5.1–5.4 | 2-4 hours | Blocks sale if discovered |
-| **P1** | 5.5–5.9 | 1-2 days | Buyer will negotiate price down |
-| **P2** | 5.10–5.15 | 1-2 weeks | Technical debt, post-sale cleanup |
+| Priority | Items     | Effort    | Impact                            |
+| -------- | --------- | --------- | --------------------------------- |
+| **P0**   | 5.1–5.4   | 2-4 hours | Blocks sale if discovered         |
+| **P1**   | 5.5–5.9   | 1-2 days  | Buyer will negotiate price down   |
+| **P2**   | 5.10–5.15 | 1-2 weeks | Technical debt, post-sale cleanup |
 
 ---
 

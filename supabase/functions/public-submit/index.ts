@@ -43,11 +43,7 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
 
 function corsHeaders(origin: string): Record<string, string> {
   const allowed =
-    ALLOWED_ORIGINS.length === 0
-      ? origin || '*'
-      : ALLOWED_ORIGINS.includes(origin)
-        ? origin
-        : '';
+    ALLOWED_ORIGINS.length === 0 ? origin || '*' : ALLOWED_ORIGINS.includes(origin) ? origin : '';
   return {
     'Access-Control-Allow-Origin': allowed,
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
@@ -78,10 +74,7 @@ function clean(v: unknown, max = 2000): string | null {
   return s ? s.slice(0, max) : null;
 }
 
-function sanitizePayload(
-  raw: Record<string, unknown>,
-  allowed: string[]
-): Record<string, unknown> {
+function sanitizePayload(raw: Record<string, unknown>, allowed: string[]): Record<string, unknown> {
   const out: Record<string, unknown> = {};
   for (const key of allowed) {
     const val = raw[key];
@@ -152,7 +145,7 @@ serve(async (req: Request) => {
     return json(
       { error: 'Invalid or missing application_type', valid_types: VALID_TYPES },
       400,
-      origin
+      origin,
     );
   }
 
@@ -219,9 +212,12 @@ serve(async (req: Request) => {
     });
     if (allowed === false) {
       return json(
-        { error: 'Too many submissions. Please try again later.', retry_after_minutes: RATE_WINDOW_MINUTES },
+        {
+          error: 'Too many submissions. Please try again later.',
+          retry_after_minutes: RATE_WINDOW_MINUTES,
+        },
         429,
-        origin
+        origin,
       );
     }
   } catch (err) {
@@ -259,6 +255,6 @@ serve(async (req: Request) => {
       message: 'Application received. You will be contacted within 2 business days.',
     },
     201,
-    origin
+    origin,
   );
 });

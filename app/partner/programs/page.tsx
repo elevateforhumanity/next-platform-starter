@@ -15,7 +15,9 @@ export const dynamic = 'force-dynamic';
 
 export default async function PartnerProgramsPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/partner/login');
 
   const db = await getAdminClient();
@@ -50,9 +52,7 @@ export default async function PartnerProgramsPage() {
       .is('revoked_at', null);
 
     if (access) {
-      programs = access
-        .map((a: any) => a.programs)
-        .filter(Boolean);
+      programs = access.map((a: any) => a.programs).filter(Boolean);
     }
 
     // If no explicit access rows, fall back to all active programs
@@ -70,20 +70,26 @@ export default async function PartnerProgramsPage() {
   return (
     <div>
       <div className="mb-6">
-        <Breadcrumbs items={[{ label: 'Partner', href: '/partner/attendance' }, { label: 'Programs' }]} />
+        <Breadcrumbs
+          items={[{ label: 'Partner', href: '/partner/attendance' }, { label: 'Programs' }]}
+        />
       </div>
 
       <div className="max-w-4xl">
         <div className="mb-8">
           <h1 className="text-2xl font-bold text-slate-900">Programs</h1>
-          <p className="text-slate-700 mt-1">View apprentice progress and manage attendance by program.</p>
+          <p className="text-slate-700 mt-1">
+            View apprentice progress and manage attendance by program.
+          </p>
         </div>
 
         {programs.length === 0 ? (
           <div className="bg-white rounded-xl shadow-sm p-12 text-center">
             <BookOpen className="w-12 h-12 text-slate-700 mx-auto mb-4" />
             <h3 className="text-lg font-semibold text-slate-900 mb-2">No programs assigned</h3>
-            <p className="text-slate-700 text-sm">Contact your Elevate coordinator to get programs linked to your account.</p>
+            <p className="text-slate-700 text-sm">
+              Contact your Elevate coordinator to get programs linked to your account.
+            </p>
           </div>
         ) : (
           <div className="space-y-3">
@@ -102,7 +108,9 @@ export default async function PartnerProgramsPage() {
                       {program.title}
                     </p>
                     {program.description && (
-                      <p className="text-sm text-slate-700 mt-0.5 line-clamp-1">{program.description}</p>
+                      <p className="text-sm text-slate-700 mt-0.5 line-clamp-1">
+                        {program.description}
+                      </p>
                     )}
                   </div>
                 </div>

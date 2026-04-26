@@ -110,7 +110,7 @@ export function assertGeneratable(row: RawCertificateRow): void {
   if (!row.issued_at) missing.push('issued_at');
   if (missing.length > 0) {
     throw new Error(
-      `Certificate generation blocked: missing required fields: ${missing.join(', ')}`
+      `Certificate generation blocked: missing required fields: ${missing.join(', ')}`,
     );
   }
 }

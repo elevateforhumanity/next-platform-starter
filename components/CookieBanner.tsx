@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 // components/CookieBanner.tsx
@@ -59,14 +59,10 @@ export function CookieBanner() {
               <strong className="font-semibold">We use cookies</strong>
             </p>
             <p className="text-slate-600">
-              We use cookies to operate the Elevate for Humanity platform, secure
-              your session, and improve your experience. Essential cookies are
-              required for the platform to function. By clicking "Accept All", you
-              consent to our use of cookies.{' '}
-              <Link
-                href="/cookies"
-                className="underline hover:text-white transition"
-              >
+              We use cookies to operate the Elevate for Humanity platform, secure your session, and
+              improve your experience. Essential cookies are required for the platform to function.
+              By clicking "Accept All", you consent to our use of cookies.{' '}
+              <Link href="/cookies" className="underline hover:text-white transition">
                 Learn more
               </Link>
             </p>

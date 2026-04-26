@@ -9,30 +9,31 @@ import * as readline from 'readline';
 
 const rl = readline.createInterface({
   input: process.stdin,
-  output: process.stdout
+  output: process.stdout,
 });
 
 function question(query) {
-  return new Promise(resolve => rl.question(query, resolve));
+  return new Promise((resolve) => rl.question(query, resolve));
 }
 
 async function createAdmin() {
-
   // Get Supabase credentials
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
   if (!supabaseUrl || !supabaseServiceKey) {
     console.error('❌ Error: Missing Supabase credentials');
-    console.error('Make sure NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are set in .env.local');
+    console.error(
+      'Make sure NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are set in .env.local',
+    );
     process.exit(1);
   }
 
   const supabase = createClient(supabaseUrl, supabaseServiceKey, {
     auth: {
       autoRefreshToken: false,
-      persistSession: false
-    }
+      persistSession: false,
+    },
   });
 
   // Get user input
@@ -47,15 +48,14 @@ async function createAdmin() {
   }
 
   try {
-
     // Create user in Supabase Auth
     const { data: authData, error: authError } = await supabase.auth.admin.createUser({
       email,
       password,
       email_confirm: true,
       user_metadata: {
-        full_name: fullName
-      }
+        full_name: fullName,
+      },
     });
 
     if (authError) {
@@ -64,13 +64,12 @@ async function createAdmin() {
       process.exit(1);
     }
 
-
     // Update profile to admin role
     const { error: profileError } = await supabase
       .from('profiles')
       .update({
         role: 'admin',
-        full_name: fullName
+        full_name: fullName,
       })
       .eq('id', authData.user.id);
 
@@ -78,8 +77,6 @@ async function createAdmin() {
       console.error('❌ Error updating profile:', profileError.message);
     } else {
     }
-
-
   } catch (error) {
     console.error('❌ Unexpected error:', error);
   }

@@ -13,8 +13,8 @@ export function generateMetadata(params: SEOParams): Metadata {
   const baseUrl = 'https://www.elevateforhumanity.org';
   const url = `${baseUrl}${params.path}`;
   const image = params.image || '/images/og-default.jpg';
-  const fullTitle = params.title.includes('|') 
-    ? params.title 
+  const fullTitle = params.title.includes('|')
+    ? params.title
     : `${params.title} | Elevate for Humanity`;
 
   const metadata: Metadata = {
@@ -31,12 +31,14 @@ export function generateMetadata(params: SEOParams): Metadata {
       description: params.description,
       url: url,
       siteName: 'Elevate for Humanity',
-      images: [{
-        url: image,
-        width: 1200,
-        height: 630,
-        alt: params.title,
-      }],
+      images: [
+        {
+          url: image,
+          width: 1200,
+          height: 630,
+          alt: params.title,
+        },
+      ],
       type: params.type || 'website',
       locale: 'en_US',
     };

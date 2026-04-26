@@ -11,27 +11,44 @@ export const metadata: Metadata = {
   description: 'Manage quizzes and assessments for this course.',
 };
 
-export default async function CourseQuizzesPage({ params }: { params: Promise<{ courseId: string }> }) {
+export default async function CourseQuizzesPage({
+  params,
+}: {
+  params: Promise<{ courseId: string }>;
+}) {
   await requireRole(['admin', 'super_admin']);
   const { courseId } = await params;
   const supabase = await createClient();
 
-
-
-  const { data: course } = await supabase.from('training_courses').select('*').eq('id', courseId).maybeSingle();
-  const { data: quizzes } = await supabase.from('quizzes').select('*').eq('course_id', courseId).order('created_at', { ascending: false });
+  const { data: course } = await supabase
+    .from('training_courses')
+    .select('*')
+    .eq('id', courseId)
+    .maybeSingle();
+  const { data: quizzes } = await supabase
+    .from('quizzes')
+    .select('*')
+    .eq('course_id', courseId)
+    .order('created_at', { ascending: false });
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* Hero Image */}
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="mb-8">
           <nav className="text-sm mb-4">
             <ol className="flex items-center space-x-2 text-slate-700">
-              <li><Link href="/admin" className="hover:text-primary">Admin</Link></li>
+              <li>
+                <Link href="/admin" className="hover:text-primary">
+                  Admin
+                </Link>
+              </li>
               <li>/</li>
-              <li><Link href="/admin/course-builder" className="hover:text-primary">Course Builder</Link></li>
+              <li>
+                <Link href="/admin/course-builder" className="hover:text-primary">
+                  Course Builder
+                </Link>
+              </li>
               <li>/</li>
               <li className="text-slate-900 font-medium">Quizzes</li>
             </ol>

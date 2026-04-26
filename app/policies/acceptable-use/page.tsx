@@ -6,7 +6,8 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { createClient } from '@/lib/supabase/server';
 export const metadata: Metadata = {
   title: 'Acceptable Use Policy | Elevate for Humanity',
-  description: 'Guidelines for appropriate use of technology, learning resources, and platform services.',
+  description:
+    'Guidelines for appropriate use of technology, learning resources, and platform services.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/policies/acceptable-use',
   },
@@ -18,10 +19,12 @@ export default async function AcceptableUsePage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Policies", href: "/policies" }, { label: "Acceptable Use" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs
+          items={[{ label: 'Policies', href: '/policies' }, { label: 'Acceptable Use' }]}
+        />
       </div>
-<div className="max-w-4xl mx-auto px-4 sm:px-6 py-12">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12">
         <article className="bg-white rounded-xl shadow-sm p-8 md:p-12">
           <div className="mb-8">
             <h1 className="text-4xl font-bold text-black mb-4">Acceptable Use Policy</h1>
@@ -31,9 +34,10 @@ export default async function AcceptableUsePage() {
           <div className="prose prose-lg max-w-none">
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Purpose</h2>
             <p className="text-black mb-6">
-              This Acceptable Use Policy establishes guidelines for appropriate use of Elevate for Humanity's 
-              technology resources, learning platforms, equipment, and services. These guidelines protect our 
-              community, ensure system security, and maintain a productive learning environment for all users.
+              This Acceptable Use Policy establishes guidelines for appropriate use of Elevate for
+              Humanity's technology resources, learning platforms, equipment, and services. These
+              guidelines protect our community, ensure system security, and maintain a productive
+              learning environment for all users.
             </p>
 
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Scope</h2>
@@ -49,7 +53,7 @@ export default async function AcceptableUsePage() {
             </ul>
 
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Acceptable Uses</h2>
-            
+
             <h3 className="text-xl font-bold text-black mt-6 mb-3">Educational Activities</h3>
             <p className="text-black mb-4">Technology and resources may be used for:</p>
             <ul className="list-disc pl-6 mb-6 text-black space-y-2">
@@ -143,7 +147,7 @@ export default async function AcceptableUsePage() {
             </ul>
 
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">User Responsibilities</h2>
-            
+
             <h3 className="text-xl font-bold text-black mt-6 mb-3">Account Security</h3>
             <p className="text-black mb-4">Users must:</p>
             <ul className="list-disc pl-6 mb-6 text-black space-y-2">
@@ -187,12 +191,12 @@ export default async function AcceptableUsePage() {
               <li>Protect the safety and rights of our community</li>
             </ul>
             <p className="text-black mb-6">
-              Users should have no expectation of privacy when using institutional technology resources. 
-              All activity may be logged and reviewed.
+              Users should have no expectation of privacy when using institutional technology
+              resources. All activity may be logged and reviewed.
             </p>
 
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Consequences for Violations</h2>
-            
+
             <div className="bg-yellow-50 border-l-4 border-yellow-400 p-6 mb-6">
               <h3 className="text-lg font-bold text-black mb-2">Minor Violations</h3>
               <ul className="list-disc pl-6 text-black space-y-1">
@@ -230,10 +234,21 @@ export default async function AcceptableUsePage() {
               Report suspected policy violations or security concerns:
             </p>
             <ul className="list-none mb-6 text-black space-y-2">
-              <li><strong>Email:</strong> <a href="/contact" className="text-brand-blue-600 hover:underline">Contact Us</a></li>
-              <li><strong>Phone:</strong> (317) 314-3757</li>
-              <li><strong>In-Person:</strong> IT Help Desk or Administrative Office</li>
-              <li><strong>Anonymous:</strong> Use the online reporting form in student portal</li>
+              <li>
+                <strong>Email:</strong>{' '}
+                <a href="/contact" className="text-brand-blue-600 hover:underline">
+                  Contact Us
+                </a>
+              </li>
+              <li>
+                <strong>Phone:</strong> (317) 314-3757
+              </li>
+              <li>
+                <strong>In-Person:</strong> IT Help Desk or Administrative Office
+              </li>
+              <li>
+                <strong>Anonymous:</strong> Use the online reporting form in student portal
+              </li>
             </ul>
 
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Technical Support</h2>
@@ -241,17 +256,26 @@ export default async function AcceptableUsePage() {
               For technical assistance or questions about acceptable use:
             </p>
             <ul className="list-none mb-6 text-black space-y-2">
-              <li><strong>IT Help Desk:</strong> our contact form</li>
-              <li><strong>Phone:</strong> (317) 314-3757 ext. 2</li>
-              <li><strong>Hours:</strong> Monday-Friday, 8:00 AM - 6:00 PM EST</li>
-              <li><strong>Location:</strong> Main Campus, Room 105</li>
+              <li>
+                <strong>IT Help Desk:</strong> our contact form
+              </li>
+              <li>
+                <strong>Phone:</strong> (317) 314-3757 ext. 2
+              </li>
+              <li>
+                <strong>Hours:</strong> Monday-Friday, 8:00 AM - 6:00 PM EST
+              </li>
+              <li>
+                <strong>Location:</strong> Main Campus, Room 105
+              </li>
             </ul>
 
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Policy Updates</h2>
             <p className="text-black mb-6">
-              This policy may be updated to reflect changes in technology, legal requirements, or institutional 
-              needs. Users will be notified of significant changes via email and the student portal. Continued 
-              use of technology resources constitutes acceptance of policy updates.
+              This policy may be updated to reflect changes in technology, legal requirements, or
+              institutional needs. Users will be notified of significant changes via email and the
+              student portal. Continued use of technology resources constitutes acceptance of policy
+              updates.
             </p>
 
             <div className="bg-brand-blue-50 border-l-4 border-brand-blue-400 p-6 mt-8">
@@ -259,10 +283,29 @@ export default async function AcceptableUsePage() {
                 <strong>Related Policies:</strong>
               </p>
               <ul className="list-disc pl-6 text-black space-y-1">
-                <li><a href="/policies/academic-integrity" className="text-brand-blue-600 hover:underline">Academic Integrity Policy</a></li>
-                <li><a href="/policies/student-code" className="text-brand-blue-600 hover:underline">Student Code of Conduct</a></li>
-                <li><a href="/policies/privacy" className="text-brand-blue-600 hover:underline">Privacy Policy</a></li>
-                <li><a href="/policies/copyright" className="text-brand-blue-600 hover:underline">Copyright Policy</a></li>
+                <li>
+                  <a
+                    href="/policies/academic-integrity"
+                    className="text-brand-blue-600 hover:underline"
+                  >
+                    Academic Integrity Policy
+                  </a>
+                </li>
+                <li>
+                  <a href="/policies/student-code" className="text-brand-blue-600 hover:underline">
+                    Student Code of Conduct
+                  </a>
+                </li>
+                <li>
+                  <a href="/policies/privacy" className="text-brand-blue-600 hover:underline">
+                    Privacy Policy
+                  </a>
+                </li>
+                <li>
+                  <a href="/policies/copyright" className="text-brand-blue-600 hover:underline">
+                    Copyright Policy
+                  </a>
+                </li>
               </ul>
             </div>
           </div>

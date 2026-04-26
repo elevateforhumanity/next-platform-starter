@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -34,10 +34,7 @@ export function ContextualHelp({ title, content, position = 'top' }: ContextualH
       {isOpen && (
         <>
           {/* Backdrop */}
-          <div
-            className="fixed inset-0 z-40"
-            onClick={() => setIsOpen(false)}
-          />
+          <div className="fixed inset-0 z-40" onClick={() => setIsOpen(false)} />
 
           {/* Tooltip */}
           <div
@@ -61,10 +58,10 @@ export function ContextualHelp({ title, content, position = 'top' }: ContextualH
                 position === 'top'
                   ? 'bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 border-b border-r'
                   : position === 'bottom'
-                  ? 'top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 border-t border-l'
-                  : position === 'left'
-                  ? 'right-0 top-1/2 -translate-y-1/2 translate-x-1/2 border-r border-t'
-                  : 'left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 border-l border-b'
+                    ? 'top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 border-t border-l'
+                    : position === 'left'
+                      ? 'right-0 top-1/2 -translate-y-1/2 translate-x-1/2 border-r border-t'
+                      : 'left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 border-l border-b'
               }`}
             />
           </div>
@@ -88,7 +85,7 @@ export function HelpText({ children }: { children: React.ReactNode }) {
 export function HelpBanner({
   title,
   children,
-  type = 'info'
+  type = 'info',
 }: {
   title: string;
   children: React.ReactNode;

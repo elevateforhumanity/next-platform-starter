@@ -34,42 +34,42 @@ export interface ActivityDef {
 /** Activities available per step_type */
 const ACTIVITY_MAP: Record<string, ActivityDef[]> = {
   lesson: [
-    { id: 'video',       label: 'Watch Video',         gatesCheckpoint: true,  alwaysShow: true  },
-    { id: 'reading',     label: 'Reading',             gatesCheckpoint: true,  alwaysShow: true  },
-    { id: 'flashcards',  label: 'Flashcards',          gatesCheckpoint: false, alwaysShow: true  },
-    { id: 'practice',    label: 'Practice Questions',  gatesCheckpoint: false, alwaysShow: true  },
-    { id: 'notes',       label: 'My Notes',            gatesCheckpoint: false, alwaysShow: false },
-    { id: 'resources',   label: 'Resources',           gatesCheckpoint: false, alwaysShow: false },
+    { id: 'video', label: 'Watch Video', gatesCheckpoint: true, alwaysShow: true },
+    { id: 'reading', label: 'Reading', gatesCheckpoint: true, alwaysShow: true },
+    { id: 'flashcards', label: 'Flashcards', gatesCheckpoint: false, alwaysShow: true },
+    { id: 'practice', label: 'Practice Questions', gatesCheckpoint: false, alwaysShow: true },
+    { id: 'notes', label: 'My Notes', gatesCheckpoint: false, alwaysShow: false },
+    { id: 'resources', label: 'Resources', gatesCheckpoint: false, alwaysShow: false },
   ],
   checkpoint: [
-    { id: 'video',       label: 'Watch Video',         gatesCheckpoint: true,  alwaysShow: true  },
-    { id: 'reading',     label: 'Reading',             gatesCheckpoint: true,  alwaysShow: true  },
-    { id: 'flashcards',  label: 'Flashcards',          gatesCheckpoint: false, alwaysShow: true  },
-    { id: 'practice',    label: 'Practice Questions',  gatesCheckpoint: true,  alwaysShow: true  },
-    { id: 'checkpoint',  label: 'Checkpoint Quiz',     gatesCheckpoint: false, alwaysShow: true  },
+    { id: 'video', label: 'Watch Video', gatesCheckpoint: true, alwaysShow: true },
+    { id: 'reading', label: 'Reading', gatesCheckpoint: true, alwaysShow: true },
+    { id: 'flashcards', label: 'Flashcards', gatesCheckpoint: false, alwaysShow: true },
+    { id: 'practice', label: 'Practice Questions', gatesCheckpoint: true, alwaysShow: true },
+    { id: 'checkpoint', label: 'Checkpoint Quiz', gatesCheckpoint: false, alwaysShow: true },
   ],
   quiz: [
-    { id: 'video',       label: 'Watch Video',         gatesCheckpoint: false, alwaysShow: true  },
-    { id: 'flashcards',  label: 'Flashcards',          gatesCheckpoint: false, alwaysShow: true  },
-    { id: 'practice',    label: 'Practice Questions',  gatesCheckpoint: false, alwaysShow: true  },
-    { id: 'checkpoint',  label: 'Quiz',                gatesCheckpoint: false, alwaysShow: true  },
+    { id: 'video', label: 'Watch Video', gatesCheckpoint: false, alwaysShow: true },
+    { id: 'flashcards', label: 'Flashcards', gatesCheckpoint: false, alwaysShow: true },
+    { id: 'practice', label: 'Practice Questions', gatesCheckpoint: false, alwaysShow: true },
+    { id: 'checkpoint', label: 'Quiz', gatesCheckpoint: false, alwaysShow: true },
   ],
   exam: [
-    { id: 'video',       label: 'Watch Video',         gatesCheckpoint: false, alwaysShow: true  },
-    { id: 'flashcards',  label: 'Flashcards',          gatesCheckpoint: false, alwaysShow: true  },
-    { id: 'practice',    label: 'Practice Questions',  gatesCheckpoint: false, alwaysShow: true  },
-    { id: 'checkpoint',  label: 'Final Exam',          gatesCheckpoint: false, alwaysShow: true  },
+    { id: 'video', label: 'Watch Video', gatesCheckpoint: false, alwaysShow: true },
+    { id: 'flashcards', label: 'Flashcards', gatesCheckpoint: false, alwaysShow: true },
+    { id: 'practice', label: 'Practice Questions', gatesCheckpoint: false, alwaysShow: true },
+    { id: 'checkpoint', label: 'Final Exam', gatesCheckpoint: false, alwaysShow: true },
   ],
   lab: [
-    { id: 'video',       label: 'Watch Video',         gatesCheckpoint: true,  alwaysShow: true  },
-    { id: 'reading',     label: 'Reading',             gatesCheckpoint: false, alwaysShow: true  },
-    { id: 'lab',         label: 'Hands-On Lab',        gatesCheckpoint: false, alwaysShow: true  },
-    { id: 'notes',       label: 'My Notes',            gatesCheckpoint: false, alwaysShow: false },
+    { id: 'video', label: 'Watch Video', gatesCheckpoint: true, alwaysShow: true },
+    { id: 'reading', label: 'Reading', gatesCheckpoint: false, alwaysShow: true },
+    { id: 'lab', label: 'Hands-On Lab', gatesCheckpoint: false, alwaysShow: true },
+    { id: 'notes', label: 'My Notes', gatesCheckpoint: false, alwaysShow: false },
   ],
   assignment: [
-    { id: 'reading',     label: 'Reading',             gatesCheckpoint: false, alwaysShow: true  },
-    { id: 'lab',         label: 'Assignment',          gatesCheckpoint: false, alwaysShow: true  },
-    { id: 'notes',       label: 'My Notes',            gatesCheckpoint: false, alwaysShow: false },
+    { id: 'reading', label: 'Reading', gatesCheckpoint: false, alwaysShow: true },
+    { id: 'lab', label: 'Assignment', gatesCheckpoint: false, alwaysShow: true },
+    { id: 'notes', label: 'My Notes', gatesCheckpoint: false, alwaysShow: false },
   ],
 };
 
@@ -83,14 +83,19 @@ const DEFAULT_ACTIVITIES: ActivityDef[] = ACTIVITY_MAP.lesson;
  */
 export function getActivitiesForLesson(
   stepType: string,
-  storedActivities?: Array<{ type: string; label: string; order: number; required: boolean }> | null
+  storedActivities?: Array<{
+    type: string;
+    label: string;
+    order: number;
+    required: boolean;
+  }> | null,
 ): ActivityDef[] {
   // DB-stored activities take priority
   if (storedActivities && storedActivities.length > 0) {
     return storedActivities
       .slice()
       .sort((a, b) => a.order - b.order)
-      .map(a => ({
+      .map((a) => ({
         id: a.type as ActivityId,
         label: a.label,
         gatesCheckpoint: a.required && a.type !== 'checkpoint',
@@ -106,7 +111,7 @@ export function getActivitiesForLesson(
  * checkpoint/exam tab unlocks.
  */
 export function getCheckpointGates(activities: ActivityDef[]): ActivityId[] {
-  return activities.filter(a => a.gatesCheckpoint).map(a => a.id);
+  return activities.filter((a) => a.gatesCheckpoint).map((a) => a.id);
 }
 
 /**

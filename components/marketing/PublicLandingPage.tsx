@@ -48,7 +48,10 @@ export default function PublicLandingPage({ config }: { config: LandingPageConfi
       </div>
 
       {/* Hero — full-bleed image with text overlay */}
-      <section className="relative w-full overflow-hidden" style={{ minHeight: 'clamp(420px, 55vw, 640px)' }}>
+      <section
+        className="relative w-full overflow-hidden"
+        style={{ minHeight: 'clamp(420px, 55vw, 640px)' }}
+      >
         <Image
           src={config.hero.image}
           alt={config.hero.title}
@@ -62,7 +65,9 @@ export default function PublicLandingPage({ config }: { config: LandingPageConfi
         {/* Text anchored to bottom-left */}
         <div className="absolute bottom-0 left-0 right-0 px-4 pb-12 pt-20 max-w-5xl mx-auto">
           {config.hero.tag && (
-            <p className={`font-bold text-sm mb-3 uppercase tracking-widest ${config.hero.tagColor || 'text-brand-blue-400'}`}>
+            <p
+              className={`font-bold text-sm mb-3 uppercase tracking-widest ${config.hero.tagColor || 'text-brand-blue-400'}`}
+            >
               {config.hero.tag}
             </p>
           )}
@@ -80,17 +85,30 @@ export default function PublicLandingPage({ config }: { config: LandingPageConfi
         <div className="max-w-6xl mx-auto px-4">
           <div className={`grid ${config.intro.image ? 'md:grid-cols-2 gap-10 items-start' : ''}`}>
             <div>
-              <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-4">{config.intro.heading}</h2>
+              <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-4">
+                {config.intro.heading}
+              </h2>
               {config.intro.paragraphs.map((p, i) => (
-                <p key={i} className="text-slate-700 leading-relaxed mb-4">{p}</p>
+                <p key={i} className="text-slate-700 leading-relaxed mb-4">
+                  {p}
+                </p>
               ))}
-              <Link href={config.cta.primaryHref} className="inline-flex items-center gap-2 bg-brand-red-600 hover:bg-brand-red-700 text-white px-8 py-4 rounded-full font-bold transition hover:scale-105 shadow-lg mt-2">
+              <Link
+                href={config.cta.primaryHref}
+                className="inline-flex items-center gap-2 bg-brand-red-600 hover:bg-brand-red-700 text-white px-8 py-4 rounded-full font-bold transition hover:scale-105 shadow-lg mt-2"
+              >
                 {config.cta.primaryLabel} <ArrowRight className="w-5 h-5" />
               </Link>
             </div>
             {config.intro.image && (
               <div className="relative h-[300px] rounded-2xl overflow-hidden shadow-xl">
-                <Image src={config.intro.image} alt={config.intro.heading} fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" />
+                <Image
+                  src={config.intro.image}
+                  alt={config.intro.heading}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                />
               </div>
             )}
           </div>
@@ -101,11 +119,18 @@ export default function PublicLandingPage({ config }: { config: LandingPageConfi
       {config.features && (
         <section className="py-14 sm:py-20 bg-slate-50">
           <div className="max-w-6xl mx-auto px-4">
-            <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 text-center mb-10">{config.features.heading}</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 text-center mb-10">
+              {config.features.heading}
+            </h2>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {config.features.items.map((item, i) => (
-                <div key={item} className="flex items-start gap-3 bg-white rounded-xl p-5 border border-slate-200">
-                  <span className="w-6 h-6 rounded-full bg-brand-blue-600 text-white text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">{i + 1}</span>
+                <div
+                  key={item}
+                  className="flex items-start gap-3 bg-white rounded-xl p-5 border border-slate-200"
+                >
+                  <span className="w-6 h-6 rounded-full bg-brand-blue-600 text-white text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">
+                    {i + 1}
+                  </span>
                   <p className="text-slate-700">{item}</p>
                 </div>
               ))}
@@ -118,11 +143,15 @@ export default function PublicLandingPage({ config }: { config: LandingPageConfi
       {config.steps && (
         <section className="py-14 sm:py-20">
           <div className="max-w-4xl mx-auto px-4">
-            <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 text-center mb-10">{config.steps.heading}</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 text-center mb-10">
+              {config.steps.heading}
+            </h2>
             <div className="space-y-6">
               {config.steps.items.map((s, i) => (
                 <div key={i} className="flex gap-5 items-start">
-                  <div className="w-10 h-10 rounded-full bg-brand-blue-600 text-white text-lg font-bold flex items-center justify-center flex-shrink-0">{i + 1}</div>
+                  <div className="w-10 h-10 rounded-full bg-brand-blue-600 text-white text-lg font-bold flex items-center justify-center flex-shrink-0">
+                    {i + 1}
+                  </div>
                   <div>
                     <h3 className="font-bold text-slate-900 text-lg">{s.title}</h3>
                     <p className="text-slate-600">{s.desc}</p>
@@ -140,11 +169,17 @@ export default function PublicLandingPage({ config }: { config: LandingPageConfi
           <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">{config.cta.heading}</h2>
           <p className="text-xl text-white mb-10">{config.cta.subtitle}</p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Link href={config.cta.primaryHref} className="bg-white text-slate-900 px-10 py-5 rounded-full font-bold text-xl hover:bg-slate-50 transition hover:scale-105 shadow-lg">
+            <Link
+              href={config.cta.primaryHref}
+              className="bg-white text-slate-900 px-10 py-5 rounded-full font-bold text-xl hover:bg-slate-50 transition hover:scale-105 shadow-lg"
+            >
               {config.cta.primaryLabel}
             </Link>
             {config.cta.secondaryLabel && config.cta.secondaryHref && (
-              <Link href={config.cta.secondaryHref} className="border-2 border-white text-white px-10 py-5 rounded-full font-bold text-xl hover:bg-white/10 transition">
+              <Link
+                href={config.cta.secondaryHref}
+                className="border-2 border-white text-white px-10 py-5 rounded-full font-bold text-xl hover:bg-white/10 transition"
+              >
                 {config.cta.secondaryLabel}
               </Link>
             )}

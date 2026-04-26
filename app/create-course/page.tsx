@@ -12,8 +12,7 @@ export const metadata: Metadata = {
     canonical: 'https://www.elevateforhumanity.org/create-course',
   },
   title: 'Create Course | Elevate For Humanity',
-  description:
-    'Resources and tools for your success.',
+  description: 'Resources and tools for your success.',
 };
 
 export default async function CreateCoursePage() {
@@ -29,18 +28,15 @@ export default async function CreateCoursePage() {
       </div>
     );
   }
-  
+
   // Fetch course templates
-  const { data: templates } = await supabase
-    .from('course_templates')
-    .select('*')
-    .order('name');
+  const { data: templates } = await supabase.from('course_templates').select('*').order('name');
   return (
     <div className="min-h-screen bg-gray-50">
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Create Course" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Create Course' }]} />
       </div>
-{/* Hero Section */}
+      {/* Hero Section */}
       <section className="relative h-[400px] md:h-[500px] lg:h-[600px] flex items-center justify-center text-white overflow-hidden">
         <Image
           src="/images/business/team-3.jpg"
@@ -55,8 +51,7 @@ export default async function CreateCoursePage() {
         <div className="relative z-10 max-w-4xl mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">Create Course</h1>
           <p className="text-base md:text-lg mb-8 text-gray-100">
-            Your hub for training and career growth.
-            and development.
+            Your hub for training and career growth. and development.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
@@ -84,8 +79,7 @@ export default async function CreateCoursePage() {
               <div>
                 <h2 className="text-2xl md:text-3xl font-bold mb-6">Create Course</h2>
                 <p className="text-black mb-6">
-                  Your hub for training and career growth.
-                  workforce training and career success.
+                  Your hub for training and career growth. workforce training and career success.
                 </p>
                 <ul className="space-y-3">
                   <li className="flex items-start">
@@ -169,9 +163,7 @@ export default async function CreateCoursePage() {
                   </svg>
                 </div>
                 <h3 className="text-lg font-semibold mb-3">Learn</h3>
-                <p className="text-black">
-                  Access quality training programs
-                </p>
+                <p className="text-black">Access quality training programs</p>
               </div>
 
               <div className="bg-white rounded-lg shadow-sm border p-6">
@@ -222,12 +214,9 @@ export default async function CreateCoursePage() {
       <section className="py-16 bg-brand-blue-700 text-white">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-2xl md:text-3xl font-bold mb-4">
-              Ready to Get Started?
-            </h2>
+            <h2 className="text-2xl md:text-3xl font-bold mb-4">Ready to Get Started?</h2>
             <p className="text-base md:text-lg text-blue-100 mb-8">
-              Join thousands who have launched successful careers through our
-              programs.
+              Join thousands who have launched successful careers through our programs.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <Link

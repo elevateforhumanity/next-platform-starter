@@ -49,7 +49,7 @@ export function useAuth() {
   const signUp = async (
     email: string,
     password: string,
-    metadata?: { role?: UserRole; name?: string }
+    metadata?: { role?: UserRole; name?: string },
   ) => {
     const { data, error }: any = await supabase.auth.signUp({
       email,

@@ -14,17 +14,23 @@ export const metadata: Metadata = {
 
 const STATUS_STYLES: Record<string, string> = {
   approved: 'bg-emerald-100 text-emerald-700',
-  pending:  'bg-amber-100 text-amber-700',
+  pending: 'bg-amber-100 text-amber-700',
   rejected: 'bg-red-100 text-red-700',
 };
 
 export default async function VerificationsPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login');
 
   const db = await getAdminClient();
-  const { data: profile } = await db.from('profiles').select('role').eq('id', user.id).maybeSingle();
+  const { data: profile } = await db
+    .from('profiles')
+    .select('role')
+    .eq('id', user.id)
+    .maybeSingle();
   if (!['admin', 'super_admin', 'staff'].includes(profile?.role ?? '')) redirect('/unauthorized');
 
   const [
@@ -33,22 +39,34 @@ export default async function VerificationsPage() {
     { count: approved },
     { count: rejected },
   ] = await Promise.all([
-    db.from('id_verifications')
+    db
+      .from('id_verifications')
       .select('id, user_id, status, id_type, first_name, last_name, created_at', { count: 'exact' })
       .order('created_at', { ascending: false })
       .limit(50),
     db.from('id_verifications').select('*', { count: 'exact', head: true }).eq('status', 'pending'),
-    db.from('id_verifications').select('*', { count: 'exact', head: true }).eq('status', 'approved'),
-    db.from('id_verifications').select('*', { count: 'exact', head: true }).eq('status', 'rejected'),
+    db
+      .from('id_verifications')
+      .select('*', { count: 'exact', head: true })
+      .eq('status', 'approved'),
+    db
+      .from('id_verifications')
+      .select('*', { count: 'exact', head: true })
+      .eq('status', 'rejected'),
   ]);
 
   // Hydrate profiles separately (user_id → auth.users, no FK to profiles)
-  const verifUserIds = [...new Set((verifications ?? []).map((v: any) => v.user_id).filter(Boolean))];
+  const verifUserIds = [
+    ...new Set((verifications ?? []).map((v: any) => v.user_id).filter(Boolean)),
+  ];
   const { data: verifProfiles } = verifUserIds.length
     ? await db.from('profiles').select('id, full_name, email').in('id', verifUserIds)
     : { data: [] };
   const verifProfileMap = Object.fromEntries((verifProfiles ?? []).map((p: any) => [p.id, p]));
-  const verificationsWithProfiles = (verifications ?? []).map((v: any) => ({ ...v, profiles: verifProfileMap[v.user_id] ?? null }));
+  const verificationsWithProfiles = (verifications ?? []).map((v: any) => ({
+    ...v,
+    profiles: verifProfileMap[v.user_id] ?? null,
+  }));
 
   return (
     <AdminPageShell
@@ -56,10 +74,16 @@ export default async function VerificationsPage() {
       description="Review and approve identity verification submissions."
       breadcrumbs={[{ label: 'Admin', href: '/admin/dashboard' }, { label: 'Verifications' }]}
       stats={[
-        { label: 'Total',    value: total ?? 0,    icon: Shield,       color: 'slate' },
-        { label: 'Pending',  value: pending ?? 0,  icon: Clock,        color: 'amber', alert: (pending ?? 0) > 0 },
-        { label: 'Approved', value: approved ?? 0, icon: CheckCircle,  color: 'green' },
-        { label: 'Rejected', value: rejected ?? 0, icon: XCircle,      color: 'red' },
+        { label: 'Total', value: total ?? 0, icon: Shield, color: 'slate' },
+        {
+          label: 'Pending',
+          value: pending ?? 0,
+          icon: Clock,
+          color: 'amber',
+          alert: (pending ?? 0) > 0,
+        },
+        { label: 'Approved', value: approved ?? 0, icon: CheckCircle, color: 'green' },
+        { label: 'Rejected', value: rejected ?? 0, icon: XCircle, color: 'red' },
       ]}
       actions={
         <Link
@@ -83,15 +107,19 @@ export default async function VerificationsPage() {
             </div>
             {verificationsWithProfiles.map((v: any) => {
               const profile = Array.isArray(v.profiles) ? v.profiles[0] : v.profiles;
-              const name = v.first_name && v.last_name
-                ? `${v.first_name} ${v.last_name}`
-                : profile?.full_name ?? '—';
+              const name =
+                v.first_name && v.last_name
+                  ? `${v.first_name} ${v.last_name}`
+                  : (profile?.full_name ?? '—');
               const idTypeLabel = (v.id_type ?? '—')
                 .replace(/_/g, ' ')
                 .replace(/\b\w/g, (c: string) => c.toUpperCase());
 
               return (
-                <div key={v.id} className="grid grid-cols-12 gap-4 px-5 py-4 items-center hover:bg-slate-50 transition-colors">
+                <div
+                  key={v.id}
+                  className="grid grid-cols-12 gap-4 px-5 py-4 items-center hover:bg-slate-50 transition-colors"
+                >
                   <div className="col-span-3">
                     <p className="text-sm font-semibold text-slate-900 truncate">{name}</p>
                   </div>
@@ -102,7 +130,9 @@ export default async function VerificationsPage() {
                     <p className="text-xs text-slate-600">{idTypeLabel}</p>
                   </div>
                   <div className="col-span-2">
-                    <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide ${STATUS_STYLES[v.status] ?? 'bg-slate-100 text-slate-600'}`}>
+                    <span
+                      className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide ${STATUS_STYLES[v.status] ?? 'bg-slate-100 text-slate-600'}`}
+                    >
                       {v.status ?? '—'}
                     </span>
                   </div>

@@ -22,9 +22,11 @@ export async function validateReturnXml(input: {
 }): Promise<ValidationResult> {
   const schemaPath = path.join(
     process.cwd(),
-    'lib', 'tax-software', 'schemas',
+    'lib',
+    'tax-software',
+    'schemas',
     String(input.taxYear),
-    `${input.formType}.xsd`
+    `${input.formType}.xsd`,
   );
 
   const [xsdIssues, ruleIssues] = await Promise.all([
@@ -34,7 +36,7 @@ export async function validateReturnXml(input: {
 
   const issues: ValidationIssue[] = [...xsdIssues, ...ruleIssues];
   return {
-    ok: issues.every(i => i.severity !== 'error'),
+    ok: issues.every((i) => i.severity !== 'error'),
     issues,
   };
 }

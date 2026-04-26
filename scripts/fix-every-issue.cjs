@@ -92,11 +92,7 @@ const genericImage = `<svg width="100" height="100" xmlns="http://www.w3.org/200
 
 Object.entries(issues.internalLinks).forEach(([href, files]) => {
   // Skip special cases
-  if (
-    href.startsWith('tel:') ||
-    href.startsWith('sms:') ||
-    href.startsWith('mailto:')
-  ) {
+  if (href.startsWith('tel:') || href.startsWith('sms:') || href.startsWith('mailto:')) {
     return; // These are valid links
   }
   if (href.includes('{{') || href.includes('${')) {

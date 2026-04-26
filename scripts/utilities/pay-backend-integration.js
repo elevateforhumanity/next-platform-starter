@@ -43,10 +43,7 @@ const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET || '';
 // SUPABASE_URL=https://YOUR-PROJECT.supabase.co
 // SUPABASE_SERVICE_KEY=YOUR_SERVICE_ROLE_KEY
 
-const supaAdmin = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_KEY
-);
+const supaAdmin = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_KEY);
 
 /**
  * Mark enrollment as paid/active in Supabase after successful Stripe payment
@@ -84,7 +81,7 @@ async function markPaidInSupabase({
       {
         onConflict: 'user_id,program_slug',
         ignoreDuplicates: false,
-      }
+      },
     );
 
     if (enrollError) {
@@ -107,15 +104,12 @@ async function markPaidInSupabase({
     if (funding_metadata && Object.keys(funding_metadata).length > 0) {
       const fundingNote = `Payment completed with funding details: ${JSON.stringify(funding_metadata, null, 2)}`;
 
-      await supaAdmin
-        .from('notes')
-        .insert({
-          user_id,
-          type: 'funding',
-          content: fundingNote,
-          created_at: new Date().toISOString(),
-        })
-
+      await supaAdmin.from('notes').insert({
+        user_id,
+        type: 'funding',
+        content: fundingNote,
+        created_at: new Date().toISOString(),
+      });
     }
 
     return true;
@@ -140,11 +134,7 @@ function integrateWithStripeWebhook() {
       let event;
 
       try {
-        event = stripeLib.webhooks.constructEvent(
-          request.body,
-          sig,
-          endpointSecret
-        );
+        event = stripeLib.webhooks.constructEvent(request.body, sig, endpointSecret);
       } catch (err) {
         return response.status(400).send(`Webhook Error: ${err.message}`);
       }
@@ -155,14 +145,12 @@ function integrateWithStripeWebhook() {
 
         // Extract funding metadata passed from Account Drawer
         const fundingMeta = {};
-        if (session.metadata?.voucher_id)
-          fundingMeta.voucher_id = session.metadata.voucher_id;
+        if (session.metadata?.voucher_id) fundingMeta.voucher_id = session.metadata.voucher_id;
         if (session.metadata?.case_manager_email)
           fundingMeta.case_manager_email = session.metadata.case_manager_email;
         if (session.metadata?.funding_source)
           fundingMeta.funding_source = session.metadata.funding_source;
-        if (session.metadata?.coupon)
-          fundingMeta.coupon = session.metadata.coupon;
+        if (session.metadata?.coupon) fundingMeta.coupon = session.metadata.coupon;
 
         // Your existing logic here...
 
@@ -177,7 +165,7 @@ function integrateWithStripeWebhook() {
       }
 
       response.status(200).send('OK');
-    }
+    },
   );
 }
 

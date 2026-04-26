@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import { sanitizeHtml } from '@/lib/sanitize';
 
 import Link from 'next/link';
@@ -18,21 +18,21 @@ export function Breadcrumbs() {
       const href = '/' + segments.slice(0, index + 1).join('/');
       const label = segment
         .split('-')
-        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
         .join(' ');
       return { label, href };
-    })
+    }),
   ];
 
   const breadcrumbSchema = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": breadcrumbItems.map((item, index) => ({
-      "@type": "ListItem",
-      "position": index + 1,
-      "name": item.label,
-      "item": `https://www.elevateforhumanity.org${item.href}`
-    }))
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: breadcrumbItems.map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: item.label,
+      item: `https://www.elevateforhumanity.org${item.href}`,
+    })),
   };
 
   return (

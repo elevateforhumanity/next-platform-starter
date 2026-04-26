@@ -36,17 +36,17 @@ async function _POST(request: NextRequest) {
     }
 
     return NextResponse.json({ success: true });
-  } catch (error) { 
+  } catch (error) {
     logger.error(
       'Slow resources API error:',
-      error instanceof Error ? error : new Error(String(error))
+      error instanceof Error ? error : new Error(String(error)),
     );
     return NextResponse.json(
       {
         success: false,
         error: toErrorMessage(error) || 'Internal server error',
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

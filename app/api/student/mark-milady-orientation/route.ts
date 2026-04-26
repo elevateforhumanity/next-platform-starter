@@ -21,7 +21,7 @@ async function _POST(req: Request) {
     }
 
     const supabase = await createClient();
-  const db = await getAdminClient();
+    const db = await getAdminClient();
 
     // Check if student has Milady enrollment
     const { data: miladyEnrollment } = await db
@@ -32,10 +32,7 @@ async function _POST(req: Request) {
       .maybeSingle();
 
     if (!miladyEnrollment) {
-      return NextResponse.json(
-        { error: 'No Milady enrollment found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: 'No Milady enrollment found' }, { status: 404 });
     }
 
     // Update onboarding record
@@ -46,10 +43,7 @@ async function _POST(req: Request) {
 
     if (error) {
       // Error: $1
-      return NextResponse.json(
-        { error: toErrorMessage(error) },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: toErrorMessage(error) }, { status: 500 });
     }
 
     return NextResponse.json({ success: true });
@@ -57,7 +51,7 @@ async function _POST(req: Request) {
     // Error: $1
     return NextResponse.json(
       { err: toErrorMessage(err) || 'Failed to mark orientation complete' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

@@ -35,7 +35,7 @@ export default function BulkIssueForm({
     if (selected.size === eligibleParticipants.length) {
       setSelected(new Set());
     } else {
-      setSelected(new Set(eligibleParticipants.map(p => p.id)));
+      setSelected(new Set(eligibleParticipants.map((p) => p.id)));
     }
   };
 
@@ -46,8 +46,14 @@ export default function BulkIssueForm({
   };
 
   const handleIssue = async () => {
-    if (selected.size === 0) { setError('Select at least one participant'); return; }
-    if (!templateId) { setError('Select a certificate template'); return; }
+    if (selected.size === 0) {
+      setError('Select at least one participant');
+      return;
+    }
+    if (!templateId) {
+      setError('Select a certificate template');
+      return;
+    }
 
     setIssuing(true);
     setError('');
@@ -79,9 +85,13 @@ export default function BulkIssueForm({
       <div className="bg-white rounded-xl border p-8 text-center">
         <CheckCircle className="w-16 h-16 text-brand-green-600 mx-auto mb-4" />
         <h2 className="text-2xl font-bold mb-2">Certificates Issued</h2>
-        <p className="text-slate-700 mb-4">{result.success} issued, {result.failed} failed</p>
-        <button onClick={() => router.push('/admin/certificates')}
-          className="bg-brand-blue-600 text-white px-6 py-2 rounded-lg hover:bg-brand-blue-700">
+        <p className="text-slate-700 mb-4">
+          {result.success} issued, {result.failed} failed
+        </p>
+        <button
+          onClick={() => router.push('/admin/certificates')}
+          className="bg-brand-blue-600 text-white px-6 py-2 rounded-lg hover:bg-brand-blue-700"
+        >
           View All Certificates
         </button>
       </div>
@@ -95,23 +105,40 @@ export default function BulkIssueForm({
           <h2 className="text-lg font-semibold mb-4">Configuration</h2>
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-slate-900 mb-2">Certificate Template *</label>
-              <select value={templateId} onChange={e => setTemplateId(e.target.value)}
-                className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500">
+              <label className="block text-sm font-medium text-slate-900 mb-2">
+                Certificate Template *
+              </label>
+              <select
+                value={templateId}
+                onChange={(e) => setTemplateId(e.target.value)}
+                className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+              >
                 <option value="">Select a template</option>
-                {templates.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
+                {templates.map((t) => (
+                  <option key={t.id} value={t.id}>
+                    {t.name}
+                  </option>
+                ))}
               </select>
             </div>
             <div>
               <label className="block text-sm font-medium text-slate-900 mb-2">Issue Date</label>
-              <input type="date" value={issueDate} onChange={e => setIssueDate(e.target.value)}
-                className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500" />
+              <input
+                type="date"
+                value={issueDate}
+                onChange={(e) => setIssueDate(e.target.value)}
+                className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+              />
             </div>
             <div>
               <label className="block text-sm font-medium text-slate-900 mb-2">Signed By</label>
-              <input type="text" value={signedBy} onChange={e => setSignedBy(e.target.value)}
+              <input
+                type="text"
+                value={signedBy}
+                onChange={(e) => setSignedBy(e.target.value)}
                 className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
-                placeholder="Director Name" />
+                placeholder="Director Name"
+              />
             </div>
 
             {error && (
@@ -121,9 +148,18 @@ export default function BulkIssueForm({
               </div>
             )}
 
-            <button onClick={handleIssue} disabled={issuing || selected.size === 0}
-              className="w-full bg-brand-blue-600 text-white px-4 py-2 rounded-lg hover:bg-brand-blue-700 mt-4 disabled:opacity-50 flex items-center justify-center gap-2">
-              {issuing ? <><Loader2 className="w-4 h-4 animate-spin" /> Issuing...</> : `Issue ${selected.size} Certificate${selected.size !== 1 ? 's' : ''}`}
+            <button
+              onClick={handleIssue}
+              disabled={issuing || selected.size === 0}
+              className="w-full bg-brand-blue-600 text-white px-4 py-2 rounded-lg hover:bg-brand-blue-700 mt-4 disabled:opacity-50 flex items-center justify-center gap-2"
+            >
+              {issuing ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" /> Issuing...
+                </>
+              ) : (
+                `Issue ${selected.size} Certificate${selected.size !== 1 ? 's' : ''}`
+              )}
             </button>
           </div>
         </div>
@@ -140,25 +176,43 @@ export default function BulkIssueForm({
           <div className="p-6 border-b flex justify-between items-center">
             <div>
               <h2 className="text-lg font-semibold">Eligible Participants</h2>
-              <p className="text-sm text-slate-700">{selected.size} of {eligibleParticipants.length} selected</p>
+              <p className="text-sm text-slate-700">
+                {selected.size} of {eligibleParticipants.length} selected
+              </p>
             </div>
-            <button onClick={toggleAll} className="text-sm text-brand-blue-600 hover:text-brand-blue-800">
+            <button
+              onClick={toggleAll}
+              className="text-sm text-brand-blue-600 hover:text-brand-blue-800"
+            >
               {selected.size === eligibleParticipants.length ? 'Clear All' : 'Select All'}
             </button>
           </div>
           <div className="divide-y max-h-[600px] overflow-y-auto">
             {eligibleParticipants.length > 0 ? (
               eligibleParticipants.map((e) => (
-                <div key={e.id} className="p-4 flex items-center gap-4 hover:bg-gray-50 cursor-pointer" onClick={() => toggle(e.id)}>
-                  <input type="checkbox" checked={selected.has(e.id)} readOnly className="w-4 h-4 text-brand-blue-600 rounded" />
+                <div
+                  key={e.id}
+                  className="p-4 flex items-center gap-4 hover:bg-gray-50 cursor-pointer"
+                  onClick={() => toggle(e.id)}
+                >
+                  <input
+                    type="checkbox"
+                    checked={selected.has(e.id)}
+                    readOnly
+                    className="w-4 h-4 text-brand-blue-600 rounded"
+                  />
                   <div className="flex-1">
-                    <p className="font-medium text-slate-900">{e.profiles?.full_name || 'Unknown'}</p>
+                    <p className="font-medium text-slate-900">
+                      {e.profiles?.full_name || 'Unknown'}
+                    </p>
                     <p className="text-sm text-slate-700">{e.profiles?.email}</p>
                     <p className="text-sm text-brand-blue-600">{e.courses?.title}</p>
                   </div>
                   <div className="text-right">
                     <p className="text-sm text-slate-700">Completed</p>
-                    <p className="text-sm font-medium">{e.completed_at ? new Date(e.completed_at).toLocaleDateString() : 'N/A'}</p>
+                    <p className="text-sm font-medium">
+                      {e.completed_at ? new Date(e.completed_at).toLocaleDateString() : 'N/A'}
+                    </p>
                   </div>
                 </div>
               ))

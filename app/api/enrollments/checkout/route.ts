@@ -37,19 +37,18 @@ async function _POST(request: NextRequest) {
   // Auth: require authenticated user — payments must be tied to a real session
   const { createClient: createAuthClient } = await import('@/lib/supabase/server');
   const authSupabase = await createAuthClient();
-  const { data: { session: authSession } } = await authSupabase.auth.getSession();
+  const {
+    data: { session: authSession },
+  } = await authSupabase.auth.getSession();
   if (!authSession) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   const stripe = getStripe();
   const supabase = getSupabase();
-  
+
   if (!stripe || !supabase) {
-    return NextResponse.json(
-      { error: 'Stripe or Supabase not configured' },
-      { status: 503 }
-    );
+    return NextResponse.json({ error: 'Stripe or Supabase not configured' }, { status: 503 });
   }
 
   try {
@@ -59,54 +58,40 @@ async function _POST(request: NextRequest) {
     if (!enrollmentId || !userId || !userEmail) {
       return NextResponse.json(
         { error: 'Missing required fields: enrollmentId, userId, userEmail' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     // 1. Load enrollment with lock
     const { data: enrollment, error: enrollmentError } = await supabase
       .from('program_enrollments')
-      .select(
-        'id, partner_course_id, payment_status, payment_mode, billing_lock'
-      )
+      .select('id, partner_course_id, payment_status, payment_mode, billing_lock')
       .eq('id', enrollmentId)
       .maybeSingle();
 
     if (enrollmentError || !enrollment) {
       logger.error('Enrollment not found:', enrollmentError);
-      return NextResponse.json(
-        { error: 'Enrollment not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: 'Enrollment not found' }, { status: 404 });
     }
 
     // 2. Guard rails - must be self-pay partner course
     if (!enrollment.partner_course_id) {
       return NextResponse.json(
         { error: 'This enrollment is not a self-pay partner course' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     if (enrollment.payment_mode !== 'self_pay') {
-      return NextResponse.json(
-        { error: 'This enrollment is not self-pay' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'This enrollment is not self-pay' }, { status: 400 });
     }
 
     if (enrollment.payment_status === 'paid') {
-      return NextResponse.json(
-        { error: 'This enrollment is already paid' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'This enrollment is already paid' }, { status: 400 });
     }
 
     if (enrollment.billing_lock) {
-      return NextResponse.json(
-        { error: 'Payment already in progress' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Payment already in progress' }, { status: 400 });
     }
 
     // 3. Load partner course pricing
@@ -118,20 +103,11 @@ async function _POST(request: NextRequest) {
 
     if (courseError || !partnerCourse) {
       logger.error('Partner course not found:', courseError);
-      return NextResponse.json(
-        { error: 'Partner course not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: 'Partner course not found' }, { status: 404 });
     }
 
-    if (
-      !partnerCourse.retail_price_cents ||
-      partnerCourse.retail_price_cents <= 0
-    ) {
-      return NextResponse.json(
-        { error: 'Invalid course pricing' },
-        { status: 400 }
-      );
+    if (!partnerCourse.retail_price_cents || partnerCourse.retail_price_cents <= 0) {
+      return NextResponse.json({ error: 'Invalid course pricing' }, { status: 400 });
     }
 
     // 4. Initiate billing lock (call existing RPC)
@@ -141,15 +117,12 @@ async function _POST(request: NextRequest) {
         p_enrollment_id: enrollmentId,
         p_payment_mode: 'self_pay',
         p_amount_cents: partnerCourse.retail_price_cents,
-      }
+      },
     );
 
     if (lockError) {
       logger.error('Failed to initiate payment:', lockError);
-      return NextResponse.json(
-        { error: 'Failed to initiate payment' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to initiate payment' }, { status: 500 });
     }
 
     // 5. Create Stripe Checkout Session
@@ -210,16 +183,16 @@ async function _POST(request: NextRequest) {
       sessionId: session.id,
       url: session.url,
     });
-  } catch (error) { 
+  } catch (error) {
     logger.error(
       'Error creating enrollment checkout:',
-      error instanceof Error ? error : new Error(String(error))
+      error instanceof Error ? error : new Error(String(error)),
     );
     return NextResponse.json(
       {
         error: 'Internal server error',
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

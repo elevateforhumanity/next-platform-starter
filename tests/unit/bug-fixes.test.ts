@@ -62,7 +62,10 @@ describe('Bug #2 — payments/route: stripe instantiation guard', () => {
 // ─── Bug #3: watch-tick — upsert replaces seconds_watched instead of incrementing
 
 describe('Bug #3 — watch-tick: seconds_watched increment', () => {
-  function computeNewTotal(existingSeconds: number | null | undefined, tickSeconds: number): number {
+  function computeNewTotal(
+    existingSeconds: number | null | undefined,
+    tickSeconds: number,
+  ): number {
     // Mirrors the fixed route: newTotal = (existing?.seconds_watched ?? 0) + seconds
     return (existingSeconds ?? 0) + tickSeconds;
   }
@@ -112,9 +115,10 @@ describe('Bug #4 — complete/route: single write via engine', () => {
 // ─── Bug #5: progress POST — no enrollment check ──────────────────────────────
 
 describe('Bug #5 — progress POST: enrollment guard', () => {
-  function checkEnrollment(
-    enrollment: { id: string; status: string } | null,
-  ): { allowed: boolean; status: number } {
+  function checkEnrollment(enrollment: { id: string; status: string } | null): {
+    allowed: boolean;
+    status: number;
+  } {
     if (!enrollment) return { allowed: false, status: 403 };
     return { allowed: true, status: 200 };
   }
@@ -124,11 +128,17 @@ describe('Bug #5 — progress POST: enrollment guard', () => {
   });
 
   it('allows active enrollments', () => {
-    expect(checkEnrollment({ id: 'e-1', status: 'active' })).toEqual({ allowed: true, status: 200 });
+    expect(checkEnrollment({ id: 'e-1', status: 'active' })).toEqual({
+      allowed: true,
+      status: 200,
+    });
   });
 
   it('allows completed enrollments (re-review)', () => {
-    expect(checkEnrollment({ id: 'e-1', status: 'completed' })).toEqual({ allowed: true, status: 200 });
+    expect(checkEnrollment({ id: 'e-1', status: 'completed' })).toEqual({
+      allowed: true,
+      status: 200,
+    });
   });
 });
 

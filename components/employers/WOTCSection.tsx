@@ -13,9 +13,9 @@ export default function WOTCSection() {
             Work Opportunity Tax Credit (WOTC): A Tax Credit for Every Qualifying Hire
           </h2>
           <p className="text-lg text-slate-600">
-            Most employers have never heard of WOTC. The ones who have are saving thousands
-            per hire. This is not a deduction — it is a dollar-for-dollar credit that directly
-            reduces your federal tax bill.
+            Most employers have never heard of WOTC. The ones who have are saving thousands per
+            hire. This is not a deduction — it is a dollar-for-dollar credit that directly reduces
+            your federal tax bill.
           </p>
         </div>
 
@@ -24,15 +24,15 @@ export default function WOTCSection() {
           <div>
             <h3 className="text-2xl font-bold text-slate-900 mb-4">How WOTC Works</h3>
             <p className="text-slate-600 mb-4">
-              When you hire someone from a &quot;targeted group&quot; — veterans, ex-felons, SNAP recipients,
-              long-term unemployed, and others — the IRS gives you a tax credit based on the wages
-              you pay them in the first year. The credit ranges from <strong>$2,400 to $9,600 per
-              employee</strong> depending on the category.
+              When you hire someone from a &quot;targeted group&quot; — veterans, ex-felons, SNAP
+              recipients, long-term unemployed, and others — the IRS gives you a tax credit based on
+              the wages you pay them in the first year. The credit ranges from{' '}
+              <strong>$2,400 to $9,600 per employee</strong> depending on the category.
             </p>
             <p className="text-slate-600 mb-4">
               Here is what makes WOTC different from a deduction: if you owe $50,000 in federal
-              taxes and you have $9,600 in WOTC credits, you now owe <strong>$40,400</strong>.
-              That is real money off your tax bill, not a reduction in taxable income.
+              taxes and you have $9,600 in WOTC credits, you now owe <strong>$40,400</strong>. That
+              is real money off your tax bill, not a reduction in taxable income.
             </p>
             <p className="text-slate-600 mb-4">
               The credit is calculated as <strong>40% of the first $6,000 in wages</strong> for most
@@ -77,16 +77,48 @@ export default function WOTCSection() {
               </h3>
               <div className="space-y-3">
                 {[
-                  { category: 'Veterans with service-connected disability (unemployed 6+ months)', credit: '$9,600', highlight: true },
-                  { category: 'Long-term TANF recipients (18+ months)', credit: '$9,000', highlight: true },
-                  { category: 'Veterans (unemployed 4+ weeks)', credit: '$2,400', highlight: false },
-                  { category: 'Ex-felons (hired within 1 year of conviction/release)', credit: '$2,400', highlight: false },
+                  {
+                    category: 'Veterans with service-connected disability (unemployed 6+ months)',
+                    credit: '$9,600',
+                    highlight: true,
+                  },
+                  {
+                    category: 'Long-term TANF recipients (18+ months)',
+                    credit: '$9,000',
+                    highlight: true,
+                  },
+                  {
+                    category: 'Veterans (unemployed 4+ weeks)',
+                    credit: '$2,400',
+                    highlight: false,
+                  },
+                  {
+                    category: 'Ex-felons (hired within 1 year of conviction/release)',
+                    credit: '$2,400',
+                    highlight: false,
+                  },
                   { category: 'SNAP recipients (ages 18-39)', credit: '$2,400', highlight: false },
                   { category: 'SSI recipients', credit: '$2,400', highlight: false },
-                  { category: 'Long-term unemployed (27+ weeks)', credit: '$2,400', highlight: false },
-                  { category: 'Designated community residents', credit: '$2,400', highlight: false },
-                  { category: 'Vocational rehabilitation referrals', credit: '$2,400', highlight: false },
-                  { category: 'Summer youth employees (16-17, Empowerment Zone)', credit: '$1,200', highlight: false },
+                  {
+                    category: 'Long-term unemployed (27+ weeks)',
+                    credit: '$2,400',
+                    highlight: false,
+                  },
+                  {
+                    category: 'Designated community residents',
+                    credit: '$2,400',
+                    highlight: false,
+                  },
+                  {
+                    category: 'Vocational rehabilitation referrals',
+                    credit: '$2,400',
+                    highlight: false,
+                  },
+                  {
+                    category: 'Summer youth employees (16-17, Empowerment Zone)',
+                    credit: '$1,200',
+                    highlight: false,
+                  },
                 ].map((item) => (
                   <div
                     key={item.category}
@@ -95,7 +127,9 @@ export default function WOTCSection() {
                     }`}
                   >
                     <span className="text-slate-600">{item.category}</span>
-                    <span className={`font-bold whitespace-nowrap ${item.highlight ? 'text-brand-green-700 text-base' : 'text-brand-green-700'}`}>
+                    <span
+                      className={`font-bold whitespace-nowrap ${item.highlight ? 'text-brand-green-700 text-base' : 'text-brand-green-700'}`}
+                    >
                       {item.credit}
                     </span>
                   </div>
@@ -133,7 +167,8 @@ export default function WOTCSection() {
                 </div>
               </div>
               <p className="text-xs text-white mt-3 italic">
-                Consult your tax advisor for specifics on combining WOTC and OJT for the same employee.
+                Consult your tax advisor for specifics on combining WOTC and OJT for the same
+                employee.
               </p>
             </div>
           </div>

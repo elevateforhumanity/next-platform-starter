@@ -15,10 +15,22 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import dynamic from 'next/dynamic';
 import {
-  Terminal, Sparkles, FolderOpen, Globe,
-  Send, Loader2, RefreshCw, ExternalLink,
-  Save, ChevronRight, File, Folder,
-  Monitor, Smartphone, Play, X,
+  Terminal,
+  Sparkles,
+  FolderOpen,
+  Globe,
+  Send,
+  Loader2,
+  RefreshCw,
+  ExternalLink,
+  Save,
+  ChevronRight,
+  File,
+  Folder,
+  Monitor,
+  Smartphone,
+  Play,
+  X,
 } from 'lucide-react';
 
 const XTerminal = dynamic(() => import('@/components/dev-studio/XTerminal'), { ssr: false });
@@ -66,15 +78,16 @@ export default function DevStudioClient() {
 
   return (
     <div className="flex flex-col h-[calc(100vh-64px)] bg-slate-950 text-slate-100">
-
       {/* Tab bar */}
       <div className="flex items-center gap-1 px-4 py-2 bg-slate-900 border-b border-slate-800 flex-shrink-0">
-        {([
-          { id: 'command',  label: 'Command',  Icon: Sparkles  },
-          { id: 'terminal', label: 'Terminal', Icon: Terminal  },
-          { id: 'files',    label: 'Files',    Icon: FolderOpen },
-          { id: 'website',  label: 'Website',  Icon: Globe     },
-        ] as { id: Tab; label: string; Icon: React.ElementType }[]).map(({ id, label, Icon }) => (
+        {(
+          [
+            { id: 'command', label: 'Command', Icon: Sparkles },
+            { id: 'terminal', label: 'Terminal', Icon: Terminal },
+            { id: 'files', label: 'Files', Icon: FolderOpen },
+            { id: 'website', label: 'Website', Icon: Globe },
+          ] as { id: Tab; label: string; Icon: React.ElementType }[]
+        ).map(({ id, label, Icon }) => (
           <button
             key={id}
             onClick={() => setTab(id)}
@@ -93,10 +106,10 @@ export default function DevStudioClient() {
 
       {/* Tab content */}
       <div className="flex-1 overflow-hidden">
-        {tab === 'command'  && <CommandTab />}
+        {tab === 'command' && <CommandTab />}
         {tab === 'terminal' && <TerminalTab />}
-        {tab === 'files'    && <FilesTab />}
-        {tab === 'website'  && <WebsiteTab />}
+        {tab === 'files' && <FilesTab />}
+        {tab === 'website' && <WebsiteTab />}
       </div>
     </div>
   );
@@ -122,7 +135,9 @@ function CommandTab() {
     const esc = '\u001b\\[';
 
     return text
-      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
       .replace(new RegExp(`${esc}0m`, 'g'), '</span>')
       .replace(new RegExp(`${esc}1;36m`, 'g'), '<span style="color:#39c5cf;font-weight:bold">')
       .replace(new RegExp(`${esc}1;33m`, 'g'), '<span style="color:#d29922;font-weight:bold">')
@@ -136,7 +151,7 @@ function CommandTab() {
   async function run(cmd: string) {
     if (!cmd.trim() || running) return;
     setRunning(true);
-    setOutput(prev => [...prev, `\x1b[1;33m> ${cmd}\x1b[0m`, '']);
+    setOutput((prev) => [...prev, `\x1b[1;33m> ${cmd}\x1b[0m`, '']);
 
     try {
       const res = await fetch('/api/devstudio/execute', {
@@ -153,18 +168,23 @@ function CommandTab() {
         const { done, value } = await reader.read();
         if (done) break;
         const chunk = decoder.decode(value);
-        const lines = chunk.split('\n').filter(l => l.startsWith('data: '));
+        const lines = chunk.split('\n').filter((l) => l.startsWith('data: '));
         for (const line of lines) {
           try {
             const { text } = JSON.parse(line.slice(6));
-            if (text) setOutput(prev => [...prev, text]);
-          } catch { /* skip malformed */ }
+            if (text) setOutput((prev) => [...prev, text]);
+          } catch {
+            /* skip malformed */
+          }
         }
       }
     } catch (err) {
-      setOutput(prev => [...prev, `\x1b[31m✗ ${err instanceof Error ? err.message : 'Error'}\x1b[0m`]);
+      setOutput((prev) => [
+        ...prev,
+        `\x1b[31m✗ ${err instanceof Error ? err.message : 'Error'}\x1b[0m`,
+      ]);
     } finally {
-      setOutput(prev => [...prev, '']);
+      setOutput((prev) => [...prev, '']);
       setRunning(false);
     }
   }
@@ -177,15 +197,9 @@ function CommandTab() {
   return (
     <div className="flex flex-col h-full">
       {/* Output */}
-      <div
-        ref={outputRef}
-        className="flex-1 overflow-y-auto p-4 font-mono text-sm leading-relaxed"
-      >
+      <div ref={outputRef} className="flex-1 overflow-y-auto p-4 font-mono text-sm leading-relaxed">
         {output.map((line, i) => (
-          <div
-            key={i}
-            dangerouslySetInnerHTML={{ __html: ansiToHtml(line) || '&nbsp;' }}
-          />
+          <div key={i} dangerouslySetInnerHTML={{ __html: ansiToHtml(line) || '&nbsp;' }} />
         ))}
         {running && (
           <div className="flex items-center gap-2 text-slate-400">
@@ -197,7 +211,7 @@ function CommandTab() {
 
       {/* Quick commands */}
       <div className="px-4 py-2 border-t border-slate-800 flex flex-wrap gap-1.5">
-        {QUICK_COMMANDS.map(q => (
+        {QUICK_COMMANDS.map((q) => (
           <button
             key={q.cmd}
             onClick={() => run(q.cmd)}
@@ -214,8 +228,8 @@ function CommandTab() {
         <input
           type="text"
           value={input}
-          onChange={e => setInput(e.target.value)}
-          onKeyDown={e => e.key === 'Enter' && submit()}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyDown={(e) => e.key === 'Enter' && submit()}
           placeholder="e.g. Approve application abc-123 · Enroll student · Run report..."
           className="flex-1 bg-slate-800 border border-slate-700 rounded-lg px-4 py-2.5 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-red-500"
           disabled={running}
@@ -259,7 +273,7 @@ function TerminalTab() {
         const { done, value } = await reader.read();
         if (done) break;
         const chunk = decoder.decode(value);
-        const lines = chunk.split('\n').filter(l => l.startsWith('data: '));
+        const lines = chunk.split('\n').filter((l) => l.startsWith('data: '));
         for (const line of lines) {
           try {
             const evt = JSON.parse(line.slice(6));
@@ -274,7 +288,9 @@ function TerminalTab() {
             } else if (evt.type === 'error') {
               termRef.current?.write(`\x1b[31m✗ ${evt.text}\x1b[0m\n`);
             }
-          } catch { /* skip */ }
+          } catch {
+            /* skip */
+          }
         }
       }
     } catch (err) {
@@ -294,7 +310,7 @@ function TerminalTab() {
     <div className="flex flex-col h-full">
       {/* Quick shell buttons */}
       <div className="px-4 py-2 border-b border-slate-800 flex flex-wrap gap-1.5">
-        {QUICK_SHELL.map(q => (
+        {QUICK_SHELL.map((q) => (
           <button
             key={q.cmd}
             onClick={() => runShell(q.cmd)}
@@ -323,8 +339,8 @@ function TerminalTab() {
         <input
           type="text"
           value={cmd}
-          onChange={e => setCmd(e.target.value)}
-          onKeyDown={e => e.key === 'Enter' && submit()}
+          onChange={(e) => setCmd(e.target.value)}
+          onKeyDown={(e) => e.key === 'Enter' && submit()}
           placeholder="Enter shell command..."
           className="flex-1 bg-slate-800 border border-slate-700 rounded-lg px-4 py-2.5 text-sm font-mono text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-green-500"
           disabled={running}
@@ -353,7 +369,9 @@ function FilesTab() {
   const [saveStatus, setSaveStatus] = useState<'idle' | 'saved' | 'error'>('idle');
   const [expanded, setExpanded] = useState<Set<string>>(new Set(['app', 'components', 'lib']));
 
-  useEffect(() => { loadTree(); }, []);
+  useEffect(() => {
+    loadTree();
+  }, []);
 
   async function loadTree() {
     setLoading(true);
@@ -361,7 +379,9 @@ function FilesTab() {
       const res = await fetch('/api/devstudio/files?path=.&tree=1');
       const data = await res.json();
       setTree(data.tree ?? []);
-    } catch { /* silent */ } finally {
+    } catch {
+      /* silent */
+    } finally {
       setLoading(false);
     }
   }
@@ -375,7 +395,9 @@ function FilesTab() {
       setContent(data.content ?? '');
       setOriginalContent(data.content ?? '');
       setSaveStatus('idle');
-    } catch { /* silent */ } finally {
+    } catch {
+      /* silent */
+    } finally {
       setLoading(false);
     }
   }
@@ -404,7 +426,7 @@ function FilesTab() {
   const isDirty = content !== originalContent;
 
   function toggleDir(path: string) {
-    setExpanded(prev => {
+    setExpanded((prev) => {
       const next = new Set(prev);
       next.has(path) ? next.delete(path) : next.add(path);
       return next;
@@ -418,15 +440,21 @@ function FilesTab() {
       return (
         <div key={node.path}>
           <button
-            onClick={() => { toggleDir(node.path); }}
+            onClick={() => {
+              toggleDir(node.path);
+            }}
             className="flex items-center gap-1.5 w-full text-left py-1 px-2 hover:bg-slate-800 rounded text-xs text-slate-400 hover:text-slate-200 transition-colors"
             style={{ paddingLeft: `${8 + indent}px` }}
           >
-            {isOpen ? <ChevronRight className="w-3 h-3 rotate-90" /> : <ChevronRight className="w-3 h-3" />}
+            {isOpen ? (
+              <ChevronRight className="w-3 h-3 rotate-90" />
+            ) : (
+              <ChevronRight className="w-3 h-3" />
+            )}
             <Folder className="w-3.5 h-3.5 text-yellow-500" />
             {node.name}
           </button>
-          {isOpen && node.children?.map(child => renderNode(child, depth + 1))}
+          {isOpen && node.children?.map((child) => renderNode(child, depth + 1))}
         </div>
       );
     }
@@ -456,7 +484,7 @@ function FilesTab() {
             <Loader2 className="w-4 h-4 animate-spin mr-2" /> Loading...
           </div>
         ) : (
-          tree.map(node => renderNode(node))
+          tree.map((node) => renderNode(node))
         )}
       </div>
 
@@ -466,25 +494,33 @@ function FilesTab() {
           <>
             {/* Editor toolbar */}
             <div className="flex items-center gap-3 px-4 py-2 border-b border-slate-800 bg-slate-900 flex-shrink-0">
-              <span className="text-xs font-mono text-slate-400 truncate flex-1">{selectedPath}</span>
+              <span className="text-xs font-mono text-slate-400 truncate flex-1">
+                {selectedPath}
+              </span>
               {isDirty && <span className="text-xs text-amber-400 font-semibold">● unsaved</span>}
               <button
                 onClick={saveFile}
                 disabled={saving || !isDirty}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors ${
-                  saveStatus === 'saved' ? 'bg-green-700 text-white' :
-                  saveStatus === 'error' ? 'bg-red-700 text-white' :
-                  'bg-brand-red-600 hover:bg-brand-red-700 text-white disabled:opacity-40'
+                  saveStatus === 'saved'
+                    ? 'bg-green-700 text-white'
+                    : saveStatus === 'error'
+                      ? 'bg-red-700 text-white'
+                      : 'bg-brand-red-600 hover:bg-brand-red-700 text-white disabled:opacity-40'
                 }`}
               >
-                {saving ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Save className="w-3.5 h-3.5" />}
+                {saving ? (
+                  <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                ) : (
+                  <Save className="w-3.5 h-3.5" />
+                )}
                 {saveStatus === 'saved' ? 'Saved' : saveStatus === 'error' ? 'Error' : 'Save'}
               </button>
             </div>
             {/* Code editor */}
             <textarea
               value={content}
-              onChange={e => setContent(e.target.value)}
+              onChange={(e) => setContent(e.target.value)}
               className="flex-1 bg-slate-950 text-slate-200 font-mono text-xs p-4 resize-none focus:outline-none leading-relaxed"
               spellCheck={false}
             />
@@ -524,10 +560,12 @@ function WebsiteTab() {
     const full = path.startsWith('http') ? path : `${base}${path}`;
     setUrl(full);
     setInputUrl(full);
-    setKey(k => k + 1);
+    setKey((k) => k + 1);
   }
 
-  function refresh() { setKey(k => k + 1); }
+  function refresh() {
+    setKey((k) => k + 1);
+  }
 
   return (
     <div className="flex flex-col h-full bg-slate-900">
@@ -539,21 +577,29 @@ function WebsiteTab() {
         <input
           type="text"
           value={inputUrl}
-          onChange={e => setInputUrl(e.target.value)}
-          onKeyDown={e => e.key === 'Enter' && navigate(inputUrl)}
+          onChange={(e) => setInputUrl(e.target.value)}
+          onKeyDown={(e) => e.key === 'Enter' && navigate(inputUrl)}
           className="flex-1 bg-slate-800 border border-slate-700 rounded-lg px-3 py-1.5 text-xs font-mono text-slate-200 focus:outline-none focus:ring-1 focus:ring-brand-red-500"
         />
-        <a href={url} target="_blank" rel="noopener noreferrer"
-          className="p-1.5 rounded hover:bg-slate-800 text-slate-400">
+        <a
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="p-1.5 rounded hover:bg-slate-800 text-slate-400"
+        >
           <ExternalLink className="w-4 h-4" />
         </a>
         <div className="flex items-center bg-slate-800 rounded-lg p-0.5">
-          <button onClick={() => setViewport('desktop')}
-            className={`p-1.5 rounded-md transition-colors ${viewport === 'desktop' ? 'bg-slate-600 text-white' : 'text-slate-400 hover:text-slate-200'}`}>
+          <button
+            onClick={() => setViewport('desktop')}
+            className={`p-1.5 rounded-md transition-colors ${viewport === 'desktop' ? 'bg-slate-600 text-white' : 'text-slate-400 hover:text-slate-200'}`}
+          >
             <Monitor className="w-4 h-4" />
           </button>
-          <button onClick={() => setViewport('mobile')}
-            className={`p-1.5 rounded-md transition-colors ${viewport === 'mobile' ? 'bg-slate-600 text-white' : 'text-slate-400 hover:text-slate-200'}`}>
+          <button
+            onClick={() => setViewport('mobile')}
+            className={`p-1.5 rounded-md transition-colors ${viewport === 'mobile' ? 'bg-slate-600 text-white' : 'text-slate-400 hover:text-slate-200'}`}
+          >
             <Smartphone className="w-4 h-4" />
           </button>
         </div>
@@ -561,7 +607,7 @@ function WebsiteTab() {
 
       {/* Quick nav */}
       <div className="flex items-center gap-1.5 px-3 py-1.5 border-b border-slate-800 flex-wrap flex-shrink-0">
-        {SITE_PAGES.map(p => (
+        {SITE_PAGES.map((p) => (
           <button
             key={p.path}
             onClick={() => navigate(p.path)}
@@ -574,15 +620,12 @@ function WebsiteTab() {
 
       {/* iframe */}
       <div className="flex-1 overflow-hidden flex items-start justify-center bg-slate-800 p-4">
-        <div className={`h-full bg-white rounded-lg overflow-hidden shadow-2xl transition-all ${
-          viewport === 'mobile' ? 'w-[390px]' : 'w-full'
-        }`}>
-          <iframe
-            key={key}
-            src={url}
-            className="w-full h-full border-0"
-            title="Site preview"
-          />
+        <div
+          className={`h-full bg-white rounded-lg overflow-hidden shadow-2xl transition-all ${
+            viewport === 'mobile' ? 'w-[390px]' : 'w-full'
+          }`}
+        >
+          <iframe key={key} src={url} className="w-full h-full border-0" title="Site preview" />
         </div>
       </div>
     </div>

@@ -71,18 +71,18 @@ export function validateBookingInput(body: Record<string, unknown>): ValidationR
   const errors: ValidationError[] = [];
 
   // Required fields
-  const examType    = normalizeString(body.examType);
-  const examName    = normalizeString(body.examName);
-  const firstName   = normalizeString(body.firstName);
-  const lastName    = normalizeString(body.lastName);
-  const email       = normalizeString(body.email);
+  const examType = normalizeString(body.examType);
+  const examName = normalizeString(body.examName);
+  const firstName = normalizeString(body.firstName);
+  const lastName = normalizeString(body.lastName);
+  const email = normalizeString(body.email);
   const bookingType = body.bookingType === 'organization' ? 'organization' : 'individual';
 
-  if (!examType)  errors.push({ field: 'examType',  message: 'Required' });
-  if (!examName)  errors.push({ field: 'examName',  message: 'Required' });
+  if (!examType) errors.push({ field: 'examType', message: 'Required' });
+  if (!examName) errors.push({ field: 'examName', message: 'Required' });
   if (!firstName) errors.push({ field: 'firstName', message: 'Required' });
-  if (!lastName)  errors.push({ field: 'lastName',  message: 'Required' });
-  if (!email)     errors.push({ field: 'email',     message: 'Required' });
+  if (!lastName) errors.push({ field: 'lastName', message: 'Required' });
+  if (!email) errors.push({ field: 'email', message: 'Required' });
   if (email && !EMAIL_RE.test(email)) {
     errors.push({ field: 'email', message: 'Invalid email address' });
   }
@@ -97,12 +97,20 @@ export function validateBookingInput(body: Record<string, unknown>): ValidationR
   const alternateDate = normalizeDate(body.alternateDate);
 
   // If a date string was provided but failed normalization, it's malformed
-  if (body.preferredDate && typeof body.preferredDate === 'string' &&
-      body.preferredDate.trim() !== '' && preferredDate === null) {
+  if (
+    body.preferredDate &&
+    typeof body.preferredDate === 'string' &&
+    body.preferredDate.trim() !== '' &&
+    preferredDate === null
+  ) {
     errors.push({ field: 'preferredDate', message: 'Invalid date format — use YYYY-MM-DD' });
   }
-  if (body.alternateDate && typeof body.alternateDate === 'string' &&
-      body.alternateDate.trim() !== '' && alternateDate === null) {
+  if (
+    body.alternateDate &&
+    typeof body.alternateDate === 'string' &&
+    body.alternateDate.trim() !== '' &&
+    alternateDate === null
+  ) {
     errors.push({ field: 'alternateDate', message: 'Invalid date format — use YYYY-MM-DD' });
   }
 
@@ -125,23 +133,23 @@ export function validateBookingInput(body: Record<string, unknown>): ValidationR
     valid: true,
     errors: [],
     data: {
-      examType:         examType!,
-      examName:         examName!,
+      examType: examType!,
+      examName: examName!,
       bookingType,
-      firstName:        firstName!,
-      lastName:         lastName!,
-      email:            email!,
-      phone:            normalizeString(body.phone),
-      organization:     normalizeString(body.organization),
+      firstName: firstName!,
+      lastName: lastName!,
+      email: email!,
+      phone: normalizeString(body.phone),
+      organization: normalizeString(body.organization),
       participantCount: participantCount ?? 1,
       preferredDate,
-      preferredTime:    normalizeString(body.preferredTime),
+      preferredTime: normalizeString(body.preferredTime),
       alternateDate,
-      notes:            normalizeString(body.notes),
-      addOn:            body.addOn === true,
-      slotId:           normalizeString(body.slotId),
-      paymentStatus:    normalizeString(body.paymentStatus),
-      stripeSessionId:  normalizeString(body.stripeSessionId),
+      notes: normalizeString(body.notes),
+      addOn: body.addOn === true,
+      slotId: normalizeString(body.slotId),
+      paymentStatus: normalizeString(body.paymentStatus),
+      stripeSessionId: normalizeString(body.stripeSessionId),
     },
   };
 }
@@ -154,6 +162,9 @@ export function validateBookingInput(body: Record<string, unknown>): ValidationR
 export function formatBookingDate(date: string | null | undefined): string {
   if (!date) return 'To be scheduled via Calendly';
   return new Date(date + 'T12:00:00').toLocaleDateString('en-US', {
-    weekday: 'long', month: 'long', day: 'numeric', year: 'numeric',
+    weekday: 'long',
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
   });
 }

@@ -16,10 +16,7 @@ const _GET = withAuth(
     const supabase = await getAdminClient();
 
     if (!supabase) {
-      return NextResponse.json(
-        { error: 'Database not configured' },
-        { status: 503 }
-      );
+      return NextResponse.json({ error: 'Database not configured' }, { status: 503 });
     }
 
     try {
@@ -31,28 +28,19 @@ const _GET = withAuth(
 
       if (error) {
         logger.error('Error fetching application:', error);
-        return NextResponse.json(
-          { error: 'Failed to fetch application' },
-          { status: 500 }
-        );
+        return NextResponse.json({ error: 'Failed to fetch application' }, { status: 500 });
       }
 
       if (!application) {
-        return NextResponse.json(
-          { error: 'Application not found' },
-          { status: 404 }
-        );
+        return NextResponse.json({ error: 'Application not found' }, { status: 404 });
       }
 
       return NextResponse.json({ application });
     } catch (err) {
       logger.error('Unexpected error:', err);
-      return NextResponse.json(
-        { error: 'Unexpected error' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Unexpected error' }, { status: 500 });
     }
   },
-  { roles: ['admin', 'super_admin'] }
+  { roles: ['admin', 'super_admin'] },
 );
 export const GET = withApiAudit('/api/admin/applications-secure/[id]', _GET);

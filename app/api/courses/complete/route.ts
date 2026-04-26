@@ -18,7 +18,9 @@ async function _POST(req: NextRequest) {
 
     // Auth: require authenticated user
     const supabase = await createClient();
-      const { data: { session } } = await supabase.auth.getSession();
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
     if (!session) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -26,7 +28,11 @@ async function _POST(req: NextRequest) {
     const { courseId, userId, enrollmentId, completionData } = await req.json();
 
     // Verify the authenticated user matches the userId or is admin
-    const { data: profile } = await supabase.from('profiles').select('role').eq('id', session.user.id).maybeSingle();
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('id', session.user.id)
+      .maybeSingle();
     const isAdmin = profile && ['admin', 'super_admin'].includes(profile.role);
     if (session.user.id !== userId && !isAdmin) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
@@ -47,46 +53,41 @@ async function _POST(req: NextRequest) {
     // Create certificate record
     const certificateNumber = `EFH-${generateShortId()}-${courseId.substring(0, 8)}`;
 
-    const { error: certError } = await supabase
-      .from('module_certificates')
-      .insert({
-        user_id: userId,
-        module_id: courseId,
-        certificate_number: certificateNumber,
-        certificate_name: completionData.courseName || 'Course Completion',
-        issued_by: 'Elevate For Humanity',
-        issued_date: new Date().toISOString().split('T')[0],
-        is_partner_cert: true,
-      });
+    const { error: certError } = await supabase.from('module_certificates').insert({
+      user_id: userId,
+      module_id: courseId,
+      certificate_number: certificateNumber,
+      certificate_name: completionData.courseName || 'Course Completion',
+      issued_by: 'Elevate For Humanity',
+      issued_date: new Date().toISOString().split('T')[0],
+      is_partner_cert: true,
+    });
 
     if (certError) throw certError;
 
     // Send completion email
-    await fetch(
-      `${process.env.NEXT_PUBLIC_SITE_URL}/api/emails/course-completion`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          userId,
-          courseId,
-          certificateNumber,
-        }),
-      }
-    );
+    await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/emails/course-completion`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        userId,
+        courseId,
+        certificateNumber,
+      }),
+    });
 
     return NextResponse.json({
       success: true,
       certificateNumber,
     });
-  } catch (error) { 
+  } catch (error) {
     logger.error(
       'Course completion error:',
-      error instanceof Error ? error : new Error(String(error))
+      error instanceof Error ? error : new Error(String(error)),
     );
     return NextResponse.json(
       { error: toErrorMessage(error) || 'Failed to record completion' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

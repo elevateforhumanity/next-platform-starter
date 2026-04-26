@@ -37,21 +37,15 @@ export default function ModernLandingHero({
           {badge}
         </div>
       )}
-      
+
       <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-black mb-4 leading-tight">
         {headline}
-        {accentText && (
-          <span className="block text-brand-blue-600">{accentText}</span>
-        )}
+        {accentText && <span className="block text-brand-blue-600">{accentText}</span>}
       </h1>
-      
-      <h2 className="text-xl md:text-2xl text-black font-semibold mb-6">
-        {subheadline}
-      </h2>
-      
-      <p className="text-lg text-black mb-8 leading-relaxed">
-        {description}
-      </p>
+
+      <h2 className="text-xl md:text-2xl text-black font-semibold mb-6">{subheadline}</h2>
+
+      <p className="text-lg text-black mb-8 leading-relaxed">{description}</p>
 
       {features.length > 0 && (
         <div className="space-y-3 mb-8">
@@ -72,7 +66,7 @@ export default function ModernLandingHero({
           {primaryCTA.text}
           <ArrowRight className="w-5 h-5" />
         </Link>
-        
+
         {secondaryCTA && (
           <Link
             href={secondaryCTA.href}
@@ -86,7 +80,7 @@ export default function ModernLandingHero({
   );
 
   const webpSrc = imageSrc.replace(/\.(jpg|jpeg|png)$/i, '.webp');
-  
+
   const imageSection = (
     <div className="relative h-[300px] md:h-[350px] lg:h-[400px] rounded-2xl overflow-hidden shadow-2xl">
       <picture>

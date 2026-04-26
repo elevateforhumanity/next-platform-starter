@@ -23,11 +23,7 @@ class GovernmentComplianceSystem {
           status: 'active',
           certNumber: 'DOL-ETPL-2025-001',
           validUntil: '2026-12-31',
-          programs: [
-            'AI Fundamentals',
-            'Data Science Bootcamp',
-            'Advanced AI Specialization',
-          ],
+          programs: ['AI Fundamentals', 'Data Science Bootcamp', 'Advanced AI Specialization'],
         },
         dwd: {
           name: 'Department of Workforce Development Certified',
@@ -150,49 +146,28 @@ class GovernmentComplianceSystem {
 
   setupRoutes() {
     // Government compliance dashboard
-    this.router.get(
-      '/api/compliance/dashboard',
-      this.getComplianceDashboard.bind(this)
-    );
+    this.router.get('/api/compliance/dashboard', this.getComplianceDashboard.bind(this));
 
     // Certifications and approvals
-    this.router.get(
-      '/api/compliance/certifications',
-      this.getCertifications.bind(this)
-    );
+    this.router.get('/api/compliance/certifications', this.getCertifications.bind(this));
 
     // Active government contracts
     this.router.get('/api/compliance/contracts', this.getContracts.bind(this));
 
     // Compliance reporting status
-    this.router.get(
-      '/api/compliance/reporting',
-      this.getReportingStatus.bind(this)
-    );
+    this.router.get('/api/compliance/reporting', this.getReportingStatus.bind(this));
 
     // PIRL data export
-    this.router.get(
-      '/api/compliance/pirl/export',
-      this.exportPIRLData.bind(this)
-    );
+    this.router.get('/api/compliance/pirl/export', this.exportPIRLData.bind(this));
 
     // Section 508 accessibility report
-    this.router.get(
-      '/api/compliance/accessibility',
-      this.getAccessibilityReport.bind(this)
-    );
+    this.router.get('/api/compliance/accessibility', this.getAccessibilityReport.bind(this));
 
     // Veteran services
-    this.router.get(
-      '/api/compliance/veteran-services',
-      this.getVeteranServices.bind(this)
-    );
+    this.router.get('/api/compliance/veteran-services', this.getVeteranServices.bind(this));
 
     // Grant opportunities
-    this.router.get(
-      '/api/compliance/grants',
-      this.getGrantOpportunities.bind(this)
-    );
+    this.router.get('/api/compliance/grants', this.getGrantOpportunities.bind(this));
   }
 
   async getComplianceDashboard(req, res) {
@@ -200,13 +175,9 @@ class GovernmentComplianceSystem {
       const dashboard = {
         overview: {
           totalContracts: this.complianceData.contracts.active.length,
-          totalValue: this.complianceData.contracts.active.reduce(
-            (sum, c) => sum + c.value,
-            0
-          ),
+          totalValue: this.complianceData.contracts.active.reduce((sum, c) => sum + c.value, 0),
           complianceScore: 98.5,
-          activeCertifications: Object.keys(this.complianceData.certifications)
-            .length,
+          activeCertifications: Object.keys(this.complianceData.certifications).length,
           upcomingReports: 3,
         },
         certifications: this.complianceData.certifications,
@@ -256,15 +227,11 @@ class GovernmentComplianceSystem {
         active: this.complianceData.certifications,
         summary: {
           total: Object.keys(this.complianceData.certifications).length,
-          expiringSoon: Object.values(
-            this.complianceData.certifications
-          ).filter(
-            (cert) =>
-              new Date(cert.validUntil) <
-              new Date(Date.now() + 90 * 24 * 60 * 60 * 1000)
+          expiringSoon: Object.values(this.complianceData.certifications).filter(
+            (cert) => new Date(cert.validUntil) < new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
           ).length,
           compliance: Object.values(this.complianceData.compliance).filter(
-            (comp) => comp.status === 'compliant'
+            (comp) => comp.status === 'compliant',
           ).length,
         },
         compliance: this.complianceData.compliance,
@@ -283,10 +250,7 @@ class GovernmentComplianceSystem {
         pending: this.complianceData.contracts.pending,
         summary: {
           totalActive: this.complianceData.contracts.active.length,
-          totalValue: this.complianceData.contracts.active.reduce(
-            (sum, c) => sum + c.value,
-            0
-          ),
+          totalValue: this.complianceData.contracts.active.reduce((sum, c) => sum + c.value, 0),
           averagePerformance: {
             enrollmentRate: 92,
             completionRate: 87,
@@ -379,10 +343,7 @@ class GovernmentComplianceSystem {
       };
 
       res.setHeader('Content-Type', 'application/json');
-      res.setHeader(
-        'Content-Disposition',
-        'attachment; filename="pirl-export-q3-2025.json"'
-      );
+      res.setHeader('Content-Disposition', 'attachment; filename="pirl-export-q3-2025.json"');
       res.json(pirlData);
     } catch (error) {
       res.status(500).json({ error: error.message });
@@ -445,32 +406,19 @@ class GovernmentComplianceSystem {
             name: 'Vocational Rehabilitation',
             description: 'Chapter 31 benefits for service-connected veterans',
             eligibility: 'Service-connected disability rating',
-            benefits: [
-              'Full tuition coverage',
-              'Monthly housing allowance',
-              'Books and supplies',
-            ],
+            benefits: ['Full tuition coverage', 'Monthly housing allowance', 'Books and supplies'],
           },
           gibill: {
             name: 'GI Bill Benefits',
-            description:
-              'Chapter 33 Post-9/11 GI Bill and Chapter 30 Montgomery GI Bill',
+            description: 'Chapter 33 Post-9/11 GI Bill and Chapter 30 Montgomery GI Bill',
             eligibility: 'Qualifying military service',
-            benefits: [
-              'Tuition and fees',
-              'Monthly housing allowance',
-              'Book stipend',
-            ],
+            benefits: ['Tuition and fees', 'Monthly housing allowance', 'Book stipend'],
           },
           vrrap: {
             name: 'Veteran Rapid Retraining Assistance Program',
-            description:
-              'Additional education benefits for unemployed veterans',
+            description: 'Additional education benefits for unemployed veterans',
             eligibility: 'Unemployed due to COVID-19',
-            benefits: [
-              'Up to 12 months additional benefits',
-              'High-demand field training',
-            ],
+            benefits: ['Up to 12 months additional benefits', 'High-demand field training'],
           },
         },
         support: {

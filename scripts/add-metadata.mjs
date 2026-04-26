@@ -18,9 +18,9 @@ function getTitle(filePath) {
     .replace(/\(.*?\)\//g, '')
     .split('/')
     .filter(Boolean)
-    .map(s => s.charAt(0).toUpperCase() + s.slice(1).replace(/-/g, ' '))
+    .map((s) => s.charAt(0).toUpperCase() + s.slice(1).replace(/-/g, ' '))
     .join(' | ');
-  
+
   return route || 'Home';
 }
 
@@ -30,7 +30,7 @@ function getCanonical(filePath) {
     .replace('/page.tsx', '')
     .replace(/\[.*?\]/g, '')
     .replace(/\(.*?\)\//g, '');
-  
+
   return `https://www.elevateforhumanity.org/${route}`.replace(/\/+$/, '');
 }
 
@@ -54,7 +54,7 @@ function shouldBeNoIndex(filePath) {
     'verify-email',
     'reset-password',
   ];
-  return noIndexPatterns.some(p => filePath.includes(p));
+  return noIndexPatterns.some((p) => filePath.includes(p));
 }
 
 let updated = 0;
@@ -67,7 +67,7 @@ for (const filePath of pages) {
   }
 
   const content = fs.readFileSync(filePath, 'utf-8');
-  
+
   // Skip if already has metadata
   if (content.includes('export const metadata') || content.includes('generateMetadata')) {
     skipped++;
@@ -91,11 +91,15 @@ export const metadata: Metadata = {
   description: 'Elevate for Humanity - Career training and workforce development programs.',
   alternates: {
     canonical: '${canonical}',
-  },${noIndex ? `
+  },${
+    noIndex
+      ? `
   robots: {
     index: false,
     follow: false,
-  },` : ''}
+  },`
+      : ''
+  }
 };
 
 `;
@@ -110,38 +114,55 @@ export const metadata: Metadata = {
 
   // Add metadata at the top after any existing imports
   const importMatch = content.match(/^(import[\s\S]*?from\s+['"][^'"]+['"];?\s*\n)+/);
-  
+
   let newContent;
   if (importMatch) {
     // Add after existing imports
     const existingImports = importMatch[0];
     const rest = content.slice(existingImports.length);
-    
+
     // Check if Metadata is already imported
-    if (!existingImports.includes("import { Metadata }") && !existingImports.includes("import type { Metadata }")) {
-      newContent = existingImports + `import { Metadata } from 'next';\n\nexport const metadata: Metadata = {
+    if (
+      !existingImports.includes('import { Metadata }') &&
+      !existingImports.includes('import type { Metadata }')
+    ) {
+      newContent =
+        existingImports +
+        `import { Metadata } from 'next';\n\nexport const metadata: Metadata = {
   title: '${title} | Elevate for Humanity',
   description: 'Elevate for Humanity - Career training and workforce development programs.',
   alternates: {
     canonical: '${canonical}',
-  },${noIndex ? `
+  },${
+    noIndex
+      ? `
   robots: {
     index: false,
     follow: false,
-  },` : ''}
-};\n` + rest;
+  },`
+      : ''
+  }
+};\n` +
+        rest;
     } else {
-      newContent = existingImports + `\nexport const metadata: Metadata = {
+      newContent =
+        existingImports +
+        `\nexport const metadata: Metadata = {
   title: '${title} | Elevate for Humanity',
   description: 'Elevate for Humanity - Career training and workforce development programs.',
   alternates: {
     canonical: '${canonical}',
-  },${noIndex ? `
+  },${
+    noIndex
+      ? `
   robots: {
     index: false,
     follow: false,
-  },` : ''}
-};\n` + rest;
+  },`
+      : ''
+  }
+};\n` +
+        rest;
     }
   } else {
     // No imports, add at top

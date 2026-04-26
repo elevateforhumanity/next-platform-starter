@@ -1,5 +1,3 @@
-
-
 import { NextRequest, NextResponse } from 'next/server';
 import { parseBody } from '@/lib/api-helpers';
 import { createClient } from '@/lib/supabase/server';
@@ -34,20 +32,11 @@ async function _POST(request: NextRequest) {
     const { platform, content, title, media_url, scheduled_for } = body;
 
     if (!platform || !content) {
-      return NextResponse.json(
-        { error: 'Platform and content are required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Platform and content are required' }, { status: 400 });
     }
 
     // Validate platform
-    const validPlatforms = [
-      'linkedin',
-      'facebook',
-      'youtube',
-      'instagram',
-      'twitter',
-    ];
+    const validPlatforms = ['linkedin', 'facebook', 'youtube', 'instagram', 'twitter'];
     if (!validPlatforms.includes(platform)) {
       return NextResponse.json({ error: 'Invalid platform' }, { status: 400 });
     }
@@ -56,10 +45,7 @@ async function _POST(request: NextRequest) {
     const platformEnabled =
       process.env[`SOCIAL_MEDIA_${platform.toUpperCase()}_ENABLED`] === 'true';
     if (!platformEnabled) {
-      return NextResponse.json(
-        { error: `${platform} is not enabled` },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: `${platform} is not enabled` }, { status: 400 });
     }
 
     // Post immediately or schedule
@@ -79,10 +65,7 @@ async function _POST(request: NextRequest) {
         .maybeSingle();
 
       if (scheduleError) {
-        return NextResponse.json(
-          { error: 'Failed to schedule post' },
-          { status: 500 }
-        );
+        return NextResponse.json({ error: 'Failed to schedule post' }, { status: 500 });
       }
 
       return NextResponse.json({
@@ -110,10 +93,7 @@ async function _POST(request: NextRequest) {
           result = await postToTwitter({ content, media_url });
           break;
         default:
-          return NextResponse.json(
-            { error: 'Unknown platform' },
-            { status: 400 }
-          );
+          return NextResponse.json({ error: 'Unknown platform' }, { status: 400 });
       }
 
       if (!result.success) {
@@ -142,13 +122,13 @@ async function _POST(request: NextRequest) {
         platform_url: result.url,
       });
     }
-  } catch (error) { 
+  } catch (error) {
     return NextResponse.json(
       {
         error: 'Internal server err',
         details: 'Internal server error',
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -171,8 +151,7 @@ async function postToLinkedIn(data: any) {
     if (settingsError || !settings) {
       return {
         success: false,
-        error:
-          'LinkedIn not connected. Please connect in Settings → Social Media',
+        error: 'LinkedIn not connected. Please connect in Settings → Social Media',
       };
     }
 
@@ -181,8 +160,7 @@ async function postToLinkedIn(data: any) {
     if (expiresAt < new Date()) {
       return {
         success: false,
-        error:
-          'LinkedIn token expired. Please reconnect in Settings → Social Media',
+        error: 'LinkedIn token expired. Please reconnect in Settings → Social Media',
       };
     }
 
@@ -190,8 +168,7 @@ async function postToLinkedIn(data: any) {
     const organizations = settings.organizations || [];
 
     // Use first organization or get from settings
-    const organizationId =
-      organizations[0]?.organization?.id || settings.organization_id;
+    const organizationId = organizations[0]?.organization?.id || settings.organization_id;
 
     if (!accessToken || !organizationId) {
       return { success: false, error: 'LinkedIn credentials not configured' };
@@ -245,7 +222,7 @@ async function postToLinkedIn(data: any) {
       post_id: result.id,
       url: `https://www.linkedin.com/feed/update/${result.id}`,
     };
-  } catch (error) { 
+  } catch (error) {
     return {
       success: false,
       error: 'Internal server error',
@@ -297,7 +274,7 @@ async function postToFacebook(data: any) {
       post_id: result.id,
       url: `https://www.facebook.com/${pageId}/posts/${result.id}`,
     };
-  } catch (error) { 
+  } catch (error) {
     return {
       success: false,
       error: 'Internal server error',
@@ -322,10 +299,9 @@ async function postToYouTube(data: any) {
 
     return {
       success: false,
-      error:
-        'YouTube posting requires OAuth 2.0 setup. Please configure refresh token.',
+      error: 'YouTube posting requires OAuth 2.0 setup. Please configure refresh token.',
     };
-  } catch (error) { 
+  } catch (error) {
     return {
       success: false,
       error: 'Internal server error',
@@ -352,18 +328,15 @@ async function postToInstagram(data: any) {
     }
 
     // Step 1: Create media container
-    const containerResponse = await fetch(
-      `https://graph.facebook.com/v18.0/${accountId}/media`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          image_url: media_url,
-          caption: content || '',
-          access_token: accessToken,
-        }),
-      }
-    );
+    const containerResponse = await fetch(`https://graph.facebook.com/v18.0/${accountId}/media`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        image_url: media_url,
+        caption: content || '',
+        access_token: accessToken,
+      }),
+    });
 
     if (!containerResponse.ok) {
       const error = await containerResponse.json();
@@ -382,7 +355,7 @@ async function postToInstagram(data: any) {
           creation_id: container.id,
           access_token: accessToken,
         }),
-      }
+      },
     );
 
     if (!publishResponse.ok) {
@@ -546,18 +519,18 @@ async function _GET(request: NextRequest) {
           error: 'Failed to fetch posts',
           details: 'Internal server error',
         },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
     return NextResponse.json({ posts });
-  } catch (error) { 
+  } catch (error) {
     return NextResponse.json(
       {
         error: 'Internal server err',
         details: 'Internal server error',
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

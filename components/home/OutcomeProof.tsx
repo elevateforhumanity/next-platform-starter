@@ -10,7 +10,8 @@ const OUTCOMES = [
     duration: '6 weeks',
     beforeWage: 'Unemployed',
     afterWage: '$35,000–$42,000/yr',
-    quote: 'I went from no income to a full-time hospital job in under two months. The funding covered everything.',
+    quote:
+      'I went from no income to a full-time hospital job in under two months. The funding covered everything.',
     name: 'Program Graduate',
     credential: 'Certified Nursing Assistant',
   },
@@ -19,7 +20,8 @@ const OUTCOMES = [
     duration: '8 weeks',
     beforeWage: '$24,000/yr',
     afterWage: '$55,000–$72,000/yr',
-    quote: 'I doubled my income. The CDL program had me driving within 8 weeks and I had three job offers before I finished.',
+    quote:
+      'I doubled my income. The CDL program had me driving within 8 weeks and I had three job offers before I finished.',
     name: 'Program Graduate',
     credential: 'Commercial Driver License — Class A',
   },
@@ -28,7 +30,8 @@ const OUTCOMES = [
     duration: '12 weeks',
     beforeWage: '$28,000/yr',
     afterWage: '$45,000–$65,000/yr',
-    quote: 'Went from retail to a union HVAC job. The apprenticeship model meant I was earning while learning.',
+    quote:
+      'Went from retail to a union HVAC job. The apprenticeship model meant I was earning while learning.',
     name: 'Program Graduate',
     credential: 'EPA 608 Universal Certification',
   },
@@ -54,7 +57,8 @@ export default function OutcomeProof() {
               Real careers. Real numbers.
             </h2>
             <p className="text-xl text-slate-400 max-w-2xl mx-auto">
-              Every metric is tracked. Every outcome is documented. This is what workforce infrastructure delivers.
+              Every metric is tracked. Every outcome is documented. This is what workforce
+              infrastructure delivers.
             </p>
           </div>
         </ScrollReveal>
@@ -65,7 +69,10 @@ export default function OutcomeProof() {
             {AGGREGATE_STATS.map((stat, i) => {
               const Icon = stat.icon;
               return (
-                <div key={i} className="text-center p-6 rounded-2xl bg-white/5 border border-white/10">
+                <div
+                  key={i}
+                  className="text-center p-6 rounded-2xl bg-white/5 border border-white/10"
+                >
                   <Icon className="w-8 h-8 text-brand-blue-400 mx-auto mb-3" />
                   <p className="text-4xl font-extrabold">
                     <AnimatedCounter end={stat.value} prefix={stat.prefix} suffix={stat.suffix} />
@@ -99,7 +106,9 @@ export default function OutcomeProof() {
 
                 <div className="border-t border-white/10 pt-4">
                   <p className="font-semibold text-white">{outcome.name}</p>
-                  <p className="text-sm text-slate-400">{outcome.program} &middot; {outcome.duration}</p>
+                  <p className="text-sm text-slate-400">
+                    {outcome.program} &middot; {outcome.duration}
+                  </p>
                   <p className="text-xs text-brand-blue-400 mt-1">{outcome.credential}</p>
                 </div>
               </div>

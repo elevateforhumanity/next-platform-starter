@@ -24,7 +24,9 @@ export async function GET(request: NextRequest) {
   const db = await getAdminClient();
   const { data, error } = await db
     .from('practical_requirements')
-    .select('practical_type, required_hours, required_attempts, requires_evaluator_approval, requires_skill_signoff, allowed_submission_modes, instructions, rubric_json, safety_guidance, materials_needed')
+    .select(
+      'practical_type, required_hours, required_attempts, requires_evaluator_approval, requires_skill_signoff, allowed_submission_modes, instructions, rubric_json, safety_guidance, materials_needed',
+    )
     .eq('lesson_id', lessonId)
     .maybeSingle();
 

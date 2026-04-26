@@ -20,12 +20,12 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 
 // ─── Shared test identities ───────────────────────────────────────────────────
 
-const COURSE_ID   = 'course-uuid-1234';
-const LESSON_ID   = 'lesson-uuid-5678';
-const QUIZ_ID     = 'quiz-uuid-abcd';
-const USER_ID     = 'user-uuid-auth';
-const OTHER_USER  = 'user-uuid-other';
-const ENROLL_ID   = 'enroll-uuid-9999';
+const COURSE_ID = 'course-uuid-1234';
+const LESSON_ID = 'lesson-uuid-5678';
+const QUIZ_ID = 'quiz-uuid-abcd';
+const USER_ID = 'user-uuid-auth';
+const OTHER_USER = 'user-uuid-other';
+const ENROLL_ID = 'enroll-uuid-9999';
 
 const FULL_LESSON = {
   id: LESSON_ID,
@@ -55,7 +55,7 @@ function makeSession(userId = USER_ID) {
 
 function makeSupabaseMock({
   session = null as ReturnType<typeof makeSession> | null,
-  lessons = [] as typeof FULL_LESSON[],
+  lessons = [] as (typeof FULL_LESSON)[],
   enrolled = false,
   modules = [] as object[],
 } = {}) {
@@ -65,7 +65,12 @@ function makeSupabaseMock({
     in: vi.fn().mockReturnThis(),
     order: vi.fn().mockReturnThis(),
     limit: vi.fn().mockReturnThis(),
-    single: vi.fn().mockResolvedValue({ data: data[0] ?? null, error: data[0] ? null : { message: 'not found' } }),
+    single: vi
+      .fn()
+      .mockResolvedValue({
+        data: data[0] ?? null,
+        error: data[0] ? null : { message: 'not found' },
+      }),
     then: undefined,
     // Make it thenable so await works
     [Symbol.asyncIterator]: undefined,
@@ -120,7 +125,9 @@ describe('GET /api/courses/[courseId]/lessons/public', () => {
     const supabase = makeSupabaseMock({ session, lessons: [FULL_LESSON] });
 
     // The route checks getUser() first — if null, returns 401
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     expect(user).toBeNull();
     // Route would return 401 here — no DB read should occur
     expect(supabase.from).not.toHaveBeenCalled();
@@ -131,7 +138,9 @@ describe('GET /api/courses/[courseId]/lessons/public', () => {
     const supabase = makeSupabaseMock({ session, lessons: [FULL_LESSON], enrolled: false });
 
     // Simulate route logic: user present, not enrolled → stripSensitiveFields
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     expect(user).not.toBeNull();
 
     // Check enrollment
@@ -145,7 +154,7 @@ describe('GET /api/courses/[courseId]/lessons/public', () => {
 
     // Unenrolled → sensitive fields must be stripped
     const stripped = Object.fromEntries(
-      Object.entries(FULL_LESSON).filter(([k]) => !SENSITIVE_FIELDS.includes(k))
+      Object.entries(FULL_LESSON).filter(([k]) => !SENSITIVE_FIELDS.includes(k)),
     );
     for (const field of SENSITIVE_FIELDS) {
       expect(stripped).not.toHaveProperty(field);
@@ -159,7 +168,9 @@ describe('GET /api/courses/[courseId]/lessons/public', () => {
     const session = makeSession();
     const supabase = makeSupabaseMock({ session, lessons: [FULL_LESSON], enrolled: true });
 
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     expect(user).not.toBeNull();
 
     const { data: enrollment } = await supabase
@@ -191,7 +202,9 @@ describe('GET /api/courses/[courseId]/lessons/public', () => {
 describe('GET /api/courses/[courseId]/modules', () => {
   it('returns 401 for unauthenticated requests', async () => {
     const supabase = makeSupabaseMock({ session: null });
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     expect(user).toBeNull();
     // Route returns 401 before DB read
     expect(supabase.from).not.toHaveBeenCalled();
@@ -201,7 +214,9 @@ describe('GET /api/courses/[courseId]/modules', () => {
     const modules = [{ id: 'mod-1', title: 'Module 1', order_index: 1 }];
     const supabase = makeSupabaseMock({ session: makeSession(), modules });
 
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     expect(user).not.toBeNull();
 
     const { data } = await supabase
@@ -240,7 +255,9 @@ describe('POST /api/quizzes/[quizId] — IDOR prevention', () => {
 
   it('returns 401 for unauthenticated POST', async () => {
     const supabase = makeSupabaseMock({ session: null });
-    const { data: { session } } = await supabase.auth.getSession();
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
     expect(session).toBeNull();
     // Route returns 401 — no DB write occurs
     expect(supabase.from).not.toHaveBeenCalled();
@@ -263,7 +280,9 @@ describe('POST /api/privacy/export — IDOR prevention', () => {
 
   it('returns 401 for unauthenticated requests', async () => {
     const supabase = makeSupabaseMock({ session: null });
-    const { data: { session } } = await supabase.auth.getSession();
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
     expect(session).toBeNull();
     expect(supabase.from).not.toHaveBeenCalled();
   });
@@ -290,7 +309,9 @@ describe('POST /api/privacy/delete — IDOR prevention', () => {
 
   it('returns 401 for unauthenticated requests', async () => {
     const supabase = makeSupabaseMock({ session: null });
-    const { data: { session } } = await supabase.auth.getSession();
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
     expect(session).toBeNull();
     expect(supabase.from).not.toHaveBeenCalled();
   });
@@ -318,7 +339,9 @@ describe('POST /api/quizzes/[quizId] — foreign enrollmentId rejected', () => {
     const src = readFileSync('app/api/quizzes/[quizId]/route.ts', 'utf8');
 
     // The body destructure must NOT include enrollmentId
-    const bodyDestructure = src.match(/const\s*\{([^}]+)\}\s*=\s*(?:await\s+)?(?:req|request)\.json\(\)/);
+    const bodyDestructure = src.match(
+      /const\s*\{([^}]+)\}\s*=\s*(?:await\s+)?(?:req|request)\.json\(\)/,
+    );
     if (bodyDestructure) {
       expect(bodyDestructure[1]).not.toContain('enrollmentId');
     }
@@ -372,8 +395,15 @@ describe('POST /api/quizzes/[quizId] — foreign enrollmentId rejected', () => {
 
 describe('stripSensitiveFields contract', () => {
   function stripSensitiveFields(lesson: Record<string, unknown>) {
-    const STRIP = ['quiz_questions', 'video_url', 'passing_score', 'content',
-                   'correct_answer', 'correctAnswer', 'answer_explanation'];
+    const STRIP = [
+      'quiz_questions',
+      'video_url',
+      'passing_score',
+      'content',
+      'correct_answer',
+      'correctAnswer',
+      'answer_explanation',
+    ];
     return Object.fromEntries(Object.entries(lesson).filter(([k]) => !STRIP.includes(k)));
   }
 

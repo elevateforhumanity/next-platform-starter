@@ -24,8 +24,8 @@ export function ProgramCoursesTable({ summaries }: Props) {
   if (!summaries.length) {
     return (
       <div className="rounded-2xl border border-dashed border-slate-200 bg-white p-6 text-center text-sm text-slate-500">
-        No programs found for this account yet. Once your programs are set up,
-        you&apos;ll see enrollments and progress here.
+        No programs found for this account yet. Once your programs are set up, you&apos;ll see
+        enrollments and progress here.
       </div>
     );
   }
@@ -33,20 +33,13 @@ export function ProgramCoursesTable({ summaries }: Props) {
   return (
     <div className="space-y-4">
       {summaries.map((group) => (
-        <div
-          key={group.program.id}
-          className="overflow-hidden rounded-2xl bg-white shadow-sm"
-        >
+        <div key={group.program.id} className="overflow-hidden rounded-2xl bg-white shadow-sm">
           <div className="flex items-center justify-between border-b border-slate-100 px-4 py-3">
             <div>
-              <h3 className="text-sm font-semibold text-black">
-                {group.program.title}
-              </h3>
+              <h3 className="text-sm font-semibold text-black">{group.program.title}</h3>
               <p className="text-[11px] text-slate-500">
-                {group.program.funding_type
-                  ? `${group.program.funding_type} · `
-                  : ""}
-                {group.program.is_active ? "Active" : "Inactive"}
+                {group.program.funding_type ? `${group.program.funding_type} · ` : ''}
+                {group.program.is_active ? 'Active' : 'Inactive'}
               </p>
             </div>
           </div>
@@ -65,10 +58,7 @@ export function ProgramCoursesTable({ summaries }: Props) {
               <tbody>
                 {group.courses.length === 0 ? (
                   <tr>
-                    <td
-                      colSpan={5}
-                      className="px-4 py-3 text-xs text-slate-500"
-                    >
+                    <td colSpan={5} className="px-4 py-3 text-xs text-slate-500">
                       No courses created yet for this program.
                     </td>
                   </tr>
@@ -78,24 +68,18 @@ export function ProgramCoursesTable({ summaries }: Props) {
                       <td className="px-4 py-2 text-xs font-medium text-black">
                         {course.course_name}
                       </td>
-                      <td className="px-4 py-2 text-xs text-black">
-                        {course.active_learners}
-                      </td>
-                      <td className="px-4 py-2 text-xs text-black">
-                        {course.completed_learners}
-                      </td>
+                      <td className="px-4 py-2 text-xs text-black">{course.active_learners}</td>
+                      <td className="px-4 py-2 text-xs text-black">{course.completed_learners}</td>
                       <td className="px-4 py-2 text-xs">
                         <div className="flex items-center gap-2">
-                          <span className="text-black">
-                            {course.avg_progress_percent}%
-                          </span>
+                          <span className="text-black">{course.avg_progress_percent}%</span>
                           <div className="h-1.5 flex-1 rounded-full bg-slate-100">
                             <div
                               className="h-1.5 rounded-full bg-white"
                               style={{
                                 width: `${Math.min(
                                   Math.max(course.avg_progress_percent, 0),
-                                  100
+                                  100,
                                 )}%`,
                               }}
                             />
@@ -103,9 +87,7 @@ export function ProgramCoursesTable({ summaries }: Props) {
                         </div>
                       </td>
                       <td className="px-4 py-2 text-xs text-black">
-                        {course.estimated_hours
-                          ? `${course.estimated_hours} hrs`
-                          : "—"}
+                        {course.estimated_hours ? `${course.estimated_hours} hrs` : '—'}
                       </td>
                     </tr>
                   ))

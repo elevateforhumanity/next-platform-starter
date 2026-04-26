@@ -55,9 +55,7 @@ export default function PageHero({
             {title}
           </h1>
           {subtitle && (
-            <p className="text-xl sm:text-2xl md:text-3xl font-semibold text-white">
-              {subtitle}
-            </p>
+            <p className="text-xl sm:text-2xl md:text-3xl font-semibold text-white">{subtitle}</p>
           )}
         </div>
       </div>

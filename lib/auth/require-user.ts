@@ -73,19 +73,19 @@ export async function requireUser(options?: {
   redirectTo?: string;
 }): Promise<AuthUser> {
   const supabase = await createClient();
-  const { data: { user }, error } = await supabase.auth.getUser();
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.getUser();
 
   if (error || !user) {
-    const path = options?.redirectTo ?? `/login?redirect=${encodeURIComponent(await currentPath())}`;
+    const path =
+      options?.redirectTo ?? `/login?redirect=${encodeURIComponent(await currentPath())}`;
     redirect(path);
   }
 
   const db = await getAdminClient();
-  const { data: profile } = await db
-    .from('profiles')
-    .select('*')
-    .eq('id', user.id)
-    .maybeSingle();
+  const { data: profile } = await db.from('profiles').select('*').eq('id', user.id).maybeSingle();
 
   const role = (profile?.role ?? null) as AppRole | null;
 

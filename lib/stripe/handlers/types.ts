@@ -14,7 +14,4 @@ export type StripeHandlerContext = {
  * catch and return 500 so Stripe retries. For expected no-ops (e.g. wrong
  * metadata kind), return without throwing.
  */
-export type StripeEventHandler = (
-  event: Stripe.Event,
-  ctx: StripeHandlerContext,
-) => Promise<void>;
+export type StripeEventHandler = (event: Stripe.Event, ctx: StripeHandlerContext) => Promise<void>;

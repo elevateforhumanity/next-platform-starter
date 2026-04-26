@@ -13,7 +13,9 @@ async function _POST(req: Request) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       return NextResponse.json({ error: 'Authentication required' }, { status: 401 });
@@ -29,11 +31,7 @@ async function _POST(req: Request) {
 
     if (quantity <= 0) {
       // Remove item if quantity is 0 or less
-      await supabase
-        .from('cart_items')
-        .delete()
-        .eq('id', itemId)
-        .eq('user_id', user.id);
+      await supabase.from('cart_items').delete().eq('id', itemId).eq('user_id', user.id);
     } else {
       // Update quantity
       await supabase

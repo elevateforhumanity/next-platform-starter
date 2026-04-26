@@ -40,8 +40,9 @@ export function Hero({
               {primaryLabel}
             </Link>
           )}
-          {secondaryLabel && secondaryHref && (
-            isExternal(secondaryHref) ? (
+          {secondaryLabel &&
+            secondaryHref &&
+            (isExternal(secondaryHref) ? (
               <a href={secondaryHref} className="rounded border px-5 py-3 hover:bg-gray-50">
                 {secondaryLabel}
               </a>
@@ -49,8 +50,7 @@ export function Hero({
               <Link href={secondaryHref} className="rounded border px-5 py-3 hover:bg-gray-50">
                 {secondaryLabel}
               </Link>
-            )
-          )}
+            ))}
         </div>
       </div>
     </section>

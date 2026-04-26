@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
 import { createClient } from '@/lib/supabase/client';
 
 import React, { useEffect } from 'react';
 
-import { useState } from "react";
-import { XCircle, AlertCircle, ArrowRight } from "lucide-react";
+import { useState } from 'react';
+import { XCircle, AlertCircle, ArrowRight } from 'lucide-react';
 
 interface QuizQuestion {
   id: string;
   question_text: string;
-  question_type: "multiple_choice" | "true_false" | "multiple_select";
+  question_type: 'multiple_choice' | 'true_false' | 'multiple_select';
   options: string[];
   correct_answer: string | string[];
   explanation: string;
@@ -43,19 +43,21 @@ export function InteractiveQuiz({
   // Log quiz start and create attempt record
   useEffect(() => {
     async function startQuizAttempt() {
-      const { data: { user } } = await supabase.auth.getUser();
-      
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
       const { data: attempt } = await supabase
         .from('quiz_attempts')
         .insert({
           quiz_id: quizId,
           user_id: user?.id,
           started_at: new Date().toISOString(),
-          status: 'in_progress'
+          status: 'in_progress',
         })
         .select('id')
         .single();
-      
+
       if (attempt) setAttemptId(attempt.id);
     }
     startQuizAttempt();
@@ -64,14 +66,15 @@ export function InteractiveQuiz({
   // Save answer to DB when user answers
   const saveAnswerToDB = async (questionId: string, answer: any) => {
     if (!attemptId) return;
-    await supabase
-      .from('quiz_answers')
-      .upsert({
+    await supabase.from('quiz_answers').upsert(
+      {
         attempt_id: attemptId,
         question_id: questionId,
         answer,
-        answered_at: new Date().toISOString()
-      }, { onConflict: 'attempt_id,question_id' });
+        answered_at: new Date().toISOString(),
+      },
+      { onConflict: 'attempt_id,question_id' },
+    );
   };
 
   const question = questions[currentQuestion];
@@ -117,9 +120,11 @@ export function InteractiveQuiz({
 
     return (
       <div className="bg-white rounded-lg p-8 text-center">
-        <div className={`w-20 h-20 mx-auto mb-6 rounded-full flex items-center justify-center ${
-          passed ? "bg-brand-green-500/20" : "bg-brand-orange-500/20"
-        }`}>
+        <div
+          className={`w-20 h-20 mx-auto mb-6 rounded-full flex items-center justify-center ${
+            passed ? 'bg-brand-green-500/20' : 'bg-brand-orange-500/20'
+          }`}
+        >
           {passed ? (
             <span className="text-slate-500 flex-shrink-0">•</span>
           ) : (
@@ -128,12 +133,10 @@ export function InteractiveQuiz({
         </div>
 
         <h2 className="text-3xl font-bold text-slate-900 mb-2">
-          {passed ? "Congratulations!" : "Keep Practicing"}
+          {passed ? 'Congratulations!' : 'Keep Practicing'}
         </h2>
 
-        <p className="text-xl text-slate-600 mb-6">
-          You scored {Math.round(score)}%
-        </p>
+        <p className="text-xl text-slate-600 mb-6">You scored {Math.round(score)}%</p>
 
         <p className="text-slate-500 mb-8">
           {passed
@@ -164,7 +167,9 @@ export function InteractiveQuiz({
       {/* Progress */}
       <div className="mb-8">
         <div className="flex items-center justify-between text-sm text-slate-400 mb-2">
-          <span>Question {currentQuestion + 1} of {questions.length}</span>
+          <span>
+            Question {currentQuestion + 1} of {questions.length}
+          </span>
           <span>{Math.round(((currentQuestion + 1) / questions.length) * 100)}% Complete</span>
         </div>
         <div className="w-full bg-white rounded-full h-2">
@@ -181,15 +186,16 @@ export function InteractiveQuiz({
       {/* Options */}
       <div className="space-y-3 mb-6">
         {question.options.map((option, index) => {
-          const isSelected = question.question_type === "multiple_select"
-            ? (answers[question.id] || []).includes(option)
-            : answers[question.id] === option;
+          const isSelected =
+            question.question_type === 'multiple_select'
+              ? (answers[question.id] || []).includes(option)
+              : answers[question.id] === option;
 
           return (
             <button
               key={index}
               onClick={() => {
-                if (question.question_type === "multiple_select") {
+                if (question.question_type === 'multiple_select') {
                   const current = answers[question.id] || [];
                   const updated = current.includes(option)
                     ? current.filter((o: string) => o !== option)
@@ -202,9 +208,9 @@ export function InteractiveQuiz({
               disabled={showFeedback}
               className={`w-full text-left p-4 rounded-lg border-2 transition-all ${
                 isSelected
-                  ? "border-brand-orange-500 bg-brand-orange-500/10"
-                  : "border-slate-700 bg-slate-900 hover:border-slate-600"
-              } ${showFeedback ? "cursor-not-allowed" : "cursor-pointer"}`}
+                  ? 'border-brand-orange-500 bg-brand-orange-500/10'
+                  : 'border-slate-700 bg-slate-900 hover:border-slate-600'
+              } ${showFeedback ? 'cursor-not-allowed' : 'cursor-pointer'}`}
             >
               <span className="text-white">{option}</span>
             </button>
@@ -214,11 +220,13 @@ export function InteractiveQuiz({
 
       {/* Feedback */}
       {showFeedback && (
-        <div className={`p-4 rounded-lg mb-6 ${
-          JSON.stringify(answers[question.id]) === JSON.stringify(question.correct_answer)
-            ? "bg-brand-green-500/20 border border-brand-green-500/50"
-            : "bg-brand-orange-500/20 border border-brand-red-500/50"
-        }`}>
+        <div
+          className={`p-4 rounded-lg mb-6 ${
+            JSON.stringify(answers[question.id]) === JSON.stringify(question.correct_answer)
+              ? 'bg-brand-green-500/20 border border-brand-green-500/50'
+              : 'bg-brand-orange-500/20 border border-brand-red-500/50'
+          }`}
+        >
           <div className="flex items-start gap-3">
             {JSON.stringify(answers[question.id]) === JSON.stringify(question.correct_answer) ? (
               <span className="text-slate-500 flex-shrink-0">•</span>
@@ -226,14 +234,16 @@ export function InteractiveQuiz({
               <AlertCircle className="w-6 h-6 text-brand-red-400 flex-shrink-0 mt-1" />
             )}
             <div>
-              <p className={`font-semibold mb-2 ${
-                JSON.stringify(answers[question.id]) === JSON.stringify(question.correct_answer)
-                  ? "text-brand-green-400"
-                  : "text-brand-red-400"
-              }`}>
+              <p
+                className={`font-semibold mb-2 ${
+                  JSON.stringify(answers[question.id]) === JSON.stringify(question.correct_answer)
+                    ? 'text-brand-green-400'
+                    : 'text-brand-red-400'
+                }`}
+              >
                 {JSON.stringify(answers[question.id]) === JSON.stringify(question.correct_answer)
-                  ? "Correct!"
-                  : "Incorrect"}
+                  ? 'Correct!'
+                  : 'Incorrect'}
               </p>
               <p className="text-slate-600">{question.explanation}</p>
             </div>
@@ -248,7 +258,7 @@ export function InteractiveQuiz({
           disabled={!answers[question.id]}
           className="px-6 py-3 bg-brand-orange-500 text-white rounded-lg font-semibold hover:bg-brand-orange-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-2"
         >
-          {isLastQuestion ? "Finish Quiz" : "Next Question"}
+          {isLastQuestion ? 'Finish Quiz' : 'Next Question'}
           <ArrowRight className="w-5 h-5" />
         </button>
       </div>

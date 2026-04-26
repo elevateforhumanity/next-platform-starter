@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Circle, Clock } from 'lucide-react';
@@ -34,10 +34,7 @@ export function ProgressTracker({ modules, overallProgress }: ProgressTrackerPro
               <span className="text-2xl font-bold text-brand-orange-600">{overallProgress}%</span>
             </div>
             <div className="h-3 bg-gray-200 rounded-full overflow-hidden">
-              <div
-                className="h-full    transition-all"
-                style={{ width: `${overallProgress}%` }}
-              />
+              <div className="h-full    transition-all" style={{ width: `${overallProgress}%` }} />
             </div>
           </div>
         </CardContent>
@@ -55,9 +52,7 @@ export function ProgressTracker({ modules, overallProgress }: ProgressTrackerPro
                   <div className="absolute left-3 top-12 bottom-0 w-0.5 bg-gray-200" />
                 )}
                 <div className="flex gap-4">
-                  <div className="relative z-10 bg-white">
-                    {getStatusIcon(module.status)}
-                  </div>
+                  <div className="relative z-10 bg-white">{getStatusIcon(module.status)}</div>
                   <div className="flex-1">
                     <div className="font-semibold mb-1">{module.title}</div>
                     <div className="text-sm text-black mb-2">

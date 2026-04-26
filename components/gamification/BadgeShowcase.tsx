@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import { Award, Lock } from "lucide-react";
-import { useEffect, useState } from "react";
-import { createClient } from "@/lib/supabase/client";
+import { Award, Lock } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { createClient } from '@/lib/supabase/client';
 
 interface Badge {
   id: string;
   name: string;
   description: string;
   icon_url?: string;
-  rarity: "common" | "rare" | "epic" | "legendary";
+  rarity: 'common' | 'rare' | 'epic' | 'legendary';
   earned: boolean;
   earned_at?: string;
   progress?: number;
@@ -39,15 +39,17 @@ export function BadgeShowcase({ userId, badges: initialBadges, limit = 6 }: Badg
           .limit(limit);
 
         if (!error && data) {
-          setBadges(data.map((ub: any) => ({
-            id: ub.badge_id,
-            name: ub.badges?.name || 'Badge',
-            description: ub.badges?.description || '',
-            icon_url: ub.badges?.icon_url,
-            rarity: ub.badges?.rarity || 'common',
-            earned: true,
-            earned_at: ub.earned_at,
-          })));
+          setBadges(
+            data.map((ub: any) => ({
+              id: ub.badge_id,
+              name: ub.badges?.name || 'Badge',
+              description: ub.badges?.description || '',
+              icon_url: ub.badges?.icon_url,
+              rarity: ub.badges?.rarity || 'common',
+              earned: true,
+              earned_at: ub.earned_at,
+            })),
+          );
         }
       } catch (error) {
         console.error('Failed to fetch badges:', error);
@@ -68,16 +70,16 @@ export function BadgeShowcase({ userId, badges: initialBadges, limit = 6 }: Badg
   }
   const getRarityColor = (rarity: string) => {
     switch (rarity) {
-      case "common":
-        return " ";
-      case "rare":
-        return " ";
-      case "epic":
-        return " ";
-      case "legendary":
-        return " ";
+      case 'common':
+        return ' ';
+      case 'rare':
+        return ' ';
+      case 'epic':
+        return ' ';
+      case 'legendary':
+        return ' ';
       default:
-        return " ";
+        return ' ';
     }
   };
 
@@ -106,7 +108,13 @@ export function BadgeShowcase({ userId, badges: initialBadges, limit = 6 }: Badg
                 <p className="text-xs text-slate-600 mb-2">{badge.description}</p>
                 {badge.earned_at && (
                   <p className="text-xs text-slate-500">
-                    Earned {new Date(badge.earned_at).toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' })}
+                    Earned{' '}
+                    {new Date(badge.earned_at).toLocaleDateString('en-US', {
+                      timeZone: 'UTC',
+                      month: 'short',
+                      day: 'numeric',
+                      year: 'numeric',
+                    })}
                   </p>
                 )}
               </div>

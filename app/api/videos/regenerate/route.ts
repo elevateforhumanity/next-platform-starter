@@ -67,23 +67,28 @@ export async function POST(request: NextRequest) {
 
   // Fire render in background
   runRender({
-    jobId:        job.id,
+    jobId: job.id,
     lessonId,
-    courseTitle:  course?.title ?? 'Elevate LMS',
-    lessonTitle:  lesson.title,
-    script:       lesson.script ?? lesson.title,
+    courseTitle: course?.title ?? 'Elevate LMS',
+    lessonTitle: lesson.title,
+    script: lesson.script ?? lesson.title,
     bulletPoints: Array.isArray(lesson.bullet_points) ? lesson.bullet_points : [],
     adminDb,
-  }).catch(err => {
-    logger.error('[VideoRegenerate] Background render threw: ' + (err instanceof Error ? err.message : err));
+  }).catch((err) => {
+    logger.error(
+      '[VideoRegenerate] Background render threw: ' + (err instanceof Error ? err.message : err),
+    );
   });
 
-  return NextResponse.json({
-    success: true,
-    job_id:  job.id,
-    status:  'queued',
-    message: 'Video re-render queued. Poll /api/videos/status/' + job.id,
-  }, { status: 202 });
+  return NextResponse.json(
+    {
+      success: true,
+      job_id: job.id,
+      status: 'queued',
+      message: 'Video re-render queued. Poll /api/videos/status/' + job.id,
+    },
+    { status: 202 },
+  );
 }
 
 // ── Background render (shared with /generate) ─────────────────────────────────
@@ -104,17 +109,17 @@ async function runRender(opts: {
   try {
     const result = await renderLessonVideo({
       lessonId,
-      title:       lessonTitle,
+      title: lessonTitle,
       moduleTitle: courseTitle,
-      objective:   lessonTitle,
-      keyPoints:   bulletPoints.length
+      objective: lessonTitle,
+      keyPoints: bulletPoints.length
         ? bulletPoints
         : script.split(/\.\s+/).filter(Boolean).slice(0, 5),
-      example:     script.substring(0, 300),
-      summary:     script.substring(0, 150),
-      quizTeaser:  'Complete the knowledge check to continue.',
-      domainKey:   inferDomainKey(courseTitle, lessonTitle),
-      courseName:  courseTitle,
+      example: script.substring(0, 300),
+      summary: script.substring(0, 150),
+      quizTeaser: 'Complete the knowledge check to continue.',
+      domainKey: inferDomainKey(courseTitle, lessonTitle),
+      courseName: courseTitle,
     });
 
     if (!result.success || !result.videoUrl) {
@@ -133,20 +138,19 @@ async function runRender(opts: {
         .upload(storagePath, buffer, { contentType: 'video/mp4', upsert: true });
 
       if (!uploadErr) {
-        const { data: urlData } = adminDb.storage
-          .from('course-videos')
-          .getPublicUrl(storagePath);
+        const { data: urlData } = adminDb.storage.from('course-videos').getPublicUrl(storagePath);
         storageUrl = urlData.publicUrl;
         await unlink(localPath).catch(() => {});
       }
-    } catch { /* keep local URL */ }
+    } catch {
+      /* keep local URL */
+    }
 
     await markComplete(jobId, {
-      video_url:        storageUrl,
-      audio_url:        result.audioUrl ?? undefined,
+      video_url: storageUrl,
+      audio_url: result.audioUrl ?? undefined,
       duration_seconds: result.duration,
     });
-
   } catch (err) {
     await markFailed(jobId, err instanceof Error ? err.message : String(err));
   }

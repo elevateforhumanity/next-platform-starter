@@ -23,14 +23,14 @@ interface SezzleVirtualCardProps {
 
 /**
  * Sezzle Virtual Card Display
- * 
+ *
  * Shows the virtual card details after Sezzle checkout approval.
  * Customer can copy card details to use at checkout.
- * 
+ *
  * Usage:
- * <SezzleVirtualCard 
- *   cardData={{ pan: '4111...', cvv: '123', ... }} 
- *   amount={199.99} 
+ * <SezzleVirtualCard
+ *   cardData={{ pan: '4111...', cvv: '123', ... }}
+ *   amount={199.99}
  * />
  */
 export default function SezzleVirtualCard({
@@ -45,32 +45,32 @@ export default function SezzleVirtualCard({
   // Log virtual card display for audit
   useEffect(() => {
     async function logCardDisplay() {
-      const { data: { user } } = await supabase.auth.getUser();
-      await supabase
-        .from('sezzle_card_events')
-        .insert({
-          user_id: user?.id,
-          order_id: orderId,
-          event_type: 'card_displayed',
-          amount,
-          card_last_four: cardData.pan.slice(-4),
-          timestamp: new Date().toISOString()
-        });
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      await supabase.from('sezzle_card_events').insert({
+        user_id: user?.id,
+        order_id: orderId,
+        event_type: 'card_displayed',
+        amount,
+        card_last_four: cardData.pan.slice(-4),
+        timestamp: new Date().toISOString(),
+      });
     }
     logCardDisplay();
   }, [orderId, amount, cardData.pan, supabase]);
 
   // Log card copy events
   const logCopyEvent = async (field: string) => {
-    const { data: { user } } = await supabase.auth.getUser();
-    await supabase
-      .from('sezzle_card_events')
-      .insert({
-        user_id: user?.id,
-        order_id: orderId,
-        event_type: `copied_${field}`,
-        timestamp: new Date().toISOString()
-      });
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    await supabase.from('sezzle_card_events').insert({
+      user_id: user?.id,
+      order_id: orderId,
+      event_type: `copied_${field}`,
+      timestamp: new Date().toISOString(),
+    });
   };
   const [showPan, setShowPan] = useState(false);
   const [copiedField, setCopiedField] = useState<string | null>(null);
@@ -128,10 +128,7 @@ export default function SezzleVirtualCard({
             <span className="text-xl font-mono tracking-wider">
               {formatCardNumber(cardData.pan)}
             </span>
-            <button
-              onClick={() => setShowPan(!showPan)}
-              className="p-1 hover:bg-white/10 rounded"
-            >
+            <button onClick={() => setShowPan(!showPan)} className="p-1 hover:bg-white/10 rounded">
               {showPan ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
             </button>
             <button
@@ -174,9 +171,7 @@ export default function SezzleVirtualCard({
           <div>
             <p className="text-xs text-purple-200 mb-1">CVV</p>
             <div className="flex items-center gap-2">
-              <span className="font-mono">
-                {showCvv ? cardData.cvv : '•••'}
-              </span>
+              <span className="font-mono">{showCvv ? cardData.cvv : '•••'}</span>
               <button
                 onClick={() => setShowCvv(!showCvv)}
                 className="p-1 hover:bg-white/10 rounded"
@@ -239,7 +234,10 @@ export default function SezzleVirtualCard({
         <Shield className="w-5 h-5 text-slate-700 flex-shrink-0 mt-0.5" />
         <div className="text-sm text-slate-700">
           <p className="font-medium text-slate-900">Secure Virtual Card</p>
-          <p>This card is valid for one-time use only. It will expire after your purchase or within 24 hours.</p>
+          <p>
+            This card is valid for one-time use only. It will expire after your purchase or within
+            24 hours.
+          </p>
         </div>
       </div>
 
@@ -249,18 +247,12 @@ export default function SezzleVirtualCard({
         <div className="grid grid-cols-4 gap-2 text-center text-sm">
           {[0, 1, 2, 3].map((i) => (
             <div key={i} className="p-2 bg-gray-50 rounded">
-              <p className="text-slate-700 text-xs">
-                {i === 0 ? 'Today' : `+${i * 2} weeks`}
-              </p>
-              <p className="font-semibold text-slate-900">
-                ${(amount / 4).toFixed(2)}
-              </p>
+              <p className="text-slate-700 text-xs">{i === 0 ? 'Today' : `+${i * 2} weeks`}</p>
+              <p className="font-semibold text-slate-900">${(amount / 4).toFixed(2)}</p>
             </div>
           ))}
         </div>
-        <p className="text-xs text-slate-700 mt-3 text-center">
-          0% interest • No hidden fees
-        </p>
+        <p className="text-xs text-slate-700 mt-3 text-center">0% interest • No hidden fees</p>
       </div>
     </div>
   );

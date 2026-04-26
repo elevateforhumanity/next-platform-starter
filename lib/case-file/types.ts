@@ -1,9 +1,9 @@
 /**
  * Participant Case File
- * 
+ *
  * The unified abstraction for all participant data.
  * Auditors think in case files - this gives them what they expect.
- * 
+ *
  * A case file aggregates:
  * - Profile (identity)
  * - Applications (intake)
@@ -21,7 +21,7 @@ export interface ParticipantCaseFile {
   caseNumber: string; // Human-readable case ID
   createdAt: string;
   lastActivityAt: string;
-  
+
   // Profile
   profile: {
     id: string;
@@ -70,7 +70,13 @@ export interface ParticipantCaseFile {
     id: string;
     programSlug: string;
     programName: string;
-    status: 'applied' | 'enrolled_pending_approval' | 'active' | 'paused' | 'completed' | 'withdrawn';
+    status:
+      | 'applied'
+      | 'enrolled_pending_approval'
+      | 'active'
+      | 'paused'
+      | 'completed'
+      | 'withdrawn';
     enrolledAt: string;
     startedAt?: string;
     completedAt?: string;

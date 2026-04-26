@@ -3,12 +3,23 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
-import { FileText, Clock, AlertCircle, Calendar, Upload, ChevronRight, Filter, BookOpen, CheckCircle, } from 'lucide-react';
+import {
+  FileText,
+  Clock,
+  AlertCircle,
+  Calendar,
+  Upload,
+  ChevronRight,
+  Filter,
+  BookOpen,
+  CheckCircle,
+} from 'lucide-react';
 import AssignmentSubmission from '@/components/AssignmentSubmission';
 
 export const metadata: Metadata = {
   title: 'My Assignments | Student Portal',
-  description: 'View and submit your course assignments, track deadlines, and check submission status.',
+  description:
+    'View and submit your course assignments, track deadlines, and check submission status.',
 };
 
 export const dynamic = 'force-dynamic';
@@ -16,7 +27,9 @@ export const dynamic = 'force-dynamic';
 export default async function AssignmentsPage() {
   const supabase = await createClient();
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     redirect('/login');
@@ -33,7 +46,7 @@ export default async function AssignmentsPage() {
       .eq('user_id', user.id)
       .eq('status', 'active');
 
-    const courseIds = enrollments?.map(e => e.course_id) || [];
+    const courseIds = enrollments?.map((e) => e.course_id) || [];
 
     if (courseIds.length > 0) {
       const { data: assignmentData } = await supabase
@@ -57,10 +70,10 @@ export default async function AssignmentsPage() {
     }
 
     const now = new Date();
-    assignments.forEach(assignment => {
-      const submission = submissions.find(s => s.assignment_id === assignment.id);
+    assignments.forEach((assignment) => {
+      const submission = submissions.find((s) => s.assignment_id === assignment.id);
       const dueDate = new Date(assignment.due_date);
-      
+
       if (submission) {
         if (submission.grade !== null) {
           stats.graded++;
@@ -78,25 +91,51 @@ export default async function AssignmentsPage() {
   }
 
   const getSubmissionStatus = (assignment: any) => {
-    const submission = submissions.find(s => s.assignment_id === assignment.id);
+    const submission = submissions.find((s) => s.assignment_id === assignment.id);
     const now = new Date();
     const dueDate = new Date(assignment.due_date);
 
     if (submission) {
       if (submission.grade !== null) {
-        return { status: 'graded', label: 'Graded', color: 'bg-brand-green-100 text-brand-green-700', icon: CheckCircle };
+        return {
+          status: 'graded',
+          label: 'Graded',
+          color: 'bg-brand-green-100 text-brand-green-700',
+          icon: CheckCircle,
+        };
       }
-      return { status: 'submitted', label: 'Submitted', color: 'bg-brand-blue-100 text-brand-blue-700', icon: CheckCircle };
+      return {
+        status: 'submitted',
+        label: 'Submitted',
+        color: 'bg-brand-blue-100 text-brand-blue-700',
+        icon: CheckCircle,
+      };
     }
     if (dueDate < now) {
-      return { status: 'overdue', label: 'Overdue', color: 'bg-brand-red-100 text-brand-red-700', icon: AlertCircle };
+      return {
+        status: 'overdue',
+        label: 'Overdue',
+        color: 'bg-brand-red-100 text-brand-red-700',
+        icon: AlertCircle,
+      };
     }
-    return { status: 'pending', label: 'Pending', color: 'bg-yellow-100 text-yellow-700', icon: Clock };
+    return {
+      status: 'pending',
+      label: 'Pending',
+      color: 'bg-yellow-100 text-yellow-700',
+      icon: Clock,
+    };
   };
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
+    return date.toLocaleDateString('en-US', {
+      weekday: 'short',
+      month: 'short',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit',
+    });
   };
 
   const getDaysUntilDue = (dateString: string) => {
@@ -104,7 +143,7 @@ export default async function AssignmentsPage() {
     const due = new Date(dateString);
     const diffTime = due.getTime() - now.getTime();
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    
+
     if (diffDays < 0) return `${Math.abs(diffDays)} days overdue`;
     if (diffDays === 0) return 'Due today';
     if (diffDays === 1) return 'Due tomorrow';
@@ -113,14 +152,16 @@ export default async function AssignmentsPage() {
 
   return (
     <div className="min-h-screen bg-white py-8">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <Breadcrumbs items={[{ label: "LMS", href: "/lms/courses" }, { label: "Assignments" }]} />
-        </div>
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'LMS', href: '/lms/courses' }, { label: 'Assignments' }]} />
+      </div>
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
           <div>
             <h1 className="text-3xl font-bold text-slate-900">My Assignments</h1>
-            <p className="text-slate-600 mt-1">Track your assignments, deadlines, and submissions</p>
+            <p className="text-slate-600 mt-1">
+              Track your assignments, deadlines, and submissions
+            </p>
           </div>
           <div className="mt-4 md:mt-0 flex gap-3">
             <button className="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-lg hover:bg-white transition">
@@ -186,10 +227,14 @@ export default async function AssignmentsPage() {
             <div className="divide-y divide-slate-200">
               {assignments.map((assignment) => {
                 const statusInfo = getSubmissionStatus(assignment);
-                const submission = submissions.find(s => s.assignment_id === assignment.id);
+                const submission = submissions.find((s) => s.assignment_id === assignment.id);
 
                 return (
-                  <Link key={assignment.id} href={`/lms/assignments/${assignment.id}`} className="block p-6 hover:bg-white transition">
+                  <Link
+                    key={assignment.id}
+                    href={`/lms/assignments/${assignment.id}`}
+                    className="block p-6 hover:bg-white transition"
+                  >
                     <div className="flex items-start justify-between">
                       <div className="flex items-start gap-4 flex-1 min-w-0">
                         <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center flex-shrink-0">
@@ -197,8 +242,14 @@ export default async function AssignmentsPage() {
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-3 mb-1">
-                            <h3 className="font-bold text-slate-900 truncate">{assignment.title}</h3>
-                            <span className={`px-2 py-1 rounded text-xs font-medium ${statusInfo.color}`}>{statusInfo.label}</span>
+                            <h3 className="font-bold text-slate-900 truncate">
+                              {assignment.title}
+                            </h3>
+                            <span
+                              className={`px-2 py-1 rounded text-xs font-medium ${statusInfo.color}`}
+                            >
+                              {statusInfo.label}
+                            </span>
                           </div>
                           <p className="text-sm text-slate-600 mb-2">{assignment.courses?.title}</p>
                           <div className="flex flex-wrap items-center gap-4 text-sm">
@@ -206,14 +257,23 @@ export default async function AssignmentsPage() {
                               <Calendar className="w-4 h-4" />
                               <span>Due: {formatDate(assignment.due_date)}</span>
                             </div>
-                            <div className={`font-medium ${statusInfo.status === 'overdue' ? 'text-brand-red-600' : statusInfo.status === 'pending' ? 'text-brand-orange-600' : 'text-brand-green-600'}`}>
+                            <div
+                              className={`font-medium ${statusInfo.status === 'overdue' ? 'text-brand-red-600' : statusInfo.status === 'pending' ? 'text-brand-orange-600' : 'text-brand-green-600'}`}
+                            >
                               {getDaysUntilDue(assignment.due_date)}
                             </div>
-                            {assignment.max_points && <div className="text-slate-500">{assignment.max_points} points</div>}
+                            {assignment.max_points && (
+                              <div className="text-slate-500">{assignment.max_points} points</div>
+                            )}
                           </div>
                           {submission?.grade !== null && submission?.grade !== undefined && (
                             <div className="mt-3 inline-flex items-center gap-2 px-3 py-1 bg-brand-green-50 rounded-lg">
-                              <span className="text-sm text-brand-green-700">Grade: <strong>{submission.grade}/{assignment.max_points || 100}</strong></span>
+                              <span className="text-sm text-brand-green-700">
+                                Grade:{' '}
+                                <strong>
+                                  {submission.grade}/{assignment.max_points || 100}
+                                </strong>
+                              </span>
                             </div>
                           )}
                         </div>
@@ -228,8 +288,13 @@ export default async function AssignmentsPage() {
             <div className="p-16 text-center">
               <BookOpen className="w-16 h-16 text-slate-300 mx-auto mb-4" />
               <h3 className="text-xl font-bold text-slate-900 mb-2">No Assignments Yet</h3>
-              <p className="text-slate-600 mb-6">Assignments from your enrolled courses will appear here.</p>
-              <Link href="/lms/courses" className="inline-flex items-center gap-2 bg-brand-blue-600 text-white px-6 py-3 rounded-xl font-bold hover:bg-brand-blue-700 transition">
+              <p className="text-slate-600 mb-6">
+                Assignments from your enrolled courses will appear here.
+              </p>
+              <Link
+                href="/lms/courses"
+                className="inline-flex items-center gap-2 bg-brand-blue-600 text-white px-6 py-3 rounded-xl font-bold hover:bg-brand-blue-700 transition"
+              >
                 Browse Courses
               </Link>
             </div>

@@ -7,11 +7,14 @@ import { requireAuth } from '@/lib/api/requireAuth';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 
 // Codebase license configurations (one-time purchase, not trial)
-const LICENSES: Record<string, { 
-  name: string; 
-  price: number; 
-  stripePriceId: string;
-}> = {
+const LICENSES: Record<
+  string,
+  {
+    name: string;
+    price: number;
+    stripePriceId: string;
+  }
+> = {
   'starter-license': {
     name: 'Elevate LMS Starter License',
     price: 299,
@@ -30,13 +33,12 @@ const LICENSES: Record<string, {
 };
 
 async function _GET(request: NextRequest) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
 
-    const auth = await requireAuth(request);
-    if (auth.error) return auth.error;
-const searchParams = request.nextUrl.searchParams;
+  const auth = await requireAuth(request);
+  if (auth.error) return auth.error;
+  const searchParams = request.nextUrl.searchParams;
   const licenseSlug = searchParams.get('license');
   const email = searchParams.get('email');
   const name = searchParams.get('name');

@@ -8,7 +8,7 @@ import { withApiAudit } from '@/lib/audit/withApiAudit';
 
 /**
  * POST /api/license/portal
- * 
+ *
  * Creates a Stripe Customer Portal session for billing management.
  * Customers can:
  * - Update payment method
@@ -28,10 +28,7 @@ async function _POST(request: NextRequest) {
     const { customerId } = body;
 
     if (!customerId) {
-      return NextResponse.json(
-        { error: 'Customer ID required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Customer ID required' }, { status: 400 });
     }
 
     const origin = request.nextUrl.origin;
@@ -46,10 +43,7 @@ async function _POST(request: NextRequest) {
     return NextResponse.json({ url: session.url });
   } catch (error) {
     logger.error('Portal session error:', error);
-    return NextResponse.json(
-      { error: 'Failed to create portal session' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to create portal session' }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/license/portal', _POST);

@@ -1,26 +1,21 @@
 // types/course.ts
 
 export type FundingStream =
-  | "WIOA_ADULT"
-  | "WIOA_YOUTH"
-  | "WIOA_DW"
-  | "WRG"
-  | "JRI"
-  | "WEX"
-  | "APPRENTICESHIP"
-  | "SELF_PAY";
+  | 'WIOA_ADULT'
+  | 'WIOA_YOUTH'
+  | 'WIOA_DW'
+  | 'WRG'
+  | 'JRI'
+  | 'WEX'
+  | 'APPRENTICESHIP'
+  | 'SELF_PAY';
 
-export type CredentialPartner =
-  | "MILADY"
-  | "CHOICE_MEDICAL"
-  | "CERTIPORT"
-  | "NONE"
-  | "OTHER";
+export type CredentialPartner = 'MILADY' | 'CHOICE_MEDICAL' | 'CERTIPORT' | 'NONE' | 'OTHER';
 
 export interface Lesson {
   id: string;
   title: string;
-  type: "video" | "reading" | "quiz" | "lab" | "assignment";
+  type: 'video' | 'reading' | 'quiz' | 'lab' | 'assignment';
   durationMinutes?: number;
   partnerRefCode?: string; // e.g., Milady chapter, Certiport objective code
 }
@@ -41,7 +36,7 @@ export interface Course {
   externalCredentialName?: string; // e.g. "CNA Certification", "Barber License"
   description: string;
   hoursTotal: number;
-  deliveryMode: "IN_PERSON" | "HYBRID" | "ONLINE";
+  deliveryMode: 'IN_PERSON' | 'HYBRID' | 'ONLINE';
   locationLabel?: string; // e.g. "Indianapolis Training Center"
   fundingEligible: FundingStream[];
   targetAudience: string[]; // e.g. ["Adults", "Justice-involved", "Youth (18–24)"]

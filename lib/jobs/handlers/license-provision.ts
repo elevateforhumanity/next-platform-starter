@@ -7,30 +7,33 @@ import { setAuditContext } from '@/lib/audit-context';
 
 /**
  * STEP 6A: License provision job handler
- * 
+ *
  * Creates or activates a license for a tenant
  */
 export async function processLicenseProvision(job: ProvisioningJob): Promise<void> {
   const supabase = await getAdminClient();
-  await setAuditContext(supabase, { systemActor: 'license_provision_job', requestId: job.correlation_id });
+  await setAuditContext(supabase, {
+    systemActor: 'license_provision_job',
+    requestId: job.correlation_id,
+  });
   const { tenantId, plan, stripeCustomerId, stripeSubscriptionId } = job.payload as {
     tenantId: string;
     plan: string;
     stripeCustomerId?: string;
     stripeSubscriptionId?: string;
   };
-  
+
   if (!tenantId || !plan) {
     throw new Error('Missing required fields: tenantId, plan');
   }
-  
+
   // Check if license already exists
   const { data: existing } = await supabase
     .from('licenses')
     .select('id')
     .eq('tenant_id', tenantId)
     .maybeSingle();
-  
+
   if (existing) {
     // Update existing license
     const { error } = await supabase
@@ -43,35 +46,33 @@ export async function processLicenseProvision(job: ProvisioningJob): Promise<voi
         updated_at: new Date().toISOString(),
       })
       .eq('id', existing.id);
-    
+
     if (error) throw error;
-    
-    logger.info('License updated', { 
-      licenseId: existing.id, 
-      correlationId: job.correlation_id 
+
+    logger.info('License updated', {
+      licenseId: existing.id,
+      correlationId: job.correlation_id,
     });
   } else {
     // Create new license
-    const { error } = await supabase
-      .from('licenses')
-      .insert({
-        tenant_id: tenantId,
-        plan,
-        status: 'active',
-        stripe_customer_id: stripeCustomerId,
-        stripe_subscription_id: stripeSubscriptionId,
-        features: getDefaultFeatures(plan),
-      });
-    
+    const { error } = await supabase.from('licenses').insert({
+      tenant_id: tenantId,
+      plan,
+      status: 'active',
+      stripe_customer_id: stripeCustomerId,
+      stripe_subscription_id: stripeSubscriptionId,
+      features: getDefaultFeatures(plan),
+    });
+
     if (error) throw error;
-    
-    logger.info('License created', { 
-      tenantId, 
-      plan, 
-      correlationId: job.correlation_id 
+
+    logger.info('License created', {
+      tenantId,
+      plan,
+      correlationId: job.correlation_id,
     });
   }
-  
+
   // Log provisioning event
   await supabase.from('provisioning_events').insert({
     correlation_id: job.correlation_id,
@@ -126,6 +127,6 @@ function getDefaultFeatures(plan: string): Record<string, boolean> {
       priority_support: true,
     },
   };
-  
+
   return features[plan] || features.basic;
 }

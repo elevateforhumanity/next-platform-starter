@@ -15,7 +15,9 @@ export async function getAuthenticatedDb(): Promise<{
   const supabase = await createClient();
   if (!supabase) return null;
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return null;
 
   const admin = await getAdminClient();

@@ -19,13 +19,12 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
 
     const full_name = String(body.full_name || '').trim();
-    const email = String(body.email || '').trim().toLowerCase();
+    const email = String(body.email || '')
+      .trim()
+      .toLowerCase();
 
     if (!full_name || !email) {
-      return NextResponse.json(
-        { error: 'Full name and email are required.' },
-        { status: 400 },
-      );
+      return NextResponse.json({ error: 'Full name and email are required.' }, { status: 400 });
     }
 
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {

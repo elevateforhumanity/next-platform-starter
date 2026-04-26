@@ -2,12 +2,12 @@ import Link from 'next/link';
 import { BookOpen, CheckCircle, Headphones, Users, FileText, Calendar } from 'lucide-react';
 
 const TOOLS = [
-  { icon: BookOpen,    label: 'Study Guides',    href: '/lms/resources' },
-  { icon: CheckCircle, label: 'Practice Exams',  href: '/lms/quizzes' },
-  { icon: Headphones,  label: 'AI Tutor',        href: '/lms/ai-tutor' },
-  { icon: Users,       label: 'Community',       href: '/lms/community' },
-  { icon: FileText,    label: 'Certificates',    href: '/lms/certificates' },
-  { icon: Calendar,    label: 'Schedule',        href: '/lms/schedule' },
+  { icon: BookOpen, label: 'Study Guides', href: '/lms/resources' },
+  { icon: CheckCircle, label: 'Practice Exams', href: '/lms/quizzes' },
+  { icon: Headphones, label: 'AI Tutor', href: '/lms/ai-tutor' },
+  { icon: Users, label: 'Community', href: '/lms/community' },
+  { icon: FileText, label: 'Certificates', href: '/lms/certificates' },
+  { icon: Calendar, label: 'Schedule', href: '/lms/schedule' },
 ];
 
 export function StudentToolsStrip() {
@@ -26,7 +26,9 @@ export function StudentToolsStrip() {
               <div className="w-9 h-9 rounded-xl bg-slate-100 group-hover:bg-slate-900 flex items-center justify-center transition">
                 <Icon className="w-4 h-4 text-slate-600 group-hover:text-white transition" />
               </div>
-              <span className="text-xs font-semibold text-slate-900 text-center leading-tight">{t.label}</span>
+              <span className="text-xs font-semibold text-slate-900 text-center leading-tight">
+                {t.label}
+              </span>
             </Link>
           );
         })}

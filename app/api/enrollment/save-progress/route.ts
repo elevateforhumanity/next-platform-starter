@@ -54,7 +54,7 @@ async function _POST(req: Request) {
         amount_paid_cents: 0,
         email: user.email ?? '',
       },
-      { onConflict: 'user_id,program_id' }
+      { onConflict: 'user_id,program_id' },
     );
 
     if (error) {

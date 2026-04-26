@@ -22,8 +22,13 @@ export default function EnrollmentOrientationPage() {
   useEffect(() => {
     async function checkEnrollment() {
       const supabase = createClient();
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) { router.push('/login?redirect=' + encodeURIComponent(window.location.pathname)); return; }
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (!user) {
+        router.push('/login?redirect=' + encodeURIComponent(window.location.pathname));
+        return;
+      }
 
       const { data, error } = await supabase
         .from('program_enrollments')
@@ -33,10 +38,19 @@ export default function EnrollmentOrientationPage() {
         .limit(1)
         .maybeSingle();
 
-      if (error || !data) { router.push('/programs'); return; }
+      if (error || !data) {
+        router.push('/programs');
+        return;
+      }
 
-      if (data.enrollment_state === 'orientation_complete') { router.push('/enrollment/documents'); return; }
-      if (data.enrollment_state === 'documents_complete' || data.enrollment_state === 'active') { router.push('/learner/dashboard'); return; }
+      if (data.enrollment_state === 'orientation_complete') {
+        router.push('/enrollment/documents');
+        return;
+      }
+      if (data.enrollment_state === 'documents_complete' || data.enrollment_state === 'active') {
+        router.push('/learner/dashboard');
+        return;
+      }
 
       setEnrollmentId(data.id);
       setLoading(false);
@@ -61,8 +75,13 @@ export default function EnrollmentOrientationPage() {
   function togglePlay() {
     const v = videoRef.current;
     if (!v) return;
-    if (v.paused) { v.play(); setPlaying(true); }
-    else { v.pause(); setPlaying(false); }
+    if (v.paused) {
+      v.play();
+      setPlaying(true);
+    } else {
+      v.pause();
+      setPlaying(false);
+    }
   }
 
   function toggleMute() {
@@ -102,19 +121,26 @@ export default function EnrollmentOrientationPage() {
   return (
     <div className="min-h-screen bg-white">
       <div className="bg-slate-900 py-6 px-4 text-center">
-        <p className="text-white/60 text-xs uppercase tracking-widest mb-1">Enrollment — Step 2 of 3</p>
+        <p className="text-white/60 text-xs uppercase tracking-widest mb-1">
+          Enrollment — Step 2 of 3
+        </p>
         <h1 className="text-2xl font-black text-white">Program Orientation</h1>
-        <p className="text-white/80 text-sm mt-1">Watch the video, then sign to unlock your program</p>
+        <p className="text-white/80 text-sm mt-1">
+          Watch the video, then sign to unlock your program
+        </p>
       </div>
 
       <div className="max-w-3xl mx-auto px-4 py-10 space-y-8">
-
         {/* Step 1 — Video */}
         <div className="rounded-2xl border border-slate-200 overflow-hidden">
           <div className="bg-slate-50 border-b border-slate-200 px-5 py-3 flex items-center gap-3">
-            <span className="w-7 h-7 rounded-full bg-brand-blue-600 text-white text-xs font-black flex items-center justify-center flex-shrink-0">1</span>
+            <span className="w-7 h-7 rounded-full bg-brand-blue-600 text-white text-xs font-black flex items-center justify-center flex-shrink-0">
+              1
+            </span>
             <h2 className="font-bold text-black text-sm">Watch the Orientation Video</h2>
-            {videoWatched && <CheckCircle2 className="w-5 h-5 text-brand-green-600 ml-auto flex-shrink-0" />}
+            {videoWatched && (
+              <CheckCircle2 className="w-5 h-5 text-brand-green-600 ml-auto flex-shrink-0" />
+            )}
           </div>
 
           <div className="relative bg-black aspect-video">
@@ -145,13 +171,24 @@ export default function EnrollmentOrientationPage() {
             )}
 
             <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent px-4 py-3 flex items-center gap-3">
-              <button onClick={togglePlay} className="text-white hover:text-white/80 transition-colors" aria-label={playing ? 'Pause' : 'Play'}>
+              <button
+                onClick={togglePlay}
+                className="text-white hover:text-white/80 transition-colors"
+                aria-label={playing ? 'Pause' : 'Play'}
+              >
                 {playing ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5" />}
               </button>
               <div className="flex-1 h-1.5 bg-white/30 rounded-full overflow-hidden">
-                <div className="h-full bg-brand-blue-400 rounded-full transition-all duration-300" style={{ width: `${videoProgress}%` }} />
+                <div
+                  className="h-full bg-brand-blue-400 rounded-full transition-all duration-300"
+                  style={{ width: `${videoProgress}%` }}
+                />
               </div>
-              <button onClick={toggleMute} className="text-white hover:text-white/80 transition-colors" aria-label={muted ? 'Unmute' : 'Mute'}>
+              <button
+                onClick={toggleMute}
+                className="text-white hover:text-white/80 transition-colors"
+                aria-label={muted ? 'Unmute' : 'Mute'}
+              >
                 {muted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
               </button>
             </div>
@@ -160,13 +197,16 @@ export default function EnrollmentOrientationPage() {
           <div className="px-5 py-3 bg-slate-50 border-t border-slate-200">
             {videoWatched ? (
               <p className="text-brand-green-700 text-sm font-semibold flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4" /> Video complete — sign below to finish orientation
+                <CheckCircle2 className="w-4 h-4" /> Video complete — sign below to finish
+                orientation
               </p>
             ) : (
               <p className="text-black text-sm">
                 Watch at least 80% of the video to unlock the sign-off.
                 {videoProgress > 0 && (
-                  <span className="ml-2 text-brand-blue-600 font-semibold">{Math.round(videoProgress)}% watched</span>
+                  <span className="ml-2 text-brand-blue-600 font-semibold">
+                    {Math.round(videoProgress)}% watched
+                  </span>
                 )}
               </p>
             )}
@@ -174,14 +214,19 @@ export default function EnrollmentOrientationPage() {
         </div>
 
         {/* Step 2 — Acknowledgment */}
-        <div className={`rounded-2xl border overflow-hidden transition-opacity duration-300 ${videoWatched ? 'border-slate-200 opacity-100' : 'border-slate-100 opacity-40 pointer-events-none select-none'}`}>
+        <div
+          className={`rounded-2xl border overflow-hidden transition-opacity duration-300 ${videoWatched ? 'border-slate-200 opacity-100' : 'border-slate-100 opacity-40 pointer-events-none select-none'}`}
+        >
           <div className="bg-slate-50 border-b border-slate-200 px-5 py-3 flex items-center gap-3">
-            <span className="w-7 h-7 rounded-full bg-brand-blue-600 text-white text-xs font-black flex items-center justify-center flex-shrink-0">2</span>
+            <span className="w-7 h-7 rounded-full bg-brand-blue-600 text-white text-xs font-black flex items-center justify-center flex-shrink-0">
+              2
+            </span>
             <h2 className="font-bold text-black text-sm">Sign Orientation Acknowledgment</h2>
           </div>
           <div className="p-6 space-y-4">
             <p className="text-black text-sm leading-relaxed">
-              By checking the box below, you confirm you have watched the orientation video and agree to the following:
+              By checking the box below, you confirm you have watched the orientation video and
+              agree to the following:
             </p>
             <ul className="space-y-2.5">
               {[
@@ -207,7 +252,8 @@ export default function EnrollmentOrientationPage() {
                 className="mt-0.5 h-5 w-5 rounded border-slate-300 text-brand-blue-600 focus:ring-brand-blue-500"
               />
               <span className="text-black text-sm font-medium">
-                I have watched the orientation video and agree to all program policies, attendance requirements, and safety protocols listed above.
+                I have watched the orientation video and agree to all program policies, attendance
+                requirements, and safety protocols listed above.
               </span>
             </label>
           </div>
@@ -229,9 +275,14 @@ export default function EnrollmentOrientationPage() {
           }`}
         >
           {submitting ? (
-            <><div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white" /> Saving...</>
+            <>
+              <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white" />{' '}
+              Saving...
+            </>
           ) : (
-            <>Complete Orientation <ArrowRight className="w-5 h-5" /></>
+            <>
+              Complete Orientation <ArrowRight className="w-5 h-5" />
+            </>
           )}
         </button>
 

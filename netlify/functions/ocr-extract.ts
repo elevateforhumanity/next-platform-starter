@@ -1,38 +1,38 @@
 /**
  * Netlify Function: OCR Text Extraction
- * 
+ *
  * Handles OCR using Tesseract.js with Sharp preprocessing.
  * Isolated from Next.js to keep heavy dependencies out of the main server handler.
  */
 
-import type { Handler } from "@netlify/functions";
+import type { Handler } from '@netlify/functions';
 
 export const handler: Handler = async (event) => {
   try {
-    if (event.httpMethod !== "POST") {
-      return { statusCode: 405, body: "Method Not Allowed" };
+    if (event.httpMethod !== 'POST') {
+      return { statusCode: 405, body: 'Method Not Allowed' };
     }
 
     const payload = event.body ? JSON.parse(event.body) : null;
     if (!payload || !payload.image) {
-      return { statusCode: 400, body: "Missing image data" };
+      return { statusCode: 400, body: 'Missing image data' };
     }
 
     // Dynamic imports to keep these in this function's bundle only
-    const Tesseract = (await import(/* webpackIgnore: true */ "tesseract.js")).default;
-    const sharp = (await import(/* webpackIgnore: true */ "sharp")).default;
+    const Tesseract = (await import(/* webpackIgnore: true */ 'tesseract.js')).default;
+    const sharp = (await import(/* webpackIgnore: true */ 'sharp')).default;
 
     const { image, options = {} } = payload;
-    const language = options.language || "eng";
+    const language = options.language || 'eng';
     const preprocess = options.preprocess !== false;
 
     // Convert base64 to buffer
     let imageBuffer: Buffer;
-    if (image.startsWith("data:")) {
-      const base64Data = image.split(",")[1];
-      imageBuffer = Buffer.from(base64Data, "base64");
+    if (image.startsWith('data:')) {
+      const base64Data = image.split(',')[1];
+      imageBuffer = Buffer.from(base64Data, 'base64');
     } else {
-      imageBuffer = Buffer.from(image, "base64");
+      imageBuffer = Buffer.from(image, 'base64');
     }
 
     // Preprocess image if enabled
@@ -46,7 +46,7 @@ export const handler: Handler = async (event) => {
           .png()
           .toBuffer();
       } catch (e) {
-        console.warn("Image preprocessing failed, using original");
+        console.warn('Image preprocessing failed, using original');
       }
     }
 
@@ -55,7 +55,7 @@ export const handler: Handler = async (event) => {
 
     return {
       statusCode: 200,
-      headers: { "Content-Type": "application/json" },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         text: result.data.text.trim(),
         confidence: result.data.confidence / 100,
@@ -67,7 +67,7 @@ export const handler: Handler = async (event) => {
       }),
     };
   } catch (e: any) {
-    console.error("OCR error:", e);
-    return { statusCode: 500, body: e?.message ?? "OCR extraction failed" };
+    console.error('OCR error:', e);
+    return { statusCode: 500, body: e?.message ?? 'OCR extraction failed' };
   }
 };

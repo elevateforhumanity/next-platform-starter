@@ -46,13 +46,18 @@ export async function POST(request: NextRequest) {
   });
 
   // Log the intervention
-  await db.from('student_interventions').upsert({
-    student_id: studentId,
-    enrollment_id: enrollmentId ?? null,
-    intervention_type: 'follow_up_email',
-    notes: 'Admin-triggered follow-up from at-risk dashboard',
-    created_at: new Date().toISOString(),
-  }).select().maybeSingle().catch(() => null); // non-fatal if table doesn't exist yet
+  await db
+    .from('student_interventions')
+    .upsert({
+      student_id: studentId,
+      enrollment_id: enrollmentId ?? null,
+      intervention_type: 'follow_up_email',
+      notes: 'Admin-triggered follow-up from at-risk dashboard',
+      created_at: new Date().toISOString(),
+    })
+    .select()
+    .maybeSingle()
+    .catch(() => null); // non-fatal if table doesn't exist yet
 
   return NextResponse.json({ ok: true });
 }

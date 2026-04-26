@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -45,12 +45,11 @@ export function GenerateCertificateButton({
         setError(
           data?.message ||
             data?.error ||
-            'Unable to generate certificate. Please complete all required lessons first.'
+            'Unable to generate certificate. Please complete all required lessons first.',
         );
       } else {
         setMessage(
-          data?.message ||
-            'Certificate generated! You can view it on your Certificates page.'
+          data?.message || 'Certificate generated! You can view it on your Certificates page.',
         );
         // Reload page after 2 seconds to show updated status
         setTimeout(() => {

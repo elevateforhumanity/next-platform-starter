@@ -1,13 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-
 import { logger } from '@/lib/logger';
 import { toErrorMessage } from '@/lib/safe';
 import { runDailyIndianaComplianceCheck } from '@/lib/compliance/indiana-automation';
 import { generateWIOAReport, scheduleWIOAReports } from '@/lib/compliance/wioa-automation';
-import { getAllRequirements, getCriticalRequirements, getReportingStatus } from '@/lib/compliance/reporting-schedules';
+import {
+  getAllRequirements,
+  getCriticalRequirements,
+  getReportingStatus,
+} from '@/lib/compliance/reporting-schedules';
 import { shouldSendAlert, getAlertTimeline } from '@/lib/compliance/alert-system';
-import { verifyCredential, getPendingVerifications, generateCredentialReport } from '@/lib/compliance/credential-verification';
+import {
+  verifyCredential,
+  getPendingVerifications,
+  generateCredentialReport,
+} from '@/lib/compliance/credential-verification';
 import { submitUI3Request, generateUI3Report } from '@/lib/compliance/ui3-integration';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { requireAuth } from '@/lib/api/requireAuth';
@@ -41,7 +48,9 @@ async function _POST(request: NextRequest) {
       }
 
       case 'wioa-report': {
-        const startDate = params.startDate ? new Date(params.startDate) : new Date(new Date().setMonth(new Date().getMonth() - 3));
+        const startDate = params.startDate
+          ? new Date(params.startDate)
+          : new Date(new Date().setMonth(new Date().getMonth() - 3));
         const endDate = params.endDate ? new Date(params.endDate) : new Date();
         const report = await generateWIOAReport(startDate, endDate);
         return NextResponse.json({ success: true, report });
@@ -81,8 +90,14 @@ async function _POST(request: NextRequest) {
         return NextResponse.json({ error: `Unknown action: ${action}` }, { status: 400 });
     }
   } catch (error) {
-    logger.error('Compliance automation error:', error instanceof Error ? error : new Error(String(error)));
-    return NextResponse.json({ error: toErrorMessage(error) || 'Compliance automation failed' }, { status: 500 });
+    logger.error(
+      'Compliance automation error:',
+      error instanceof Error ? error : new Error(String(error)),
+    );
+    return NextResponse.json(
+      { error: toErrorMessage(error) || 'Compliance automation failed' },
+      { status: 500 },
+    );
   }
 }
 
@@ -93,8 +108,8 @@ async function _GET(request: NextRequest) {
   const auth = await requireAuth(request);
   if (auth.error) return auth.error;
 
-    const adminCheck = await requireAdminRole();
-    if (adminCheck) return adminCheck;
+  const adminCheck = await requireAdminRole();
+  if (adminCheck) return adminCheck;
 
   const requirements = getAllRequirements();
   const critical = getCriticalRequirements();
@@ -102,7 +117,7 @@ async function _GET(request: NextRequest) {
   return NextResponse.json({
     totalRequirements: requirements.length,
     criticalRequirements: critical.length,
-    requirements: requirements.map(r => ({
+    requirements: requirements.map((r) => ({
       ...r,
       status: getReportingStatus(r, new Date()),
     })),

@@ -4,7 +4,8 @@ import { buildMetadata } from '@/lib/cf-seo';
 
 export const metadata = buildMetadata({
   title: 'Career Training',
-  description: 'Workforce career training programs in healthcare, skilled trades, technology, beauty, and business. WIOA funding available.',
+  description:
+    'Workforce career training programs in healthcare, skilled trades, technology, beauty, and business. WIOA funding available.',
   path: '/career-training',
 });
 
@@ -23,7 +24,9 @@ export default function CareerTrainingPage() {
             <p className="mt-2 text-sm text-slate-700">{area.summary}</p>
             <ul className="mt-3 space-y-1">
               {area.programs.map((p) => (
-                <li key={p} className="text-sm text-slate-600">· {p}</li>
+                <li key={p} className="text-sm text-slate-600">
+                  · {p}
+                </li>
               ))}
             </ul>
             <Link

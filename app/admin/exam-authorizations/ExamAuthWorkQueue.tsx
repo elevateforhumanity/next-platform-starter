@@ -1,7 +1,14 @@
 'use client';
 
 import { useState, useTransition } from 'react';
-import { AlertTriangle, Calendar, CheckCircle, XCircle, RefreshCw, ChevronDown } from 'lucide-react';
+import {
+  AlertTriangle,
+  Calendar,
+  CheckCircle,
+  XCircle,
+  RefreshCw,
+  ChevronDown,
+} from 'lucide-react';
 
 interface QueueRow {
   authorization_id: string;
@@ -27,20 +34,20 @@ interface QueueRow {
 }
 
 const ACTION_LABELS: Record<string, { label: string; color: string }> = {
-  needs_scheduling:     { label: 'Schedule Exam',       color: 'bg-blue-100 text-blue-800' },
-  awaiting_outcome:     { label: 'Awaiting Outcome',    color: 'bg-yellow-100 text-yellow-800' },
-  needs_result_recorded:{ label: 'Record Result',       color: 'bg-green-100 text-green-800' },
-  eligible_for_reauth:  { label: 'Re-authorize',        color: 'bg-purple-100 text-purple-800' },
-  no_action_needed:     { label: 'No Action',           color: 'bg-gray-100 text-slate-700' },
+  needs_scheduling: { label: 'Schedule Exam', color: 'bg-blue-100 text-blue-800' },
+  awaiting_outcome: { label: 'Awaiting Outcome', color: 'bg-yellow-100 text-yellow-800' },
+  needs_result_recorded: { label: 'Record Result', color: 'bg-green-100 text-green-800' },
+  eligible_for_reauth: { label: 'Re-authorize', color: 'bg-purple-100 text-purple-800' },
+  no_action_needed: { label: 'No Action', color: 'bg-gray-100 text-slate-700' },
 };
 
 const STATUS_COLORS: Record<string, string> = {
   authorized: 'bg-blue-100 text-blue-700',
-  scheduled:  'bg-yellow-100 text-yellow-700',
-  passed:     'bg-green-100 text-green-700',
-  failed:     'bg-red-100 text-red-700',
-  expired:    'bg-gray-100 text-slate-700',
-  no_show:    'bg-orange-100 text-orange-700',
+  scheduled: 'bg-yellow-100 text-yellow-700',
+  passed: 'bg-green-100 text-green-700',
+  failed: 'bg-red-100 text-red-700',
+  expired: 'bg-gray-100 text-slate-700',
+  no_show: 'bg-orange-100 text-orange-700',
 };
 
 export default function ExamAuthWorkQueue({
@@ -55,15 +62,17 @@ export default function ExamAuthWorkQueue({
   const [actionState, setActionState] = useState<Record<string, string>>({});
   const [isPending, startTransition] = useTransition();
 
-  const filtered = filter === 'all'
-    ? rows
-    : filter === 'stuck'
-    ? rows.filter(r =>
-        r.action_needed === 'needs_scheduling' &&
-        r.authorized_at &&
-        (Date.now() - new Date(r.authorized_at).getTime()) > 5 * 24 * 60 * 60 * 1000
-      )
-    : rows.filter(r => r.action_needed === filter);
+  const filtered =
+    filter === 'all'
+      ? rows
+      : filter === 'stuck'
+        ? rows.filter(
+            (r) =>
+              r.action_needed === 'needs_scheduling' &&
+              r.authorized_at &&
+              Date.now() - new Date(r.authorized_at).getTime() > 5 * 24 * 60 * 60 * 1000,
+          )
+        : rows.filter((r) => r.action_needed === filter);
 
   function daysSince(dateStr: string | null): number {
     if (!dateStr) return 0;
@@ -75,7 +84,7 @@ export default function ExamAuthWorkQueue({
   }
 
   async function handleAction(authId: string, action: string, payload?: Record<string, string>) {
-    setActionState(s => ({ ...s, [authId]: 'loading' }));
+    setActionState((s) => ({ ...s, [authId]: 'loading' }));
 
     try {
       let url = '';
@@ -118,14 +127,16 @@ export default function ExamAuthWorkQueue({
       const data = await res.json();
 
       if (!res.ok) {
-        setActionState(s => ({ ...s, [authId]: `error: ${data.error ?? 'failed'}` }));
+        setActionState((s) => ({ ...s, [authId]: `error: ${data.error ?? 'failed'}` }));
       } else {
-        setActionState(s => ({ ...s, [authId]: 'done' }));
+        setActionState((s) => ({ ...s, [authId]: 'done' }));
         // Reload to reflect updated queue state
-        startTransition(() => { window.location.reload(); });
+        startTransition(() => {
+          window.location.reload();
+        });
       }
     } catch {
-      setActionState(s => ({ ...s, [authId]: 'error: network failure' }));
+      setActionState((s) => ({ ...s, [authId]: 'error: network failure' }));
     }
   }
 
@@ -134,13 +145,13 @@ export default function ExamAuthWorkQueue({
       {/* Filter bar */}
       <div className="border-b border-gray-200 px-4 py-3 flex flex-wrap gap-2">
         {[
-          { key: 'all',                   label: `All (${rows.length})` },
-          { key: 'needs_scheduling',      label: 'Needs Scheduling' },
-          { key: 'stuck',                 label: '⚠ Stuck > 5d' },
-          { key: 'awaiting_outcome',      label: 'Awaiting Outcome' },
+          { key: 'all', label: `All (${rows.length})` },
+          { key: 'needs_scheduling', label: 'Needs Scheduling' },
+          { key: 'stuck', label: '⚠ Stuck > 5d' },
+          { key: 'awaiting_outcome', label: 'Awaiting Outcome' },
           { key: 'needs_result_recorded', label: 'Record Result' },
-          { key: 'eligible_for_reauth',   label: 'Re-authorize' },
-        ].map(f => (
+          { key: 'eligible_for_reauth', label: 'Re-authorize' },
+        ].map((f) => (
           <button
             key={f.key}
             onClick={() => setFilter(f.key)}
@@ -156,24 +167,36 @@ export default function ExamAuthWorkQueue({
       </div>
 
       {filtered.length === 0 ? (
-        <div className="px-6 py-12 text-center text-slate-700 text-sm">
-          No items in this view.
-        </div>
+        <div className="px-6 py-12 text-center text-slate-700 text-sm">No items in this view.</div>
       ) : (
         <table className="min-w-full divide-y divide-gray-200 text-sm">
           <thead className="bg-gray-50">
             <tr>
-              <th className="px-4 py-3 text-left text-xs font-medium text-slate-700 uppercase tracking-wider">Learner</th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-slate-700 uppercase tracking-wider">Program</th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-slate-700 uppercase tracking-wider">Status</th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-slate-700 uppercase tracking-wider">Authorized</th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-slate-700 uppercase tracking-wider">Expires</th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-slate-700 uppercase tracking-wider">Next Action</th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-slate-700 uppercase tracking-wider">Actions</th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-slate-700 uppercase tracking-wider">
+                Learner
+              </th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-slate-700 uppercase tracking-wider">
+                Program
+              </th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-slate-700 uppercase tracking-wider">
+                Status
+              </th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-slate-700 uppercase tracking-wider">
+                Authorized
+              </th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-slate-700 uppercase tracking-wider">
+                Expires
+              </th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-slate-700 uppercase tracking-wider">
+                Next Action
+              </th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-slate-700 uppercase tracking-wider">
+                Actions
+              </th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
-            {filtered.map(row => {
+            {filtered.map((row) => {
               const stuck = isStuck(row);
               const actionInfo = ACTION_LABELS[row.action_needed] ?? ACTION_LABELS.no_action_needed;
               const state = actionState[row.authorization_id];
@@ -198,7 +221,9 @@ export default function ExamAuthWorkQueue({
 
                     {/* Status */}
                     <td className="px-4 py-3">
-                      <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${STATUS_COLORS[row.status] ?? 'bg-gray-100 text-slate-700'}`}>
+                      <span
+                        className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${STATUS_COLORS[row.status] ?? 'bg-gray-100 text-slate-700'}`}
+                      >
                         {row.status}
                       </span>
                       {stuck && (
@@ -211,24 +236,38 @@ export default function ExamAuthWorkQueue({
 
                     {/* Authorized */}
                     <td className="px-4 py-3 text-slate-700 text-xs">
-                      {row.authorized_at ? new Date(row.authorized_at).toLocaleDateString('en-US', { timeZone: 'UTC' }) : '—'}
+                      {row.authorized_at
+                        ? new Date(row.authorized_at).toLocaleDateString('en-US', {
+                            timeZone: 'UTC',
+                          })
+                        : '—'}
                     </td>
 
                     {/* Expires */}
                     <td className="px-4 py-3 text-xs">
                       {row.expires_at ? (
-                        <span className={row.expiring_soon ? 'text-orange-600 font-medium' : 'text-slate-700'}>
-                          {new Date(row.expires_at).toLocaleDateString('en-US', { timeZone: 'UTC' })}
+                        <span
+                          className={
+                            row.expiring_soon ? 'text-orange-600 font-medium' : 'text-slate-700'
+                          }
+                        >
+                          {new Date(row.expires_at).toLocaleDateString('en-US', {
+                            timeZone: 'UTC',
+                          })}
                           {row.days_until_expiry !== null && (
                             <span className="ml-1 text-slate-700">({row.days_until_expiry}d)</span>
                           )}
                         </span>
-                      ) : '—'}
+                      ) : (
+                        '—'
+                      )}
                     </td>
 
                     {/* Next action badge */}
                     <td className="px-4 py-3">
-                      <span className={`inline-flex px-2 py-0.5 rounded text-xs font-medium ${actionInfo.color}`}>
+                      <span
+                        className={`inline-flex px-2 py-0.5 rounded text-xs font-medium ${actionInfo.color}`}
+                      >
                         {actionInfo.label}
                       </span>
                     </td>
@@ -246,12 +285,16 @@ export default function ExamAuthWorkQueue({
                           <>
                             {row.action_needed === 'needs_scheduling' && (
                               <button
-                                onClick={() => setExpandedId(expanded ? null : row.authorization_id)}
+                                onClick={() =>
+                                  setExpandedId(expanded ? null : row.authorization_id)
+                                }
                                 className="inline-flex items-center gap-1 px-2 py-1 bg-blue-600 text-white text-xs rounded hover:bg-blue-700"
                               >
                                 <Calendar className="w-3 h-3" />
                                 Schedule
-                                <ChevronDown className={`w-3 h-3 transition-transform ${expanded ? 'rotate-180' : ''}`} />
+                                <ChevronDown
+                                  className={`w-3 h-3 transition-transform ${expanded ? 'rotate-180' : ''}`}
+                                />
                               </button>
                             )}
                             {row.action_needed === 'awaiting_outcome' && (
@@ -272,12 +315,16 @@ export default function ExamAuthWorkQueue({
                             )}
                             {row.action_needed === 'needs_result_recorded' && (
                               <button
-                                onClick={() => setExpandedId(expanded ? null : row.authorization_id)}
+                                onClick={() =>
+                                  setExpandedId(expanded ? null : row.authorization_id)
+                                }
                                 className="inline-flex items-center gap-1 px-2 py-1 bg-green-600 text-white text-xs rounded hover:bg-green-700"
                               >
                                 <CheckCircle className="w-3 h-3" />
                                 Record Result
-                                <ChevronDown className={`w-3 h-3 transition-transform ${expanded ? 'rotate-180' : ''}`} />
+                                <ChevronDown
+                                  className={`w-3 h-3 transition-transform ${expanded ? 'rotate-180' : ''}`}
+                                />
                               </button>
                             )}
                             {row.action_needed === 'eligible_for_reauth' && (
@@ -360,35 +407,62 @@ function ScheduleForm({
       <div className="grid grid-cols-2 gap-3">
         <div>
           <label className="block text-xs text-slate-700 mb-1">Exam Date *</label>
-          <input type="date" value={date} onChange={e => setDate(e.target.value)}
-            className="w-full border border-gray-300 rounded px-2 py-1.5 text-sm" required />
+          <input
+            type="date"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+            className="w-full border border-gray-300 rounded px-2 py-1.5 text-sm"
+            required
+          />
         </div>
         <div>
           <label className="block text-xs text-slate-700 mb-1">Time</label>
-          <input type="time" value={time} onChange={e => setTime(e.target.value)}
-            className="w-full border border-gray-300 rounded px-2 py-1.5 text-sm" />
+          <input
+            type="time"
+            value={time}
+            onChange={(e) => setTime(e.target.value)}
+            className="w-full border border-gray-300 rounded px-2 py-1.5 text-sm"
+          />
         </div>
         <div>
           <label className="block text-xs text-slate-700 mb-1">Testing Center</label>
-          <input type="text" value={center} onChange={e => setCenter(e.target.value)}
+          <input
+            type="text"
+            value={center}
+            onChange={(e) => setCenter(e.target.value)}
             placeholder="Location or proctor name"
-            className="w-full border border-gray-300 rounded px-2 py-1.5 text-sm" />
+            className="w-full border border-gray-300 rounded px-2 py-1.5 text-sm"
+          />
         </div>
         <div>
           <label className="block text-xs text-slate-700 mb-1">Confirmation #</label>
-          <input type="text" value={confirmation} onChange={e => setConfirmation(e.target.value)}
-            className="w-full border border-gray-300 rounded px-2 py-1.5 text-sm" />
+          <input
+            type="text"
+            value={confirmation}
+            onChange={(e) => setConfirmation(e.target.value)}
+            className="w-full border border-gray-300 rounded px-2 py-1.5 text-sm"
+          />
         </div>
       </div>
       <div className="flex gap-2 mt-3">
         <button
-          onClick={() => onSubmit({ scheduled_date: date, scheduled_time: time, testing_center: center, confirmation_number: confirmation })}
+          onClick={() =>
+            onSubmit({
+              scheduled_date: date,
+              scheduled_time: time,
+              testing_center: center,
+              confirmation_number: confirmation,
+            })
+          }
           disabled={!date}
           className="px-3 py-1.5 bg-blue-600 text-white text-xs rounded hover:bg-blue-700 disabled:opacity-50"
         >
           Save Schedule
         </button>
-        <button onClick={onCancel} className="px-3 py-1.5 bg-gray-200 text-slate-700 text-xs rounded hover:bg-gray-300">
+        <button
+          onClick={onCancel}
+          className="px-3 py-1.5 bg-gray-200 text-slate-700 text-xs rounded hover:bg-gray-300"
+        >
           Cancel
         </button>
       </div>
@@ -416,8 +490,11 @@ function RecordResultForm({
       <div className="grid grid-cols-2 gap-3">
         <div>
           <label className="block text-xs text-slate-700 mb-1">Result *</label>
-          <select value={passed} onChange={e => setPassed(e.target.value)}
-            className="w-full border border-gray-300 rounded px-2 py-1.5 text-sm">
+          <select
+            value={passed}
+            onChange={(e) => setPassed(e.target.value)}
+            className="w-full border border-gray-300 rounded px-2 py-1.5 text-sm"
+          >
             <option value="">Select…</option>
             <option value="true">Passed</option>
             <option value="false">Failed</option>
@@ -425,29 +502,49 @@ function RecordResultForm({
         </div>
         <div>
           <label className="block text-xs text-slate-700 mb-1">Score (%)</label>
-          <input type="number" min="0" max="100" value={score} onChange={e => setScore(e.target.value)}
-            className="w-full border border-gray-300 rounded px-2 py-1.5 text-sm" />
+          <input
+            type="number"
+            min="0"
+            max="100"
+            value={score}
+            onChange={(e) => setScore(e.target.value)}
+            className="w-full border border-gray-300 rounded px-2 py-1.5 text-sm"
+          />
         </div>
         <div>
           <label className="block text-xs text-slate-700 mb-1">Exam Date *</label>
-          <input type="date" value={examDate} onChange={e => setExamDate(e.target.value)}
-            className="w-full border border-gray-300 rounded px-2 py-1.5 text-sm" required />
+          <input
+            type="date"
+            value={examDate}
+            onChange={(e) => setExamDate(e.target.value)}
+            className="w-full border border-gray-300 rounded px-2 py-1.5 text-sm"
+            required
+          />
         </div>
         <div>
           <label className="block text-xs text-slate-700 mb-1">Certificate # (if passed)</label>
-          <input type="text" value={certNumber} onChange={e => setCertNumber(e.target.value)}
-            className="w-full border border-gray-300 rounded px-2 py-1.5 text-sm" />
+          <input
+            type="text"
+            value={certNumber}
+            onChange={(e) => setCertNumber(e.target.value)}
+            className="w-full border border-gray-300 rounded px-2 py-1.5 text-sm"
+          />
         </div>
       </div>
       <div className="flex gap-2 mt-3">
         <button
-          onClick={() => onSubmit({ passed, score, exam_date: examDate, certificate_number: certNumber })}
+          onClick={() =>
+            onSubmit({ passed, score, exam_date: examDate, certificate_number: certNumber })
+          }
           disabled={!passed || !examDate}
           className="px-3 py-1.5 bg-green-600 text-white text-xs rounded hover:bg-green-700 disabled:opacity-50"
         >
           Save Result
         </button>
-        <button onClick={onCancel} className="px-3 py-1.5 bg-gray-200 text-slate-700 text-xs rounded hover:bg-gray-300">
+        <button
+          onClick={onCancel}
+          className="px-3 py-1.5 bg-gray-200 text-slate-700 text-xs rounded hover:bg-gray-300"
+        >
           Cancel
         </button>
       </div>

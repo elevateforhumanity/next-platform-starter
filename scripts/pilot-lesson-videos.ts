@@ -29,7 +29,10 @@ const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 const COURSE_ID = '2cffc43f-b90f-4c6d-a5d1-1fd2a5e14285';
 const COURSE_NAME = 'Bookkeeping & QuickBooks Certified User';
-const INSTRUCTOR_PHOTO = path.join(process.cwd(), 'public/images/team/elizabeth-greene-headshot.jpg');
+const INSTRUCTOR_PHOTO = path.join(
+  process.cwd(),
+  'public/images/team/elizabeth-greene-headshot.jpg',
+);
 const VOICE = 'nova';
 
 // Pilot lesson numbers
@@ -55,7 +58,7 @@ const MODULE_MAP: Record<number, { moduleNumber: number; moduleName: string }> =
 async function fetchLesson(lessonNumber: number): Promise<any> {
   const res = await fetch(
     `${SUPABASE_URL}/rest/v1/training_lessons?course_id=eq.${COURSE_ID}&lesson_number=eq.${lessonNumber}&select=*`,
-    { headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` } }
+    { headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` } },
   );
   const data = await res.json();
   return data[0];
@@ -64,7 +67,7 @@ async function fetchLesson(lessonNumber: number): Promise<any> {
 async function fetchNextLessonTitle(lessonNumber: number): Promise<string> {
   const res = await fetch(
     `${SUPABASE_URL}/rest/v1/training_lessons?course_id=eq.${COURSE_ID}&lesson_number=eq.${lessonNumber + 1}&select=title`,
-    { headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` } }
+    { headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` } },
   );
   const data = await res.json();
   return data[0]?.title || 'the next topic';
@@ -95,7 +98,9 @@ async function processLesson(lessonNumber: number, outputDir: string): Promise<v
 
   console.log(`\n${'='.repeat(60)}`);
   console.log(`LESSON ${lessonNumber}: ${lesson.title}`);
-  console.log(`Content: ${contentLen} chars | Type: ${contentLen > 2000 ? 'RICH' : contentLen > 1000 ? 'MEDIUM' : 'THIN'}`);
+  console.log(
+    `Content: ${contentLen} chars | Type: ${contentLen > 2000 ? 'RICH' : contentLen > 1000 ? 'MEDIUM' : 'THIN'}`,
+  );
   console.log(`${'='.repeat(60)}`);
 
   // Step 1: Generate structured script
@@ -112,7 +117,9 @@ async function processLesson(lessonNumber: number, outputDir: string): Promise<v
     nextLessonTitle: nextTitle,
     courseName: COURSE_NAME,
   });
-  console.log(`  Script: ${script.wordCount} words, ~${script.estimatedDuration}s, ${script.slides.length} slides`);
+  console.log(
+    `  Script: ${script.wordCount} words, ~${script.estimatedDuration}s, ${script.slides.length} slides`,
+  );
   for (const sl of script.slides) {
     console.log(`    [${sl.segment}] ${sl.title} (${sl.bullets.length} bullets)`);
   }
@@ -127,21 +134,18 @@ async function processLesson(lessonNumber: number, outputDir: string): Promise<v
   // Step 3: Render multi-slide video
   console.log(`  [3/4] Rendering ${script.slides.length}-slide video...`);
   const videoPath = path.join(outputDir, `lesson-${String(lessonNumber).padStart(3, '0')}.mp4`);
-  const result = await renderLessonVideo(
-    script.slides,
-    audioPath,
-    videoPath,
-    {
-      instructorImagePath: INSTRUCTOR_PHOTO,
-      instructorName: 'Elizabeth Greene',
-      instructorTitle: 'Founder & Program Director',
-      courseName: COURSE_NAME,
-      moduleNumber: modInfo.moduleNumber,
-      moduleName: modInfo.moduleName,
-      lessonNumber,
-    }
+  const result = await renderLessonVideo(script.slides, audioPath, videoPath, {
+    instructorImagePath: INSTRUCTOR_PHOTO,
+    instructorName: 'Elizabeth Greene',
+    instructorTitle: 'Founder & Program Director',
+    courseName: COURSE_NAME,
+    moduleNumber: modInfo.moduleNumber,
+    moduleName: modInfo.moduleName,
+    lessonNumber,
+  });
+  console.log(
+    `  Video: ${(result.fileSize / 1024 / 1024).toFixed(1)} MB, ${result.duration}s (${(result.duration / 60).toFixed(1)} min)`,
   );
-  console.log(`  Video: ${(result.fileSize / 1024 / 1024).toFixed(1)} MB, ${result.duration}s (${(result.duration / 60).toFixed(1)} min)`);
 
   // Step 4: Upload to lessons-v2/
   console.log(`  [4/4] Uploading to Supabase (lessons-v2/)...`);
@@ -165,8 +169,14 @@ async function main() {
   console.log(`Lessons: ${PILOT_LESSONS.join(', ')}`);
   console.log(`Spec: 1920x1080, 30fps, H.264, AAC, ~7 min each`);
 
-  if (!process.env.OPENAI_API_KEY) { console.error('OPENAI_API_KEY not set'); process.exit(1); }
-  if (!SUPABASE_KEY) { console.error('SUPABASE_SERVICE_ROLE_KEY not set'); process.exit(1); }
+  if (!process.env.OPENAI_API_KEY) {
+    console.error('OPENAI_API_KEY not set');
+    process.exit(1);
+  }
+  if (!SUPABASE_KEY) {
+    console.error('SUPABASE_SERVICE_ROLE_KEY not set');
+    process.exit(1);
+  }
 
   const outputDir = path.join(process.cwd(), 'output', 'pilot');
   await fs.mkdir(outputDir, { recursive: true });

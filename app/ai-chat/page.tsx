@@ -1,9 +1,16 @@
 import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
-import { 
-  MessageSquare, Bot, Sparkles, Clock, BookOpen, 
-  HelpCircle, ArrowRight, Zap, Phone
+import {
+  MessageSquare,
+  Bot,
+  Sparkles,
+  Clock,
+  BookOpen,
+  HelpCircle,
+  ArrowRight,
+  Zap,
+  Phone,
 } from 'lucide-react';
 import ChatAssistantWrapper from './ChatAssistantWrapper';
 
@@ -12,7 +19,8 @@ export const metadata: Metadata = {
     canonical: 'https://www.elevateforhumanity.org/ai-chat',
   },
   title: 'AI Learning Assistant | Elevate For Humanity',
-  description: 'Get instant help with your courses, career questions, and learning journey from our AI-powered assistant.',
+  description:
+    'Get instant help with your courses, career questions, and learning journey from our AI-powered assistant.',
 };
 
 const features = [
@@ -39,12 +47,12 @@ const features = [
 ];
 
 const sampleQuestions = [
-  "What certifications should I get for healthcare?",
-  "Explain the WIOA eligibility requirements",
-  "How do I prepare for the CNA exam?",
-  "What career paths are available after completing CDL training?",
-  "Help me understand this course material",
-  "What funding options are available for my training?",
+  'What certifications should I get for healthcare?',
+  'Explain the WIOA eligibility requirements',
+  'How do I prepare for the CNA exam?',
+  'What career paths are available after completing CDL training?',
+  'Help me understand this course material',
+  'What funding options are available for my training?',
 ];
 
 export default function AIChatPage() {
@@ -68,8 +76,8 @@ export default function AIChatPage() {
             Your Personal Learning Assistant
           </h1>
           <p className="text-xl text-white mb-8 max-w-2xl mx-auto">
-            Get instant help with courses, career questions, and your learning journey. 
-            Available 24/7 to support your success.
+            Get instant help with courses, career questions, and your learning journey. Available
+            24/7 to support your success.
           </p>
           <Link
             href="/ai-tutor"
@@ -136,15 +144,22 @@ export default function AIChatPage() {
                   <ul className="mt-2 space-y-2 text-gray-600 text-sm">
                     <li className="flex items-start gap-2">
                       <span className="text-slate-500 flex-shrink-0">•</span>
-                      <span><strong>CNA (Certified Nursing Assistant)</strong> - Entry-level, high demand</span>
+                      <span>
+                        <strong>CNA (Certified Nursing Assistant)</strong> - Entry-level, high
+                        demand
+                      </span>
                     </li>
                     <li className="flex items-start gap-2">
                       <span className="text-slate-500 flex-shrink-0">•</span>
-                      <span><strong>CPR/First Aid</strong> - Required for most healthcare roles</span>
+                      <span>
+                        <strong>CPR/First Aid</strong> - Required for most healthcare roles
+                      </span>
                     </li>
                     <li className="flex items-start gap-2">
                       <span className="text-slate-500 flex-shrink-0">•</span>
-                      <span><strong>Phlebotomy</strong> - Quick certification, good pay</span>
+                      <span>
+                        <strong>Phlebotomy</strong> - Quick certification, good pay
+                      </span>
                     </li>
                   </ul>
                   <p className="mt-2 text-gray-700">
@@ -236,7 +251,9 @@ export default function AIChatPage() {
       <section className="bg-brand-blue-700 text-white py-12">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-2xl md:text-3xl font-bold mb-3">Ready to Start Your Career?</h2>
-          <p className="text-white mb-6">Check your eligibility for funded career training programs.</p>
+          <p className="text-white mb-6">
+            Check your eligibility for funded career training programs.
+          </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/start"

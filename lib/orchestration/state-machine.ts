@@ -193,13 +193,7 @@ export function getStudentState(data: {
         href: '/lms/prerequisites',
         description: 'Finish required setup to start coursework',
       },
-      availableSections: [
-        'orientation',
-        'eligibility',
-        'programs',
-        'funding',
-        'prerequisites',
-      ],
+      availableSections: ['orientation', 'eligibility', 'programs', 'funding', 'prerequisites'],
       lockedSections: [
         {
           id: 'courses',
@@ -237,13 +231,7 @@ export function getStudentState(data: {
         href: '/lms/courses',
         description: `You're ${courseProgress}% complete`,
       },
-      availableSections: [
-        'orientation',
-        'programs',
-        'courses',
-        'progress',
-        'support',
-      ],
+      availableSections: ['orientation', 'programs', 'courses', 'progress', 'support'],
       lockedSections: [
         {
           id: 'certification',
@@ -283,13 +271,7 @@ export function getStudentState(data: {
         href: '/lms/certification',
         description: 'Final step to earn your credential',
       },
-      availableSections: [
-        'orientation',
-        'programs',
-        'courses',
-        'certification',
-        'support',
-      ],
+      availableSections: ['orientation', 'programs', 'courses', 'certification', 'support'],
       lockedSections: [
         {
           id: 'placement',
@@ -329,8 +311,7 @@ export function getStudentState(data: {
       alerts: [
         {
           type: 'info',
-          message:
-            "Congratulations on earning your certification! Let's find you a job.",
+          message: "Congratulations on earning your certification! Let's find you a job.",
         },
       ],
     };
@@ -358,8 +339,7 @@ export function getStudentState(data: {
     alerts: [
       {
         type: 'info',
-        message:
-          "Congratulations! You've completed your journey from training to employment.",
+        message: "Congratulations! You've completed your journey from training to employment.",
       },
     ],
   };
@@ -464,12 +444,7 @@ export function getProgramHolderState(data: {
         href: '/program-holder/students/pending',
         description: 'Review pending student applications',
       },
-      availableSections: [
-        'verification',
-        'documentation',
-        'students',
-        'training',
-      ],
+      availableSections: ['verification', 'documentation', 'students', 'training'],
       lockedSections: [
         {
           id: 'reports',
@@ -506,13 +481,7 @@ export function getProgramHolderState(data: {
         href: '/program-holder/compliance',
         description: 'URGENT: Address overdue requirements',
       },
-      availableSections: [
-        'students',
-        'reports',
-        'compliance',
-        'documentation',
-        'support',
-      ],
+      availableSections: ['students', 'reports', 'compliance', 'documentation', 'support'],
       lockedSections: [],
       alerts: [
         {
@@ -546,13 +515,7 @@ export function getProgramHolderState(data: {
         href: '/program-holder/students/at-risk',
         description: `${data.atRiskStudents} student${data.atRiskStudents > 1 ? 's' : ''} need attention`,
       },
-      availableSections: [
-        'students',
-        'reports',
-        'compliance',
-        'documentation',
-        'support',
-      ],
+      availableSections: ['students', 'reports', 'compliance', 'documentation', 'support'],
       lockedSections: [],
       alerts: [
         {
@@ -701,12 +664,7 @@ export function getEmployerState(data: {
         href: '/employer/postings/new',
         description: 'Connect with trained candidates',
       },
-      availableSections: [
-        'verification',
-        'postings',
-        'candidates',
-        'apprenticeship',
-      ],
+      availableSections: ['verification', 'postings', 'candidates', 'apprenticeship'],
       lockedSections: [],
       alerts: [
         {
@@ -753,12 +711,7 @@ export function getEmployerState(data: {
       href: '/employer/applications',
       description: `${data.pendingApplications} pending`,
     },
-    availableSections: [
-      'verification',
-      'postings',
-      'candidates',
-      'apprenticeship',
-    ],
+    availableSections: ['verification', 'postings', 'candidates', 'apprenticeship'],
     lockedSections: [],
     alerts:
       data.pendingApplications > 0

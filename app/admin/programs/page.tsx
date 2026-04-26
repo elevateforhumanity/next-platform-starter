@@ -20,8 +20,6 @@ export default async function ProgramsPage() {
   await requireRole(['admin', 'super_admin']);
   const supabase = await createClient();
 
-
-
   const [
     { data: programs },
     { count: totalPrograms },
@@ -50,12 +48,8 @@ export default async function ProgramsPage() {
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h1 className="text-3xl font-bold text-black">
-                Programs Management
-              </h1>
-              <p className="text-black mt-1">
-                Manage training programs and curriculum
-              </p>
+              <h1 className="text-3xl font-bold text-black">Programs Management</h1>
+              <p className="text-black mt-1">Manage training programs and curriculum</p>
             </div>
             <Link
               href="/admin/programs/new"
@@ -68,12 +62,8 @@ export default async function ProgramsPage() {
           {/* Stats */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6">
             <div className="bg-white rounded-lg shadow-sm border p-4">
-              <h3 className="text-sm font-medium text-black mb-1">
-                Total Programs
-              </h3>
-              <p className="text-base md:text-lg font-bold text-black">
-                {totalPrograms || 0}
-              </p>
+              <h3 className="text-sm font-medium text-black mb-1">Total Programs</h3>
+              <p className="text-base md:text-lg font-bold text-black">{totalPrograms || 0}</p>
             </div>
             <div className="bg-white rounded-lg shadow-sm border p-4">
               <h3 className="text-sm font-medium text-black mb-1">Active</h3>
@@ -82,17 +72,13 @@ export default async function ProgramsPage() {
               </p>
             </div>
             <div className="bg-white rounded-lg shadow-sm border p-4">
-              <h3 className="text-sm font-medium text-black mb-1">
-                Featured
-              </h3>
+              <h3 className="text-sm font-medium text-black mb-1">Featured</h3>
               <p className="text-base md:text-lg font-bold text-brand-blue-600">
                 {featuredPrograms || 0}
               </p>
             </div>
             <div className="bg-white rounded-lg shadow-sm border p-4">
-              <h3 className="text-sm font-medium text-black mb-1">
-                Inactive
-              </h3>
+              <h3 className="text-sm font-medium text-black mb-1">Inactive</h3>
               <p className="text-base md:text-lg font-bold text-black">
                 {(totalPrograms || 0) - (activePrograms || 0)}
               </p>

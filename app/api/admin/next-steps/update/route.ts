@@ -16,8 +16,8 @@ type Payload = {
 };
 
 async function _POST(req: Request) {
-    const rateLimited = await applyRateLimit(req, 'api');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(req, 'api');
+  if (rateLimited) return rateLimited;
 
   const supabase = await createClient();
   const {
@@ -27,7 +27,11 @@ async function _POST(req: Request) {
   if (!user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
-  const { data: _roleProfile } = await supabase.from('profiles').select('role').eq('id', user.id).maybeSingle();
+  const { data: _roleProfile } = await supabase
+    .from('profiles')
+    .select('role')
+    .eq('id', user.id)
+    .maybeSingle();
   if (!_roleProfile || !['admin', 'super_admin', 'staff'].includes(_roleProfile.role)) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
@@ -80,13 +84,9 @@ async function _POST(req: Request) {
     .eq('id', user.id)
     .maybeSingle();
 
-  if (profErr)
-    return NextResponse.json({ error: 'Operation failed' }, { status: 500 });
+  if (profErr) return NextResponse.json({ error: 'Operation failed' }, { status: 500 });
   if (!prof?.organization_id)
-    return NextResponse.json(
-      { error: 'No active organization found' },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: 'No active organization found' }, { status: 400 });
 
   const { data, error } = await adminClient
     .from('student_next_steps')
@@ -96,13 +96,18 @@ async function _POST(req: Request) {
     .select('*')
     .maybeSingle();
 
-  if (error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+  if (error) return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
 
-  if (!data)
-    return NextResponse.json({ error: 'Record not found' }, { status: 404 });
+  if (!data) return NextResponse.json({ error: 'Record not found' }, { status: 404 });
 
-  await logAdminAudit({ action: AdminAction.NEXT_STEPS_UPDATED, actorId: user.id, entityType: 'next_steps', entityId: body.id, metadata: {}, req });
+  await logAdminAudit({
+    action: AdminAction.NEXT_STEPS_UPDATED,
+    actorId: user.id,
+    entityType: 'next_steps',
+    entityId: body.id,
+    metadata: {},
+    req,
+  });
 
   return NextResponse.json({ ok: true, row: data });
 }

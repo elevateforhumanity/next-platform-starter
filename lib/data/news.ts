@@ -26,7 +26,8 @@ export interface BlogPostFull extends BlogPost {
   author_id: string | null;
 }
 
-const LIST_COLS = 'id, title, slug, excerpt, featured_image, category, tags, published_at, created_at';
+const LIST_COLS =
+  'id, title, slug, excerpt, featured_image, category, tags, published_at, created_at';
 const FULL_COLS = `${LIST_COLS}, content, author_id`;
 
 async function getDb() {
@@ -35,7 +36,9 @@ async function getDb() {
   return await createClient();
 }
 
-export async function getPublishedPosts(opts: { limit?: number; category?: string } = {}): Promise<BlogPost[]> {
+export async function getPublishedPosts(
+  opts: { limit?: number; category?: string } = {},
+): Promise<BlogPost[]> {
   const db = await getDb();
   let q = db
     .from('blog_posts')
@@ -103,6 +106,8 @@ export async function getCategories(): Promise<string[]> {
 export function formatPostDate(dateStr: string | null): string {
   if (!dateStr) return '';
   return new Date(dateStr).toLocaleDateString('en-US', {
-    year: 'numeric', month: 'long', day: 'numeric',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
   });
 }

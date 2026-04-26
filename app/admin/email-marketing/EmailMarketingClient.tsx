@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 import React from 'react';
@@ -6,16 +6,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
-import {
-
-  Mail,
-  Send,
-  Users,
-  BarChart3,
-  Calendar,
-  Plus,
-  Eye,
-} from 'lucide-react';
+import { Mail, Send, Users, BarChart3, Calendar, Plus, Eye } from 'lucide-react';
 
 interface EmailMarketingPageProps {
   stats?: {
@@ -38,18 +29,14 @@ function rateTrend(current: number | null, previous: number | null): string | nu
 
 export default function EmailMarketingPage({ stats }: EmailMarketingPageProps) {
   const router = useRouter();
-  
 
-  const [activeTab, setActiveTab] = useState<
-    'campaigns' | 'templates' | 'analytics'
-  >('campaigns');
+  const [activeTab, setActiveTab] = useState<'campaigns' | 'templates' | 'analytics'>('campaigns');
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* Hero Image */}
       <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Admin", href: "/admin" }, { label: "Email Marketing" }]} />
+        <Breadcrumbs items={[{ label: 'Admin', href: '/admin' }, { label: 'Email Marketing' }]} />
       </div>
       {/* Hero Section */}
       <section className="relative h-48 md:h-64 overflow-hidden">
@@ -62,18 +49,14 @@ export default function EmailMarketingPage({ stats }: EmailMarketingPageProps) {
           priority
           sizes="100vw"
         />
-
       </section>
 
       <div className="mx-auto max-w-7xl">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-black mb-2">
-            Email Marketing
-          </h1>
+          <h1 className="text-3xl font-bold text-black mb-2">Email Marketing</h1>
           <p className="text-black">
-            Send campaigns to students, employers, and partners. Powered by
-            Resend.
+            Send campaigns to students, employers, and partners. Powered by Resend.
           </p>
         </div>
 
@@ -89,7 +72,9 @@ export default function EmailMarketingPage({ stats }: EmailMarketingPageProps) {
             </div>
             <div className="text-sm text-black">Emails Sent</div>
             {stats?.deliveredThisMonth != null && stats.deliveredThisMonth > 0 && (
-              <div className="text-xs text-slate-400 mt-1">{stats.deliveredThisMonth.toLocaleString()} delivered</div>
+              <div className="text-xs text-slate-400 mt-1">
+                {stats.deliveredThisMonth.toLocaleString()} delivered
+              </div>
             )}
           </div>
 
@@ -103,7 +88,9 @@ export default function EmailMarketingPage({ stats }: EmailMarketingPageProps) {
             </div>
             <div className="text-sm text-black">Unique Opens</div>
             {rateTrend(stats?.openRateThisMonth ?? null, stats?.openRateLastMonth ?? null) && (
-              <div className="text-xs text-slate-400 mt-1">{rateTrend(stats?.openRateThisMonth ?? null, stats?.openRateLastMonth ?? null)}</div>
+              <div className="text-xs text-slate-400 mt-1">
+                {rateTrend(stats?.openRateThisMonth ?? null, stats?.openRateLastMonth ?? null)}
+              </div>
             )}
           </div>
 
@@ -128,7 +115,9 @@ export default function EmailMarketingPage({ stats }: EmailMarketingPageProps) {
             </div>
             <div className="text-sm text-black">Unique Clicks</div>
             {rateTrend(stats?.clickRateThisMonth ?? null, stats?.clickRateLastMonth ?? null) && (
-              <div className="text-xs text-slate-400 mt-1">{rateTrend(stats?.clickRateThisMonth ?? null, stats?.clickRateLastMonth ?? null)}</div>
+              <div className="text-xs text-slate-400 mt-1">
+                {rateTrend(stats?.clickRateThisMonth ?? null, stats?.clickRateLastMonth ?? null)}
+              </div>
             )}
           </div>
         </div>
@@ -169,13 +158,9 @@ export default function EmailMarketingPage({ stats }: EmailMarketingPageProps) {
         {activeTab === 'campaigns' && (
           <div className="space-y-4">
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-xl font-semibold text-black">
-                Email Campaigns
-              </h2>
+              <h2 className="text-xl font-semibold text-black">Email Campaigns</h2>
               <button
-                onClick={() =>
-                  router.push('/admin/email-marketing/campaigns/new')
-                }
+                onClick={() => router.push('/admin/email-marketing/campaigns/new')}
                 className="inline-flex items-center gap-2 rounded-xl bg-brand-orange-600 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-orange-700 transition"
               >
                 <Plus className="h-4 w-4" />
@@ -188,7 +173,8 @@ export default function EmailMarketingPage({ stats }: EmailMarketingPageProps) {
               <Mail className="w-10 h-10 text-slate-300 mx-auto mb-3" />
               <p className="font-semibold text-slate-700 mb-1">No campaigns yet</p>
               <p className="text-sm text-slate-500">
-                Create your first campaign using the button above. Sent, scheduled, and draft campaigns will appear here.
+                Create your first campaign using the button above. Sent, scheduled, and draft
+                campaigns will appear here.
               </p>
             </div>
           </div>
@@ -197,10 +183,11 @@ export default function EmailMarketingPage({ stats }: EmailMarketingPageProps) {
         {activeTab === 'templates' && (
           <div className="space-y-4">
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-xl font-semibold text-black">
-                Email Templates
-              </h2>
-              <button className="inline-flex items-center gap-2 rounded-xl bg-brand-orange-600 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-orange-700 transition" aria-label="Action button">
+              <h2 className="text-xl font-semibold text-black">Email Templates</h2>
+              <button
+                className="inline-flex items-center gap-2 rounded-xl bg-brand-orange-600 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-orange-700 transition"
+                aria-label="Action button"
+              >
                 <Plus className="h-4 w-4" />
                 New Template
               </button>
@@ -221,17 +208,21 @@ export default function EmailMarketingPage({ stats }: EmailMarketingPageProps) {
                   <div className="aspect-video bg-slate-100 rounded-lg mb-4 flex items-center justify-center">
                     <Mail className="h-12 w-12 text-slate-400" />
                   </div>
-                  <h3 className="font-semibold text-black mb-2">
-                    {template}
-                  </h3>
+                  <h3 className="font-semibold text-black mb-2">{template}</h3>
                   <p className="text-sm text-black mb-4">
                     Professional email template for {template.toLowerCase()}
                   </p>
                   <div className="flex gap-2">
-                    <button className="flex-1 text-sm font-semibold text-brand-orange-600 hover:text-brand-orange-700" aria-label="Action button">
+                    <button
+                      className="flex-1 text-sm font-semibold text-brand-orange-600 hover:text-brand-orange-700"
+                      aria-label="Action button"
+                    >
                       Edit
                     </button>
-                    <button className="flex-1 text-sm font-semibold text-black hover:text-black" aria-label="Action button">
+                    <button
+                      className="flex-1 text-sm font-semibold text-black hover:text-black"
+                      aria-label="Action button"
+                    >
                       Preview
                     </button>
                   </div>
@@ -249,11 +240,21 @@ export default function EmailMarketingPage({ stats }: EmailMarketingPageProps) {
                 <h3 className="font-semibold text-black mb-4">This Month</h3>
                 <div className="space-y-3">
                   {[
-                    { label: 'Sent',        value: stats?.emailsSentThisMonth?.toLocaleString() ?? '—' },
-                    { label: 'Delivered',   value: stats?.deliveredThisMonth?.toLocaleString() ?? '—' },
-                    { label: 'Open Rate',   value: stats?.openRateThisMonth != null ? `${stats.openRateThisMonth}%` : '—' },
-                    { label: 'Click Rate',  value: stats?.clickRateThisMonth != null ? `${stats.clickRateThisMonth}%` : '—' },
-                    { label: 'Bounces',     value: stats?.bouncesThisMonth?.toLocaleString() ?? '—' },
+                    { label: 'Sent', value: stats?.emailsSentThisMonth?.toLocaleString() ?? '—' },
+                    {
+                      label: 'Delivered',
+                      value: stats?.deliveredThisMonth?.toLocaleString() ?? '—',
+                    },
+                    {
+                      label: 'Open Rate',
+                      value: stats?.openRateThisMonth != null ? `${stats.openRateThisMonth}%` : '—',
+                    },
+                    {
+                      label: 'Click Rate',
+                      value:
+                        stats?.clickRateThisMonth != null ? `${stats.clickRateThisMonth}%` : '—',
+                    },
+                    { label: 'Bounces', value: stats?.bouncesThisMonth?.toLocaleString() ?? '—' },
                   ].map((row) => (
                     <div key={row.label} className="flex justify-between items-center">
                       <span className="text-sm text-slate-600">{row.label}</span>
@@ -266,8 +267,15 @@ export default function EmailMarketingPage({ stats }: EmailMarketingPageProps) {
                 <h3 className="font-semibold text-black mb-4">Last Month</h3>
                 <div className="space-y-3">
                   {[
-                    { label: 'Open Rate',  value: stats?.openRateLastMonth != null ? `${stats.openRateLastMonth}%` : '—' },
-                    { label: 'Click Rate', value: stats?.clickRateLastMonth != null ? `${stats.clickRateLastMonth}%` : '—' },
+                    {
+                      label: 'Open Rate',
+                      value: stats?.openRateLastMonth != null ? `${stats.openRateLastMonth}%` : '—',
+                    },
+                    {
+                      label: 'Click Rate',
+                      value:
+                        stats?.clickRateLastMonth != null ? `${stats.clickRateLastMonth}%` : '—',
+                    },
                   ].map((row) => (
                     <div key={row.label} className="flex justify-between items-center">
                       <span className="text-sm text-slate-600">{row.label}</span>
@@ -291,10 +299,9 @@ export default function EmailMarketingPage({ stats }: EmailMarketingPageProps) {
                     Your Journey Starts Here
                   </h2>
                   <p className="text-lg text-black mb-6 leading-relaxed">
-                    Every great career begins with a single step. Whether you're
-                    looking to change careers, upgrade your skills, or enter the
-                    workforce for the first time, we're here to help you
-                    succeed. Our programs are Funded, government-funded, and
+                    Every great career begins with a single step. Whether you're looking to change
+                    careers, upgrade your skills, or enter the workforce for the first time, we're
+                    here to help you succeed. Our programs are Funded, government-funded, and
                     designed to get you hired fast.
                   </p>
                   <ul className="space-y-4">
@@ -318,9 +325,7 @@ export default function EmailMarketingPage({ stats }: EmailMarketingPageProps) {
                     </li>
                     <li className="flex items-start">
                       <span className="text-slate-400 flex-shrink-0">•</span>
-                      <span className="text-black">
-                        Flexible scheduling for working adults
-                      </span>
+                      <span className="text-black">Flexible scheduling for working adults</span>
                     </li>
                   </ul>
                 </div>

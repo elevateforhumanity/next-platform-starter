@@ -37,12 +37,7 @@
       },
       {
         "prompt": "Which layer of the hair shaft is primarily responsible for the hair's strength and elasticity?",
-        "choices": [
-          "A. Cuticle",
-          "B. Cortex",
-          "C. Medulla",
-          "D. Follicle"
-        ],
+        "choices": ["A. Cuticle", "B. Cortex", "C. Medulla", "D. Follicle"],
         "answerIndex": 1,
         "rationale": "The cortex is the middle layer of the hair shaft and is responsible for the hair's strength and elasticity due to its fibrous protein structure."
       },
@@ -70,12 +65,7 @@
       },
       {
         "prompt": "A client reports experiencing dandruff. Which ingredient should you look for in a shampoo to address this issue?",
-        "choices": [
-          "A. Keratin",
-          "B. Salicylic acid",
-          "C. Panthenol",
-          "D. Argan oil"
-        ],
+        "choices": ["A. Keratin", "B. Salicylic acid", "C. Panthenol", "D. Argan oil"],
         "answerIndex": 1,
         "rationale": "Salicylic acid is effective in treating dandruff as it helps exfoliate the scalp and reduce flakiness."
       },
@@ -125,12 +115,7 @@
       },
       {
         "prompt": "Which part of the hair structure is primarily responsible for hair color?",
-        "choices": [
-          "A. Cuticle",
-          "B. Cortex",
-          "C. Medulla",
-          "D. Follicle"
-        ],
+        "choices": ["A. Cuticle", "B. Cortex", "C. Medulla", "D. Follicle"],
         "answerIndex": 1,
         "rationale": "The cortex contains melanin, the pigment responsible for hair color."
       },
@@ -158,23 +143,13 @@
       },
       {
         "prompt": "A client with a sensitive scalp is concerned about using hair dye. What ingredient should they avoid?",
-        "choices": [
-          "A. Ammonia",
-          "B. Keratin",
-          "C. Argan oil",
-          "D. Aloe vera"
-        ],
+        "choices": ["A. Ammonia", "B. Keratin", "C. Argan oil", "D. Aloe vera"],
         "answerIndex": 0,
         "rationale": "Ammonia is a common ingredient in hair dyes that can irritate sensitive scalps, so it should be avoided."
       },
       {
         "prompt": "Which of the following is a sign of healthy hair?",
-        "choices": [
-          "A. Split ends",
-          "B. High porosity",
-          "C. Elasticity",
-          "D. Brittle texture"
-        ],
+        "choices": ["A. Split ends", "B. High porosity", "C. Elasticity", "D. Brittle texture"],
         "answerIndex": 2,
         "rationale": "Elasticity is a sign of healthy hair, indicating that the hair can stretch and return to its original shape without breaking."
       },

@@ -16,7 +16,7 @@ async function _GET(request: Request) {
 
     // STEP 4D: Get tenant context - enforces tenant isolation
     const tenantContext = await getTenantContext();
-    
+
     const supabase = await createClient();
 
     // Get staff profile
@@ -49,10 +49,9 @@ async function _GET(request: Request) {
     }
     return NextResponse.json(
       {
-        error:
-          'Internal server error',
+        error: 'Internal server error',
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

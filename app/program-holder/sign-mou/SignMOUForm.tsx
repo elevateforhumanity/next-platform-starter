@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -88,10 +88,7 @@ export function SignMOUForm() {
       {/* Signer Information */}
       <div className="space-y-4">
         <div>
-          <label
-            htmlFor="signerName"
-            className="block text-sm font-medium text-black mb-1"
-          >
+          <label htmlFor="signerName" className="block text-sm font-medium text-black mb-1">
             Full Name *
           </label>
           <input
@@ -100,9 +97,7 @@ export function SignMOUForm() {
             required
             value={signerName}
             onChange={(
-              e: React.ChangeEvent<
-                HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-              >
+              e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
             ) => setSignerName(e.target.value)}
             className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
             placeholder="Your full legal name"
@@ -110,10 +105,7 @@ export function SignMOUForm() {
         </div>
 
         <div>
-          <label
-            htmlFor="signerTitle"
-            className="block text-sm font-medium text-black mb-1"
-          >
+          <label htmlFor="signerTitle" className="block text-sm font-medium text-black mb-1">
             Title/Position *
           </label>
           <input
@@ -122,9 +114,7 @@ export function SignMOUForm() {
             required
             value={signerTitle}
             onChange={(
-              e: React.ChangeEvent<
-                HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-              >
+              e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
             ) => setSignerTitle(e.target.value)}
             className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
             placeholder="Owner, Manager, Director, etc."
@@ -134,9 +124,7 @@ export function SignMOUForm() {
 
       {/* Signature */}
       <div>
-        <label className="block text-sm font-medium text-black mb-2">
-          Digital Signature *
-        </label>
+        <label className="block text-sm font-medium text-black mb-2">Digital Signature *</label>
         <p className="text-sm text-black mb-3">
           Please sign in the box below using your mouse or touchscreen
         </p>
@@ -150,16 +138,14 @@ export function SignMOUForm() {
           id="agreed"
           checked={agreed}
           onChange={(
-            e: React.ChangeEvent<
-              HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-            >
+            e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
           ) => setAgreed(e.target.checked)}
           className="mt-1 h-4 w-4 text-brand-blue-600 focus:ring-brand-blue-500 border-slate-300 rounded"
         />
         <label htmlFor="agreed" className="text-sm text-black">
-          I have read and agree to the terms of this Memorandum of
-          Understanding. I understand that this digital signature is legally
-          binding and has the same effect as a handwritten signature.
+          I have read and agree to the terms of this Memorandum of Understanding. I understand that
+          this digital signature is legally binding and has the same effect as a handwritten
+          signature.
         </label>
       </div>
 

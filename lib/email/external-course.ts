@@ -19,10 +19,8 @@ interface ExternalCourseLoginEmailParams {
  * Contains login credentials and instructions to access the partner platform.
  */
 export async function sendExternalCourseLoginEmail(params: ExternalCourseLoginEmailParams) {
-  const {
-    to, studentName, courseTitle, partnerName,
-    partnerUrl, loginInstructions, programTitle,
-  } = params;
+  const { to, studentName, courseTitle, partnerName, partnerUrl, loginInstructions, programTitle } =
+    params;
 
   return sendEmail({
     to,
@@ -95,7 +93,10 @@ interface ExternalCourseApprovedEmailParams {
  */
 export async function sendExternalCourseApprovedEmail(params: ExternalCourseApprovedEmailParams) {
   const {
-    to, studentName, courseTitle, programTitle,
+    to,
+    studentName,
+    courseTitle,
+    programTitle,
     dashboardUrl = `${SITE_URL}/learner/dashboard`,
   } = params;
 
@@ -152,8 +153,13 @@ export async function sendAdminExternalCoursePurchaseAlert(
   params: AdminExternalCoursePurchaseAlertParams,
 ) {
   const {
-    courseTitle, partnerName, partnerUrl,
-    studentName, studentEmail, programTitle, completionId,
+    courseTitle,
+    partnerName,
+    partnerUrl,
+    studentName,
+    studentEmail,
+    programTitle,
+    completionId,
   } = params;
 
   const adminUrl = `${SITE_URL}/admin/external-course-completions/${completionId}`;

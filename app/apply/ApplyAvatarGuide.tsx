@@ -31,7 +31,10 @@ export default function ApplyAvatarGuide() {
     if (video.paused) {
       video.muted = false;
       video.volume = 1;
-      video.play().then(() => setMuted(false)).catch(() => {});
+      video
+        .play()
+        .then(() => setMuted(false))
+        .catch(() => {});
     } else {
       video.muted = !video.muted;
       if (!video.muted) video.volume = 1;

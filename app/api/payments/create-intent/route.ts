@@ -15,9 +15,12 @@ async function _POST(request: NextRequest) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
-    
+
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
+
     if (authError || !user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -62,10 +65,7 @@ async function _POST(request: NextRequest) {
     });
   } catch (error: any) {
     logger.error('[Payment Intent] Error:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 export const POST = withRuntime(withApiAudit('/api/payments/create-intent', _POST));

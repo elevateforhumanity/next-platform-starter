@@ -8,8 +8,7 @@ import Image from 'next/image';
 
 export const metadata: Metadata = {
   alternates: {
-    canonical:
-      'https://www.elevateforhumanity.org/certificates/verify/[certificateId]',
+    canonical: 'https://www.elevateforhumanity.org/certificates/verify/[certificateId]',
   },
   title: 'Verify Certificate | Elevate For Humanity',
   description: 'Verify the authenticity of an Elevate For Humanity certificate',
@@ -47,7 +46,7 @@ export default async function VerifyCertificatePage({
         title,
         duration_hours
       )
-    `
+    `,
     )
     .eq('certificate_number', params.certificateId)
     .single();
@@ -61,7 +60,7 @@ export default async function VerifyCertificatePage({
         full_name,
         email
       )
-    `
+    `,
     )
     .eq('certificate_number', params.certificateId)
     .single();
@@ -88,8 +87,7 @@ export default async function VerifyCertificatePage({
               [certificateId]
             </h1>
             <p className="text-base md:text-lg md:text-xl mb-8 text-gray-100 drop-shadow-lg">
-              Transform your career with free training and industry
-              certifications
+              Transform your career with free training and industry certifications
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
@@ -110,15 +108,11 @@ export default async function VerifyCertificatePage({
 
         <div className="max-w-2xl w-full bg-white rounded-2xl shadow-xl p-8 text-center">
           <XCircle className="w-20 h-20 text-red-500 mx-auto mb-6" />
-          <h1 className="text-3xl font-bold text-black mb-4">
-            Certificate Not Found
-          </h1>
+          <h1 className="text-3xl font-bold text-black mb-4">Certificate Not Found</h1>
           <p className="text-lg text-black mb-8">
             Certificate number{' '}
-            <span className="font-mono font-semibold">
-              {params.certificateId}
-            </span>{' '}
-            will not be found in our repository.
+            <span className="font-mono font-semibold">{params.certificateId}</span> will not be
+            found in our repository.
           </p>
           <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6 mb-8">
             <p className="text-sm text-black">
@@ -147,11 +141,10 @@ export default async function VerifyCertificatePage({
                       Your Journey Starts Here
                     </h2>
                     <p className="text-lg text-black mb-6 leading-relaxed">
-                      Every great career begins with a single step. Whether
-                      you're looking to change careers, upgrade your skills, or
-                      enter the workforce for the first time, we're here to help
-                      you succeed. Our programs are 100% free,
-                      government-funded, and designed to get you hired fast.
+                      Every great career begins with a single step. Whether you're looking to change
+                      careers, upgrade your skills, or enter the workforce for the first time, we're
+                      here to help you succeed. Our programs are 100% free, government-funded, and
+                      designed to get you hired fast.
                     </p>
                     <ul className="space-y-4">
                       <li className="flex items-start">
@@ -187,8 +180,7 @@ export default async function VerifyCertificatePage({
                           />
                         </svg>
                         <span className="text-black">
-                          Industry-recognized certifications that employers
-                          value
+                          Industry-recognized certifications that employers value
                         </span>
                       </li>
                       <li className="flex items-start">
@@ -223,9 +215,7 @@ export default async function VerifyCertificatePage({
                             d="M5 13l4 4L19 7"
                           />
                         </svg>
-                        <span className="text-black">
-                          Flexible scheduling for working adults
-                        </span>
+                        <span className="text-black">Flexible scheduling for working adults</span>
                       </li>
                     </ul>
                   </div>
@@ -252,8 +242,8 @@ export default async function VerifyCertificatePage({
                   Ready to Transform Your Career?
                 </h2>
                 <p className="text-base md:text-lg mb-8 text-blue-100">
-                  Join thousands who have launched successful careers through
-                  our free training programs.
+                  Join thousands who have launched successful careers through our free training
+                  programs.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <Link
@@ -279,17 +269,15 @@ export default async function VerifyCertificatePage({
 
   const isValid = certificate.status !== 'revoked';
   const studentName = certificate.profiles?.full_name || 'Student Name';
-  const programTitle =
-    programCert?.programs?.title || certificate.certificate_name;
+  const programTitle = programCert?.programs?.title || certificate.certificate_name;
   const completionDate = new Date(
-    certificate.completion_date || certificate.issued_date
+    certificate.completion_date || certificate.issued_date,
   ).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
   });
-  const totalHours =
-    programCert?.programs?.duration_hours || certificate.total_hours || 0;
+  const totalHours = programCert?.programs?.duration_hours || certificate.total_hours || 0;
 
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4">
@@ -297,9 +285,7 @@ export default async function VerifyCertificatePage({
         {/* Verification Status */}
         <div
           className={`rounded-2xl shadow-xl p-8 mb-8 ${
-            isValid
-              ? 'bg-green-50 border-2 border-green-500'
-              : 'bg-red-50 border-2 border-red-500'
+            isValid ? 'bg-green-50 border-2 border-green-500' : 'bg-red-50 border-2 border-red-500'
           }`}
         >
           <div className="flex items-center gap-4 mb-4">
@@ -323,9 +309,7 @@ export default async function VerifyCertificatePage({
 
         {/* Certificate Details */}
         <div className="bg-white rounded-2xl shadow-xl p-8 mb-8">
-          <h2 className="text-2xl font-bold text-black mb-6">
-            Certificate Details
-          </h2>
+          <h2 className="text-2xl font-bold text-black mb-6">Certificate Details</h2>
 
           <div className="grid md:grid-cols-2 gap-6">
             <div>
@@ -341,27 +325,21 @@ export default async function VerifyCertificatePage({
               <label className="text-sm font-semibold text-black uppercase tracking-wide">
                 Issue Date
               </label>
-              <p className="text-lg font-semibold text-black mt-1">
-                {completionDate}
-              </p>
+              <p className="text-lg font-semibold text-black mt-1">{completionDate}</p>
             </div>
 
             <div>
               <label className="text-sm font-semibold text-black uppercase tracking-wide">
                 Recipient
               </label>
-              <p className="text-lg font-semibold text-black mt-1">
-                {studentName}
-              </p>
+              <p className="text-lg font-semibold text-black mt-1">{studentName}</p>
             </div>
 
             <div>
               <label className="text-sm font-semibold text-black uppercase tracking-wide">
                 Program
               </label>
-              <p className="text-lg font-semibold text-black mt-1">
-                {programTitle}
-              </p>
+              <p className="text-lg font-semibold text-black mt-1">{programTitle}</p>
             </div>
 
             {totalHours > 0 && (
@@ -369,9 +347,7 @@ export default async function VerifyCertificatePage({
                 <label className="text-sm font-semibold text-black uppercase tracking-wide">
                   Training Hours
                 </label>
-                <p className="text-lg font-semibold text-black mt-1">
-                  {totalHours} hours
-                </p>
+                <p className="text-lg font-semibold text-black mt-1">{totalHours} hours</p>
               </div>
             )}
 
@@ -379,31 +355,25 @@ export default async function VerifyCertificatePage({
               <label className="text-sm font-semibold text-black uppercase tracking-wide">
                 Issued By
               </label>
-              <p className="text-lg font-semibold text-black mt-1">
-                Elevate For Humanity
-              </p>
+              <p className="text-lg font-semibold text-black mt-1">Elevate For Humanity</p>
             </div>
           </div>
 
           {/* Repository Information */}
           <div className="mt-8 pt-8 border-t">
-            <h3 className="text-lg font-bold text-black mb-4">
-              Repository Information
-            </h3>
+            <h3 className="text-lg font-bold text-black mb-4">Repository Information</h3>
             <div className="bg-blue-50 rounded-lg p-6">
               <p className="text-sm text-black mb-2">
-                <strong>Official Record:</strong> This certificate is
-                permanently stored in the Elevate For Humanity certificate
-                repository.
+                <strong>Official Record:</strong> This certificate is permanently stored in the
+                Elevate For Humanity certificate repository.
               </p>
               <p className="text-sm text-black mb-2">
-                <strong>Verification Method:</strong> Each certificate contains
-                a unique number and QR code linked to this verification page.
+                <strong>Verification Method:</strong> Each certificate contains a unique number and
+                QR code linked to this verification page.
               </p>
               <p className="text-sm text-black">
-                <strong>Authenticity:</strong> Only certificates issued by
-                Elevate For Humanity and stored in our repository are considered
-                valid.
+                <strong>Authenticity:</strong> Only certificates issued by Elevate For Humanity and
+                stored in our repository are considered valid.
               </p>
             </div>
           </div>
@@ -449,10 +419,7 @@ export default async function VerifyCertificatePage({
               Elevate4humanityedu@gmail.com
             </a>{' '}
             or call{' '}
-            <a
-              href="tel:+13173143757"
-              className="text-brand-blue-600 hover:underline"
-            >
+            <a href="tel:+13173143757" className="text-brand-blue-600 hover:underline">
               (317) 314-3757
             </a>
           </p>

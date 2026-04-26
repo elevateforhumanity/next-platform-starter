@@ -63,31 +63,22 @@ export default async function EmployerDocumentsPage() {
       pending: 'bg-yellow-100 text-yellow-800 border-yellow-300',
       rejected: 'bg-brand-red-100 text-brand-red-800 border-brand-red-300',
     };
-    return (
-      styles[status as keyof typeof styles] ||
-      'bg-white text-black border-slate-300'
-    );
+    return styles[status as keyof typeof styles] || 'bg-white text-black border-slate-300';
   };
 
   return (
     <div className="min-h-screen bg-white">
       <section className="border-b py-8">
         <div className="max-w-7xl mx-auto px-6">
-          <h1 className="text-4xl font-bold text-black mb-2">
-            My Documents
-          </h1>
-          <p className="text-lg text-black">
-            Upload and manage your required documents
-          </p>
+          <h1 className="text-4xl font-bold text-black mb-2">My Documents</h1>
+          <p className="text-lg text-black">Upload and manage your required documents</p>
         </div>
       </section>
 
       <div className="max-w-7xl mx-auto px-6 py-12">
         <div className="bg-white rounded-lg shadow-sm border p-6 mb-8">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-2xl font-bold text-black">
-              Upload New Document
-            </h2>
+            <h2 className="text-2xl font-bold text-black">Upload New Document</h2>
             <Link
               href="/employer/documents/upload"
               className="px-6 py-3 bg-brand-blue-600 text-white font-semibold rounded-lg hover:bg-brand-blue-700 transition flex items-center gap-2"
@@ -97,21 +88,16 @@ export default async function EmployerDocumentsPage() {
             </Link>
           </div>
           <p className="text-black">
-            Upload required documents to complete your profile and maintain
-            compliance.
+            Upload required documents to complete your profile and maintain compliance.
           </p>
         </div>
 
         {requirements && requirements.length > 0 && (
           <div className="bg-white rounded-lg shadow-sm border p-6 mb-8">
-            <h2 className="text-2xl font-bold text-black mb-4">
-              Required Documents
-            </h2>
+            <h2 className="text-2xl font-bold text-black mb-4">Required Documents</h2>
             <div className="space-y-3">
               {requirements.map((req) => {
-                const uploaded = documents?.find(
-                  (d) => d.document_type === req.document_type
-                );
+                const uploaded = documents?.find((d) => d.document_type === req.document_type);
                 return (
                   <div
                     key={req.id}
@@ -126,21 +112,16 @@ export default async function EmployerDocumentsPage() {
                       <div>
                         <h3 className="font-semibold text-black">
                           {req.description}
-                          {req.is_required && (
-                            <span className="text-brand-red-600 ml-1">*</span>
-                          )}
+                          {req.is_required && <span className="text-brand-red-600 ml-1">*</span>}
                         </h3>
-                        <p className="text-sm text-black">
-                          {req.instructions}
-                        </p>
+                        <p className="text-sm text-black">{req.instructions}</p>
                       </div>
                     </div>
                     {uploaded && (
                       <span
                         className={`px-3 py-2 rounded-full text-xs font-semibold border ${getStatusBadge(uploaded.status)}`}
                       >
-                        {uploaded.status.charAt(0).toUpperCase() +
-                          uploaded.status.slice(1)}
+                        {uploaded.status.charAt(0).toUpperCase() + uploaded.status.slice(1)}
                       </span>
                     )}
                   </div>
@@ -151,9 +132,7 @@ export default async function EmployerDocumentsPage() {
         )}
 
         <div className="bg-white rounded-lg shadow-sm border p-6">
-          <h2 className="text-2xl font-bold text-black mb-4">
-            Uploaded Documents
-          </h2>
+          <h2 className="text-2xl font-bold text-black mb-4">Uploaded Documents</h2>
           {documents && documents.length > 0 ? (
             <div className="space-y-3">
               {documents.map((doc) => (
@@ -164,15 +143,12 @@ export default async function EmployerDocumentsPage() {
                   <div className="flex items-center gap-3">
                     {getStatusIcon(doc.status)}
                     <div>
-                      <h3 className="font-semibold text-black">
-                        {doc.file_name}
-                      </h3>
+                      <h3 className="font-semibold text-black">{doc.file_name}</h3>
                       <p className="text-sm text-black">
                         {doc.document_type
                           .replace(/_/g, ' ')
                           .replace(/\b\w/g, (l) => l.toUpperCase())}{' '}
-                        • Uploaded{' '}
-                        {new Date(doc.created_at).toLocaleDateString()}
+                        • Uploaded {new Date(doc.created_at).toLocaleDateString()}
                       </p>
                       {doc.status === 'rejected' && doc.rejection_reason && (
                         <p className="text-sm text-brand-red-600 mt-1">

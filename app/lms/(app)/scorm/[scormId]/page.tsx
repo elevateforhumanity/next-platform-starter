@@ -14,7 +14,11 @@ interface Props {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { scormId } = await params;
   const supabase = await createClient();
-  const { data: scorm } = await supabase.from('scorm_packages').select('title').eq('id', scormId).maybeSingle();
+  const { data: scorm } = await supabase
+    .from('scorm_packages')
+    .select('title')
+    .eq('id', scormId)
+    .maybeSingle();
   return { title: scorm?.title ?? 'SCORM Player' };
 }
 
@@ -22,7 +26,9 @@ export default async function ScormPage({ params }: Props) {
   const { scormId } = await params;
   const supabase = await createClient();
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/lms/scorm/' + scormId);
 
   const { data: scorm, error } = await supabase
@@ -76,7 +82,8 @@ export default async function ScormPage({ params }: Props) {
           <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-8 text-center max-w-md">
             <p className="text-yellow-800 font-medium mb-2">SCORM content not available</p>
             <p className="text-yellow-700 text-sm">
-              This package has not been extracted yet. An administrator needs to re-upload the SCORM ZIP.
+              This package has not been extracted yet. An administrator needs to re-upload the SCORM
+              ZIP.
             </p>
           </div>
         </div>

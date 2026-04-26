@@ -20,9 +20,7 @@ export async function requireShopOnboardingComplete(shopId: string) {
 
   if (missing.length > 0) {
     const list = missing.map((m) => m.display_name).join(', ');
-    throw new Error(
-      `Shop onboarding not complete. Missing or not approved: ${list}`
-    );
+    throw new Error(`Shop onboarding not complete. Missing or not approved: ${list}`);
   }
 
   return true;

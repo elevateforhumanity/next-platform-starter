@@ -1,9 +1,9 @@
 /**
  * Avatar Route Map
- * 
+ *
  * Authoritative mapping of routes to avatar behavior.
  * If a route is not mapped, avatar is SILENT.
- * 
+ *
  * This is the single source of truth for avatar speech decisions.
  */
 
@@ -17,10 +17,10 @@ export type PageType =
   | 'licensing'
   | 'silent';
 
-export type ProgramCategory = 
-  | 'healthcare' 
-  | 'trades' 
-  | 'transportation' 
+export type ProgramCategory =
+  | 'healthcare'
+  | 'trades'
+  | 'transportation'
   | 'technology'
   | 'business'
   | 'apprenticeship';
@@ -44,19 +44,40 @@ const SILENT: RouteAvatarContext = {
 
 // Program category detection from route
 function detectCategory(route: string): ProgramCategory | undefined {
-  if (route.includes('cna') || route.includes('medical') || route.includes('phlebotomy') || route.includes('healthcare')) {
+  if (
+    route.includes('cna') ||
+    route.includes('medical') ||
+    route.includes('phlebotomy') ||
+    route.includes('healthcare')
+  ) {
     return 'healthcare';
   }
-  if (route.includes('barber') || route.includes('cosmetology') || route.includes('esthetician') || route.includes('nail')) {
+  if (
+    route.includes('barber') ||
+    route.includes('cosmetology') ||
+    route.includes('esthetician') ||
+    route.includes('nail')
+  ) {
     return 'apprenticeship';
   }
   if (route.includes('cdl') || route.includes('transportation')) {
     return 'transportation';
   }
-  if (route.includes('hvac') || route.includes('welding') || route.includes('electrical') || route.includes('plumbing') || route.includes('trades')) {
+  if (
+    route.includes('hvac') ||
+    route.includes('welding') ||
+    route.includes('electrical') ||
+    route.includes('plumbing') ||
+    route.includes('trades')
+  ) {
     return 'trades';
   }
-  if (route.includes('technology') || route.includes('it-support') || route.includes('cybersecurity') || route.includes('web-dev')) {
+  if (
+    route.includes('technology') ||
+    route.includes('it-support') ||
+    route.includes('cybersecurity') ||
+    route.includes('web-dev')
+  ) {
     return 'technology';
   }
   if (route.includes('business') || route.includes('tax')) {
@@ -73,7 +94,7 @@ function extractProgramName(route: string): string | undefined {
     const slug = segments[segments.length - 1];
     return slug
       .split('-')
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
       .join(' ');
   }
   return undefined;
@@ -81,7 +102,7 @@ function extractProgramName(route: string): string | undefined {
 
 /**
  * Get avatar context for a route
- * 
+ *
  * This is the ONLY function that determines avatar behavior.
  * All avatar decisions flow through here.
  */
@@ -92,7 +113,7 @@ export function getAvatarContextForRoute(route: string): RouteAvatarContext {
   // ============================================
   // SILENT ZONES (hard block)
   // ============================================
-  
+
   const silentPatterns = [
     /^\/api/,
     /^\/auth/,
@@ -109,7 +130,7 @@ export function getAvatarContextForRoute(route: string): RouteAvatarContext {
     /^\/exam/,
   ];
 
-  if (silentPatterns.some(pattern => pattern.test(normalizedRoute))) {
+  if (silentPatterns.some((pattern) => pattern.test(normalizedRoute))) {
     return SILENT;
   }
 
@@ -212,7 +233,11 @@ export function getAvatarContextForRoute(route: string): RouteAvatarContext {
   // ENTERPRISE / LICENSING
   // ============================================
 
-  if (normalizedRoute.includes('/licenses') || normalizedRoute.includes('/enterprise') || normalizedRoute.includes('/government')) {
+  if (
+    normalizedRoute.includes('/licenses') ||
+    normalizedRoute.includes('/enterprise') ||
+    normalizedRoute.includes('/government')
+  ) {
     return {
       enabled: true,
       speakOnLoad: true,

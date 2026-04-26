@@ -19,7 +19,10 @@ export async function POST(request: NextRequest) {
   if (rateLimited) return rateLimited;
 
   const supabase = await createClient();
-  const { data: { user }, error: authErr } = await supabase.auth.getUser();
+  const {
+    data: { user },
+    error: authErr,
+  } = await supabase.auth.getUser();
   if (authErr || !user) return safeError('Unauthorized', 401);
 
   const db = await getAdminClient();
@@ -36,12 +39,22 @@ export async function POST(request: NextRequest) {
   }
 
   let body: any;
-  try { body = await request.json(); }
-  catch { return safeError('Invalid JSON', 400); }
+  try {
+    body = await request.json();
+  } catch {
+    return safeError('Invalid JSON', 400);
+  }
 
   const {
-    learner_id, employer_name, job_title, employment_type,
-    hourly_wage, start_date, verification_method, notes, status,
+    learner_id,
+    employer_name,
+    job_title,
+    employment_type,
+    hourly_wage,
+    start_date,
+    verification_method,
+    notes,
+    status,
   } = body;
 
   if (!learner_id) return safeError('learner_id is required', 400);
@@ -51,15 +64,15 @@ export async function POST(request: NextRequest) {
       .from('placement_records')
       .insert({
         learner_id,
-        case_manager_id:     user.id,
-        employer_name:       employer_name ?? null,
-        job_title:           job_title ?? null,
-        employment_type:     employment_type ?? null,
-        hourly_wage:         hourly_wage ?? null,
-        start_date:          start_date ?? null,
+        case_manager_id: user.id,
+        employer_name: employer_name ?? null,
+        job_title: job_title ?? null,
+        employment_type: employment_type ?? null,
+        hourly_wage: hourly_wage ?? null,
+        start_date: start_date ?? null,
         verification_method: verification_method ?? null,
-        notes:               notes ?? null,
-        status:              status ?? 'pending',
+        notes: notes ?? null,
+        status: status ?? 'pending',
       })
       .select('id')
       .maybeSingle();

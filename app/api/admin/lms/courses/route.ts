@@ -1,4 +1,3 @@
-
 /**
  * POST /api/admin/lms/courses — create a canonical draft course
  *
@@ -18,13 +17,19 @@ export async function POST(request: NextRequest) {
   try {
     const supabase = await createClient();
 
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
     if (authError || !user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const { data: profile } = await supabase
-      .from('profiles').select('role').eq('id', user.id).maybeSingle();
+      .from('profiles')
+      .select('role')
+      .eq('id', user.id)
+      .maybeSingle();
 
     if (!profile || !['admin', 'super_admin', 'staff', 'org_admin'].includes(profile.role)) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
@@ -42,13 +47,13 @@ export async function POST(request: NextRequest) {
     }
 
     const course = await createDraftCourse(supabase, {
-      actorUserId:      user.id,
-      programId:        program_id ?? undefined,
+      actorUserId: user.id,
+      programId: program_id ?? undefined,
       slug,
       title,
       shortDescription: short_description ?? undefined,
-      description:      description ?? undefined,
-      modules:          modules ?? [],
+      description: description ?? undefined,
+      modules: modules ?? [],
     });
 
     return NextResponse.json({ course }, { status: 201 });

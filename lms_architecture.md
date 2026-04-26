@@ -20,14 +20,14 @@ programs
 
 ### step_type Values
 
-| Value | Rendering | Completion Rule |
-|-------|-----------|-----------------|
-| `lesson` | Reading / video | Mark complete button |
-| `quiz` | Quiz player | Pass threshold (`passing_score`) |
-| `checkpoint` | Quiz player | Pass threshold — gates next module |
-| `lab` | Lab UI shell | Instructor sign-off (pending) |
-| `assignment` | Assignment UI shell | Instructor sign-off (pending) |
-| `exam` | Quiz player | Pass threshold |
+| Value           | Rendering               | Completion Rule                            |
+| --------------- | ----------------------- | ------------------------------------------ |
+| `lesson`        | Reading / video         | Mark complete button                       |
+| `quiz`          | Quiz player             | Pass threshold (`passing_score`)           |
+| `checkpoint`    | Quiz player             | Pass threshold — gates next module         |
+| `lab`           | Lab UI shell            | Instructor sign-off (pending)              |
+| `assignment`    | Assignment UI shell     | Instructor sign-off (pending)              |
+| `exam`          | Quiz player             | Pass threshold                             |
 | `certification` | Credential pathway page | Final step — redirects to `/certification` |
 
 ---
@@ -90,32 +90,32 @@ Learner marks lesson complete
 
 ### Certificate Record (canonical: `certificates` table)
 
-| Column | Purpose |
-|--------|---------|
-| `id` | UUID primary key |
-| `user_id` | Learner |
-| `course_id` | Course completed |
-| `enrollment_id` | Enrollment record |
-| `certificate_number` | Human-readable ID (e.g. `EFH-A1B2C3D4`) |
-| `issued_at` | Timestamp |
-| `pdf_url` | Rendered PDF path |
-| `verification_url` | Public URL: `/verify/[certificate_number]` |
-| `verification_code` | Short code for employer lookup |
+| Column               | Purpose                                    |
+| -------------------- | ------------------------------------------ |
+| `id`                 | UUID primary key                           |
+| `user_id`            | Learner                                    |
+| `course_id`          | Course completed                           |
+| `enrollment_id`      | Enrollment record                          |
+| `certificate_number` | Human-readable ID (e.g. `EFH-A1B2C3D4`)    |
+| `issued_at`          | Timestamp                                  |
+| `pdf_url`            | Rendered PDF path                          |
+| `verification_url`   | Public URL: `/verify/[certificate_number]` |
+| `verification_code`  | Short code for employer lookup             |
 
 ---
 
 ## Current Gaps
 
-| Gap | Impact | Phase |
-|-----|--------|-------|
-| `checkpoint_scores` table missing | Checkpoints render but scores not recorded | Phase 8 |
-| `step_submissions` table missing | Lab/assignment UI renders but submissions not stored | Phase 8 |
-| `passing_score` column missing on `curriculum_lessons` | All checkpoints default to 70% hardcoded in JS | Phase 8 |
-| Checkpoint gate not enforced in lesson page | Learners can advance past failed checkpoints | Phase 8 |
-| Module lock not enforced | All modules accessible regardless of progress | Phase 8 |
-| Auto-certificate on completion not wired | Eligibility check fires but certificate not auto-issued | Phase 8 |
-| `hvac-epa-608.ts` blueprint not registered | HVAC cannot use DB-driven generator | Phase 12 |
-| HVAC legacy path coexists with DB-driven path | New programs may accidentally follow HVAC pattern | Phase 9 |
+| Gap                                                    | Impact                                                  | Phase    |
+| ------------------------------------------------------ | ------------------------------------------------------- | -------- |
+| `checkpoint_scores` table missing                      | Checkpoints render but scores not recorded              | Phase 8  |
+| `step_submissions` table missing                       | Lab/assignment UI renders but submissions not stored    | Phase 8  |
+| `passing_score` column missing on `curriculum_lessons` | All checkpoints default to 70% hardcoded in JS          | Phase 8  |
+| Checkpoint gate not enforced in lesson page            | Learners can advance past failed checkpoints            | Phase 8  |
+| Module lock not enforced                               | All modules accessible regardless of progress           | Phase 8  |
+| Auto-certificate on completion not wired               | Eligibility check fires but certificate not auto-issued | Phase 8  |
+| `hvac-epa-608.ts` blueprint not registered             | HVAC cannot use DB-driven generator                     | Phase 12 |
+| HVAC legacy path coexists with DB-driven path          | New programs may accidentally follow HVAC pattern       | Phase 9  |
 
 ---
 
@@ -153,6 +153,7 @@ lib/curriculum/builders/buildCourseFromBlueprint.ts
 `lib/lms/completion-evaluator.ts` reads `completion_rules` table rows for a course/program.
 
 Supported rule types:
+
 - `lessons_complete` — all required lessons must be completed
 - `quizzes_passed` — all required quizzes must pass `minScore`
 - `min_hours` — minimum seat time

@@ -17,10 +17,25 @@ interface Stage {
   fact: string;
 }
 
-function Molecule({ label, color, size = 'md' }: { label: string; color: string; size?: 'sm' | 'md' | 'lg' }) {
-  const sz = size === 'lg' ? 'w-16 h-16 text-base' : size === 'sm' ? 'w-8 h-8 text-[10px]' : 'w-12 h-12 text-xs';
+function Molecule({
+  label,
+  color,
+  size = 'md',
+}: {
+  label: string;
+  color: string;
+  size?: 'sm' | 'md' | 'lg';
+}) {
+  const sz =
+    size === 'lg'
+      ? 'w-16 h-16 text-base'
+      : size === 'sm'
+        ? 'w-8 h-8 text-[10px]'
+        : 'w-12 h-12 text-xs';
   return (
-    <div className={`${sz} rounded-full ${color} flex items-center justify-center font-extrabold text-white shadow-md flex-shrink-0`}>
+    <div
+      className={`${sz} rounded-full ${color} flex items-center justify-center font-extrabold text-white shadow-md flex-shrink-0`}
+    >
       {label}
     </div>
   );
@@ -34,7 +49,8 @@ const STAGES: Stage[] = [
   {
     id: 1,
     title: 'CFC Released into Atmosphere',
-    description: 'A CFC refrigerant like R-12 leaks from a system and drifts upward. CFCs are stable at ground level — they do not break down in rain or react with other chemicals. This stability is what makes them dangerous: they survive long enough to reach the stratosphere, 10–30 miles up.',
+    description:
+      'A CFC refrigerant like R-12 leaks from a system and drifts upward. CFCs are stable at ground level — they do not break down in rain or react with other chemicals. This stability is what makes them dangerous: they survive long enough to reach the stratosphere, 10–30 miles up.',
     visual: (
       <div className="flex flex-col items-center gap-4">
         <div className="flex items-center gap-2">
@@ -46,11 +62,15 @@ const STAGES: Stage[] = [
           <Bond />
           <Molecule label="F" color="bg-brand-blue-500" />
         </div>
-        <p className="text-xs text-slate-500 font-medium">R-12 (CFC) molecule — stable, drifting upward</p>
+        <p className="text-xs text-slate-500 font-medium">
+          R-12 (CFC) molecule — stable, drifting upward
+        </p>
         <div className="flex items-center gap-2 text-slate-400">
           <span className="text-xs">Ground level</span>
           <ArrowRight className="w-4 h-4" />
-          <span className="text-xs font-semibold text-slate-600">Stratosphere (10–30 miles up)</span>
+          <span className="text-xs font-semibold text-slate-600">
+            Stratosphere (10–30 miles up)
+          </span>
         </div>
       </div>
     ),
@@ -59,7 +79,8 @@ const STAGES: Stage[] = [
   {
     id: 2,
     title: 'UV Radiation Breaks the CFC Apart',
-    description: 'In the stratosphere, intense UV-B radiation hits the CFC molecule. The UV energy is strong enough to break the carbon-chlorine bond. This releases a free chlorine atom — highly reactive and ready to attack ozone.',
+    description:
+      'In the stratosphere, intense UV-B radiation hits the CFC molecule. The UV energy is strong enough to break the carbon-chlorine bond. This releases a free chlorine atom — highly reactive and ready to attack ozone.',
     visual: (
       <div className="flex flex-col items-center gap-4">
         <div className="flex items-center gap-3">
@@ -94,7 +115,8 @@ const STAGES: Stage[] = [
   {
     id: 3,
     title: 'Chlorine Attacks an Ozone Molecule',
-    description: 'The free chlorine atom collides with an ozone molecule (O₃). Chlorine steals one oxygen atom, converting ozone into ordinary oxygen (O₂) and forming chlorine monoxide (ClO). The ozone molecule is destroyed — it can no longer absorb UV-B radiation.',
+    description:
+      'The free chlorine atom collides with an ozone molecule (O₃). Chlorine steals one oxygen atom, converting ozone into ordinary oxygen (O₂) and forming chlorine monoxide (ClO). The ozone molecule is destroyed — it can no longer absorb UV-B radiation.',
     visual: (
       <div className="flex flex-col items-center gap-4">
         <div className="flex items-center gap-3 flex-wrap justify-center">
@@ -132,12 +154,13 @@ const STAGES: Stage[] = [
         </div>
       </div>
     ),
-    fact: 'O₂ cannot absorb UV-B radiation. Every ozone molecule destroyed means more UV-B reaches Earth\'s surface.',
+    fact: "O₂ cannot absorb UV-B radiation. Every ozone molecule destroyed means more UV-B reaches Earth's surface.",
   },
   {
     id: 4,
     title: 'Chlorine is Released — Cycle Repeats',
-    description: 'The ClO molecule reacts with a free oxygen atom, releasing the chlorine atom again. The chlorine is now free to attack another ozone molecule. This is a catalytic cycle — the chlorine is not consumed. One chlorine atom can destroy up to 100,000 ozone molecules before it is finally neutralized.',
+    description:
+      'The ClO molecule reacts with a free oxygen atom, releasing the chlorine atom again. The chlorine is now free to attack another ozone molecule. This is a catalytic cycle — the chlorine is not consumed. One chlorine atom can destroy up to 100,000 ozone molecules before it is finally neutralized.',
     visual: (
       <div className="flex flex-col items-center gap-4">
         <div className="flex items-center gap-3 flex-wrap justify-center">
@@ -169,7 +192,9 @@ const STAGES: Stage[] = [
         </div>
         <div className="bg-brand-red-50 border border-brand-red-200 rounded-xl px-4 py-2 text-center">
           <p className="text-brand-red-700 font-extrabold text-sm">↺ Chlorine attacks again</p>
-          <p className="text-brand-red-600 text-xs mt-0.5">Up to 100,000 ozone molecules destroyed per chlorine atom</p>
+          <p className="text-brand-red-600 text-xs mt-0.5">
+            Up to 100,000 ozone molecules destroyed per chlorine atom
+          </p>
         </div>
       </div>
     ),
@@ -178,16 +203,48 @@ const STAGES: Stage[] = [
   {
     id: 5,
     title: 'Why HFCs Have Zero ODP',
-    description: 'HFC refrigerants like R-410A contain no chlorine — only hydrogen, fluorine, and carbon. Without chlorine, there is no free radical to attack ozone. This is why HFCs have an Ozone Depletion Potential of zero. HFOs like R-1234yf also have zero ODP for the same reason.',
+    description:
+      'HFC refrigerants like R-410A contain no chlorine — only hydrogen, fluorine, and carbon. Without chlorine, there is no free radical to attack ozone. This is why HFCs have an Ozone Depletion Potential of zero. HFOs like R-1234yf also have zero ODP for the same reason.',
     visual: (
       <div className="flex flex-col gap-4 w-full max-w-sm">
         {[
-          { label: 'CFC (R-12)', contains: 'C + Cl + F', odp: '1.0', color: 'bg-brand-red-100 border-brand-red-300', badge: 'bg-brand-red-500', verdict: 'BANNED' },
-          { label: 'HCFC (R-22)', contains: 'H + C + Cl + F', odp: '0.05', color: 'bg-amber-100 border-amber-300', badge: 'bg-amber-500', verdict: 'PHASED OUT' },
-          { label: 'HFC (R-410A)', contains: 'H + F + C only', odp: '0.0', color: 'bg-brand-green-100 border-brand-green-300', badge: 'bg-brand-green-600', verdict: 'ZERO ODP' },
-          { label: 'HFO (R-1234yf)', contains: 'H + F + C only', odp: '0.0', color: 'bg-brand-green-100 border-brand-green-300', badge: 'bg-brand-green-600', verdict: 'ZERO ODP' },
+          {
+            label: 'CFC (R-12)',
+            contains: 'C + Cl + F',
+            odp: '1.0',
+            color: 'bg-brand-red-100 border-brand-red-300',
+            badge: 'bg-brand-red-500',
+            verdict: 'BANNED',
+          },
+          {
+            label: 'HCFC (R-22)',
+            contains: 'H + C + Cl + F',
+            odp: '0.05',
+            color: 'bg-amber-100 border-amber-300',
+            badge: 'bg-amber-500',
+            verdict: 'PHASED OUT',
+          },
+          {
+            label: 'HFC (R-410A)',
+            contains: 'H + F + C only',
+            odp: '0.0',
+            color: 'bg-brand-green-100 border-brand-green-300',
+            badge: 'bg-brand-green-600',
+            verdict: 'ZERO ODP',
+          },
+          {
+            label: 'HFO (R-1234yf)',
+            contains: 'H + F + C only',
+            odp: '0.0',
+            color: 'bg-brand-green-100 border-brand-green-300',
+            badge: 'bg-brand-green-600',
+            verdict: 'ZERO ODP',
+          },
         ].map((r) => (
-          <div key={r.label} className={`flex items-center justify-between rounded-xl border px-4 py-3 ${r.color}`}>
+          <div
+            key={r.label}
+            className={`flex items-center justify-between rounded-xl border px-4 py-3 ${r.color}`}
+          >
             <div>
               <p className="font-bold text-slate-900 text-sm">{r.label}</p>
               <p className="text-xs text-slate-500">{r.contains}</p>
@@ -196,7 +253,11 @@ const STAGES: Stage[] = [
               <p className="text-xs text-slate-500">ODP</p>
               <p className="font-extrabold text-slate-900">{r.odp}</p>
             </div>
-            <span className={`text-white text-[10px] font-extrabold px-2 py-1 rounded-full ${r.badge}`}>{r.verdict}</span>
+            <span
+              className={`text-white text-[10px] font-extrabold px-2 py-1 rounded-full ${r.badge}`}
+            >
+              {r.verdict}
+            </span>
           </div>
         ))}
       </div>
@@ -232,12 +293,15 @@ export default function OzoneDepletion({ onComplete }: Props) {
 
   return (
     <div className="space-y-5">
-
       {/* Header */}
       <div className="bg-brand-blue-700 rounded-2xl p-5 text-white">
-        <p className="text-brand-red-400 text-xs font-bold uppercase tracking-widest mb-1">EPA 608 Core — Ozone Depletion</p>
+        <p className="text-brand-red-400 text-xs font-bold uppercase tracking-widest mb-1">
+          EPA 608 Core — Ozone Depletion
+        </p>
         <h2 className="text-xl font-extrabold">How Chlorine Destroys Ozone</h2>
-        <p className="text-slate-500 text-sm mt-1">Step through the chain reaction that led to the Montreal Protocol and the CFC ban.</p>
+        <p className="text-slate-500 text-sm mt-1">
+          Step through the chain reaction that led to the Montreal Protocol and the CFC ban.
+        </p>
       </div>
 
       {/* Progress */}
@@ -256,7 +320,9 @@ export default function OzoneDepletion({ onComplete }: Props) {
       {!completed ? (
         <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
           <div className="bg-white px-5 py-3">
-            <p className="text-slate-900 text-xs font-bold uppercase tracking-wider">Step {current.id} of {STAGES.length}</p>
+            <p className="text-slate-900 text-xs font-bold uppercase tracking-wider">
+              Step {current.id} of {STAGES.length}
+            </p>
             <h3 className="text-slate-900 font-extrabold text-lg leading-snug">{current.title}</h3>
           </div>
 
@@ -287,9 +353,9 @@ export default function OzoneDepletion({ onComplete }: Props) {
         <div className="bg-brand-blue-700 rounded-2xl p-6 text-white space-y-4">
           <h3 className="text-xl font-extrabold">Chain Reaction Complete ✓</h3>
           <p className="text-white text-sm leading-relaxed">
-            You now understand why CFCs were banned. One chlorine atom destroys up to 100,000 ozone molecules
-            in a catalytic cycle. HFCs and HFOs have zero ODP because they contain no chlorine.
-            This is the science behind the Montreal Protocol and the Clean Air Act.
+            You now understand why CFCs were banned. One chlorine atom destroys up to 100,000 ozone
+            molecules in a catalytic cycle. HFCs and HFOs have zero ODP because they contain no
+            chlorine. This is the science behind the Montreal Protocol and the Clean Air Act.
           </p>
           <div className="bg-white/10 rounded-xl p-4 space-y-2">
             <p className="font-bold text-sm">Exam key points:</p>
@@ -300,7 +366,10 @@ export default function OzoneDepletion({ onComplete }: Props) {
               <li>• 1 chlorine atom = up to 100,000 ozone molecules destroyed</li>
             </ul>
           </div>
-          <button onClick={reset} className="flex items-center gap-2 text-brand-green-300 text-sm font-semibold hover:text-white transition-colors">
+          <button
+            onClick={reset}
+            className="flex items-center gap-2 text-brand-green-300 text-sm font-semibold hover:text-white transition-colors"
+          >
             <RotateCcw className="w-4 h-4" /> Review again
           </button>
         </div>

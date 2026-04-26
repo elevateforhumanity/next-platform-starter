@@ -6,8 +6,6 @@ import React from 'react';
 import { useState } from 'react';
 import { Briefcase, Loader2 } from 'lucide-react';
 
-
-
 export default function AIJobMatchPage() {
   const [loading, setLoading] = useState(false);
   const [skills, setSkills] = useState('');
@@ -32,18 +30,16 @@ export default function AIJobMatchPage() {
 
   return (
     <div className="min-h-screen bg-white py-12">
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Ai", href: "/ai" }, { label: "Job Match" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Ai', href: '/ai' }, { label: 'Job Match' }]} />
       </div>
-<div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-brand-orange-100 text-brand-orange-900 rounded-full text-sm font-bold mb-6">
             <Briefcase className="w-4 h-4" />
             AI Job Matcher
           </div>
-          <h1 className="text-4xl font-black text-black mb-4">
-            Find Jobs That Match Your Skills
-          </h1>
+          <h1 className="text-4xl font-black text-black mb-4">Find Jobs That Match Your Skills</h1>
           <p className="text-xl text-black">
             AI analyzes your skills and recommends the best job opportunities
           </p>
@@ -79,22 +75,16 @@ export default function AIJobMatchPage() {
 
         {matches.length > 0 && (
           <div className="mt-8 space-y-4">
-            <h2 className="text-2xl font-bold text-black">
-              Your Job Matches
-            </h2>
+            <h2 className="text-2xl font-bold text-black">Your Job Matches</h2>
             {matches.map((match, idx) => (
               <div key={idx} className="bg-white rounded-xl shadow-sm p-6">
-                <h3 className="text-xl font-bold text-black mb-2">
-                  {match.title}
-                </h3>
+                <h3 className="text-xl font-bold text-black mb-2">{match.title}</h3>
                 <p className="text-black mb-4">{match.description}</p>
                 <div className="flex items-center gap-4">
                   <span className="px-3 py-2 bg-brand-orange-100 text-brand-orange-700 text-sm font-semibold rounded">
                     {match.matchScore}% Match
                   </span>
-                  <span className="text-sm text-black">
-                    {match.location}
-                  </span>
+                  <span className="text-sm text-black">{match.location}</span>
                 </div>
               </div>
             ))}

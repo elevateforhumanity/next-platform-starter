@@ -12,7 +12,8 @@ import {
   Eye,
   AlertCircle,
   ArrowLeft,
-CheckCircle, } from 'lucide-react';
+  CheckCircle,
+} from 'lucide-react';
 import Link from 'next/link';
 
 interface Document {
@@ -94,12 +95,9 @@ export default function VerificationReviewForm({
             <ArrowLeft className="w-4 h-4" />
             Back to Verifications
           </Link>
-          <h1 className="text-3xl font-bold text-black">
-            Review Program Holder Application
-          </h1>
+          <h1 className="text-3xl font-bold text-black">Review Program Holder Application</h1>
           <p className="text-black mt-2">
-            {holder.user?.first_name} {holder.user?.last_name} -{' '}
-            {holder.user?.email}
+            {holder.user?.first_name} {holder.user?.last_name} - {holder.user?.email}
           </p>
         </div>
       </div>
@@ -110,9 +108,7 @@ export default function VerificationReviewForm({
           <div className="lg:col-span-2 space-y-6">
             {/* Applicant Information */}
             <div className="bg-white rounded-lg shadow p-6">
-              <h2 className="text-xl font-bold text-black mb-4">
-                Applicant Information
-              </h2>
+              <h2 className="text-xl font-bold text-black mb-4">Applicant Information</h2>
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <p className="text-sm text-black">Name</p>
@@ -130,9 +126,7 @@ export default function VerificationReviewForm({
                 </div>
                 <div>
                   <p className="text-sm text-black">Organization</p>
-                  <p className="font-medium">
-                    {holder.organization_name || 'N/A'}
-                  </p>
+                  <p className="font-medium">{holder.organization_name || 'N/A'}</p>
                 </div>
                 <div>
                   <p className="text-sm text-black">Applied</p>
@@ -151,9 +145,7 @@ export default function VerificationReviewForm({
 
             {/* Documents */}
             <div className="bg-white rounded-lg shadow p-6">
-              <h2 className="text-xl font-bold text-black mb-4">
-                Uploaded Documents
-              </h2>
+              <h2 className="text-xl font-bold text-black mb-4">Uploaded Documents</h2>
               {documents.length === 0 ? (
                 <p className="text-black">No documents uploaded</p>
               ) : (
@@ -171,12 +163,12 @@ export default function VerificationReviewForm({
                               .replace(/_/g, ' ')
                               .replace(/\b\w/g, (l: string) => l.toUpperCase())}
                           </p>
-                          <p className="text-sm text-black">
-                            {doc.file_name}
-                          </p>
+                          <p className="text-sm text-black">{doc.file_name}</p>
                           <p className="text-xs text-black">
                             Uploaded:{' '}
-                            {new Date(doc.uploaded_at).toLocaleDateString('en-US', { timeZone: 'UTC' })}
+                            {new Date(doc.uploaded_at).toLocaleDateString('en-US', {
+                              timeZone: 'UTC',
+                            })}
                           </p>
                         </div>
                       </div>
@@ -205,9 +197,7 @@ export default function VerificationReviewForm({
             {/* Banking Information */}
             {banking && (
               <div className="bg-white rounded-lg shadow p-6">
-                <h2 className="text-xl font-bold text-black mb-4">
-                  Banking Information
-                </h2>
+                <h2 className="text-xl font-bold text-black mb-4">Banking Information</h2>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <p className="text-sm text-black">Account Holder</p>
@@ -219,27 +209,19 @@ export default function VerificationReviewForm({
                   </div>
                   <div>
                     <p className="text-sm text-black">Account Type</p>
-                    <p className="font-medium capitalize">
-                      {banking.account_type}
-                    </p>
+                    <p className="font-medium capitalize">{banking.account_type}</p>
                   </div>
                   <div>
                     <p className="text-sm text-black">Routing Number</p>
-                    <p className="font-medium">
-                      ****{banking.routing_number?.slice(-4)}
-                    </p>
+                    <p className="font-medium">****{banking.routing_number?.slice(-4)}</p>
                   </div>
                   <div>
                     <p className="text-sm text-black">Account Number</p>
-                    <p className="font-medium">
-                      ****{banking.account_number?.slice(-4)}
-                    </p>
+                    <p className="font-medium">****{banking.account_number?.slice(-4)}</p>
                   </div>
                   <div>
                     <p className="text-sm text-black">Verified</p>
-                    <p className="font-medium">
-                      {banking.verified ? 'Yes' : 'No'}
-                    </p>
+                    <p className="font-medium">{banking.verified ? 'Yes' : 'No'}</p>
                   </div>
                 </div>
               </div>
@@ -248,9 +230,7 @@ export default function VerificationReviewForm({
             {/* Verification History */}
             {verificationHistory.length > 0 && (
               <div className="bg-white rounded-lg shadow p-6">
-                <h2 className="text-xl font-bold text-black mb-4">
-                  Verification History
-                </h2>
+                <h2 className="text-xl font-bold text-black mb-4">Verification History</h2>
                 <div className="space-y-3">
                   {verificationHistory.map((record: any) => (
                     <div key={record.id} className="p-4 bg-gray-50 rounded-lg">
@@ -265,16 +245,14 @@ export default function VerificationReviewForm({
                           {record.status}
                         </span>
                         <p className="text-sm text-black">
-                          {new Date(record.created_at).toLocaleDateString('en-US', { timeZone: 'UTC' })}
+                          {new Date(record.created_at).toLocaleDateString('en-US', {
+                            timeZone: 'UTC',
+                          })}
                         </p>
                       </div>
-                      <p className="text-sm text-black">
-                        Type: {record.verification_type}
-                      </p>
+                      <p className="text-sm text-black">Type: {record.verification_type}</p>
                       {record.notes && (
-                        <p className="text-sm text-black mt-2">
-                          Notes: {record.notes}
-                        </p>
+                        <p className="text-sm text-black mt-2">Notes: {record.notes}</p>
                       )}
                       {record.verified_by_user && (
                         <p className="text-xs text-black mt-1">
@@ -292,9 +270,7 @@ export default function VerificationReviewForm({
           {/* Decision Panel */}
           <div className="lg:col-span-1">
             <div className="bg-white rounded-lg shadow p-6 sticky top-6">
-              <h2 className="text-xl font-bold text-black mb-4">
-                Verification Decision
-              </h2>
+              <h2 className="text-xl font-bold text-black mb-4">Verification Decision</h2>
 
               {error && (
                 <div className="mb-4 p-3 bg-brand-red-50 border border-brand-red-200 rounded-lg text-brand-red-800 text-sm">
@@ -355,9 +331,7 @@ export default function VerificationReviewForm({
 
                 {/* Checklist */}
                 <div className="mt-6 pt-6 border-t">
-                  <h3 className="text-sm font-semibold text-black mb-3">
-                    Verification Checklist
-                  </h3>
+                  <h3 className="text-sm font-semibold text-black mb-3">Verification Checklist</h3>
                   <div className="space-y-2 text-sm">
                     <label className="flex items-center gap-2">
                       <input type="checkbox" className="rounded" />
@@ -387,8 +361,8 @@ export default function VerificationReviewForm({
                   <div className="flex gap-2">
                     <AlertCircle className="w-5 h-5 text-yellow-600 flex-shrink-0" />
                     <p className="text-xs text-yellow-800">
-                      This decision will notify the program holder via email and
-                      update their portal access.
+                      This decision will notify the program holder via email and update their portal
+                      access.
                     </p>
                   </div>
                 </div>

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -13,7 +13,11 @@ interface AddToCartButtonProps {
   className?: string;
 }
 
-export default function AddToCartButton({ product, quantity = 1, className }: AddToCartButtonProps) {
+export default function AddToCartButton({
+  product,
+  quantity = 1,
+  className,
+}: AddToCartButtonProps) {
   const [isAdding, setIsAdding] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const router = useRouter();
@@ -28,7 +32,8 @@ export default function AddToCartButton({ product, quantity = 1, className }: Ad
       setTimeout(() => {
         setShowSuccess(false);
       }, 2000);
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
     } finally {
       setIsAdding(false);
@@ -56,7 +61,11 @@ export default function AddToCartButton({ product, quantity = 1, className }: Ad
       {showSuccess && (
         <div className="p-4 bg-brand-green-50 border border-brand-green-200 rounded-lg flex items-center gap-3">
           <svg className="w-5 h-5 text-brand-green-600" fill="currentColor" viewBox="0 0 20 20">
-            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+            <path
+              fillRule="evenodd"
+              d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+              clipRule="evenodd"
+            />
           </svg>
           <span className="text-brand-green-800 font-medium">Added to cart!</span>
         </div>

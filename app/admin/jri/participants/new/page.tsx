@@ -16,8 +16,6 @@ export default async function NewJRIParticipantPage() {
   await requireRole(['admin', 'super_admin']);
   const supabase = await createClient();
 
-
-
   // Fetch students to link to
   const { data: students } = await supabase
     .from('profiles')
@@ -30,29 +28,45 @@ export default async function NewJRIParticipantPage() {
     <div className="min-h-screen bg-white">
       <div className="max-w-2xl mx-auto px-4 py-8">
         <div className="mb-8">
-          <Breadcrumbs items={[
-            { label: 'Admin', href: '/admin' },
-            { label: 'Job Ready Indy', href: '/admin/jri' },
-            { label: 'Participants', href: '/admin/jri/participants' },
-            { label: 'New' },
-          ]} />
+          <Breadcrumbs
+            items={[
+              { label: 'Admin', href: '/admin' },
+              { label: 'Job Ready Indy', href: '/admin/jri' },
+              { label: 'Participants', href: '/admin/jri/participants' },
+              { label: 'New' },
+            ]}
+          />
           <h1 className="text-3xl font-bold text-slate-900 mt-4">Add Job Ready Indy Participant</h1>
         </div>
 
-        <form action="/api/admin/jri/participants" method="POST" className="bg-white rounded-xl shadow-sm border p-6 space-y-5">
+        <form
+          action="/api/admin/jri/participants"
+          method="POST"
+          className="bg-white rounded-xl shadow-sm border p-6 space-y-5"
+        >
           <div>
             <label className="block text-sm font-medium text-slate-900 mb-1">Student</label>
-            <select name="user_id" required className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500">
+            <select
+              name="user_id"
+              required
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+            >
               <option value="">Select a student…</option>
               {(students || []).map((s: any) => (
-                <option key={s.id} value={s.id}>{s.full_name} — {s.email}</option>
+                <option key={s.id} value={s.id}>
+                  {s.full_name} — {s.email}
+                </option>
               ))}
             </select>
           </div>
 
           <div>
             <label className="block text-sm font-medium text-slate-900 mb-1">Program</label>
-            <select name="program" required className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500">
+            <select
+              name="program"
+              required
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+            >
               <option value="">Select a program…</option>
               <option value="HVAC Technician">HVAC Technician</option>
               <option value="Electrical Apprenticeship">Electrical Apprenticeship</option>
@@ -69,7 +83,10 @@ export default async function NewJRIParticipantPage() {
 
           <div>
             <label className="block text-sm font-medium text-slate-900 mb-1">Status</label>
-            <select name="status" className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500">
+            <select
+              name="status"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+            >
               <option value="pending">Pending</option>
               <option value="active">Active</option>
               <option value="completed">Completed</option>
@@ -79,12 +96,21 @@ export default async function NewJRIParticipantPage() {
 
           <div>
             <label className="block text-sm font-medium text-slate-900 mb-1">Enrollment Date</label>
-            <input type="date" name="enrolled_at" className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500" />
+            <input
+              type="date"
+              name="enrolled_at"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+            />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-900 mb-1">Employment Status</label>
-            <select name="employment_status" className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500">
+            <label className="block text-sm font-medium text-slate-900 mb-1">
+              Employment Status
+            </label>
+            <select
+              name="employment_status"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+            >
               <option value="unemployed">Unemployed</option>
               <option value="employed">Employed</option>
               <option value="training">In Training</option>
@@ -92,10 +118,16 @@ export default async function NewJRIParticipantPage() {
           </div>
 
           <div className="flex gap-3 pt-2">
-            <button type="submit" className="bg-brand-blue-600 text-white px-5 py-2 rounded-lg hover:bg-brand-blue-700 text-sm font-medium">
+            <button
+              type="submit"
+              className="bg-brand-blue-600 text-white px-5 py-2 rounded-lg hover:bg-brand-blue-700 text-sm font-medium"
+            >
               Add Participant
             </button>
-            <Link href="/admin/jri/participants" className="border border-gray-300 text-slate-900 px-5 py-2 rounded-lg hover:bg-gray-50 text-sm">
+            <Link
+              href="/admin/jri/participants"
+              className="border border-gray-300 text-slate-900 px-5 py-2 rounded-lg hover:bg-gray-50 text-sm"
+            >
               Cancel
             </Link>
           </div>

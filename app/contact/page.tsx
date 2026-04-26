@@ -9,14 +9,37 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { Mail, Phone, MapPin, Clock, Send, AlertCircle, Loader2 } from 'lucide-react';
 import Turnstile from '@/components/Turnstile';
 
-
 import FeedbackWidget from '@/components/FeedbackWidget';
 
 const contactInfo = [
-  { icon: Phone, title: 'Phone', value: '(317) 314-3757', subtitle: 'Mon-Fri 8am-6pm EST', href: 'tel:+13173143757' },
-  { icon: Mail, title: 'Email', value: 'Use the form below', subtitle: 'We respond within 24 hours', href: '#contact-form' },
-  { icon: MapPin, title: 'Address', value: 'Indianapolis, IN', subtitle: 'Central Indiana', href: null },
-  { icon: Clock, title: 'Hours', value: 'Mon-Fri 8am-6pm', subtitle: 'Sat 9am-1pm EST', href: null },
+  {
+    icon: Phone,
+    title: 'Phone',
+    value: '(317) 314-3757',
+    subtitle: 'Mon-Fri 8am-6pm EST',
+    href: 'tel:+13173143757',
+  },
+  {
+    icon: Mail,
+    title: 'Email',
+    value: 'Use the form below',
+    subtitle: 'We respond within 24 hours',
+    href: '#contact-form',
+  },
+  {
+    icon: MapPin,
+    title: 'Address',
+    value: 'Indianapolis, IN',
+    subtitle: 'Central Indiana',
+    href: null,
+  },
+  {
+    icon: Clock,
+    title: 'Hours',
+    value: 'Mon-Fri 8am-6pm',
+    subtitle: 'Sat 9am-1pm EST',
+    href: null,
+  },
 ];
 
 function ContactPageInner() {
@@ -35,11 +58,11 @@ function ContactPageInner() {
 
     const form = e.currentTarget;
     const formData = new FormData(form);
-    
+
     const data = {
       name: `${formData.get('firstName')} ${formData.get('lastName')}`.trim(),
       email: formData.get('email') as string,
-      phone: formData.get('phone') as string || '',
+      phone: (formData.get('phone') as string) || '',
       message: formData.get('message') as string,
       role: formData.get('subject') as string,
       turnstileToken,
@@ -68,26 +91,35 @@ function ContactPageInner() {
   }
 
   return (
-    <div className="min-h-screen bg-white">      {/* Breadcrumbs */}
+    <div className="min-h-screen bg-white">
+      {' '}
+      {/* Breadcrumbs */}
       <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
           <Breadcrumbs items={[{ label: 'Contact Us' }]} />
         </div>
       </div>
-
       {/* Hero */}
       <div className="relative h-[200px] sm:h-[260px] overflow-hidden">
-        <Image src="/images/pages/contact-page-1.jpg" alt="Elevate for Humanity contact" fill sizes="100vw" quality={90} className="object-cover" priority />
+        <Image
+          src="/images/pages/contact-page-1.jpg"
+          alt="Elevate for Humanity contact"
+          fill
+          sizes="100vw"
+          quality={90}
+          className="object-cover"
+          priority
+        />
       </div>
       <div className="bg-white border-b border-slate-200 py-8 px-6">
         <div className="max-w-7xl mx-auto">
           <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900">Contact Us</h1>
-          <p className="text-black mt-2">Reach our enrollment team, career services, or administrative office.</p>
+          <p className="text-black mt-2">
+            Reach our enrollment team, career services, or administrative office.
+          </p>
         </div>
       </div>
-
       {/* Avatar Guide */}
-
       <div className="max-w-7xl mx-auto px-4 py-8 sm:py-10 md:py-12">
         <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6 mb-8 sm:mb-10 md:mb-12">
           {contactInfo.map((info, index) => (
@@ -97,7 +129,9 @@ function ContactPageInner() {
               </div>
               <h2 className="font-semibold text-gray-900">{info.title}</h2>
               {info.href ? (
-                <a href={info.href} className="text-brand-blue-600 hover:underline mt-1 block">{info.value}</a>
+                <a href={info.href} className="text-brand-blue-600 hover:underline mt-1 block">
+                  {info.value}
+                </a>
               ) : (
                 <p className="text-gray-900 mt-1">{info.value}</p>
               )}
@@ -109,7 +143,7 @@ function ContactPageInner() {
         <div className="grid lg:grid-cols-2 gap-12">
           <div>
             <h2 className="text-2xl font-bold text-gray-900 mb-6">Send us a Message</h2>
-            
+
             {formState === 'success' ? (
               <div className="bg-brand-green-50 border border-brand-green-200 rounded-xl p-8 text-center">
                 <span className="text-black flex-shrink-0">•</span>
@@ -127,15 +161,21 @@ function ContactPageInner() {
             ) : (
               <form id="contact-form" onSubmit={handleSubmit} className="space-y-6">
                 {formState === 'error' && (
-                  <div className="bg-brand-red-50 border border-brand-red-200 rounded-lg p-4 flex items-start gap-3" role="alert">
+                  <div
+                    className="bg-brand-red-50 border border-brand-red-200 rounded-lg p-4 flex items-start gap-3"
+                    role="alert"
+                  >
                     <AlertCircle className="w-5 h-5 text-brand-red-500 flex-shrink-0 mt-0.5" />
                     <p className="text-brand-red-700 text-sm">{errorMessage}</p>
                   </div>
                 )}
-                
+
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
-                    <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-2">
+                    <label
+                      htmlFor="firstName"
+                      className="block text-sm font-medium text-gray-700 mb-2"
+                    >
                       First Name <span className="text-brand-red-500">*</span>
                     </label>
                     <input
@@ -148,7 +188,10 @@ function ContactPageInner() {
                     />
                   </div>
                   <div>
-                    <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-2">
+                    <label
+                      htmlFor="lastName"
+                      className="block text-sm font-medium text-gray-700 mb-2"
+                    >
                       Last Name <span className="text-brand-red-500">*</span>
                     </label>
                     <input
@@ -161,7 +204,7 @@ function ContactPageInner() {
                     />
                   </div>
                 </div>
-                
+
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
                     <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
@@ -189,7 +232,7 @@ function ContactPageInner() {
                     />
                   </div>
                 </div>
-                
+
                 <div>
                   <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-2">
                     Subject <span className="text-brand-red-500">*</span>
@@ -213,7 +256,7 @@ function ContactPageInner() {
                     <option value="other">Other</option>
                   </select>
                 </div>
-                
+
                 <div>
                   <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
                     Message <span className="text-brand-red-500">*</span>
@@ -224,16 +267,20 @@ function ContactPageInner() {
                     rows={5}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                     placeholder="How can we help you?"
-                    defaultValue={prefillProgram ? `I'm interested in the ${prefillProgram.replace(/-/g, ' ')} program and would like more information.` : ''}
+                    defaultValue={
+                      prefillProgram
+                        ? `I'm interested in the ${prefillProgram.replace(/-/g, ' ')} program and would like more information.`
+                        : ''
+                    }
                     required
                     minLength={10}
                     disabled={formState === 'submitting'}
                   />
                 </div>
-                
+
                 {/* Turnstile CAPTCHA */}
                 <Turnstile onVerify={setTurnstileToken} />
-                
+
                 <button
                   type="submit"
                   disabled={formState === 'submitting' || !turnstileToken}
@@ -254,13 +301,14 @@ function ContactPageInner() {
               </form>
             )}
           </div>
-          
+
           <div>
             {/* Schedule a Meeting */}
             <h2 className="text-2xl font-bold text-gray-900 mb-6">Schedule a Meeting</h2>
             <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
               <p className="text-black mb-5">
-                Pick a date and time that works for you. Once you submit, you and our team will receive a calendar invite with a Zoom link by email.
+                Pick a date and time that works for you. Once you submit, you and our team will
+                receive a calendar invite with a Zoom link by email.
               </p>
 
               <form
@@ -281,8 +329,11 @@ function ContactPageInner() {
                       method: 'POST',
                       headers: { 'Content-Type': 'application/json' },
                       body: JSON.stringify({
-                        name, email, appointment_type: topic || 'General inquiry',
-                        appointment_date: date, appointment_time: time,
+                        name,
+                        email,
+                        appointment_type: topic || 'General inquiry',
+                        appointment_date: date,
+                        appointment_time: time,
                       }),
                     });
                     const data = await res.json();
@@ -302,21 +353,65 @@ function ContactPageInner() {
                 className="space-y-4"
               >
                 <div>
-                  <label htmlFor="meetingName" className="block text-sm font-medium text-gray-700 mb-1">Your Name <span className="text-brand-red-500">*</span></label>
-                  <input type="text" id="meetingName" name="meetingName" required className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500" />
+                  <label
+                    htmlFor="meetingName"
+                    className="block text-sm font-medium text-gray-700 mb-1"
+                  >
+                    Your Name <span className="text-brand-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="meetingName"
+                    name="meetingName"
+                    required
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                  />
                 </div>
                 <div>
-                  <label htmlFor="meetingEmail" className="block text-sm font-medium text-gray-700 mb-1">Your Email <span className="text-brand-red-500">*</span></label>
-                  <input type="email" id="meetingEmail" name="meetingEmail" required className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500" />
+                  <label
+                    htmlFor="meetingEmail"
+                    className="block text-sm font-medium text-gray-700 mb-1"
+                  >
+                    Your Email <span className="text-brand-red-500">*</span>
+                  </label>
+                  <input
+                    type="email"
+                    id="meetingEmail"
+                    name="meetingEmail"
+                    required
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                  />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label htmlFor="meetingDate" className="block text-sm font-medium text-gray-700 mb-1">Date <span className="text-brand-red-500">*</span></label>
-                    <input type="date" id="meetingDate" name="meetingDate" required min={new Date().toISOString().split('T')[0]} className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500" />
+                    <label
+                      htmlFor="meetingDate"
+                      className="block text-sm font-medium text-gray-700 mb-1"
+                    >
+                      Date <span className="text-brand-red-500">*</span>
+                    </label>
+                    <input
+                      type="date"
+                      id="meetingDate"
+                      name="meetingDate"
+                      required
+                      min={new Date().toISOString().split('T')[0]}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                    />
                   </div>
                   <div>
-                    <label htmlFor="meetingTime" className="block text-sm font-medium text-gray-700 mb-1">Time <span className="text-brand-red-500">*</span></label>
-                    <select id="meetingTime" name="meetingTime" required className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500">
+                    <label
+                      htmlFor="meetingTime"
+                      className="block text-sm font-medium text-gray-700 mb-1"
+                    >
+                      Time <span className="text-brand-red-500">*</span>
+                    </label>
+                    <select
+                      id="meetingTime"
+                      name="meetingTime"
+                      required
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                    >
                       <option value="">Select...</option>
                       <option value="09:00">9:00 AM</option>
                       <option value="09:30">9:30 AM</option>
@@ -339,11 +434,22 @@ function ContactPageInner() {
                   </div>
                 </div>
                 <div>
-                  <label htmlFor="meetingTopic" className="block text-sm font-medium text-gray-700 mb-1">What do you need help with?</label>
-                  <select id="meetingTopic" name="meetingTopic" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500">
+                  <label
+                    htmlFor="meetingTopic"
+                    className="block text-sm font-medium text-gray-700 mb-1"
+                  >
+                    What do you need help with?
+                  </label>
+                  <select
+                    id="meetingTopic"
+                    name="meetingTopic"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                  >
                     <option value="General inquiry">General inquiry</option>
                     <option value="Enrollment help">Enrollment help</option>
-                    <option value="Funding and workforce grants">Funding and workforce grants</option>
+                    <option value="Funding and workforce grants">
+                      Funding and workforce grants
+                    </option>
                     <option value="Program information">Program information</option>
                     <option value="Employer partnership">Employer partnership</option>
                     <option value="Orientation">Orientation</option>
@@ -364,10 +470,17 @@ function ContactPageInner() {
             <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
               <h3 className="font-semibold text-gray-900 mb-2">Virtual Meetings via Zoom</h3>
               <p className="text-black mb-4">
-                All scheduled meetings include a unique Zoom link sent to your email. Use the form above to book a meeting and you will receive your personal Zoom link automatically.
+                All scheduled meetings include a unique Zoom link sent to your email. Use the form
+                above to book a meeting and you will receive your personal Zoom link automatically.
               </p>
               <p className="text-black text-sm">
-                Questions? Call <a href="tel:+13173143757" className="text-brand-blue-600 font-medium hover:underline">(317) 314-3757</a>
+                Questions? Call{' '}
+                <a
+                  href="tel:+13173143757"
+                  className="text-brand-blue-600 font-medium hover:underline"
+                >
+                  (317) 314-3757
+                </a>
               </p>
             </div>
 
@@ -376,29 +489,59 @@ function ContactPageInner() {
               <h3 className="font-semibold text-gray-900 mb-2">Elevate for Humanity</h3>
               <p className="text-black">8888 Keystone Crossing, Suite 1300</p>
               <p className="text-black">Indianapolis, IN 46240</p>
-              <p className="text-black mt-3 text-sm font-medium text-amber-700">⚠️ By appointment only — this is a hybrid training institute, not a walk-in location. Schedule below before visiting.</p>
+              <p className="text-black mt-3 text-sm font-medium text-amber-700">
+                ⚠️ By appointment only — this is a hybrid training institute, not a walk-in
+                location. Schedule below before visiting.
+              </p>
             </div>
           </div>
         </div>
       </div>
-
       {/* FAQ */}
       <div className="max-w-3xl mx-auto px-4 py-16">
         <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">Contact FAQ</h2>
         <div className="space-y-4">
           {[
-            { q: 'What are your office hours?', a: 'Our team is available Monday-Friday, 9am-5pm EST. You can leave a message anytime and we\'ll respond within 1-2 business days.' },
-            { q: 'How quickly will I get a response?', a: 'We typically respond to inquiries within 1-2 business days. For urgent matters, please contact us directly at (317) 314-3757.' },
-            { q: 'Can I visit your office in person?', a: 'Elevate is a hybrid training institute — not a walk-in location. Our address is 8888 Keystone Crossing, Suite 1300, Indianapolis, IN 46240. All visits are by appointment only. Use the calendar above to schedule.' },
-            { q: 'Who should I contact about enrollment?', a: 'For enrollment questions, select "Enrollment Questions" in the contact form or contact us directly. Our enrollment team will assist you.' },
-            { q: 'How do I check my application status?', a: 'Log into your student dashboard to check status, or contact us with your name and the program you applied for.' },
-            { q: 'I\'m an employer - who do I contact?', a: 'Select "Employer Partnership" in the contact form or email us directly. Our employer relations team will reach out to discuss partnership opportunities.' },
+            {
+              q: 'What are your office hours?',
+              a: "Our team is available Monday-Friday, 9am-5pm EST. You can leave a message anytime and we'll respond within 1-2 business days.",
+            },
+            {
+              q: 'How quickly will I get a response?',
+              a: 'We typically respond to inquiries within 1-2 business days. For urgent matters, please contact us directly at (317) 314-3757.',
+            },
+            {
+              q: 'Can I visit your office in person?',
+              a: 'Elevate is a hybrid training institute — not a walk-in location. Our address is 8888 Keystone Crossing, Suite 1300, Indianapolis, IN 46240. All visits are by appointment only. Use the calendar above to schedule.',
+            },
+            {
+              q: 'Who should I contact about enrollment?',
+              a: 'For enrollment questions, select "Enrollment Questions" in the contact form or contact us directly. Our enrollment team will assist you.',
+            },
+            {
+              q: 'How do I check my application status?',
+              a: 'Log into your student dashboard to check status, or contact us with your name and the program you applied for.',
+            },
+            {
+              q: "I'm an employer - who do I contact?",
+              a: 'Select "Employer Partnership" in the contact form or email us directly. Our employer relations team will reach out to discuss partnership opportunities.',
+            },
           ].map((faq, i) => (
             <details key={i} className="bg-white rounded-xl overflow-hidden group">
               <summary className="p-5 cursor-pointer font-semibold text-slate-900 flex justify-between items-center">
                 {faq.q}
-                <svg className="w-5 h-5 text-black group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                <svg
+                  className="w-5 h-5 text-black group-open:rotate-180 transition-transform"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M19 9l-7 7-7-7"
+                  />
                 </svg>
               </summary>
               <div className="px-5 pb-5 text-black">{faq.a}</div>
@@ -406,7 +549,6 @@ function ContactPageInner() {
           ))}
         </div>
       </div>
-
       {/* Email Contact */}
       <div className="max-w-4xl mx-auto px-4 py-8 flex flex-wrap justify-center gap-4">
         <Link
@@ -423,12 +565,13 @@ function ContactPageInner() {
           Email Us Directly
         </a>
       </div>
-
       {/* Feedback Widget */}
       {/* Calendly inline widget */}
       <div className="max-w-4xl mx-auto px-4 py-8">
         <h2 className="text-2xl font-bold text-slate-900 mb-2">Schedule a Meeting</h2>
-        <p className="text-black mb-6">Pick a time that works for you and we'll connect directly.</p>
+        <p className="text-black mb-6">
+          Pick a time that works for you and we'll connect directly.
+        </p>
         <div
           className="calendly-inline-widget"
           data-url="https://calendly.com/elevate4humanityedu"
@@ -440,7 +583,6 @@ function ContactPageInner() {
           async
         />
       </div>
-
       <div className="max-w-4xl mx-auto px-4 py-8">
         <FeedbackWidget userId="" />
       </div>

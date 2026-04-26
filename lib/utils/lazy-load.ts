@@ -3,9 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import React from 'react';
 
-export function useLazyLoad<T extends HTMLElement>(
-  options?: IntersectionObserverInit
-) {
+export function useLazyLoad<T extends HTMLElement>(options?: IntersectionObserverInit) {
   const ref = useRef<T>(null);
   const [isVisible, setIsVisible] = useState(false);
 
@@ -23,7 +21,7 @@ export function useLazyLoad<T extends HTMLElement>(
       {
         rootMargin: '50px',
         ...options,
-      }
+      },
     );
 
     observer.observe(element);

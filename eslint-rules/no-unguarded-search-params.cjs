@@ -11,7 +11,8 @@ module.exports = {
       recommended: true,
     },
     messages: {
-      missingSuspense: 'useSearchParams must be used within a Suspense boundary. Wrap the component in <Suspense> or move useSearchParams to a child component wrapped in Suspense.',
+      missingSuspense:
+        'useSearchParams must be used within a Suspense boundary. Wrap the component in <Suspense> or move useSearchParams to a child component wrapped in Suspense.',
     },
     schema: [],
   },

@@ -1,9 +1,9 @@
-import { ReactNode } from "react";
-import { Section } from "@/components/ui/Section";
-import { Card } from "@/components/ui/Card";
-import { Button } from "@/components/ui/Button";
-import Link from "next/link";
-import Image from "next/image";
+import { ReactNode } from 'react';
+import { Section } from '@/components/ui/Section';
+import { Card } from '@/components/ui/Card';
+import { Button } from '@/components/ui/Button';
+import Link from 'next/link';
+import Image from 'next/image';
 
 type ProgramPageShellProps = {
   title: string;
@@ -37,7 +37,7 @@ export function ProgramPageShell({
   outcomes,
   highlights,
   employerNotes,
-  applyHref = "/apply",
+  applyHref = '/apply',
   videoUrl,
   heroImage,
   children,
@@ -68,21 +68,15 @@ export function ProgramPageShell({
 
             <div className="mt-4 flex flex-wrap gap-6 text-xs text-black">
               <div>
-                <p className="text-base font-bold text-black">
-                  {credential}
-                </p>
+                <p className="text-base font-bold text-black">{credential}</p>
                 <p>Credential / outcome</p>
               </div>
               <div>
-                <p className="text-base font-bold text-black">
-                  {duration}
-                </p>
+                <p className="text-base font-bold text-black">{duration}</p>
                 <p>Approximate program length</p>
               </div>
               <div>
-                <p className="text-base font-bold text-black">
-                  {schedule}
-                </p>
+                <p className="text-base font-bold text-black">{schedule}</p>
                 <p>Schedule</p>
               </div>
             </div>
@@ -97,7 +91,7 @@ export function ProgramPageShell({
                     src={heroImage}
                     alt={title}
                     fill
-          sizes="100vw"
+                    sizes="100vw"
                     className="object-cover"
                     priority
                   />
@@ -119,44 +113,40 @@ export function ProgramPageShell({
             )}
 
             <Card className="p-5 md:p-6 space-y-4">
-              <h3 className="text-lg font-semibold text-black">
-                Program at a glance
-              </h3>
-            <dl className="space-y-2 text-sm text-black">
-              {location && (
+              <h3 className="text-lg font-semibold text-black">Program at a glance</h3>
+              <dl className="space-y-2 text-sm text-black">
+                {location && (
+                  <div className="flex justify-between gap-4">
+                    <dt className="text-slate-500">Location</dt>
+                    <dd className="font-medium text-right">{location}</dd>
+                  </div>
+                )}
                 <div className="flex justify-between gap-4">
-                  <dt className="text-slate-500">Location</dt>
-                  <dd className="font-medium text-right">{location}</dd>
+                  <dt className="text-slate-500">Funding</dt>
+                  <dd className="font-medium text-right">{funding}</dd>
+                </div>
+                <div className="flex justify-between gap-4">
+                  <dt className="text-slate-500">Best for</dt>
+                  <dd className="font-medium text-right">{audience}</dd>
+                </div>
+              </dl>
+              <div className="pt-4 border-t border-slate-100">
+                <p className="text-xs uppercase tracking-[0.2em] text-slate-500 mb-2">
+                  Program highlights
+                </p>
+                <ul className="space-y-1 text-xs md:text-sm text-black">
+                  {highlights.map((item) => (
+                    <li key={item}>• {item}</li>
+                  ))}
+                </ul>
+              </div>
+              {employerNotes && (
+                <div className="pt-4 border-t border-dashed border-slate-200">
+                  <p className="text-xs font-semibold text-slate-500 mb-1">For employers</p>
+                  <p className="text-xs text-black">{employerNotes}</p>
                 </div>
               )}
-              <div className="flex justify-between gap-4">
-                <dt className="text-slate-500">Funding</dt>
-                <dd className="font-medium text-right">{funding}</dd>
-              </div>
-              <div className="flex justify-between gap-4">
-                <dt className="text-slate-500">Best for</dt>
-                <dd className="font-medium text-right">{audience}</dd>
-              </div>
-            </dl>
-            <div className="pt-4 border-t border-slate-100">
-              <p className="text-xs uppercase tracking-[0.2em] text-slate-500 mb-2">
-                Program highlights
-              </p>
-              <ul className="space-y-1 text-xs md:text-sm text-black">
-                {highlights.map((item) => (
-                  <li key={item}>• {item}</li>
-                ))}
-              </ul>
-            </div>
-            {employerNotes && (
-              <div className="pt-4 border-t border-dashed border-slate-200">
-                <p className="text-xs font-semibold text-slate-500 mb-1">
-                  For employers
-                </p>
-                <p className="text-xs text-black">{employerNotes}</p>
-              </div>
-            )}
-          </Card>
+            </Card>
           </div>
         </div>
       </Section>
@@ -165,9 +155,7 @@ export function ProgramPageShell({
       <Section className="pt-0">
         <div className="container-padded grid gap-8 md:grid-cols-[minmax(0,1.2fr),minmax(0,1fr)] items-start">
           <Card className="p-5 md:p-6 space-y-4">
-            <h2 className="text-xl md:text-2xl font-semibold">
-              What you'll be able to do
-            </h2>
+            <h2 className="text-xl md:text-2xl font-semibold">What you'll be able to do</h2>
             <ul className="space-y-2 text-sm md:text-base text-black">
               {outcomes.map((o) => (
                 <li key={o}>• {o}</li>
@@ -175,9 +163,7 @@ export function ProgramPageShell({
             </ul>
           </Card>
 
-          <div className="space-y-4">
-            {children}
-          </div>
+          <div className="space-y-4">{children}</div>
         </div>
       </Section>
     </main>

@@ -3,9 +3,17 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
-import { 
-  HelpCircle, Book, MessageCircle, Phone, Mail, 
-  FileText, Video, Search, ChevronRight, ExternalLink
+import {
+  HelpCircle,
+  Book,
+  MessageCircle,
+  Phone,
+  Mail,
+  FileText,
+  Video,
+  Search,
+  ChevronRight,
+  ExternalLink,
 } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
@@ -15,7 +23,8 @@ export const metadata: Metadata = {
     canonical: 'https://www.elevateforhumanity.org/lms/help',
   },
   title: 'Help Center | LMS | Elevate For Humanity',
-  description: 'Get help with your courses, technical issues, and account questions. Access tutorials, FAQs, and contact support.',
+  description:
+    'Get help with your courses, technical issues, and account questions. Access tutorials, FAQs, and contact support.',
 };
 
 const helpCategories = [
@@ -68,31 +77,37 @@ const helpCategories = [
 const faqs = [
   {
     question: 'How do I reset my password?',
-    answer: 'Click "Forgot Password" on the login page and enter your email. You\'ll receive a reset link within a few minutes.',
+    answer:
+      'Click "Forgot Password" on the login page and enter your email. You\'ll receive a reset link within a few minutes.',
   },
   {
     question: 'Can I access courses on my phone?',
-    answer: 'Yes! Our platform is fully mobile-responsive. You can access all courses through your mobile browser or download our app.',
+    answer:
+      'Yes! Our platform is fully mobile-responsive. You can access all courses through your mobile browser or download our app.',
   },
   {
     question: 'How long do I have access to a course?',
-    answer: 'Most courses provide lifetime access once enrolled. Some certification courses have specific completion deadlines noted in the course description.',
+    answer:
+      'Most courses provide lifetime access once enrolled. Some certification courses have specific completion deadlines noted in the course description.',
   },
   {
     question: 'What if I fail a quiz?',
-    answer: 'Don\'t worry! Most quizzes allow multiple attempts. Review the material and try again. Your highest score is recorded.',
+    answer:
+      "Don't worry! Most quizzes allow multiple attempts. Review the material and try again. Your highest score is recorded.",
   },
   {
     question: 'How do I contact my instructor?',
-    answer: 'Use the "Message Instructor" button on your course page, or post in the course discussion forum.',
+    answer:
+      'Use the "Message Instructor" button on your course page, or post in the course discussion forum.',
   },
 ];
 
 export default async function HelpPage() {
   const supabase = await createClient();
 
-
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     redirect('/login?redirect=/lms/help');
@@ -103,23 +118,20 @@ export default async function HelpPage() {
       {/* Breadcrumbs */}
       <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[
-            { label: 'LMS', href: '/lms/dashboard' },
-            { label: 'Help Center' }
-          ]} />
+          <Breadcrumbs
+            items={[{ label: 'LMS', href: '/lms/dashboard' }, { label: 'Help Center' }]}
+          />
         </div>
       </div>
 
       {/* Hero */}
       <section className="bg-brand-blue-600 text-white py-16">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">
-            How Can We Help?
-          </h1>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">How Can We Help?</h1>
           <p className="text-xl text-brand-blue-100 mb-8">
             Find answers, tutorials, and support for your learning journey.
           </p>
-          
+
           {/* Search */}
           <div className="max-w-xl mx-auto relative">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-700" />
@@ -136,7 +148,10 @@ export default async function HelpPage() {
       <section className="py-8 border-b">
         <div className="max-w-6xl mx-auto px-4">
           <div className="grid md:grid-cols-3 gap-6">
-            <a href="/support" className="flex items-center gap-4 p-4 rounded-xl hover:bg-white transition-colors">
+            <a
+              href="/support"
+              className="flex items-center gap-4 p-4 rounded-xl hover:bg-white transition-colors"
+            >
               <div className="w-12 h-12 bg-brand-green-100 rounded-xl flex items-center justify-center">
                 <Phone className="w-6 h-6 text-brand-green-600" />
               </div>
@@ -145,7 +160,10 @@ export default async function HelpPage() {
                 <div className="text-slate-700">(317) 314-3757</div>
               </div>
             </a>
-            <a href="/contact" className="flex items-center gap-4 p-4 rounded-xl hover:bg-white transition-colors">
+            <a
+              href="/contact"
+              className="flex items-center gap-4 p-4 rounded-xl hover:bg-white transition-colors"
+            >
               <div className="w-12 h-12 bg-brand-blue-100 rounded-xl flex items-center justify-center">
                 <Mail className="w-6 h-6 text-brand-blue-600" />
               </div>
@@ -154,7 +172,10 @@ export default async function HelpPage() {
                 <div className="text-slate-700">Contact Us</div>
               </div>
             </a>
-            <Link href="/lms/messages" className="flex items-center gap-4 p-4 rounded-xl hover:bg-white transition-colors">
+            <Link
+              href="/lms/messages"
+              className="flex items-center gap-4 p-4 rounded-xl hover:bg-white transition-colors"
+            >
               <div className="w-12 h-12 bg-brand-blue-100 rounded-xl flex items-center justify-center">
                 <MessageCircle className="w-6 h-6 text-brand-blue-600" />
               </div>
@@ -186,7 +207,7 @@ export default async function HelpPage() {
                 <ul className="space-y-2">
                   {category.links.map((link, i) => (
                     <li key={i}>
-                      <Link 
+                      <Link
                         href={link.href}
                         className="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-white text-slate-900 hover:text-brand-blue-600 transition-colors"
                       >
@@ -215,9 +236,7 @@ export default async function HelpPage() {
                   <span className="font-semibold text-slate-900">{faq.question}</span>
                   <ChevronRight className="w-5 h-5 text-slate-700 group-open:rotate-90 transition-transform" />
                 </summary>
-                <div className="px-6 pb-6 text-slate-700">
-                  {faq.answer}
-                </div>
+                <div className="px-6 pb-6 text-slate-700">{faq.answer}</div>
               </details>
             ))}
           </div>
@@ -227,9 +246,7 @@ export default async function HelpPage() {
       {/* Still Need Help */}
       <section className="py-16 bg-slate-900">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-2xl font-bold text-white mb-4">
-            Still Need Help?
-          </h2>
+          <h2 className="text-2xl font-bold text-white mb-4">Still Need Help?</h2>
           <p className="text-slate-700 mb-8">
             Our support team is available Monday-Friday, 9am-5pm EST.
           </p>

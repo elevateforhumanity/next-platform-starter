@@ -15,11 +15,11 @@ import { officeService } from './office-service';
 function getServiceClient(): SupabaseClient {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  
+
   if (!supabaseUrl || !supabaseServiceKey) {
     throw new Error('Missing Supabase environment variables');
   }
-  
+
   return createClient(supabaseUrl, supabaseServiceKey);
 }
 
@@ -89,7 +89,9 @@ export class ReturnService {
     // Validate tax return
     const validation = validateTaxReturn(input.tax_return);
     if (!validation.valid) {
-      throw new Error(`Validation failed: ${validation.errors.map(e => e.errorMessage).join(', ')}`);
+      throw new Error(
+        `Validation failed: ${validation.errors.map((e) => e.errorMessage).join(', ')}`,
+      );
     }
 
     // Add preparer info to return
@@ -106,10 +108,10 @@ export class ReturnService {
           street: office.address_street,
           city: office.address_city,
           state: office.address_state,
-          zip: office.address_zip
+          zip: office.address_zip,
         },
-        selfEmployed: false
-      }
+        selfEmployed: false,
+      },
     };
 
     // Generate XML
@@ -117,7 +119,7 @@ export class ReturnService {
     const submission = createMeFSubmission(returnWithPreparer, softwareId);
 
     // Calculate fees
-    const franchiseFee = office.per_return_fee || 5.00;
+    const franchiseFee = office.per_return_fee || 5.0;
     const preparerCommission = this.calculatePreparerCommission(preparer, input.client_fee);
     const officeRevenue = input.client_fee - franchiseFee - preparerCommission;
 
@@ -132,19 +134,19 @@ export class ReturnService {
         submission_type: 'IRS1040',
         xml_content: submission.xmlContent,
         status: 'pending',
-        
+
         // Office/preparer tracking
         office_id: input.office_id,
         preparer_id: input.preparer_id,
         preparer_ptin: preparer.ptin,
         ero_id: ero.id,
-        
+
         // Fee tracking
         client_fee: input.client_fee,
         franchise_fee: franchiseFee,
         preparer_commission: preparerCommission,
         office_revenue: officeRevenue,
-        
+
         // Client reference
         taxpayer_ssn_hash: this.hashSSN(input.tax_return.taxpayer.ssn),
         return_data: {
@@ -152,8 +154,8 @@ export class ReturnService {
           filing_status: input.tax_return.filingStatus,
           total_income: input.tax_return.totalIncome,
           refund_amount: input.tax_return.refundAmount,
-          amount_owed: input.tax_return.amountOwed
-        }
+          amount_owed: input.tax_return.amountOwed,
+        },
       })
       .select()
       .maybeSingle();
@@ -173,7 +175,7 @@ export class ReturnService {
       submission_id: submission.submissionId,
       office_id: input.office_id,
       preparer_id: input.preparer_id,
-      client_fee: input.client_fee
+      client_fee: input.client_fee,
     });
 
     return {
@@ -189,7 +191,7 @@ export class ReturnService {
       preparer_commission: preparerCommission,
       office_revenue: officeRevenue,
       status: 'pending',
-      created_at: data.created_at
+      created_at: data.created_at,
     };
   }
 
@@ -228,11 +230,14 @@ export class ReturnService {
   /**
    * Calculate preparer commission based on their compensation type
    */
-  private calculatePreparerCommission(preparer: { 
-    compensation_type: string;
-    per_return_rate: number | null;
-    commission_percent: number | null;
-  }, clientFee: number): number {
+  private calculatePreparerCommission(
+    preparer: {
+      compensation_type: string;
+      per_return_rate: number | null;
+      commission_percent: number | null;
+    },
+    clientFee: number,
+  ): number {
     switch (preparer.compensation_type) {
       case 'per_return':
         return preparer.per_return_rate || 0;
@@ -253,14 +258,17 @@ export class ReturnService {
   /**
    * Get returns for an office
    */
-  async getOfficeReturns(officeId: string, filters?: {
-    status?: string;
-    preparerId?: string;
-    startDate?: string;
-    endDate?: string;
-    limit?: number;
-    offset?: number;
-  }): Promise<{ returns: ReturnWithAssignment[]; total: number }> {
+  async getOfficeReturns(
+    officeId: string,
+    filters?: {
+      status?: string;
+      preparerId?: string;
+      startDate?: string;
+      endDate?: string;
+      limit?: number;
+      offset?: number;
+    },
+  ): Promise<{ returns: ReturnWithAssignment[]; total: number }> {
     let query = this.supabase
       .from('franchise_return_submissions')
       .select('*', { count: 'exact' })
@@ -293,7 +301,7 @@ export class ReturnService {
     if (error) throw new Error(`Failed to get returns`);
 
     return {
-      returns: (data || []).map(r => ({
+      returns: (data || []).map((r) => ({
         id: r.id,
         submission_id: r.submission_id,
         office_id: r.office_id,
@@ -306,22 +314,25 @@ export class ReturnService {
         preparer_commission: r.preparer_commission,
         office_revenue: r.office_revenue,
         status: r.status,
-        created_at: r.created_at
+        created_at: r.created_at,
       })),
-      total: count || 0
+      total: count || 0,
     };
   }
 
   /**
    * Get returns for a preparer
    */
-  async getPreparerReturns(preparerId: string, filters?: {
-    status?: string;
-    startDate?: string;
-    endDate?: string;
-    limit?: number;
-    offset?: number;
-  }): Promise<{ returns: ReturnWithAssignment[]; total: number }> {
+  async getPreparerReturns(
+    preparerId: string,
+    filters?: {
+      status?: string;
+      startDate?: string;
+      endDate?: string;
+      limit?: number;
+      offset?: number;
+    },
+  ): Promise<{ returns: ReturnWithAssignment[]; total: number }> {
     let query = this.supabase
       .from('franchise_return_submissions')
       .select('*', { count: 'exact' })
@@ -351,7 +362,7 @@ export class ReturnService {
     if (error) throw new Error(`Failed to get returns`);
 
     return {
-      returns: (data || []).map(r => ({
+      returns: (data || []).map((r) => ({
         id: r.id,
         submission_id: r.submission_id,
         office_id: r.office_id,
@@ -364,9 +375,9 @@ export class ReturnService {
         preparer_commission: r.preparer_commission,
         office_revenue: r.office_revenue,
         status: r.status,
-        created_at: r.created_at
+        created_at: r.created_at,
       })),
-      total: count || 0
+      total: count || 0,
     };
   }
 
@@ -378,7 +389,7 @@ export class ReturnService {
     entityType: string,
     entityId: string,
     oldValues: unknown,
-    newValues: unknown
+    newValues: unknown,
   ): Promise<void> {
     await this.supabase.from('franchise_audit_log').insert({
       action: eventType,

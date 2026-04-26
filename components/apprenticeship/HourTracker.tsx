@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -16,11 +16,13 @@ export function HourTracker({ programName, requiredHours, studentId }: HourTrack
   const [currentSessionStart, setCurrentSessionStart] = useState<Date | null>(null);
   const [elapsedTime, setElapsedTime] = useState(0);
   const [totalHours, setTotalHours] = useState(0);
-  const [recentSessions, setRecentSessions] = useState<Array<{
-    date: string;
-    hours: number;
-    activity: string;
-  }>>([]);
+  const [recentSessions, setRecentSessions] = useState<
+    Array<{
+      date: string;
+      hours: number;
+      activity: string;
+    }>
+  >([]);
 
   // Load saved data from localStorage
   useEffect(() => {
@@ -78,7 +80,12 @@ export function HourTracker({ programName, requiredHours, studentId }: HourTrack
     const newTotalHours = totalHours + sessionHours;
 
     const newSession = {
-      date: now.toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' }),
+      date: now.toLocaleDateString('en-US', {
+        timeZone: 'UTC',
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric',
+      }),
       hours: parseFloat(sessionHours.toFixed(2)),
       activity: 'Training Session',
     };
@@ -172,7 +179,7 @@ export function HourTracker({ programName, requiredHours, studentId }: HourTrack
             <div
               className="   h-full transition-all duration-500 rounded-full"
               style={{ width: `${progressPercentage}%` }}
-             />
+            />
           </div>
           <div className="flex items-center justify-between mt-2 text-xs text-black">
             <span>{progressPercentage.toFixed(1)}% Complete</span>

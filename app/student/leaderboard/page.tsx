@@ -13,8 +13,12 @@ export const dynamic = 'force-dynamic';
 
 export default async function LeaderboardPage() {
   const supabase = await createClient();
-  if (!supabase) { redirect("/login"); }
-  const { data: { user } } = await supabase.auth.getUser();
+  if (!supabase) {
+    redirect('/login');
+  }
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     redirect('/login?redirect=/student/leaderboard');
@@ -38,16 +42,17 @@ export default async function LeaderboardPage() {
     if (rank === 1) return <Trophy className="w-6 h-6 text-yellow-500" />;
     if (rank === 2) return <Medal className="w-6 h-6 text-gray-400" />;
     if (rank === 3) return <Award className="w-6 h-6 text-amber-600" />;
-    return <span className="w-6 h-6 flex items-center justify-center text-gray-500 font-bold">{rank}</span>;
+    return (
+      <span className="w-6 h-6 flex items-center justify-center text-gray-500 font-bold">
+        {rank}
+      </span>
+    );
   };
 
   return (
     <div className="min-h-screen bg-slate-50">
       <Breadcrumbs
-        items={[
-          { label: 'Student Portal', href: '/student' },
-          { label: 'Leaderboard' },
-        ]}
+        items={[{ label: 'Student Portal', href: '/student' }, { label: 'Leaderboard' }]}
       />
       <div className="max-w-2xl mx-auto px-6 py-12">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">Leaderboard</h1>
@@ -72,9 +77,7 @@ export default async function LeaderboardPage() {
                     learner.id === user.id ? 'bg-blue-50' : ''
                   }`}
                 >
-                  <div className="w-8 flex justify-center">
-                    {getRankIcon(index + 1)}
-                  </div>
+                  <div className="w-8 flex justify-center">{getRankIcon(index + 1)}</div>
                   <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
                     {learner.avatar_url ? (
                       <img
@@ -114,7 +117,7 @@ export default async function LeaderboardPage() {
 
         <div className="mt-6 p-4 bg-gray-50 rounded-xl">
           <p className="text-sm text-gray-600">
-            <strong>How to earn points:</strong> Complete lessons (+10), finish courses (+100), 
+            <strong>How to earn points:</strong> Complete lessons (+10), finish courses (+100),
             maintain streaks (+5/day), earn badges (+25).
           </p>
         </div>

@@ -5,7 +5,8 @@ export const quiz = [
     answer: 'Ohms',
   },
   {
-    question: 'According to Ohm\'s Law, if voltage is 240V and resistance is 20 ohms, what is the current?',
+    question:
+      "According to Ohm's Law, if voltage is 240V and resistance is 20 ohms, what is the current?",
     options: ['4,800 amps', '12 amps', '260 amps', '220 amps'],
     answer: '12 amps',
   },
@@ -16,12 +17,22 @@ export const quiz = [
   },
   {
     question: 'What does a capacitor do in an HVAC system?',
-    options: ['Compresses refrigerant', 'Stores electrical energy to start motors', 'Measures temperature', 'Controls airflow direction'],
+    options: [
+      'Compresses refrigerant',
+      'Stores electrical energy to start motors',
+      'Measures temperature',
+      'Controls airflow direction',
+    ],
     answer: 'Stores electrical energy to start motors',
   },
   {
     question: 'What is the purpose of a contactor in an HVAC circuit?',
-    options: ['Measures voltage', 'Switches high-voltage power to the compressor and fan', 'Regulates refrigerant flow', 'Monitors indoor temperature'],
+    options: [
+      'Measures voltage',
+      'Switches high-voltage power to the compressor and fan',
+      'Regulates refrigerant flow',
+      'Monitors indoor temperature',
+    ],
     answer: 'Switches high-voltage power to the compressor and fan',
   },
-]
+];

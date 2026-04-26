@@ -91,6 +91,7 @@ npm run deploy
 ### 6. Configure DNS
 
 Add a CNAME record in Cloudflare DNS:
+
 - Name: `studio-api`
 - Target: Your worker URL
 

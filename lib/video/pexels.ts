@@ -11,19 +11,19 @@ import { logger } from '@/lib/logger';
 // ── Topic → search query map ──────────────────────────────────────────────────
 
 const TOPIC_QUERIES: Record<string, string> = {
-  foundations:          'community support people helping',
-  ethics:               'professional meeting office trust',
-  advocacy:             'people talking support community',
-  cultural_competency:  'diverse people community culture',
-  documentation:        'writing notes professional workspace',
-  career_readiness:     'professional career success workplace',
+  foundations: 'community support people helping',
+  ethics: 'professional meeting office trust',
+  advocacy: 'people talking support community',
+  cultural_competency: 'diverse people community culture',
+  documentation: 'writing notes professional workspace',
+  career_readiness: 'professional career success workplace',
   // HVAC
-  hvac:                 'hvac technician air conditioning',
-  electrical:           'electrical wiring professional',
+  hvac: 'hvac technician air conditioning',
+  electrical: 'electrical wiring professional',
   // Barber
-  barber:               'barbershop professional grooming',
+  barber: 'barbershop professional grooming',
   // Generic fallbacks
-  default:              'professional learning education',
+  default: 'professional learning education',
 };
 
 // ── Pexels API ────────────────────────────────────────────────────────────────
@@ -41,7 +41,7 @@ interface PexelsResponse {
 
 export async function getPexelsImage(
   domainKey: string,
-  options: { orientation?: 'landscape' | 'portrait' | 'square'; perPage?: number } = {}
+  options: { orientation?: 'landscape' | 'portrait' | 'square'; perPage?: number } = {},
 ): Promise<string | null> {
   const apiKey = process.env.PEXELS_API_KEY;
   if (!apiKey) {
@@ -75,7 +75,6 @@ export async function getPexelsImage(
     // Pick a random photo from results for variety
     const photo = data.photos[Math.floor(Math.random() * data.photos.length)];
     return photo.src.large2x ?? photo.src.landscape;
-
   } catch (err) {
     logger.warn('[pexels] fetch error', { err });
     return getPollinationsImage(domainKey);
@@ -87,7 +86,7 @@ export async function getPexelsImage(
 export function getPollinationsImage(domainKey: string): string {
   const prompt = TOPIC_QUERIES[domainKey] ?? TOPIC_QUERIES.default;
   const encoded = encodeURIComponent(
-    `${prompt}, professional, cinematic lighting, high quality, 16:9`
+    `${prompt}, professional, cinematic lighting, high quality, 16:9`,
   );
   // Pollinations returns a JPEG directly from the URL — no API key needed
   return `https://image.pollinations.ai/prompt/${encoded}?width=1920&height=1080&nologo=true`;
@@ -122,7 +121,7 @@ interface PexelsVideoResponse {
  */
 export async function getPexelsVideoClip(
   keyword: string,
-  options: { minDuration?: number; maxDuration?: number; perPage?: number } = {}
+  options: { minDuration?: number; maxDuration?: number; perPage?: number } = {},
 ): Promise<string | null> {
   const apiKey = process.env.PEXELS_API_KEY;
   if (!apiKey) {
@@ -154,20 +153,18 @@ export async function getPexelsVideoClip(
 
     // Filter by duration, pick a random result for variety
     const suitable = data.videos.filter(
-      v => v.duration >= minDuration && v.duration <= maxDuration
+      (v) => v.duration >= minDuration && v.duration <= maxDuration,
     );
     const pool = suitable.length ? suitable : data.videos;
     const video = pool[Math.floor(Math.random() * pool.length)];
 
     // Prefer HD landscape file
-    const hdFile = video.video_files.find(
-      f => f.quality === 'hd' && f.width >= 1280
-    ) ?? video.video_files.find(
-      f => f.quality === 'sd' && f.width >= 640
-    ) ?? video.video_files[0];
+    const hdFile =
+      video.video_files.find((f) => f.quality === 'hd' && f.width >= 1280) ??
+      video.video_files.find((f) => f.quality === 'sd' && f.width >= 640) ??
+      video.video_files[0];
 
     return hdFile?.link ?? null;
-
   } catch (err) {
     logger.warn('[pexels] video fetch error', { err });
     return null;
@@ -179,7 +176,7 @@ export async function getPexelsVideoClip(
  * Returns a map of keyword → clip URL (or null if unavailable).
  */
 export async function getSceneVideoClips(
-  keywords: string[]
+  keywords: string[],
 ): Promise<Record<string, string | null>> {
   const unique = [...new Set(keywords)];
   const results: Record<string, string | null> = {};
@@ -188,7 +185,7 @@ export async function getSceneVideoClips(
   for (const keyword of unique) {
     results[keyword] = await getPexelsVideoClip(keyword);
     // Small delay between requests
-    await new Promise(r => setTimeout(r, 200));
+    await new Promise((r) => setTimeout(r, 200));
   }
 
   return results;
@@ -197,7 +194,7 @@ export async function getSceneVideoClips(
 // ── Batch fetch for a full course ─────────────────────────────────────────────
 
 export async function getCourseBackgroundImages(
-  domainKeys: string[]
+  domainKeys: string[],
 ): Promise<Record<string, string>> {
   const unique = [...new Set(domainKeys)];
   const results: Record<string, string> = {};
@@ -206,7 +203,7 @@ export async function getCourseBackgroundImages(
     unique.map(async (key) => {
       const url = await getPexelsImage(key);
       results[key] = url ?? getPollinationsImage(key);
-    })
+    }),
   );
 
   return results;

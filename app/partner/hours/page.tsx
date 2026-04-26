@@ -16,7 +16,9 @@ export const dynamic = 'force-dynamic';
 
 export default async function PartnerHoursPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     redirect('/login?redirect=/partner/hours');
@@ -61,7 +63,8 @@ export default async function PartnerHoursPage() {
     .eq('status', 'approved')
     .gte('approved_at', startOfMonth.toISOString());
 
-  const totalMonthlyHours = monthlyHours?.reduce((sum, h) => sum + (Number(h.hours_claimed) || 0), 0) || 0;
+  const totalMonthlyHours =
+    monthlyHours?.reduce((sum, h) => sum + (Number(h.hours_claimed) || 0), 0) || 0;
 
   // OJT placements and unverified hours
   let ojtPlacements: any[] = [];
@@ -69,7 +72,9 @@ export default async function PartnerHoursPage() {
   try {
     const { data: placements } = await supabase
       .from('ojt_placements')
-      .select('id, student_id, employer_name, position_title, status, total_hours_required, total_hours_completed, profiles(full_name)')
+      .select(
+        'id, student_id, employer_name, position_title, status, total_hours_required, total_hours_completed, profiles(full_name)',
+      )
       .eq('status', 'active')
       .limit(10);
     ojtPlacements = (placements || []).map((p: any) => ({
@@ -84,16 +89,21 @@ export default async function PartnerHoursPage() {
 
   return (
     <div>
-
       {/* Hero Image */}
       <section className="relative h-[160px] sm:h-[220px] md:h-[280px] overflow-hidden rounded-xl mb-6 -mx-4 sm:-mx-6 lg:-mx-8">
-        <Image src="/images/pages/partner-page-6.jpg" alt="Training hours" fill sizes="100vw" className="object-cover" priority />
+        <Image
+          src="/images/pages/partner-page-6.jpg"
+          alt="Training hours"
+          fill
+          sizes="100vw"
+          className="object-cover"
+          priority
+        />
       </section>
       <div className="mb-6">
-        <Breadcrumbs items={[
-          { label: 'Partner', href: '/partner/attendance' },
-          { label: 'Hours' }
-        ]} />
+        <Breadcrumbs
+          items={[{ label: 'Partner', href: '/partner/attendance' }, { label: 'Hours' }]}
+        />
       </div>
 
       <div>
@@ -210,38 +220,62 @@ export default async function PartnerHoursPage() {
               <table className="w-full">
                 <thead className="bg-white">
                   <tr>
-                    <th className="px-6 py-3 text-left text-sm font-semibold text-slate-900">Student</th>
-                    <th className="px-6 py-3 text-left text-sm font-semibold text-slate-900">Employer</th>
-                    <th className="px-6 py-3 text-left text-sm font-semibold text-slate-900">Position</th>
-                    <th className="px-6 py-3 text-center text-sm font-semibold text-slate-900">Progress</th>
-                    <th className="px-6 py-3 text-center text-sm font-semibold text-slate-900">Status</th>
+                    <th className="px-6 py-3 text-left text-sm font-semibold text-slate-900">
+                      Student
+                    </th>
+                    <th className="px-6 py-3 text-left text-sm font-semibold text-slate-900">
+                      Employer
+                    </th>
+                    <th className="px-6 py-3 text-left text-sm font-semibold text-slate-900">
+                      Position
+                    </th>
+                    <th className="px-6 py-3 text-center text-sm font-semibold text-slate-900">
+                      Progress
+                    </th>
+                    <th className="px-6 py-3 text-center text-sm font-semibold text-slate-900">
+                      Status
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="divide-y">
                   {ojtPlacements.map((p: any) => {
-                    const pct = p.total_hours_required > 0
-                      ? Math.round((p.total_hours_completed / p.total_hours_required) * 100)
-                      : 0;
+                    const pct =
+                      p.total_hours_required > 0
+                        ? Math.round((p.total_hours_completed / p.total_hours_required) * 100)
+                        : 0;
                     return (
                       <tr key={p.id} className="hover:bg-white">
-                        <td className="px-6 py-4 text-sm font-medium">{p.student_name || p.student_id?.slice(0, 8) || '—'}</td>
+                        <td className="px-6 py-4 text-sm font-medium">
+                          {p.student_name || p.student_id?.slice(0, 8) || '—'}
+                        </td>
                         <td className="px-6 py-4 text-sm text-slate-900">{p.employer_name}</td>
                         <td className="px-6 py-4 text-sm text-slate-900">{p.position_title}</td>
                         <td className="px-6 py-4">
                           <div className="flex items-center gap-2">
                             <div className="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
-                              <div className="h-full bg-brand-blue-500 rounded-full" style={{ width: `${pct}%` }} />
+                              <div
+                                className="h-full bg-brand-blue-500 rounded-full"
+                                style={{ width: `${pct}%` }}
+                              />
                             </div>
                             <span className="text-xs text-slate-700 w-10 text-right">{pct}%</span>
                           </div>
-                          <p className="text-xs text-slate-700 mt-1">{p.total_hours_completed}/{p.total_hours_required}h</p>
+                          <p className="text-xs text-slate-700 mt-1">
+                            {p.total_hours_completed}/{p.total_hours_required}h
+                          </p>
                         </td>
                         <td className="px-6 py-4 text-center">
-                          <span className={`px-2 py-1 rounded text-xs font-medium ${
-                            p.status === 'active' ? 'bg-brand-green-100 text-brand-green-700' :
-                            p.status === 'completed' ? 'bg-brand-blue-100 text-brand-blue-700' :
-                            'bg-white text-slate-900'
-                          }`}>{p.status}</span>
+                          <span
+                            className={`px-2 py-1 rounded text-xs font-medium ${
+                              p.status === 'active'
+                                ? 'bg-brand-green-100 text-brand-green-700'
+                                : p.status === 'completed'
+                                  ? 'bg-brand-blue-100 text-brand-blue-700'
+                                  : 'bg-white text-slate-900'
+                            }`}
+                          >
+                            {p.status}
+                          </span>
                         </td>
                       </tr>
                     );
@@ -260,7 +294,8 @@ export default async function PartnerHoursPage() {
               <div>
                 <h3 className="font-semibold text-amber-800">Unverified OJT Hours</h3>
                 <p className="text-amber-700 text-sm mt-1">
-                  {unverifiedOJT.length} OJT hour{unverifiedOJT.length > 1 ? ' entries' : ' entry'} awaiting supervisor verification.
+                  {unverifiedOJT.length} OJT hour{unverifiedOJT.length > 1 ? ' entries' : ' entry'}{' '}
+                  awaiting supervisor verification.
                 </p>
               </div>
             </div>

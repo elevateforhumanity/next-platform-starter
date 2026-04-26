@@ -41,10 +41,11 @@ function checkLesson(l: LessonSeed): string[] {
   if (l.hoursCredit === undefined || l.hoursCredit === null) missing.push('hoursCredit');
   if (!l.competencyChecks || l.competencyChecks.length === 0) missing.push('competencyChecks');
   else {
-    const required = l.competencyChecks.filter(c => c.required);
+    const required = l.competencyChecks.filter((c) => c.required);
     if (required.length < 3) missing.push(`competencyChecks.required<3 (has ${required.length})`);
-    const missingIds = l.competencyChecks.filter(c => !c.id);
-    if (missingIds.length) missing.push(`competencyChecks missing id on ${missingIds.length} items`);
+    const missingIds = l.competencyChecks.filter((c) => !c.id);
+    if (missingIds.length)
+      missing.push(`competencyChecks missing id on ${missingIds.length} items`);
   }
   const expectedHrs = expectedHours(l.durationMin);
   if (l.hoursCredit !== undefined && Math.abs(l.hoursCredit - expectedHrs) > 0.26) {
@@ -111,7 +112,7 @@ function main(): void {
     }
   }
   const coveredDomains = Object.keys(domainCounts) as BarberDomain[];
-  const missingDomains = REQUIRED_DOMAINS.filter(d => !coveredDomains.includes(d));
+  const missingDomains = REQUIRED_DOMAINS.filter((d) => !coveredDomains.includes(d));
 
   console.log('\nDomain coverage:');
   for (const [d, count] of Object.entries(domainCounts)) {

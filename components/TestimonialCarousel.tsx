@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -17,44 +17,49 @@ interface Testimonial {
 const testimonials: Testimonial[] = [
   {
     id: 1,
-    quote: "I was unemployed for 8 months. WIOA paid for my Medical Assistant training, and I started working right after graduation. Now I'm making $42,000 a year with full benefits.",
-    name: "Sarah Martinez",
-    title: "Medical Assistant Graduate, 2024",
+    quote:
+      "I was unemployed for 8 months. WIOA paid for my Medical Assistant training, and I started working right after graduation. Now I'm making $42,000 a year with full benefits.",
+    name: 'Sarah Martinez',
+    title: 'Medical Assistant Graduate, 2024',
     rating: 5,
-    image: "/images/testimonials-hq/person-1.jpg"
+    image: '/images/testimonials-hq/person-1.jpg',
   },
   {
     id: 2,
-    quote: "The barber apprenticeship changed my life. I went from working retail to owning my own chair. The training was hands-on and the instructors were amazing.",
-    name: "Graduate",
-    title: "Barber Graduate, 2023",
+    quote:
+      'The barber apprenticeship changed my life. I went from working retail to owning my own chair. The training was hands-on and the instructors were amazing.',
+    name: 'Graduate',
+    title: 'Barber Graduate, 2023',
     rating: 5,
-    image: "/images/testimonials-hq/person-2.jpg"
+    image: '/images/testimonials-hq/person-2.jpg',
   },
   {
     id: 3,
-    quote: "I was working minimum wage with no future. Now I'm a certified welder making $55,000 a year. The best part? It was at no cost to me through WIOA.",
-    name: "David Rodriguez",
-    title: "Welding Graduate, 2024",
+    quote:
+      "I was working minimum wage with no future. Now I'm a certified welder making $55,000 a year. The best part? It was at no cost to me through WIOA.",
+    name: 'David Rodriguez',
+    title: 'Welding Graduate, 2024',
     rating: 5,
-    image: "/images/testimonials-hq/person-3.jpg"
+    image: '/images/testimonials-hq/person-3.jpg',
   },
   {
     id: 4,
-    quote: "As a single mom, I couldn't afford college. The Medical Assistant program gave me a career path and I earned while I learned. Now I support my family.",
-    name: "Jennifer Williams",
-    title: "Medical Assistant Graduate, 2023",
+    quote:
+      "As a single mom, I couldn't afford college. The Medical Assistant program gave me a career path and I earned while I learned. Now I support my family.",
+    name: 'Jennifer Williams',
+    title: 'Medical Assistant Graduate, 2023',
     rating: 5,
-    image: "/images/testimonials-hq/person-4.jpg"
+    image: '/images/testimonials-hq/person-4.jpg',
   },
   {
     id: 5,
-    quote: "The HVAC program was exactly what I needed. Great instructors, real-world training, and job placement help. I had 3 job offers before I even graduated.",
-    name: "Michael Chen",
-    title: "HVAC Graduate, 2024",
+    quote:
+      'The HVAC program was exactly what I needed. Great instructors, real-world training, and job placement help. I had 3 job offers before I even graduated.',
+    name: 'Michael Chen',
+    title: 'HVAC Graduate, 2024',
     rating: 5,
-    image: "/images/testimonials-hq/person-5.jpg"
-  }
+    image: '/images/testimonials-hq/person-5.jpg',
+  },
 ];
 
 export function TestimonialCarousel() {
@@ -152,9 +157,7 @@ export function TestimonialCarousel() {
             key={index}
             onClick={() => goToSlide(index)}
             className={`w-3 h-3 rounded-full transition-all duration-300 ${
-              index === currentIndex
-                ? 'bg-brand-orange-600 w-8'
-                : 'bg-slate-300 hover:bg-slate-400'
+              index === currentIndex ? 'bg-brand-orange-600 w-8' : 'bg-slate-300 hover:bg-slate-400'
             }`}
             aria-label={`Go to testimonial ${index + 1}`}
           />

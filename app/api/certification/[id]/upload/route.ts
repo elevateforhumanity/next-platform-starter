@@ -19,10 +19,7 @@ export const dynamic = 'force-dynamic';
 const ALLOWED_TYPES = ['application/pdf', 'image/jpeg', 'image/png', 'image/webp'];
 const MAX_BYTES = 10 * 1024 * 1024; // 10 MB
 
-export async function POST(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function POST(request: NextRequest, { params }: { params: { id: string } }) {
   const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;
 
@@ -32,7 +29,8 @@ export async function POST(
     const formData = await request.formData();
     const file = formData.get('file') as File | null;
     if (!file) return safeError('file required', 400);
-    if (!ALLOWED_TYPES.includes(file.type)) return safeError('Only PDF, JPEG, PNG, or WebP allowed', 400);
+    if (!ALLOWED_TYPES.includes(file.type))
+      return safeError('Only PDF, JPEG, PNG, or WebP allowed', 400);
     if (file.size > MAX_BYTES) return safeError('File must be under 10 MB', 400);
 
     const db = await getAdminClient();

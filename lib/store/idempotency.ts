@@ -7,7 +7,7 @@ import { logger } from '@/lib/logger';
  */
 export async function isEventProcessed(
   supabase: SupabaseClient,
-  stripeEventId: string
+  stripeEventId: string,
 ): Promise<boolean> {
   const { data, error } = await supabase
     .from('processed_stripe_events')
@@ -32,7 +32,7 @@ export async function markEventProcessed(
   stripeEventId: string,
   eventType: string,
   paymentIntentId?: string,
-  metadata?: Record<string, unknown>
+  metadata?: Record<string, unknown>,
 ): Promise<void> {
   const { error } = await supabase.from('processed_stripe_events').insert({
     stripe_event_id: stripeEventId,
@@ -61,7 +61,7 @@ export async function withIdempotency<T>(
   stripeEventId: string,
   eventType: string,
   paymentIntentId: string | undefined,
-  handler: () => Promise<T>
+  handler: () => Promise<T>,
 ): Promise<T | null> {
   // Check if already processed
   const alreadyProcessed = await isEventProcessed(supabase, stripeEventId);

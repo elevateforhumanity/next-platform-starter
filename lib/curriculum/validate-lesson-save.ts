@@ -16,16 +16,16 @@ import {
 } from '@/lib/curriculum/lesson-types';
 
 export interface LessonSaveState {
-  title:                string;
-  lessonType:           LessonType;
-  videoFile:            string;
-  videoTranscript:      string;
-  videoRuntime:         number;
-  passingScore:         number;
-  quizQuestions:        unknown[];
-  requiresEvidence:     boolean;
+  title: string;
+  lessonType: LessonType;
+  videoFile: string;
+  videoTranscript: string;
+  videoRuntime: number;
+  passingScore: number;
+  quizQuestions: unknown[];
+  requiresEvidence: boolean;
   practicalInstructions: string;
-  objectives:           string[];
+  objectives: string[];
 }
 
 export function validateLessonSave(state: LessonSaveState): string[] {
@@ -70,7 +70,10 @@ export function validateLessonSave(state: LessonSaveState): string[] {
   }
 
   // All non-certification lessons: at least one objective
-  if (state.lessonType !== 'certification' && state.objectives.filter(o => o.trim()).length === 0) {
+  if (
+    state.lessonType !== 'certification' &&
+    state.objectives.filter((o) => o.trim()).length === 0
+  ) {
     errors.push('At least one learning objective is required.');
   }
 

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 import { useEffect, useState } from 'react';
@@ -27,9 +27,10 @@ export default function ProductCard() {
       const res = await fetch('/api/store/products');
       const data = await res.json();
       setProducts(data || []);
-    } catch (error) { /* Error handled silently */ 
-    // Error handled
-  } finally {
+    } catch (error) {
+      /* Error handled silently */
+      // Error handled
+    } finally {
       setLoading(false);
     }
   }
@@ -50,7 +51,8 @@ export default function ProductCard() {
       } else {
         alert('Error: ' + (data.error || 'Failed to clone repository'));
       }
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       alert('Failed to clone repository');
     } finally {
       setCloning(null);
@@ -78,9 +80,7 @@ export default function ProductCard() {
         >
           <h3 className="font-bold text-lg text-black">{p.title}</h3>
 
-          {p.description && (
-            <p className="text-sm text-black">{p.description}</p>
-          )}
+          {p.description && <p className="text-sm text-black">{p.description}</p>}
 
           <div className="flex items-baseline gap-2">
             <span className="text-2xl font-bold text-black">

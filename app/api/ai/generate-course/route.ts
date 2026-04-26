@@ -20,18 +20,12 @@ async function _POST(req: NextRequest) {
     const { mode, prompt } = await req.json();
 
     if (!mode || !prompt) {
-      return NextResponse.json(
-        { error: 'Missing mode or prompt' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Missing mode or prompt' }, { status: 400 });
     }
 
     // Check for OpenAI API key
     if (!process.env.OPENAI_API_KEY) {
-      return NextResponse.json(
-        { error: 'OpenAI API key not configured' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'OpenAI API key not configured' }, { status: 500 });
     }
 
     const client = new OpenAI({
@@ -95,11 +89,8 @@ async function _POST(req: NextRequest) {
       raw: output,
       success: true,
     });
-  } catch (error) { 
-    logger.error(
-      'AI generation error:',
-      error instanceof Error ? error : new Error(String(error))
-    );
+  } catch (error) {
+    logger.error('AI generation error:', error instanceof Error ? error : new Error(String(error)));
 
     return NextResponse.json(
       {
@@ -107,7 +98,7 @@ async function _POST(req: NextRequest) {
         message: toErrorMessage(error),
         details: error.response?.data || 'See server logs',
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

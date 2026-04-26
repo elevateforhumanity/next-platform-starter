@@ -3,7 +3,16 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { CheckCircle, ArrowRight, Phone, AlertCircle, Info, Clock, DollarSign, Briefcase } from 'lucide-react';
+import {
+  CheckCircle,
+  ArrowRight,
+  Phone,
+  AlertCircle,
+  Info,
+  Clock,
+  DollarSign,
+  Briefcase,
+} from 'lucide-react';
 
 const EMPLOYMENT_STATUS = [
   'Unemployed',
@@ -28,21 +37,83 @@ interface RecommendedProgram {
 // Auto-match logic — returns top 3 programs based on qualifier answers.
 // Priority: fastest path to employment for unemployed/underemployed Indiana residents.
 function getRecommendedPrograms(q1: YesNo, q2: YesNo, employment: string): RecommendedProgram[] {
-  const isUnemployed = q1 === 'yes' || employment === 'Unemployed' || employment === 'Recently laid off';
+  const isUnemployed =
+    q1 === 'yes' || employment === 'Unemployed' || employment === 'Recently laid off';
   const isIndiana = q2 === 'yes';
   const isCareerChange = employment === 'Employed — looking to change careers';
 
   // All ETPL-eligible programs (WIOA/Workforce Ready Grant funded for Indiana residents)
   const allPrograms: RecommendedProgram[] = [
-    { name: 'CNA — Certified Nursing Assistant', slug: 'cna', duration: '4–6 weeks', outcome: 'Avg. $16–$20/hr starting wage', funded: true, fundedLabel: 'WIOA / Workforce Ready Grant' },
-    { name: 'Phlebotomy Technician (CPT)', slug: 'phlebotomy', duration: '4–6 weeks', outcome: 'NHA certification included', funded: true, fundedLabel: 'WIOA / Workforce Ready Grant' },
-    { name: 'HVAC Technician', slug: 'hvac-technician', duration: '10–16 weeks', outcome: 'EPA 608 certification included', funded: true, fundedLabel: 'WIOA / Workforce Ready Grant' },
-    { name: 'IT Help Desk Specialist', slug: 'it-help-desk', duration: '8–12 weeks', outcome: 'CompTIA A+ via Certiport', funded: true, fundedLabel: 'WIOA / Workforce Ready Grant' },
-    { name: 'Medical Assistant (CCMA)', slug: 'medical-assistant', duration: '8–12 weeks', outcome: 'NHA certification included', funded: true, fundedLabel: 'WIOA / Workforce Ready Grant' },
-    { name: 'Pharmacy Technician', slug: 'pharmacy-technician', duration: '8–10 weeks', outcome: 'PTCB exam prep included', funded: true, fundedLabel: 'WIOA / Workforce Ready Grant' },
-    { name: 'Barber Apprenticeship', slug: 'barber-apprenticeship', duration: '2 years (USDOL registered)', outcome: 'Indiana barber license pathway', funded: false },
-    { name: 'CDL Class A', slug: 'cdl-training', duration: '4–8 weeks', outcome: 'Avg. $55,000–$75,000/yr', funded: true, fundedLabel: 'WIOA eligible' },
-    { name: 'Cosmetology Apprenticeship', slug: 'cosmetology-apprenticeship', duration: '2 years', outcome: 'Indiana cosmetology license', funded: false },
+    {
+      name: 'CNA — Certified Nursing Assistant',
+      slug: 'cna',
+      duration: '4–6 weeks',
+      outcome: 'Avg. $16–$20/hr starting wage',
+      funded: true,
+      fundedLabel: 'WIOA / Workforce Ready Grant',
+    },
+    {
+      name: 'Phlebotomy Technician (CPT)',
+      slug: 'phlebotomy',
+      duration: '4–6 weeks',
+      outcome: 'NHA certification included',
+      funded: true,
+      fundedLabel: 'WIOA / Workforce Ready Grant',
+    },
+    {
+      name: 'HVAC Technician',
+      slug: 'hvac-technician',
+      duration: '10–16 weeks',
+      outcome: 'EPA 608 certification included',
+      funded: true,
+      fundedLabel: 'WIOA / Workforce Ready Grant',
+    },
+    {
+      name: 'IT Help Desk Specialist',
+      slug: 'it-help-desk',
+      duration: '8–12 weeks',
+      outcome: 'CompTIA A+ via Certiport',
+      funded: true,
+      fundedLabel: 'WIOA / Workforce Ready Grant',
+    },
+    {
+      name: 'Medical Assistant (CCMA)',
+      slug: 'medical-assistant',
+      duration: '8–12 weeks',
+      outcome: 'NHA certification included',
+      funded: true,
+      fundedLabel: 'WIOA / Workforce Ready Grant',
+    },
+    {
+      name: 'Pharmacy Technician',
+      slug: 'pharmacy-technician',
+      duration: '8–10 weeks',
+      outcome: 'PTCB exam prep included',
+      funded: true,
+      fundedLabel: 'WIOA / Workforce Ready Grant',
+    },
+    {
+      name: 'Barber Apprenticeship',
+      slug: 'barber-apprenticeship',
+      duration: '2 years (USDOL registered)',
+      outcome: 'Indiana barber license pathway',
+      funded: false,
+    },
+    {
+      name: 'CDL Class A',
+      slug: 'cdl-training',
+      duration: '4–8 weeks',
+      outcome: 'Avg. $55,000–$75,000/yr',
+      funded: true,
+      fundedLabel: 'WIOA eligible',
+    },
+    {
+      name: 'Cosmetology Apprenticeship',
+      slug: 'cosmetology-apprenticeship',
+      duration: '2 years',
+      outcome: 'Indiana cosmetology license',
+      funded: false,
+    },
   ];
 
   // Fastest-to-employment programs for unemployed candidates
@@ -73,11 +144,7 @@ function getRecommendedPrograms(q1: YesNo, q2: YesNo, employment: string): Recom
   }
 
   // Non-Indiana — show self-pay options
-  return [
-    allPrograms[0],
-    allPrograms[2],
-    allPrograms[3],
-  ];
+  return [allPrograms[0], allPrograms[2], allPrograms[3]];
 }
 
 function getPath(q1: YesNo, q2: YesNo, q3: YesNo): Path {
@@ -116,7 +183,11 @@ export default function CheckEligibilityPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          name, phone, email, program, employment,
+          name,
+          phone,
+          email,
+          program,
+          employment,
           source: 'check-eligibility',
           qualificationPath: path,
           qualifierAnswers: { unemployedOrUnder: q1, indianaResident: q2, wantsCert: q3 },
@@ -128,13 +199,18 @@ export default function CheckEligibilityPage() {
       }
       setStep(3);
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Something went wrong. Please call (317) 314-3757.');
+      setError(
+        err instanceof Error ? err.message : 'Something went wrong. Please call (317) 314-3757.',
+      );
     } finally {
       setSubmitting(false);
     }
   }
 
-  const banners: Record<Path, { icon: React.ReactNode; bg: string; title: string; body: string; cta: string }> = {
+  const banners: Record<
+    Path,
+    { icon: React.ReactNode; bg: string; title: string; body: string; cta: string }
+  > = {
     A: {
       icon: <CheckCircle className="w-6 h-6 text-green-600 flex-shrink-0 mt-0.5" />,
       bg: 'bg-green-50 border-green-200',
@@ -158,7 +234,17 @@ export default function CheckEligibilityPage() {
     },
   };
 
-  const confirmations: Record<Path, { headline: string; body: string; primaryLabel: string; primaryHref: string; secondaryLabel: string; secondaryHref: string }> = {
+  const confirmations: Record<
+    Path,
+    {
+      headline: string;
+      body: string;
+      primaryLabel: string;
+      primaryHref: string;
+      secondaryLabel: string;
+      secondaryHref: string;
+    }
+  > = {
     A: {
       headline: 'Application received — next step is yours',
       body: "We'll confirm your funding eligibility within 24 hours and send you a direct link to complete your application.",
@@ -191,7 +277,10 @@ export default function CheckEligibilityPage() {
   return (
     <main className="min-h-screen bg-white">
       {/* Hero */}
-      <section className="relative overflow-hidden" style={{ minHeight: 'clamp(320px, 40vw, 460px)' }}>
+      <section
+        className="relative overflow-hidden"
+        style={{ minHeight: 'clamp(320px, 40vw, 460px)' }}
+      >
         <Image
           src="/images/pages/funding-page-2.jpg"
           alt="Check your eligibility for free career training"
@@ -201,30 +290,41 @@ export default function CheckEligibilityPage() {
           sizes="100vw"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-slate-900/85 via-slate-900/60 to-transparent" />
-        <div className="relative z-10 h-full flex flex-col justify-between px-4 sm:px-6 py-5" style={{ minHeight: 'clamp(320px, 40vw, 460px)' }}>
+        <div
+          className="relative z-10 h-full flex flex-col justify-between px-4 sm:px-6 py-5"
+          style={{ minHeight: 'clamp(320px, 40vw, 460px)' }}
+        >
           <div className="flex items-center justify-between">
-            <Link href="/" className="text-white/80 hover:text-white text-sm font-semibold transition-colors">
+            <Link
+              href="/"
+              className="text-white/80 hover:text-white text-sm font-semibold transition-colors"
+            >
               ← Elevate for Humanity
             </Link>
-            <a href="tel:3173143757" className="flex items-center gap-2 text-white/80 hover:text-white text-sm font-semibold transition-colors">
+            <a
+              href="tel:3173143757"
+              className="flex items-center gap-2 text-white/80 hover:text-white text-sm font-semibold transition-colors"
+            >
               <Phone className="w-4 h-4" />
               (317) 314-3757
             </a>
           </div>
           <div className="pb-6">
-            <p className="text-xs font-bold uppercase tracking-widest text-brand-red-400 mb-2">Free Career Training</p>
+            <p className="text-xs font-bold uppercase tracking-widest text-brand-red-400 mb-2">
+              Free Career Training
+            </p>
             <h1 className="text-3xl sm:text-4xl font-extrabold text-white mb-3 max-w-lg leading-tight">
               Check If You Qualify for Funded Training
             </h1>
             <p className="text-white/75 text-base max-w-md">
-              3 questions. 30 seconds. We'll match you with WIOA, Workforce Ready Grant, or JRI funding.
+              3 questions. 30 seconds. We'll match you with WIOA, Workforce Ready Grant, or JRI
+              funding.
             </p>
           </div>
         </div>
       </section>
 
       <div className="max-w-xl mx-auto px-4 py-12">
-
         {step === 1 && (
           <div>
             <div className="flex items-center gap-2 mb-8">
@@ -237,11 +337,17 @@ export default function CheckEligibilityPage() {
             </h1>
             <p className="text-slate-500 text-sm mb-8">3 questions. Takes 30 seconds.</p>
             <div className="space-y-5">
-              {([
-                { q: 'Are you currently unemployed or underemployed?', val: q1, set: setQ1 },
-                { q: 'Do you live in Indiana?', val: q2, set: setQ2 },
-                { q: 'Are you interested in earning a job-ready certification?', val: q3, set: setQ3 },
-              ] as const).map(({ q, val, set }) => (
+              {(
+                [
+                  { q: 'Are you currently unemployed or underemployed?', val: q1, set: setQ1 },
+                  { q: 'Do you live in Indiana?', val: q2, set: setQ2 },
+                  {
+                    q: 'Are you interested in earning a job-ready certification?',
+                    val: q3,
+                    set: setQ3,
+                  },
+                ] as const
+              ).map(({ q, val, set }) => (
                 <div key={q} className="bg-white border border-slate-200 rounded-xl p-5">
                   <p className="font-semibold text-slate-900 mb-4">{q}</p>
                   <div className="flex gap-3">
@@ -310,15 +416,19 @@ export default function CheckEligibilityPage() {
                           </span>
                         )}
                         <div className="min-w-0">
-                          <p className={`font-bold text-sm leading-snug ${program === p.name ? 'text-brand-red-900' : 'text-slate-900'}`}>
+                          <p
+                            className={`font-bold text-sm leading-snug ${program === p.name ? 'text-brand-red-900' : 'text-slate-900'}`}
+                          >
                             {p.name}
                           </p>
                           <div className="flex flex-wrap gap-x-3 gap-y-0.5 mt-1">
                             <span className="flex items-center gap-1 text-xs text-slate-500">
-                              <Clock className="w-3 h-3" />{p.duration}
+                              <Clock className="w-3 h-3" />
+                              {p.duration}
                             </span>
                             <span className="flex items-center gap-1 text-xs text-slate-500">
-                              <Briefcase className="w-3 h-3" />{p.outcome}
+                              <Briefcase className="w-3 h-3" />
+                              {p.outcome}
                             </span>
                           </div>
                         </div>
@@ -326,7 +436,8 @@ export default function CheckEligibilityPage() {
                       <div className="flex flex-col items-end gap-1 shrink-0">
                         {p.funded && (
                           <span className="flex items-center gap-1 text-xs font-semibold text-brand-green-700 bg-brand-green-50 border border-brand-green-200 px-2 py-0.5 rounded-full">
-                            <DollarSign className="w-3 h-3" />Funded
+                            <DollarSign className="w-3 h-3" />
+                            Funded
                           </span>
                         )}
                         <Link
@@ -352,38 +463,73 @@ export default function CheckEligibilityPage() {
 
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-extrabold text-slate-900">Tell us about yourself</h2>
-              <Link href="/programs" className="text-xs text-brand-blue-600 hover:underline font-semibold">
+              <Link
+                href="/programs"
+                className="text-xs text-brand-blue-600 hover:underline font-semibold"
+              >
                 Browse all programs →
               </Link>
             </div>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-1">Full Name *</label>
-                <input type="text" required value={name} onChange={(e) => setName(e.target.value)}
+                <label className="block text-sm font-semibold text-slate-700 mb-1">
+                  Full Name *
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                   placeholder="Your full name"
-                  className="w-full min-h-[48px] px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-red-500 focus:border-transparent" />
+                  className="w-full min-h-[48px] px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-red-500 focus:border-transparent"
+                />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-1">Phone Number *</label>
-                <input type="tel" required value={phone} onChange={(e) => setPhone(e.target.value)}
+                <label className="block text-sm font-semibold text-slate-700 mb-1">
+                  Phone Number *
+                </label>
+                <input
+                  type="tel"
+                  required
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
                   placeholder="(317) 000-0000"
-                  className="w-full min-h-[48px] px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-red-500 focus:border-transparent" />
-                <p className="text-xs text-slate-400 mt-1">We may text you — reply STOP to opt out anytime.</p>
+                  className="w-full min-h-[48px] px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-red-500 focus:border-transparent"
+                />
+                <p className="text-xs text-slate-400 mt-1">
+                  We may text you — reply STOP to opt out anytime.
+                </p>
               </div>
               <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-1">Email Address *</label>
-                <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)}
+                <label className="block text-sm font-semibold text-slate-700 mb-1">
+                  Email Address *
+                </label>
+                <input
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   placeholder="you@email.com"
-                  className="w-full min-h-[48px] px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-red-500 focus:border-transparent" />
+                  className="w-full min-h-[48px] px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-red-500 focus:border-transparent"
+                />
               </div>
               {/* Only show program dropdown if user clicked "Choose a different program" */}
-              {!recommended.find(r => r.name === program) && (
+              {!recommended.find((r) => r.name === program) && (
                 <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-1">Program Interest</label>
-                  <select value={program} onChange={(e) => setProgram(e.target.value)}
-                    className="w-full min-h-[48px] px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-red-500 focus:border-transparent bg-white">
+                  <label className="block text-sm font-semibold text-slate-700 mb-1">
+                    Program Interest
+                  </label>
+                  <select
+                    value={program}
+                    onChange={(e) => setProgram(e.target.value)}
+                    className="w-full min-h-[48px] px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-red-500 focus:border-transparent bg-white"
+                  >
                     <option value="">Select a program</option>
-                    {recommended.map(r => <option key={r.slug} value={r.name}>{r.name}</option>)}
+                    {recommended.map((r) => (
+                      <option key={r.slug} value={r.name}>
+                        {r.name}
+                      </option>
+                    ))}
                     <option disabled>──────────</option>
                     <option value="Barber Apprenticeship">Barber Apprenticeship</option>
                     <option value="CDL Class A">CDL Class A</option>
@@ -396,24 +542,40 @@ export default function CheckEligibilityPage() {
                 </div>
               )}
               <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-1">Employment Status</label>
-                <select value={employment} onChange={(e) => setEmployment(e.target.value)}
-                  className="w-full min-h-[48px] px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-red-500 focus:border-transparent bg-white">
+                <label className="block text-sm font-semibold text-slate-700 mb-1">
+                  Employment Status
+                </label>
+                <select
+                  value={employment}
+                  onChange={(e) => setEmployment(e.target.value)}
+                  className="w-full min-h-[48px] px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-red-500 focus:border-transparent bg-white"
+                >
                   <option value="">Select status</option>
-                  {EMPLOYMENT_STATUS.map((s) => <option key={s} value={s}>{s}</option>)}
+                  {EMPLOYMENT_STATUS.map((s) => (
+                    <option key={s} value={s}>
+                      {s}
+                    </option>
+                  ))}
                 </select>
               </div>
               {error && (
-                <div className="bg-red-50 border border-red-200 rounded-lg p-3 text-red-800 text-sm">{error}</div>
+                <div className="bg-red-50 border border-red-200 rounded-lg p-3 text-red-800 text-sm">
+                  {error}
+                </div>
               )}
-              <button type="submit" disabled={submitting}
-                className="w-full flex items-center justify-center gap-2 bg-brand-red-600 hover:bg-brand-red-700 disabled:bg-slate-300 disabled:cursor-not-allowed text-white font-bold py-4 rounded-xl text-base transition-colors mt-2">
+              <button
+                type="submit"
+                disabled={submitting}
+                className="w-full flex items-center justify-center gap-2 bg-brand-red-600 hover:bg-brand-red-700 disabled:bg-slate-300 disabled:cursor-not-allowed text-white font-bold py-4 rounded-xl text-base transition-colors mt-2"
+              >
                 {submitting ? 'Submitting...' : banner.cta}
                 {!submitting && <ArrowRight className="w-5 h-5" />}
               </button>
               <p className="text-center text-xs text-slate-400">
                 Questions? Call or text{' '}
-                <a href="tel:3173143757" className="text-slate-600 font-semibold">(317) 314-3757</a>
+                <a href="tel:3173143757" className="text-slate-600 font-semibold">
+                  (317) 314-3757
+                </a>
               </p>
             </form>
           </div>
@@ -430,11 +592,14 @@ export default function CheckEligibilityPage() {
             {/* Show selected program with direct enroll link */}
             {program && (
               <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-xl p-4 mb-6 text-left">
-                <p className="text-xs font-bold text-brand-blue-600 uppercase tracking-wider mb-1">Your selected program</p>
+                <p className="text-xs font-bold text-brand-blue-600 uppercase tracking-wider mb-1">
+                  Your selected program
+                </p>
                 <p className="font-extrabold text-slate-900">{program}</p>
-                {recommended.find(r => r.name === program) && (
+                {recommended.find((r) => r.name === program) && (
                   <p className="text-xs text-slate-500 mt-1">
-                    {recommended.find(r => r.name === program)?.duration} · {recommended.find(r => r.name === program)?.outcome}
+                    {recommended.find((r) => r.name === program)?.duration} ·{' '}
+                    {recommended.find((r) => r.name === program)?.outcome}
                   </p>
                 )}
               </div>
@@ -442,7 +607,9 @@ export default function CheckEligibilityPage() {
 
             <p className="text-slate-500 text-sm mb-8">
               Can&apos;t wait? Call or text:{' '}
-              <a href="tel:3173143757" className="text-brand-red-600 font-bold">(317) 314-3757</a>
+              <a href="tel:3173143757" className="text-brand-red-600 font-bold">
+                (317) 314-3757
+              </a>
             </p>
             <div className="flex flex-col gap-3">
               <Link

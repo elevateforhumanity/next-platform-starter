@@ -28,21 +28,19 @@ export function normalizeCourseMetadata(metadata: Record<string, any>) {
       .replace(/^-+|-+$/g, '');
 
     // Normalize lessons
-    module.lessons = (module.lessons || []).map(
-      (l: any, lessonIndex: number) => {
-        const lesson = typeof l === 'string' ? { title: l } : { ...l };
+    module.lessons = (module.lessons || []).map((l: any, lessonIndex: number) => {
+      const lesson = typeof l === 'string' ? { title: l } : { ...l };
 
-        if (!lesson.title) lesson.title = `Lesson ${lessonIndex + 1}`;
-        if (!lesson.content) lesson.content = '';
+      if (!lesson.title) lesson.title = `Lesson ${lessonIndex + 1}`;
+      if (!lesson.content) lesson.content = '';
 
-        lesson.slug = lesson.title
-          .toLowerCase()
-          .replace(/[^a-z0-9]+/g, '-')
-          .replace(/^-+|-+$/g, '');
+      lesson.slug = lesson.title
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '');
 
-        return lesson;
-      }
-    );
+      return lesson;
+    });
 
     return module;
   });

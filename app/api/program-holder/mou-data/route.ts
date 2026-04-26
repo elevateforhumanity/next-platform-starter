@@ -9,10 +9,9 @@ export const maxDuration = 60;
 export const dynamic = 'force-dynamic';
 
 async function _GET(request: Request) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const supabase = await createRouteHandlerClient({ cookies });
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const supabase = await createRouteHandlerClient({ cookies });
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -51,7 +50,7 @@ const supabase = await createRouteHandlerClient({ cookies });
       contact_name,
       contact_email,
       contact_phone
-    `
+    `,
     )
     .eq('id', prof.program_holder_id)
     .maybeSingle();

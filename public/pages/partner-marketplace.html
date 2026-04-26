@@ -13,21 +13,12 @@
     <meta name="author" content="Elevate for Humanity" />
     <meta name="robots" content="index, follow" />
     <meta property="og:type" content="website" />
-    <meta
-      property="og:title"
-      content="Elevate for Humanity - Workforce Development"
-    />
-    <meta
-      property="og:description"
-      content="Government-approved career training platform"
-    />
+    <meta property="og:title" content="Elevate for Humanity - Workforce Development" />
+    <meta property="og:description" content="Government-approved career training platform" />
     <meta property="twitter:card" content="summary_large_image" />
 
     <!-- Google Analytics -->
-    <script
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=G-V9BC7WPMQC"
-    ></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-V9BC7WPMQC"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag() {
@@ -349,12 +340,12 @@
       <div class="revenue-info">
         <h2>💰 50/50 Revenue Split Model</h2>
         <p>
-          Every enrollment automatically splits revenue: 50% to Elevate for
-          Humanity, 50% to credentialing partner
+          Every enrollment automatically splits revenue: 50% to Elevate for Humanity, 50% to
+          credentialing partner
         </p>
         <p>
-          <strong>Dual Certification:</strong> Students receive certificates
-          from both Elevate for Humanity AND the partner organization
+          <strong>Dual Certification:</strong> Students receive certificates from both Elevate for
+          Humanity AND the partner organization
         </p>
       </div>
 
@@ -485,11 +476,7 @@
                   <div class="price-breakdown">$74.50 each split</div>
                 </div>
               </div>
-              <button
-                type="button"
-                class="enroll-btn"
-                onclick="enrollInProgram('az-900', 149)"
-              >
+              <button type="button" class="enroll-btn" onclick="enrollInProgram('az-900', 149)">
                 Enroll Now
               </button>
             </div>
@@ -508,11 +495,7 @@
                   <div class="price-breakdown">$150 each split</div>
                 </div>
               </div>
-              <button
-                type="button"
-                class="enroll-btn"
-                onclick="enrollInProgram('az-104', 300)"
-              >
+              <button type="button" class="enroll-btn" onclick="enrollInProgram('az-104', 300)">
                 Enroll Now
               </button>
             </div>
@@ -531,11 +514,7 @@
                   <div class="price-breakdown">$225 each split</div>
                 </div>
               </div>
-              <button
-                type="button"
-                class="enroll-btn"
-                onclick="enrollInProgram('dp-100', 450)"
-              >
+              <button type="button" class="enroll-btn" onclick="enrollInProgram('dp-100', 450)">
                 Enroll Now
               </button>
             </div>
@@ -704,7 +683,7 @@
       function enrollInProgram(programId, price) {
         // Mock enrollment process
         const confirmation = confirm(
-          `Enroll in this program for $${price}?\n\nThis will:\n• Process payment via Stripe\n• Split revenue 50/50 with partner\n• Provide access to partner platform\n• Issue dual certificates upon completion`
+          `Enroll in this program for $${price}?\n\nThis will:\n• Process payment via Stripe\n• Split revenue 50/50 with partner\n• Provide access to partner platform\n• Issue dual certificates upon completion`,
         );
 
         if (confirmation) {
@@ -769,9 +748,7 @@
         ];
 
         let currentStep = 0;
-        const stepElement = modalContent.querySelector(
-          '#enrollment-steps .step'
-        );
+        const stepElement = modalContent.querySelector('#enrollment-steps .step');
 
         const interval = setInterval(() => {
           currentStep++;
@@ -811,12 +788,10 @@
       const averagePrice = Math.round(totalRevenue / programs.length);
 
       console.log('🎓 Partner Marketplace Loaded');
-      console.log(
-        `💰 Total Revenue Potential: $${totalRevenue.toLocaleString()}`
-      );
+      console.log(`💰 Total Revenue Potential: $${totalRevenue.toLocaleString()}`);
       console.log(`📊 Average Program Price: $${averagePrice}`);
       console.log(
-        `🤝 Revenue Split: 50% Elevate ($${Math.round(totalRevenue / 2).toLocaleString()}), 50% Partners ($${Math.round(totalRevenue / 2).toLocaleString()})`
+        `🤝 Revenue Split: 50% Elevate ($${Math.round(totalRevenue / 2).toLocaleString()}), 50% Partners ($${Math.round(totalRevenue / 2).toLocaleString()})`,
       );
     </script>
   </body>

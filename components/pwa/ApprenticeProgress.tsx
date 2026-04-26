@@ -11,9 +11,18 @@
 import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import {
-  ArrowLeft, Award, Clock, BookOpen, CheckCircle2,
-  Lock, AlertCircle, Loader2, TrendingUp, Star,
-  ChevronRight, ExternalLink,
+  ArrowLeft,
+  Award,
+  Clock,
+  BookOpen,
+  CheckCircle2,
+  Lock,
+  AlertCircle,
+  Loader2,
+  TrendingUp,
+  Star,
+  ChevronRight,
+  ExternalLink,
 } from 'lucide-react';
 import type { ApprenticeProgressResponse } from '@/lib/api/apprentice-progress-contract';
 import { validateProgressResponse } from '@/lib/api/apprentice-progress-contract';
@@ -31,11 +40,13 @@ interface MilestoneProps {
 function Milestone({ pct, label, reached, accentColor }: MilestoneProps) {
   return (
     <div className={`flex flex-col items-center gap-1 ${reached ? '' : 'opacity-40'}`}>
-      <div className={`w-8 h-8 rounded-full border-2 flex items-center justify-center text-xs font-bold ${
-        reached
-          ? `${accentColor} border-transparent text-white`
-          : 'border-slate-300 text-slate-400 bg-white'
-      }`}>
+      <div
+        className={`w-8 h-8 rounded-full border-2 flex items-center justify-center text-xs font-bold ${
+          reached
+            ? `${accentColor} border-transparent text-white`
+            : 'border-slate-300 text-slate-400 bg-white'
+        }`}
+      >
         {reached ? <CheckCircle2 className="w-4 h-4" /> : `${pct}%`}
       </div>
       <span className="text-xs text-slate-500 text-center leading-tight">{label}</span>
@@ -66,17 +77,20 @@ export default function ApprenticeProgress({
   stateBoardHref,
   lmsHref,
 }: Props) {
-  const [data, setData]           = useState<ProgressData | null>(null);
-  const [loading, setLoading]     = useState(true);
+  const [data, setData] = useState<ProgressData | null>(null);
+  const [loading, setLoading] = useState(true);
   const [authError, setAuthError] = useState(false);
-  const [error, setError]         = useState('');
+  const [error, setError] = useState('');
 
   const load = useCallback(async () => {
     setLoading(true);
     setError('');
     try {
       const res = await fetch(apiPath);
-      if (res.status === 401) { setAuthError(true); return; }
+      if (res.status === 401) {
+        setAuthError(true);
+        return;
+      }
       if (!res.ok) {
         const body = await res.json().catch(() => ({}));
         throw new Error(body.error ?? `Server error ${res.status}`);
@@ -98,7 +112,9 @@ export default function ApprenticeProgress({
     }
   }, [apiPath]);
 
-  useEffect(() => { load(); }, [load]);
+  useEffect(() => {
+    load();
+  }, [load]);
 
   if (authError) {
     return (
@@ -106,8 +122,10 @@ export default function ApprenticeProgress({
         <div className="text-center max-w-xs">
           <AlertCircle className="w-10 h-10 text-slate-300 mx-auto mb-3" />
           <h2 className="font-bold text-slate-900 mb-2">Sign in required</h2>
-          <Link href={`/login?redirect=/pwa/${discipline}/progress`}
-            className="inline-block bg-slate-900 text-white font-semibold px-5 py-3 rounded-xl text-sm mt-2">
+          <Link
+            href={`/login?redirect=/pwa/${discipline}/progress`}
+            className="inline-block bg-slate-900 text-white font-semibold px-5 py-3 rounded-xl text-sm mt-2"
+          >
             Sign In
           </Link>
         </div>
@@ -115,11 +133,11 @@ export default function ApprenticeProgress({
     );
   }
 
-  const hoursTotal    = data ? data.totalHoursApproved + data.transferHours : 0;
-  const required      = data?.requiredHours ?? 1500;
-  const pct           = Math.min(100, Math.round((hoursTotal / required) * 100));
-  const hoursLeft     = Math.max(0, required - hoursTotal);
-  const isEligible    = data ? hoursTotal >= required && data.lmsCompleted : false;
+  const hoursTotal = data ? data.totalHoursApproved + data.transferHours : 0;
+  const required = data?.requiredHours ?? 1500;
+  const pct = Math.min(100, Math.round((hoursTotal / required) * 100));
+  const hoursLeft = Math.max(0, required - hoursTotal);
+  const isEligible = data ? hoursTotal >= required && data.lmsCompleted : false;
 
   const MILESTONES = [25, 50, 75, 100];
 
@@ -128,19 +146,22 @@ export default function ApprenticeProgress({
       {/* Header */}
       <header className="bg-white border-b border-slate-200 px-4 pt-12 pb-4 safe-area-inset-top">
         <div className="flex items-center gap-3 max-w-lg mx-auto">
-          <Link href={backHref}
-            className="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center flex-shrink-0">
+          <Link
+            href={backHref}
+            className="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center flex-shrink-0"
+          >
             <ArrowLeft className="w-5 h-5 text-slate-600" />
           </Link>
           <div className="flex-1">
             <h1 className="text-lg font-black text-slate-900">My Progress</h1>
-            <p className="text-xs text-slate-500 capitalize">{discipline.replace(/-/g, ' ')} apprenticeship</p>
+            <p className="text-xs text-slate-500 capitalize">
+              {discipline.replace(/-/g, ' ')} apprenticeship
+            </p>
           </div>
         </div>
       </header>
 
       <main className="px-4 py-5 max-w-lg mx-auto space-y-4">
-
         {/* Loading */}
         {loading && (
           <div className="flex items-center justify-center py-20">
@@ -153,8 +174,10 @@ export default function ApprenticeProgress({
           <div className="bg-white rounded-2xl border border-slate-200 p-6 text-center">
             <AlertCircle className="w-8 h-8 text-amber-400 mx-auto mb-3" />
             <p className="text-sm text-slate-600 mb-4">{error}</p>
-            <button onClick={load}
-              className="text-sm font-semibold text-slate-700 bg-slate-100 px-4 py-2 rounded-xl hover:bg-slate-200 transition-colors">
+            <button
+              onClick={load}
+              className="text-sm font-semibold text-slate-700 bg-slate-100 px-4 py-2 rounded-xl hover:bg-slate-200 transition-colors"
+            >
               Try again
             </button>
           </div>
@@ -170,10 +193,14 @@ export default function ApprenticeProgress({
                 </div>
                 <div className="flex-1">
                   <p className="font-black text-lg">Eligible to test!</p>
-                  <p className="text-emerald-100 text-sm">You&apos;ve met all requirements for the state board exam.</p>
+                  <p className="text-emerald-100 text-sm">
+                    You&apos;ve met all requirements for the state board exam.
+                  </p>
                 </div>
-                <Link href={stateBoardHref}
-                  className="bg-white text-emerald-700 font-bold text-xs px-3 py-2 rounded-xl flex-shrink-0">
+                <Link
+                  href={stateBoardHref}
+                  className="bg-white text-emerald-700 font-bold text-xs px-3 py-2 rounded-xl flex-shrink-0"
+                >
                   Schedule
                 </Link>
               </div>
@@ -197,8 +224,10 @@ export default function ApprenticeProgress({
                 <h2 className="font-bold text-slate-900 flex items-center gap-2">
                   <Clock className={`w-4 h-4 ${accentText}`} /> Training Hours
                 </h2>
-                <Link href={`/pwa/${discipline}/history`}
-                  className={`text-xs font-semibold ${accentText} flex items-center gap-1`}>
+                <Link
+                  href={`/pwa/${discipline}/history`}
+                  className={`text-xs font-semibold ${accentText} flex items-center gap-1`}
+                >
                   View all <ChevronRight className="w-3 h-3" />
                 </Link>
               </div>
@@ -219,11 +248,11 @@ export default function ApprenticeProgress({
 
               {/* Milestones */}
               <div className="flex justify-between mt-4">
-                {MILESTONES.map(m => (
+                {MILESTONES.map((m) => (
                   <Milestone
                     key={m}
                     pct={m}
-                    label={`${Math.round(required * m / 100)}h`}
+                    label={`${Math.round((required * m) / 100)}h`}
                     reached={pct >= m}
                     accentColor={accentColor}
                   />
@@ -233,15 +262,21 @@ export default function ApprenticeProgress({
               {/* Stats row */}
               <div className="grid grid-cols-3 gap-3 mt-5 pt-4 border-t border-slate-100">
                 <div className="text-center">
-                  <p className="text-lg font-black text-slate-900">{data.totalHoursApproved.toFixed(1)}</p>
+                  <p className="text-lg font-black text-slate-900">
+                    {data.totalHoursApproved.toFixed(1)}
+                  </p>
                   <p className="text-xs text-slate-500">approved</p>
                 </div>
                 <div className="text-center">
-                  <p className="text-lg font-black text-amber-600">{data.totalHoursPending.toFixed(1)}</p>
+                  <p className="text-lg font-black text-amber-600">
+                    {data.totalHoursPending.toFixed(1)}
+                  </p>
                   <p className="text-xs text-slate-500">pending</p>
                 </div>
                 <div className="text-center">
-                  <p className="text-lg font-black text-slate-900">{data.transferHours.toFixed(1)}</p>
+                  <p className="text-lg font-black text-slate-900">
+                    {data.transferHours.toFixed(1)}
+                  </p>
                   <p className="text-xs text-slate-500">transfer</p>
                 </div>
               </div>
@@ -249,11 +284,22 @@ export default function ApprenticeProgress({
               {data.weeklyAvgHours && data.weeklyAvgHours > 0 && (
                 <div className="mt-3 pt-3 border-t border-slate-100 text-center">
                   <p className="text-xs text-slate-500">
-                    Averaging <strong className="text-slate-700">{data.weeklyAvgHours.toFixed(1)}h/week</strong>
+                    Averaging{' '}
+                    <strong className="text-slate-700">
+                      {data.weeklyAvgHours.toFixed(1)}h/week
+                    </strong>
                     {data.projectedCompletionDate && (
-                      <> · on track to finish by <strong className="text-slate-700">
-                        {new Date(data.projectedCompletionDate).toLocaleDateString('en-US', { timeZone: 'UTC', month: 'long', year: 'numeric' })}
-                      </strong></>
+                      <>
+                        {' '}
+                        · on track to finish by{' '}
+                        <strong className="text-slate-700">
+                          {new Date(data.projectedCompletionDate).toLocaleDateString('en-US', {
+                            timeZone: 'UTC',
+                            month: 'long',
+                            year: 'numeric',
+                          })}
+                        </strong>
+                      </>
                     )}
                   </p>
                 </div>
@@ -266,8 +312,10 @@ export default function ApprenticeProgress({
                 <h2 className="font-bold text-slate-900 flex items-center gap-2">
                   <BookOpen className={`w-4 h-4 ${accentText}`} /> Theory Coursework
                 </h2>
-                <Link href={lmsHref}
-                  className={`text-xs font-semibold ${accentText} flex items-center gap-1`}>
+                <Link
+                  href={lmsHref}
+                  className={`text-xs font-semibold ${accentText} flex items-center gap-1`}
+                >
                   Open LMS <ExternalLink className="w-3 h-3" />
                 </Link>
               </div>
@@ -277,7 +325,10 @@ export default function ApprenticeProgress({
                   <svg className="w-16 h-16 -rotate-90" viewBox="0 0 64 64">
                     <circle cx="32" cy="32" r="28" fill="none" stroke="#f1f5f9" strokeWidth="6" />
                     <circle
-                      cx="32" cy="32" r="28" fill="none"
+                      cx="32"
+                      cy="32"
+                      r="28"
+                      fill="none"
                       stroke={data.lmsCompleted ? '#10b981' : '#7c3aed'}
                       strokeWidth="6"
                       strokeDasharray={`${2 * Math.PI * 28}`}
@@ -286,7 +337,9 @@ export default function ApprenticeProgress({
                     />
                   </svg>
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="text-sm font-black text-slate-900">{data.lmsProgressPct ?? 0}%</span>
+                    <span className="text-sm font-black text-slate-900">
+                      {data.lmsProgressPct ?? 0}%
+                    </span>
                   </div>
                 </div>
                 <div className="flex-1">
@@ -302,8 +355,10 @@ export default function ApprenticeProgress({
                     {data.checkpointsPassed} of {data.checkpointsTotal} checkpoints passed
                   </p>
                   {!data.lmsCompleted && (
-                    <Link href={lmsHref}
-                      className={`inline-flex items-center gap-1.5 mt-2 text-xs font-bold ${accentText} ${accentBg} px-3 py-1.5 rounded-lg`}>
+                    <Link
+                      href={lmsHref}
+                      className={`inline-flex items-center gap-1.5 mt-2 text-xs font-bold ${accentText} ${accentBg} px-3 py-1.5 rounded-lg`}
+                    >
                       Continue coursework <ChevronRight className="w-3 h-3" />
                     </Link>
                   )}
@@ -330,7 +385,9 @@ export default function ApprenticeProgress({
                 {
                   label: 'Practical skills verified',
                   done: data.practicalSkillsVerified,
-                  detail: data.practicalSkillsVerified ? 'Verified by mentor' : 'Pending mentor sign-off',
+                  detail: data.practicalSkillsVerified
+                    ? 'Verified by mentor'
+                    : 'Pending mentor sign-off',
                 },
                 {
                   label: 'State board exam',
@@ -338,8 +395,11 @@ export default function ApprenticeProgress({
                   detail: isEligible ? 'Ready to schedule' : 'Unlocks when requirements are met',
                   locked: !isEligible,
                 },
-              ].map(item => (
-                <div key={item.label} className="flex items-center gap-3 px-5 py-3.5 border-b border-slate-100 last:border-0">
+              ].map((item) => (
+                <div
+                  key={item.label}
+                  className="flex items-center gap-3 px-5 py-3.5 border-b border-slate-100 last:border-0"
+                >
                   {item.locked ? (
                     <Lock className="w-5 h-5 text-slate-300 flex-shrink-0" />
                   ) : item.done ? (
@@ -361,15 +421,21 @@ export default function ApprenticeProgress({
             </div>
 
             {/* State board CTA */}
-            <Link href={stateBoardHref}
-              className="flex items-center gap-4 bg-white rounded-2xl border border-slate-200 p-5 hover:border-purple-300 transition-colors group">
-              <div className={`w-12 h-12 ${accentBg} rounded-xl flex items-center justify-center flex-shrink-0`}>
+            <Link
+              href={stateBoardHref}
+              className="flex items-center gap-4 bg-white rounded-2xl border border-slate-200 p-5 hover:border-purple-300 transition-colors group"
+            >
+              <div
+                className={`w-12 h-12 ${accentBg} rounded-xl flex items-center justify-center flex-shrink-0`}
+              >
                 <Star className={`w-6 h-6 ${accentText}`} />
               </div>
               <div className="flex-1">
                 <p className="font-bold text-slate-900">State Board Exam</p>
                 <p className="text-sm text-slate-500">
-                  {isEligible ? 'You\'re eligible — schedule now' : 'View requirements and exam info'}
+                  {isEligible
+                    ? "You're eligible — schedule now"
+                    : 'View requirements and exam info'}
                 </p>
               </div>
               <ChevronRight className="w-5 h-5 text-slate-400 group-hover:text-slate-600 transition-colors" />

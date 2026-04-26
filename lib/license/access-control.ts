@@ -1,6 +1,6 @@
 /**
  * Access Control Matrix
- * 
+ *
  * Defines what features are available in each license state.
  * Trial users can experience the system, not operate it.
  */
@@ -161,7 +161,7 @@ export function canAccessFeature(feature: FeatureKey, state: LicenseState): bool
  */
 export function getAccessibleFeatures(state: LicenseState): FeatureKey[] {
   return (Object.keys(FEATURE_ACCESS) as FeatureKey[]).filter(
-    (feature) => FEATURE_ACCESS[feature][state]
+    (feature) => FEATURE_ACCESS[feature][state],
   );
 }
 
@@ -170,7 +170,7 @@ export function getAccessibleFeatures(state: LicenseState): FeatureKey[] {
  */
 export function getRestrictedFeatures(state: LicenseState): FeatureKey[] {
   return (Object.keys(FEATURE_ACCESS) as FeatureKey[]).filter(
-    (feature) => !FEATURE_ACCESS[feature][state]
+    (feature) => !FEATURE_ACCESS[feature][state],
   );
 }
 
@@ -179,17 +179,17 @@ export function getRestrictedFeatures(state: LicenseState): FeatureKey[] {
  */
 export function getRestrictionMessage(feature: FeatureKey, state: LicenseState): string | null {
   if (canAccessFeature(feature, state)) return null;
-  
+
   const featureInfo = FEATURE_ACCESS[feature];
-  
+
   if (state === 'trial') {
     return `${featureInfo.description} is not available during the trial. Request a license to unlock this feature.`;
   }
-  
+
   if (state === 'expired') {
     return `Your trial has expired. Request a license to continue using ${featureInfo.description.toLowerCase()}.`;
   }
-  
+
   return `${featureInfo.description} is not available with your current license.`;
 }
 

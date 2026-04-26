@@ -2,7 +2,16 @@ import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
 import { redirect, notFound } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft, MessageSquare, Users, Clock, Plus, Pin, Lock, ChevronRight } from 'lucide-react';
+import {
+  ArrowLeft,
+  MessageSquare,
+  Users,
+  Clock,
+  Plus,
+  Pin,
+  Lock,
+  ChevronRight,
+} from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
@@ -22,7 +31,11 @@ interface Thread {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { forumId } = await params;
   const supabase = await createClient();
-  const { data: forum } = await supabase.from('forums').select('name').eq('id', forumId).maybeSingle();
+  const { data: forum } = await supabase
+    .from('forums')
+    .select('name')
+    .eq('id', forumId)
+    .maybeSingle();
   return { title: forum?.name ?? 'Forum' };
 }
 
@@ -30,10 +43,16 @@ export default async function ForumPage({ params }: Props) {
   const { forumId } = await params;
   const supabase = await createClient();
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/lms/forums/' + forumId);
 
-  const { data: forum, error } = await supabase.from('forums').select('*').eq('id', forumId).maybeSingle();
+  const { data: forum, error } = await supabase
+    .from('forums')
+    .select('*')
+    .eq('id', forumId)
+    .maybeSingle();
   if (error || !forum) notFound();
 
   const { data: threads } = await supabase
@@ -53,7 +72,10 @@ export default async function ForumPage({ params }: Props) {
   return (
     <div className="min-h-screen bg-white py-8">
       <div className="max-w-4xl mx-auto px-4">
-        <Link href="/lms/forums" className="inline-flex items-center gap-2 text-slate-600 hover:text-slate-900 mb-6">
+        <Link
+          href="/lms/forums"
+          className="inline-flex items-center gap-2 text-slate-600 hover:text-slate-900 mb-6"
+        >
           <ArrowLeft className="w-4 h-4" />
           Back to Forums
         </Link>
@@ -73,8 +95,14 @@ export default async function ForumPage({ params }: Props) {
             </Link>
           </div>
           <div className="flex items-center gap-6 text-sm text-slate-600">
-            <div className="flex items-center gap-2"><MessageSquare className="w-4 h-4" /><span>{typedThreads.length} threads</span></div>
-            <div className="flex items-center gap-2"><Users className="w-4 h-4" /><span>{memberCount ?? 0} members</span></div>
+            <div className="flex items-center gap-2">
+              <MessageSquare className="w-4 h-4" />
+              <span>{typedThreads.length} threads</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Users className="w-4 h-4" />
+              <span>{memberCount ?? 0} members</span>
+            </div>
           </div>
         </div>
 

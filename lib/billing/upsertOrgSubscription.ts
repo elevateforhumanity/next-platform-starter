@@ -16,7 +16,7 @@ export interface SubscriptionPayload {
 export async function upsertOrgSubscription(
   supabase: SupabaseClient,
   orgId: string,
-  payload: SubscriptionPayload
+  payload: SubscriptionPayload,
 ): Promise<void> {
   const { error } = await supabase.from('organization_subscriptions').upsert(
     {
@@ -30,7 +30,7 @@ export async function upsertOrgSubscription(
     },
     {
       onConflict: 'organization_id',
-    }
+    },
   );
 
   if (error) {

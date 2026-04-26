@@ -1,13 +1,13 @@
 /**
  * Affirm BNPL Integration
- * 
+ *
  * Affirm uses a client-side checkout flow:
  * 1. Client loads Affirm JS SDK
  * 2. Client calls affirm.checkout() with order details
  * 3. Customer completes checkout on Affirm modal/redirect
  * 4. Affirm redirects back with checkout_token
  * 5. Server authorizes charge using checkout_token via API
- * 
+ *
  * Server-side API is ONLY for:
  * - Authorizing charges (POST /api/v1/transactions)
  * - Capturing charges
@@ -23,7 +23,9 @@ let _apiKeys: Record<string, string> = {};
 try {
   const raw = process.env.API_KEYS_JSON;
   if (raw) _apiKeys = JSON.parse(raw);
-} catch { /* invalid JSON — fall through */ }
+} catch {
+  /* invalid JSON — fall through */
+}
 
 function apiKey(key: string, fallback?: string): string | undefined {
   return _apiKeys[key] || process.env[key] || fallback;
@@ -73,7 +75,9 @@ class AffirmClient {
     const isSandbox = AFFIRM_CONFIG.environment === 'sandbox';
     this.publicKey = AFFIRM_CONFIG.publicKey;
     this.privateKey = AFFIRM_CONFIG.privateKey;
-    this.transactionsUrl = isSandbox ? SANDBOX_CONFIG.transactionsUrl : AFFIRM_CONFIG.transactionsUrl;
+    this.transactionsUrl = isSandbox
+      ? SANDBOX_CONFIG.transactionsUrl
+      : AFFIRM_CONFIG.transactionsUrl;
   }
 
   isConfigured(): boolean {
@@ -89,7 +93,9 @@ class AffirmClient {
       this.publicKey = pubKey;
       this.privateKey = privKey;
       const isSandbox = (process.env.AFFIRM_ENVIRONMENT || 'production') === 'sandbox';
-      this.transactionsUrl = isSandbox ? SANDBOX_CONFIG.transactionsUrl : AFFIRM_CONFIG.transactionsUrl;
+      this.transactionsUrl = isSandbox
+        ? SANDBOX_CONFIG.transactionsUrl
+        : AFFIRM_CONFIG.transactionsUrl;
     }
   }
 
@@ -111,13 +117,16 @@ class AffirmClient {
       throw new Error('Affirm is not configured. Missing API keys.');
     }
 
-    logger.info('Affirm: Authorizing charge', { checkoutToken: checkoutToken.substring(0, 10) + '...', orderId });
+    logger.info('Affirm: Authorizing charge', {
+      checkoutToken: checkoutToken.substring(0, 10) + '...',
+      orderId,
+    });
 
     const response = await fetch(this.transactionsUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': this.getAuthHeader(),
+        Authorization: this.getAuthHeader(),
       },
       body: JSON.stringify({
         checkout_token: checkoutToken,
@@ -139,7 +148,11 @@ class AffirmClient {
   /**
    * Capture an authorized charge
    */
-  async captureCharge(chargeId: string, orderId?: string, amount?: number): Promise<AffirmChargeResponse> {
+  async captureCharge(
+    chargeId: string,
+    orderId?: string,
+    amount?: number,
+  ): Promise<AffirmChargeResponse> {
     if (!this.isConfigured()) {
       throw new Error('Affirm is not configured. Missing API keys.');
     }
@@ -152,7 +165,7 @@ class AffirmClient {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': this.getAuthHeader(),
+        Authorization: this.getAuthHeader(),
       },
       body: JSON.stringify(body),
     });
@@ -177,7 +190,7 @@ class AffirmClient {
     const response = await fetch(`${this.transactionsUrl}/${chargeId}`, {
       method: 'GET',
       headers: {
-        'Authorization': this.getAuthHeader(),
+        Authorization: this.getAuthHeader(),
       },
     });
 
@@ -202,7 +215,7 @@ class AffirmClient {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': this.getAuthHeader(),
+        Authorization: this.getAuthHeader(),
       },
     });
 
@@ -230,7 +243,7 @@ class AffirmClient {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': this.getAuthHeader(),
+        Authorization: this.getAuthHeader(),
       },
       body: JSON.stringify(body),
     });
@@ -263,9 +276,10 @@ export function getAffirmCheckoutConfig(options: {
   cancelUrl: string;
 }) {
   // Read from the singleton instance so tryLateConfig() is reflected here.
-  const publicKey = affirm.getPublicKey()
-    ?? process.env.AFFIRM_PUBLIC_KEY
-    ?? process.env.NEXT_PUBLIC_AFFIRM_PUBLIC_KEY;
+  const publicKey =
+    affirm.getPublicKey() ??
+    process.env.AFFIRM_PUBLIC_KEY ??
+    process.env.NEXT_PUBLIC_AFFIRM_PUBLIC_KEY;
   return {
     merchant: {
       public_api_key: publicKey,

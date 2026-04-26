@@ -13,16 +13,10 @@ export const metadata: Metadata = {
   description: 'Review and approve document',
 };
 
-export default async function ReviewDocumentPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
+export default async function ReviewDocumentPage({ params }: { params: Promise<{ id: string }> }) {
   await requireRole(['admin', 'super_admin']);
   const { id } = await params;
   const supabase = await createClient();
-
-
 
   const { data: rawDocument } = await supabase
     .from('documents')
@@ -36,7 +30,11 @@ export default async function ReviewDocumentPage({
 
   // Hydrate profile separately (documents.user_id has no FK to profiles)
   const { data: docReviewProfile } = rawDocument.user_id
-    ? await supabase.from('profiles').select('id, full_name, email, role').eq('id', rawDocument.user_id).maybeSingle()
+    ? await supabase
+        .from('profiles')
+        .select('id, full_name, email, role')
+        .eq('id', rawDocument.user_id)
+        .maybeSingle()
     : { data: null };
   const document = { ...rawDocument, profiles: docReviewProfile ?? null };
 
@@ -56,16 +54,11 @@ export default async function ReviewDocumentPage({
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* Hero Image */}
       <section className="border-b py-8">
         <div className="max-w-4xl mx-auto px-6">
-          <h1 className="text-4xl font-bold text-black mb-2">
-            Review Document
-          </h1>
-          <p className="text-lg text-black">
-            Review and approve or reject this document
-          </p>
+          <h1 className="text-4xl font-bold text-black mb-2">Review Document</h1>
+          <p className="text-lg text-black">Review and approve or reject this document</p>
         </div>
       </section>
 

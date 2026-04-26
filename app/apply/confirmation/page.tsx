@@ -29,7 +29,7 @@ export default async function ConfirmationPage() {
       </div>
     );
   }
-  
+
   // Log confirmation page visit
   await supabase.from('page_views').insert({ page: 'application_confirmation' }).select();
   return (
@@ -54,49 +54,38 @@ export default async function ConfirmationPage() {
             </h1>
 
             <p className="text-lg text-black mb-8">
-              Thank you for applying to Elevate for Humanity. We've received
-              your application and will review it within 1-2 business days.
+              Thank you for applying to Elevate for Humanity. We've received your application and
+              will review it within 1-2 business days.
             </p>
 
             {/* What's Next */}
             <div className="bg-slate-50 border border-slate-200 rounded-lg p-6 mb-8 text-left">
-              <h2 className="text-xl font-bold text-black mb-4">
-                What Happens Next?
-              </h2>
+              <h2 className="text-xl font-bold text-black mb-4">What Happens Next?</h2>
               <ol className="space-y-3 text-black">
                 <li className="flex items-start">
                   <span className="inline-flex items-center justify-center w-6 h-6 bg-emerald-600 text-white text-sm font-bold rounded-full mr-3 flex-shrink-0 mt-0.5">
                     1
                   </span>
-                  <span>
-                    Our team will review your application and verify your
-                    eligibility
-                  </span>
+                  <span>Our team will review your application and verify your eligibility</span>
                 </li>
                 <li className="flex items-start">
                   <span className="inline-flex items-center justify-center w-6 h-6 bg-emerald-600 text-white text-sm font-bold rounded-full mr-3 flex-shrink-0 mt-0.5">
                     2
                   </span>
-                  <span>
-                    We'll contact you via email or phone to discuss next steps
-                  </span>
+                  <span>We'll contact you via email or phone to discuss next steps</span>
                 </li>
                 <li className="flex items-start">
                   <span className="inline-flex items-center justify-center w-6 h-6 bg-emerald-600 text-white text-sm font-bold rounded-full mr-3 flex-shrink-0 mt-0.5">
                     3
                   </span>
-                  <span>
-                    If eligible, we'll schedule your enrollment and orientation
-                  </span>
+                  <span>If eligible, we'll schedule your enrollment and orientation</span>
                 </li>
               </ol>
             </div>
 
             {/* Contact Options */}
             <div className="border-t border-slate-200 pt-8">
-              <p className="text-sm font-semibold text-black mb-4">
-                Questions? Contact us:
-              </p>
+              <p className="text-sm font-semibold text-black mb-4">Questions? Contact us:</p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <a
                   href="tel:3173143757"
@@ -136,8 +125,7 @@ export default async function ConfirmationPage() {
           {/* Additional Info */}
           <div className="mt-6 text-center">
             <p className="text-sm text-black">
-              Check your email (including spam folder) for a confirmation
-              message.
+              Check your email (including spam folder) for a confirmation message.
             </p>
           </div>
         </div>

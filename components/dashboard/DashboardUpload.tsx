@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -90,14 +90,16 @@ export function DashboardUpload({
           file_type: file.type,
         }),
       });
-    } catch (error) { /* Error handled silently */ }
+    } catch (error) {
+      /* Error handled silently */
+    }
   };
 
   const handleDelete = async (fileId: string) => {
     if (!confirm('Are you sure you want to delete this file?')) return;
 
     setFiles(files.filter((f) => f.id !== fileId));
-      };
+  };
 
   const formatFileSize = (bytes: number) => {
     if (bytes < 1024) return bytes + ' B';
@@ -130,12 +132,7 @@ export function DashboardUpload({
 
       {/* Upload Component */}
       <div className="mb-6">
-        <FileUpload
-          label="Select File"
-          accept={accept}
-          maxSize={maxSize}
-          onUpload={handleUpload}
-        />
+        <FileUpload label="Select File" accept={accept} maxSize={maxSize} onUpload={handleUpload} />
       </div>
 
       {/* Error Message */}
@@ -155,9 +152,7 @@ export function DashboardUpload({
       {/* Uploaded Files List */}
       {files.length > 0 && (
         <div>
-          <h4 className="text-sm font-semibold text-black mb-3">
-            Uploaded Files ({files.length})
-          </h4>
+          <h4 className="text-sm font-semibold text-black mb-3">Uploaded Files ({files.length})</h4>
           <div className="space-y-2">
             {files.map((file) => (
               <div
@@ -167,12 +162,9 @@ export function DashboardUpload({
                 <div className="flex items-center gap-3 flex-1 min-w-0">
                   <FileText className="h-5 w-5 text-slate-400 flex-shrink-0" />
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-black truncate">
-                      {file.name}
-                    </p>
+                    <p className="text-sm font-medium text-black truncate">{file.name}</p>
                     <p className="text-xs text-slate-500">
-                      {formatFileSize(file.size)} •{' '}
-                      {formatDate(file.uploadedAt)}
+                      {formatFileSize(file.size)} • {formatDate(file.uploadedAt)}
                     </p>
                   </div>
                 </div>

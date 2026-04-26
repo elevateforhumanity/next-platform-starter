@@ -23,7 +23,8 @@ export async function GET(request: NextRequest) {
 
   let query = db
     .from('program_enrollments')
-    .select(`
+    .select(
+      `
       id,
       user_id,
       status,
@@ -36,7 +37,8 @@ export async function GET(request: NextRequest) {
       payout_paid_date,
       payout_notes,
       program_holders:partner_id ( name, contact_name, contact_email )
-    `)
+    `,
+    )
     .neq('payout_status', 'not_triggered')
     .order('payout_due_date', { ascending: true });
 
@@ -57,14 +59,18 @@ export async function GET(request: NextRequest) {
   const data = (rawData ?? []).map((r: any) => ({ ...r, profiles: profileMap[r.user_id] ?? null }));
 
   const now = new Date();
-  const enriched = data.map(row => ({
+  const enriched = data.map((row) => ({
     ...row,
-    payout_status: row.payout_status !== 'paid' && row.payout_due_date && new Date(row.payout_due_date) < now
-      ? 'overdue'
-      : row.payout_status,
-    days_until_due: row.payout_due_date && row.payout_status !== 'paid'
-      ? Math.ceil((new Date(row.payout_due_date).getTime() - now.getTime()) / (1000 * 60 * 60 * 24))
-      : null,
+    payout_status:
+      row.payout_status !== 'paid' && row.payout_due_date && new Date(row.payout_due_date) < now
+        ? 'overdue'
+        : row.payout_status,
+    days_until_due:
+      row.payout_due_date && row.payout_status !== 'paid'
+        ? Math.ceil(
+            (new Date(row.payout_due_date).getTime() - now.getTime()) / (1000 * 60 * 60 * 24),
+          )
+        : null,
   }));
 
   return NextResponse.json({ queue: enriched, total: enriched.length });

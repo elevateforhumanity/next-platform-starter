@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import React from 'react';
@@ -9,25 +9,13 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
-import {
-  ArrowLeft,
-  Send,
-  Save,
-  Eye,
-  Users,
-  Calendar,
-  Mail,
-} from 'lucide-react';
+import { ArrowLeft, Send, Save, Eye, Users, Calendar, Mail } from 'lucide-react';
 import { emailTemplates, type EmailTemplateKey } from '@/lib/email-templates';
 
 export default function NewCampaignPage() {
   const router = useRouter();
 
-  
-
-  const [step, setStep] = useState<
-    'details' | 'content' | 'recipients' | 'schedule'
-  >('details');
+  const [step, setStep] = useState<'details' | 'content' | 'recipients' | 'schedule'>('details');
 
   const [campaign, setCampaign] = useState({
     name: '',
@@ -48,8 +36,10 @@ export default function NewCampaignPage() {
 
   useEffect(() => {
     fetch('/api/admin/email-marketing/audience-counts')
-      .then(r => r.ok ? r.json() : null)
-      .then(data => { if (data) setAudienceCounts(data); })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data) => {
+        if (data) setAudienceCounts(data);
+      })
       .catch(() => {});
   }, []);
 
@@ -107,11 +97,10 @@ export default function NewCampaignPage() {
 
   return (
     <div className="min-h-screen bg-white">
-
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Admin", href: "/admin" }, { label: "New" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Admin', href: '/admin' }, { label: 'New' }]} />
       </div>
-{/* Hero Section */}
+      {/* Hero Section */}
       <section className="relative h-48 md:h-64 overflow-hidden">
         <Image
           src="/images/pages/admin-email-campaigns-new-detail.jpg"
@@ -122,7 +111,6 @@ export default function NewCampaignPage() {
           priority
           sizes="100vw"
         />
-
       </section>
 
       {/* Header */}
@@ -137,12 +125,8 @@ export default function NewCampaignPage() {
                 <ArrowLeft className="w-5 h-5" />
               </button>
               <div>
-                <h1 className="text-2xl font-bold text-black">
-                  Create Campaign
-                </h1>
-                <p className="text-sm text-black">
-                  Design and send email campaigns
-                </p>
+                <h1 className="text-2xl font-bold text-black">Create Campaign</h1>
+                <p className="text-sm text-black">Design and send email campaigns</p>
               </div>
             </div>
 
@@ -195,11 +179,7 @@ export default function NewCampaignPage() {
             ].map((s) => (
               <button
                 key={s.key}
-                onClick={() =>
-                  setStep(
-                    s.key as 'details' | 'content' | 'recipients' | 'schedule'
-                  )
-                }
+                onClick={() => setStep(s.key as 'details' | 'content' | 'recipients' | 'schedule')}
                 className={`flex items-center space-x-2 py-4 border-b-2 transition-colors ${
                   step === s.key
                     ? 'border-brand-blue-600 text-brand-blue-600'
@@ -233,10 +213,8 @@ export default function NewCampaignPage() {
                       value={campaign.name}
                       onChange={(
                         e: React.ChangeEvent<
-                          | HTMLInputElement
-                          | HTMLSelectElement
-                          | HTMLTextAreaElement
-                        >
+                          HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+                        >,
                       ) => setCampaign({ ...campaign, name: e.target.value })}
                       placeholder="e.g., Welcome Series - January 2025"
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
@@ -252,13 +230,9 @@ export default function NewCampaignPage() {
                       value={campaign.subject}
                       onChange={(
                         e: React.ChangeEvent<
-                          | HTMLInputElement
-                          | HTMLSelectElement
-                          | HTMLTextAreaElement
-                        >
-                      ) =>
-                        setCampaign({ ...campaign, subject: e.target.value })
-                      }
+                          HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+                        >,
+                      ) => setCampaign({ ...campaign, subject: e.target.value })}
                       placeholder="e.g., Welcome to Elevate for Humanity!"
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                     />
@@ -269,21 +243,15 @@ export default function NewCampaignPage() {
 
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-black mb-2">
-                        From Name
-                      </label>
+                      <label className="block text-sm font-medium text-black mb-2">From Name</label>
                       <input
                         type="text"
                         value={campaign.fromName}
                         onChange={(
                           e: React.ChangeEvent<
-                            | HTMLInputElement
-                            | HTMLSelectElement
-                            | HTMLTextAreaElement
-                          >
-                        ) =>
-                          setCampaign({ ...campaign, fromName: e.target.value })
-                        }
+                            HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+                          >,
+                        ) => setCampaign({ ...campaign, fromName: e.target.value })}
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                       />
                     </div>
@@ -296,10 +264,8 @@ export default function NewCampaignPage() {
                         value={campaign.fromEmail}
                         onChange={(
                           e: React.ChangeEvent<
-                            | HTMLInputElement
-                            | HTMLSelectElement
-                            | HTMLTextAreaElement
-                          >
+                            HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+                          >,
                         ) =>
                           setCampaign({
                             ...campaign,
@@ -320,13 +286,9 @@ export default function NewCampaignPage() {
                       value={campaign.replyTo}
                       onChange={(
                         e: React.ChangeEvent<
-                          | HTMLInputElement
-                          | HTMLSelectElement
-                          | HTMLTextAreaElement
-                        >
-                      ) =>
-                        setCampaign({ ...campaign, replyTo: e.target.value })
-                      }
+                          HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+                        >,
+                      ) => setCampaign({ ...campaign, replyTo: e.target.value })}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                     />
                   </div>
@@ -352,21 +314,15 @@ export default function NewCampaignPage() {
                       {Object.entries(emailTemplates).map(([key, template]: any) => (
                         <button
                           key={key}
-                          onClick={() =>
-                            handleTemplateSelect(key as EmailTemplateKey)
-                          }
+                          onClick={() => handleTemplateSelect(key as EmailTemplateKey)}
                           className={`p-4 border-2 rounded-lg text-left transition-colors ${
                             campaign.template === key
                               ? 'border-brand-blue-600 bg-brand-blue-50'
                               : 'border-gray-200 hover:border-gray-300'
                           }`}
                         >
-                          <div className="font-medium text-black">
-                            {template.name}
-                          </div>
-                          <div className="text-sm text-black mt-1">
-                            {template.subject}
-                          </div>
+                          <div className="font-medium text-black">{template.name}</div>
+                          <div className="text-sm text-black mt-1">{template.subject}</div>
                         </button>
                       ))}
                     </div>
@@ -380,13 +336,9 @@ export default function NewCampaignPage() {
                       value={campaign.customHtml}
                       onChange={(
                         e: React.ChangeEvent<
-                          | HTMLInputElement
-                          | HTMLSelectElement
-                          | HTMLTextAreaElement
-                        >
-                      ) =>
-                        setCampaign({ ...campaign, customHtml: e.target.value })
-                      }
+                          HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+                        >,
+                      ) => setCampaign({ ...campaign, customHtml: e.target.value })}
                       rows={12}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg font-mono text-sm focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                       placeholder="Edit HTML or use template..."
@@ -416,12 +368,12 @@ export default function NewCampaignPage() {
 
                   <div className="space-y-3">
                     {[
-                      { value: 'all-students',       label: 'All Students' },
-                      { value: 'active-students',    label: 'Active Students' },
-                      { value: 'new-applicants',     label: 'New Applicants' },
+                      { value: 'all-students', label: 'All Students' },
+                      { value: 'active-students', label: 'Active Students' },
+                      { value: 'new-applicants', label: 'New Applicants' },
                       { value: 'program-completers', label: 'Program Completers' },
-                      { value: 'employers',          label: 'Employer Partners' },
-                      { value: 'workone',            label: 'WorkOne Contacts' },
+                      { value: 'employers', label: 'Employer Partners' },
+                      { value: 'workone', label: 'WorkOne Contacts' },
                     ].map((list) => (
                       <label
                         key={list.value}
@@ -439,10 +391,8 @@ export default function NewCampaignPage() {
                             checked={campaign.recipientList === list.value}
                             onChange={(
                               e: React.ChangeEvent<
-                                | HTMLInputElement
-                                | HTMLSelectElement
-                                | HTMLTextAreaElement
-                              >
+                                HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+                              >,
                             ) =>
                               setCampaign({
                                 ...campaign,
@@ -452,11 +402,11 @@ export default function NewCampaignPage() {
                             className="w-4 h-4 text-brand-blue-600"
                           />
                           <div>
-                            <div className="font-medium text-black">
-                              {list.label}
-                            </div>
+                            <div className="font-medium text-black">{list.label}</div>
                             <div className="text-sm text-black">
-                              {audienceCounts ? `${audienceCounts[list.value] ?? 0} contacts` : '— contacts'}
+                              {audienceCounts
+                                ? `${audienceCounts[list.value] ?? 0} contacts`
+                                : '— contacts'}
                             </div>
                           </div>
                         </div>
@@ -495,20 +445,14 @@ export default function NewCampaignPage() {
                         checked={campaign.scheduleType === 'now'}
                         onChange={(
                           e: React.ChangeEvent<
-                            | HTMLInputElement
-                            | HTMLSelectElement
-                            | HTMLTextAreaElement
-                          >
+                            HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+                          >,
                         ) => setCampaign({ ...campaign, scheduleType: 'now' })}
                         className="w-4 h-4 text-brand-blue-600"
                       />
                       <div className="ml-3">
-                        <div className="font-medium text-black">
-                          Send Now
-                        </div>
-                        <div className="text-sm text-black">
-                          Campaign will be sent immediately
-                        </div>
+                        <div className="font-medium text-black">Send Now</div>
+                        <div className="text-sm text-black">Campaign will be sent immediately</div>
                       </div>
                     </label>
 
@@ -520,10 +464,8 @@ export default function NewCampaignPage() {
                         checked={campaign.scheduleType === 'scheduled'}
                         onChange={(
                           e: React.ChangeEvent<
-                            | HTMLInputElement
-                            | HTMLSelectElement
-                            | HTMLTextAreaElement
-                          >
+                            HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+                          >,
                         ) =>
                           setCampaign({
                             ...campaign,
@@ -533,24 +475,18 @@ export default function NewCampaignPage() {
                         className="w-4 h-4 text-brand-blue-600 mt-1"
                       />
                       <div className="ml-3 flex-1">
-                        <div className="font-medium text-black mb-3">
-                          Schedule for Later
-                        </div>
+                        <div className="font-medium text-black mb-3">Schedule for Later</div>
                         {campaign.scheduleType === 'scheduled' && (
                           <div className="grid grid-cols-2 gap-3">
                             <div>
-                              <label className="block text-sm text-black mb-1">
-                                Date
-                              </label>
+                              <label className="block text-sm text-black mb-1">Date</label>
                               <input
                                 type="date"
                                 value={campaign.scheduleDate}
                                 onChange={(
                                   e: React.ChangeEvent<
-                                    | HTMLInputElement
-                                    | HTMLSelectElement
-                                    | HTMLTextAreaElement
-                                  >
+                                    HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+                                  >,
                                 ) =>
                                   setCampaign({
                                     ...campaign,
@@ -561,18 +497,14 @@ export default function NewCampaignPage() {
                               />
                             </div>
                             <div>
-                              <label className="block text-sm text-black mb-1">
-                                Time
-                              </label>
+                              <label className="block text-sm text-black mb-1">Time</label>
                               <input
                                 type="time"
                                 value={campaign.scheduleTime}
                                 onChange={(
                                   e: React.ChangeEvent<
-                                    | HTMLInputElement
-                                    | HTMLSelectElement
-                                    | HTMLTextAreaElement
-                                  >
+                                    HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+                                  >,
                                 ) =>
                                   setCampaign({
                                     ...campaign,
@@ -646,22 +578,17 @@ export default function NewCampaignPage() {
                   </div>
                 </div>
 
-                {campaign.scheduleType === 'scheduled' &&
-                  campaign.scheduleDate && (
-                    <div>
-                      <div className="text-xs text-black mb-1">
-                        Scheduled For
-                      </div>
-                      <div className="text-sm text-black">
-                        {campaign.scheduleDate} at {campaign.scheduleTime}
-                      </div>
+                {campaign.scheduleType === 'scheduled' && campaign.scheduleDate && (
+                  <div>
+                    <div className="text-xs text-black mb-1">Scheduled For</div>
+                    <div className="text-sm text-black">
+                      {campaign.scheduleDate} at {campaign.scheduleTime}
                     </div>
-                  )}
+                  </div>
+                )}
 
                 <div className="border-t pt-4">
-                  <div className="text-xs text-black mb-2">
-                    Email Preview
-                  </div>
+                  <div className="text-xs text-black mb-2">Email Preview</div>
                   <div className="border rounded-lg p-3 bg-gray-50 max-h-96 overflow-auto">
                     {campaign.customHtml ? (
                       <div
@@ -671,9 +598,7 @@ export default function NewCampaignPage() {
                         }}
                       />
                     ) : (
-                      <div className="text-xs text-black italic">
-                        Select a template to preview
-                      </div>
+                      <div className="text-xs text-black italic">Select a template to preview</div>
                     )}
                   </div>
                 </div>
@@ -686,24 +611,22 @@ export default function NewCampaignPage() {
         <section className="py-16">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto text-center">
-              <h2 className="text-2xl md:text-3xl font-bold mb-6">
-              Create Email Campaign
-                          </h2>
+              <h2 className="text-2xl md:text-3xl font-bold mb-6">Create Email Campaign</h2>
               <p className="text-base md:text-lg mb-8 text-brand-blue-100">
-              Design and schedule targeted email campaigns to students and partners.
-                          </p>
+                Design and schedule targeted email campaigns to students and partners.
+              </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link
                   href="/admin/email-marketing"
                   className="bg-white text-brand-blue-700 px-8 py-4 rounded-lg font-bold hover:bg-gray-50 text-lg shadow-2xl transition-all"
                 >
-                View Campaigns
+                  View Campaigns
                 </Link>
                 <Link
                   href="/admin/email-marketing/analytics"
                   className="bg-brand-blue-800 text-white px-8 py-4 rounded-lg font-bold hover:bg-brand-blue-600 border-2 border-white text-lg shadow-2xl transition-all"
                 >
-                View Analytics
+                  View Analytics
                 </Link>
               </div>
             </div>

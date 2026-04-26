@@ -1,39 +1,56 @@
-
 import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
-import { FileText, ChevronRight, Shield, Scale, BookOpen, ShoppingCart, Calculator, UserPlus, Building } from 'lucide-react';
+import {
+  FileText,
+  ChevronRight,
+  Shield,
+  Scale,
+  BookOpen,
+  ShoppingCart,
+  Calculator,
+  UserPlus,
+  Building,
+} from 'lucide-react';
 
 import { createClient } from '@/lib/supabase/server';
 
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
   title: 'Governance Documents | Elevate For Humanity',
-  description: 'Authoritative governance documents for Elevate For Humanity platform operations, compliance, and standards.',
+  description:
+    'Authoritative governance documents for Elevate For Humanity platform operations, compliance, and standards.',
 };
-
 
 export default async function GovernanceIndexPage() {
   const supabase = await createClient();
   const { data: dbRows } = await supabase.from('legal_documents').select('*').limit(50);
-const documents = (dbRows as any[]) || [];
+  const documents = (dbRows as any[]) || [];
 
   return (
     <div className="min-h-screen bg-white">
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Legal", href: "/legal" }, { label: "Governance" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Legal', href: '/legal' }, { label: 'Governance' }]} />
       </div>
-<div className="bg-brand-blue-700 text-white py-12">
+      <div className="bg-brand-blue-700 text-white py-12">
         <div className="max-w-5xl mx-auto px-6">
           <div className="flex items-center gap-2 text-sm text-gray-500 mb-4">
-            <Link href="/" className="hover:text-white">Home</Link>
+            <Link href="/" className="hover:text-white">
+              Home
+            </Link>
             <ChevronRight className="w-4 h-4" />
-            <Link href="/legal" className="hover:text-white">Legal</Link>
+            <Link href="/legal" className="hover:text-white">
+              Legal
+            </Link>
             <ChevronRight className="w-4 h-4" />
             <span className="text-white">Governance</span>
           </div>
           <h1 className="text-3xl font-bold mb-2">Governance Documents</h1>
-          <p className="text-gray-300 max-w-2xl">Authoritative reference documents for Elevate For Humanity platform operations, compliance, and standards. These documents are audit-ready and serve as the single source of truth for all governance matters.</p>
+          <p className="text-gray-300 max-w-2xl">
+            Authoritative reference documents for Elevate For Humanity platform operations,
+            compliance, and standards. These documents are audit-ready and serve as the single
+            source of truth for all governance matters.
+          </p>
         </div>
       </div>
 
@@ -90,23 +107,38 @@ const documents = (dbRows as any[]) || [];
 
         <div className="mt-12 bg-white rounded-lg border p-6">
           <h2 className="text-lg font-semibold mb-4">Document Cross-References</h2>
-          <p className="text-gray-600 text-sm mb-4">These documents are designed to work together as a complete governance framework. Key relationships:</p>
+          <p className="text-gray-600 text-sm mb-4">
+            These documents are designed to work together as a complete governance framework. Key
+            relationships:
+          </p>
           <ul className="space-y-2 text-sm text-gray-700">
             <li className="flex items-start gap-2">
               <FileText className="w-4 h-4 text-gray-400 mt-0.5" />
-              <span><strong>Platform Overview</strong> provides context for all other documents and defines the organizational structure.</span>
+              <span>
+                <strong>Platform Overview</strong> provides context for all other documents and
+                defines the organizational structure.
+              </span>
             </li>
             <li className="flex items-start gap-2">
               <FileText className="w-4 h-4 text-gray-400 mt-0.5" />
-              <span><strong>Security Statement</strong> applies to all platform components described in LMS, Store, and Tax Operations documents.</span>
+              <span>
+                <strong>Security Statement</strong> applies to all platform components described in
+                LMS, Store, and Tax Operations documents.
+              </span>
             </li>
             <li className="flex items-start gap-2">
               <FileText className="w-4 h-4 text-gray-400 mt-0.5" />
-              <span><strong>Compliance Framework</strong> establishes regulatory requirements referenced by Tax Operations and Store documents.</span>
+              <span>
+                <strong>Compliance Framework</strong> establishes regulatory requirements referenced
+                by Tax Operations and Store documents.
+              </span>
             </li>
             <li className="flex items-start gap-2">
               <FileText className="w-4 h-4 text-gray-400 mt-0.5" />
-              <span><strong>UX Standards</strong> defines accessibility and support standards that apply across all user-facing components.</span>
+              <span>
+                <strong>UX Standards</strong> defines accessibility and support standards that apply
+                across all user-facing components.
+              </span>
             </li>
           </ul>
         </div>

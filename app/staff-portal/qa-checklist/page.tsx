@@ -16,14 +16,8 @@ export const metadata: Metadata = {
 };
 
 export default async function QAChecklistPage() {
-  const { user, profile } = await requireRole([
-    'staff',
-    'admin',
-    'super_admin',
-    'advisor',
-  ]);
+  const { user, profile } = await requireRole(['staff', 'admin', 'super_admin', 'advisor']);
   const supabase = await createClient();
-
 
   const { data: checklists, error } = await supabase
     .from('qa_checklists')
@@ -50,7 +44,9 @@ export default async function QAChecklistPage() {
       {/* Breadcrumbs */}
       <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[{ label: 'Staff Portal', href: '/staff-portal' }, { label: 'QA Checklist' }]} />
+          <Breadcrumbs
+            items={[{ label: 'Staff Portal', href: '/staff-portal' }, { label: 'QA Checklist' }]}
+          />
         </div>
       </div>
 
@@ -58,12 +54,8 @@ export default async function QAChecklistPage() {
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-black">
-                QA Checklist
-              </h1>
-              <p className="text-black mt-2">
-                Daily and weekly quality assurance tasks
-              </p>
+              <h1 className="text-3xl font-bold text-black">QA Checklist</h1>
+              <p className="text-black mt-2">Daily and weekly quality assurance tasks</p>
             </div>
             <Link
               href="/staff-portal/dashboard"
@@ -79,16 +71,12 @@ export default async function QAChecklistPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
             <Calendar className="h-11 w-11 text-brand-blue-600 mb-2" />
-            <p className="text-3xl font-bold text-black">
-              {checklistsWithStatus?.length || 0}
-            </p>
+            <p className="text-3xl font-bold text-black">{checklistsWithStatus?.length || 0}</p>
             <p className="text-black text-sm">Total Checklists</p>
           </div>
           <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
             <CheckSquare className="h-11 w-11 text-brand-green-600 mb-2" />
-            <p className="text-3xl font-bold text-black">
-              {completions?.length || 0}
-            </p>
+            <p className="text-3xl font-bold text-black">{completions?.length || 0}</p>
             <p className="text-black text-sm">Completed Today</p>
           </div>
           <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
@@ -106,16 +94,12 @@ export default async function QAChecklistPage() {
 
         <div className="space-y-6">
           {['daily', 'weekly', 'monthly'].map((freq) => {
-            const items = checklistsWithStatus?.filter(
-              (c) => c.frequency === freq
-            );
+            const items = checklistsWithStatus?.filter((c) => c.frequency === freq);
             if (!items || items.length === 0) return null;
 
             return (
               <div key={freq}>
-                <h2 className="text-xl font-bold text-black mb-4 capitalize">
-                  {freq} Checklists
-                </h2>
+                <h2 className="text-xl font-bold text-black mb-4 capitalize">{freq} Checklists</h2>
                 <div className="space-y-4">
                   {items.map((checklist) => (
                     <div
@@ -124,9 +108,7 @@ export default async function QAChecklistPage() {
                     >
                       <div className="flex items-start justify-between mb-4">
                         <div className="flex-1">
-                          <h3 className="text-lg font-semibold text-black">
-                            {checklist.title}
-                          </h3>
+                          <h3 className="text-lg font-semibold text-black">{checklist.title}</h3>
                           {checklist.assignee_role && (
                             <p className="text-sm text-black mt-1">
                               For: {checklist.assignee_role}
@@ -149,10 +131,7 @@ export default async function QAChecklistPage() {
                       {checklist.tasks && Array.isArray(checklist.tasks) && (
                         <div className="space-y-2 mb-4">
                           {checklist.tasks.map((task: any, idx: number) => (
-                            <div
-                              key={idx}
-                              className="flex items-start gap-2 text-sm text-black"
-                            >
+                            <div key={idx} className="flex items-start gap-2 text-sm text-black">
                               <Square className="h-4 w-4 mt-0.5 flex-shrink-0" />
                               <span>{task.task || task}</span>
                             </div>
@@ -161,9 +140,7 @@ export default async function QAChecklistPage() {
                       )}
 
                       {!checklist.completed && (
-                        <button
-                          className="w-full px-4 py-2 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700 transition-colors"
-                        >
+                        <button className="w-full px-4 py-2 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700 transition-colors">
                           Mark as Complete
                         </button>
                       )}

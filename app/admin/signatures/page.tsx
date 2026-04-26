@@ -14,8 +14,7 @@ export const metadata: Metadata = {
     canonical: 'https://www.elevateforhumanity.org/admin/signatures',
   },
   title: 'Signatures Management | Elevate For Humanity',
-  description:
-    'Manage digital signatures, document approvals, and electronic consent forms.',
+  description: 'Manage digital signatures, document approvals, and electronic consent forms.',
 };
 
 export default async function SignaturesPage() {
@@ -25,7 +24,9 @@ export default async function SignaturesPage() {
   const [signaturesResult, docsResult] = await Promise.all([
     db
       .from('signatures')
-      .select('id, document_id, signer_name, signer_email, role, status, created_at, signature_documents(title)')
+      .select(
+        'id, document_id, signer_name, signer_email, role, status, created_at, signature_documents(title)',
+      )
       .order('created_at', { ascending: false }),
     db
       .from('signature_documents')
@@ -34,7 +35,8 @@ export default async function SignaturesPage() {
       .limit(20),
   ]);
 
-  if (signaturesResult.error) throw new Error(`signatures query failed: ${signaturesResult.error.message}`);
+  if (signaturesResult.error)
+    throw new Error(`signatures query failed: ${signaturesResult.error.message}`);
   const signatures = signaturesResult.data;
   const signatureDocs = docsResult.data ?? [];
 
@@ -45,11 +47,10 @@ export default async function SignaturesPage() {
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* Hero Image */}
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <Breadcrumbs items={[{ label: "Admin", href: "/admin" }, { label: "Signatures" }]} />
-        </div>
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Admin', href: '/admin' }, { label: 'Signatures' }]} />
+      </div>
       {/* Hero Section */}
       <section className="relative h-48 md:h-64 overflow-hidden">
         <Image
@@ -61,7 +62,6 @@ export default async function SignaturesPage() {
           priority
           sizes="100vw"
         />
-
       </section>
 
       {/* Content Section */}
@@ -73,29 +73,21 @@ export default async function SignaturesPage() {
               <div className="bg-white rounded-lg shadow-sm border p-6">
                 <div className="flex items-center gap-3 mb-2">
                   <FileSignature className="h-11 w-11 text-brand-blue-600" />
-                  <h3 className="text-sm font-medium text-black">
-                    Total Signatures
-                  </h3>
+                  <h3 className="text-sm font-medium text-black">Total Signatures</h3>
                 </div>
-                <p className="text-3xl font-bold text-brand-blue-600">
-                  {totalSignatures || 0}
-                </p>
+                <p className="text-3xl font-bold text-brand-blue-600">{totalSignatures || 0}</p>
               </div>
               <div className="bg-white rounded-lg shadow-sm border p-6">
                 <div className="flex items-center gap-3 mb-2">
                   <Clock className="h-11 w-11 text-brand-orange-600" />
                   <h3 className="text-sm font-medium text-black">Pending</h3>
                 </div>
-                <p className="text-3xl font-bold text-brand-orange-600">
-                  {pendingSignatures || 0}
-                </p>
+                <p className="text-3xl font-bold text-brand-orange-600">{pendingSignatures || 0}</p>
               </div>
               <div className="bg-white rounded-lg shadow-sm border p-6">
                 <div className="flex items-center gap-3 mb-2">
                   <span className="text-slate-400 flex-shrink-0">•</span>
-                  <h3 className="text-sm font-medium text-black">
-                    Completed
-                  </h3>
+                  <h3 className="text-sm font-medium text-black">Completed</h3>
                 </div>
                 <p className="text-3xl font-bold text-brand-green-600">
                   {completedSignatures || 0}
@@ -118,11 +110,15 @@ export default async function SignaturesPage() {
               {signatureDocs.length > 0 ? (
                 <div className="space-y-3">
                   {signatureDocs.map((doc: any) => (
-                    <div key={doc.id} className="flex items-center justify-between p-4 border rounded-lg">
+                    <div
+                      key={doc.id}
+                      className="flex items-center justify-between p-4 border rounded-lg"
+                    >
                       <div>
                         <p className="font-semibold text-slate-900">{doc.title}</p>
                         <p className="text-sm text-slate-500">
-                          {doc.type?.replace(/_/g, ' ')} · Created {new Date(doc.created_at).toLocaleDateString()}
+                          {doc.type?.replace(/_/g, ' ')} · Created{' '}
+                          {new Date(doc.created_at).toLocaleDateString()}
                         </p>
                       </div>
                       <SignatureLinkCopier documentId={doc.id} />
@@ -132,7 +128,10 @@ export default async function SignaturesPage() {
               ) : (
                 <p className="text-slate-400 text-center py-6">
                   No documents yet.{' '}
-                  <Link href="/admin/signatures/new" className="text-brand-blue-600 hover:underline">
+                  <Link
+                    href="/admin/signatures/new"
+                    className="text-brand-blue-600 hover:underline"
+                  >
                     Create one
                   </Link>{' '}
                   to send for signature.
@@ -146,22 +145,17 @@ export default async function SignaturesPage() {
               {rows.length > 0 ? (
                 <div className="space-y-4">
                   {rows.map((signature: any) => (
-                    <div
-                      key={signature.id}
-                      className="p-4 border rounded-lg hover:bg-gray-50"
-                    >
+                    <div key={signature.id} className="p-4 border rounded-lg hover:bg-gray-50">
                       <div className="flex justify-between items-start">
                         <div>
                           <h3 className="font-semibold">
                             {signature.signature_documents?.title || 'Untitled Document'}
                           </h3>
                           <p className="text-sm text-black mt-1">
-                            Signer:{' '}
-                            {signature.signer_name || signature.signer_email || 'Unknown'}
+                            Signer: {signature.signer_name || signature.signer_email || 'Unknown'}
                           </p>
                           <p className="text-sm text-black">
-                            Signed:{' '}
-                            {new Date(signature.created_at).toLocaleDateString()}
+                            Signed: {new Date(signature.created_at).toLocaleDateString()}
                           </p>
                         </div>
                         <div className="flex items-center gap-2">
@@ -189,9 +183,7 @@ export default async function SignaturesPage() {
                   ))}
                 </div>
               ) : (
-                <p className="text-black text-center py-8">
-                  No signatures found
-                </p>
+                <p className="text-black text-center py-8">No signatures found</p>
               )}
             </div>
           </div>
@@ -202,12 +194,10 @@ export default async function SignaturesPage() {
       <section className="py-16 bg-brand-blue-700">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-2xl md:text-3xl font-bold mb-4">
-              Digital Signatures
-                        </h2>
+            <h2 className="text-2xl md:text-3xl font-bold mb-4">Digital Signatures</h2>
             <p className="text-base md:text-lg text-brand-blue-100 mb-8">
               Manage e-signature workflows for enrollment and compliance documents.
-                        </p>
+            </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <Link
                 href="/admin/signatures"

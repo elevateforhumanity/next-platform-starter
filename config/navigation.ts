@@ -12,8 +12,7 @@ export type NavSection = {
 // helper: find a section by id or title
 function itemsFrom(key: string): NavItem[] {
   const section =
-    siteMapSections.find((s) => s.id === key) ||
-    siteMapSections.find((s) => s.title === key);
+    siteMapSections.find((s) => s.id === key) || siteMapSections.find((s) => s.title === key);
   return section ? section.items : [];
 }
 

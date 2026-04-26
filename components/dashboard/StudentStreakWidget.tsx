@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
 import React from 'react';
 
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 type StreakData = {
   minutesToday: number;
@@ -14,13 +14,13 @@ type StreakData = {
 export function StudentStreakWidget() {
   const [data, setData] = useState<StreakData | null>(null);
   const [editingGoal, setEditingGoal] = useState(false);
-  const [goalInput, setGoalInput] = useState<string>("");
+  const [goalInput, setGoalInput] = useState<string>('');
 
   useEffect(() => {
     async function load() {
       try {
-        const res = await fetch("/api/student/streak", {
-          cache: "no-store",
+        const res = await fetch('/api/student/streak', {
+          cache: 'no-store',
         });
         if (!res.ok) return;
         const json = await res.json();
@@ -37,9 +37,9 @@ export function StudentStreakWidget() {
     const minutes = parseInt(goalInput, 10);
     if (Number.isNaN(minutes) || minutes <= 0) return;
 
-    const res = await fetch("/api/student/goals", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+    const res = await fetch('/api/student/goals', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ dailyMinutes: minutes }),
     });
     const json = await res.json();
@@ -51,7 +51,7 @@ export function StudentStreakWidget() {
             dailyMinutes: json.dailyMinutes,
             currentStreak: 0,
             longestStreak: 0,
-          }
+          },
     );
     setEditingGoal(false);
   };
@@ -65,10 +65,7 @@ export function StudentStreakWidget() {
   }
 
   const { minutesToday, dailyMinutes, currentStreak, longestStreak } = data;
-  const pct =
-    dailyMinutes > 0
-      ? Math.min(100, Math.round((minutesToday / dailyMinutes) * 100))
-      : 0;
+  const pct = dailyMinutes > 0 ? Math.min(100, Math.round((minutesToday / dailyMinutes) * 100)) : 0;
 
   return (
     <div className="rounded-xl border bg-white p-4 shadow-sm">
@@ -83,8 +80,7 @@ export function StudentStreakWidget() {
         </div>
         <div className="text-right">
           <p className="text-[11px] text-black">
-            🔥 Streak:{" "}
-            <span className="font-semibold">{currentStreak} days</span>
+            🔥 Streak: <span className="font-semibold">{currentStreak} days</span>
           </p>
           <p className="text-[11px] text-slate-500">
             Best: <span className="font-semibold">{longestStreak}</span> days
@@ -100,9 +96,7 @@ export function StudentStreakWidget() {
       </div>
 
       <div className="mt-3 flex items-center justify-between gap-2">
-        <p className="text-[11px] text-black">
-          Hit your daily minutes to keep your streak alive.
-        </p>
+        <p className="text-[11px] text-black">Hit your daily minutes to keep your streak alive.</p>
         {!editingGoal ? (
           <button
             type="button"
@@ -115,7 +109,9 @@ export function StudentStreakWidget() {
           <div className="flex items-center gap-1">
             <input
               value={goalInput}
-              onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setGoalInput(e.target.value)}
+              onChange={(
+                e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+              ) => setGoalInput(e.target.value)}
               className="w-14 rounded border px-2 py-2 text-[11px]"
             />
             <span className="text-[11px] text-slate-500">min/day</span>

@@ -1,4 +1,3 @@
-
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { logger } from '@/lib/logger';
@@ -15,7 +14,9 @@ async function _GET(request: Request) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     // Get recent enrollments
@@ -34,16 +35,28 @@ async function _GET(request: Request) {
       .limit(5);
 
     // Hydrate profiles separately (user_id → auth.users, no FK to profiles)
-    const activityUserIds = [...new Set([
-      ...(rawEnrollments ?? []).map((e: any) => e.user_id),
-      ...(rawCompletions ?? []).map((e: any) => e.user_id),
-    ].filter(Boolean))];
+    const activityUserIds = [
+      ...new Set(
+        [
+          ...(rawEnrollments ?? []).map((e: any) => e.user_id),
+          ...(rawCompletions ?? []).map((e: any) => e.user_id),
+        ].filter(Boolean),
+      ),
+    ];
     const { data: activityProfiles } = activityUserIds.length
       ? await supabase.from('profiles').select('id, full_name').in('id', activityUserIds)
       : { data: [] };
-    const activityProfileMap = Object.fromEntries((activityProfiles ?? []).map((p: any) => [p.id, p]));
-    const enrollments = (rawEnrollments ?? []).map((e: any) => ({ ...e, profiles: activityProfileMap[e.user_id] ?? null }));
-    const completions = (rawCompletions ?? []).map((e: any) => ({ ...e, profiles: activityProfileMap[e.user_id] ?? null }));
+    const activityProfileMap = Object.fromEntries(
+      (activityProfiles ?? []).map((p: any) => [p.id, p]),
+    );
+    const enrollments = (rawEnrollments ?? []).map((e: any) => ({
+      ...e,
+      profiles: activityProfileMap[e.user_id] ?? null,
+    }));
+    const completions = (rawCompletions ?? []).map((e: any) => ({
+      ...e,
+      profiles: activityProfileMap[e.user_id] ?? null,
+    }));
 
     // Get recent placements
     const { data: placements } = await supabase
@@ -56,33 +69,33 @@ async function _GET(request: Request) {
     // Combine and format activities
     const activities = [];
 
-    enrollments?.forEach(e => {
+    enrollments?.forEach((e) => {
       activities.push({
         id: `enroll-${e.id}`,
         type: 'enrollment',
         message: `${e.profiles?.full_name || 'Student'} enrolled in ${(e.programs as any)?.title || (e.programs as any)?.name || 'program'}`,
         timestamp: e.enrolled_at,
-        priority: 'low'
+        priority: 'low',
       });
     });
 
-    completions?.forEach(c => {
+    completions?.forEach((c) => {
       activities.push({
         id: `complete-${c.id}`,
         type: 'completion',
         message: `${c.profiles?.full_name || 'Student'} completed ${(c.programs as any)?.title || (c.programs as any)?.name || 'program'}`,
         timestamp: c.completion_date,
-        priority: 'medium'
+        priority: 'medium',
       });
     });
 
-    placements?.forEach(p => {
+    placements?.forEach((p) => {
       activities.push({
         id: `placement-${p.id}`,
         type: 'placement',
         message: `${p.wioa_participants?.first_name || 'Participant'} ${p.wioa_participants?.last_name || ''} placed in employment`,
         timestamp: p.exit_date,
-        priority: 'high'
+        priority: 'high',
       });
     });
 
@@ -90,12 +103,9 @@ async function _GET(request: Request) {
     activities.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
 
     return NextResponse.json(activities.slice(0, 20));
-  } catch (error) { 
+  } catch (error) {
     logger.error('Error fetching recent activity:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch recent activity' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to fetch recent activity' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/reporting/recent-activity', _GET);

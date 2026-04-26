@@ -16,7 +16,9 @@ export const metadata: Metadata = {
  */
 export default async function DashboardRouterPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     redirect('/login?redirect=/dashboard');
@@ -32,8 +34,18 @@ export default async function DashboardRouterPage() {
 
   // Students who haven't completed onboarding go there first — always.
   // Admins and staff bypass onboarding.
-  const bypassOnboarding = ['admin', 'super_admin', 'org_admin', 'staff', 'instructor',
-    'mentor', 'case_manager', 'creator', 'vita_staff', 'supersonic_staff'].includes(role);
+  const bypassOnboarding = [
+    'admin',
+    'super_admin',
+    'org_admin',
+    'staff',
+    'instructor',
+    'mentor',
+    'case_manager',
+    'creator',
+    'vita_staff',
+    'supersonic_staff',
+  ].includes(role);
 
   if (!bypassOnboarding && !profile?.onboarding_completed) {
     redirect('/onboarding/learner');

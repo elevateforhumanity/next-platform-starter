@@ -7,19 +7,23 @@ This directory contains worker scripts that automate various deployment and clea
 ## Available Scripts
 
 ### `get-supabase-credentials.sh`
+
 **Interactive Supabase setup**
 
 **What it does:**
+
 - Guides you through Supabase account creation
 - Helps you get project credentials
 - Updates .env.local with values
 
 **Usage:**
+
 ```bash
 ./scripts/workers/get-supabase-credentials.sh
 ```
 
 **What you need:**
+
 - Supabase account (or will create one)
 - Project URL
 - Anon key
@@ -28,20 +32,24 @@ This directory contains worker scripts that automate various deployment and clea
 ---
 
 ### `get-cloudflare-credentials.sh`
+
 **Interactive Cloudflare setup (optional)**
 
 **What it does:**
+
 - Guides you through Cloudflare account setup
 - Helps configure Stream (video hosting)
 - Helps configure R2 (object storage)
 - Updates .env.local with values
 
 **Usage:**
+
 ```bash
 ./scripts/workers/get-cloudflare-credentials.sh
 ```
 
 **What you need:**
+
 - Cloudflare account (optional)
 - Account ID
 - API token
@@ -50,13 +58,16 @@ This directory contains worker scripts that automate various deployment and clea
 ---
 
 ### `cleanup-cloudflare-elevateforhumanity.sh`
+
 **Cloudflare cleanup script**
 
 **What it does:**
+
 - Cleans up Cloudflare resources
 - Removes old configurations
 
 **Usage:**
+
 ```bash
 ./scripts/workers/cleanup-cloudflare-elevateforhumanity.sh
 ```
@@ -64,13 +75,16 @@ This directory contains worker scripts that automate various deployment and clea
 ---
 
 ### `remove-elevateforhumanity-from-cloudflare.mjs`
+
 **Node.js Cloudflare removal script**
 
 **What it does:**
+
 - Programmatically removes resources from Cloudflare
 - Uses Cloudflare API
 
 **Usage:**
+
 ```bash
 node scripts/workers/remove-elevateforhumanity-from-cloudflare.mjs
 ```
@@ -82,6 +96,7 @@ node scripts/workers/remove-elevateforhumanity-from-cloudflare.mjs
 This project deploys to **Netlify**. See `netlify.toml` for configuration.
 
 ### Deploy to Netlify:
+
 ```bash
 # Install Netlify CLI
 npm install -g netlify-cli
@@ -98,6 +113,7 @@ netlify deploy --prod
 ## Security Notes
 
 ### Environment Variables
+
 - **Never commit** `.env.local` to git
 - Contains sensitive credentials
 - Use `.env.example` for templates
@@ -108,10 +124,12 @@ netlify deploy --prod
 ## Output Files
 
 ### Created by Scripts:
+
 - `.env.local` - Local environment variables
 - `.env.cloudflare` - Cloudflare-specific vars
 
 ### Logs:
+
 - `.implementation-logs/` - Implementation logs
 - `.elevate-logs/` - Autopilot logs
 

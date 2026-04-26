@@ -10,15 +10,16 @@
 
 **Goal:** Confirm the system is actually being used as intended.
 
-| Criteria | Y/N |
-|----------|-----|
-| Programs launched as planned (no scope rollback) | |
-| Students successfully enrolled without staff intervention | |
-| Students followed system-directed "next actions" | |
-| No parallel spreadsheets or shadow processes created | |
-| Staff log in to approve/review, not to track or chase | |
+| Criteria                                                  | Y/N |
+| --------------------------------------------------------- | --- |
+| Programs launched as planned (no scope rollback)          |     |
+| Students successfully enrolled without staff intervention |     |
+| Students followed system-directed "next actions"          |     |
+| No parallel spreadsheets or shadow processes created      |     |
+| Staff log in to approve/review, not to track or chase     |     |
 
 **Interpretation:**
+
 - All YES → proceed
 - Any NO → diagnose immediately (this predicts churn if ignored)
 
@@ -28,15 +29,16 @@
 
 **Goal:** Prove reduced staff burden and fewer exceptions.
 
-| Criteria | Y/N |
-|----------|-----|
-| Document uploads triggered automatic staff notifications | |
-| Average document review time decreased vs prior process | |
-| Certificates issued automatically on completion | |
-| No manual certificate issuance required in normal flow | |
-| Partners did not require follow-up emails to act | |
+| Criteria                                                 | Y/N |
+| -------------------------------------------------------- | --- |
+| Document uploads triggered automatic staff notifications |     |
+| Average document review time decreased vs prior process  |     |
+| Certificates issued automatically on completion          |     |
+| No manual certificate issuance required in normal flow   |     |
+| Partners did not require follow-up emails to act         |     |
 
 **Key question you ask (verbatim):**
+
 > "What stopped requiring human follow-up after launch?"
 
 **That answer is your ROI narrative.**
@@ -47,15 +49,16 @@
 
 **Goal:** Confirm audit and compliance confidence.
 
-| Criteria | Y/N |
-|----------|-----|
-| Enrollment, completion, and credentialing are clearly distinct | |
-| Reports can be reproduced without reconciliation | |
-| No disputes about "who completed what and when" | |
-| Leadership expresses confidence in system outputs | |
-| No emergency process overrides were required | |
+| Criteria                                                       | Y/N |
+| -------------------------------------------------------------- | --- |
+| Enrollment, completion, and credentialing are clearly distinct |     |
+| Reports can be reproduced without reconciliation               |     |
+| No disputes about "who completed what and when"                |     |
+| Leadership expresses confidence in system outputs              |     |
+| No emergency process overrides were required                   |     |
 
 **Interpretation:**
+
 - If leadership trusts the system, renewal is easy
 - If leadership asks for "backups," something is drifting
 
@@ -66,6 +69,7 @@
 **Goal:** Detect friction before complaints surface.
 
 **Review:**
+
 - Drop-off points in the lifecycle
 - Time spent in "pending" states
 - Support tickets related to confusion or delays
@@ -80,12 +84,12 @@ Silence here is good. Fewer questions = better system guidance.
 
 **Goal:** Validate external confidence.
 
-| Criteria | Y/N |
-|----------|-----|
-| Partners received automated notifications as expected | |
-| Partners did not request side channels (email/text) | |
-| Stakeholders reference the system as "the source of truth" | |
-| No partner escalations due to missed actions | |
+| Criteria                                                   | Y/N |
+| ---------------------------------------------------------- | --- |
+| Partners received automated notifications as expected      |     |
+| Partners did not request side channels (email/text)        |     |
+| Stakeholders reference the system as "the source of truth" |     |
+| No partner escalations due to missed actions               |     |
 
 **If partners trust the system, expansion is unlocked.**
 
@@ -95,13 +99,13 @@ Silence here is good. Fewer questions = better system guidance.
 
 **Goal:** Identify natural next steps, not forced upsell.
 
-| Signal | Yes / Not Yet |
-|--------|---------------|
-| Additional programs ready to onboard | |
-| Additional learner groups identified | |
-| New partners asking to be included | |
-| Interest in advanced reporting or outcomes tracking | |
-| Internal teams asking "can we use this for X?" | |
+| Signal                                              | Yes / Not Yet |
+| --------------------------------------------------- | ------------- |
+| Additional programs ready to onboard                |               |
+| Additional learner groups identified                |               |
+| New partners asking to be included                  |               |
+| Interest in advanced reporting or outcomes tracking |               |
+| Internal teams asking "can we use this for X?"      |               |
 
 **Rule:** Expansion should be pulled by demand, not pushed by sales.
 
@@ -113,7 +117,7 @@ Silence here is good. Fewer questions = better system guidance.
 
 > "If this system disappeared tomorrow, what would break?"
 
-*Let them answer.*
+_Let them answer._
 
 **Then say:**
 
@@ -125,11 +129,11 @@ No pricing discussion yet. Just alignment.
 
 ## How You Score Success (Internal)
 
-| Status | Criteria | Action |
-|--------|----------|--------|
-| **Green** | Operational efficiency + governance confidence + expansion signals | Renew + Expand |
-| **Yellow** | Adoption solid, but scope discipline slipped | Renew + Stabilize |
-| **Red** | Manual workarounds reappearing, unclear ownership, low trust | Intervene |
+| Status     | Criteria                                                           | Action            |
+| ---------- | ------------------------------------------------------------------ | ----------------- |
+| **Green**  | Operational efficiency + governance confidence + expansion signals | Renew + Expand    |
+| **Yellow** | Adoption solid, but scope discipline slipped                       | Renew + Stabilize |
+| **Red**    | Manual workarounds reappearing, unclear ownership, low trust       | Intervene         |
 
 ---
 

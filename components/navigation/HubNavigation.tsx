@@ -33,12 +33,48 @@ const DEFAULT_NAVIGATION: NavCategory[] = [
     slug: 'businesses',
     order_index: 1,
     items: [
-      { id: '1', name: 'Supersonic Fast Cash', href: 'https://www.supersonicfastermoney.com', description: 'Tax preparation & financial services', order_index: 1 },
-      { id: '2', name: 'Kingdom Konnect', href: '/kingdom-konnect', description: 'Faith-based community services', order_index: 2 },
-      { id: '3', name: 'Serene Comfort Care', href: '/serene-comfort-care', description: 'Professional home care', order_index: 3 },
-      { id: '4', name: 'Urban Build Crew', href: '/urban-build-crew', description: 'Construction & building services', order_index: 4 },
-      { id: '5', name: 'Selfish Inc', href: '/selfish-inc', description: 'Business services', order_index: 5 },
-      { id: '6', name: 'Rise Foundation', href: '/rise-foundation', description: 'Nonprofit foundation', order_index: 6 },
+      {
+        id: '1',
+        name: 'Supersonic Fast Cash',
+        href: 'https://www.supersonicfastermoney.com',
+        description: 'Tax preparation & financial services',
+        order_index: 1,
+      },
+      {
+        id: '2',
+        name: 'Kingdom Konnect',
+        href: '/kingdom-konnect',
+        description: 'Faith-based community services',
+        order_index: 2,
+      },
+      {
+        id: '3',
+        name: 'Serene Comfort Care',
+        href: '/serene-comfort-care',
+        description: 'Professional home care',
+        order_index: 3,
+      },
+      {
+        id: '4',
+        name: 'Urban Build Crew',
+        href: '/urban-build-crew',
+        description: 'Construction & building services',
+        order_index: 4,
+      },
+      {
+        id: '5',
+        name: 'Selfish Inc',
+        href: '/selfish-inc',
+        description: 'Business services',
+        order_index: 5,
+      },
+      {
+        id: '6',
+        name: 'Rise Foundation',
+        href: '/rise-foundation',
+        description: 'Nonprofit foundation',
+        order_index: 6,
+      },
     ],
   },
   {
@@ -47,11 +83,41 @@ const DEFAULT_NAVIGATION: NavCategory[] = [
     slug: 'training',
     order_index: 2,
     items: [
-      { id: '7', name: 'Programs', href: '/programs', description: '100+ career training programs', order_index: 1 },
-      { id: '8', name: 'Courses', href: '/courses', description: 'Individual courses', order_index: 2 },
-      { id: '9', name: 'Apprenticeships', href: '/apprenticeships', description: 'Earn while you learn', order_index: 3 },
-      { id: '10', name: 'Pathways', href: '/pathways', description: 'Career pathways', order_index: 4 },
-      { id: '11', name: 'Certificates', href: '/certificates', description: 'Earn credentials', order_index: 5 },
+      {
+        id: '7',
+        name: 'Programs',
+        href: '/programs',
+        description: '100+ career training programs',
+        order_index: 1,
+      },
+      {
+        id: '8',
+        name: 'Courses',
+        href: '/courses',
+        description: 'Individual courses',
+        order_index: 2,
+      },
+      {
+        id: '9',
+        name: 'Apprenticeships',
+        href: '/apprenticeships',
+        description: 'Earn while you learn',
+        order_index: 3,
+      },
+      {
+        id: '10',
+        name: 'Pathways',
+        href: '/pathways',
+        description: 'Career pathways',
+        order_index: 4,
+      },
+      {
+        id: '11',
+        name: 'Certificates',
+        href: '/certificates',
+        description: 'Earn credentials',
+        order_index: 5,
+      },
     ],
   },
   {
@@ -60,14 +126,62 @@ const DEFAULT_NAVIGATION: NavCategory[] = [
     slug: 'services',
     order_index: 3,
     items: [
-      { id: '12', name: 'Career Services', href: '/career-services', description: 'Job placement & career support', order_index: 1 },
-      { id: '13', name: 'Career Courses', href: '/career-services/courses', description: 'Resume, interview & job search courses', order_index: 2 },
-      { id: '14', name: 'Marketplace', href: '/marketplace', description: 'Service marketplace', order_index: 3 },
-      { id: '15', name: 'Booking & Scheduling', href: '/booking', description: 'Book appointments & services', order_index: 4 },
-      { id: '16', name: 'Advising', href: '/advising', description: 'Academic advising', order_index: 5 },
-      { id: '17', name: 'Mentorship', href: '/mentorship', description: 'One-on-one mentoring', order_index: 6 },
-      { id: '18', name: 'Tax Services (VITA)', href: 'https://www.supersonicfastermoney.com/tax/rise-up-foundation', description: 'Free tax preparation', order_index: 7 },
-      { id: '19', name: 'Support', href: '/support', description: 'Get help & support', order_index: 8 },
+      {
+        id: '12',
+        name: 'Career Services',
+        href: '/career-services',
+        description: 'Job placement & career support',
+        order_index: 1,
+      },
+      {
+        id: '13',
+        name: 'Career Courses',
+        href: '/career-services/courses',
+        description: 'Resume, interview & job search courses',
+        order_index: 2,
+      },
+      {
+        id: '14',
+        name: 'Marketplace',
+        href: '/marketplace',
+        description: 'Service marketplace',
+        order_index: 3,
+      },
+      {
+        id: '15',
+        name: 'Booking & Scheduling',
+        href: '/booking',
+        description: 'Book appointments & services',
+        order_index: 4,
+      },
+      {
+        id: '16',
+        name: 'Advising',
+        href: '/advising',
+        description: 'Academic advising',
+        order_index: 5,
+      },
+      {
+        id: '17',
+        name: 'Mentorship',
+        href: '/mentorship',
+        description: 'One-on-one mentoring',
+        order_index: 6,
+      },
+      {
+        id: '18',
+        name: 'Tax Services (VITA)',
+        href: 'https://www.supersonicfastermoney.com/tax/rise-up-foundation',
+        description: 'Free tax preparation',
+        order_index: 7,
+      },
+      {
+        id: '19',
+        name: 'Support',
+        href: '/support',
+        description: 'Get help & support',
+        order_index: 8,
+      },
     ],
   },
   {
@@ -76,10 +190,34 @@ const DEFAULT_NAVIGATION: NavCategory[] = [
     slug: 'ai',
     order_index: 4,
     items: [
-      { id: '20', name: 'Tools', href: '/ai', description: 'Automated tools & services', order_index: 1 },
-      { id: '21', name: 'AI Chat', href: '/ai-chat', description: 'Chat with AI assistant', order_index: 2 },
-      { id: '22', name: 'AI Studio', href: '/ai-studio', description: 'Create content with AI', order_index: 3 },
-      { id: '23', name: 'AI Tutor', href: '/ai-tutor', description: 'Personal AI tutor', order_index: 4 },
+      {
+        id: '20',
+        name: 'Tools',
+        href: '/ai',
+        description: 'Automated tools & services',
+        order_index: 1,
+      },
+      {
+        id: '21',
+        name: 'AI Chat',
+        href: '/ai-chat',
+        description: 'Chat with AI assistant',
+        order_index: 2,
+      },
+      {
+        id: '22',
+        name: 'AI Studio',
+        href: '/ai-studio',
+        description: 'Create content with AI',
+        order_index: 3,
+      },
+      {
+        id: '23',
+        name: 'AI Tutor',
+        href: '/ai-tutor',
+        description: 'Personal AI tutor',
+        order_index: 4,
+      },
     ],
   },
   {
@@ -88,11 +226,41 @@ const DEFAULT_NAVIGATION: NavCategory[] = [
     slug: 'employers',
     order_index: 5,
     items: [
-      { id: '24', name: 'Hire Graduates', href: '/hire-graduates', description: 'Recruit trained talent', order_index: 1 },
-      { id: '25', name: 'OJT & Funding', href: '/ojt-and-funding', description: 'On-the-job training programs', order_index: 2 },
-      { id: '26', name: 'Industries', href: '/industries', description: 'Industry partnerships', order_index: 3 },
-      { id: '27', name: 'Workforce Partners', href: '/workforce-partners', description: 'Partner network', order_index: 4 },
-      { id: '28', name: 'Employer Portal', href: '/employer', description: 'Employer dashboard', order_index: 5 },
+      {
+        id: '24',
+        name: 'Hire Graduates',
+        href: '/hire-graduates',
+        description: 'Recruit trained talent',
+        order_index: 1,
+      },
+      {
+        id: '25',
+        name: 'OJT & Funding',
+        href: '/ojt-and-funding',
+        description: 'On-the-job training programs',
+        order_index: 2,
+      },
+      {
+        id: '26',
+        name: 'Industries',
+        href: '/industries',
+        description: 'Industry partnerships',
+        order_index: 3,
+      },
+      {
+        id: '27',
+        name: 'Workforce Partners',
+        href: '/workforce-partners',
+        description: 'Partner network',
+        order_index: 4,
+      },
+      {
+        id: '28',
+        name: 'Employer Portal',
+        href: '/employer',
+        description: 'Employer dashboard',
+        order_index: 5,
+      },
     ],
   },
   {
@@ -101,13 +269,49 @@ const DEFAULT_NAVIGATION: NavCategory[] = [
     slug: 'partnerships',
     order_index: 6,
     items: [
-      { id: '29', name: 'Partners', href: '/partners', description: 'Partner with us', order_index: 1 },
-      { id: '30', name: 'SNAP E&T', href: '/fssa/snap-et', description: 'SNAP Employment & Training', order_index: 2 },
-      { id: '31', name: 'FSSA / IMPACT Program', href: '/fssa/partnership-request', description: 'Family & Social Services', order_index: 3 },
-      { id: '32', name: 'WorkOne', href: '/workone-partner-packet', description: 'WorkOne partnership', order_index: 4 },
+      {
+        id: '29',
+        name: 'Partners',
+        href: '/partners',
+        description: 'Partner with us',
+        order_index: 1,
+      },
+      {
+        id: '30',
+        name: 'SNAP E&T',
+        href: '/fssa/snap-et',
+        description: 'SNAP Employment & Training',
+        order_index: 2,
+      },
+      {
+        id: '31',
+        name: 'FSSA / IMPACT Program',
+        href: '/fssa/partnership-request',
+        description: 'Family & Social Services',
+        order_index: 3,
+      },
+      {
+        id: '32',
+        name: 'WorkOne',
+        href: '/workone-partner-packet',
+        description: 'WorkOne partnership',
+        order_index: 4,
+      },
       { id: '33', name: 'JRI', href: '/jri', description: 'Job Ready Indy', order_index: 5 },
-      { id: '34', name: 'Franchise', href: '/franchise', description: 'Franchise opportunities', order_index: 6 },
-      { id: '35', name: 'White Label', href: '/white-label', description: 'White-label licensing', order_index: 7 },
+      {
+        id: '34',
+        name: 'Franchise',
+        href: '/franchise',
+        description: 'Franchise opportunities',
+        order_index: 6,
+      },
+      {
+        id: '35',
+        name: 'White Label',
+        href: '/white-label',
+        description: 'White-label licensing',
+        order_index: 7,
+      },
     ],
   },
   {
@@ -116,12 +320,36 @@ const DEFAULT_NAVIGATION: NavCategory[] = [
     slug: 'resources',
     order_index: 7,
     items: [
-      { id: '36', name: 'Support Services', href: '/support', description: 'Barrier removal & assistance', order_index: 1 },
+      {
+        id: '36',
+        name: 'Support Services',
+        href: '/support',
+        description: 'Barrier removal & assistance',
+        order_index: 1,
+      },
       { id: '37', name: 'Help Center', href: '/help', description: 'Get support', order_index: 2 },
-      { id: '38', name: 'Documentation', href: '/docs', description: 'Platform documentation', order_index: 3 },
+      {
+        id: '38',
+        name: 'Documentation',
+        href: '/docs',
+        description: 'Platform documentation',
+        order_index: 3,
+      },
       { id: '39', name: 'Forms', href: '/forms', description: 'Access forms', order_index: 4 },
-      { id: '40', name: 'Grants & Funding', href: '/grants', description: 'Financial assistance', order_index: 5 },
-      { id: '41', name: 'FAQ', href: '/faq', description: 'Frequently asked questions', order_index: 6 },
+      {
+        id: '40',
+        name: 'Grants & Funding',
+        href: '/grants',
+        description: 'Financial assistance',
+        order_index: 5,
+      },
+      {
+        id: '41',
+        name: 'FAQ',
+        href: '/faq',
+        description: 'Frequently asked questions',
+        order_index: 6,
+      },
       { id: '42', name: 'Contact', href: '/contact', description: 'Get in touch', order_index: 7 },
       { id: '43', name: 'About', href: '/about', description: 'Learn about us', order_index: 8 },
     ],
@@ -130,7 +358,9 @@ const DEFAULT_NAVIGATION: NavCategory[] = [
 
 export function HubNavigation({ initialCategories }: Props) {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [categories, setCategories] = useState<NavCategory[]>(initialCategories || DEFAULT_NAVIGATION);
+  const [categories, setCategories] = useState<NavCategory[]>(
+    initialCategories || DEFAULT_NAVIGATION,
+  );
   const [loading, setLoading] = useState(!initialCategories);
   const [user, setUser] = useState<any>(null);
 
@@ -149,7 +379,8 @@ export function HubNavigation({ initialCategories }: Props) {
       try {
         const { data: navCategories, error } = await supabase
           .from('navigation_categories')
-          .select(`
+          .select(
+            `
             id,
             name,
             slug,
@@ -162,7 +393,8 @@ export function HubNavigation({ initialCategories }: Props) {
               icon,
               order_index
             )
-          `)
+          `,
+          )
           .eq('is_active', true)
           .order('order_index', { ascending: true });
 
@@ -172,7 +404,9 @@ export function HubNavigation({ initialCategories }: Props) {
             name: cat.name,
             slug: cat.slug,
             order_index: cat.order_index,
-            items: (cat.navigation_items || []).sort((a: NavItem, b: NavItem) => a.order_index - b.order_index),
+            items: (cat.navigation_items || []).sort(
+              (a: NavItem, b: NavItem) => a.order_index - b.order_index,
+            ),
           }));
           setCategories(formattedCategories);
         }
@@ -187,7 +421,9 @@ export function HubNavigation({ initialCategories }: Props) {
     fetchNavigation();
 
     // Subscribe to auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event, session) => {
       setUser(session?.user || null);
     });
 
@@ -220,22 +456,22 @@ export function HubNavigation({ initialCategories }: Props) {
 
             <div className="flex items-center gap-3 ml-4">
               {user ? (
-                <Link 
-                  href="/dashboard" 
+                <Link
+                  href="/dashboard"
                   className="px-4 py-2 text-brand-blue-600 hover:bg-brand-blue-50 rounded-lg font-medium"
                 >
                   Dashboard
                 </Link>
               ) : (
-                <Link 
-                  href="/login" 
+                <Link
+                  href="/login"
                   className="px-4 py-2 text-slate-700 hover:bg-gray-50 rounded-lg font-medium"
                 >
                   Sign In
                 </Link>
               )}
-              <Link 
-                href="/apply" 
+              <Link
+                href="/apply"
                 className="px-4 py-2 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700 font-medium"
               >
                 Get Started
@@ -266,10 +502,10 @@ export function HubNavigation({ initialCategories }: Props) {
               </div>
             ) : (
               categories.map((category) => (
-                <MobileSection 
-                  key={category.id} 
-                  title={category.name} 
-                  items={category.items} 
+                <MobileSection
+                  key={category.id}
+                  title={category.name}
+                  items={category.items}
                   onItemClick={closeMobileMenu}
                 />
               ))
@@ -340,13 +576,13 @@ function NavDropdown({ title, items }: { title: string; items: NavItem[] }) {
   );
 }
 
-function MobileSection({ 
-  title, 
-  items, 
-  onItemClick 
-}: { 
-  title: string; 
-  items: NavItem[]; 
+function MobileSection({
+  title,
+  items,
+  onItemClick,
+}: {
+  title: string;
+  items: NavItem[];
   onItemClick: () => void;
 }) {
   const [open, setOpen] = useState(false);

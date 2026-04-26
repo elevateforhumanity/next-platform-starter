@@ -98,5 +98,5 @@ export default tseslint.config(
       'lib/dynamic-imports.ts',
       'lib/ocr/**',
     ],
-  }
+  },
 );

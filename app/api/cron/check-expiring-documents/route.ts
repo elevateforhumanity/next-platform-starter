@@ -31,19 +31,24 @@ async function _GET(request: NextRequest) {
       .gte('expiration_date', today.toISOString().split('T')[0]);
 
     // Hydrate profiles separately (documents.user_id has no FK to profiles)
-    const expDocUserIds = [...new Set((rawExpiringDocs ?? []).map((d: any) => d.user_id).filter(Boolean))];
+    const expDocUserIds = [
+      ...new Set((rawExpiringDocs ?? []).map((d: any) => d.user_id).filter(Boolean)),
+    ];
     const { data: expDocProfiles } = expDocUserIds.length
       ? await supabase.from('profiles').select('id, full_name, email').in('id', expDocUserIds)
       : { data: [] };
     const expDocProfileMap = Object.fromEntries((expDocProfiles ?? []).map((p: any) => [p.id, p]));
-    const expiringDocs = (rawExpiringDocs ?? []).map((d: any) => ({ ...d, profiles: expDocProfileMap[d.user_id] ?? null }));
+    const expiringDocs = (rawExpiringDocs ?? []).map((d: any) => ({
+      ...d,
+      profiles: expDocProfileMap[d.user_id] ?? null,
+    }));
 
     const notifications = [];
 
     for (const doc of expiringDocs || []) {
       const expirationDate = new Date(doc.expiration_date);
       const daysUntilExpiration = Math.ceil(
-        (expirationDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)
+        (expirationDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24),
       );
 
       if ([30, 15, 7, 1].includes(daysUntilExpiration)) {
@@ -65,10 +70,7 @@ async function _GET(request: NextRequest) {
       }
 
       if (daysUntilExpiration <= 0) {
-        await supabase
-          .from('documents')
-          .update({ status: 'expired' })
-          .eq('id', doc.id);
+        await supabase.from('documents').update({ status: 'expired' }).eq('id', doc.id);
       }
     }
 
@@ -79,10 +81,7 @@ async function _GET(request: NextRequest) {
       notifications,
     });
   } catch (error) {
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 export const GET = withRuntime(withApiAudit('/api/cron/check-expiring-documents', _GET));

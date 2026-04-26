@@ -8,14 +8,14 @@ export interface ScormPackage {
 
 export const scormPackages: ScormPackage[] = [
   {
-    id: "jri-core",
-    title: "Job Ready Indy – Core Work Readiness (SCORM 2004)",
-    partner: "JRI / EmployIndy",
-    launchUrl: process.env.NEXT_PUBLIC_SCORM_CDN_URL 
+    id: 'jri-core',
+    title: 'Job Ready Indy – Core Work Readiness (SCORM 2004)',
+    partner: 'JRI / EmployIndy',
+    launchUrl: process.env.NEXT_PUBLIC_SCORM_CDN_URL
       ? `${process.env.NEXT_PUBLIC_SCORM_CDN_URL}/jri-core/index.html`
-      : "/scorm/jri-core/index.html",
+      : '/scorm/jri-core/index.html',
     notes:
-      "Served from Cloudflare R2 via worker (scorm.www.elevateforhumanity.org) or fallback to local public/scorm/",
+      'Served from Cloudflare R2 via worker (scorm.www.elevateforhumanity.org) or fallback to local public/scorm/',
   },
 ];
 

@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import { Upload, FileText, AlertCircle, X } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 
-
 interface UploadedFile {
   name: string;
   type: string;
@@ -25,9 +24,11 @@ export default function BarberDocumentsPage() {
   useEffect(() => {
     async function getEnrollment() {
       const supabase = createClient();
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       if (!user) return;
-      
+
       const { data: enrollment } = await supabase
         .from('program_enrollments')
         .select('id')
@@ -35,7 +36,7 @@ export default function BarberDocumentsPage() {
         .order('created_at', { ascending: false })
         .limit(1)
         .single();
-      
+
       if (enrollment) {
         setEnrollmentId(enrollment.id);
       }
@@ -47,7 +48,7 @@ export default function BarberDocumentsPage() {
     {
       id: 'government-id',
       name: 'Government-Issued ID',
-      description: 'Driver\'s license, state ID, or passport',
+      description: "Driver's license, state ID, or passport",
       required: true,
     },
   ];
@@ -69,7 +70,7 @@ export default function BarberDocumentsPage() {
 
   const handleFileUpload = async (
     e: React.ChangeEvent<HTMLInputElement>,
-    docType: 'government-id' | 'additional'
+    docType: 'government-id' | 'additional',
   ) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -108,8 +109,10 @@ export default function BarberDocumentsPage() {
         } else {
           setAdditionalDocs((prev) =>
             prev.map((doc) =>
-              doc.name === file.name ? { ...doc, status: 'complete', url: result.document?.file_url } : doc
-            )
+              doc.name === file.name
+                ? { ...doc, status: 'complete', url: result.document?.file_url }
+                : doc,
+            ),
           );
         }
       } else {
@@ -120,9 +123,7 @@ export default function BarberDocumentsPage() {
         setGovernmentId({ ...uploadedFile, status: 'error' });
       } else {
         setAdditionalDocs((prev) =>
-          prev.map((doc) =>
-            doc.name === file.name ? { ...doc, status: 'error' } : doc
-          )
+          prev.map((doc) => (doc.name === file.name ? { ...doc, status: 'error' } : doc)),
         );
       }
     }
@@ -200,7 +201,9 @@ export default function BarberDocumentsPage() {
                       <span className="text-sm text-brand-blue-600">Uploading...</span>
                     )}
                     {governmentId.status === 'error' && (
-                      <span className="text-sm text-red-600">Upload failed. Please try again or call (317) 314-3757.</span>
+                      <span className="text-sm text-red-600">
+                        Upload failed. Please try again or call (317) 314-3757.
+                      </span>
                     )}
                     {governmentId.status === 'complete' && (
                       <button

@@ -1,4 +1,3 @@
-
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { loadCaseFileSummaries } from '@/lib/case-file/loader';
@@ -23,7 +22,9 @@ function StatusBadge({ status }: { status: string }) {
   };
 
   return (
-    <span className={`px-2 py-0.5 rounded text-xs font-medium ${colors[status] || 'bg-white text-slate-700'}`}>
+    <span
+      className={`px-2 py-0.5 rounded text-xs font-medium ${colors[status] || 'bg-white text-slate-700'}`}
+    >
       {status.replace(/_/g, ' ').toUpperCase()}
     </span>
   );
@@ -79,19 +80,19 @@ export default async function CaseFilesListPage() {
           </div>
           <div className="bg-white rounded-xl border border-slate-200 p-4">
             <div className="text-2xl font-bold text-brand-green-600">
-              {cases.filter(c => c.caseStatus === 'active').length}
+              {cases.filter((c) => c.caseStatus === 'active').length}
             </div>
             <div className="text-slate-600 text-sm">Active</div>
           </div>
           <div className="bg-white rounded-xl border border-slate-200 p-4">
             <div className="text-2xl font-bold text-brand-blue-600">
-              {cases.filter(c => c.eligibilityStatus === 'eligible').length}
+              {cases.filter((c) => c.eligibilityStatus === 'eligible').length}
             </div>
             <div className="text-slate-600 text-sm">Eligible</div>
           </div>
           <div className="bg-white rounded-xl border border-slate-200 p-4">
             <div className="text-2xl font-bold text-amber-600">
-              {cases.filter(c => c.eligibilityStatus === 'pending').length}
+              {cases.filter((c) => c.eligibilityStatus === 'pending').length}
             </div>
             <div className="text-slate-600 text-sm">Pending Review</div>
           </div>
@@ -103,12 +104,24 @@ export default async function CaseFilesListPage() {
             <table className="w-full">
               <thead>
                 <tr className="bg-white border-b border-slate-200">
-                  <th className="text-left py-3 px-4 font-semibold text-slate-900 text-sm">Case #</th>
-                  <th className="text-left py-3 px-4 font-semibold text-slate-900 text-sm">Participant</th>
-                  <th className="text-left py-3 px-4 font-semibold text-slate-900 text-sm">Program</th>
-                  <th className="text-left py-3 px-4 font-semibold text-slate-900 text-sm">Eligibility</th>
-                  <th className="text-left py-3 px-4 font-semibold text-slate-900 text-sm">Status</th>
-                  <th className="text-left py-3 px-4 font-semibold text-slate-900 text-sm">Last Activity</th>
+                  <th className="text-left py-3 px-4 font-semibold text-slate-900 text-sm">
+                    Case #
+                  </th>
+                  <th className="text-left py-3 px-4 font-semibold text-slate-900 text-sm">
+                    Participant
+                  </th>
+                  <th className="text-left py-3 px-4 font-semibold text-slate-900 text-sm">
+                    Program
+                  </th>
+                  <th className="text-left py-3 px-4 font-semibold text-slate-900 text-sm">
+                    Eligibility
+                  </th>
+                  <th className="text-left py-3 px-4 font-semibold text-slate-900 text-sm">
+                    Status
+                  </th>
+                  <th className="text-left py-3 px-4 font-semibold text-slate-900 text-sm">
+                    Last Activity
+                  </th>
                   <th className="text-left py-3 px-4"></th>
                 </tr>
               </thead>
@@ -120,10 +133,12 @@ export default async function CaseFilesListPage() {
                     </td>
                   </tr>
                 ) : (
-                  cases.map(caseFile => (
+                  cases.map((caseFile) => (
                     <tr key={caseFile.id} className="hover:bg-white">
                       <td className="py-3 px-4">
-                        <span className="font-mono text-sm text-slate-600">{caseFile.caseNumber}</span>
+                        <span className="font-mono text-sm text-slate-600">
+                          {caseFile.caseNumber}
+                        </span>
                       </td>
                       <td className="py-3 px-4">
                         <div className="flex items-center gap-3">
@@ -131,7 +146,9 @@ export default async function CaseFilesListPage() {
                             <User className="w-4 h-4 text-slate-500" />
                           </div>
                           <div>
-                            <div className="font-medium text-slate-900">{caseFile.participantName}</div>
+                            <div className="font-medium text-slate-900">
+                              {caseFile.participantName}
+                            </div>
                             <div className="text-slate-500 text-sm">{caseFile.email}</div>
                           </div>
                         </div>

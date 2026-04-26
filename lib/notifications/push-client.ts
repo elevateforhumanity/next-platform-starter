@@ -20,11 +20,7 @@ export class PushNotificationClient {
    * Check if push notifications are supported
    */
   isSupported(): boolean {
-    return (
-      'Notification' in window &&
-      'serviceWorker' in navigator &&
-      'PushManager' in window
-    );
+    return 'Notification' in window && 'serviceWorker' in navigator && 'PushManager' in window;
   }
   /**
    * Get current permission state
@@ -74,9 +70,7 @@ export class PushNotificationClient {
     // Subscribe to push notifications
     const subscription = await this.registration.pushManager.subscribe({
       userVisibleOnly: true,
-      applicationServerKey: this.urlBase64ToUint8Array(
-        VAPID_PUBLIC_KEY
-      ) as BufferSource,
+      applicationServerKey: this.urlBase64ToUint8Array(VAPID_PUBLIC_KEY) as BufferSource,
     });
     // Send subscription to server
     await this.saveSubscription(subscription);
@@ -90,8 +84,7 @@ export class PushNotificationClient {
       return false;
     }
     try {
-      const subscription =
-        await this.registration.pushManager.getSubscription();
+      const subscription = await this.registration.pushManager.getSubscription();
       if (!subscription) {
         return true;
       }
@@ -102,7 +95,8 @@ export class PushNotificationClient {
         await this.removeSubscription(subscription);
       }
       return success;
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
       return false;
     }
@@ -116,7 +110,8 @@ export class PushNotificationClient {
     }
     try {
       return await this.registration.pushManager.getSubscription();
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
       return null;
     }
@@ -124,9 +119,7 @@ export class PushNotificationClient {
   /**
    * Save subscription to server
    */
-  private async saveSubscription(
-    subscription: PushSubscription
-  ): Promise<void> {
+  private async saveSubscription(subscription: PushSubscription): Promise<void> {
     const response = await fetch('/api/notifications/subscribe', {
       method: 'POST',
       headers: {
@@ -141,9 +134,7 @@ export class PushNotificationClient {
   /**
    * Remove subscription from server
    */
-  private async removeSubscription(
-    subscription: PushSubscription
-  ): Promise<void> {
+  private async removeSubscription(subscription: PushSubscription): Promise<void> {
     const response = await fetch('/api/notifications/unsubscribe', {
       method: 'POST',
       headers: {
@@ -160,9 +151,7 @@ export class PushNotificationClient {
    */
   private urlBase64ToUint8Array(base64String: string): BufferSource {
     const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
-    const base64 = (base64String + padding)
-      .replace(/-/g, '+')
-      .replace(/_/g, '/');
+    const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
     const rawData = window.atob(base64);
     const outputArray = new Uint8Array(rawData.length);
     for (let i = 0; i < rawData.length; ++i) {
@@ -173,10 +162,7 @@ export class PushNotificationClient {
   /**
    * Show local notification (for testing)
    */
-  async showNotification(
-    title: string,
-    options?: NotificationOptions
-  ): Promise<void> {
+  async showNotification(title: string, options?: NotificationOptions): Promise<void> {
     if (!this.registration) {
       throw new Error('Service worker not registered');
     }

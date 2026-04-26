@@ -15,11 +15,11 @@ function getOpenAIClient() {
 }
 
 async function _POST(req: Request) {
-    const rateLimited = await applyRateLimit(req, 'api');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(req, 'api');
+  if (rateLimited) return rateLimited;
 
-    const auth = await requireAuth(req);
-    if (auth.error) return auth.error;
+  const auth = await requireAuth(req);
+  if (auth.error) return auth.error;
 
   const openai = getOpenAIClient();
   try {
@@ -54,7 +54,8 @@ Write the complete script now:`;
       messages: [
         {
           role: 'system',
-          content: 'You are an expert career coach and instructional designer. You create engaging, practical video scripts that help people advance their careers.',
+          content:
+            'You are an expert career coach and instructional designer. You create engaging, practical video scripts that help people advance their careers.',
         },
         {
           role: 'user',
@@ -70,10 +71,7 @@ Write the complete script now:`;
     return NextResponse.json({ script });
   } catch (error: any) {
     logger.error('Script generation error:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/ai/generate-script', _POST);

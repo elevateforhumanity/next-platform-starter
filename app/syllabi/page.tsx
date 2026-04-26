@@ -1,18 +1,11 @@
 import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
-import {
-  BookOpen,
-  Download,
-  Target,
-  Clock,
-  Award,
-CheckCircle, } from 'lucide-react';
+import { BookOpen, Download, Target, Clock, Award, CheckCircle } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Course Syllabi | Elevate for Humanity',
-  description:
-    'View detailed course syllabi with learning outcomes, assessments, and requirements',
+  description: 'View detailed course syllabi with learning outcomes, assessments, and requirements',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/syllabi',
   },
@@ -57,8 +50,7 @@ const syllabi = [
         title: 'Sanitation & Safety',
         hours: 60,
         credits: 2,
-        description:
-          'Comprehensive training in sanitation, sterilization, and safety protocols.',
+        description: 'Comprehensive training in sanitation, sterilization, and safety protocols.',
         learningOutcomes: [
           'Apply OSHA safety standards in barbering environment',
           'Demonstrate proper sanitation of tools and workspace',
@@ -90,8 +82,7 @@ const syllabi = [
         title: 'Introduction to Healthcare',
         hours: 30,
         credits: 1,
-        description:
-          'Overview of healthcare system, patient rights, and CNA role.',
+        description: 'Overview of healthcare system, patient rights, and CNA role.',
         learningOutcomes: [
           'Explain the role and responsibilities of a CNA',
           'Describe patient rights under HIPAA and other regulations',
@@ -179,8 +170,7 @@ const syllabi = [
         title: 'HVAC Fundamentals',
         hours: 60,
         credits: 2,
-        description:
-          'Introduction to heating, ventilation, and air conditioning principles.',
+        description: 'Introduction to heating, ventilation, and air conditioning principles.',
         learningOutcomes: [
           'Explain basic thermodynamics and heat transfer principles',
           'Identify components of HVAC systems',
@@ -207,8 +197,7 @@ const syllabi = [
         title: 'Refrigeration Principles',
         hours: 60,
         credits: 2,
-        description:
-          'Study of refrigeration cycle, refrigerants, and system components.',
+        description: 'Study of refrigeration cycle, refrigerants, and system components.',
         learningOutcomes: [
           'Explain the refrigeration cycle and its components',
           'Identify different types of refrigerants and their properties',
@@ -234,8 +223,7 @@ const syllabi = [
         title: 'Troubleshooting & Repair',
         hours: 80,
         credits: 3,
-        description:
-          'Advanced diagnostic and repair techniques for HVAC systems.',
+        description: 'Advanced diagnostic and repair techniques for HVAC systems.',
         learningOutcomes: [
           'Systematically diagnose HVAC system failures',
           'Perform electrical troubleshooting on HVAC equipment',
@@ -270,8 +258,7 @@ const syllabi = [
         title: 'Tax Law Fundamentals',
         hours: 60,
         credits: 2,
-        description:
-          'Introduction to federal tax law and individual tax returns.',
+        description: 'Introduction to federal tax law and individual tax returns.',
         learningOutcomes: [
           'Explain the structure of the U.S. tax system',
           'Identify different types of income and their tax treatment',
@@ -327,8 +314,7 @@ const syllabi = [
         title: 'Ethics & Professional Standards',
         hours: 30,
         credits: 1,
-        description:
-          'Professional ethics, IRS regulations, and tax preparer responsibilities.',
+        description: 'Professional ethics, IRS regulations, and tax preparer responsibilities.',
         learningOutcomes: [
           'Apply IRS Circular 230 regulations',
           'Identify and avoid conflicts of interest',
@@ -343,11 +329,7 @@ const syllabi = [
           'Due diligence scenarios (20%)',
           'Professional conduct assessment (10%)',
         ],
-        requiredMaterials: [
-          'IRS Circular 230',
-          'Ethics handbook',
-          'Case study materials',
-        ],
+        requiredMaterials: ['IRS Circular 230', 'Ethics handbook', 'Case study materials'],
       },
     ],
   },
@@ -361,8 +343,7 @@ const syllabi = [
         title: 'CDL Regulations & Safety',
         hours: 30,
         credits: 1,
-        description:
-          'Federal and state regulations governing commercial driving.',
+        description: 'Federal and state regulations governing commercial driving.',
         learningOutcomes: [
           'Explain FMCSA regulations and compliance requirements',
           'Maintain accurate hours of service logs',
@@ -387,8 +368,7 @@ const syllabi = [
         title: 'Vehicle Inspection',
         hours: 30,
         credits: 1,
-        description:
-          'Pre-trip, en-route, and post-trip vehicle inspection procedures.',
+        description: 'Pre-trip, en-route, and post-trip vehicle inspection procedures.',
         learningOutcomes: [
           'Perform complete pre-trip inspection',
           'Identify vehicle defects and safety hazards',
@@ -414,8 +394,7 @@ const syllabi = [
         title: 'Road Driving Skills',
         hours: 60,
         credits: 3,
-        description:
-          'Behind-the-wheel training in commercial vehicle operation.',
+        description: 'Behind-the-wheel training in commercial vehicle operation.',
         learningOutcomes: [
           'Operate commercial vehicle safely in various conditions',
           'Execute proper shifting and speed management',
@@ -444,10 +423,10 @@ const syllabi = [
 export default function SyllabiPage() {
   return (
     <div className="min-h-screen bg-white">
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Syllabi" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Syllabi' }]} />
       </div>
-{/* Header */}
+      {/* Header */}
       <div className="bg-white border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-6 py-8">
           <div className="flex items-center gap-3 mb-2">
@@ -457,8 +436,7 @@ export default function SyllabiPage() {
             </h1>
           </div>
           <p className="text-lg text-black">
-            Detailed course information including learning outcomes,
-            assessments, and requirements
+            Detailed course information including learning outcomes, assessments, and requirements
           </p>
         </div>
       </div>
@@ -470,18 +448,15 @@ export default function SyllabiPage() {
           <div className="flex items-start gap-4">
             <Target className="w-6 h-6 text-brand-blue-600 flex-shrink-0 mt-1" />
             <div>
-              <h2 className="text-lg font-bold text-black mb-2">
-                About Learning Outcomes
-              </h2>
+              <h2 className="text-lg font-bold text-black mb-2">About Learning Outcomes</h2>
               <p className="text-black mb-2">
-                Each course includes specific, measurable learning outcomes that
-                define what you will be able to do upon successful completion.
-                These outcomes align with industry standards and certification
-                requirements.
+                Each course includes specific, measurable learning outcomes that define what you
+                will be able to do upon successful completion. These outcomes align with industry
+                standards and certification requirements.
               </p>
               <p className="text-black">
-                All syllabi are subject to updates to reflect current industry
-                practices and regulatory requirements.
+                All syllabi are subject to updates to reflect current industry practices and
+                regulatory requirements.
               </p>
             </div>
           </div>
@@ -490,15 +465,10 @@ export default function SyllabiPage() {
         {/* Programs */}
         <div className="space-y-12">
           {syllabi.map((program: any) => (
-            <div
-              key={program.slug}
-              className="bg-white rounded-xl shadow-sm overflow-hidden"
-            >
+            <div key={program.slug} className="bg-white rounded-xl shadow-sm overflow-hidden">
               {/* Program Header */}
               <div className="bg-brand-blue-700 text-white p-8">
-                <h2 className="text-2xl md:text-3xl font-bold mb-2">
-                  {program.program}
-                </h2>
+                <h2 className="text-2xl md:text-3xl font-bold mb-2">{program.program}</h2>
                 <div className="flex items-center gap-6 text-white">
                   <div className="flex items-center gap-2">
                     <Clock className="w-5 h-5" />
@@ -514,10 +484,7 @@ export default function SyllabiPage() {
               {/* Courses */}
               <div className="p-8 space-y-8">
                 {program.courses.map((course: any) => (
-                  <div
-                    key={course.code}
-                    className="border border-slate-200 rounded-lg p-6"
-                  >
+                  <div key={course.code} className="border border-slate-200 rounded-lg p-6">
                     {/* Course Header */}
                     <div className="flex items-start justify-between gap-4 mb-4">
                       <div className="flex-1">
@@ -529,9 +496,7 @@ export default function SyllabiPage() {
                             {course.title}
                           </h3>
                         </div>
-                        <p className="text-black mb-3">
-                          {course.description}
-                        </p>
+                        <p className="text-black mb-3">{course.description}</p>
                         <div className="flex items-center gap-4 text-sm text-black">
                           <span>{course.hours} hours</span>
                           <span>•</span>
@@ -553,13 +518,10 @@ export default function SyllabiPage() {
                     <div className="mb-6">
                       <div className="flex items-center gap-2 mb-3">
                         <Target className="w-5 h-5 text-brand-green-600" />
-                        <h4 className="font-bold text-black">
-                          Learning Outcomes
-                        </h4>
+                        <h4 className="font-bold text-black">Learning Outcomes</h4>
                       </div>
                       <p className="text-sm text-black mb-3">
-                        Upon successful completion of this course, students will
-                        be able to:
+                        Upon successful completion of this course, students will be able to:
                       </p>
                       <ul className="space-y-2">
                         {course.learningOutcomes.map((outcome, idx) => (
@@ -575,40 +537,26 @@ export default function SyllabiPage() {
                     <div className="mb-6">
                       <div className="flex items-center gap-2 mb-3">
                         <Award className="w-5 h-5 text-brand-blue-600" />
-                        <h4 className="font-bold text-black">
-                          Assessments & Grading
-                        </h4>
+                        <h4 className="font-bold text-black">Assessments & Grading</h4>
                       </div>
                       <ul className="space-y-2">
                         {course.assessments.map((assessment, idx) => (
-                          <li
-                            key={idx}
-                            className="flex items-start gap-3 text-black"
-                          >
+                          <li key={idx} className="flex items-start gap-3 text-black">
                             <span className="text-brand-blue-600 font-bold">•</span>
                             <span>{assessment}</span>
                           </li>
                         ))}
                       </ul>
-                      <p className="text-sm text-black mt-3">
-                        Minimum passing grade: 70% (C)
-                      </p>
+                      <p className="text-sm text-black mt-3">Minimum passing grade: 70% (C)</p>
                     </div>
 
                     {/* Required Materials */}
                     <div>
-                      <h4 className="font-bold text-black mb-3">
-                        Required Materials
-                      </h4>
+                      <h4 className="font-bold text-black mb-3">Required Materials</h4>
                       <ul className="space-y-2">
                         {course.requiredMaterials.map((material, idx) => (
-                          <li
-                            key={idx}
-                            className="flex items-start gap-3 text-black"
-                          >
-                            <span className="text-brand-blue-600 font-bold">
-                              •
-                            </span>
+                          <li key={idx} className="flex items-start gap-3 text-black">
+                            <span className="text-brand-blue-600 font-bold">•</span>
                             <span>{material}</span>
                           </li>
                         ))}
@@ -647,13 +595,10 @@ export default function SyllabiPage() {
 
         {/* Additional Info */}
         <div className="mt-12 bg-white rounded-xl shadow-sm p-8">
-          <h2 className="text-2xl font-bold text-black mb-4">
-            Accreditation & Standards
-          </h2>
+          <h2 className="text-2xl font-bold text-black mb-4">Accreditation & Standards</h2>
           <p className="text-black mb-4">
-            All course syllabi are developed in accordance with industry
-            standards and accreditation requirements. Learning outcomes are
-            aligned with:
+            All course syllabi are developed in accordance with industry standards and accreditation
+            requirements. Learning outcomes are aligned with:
           </p>
           <ul className="space-y-2 text-black">
             <li className="flex items-start gap-3">
@@ -677,12 +622,10 @@ export default function SyllabiPage() {
 
         {/* Contact */}
         <div className="mt-8 bg-brand-blue-50 rounded-xl p-8">
-          <h2 className="text-xl font-bold text-black mb-4">
-            Questions About Course Content?
-          </h2>
+          <h2 className="text-xl font-bold text-black mb-4">Questions About Course Content?</h2>
           <p className="text-black mb-4">
-            Contact our academic advising team for detailed information about
-            course requirements and learning outcomes.
+            Contact our academic advising team for detailed information about course requirements
+            and learning outcomes.
           </p>
           <div className="flex flex-wrap gap-4">
             <a

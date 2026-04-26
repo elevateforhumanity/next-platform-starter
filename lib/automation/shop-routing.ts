@@ -72,12 +72,7 @@ function getSupabaseAdmin() {
 /**
  * Calculate distance between two points using Haversine formula
  */
-function calculateDistance(
-  lat1: number,
-  lon1: number,
-  lat2: number,
-  lon2: number
-): number {
+function calculateDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
   const R = 3959; // Earth's radius in miles
   const dLat = (lat2 - lat1) * (Math.PI / 180);
   const dLon = (lon2 - lon1) * (Math.PI / 180);
@@ -94,10 +89,7 @@ function calculateDistance(
 /**
  * Calculate distance score (0-1, higher is better/closer)
  */
-function calculateDistanceScore(
-  distanceMiles: number,
-  maxDistance: number
-): number {
+function calculateDistanceScore(distanceMiles: number, maxDistance: number): number {
   if (distanceMiles <= 0) return 1;
   if (distanceMiles >= maxDistance) return 0;
   return 1 - distanceMiles / maxDistance;
@@ -106,10 +98,7 @@ function calculateDistanceScore(
 /**
  * Calculate capacity score (0-1, higher means more availability)
  */
-function calculateCapacityScore(
-  capacity: number,
-  currentApprentices: number
-): number {
+function calculateCapacityScore(capacity: number, currentApprentices: number): number {
   const available = capacity - currentApprentices;
   if (available <= 0) return 0;
   if (available >= 3) return 1;
@@ -119,50 +108,47 @@ function calculateCapacityScore(
 /**
  * Calculate specialty match score (0-1)
  */
-function calculateSpecialtyScore(
-  shopSpecialties: string[],
-  applicantInterests: string[]
-): number {
+function calculateSpecialtyScore(shopSpecialties: string[], applicantInterests: string[]): number {
   if (!applicantInterests || applicantInterests.length === 0) return 0.5;
   if (!shopSpecialties || shopSpecialties.length === 0) return 0.5;
-  
+
   const matches = applicantInterests.filter((interest) =>
     shopSpecialties.some(
       (specialty) =>
         specialty.toLowerCase().includes(interest.toLowerCase()) ||
-        interest.toLowerCase().includes(specialty.toLowerCase())
-    )
+        interest.toLowerCase().includes(specialty.toLowerCase()),
+    ),
   );
-  
+
   return matches.length / applicantInterests.length;
 }
 
 /**
  * Get routing recommendations for an application
  */
-export async function getRoutingRecommendations(
-  applicationId: string
-): Promise<RoutingResult> {
+export async function getRoutingRecommendations(applicationId: string): Promise<RoutingResult> {
   const supabase = getSupabaseAdmin();
   await setAuditContext(supabase, { systemActor: 'shop_routing' });
-  
+
   try {
     // 1. Get application details
     const { data: application, error: appError } = await supabase
       .from('applications')
-      .select(`
+      .select(
+        `
         *,
         user:profiles!applications_user_id_fkey(
           id, full_name, email
         )
-      `)
+      `,
+      )
       .eq('id', applicationId)
       .maybeSingle();
-    
+
     if (appError || !application) {
       return { success: false, recommendations: [], error: 'Application not found' };
     }
-    
+
     // 2. Get routing ruleset
     const { data: ruleset } = await supabase
       .from('automation_rulesets')
@@ -170,74 +156,71 @@ export async function getRoutingRecommendations(
       .eq('rule_type', 'shop_routing')
       .eq('is_active', true)
       .maybeSingle();
-    
+
     const rules = ruleset?.rules || {
       max_distance_miles: 25,
       min_capacity: 1,
       weights: { distance: 0.3, capacity: 0.2, specialty: 0.3, preference: 0.2 },
       auto_assign_threshold: 0.85,
     };
-    
+
     // 3. Get eligible shops
     const { data: shops, error: shopsError } = await supabase
       .from('shops')
       .select('*')
       .eq('active', true)
       .eq('mou_status', 'fully_executed');
-    
+
     if (shopsError || !shops || shops.length === 0) {
       return { success: false, recommendations: [], error: 'No eligible shops found' };
     }
-    
+
     // 4. Get applicant location (from application or profile)
     const applicantLat = application.latitude || application.user?.latitude;
     const applicantLon = application.longitude || application.user?.longitude;
     const applicantInterests = application.specialty_interest || [];
     const maxCommute = application.max_commute_miles || rules.max_distance_miles;
-    
+
     // 5. Score each shop
     const scores: RoutingScore[] = [];
-    
+
     for (const shop of shops) {
       const availableCapacity = (shop.capacity || 0) - (shop.current_apprentices || 0);
-      
+
       // Skip if no capacity
       if (availableCapacity < rules.min_capacity) continue;
-      
+
       // Skip shops without geocoded coordinates - they can't be distance-scored
       if (!shop.latitude || !shop.longitude) continue;
-      
+
       // Calculate distance
       let distanceMiles: number | undefined;
       let distanceScore = 0.5; // Default if no applicant location data
-      
+
       if (applicantLat && applicantLon) {
         distanceMiles = calculateDistance(
           applicantLat,
           applicantLon,
           shop.latitude,
-          shop.longitude
+          shop.longitude,
         );
         distanceScore = calculateDistanceScore(distanceMiles, maxCommute);
-        
+
         // Skip if too far
         if (distanceMiles > maxCommute) continue;
       }
-      
+
       // Calculate other scores
       const capacityScore = calculateCapacityScore(
         shop.capacity || 0,
-        shop.current_apprentices || 0
+        shop.current_apprentices || 0,
       );
-      
-      const specialtyScore = calculateSpecialtyScore(
-        shop.specialties || [],
-        applicantInterests
-      );
-      
+
+      const specialtyScore = calculateSpecialtyScore(shop.specialties || [], applicantInterests);
+
       // Preference score (could be based on applicant preferences matching shop attributes)
       const preferenceScore = 0.5; // Default, can be enhanced
-      
+
       // Calculate weighted total
       const weights = rules.weights;
       const totalScore =
@@ -245,7 +228,7 @@ export async function getRoutingRecommendations(
         capacityScore * weights.capacity +
         specialtyScore * weights.specialty +
         preferenceScore * weights.preference;
-      
+
       scores.push({
         shop_id: shop.id,
         shop_name: shop.name,
@@ -259,16 +242,20 @@ export async function getRoutingRecommendations(
         score_breakdown: {
           distance: { score: distanceScore, miles: distanceMiles, max: maxCommute },
           capacity: { score: capacityScore, available: availableCapacity, total: shop.capacity },
-          specialty: { score: specialtyScore, shop: shop.specialties, applicant: applicantInterests },
+          specialty: {
+            score: specialtyScore,
+            shop: shop.specialties,
+            applicant: applicantInterests,
+          },
           preference: { score: preferenceScore },
         },
       });
     }
-    
+
     // 6. Sort by score and take top 5
     scores.sort((a, b) => b.total_score - a.total_score);
     const recommendations = scores.slice(0, 5);
-    
+
     // 7. Store scores in database
     for (let i = 0; i < recommendations.length; i++) {
       const rec = recommendations[i];
@@ -285,20 +272,21 @@ export async function getRoutingRecommendations(
         status: 'recommended',
       });
     }
-    
+
     // 8. Create automated decision
     const topScore = recommendations[0]?.total_score || 0;
     const decision = topScore >= rules.auto_assign_threshold ? 'recommended' : 'needs_review';
-    
+
     const { data: decisionRecord } = await supabase
       .from('automated_decisions')
       .insert({
         subject_type: 'routing',
         subject_id: applicationId,
         decision,
-        reason_codes: topScore >= rules.auto_assign_threshold
-          ? ['HIGH_CONFIDENCE_MATCH']
-          : ['MANUAL_REVIEW_REQUIRED'],
+        reason_codes:
+          topScore >= rules.auto_assign_threshold
+            ? ['HIGH_CONFIDENCE_MATCH']
+            : ['MANUAL_REVIEW_REQUIRED'],
         input_snapshot: {
           applicant_location: { lat: applicantLat, lon: applicantLon },
           applicant_interests: applicantInterests,
@@ -310,7 +298,7 @@ export async function getRoutingRecommendations(
       })
       .select()
       .maybeSingle();
-    
+
     // 9. Add to review queue if needed
     let reviewQueueId: string | undefined;
     if (decision === 'needs_review') {
@@ -329,10 +317,10 @@ export async function getRoutingRecommendations(
         })
         .select()
         .maybeSingle();
-      
+
       reviewQueueId = queueItem?.id;
     }
-    
+
     // 10. Log to audit
     await supabase.from('audit_logs').insert({
       actor_id: null,
@@ -345,7 +333,7 @@ export async function getRoutingRecommendations(
         decision,
       },
     });
-    
+
     return {
       success: true,
       recommendations,
@@ -368,11 +356,11 @@ export async function getRoutingRecommendations(
 export async function assignToShop(
   applicationId: string,
   shopId: string,
-  assignedBy?: string
+  assignedBy?: string,
 ): Promise<{ success: boolean; error?: string }> {
   const supabase = getSupabaseAdmin();
   await setAuditContext(supabase, { actorUserId: assignedBy, systemActor: 'shop_routing' });
-  
+
   try {
     // 1. Update routing score status
     await supabase
@@ -380,7 +368,7 @@ export async function assignToShop(
       .update({ status: 'assigned', assigned_at: new Date().toISOString() })
       .eq('application_id', applicationId)
       .eq('shop_id', shopId);
-    
+
     // 2. Mark other recommendations as expired
     await supabase
       .from('shop_routing_scores')
@@ -388,16 +376,16 @@ export async function assignToShop(
       .eq('application_id', applicationId)
       .neq('shop_id', shopId)
       .eq('status', 'recommended');
-    
+
     // 3. Update application with shop assignment
     await supabase
       .from('applications')
       .update({ assigned_shop_id: shopId, assigned_at: new Date().toISOString() })
       .eq('id', applicationId);
-    
+
     // 4. Increment shop's current apprentices
     await supabase.rpc('increment_shop_apprentices', { shop_id: shopId });
-    
+
     // 5. Resolve any review queue items
     await supabase
       .from('review_queue')
@@ -410,7 +398,7 @@ export async function assignToShop(
       .eq('subject_type', 'application')
       .eq('subject_id', applicationId)
       .eq('queue_type', 'routing_review');
-    
+
     // 6. Log decision
     await supabase.from('automated_decisions').insert({
       subject_type: 'routing',
@@ -420,7 +408,7 @@ export async function assignToShop(
       input_snapshot: { shop_id: shopId, assigned_by: assignedBy },
       actor: assignedBy || 'system',
     });
-    
+
     // 7. Audit log
     await supabase.from('audit_logs').insert({
       actor_id: assignedBy,
@@ -429,7 +417,7 @@ export async function assignToShop(
       resource_id: applicationId,
       metadata: { shop_id: shopId },
     });
-    
+
     return { success: true };
   } catch (error) {
     return {

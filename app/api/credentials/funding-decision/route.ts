@@ -8,7 +8,6 @@
  *   { fundingSource, fundingStatus, requiresCheckout, amountCents, authorizationId, reason }
  */
 
-
 import { NextRequest, NextResponse } from 'next/server';
 import { apiAuthGuard } from '@/lib/admin/guards';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
@@ -48,7 +47,7 @@ export async function GET(req: NextRequest) {
     attempt.learner_id,
     attempt.credential_id,
     attempt.program_id ?? null,
-    attempt.id
+    attempt.id,
   );
 
   return NextResponse.json(decision);

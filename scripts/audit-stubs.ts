@@ -1,13 +1,13 @@
 #!/usr/bin/env npx ts-node
 /**
  * Stub / Placeholder / Fake Data Audit Script
- * 
+ *
  * Scans codebase for:
  * - Placeholder text patterns
  * - Fake/sample data
  * - Coming soon content
  * - Hardcoded demo values
- * 
+ *
  * Run: npx ts-node scripts/audit-stubs.ts
  */
 
@@ -29,8 +29,16 @@ const PLACEHOLDER_PATTERNS = [
   { pattern: /coming soon/i, severity: 'critical' as const, desc: 'Coming soon text' },
   { pattern: /lorem ipsum/i, severity: 'critical' as const, desc: 'Lorem ipsum' },
   { pattern: /placeholder/i, severity: 'critical' as const, desc: 'Placeholder text' },
-  { pattern: /sample\s+(data|content|text|user)/i, severity: 'critical' as const, desc: 'Sample content' },
-  { pattern: /example\s+(data|content|text|user)/i, severity: 'warning' as const, desc: 'Example content' },
+  {
+    pattern: /sample\s+(data|content|text|user)/i,
+    severity: 'critical' as const,
+    desc: 'Sample content',
+  },
+  {
+    pattern: /example\s+(data|content|text|user)/i,
+    severity: 'warning' as const,
+    desc: 'Example content',
+  },
   { pattern: /\bTBD\b/i, severity: 'warning' as const, desc: 'TBD marker' },
   { pattern: /\bTODO\b(?!:)/i, severity: 'info' as const, desc: 'TODO marker' },
   { pattern: /\bFIXME\b/i, severity: 'warning' as const, desc: 'FIXME marker' },
@@ -43,9 +51,21 @@ const PLACEHOLDER_PATTERNS = [
   { pattern: /example@example\.com/i, severity: 'warning' as const, desc: 'Example email' },
   { pattern: /123-456-7890/i, severity: 'warning' as const, desc: 'Fake phone' },
   { pattern: /xxx+/i, severity: 'warning' as const, desc: 'XXX placeholder' },
-  { pattern: /\.\.\.\s*$/m, severity: 'info' as const, desc: 'Trailing ellipsis (possible incomplete)' },
-  { pattern: /insert\s+(here|text|content)/i, severity: 'critical' as const, desc: 'Insert placeholder' },
-  { pattern: /your\s+(text|content|name)\s+here/i, severity: 'critical' as const, desc: 'Your X here placeholder' },
+  {
+    pattern: /\.\.\.\s*$/m,
+    severity: 'info' as const,
+    desc: 'Trailing ellipsis (possible incomplete)',
+  },
+  {
+    pattern: /insert\s+(here|text|content)/i,
+    severity: 'critical' as const,
+    desc: 'Insert placeholder',
+  },
+  {
+    pattern: /your\s+(text|content|name)\s+here/i,
+    severity: 'critical' as const,
+    desc: 'Your X here placeholder',
+  },
 ];
 
 // Directories to scan
@@ -62,7 +82,7 @@ const SKIP_PATTERNS = [
   /\.spec\./,
   /test\//,
   /__tests__/,
-  /scripts\/audit/,  // Don't audit the audit scripts
+  /scripts\/audit/, // Don't audit the audit scripts
   /seed/,
   /mock/,
 ];
@@ -71,19 +91,19 @@ const SKIP_PATTERNS = [
 const SCAN_EXTENSIONS = ['.tsx', '.ts', '.jsx', '.js', '.json', '.md'];
 
 function shouldSkipFile(filePath: string): boolean {
-  return SKIP_PATTERNS.some(pattern => pattern.test(filePath));
+  return SKIP_PATTERNS.some((pattern) => pattern.test(filePath));
 }
 
 function scanFile(filePath: string): void {
   if (shouldSkipFile(filePath)) return;
-  
+
   const ext = path.extname(filePath);
   if (!SCAN_EXTENSIONS.includes(ext)) return;
-  
+
   try {
     const content = fs.readFileSync(filePath, 'utf-8');
     const lines = content.split('\n');
-    
+
     lines.forEach((line, index) => {
       // Skip comments in certain contexts
       const trimmedLine = line.trim();
@@ -91,14 +111,16 @@ function scanFile(filePath: string): void {
         // Allow TODO in comments for now
         return;
       }
-      
+
       PLACEHOLDER_PATTERNS.forEach(({ pattern, severity, desc }) => {
         if (pattern.test(line)) {
           // Skip if it's in a variable name or function definition
-          if (/^(const|let|var|function|export)\s+\w*(placeholder|sample|example)/i.test(trimmedLine)) {
+          if (
+            /^(const|let|var|function|export)\s+\w*(placeholder|sample|example)/i.test(trimmedLine)
+          ) {
             return;
           }
-          
+
           findings.push({
             file: filePath.replace(process.cwd(), ''),
             line: index + 1,
@@ -117,12 +139,12 @@ function scanFile(filePath: string): void {
 function scanDirectory(dir: string): void {
   try {
     const items = fs.readdirSync(dir, { withFileTypes: true });
-    
+
     for (const item of items) {
       const fullPath = path.join(dir, item.name);
-      
+
       if (shouldSkipFile(fullPath)) continue;
-      
+
       if (item.isDirectory()) {
         scanDirectory(fullPath);
       } else {
@@ -137,19 +159,19 @@ function scanDirectory(dir: string): void {
 function runAudit() {
   console.log('🔍 Stub / Placeholder Audit\n');
   console.log('='.repeat(60));
-  
+
   // Scan directories
   for (const dir of SCAN_DIRS) {
     const fullPath = path.join(process.cwd(), dir);
     console.log(`Scanning ${dir}/...`);
     scanDirectory(fullPath);
   }
-  
+
   // Categorize findings
-  const critical = findings.filter(f => f.severity === 'critical');
-  const warnings = findings.filter(f => f.severity === 'warning');
-  const info = findings.filter(f => f.severity === 'info');
-  
+  const critical = findings.filter((f) => f.severity === 'critical');
+  const warnings = findings.filter((f) => f.severity === 'warning');
+  const info = findings.filter((f) => f.severity === 'info');
+
   // Report
   if (critical.length > 0) {
     console.log('\n❌ CRITICAL - Must fix before production');
@@ -161,7 +183,7 @@ function runAudit() {
       console.log('');
     }
   }
-  
+
   if (warnings.length > 0) {
     console.log('\n⚠️  WARNINGS - Review before production');
     console.log('-'.repeat(40));
@@ -169,13 +191,13 @@ function runAudit() {
       console.log(`  ${f.file}:${f.line} - ${f.pattern}`);
     }
   }
-  
+
   if (info.length > 0) {
     console.log('\nℹ️  INFO - May need attention');
     console.log('-'.repeat(40));
     console.log(`  ${info.length} informational findings (run with --verbose to see)`);
   }
-  
+
   // Summary
   console.log('\n' + '='.repeat(60));
   console.log('SUMMARY');
@@ -185,21 +207,28 @@ function runAudit() {
   console.log(`  Info: ${info.length}`);
   console.log(`  Total: ${findings.length}`);
   console.log('='.repeat(60));
-  
+
   // Write JSON report
   const reportPath = path.join(process.cwd(), 'stub-audit-report.json');
-  fs.writeFileSync(reportPath, JSON.stringify({
-    timestamp: new Date().toISOString(),
-    summary: {
-      critical: critical.length,
-      warnings: warnings.length,
-      info: info.length,
-      total: findings.length,
-    },
-    findings,
-  }, null, 2));
+  fs.writeFileSync(
+    reportPath,
+    JSON.stringify(
+      {
+        timestamp: new Date().toISOString(),
+        summary: {
+          critical: critical.length,
+          warnings: warnings.length,
+          info: info.length,
+          total: findings.length,
+        },
+        findings,
+      },
+      null,
+      2,
+    ),
+  );
   console.log(`\n📄 Full report written to: ${reportPath}`);
-  
+
   // Exit with error if critical findings
   if (critical.length > 0) {
     console.log(`\n❌ ${critical.length} critical issues found. Fix before production.`);

@@ -36,8 +36,7 @@ allBroken.forEach((link) => {
   else if (link.href.startsWith('sms:')) categories.sms.push(link);
   else if (link.href.includes('#')) categories.anchor.push(link);
   else if (link.href.startsWith('http')) categories.external.push(link);
-  else if (link.href.includes('{{') || link.href.includes('${'))
-    categories.template.push(link);
+  else if (link.href.includes('{{') || link.href.includes('${')) categories.template.push(link);
   else categories.internal.push(link);
 });
 
@@ -52,9 +51,7 @@ console.log('1️⃣  Creating ALL missing internal files...\n');
 
 const internalUnique = {};
 categories.internal.forEach((link) => {
-  internalUnique[link.href] = (internalUnique[link.href] || []).concat(
-    link.file
-  );
+  internalUnique[link.href] = (internalUnique[link.href] || []).concat(link.file);
 });
 
 const template = (title) => `<!DOCTYPE html>
@@ -105,10 +102,7 @@ Object.keys(internalUnique).forEach((href) => {
 // STRATEGY 2: Update link checker to ignore valid link types
 console.log('\n2️⃣  Updating audit script to ignore valid links...\n');
 
-const auditScript = fs.readFileSync(
-  './scripts/comprehensive-audit.cjs',
-  'utf8'
-);
+const auditScript = fs.readFileSync('./scripts/comprehensive-audit.cjs', 'utf8');
 
 // Add filter to skip valid link types
 const updatedAudit = auditScript.replace(
@@ -131,7 +125,7 @@ const updatedAudit = auditScript.replace(
       AUDIT.links.valid++;
       continue;
     }
-`
+`,
 );
 
 fs.writeFileSync('./scripts/comprehensive-audit.cjs', updatedAudit);
@@ -148,11 +142,7 @@ function findHTMLFiles(dir) {
   const entries = fs.readdirSync(dir, { withFileTypes: true });
   for (const entry of entries) {
     const fullPath = path.join(dir, entry.name);
-    if (
-      entry.isDirectory() &&
-      !entry.name.startsWith('.') &&
-      entry.name !== 'node_modules'
-    ) {
+    if (entry.isDirectory() && !entry.name.startsWith('.') && entry.name !== 'node_modules') {
       results = results.concat(findHTMLFiles(fullPath));
     } else if (entry.name.endsWith('.html')) {
       results.push(fullPath);
@@ -192,10 +182,7 @@ htmlFiles.forEach((file) => {
 
   Object.entries(fixes).forEach(([from, to]) => {
     if (content.includes(from)) {
-      content = content.replace(
-        new RegExp(from.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'),
-        to
-      );
+      content = content.replace(new RegExp(from.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'), to);
       modified = true;
     }
   });
@@ -288,9 +275,7 @@ criticalFiles.forEach((file) => {
 
 console.log('\n═══════════════════════════════════════════════════════');
 console.log(`  COMPLETE: Fixed ${FIXED} issues`);
-console.log(
-  `  Status: ${allExist ? '✅ ALL FILES EXIST' : '⚠️  SOME MISSING'}`
-);
+console.log(`  Status: ${allExist ? '✅ ALL FILES EXIST' : '⚠️  SOME MISSING'}`);
 console.log('═══════════════════════════════════════════════════════\n');
 
 console.log('Running updated audit to verify zero broken links...\n');

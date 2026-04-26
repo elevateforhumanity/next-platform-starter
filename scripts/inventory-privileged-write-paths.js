@@ -21,41 +21,37 @@
  *   node scripts/inventory-privileged-write-paths.js
  */
 
-const fs = require("fs");
-const path = require("path");
+const fs = require('fs');
+const path = require('path');
 
 const ROOT = process.cwd();
 
-const TARGET_TABLES = [
-  "lesson_progress",
-  "checkpoint_scores",
-  "program_completion_certificates",
-];
+const TARGET_TABLES = ['lesson_progress', 'checkpoint_scores', 'program_completion_certificates'];
 
 const SKIP_DIRS = new Set([
-  ".git",
-  "node_modules",
-  ".next",
-  "dist",
-  "build",
-  "coverage",
-  ".turbo",
+  '.git',
+  'node_modules',
+  '.next',
+  'dist',
+  'build',
+  'coverage',
+  '.turbo',
 
-  ".netlify",
-  "tmp",
-  "temp",
+  '.netlify',
+  'tmp',
+  'temp',
 ]);
 
 const TEXT_EXTENSIONS = new Set([
-  ".js",
-  ".jsx",
-  ".ts",
-  ".tsx",
-  ".mjs",
-  ".cjs",
-  ".sql",
-  ".md",
-  ".json",
+  '.js',
+  '.jsx',
+  '.ts',
+  '.tsx',
+  '.mjs',
+  '.cjs',
+  '.sql',
+  '.md',
+  '.json',
 ]);
 
 function walk(dir, out = []) {
@@ -85,34 +81,34 @@ function walk(dir, out = []) {
 
 function readText(file) {
   try {
-    return fs.readFileSync(file, "utf8");
+    return fs.readFileSync(file, 'utf8');
   } catch {
     return null;
   }
 }
 
 function rel(file) {
-  return path.relative(ROOT, file).replace(/\\/g, "/");
+  return path.relative(ROOT, file).replace(/\\/g, '/');
 }
 
 function lineNumberFromIndex(text, index) {
-  return text.slice(0, index).split("\n").length;
+  return text.slice(0, index).split('\n').length;
 }
 
 function getLine(text, n) {
-  const lines = text.split("\n");
-  return lines[n - 1] || "";
+  const lines = text.split('\n');
+  return lines[n - 1] || '';
 }
 
 function getContext(text, lineNo, radius = 8) {
-  const lines = text.split("\n");
+  const lines = text.split('\n');
   const start = Math.max(1, lineNo - radius);
   const end = Math.min(lines.length, lineNo + radius);
   const chunk = [];
   for (let i = start; i <= end; i++) {
-    chunk.push(`${String(i).padStart(4, " ")} | ${lines[i - 1]}`);
+    chunk.push(`${String(i).padStart(4, ' ')} | ${lines[i - 1]}`);
   }
-  return chunk.join("\n");
+  return chunk.join('\n');
 }
 
 function uniq(arr) {
@@ -120,7 +116,7 @@ function uniq(arr) {
 }
 
 function inferFunctionName(text, lineNo) {
-  const lines = text.split("\n");
+  const lines = text.split('\n');
   const start = Math.max(0, lineNo - 40);
   const end = Math.min(lines.length - 1, lineNo + 5);
 
@@ -152,7 +148,7 @@ function inferFunctionName(text, lineNo) {
   }
 
   if (relGuessFromRoute(lines, lineNo)) return relGuessFromRoute(lines, lineNo);
-  return "unknown";
+  return 'unknown';
 }
 
 function relGuessFromRoute(lines, lineNo) {
@@ -168,85 +164,95 @@ function relGuessFromRoute(lines, lineNo) {
 
 function detectOperations(context) {
   const ops = [];
-  if (/\.insert\s*\(/s.test(context)) ops.push("insert");
-  if (/\.update\s*\(/s.test(context)) ops.push("update");
-  if (/\.upsert\s*\(/s.test(context)) ops.push("upsert");
-  if (/\.select\s*\(/s.test(context)) ops.push("select");
-  if (/\.delete\s*\(/s.test(context)) ops.push("delete");
-  if (/\.rpc\s*\(/s.test(context)) ops.push("rpc");
+  if (/\.insert\s*\(/s.test(context)) ops.push('insert');
+  if (/\.update\s*\(/s.test(context)) ops.push('update');
+  if (/\.upsert\s*\(/s.test(context)) ops.push('upsert');
+  if (/\.select\s*\(/s.test(context)) ops.push('select');
+  if (/\.delete\s*\(/s.test(context)) ops.push('delete');
+  if (/\.rpc\s*\(/s.test(context)) ops.push('rpc');
   return uniq(ops);
 }
 
 function detectActorType(fullText, context) {
   if (/createAdminClient\s*\(/.test(context) || /createAdminClient\s*\(/.test(fullText)) {
-    return "service_role/admin_client";
+    return 'service_role/admin_client';
   }
   if (/service_role/i.test(context) || /service_role/i.test(fullText)) {
-    return "service_role";
+    return 'service_role';
   }
   if (/is_super_admin|super_admin|requireAdmin|requireRole|admin/i.test(context)) {
-    return "super_admin_or_admin_jwt";
+    return 'super_admin_or_admin_jwt';
   }
-  return "unknown_or_learner";
+  return 'unknown_or_learner';
 }
 
 function detectTriggerProtection(table) {
   switch (table) {
-    case "lesson_progress":
-      return "yes: checkpoint gate trigger; yes: admin override audit trigger";
-    case "checkpoint_scores":
-      return "yes: checkpoint/audit trigger(s)";
-    case "program_completion_certificates":
-      return "yes: certificate audit trigger";
+    case 'lesson_progress':
+      return 'yes: checkpoint gate trigger; yes: admin override audit trigger';
+    case 'checkpoint_scores':
+      return 'yes: checkpoint/audit trigger(s)';
+    case 'program_completion_certificates':
+      return 'yes: certificate audit trigger';
     default:
-      return "unknown";
+      return 'unknown';
   }
 }
 
 function detectForceRlsRisk(actorType, operations) {
-  if (actorType.includes("service_role")) {
-    return "HIGH";
+  if (actorType.includes('service_role')) {
+    return 'HIGH';
   }
-  if (operations.includes("insert") || operations.includes("update") || operations.includes("upsert")) {
-    return "MEDIUM";
+  if (
+    operations.includes('insert') ||
+    operations.includes('update') ||
+    operations.includes('upsert')
+  ) {
+    return 'MEDIUM';
   }
-  return "LOW";
+  return 'LOW';
 }
 
 function classifyFinding({ fullText, context, table, operations, actorType }) {
-  const writes = operations.some((op) => ["insert", "update", "upsert", "delete", "rpc"].includes(op));
+  const writes = operations.some((op) =>
+    ['insert', 'update', 'upsert', 'delete', 'rpc'].includes(op),
+  );
   const readsOnly = operations.length > 0 && !writes;
 
-  let likelyBreakage = "unknown";
-  if (actorType.includes("service_role") && writes) {
-    likelyBreakage = "likely if no explicit policy/RPC replacement exists";
+  let likelyBreakage = 'unknown';
+  if (actorType.includes('service_role') && writes) {
+    likelyBreakage = 'likely if no explicit policy/RPC replacement exists';
   } else if (readsOnly) {
-    likelyBreakage = "unlikely";
+    likelyBreakage = 'unlikely';
   } else if (writes) {
-    likelyBreakage = "possible";
+    likelyBreakage = 'possible';
   } else {
-    likelyBreakage = "unknown";
+    likelyBreakage = 'unknown';
   }
 
   let notes = [];
   if (/createAdminClient\s*\(/.test(context) || /createAdminClient\s*\(/.test(fullText)) {
-    notes.push("uses createAdminClient()");
+    notes.push('uses createAdminClient()');
   }
   if (/auth\.uid\(\)/.test(context)) {
-    notes.push("auth.uid() appears in local context");
+    notes.push('auth.uid() appears in local context');
   }
-  if (/checkpointGateResponse|isCheckpointGateError|CheckpointGateError|23514/.test(context + fullText)) {
-    notes.push("gate error normalization present nearby");
+  if (
+    /checkpointGateResponse|isCheckpointGateError|CheckpointGateError|23514/.test(
+      context + fullText,
+    )
+  ) {
+    notes.push('gate error normalization present nearby');
   }
   if (/audit/i.test(context)) {
-    notes.push("audit-related code nearby");
+    notes.push('audit-related code nearby');
   }
 
   return {
     writes,
     readsOnly,
     likelyBreakage,
-    notes: notes.join("; ") || "",
+    notes: notes.join('; ') || '',
     triggerProtection: detectTriggerProtection(table),
     forceRlsRisk: detectForceRlsRisk(actorType, operations),
   };
@@ -256,10 +262,7 @@ function findTableRefs(fullText, file) {
   const findings = [];
 
   for (const table of TARGET_TABLES) {
-    const re = new RegExp(
-      String.raw`(?:from\s*\(\s*['"\`]${table}['"\`]\s*\)|\b${table}\b)`,
-      "g"
-    );
+    const re = new RegExp(String.raw`(?:from\s*\(\s*['"\`]${table}['"\`]\s*\)|\b${table}\b)`, 'g');
 
     let m;
     while ((m = re.exec(fullText)) !== null) {
@@ -301,12 +304,12 @@ function findTableRefs(fullText, file) {
 function scoreFinding(f) {
   let score = 0;
   if (f.writes) score += 10;
-  if (f.actorType.includes("service_role")) score += 10;
-  if (f.operations.includes("upsert")) score += 4;
-  if (f.operations.includes("insert")) score += 3;
-  if (f.operations.includes("update")) score += 3;
-  if (f.file.includes("/api/")) score += 2;
-  if (f.file.includes("route.ts")) score += 2;
+  if (f.actorType.includes('service_role')) score += 10;
+  if (f.operations.includes('upsert')) score += 4;
+  if (f.operations.includes('insert')) score += 3;
+  if (f.operations.includes('update')) score += 3;
+  if (f.file.includes('/api/')) score += 2;
+  if (f.file.includes('route.ts')) score += 2;
   return score;
 }
 
@@ -315,14 +318,9 @@ function dedupeFindings(findings) {
   const out = [];
 
   for (const f of findings.sort((a, b) => scoreFinding(b) - scoreFinding(a))) {
-    const key = [
-      f.file,
-      f.function,
-      f.table,
-      f.operations.join(","),
-      f.actorType,
-      f.writes,
-    ].join("|");
+    const key = [f.file, f.function, f.table, f.operations.join(','), f.actorType, f.writes].join(
+      '|',
+    );
 
     if (!seen.has(key)) {
       seen.add(key);
@@ -352,51 +350,53 @@ function toMarkdown(findings) {
   const { byTable } = summarize(findings);
 
   const lines = [];
-  lines.push("# Privileged Write Path Inventory");
-  lines.push("");
+  lines.push('# Privileged Write Path Inventory');
+  lines.push('');
   lines.push(`Generated: ${new Date().toISOString()}`);
-  lines.push("");
+  lines.push('');
 
   for (const table of TARGET_TABLES) {
     const rows = (byTable[table] || []).sort((a, b) => scoreFinding(b) - scoreFinding(a));
 
     lines.push(`## ${table}`);
-    lines.push("");
+    lines.push('');
 
     if (!rows.length) {
-      lines.push("_No references found._");
-      lines.push("");
+      lines.push('_No references found._');
+      lines.push('');
       continue;
     }
 
-    lines.push("| File | Function/Route | Line | Operations | Actor Type | Trigger/Audit Protection | FORCE RLS Risk | Likely Breakage if Forced | Notes |");
-    lines.push("|---|---|---:|---|---|---|---|---|---|");
+    lines.push(
+      '| File | Function/Route | Line | Operations | Actor Type | Trigger/Audit Protection | FORCE RLS Risk | Likely Breakage if Forced | Notes |',
+    );
+    lines.push('|---|---|---:|---|---|---|---|---|---|');
 
     for (const r of rows) {
       lines.push(
-        `| \`${r.file}\` | \`${r.function}\` | ${r.line} | ${r.operations.join(", ") || "unknown"} | ${r.actorType} | ${r.triggerProtection} | ${r.forceRlsRisk} | ${r.likelyBreakageIfForcedRls} | ${escapePipes(r.notes)} |`
+        `| \`${r.file}\` | \`${r.function}\` | ${r.line} | ${r.operations.join(', ') || 'unknown'} | ${r.actorType} | ${r.triggerProtection} | ${r.forceRlsRisk} | ${r.likelyBreakageIfForcedRls} | ${escapePipes(r.notes)} |`,
       );
     }
 
-    lines.push("");
-    lines.push("### Evidence snippets");
-    lines.push("");
+    lines.push('');
+    lines.push('### Evidence snippets');
+    lines.push('');
 
     rows.slice(0, 20).forEach((r, i) => {
       lines.push(`#### ${i + 1}. \`${r.file}\` — \`${r.function}\` — line ${r.line}`);
-      lines.push("");
-      lines.push("```text");
+      lines.push('');
+      lines.push('```text');
       lines.push(r.snippet);
-      lines.push("```");
-      lines.push("");
+      lines.push('```');
+      lines.push('');
     });
   }
 
-  return lines.join("\n");
+  return lines.join('\n');
 }
 
 function escapePipes(s) {
-  return String(s || "").replace(/\|/g, "\\|");
+  return String(s || '').replace(/\|/g, '\\|');
 }
 
 function main() {
@@ -419,37 +419,39 @@ function main() {
 
   const deduped = dedupeFindings(findings);
 
-  const outputDir = path.join(ROOT, "tmp");
+  const outputDir = path.join(ROOT, 'tmp');
   fs.mkdirSync(outputDir, { recursive: true });
 
-  const jsonPath = path.join(outputDir, "privileged-write-path-inventory.json");
-  const mdPath = path.join(outputDir, "privileged-write-path-inventory.md");
+  const jsonPath = path.join(outputDir, 'privileged-write-path-inventory.json');
+  const mdPath = path.join(outputDir, 'privileged-write-path-inventory.md');
 
   fs.writeFileSync(jsonPath, JSON.stringify(deduped, null, 2));
   fs.writeFileSync(mdPath, toMarkdown(deduped));
 
   const writeFindings = deduped.filter((f) => f.writes);
-  const serviceRoleWrites = writeFindings.filter((f) => f.actorType.includes("service_role"));
+  const serviceRoleWrites = writeFindings.filter((f) => f.actorType.includes('service_role'));
 
-  console.log("");
-  console.log("Inventory complete.");
+  console.log('');
+  console.log('Inventory complete.');
   console.log(`Files scanned: ${files.length}`);
   console.log(`Findings: ${deduped.length}`);
   console.log(`Write findings: ${writeFindings.length}`);
   console.log(`Service-role/admin-client write findings: ${serviceRoleWrites.length}`);
-  console.log("");
+  console.log('');
   console.log(`Markdown report: ${rel(mdPath)}`);
   console.log(`JSON report: ${rel(jsonPath)}`);
-  console.log("");
+  console.log('');
 
   if (serviceRoleWrites.length > 0) {
-    console.log("VERDICT: DO NOT FORCE RLS YET — service-role/admin-client write paths still exist.");
+    console.log(
+      'VERDICT: DO NOT FORCE RLS YET — service-role/admin-client write paths still exist.',
+    );
     process.exitCode = 2;
   } else if (writeFindings.length > 0) {
-    console.log("VERDICT: REVIEW REQUIRED — write paths exist, but none clearly service-role.");
+    console.log('VERDICT: REVIEW REQUIRED — write paths exist, but none clearly service-role.');
     process.exitCode = 1;
   } else {
-    console.log("VERDICT: NO OBVIOUS PRIVILEGED WRITE PATHS FOUND.");
+    console.log('VERDICT: NO OBVIOUS PRIVILEGED WRITE PATHS FOUND.');
     process.exitCode = 0;
   }
 }

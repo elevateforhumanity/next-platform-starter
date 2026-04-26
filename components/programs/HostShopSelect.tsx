@@ -24,8 +24,8 @@ export default function HostShopSelect({ program, value, onChange }: Props) {
 
   useEffect(() => {
     fetch(`/api/programs/host-shops?program=${program}`)
-      .then(r => r.json())
-      .then(data => {
+      .then((r) => r.json())
+      .then((data) => {
         setShops(data.shops ?? []);
       })
       .catch(() => setShops([]))
@@ -49,13 +49,11 @@ export default function HostShopSelect({ program, value, onChange }: Props) {
   };
 
   // Determine current select value
-  const selectValue = showOther ? '__other__' : (value || '');
+  const selectValue = showOther ? '__other__' : value || '';
 
   return (
     <div>
-      <label className="block text-sm font-medium text-black mb-1">
-        Select Your Training Shop
-      </label>
+      <label className="block text-sm font-medium text-black mb-1">Select Your Training Shop</label>
 
       {loading ? (
         <div className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 text-gray-400 text-sm">
@@ -68,7 +66,7 @@ export default function HostShopSelect({ program, value, onChange }: Props) {
           className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 bg-white text-black"
         >
           <option value="">— Select a shop —</option>
-          {shops.map(shop => (
+          {shops.map((shop) => (
             <option key={shop.id} value={shop.name}>
               {shop.name} — {shop.city}, {shop.state}
             </option>

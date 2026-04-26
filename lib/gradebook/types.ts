@@ -126,16 +126,16 @@ export type GradeScale = {
 };
 
 export const DEFAULT_GRADE_SCALE: GradeScale = {
-  'A': 93,
+  A: 93,
   'A-': 90,
   'B+': 87,
-  'B': 83,
+  B: 83,
   'B-': 80,
   'C+': 77,
-  'C': 73,
+  C: 73,
   'C-': 70,
   'D+': 67,
-  'D': 63,
+  D: 63,
   'D-': 60,
-  'F': 0,
+  F: 0,
 };

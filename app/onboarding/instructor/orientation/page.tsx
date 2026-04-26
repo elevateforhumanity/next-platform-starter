@@ -14,7 +14,9 @@ export const metadata: Metadata = {
 
 export default async function InstructorOrientationPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/onboarding/instructor/orientation');
 
   const db = await getAdminClient();
@@ -67,10 +69,12 @@ export default async function InstructorOrientationPage() {
   return (
     <div className="min-h-screen bg-slate-50">
       <div className="max-w-3xl mx-auto px-4 py-8">
-        <Breadcrumbs items={[
-          { label: 'Instructor Onboarding', href: '/onboarding/instructor' },
-          { label: 'Orientation' },
-        ]} />
+        <Breadcrumbs
+          items={[
+            { label: 'Instructor Onboarding', href: '/onboarding/instructor' },
+            { label: 'Orientation' },
+          ]}
+        />
 
         <div className="mt-6 bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
           <div className="bg-brand-blue-700 px-8 py-6">

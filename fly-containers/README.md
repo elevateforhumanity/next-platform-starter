@@ -58,6 +58,7 @@ Your container service will be available at:
 Connect to `wss://elevate-studio-containers.fly.dev/terminal`
 
 Messages:
+
 - Send: `{ type: 'input', data: '...' }` - Send input
 - Send: `{ type: 'resize', cols: 80, rows: 24 }` - Resize terminal
 - Send: `{ type: 'signal', signal: 'SIGINT' }` - Send signal
@@ -73,6 +74,7 @@ Messages:
 ## Integration
 
 Update `.env.local`:
+
 ```
 NEXT_PUBLIC_CONTAINER_API_URL=https://elevate-studio-containers.fly.dev
 ```

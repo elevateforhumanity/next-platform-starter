@@ -1,4 +1,3 @@
-
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { getAdminClient } from '@/lib/supabase/admin';
@@ -9,10 +8,7 @@ export const maxDuration = 60;
 
 export const dynamic = 'force-dynamic';
 
-async function _POST(
-  _: Request,
-  { params }: { params: Promise<{ itemId: string }> }
-) {
+async function _POST(_: Request, { params }: { params: Promise<{ itemId: string }> }) {
   try {
     const rateLimited = await applyRateLimit(request, 'api');
     if (rateLimited) return rateLimited;
@@ -30,10 +26,7 @@ async function _POST(
     const adminClient = await getAdminClient();
 
     if (!adminClient) {
-      return NextResponse.json(
-        { error: 'Service temporarily unavailable.' },
-        { status: 503 }
-      );
+      return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });
     }
 
     // Get user's organization
@@ -56,7 +49,7 @@ async function _POST(
         recap_id,
         completed_at,
         meeting_recaps!inner(organization_id)
-      `
+      `,
       )
       .eq('id', itemId)
       .maybeSingle();
@@ -66,9 +59,7 @@ async function _POST(
     }
 
     // Check organization access
-    if (
-      (item.meeting_recaps as any).organization_id !== profile.organization_id
-    ) {
+    if ((item.meeting_recaps as any).organization_id !== profile.organization_id) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
@@ -83,17 +74,13 @@ async function _POST(
       return NextResponse.json({ error: 'Update failed' }, { status: 500 });
     }
 
-    return NextResponse.json(
-      { ok: true, completed_at: nextCompletedAt },
-      { status: 200 }
-    );
+    return NextResponse.json({ ok: true, completed_at: nextCompletedAt }, { status: 200 });
   } catch (err: any) {
     return NextResponse.json(
       {
-        err:
-          'Internal server error',
+        err: 'Internal server error',
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

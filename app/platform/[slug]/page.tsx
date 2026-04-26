@@ -1,4 +1,3 @@
-
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
@@ -24,7 +23,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 const CHECKOUT_ERROR_MESSAGES: Record<string, string> = {
-  'payment-unavailable': 'Checkout is temporarily unavailable. Please try again later or call (317) 314-3757.',
+  'payment-unavailable':
+    'Checkout is temporarily unavailable. Please try again later or call (317) 314-3757.',
   'checkout-failed': 'We could not start your checkout session. Please try again.',
   'invalid-product': 'This product is not available for purchase. Please contact support.',
   'rate-limited': 'Too many requests. Please wait a moment and try again.',
@@ -41,7 +41,6 @@ export default async function ProductDetailPage({
 
   const supabase = await createClient();
 
-  
   // Try database first
   const { data: dbProduct } = await supabase
     .from('platform_products')
@@ -59,10 +58,10 @@ export default async function ProductDetailPage({
 
   return (
     <div className="min-h-screen bg-white">
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Platform", href: "/platform" }, { label: "[Slug]" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Platform', href: '/platform' }, { label: '[Slug]' }]} />
       </div>
-{/* Hero Section */}
+      {/* Hero Section */}
       <section className="relative h-48 md:h-64 overflow-hidden">
         <Image
           src="/images/pages/platform-page-1.jpg"
@@ -91,14 +90,10 @@ export default async function ProductDetailPage({
             {/* Left Column - Details */}
             <div className="lg:col-span-2">
               <div className="bg-white rounded-lg shadow-sm p-8 mb-8">
-                <h2 className="text-2xl font-bold mb-4 text-black">
-                  What's Included
-                </h2>
+                <h2 className="text-2xl font-bold mb-4 text-black">What's Included</h2>
                 <p className="text-black mb-6">{product.longDescription}</p>
 
-                <h3 className="text-lg font-semibold mb-4 text-black">
-                  Features
-                </h3>
+                <h3 className="text-lg font-semibold mb-4 text-black">Features</h3>
                 <ul className="space-y-3 mb-8">
                   {product.features.map((feature, index) => (
                     <li key={index} className="flex items-start">
@@ -113,19 +108,12 @@ export default async function ProductDetailPage({
                 </h3>
                 <div className="grid md:grid-cols-2 gap-4">
                   {apps.map((app) => (
-                    <div
-                      key={app.id}
-                      className="border border-gray-200 rounded-lg p-4"
-                    >
+                    <div key={app.id} className="border border-gray-200 rounded-lg p-4">
                       <div className="flex items-start">
                         <span className="text-2xl mr-3">{app.icon}</span>
                         <div>
-                          <h4 className="font-semibold text-black">
-                            {app.name}
-                          </h4>
-                          <p className="text-sm text-black mt-1">
-                            {app.description}
-                          </p>
+                          <h4 className="font-semibold text-black">{app.name}</h4>
+                          <p className="text-sm text-black mt-1">{app.description}</p>
                         </div>
                       </div>
                     </div>
@@ -134,9 +122,7 @@ export default async function ProductDetailPage({
               </div>
 
               <div className="bg-white rounded-lg shadow-sm p-8">
-                <h2 className="text-2xl font-bold mb-4 text-black">
-                  Ideal For
-                </h2>
+                <h2 className="text-2xl font-bold mb-4 text-black">Ideal For</h2>
                 <ul className="space-y-3">
                   {product.idealFor.map((item, index) => (
                     <li key={index} className="flex items-start">
@@ -156,9 +142,7 @@ export default async function ProductDetailPage({
                     ${product.price.toLocaleString()}
                   </div>
                   <div className="text-black">
-                    {product.billingType === 'one_time'
-                      ? 'One-time payment'
-                      : 'Per month'}
+                    {product.billingType === 'one_time' ? 'One-time payment' : 'Per month'}
                   </div>
                 </div>
 
@@ -166,24 +150,16 @@ export default async function ProductDetailPage({
                   <div className="flex items-start">
                     <Shield className="w-5 h-5 text-brand-green-600 mr-3 flex-shrink-0 mt-0.5" />
                     <div>
-                      <div className="font-semibold text-black">
-                        License Type
-                      </div>
-                      <div className="text-sm text-black capitalize">
-                        {product.licenseType}
-                      </div>
+                      <div className="font-semibold text-black">License Type</div>
+                      <div className="text-sm text-black capitalize">{product.licenseType}</div>
                     </div>
                   </div>
 
                   <div className="flex items-start">
                     <Download className="w-5 h-5 text-brand-blue-600 mr-3 flex-shrink-0 mt-0.5" />
                     <div>
-                      <div className="font-semibold text-black">
-                        Deployment
-                      </div>
-                      <div className="text-sm text-black">
-                        Full source code access
-                      </div>
+                      <div className="font-semibold text-black">Deployment</div>
+                      <div className="text-sm text-black">Full source code access</div>
                     </div>
                   </div>
 
@@ -191,9 +167,7 @@ export default async function ProductDetailPage({
                     <Zap className="w-5 h-5 text-brand-orange-600 mr-3 flex-shrink-0 mt-0.5" />
                     <div>
                       <div className="font-semibold text-black">Support</div>
-                      <div className="text-sm text-black">
-                        Onboarding + updates
-                      </div>
+                      <div className="text-sm text-black">Onboarding + updates</div>
                     </div>
                   </div>
                 </div>
@@ -207,7 +181,8 @@ export default async function ProductDetailPage({
                       Request Enterprise Review
                     </Link>
                     <p className="text-sm text-black text-center">
-                      This license requires approval. Applications are reviewed within 1-2 business days.
+                      This license requires approval. Applications are reviewed within 1-2 business
+                      days.
                     </p>
                   </div>
                 ) : (
@@ -220,8 +195,7 @@ export default async function ProductDetailPage({
                       Purchase License
                     </button>
                     <p className="text-sm text-black text-center">
-                      Secure checkout powered by Stripe. Instant access after
-                      payment.
+                      Secure checkout powered by Stripe. Instant access after payment.
                     </p>
                   </form>
                 )}
@@ -253,9 +227,8 @@ export default async function ProductDetailPage({
                 What happens after I purchase?
               </h3>
               <p className="text-black">
-                You'll be redirected to a post-purchase onboarding page with
-                setup instructions, access to the codebase, and a checklist to
-                get your platform live.
+                You'll be redirected to a post-purchase onboarding page with setup instructions,
+                access to the codebase, and a checklist to get your platform live.
               </p>
             </div>
 
@@ -271,13 +244,10 @@ export default async function ProductDetailPage({
             </div>
 
             <div>
-              <h3 className="text-lg font-semibold mb-2 text-black">
-                Do I get updates?
-              </h3>
+              <h3 className="text-lg font-semibold mb-2 text-black">Do I get updates?</h3>
               <p className="text-black">
-                Yes, all licenses include updates. Core and Monthly
-                subscriptions get 1 year of updates. School and Enterprise
-                licenses get lifetime updates.
+                Yes, all licenses include updates. Core and Monthly subscriptions get 1 year of
+                updates. School and Enterprise licenses get lifetime updates.
               </p>
             </div>
 
@@ -286,8 +256,8 @@ export default async function ProductDetailPage({
                 What if I need custom features?
               </h3>
               <p className="text-black">
-                Enterprise licenses include custom development support. For
-                other licenses, contact us for custom development quotes.
+                Enterprise licenses include custom development support. For other licenses, contact
+                us for custom development quotes.
               </p>
             </div>
           </div>

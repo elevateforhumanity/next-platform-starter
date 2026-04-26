@@ -18,12 +18,14 @@ async function _POST(request: Request) {
 
     // Verify admin access
     const supabase = await createClient();
-  const db = await getAdminClient();
+    const db = await getAdminClient();
     if (!supabase) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -40,12 +42,15 @@ async function _POST(request: Request) {
 
     // Trigger Netlify build hook
     const buildHookUrl = process.env.NETLIFY_BUILD_HOOK_URL;
-    
+
     if (!buildHookUrl) {
-      return NextResponse.json({ 
-        error: 'Build hook not configured',
-        message: 'Set NETLIFY_BUILD_HOOK_URL in environment variables'
-      }, { status: 500 });
+      return NextResponse.json(
+        {
+          error: 'Build hook not configured',
+          message: 'Set NETLIFY_BUILD_HOOK_URL in environment variables',
+        },
+        { status: 500 },
+      );
     }
 
     const response = await fetch(buildHookUrl, {
@@ -53,15 +58,18 @@ async function _POST(request: Request) {
     });
 
     if (response.ok) {
-      return NextResponse.json({ 
-        success: true, 
-        message: 'Deployment triggered successfully' 
+      return NextResponse.json({
+        success: true,
+        message: 'Deployment triggered successfully',
       });
     } else {
-      return NextResponse.json({ 
-        error: 'Failed to trigger deployment',
-        status: response.status 
-      }, { status: 500 });
+      return NextResponse.json(
+        {
+          error: 'Failed to trigger deployment',
+          status: response.status,
+        },
+        { status: 500 },
+      );
     }
   } catch (error) {
     logger.error('Deploy error:', error);

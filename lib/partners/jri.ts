@@ -1,4 +1,3 @@
-
 // lib/partners/jri.ts
 // JRI (Janitorial Resource Institute) API Integration
 // Janitorial and Custodial Training
@@ -51,7 +50,8 @@ export class JriAPI extends BasePartnerAPI {
         username: response.data.username,
         loginUrl: response.data.portalUrl,
       };
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       this.log('error', 'Failed to create JRI account', {
         error: 'Operation failed',
       });
@@ -61,7 +61,7 @@ export class JriAPI extends BasePartnerAPI {
 
   async enrollInCourse(
     accountExternalId: string,
-    courseExternalCode: string
+    courseExternalCode: string,
   ): Promise<CourseEnrollment> {
     this.log('info', 'Enrolling in JRI course', {
       accountExternalId,
@@ -88,7 +88,8 @@ export class JriAPI extends BasePartnerAPI {
         courseName: response.data.courseName,
         accessUrl: response.data.accessUrl,
       };
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       this.log('error', 'Failed to enroll in JRI course', {
         error: 'Operation failed',
       });
@@ -96,9 +97,7 @@ export class JriAPI extends BasePartnerAPI {
     }
   }
 
-  async getProgress(
-    externalEnrollmentId: string
-  ): Promise<ProgressData | null> {
+  async getProgress(externalEnrollmentId: string): Promise<ProgressData | null> {
     this.log('info', 'Fetching JRI progress', { externalEnrollmentId });
 
     try {
@@ -125,7 +124,8 @@ export class JriAPI extends BasePartnerAPI {
         lessonsCompleted: response.data.modulesCompleted,
         totalLessons: response.data.totalModules,
       };
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       if (error instanceof PartnerAPIError && error.statusCode === 404) {
         return null;
       }
@@ -136,9 +136,7 @@ export class JriAPI extends BasePartnerAPI {
     }
   }
 
-  async getCertificate(
-    externalEnrollmentId: string
-  ): Promise<CertificateData | null> {
+  async getCertificate(externalEnrollmentId: string): Promise<CertificateData | null> {
     this.log('info', 'Fetching JRI certificate', { externalEnrollmentId });
 
     try {
@@ -157,7 +155,8 @@ export class JriAPI extends BasePartnerAPI {
         downloadUrl: response.data.downloadUrl,
         verificationUrl: response.data.verificationUrl,
       };
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       if (error instanceof PartnerAPIError && error.statusCode === 404) {
         return null;
       }
@@ -186,7 +185,8 @@ export class JriAPI extends BasePartnerAPI {
       });
 
       return response.data.launchUrl;
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       this.log('error', 'Failed to generate JRI SSO URL', {
         error: 'Operation failed',
       });

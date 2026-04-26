@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 import Image from 'next/image';
@@ -31,7 +31,7 @@ export function AnnouncementsSystem({
   courseId,
   announcements: initialAnnouncements = [],
   canCreate = false,
-  onCreateAnnouncement
+  onCreateAnnouncement,
 }: AnnouncementsSystemProps) {
   const [isCreating, setIsCreating] = useState(false);
   const [announcements, setAnnouncements] = useState<Announcement[]>(initialAnnouncements);
@@ -41,7 +41,7 @@ export function AnnouncementsSystem({
     isPinned: false,
     sendEmail: true,
     sendPush: true,
-    sendSMS: false
+    sendSMS: false,
   });
 
   // Fetch announcements from database
@@ -55,7 +55,7 @@ export function AnnouncementsSystem({
       .order('created_at', { ascending: false });
 
     if (data) {
-      const formatted: Announcement[] = data.map(a => ({
+      const formatted: Announcement[] = data.map((a) => ({
         id: a.id,
         title: a.title,
         content: a.content,
@@ -80,7 +80,9 @@ export function AnnouncementsSystem({
 
   const handleCreate = async () => {
     const supabase = createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     const { error } = await supabase.from('announcements').insert({
       course_id: courseId,
@@ -100,15 +102,15 @@ export function AnnouncementsSystem({
         isPinned: false,
         sendEmail: true,
         sendPush: true,
-        sendSMS: false
+        sendSMS: false,
       });
       setIsCreating(false);
       fetchAnnouncements();
     }
   };
 
-  const pinnedAnnouncements = announcements.filter(a => a.isPinned);
-  const regularAnnouncements = announcements.filter(a => !a.isPinned);
+  const pinnedAnnouncements = announcements.filter((a) => a.isPinned);
+  const regularAnnouncements = announcements.filter((a) => !a.isPinned);
 
   return (
     <div className="space-y-6">
@@ -135,25 +137,25 @@ export function AnnouncementsSystem({
 
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-black mb-2">
-                Title
-              </label>
+              <label className="block text-sm font-medium text-black mb-2">Title</label>
               <input
                 type="text"
                 value={newAnnouncement.title}
-                onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setNewAnnouncement({ ...newAnnouncement, title: e.target.value })}
+                onChange={(
+                  e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+                ) => setNewAnnouncement({ ...newAnnouncement, title: e.target.value })}
                 className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
                 placeholder="Announcement title..."
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-black mb-2">
-                Content
-              </label>
+              <label className="block text-sm font-medium text-black mb-2">Content</label>
               <textarea
                 value={newAnnouncement.content}
-                onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setNewAnnouncement({ ...newAnnouncement, content: e.target.value })}
+                onChange={(
+                  e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+                ) => setNewAnnouncement({ ...newAnnouncement, content: e.target.value })}
                 rows={6}
                 className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
                 placeholder="Write your announcement..."
@@ -165,7 +167,11 @@ export function AnnouncementsSystem({
                 <input
                   type="checkbox"
                   checked={newAnnouncement.isPinned}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setNewAnnouncement({ ...newAnnouncement, isPinned: e.target.checked })}
+                  onChange={(
+                    e: React.ChangeEvent<
+                      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+                    >,
+                  ) => setNewAnnouncement({ ...newAnnouncement, isPinned: e.target.checked })}
                   className="rounded border-slate-300 text-brand-orange-600 focus:ring-emerald-500"
                 />
                 <Pin className="w-4 h-4 text-black" />
@@ -176,7 +182,11 @@ export function AnnouncementsSystem({
                 <input
                   type="checkbox"
                   checked={newAnnouncement.sendEmail}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setNewAnnouncement({ ...newAnnouncement, sendEmail: e.target.checked })}
+                  onChange={(
+                    e: React.ChangeEvent<
+                      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+                    >,
+                  ) => setNewAnnouncement({ ...newAnnouncement, sendEmail: e.target.checked })}
                   className="rounded border-slate-300 text-brand-orange-600 focus:ring-emerald-500"
                 />
                 <Mail className="w-4 h-4 text-black" />
@@ -187,7 +197,11 @@ export function AnnouncementsSystem({
                 <input
                   type="checkbox"
                   checked={newAnnouncement.sendPush}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setNewAnnouncement({ ...newAnnouncement, sendPush: e.target.checked })}
+                  onChange={(
+                    e: React.ChangeEvent<
+                      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+                    >,
+                  ) => setNewAnnouncement({ ...newAnnouncement, sendPush: e.target.checked })}
                   className="rounded border-slate-300 text-brand-orange-600 focus:ring-emerald-500"
                 />
                 <Bell className="w-4 h-4 text-black" />
@@ -198,7 +212,11 @@ export function AnnouncementsSystem({
                 <input
                   type="checkbox"
                   checked={newAnnouncement.sendSMS}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setNewAnnouncement({ ...newAnnouncement, sendSMS: e.target.checked })}
+                  onChange={(
+                    e: React.ChangeEvent<
+                      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+                    >,
+                  ) => setNewAnnouncement({ ...newAnnouncement, sendSMS: e.target.checked })}
                   className="rounded border-slate-300 text-brand-orange-600 focus:ring-emerald-500"
                 />
                 <span className="text-sm text-black">Send SMS notification (if enabled)</span>
@@ -247,9 +265,11 @@ export function AnnouncementsSystem({
 
 function AnnouncementCard({ announcement }: { announcement: Announcement }) {
   return (
-    <div className={`bg-white rounded-lg border-2 p-6 ${
-      announcement.isPinned ? 'border-yellow-300 bg-yellow-50' : 'border-slate-200'
-    } ${!announcement.isRead ? 'shadow-md' : ''}`}>
+    <div
+      className={`bg-white rounded-lg border-2 p-6 ${
+        announcement.isPinned ? 'border-yellow-300 bg-yellow-50' : 'border-slate-200'
+      } ${!announcement.isRead ? 'shadow-md' : ''}`}
+    >
       <div className="flex items-start justify-between mb-3">
         <div className="flex items-center gap-3">
           {announcement.authorAvatar ? (
@@ -269,13 +289,16 @@ function AnnouncementCard({ announcement }: { announcement: Announcement }) {
             <p className="font-semibold text-black">{announcement.authorName}</p>
             <div className="flex items-center gap-2 text-xs text-slate-500">
               <Calendar className="w-3 h-3" />
-              {announcement.publishedAt.toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' })}
+              {announcement.publishedAt.toLocaleDateString('en-US', {
+                timeZone: 'UTC',
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric',
+              })}
             </div>
           </div>
         </div>
-        {announcement.isPinned && (
-          <Pin className="w-5 h-5 text-yellow-600" />
-        )}
+        {announcement.isPinned && <Pin className="w-5 h-5 text-yellow-600" />}
       </div>
 
       <h3 className="text-xl font-bold text-black mb-2">{announcement.title}</h3>

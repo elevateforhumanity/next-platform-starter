@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 import { sanitizeHtml } from '@/lib/sanitize';
@@ -28,9 +28,7 @@ export default function AIPageBuilder() {
   const [description, setDescription] = useState('');
   const [sections, setSections] = useState<string[]>([]);
   const [templates, setTemplates] = useState<Record<string, PageTemplate>>({});
-  const [generatedPage, setGeneratedPage] = useState<GeneratedPage | null>(
-    null
-  );
+  const [generatedPage, setGeneratedPage] = useState<GeneratedPage | null>(null);
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [pageName, setPageName] = useState('');
@@ -51,9 +49,7 @@ export default function AIPageBuilder() {
 
   async function loadTemplates() {
     try {
-      const response = await fetch(
-        'https://efh-ai-stylist.your-subdomain.workers.dev/templates'
-      );
+      const response = await fetch('https://efh-ai-stylist.your-subdomain.workers.dev/templates');
       const data = await response.json();
       if (data.success) {
         setTemplates(data.templates);
@@ -68,27 +64,22 @@ export default function AIPageBuilder() {
     setGeneratedPage(null);
 
     try {
-      const response = await fetch(
-        'https://efh-ai-stylist.your-subdomain.workers.dev/generate',
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            pageType,
-            description,
-            sections,
-          }),
-        }
-      );
+      const response = await fetch('https://efh-ai-stylist.your-subdomain.workers.dev/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          pageType,
+          description,
+          sections,
+        }),
+      });
 
       const data = await response.json();
 
       if (data.success) {
         setGeneratedPage(data.page);
         // Au name and slug
-        setPageName(
-          `${pageType.charAt(0).toUpperCase() + pageType.slice(1)} Page`
-        );
+        setPageName(`${pageType.charAt(0).toUpperCase() + pageType.slice(1)} Page`);
         setPageSlug(pageType);
       } else {
         alert('Failed to generate page: ' + data.error);
@@ -138,7 +129,8 @@ export default function AIPageBuilder() {
       setPageName('');
       setPageSlug('');
       setDescription('');
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
       alert('Failed to save page');
     } finally {
@@ -165,7 +157,8 @@ export default function AIPageBuilder() {
       if (error) throw error;
 
       alert('Page published successfully!');
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
       alert('Failed to publish page');
     }
@@ -187,18 +180,16 @@ export default function AIPageBuilder() {
         {/* Configuration Panel */}
         <div className="space-y-6">
           <div className="bg-white rounded-lg shadow-md p-6">
-            <h2 className="text-2xl font-semibold text-brand-text mb-4">
-              Page Configuration
-            </h2>
+            <h2 className="text-2xl font-semibold text-brand-text mb-4">Page Configuration</h2>
             {/* Page Type */}
             <div className="mb-4">
-              <label className="block text-sm font-medium text-brand-text mb-2">
-                Page Type
-              </label>
+              <label className="block text-sm font-medium text-brand-text mb-2">Page Type</label>
               <select
                 className="w-full border border-brand-border-dark rounded-lg px-4 py-2 focus:ring-2 focus:ring-brand-focus focus:border-transparent"
                 value={pageType}
-                onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setPageType(e.target.value)}
+                onChange={(
+                  e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+                ) => setPageType(e.target.value)}
               >
                 {Object.entries(templates).map(([key, template]) => (
                   <option key={key} value={key}>
@@ -207,9 +198,7 @@ export default function AIPageBuilder() {
                 ))}
               </select>
               {currentTemplate && (
-                <p className="text-sm text-brand-text-light mt-1">
-                  {currentTemplate.description}
-                </p>
+                <p className="text-sm text-brand-text-light mt-1">{currentTemplate.description}</p>
               )}
             </div>
             {/* Description */}
@@ -222,13 +211,13 @@ export default function AIPageBuilder() {
                 rows={4}
                 placeholder="Describe what the page should highlight..."
                 value={description}
-                onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setDescription(e.target.value)}
+                onChange={(
+                  e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+                ) => setDescription(e.target.value)}
               />
               {currentTemplate && currentTemplate.examples.length > 0 && (
                 <div className="mt-2">
-                  <p className="text-xs text-brand-text-light mb-1">
-                    Examples:
-                  </p>
+                  <p className="text-xs text-brand-text-light mb-1">Examples:</p>
                   {currentTemplate.examples.map((example, i) => (
                     <button
                       key={i}
@@ -295,34 +284,30 @@ export default function AIPageBuilder() {
           {/* Save Panel */}
           {generatedPage && (
             <div className="bg-white rounded-lg shadow-md p-6">
-              <h2 className="text-2xl font-semibold text-brand-text mb-4">
-                Save Page
-              </h2>
+              <h2 className="text-2xl font-semibold text-brand-text mb-4">Save Page</h2>
               <div className="mb-4">
-                <label className="block text-sm font-medium text-brand-text mb-2">
-                  Page Name
-                </label>
+                <label className="block text-sm font-medium text-brand-text mb-2">Page Name</label>
                 <input
                   type="text"
                   className="w-full border border-brand-border-dark rounded-lg px-4 py-2 focus:ring-2 focus:ring-brand-focus focus:border-transparent"
                   placeholder="e.g., Home Page"
                   value={pageName}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setPageName(e.target.value)}
+                  onChange={(
+                    e: React.ChangeEvent<
+                      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+                    >,
+                  ) => setPageName(e.target.value)}
                 />
               </div>
               <div className="mb-4">
-                <label className="block text-sm font-medium text-brand-text mb-2">
-                  URL Slug
-                </label>
+                <label className="block text-sm font-medium text-brand-text mb-2">URL Slug</label>
                 <input
                   type="text"
                   className="w-full border border-brand-border-dark rounded-lg px-4 py-2 focus:ring-2 focus:ring-brand-focus focus:border-transparent"
                   placeholder="e.g., home"
                   value={pageSlug}
                   onChange={(e) =>
-                    setPageSlug(
-                      e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, '-')
-                    )
+                    setPageSlug(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, '-'))
                   }
                 />
                 <p className="text-xs text-brand-text-light mt-1">
@@ -372,8 +357,7 @@ export default function AIPageBuilder() {
                   dangerouslySetInnerHTML={{ __html: sanitizeHtml(generatedPage.html) }}
                 />
                 <div className="mt-4 text-xs text-brand-text-light">
-                  Generated at:{' '}
-                  {new Date(generatedPage.generatedAt).toLocaleString('en-US')}
+                  Generated at: {new Date(generatedPage.generatedAt).toLocaleString('en-US')}
                 </div>
               </div>
             </div>
@@ -392,12 +376,9 @@ export default function AIPageBuilder() {
                   d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
                 />
               </svg>
-              <h3 className="text-lg font-medium text-brand-text mb-2">
-                No Page Generated Yet
-              </h3>
+              <h3 className="text-lg font-medium text-brand-text mb-2">No Page Generated Yet</h3>
               <p className="text-brand-text-light">
-                Configure your page settings and click "Generate Page with AI"
-                to see the preview
+                Configure your page settings and click "Generate Page with AI" to see the preview
               </p>
             </div>
           )}

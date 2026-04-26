@@ -16,10 +16,12 @@ export const dynamic = 'force-dynamic';
 export default async function EmployerSettingsPage() {
   const supabase = await createClient();
   const db = (await getAdminClient()) || supabase;
-  
+
   if (!supabase) redirect('/login');
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/employer-portal/settings');
 
   // Fetch user profile
@@ -55,18 +57,35 @@ export default async function EmployerSettingsPage() {
       icon: Building,
       description: 'Manage your company profile and business details',
       fields: [
-        { label: 'Company Name', value: employer?.company_name || '', type: 'text', name: 'company_name' },
+        {
+          label: 'Company Name',
+          value: employer?.company_name || '',
+          type: 'text',
+          name: 'company_name',
+        },
         { label: 'Industry', value: employer?.industry || '', type: 'text', name: 'industry' },
-        { label: 'Company Size', value: employer?.company_size || '', type: 'text', name: 'company_size' },
-        { label: 'EIN', value: employer?.ein ? `**-***${employer.ein.slice(-4)}` : '', type: 'text', name: 'ein' },
+        {
+          label: 'Company Size',
+          value: employer?.company_size || '',
+          type: 'text',
+          name: 'company_size',
+        },
+        {
+          label: 'EIN',
+          value: employer?.ein ? `**-***${employer.ein.slice(-4)}` : '',
+          type: 'text',
+          name: 'ein',
+        },
       ],
     },
   ];
 
   return (
     <div className="min-h-screen bg-gray-50">
-            <Breadcrumbs items={[{ label: "Employer Portal", href: "/employer-portal" }, { label: "Settings" }]} />
-<div className="bg-white border-b">
+      <Breadcrumbs
+        items={[{ label: 'Employer Portal', href: '/employer-portal' }, { label: 'Settings' }]}
+      />
+      <div className="bg-white border-b">
         <div className="max-w-7xl mx-auto px-4 py-6">
           <div className="flex items-center gap-3">
             <Settings className="w-8 h-8 text-gray-600" />
@@ -91,11 +110,13 @@ export default async function EmployerSettingsPage() {
                   <p className="text-sm text-gray-500">{section.description}</p>
                 </div>
               </div>
-              
+
               <div className="grid md:grid-cols-2 gap-4">
                 {section.fields.map((field) => (
                   <div key={field.name}>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">{field.label}</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      {field.label}
+                    </label>
                     <input
                       type={field.type}
                       defaultValue={field.value}
@@ -120,12 +141,21 @@ export default async function EmployerSettingsPage() {
               </div>
             </div>
             <div className="space-y-3">
-              {['New candidate applications', 'WOTC status updates', 'Program announcements'].map((item) => (
-                <label key={item} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg cursor-pointer">
-                  <span className="text-gray-700">{item}</span>
-                  <input type="checkbox" defaultChecked className="w-5 h-5 text-brand-green-600 rounded" />
-                </label>
-              ))}
+              {['New candidate applications', 'WOTC status updates', 'Program announcements'].map(
+                (item) => (
+                  <label
+                    key={item}
+                    className="flex items-center justify-between p-3 bg-gray-50 rounded-lg cursor-pointer"
+                  >
+                    <span className="text-gray-700">{item}</span>
+                    <input
+                      type="checkbox"
+                      defaultChecked
+                      className="w-5 h-5 text-brand-green-600 rounded"
+                    />
+                  </label>
+                ),
+              )}
             </div>
           </div>
 

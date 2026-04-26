@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 import { useEffect, useRef, useState } from 'react';
@@ -77,11 +77,7 @@ export function WelcomeAudio() {
           className="fixed bottom-6 right-6 z-50 bg-brand-orange-600 text-white p-4 rounded-full shadow-2xl hover:bg-brand-orange-700 transition-all hover:scale-110 animate-pulse"
           aria-label={isPlaying ? 'Pause audio' : 'Play welcome message'}
         >
-          {isPlaying ? (
-            <VolumeX className="w-6 h-6" />
-          ) : (
-            <Volume2 className="w-6 h-6" />
-          )}
+          {isPlaying ? <VolumeX className="w-6 h-6" /> : <Volume2 className="w-6 h-6" />}
         </button>
       )}
     </>

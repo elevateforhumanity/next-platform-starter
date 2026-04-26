@@ -16,8 +16,8 @@ export const maxDuration = 60;
 export const dynamic = 'force-dynamic';
 
 async function _POST(req: NextRequest) {
-    const rateLimited = await applyRateLimit(req, 'api');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(req, 'api');
+  if (rateLimited) return rateLimited;
 
   const supabase = await createRouteHandlerClient({ cookies });
   const {
@@ -85,9 +85,7 @@ async function _POST(req: NextRequest) {
       mou_holder_sig_url: path,
     })
     .eq('id', phId)
-    .select(
-      'id, name, payout_share, mou_status, mou_signed, mou_holder_name, mou_holder_signed_at'
-    )
+    .select('id, name, payout_share, mou_status, mou_signed, mou_holder_name, mou_holder_signed_at')
     .single();
 
   if (error) {
@@ -113,14 +111,17 @@ async function _POST(req: NextRequest) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        personalizations: [{
-          to: [{ email: 'info@elevateforhumanity.org', name: 'Elevate for Humanity' }],
-          subject: `MOU Signed — ${orgName}`,
-        }],
+        personalizations: [
+          {
+            to: [{ email: 'info@elevateforhumanity.org', name: 'Elevate for Humanity' }],
+            subject: `MOU Signed — ${orgName}`,
+          },
+        ],
         from: { email: 'info@elevateforhumanity.org', name: 'Elevate for Humanity' },
-        content: [{
-          type: 'text/html',
-          value: `<!DOCTYPE html><html><body style="font-family: Arial, sans-serif; color: #1e293b; max-width: 600px; margin: 0 auto; padding: 20px;">
+        content: [
+          {
+            type: 'text/html',
+            value: `<!DOCTYPE html><html><body style="font-family: Arial, sans-serif; color: #1e293b; max-width: 600px; margin: 0 auto; padding: 20px;">
             <h2 style="color: #1e293b;">✅ MOU Signed</h2>
             <p><strong>${orgName}</strong> has signed their Memorandum of Understanding.</p>
             <table style="width:100%; border-collapse:collapse; margin: 16px 0;">
@@ -135,7 +136,8 @@ async function _POST(req: NextRequest) {
               <a href="https://elevateforhumanity.org/admin/program-holders/${phId}" style="background-color:#2563eb; color:white; padding:12px 24px; border-radius:8px; text-decoration:none; font-weight:bold;">View in Admin Dashboard</a>
             </div>
           </body></html>`,
-        }],
+          },
+        ],
       }),
     });
   } catch (emailErr) {

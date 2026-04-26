@@ -94,18 +94,12 @@ function scanFileSystem() {
     source: files.filter((f) => ['.js', '.jsx', '.ts', '.tsx'].includes(f.ext)),
     styles: files.filter((f) => ['.css', '.scss', '.sass'].includes(f.ext)),
     config: files.filter((f) =>
-      [
-        'package.json',
-        'tsconfig.json',
-        'vite.config.js',
-        'netlify.toml',
-        'wrangler.toml',
-      ].includes(f.name)
+      ['package.json', 'tsconfig.json', 'vite.config.js', 'netlify.toml', 'wrangler.toml'].includes(
+        f.name,
+      ),
     ),
     html: files.filter((f) => f.ext === '.html'),
-    assets: files.filter((f) =>
-      ['.png', '.jpg', '.jpeg', '.svg', '.gif', '.ico'].includes(f.ext)
-    ),
+    assets: files.filter((f) => ['.png', '.jpg', '.jpeg', '.svg', '.gif', '.ico'].includes(f.ext)),
     docs: files.filter((f) => ['.md', '.txt'].includes(f.ext)),
   };
 
@@ -129,12 +123,7 @@ function verifyRoutes() {
   const routes = [];
 
   // Check React Router routes
-  const routeFiles = [
-    './src/App.jsx',
-    './src/App.tsx',
-    './src/routes.jsx',
-    './src/routes.tsx',
-  ];
+  const routeFiles = ['./src/App.jsx', './src/App.tsx', './src/routes.jsx', './src/routes.tsx'];
 
   for (const file of routeFiles) {
     if (fs.existsSync(file)) {
@@ -152,9 +141,7 @@ function verifyRoutes() {
   if (fs.existsSync('./dist')) {
     const htmlFiles = findFiles('./dist', '.html');
     htmlFiles.forEach((file) => {
-      const relativePath = file
-        .replace('./dist/', '')
-        .replace('index.html', '');
+      const relativePath = file.replace('./dist/', '').replace('index.html', '');
       routes.push({ path: '/' + relativePath, file, type: 'static' });
     });
   }
@@ -240,16 +227,11 @@ function checkLinks() {
 
   log(`Total links: ${links.length}`, 'info');
   log(`Valid: ${AUDIT.links.valid}`, 'success');
-  log(
-    `Broken: ${AUDIT.links.broken.length}`,
-    AUDIT.links.broken.length > 0 ? 'error' : 'success'
-  );
+  log(`Broken: ${AUDIT.links.broken.length}`, AUDIT.links.broken.length > 0 ? 'error' : 'success');
 
   if (AUDIT.links.broken.length > 0) {
     log('Broken links:', 'error');
-    AUDIT.links.broken
-      .slice(0, 5)
-      .forEach((l) => log(`  ${l.href} in ${l.file}`, 'error'));
+    AUDIT.links.broken.slice(0, 5).forEach((l) => log(`  ${l.href} in ${l.file}`, 'error'));
     if (AUDIT.links.broken.length > 5)
       log(`  ... and ${AUDIT.links.broken.length - 5} more`, 'error');
   }
@@ -290,10 +272,7 @@ function verifyEnvironment() {
 
   log(`Required: ${AUDIT.env.required.length}`, 'info');
   log(`Present: ${AUDIT.env.present.length}`, 'success');
-  log(
-    `Missing: ${AUDIT.env.missing.length}`,
-    AUDIT.env.missing.length > 0 ? 'error' : 'success'
-  );
+  log(`Missing: ${AUDIT.env.missing.length}`, AUDIT.env.missing.length > 0 ? 'error' : 'success');
 
   if (AUDIT.env.missing.length > 0) {
     AUDIT.env.missing.forEach((key) => log(`  ${key}`, 'error'));
@@ -315,9 +294,7 @@ function testAPIs() {
 
   const functions = fs
     .readdirSync(apiDir)
-    .filter(
-      (f) => f.endsWith('.js') || f.endsWith('.ts') || f.endsWith('.mjs')
-    );
+    .filter((f) => f.endsWith('.js') || f.endsWith('.ts') || f.endsWith('.mjs'));
 
   AUDIT.apis.total = functions.length;
 
@@ -388,7 +365,7 @@ function verifyComponents() {
   log(`Working: ${AUDIT.components.working}`, 'success');
   log(
     `Errors: ${AUDIT.components.errors.length}`,
-    AUDIT.components.errors.length > 0 ? 'error' : 'success'
+    AUDIT.components.errors.length > 0 ? 'error' : 'success',
   );
 }
 
@@ -426,7 +403,7 @@ function verifyBuild() {
   AUDIT.build.success = AUDIT.build.errors.length === 0;
   log(
     `Build status: ${AUDIT.build.success ? 'OK' : 'FAILED'}`,
-    AUDIT.build.success ? 'success' : 'error'
+    AUDIT.build.success ? 'success' : 'error',
   );
 }
 
@@ -448,10 +425,7 @@ function checkDeploymentReadiness() {
 
   let passed = 0;
   for (const check of checks) {
-    log(
-      `  ${check.name}: ${check.pass ? '✅' : '❌'}`,
-      check.pass ? 'success' : 'error'
-    );
+    log(`  ${check.name}: ${check.pass ? '✅' : '❌'}`, check.pass ? 'success' : 'error');
     if (check.pass) passed++;
     else AUDIT.deployment.issues.push(check.name);
   }
@@ -459,10 +433,7 @@ function checkDeploymentReadiness() {
   const readiness = (passed / checks.length) * 100;
   AUDIT.deployment.ready = readiness === 100;
 
-  log(
-    `Deployment readiness: ${readiness.toFixed(0)}%`,
-    readiness === 100 ? 'success' : 'warning'
-  );
+  log(`Deployment readiness: ${readiness.toFixed(0)}%`, readiness === 100 ? 'success' : 'warning');
 }
 
 // ============================================================================
@@ -480,16 +451,9 @@ function findFiles(dir, ...extensions) {
     for (const entry of entries) {
       const fullPath = path.join(dir, entry.name);
 
-      if (
-        entry.isDirectory() &&
-        !entry.name.startsWith('.') &&
-        entry.name !== 'node_modules'
-      ) {
+      if (entry.isDirectory() && !entry.name.startsWith('.') && entry.name !== 'node_modules') {
         results = results.concat(findFiles(fullPath, ...extensions));
-      } else if (
-        extensions.length === 0 ||
-        extensions.some((ext) => entry.name.endsWith(ext))
-      ) {
+      } else if (extensions.length === 0 || extensions.some((ext) => entry.name.endsWith(ext))) {
         results.push(fullPath);
       }
     }
@@ -546,19 +510,13 @@ function generateReport() {
   console.log('\n📊 SUMMARY:');
   console.log(`   Files scanned: ${report.summary.filesScanned}`);
   console.log(`   Routes: ${report.summary.routesFound}`);
+  console.log(`   Links: ${report.summary.linksChecked} (${report.summary.brokenLinks} broken)`);
+  console.log(`   APIs: ${report.summary.apisWorking}/${report.summary.apisFound} working`);
   console.log(
-    `   Links: ${report.summary.linksChecked} (${report.summary.brokenLinks} broken)`
-  );
-  console.log(
-    `   APIs: ${report.summary.apisWorking}/${report.summary.apisFound} working`
-  );
-  console.log(
-    `   Components: ${report.summary.componentsWorking}/${report.summary.componentsFound} valid`
+    `   Components: ${report.summary.componentsWorking}/${report.summary.componentsFound} valid`,
   );
   console.log(`   Build: ${report.summary.buildSuccess ? '✅' : '❌'}`);
-  console.log(
-    `   Deployment Ready: ${report.summary.deploymentReady ? '✅' : '❌'}`
-  );
+  console.log(`   Deployment Ready: ${report.summary.deploymentReady ? '✅' : '❌'}`);
   console.log(`\n   Overall Score: ${report.overallScore}/100`);
 
   return report;
@@ -582,15 +540,12 @@ function calculateOverallScore() {
   score += envScore || 0;
 
   // APIs (15 points)
-  const apiScore =
-    AUDIT.apis.total > 0 ? (AUDIT.apis.working / AUDIT.apis.total) * 15 : 15;
+  const apiScore = AUDIT.apis.total > 0 ? (AUDIT.apis.working / AUDIT.apis.total) * 15 : 15;
   score += apiScore;
 
   // Components (15 points)
   const compScore =
-    AUDIT.components.total > 0
-      ? (AUDIT.components.working / AUDIT.components.total) * 15
-      : 15;
+    AUDIT.components.total > 0 ? (AUDIT.components.working / AUDIT.components.total) * 15 : 15;
   score += compScore;
 
   // Build (10 points)
@@ -607,14 +562,10 @@ function calculateOverallScore() {
 // ============================================================================
 
 function main() {
-  console.log(
-    '═══════════════════════════════════════════════════════════════════'
-  );
+  console.log('═══════════════════════════════════════════════════════════════════');
   console.log('  COMPREHENSIVE REPOSITORY AUDIT');
   console.log('  Line-by-Line Verification - No Skipping - 100% Complete');
-  console.log(
-    '═══════════════════════════════════════════════════════════════════\n'
-  );
+  console.log('═══════════════════════════════════════════════════════════════════\n');
 
   const startTime = Date.now();
 

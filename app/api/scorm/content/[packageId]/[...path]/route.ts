@@ -38,12 +38,11 @@ function contentTypeFor(filePath: string): string {
 
 async function _GET(
   _req: NextRequest,
-  ctx: { params: Promise<{ packageId: string; path: string[] }> }
+  ctx: { params: Promise<{ packageId: string; path: string[] }> },
 ) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const { packageId, path } = await ctx.params;
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const { packageId, path } = await ctx.params;
 
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -57,15 +56,10 @@ const { packageId, path } = await ctx.params;
   // Convention: scorm/<packageId>/<relative file path>
   const filePath = `scorm/${packageId}/${(path || []).join('/')}`;
 
-  const { data, error } = await supabase.storage
-    .from('course_content')
-    .download(filePath);
+  const { data, error } = await supabase.storage.from('course_content').download(filePath);
 
   if (error || !data) {
-    return NextResponse.json(
-      { error: 'SCORM content not found', filePath },
-      { status: 404 }
-    );
+    return NextResponse.json({ error: 'SCORM content not found', filePath }, { status: 404 });
   }
 
   const arrayBuffer = await data.arrayBuffer();

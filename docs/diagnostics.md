@@ -6,14 +6,14 @@ This document describes how to run the Elevate LMS diagnostic checks both **loca
 
 ## What the diagnostics cover
 
-| Check | Script | Purpose |
-|-------|--------|---------|
-| DB schema validation | `scripts/check-dashboard-schema.mjs` | Verifies required Supabase tables and columns exist for program-holder dashboards, onboarding, notifications, and enrollment flows |
-| Redirect scan | `scripts/check-redirect-conflicts.mjs` | Detects Netlify/Next.js redirect conflicts, wildcard/base overlaps, and middleware/proxy conflicts |
-| Page-stub scan | `scripts/audit-stubs.ts` | Scans for placeholder/stub text (`coming soon`, `lorem ipsum`, fake/demo content) in `app/`, `components/`, and `lib/` |
-| Broken link audit | `scripts/audit-broken-links.ts` | Statically scans every `.tsx` / `.ts` file in `app/` and `components/` for `href` values that point to non-existent routes |
-| Image reference fix | `scripts/fix-broken-images.sh` | Normalizes stale/deleted image paths to the canonical locations under `public/images/` |
-| Production readiness | `scripts/validate-production.sh` | Starts a local server on port 5005 and exercises core endpoints (LMS, payments, compliance, widgets) |
+| Check                | Script                                 | Purpose                                                                                                                            |
+| -------------------- | -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| DB schema validation | `scripts/check-dashboard-schema.mjs`   | Verifies required Supabase tables and columns exist for program-holder dashboards, onboarding, notifications, and enrollment flows |
+| Redirect scan        | `scripts/check-redirect-conflicts.mjs` | Detects Netlify/Next.js redirect conflicts, wildcard/base overlaps, and middleware/proxy conflicts                                 |
+| Page-stub scan       | `scripts/audit-stubs.ts`               | Scans for placeholder/stub text (`coming soon`, `lorem ipsum`, fake/demo content) in `app/`, `components/`, and `lib/`             |
+| Broken link audit    | `scripts/audit-broken-links.ts`        | Statically scans every `.tsx` / `.ts` file in `app/` and `components/` for `href` values that point to non-existent routes         |
+| Image reference fix  | `scripts/fix-broken-images.sh`         | Normalizes stale/deleted image paths to the canonical locations under `public/images/`                                             |
+| Production readiness | `scripts/validate-production.sh`       | Starts a local server on port 5005 and exercises core endpoints (LMS, payments, compliance, widgets)                               |
 
 ---
 
@@ -71,9 +71,9 @@ The workflow `.github/workflows/dashboard-diagnostics.yml` runs automatically on
 
 ### Required repository secrets
 
-| Secret | Purpose |
-|--------|---------|
-| `NEXT_PUBLIC_SUPABASE_URL` | Supabase project URL — used by `check-dashboard-schema.mjs` |
+| Secret                      | Purpose                                                          |
+| --------------------------- | ---------------------------------------------------------------- |
+| `NEXT_PUBLIC_SUPABASE_URL`  | Supabase project URL — used by `check-dashboard-schema.mjs`      |
 | `SUPABASE_SERVICE_ROLE_KEY` | Supabase service-role key — used by `check-dashboard-schema.mjs` |
 
 Set these in **Settings → Secrets and variables → Actions** in your GitHub repository. If they are absent the schema check is skipped with a warning instead of failing the run.
@@ -84,13 +84,13 @@ After each run, `broken-links-report.json`, `stub-audit-report.json`, and `/tmp/
 
 ### Blocking vs. non-blocking checks
 
-| Check | Blocking? | Rationale |
-|-------|-----------|-----------|
-| Schema validation | No (`continue-on-error: true`) | Credentials may not be present in all environments |
-| Redirect scan | No (`continue-on-error: true`) | Existing redirect debt may require staged cleanup |
-| Page-stub scan | No (`continue-on-error: true`) | Legacy placeholder backlog may exist; report-first rollout |
-| Broken link audit | No (`continue-on-error: true`) | Existing backlog; links should be reviewed, not block merges |
-| Image reference fix | **Yes** | Pure file-transform; always safe to run |
+| Check                | Blocking?                      | Rationale                                                    |
+| -------------------- | ------------------------------ | ------------------------------------------------------------ |
+| Schema validation    | No (`continue-on-error: true`) | Credentials may not be present in all environments           |
+| Redirect scan        | No (`continue-on-error: true`) | Existing redirect debt may require staged cleanup            |
+| Page-stub scan       | No (`continue-on-error: true`) | Legacy placeholder backlog may exist; report-first rollout   |
+| Broken link audit    | No (`continue-on-error: true`) | Existing backlog; links should be reviewed, not block merges |
+| Image reference fix  | **Yes**                        | Pure file-transform; always safe to run                      |
 | Production readiness | No (`continue-on-error: true`) | Requires `simple-server.cjs`; not available in base CI image |
 
 ### Manual trigger

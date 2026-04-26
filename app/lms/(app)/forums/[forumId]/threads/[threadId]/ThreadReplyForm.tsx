@@ -17,7 +17,7 @@ export default function ThreadReplyForm({ threadId, forumId }: Props) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!content.trim()) {
       setError('Please enter a reply');
       return;
@@ -53,7 +53,7 @@ export default function ThreadReplyForm({ threadId, forumId }: Props) {
           {error}
         </div>
       )}
-      
+
       <textarea
         value={content}
         onChange={(e) => setContent(e.target.value)}
@@ -62,7 +62,7 @@ export default function ThreadReplyForm({ threadId, forumId }: Props) {
         className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-blue-500 resize-none"
         disabled={isSubmitting}
       />
-      
+
       <div className="flex justify-end mt-4">
         <button
           type="submit"

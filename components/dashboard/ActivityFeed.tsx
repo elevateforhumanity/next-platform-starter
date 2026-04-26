@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { Award, BookOpen, TrendingUp, CheckCircle, } from 'lucide-react';
+import { Award, BookOpen, TrendingUp, CheckCircle } from 'lucide-react';
 
 const activities = [
   {
@@ -62,9 +62,7 @@ export function ActivityFeed() {
                 <Icon className={`h-5 w-5 ${activity.color}`} />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="font-medium text-black text-sm">
-                  {activity.title}
-                </p>
+                <p className="font-medium text-black text-sm">{activity.title}</p>
                 <p className="text-sm text-black">{activity.course}</p>
                 <p className="text-xs text-slate-700 mt-1">{activity.time}</p>
               </div>

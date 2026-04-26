@@ -1,7 +1,14 @@
 import { createClient } from '@/lib/supabase/server';
 import Link from 'next/link';
-import { BookOpen, FileText, NotebookPen, Compass, BookMarked, GraduationCap, ArrowRight,
-  Phone
+import {
+  BookOpen,
+  FileText,
+  NotebookPen,
+  Compass,
+  BookMarked,
+  GraduationCap,
+  ArrowRight,
+  Phone,
 } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
@@ -17,7 +24,6 @@ export const metadata = {
 export default async function LearningHubPage() {
   const supabase = await createClient();
 
-  
   // Fetch learning resources
   const { data: resources } = await supabase
     .from('learning_resources')
@@ -26,18 +32,15 @@ export default async function LearningHubPage() {
     .order('category');
   return (
     <div className="min-h-screen bg-white">
-      <Breadcrumbs
-        items={[
-          { label: 'Learning Hub' },
-        ]}
-      />
+      <Breadcrumbs items={[{ label: 'Learning Hub' }]} />
       {/* Hero */}
       <section className="bg-brand-blue-700 text-white py-20">
         <div className="max-w-7xl mx-auto px-4 text-center">
           <GraduationCap className="w-20 h-20 mx-auto mb-6" />
           <h1 className="text-5xl font-bold mb-6">Learning Hub</h1>
           <p className="text-xl max-w-3xl mx-auto mb-8">
-            Everything you need to succeed in your learning journey. Access lessons, resources, and tools.
+            Everything you need to succeed in your learning journey. Access lessons, resources, and
+            tools.
           </p>
           <Link
             href="/learner/dashboard"
@@ -134,7 +137,9 @@ export default async function LearningHubPage() {
       <section className="bg-brand-blue-700 text-white py-12">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-2xl md:text-3xl font-bold mb-3">Ready to Start Your Career?</h2>
-          <p className="text-white mb-6">Check your eligibility for funded career training programs.</p>
+          <p className="text-white mb-6">
+            Check your eligibility for funded career training programs.
+          </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/start"
@@ -157,7 +162,10 @@ export default async function LearningHubPage() {
 
 function ResourceCard({ icon, title, description, href, count }: any) {
   return (
-    <Link href={href} className="p-6 border rounded-lg hover:shadow-xl transition-shadow bg-white group">
+    <Link
+      href={href}
+      className="p-6 border rounded-lg hover:shadow-xl transition-shadow bg-white group"
+    >
       <div className="mb-4 group-hover:scale-110 transition-transform">{icon}</div>
       <h3 className="text-xl font-bold mb-2">{title}</h3>
       <p className="text-black mb-3">{description}</p>

@@ -16,7 +16,7 @@ interface PaymentDisclosureProps {
 
 /**
  * PAYMENT DISCLOSURE COMPONENT
- * 
+ *
  * Required for all internal payment plan enrollments.
  * Student must acknowledge all terms before proceeding.
  * This creates a legally defensible record of disclosure.
@@ -61,19 +61,27 @@ export function PaymentDisclosure({
           </div>
           <div className="flex justify-between">
             <span className="text-slate-600">Total Tuition:</span>
-            <span className="font-medium text-slate-900">${tuitionAmount.toLocaleString('en-US')}</span>
+            <span className="font-medium text-slate-900">
+              ${tuitionAmount.toLocaleString('en-US')}
+            </span>
           </div>
           <div className="flex justify-between">
             <span className="text-slate-600">Deposit Due Today:</span>
-            <span className="font-medium text-slate-900">${depositAmount.toLocaleString('en-US')}</span>
+            <span className="font-medium text-slate-900">
+              ${depositAmount.toLocaleString('en-US')}
+            </span>
           </div>
           <div className="flex justify-between">
             <span className="text-slate-600">Remaining Balance:</span>
-            <span className="font-medium text-slate-900">${remainingBalance.toLocaleString('en-US')}</span>
+            <span className="font-medium text-slate-900">
+              ${remainingBalance.toLocaleString('en-US')}
+            </span>
           </div>
           <div className="flex justify-between border-t border-slate-200 pt-2 mt-2">
             <span className="text-slate-600">Monthly Payment:</span>
-            <span className="font-bold text-slate-900">${monthlyPayment.toLocaleString('en-US')}/month × {numberOfMonths} months</span>
+            <span className="font-bold text-slate-900">
+              ${monthlyPayment.toLocaleString('en-US')}/month × {numberOfMonths} months
+            </span>
           </div>
         </div>
       </div>
@@ -81,20 +89,21 @@ export function PaymentDisclosure({
       {/* Acknowledgments */}
       <div className="space-y-4 mb-6">
         <h3 className="font-semibold text-slate-900">Required Acknowledgments</h3>
-        
+
         {/* Total Cost */}
         <label className="flex items-start gap-3 cursor-pointer">
           <input
             type="checkbox"
             checked={acknowledged.totalCost}
-            onChange={(e) => setAcknowledged(prev => ({ ...prev, totalCost: e.target.checked }))}
+            onChange={(e) => setAcknowledged((prev) => ({ ...prev, totalCost: e.target.checked }))}
             className="mt-1 w-5 h-5 rounded border-slate-300 text-brand-orange-600 focus:ring-brand-orange-500"
           />
           <div>
             <p className="font-medium text-slate-900">I understand the total cost</p>
             <p className="text-sm text-slate-600">
-              The total tuition for this program is ${tuitionAmount.toLocaleString('en-US')}. 
-              I am paying ${depositAmount.toLocaleString('en-US')} today and ${remainingBalance.toLocaleString('en-US')} 
+              The total tuition for this program is ${tuitionAmount.toLocaleString('en-US')}. I am
+              paying ${depositAmount.toLocaleString('en-US')} today and $
+              {remainingBalance.toLocaleString('en-US')}
               over {numberOfMonths} monthly payments of ${monthlyPayment.toLocaleString('en-US')}.
             </p>
           </div>
@@ -105,15 +114,17 @@ export function PaymentDisclosure({
           <input
             type="checkbox"
             checked={acknowledged.autopayRequired}
-            onChange={(e) => setAcknowledged(prev => ({ ...prev, autopayRequired: e.target.checked }))}
+            onChange={(e) =>
+              setAcknowledged((prev) => ({ ...prev, autopayRequired: e.target.checked }))
+            }
             className="mt-1 w-5 h-5 rounded border-slate-300 text-brand-orange-600 focus:ring-brand-orange-500"
           />
           <div>
             <p className="font-medium text-slate-900">I agree to automatic payments</p>
             <p className="text-sm text-slate-600">
-              Monthly payments will be automatically charged to my payment method on file. 
-              <strong> Manual payments are not accepted.</strong> I am responsible for ensuring 
-              my payment method remains valid and has sufficient funds.
+              Monthly payments will be automatically charged to my payment method on file.
+              <strong> Manual payments are not accepted.</strong> I am responsible for ensuring my
+              payment method remains valid and has sufficient funds.
             </p>
           </div>
         </label>
@@ -123,17 +134,22 @@ export function PaymentDisclosure({
           <input
             type="checkbox"
             checked={acknowledged.missedPaymentConsequences}
-            onChange={(e) => setAcknowledged(prev => ({ ...prev, missedPaymentConsequences: e.target.checked }))}
+            onChange={(e) =>
+              setAcknowledged((prev) => ({ ...prev, missedPaymentConsequences: e.target.checked }))
+            }
             className="mt-1 w-5 h-5 rounded border-slate-300 text-brand-orange-600 focus:ring-brand-orange-500"
           />
           <div>
-            <p className="font-medium text-slate-900">I understand the consequences of missed payments</p>
+            <p className="font-medium text-slate-900">
+              I understand the consequences of missed payments
+            </p>
             <p className="text-sm text-slate-600">
-              If a payment fails, I have {TIER3_INTERNAL_PLAN.rules.gracePeriodDays} days to resolve it. 
-              After that, <strong>my access to courses and labs will be paused immediately</strong>. 
-              A ${TIER3_INTERNAL_PLAN.rules.lateFee} late fee may apply. 
-              After {TIER3_INTERNAL_PLAN.enforcement.missedPaymentsBeforeTermination} missed payments, 
-              my enrollment may be terminated.
+              If a payment fails, I have {TIER3_INTERNAL_PLAN.rules.gracePeriodDays} days to resolve
+              it. After that,{' '}
+              <strong>my access to courses and labs will be paused immediately</strong>. A $
+              {TIER3_INTERNAL_PLAN.rules.lateFee} late fee may apply. After{' '}
+              {TIER3_INTERNAL_PLAN.enforcement.missedPaymentsBeforeTermination} missed payments, my
+              enrollment may be terminated.
             </p>
           </div>
         </label>
@@ -143,14 +159,21 @@ export function PaymentDisclosure({
           <input
             type="checkbox"
             checked={acknowledged.credentialHold}
-            onChange={(e) => setAcknowledged(prev => ({ ...prev, credentialHold: e.target.checked }))}
+            onChange={(e) =>
+              setAcknowledged((prev) => ({ ...prev, credentialHold: e.target.checked }))
+            }
             className="mt-1 w-5 h-5 rounded border-slate-300 text-brand-orange-600 focus:ring-brand-orange-500"
           />
           <div>
-            <p className="font-medium text-slate-900">I understand credentials are held until paid in full</p>
+            <p className="font-medium text-slate-900">
+              I understand credentials are held until paid in full
+            </p>
             <p className="text-sm text-slate-600">
-              <strong>No certificates, transcripts, or credentials will be released until my balance is $0.</strong> 
-              This includes completion certificates, state certification exam eligibility letters, 
+              <strong>
+                No certificates, transcripts, or credentials will be released until my balance is
+                $0.
+              </strong>
+              This includes completion certificates, state certification exam eligibility letters,
               and any other official documents.
             </p>
           </div>
@@ -161,16 +184,21 @@ export function PaymentDisclosure({
           <input
             type="checkbox"
             checked={acknowledged.refundPolicy}
-            onChange={(e) => setAcknowledged(prev => ({ ...prev, refundPolicy: e.target.checked }))}
+            onChange={(e) =>
+              setAcknowledged((prev) => ({ ...prev, refundPolicy: e.target.checked }))
+            }
             className="mt-1 w-5 h-5 rounded border-slate-300 text-brand-orange-600 focus:ring-brand-orange-500"
           />
           <div>
             <p className="font-medium text-slate-900">I understand the refund policy</p>
             <p className="text-sm text-slate-600">
-              The ${REFUND_POLICY.registrationFee} registration fee is non-refundable. 
-              If I withdraw before the program starts, I receive a full refund minus the registration fee. 
-              After the program starts, refunds are prorated based on completion. 
-              <strong>No refunds are available after {REFUND_POLICY.afterProgramStart.noRefundAfterPercent}% completion.</strong>
+              The ${REFUND_POLICY.registrationFee} registration fee is non-refundable. If I withdraw
+              before the program starts, I receive a full refund minus the registration fee. After
+              the program starts, refunds are prorated based on completion.
+              <strong>
+                No refunds are available after{' '}
+                {REFUND_POLICY.afterProgramStart.noRefundAfterPercent}% completion.
+              </strong>
             </p>
           </div>
         </label>
@@ -181,8 +209,8 @@ export function PaymentDisclosure({
         <div className="flex items-start gap-2">
           <AlertCircle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
           <p className="text-sm text-amber-800">
-            <strong>Important:</strong> By proceeding, you are entering into a binding payment agreement. 
-            Please ensure you can meet the payment obligations before continuing.
+            <strong>Important:</strong> By proceeding, you are entering into a binding payment
+            agreement. Please ensure you can meet the payment obligations before continuing.
           </p>
         </div>
       </div>
@@ -204,8 +232,8 @@ export function PaymentDisclosure({
               : 'bg-slate-200 text-slate-400 cursor-not-allowed'
           }`}
         >
-          {allAcknowledged && <span className="text-slate-400 flex-shrink-0">•</span>}
-          I Agree & Continue
+          {allAcknowledged && <span className="text-slate-400 flex-shrink-0">•</span>}I Agree &
+          Continue
         </button>
       </div>
 

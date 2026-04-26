@@ -159,8 +159,8 @@ export default function CosmetologySignMOUPage() {
 
   useEffect(() => {
     fetch('/api/partners/cosmetology-apprenticeship/my-application')
-      .then(r => r.ok ? r.json() : null)
-      .then(data => {
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data) => {
         if (!data) return;
         if (data.salon_legal_name || data.name) setSalonName(data.salon_legal_name || data.name);
         if (data.owner_name) setSignerName(data.owner_name);
@@ -215,25 +215,31 @@ export default function CosmetologySignMOUPage() {
     return { x: e.clientX - rect.left, y: e.clientY - rect.top };
   }, []);
 
-  const startDrawing = useCallback((e: React.MouseEvent | React.TouchEvent) => {
-    e.preventDefault();
-    const ctx = canvasRef.current?.getContext('2d');
-    if (!ctx) return;
-    const pos = getPos(e);
-    ctx.beginPath();
-    ctx.moveTo(pos.x, pos.y);
-    setIsDrawing(true);
-  }, [getPos]);
+  const startDrawing = useCallback(
+    (e: React.MouseEvent | React.TouchEvent) => {
+      e.preventDefault();
+      const ctx = canvasRef.current?.getContext('2d');
+      if (!ctx) return;
+      const pos = getPos(e);
+      ctx.beginPath();
+      ctx.moveTo(pos.x, pos.y);
+      setIsDrawing(true);
+    },
+    [getPos],
+  );
 
-  const draw = useCallback((e: React.MouseEvent | React.TouchEvent) => {
-    e.preventDefault();
-    if (!isDrawing) return;
-    const ctx = canvasRef.current?.getContext('2d');
-    if (!ctx) return;
-    const pos = getPos(e);
-    ctx.lineTo(pos.x, pos.y);
-    ctx.stroke();
-  }, [isDrawing, getPos]);
+  const draw = useCallback(
+    (e: React.MouseEvent | React.TouchEvent) => {
+      e.preventDefault();
+      if (!isDrawing) return;
+      const ctx = canvasRef.current?.getContext('2d');
+      if (!ctx) return;
+      const pos = getPos(e);
+      ctx.lineTo(pos.x, pos.y);
+      ctx.stroke();
+    },
+    [isDrawing, getPos],
+  );
 
   const stopDrawing = useCallback(() => {
     setIsDrawing(false);
@@ -268,11 +274,26 @@ export default function CosmetologySignMOUPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-    if (!salonName.trim()) { setError('Please enter your salon name.'); return; }
-    if (!signerName.trim()) { setError('Please enter your full legal name.'); return; }
-    if (!hasSigned) { setError('Please provide your signature above.'); return; }
-    if (!agreedToTerms) { setError('You must agree to the terms of the MOU.'); return; }
-    if (!handbookRead) { setError('You must confirm you have read the Partner Handbook.'); return; }
+    if (!salonName.trim()) {
+      setError('Please enter your salon name.');
+      return;
+    }
+    if (!signerName.trim()) {
+      setError('Please enter your full legal name.');
+      return;
+    }
+    if (!hasSigned) {
+      setError('Please provide your signature above.');
+      return;
+    }
+    if (!agreedToTerms) {
+      setError('You must agree to the terms of the MOU.');
+      return;
+    }
+    if (!handbookRead) {
+      setError('You must confirm you have read the Partner Handbook.');
+      return;
+    }
 
     setSubmitting(true);
     try {
@@ -312,8 +333,8 @@ export default function CosmetologySignMOUPage() {
           <CheckCircle2 className="w-16 h-16 text-green-500 mx-auto mb-4" />
           <h1 className="text-2xl font-bold text-slate-900 mb-2">MOU Signed Successfully</h1>
           <p className="text-slate-600 mb-6">
-            Your Memorandum of Understanding has been submitted. Our team will countersign
-            and send you a fully executed copy within 2 business days.
+            Your Memorandum of Understanding has been submitted. Our team will countersign and send
+            you a fully executed copy within 2 business days.
           </p>
           <div className="space-y-3">
             <Link
@@ -334,17 +355,20 @@ export default function CosmetologySignMOUPage() {
     );
   }
 
-  const inputCls = 'w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent';
+  const inputCls =
+    'w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent';
   const labelCls = 'block text-sm font-medium text-slate-700 mb-1';
 
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-4xl mx-auto px-4 pt-6">
-        <Breadcrumbs items={[
-          { label: 'Partners', href: '/partners/cosmetology-apprenticeship' },
-          { label: 'Onboarding', href: '/partners/cosmetology-apprenticeship' },
-          { label: 'Sign MOU' },
-        ]} />
+        <Breadcrumbs
+          items={[
+            { label: 'Partners', href: '/partners/cosmetology-apprenticeship' },
+            { label: 'Onboarding', href: '/partners/cosmetology-apprenticeship' },
+            { label: 'Sign MOU' },
+          ]}
+        />
       </div>
 
       <div className="bg-white border-b border-slate-200 mt-4">
@@ -364,8 +388,12 @@ export default function CosmetologySignMOUPage() {
           <div className="p-6 space-y-6">
             {MOU_SECTIONS.map((section) => (
               <div key={section.title}>
-                <h3 className="font-bold text-slate-900 mb-2 text-sm uppercase tracking-wide">{section.title}</h3>
-                <p className="text-sm text-slate-700 whitespace-pre-line leading-relaxed">{section.content}</p>
+                <h3 className="font-bold text-slate-900 mb-2 text-sm uppercase tracking-wide">
+                  {section.title}
+                </h3>
+                <p className="text-sm text-slate-700 whitespace-pre-line leading-relaxed">
+                  {section.content}
+                </p>
               </div>
             ))}
           </div>
@@ -378,15 +406,31 @@ export default function CosmetologySignMOUPage() {
             <div className="grid sm:grid-cols-2 gap-4">
               <div>
                 <label className={labelCls}>Salon Legal Name *</label>
-                <input required className={inputCls} value={salonName} onChange={e => setSalonName(e.target.value)} placeholder="Legal business name" />
+                <input
+                  required
+                  className={inputCls}
+                  value={salonName}
+                  onChange={(e) => setSalonName(e.target.value)}
+                  placeholder="Legal business name"
+                />
               </div>
               <div>
                 <label className={labelCls}>Signer Full Legal Name *</label>
-                <input required className={inputCls} value={signerName} onChange={e => setSignerName(e.target.value)} />
+                <input
+                  required
+                  className={inputCls}
+                  value={signerName}
+                  onChange={(e) => setSignerName(e.target.value)}
+                />
               </div>
               <div>
                 <label className={labelCls}>Signer Title *</label>
-                <input required className={inputCls} value={signerTitle} onChange={e => setSignerTitle(e.target.value)} />
+                <input
+                  required
+                  className={inputCls}
+                  value={signerTitle}
+                  onChange={(e) => setSignerTitle(e.target.value)}
+                />
               </div>
             </div>
           </div>
@@ -397,11 +441,22 @@ export default function CosmetologySignMOUPage() {
             <div className="grid sm:grid-cols-2 gap-4">
               <div>
                 <label className={labelCls}>Supervisor Full Name *</label>
-                <input required className={inputCls} value={supervisorName} onChange={e => setSupervisorName(e.target.value)} />
+                <input
+                  required
+                  className={inputCls}
+                  value={supervisorName}
+                  onChange={(e) => setSupervisorName(e.target.value)}
+                />
               </div>
               <div>
                 <label className={labelCls}>Indiana Cosmetology License # *</label>
-                <input required className={inputCls} value={supervisorLicense} onChange={e => setSupervisorLicense(e.target.value)} placeholder="IPLA license number" />
+                <input
+                  required
+                  className={inputCls}
+                  value={supervisorLicense}
+                  onChange={(e) => setSupervisorLicense(e.target.value)}
+                  placeholder="IPLA license number"
+                />
               </div>
             </div>
           </div>
@@ -412,14 +467,27 @@ export default function CosmetologySignMOUPage() {
             <div className="grid sm:grid-cols-2 gap-4">
               <div>
                 <label className={labelCls}>Compensation Model *</label>
-                <select required className={inputCls} value={compensationModel} onChange={e => setCompensationModel(e.target.value)}>
+                <select
+                  required
+                  className={inputCls}
+                  value={compensationModel}
+                  onChange={(e) => setCompensationModel(e.target.value)}
+                >
                   <option value="hourly">Hourly Wage</option>
                   <option value="hybrid">Hybrid (Hourly Base + Commission)</option>
                 </select>
               </div>
               <div>
                 <label className={labelCls}>Starting Rate *</label>
-                <input required className={inputCls} value={compensationRate} onChange={e => setCompensationRate(e.target.value)} placeholder={compensationModel === 'hourly' ? 'e.g. $10.00/hr' : 'e.g. $8.00/hr + 20%'} />
+                <input
+                  required
+                  className={inputCls}
+                  value={compensationRate}
+                  onChange={(e) => setCompensationRate(e.target.value)}
+                  placeholder={
+                    compensationModel === 'hourly' ? 'e.g. $10.00/hr' : 'e.g. $8.00/hr + 20%'
+                  }
+                />
               </div>
             </div>
           </div>
@@ -427,8 +495,13 @@ export default function CosmetologySignMOUPage() {
           {/* Signature */}
           <div className="bg-white border border-slate-200 rounded-xl p-6 space-y-4">
             <h2 className="font-bold text-slate-900">Digital Signature</h2>
-            <p className="text-sm text-slate-500">Draw your signature in the box below using your mouse or finger.</p>
-            <div className="rounded-lg overflow-hidden bg-white" style={{ border: '2px solid #cbd5e1', height: 160 }}>
+            <p className="text-sm text-slate-500">
+              Draw your signature in the box below using your mouse or finger.
+            </p>
+            <div
+              className="rounded-lg overflow-hidden bg-white"
+              style={{ border: '2px solid #cbd5e1', height: 160 }}
+            >
               <canvas
                 ref={canvasRef}
                 width={800}
@@ -443,7 +516,11 @@ export default function CosmetologySignMOUPage() {
                 onTouchEnd={stopDrawing}
               />
             </div>
-            <button type="button" onClick={clearSignature} className="flex items-center gap-2 text-sm text-slate-500 hover:text-slate-700">
+            <button
+              type="button"
+              onClick={clearSignature}
+              className="flex items-center gap-2 text-sm text-slate-500 hover:text-slate-700"
+            >
               <Eraser className="w-4 h-4" /> Clear signature
             </button>
           </div>
@@ -452,19 +529,35 @@ export default function CosmetologySignMOUPage() {
           <div className="bg-white border border-slate-200 rounded-xl p-6 space-y-4">
             <h2 className="font-bold text-slate-900">Acknowledgments</h2>
             <label className="flex items-start gap-3 cursor-pointer">
-              <input type="checkbox" className="mt-1 w-4 h-4 accent-purple-600" checked={handbookRead} onChange={e => setHandbookRead(e.target.checked)} />
+              <input
+                type="checkbox"
+                className="mt-1 w-4 h-4 accent-purple-600"
+                checked={handbookRead}
+                onChange={(e) => setHandbookRead(e.target.checked)}
+              />
               <span className="text-sm text-slate-700">
                 I confirm that I have read and understood the{' '}
-                <Link href="/partners/cosmetology-apprenticeship/handbook" target="_blank" className="text-purple-600 hover:underline font-medium">
+                <Link
+                  href="/partners/cosmetology-apprenticeship/handbook"
+                  target="_blank"
+                  className="text-purple-600 hover:underline font-medium"
+                >
                   Cosmetology Partner Handbook
                 </Link>{' '}
                 in full prior to signing this MOU.
               </span>
             </label>
             <label className="flex items-start gap-3 cursor-pointer">
-              <input type="checkbox" className="mt-1 w-4 h-4 accent-purple-600" checked={agreedToTerms} onChange={e => setAgreedToTerms(e.target.checked)} />
+              <input
+                type="checkbox"
+                className="mt-1 w-4 h-4 accent-purple-600"
+                checked={agreedToTerms}
+                onChange={(e) => setAgreedToTerms(e.target.checked)}
+              />
               <span className="text-sm text-slate-700">
-                I agree to all terms of this Memorandum of Understanding on behalf of the salon named above. I understand this is a legally binding agreement governing a USDOL Registered Apprenticeship worksite.
+                I agree to all terms of this Memorandum of Understanding on behalf of the salon
+                named above. I understand this is a legally binding agreement governing a USDOL
+                Registered Apprenticeship worksite.
               </span>
             </label>
           </div>
@@ -481,14 +574,24 @@ export default function CosmetologySignMOUPage() {
             disabled={submitting || !agreedToTerms || !handbookRead}
             className="w-full py-4 bg-purple-600 text-white font-bold rounded-xl hover:bg-purple-700 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
-            {submitting ? <><Loader2 className="w-5 h-5 animate-spin" /> Submitting...</> : 'Sign and Submit MOU'}
+            {submitting ? (
+              <>
+                <Loader2 className="w-5 h-5 animate-spin" /> Submitting...
+              </>
+            ) : (
+              'Sign and Submit MOU'
+            )}
           </button>
 
           <p className="text-center text-slate-500 text-xs">
             Questions?{' '}
-            <Link href="/contact" className="text-purple-600 hover:underline">Contact us</Link>{' '}
+            <Link href="/contact" className="text-purple-600 hover:underline">
+              Contact us
+            </Link>{' '}
             or call{' '}
-            <a href="tel:3173143757" className="text-purple-600 hover:underline">(317) 314-3757</a>
+            <a href="tel:3173143757" className="text-purple-600 hover:underline">
+              (317) 314-3757
+            </a>
           </p>
         </form>
       </div>

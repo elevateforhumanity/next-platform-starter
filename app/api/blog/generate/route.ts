@@ -63,7 +63,7 @@ async function _POST(request: NextRequest) {
     if (!isOpenAIConfigured()) {
       return NextResponse.json(
         { error: 'OpenAI API key not configured in environment variables' },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
@@ -95,8 +95,7 @@ async function _POST(request: NextRequest) {
       messages: [
         {
           role: 'system',
-          content:
-            'Generate a compelling blog post title and 2-sentence excerpt.',
+          content: 'Generate a compelling blog post title and 2-sentence excerpt.',
         },
         {
           role: 'user',
@@ -137,10 +136,7 @@ async function _POST(request: NextRequest) {
       .maybeSingle();
 
     if (error) {
-      return NextResponse.json(
-        { error: 'Failed to save blog post' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to save blog post' }, { status: 500 });
     }
 
     return NextResponse.json({
@@ -148,11 +144,8 @@ async function _POST(request: NextRequest) {
       blogPost,
       message: 'Blog post generated successfully (saved as draft)',
     });
-  } catch (error) { 
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+  } catch (error) {
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/blog/generate', _POST);

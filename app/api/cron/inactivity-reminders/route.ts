@@ -41,11 +41,15 @@ async function _GET(request: Request) {
     }
 
     // Hydrate profiles separately (user_id → auth.users, no FK to profiles)
-    const inactiveUserIds = [...new Set(rawInactiveEnrollments.map((e: any) => e.user_id).filter(Boolean))];
+    const inactiveUserIds = [
+      ...new Set(rawInactiveEnrollments.map((e: any) => e.user_id).filter(Boolean)),
+    ];
     const { data: inactiveProfiles } = inactiveUserIds.length
       ? await supabase.from('profiles').select('id, full_name, email').in('id', inactiveUserIds)
       : { data: [] };
-    const inactiveProfileMap = Object.fromEntries((inactiveProfiles ?? []).map((p: any) => [p.id, p]));
+    const inactiveProfileMap = Object.fromEntries(
+      (inactiveProfiles ?? []).map((p: any) => [p.id, p]),
+    );
     const enrollments = rawInactiveEnrollments.map((e: any) => ({
       ...e,
       student_id: e.user_id,
@@ -78,20 +82,15 @@ async function _GET(request: Request) {
       const profile = Array.isArray(enrollment.profiles)
         ? enrollment.profiles[0]
         : enrollment.profiles;
-      const course = Array.isArray(enrollment.courses)
-        ? enrollment.courses[0]
-        : enrollment.courses;
+      const course = Array.isArray(enrollment.courses) ? enrollment.courses[0] : enrollment.courses;
 
       // If no login ever, or last login was 7+ days ago
       if (!lastLogin || lastLogin < sevenDaysAgo) {
         const daysSinceLogin = lastLogin
-          ? Math.floor(
-              (Date.now() - lastLogin.getTime()) / (1000 * 60 * 60 * 24)
-            )
+          ? Math.floor((Date.now() - lastLogin.getTime()) / (1000 * 60 * 60 * 24))
           : 30; // Default to 30 if never logged in
 
-        const studentName =
-          profile?.full_name || profile?.email?.split('@')[0] || 'Student';
+        const studentName = profile?.full_name || profile?.email?.split('@')[0] || 'Student';
         const courseName = course?.title || 'Course';
         const studentEmail = profile?.email || '';
         const loginUrl = `${process.env.NEXT_PUBLIC_APP_URL || `https://${process.env.URL}` || 'http://localhost:3000'}/learner/dashboard`;
@@ -100,7 +99,7 @@ async function _GET(request: Request) {
           studentName,
           courseName,
           daysSinceLogin,
-          loginUrl
+          loginUrl,
         );
 
         try {
@@ -115,7 +114,7 @@ async function _GET(request: Request) {
             email: studentEmail,
             daysSinceLogin,
           });
-        } catch (error) { 
+        } catch (error) {
           logger.error(`Failed to send reminder to ${studentEmail}:`, error);
         }
       }
@@ -126,12 +125,9 @@ async function _GET(request: Request) {
       remindersSent: reminders.length,
       reminders,
     });
-  } catch (error) { 
+  } catch (error) {
     logger.error('Error in inactivity reminders cron:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 export const GET = withRuntime(withApiAudit('/api/cron/inactivity-reminders', _GET));

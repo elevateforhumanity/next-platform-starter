@@ -33,7 +33,10 @@ function Form() {
         <p className="mt-2 text-slate-600">
           If an account exists for <strong>{email}</strong>, you'll receive a reset link shortly.
         </p>
-        <Link href="/login" className="mt-6 inline-block text-sm font-medium text-brand-red-600 hover:underline">
+        <Link
+          href="/login"
+          className="mt-6 inline-block text-sm font-medium text-brand-red-600 hover:underline"
+        >
           Back to sign in
         </Link>
       </div>

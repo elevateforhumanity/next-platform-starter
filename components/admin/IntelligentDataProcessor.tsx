@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { createClient } from '@/lib/supabase/client';
 
@@ -52,9 +52,7 @@ interface FlowChartConfig {
 
 export function IntelligentDataProcessor() {
   const [rawInput, setRawInput] = useState('');
-  const [processedData, setProcessedData] = useState<ProcessedData | null>(
-    null
-  );
+  const [processedData, setProcessedData] = useState<ProcessedData | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [copilotMessages, setCopilotMessages] = useState<string[]>([]);
 
@@ -67,19 +65,13 @@ export function IntelligentDataProcessor() {
 
     // Smart format detection
     const formatDetected = detectDataFormat(input);
-    setCopilotMessages((prev) => [
-      ...prev,
-      `✅ Detected format: ${formatDetected}`,
-    ]);
+    setCopilotMessages((prev) => [...prev, `✅ Detected format: ${formatDetected}`]);
 
     await new Promise((resolve) => setTimeout(resolve, 500));
 
     // Parse based on detected format
     const students = parseStudentData(input, formatDetected);
-    setCopilotMessages((prev) => [
-      ...prev,
-      `📊 Parsed ${students.length} student records`,
-    ]);
+    setCopilotMessages((prev) => [...prev, `📊 Parsed ${students.length} student records`]);
 
     await new Promise((resolve) => setTimeout(resolve, 500));
 
@@ -88,14 +80,8 @@ export function IntelligentDataProcessor() {
     const programs = generateProgramData(students);
     const flowCharts = generateFlowCharts(students, programs, analytics);
 
-    setCopilotMessages((prev) => [
-      ...prev,
-      '📈 Generated analytics and flow charts',
-    ]);
-    setCopilotMessages((prev) => [
-      ...prev,
-      '🎯 Setting up attrition and retention tracking',
-    ]);
+    setCopilotMessages((prev) => [...prev, '📈 Generated analytics and flow charts']);
+    setCopilotMessages((prev) => [...prev, '🎯 Setting up attrition and retention tracking']);
 
     const processed: ProcessedData = {
       students,
@@ -109,22 +95,24 @@ export function IntelligentDataProcessor() {
     // Save processed data to database
     try {
       const supabase = createClient();
-      const { data: { user } } = await supabase.auth.getUser();
-      
-      await supabase.from('data_processing_jobs').insert({
-        user_id: user?.id,
-        input_format: formatDetected,
-        student_count: students.length,
-        program_count: programs.length,
-        analytics_summary: analytics,
-        processed_at: new Date().toISOString(),
-        status: 'completed',
-      }).catch(() => {});
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
 
-      setCopilotMessages((prev) => [
-        ...prev,
-        '💾 Data saved to database',
-      ]);
+      await supabase
+        .from('data_processing_jobs')
+        .insert({
+          user_id: user?.id,
+          input_format: formatDetected,
+          student_count: students.length,
+          program_count: programs.length,
+          analytics_summary: analytics,
+          processed_at: new Date().toISOString(),
+          status: 'completed',
+        })
+        .catch(() => {});
+
+      setCopilotMessages((prev) => [...prev, '💾 Data saved to database']);
     } catch {
       // DB save is non-critical
     }
@@ -174,8 +162,7 @@ export function IntelligentDataProcessor() {
           id: `STU${Date.now()}-${index}`,
           name: parts[0] || `Student ${index + 1}`,
           program: parts[1] || 'General Program',
-          startDate:
-            parseDate(parts[2]) || new Date().toISOString().split('T')[0],
+          startDate: parseDate(parts[2]) || new Date().toISOString().split('T')[0],
           email: parts[3] || generateEmail(parts[0]),
           phone: parts[4] || '',
           status: parseStatus(parts[5]) || 'enrolled',
@@ -245,9 +232,7 @@ export function IntelligentDataProcessor() {
 
   const generateAnalytics = (students: StudentRecord[]): AnalyticsData => {
     const total = students.length;
-    const active = students.filter(
-      (s) => s.status === 'active' || s.status === 'enrolled'
-    ).length;
+    const active = students.filter((s) => s.status === 'active' || s.status === 'enrolled').length;
     const completed = students.filter((s) => s.status === 'completed').length;
     const atRisk = students.filter((s) => s.riskLevel === 'high').length;
 
@@ -273,14 +258,10 @@ export function IntelligentDataProcessor() {
     return Array.from(programMap.entries()).map(([name, programStudents]) => {
       const total = programStudents.length;
       const active = programStudents.filter(
-        (s) => s.status === 'active' || s.status === 'enrolled'
+        (s) => s.status === 'active' || s.status === 'enrolled',
       ).length;
-      const completed = programStudents.filter(
-        (s) => s.status === 'completed'
-      ).length;
-      const dropped = programStudents.filter(
-        (s) => s.status === 'dropped'
-      ).length;
+      const completed = programStudents.filter((s) => s.status === 'completed').length;
+      const dropped = programStudents.filter((s) => s.status === 'dropped').length;
 
       return {
         name,
@@ -307,7 +288,7 @@ export function IntelligentDataProcessor() {
   const generateFlowCharts = (
     students: StudentRecord[],
     programs: ProgramData[],
-    analytics: AnalyticsData
+    analytics: AnalyticsData,
   ): FlowChartConfig[] => {
     return [
       {
@@ -359,20 +340,15 @@ export function IntelligentDataProcessor() {
   return (
     <div className="intelligent-processor bg-white rounded-lg shadow-lg p-6">
       <div className="mb-6">
-        <h2 className="text-2xl font-bold text-brand-text mb-2">
-          🤖 Intelligent Data Processor
-        </h2>
+        <h2 className="text-2xl font-bold text-brand-text mb-2">🤖 Intelligent Data Processor</h2>
         <p className="text-brand-text-muted">
-          Paste any format - I'll figure it out and create everything
-          automatically!
+          Paste any format - I'll figure it out and create everything automatically!
         </p>
       </div>
       {/* Copilot Messages */}
       {copilotMessages.length > 0 && (
         <div className="copilot-messages mb-6 bg-brand-blue-50 border border-brand-blue-200 rounded-lg p-4">
-          <h3 className="font-semibold text-brand-blue-900 mb-2">
-            🤖 Copilot Status:
-          </h3>
+          <h3 className="font-semibold text-brand-blue-900 mb-2">🤖 Copilot Status:</h3>
           <div className="space-y-1">
             {copilotMessages.map((message, index) => (
               <div key={index} className="text-sm text-brand-info">
@@ -389,7 +365,9 @@ export function IntelligentDataProcessor() {
         </label>
         <textarea
           value={rawInput}
-          onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setRawInput(e.target.value)}
+          onChange={(
+            e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+          ) => setRawInput(e.target.value)}
           placeholder="Paste your data here - any format works!
 
 Examples:
@@ -408,9 +386,7 @@ Sarah Johnson IT Support         2025-01-22    sarah@email.com"
             disabled={!rawInput.trim() || isProcessing}
             className="bg-brand-info text-white px-6 py-3 rounded-lg hover:bg-brand-info-hover disabled:opacity-50 font-medium"
           >
-            {isProcessing
-              ? '🔄 Processing...'
-              : '🤖 Process & Create Everything'}
+            {isProcessing ? '🔄 Processing...' : '🤖 Process & Create Everything'}
           </button>
           <button
             onClick={() => setRawInput('')}
@@ -424,38 +400,28 @@ Sarah Johnson IT Support         2025-01-22    sarah@email.com"
       {processedData && (
         <div className="results space-y-6">
           <div className="bg-brand-green-50 border border-brand-green-200 rounded-lg p-4">
-            <h3 className="font-semibold text-brand-green-900 mb-2">
-              ✅ Processing Complete!
-            </h3>
+            <h3 className="font-semibold text-brand-green-900 mb-2">✅ Processing Complete!</h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
               <div>
-                <div className="font-medium text-brand-success">
-                  Students Processed
-                </div>
+                <div className="font-medium text-brand-success">Students Processed</div>
                 <div className="text-2xl font-bold text-brand-success">
                   {processedData.students.length}
                 </div>
               </div>
               <div>
-                <div className="font-medium text-brand-success">
-                  Programs Detected
-                </div>
+                <div className="font-medium text-brand-success">Programs Detected</div>
                 <div className="text-2xl font-bold text-brand-success">
                   {processedData.programs.length}
                 </div>
               </div>
               <div>
-                <div className="font-medium text-brand-success">
-                  Flow Charts Created
-                </div>
+                <div className="font-medium text-brand-success">Flow Charts Created</div>
                 <div className="text-2xl font-bold text-brand-success">
                   {processedData.flowCharts.length}
                 </div>
               </div>
               <div>
-                <div className="font-medium text-brand-success">
-                  At-Risk Students
-                </div>
+                <div className="font-medium text-brand-success">At-Risk Students</div>
                 <div className="text-2xl font-bold text-brand-orange-600">
                   {processedData.analytics.atRiskCount}
                 </div>
@@ -465,26 +431,16 @@ Sarah Johnson IT Support         2025-01-22    sarah@email.com"
           {/* Quick Actions */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <button className="p-4 bg-brand-blue-50 border border-brand-blue-200 rounded-lg hover:bg-brand-surface text-left">
-              <div className="font-medium text-brand-blue-900">
-                📊 View Flow Charts
-              </div>
-              <div className="text-sm text-brand-info mt-1">
-                See au visualizations
-              </div>
+              <div className="font-medium text-brand-blue-900">📊 View Flow Charts</div>
+              <div className="text-sm text-brand-info mt-1">See au visualizations</div>
             </button>
             <button className="p-4 bg-brand-green-50 border border-brand-green-200 rounded-lg hover:bg-brand-surface text-left">
-              <div className="font-medium text-brand-green-900">
-                📈 Analytics Dashboard
-              </div>
-              <div className="text-sm text-brand-green-700 mt-1">
-                Real-time retention tracking
-              </div>
+              <div className="font-medium text-brand-green-900">📈 Analytics Dashboard</div>
+              <div className="text-sm text-brand-green-700 mt-1">Real-time retention tracking</div>
             </button>
             <button className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg hover:bg-yellow-100 text-left">
               <div className="font-medium text-yellow-900">⚠️ Risk Alerts</div>
-              <div className="text-sm text-yellow-700 mt-1">
-                Students needing intervention
-              </div>
+              <div className="text-sm text-yellow-700 mt-1">Students needing intervention</div>
             </button>
           </div>
         </div>

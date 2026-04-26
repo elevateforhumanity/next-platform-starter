@@ -1,12 +1,6 @@
-"use client";
+'use client';
 
-import React, {
-  createContext,
-  useContext,
-  useState,
-  useRef,
-  useEffect,
-} from 'react';
+import React, { createContext, useContext, useState, useRef, useEffect } from 'react';
 import { ChevronDown } from 'lucide-react';
 
 interface SelectContextValue {
@@ -40,9 +34,7 @@ export const SelectRoot: React.FC<SelectProps> = ({
   defaultValue,
 }) => {
   const [open, setOpen] = useState(false);
-  const [internalValue, setInternalValue] = useState(
-    defaultValue || value || ''
-  );
+  const [internalValue, setInternalValue] = useState(defaultValue || value || '');
 
   const handleValueChange = (newValue: string) => {
     setInternalValue(newValue);
@@ -69,56 +61,49 @@ interface SelectTriggerProps {
   className?: string;
 }
 
-export const SelectTrigger = React.forwardRef<
-  HTMLButtonElement,
-  SelectTriggerProps
->(({ children, className = '' }, ref) => {
-  const { open, setOpen } = useSelectContext();
-  const triggerRef = useRef<HTMLButtonElement>(null);
+export const SelectTrigger = React.forwardRef<HTMLButtonElement, SelectTriggerProps>(
+  ({ children, className = '' }, ref) => {
+    const { open, setOpen } = useSelectContext();
+    const triggerRef = useRef<HTMLButtonElement>(null);
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        triggerRef.current &&
-        !triggerRef.current.contains(event.target as Node)
-      ) {
-        setOpen(false);
+    useEffect(() => {
+      const handleClickOutside = (event: MouseEvent) => {
+        if (triggerRef.current && !triggerRef.current.contains(event.target as Node)) {
+          setOpen(false);
+        }
+      };
+
+      if (open) {
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
       }
-    };
+    }, [open, setOpen]);
 
-    if (open) {
-      document.addEventListener('mousedown', handleClickOutside);
-      return () =>
-        document.removeEventListener('mousedown', handleClickOutside);
-    }
-  }, [open, setOpen]);
-
-  return (
-    <button
-      ref={triggerRef}
-      type="button"
-      onClick={() => setOpen(!open)}
-      aria-haspopup="listbox"
-      aria-expanded={open}
-      className={`flex items-center justify-between w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded-md hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-brand-blue-500 ${className}`}
-    >
-      {children}
-      <ChevronDown
-        className={`h-4 w-4 transition-transform ${open ? 'rotate-180' : ''}`}
-        aria-hidden="true"
-      />
-    </button>
-  );
-});
+    return (
+      <button
+        ref={triggerRef}
+        type="button"
+        onClick={() => setOpen(!open)}
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        className={`flex items-center justify-between w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded-md hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-brand-blue-500 ${className}`}
+      >
+        {children}
+        <ChevronDown
+          className={`h-4 w-4 transition-transform ${open ? 'rotate-180' : ''}`}
+          aria-hidden="true"
+        />
+      </button>
+    );
+  },
+);
 SelectTrigger.displayName = 'SelectTrigger';
 
 interface SelectValueProps {
   Content?: string;
 }
 
-export const SelectValue: React.FC<SelectValueProps> = ({
-  Content = 'Select...',
-}) => {
+export const SelectValue: React.FC<SelectValueProps> = ({ Content = 'Select...' }) => {
   const { value } = useSelectContext();
   return <span>{value || Content}</span>;
 };
@@ -128,10 +113,7 @@ interface SelectContentProps {
   className?: string;
 }
 
-export const SelectContent: React.FC<SelectContentProps> = ({
-  children,
-  className = '',
-}) => {
+export const SelectContent: React.FC<SelectContentProps> = ({ children, className = '' }) => {
   const { open } = useSelectContext();
 
   if (!open) return null;
@@ -152,11 +134,7 @@ interface SelectItemProps {
   disabled?: boolean;
 }
 
-export const SelectItem: React.FC<SelectItemProps> = ({
-  value,
-  children,
-  disabled = false,
-}) => {
+export const SelectItem: React.FC<SelectItemProps> = ({ value, children, disabled = false }) => {
   const { value: selectedValue, onValueChange } = useSelectContext();
   const isSelected = selectedValue === value;
 

@@ -1,6 +1,9 @@
 # EmployIndy RFP 2026-003 — WIOA In-School Youth Service Provision
+
 # Elevate for Humanity — Proposal Narrative
+
 # Due: April 24, 2026, 11:59PM
+
 # Submit: https://employindy.org/contract-opportunities
 
 ---
@@ -22,7 +25,8 @@
 ---
 
 ## SECTION 2: ORGANIZATIONAL OVERVIEW & CAPACITY
-*(15 points)*
+
+_(15 points)_
 
 Elevate for Humanity is a Marion County nonprofit workforce development organization founded to expand access to high-demand career pathways for underserved adults and youth. Our mission is to eliminate barriers between Indianapolis residents and living-wage employment through technology-enabled training, registered apprenticeship, and wraparound case management.
 
@@ -41,7 +45,8 @@ Elevate for Humanity is a Marion County nonprofit workforce development organiza
 ---
 
 ## SECTION 3: PROGRAM DESIGN & INTEGRATED SERVICE DELIVERY
-*(15 points)*
+
+_(15 points)_
 
 Elevate's service model moves participants through a clear, technology-enabled journey from first contact to credential attainment and employment. Every step is documented in Indiana Career Connect and tracked in Elevate's LMS.
 
@@ -60,6 +65,7 @@ Each participant receives a comprehensive objective assessment covering academic
 
 **Step 4 — Service Delivery**
 Participants access all 14 WIOA Youth Service Elements through Elevate's integrated model (detailed in the WIOA 14 Service Elements Plan). Core delivery includes:
+
 - In-person career coaching at Frost School 109 with Career Coach Ameco Martin
 - Asynchronous online instruction via Elevate's LMS (accessible on any device)
 - HVAC pre-apprenticeship pathway with EPA 608 exam preparation
@@ -81,7 +87,8 @@ Elevate's LMS uses AI-assisted content delivery, automated progress tracking, an
 ---
 
 ## SECTION 4: EMPLOYER ENGAGEMENT, TRAINING & CAREER PATHWAYS
-*(15 points)*
+
+_(15 points)_
 
 **Primary Employer Partner: 2Exclusive Platinum Cleaning**
 2Exclusive Platinum Cleaning is Elevate's OJT employer partner for the Building Services Technician RAP. They provide paid work-based learning placements, on-site mentorship, and a direct hiring pipeline for program completers. This is an existing, operational partnership — not a proposed one.
@@ -90,6 +97,7 @@ Elevate's LMS uses AI-assisted content delivery, automated progress tracking, an
 HVAC is consistently identified on Indiana's Demand Occupation List. The U.S. Bureau of Labor Statistics projects 6% national growth for HVAC mechanics through 2032. In Marion County, aging commercial infrastructure and rapid construction growth drive sustained employer demand. EPA 608 certification is a federal legal requirement for any technician handling refrigerants — creating a hard credential barrier that limits supply and elevates wages above the WIOA median earnings target of $4,300 in Q2.
 
 **Pathway Structure:**
+
 - High school enrollment → WIOA eligibility → ISS development
 - HVAC pre-apprenticeship: online RTI via Elevate LMS + OJT at 2Exclusive
 - EPA 608 Universal Certification exam (fees covered)
@@ -98,6 +106,7 @@ HVAC is consistently identified on Indiana's Demand Occupation List. The U.S. Bu
 - Stackable credentials toward BOMA, IFMA, and Indiana occupational certifications
 
 **Employer Engagement Activities:**
+
 - Employer panels and industry tours for participants at Frost School 109
 - Job shadowing placements at 2Exclusive Platinum Cleaning
 - Employer-led professionalism and workplace readiness sessions
@@ -109,7 +118,8 @@ Career Coach delivers sector-based career exploration sessions at Frost School 1
 ---
 
 ## SECTION 5: PARTICIPANT SUPPORT, RETENTION & BARRIER REMOVAL
-*(5 points)*
+
+_(5 points)_
 
 Elevate's retention model is built into program design at every stage:
 
@@ -118,6 +128,7 @@ Elevate's retention model is built into program design at every stage:
 **Dedicated Case Manager:** Monthly check-ins for every participant. At-risk flags triggered automatically by LMS inactivity alerts. Structured re-engagement plan before any disenrollment action.
 
 **Supportive Services (allowable under WIOA):**
+
 - Transportation stipends for work-based learning participation
 - Work attire and tools for OJT placements
 - EPA 608 exam fees covered
@@ -131,7 +142,8 @@ Elevate's retention model is built into program design at every stage:
 ---
 
 ## SECTION 6: EQUITY, TRAUMA-INFORMED & CULTURALLY RESPONSIVE PRACTICE
-*(10 points)*
+
+_(10 points)_
 
 **Organizational Identity:** Elevate for Humanity is a woman-owned, Black-led nonprofit organization. Our leadership reflects the communities we serve. Equity is not a program add-on — it is the founding premise of the organization.
 
@@ -140,6 +152,7 @@ Elevate's retention model is built into program design at every stage:
 **School Psychologist Partnership:** Our partnership with Malkah Bird, EdS, NCSP at Frost School 109 ensures that participants with mental health, behavioral, or trauma-related barriers receive coordinated support from a licensed school psychologist alongside Elevate's workforce services. This is a genuine clinical-workforce integration, not a referral list.
 
 **Culturally Responsive Service Delivery:**
+
 - All program materials available in plain language
 - Career Coach Ameco Martin reflects the cultural background of the target population
 - Recruitment and outreach conducted through trusted community channels
@@ -152,19 +165,23 @@ Elevate's retention model is built into program design at every stage:
 ---
 
 ## SECTION 7: PERFORMANCE MEASUREMENT, DATA & CONTINUOUS IMPROVEMENT
-*(10 points)*
+
+_(10 points)_
 
 **Data Systems:**
+
 - **Indiana Career Connect:** All participants enrolled and tracked. ISS documented, updated, and linked to performance measures. Career Coach enters all required data in compliance with EmployIndy and DWD policy.
 - **Elevate LMS:** Real-time tracking of lesson completion, checkpoint scores, measurable skills gain, and time-on-task. Automated alerts for at-risk participants. Data exportable in CSV for WIOA reporting.
 - **Program Dashboard:** Monthly aggregate metrics reviewed by program director — retention rates, credential attainment, employment placement, LMS completion percentages.
 
 **Continuous Improvement Cycle:**
+
 - Monthly: Career Coach reviews individual participant progress in ICC and LMS. At-risk participants receive intervention within 48 hours of flag.
 - Quarterly: Program director reviews aggregate performance against WIOA targets. Findings documented in quarterly report. Corrective actions triggered for any metric below threshold.
 - Annually: Full program review incorporating all four quarters. Curriculum updates, recruitment adjustments, and staffing changes informed by data.
 
 **EmployIndy Coordination:**
+
 - Monthly meetings with EmployIndy point of contact attended by Career Coach and program director
 - Quarterly performance reports submitted on schedule
 - All ICC data entries completed within required timeframes
@@ -175,21 +192,22 @@ Elevate's LMS generates automated participant risk scores based on login frequen
 ---
 
 ## SECTION 8: BUDGET & BUDGET NARRATIVE
-*(5 points)*
+
+_(5 points)_
 
 **Total Request: $400,000 | Contract Term: July 1, 2026 – June 30, 2027**
 
-| Line Item | Amount | Justification |
-|---|---|---|
-| Career Coach — Ameco Martin (1.0 FTE) | $52,000 | Salary + benefits. Embedded at Frost School 109, delivers all career coaching, ISS development, ICC data entry, and employer coordination |
-| Case Manager (1.0 FTE) | $48,000 | Salary + benefits. WIOA enrollment, ICC management, follow-up, barrier coordination, monthly check-ins |
-| Program Director (0.25 FTE) | $20,000 | Oversight, EmployIndy coordination, quarterly reporting, continuous improvement |
-| LMS Platform & Technology | $24,000 | Hosting, maintenance, AI-assisted content delivery, dashboard reporting, participant tracking |
-| Participant Supportive Services | $180,000 | Transportation stipends, work attire/tools, EPA 608 exam fees, participant incentives, accessibility supports. Estimated 100 participants × $1,800 average |
-| Work-Based Learning Coordination | $30,000 | Employer engagement, job shadowing coordination, OJT placement support, employer panel events |
-| Training & Curriculum | $24,000 | HVAC curriculum delivery, employability bootcamp, financial literacy, LMI sessions |
-| Administrative Costs | $22,000 | Financial management, compliance, audit preparation, insurance, office expenses |
-| **Total** | **$400,000** | |
+| Line Item                             | Amount       | Justification                                                                                                                                              |
+| ------------------------------------- | ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Career Coach — Ameco Martin (1.0 FTE) | $52,000      | Salary + benefits. Embedded at Frost School 109, delivers all career coaching, ISS development, ICC data entry, and employer coordination                  |
+| Case Manager (1.0 FTE)                | $48,000      | Salary + benefits. WIOA enrollment, ICC management, follow-up, barrier coordination, monthly check-ins                                                     |
+| Program Director (0.25 FTE)           | $20,000      | Oversight, EmployIndy coordination, quarterly reporting, continuous improvement                                                                            |
+| LMS Platform & Technology             | $24,000      | Hosting, maintenance, AI-assisted content delivery, dashboard reporting, participant tracking                                                              |
+| Participant Supportive Services       | $180,000     | Transportation stipends, work attire/tools, EPA 608 exam fees, participant incentives, accessibility supports. Estimated 100 participants × $1,800 average |
+| Work-Based Learning Coordination      | $30,000      | Employer engagement, job shadowing coordination, OJT placement support, employer panel events                                                              |
+| Training & Curriculum                 | $24,000      | HVAC curriculum delivery, employability bootcamp, financial literacy, LMI sessions                                                                         |
+| Administrative Costs                  | $22,000      | Financial management, compliance, audit preparation, insurance, office expenses                                                                            |
+| **Total**                             | **$400,000** |                                                                                                                                                            |
 
 **Cost per Participant (100 participants):** $4,000 — below the $4,300 median earnings target, demonstrating cost-effectiveness.
 
@@ -201,34 +219,34 @@ Elevate's LMS generates automated participant risk scores based on login frequen
 
 ## SECTION 9: WIOA 14 SERVICE ELEMENTS PLAN
 
-| Element | Description | Elevate's Delivery Method |
-|---|---|---|
-| 1. Tutoring & Dropout Prevention | Study skills, dropout recovery | LMS-based academic support modules; referral to IPS academic resources via Malkah Bird |
-| 2. Alternative Secondary Services | Dropout recovery | Referral coordination through Frost School 109 and IPS system |
-| 3. Work-Based Learning | Internships, pre-apprenticeships, job shadowing | HVAC pre-apprenticeship at 2Exclusive Platinum Cleaning; job shadowing placements; summer employment coordination — **PRIMARY INVESTMENT** |
-| 4. Occupational Skills Training | Industry-recognized credentials | HVAC Building Services Technician curriculum via Elevate LMS; EPA 608 Universal Certification |
-| 5. Education Concurrent with Workforce Prep | Integrated academic + occupational | LMS delivers HVAC technical content concurrent with employability skills and career exploration |
-| 6. Leadership Development | Employability bootcamps, civic engagement | Workplace behavior training; financial literacy; employer-led leadership sessions; team-based LMS projects |
-| 7. Supportive Services | Transportation, tools, exam fees | Transportation stipends; work attire; EPA 608 exam fees; multilingual support; accessibility accommodations |
-| 8. Adult Mentoring (12 months minimum) | Face-to-face mentoring | Qualified HVAC journeyworker mentors at 2Exclusive; Career Coach Ameco Martin as primary mentor relationship; minimum 12-month mentoring period |
-| 9. Follow-Up Services (12 months) | Post-exit follow-up | Case manager follow-up at 30, 90, 180, 365 days; ICC documentation; employment retention support |
-| 10. Comprehensive Guidance & Counseling | Career and academic counseling | ISS-based career planning; coordination with Malkah Bird, EdS, NCSP for mental health referrals; substance abuse referral as appropriate |
-| 11. Financial Literacy | Financial education | Financial literacy module in Elevate LMS; SupersonicFastCash-informed tax preparation and financial planning content |
-| 12. Entrepreneurial Skills | Business and entrepreneurship training | Entrepreneurship module covering small business basics, self-employment pathways, and gig economy navigation |
-| 13. Labor Market Information | Career awareness, exploration | Sector-based HVAC career exploration cohorts; industry tours; LMI sessions covering demand occupations, wage data, and career ladders |
-| 14. Postsecondary Preparation | College/career transition | FAFSA completion support; dual credit guidance; postsecondary bridge coaching; EPA 608 as stackable credential toward postsecondary programs |
+| Element                                     | Description                                     | Elevate's Delivery Method                                                                                                                       |
+| ------------------------------------------- | ----------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1. Tutoring & Dropout Prevention            | Study skills, dropout recovery                  | LMS-based academic support modules; referral to IPS academic resources via Malkah Bird                                                          |
+| 2. Alternative Secondary Services           | Dropout recovery                                | Referral coordination through Frost School 109 and IPS system                                                                                   |
+| 3. Work-Based Learning                      | Internships, pre-apprenticeships, job shadowing | HVAC pre-apprenticeship at 2Exclusive Platinum Cleaning; job shadowing placements; summer employment coordination — **PRIMARY INVESTMENT**      |
+| 4. Occupational Skills Training             | Industry-recognized credentials                 | HVAC Building Services Technician curriculum via Elevate LMS; EPA 608 Universal Certification                                                   |
+| 5. Education Concurrent with Workforce Prep | Integrated academic + occupational              | LMS delivers HVAC technical content concurrent with employability skills and career exploration                                                 |
+| 6. Leadership Development                   | Employability bootcamps, civic engagement       | Workplace behavior training; financial literacy; employer-led leadership sessions; team-based LMS projects                                      |
+| 7. Supportive Services                      | Transportation, tools, exam fees                | Transportation stipends; work attire; EPA 608 exam fees; multilingual support; accessibility accommodations                                     |
+| 8. Adult Mentoring (12 months minimum)      | Face-to-face mentoring                          | Qualified HVAC journeyworker mentors at 2Exclusive; Career Coach Ameco Martin as primary mentor relationship; minimum 12-month mentoring period |
+| 9. Follow-Up Services (12 months)           | Post-exit follow-up                             | Case manager follow-up at 30, 90, 180, 365 days; ICC documentation; employment retention support                                                |
+| 10. Comprehensive Guidance & Counseling     | Career and academic counseling                  | ISS-based career planning; coordination with Malkah Bird, EdS, NCSP for mental health referrals; substance abuse referral as appropriate        |
+| 11. Financial Literacy                      | Financial education                             | Financial literacy module in Elevate LMS; SupersonicFastCash-informed tax preparation and financial planning content                            |
+| 12. Entrepreneurial Skills                  | Business and entrepreneurship training          | Entrepreneurship module covering small business basics, self-employment pathways, and gig economy navigation                                    |
+| 13. Labor Market Information                | Career awareness, exploration                   | Sector-based HVAC career exploration cohorts; industry tours; LMI sessions covering demand occupations, wage data, and career ladders           |
+| 14. Postsecondary Preparation               | College/career transition                       | FAFSA completion support; dual credit guidance; postsecondary bridge coaching; EPA 608 as stackable credential toward postsecondary programs    |
 
 ---
 
 ## SECTION 10: PROJECTED PERFORMANCE OUTCOMES
 
-| WIOA Measure | Federal Target | Elevate's Projected Target | Basis |
-|---|---|---|---|
-| Credential Attainment Rate | 68.0% | **75%** | EPA 608 is built-in credential; LMS checkpoint system maximizes pass rates before exam registration |
-| Placed in Employment/Education/Training (2Q) | 80.0% | **83%** | Direct hiring pipeline via 2Exclusive; HVAC employer network in Marion County |
-| Retention in Employment/Education/Training (4Q) | 82.1% | **85%** | Apprenticeship structure = 24-month retention by design; 12-month follow-up by case manager |
-| Median Earnings (2Q after exit) | $4,300 | **$5,200** | HVAC entry wages in Marion County exceed $13/hour; EPA 608 certified technicians command premium |
-| Measurable Skills Gain | 69.0% | **78%** | LMS checkpoint system tracks skills gain in real time; automated alerts prevent stagnation |
+| WIOA Measure                                    | Federal Target | Elevate's Projected Target | Basis                                                                                               |
+| ----------------------------------------------- | -------------- | -------------------------- | --------------------------------------------------------------------------------------------------- |
+| Credential Attainment Rate                      | 68.0%          | **75%**                    | EPA 608 is built-in credential; LMS checkpoint system maximizes pass rates before exam registration |
+| Placed in Employment/Education/Training (2Q)    | 80.0%          | **83%**                    | Direct hiring pipeline via 2Exclusive; HVAC employer network in Marion County                       |
+| Retention in Employment/Education/Training (4Q) | 82.1%          | **85%**                    | Apprenticeship structure = 24-month retention by design; 12-month follow-up by case manager         |
+| Median Earnings (2Q after exit)                 | $4,300         | **$5,200**                 | HVAC entry wages in Marion County exceed $13/hour; EPA 608 certified technicians command premium    |
+| Measurable Skills Gain                          | 69.0%          | **78%**                    | LMS checkpoint system tracks skills gain in real time; automated alerts prevent stagnation          |
 
 **Participant Volume:** 100 participants served in Year 1
 **School:** Robert Lee Frost School 109, Indianapolis (IPS)
@@ -246,6 +264,6 @@ Elevate's LMS generates automated participant risk scores based on login frequen
 
 ---
 
-*Prepared by Elevate for Humanity | Elizabeth Greene, Founder & Executive Director*
-*Submission deadline: April 24, 2026, 11:59PM*
-*Submit at: https://employindy.org/contract-opportunities*
+_Prepared by Elevate for Humanity | Elizabeth Greene, Founder & Executive Director_
+_Submission deadline: April 24, 2026, 11:59PM_
+_Submit at: https://employindy.org/contract-opportunities_

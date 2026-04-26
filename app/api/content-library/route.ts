@@ -13,7 +13,7 @@ async function _GET(request: NextRequest) {
 
     const supabase = await createClient();
     const { searchParams } = new URL(request.url);
-    
+
     const type = searchParams.get('type');
     const category = searchParams.get('category');
     const search = searchParams.get('search');
@@ -56,7 +56,9 @@ async function _POST(request: NextRequest) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });

@@ -19,26 +19,23 @@ async function _POST(req: NextRequest) {
   if (!token) {
     return NextResponse.json(
       { ok: false, error: 'ADMIN_TEST_EMAIL_TOKEN not configured' },
-      { status: 503 }
+      { status: 503 },
     );
   }
 
   const url = new URL(req.url);
-  const provided =
-    url.searchParams.get('token') || req.headers.get('x-admin-test-token');
+  const provided = url.searchParams.get('token') || req.headers.get('x-admin-test-token');
   if (provided !== token) {
     return NextResponse.json({ ok: false, error: 'Unauthorized' }, { status: 401 });
   }
 
   const body = await req.json().catch(() => ({}));
-  const to = String(
-    body?.to ?? process.env.MAIL_TO_ADMIN ?? ''
-  ).trim();
+  const to = String(body?.to ?? process.env.MAIL_TO_ADMIN ?? '').trim();
 
   if (!to) {
     return NextResponse.json(
       { ok: false, error: 'Missing "to" in body or MAIL_TO_ADMIN env var' },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -61,9 +58,6 @@ async function _POST(req: NextRequest) {
     return NextResponse.json({ ok: true, to, id: result.data?.id });
   }
 
-  return NextResponse.json(
-    { ok: false, error: result.error },
-    { status: 500 }
-  );
+  return NextResponse.json({ ok: false, error: result.error }, { status: 500 });
 }
 export const POST = withApiAudit('/api/admin/test-email', _POST);

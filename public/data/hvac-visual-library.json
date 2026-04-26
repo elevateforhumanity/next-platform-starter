@@ -6,13 +6,7 @@
       "category": "core-system",
       "description": "Shows the condenser unit outside, evaporator coil inside, furnace/air handler, ductwork, and thermostat. Arrows illustrate airflow direction and refrigerant flow between indoor and outdoor units.",
       "learningObjective": "Students see how all major parts of the system work together.",
-      "moduleIds": [
-        "hvac-01",
-        "hvac-02",
-        "hvac-05",
-        "hvac-10",
-        "hvac-16"
-      ],
+      "moduleIds": ["hvac-01", "hvac-02", "hvac-05", "hvac-10", "hvac-16"],
       "equipmentModelId": "split-system-ac",
       "hasInteractive": true,
       "componentName": "HVACSystemOverview"
@@ -23,15 +17,7 @@
       "category": "core-system",
       "description": "Illustrates the four stages: compression, condensation, expansion, and evaporation. Each stage is labeled with pressure and temperature changes. The compressor, condenser coil, expansion device, and evaporator coil are clearly identified.",
       "learningObjective": "Students learn how refrigerant moves through the system and how cooling is produced.",
-      "moduleIds": [
-        "hvac-05",
-        "hvac-06",
-        "hvac-07",
-        "hvac-08",
-        "hvac-11",
-        "hvac-13",
-        "hvac-16"
-      ],
+      "moduleIds": ["hvac-05", "hvac-06", "hvac-07", "hvac-08", "hvac-11", "hvac-13", "hvac-16"],
       "equipmentModelId": "split-system-ac",
       "hasInteractive": true,
       "componentName": "RefrigerationCycleDiagram"
@@ -42,10 +28,7 @@
       "category": "core-system",
       "description": "Illustrates how heat moves from inside the building to outside using refrigerant. Shows the direction of heat flow at the evaporator (absorbing) and condenser (rejecting).",
       "learningObjective": "Students understand that HVAC systems move heat, not create cold.",
-      "moduleIds": [
-        "hvac-02",
-        "hvac-05"
-      ],
+      "moduleIds": ["hvac-02", "hvac-05"],
       "hasInteractive": false
     },
     {
@@ -54,14 +37,7 @@
       "category": "equipment-breakdown",
       "description": "Shows the inside of an outdoor condenser unit with labeled parts: compressor, condenser coil, fan motor, capacitor, contactor, and service valves.",
       "learningObjective": "Students recognize internal components technicians inspect during service calls.",
-      "moduleIds": [
-        "hvac-02",
-        "hvac-03",
-        "hvac-05",
-        "hvac-11",
-        "hvac-12",
-        "hvac-13"
-      ],
+      "moduleIds": ["hvac-02", "hvac-03", "hvac-05", "hvac-11", "hvac-12", "hvac-13"],
       "equipmentModelId": "split-system-ac",
       "hasInteractive": true,
       "componentName": "CondenserBreakdownDiagram"
@@ -72,12 +48,7 @@
       "category": "equipment-breakdown",
       "description": "Shows internal components of a furnace: blower motor, heat exchanger, burner assembly, evaporator coil, air filter, control board, and safety switches.",
       "learningObjective": "Students learn the heating and airflow components inside indoor equipment.",
-      "moduleIds": [
-        "hvac-04",
-        "hvac-09",
-        "hvac-12",
-        "hvac-13"
-      ],
+      "moduleIds": ["hvac-04", "hvac-09", "hvac-12", "hvac-13"],
       "equipmentModelId": "gas-furnace",
       "hasInteractive": true,
       "componentName": "FurnaceBreakdownDiagram"
@@ -88,11 +59,7 @@
       "category": "equipment-breakdown",
       "description": "Shows the reversing valve, compressor, outdoor coil, indoor coil, and auxiliary heat strips. Illustrates how the system operates in both heating and cooling modes.",
       "learningObjective": "Students understand how heat pumps reverse the refrigeration cycle for heating.",
-      "moduleIds": [
-        "hvac-04",
-        "hvac-09",
-        "hvac-13"
-      ],
+      "moduleIds": ["hvac-04", "hvac-09", "hvac-13"],
       "equipmentModelId": "heat-pump",
       "hasInteractive": false
     },
@@ -102,13 +69,7 @@
       "category": "electrical",
       "description": "Shows wiring terminals: R (power), C (common), Y (cooling), G (fan), W (heating), and O/B (heat pump reversing valve). Each wire is explained with its function.",
       "learningObjective": "Students learn how thermostats communicate with the HVAC system.",
-      "moduleIds": [
-        "hvac-03",
-        "hvac-04",
-        "hvac-09",
-        "hvac-11",
-        "hvac-13"
-      ],
+      "moduleIds": ["hvac-03", "hvac-04", "hvac-09", "hvac-11", "hvac-13"],
       "hasInteractive": true,
       "componentName": "ThermostatWiringDiagram"
     },
@@ -118,11 +79,7 @@
       "category": "electrical",
       "description": "Shows how the thermostat activates the contactor through the 24V control circuit, starting the compressor and fan. Includes transformer, relay, and safety switches.",
       "learningObjective": "Students learn how the thermostat signals the system to turn on.",
-      "moduleIds": [
-        "hvac-03",
-        "hvac-04",
-        "hvac-11"
-      ],
+      "moduleIds": ["hvac-03", "hvac-04", "hvac-11"],
       "hasInteractive": true,
       "componentName": "ElectricalCircuitDiagram"
     },
@@ -132,10 +89,7 @@
       "category": "electrical",
       "description": "Illustrates how start and run capacitors support motor operation. Shows dual-run capacitor with HERM, FAN, and C terminals.",
       "learningObjective": "Students learn how capacitors help motors start and run efficiently.",
-      "moduleIds": [
-        "hvac-03",
-        "hvac-13"
-      ],
+      "moduleIds": ["hvac-03", "hvac-13"],
       "hasInteractive": false
     },
     {
@@ -144,11 +98,7 @@
       "category": "airflow",
       "description": "Shows how conditioned air moves through ductwork from the air handler into different rooms. Supply ducts, return ducts, registers, and air filters are labeled.",
       "learningObjective": "Students learn how air circulation affects comfort and system efficiency.",
-      "moduleIds": [
-        "hvac-10",
-        "hvac-12",
-        "hvac-13"
-      ],
+      "moduleIds": ["hvac-10", "hvac-12", "hvac-13"],
       "equipmentModelId": "duct-system",
       "hasInteractive": true,
       "componentName": "DuctDistributionDiagram"
@@ -159,10 +109,7 @@
       "category": "airflow",
       "description": "Illustrates how airflow restrictions affect system performance. Shows measurement points for total external static pressure.",
       "learningObjective": "Students learn how to measure and interpret static pressure readings.",
-      "moduleIds": [
-        "hvac-10",
-        "hvac-12"
-      ],
+      "moduleIds": ["hvac-10", "hvac-12"],
       "equipmentModelId": "duct-system",
       "hasInteractive": false
     },
@@ -172,10 +119,7 @@
       "category": "airflow",
       "description": "Shows how filters protect equipment and improve indoor air quality. Illustrates MERV ratings and filter placement.",
       "learningObjective": "Students understand filter selection and maintenance.",
-      "moduleIds": [
-        "hvac-10",
-        "hvac-12"
-      ],
+      "moduleIds": ["hvac-10", "hvac-12"],
       "hasInteractive": false
     },
     {
@@ -184,11 +128,7 @@
       "category": "diagnostic",
       "description": "Shows a logical troubleshooting process: check thermostat → inspect airflow → measure refrigerant pressure → test electrical components. Branches for no-cool, no-heat, and short-cycling complaints.",
       "learningObjective": "Students learn systematic problem-solving instead of guessing.",
-      "moduleIds": [
-        "hvac-13",
-        "hvac-14",
-        "hvac-16"
-      ],
+      "moduleIds": ["hvac-13", "hvac-14", "hvac-16"],
       "hasInteractive": true,
       "componentName": "TroubleshootingFlowchart"
     },
@@ -198,12 +138,7 @@
       "category": "diagnostic",
       "description": "Shows the relationship between refrigerant pressure and saturation temperature for R-410A and R-22. Used to calculate superheat and subcooling.",
       "learningObjective": "Students learn to convert between pressure and temperature for diagnostics.",
-      "moduleIds": [
-        "hvac-05",
-        "hvac-06",
-        "hvac-08",
-        "hvac-11"
-      ],
+      "moduleIds": ["hvac-05", "hvac-06", "hvac-08", "hvac-11"],
       "hasInteractive": false
     },
     {
@@ -212,12 +147,7 @@
       "category": "diagnostic",
       "description": "Illustrates where technicians connect gauges, thermometers, and test instruments on a split system. Shows suction line, liquid line, and electrical measurement points.",
       "learningObjective": "Students learn where to take measurements during diagnostics.",
-      "moduleIds": [
-        "hvac-05",
-        "hvac-08",
-        "hvac-11",
-        "hvac-13"
-      ],
+      "moduleIds": ["hvac-05", "hvac-08", "hvac-11", "hvac-13"],
       "equipmentModelId": "split-system-ac",
       "hasInteractive": false
     },
@@ -227,11 +157,7 @@
       "category": "tool",
       "description": "Labels the dial positions for voltage (AC/DC), resistance (ohms), continuity, capacitance, and amperage. Shows proper probe placement for each measurement.",
       "learningObjective": "Students learn to select the correct meter function and connect probes safely.",
-      "moduleIds": [
-        "hvac-03",
-        "hvac-04",
-        "hvac-13"
-      ],
+      "moduleIds": ["hvac-03", "hvac-04", "hvac-13"],
       "hasInteractive": false
     },
     {
@@ -240,12 +166,7 @@
       "category": "tool",
       "description": "Shows the high-pressure (red) and low-pressure (blue) gauges, center hose (yellow), and valve positions. Labels suction, discharge, and service connections.",
       "learningObjective": "Students learn how to connect and read a gauge manifold.",
-      "moduleIds": [
-        "hvac-02",
-        "hvac-05",
-        "hvac-08",
-        "hvac-11"
-      ],
+      "moduleIds": ["hvac-02", "hvac-05", "hvac-08", "hvac-11"],
       "hasInteractive": false
     },
     {
@@ -254,12 +175,7 @@
       "category": "tool",
       "description": "Explains how refrigerant is removed from systems into recovery cylinders. Shows connections, valve positions, and the recovery process.",
       "learningObjective": "Students learn proper refrigerant recovery procedures.",
-      "moduleIds": [
-        "hvac-06",
-        "hvac-07",
-        "hvac-08",
-        "hvac-16"
-      ],
+      "moduleIds": ["hvac-06", "hvac-07", "hvac-08", "hvac-16"],
       "hasInteractive": false
     },
     {
@@ -268,11 +184,7 @@
       "category": "tool",
       "description": "Explains how moisture and non-condensable gases are removed from refrigerant lines. Shows connections to the manifold and micron gauge.",
       "learningObjective": "Students learn proper evacuation procedures.",
-      "moduleIds": [
-        "hvac-08",
-        "hvac-11",
-        "hvac-12"
-      ],
+      "moduleIds": ["hvac-08", "hvac-11", "hvac-12"],
       "hasInteractive": false
     }
   ],

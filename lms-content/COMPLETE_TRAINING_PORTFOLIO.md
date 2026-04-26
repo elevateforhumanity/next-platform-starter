@@ -8,6 +8,7 @@
 **Website:** www.elevateforhumanity.org
 
 **Business Certifications:**
+
 - 🏆 ByBlack Certified Business (U.S. Black Chambers, Inc.)
 - 🏛️ SAM.gov Registered (3 Federal Entities)
 - 🏛️ Indiana State Contractor (Bidder ID: 0000067741)
@@ -17,11 +18,13 @@
 ## 🏆 Business Certifications
 
 ### ByBlack Certified Business
+
 **Issued By:** U.S. Black Chambers, Inc. (USBC)
 **Platform:** ByBlack.us
 **Status:** ✅ OFFICIALLY CERTIFIED
 
 **Recognition:**
+
 - Official seal as Black-Owned and Operated business
 - National database listing
 - Supplier diversity portal access
@@ -29,6 +32,7 @@
 - Contracting opportunities
 
 **Benefits:**
+
 - Use ByBlack Badge in all marketing materials
 - Access to USBC membership benefits
 - Free entrepreneurial development training
@@ -37,6 +41,7 @@
 - Policy updates
 
 **Resources:**
+
 - ByBlack Platform: www.byblack.us
 - USBC Website: www.usblackchambers.org
 - Social Media: @usblackchambers (all platforms)
@@ -47,15 +52,18 @@
 ---
 
 ### SAM.gov Federal Registrations
+
 **Issued By:** U.S. Federal Government
 **Status:** 3 Entities Registered
 
 **Entities:**
+
 1. **2EXCLUSIVE LLC-S:** UEI VX2GK5S8SZH8 | CAGE 0QH19 ✅ ACTIVE
 2. **SELFISH INC:** UEI H3NUZZ6BMDA7 | CAGE 0Q856 ✅ ACTIVE
 3. **CURVATURE BODY SCULPTING LLC:** UEI RNXZUZW7FA63 | CAGE 9XV55 ⚠️ ACTION REQUIRED
 
 **Benefits:**
+
 - Eligible for federal contracts and grants
 - Listed in official federal database
 - Access to federal procurement opportunities
@@ -66,19 +74,23 @@
 ---
 
 ### Indiana Procurement Registration
+
 **Issued By:** Indiana Department of Administration
 **Status:** ✅ REGISTERED
 
 **Entity:**
+
 - **2EXCLUSIVE LLC-S:** Bidder ID 0000067741
 
 **Benefits:**
+
 - Eligible to bid on Indiana state contracts
 - Access to state procurement opportunities
 - State vendor database listing
 - Additional certifications available (Buy Indiana, MBE)
 
 **Recommended Next Steps:**
+
 - Apply for Buy Indiana Certification
 - Apply for Minority Business Enterprise (MBE) Certification
 - Set up procurement portal access
@@ -90,11 +102,13 @@
 ## 📚 Training Partnership Ecosystem
 
 ### 1. **JRI (Job Readiness Initiative)** - EmployIndy
+
 **Focus:** Soft Skills & Workforce Readiness
 **Provider:** EmployIndy
 **Format:** SCORM 2004 3rd Edition modules
 
 **Badges Available:**
+
 - Communication Skills
 - Problem Solving & Critical Thinking
 - Teamwork & Collaboration
@@ -107,11 +121,13 @@
 ---
 
 ### 2. **Milady RISE** - Barber Safety Program
+
 **Focus:** Health & Safety for Barber Students
 **Provider:** Cengage/Milady
 **Access Code:** efhcti-rise295
 
 **Certifications:**
+
 - Domestic Violence Awareness
 - Human Trafficking Awareness
 - Infection Control & Safety
@@ -121,10 +137,12 @@
 ---
 
 ### 3. **NRF RISE Up** - Customer Service & Retail
+
 **Focus:** Customer Service & Retail Credentials
 **Provider:** NRF Foundation
 
 **Credentials:**
+
 - Customer Service & Sales
 - Business of Retail
 
@@ -133,11 +151,13 @@
 ---
 
 ### 4. **Certiport CATC** - Technology Certifications
+
 **Focus:** Microsoft, Adobe, QuickBooks, IT Specialist
 **Provider:** Certiport (Pearson VUE)
 **Status:** Authorized Testing Center
 
 **Certifications:**
+
 - Microsoft Office Specialist (MOS)
 - Adobe Certified Professional
 - QuickBooks Certified User
@@ -149,11 +169,13 @@
 ---
 
 ### 5. **VITA Site** - Tax Preparation (IRS)
+
 **Focus:** FREE Tax Preparation Services
 **Provider:** IRS Volunteer Income Tax Assistance
 **SIDN:** S28011182
 
 **Services:**
+
 - FREE tax preparation for community
 - Volunteer recruitment & training
 - Link & Learn Taxes certification
@@ -164,10 +186,12 @@
 ---
 
 ### 6. **HSI** - CPR, First Aid & Safety Training
+
 **Focus:** Healthcare & Emergency Response
 **Provider:** Health & Safety Institute
 
 **Certifications:**
+
 - CPR/AED (Adult, Child, Infant)
 - First Aid (Basic, Pediatric, Wilderness)
 - Bloodborne Pathogens
@@ -175,6 +199,7 @@
 - Remote Skills Verification (RSV) available
 
 **Pricing:**
+
 - Traditional Classes: $500-700 (up to 12 students)
 - RSV (Remote): $80-85 per student
 
@@ -183,11 +208,13 @@
 ---
 
 ### 7. **CareerSafe** - OSHA Training & Workplace Safety
+
 **Focus:** OSHA Compliance & Workplace Safety
 **Provider:** CareerSafe (OSHA Authorized)
 **Status:** ✅ Account Active
 
 **Certifications:**
+
 - OSHA 10-Hour General Industry (DOL Card)
 - OSHA 30-Hour General Industry (DOL Card)
 - OSHA 10-Hour Construction (DOL Card)
@@ -200,6 +227,7 @@
 - Fall Protection
 
 **Resources:**
+
 - QuickStart Guide: https://www.careersafeonline.com/support/quick-start-guide
 - Group Management: https://www.careersafeonline.com/support/group-mgmt-support-guide
 
@@ -208,11 +236,13 @@
 ---
 
 ### 8. **National Drug Screening** - DOT Oral Fluid Testing
+
 **Focus:** DOT Drug Testing Compliance
 **Provider:** National Drug Screening, Inc.
 **Status:** ⚠️ Training Available - Testing NOT Yet Operational
 
 **Training Programs:**
+
 - DOT Oral Fluid Collector Training (Live Webinar)
 - DOT Oral Fluid Collector Training (On-Demand)
 - DOT Oral Fluid Collector Training (Live In-Person)
@@ -220,6 +250,7 @@
 - Custom Group Training
 
 **Business Opportunities:**
+
 - Reseller Programs (Clinic/Mobile, TPA)
 - Lab Account Setup
 - TPA Training & Consulting
@@ -227,6 +258,7 @@
 - White Label Training Programs
 
 **Resources:**
+
 - DOT Oral Fluid Info: https://www.nationaldrugscreening.com/?s=DOT+oral+Fluid
 - Reseller Programs: https://www.nationaldrugscreening.com/reseller-program/
 - Training & Consulting: https://www.nationaldrugscreening.com/training-consulting/
@@ -241,7 +273,9 @@
 ## 🎯 Program Integration Matrix
 
 ### Healthcare Programs (CNA, Medical Assistant)
+
 **Required Certifications:**
+
 - ✅ JRI (Job Readiness)
 - ✅ CareerSafe OSHA 10-Hour General Industry
 - ✅ HSI Healthcare Provider CPR/AED
@@ -249,7 +283,9 @@
 - ✅ Certiport (Microsoft Office)
 
 ### Trades Programs (HVAC, Building Maintenance)
+
 **Required Certifications:**
+
 - ✅ JRI (Job Readiness)
 - ✅ CareerSafe OSHA 10-Hour Construction
 - ✅ HSI Adult CPR/AED
@@ -259,7 +295,9 @@
 - ✅ CareerSafe Forklift (Building Maintenance)
 
 ### CDL/Truck Driving Program
+
 **Required Certifications:**
+
 - ✅ JRI (Job Readiness)
 - ✅ CareerSafe OSHA 10-Hour Construction
 - ✅ HAZMAT Training (alternative provider - not CareerSafe)
@@ -267,7 +305,9 @@
 - ⏳ National Drug Screening DOT Oral Fluid Training (optional - prepare for future)
 
 ### Barber Apprenticeship
+
 **Required Certifications:**
+
 - ✅ JRI (Job Readiness)
 - ✅ Milady RISE (Barber Safety)
 - ✅ CareerSafe OSHA 10-Hour General Industry
@@ -275,21 +315,27 @@
 - ✅ HSI Bloodborne Pathogens
 
 ### Customer Service & Retail
+
 **Required Certifications:**
+
 - ✅ JRI (Job Readiness)
 - ✅ NRF RISE Up (Customer Service & Retail)
 - ✅ CareerSafe OSHA 10-Hour General Industry
 - ✅ Certiport (Microsoft Office, QuickBooks)
 
 ### Technology & Business
+
 **Required Certifications:**
+
 - ✅ JRI (Job Readiness)
 - ✅ Certiport (Microsoft, Adobe, IT Specialist)
 - ✅ CareerSafe OSHA 10-Hour General Industry
 - ✅ Certiport ESB (Entrepreneurship)
 
 ### Tax Preparation Certificate
+
 **Required Certifications:**
+
 - ✅ JRI (Job Readiness)
 - ✅ IRS Link & Learn Taxes
 - ✅ VITA Site Training
@@ -300,16 +346,19 @@
 ## 💰 Pricing Strategy
 
 ### Option 1: Included in Tuition (Recommended)
+
 **Model:** Build all certifications into program cost
 **Student Cost:** $0 (included)
 **Benefit:** Competitive advantage, 100% compliance, no barriers
 
 ### Option 2: Separate Certification Fees
+
 **Model:** Charge students for optional certifications
 **Student Cost:** $50-$200 per certification
 **Benefit:** Revenue stream, flexibility
 
 ### Option 3: Employer Sponsored
+
 **Model:** Employer pays for employee certifications
 **Student Cost:** $0 (employer pays)
 **Benefit:** Employer partnerships, job placement
@@ -319,6 +368,7 @@
 ## 📊 Certification Tracking
 
 ### Student Records (Track for Each Student)
+
 - Student name and ID
 - Program enrolled
 - Certifications required
@@ -331,28 +381,29 @@
 
 ### Renewal Schedule
 
-| Certification | Validity | Renewal Required |
-|--------------|----------|------------------|
-| JRI Badges | Lifetime | No |
-| Milady RISE | Lifetime | No |
-| NRF RISE Up | Lifetime | No |
-| Certiport | Lifetime | No |
-| VITA | Annual | Yes (IRS requirement) |
-| HSI CPR/AED | 2 years | Yes |
-| HSI First Aid | 2 years | Yes |
-| HSI Bloodborne Pathogens | 1 year | Yes |
-| OSHA 10/30-Hour | Lifetime | Recommended every 5 years |
-| CareerSafe Bloodborne Pathogens | 1 year | Yes |
-| CareerSafe Forklift | 3 years | Yes |
-| CareerSafe Confined Space | 1 year | Recommended |
-| CareerSafe LOTO | 1 year | Recommended |
-| CareerSafe Fall Protection | 1 year | Recommended |
+| Certification                   | Validity | Renewal Required          |
+| ------------------------------- | -------- | ------------------------- |
+| JRI Badges                      | Lifetime | No                        |
+| Milady RISE                     | Lifetime | No                        |
+| NRF RISE Up                     | Lifetime | No                        |
+| Certiport                       | Lifetime | No                        |
+| VITA                            | Annual   | Yes (IRS requirement)     |
+| HSI CPR/AED                     | 2 years  | Yes                       |
+| HSI First Aid                   | 2 years  | Yes                       |
+| HSI Bloodborne Pathogens        | 1 year   | Yes                       |
+| OSHA 10/30-Hour                 | Lifetime | Recommended every 5 years |
+| CareerSafe Bloodborne Pathogens | 1 year   | Yes                       |
+| CareerSafe Forklift             | 3 years  | Yes                       |
+| CareerSafe Confined Space       | 1 year   | Recommended               |
+| CareerSafe LOTO                 | 1 year   | Recommended               |
+| CareerSafe Fall Protection      | 1 year   | Recommended               |
 
 ---
 
 ## 🏆 Competitive Advantages
 
 ### For Students:
+
 - ✅ Industry-recognized credentials
 - ✅ Increased employability
 - ✅ Higher starting wages
@@ -361,6 +412,7 @@
 - ✅ Safety knowledge and protection
 
 ### For Elevate:
+
 - ✅ Program differentiation
 - ✅ Employer partnerships
 - ✅ Regulatory compliance
@@ -369,6 +421,7 @@
 - ✅ Community impact
 
 ### For Employers:
+
 - ✅ Trained workforce
 - ✅ Reduced accidents
 - ✅ OSHA compliance
@@ -428,6 +481,7 @@ CEO, Elevate for Humanity
 ## 🚀 Implementation Roadmap
 
 ### Phase 1: Foundation (Weeks 1-2)
+
 - [x] ByBlack Certified Business (USBC)
 - [x] SAM.gov Federal Registrations (3 entities)
 - [x] Indiana Procurement Registration
@@ -441,6 +495,7 @@ CEO, Elevate for Humanity
 - [x] National Drug Screening partnership explored
 
 ### Phase 2: Integration (Weeks 3-4)
+
 - [ ] Update all program curriculum
 - [ ] Add certifications to Week 1 of all programs
 - [ ] Create student onboarding materials
@@ -449,6 +504,7 @@ CEO, Elevate for Humanity
 - [ ] Test enrollment processes
 
 ### Phase 3: Marketing (Weeks 5-6)
+
 - [ ] Update website with all certifications
 - [ ] Create marketing materials
 - [ ] Promote certification portfolio
@@ -457,6 +513,7 @@ CEO, Elevate for Humanity
 - [ ] Request partnership verification letters
 
 ### Phase 4: Launch (Weeks 7-8)
+
 - [ ] Enroll first cohort in all certifications
 - [ ] Monitor completion rates
 - [ ] Track certifications earned
@@ -471,11 +528,13 @@ CEO, Elevate for Humanity
 ### Quick Links:
 
 **Business Certifications:**
+
 - **ByBlack:** www.byblack.us | www.usblackchambers.org
 - **SAM.gov:** www.sam.gov (3 federal entities)
 - **Indiana Procurement:** www.in.gov/idoa/procurement
 
 **Training Partnerships:**
+
 - **JRI:** EmployIndy partnership
 - **Milady RISE:** Access code efhcti-rise295
 - **NRF RISE Up:** NRF Foundation
@@ -491,6 +550,7 @@ CEO, Elevate for Humanity
   - Training: https://www.nationaldrugscreening.com/training-consulting/
 
 ### Documentation:
+
 All detailed setup guides available in `/lms-content/` directory
 
 ---
@@ -500,27 +560,32 @@ All detailed setup guides available in `/lms-content/` directory
 ### Track These KPIs:
 
 **Enrollment:**
+
 - Students enrolled per program
 - Certifications per student
 - Time to enrollment
 
 **Completion:**
+
 - Certification completion rate (target: 95%+)
 - Average time to completion
 - First-attempt pass rate
 
 **Employment:**
+
 - Job placement rate
 - Starting wage increase
 - Employer satisfaction
 - Certification requirements met
 
 **Retention:**
+
 - Student retention rate
 - Program completion rate
 - Certification renewal rate
 
 **Financial:**
+
 - Cost per certification
 - ROI on partnerships
 - Employer sponsorships

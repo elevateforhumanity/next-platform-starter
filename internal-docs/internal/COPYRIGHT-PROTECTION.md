@@ -2,11 +2,11 @@
 
 ## Quick Reference
 
-| Contact | Email |
-|---------|-------|
-| DMCA Agent | dmca@www.elevateforhumanity.org |
-| Legal | legal@www.elevateforhumanity.org |
-| Phone | 317-314-3757 |
+| Contact    | Email                            |
+| ---------- | -------------------------------- |
+| DMCA Agent | dmca@www.elevateforhumanity.org  |
+| Legal      | legal@www.elevateforhumanity.org |
+| Phone      | 317-314-3757                     |
 
 ---
 
@@ -25,6 +25,7 @@ Set up alerts at https://www.google.com/alerts for:
 ```
 
 **Settings:**
+
 - How often: As-it-happens
 - Sources: Automatic
 - Language: English
@@ -48,11 +49,11 @@ Set up alerts at https://www.google.com/alerts for:
 
 ### Paid Monitoring Services
 
-| Service | Cost | Features |
-|---------|------|----------|
-| Copyscape Premium | $0.03/search | Content plagiarism detection |
-| DMCA.com | $10/month | Monitoring + takedown service |
-| BrandShield | Enterprise | Full brand protection |
+| Service           | Cost         | Features                      |
+| ----------------- | ------------ | ----------------------------- |
+| Copyscape Premium | $0.03/search | Content plagiarism detection  |
+| DMCA.com          | $10/month    | Monitoring + takedown service |
+| BrandShield       | Enterprise   | Full brand protection         |
 
 ---
 
@@ -72,6 +73,7 @@ Before filing, collect:
 ### Step 2: Identify Where to File
 
 **Find their hosting provider:**
+
 ```bash
 # Terminal commands
 nslookup [their-domain.com]
@@ -80,18 +82,18 @@ whois [their-domain.com]
 
 **Common hosting providers and DMCA pages:**
 
-| Provider | DMCA URL |
-|----------|----------|
-| Netlify | https://netlify.com/legal/dmca-policy |
-| Netlify | https://www.netlify.com/dmca/ |
-| GitHub Pages | https://support.github.com/contact/dmca-takedown |
-| Cloudflare | https://www.cloudflare.com/abuse/form |
-| GoDaddy | https://www.godaddy.com/legal/agreements/dmca-copyright |
-| AWS | https://aws.amazon.com/forms/report-infringement |
-| Google Cloud | https://support.google.com/legal/troubleshooter/1114905 |
-| DigitalOcean | https://www.digitalocean.com/company/contact#abuse |
-| Hostinger | abuse@hostinger.com |
-| Namecheap | https://www.namecheap.com/support/knowledgebase/article.aspx/9196/5/how-to-report-abuse |
+| Provider     | DMCA URL                                                                                |
+| ------------ | --------------------------------------------------------------------------------------- |
+| Netlify      | https://netlify.com/legal/dmca-policy                                                   |
+| Netlify      | https://www.netlify.com/dmca/                                                           |
+| GitHub Pages | https://support.github.com/contact/dmca-takedown                                        |
+| Cloudflare   | https://www.cloudflare.com/abuse/form                                                   |
+| GoDaddy      | https://www.godaddy.com/legal/agreements/dmca-copyright                                 |
+| AWS          | https://aws.amazon.com/forms/report-infringement                                        |
+| Google Cloud | https://support.google.com/legal/troubleshooter/1114905                                 |
+| DigitalOcean | https://www.digitalocean.com/company/contact#abuse                                      |
+| Hostinger    | abuse@hostinger.com                                                                     |
+| Namecheap    | https://www.namecheap.com/support/knowledgebase/article.aspx/9196/5/how-to-report-abuse |
 
 ### Step 3: File the Takedown
 
@@ -132,7 +134,7 @@ Subject: DMCA Takedown Notice - Copyright Infringement
 
 To Whom It May Concern:
 
-I am writing to report copyright infringement pursuant to the Digital 
+I am writing to report copyright infringement pursuant to the Digital
 Millennium Copyright Act (17 U.S.C. § 512).
 
 COPYRIGHTED WORK:
@@ -145,17 +147,17 @@ The following URL(s) contain unauthorized copies of our copyrighted content:
 
 IDENTIFICATION OF INFRINGEMENT:
 The infringing site has copied [describe: design, content, code, images, etc.]
-from our original website. Our invisible watermarks (searchable as 
+from our original website. Our invisible watermarks (searchable as
 "EFH-ORIGINAL-2024" in the page source) prove our original ownership.
 
 GOOD FAITH STATEMENT:
-I have a good faith belief that the use of the copyrighted materials 
-described above is not authorized by the copyright owner, its agent, 
+I have a good faith belief that the use of the copyrighted materials
+described above is not authorized by the copyright owner, its agent,
 or the law.
 
 ACCURACY STATEMENT:
-I swear, under penalty of perjury, that the information in this 
-notification is accurate and that I am the copyright owner or am 
+I swear, under penalty of perjury, that the information in this
+notification is accurate and that I am the copyright owner or am
 authorized to act on behalf of the owner.
 
 CONTACT INFORMATION:
@@ -205,23 +207,24 @@ When someone copies your site, your watermarks survive. To prove infringement:
 ### Check Meta Tags
 
 Search page source for:
+
 ```html
-<meta name="site-owner" content="Elizabeth L. Greene">
-<meta name="site-id" content="EFH-ORIGINAL-2024">
+<meta name="site-owner" content="Elizabeth L. Greene" />
+<meta name="site-id" content="EFH-ORIGINAL-2024" />
 ```
 
 ---
 
 ## 6. Preventive Measures Active
 
-| Protection | Location | Status |
-|------------|----------|--------|
-| InvisibleWatermark | `components/InvisibleWatermark.tsx` | Active |
-| CopyrightProtection | `components/CopyrightProtection.tsx` | Active |
-| DMCATrackingPixel | `components/InvisibleWatermark.tsx` | Active |
-| Anti-AI Meta Tags | Added dynamically | Active |
-| Copy Detection | Adds copyright to clipboard | Active |
-| Right-click Protection | On images | Active |
+| Protection             | Location                             | Status |
+| ---------------------- | ------------------------------------ | ------ |
+| InvisibleWatermark     | `components/InvisibleWatermark.tsx`  | Active |
+| CopyrightProtection    | `components/CopyrightProtection.tsx` | Active |
+| DMCATrackingPixel      | `components/InvisibleWatermark.tsx`  | Active |
+| Anti-AI Meta Tags      | Added dynamically                    | Active |
+| Copy Detection         | Adds copyright to clipboard          | Active |
+| Right-click Protection | On images                            | Active |
 
 ---
 
@@ -240,5 +243,5 @@ When you find a copycat:
 
 ---
 
-*Last Updated: January 2025*
-*Document Owner: Elevate for Humanity Legal Team*
+_Last Updated: January 2025_
+_Document Owner: Elevate for Humanity Legal Team_

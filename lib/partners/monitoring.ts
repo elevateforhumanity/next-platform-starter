@@ -32,12 +32,7 @@ class PartnerMonitoring {
     this.requestTimes.set(requestId, Date.now());
   }
 
-  endRequest(
-    partner: PartnerType,
-    requestId: string,
-    success: boolean,
-    error?: any
-  ): void {
+  endRequest(partner: PartnerType, requestId: string, success: boolean, error?: any): void {
     const startTime = this.requestTimes.get(requestId);
     if (!startTime) return;
 
@@ -53,8 +48,7 @@ class PartnerMonitoring {
       metrics.failedRequests++;
       if (error) {
         metrics.lastError = {
-          message:
-            'Operation failed',
+          message: 'Operation failed',
           timestamp: new Date().toISOString(),
           statusCode: error.statusCode,
         };
@@ -62,8 +56,7 @@ class PartnerMonitoring {
     }
 
     // Update average response time
-    const totalTime =
-      metrics.averageResponseTime * (metrics.totalRequests - 1) + responseTime;
+    const totalTime = metrics.averageResponseTime * (metrics.totalRequests - 1) + responseTime;
     metrics.averageResponseTime = totalTime / metrics.totalRequests;
   }
 
@@ -157,15 +150,8 @@ export const partnerMonitoring = new PartnerMonitoring();
 /**
  * Decorator to monitor partner API calls
  */
-export function monitorPartnerCall(
-  partner: PartnerType,
-  operation: string
-): MethodDecorator {
-  return function (
-    target: any,
-    propertyKey: string | symbol,
-    descriptor: PropertyDescriptor
-  ) {
+export function monitorPartnerCall(partner: PartnerType, operation: string): MethodDecorator {
+  return function (target: any, propertyKey: string | symbol, descriptor: PropertyDescriptor) {
     const originalMethod = descriptor.value;
 
     descriptor.value = async function (...args: any[]) {
@@ -180,10 +166,7 @@ export function monitorPartnerCall(
         partnerMonitoring.endRequest(partner, requestId, false, error);
 
         if (partnerMonitoring.shouldAlert(partner)) {
-          await partnerMonitoring.sendAlert(
-            partner,
-            `High error rate detected for ${operation}`
-          );
+          await partnerMonitoring.sendAlert(partner, `High error rate detected for ${operation}`);
         }
 
         throw error;
@@ -197,9 +180,7 @@ export function monitorPartnerCall(
 /**
  * Health check for partner API
  */
-export async function checkPartnerHealth(
-  partner: PartnerType
-): Promise<PartnerHealthCheck> {
+export async function checkPartnerHealth(partner: PartnerType): Promise<PartnerHealthCheck> {
   const startTime = Date.now();
 
   try {
@@ -213,7 +194,8 @@ export async function checkPartnerHealth(
       lastChecked: new Date().toISOString(),
       responseTime,
     };
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     return {
       partner,
       healthy: false,

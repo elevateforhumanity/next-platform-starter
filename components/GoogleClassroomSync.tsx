@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { createClient } from '@/lib/supabase/client';
 
@@ -19,7 +19,9 @@ export default function GoogleClassroomSync() {
   React.useEffect(() => {
     const loadSyncStatus = async () => {
       const supabase = createClient();
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       if (!user) return;
 
       const { data } = await supabase
@@ -39,7 +41,9 @@ export default function GoogleClassroomSync() {
   const handleSync = async () => {
     setSyncing(true);
     const supabase = createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     try {
       // Call sync API
@@ -75,15 +79,9 @@ export default function GoogleClassroomSync() {
         <div className="space-y-4">
           <div>
             <p className="text-sm text-black">Last Sync</p>
-            <p className="font-medium">
-              {lastSync ? lastSync.toLocaleString('en-US') : 'Never'}
-            </p>
+            <p className="font-medium">{lastSync ? lastSync.toLocaleString('en-US') : 'Never'}</p>
           </div>
-          <Button
-            onClick={handleSync}
-            disabled={syncing}
-            className="w-full"
-          >
+          <Button onClick={handleSync} disabled={syncing} className="w-full">
             {syncing ? 'Syncing...' : 'Sync Now'}
           </Button>
         </div>

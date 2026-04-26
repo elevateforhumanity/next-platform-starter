@@ -32,9 +32,9 @@ export default function GeocodingManager({ shops }: Props) {
   const [results, setResults] = useState<Record<string, 'success' | 'error'>>({});
   const [filter, setFilter] = useState<'all' | 'needs' | 'geocoded' | 'failed'>('needs');
 
-  const needsGeocoding = shops.filter(s => s.active && !s.latitude && !s.geocode_failed_at);
+  const needsGeocoding = shops.filter((s) => s.active && !s.latitude && !s.geocode_failed_at);
 
-  const filteredShops = shops.filter(s => {
+  const filteredShops = shops.filter((s) => {
     if (filter === 'needs') return s.active && !s.latitude && !s.geocode_failed_at;
     if (filter === 'geocoded') return s.latitude && s.longitude;
     if (filter === 'failed') return s.geocode_failed_at;
@@ -50,9 +50,9 @@ export default function GeocodingManager({ shops }: Props) {
         body: JSON.stringify({ shop_id: shopId }),
       });
       const data = await res.json();
-      setResults(prev => ({ ...prev, [shopId]: data.success ? 'success' : 'error' }));
+      setResults((prev) => ({ ...prev, [shopId]: data.success ? 'success' : 'error' }));
     } catch {
-      setResults(prev => ({ ...prev, [shopId]: 'error' }));
+      setResults((prev) => ({ ...prev, [shopId]: 'error' }));
     }
     setCurrentShop(null);
   };
@@ -68,12 +68,12 @@ export default function GeocodingManager({ shops }: Props) {
           body: JSON.stringify({ shop_id: shop.id }),
         });
         const data = await res.json();
-        setResults(prev => ({ ...prev, [shop.id]: data.success ? 'success' : 'error' }));
+        setResults((prev) => ({ ...prev, [shop.id]: data.success ? 'success' : 'error' }));
       } catch {
-        setResults(prev => ({ ...prev, [shop.id]: 'error' }));
+        setResults((prev) => ({ ...prev, [shop.id]: 'error' }));
       }
       // Rate limit: 100ms between requests
-      await new Promise(r => setTimeout(r, 100));
+      await new Promise((r) => setTimeout(r, 100));
     }
     setCurrentShop(null);
     setProcessing(false);
@@ -145,15 +145,25 @@ export default function GeocodingManager({ shops }: Props) {
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
-              <th className="px-4 py-3 text-left text-xs font-medium text-slate-700 uppercase">Shop</th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-slate-700 uppercase">Address</th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-slate-700 uppercase">Coordinates</th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-slate-700 uppercase">Status</th>
-              <th className="px-4 py-3 text-right text-xs font-medium text-slate-700 uppercase">Actions</th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-slate-700 uppercase">
+                Shop
+              </th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-slate-700 uppercase">
+                Address
+              </th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-slate-700 uppercase">
+                Coordinates
+              </th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-slate-700 uppercase">
+                Status
+              </th>
+              <th className="px-4 py-3 text-right text-xs font-medium text-slate-700 uppercase">
+                Actions
+              </th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
-            {filteredShops.map(shop => (
+            {filteredShops.map((shop) => (
               <tr key={shop.id} className={currentShop === shop.id ? 'bg-brand-blue-50' : ''}>
                 <td className="px-4 py-3">
                   <div className="font-medium text-slate-900">{shop.name}</div>
@@ -179,9 +189,7 @@ export default function GeocodingManager({ shops }: Props) {
                       <XCircle className="w-4 h-4" /> Error
                     </span>
                   ) : shop.geocoded_at ? (
-                    <span className="text-brand-green-600 text-sm">
-                      {shop.geocode_source}
-                    </span>
+                    <span className="text-brand-green-600 text-sm">{shop.geocode_source}</span>
                   ) : shop.geocode_failed_at ? (
                     <span className="text-brand-red-600 text-sm" title={shop.geocode_error || ''}>
                       Failed

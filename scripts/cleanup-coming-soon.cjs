@@ -13,14 +13,14 @@
 //
 // You can undo with: git status / git diff / git restore
 
-const fs = require("fs");
-const path = require("path");
+const fs = require('fs');
+const path = require('path');
 
-const ROOT_DIRS = ["app", "components", "src"];
+const ROOT_DIRS = ['app', 'components', 'src'];
 
-const TEXT_PATTERNS = ["Coming Soon", "COMING SOON"];
+const TEXT_PATTERNS = ['Coming Soon', 'COMING SOON'];
 
-const EXTS = new Set([".tsx", ".jsx", ".ts", ".js", ".mdx", ".md"]);
+const EXTS = new Set(['.tsx', '.jsx', '.ts', '.js', '.mdx', '.md']);
 
 function walk(dir, out = []) {
   if (!fs.existsSync(dir)) return out;
@@ -44,13 +44,13 @@ function cleanContent(content) {
   let updated = content;
 
   // remove simple one-line banners that contain "Coming Soon"
-  updated = updated.replace(/^.*Coming Soon.*\r?\n?/gim, "");
+  updated = updated.replace(/^.*Coming Soon.*\r?\n?/gim, '');
 
   // remove JSX components like <ComingSoon /> on a line by itself
-  updated = updated.replace(/^\s*<ComingSoon[^>]*\/>\s*\r?\n?/gim, "");
+  updated = updated.replace(/^\s*<ComingSoon[^>]*\/>\s*\r?\n?/gim, '');
 
   // remove basic "coming soon" headings like ## Coming Soon
-  updated = updated.replace(/^\s*#+\s*Coming Soon.*\r?\n?/gim, "");
+  updated = updated.replace(/^\s*#+\s*Coming Soon.*\r?\n?/gim, '');
 
   return updated;
 }
@@ -63,7 +63,7 @@ function main() {
   let totalChanged = 0;
 
   for (const file of files) {
-    const original = fs.readFileSync(file, "utf8");
+    const original = fs.readFileSync(file, 'utf8');
 
     if (!hasComingSoon(original)) continue;
     totalFound++;
@@ -71,18 +71,21 @@ function main() {
     const cleaned = cleanContent(original);
 
     if (cleaned !== original) {
-      fs.writeFileSync(file, cleaned, "utf8");
+      fs.writeFileSync(file, cleaned, 'utf8');
       totalChanged++;
-      console.log("✅ Cleaned:", path.relative(process.cwd(), file));
+      console.log('✅ Cleaned:', path.relative(process.cwd(), file));
     } else {
-      console.log("ℹ️ Found 'Coming Soon' but did not auto-clean:", path.relative(process.cwd(), file));
+      console.log(
+        "ℹ️ Found 'Coming Soon' but did not auto-clean:",
+        path.relative(process.cwd(), file),
+      );
     }
   }
 
-  console.log("\n------");
+  console.log('\n------');
   console.log("Files containing 'Coming Soon':", totalFound);
-  console.log("Files auto-cleaned:", totalChanged);
-  console.log("Review with `git diff` to confirm everything looks good.");
+  console.log('Files auto-cleaned:', totalChanged);
+  console.log('Review with `git diff` to confirm everything looks good.');
 }
 
 main();

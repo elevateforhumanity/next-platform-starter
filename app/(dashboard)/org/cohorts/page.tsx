@@ -12,15 +12,17 @@ export const metadata = {
 };
 
 const STATUS_STYLES: Record<string, string> = {
-  active:    'bg-green-100 text-green-800',
-  upcoming:  'bg-blue-100 text-blue-800',
+  active: 'bg-green-100 text-green-800',
+  upcoming: 'bg-blue-100 text-blue-800',
   completed: 'bg-gray-100 text-slate-900',
-  archived:  'bg-yellow-100 text-yellow-800',
+  archived: 'bg-yellow-100 text-yellow-800',
 };
 
 export default async function OrgCohortsPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/org/cohorts');
 
   let ctx;
@@ -50,11 +52,21 @@ export default async function OrgCohortsPage() {
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
-                <th className="px-4 py-3 text-left text-xs font-semibold text-slate-700 uppercase tracking-wide">Name</th>
-                <th className="px-4 py-3 text-left text-xs font-semibold text-slate-700 uppercase tracking-wide">Status</th>
-                <th className="px-4 py-3 text-left text-xs font-semibold text-slate-700 uppercase tracking-wide">Learners</th>
-                <th className="px-4 py-3 text-left text-xs font-semibold text-slate-700 uppercase tracking-wide">Start Date</th>
-                <th className="px-4 py-3 text-left text-xs font-semibold text-slate-700 uppercase tracking-wide">Delivery</th>
+                <th className="px-4 py-3 text-left text-xs font-semibold text-slate-700 uppercase tracking-wide">
+                  Name
+                </th>
+                <th className="px-4 py-3 text-left text-xs font-semibold text-slate-700 uppercase tracking-wide">
+                  Status
+                </th>
+                <th className="px-4 py-3 text-left text-xs font-semibold text-slate-700 uppercase tracking-wide">
+                  Learners
+                </th>
+                <th className="px-4 py-3 text-left text-xs font-semibold text-slate-700 uppercase tracking-wide">
+                  Start Date
+                </th>
+                <th className="px-4 py-3 text-left text-xs font-semibold text-slate-700 uppercase tracking-wide">
+                  Delivery
+                </th>
                 <th className="px-4 py-3" />
               </tr>
             </thead>
@@ -63,7 +75,9 @@ export default async function OrgCohortsPage() {
                 <tr key={cohort.cohortId} className="hover:bg-gray-50">
                   <td className="px-4 py-3 text-sm font-medium text-slate-900">{cohort.name}</td>
                   <td className="px-4 py-3">
-                    <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${STATUS_STYLES[cohort.status] ?? 'bg-gray-100 text-slate-900'}`}>
+                    <span
+                      className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${STATUS_STYLES[cohort.status] ?? 'bg-gray-100 text-slate-900'}`}
+                    >
                       {cohort.status}
                     </span>
                   </td>

@@ -17,8 +17,7 @@ function scrubInFile(file) {
     if (out !== src) {
       fs.writeFileSync(file, out);
     }
-  } catch (e) {
-  }
+  } catch (e) {}
 }
 
 (async function main() {

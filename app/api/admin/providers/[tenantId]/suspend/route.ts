@@ -1,4 +1,3 @@
-
 import { NextRequest, NextResponse } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { getAdminClient } from '@/lib/supabase/admin';
@@ -10,7 +9,7 @@ export const dynamic = 'force-dynamic';
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: Promise<{ tenantId: string }> }
+  { params }: { params: Promise<{ tenantId: string }> },
 ) {
   const rateLimited = await applyRateLimit(request, 'strict');
   if (rateLimited) return rateLimited;
@@ -23,7 +22,11 @@ export async function POST(
   if (!db) return safeError('Service unavailable', 503);
 
   let body: { reason?: string } = {};
-  try { body = await request.json(); } catch { /* reason is optional */ }
+  try {
+    body = await request.json();
+  } catch {
+    /* reason is optional */
+  }
 
   const { data, error } = await db.rpc('suspend_provider', {
     p_tenant_id: tenantId,

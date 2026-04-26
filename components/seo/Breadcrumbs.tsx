@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import { sanitizeHtml } from '@/lib/sanitize';
 
 import Link from 'next/link';
@@ -18,16 +18,14 @@ export function Breadcrumbs() {
 
   const pathSegments = pathname.split('/').filter(Boolean);
 
-  const breadcrumbs: BreadcrumbItem[] = [
-    { label: 'Home', href: '/' },
-  ];
+  const breadcrumbs: BreadcrumbItem[] = [{ label: 'Home', href: '/' }];
 
   let currentPath = '';
   pathSegments.forEach((segment, index) => {
     currentPath += `/${segment}`;
     const label = segment
       .split('-')
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
       .join(' ');
 
     breadcrumbs.push({
@@ -40,11 +38,11 @@ export function Breadcrumbs() {
   const structuredData = {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
-    'itemListElement': breadcrumbs.map((crumb, index) => ({
+    itemListElement: breadcrumbs.map((crumb, index) => ({
       '@type': 'ListItem',
-      'position': index + 1,
-      'name': crumb.label,
-      'item': `https://www.elevateforhumanity.org${crumb.href}`,
+      position: index + 1,
+      name: crumb.label,
+      item: `https://www.elevateforhumanity.org${crumb.href}`,
     })),
   };
 
@@ -57,7 +55,10 @@ export function Breadcrumbs() {
       />
 
       {/* Visual Breadcrumbs - pt accounts for fixed header */}
-      <nav aria-label="Breadcrumb" className="bg-slate-50 border-b border-slate-200 pt-[56px] sm:pt-[70px]">
+      <nav
+        aria-label="Breadcrumb"
+        className="bg-slate-50 border-b border-slate-200 pt-[56px] sm:pt-[70px]"
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3">
           <ol className="flex items-center space-x-2 text-sm">
             {breadcrumbs.map((crumb, index) => {
@@ -65,9 +66,7 @@ export function Breadcrumbs() {
 
               return (
                 <li key={crumb.href} className="flex items-center">
-                  {index > 0 && (
-                    <ChevronRight className="w-4 h-4 text-slate-400 mx-2" />
-                  )}
+                  {index > 0 && <ChevronRight className="w-4 h-4 text-slate-400 mx-2" />}
                   {isLast ? (
                     <span className="text-black font-semibold" aria-current="page">
                       {index === 0 ? <Home className="w-4 h-4" /> : crumb.label}

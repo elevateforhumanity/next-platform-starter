@@ -17,10 +17,7 @@ export interface CertificateData {
 /**
  * Generate certificate number
  */
-export function generateCertificateNumber(
-  providerType: string,
-  studentId: string
-): string {
+export function generateCertificateNumber(providerType: string, studentId: string): string {
   const timestamp = Date.now().toString(36).toUpperCase();
   const random = Math.random().toString(36).substring(2, 6).toUpperCase();
   const prefix = providerType.substring(0, 3).toUpperCase();
@@ -31,7 +28,7 @@ export function generateCertificateNumber(
  * Create certificate record
  */
 export async function createCertificate(
-  enrollmentId: string
+  enrollmentId: string,
 ): Promise<{ success: boolean; certificateId?: string; error?: string }> {
   const supabase = createClient();
 
@@ -45,7 +42,7 @@ export async function createCertificate(
         provider:partner_lms_providers(*),
         student:profiles(*),
         program:programs(*)
-      `
+      `,
       )
       .eq('id', enrollmentId)
       .maybeSingle();
@@ -75,7 +72,7 @@ export async function createCertificate(
     // Generate certificate number
     const certificateNumber = generateCertificateNumber(
       enrollment.provider.provider_type,
-      enrollment.student_id
+      enrollment.student_id,
     );
 
     // Create certificate record
@@ -124,7 +121,8 @@ export async function createCertificate(
       success: true,
       certificateId: certificate.id,
     };
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     // Error: $1
     return {
       success: false,
@@ -166,7 +164,7 @@ function calculateExpirationDate(providerType: string): string | null {
  * Generate certificate PDF
  */
 export async function generateCertificatePDF(
-  certificateId: string
+  certificateId: string,
 ): Promise<{ success: boolean; pdfUrl?: string; error?: string }> {
   const supabase = createClient();
 
@@ -183,20 +181,17 @@ export async function generateCertificatePDF(
     }
 
     // Generate PDF using edge function
-    const { data, error }: any = await supabase.functions.invoke(
-      'generate-certificate-pdf',
-      {
-        body: {
-          certificate_id: certificateId,
-          student_name: certificate.student_name,
-          provider_name: certificate.provider_name,
-          course_name: certificate.course_name,
-          certificate_number: certificate.certificate_number,
-          issued_at: certificate.issued_at,
-          completed_at: certificate.completed_at,
-        },
-      }
-    );
+    const { data, error }: any = await supabase.functions.invoke('generate-certificate-pdf', {
+      body: {
+        certificate_id: certificateId,
+        student_name: certificate.student_name,
+        provider_name: certificate.provider_name,
+        course_name: certificate.course_name,
+        certificate_number: certificate.certificate_number,
+        issued_at: certificate.issued_at,
+        completed_at: certificate.completed_at,
+      },
+    });
 
     if (error) {
       throw error;
@@ -206,7 +201,8 @@ export async function generateCertificatePDF(
       success: true,
       pdfUrl: data.pdf_url,
     };
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     // Error: $1
     return {
       success: false,
@@ -261,7 +257,8 @@ export async function verifyCertificate(certificateNumber: string): Promise<{
         expiresAt: certificate.expires_at,
       },
     };
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     // Error: $1
     return {
       valid: false,
@@ -273,9 +270,7 @@ export async function verifyCertificate(certificateNumber: string): Promise<{
 /**
  * Get all certificates for a student
  */
-export async function getStudentCertificates(
-  studentId: string
-): Promise<CertificateData[]> {
+export async function getStudentCertificates(studentId: string): Promise<CertificateData[]> {
   const supabase = createClient();
 
   const { data: certificates } = await supabase
@@ -303,7 +298,7 @@ export async function getStudentCertificates(
  */
 export async function revokeCertificate(
   certificateId: string,
-  reason: string
+  reason: string,
 ): Promise<{ success: boolean; error?: string }> {
   const supabase = createClient();
 
@@ -322,7 +317,8 @@ export async function revokeCertificate(
     }
 
     return { success: true };
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     // Error: $1
     return {
       success: false,
@@ -334,9 +330,7 @@ export async function revokeCertificate(
 /**
  * Bulk certificate generation for completed enrollments
  */
-export async function generateBulkCertificates(
-  enrollmentIds: string[]
-): Promise<{
+export async function generateBulkCertificates(enrollmentIds: string[]): Promise<{
   successful: number;
   failed: number;
   results: Array<{

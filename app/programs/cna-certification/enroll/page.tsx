@@ -4,12 +4,12 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { 
-  ArrowLeft, 
-  Check, 
-  CreditCard, 
-  Calendar, 
-  Shield, 
+import {
+  ArrowLeft,
+  Check,
+  CreditCard,
+  Calendar,
+  Shield,
   Clock,
   GraduationCap,
   DollarSign,
@@ -49,7 +49,7 @@ export default function CNAEnrollPage() {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       [name]: type === 'checkbox' ? (e.target as HTMLInputElement).checked : value,
     }));
@@ -69,11 +69,14 @@ export default function CNAEnrollPage() {
           ...formData,
           program: 'cna-certification',
           price: PROGRAM_DETAILS.price,
-          paymentPlan: formData.paymentOption === 'payment-plan' ? {
-            downPayment: PROGRAM_DETAILS.downPayment,
-            weeklyPayment: PROGRAM_DETAILS.weeklyPayment,
-            weeks: PROGRAM_DETAILS.paymentWeeks,
-          } : null,
+          paymentPlan:
+            formData.paymentOption === 'payment-plan'
+              ? {
+                  downPayment: PROGRAM_DETAILS.downPayment,
+                  weeklyPayment: PROGRAM_DETAILS.weeklyPayment,
+                  weeks: PROGRAM_DETAILS.paymentWeeks,
+                }
+              : null,
         }),
       });
 
@@ -88,20 +91,25 @@ export default function CNAEnrollPage() {
         window.location.href = `/lms/payments/checkout?program=cna&amount=${PROGRAM_DETAILS.price}&type=full-payment`;
       }
     } catch (err) {
-      setError('There was an error processing your enrollment. Please try again or contact us at our contact form');
+      setError(
+        'There was an error processing your enrollment. Please try again or contact us at our contact form',
+      );
       setIsSubmitting(false);
     }
   };
 
   return (
     <div className="min-h-screen bg-gray-50">
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Programs", href: "/programs" }, { label: "Enroll" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Programs', href: '/programs' }, { label: 'Enroll' }]} />
       </div>
-{/* Header */}
+      {/* Header */}
       <div className="bg-brand-blue-600 text-white py-8">
         <div className="max-w-4xl mx-auto px-4">
-          <Link href="/programs/cna" className="inline-flex items-center gap-2 text-brand-blue-100 hover:text-white mb-4">
+          <Link
+            href="/programs/cna"
+            className="inline-flex items-center gap-2 text-brand-blue-100 hover:text-white mb-4"
+          >
             <ArrowLeft className="w-4 h-4" />
             Back to CNA Program
           </Link>
@@ -118,12 +126,16 @@ export default function CNAEnrollPage() {
             <div className="flex items-center gap-4 mb-8">
               {[1, 2, 3].map((s) => (
                 <div key={s} className="flex items-center">
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold ${
-                    step >= s ? 'bg-brand-blue-600 text-white' : 'bg-gray-200 text-gray-500'
-                  }`}>
+                  <div
+                    className={`w-8 h-8 rounded-full flex items-center justify-center font-bold ${
+                      step >= s ? 'bg-brand-blue-600 text-white' : 'bg-gray-200 text-gray-500'
+                    }`}
+                  >
                     {step > s ? <Check className="w-5 h-5" /> : s}
                   </div>
-                  {s < 3 && <div className={`w-12 h-1 ${step > s ? 'bg-brand-blue-600' : 'bg-gray-200'}`} />}
+                  {s < 3 && (
+                    <div className={`w-12 h-1 ${step > s ? 'bg-brand-blue-600' : 'bg-gray-200'}`} />
+                  )}
                 </div>
               ))}
             </div>
@@ -132,10 +144,12 @@ export default function CNAEnrollPage() {
               {step === 1 && (
                 <div className="space-y-6">
                   <h2 className="text-xl font-bold">Personal Information</h2>
-                  
+
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">First Name *</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        First Name *
+                      </label>
                       <input
                         type="text"
                         name="firstName"
@@ -146,7 +160,9 @@ export default function CNAEnrollPage() {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Last Name *</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Last Name *
+                      </label>
                       <input
                         type="text"
                         name="lastName"
@@ -160,7 +176,9 @@ export default function CNAEnrollPage() {
 
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Email *</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Email *
+                      </label>
                       <input
                         type="email"
                         name="email"
@@ -171,7 +189,9 @@ export default function CNAEnrollPage() {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Phone *</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Phone *
+                      </label>
                       <input
                         type="tel"
                         name="phone"
@@ -184,7 +204,9 @@ export default function CNAEnrollPage() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Date of Birth *</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Date of Birth *
+                    </label>
                     <input
                       type="date"
                       name="dateOfBirth"
@@ -196,7 +218,9 @@ export default function CNAEnrollPage() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Address *</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Address *
+                    </label>
                     <input
                       type="text"
                       name="address"
@@ -220,7 +244,9 @@ export default function CNAEnrollPage() {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">State *</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        State *
+                      </label>
                       <select
                         name="state"
                         value={formData.state}
@@ -261,9 +287,11 @@ export default function CNAEnrollPage() {
               {step === 2 && (
                 <div className="space-y-6">
                   <h2 className="text-xl font-bold">Emergency Contact</h2>
-                  
+
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Emergency Contact Name *</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Emergency Contact Name *
+                    </label>
                     <input
                       type="text"
                       name="emergencyContact"
@@ -275,7 +303,9 @@ export default function CNAEnrollPage() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Emergency Contact Phone *</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Emergency Contact Phone *
+                    </label>
                     <input
                       type="tel"
                       name="emergencyPhone"
@@ -308,13 +338,15 @@ export default function CNAEnrollPage() {
               {step === 3 && (
                 <div className="space-y-6">
                   <h2 className="text-xl font-bold">Payment Options</h2>
-                  
+
                   <div className="space-y-4">
-                    <label className={`block p-4 border-2 rounded-xl cursor-pointer transition ${
-                      formData.paymentOption === 'payment-plan' 
-                        ? 'border-brand-blue-600 bg-brand-blue-50' 
-                        : 'border-gray-200 hover:border-gray-300'
-                    }`}>
+                    <label
+                      className={`block p-4 border-2 rounded-xl cursor-pointer transition ${
+                        formData.paymentOption === 'payment-plan'
+                          ? 'border-brand-blue-600 bg-brand-blue-50'
+                          : 'border-gray-200 hover:border-gray-300'
+                      }`}
+                    >
                       <input
                         type="radio"
                         name="paymentOption"
@@ -324,9 +356,13 @@ export default function CNAEnrollPage() {
                         className="sr-only"
                       />
                       <div className="flex items-start gap-4">
-                        <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center mt-1 ${
-                          formData.paymentOption === 'payment-plan' ? 'border-brand-blue-600' : 'border-gray-300'
-                        }`}>
+                        <div
+                          className={`w-5 h-5 rounded-full border-2 flex items-center justify-center mt-1 ${
+                            formData.paymentOption === 'payment-plan'
+                              ? 'border-brand-blue-600'
+                              : 'border-gray-300'
+                          }`}
+                        >
                           {formData.paymentOption === 'payment-plan' && (
                             <div className="w-3 h-3 bg-brand-blue-600 rounded-full" />
                           )}
@@ -334,24 +370,37 @@ export default function CNAEnrollPage() {
                         <div className="flex-1">
                           <div className="flex items-center justify-between">
                             <span className="font-bold text-lg">Payment Plan</span>
-                            <span className="bg-brand-green-100 text-brand-green-700 px-2 py-1 rounded text-sm font-medium">Most Popular</span>
+                            <span className="bg-brand-green-100 text-brand-green-700 px-2 py-1 rounded text-sm font-medium">
+                              Most Popular
+                            </span>
                           </div>
                           <p className="text-gray-600 mt-1">
-                            <span className="text-2xl font-bold text-gray-900">${PROGRAM_DETAILS.downPayment}</span> down payment
+                            <span className="text-2xl font-bold text-gray-900">
+                              ${PROGRAM_DETAILS.downPayment}
+                            </span>{' '}
+                            down payment
                           </p>
                           <p className="text-gray-600">
-                            + <span className="font-semibold">${PROGRAM_DETAILS.weeklyPayment}/week</span> for {PROGRAM_DETAILS.paymentWeeks} weeks
+                            +{' '}
+                            <span className="font-semibold">
+                              ${PROGRAM_DETAILS.weeklyPayment}/week
+                            </span>{' '}
+                            for {PROGRAM_DETAILS.paymentWeeks} weeks
                           </p>
-                          <p className="text-sm text-gray-500 mt-2">Total: ${PROGRAM_DETAILS.price}</p>
+                          <p className="text-sm text-gray-500 mt-2">
+                            Total: ${PROGRAM_DETAILS.price}
+                          </p>
                         </div>
                       </div>
                     </label>
 
-                    <label className={`block p-4 border-2 rounded-xl cursor-pointer transition ${
-                      formData.paymentOption === 'full-payment' 
-                        ? 'border-brand-blue-600 bg-brand-blue-50' 
-                        : 'border-gray-200 hover:border-gray-300'
-                    }`}>
+                    <label
+                      className={`block p-4 border-2 rounded-xl cursor-pointer transition ${
+                        formData.paymentOption === 'full-payment'
+                          ? 'border-brand-blue-600 bg-brand-blue-50'
+                          : 'border-gray-200 hover:border-gray-300'
+                      }`}
+                    >
                       <input
                         type="radio"
                         name="paymentOption"
@@ -361,9 +410,13 @@ export default function CNAEnrollPage() {
                         className="sr-only"
                       />
                       <div className="flex items-start gap-4">
-                        <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center mt-1 ${
-                          formData.paymentOption === 'full-payment' ? 'border-brand-blue-600' : 'border-gray-300'
-                        }`}>
+                        <div
+                          className={`w-5 h-5 rounded-full border-2 flex items-center justify-center mt-1 ${
+                            formData.paymentOption === 'full-payment'
+                              ? 'border-brand-blue-600'
+                              : 'border-gray-300'
+                          }`}
+                        >
                           {formData.paymentOption === 'full-payment' && (
                             <div className="w-3 h-3 bg-brand-blue-600 rounded-full" />
                           )}
@@ -371,7 +424,10 @@ export default function CNAEnrollPage() {
                         <div className="flex-1">
                           <span className="font-bold text-lg">Pay in Full</span>
                           <p className="text-gray-600 mt-1">
-                            <span className="text-2xl font-bold text-gray-900">${PROGRAM_DETAILS.price}</span> one-time payment
+                            <span className="text-2xl font-bold text-gray-900">
+                              ${PROGRAM_DETAILS.price}
+                            </span>{' '}
+                            one-time payment
                           </p>
                         </div>
                       </div>
@@ -389,7 +445,19 @@ export default function CNAEnrollPage() {
                         className="mt-1 w-5 h-5 rounded border-gray-300 text-brand-blue-600 focus:ring-brand-blue-500"
                       />
                       <span className="text-sm text-gray-600">
-                        I agree to the <Link href="/terms-of-service" className="text-brand-blue-600 hover:underline">Terms of Service</Link> and <Link href="/refund-policy" className="text-brand-blue-600 hover:underline">Refund Policy</Link>. I understand that the down payment is non-refundable and weekly payments are due every Monday.
+                        I agree to the{' '}
+                        <Link
+                          href="/terms-of-service"
+                          className="text-brand-blue-600 hover:underline"
+                        >
+                          Terms of Service
+                        </Link>{' '}
+                        and{' '}
+                        <Link href="/refund-policy" className="text-brand-blue-600 hover:underline">
+                          Refund Policy
+                        </Link>
+                        . I understand that the down payment is non-refundable and weekly payments
+                        are due every Monday.
                       </span>
                     </label>
                   </div>
@@ -418,10 +486,9 @@ export default function CNAEnrollPage() {
                       ) : (
                         <>
                           <CreditCard className="w-5 h-5" />
-                          {formData.paymentOption === 'payment-plan' 
+                          {formData.paymentOption === 'payment-plan'
                             ? `Pay $${PROGRAM_DETAILS.downPayment} Down Payment`
-                            : `Pay $${PROGRAM_DETAILS.price} Now`
-                          }
+                            : `Pay $${PROGRAM_DETAILS.price} Now`}
                         </>
                       )}
                     </button>

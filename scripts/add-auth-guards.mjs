@@ -14,11 +14,7 @@ if (!fs.existsSync(filesPath)) {
   process.exit(1);
 }
 
-const uniqueFiles = fs.readFileSync(filesPath, 'utf8')
-  .trim()
-  .split('\n')
-  .filter(Boolean);
-
+const uniqueFiles = fs.readFileSync(filesPath, 'utf8').trim().split('\n').filter(Boolean);
 
 const AUTH_GUARD = `import { createServerClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
@@ -56,7 +52,7 @@ for (const file of uniqueFiles) {
     // Convert to async if needed
     content = content.replace(
       /export\s+default\s+function\s+(\w+)/,
-      'export default async function $1'
+      'export default async function $1',
     );
   }
 
@@ -85,10 +81,9 @@ for (const file of uniqueFiles) {
   // Add auth check at start of function body
   content = content.replace(
     /(export\s+default\s+async\s+function\s+\w+[^{]*\{)/,
-    `$1\n${AUTH_CHECK}`
+    `$1\n${AUTH_CHECK}`,
   );
 
   fs.writeFileSync(file, content, 'utf8');
   added++;
 }
-

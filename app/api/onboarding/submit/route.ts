@@ -1,5 +1,3 @@
-
-
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import {
@@ -113,10 +111,7 @@ async function _POST(request: NextRequest) {
         },
         signature: data.signature,
         signature_date: data.signatureDate,
-        ip_address:
-          data.ipAddress ||
-          request.headers.get('x-forwarded-for') ||
-          request.ip,
+        ip_address: data.ipAddress || request.headers.get('x-forwarded-for') || request.ip,
         forms_generated: {
           w4: w4Form,
           i9: i9Form,
@@ -127,9 +122,7 @@ async function _POST(request: NextRequest) {
         },
         onboarding_package: onboardingPackage,
         summary: summary,
-        status: onboardingPackage.status.isComplete
-          ? 'complete'
-          : 'in-progress',
+        status: onboardingPackage.status.isComplete ? 'complete' : 'in-progress',
         can_start_work: onboardingPackage.status.canStartWork,
         progress_percentage: onboardingPackage.status.overallProgress,
         created_at: new Date().toISOString(),
@@ -144,40 +137,34 @@ async function _POST(request: NextRequest) {
           error: 'Failed to store onboarding data',
           details: onboardingError.message,
         },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
     // Send notification emails
     if (onboardingPackage.status.isComplete) {
       // Send completion email to employee
-      await fetch(
-        `${process.env.NEXT_PUBLIC_SITE_URL}/api/email/onboarding-complete`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            to: data.email,
-            name: `${data.firstName} ${data.lastName}`,
-            startDate: data.startDate,
-          }),
-        }
-      );
+      await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/email/onboarding-complete`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          to: data.email,
+          name: `${data.firstName} ${data.lastName}`,
+          startDate: data.startDate,
+        }),
+      });
 
       // Send notification to HR
-      await fetch(
-        `${process.env.NEXT_PUBLIC_SITE_URL}/api/email/onboarding-notification`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            employeeName: `${data.firstName} ${data.lastName}`,
-            position: data.position,
-            startDate: data.startDate,
-            onboardingId: onboardingRecord.id,
-          }),
-        }
-      );
+      await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/email/onboarding-notification`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          employeeName: `${data.firstName} ${data.lastName}`,
+          position: data.position,
+          startDate: data.startDate,
+          onboardingId: onboardingRecord.id,
+        }),
+      });
 
       // Send Slack notification if configured
       if (process.env.SLACK_WEBHOOK_URL) {
@@ -229,14 +216,14 @@ async function _POST(request: NextRequest) {
         ? 'Onboarding completed successfully!'
         : 'Onboarding saved. Please complete remaining items.',
     });
-  } catch (error) { 
+  } catch (error) {
     logger.error(
       'Onboarding submission error:',
-      error instanceof Error ? error : new Error(String(error))
+      error instanceof Error ? error : new Error(String(error)),
     );
     return NextResponse.json(
       { error: 'Failed to process onboarding', details: toErrorMessage(error) },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -267,10 +254,7 @@ async function _GET(request: NextRequest) {
     if (error && error.code !== 'PGRST116') {
       // PGRST116 = no rows returned
       logger.error('Error fetching onboarding:', error);
-      return NextResponse.json(
-        { error: 'Failed to fetch onboarding data' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to fetch onboarding data' }, { status: 500 });
     }
 
     return NextResponse.json({
@@ -278,14 +262,14 @@ async function _GET(request: NextRequest) {
       onboarding: onboarding || null,
       hasOnboarding: !!onboarding,
     });
-  } catch (error) { 
+  } catch (error) {
     logger.error(
       'Onboarding fetch error:',
-      error instanceof Error ? error : new Error(String(error))
+      error instanceof Error ? error : new Error(String(error)),
     );
     return NextResponse.json(
       { error: 'Failed to fetch onboarding', details: toErrorMessage(error) },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

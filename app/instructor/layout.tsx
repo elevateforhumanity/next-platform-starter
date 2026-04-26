@@ -4,7 +4,15 @@ import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { getAdminClient } from '@/lib/supabase/admin';
 import Link from 'next/link';
-import { BookOpen, Users, BarChart, Settings, Home, MessageSquare, ClipboardList } from 'lucide-react';
+import {
+  BookOpen,
+  Users,
+  BarChart,
+  Settings,
+  Home,
+  MessageSquare,
+  ClipboardList,
+} from 'lucide-react';
 import { IdleTimeoutGuard } from '@/components/auth/IdleTimeoutGuard';
 
 export const dynamic = 'force-dynamic';
@@ -16,23 +24,19 @@ export const metadata: Metadata = {
 };
 
 const navItems = [
-  { href: '/instructor/dashboard', icon: Home,          label: 'Dashboard' },
-  { href: '/instructor/courses',   icon: BookOpen,      label: 'Courses' },
-  { href: '/instructor/students',  icon: Users,         label: 'Students' },
+  { href: '/instructor/dashboard', icon: Home, label: 'Dashboard' },
+  { href: '/instructor/courses', icon: BookOpen, label: 'Courses' },
+  { href: '/instructor/students', icon: Users, label: 'Students' },
   { href: '/instructor/gradebook', icon: ClipboardList, label: 'Gradebook' },
   { href: '/instructor/submissions', icon: ClipboardList, label: 'Submissions' },
   { href: '/instructor/attendance', icon: ClipboardList, label: 'Attendance' },
   { href: '/instructor/announcements', icon: MessageSquare, label: 'Announcements' },
   { href: '/instructor/campaigns', icon: MessageSquare, label: 'Campaigns' },
-  { href: '/instructor/analytics', icon: BarChart,      label: 'Analytics' },
-  { href: '/instructor/settings',  icon: Settings,      label: 'Settings' },
+  { href: '/instructor/analytics', icon: BarChart, label: 'Analytics' },
+  { href: '/instructor/settings', icon: Settings, label: 'Settings' },
 ];
 
-export default async function InstructorLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default async function InstructorLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient();
   const db = await getAdminClient();
   if (!db) throw new Error('Admin client failed to initialize');
@@ -47,7 +51,9 @@ export default async function InstructorLayout({
       </div>
     );
   }
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     redirect('/login?redirect=/instructor');
@@ -89,10 +95,7 @@ export default async function InstructorLayout({
                 ))}
               </div>
             </div>
-            <Link
-              href="/dashboard"
-              className="text-sm text-slate-700 hover:text-slate-900"
-            >
+            <Link href="/dashboard" className="text-sm text-slate-700 hover:text-slate-900">
               Back to Dashboard
             </Link>
           </div>

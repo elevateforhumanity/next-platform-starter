@@ -17,10 +17,7 @@ async function _POST(req: Request) {
     const { provider, course_name } = await req.json();
 
     if (!provider) {
-      return NextResponse.json(
-        { error: 'Provider is required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Provider is required' }, { status: 400 });
     }
 
     const supabase = await createClient();
@@ -44,10 +41,7 @@ async function _POST(req: Request) {
 
     if (error) {
       // Error: $1
-      return NextResponse.json(
-        { error: 'Failed to mark credential complete' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to mark credential complete' }, { status: 500 });
     }
 
     // Update exam readiness on LMS theory completion
@@ -63,7 +57,7 @@ async function _POST(req: Request) {
     // Error: $1
     return NextResponse.json(
       { err: toErrorMessage(err) || 'Failed to mark credential complete' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

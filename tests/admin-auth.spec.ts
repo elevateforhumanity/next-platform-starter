@@ -29,11 +29,7 @@ const ADMIN_PAGE_ROUTES = [
   '/admin/security',
 ];
 
-const ADMIN_API_ROUTES = [
-  '/api/admin/students',
-  '/api/admin/programs',
-  '/api/admin/enrollments',
-];
+const ADMIN_API_ROUTES = ['/api/admin/students', '/api/admin/programs', '/api/admin/enrollments'];
 
 test.describe('Admin namespace — anonymous access blocked', () => {
   test.beforeEach(async ({ context }) => {
@@ -59,7 +55,7 @@ test.describe('Admin namespace — anonymous access blocked', () => {
 
     if (failures.length > 0) {
       throw new Error(
-        `Admin routes accessible without auth:\n${failures.map((f) => `  ${f}`).join('\n')}`
+        `Admin routes accessible without auth:\n${failures.map((f) => `  ${f}`).join('\n')}`,
       );
     }
   });
@@ -78,7 +74,7 @@ test.describe('Admin namespace — anonymous access blocked', () => {
 
     if (failures.length > 0) {
       throw new Error(
-        `Admin API routes accessible without auth:\n${failures.map((f) => `  ${f}`).join('\n')}`
+        `Admin API routes accessible without auth:\n${failures.map((f) => `  ${f}`).join('\n')}`,
       );
     }
   });

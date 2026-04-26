@@ -50,11 +50,36 @@ const LEAK_RATES = [
 ];
 
 const EVACUATION_LEVELS = [
-  { system: 'Systems manufactured before Nov 15, 1993', charge: 'Any', level: '25 in. Hg', note: 'Older equipment standard' },
-  { system: 'High-pressure systems (R-22, R-410A, R-404A)', charge: '< 200 lbs', level: '0 in. Hg (0 PSIG)', note: 'Atmospheric pressure — no vacuum required' },
-  { system: 'High-pressure systems (R-22, R-410A, R-404A)', charge: '≥ 200 lbs', level: '15 in. Hg', note: 'Partial vacuum required' },
-  { system: 'Very high-pressure systems (R-410A, R-502)', charge: '< 200 lbs', level: '0 in. Hg', note: 'No vacuum required' },
-  { system: 'Very high-pressure systems (R-410A, R-502)', charge: '≥ 200 lbs', level: '15 in. Hg', note: 'Partial vacuum required' },
+  {
+    system: 'Systems manufactured before Nov 15, 1993',
+    charge: 'Any',
+    level: '25 in. Hg',
+    note: 'Older equipment standard',
+  },
+  {
+    system: 'High-pressure systems (R-22, R-410A, R-404A)',
+    charge: '< 200 lbs',
+    level: '0 in. Hg (0 PSIG)',
+    note: 'Atmospheric pressure — no vacuum required',
+  },
+  {
+    system: 'High-pressure systems (R-22, R-410A, R-404A)',
+    charge: '≥ 200 lbs',
+    level: '15 in. Hg',
+    note: 'Partial vacuum required',
+  },
+  {
+    system: 'Very high-pressure systems (R-410A, R-502)',
+    charge: '< 200 lbs',
+    level: '0 in. Hg',
+    note: 'No vacuum required',
+  },
+  {
+    system: 'Very high-pressure systems (R-410A, R-502)',
+    charge: '≥ 200 lbs',
+    level: '15 in. Hg',
+    note: 'Partial vacuum required',
+  },
 ];
 
 const CHARGING_METHODS = [
@@ -91,18 +116,15 @@ const QUIZ_QUESTIONS = [
       'Replace the entire system',
     ],
     correct: 1,
-    explanation: '12 lbs out of 100 lbs = 12% leak rate. Comfort cooling trigger is 10%. Since 12% > 10%, the leak must be repaired within 30 days.',
+    explanation:
+      '12 lbs out of 100 lbs = 12% leak rate. Comfort cooling trigger is 10%. Since 12% > 10%, the leak must be repaired within 30 days.',
   },
   {
     q: 'You are evacuating a 150 lb R-22 system manufactured in 2005. What vacuum level is required?',
-    options: [
-      '25 in. Hg',
-      '15 in. Hg',
-      '0 in. Hg (atmospheric)',
-      '500 microns',
-    ],
+    options: ['25 in. Hg', '15 in. Hg', '0 in. Hg (atmospheric)', '500 microns'],
     correct: 2,
-    explanation: 'High-pressure systems with less than 200 lbs of refrigerant manufactured after Nov 15, 1993 only require evacuation to 0 in. Hg (atmospheric pressure). No vacuum is required.',
+    explanation:
+      'High-pressure systems with less than 200 lbs of refrigerant manufactured after Nov 15, 1993 only require evacuation to 0 in. Hg (atmospheric pressure). No vacuum is required.',
   },
   {
     q: 'A residential split system uses a TXV. Which charging method should you use?',
@@ -113,7 +135,8 @@ const QUIZ_QUESTIONS = [
       'Either superheat or subcooling',
     ],
     correct: 2,
-    explanation: 'TXV systems are charged by subcooling. The TXV controls superheat regardless of charge level, so superheat cannot be used to verify charge on a TXV system.',
+    explanation:
+      'TXV systems are charged by subcooling. The TXV controls superheat regardless of charge level, so superheat cannot be used to verify charge on a TXV system.',
   },
 ];
 
@@ -139,11 +162,14 @@ export default function TypeIILeakRepairDiagram({ onComplete }: { onComplete?: (
 
   return (
     <div className="space-y-5">
-
       <div className="bg-brand-blue-700 rounded-2xl p-5 text-white">
-        <p className="text-brand-red-400 text-xs font-bold uppercase tracking-widest mb-1">EPA 608 Type II — High-Pressure Systems</p>
+        <p className="text-brand-red-400 text-xs font-bold uppercase tracking-widest mb-1">
+          EPA 608 Type II — High-Pressure Systems
+        </p>
         <h2 className="text-xl font-extrabold">Leak Repair · Evacuation · Charging</h2>
-        <p className="text-slate-500 text-sm mt-1">The three most tested topics for Type II. Work through each tab.</p>
+        <p className="text-slate-500 text-sm mt-1">
+          The three most tested topics for Type II. Work through each tab.
+        </p>
       </div>
 
       {/* Tabs */}
@@ -151,9 +177,14 @@ export default function TypeIILeakRepairDiagram({ onComplete }: { onComplete?: (
         {TABS.map((t) => (
           <button
             key={t.id}
-            onClick={() => { setActiveTab(t.id); markTab(t.id); }}
+            onClick={() => {
+              setActiveTab(t.id);
+              markTab(t.id);
+            }}
             className={`flex-1 py-2 rounded-lg text-xs font-bold transition-all relative ${
-              activeTab === t.id ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-700'
+              activeTab === t.id
+                ? 'bg-white text-slate-900 shadow-sm'
+                : 'text-slate-500 hover:text-slate-700'
             }`}
           >
             {completedTabs.has(t.id) && (
@@ -167,12 +198,21 @@ export default function TypeIILeakRepairDiagram({ onComplete }: { onComplete?: (
       {/* Leak Repair tab */}
       {activeTab === 'leak' && (
         <div className="space-y-3">
-          <p className="text-xs text-slate-500 font-medium">Leak repair is required when annual leak rate exceeds the trigger for that equipment type. Applies to systems with <span className="font-bold text-slate-700">50 lbs or more</span> of refrigerant.</p>
+          <p className="text-xs text-slate-500 font-medium">
+            Leak repair is required when annual leak rate exceeds the trigger for that equipment
+            type. Applies to systems with{' '}
+            <span className="font-bold text-slate-700">50 lbs or more</span> of refrigerant.
+          </p>
           {LEAK_RATES.map((lr) => (
-            <div key={lr.type} className={`rounded-2xl border ${lr.border} ${lr.light} overflow-hidden`}>
+            <div
+              key={lr.type}
+              className={`rounded-2xl border ${lr.border} ${lr.light} overflow-hidden`}
+            >
               <div className={`${lr.color} px-4 py-2.5 flex items-center justify-between`}>
                 <p className="text-slate-900 font-extrabold text-sm">{lr.type}</p>
-                <span className="bg-white/20 text-white font-extrabold text-lg px-3 py-0.5 rounded-full">{lr.trigger}</span>
+                <span className="bg-white/20 text-white font-extrabold text-lg px-3 py-0.5 rounded-full">
+                  {lr.trigger}
+                </span>
               </div>
               <div className="p-4 space-y-2">
                 <p className="text-xs text-slate-500">{lr.examples}</p>
@@ -182,7 +222,10 @@ export default function TypeIILeakRepairDiagram({ onComplete }: { onComplete?: (
           ))}
           <div className="bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 flex gap-2">
             <span className="text-amber-500">⚡</span>
-            <p className="text-amber-800 text-xs font-semibold">Repair deadline is always 30 days. Industrial process gets a possible 120-day extension if repair is not feasible within 30 days.</p>
+            <p className="text-amber-800 text-xs font-semibold">
+              Repair deadline is always 30 days. Industrial process gets a possible 120-day
+              extension if repair is not feasible within 30 days.
+            </p>
           </div>
         </div>
       )}
@@ -190,14 +233,21 @@ export default function TypeIILeakRepairDiagram({ onComplete }: { onComplete?: (
       {/* Evacuation tab */}
       {activeTab === 'evacuation' && (
         <div className="space-y-3">
-          <p className="text-xs text-slate-500 font-medium">Required vacuum levels before opening a system depend on the refrigerant type, system size, and manufacture date.</p>
+          <p className="text-xs text-slate-500 font-medium">
+            Required vacuum levels before opening a system depend on the refrigerant type, system
+            size, and manufacture date.
+          </p>
           <div className="overflow-x-auto">
             <table className="w-full text-xs">
               <thead>
                 <tr className="bg-slate-100">
-                  <th className="text-left px-3 py-2 font-bold text-slate-600 rounded-tl-xl">System Type</th>
+                  <th className="text-left px-3 py-2 font-bold text-slate-600 rounded-tl-xl">
+                    System Type
+                  </th>
                   <th className="text-left px-3 py-2 font-bold text-slate-600">Charge</th>
-                  <th className="text-left px-3 py-2 font-bold text-slate-600 rounded-tr-xl">Required Level</th>
+                  <th className="text-left px-3 py-2 font-bold text-slate-600 rounded-tr-xl">
+                    Required Level
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -213,7 +263,10 @@ export default function TypeIILeakRepairDiagram({ onComplete }: { onComplete?: (
           </div>
           <div className="bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 flex gap-2">
             <span className="text-amber-500">⚡</span>
-            <p className="text-amber-800 text-xs font-semibold">The exam loves to test the pre-1993 vs post-1993 distinction. Pre-1993 systems always require 25 in. Hg regardless of size.</p>
+            <p className="text-amber-800 text-xs font-semibold">
+              The exam loves to test the pre-1993 vs post-1993 distinction. Pre-1993 systems always
+              require 25 in. Hg regardless of size.
+            </p>
           </div>
         </div>
       )}
@@ -222,17 +275,24 @@ export default function TypeIILeakRepairDiagram({ onComplete }: { onComplete?: (
       {activeTab === 'charging' && (
         <div className="space-y-3">
           {CHARGING_METHODS.map((m) => (
-            <div key={m.method} className="bg-white rounded-2xl border border-slate-200 overflow-hidden">
+            <div
+              key={m.method}
+              className="bg-white rounded-2xl border border-slate-200 overflow-hidden"
+            >
               <div className="bg-white px-4 py-2.5">
                 <p className="text-slate-900 font-extrabold text-sm">{m.method}</p>
               </div>
               <div className="p-4 space-y-3">
                 <div>
-                  <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">When to use</p>
+                  <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">
+                    When to use
+                  </p>
                   <p className="text-sm text-slate-700">{m.when}</p>
                 </div>
                 <div>
-                  <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">How it works</p>
+                  <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">
+                    How it works
+                  </p>
                   <p className="text-sm text-slate-700 leading-relaxed">{m.how}</p>
                 </div>
                 <div className="bg-amber-50 border border-amber-200 rounded-xl px-3 py-2 flex gap-2">
@@ -265,22 +325,32 @@ export default function TypeIILeakRepairDiagram({ onComplete }: { onComplete?: (
                         !isAnswered
                           ? 'bg-slate-50 border-slate-200 hover:border-brand-blue-300 hover:bg-brand-blue-50'
                           : isCorrect
-                          ? 'bg-brand-green-50 border-brand-green-300'
-                          : isSelected
-                          ? 'bg-brand-red-50 border-brand-red-300'
-                          : 'bg-slate-50 border-slate-200 opacity-60'
+                            ? 'bg-brand-green-50 border-brand-green-300'
+                            : isSelected
+                              ? 'bg-brand-red-50 border-brand-red-300'
+                              : 'bg-slate-50 border-slate-200 opacity-60'
                       }`}
                     >
-                      {isAnswered && isCorrect && <CheckCircle className="w-4 h-4 text-brand-green-500 flex-shrink-0" />}
-                      {isAnswered && isSelected && !isCorrect && <XCircle className="w-4 h-4 text-brand-red-500 flex-shrink-0" />}
-                      <span className={isAnswered && isCorrect ? 'font-bold text-brand-green-700' : ''}>{opt}</span>
+                      {isAnswered && isCorrect && (
+                        <CheckCircle className="w-4 h-4 text-brand-green-500 flex-shrink-0" />
+                      )}
+                      {isAnswered && isSelected && !isCorrect && (
+                        <XCircle className="w-4 h-4 text-brand-red-500 flex-shrink-0" />
+                      )}
+                      <span
+                        className={isAnswered && isCorrect ? 'font-bold text-brand-green-700' : ''}
+                      >
+                        {opt}
+                      </span>
                     </button>
                   );
                 })}
               </div>
               {revealed.has(qi) && (
                 <div className="bg-slate-50 rounded-xl border border-slate-200 px-4 py-3">
-                  <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Explanation</p>
+                  <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">
+                    Explanation
+                  </p>
                   <p className="text-sm text-slate-700 leading-relaxed">{q.explanation}</p>
                 </div>
               )}

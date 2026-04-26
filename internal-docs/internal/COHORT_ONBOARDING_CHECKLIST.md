@@ -8,19 +8,20 @@
 
 ## A. Program Readiness
 
-| Check | Status | Notes |
-|-------|--------|-------|
-| [ ] Program exists in `programs` table | | |
-| [ ] Program has correct `slug` for routing | | |
-| [ ] Courses attached to program via `program_courses` | | |
-| [ ] All courses are `is_published = true` | | |
-| [ ] Enrollment RPC tested for this program | | |
-| [ ] Funding type configured (WIOA / self-pay / employer) | | |
-| [ ] Program duration and hours documented | | |
+| Check                                                    | Status | Notes |
+| -------------------------------------------------------- | ------ | ----- |
+| [ ] Program exists in `programs` table                   |        |       |
+| [ ] Program has correct `slug` for routing               |        |       |
+| [ ] Courses attached to program via `program_courses`    |        |       |
+| [ ] All courses are `is_published = true`                |        |       |
+| [ ] Enrollment RPC tested for this program               |        |       |
+| [ ] Funding type configured (WIOA / self-pay / employer) |        |       |
+| [ ] Program duration and hours documented                |        |       |
 
 ### Verification Query
+
 ```sql
-SELECT 
+SELECT
   p.id,
   p.name,
   p.slug,
@@ -39,18 +40,19 @@ GROUP BY p.id;
 
 ## B. Partner Readiness (if applicable)
 
-| Check | Status | Notes |
-|-------|--------|-------|
-| [ ] Partner application approved | | |
-| [ ] `approval_status = 'approved'` | | |
-| [ ] Auth user linked and can log in | | |
-| [ ] Program access granted via `partner_program_access` | | |
-| [ ] Partner understands approval + retry workflow | | |
-| [ ] Partner contact info verified | | |
+| Check                                                   | Status | Notes |
+| ------------------------------------------------------- | ------ | ----- |
+| [ ] Partner application approved                        |        |       |
+| [ ] `approval_status = 'approved'`                      |        |       |
+| [ ] Auth user linked and can log in                     |        |       |
+| [ ] Program access granted via `partner_program_access` |        |       |
+| [ ] Partner understands approval + retry workflow       |        |       |
+| [ ] Partner contact info verified                       |        |       |
 
 ### Verification Query
+
 ```sql
-SELECT 
+SELECT
   pa.shop_name,
   pa.approval_status,
   p.account_status,
@@ -70,17 +72,18 @@ GROUP BY pa.id, p.id, pu.user_id;
 
 ## C. Student Intake Validation
 
-| Check | Status | Notes |
-|-------|--------|-------|
-| [ ] Application flow tested end-to-end | | |
-| [ ] State machine transitions verified | | |
-| [ ] Terms acceptance checkbox active | | |
-| [ ] Draft persistence working (localStorage) | | |
-| [ ] Recovery banner appears on refresh | | |
-| [ ] Invalid transitions are rejected | | |
-| [ ] Submission creates audit log entry | | |
+| Check                                        | Status | Notes |
+| -------------------------------------------- | ------ | ----- |
+| [ ] Application flow tested end-to-end       |        |       |
+| [ ] State machine transitions verified       |        |       |
+| [ ] Terms acceptance checkbox active         |        |       |
+| [ ] Draft persistence working (localStorage) |        |       |
+| [ ] Recovery banner appears on refresh       |        |       |
+| [ ] Invalid transitions are rejected         |        |       |
+| [ ] Submission creates audit log entry       |        |       |
 
 ### Test Procedure
+
 1. Start new application
 2. Complete Step 1 (Personal Info)
 3. Refresh page → verify recovery banner appears
@@ -94,17 +97,18 @@ GROUP BY pa.id, p.id, pu.user_id;
 
 ## D. Enrollment Flow Validation
 
-| Check | Status | Notes |
-|-------|--------|-------|
-| [ ] `rpc_enroll_student` executes without error | | |
-| [ ] Program enrollment created | | |
-| [ ] Course enrollments created | | |
-| [ ] Profile status updated to `active` | | |
-| [ ] Notification created | | |
-| [ ] Audit log written | | |
-| [ ] Idempotent retry returns same result | | |
+| Check                                           | Status | Notes |
+| ----------------------------------------------- | ------ | ----- |
+| [ ] `rpc_enroll_student` executes without error |        |       |
+| [ ] Program enrollment created                  |        |       |
+| [ ] Course enrollments created                  |        |       |
+| [ ] Profile status updated to `active`          |        |       |
+| [ ] Notification created                        |        |       |
+| [ ] Audit log written                           |        |       |
+| [ ] Idempotent retry returns same result        |        |       |
 
 ### Test Procedure
+
 ```sql
 -- Test enrollment (use test user)
 SELECT rpc_enroll_student(
@@ -125,14 +129,15 @@ SELECT * FROM audit_logs WHERE details->>'user_id' = 'TEST_USER_UUID' ORDER BY c
 
 ## E. Notification System Validation
 
-| Check | Status | Notes |
-|-------|--------|-------|
-| [ ] Email templates exist for key events | | |
-| [ ] `notification_outbox` queue is processing | | |
-| [ ] Test email delivered successfully | | |
-| [ ] Cron job `/api/cron/process-notifications` working | | |
+| Check                                                  | Status | Notes |
+| ------------------------------------------------------ | ------ | ----- |
+| [ ] Email templates exist for key events               |        |       |
+| [ ] `notification_outbox` queue is processing          |        |       |
+| [ ] Test email delivered successfully                  |        |       |
+| [ ] Cron job `/api/cron/process-notifications` working |        |       |
 
 ### Test Procedure
+
 ```sql
 -- Queue test notification
 INSERT INTO notification_outbox (to_email, template_key, template_data, status, scheduled_for)
@@ -157,17 +162,18 @@ SELECT * FROM notification_outbox WHERE to_email = 'admin@example.com' ORDER BY 
 
 **This must pass before any real student is onboarded.**
 
-| Step | Status | Notes |
-|------|--------|-------|
-| [ ] 1. Create test student profile | | |
-| [ ] 2. Complete application end-to-end | | |
-| [ ] 3. Submit successfully | | |
-| [ ] 4. Enroll via RPC | | |
-| [ ] 5. Verify courses appear in LMS | | |
-| [ ] 6. Verify welcome notification fires | | |
-| [ ] 7. Clean up test data | | |
+| Step                                     | Status | Notes |
+| ---------------------------------------- | ------ | ----- |
+| [ ] 1. Create test student profile       |        |       |
+| [ ] 2. Complete application end-to-end   |        |       |
+| [ ] 3. Submit successfully               |        |       |
+| [ ] 4. Enroll via RPC                    |        |       |
+| [ ] 5. Verify courses appear in LMS      |        |       |
+| [ ] 6. Verify welcome notification fires |        |       |
+| [ ] 7. Clean up test data                |        |       |
 
 ### Dry Run Script
+
 ```sql
 -- 1. Create test profile
 INSERT INTO profiles (id, email, full_name, role, enrollment_status)
@@ -193,9 +199,9 @@ SELECT rpc_enroll_student(
 );
 
 -- 5. Verify courses
-SELECT c.title, e.status 
-FROM enrollments e 
-JOIN courses c ON c.id = e.course_id 
+SELECT c.title, e.status
+FROM enrollments e
+JOIN courses c ON c.id = e.course_id
 WHERE e.user_id = 'TEST_USER_ID';
 
 -- 6. Verify notification
@@ -213,47 +219,49 @@ DELETE FROM profiles WHERE id = 'TEST_USER_ID';
 
 ## G. Go/No-Go Decision
 
-| Criteria | Required | Actual |
-|----------|----------|--------|
-| Program readiness | All checks pass | |
-| Partner readiness (if applicable) | All checks pass | |
-| Intake validation | All checks pass | |
-| Enrollment validation | All checks pass | |
-| Notification validation | All checks pass | |
-| Dry run | Complete success | |
+| Criteria                          | Required         | Actual |
+| --------------------------------- | ---------------- | ------ |
+| Program readiness                 | All checks pass  |        |
+| Partner readiness (if applicable) | All checks pass  |        |
+| Intake validation                 | All checks pass  |        |
+| Enrollment validation             | All checks pass  |        |
+| Notification validation           | All checks pass  |        |
+| Dry run                           | Complete success |        |
 
 **Decision:**
+
 - [ ] **GO** - All criteria met, proceed with cohort onboarding
 - [ ] **NO-GO** - Issues identified, resolve before proceeding
 
 **Sign-off:**
 
-| Role | Name | Date |
-|------|------|------|
-| Program Admin | | |
-| Technical Lead | | |
+| Role           | Name | Date |
+| -------------- | ---- | ---- |
+| Program Admin  |      |      |
+| Technical Lead |      |      |
 
 ---
 
 ## H. Post-Launch Monitoring (First 48 Hours)
 
-| Check | Frequency | Notes |
-|-------|-----------|-------|
-| [ ] Monitor `audit_logs` for errors | Every 4 hours | |
-| [ ] Check `notification_outbox` for failures | Every 4 hours | |
-| [ ] Verify first 3 enrollments succeeded | After each | |
-| [ ] Check for stuck applications | Daily | |
-| [ ] Review admin alerts | As received | |
+| Check                                        | Frequency     | Notes |
+| -------------------------------------------- | ------------- | ----- |
+| [ ] Monitor `audit_logs` for errors          | Every 4 hours |       |
+| [ ] Check `notification_outbox` for failures | Every 4 hours |       |
+| [ ] Verify first 3 enrollments succeeded     | After each    |       |
+| [ ] Check for stuck applications             | Daily         |       |
+| [ ] Review admin alerts                      | As received   |       |
 
 ### Monitoring Queries
+
 ```sql
 -- Recent errors
-SELECT * FROM audit_logs 
+SELECT * FROM audit_logs
 WHERE action LIKE '%error%' OR action LIKE '%invalid%'
 AND created_at > NOW() - INTERVAL '24 hours';
 
 -- Failed notifications
-SELECT * FROM notification_outbox 
+SELECT * FROM notification_outbox
 WHERE status = 'failed'
 AND created_at > NOW() - INTERVAL '24 hours';
 
@@ -268,10 +276,10 @@ AND updated_at < NOW() - INTERVAL '24 hours';
 
 ## Appendix: Common Issues & Fixes
 
-| Issue | Likely Cause | Fix |
-|-------|--------------|-----|
-| Enrollment fails silently | Missing program_courses | Add course associations |
-| No courses visible | Courses not published | Set `is_published = true` |
-| Partner can't log in | Stuck in `approved_pending_user` | Complete auth linking |
-| Notifications not sending | Cron not running | Check scheduled function |
-| Application won't submit | Not in `review_ready` state | Complete all steps |
+| Issue                     | Likely Cause                     | Fix                       |
+| ------------------------- | -------------------------------- | ------------------------- |
+| Enrollment fails silently | Missing program_courses          | Add course associations   |
+| No courses visible        | Courses not published            | Set `is_published = true` |
+| Partner can't log in      | Stuck in `approved_pending_user` | Complete auth linking     |
+| Notifications not sending | Cron not running                 | Check scheduled function  |
+| Application won't submit  | Not in `review_ready` state      | Complete all steps        |

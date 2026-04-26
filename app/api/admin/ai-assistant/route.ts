@@ -66,19 +66,43 @@ async function getLiveDataSnapshot(db: SupabaseClient) {
     unpublishedPrograms,
     inactiveCount,
   ] = await Promise.all([
-    db.from('applications').select('id', { count: 'exact', head: true }).in('status', ['submitted', 'pending', 'in_review']),
+    db
+      .from('applications')
+      .select('id', { count: 'exact', head: true })
+      .in('status', ['submitted', 'pending', 'in_review']),
     db.from('applications').select('id', { count: 'exact', head: true }),
-    db.from('program_enrollments').select('id', { count: 'exact', head: true }).eq('status', 'active'),
+    db
+      .from('program_enrollments')
+      .select('id', { count: 'exact', head: true })
+      .eq('status', 'active'),
     db.from('profiles').select('id', { count: 'exact', head: true }).eq('role', 'student'),
-    db.from('program_enrollments').select('amount_paid_cents').eq('payment_status', 'paid').gte('created_at', monthStart),
+    db
+      .from('program_enrollments')
+      .select('amount_paid_cents')
+      .eq('payment_status', 'paid')
+      .gte('created_at', monthStart),
     db.from('program_enrollments').select('amount_paid_cents').eq('payment_status', 'paid'),
     db.from('certificates').select('id', { count: 'exact', head: true }),
-    db.from('programs').select('id', { count: 'exact', head: true }).eq('published', false).neq('status', 'archived'),
-    db.from('program_enrollments').select('id', { count: 'exact', head: true }).eq('status', 'active').lt('updated_at', new Date(Date.now() - 3 * 86400000).toISOString()),
+    db
+      .from('programs')
+      .select('id', { count: 'exact', head: true })
+      .eq('published', false)
+      .neq('status', 'archived'),
+    db
+      .from('program_enrollments')
+      .select('id', { count: 'exact', head: true })
+      .eq('status', 'active')
+      .lt('updated_at', new Date(Date.now() - 3 * 86400000).toISOString()),
   ]);
 
-  const revenueMonthCents = (revenueMonth.data ?? []).reduce((s: number, r: any) => s + (r.amount_paid_cents ?? 0), 0);
-  const revenueAllCents = (revenueAll.data ?? []).reduce((s: number, r: any) => s + (r.amount_paid_cents ?? 0), 0);
+  const revenueMonthCents = (revenueMonth.data ?? []).reduce(
+    (s: number, r: any) => s + (r.amount_paid_cents ?? 0),
+    0,
+  );
+  const revenueAllCents = (revenueAll.data ?? []).reduce(
+    (s: number, r: any) => s + (r.amount_paid_cents ?? 0),
+    0,
+  );
 
   return `
 LIVE DATA SNAPSHOT (as of ${now.toLocaleString('en-US', { timeZone: 'America/Indiana/Indianapolis' })} ET):
@@ -101,11 +125,17 @@ export async function POST(req: NextRequest) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) return safeError('Unauthorized', 401);
 
     const db = await getAdminClient();
-    const { data: profile } = await db.from('profiles').select('role').eq('id', user.id).maybeSingle();
+    const { data: profile } = await db
+      .from('profiles')
+      .select('role')
+      .eq('id', user.id)
+      .maybeSingle();
     if (!['admin', 'super_admin', 'staff'].includes(profile?.role ?? '')) {
       return safeError('Forbidden', 403);
     }
@@ -129,7 +159,7 @@ export async function POST(req: NextRequest) {
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${openaiKey}`,
+        Authorization: `Bearer ${openaiKey}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({

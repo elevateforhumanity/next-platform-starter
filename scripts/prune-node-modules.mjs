@@ -169,16 +169,18 @@ async function main() {
   let removed = 0;
 
   for (const entry of entries) {
-    const matches = PRUNE_PACKAGES.some(pkg => {
+    const matches = PRUNE_PACKAGES.some((pkg) => {
       // pnpm dir format: pkg@version or @scope+pkg@version
       // e.g. "hls.js@1.6" or "@swc+core-linux-x64-gnu@1.15" or "three@0.183"
       const bare = pkg.replace(/^@/, '').replace('/', '+'); // "@swc/core" → "swc+core"
-      return entry.startsWith(pkg + '@') ||
-             entry === pkg ||
-             entry.startsWith(bare + '@') ||
-             entry.startsWith(bare + '-') ||  // platform suffix: swc+core-linux-x64-gnu@...
-             entry.startsWith('@' + bare + '@') ||
-             entry.startsWith('@' + bare + '-'); // @swc+core-linux-x64-gnu@...
+      return (
+        entry.startsWith(pkg + '@') ||
+        entry === pkg ||
+        entry.startsWith(bare + '@') ||
+        entry.startsWith(bare + '-') || // platform suffix: swc+core-linux-x64-gnu@...
+        entry.startsWith('@' + bare + '@') ||
+        entry.startsWith('@' + bare + '-')
+      ); // @swc+core-linux-x64-gnu@...
     });
     if (matches) {
       try {
@@ -206,7 +208,7 @@ async function main() {
   console.log(`[prune-node-modules] done — removed ${removed} entries`);
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.error('[prune-node-modules] error:', err.message);
   process.exit(0); // never fail the build
 });

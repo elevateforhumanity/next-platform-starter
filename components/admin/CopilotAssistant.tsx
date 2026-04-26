@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { createClient } from '@/lib/supabase/client';
 
@@ -29,16 +29,16 @@ export function CopilotAssistant() {
 
   // Log copilot usage to DB
   const logCopilotAction = async (action: string, recordCount?: number) => {
-    const { data: { user } } = await supabase.auth.getUser();
-    await supabase
-      .from('copilot_usage_log')
-      .insert({
-        admin_id: user?.id,
-        session_id: sessionId.current,
-        action,
-        record_count: recordCount,
-        timestamp: new Date().toISOString()
-      });
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    await supabase.from('copilot_usage_log').insert({
+      admin_id: user?.id,
+      session_id: sessionId.current,
+      action,
+      record_count: recordCount,
+      timestamp: new Date().toISOString(),
+    });
   };
 
   const parseStudentData = (data: string) => {
@@ -106,8 +106,7 @@ export function CopilotAssistant() {
 
     messages.push({
       type: 'success',
-      message:
-        '🚀 Ready to import! Click "Process All Records" when you\'re ready.',
+      message: '🚀 Ready to import! Click "Process All Records" when you\'re ready.',
       action: () => processAllRecords(),
     });
 
@@ -139,8 +138,7 @@ export function CopilotAssistant() {
       },
       {
         type: 'info',
-        message:
-          '📊 Attrition and retention tracking is now active for these students.',
+        message: '📊 Attrition and retention tracking is now active for these students.',
       },
       {
         type: 'info',
@@ -158,12 +156,8 @@ export function CopilotAssistant() {
           <span className="text-white font-bold">🤖</span>
         </div>
         <div>
-          <h2 className="text-xl font-bold text-brand-text">
-            Copilot Assistant
-          </h2>
-          <p className="text-brand-text-muted">
-            I'll help you import and track student data
-          </p>
+          <h2 className="text-xl font-bold text-brand-text">Copilot Assistant</h2>
+          <p className="text-brand-text-muted">I'll help you import and track student data</p>
         </div>
       </div>
       {/* Copilot Messages */}
@@ -200,7 +194,9 @@ export function CopilotAssistant() {
         </label>
         <textarea
           value={pastedData}
-          onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setPastedData(e.target.value)}
+          onChange={(
+            e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+          ) => setPastedData(e.target.value)}
           placeholder="Paste your student data here...
 Example:
 John Smith, Medical Assistant, 2025-01-15, john@email.com
@@ -242,15 +238,9 @@ Sarah Johnson, IT Support, 2025-01-22, sarah@email.com"
               <tbody className="divide-y divide-gray-200">
                 {parsedRecords.slice(0, 5).map((record, index) => (
                   <tr key={index}>
-                    <td className="px-4 py-2 text-sm text-brand-text">
-                      {record.name}
-                    </td>
-                    <td className="px-4 py-2 text-sm text-brand-text-muted">
-                      {record.program}
-                    </td>
-                    <td className="px-4 py-2 text-sm text-brand-text-muted">
-                      {record.startDate}
-                    </td>
+                    <td className="px-4 py-2 text-sm text-brand-text">{record.name}</td>
+                    <td className="px-4 py-2 text-sm text-brand-text-muted">{record.program}</td>
+                    <td className="px-4 py-2 text-sm text-brand-text-muted">{record.startDate}</td>
                     <td className="px-4 py-2">
                       <span className="inline-flex px-2 py-2 text-xs font-semibold rounded-full bg-brand-surface text-brand-success">
                         {record.status}
@@ -274,15 +264,11 @@ Sarah Johnson, IT Support, 2025-01-22, sarah@email.com"
         <div className="grid grid-cols-2 gap-3">
           <button className="p-3 bg-white border border-brand-border rounded-lg hover:bg-brand-surface text-left">
             <div className="font-medium">📊 View Analytics</div>
-            <div className="text-sm text-brand-text-muted">
-              Check retention rates
-            </div>
+            <div className="text-sm text-brand-text-muted">Check retention rates</div>
           </button>
           <button className="p-3 bg-white border border-brand-border rounded-lg hover:bg-brand-surface text-left">
             <div className="font-medium">📋 WIOA Reports</div>
-            <div className="text-sm text-brand-text-muted">
-              Generate compliance reports
-            </div>
+            <div className="text-sm text-brand-text-muted">Generate compliance reports</div>
           </button>
         </div>
       </div>

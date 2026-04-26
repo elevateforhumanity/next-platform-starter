@@ -81,7 +81,7 @@ export interface TimeSeriesData {
  */
 export async function calculateOverallMetrics(
   startDate?: Date,
-  endDate?: Date
+  endDate?: Date,
 ): Promise<DashboardMetrics> {
   const { createClient } = await import('@/lib/supabase/server');
   const supabase = await createClient();
@@ -90,10 +90,7 @@ export async function calculateOverallMetrics(
   let enrollmentQuery = supabase.from('program_enrollments').select('*');
 
   if (startDate) {
-    enrollmentQuery = enrollmentQuery.gte(
-      'enrolled_at',
-      startDate.toISOString()
-    );
+    enrollmentQuery = enrollmentQuery.gte('enrolled_at', startDate.toISOString());
   }
   if (endDate) {
     enrollmentQuery = enrollmentQuery.lte('enrolled_at', endDate.toISOString());
@@ -101,12 +98,9 @@ export async function calculateOverallMetrics(
 
   const { data: enrollments } = await enrollmentQuery;
   const totalEnrollments = enrollments?.length || 0;
-  const activeStudents =
-    enrollments?.filter((e) => e.status === 'active').length || 0;
-  const completions =
-    enrollments?.filter((e) => e.status === 'completed').length || 0;
-  const completionRate =
-    totalEnrollments > 0 ? (completions / totalEnrollments) * 100 : 0;
+  const activeStudents = enrollments?.filter((e) => e.status === 'active').length || 0;
+  const completions = enrollments?.filter((e) => e.status === 'completed').length || 0;
+  const completionRate = totalEnrollments > 0 ? (completions / totalEnrollments) * 100 : 0;
 
   // Get employment outcomes
   const { data: outcomes } = await supabase
@@ -115,32 +109,23 @@ export async function calculateOverallMetrics(
     .eq('employed_at_exit', true);
 
   const placedInEmployment = outcomes?.length || 0;
-  const placementRate =
-    completions > 0 ? (placedInEmployment / completions) * 100 : 0;
+  const placementRate = completions > 0 ? (placedInEmployment / completions) * 100 : 0;
 
   const wages = outcomes?.map((o) => o.hourly_wage).filter(Boolean) || [];
-  const averageWage =
-    wages.length > 0 ? wages.reduce((sum, w) => sum + w, 0) / wages.length : 0;
+  const averageWage = wages.length > 0 ? wages.reduce((sum, w) => sum + w, 0) / wages.length : 0;
   const medianWage =
-    wages.length > 0
-      ? wages.sort((a, b) => a - b)[Math.floor(wages.length / 2)]
-      : 0;
+    wages.length > 0 ? wages.sort((a, b) => a - b)[Math.floor(wages.length / 2)] : 0;
 
   // Calculate retention
   const dropped =
-    enrollments?.filter(
-      (e) => e.status === 'dropped' || e.status === 'withdrawn'
-    ).length || 0;
+    enrollments?.filter((e) => e.status === 'dropped' || e.status === 'withdrawn').length || 0;
   const retentionRate =
-    totalEnrollments > 0
-      ? ((totalEnrollments - dropped) / totalEnrollments) * 100
-      : 0;
+    totalEnrollments > 0 ? ((totalEnrollments - dropped) / totalEnrollments) * 100 : 0;
   const dropoutRate = 100 - retentionRate;
 
   // Average completion time
   const completedEnrollments =
-    enrollments?.filter((e) => e.status === 'completed' && e.completion_date) ||
-    [];
+    enrollments?.filter((e) => e.status === 'completed' && e.completion_date) || [];
   const completionTimes = completedEnrollments.map((e) => {
     const start = new Date(e.enrolled_at);
     const end = new Date(e.completion_date);
@@ -152,14 +137,10 @@ export async function calculateOverallMetrics(
       : 0;
 
   // Funding metrics
-  const { data: funding } = await supabase
-    .from('funding_records')
-    .select('amount');
+  const { data: funding } = await supabase.from('funding_records').select('amount');
 
-  const totalFundingUsed =
-    funding?.reduce((sum, f) => sum + (f.amount || 0), 0) || 0;
-  const costPerCompletion =
-    completions > 0 ? totalFundingUsed / completions : 0;
+  const totalFundingUsed = funding?.reduce((sum, f) => sum + (f.amount || 0), 0) || 0;
+  const costPerCompletion = completions > 0 ? totalFundingUsed / completions : 0;
 
   return {
     totalEnrollments,
@@ -198,10 +179,8 @@ export async function calculateProgramMetrics(): Promise<ProgramMetrics[]> {
       .eq('program_id', program.id);
 
     const totalEnrollments = enrollments?.length || 0;
-    const completions =
-      enrollments?.filter((e) => e.status === 'completed').length || 0;
-    const completionRate =
-      totalEnrollments > 0 ? (completions / totalEnrollments) * 100 : 0;
+    const completions = enrollments?.filter((e) => e.status === 'completed').length || 0;
+    const completionRate = totalEnrollments > 0 ? (completions / totalEnrollments) * 100 : 0;
 
     // Get outcomes for this program
     const studentIds = enrollments?.map((e) => e.student_id) || [];
@@ -212,15 +191,13 @@ export async function calculateProgramMetrics(): Promise<ProgramMetrics[]> {
       .eq('employed_at_exit', true);
 
     const placedInEmployment = outcomes?.length || 0;
-    const placementRate =
-      completions > 0 ? (placedInEmployment / completions) * 100 : 0;
+    const placementRate = completions > 0 ? (placedInEmployment / completions) * 100 : 0;
 
     metrics.push({
       programId: program.id,
       programName: program.name,
       totalEnrollments,
-      activeStudents:
-        enrollments?.filter((e) => e.status === 'active').length || 0,
+      activeStudents: enrollments?.filter((e) => e.status === 'active').length || 0,
       completions,
       completionRate,
       placedInEmployment,
@@ -245,9 +222,7 @@ export async function calculateSiteMetrics(): Promise<SiteMetrics[]> {
   const { createClient } = await import('@/lib/supabase/server');
   const supabase = await createClient();
 
-  const { data: sites } = await supabase
-    .from('sites')
-    .select('id, name, location');
+  const { data: sites } = await supabase.from('sites').select('id, name, location');
 
   if (!sites) return [];
 
@@ -260,12 +235,9 @@ export async function calculateSiteMetrics(): Promise<SiteMetrics[]> {
       .eq('site_id', site.id);
 
     const totalEnrollments = enrollments?.length || 0;
-    const activeStudents =
-      enrollments?.filter((e) => e.status === 'active').length || 0;
-    const completions =
-      enrollments?.filter((e) => e.status === 'completed').length || 0;
-    const completionRate =
-      totalEnrollments > 0 ? (completions / totalEnrollments) * 100 : 0;
+    const activeStudents = enrollments?.filter((e) => e.status === 'active').length || 0;
+    const completions = enrollments?.filter((e) => e.status === 'completed').length || 0;
+    const completionRate = totalEnrollments > 0 ? (completions / totalEnrollments) * 100 : 0;
 
     // Get outcomes for this site
     const studentIds = enrollments?.map((e) => e.student_id) || [];
@@ -276,36 +248,24 @@ export async function calculateSiteMetrics(): Promise<SiteMetrics[]> {
       .eq('employed_at_exit', true);
 
     const placedInEmployment = outcomes?.length || 0;
-    const placementRate =
-      completions > 0 ? (placedInEmployment / completions) * 100 : 0;
+    const placementRate = completions > 0 ? (placedInEmployment / completions) * 100 : 0;
 
     // Calculate wages
     const wages = outcomes?.map((o) => o.hourly_wage).filter(Boolean) || [];
-    const averageWage =
-      wages.length > 0
-        ? wages.reduce((sum, w) => sum + w, 0) / wages.length
-        : 0;
+    const averageWage = wages.length > 0 ? wages.reduce((sum, w) => sum + w, 0) / wages.length : 0;
     const medianWage =
-      wages.length > 0
-        ? wages.sort((a, b) => a - b)[Math.floor(wages.length / 2)]
-        : 0;
+      wages.length > 0 ? wages.sort((a, b) => a - b)[Math.floor(wages.length / 2)] : 0;
 
     // Calculate retention
     const dropped =
-      enrollments?.filter(
-        (e) => e.status === 'dropped' || e.status === 'withdrawn'
-      ).length || 0;
+      enrollments?.filter((e) => e.status === 'dropped' || e.status === 'withdrawn').length || 0;
     const retentionRate =
-      totalEnrollments > 0
-        ? ((totalEnrollments - dropped) / totalEnrollments) * 100
-        : 0;
+      totalEnrollments > 0 ? ((totalEnrollments - dropped) / totalEnrollments) * 100 : 0;
     const dropoutRate = 100 - retentionRate;
 
     // Average completion time
     const completedEnrollments =
-      enrollments?.filter(
-        (e) => e.status === 'completed' && e.completion_date
-      ) || [];
+      enrollments?.filter((e) => e.status === 'completed' && e.completion_date) || [];
     const completionTimes = completedEnrollments.map((e) => {
       const start = new Date(e.enrolled_at);
       const end = new Date(e.completion_date);
@@ -313,8 +273,7 @@ export async function calculateSiteMetrics(): Promise<SiteMetrics[]> {
     });
     const averageCompletionTime =
       completionTimes.length > 0
-        ? completionTimes.reduce((sum, t) => sum + t, 0) /
-          completionTimes.length
+        ? completionTimes.reduce((sum, t) => sum + t, 0) / completionTimes.length
         : 0;
 
     // Funding metrics
@@ -323,10 +282,8 @@ export async function calculateSiteMetrics(): Promise<SiteMetrics[]> {
       .select('amount')
       .eq('site_id', site.id);
 
-    const totalFundingUsed =
-      funding?.reduce((sum, f) => sum + (f.amount || 0), 0) || 0;
-    const costPerCompletion =
-      completions > 0 ? totalFundingUsed / completions : 0;
+    const totalFundingUsed = funding?.reduce((sum, f) => sum + (f.amount || 0), 0) || 0;
+    const costPerCompletion = completions > 0 ? totalFundingUsed / completions : 0;
 
     metrics.push({
       siteId: site.id,
@@ -358,14 +315,7 @@ export async function calculateFunderMetrics(): Promise<FunderMetrics[]> {
   const { createClient } = await import('@/lib/supabase/server');
   const supabase = await createClient();
 
-  const funderTypes = [
-    'WIOA',
-    'WRG',
-    'JRI',
-    'SEAL',
-    'Apprenticeship',
-    'Other',
-  ] as const;
+  const funderTypes = ['WIOA', 'WRG', 'JRI', 'SEAL', 'Apprenticeship', 'Other'] as const;
   const metrics: FunderMetrics[] = [];
 
   for (const funderType of funderTypes) {
@@ -378,21 +328,16 @@ export async function calculateFunderMetrics(): Promise<FunderMetrics[]> {
     if (!fundingRecords || fundingRecords.length === 0) continue;
 
     // Get all enrollments funded by this funder
-    const enrollmentIds = fundingRecords
-      .map((f) => f.enrollment_id)
-      .filter(Boolean);
+    const enrollmentIds = fundingRecords.map((f) => f.enrollment_id).filter(Boolean);
     const { data: enrollments } = await supabase
       .from('program_enrollments')
       .select('*')
       .in('id', enrollmentIds);
 
     const totalEnrollments = enrollments?.length || 0;
-    const activeStudents =
-      enrollments?.filter((e) => e.status === 'active').length || 0;
-    const completions =
-      enrollments?.filter((e) => e.status === 'completed').length || 0;
-    const completionRate =
-      totalEnrollments > 0 ? (completions / totalEnrollments) * 100 : 0;
+    const activeStudents = enrollments?.filter((e) => e.status === 'active').length || 0;
+    const completions = enrollments?.filter((e) => e.status === 'completed').length || 0;
+    const completionRate = totalEnrollments > 0 ? (completions / totalEnrollments) * 100 : 0;
 
     // Get outcomes
     const studentIds = enrollments?.map((e) => e.student_id) || [];
@@ -403,36 +348,24 @@ export async function calculateFunderMetrics(): Promise<FunderMetrics[]> {
       .eq('employed_at_exit', true);
 
     const placedInEmployment = outcomes?.length || 0;
-    const placementRate =
-      completions > 0 ? (placedInEmployment / completions) * 100 : 0;
+    const placementRate = completions > 0 ? (placedInEmployment / completions) * 100 : 0;
 
     // Calculate wages
     const wages = outcomes?.map((o) => o.hourly_wage).filter(Boolean) || [];
-    const averageWage =
-      wages.length > 0
-        ? wages.reduce((sum, w) => sum + w, 0) / wages.length
-        : 0;
+    const averageWage = wages.length > 0 ? wages.reduce((sum, w) => sum + w, 0) / wages.length : 0;
     const medianWage =
-      wages.length > 0
-        ? wages.sort((a, b) => a - b)[Math.floor(wages.length / 2)]
-        : 0;
+      wages.length > 0 ? wages.sort((a, b) => a - b)[Math.floor(wages.length / 2)] : 0;
 
     // Calculate retention
     const dropped =
-      enrollments?.filter(
-        (e) => e.status === 'dropped' || e.status === 'withdrawn'
-      ).length || 0;
+      enrollments?.filter((e) => e.status === 'dropped' || e.status === 'withdrawn').length || 0;
     const retentionRate =
-      totalEnrollments > 0
-        ? ((totalEnrollments - dropped) / totalEnrollments) * 100
-        : 0;
+      totalEnrollments > 0 ? ((totalEnrollments - dropped) / totalEnrollments) * 100 : 0;
     const dropoutRate = 100 - retentionRate;
 
     // Average completion time
     const completedEnrollments =
-      enrollments?.filter(
-        (e) => e.status === 'completed' && e.completion_date
-      ) || [];
+      enrollments?.filter((e) => e.status === 'completed' && e.completion_date) || [];
     const completionTimes = completedEnrollments.map((e) => {
       const start = new Date(e.enrolled_at);
       const end = new Date(e.completion_date);
@@ -440,17 +373,12 @@ export async function calculateFunderMetrics(): Promise<FunderMetrics[]> {
     });
     const averageCompletionTime =
       completionTimes.length > 0
-        ? completionTimes.reduce((sum, t) => sum + t, 0) /
-          completionTimes.length
+        ? completionTimes.reduce((sum, t) => sum + t, 0) / completionTimes.length
         : 0;
 
     // Funding metrics
-    const totalFundingUsed = fundingRecords.reduce(
-      (sum, f) => sum + (f.amount || 0),
-      0
-    );
-    const costPerCompletion =
-      completions > 0 ? totalFundingUsed / completions : 0;
+    const totalFundingUsed = fundingRecords.reduce((sum, f) => sum + (f.amount || 0), 0);
+    const costPerCompletion = completions > 0 ? totalFundingUsed / completions : 0;
 
     metrics.push({
       funderType,
@@ -482,8 +410,7 @@ export async function calculateEquityMetrics(): Promise<EquityMetrics> {
   const supabase = await createClient();
 
   // Get all participants with demographics
-  const { data: participants } = await supabase.from('wioa_participants')
-    .select(`
+  const { data: participants } = await supabase.from('wioa_participants').select(`
       *,
       enrollments(status, completion_date),
       employment_outcomes(employed_at_exit, hourly_wage)
@@ -590,7 +517,7 @@ export async function calculateEquityMetrics(): Promise<EquityMetrics> {
 export async function getTimeSeriesData(
   startDate: Date,
   endDate: Date,
-  interval: 'day' | 'week' | 'month' = 'month'
+  interval: 'day' | 'week' | 'month' = 'month',
 ): Promise<TimeSeriesData[]> {
   const { createClient } = await import('@/lib/supabase/server');
   const supabase = await createClient();
@@ -643,9 +570,7 @@ export async function getTimeSeriesData(
     }
   });
 
-  return Object.values(timeSeriesMap).sort((a, b) =>
-    a.date.localeCompare(b.date)
-  );
+  return Object.values(timeSeriesMap).sort((a, b) => a.date.localeCompare(b.date));
 }
 
 // Helper functions
@@ -659,20 +584,20 @@ function groupBy<T>(array: T[], key: keyof T): Record<string, T[]> {
       groups[value].push(item);
       return groups;
     },
-    {} as Record<string, T[]>
+    {} as Record<string, T[]>,
   );
 }
 
 function calculateCompletionRate(participants: any[]): number {
   const completed = participants.filter((p) =>
-    p.enrollments?.some((e: any) => e.status === 'completed')
+    p.enrollments?.some((e: any) => e.status === 'completed'),
   ).length;
   return participants.length > 0 ? (completed / participants.length) * 100 : 0;
 }
 
 function calculatePlacementRate(participants: any[]): number {
   const placed = participants.filter((p) =>
-    p.employment_outcomes?.some((o: any) => o.employed_at_exit)
+    p.employment_outcomes?.some((o: any) => o.employed_at_exit),
   ).length;
   return participants.length > 0 ? (placed / participants.length) * 100 : 0;
 }
@@ -682,9 +607,7 @@ function calculateAverageWage(participants: any[]): number {
     .flatMap((p) => p.employment_outcomes || [])
     .map((o: any) => o.hourly_wage)
     .filter(Boolean);
-  return wages.length > 0
-    ? wages.reduce((sum: number, w: number) => sum + w, 0) / wages.length
-    : 0;
+  return wages.length > 0 ? wages.reduce((sum: number, w: number) => sum + w, 0) / wages.length : 0;
 }
 
 function truncateDate(date: Date, interval: 'day' | 'week' | 'month'): string {

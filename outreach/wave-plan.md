@@ -1,6 +1,7 @@
 # Partnership Outreach Wave Plan
 
 ## Sending Rules
+
 - Max 10-12 recipients per wave (BCC)
 - Max 2-3 waves per day
 - Send Tuesday through Thursday, 9:00-10:30 AM ET
@@ -15,6 +16,7 @@
 These organizations serve populations who are direct training candidates.
 
 **BCC list (10 recipients):**
+
 ```
 info@chipindy.org
 gethelp@holyfamilyshelter.net
@@ -34,6 +36,7 @@ info@baci-indy.org
 ## Wave 2 — Community Centers + Recovery (send next day)
 
 **BCC list (8 recipients):**
+
 ```
 info@fbgncenter.org
 info@christamorehouse.org
@@ -52,6 +55,7 @@ info@aclu-in.org
 ## Wave 3 — Faith-Based + Food Pantries (send day after)
 
 **BCC list (10 recipients):**
+
 ```
 info@indyccc.org
 info@chapelrock.org
@@ -83,6 +87,7 @@ mbc_952@yahoo.com
 ## Tracking
 
 After sending, log responses in the contact-list.csv by adding a "Response" column:
+
 - "Interested" — schedule call
 - "Not now" — note and revisit in 90 days
 - "No response" — after follow-up, archive

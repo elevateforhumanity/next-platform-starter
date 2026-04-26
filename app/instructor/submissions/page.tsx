@@ -5,9 +5,13 @@ import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { requireRole } from '@/lib/auth/require-role';
 import {
-
-  ClipboardList, CheckCircle2, XCircle, Clock, RotateCcw,
-  ChevronRight, Filter,
+  ClipboardList,
+  CheckCircle2,
+  XCircle,
+  Clock,
+  RotateCcw,
+  ChevronRight,
+  Filter,
 } from 'lucide-react';
 export const dynamic = 'force-dynamic';
 
@@ -17,22 +21,50 @@ export const metadata: Metadata = {
   description: 'Review and grade learner lab, assignment, and checkpoint submissions.',
 };
 
-type SubmissionStatus = 'submitted' | 'under_review' | 'approved' | 'rejected' | 'revision_requested';
+type SubmissionStatus =
+  | 'submitted'
+  | 'under_review'
+  | 'approved'
+  | 'rejected'
+  | 'revision_requested';
 
-const STATUS_META: Record<SubmissionStatus, { label: string; color: string; icon: React.ReactNode }> = {
-  submitted:          { label: 'Submitted',         color: 'bg-brand-blue-50 text-brand-blue-700 border-brand-blue-200',  icon: <Clock className="w-3.5 h-3.5" /> },
-  under_review:       { label: 'Under Review',      color: 'bg-amber-50 text-amber-700 border-amber-200',                 icon: <ClipboardList className="w-3.5 h-3.5" /> },
-  approved:           { label: 'Approved',          color: 'bg-green-50 text-green-700 border-green-200',                 icon: <CheckCircle2 className="w-3.5 h-3.5" /> },
-  rejected:           { label: 'Rejected',          color: 'bg-red-50 text-red-700 border-red-200',                       icon: <XCircle className="w-3.5 h-3.5" /> },
-  revision_requested: { label: 'Revision Needed',   color: 'bg-orange-50 text-orange-700 border-orange-200',              icon: <RotateCcw className="w-3.5 h-3.5" /> },
+const STATUS_META: Record<
+  SubmissionStatus,
+  { label: string; color: string; icon: React.ReactNode }
+> = {
+  submitted: {
+    label: 'Submitted',
+    color: 'bg-brand-blue-50 text-brand-blue-700 border-brand-blue-200',
+    icon: <Clock className="w-3.5 h-3.5" />,
+  },
+  under_review: {
+    label: 'Under Review',
+    color: 'bg-amber-50 text-amber-700 border-amber-200',
+    icon: <ClipboardList className="w-3.5 h-3.5" />,
+  },
+  approved: {
+    label: 'Approved',
+    color: 'bg-green-50 text-green-700 border-green-200',
+    icon: <CheckCircle2 className="w-3.5 h-3.5" />,
+  },
+  rejected: {
+    label: 'Rejected',
+    color: 'bg-red-50 text-red-700 border-red-200',
+    icon: <XCircle className="w-3.5 h-3.5" />,
+  },
+  revision_requested: {
+    label: 'Revision Needed',
+    color: 'bg-orange-50 text-orange-700 border-orange-200',
+    icon: <RotateCcw className="w-3.5 h-3.5" />,
+  },
 };
 
 const STEP_TYPE_LABELS: Record<string, string> = {
-  lab:        'Lab',
+  lab: 'Lab',
   assignment: 'Assignment',
   checkpoint: 'Checkpoint',
-  exam:       'Exam',
-  quiz:       'Quiz',
+  exam: 'Exam',
+  quiz: 'Quiz',
 };
 
 export default async function InstructorSubmissionsPage({
@@ -45,8 +77,8 @@ export default async function InstructorSubmissionsPage({
   const supabase = await createClient();
 
   const params = await searchParams;
-  const filterStatus    = params.status as SubmissionStatus | undefined;
-  const filterCourse    = params.course;
+  const filterStatus = params.status as SubmissionStatus | undefined;
+  const filterCourse = params.course;
   const filterCompetency = params.competency === '1';
 
   // Fetch submissions assigned to this instructor (or all, for admin)
@@ -54,7 +86,8 @@ export default async function InstructorSubmissionsPage({
 
   let query = supabase
     .from('step_submissions')
-    .select(`
+    .select(
+      `
       id,
       user_id,
       course_lesson_id,
@@ -69,7 +102,8 @@ export default async function InstructorSubmissionsPage({
       competency_key,
       profiles!step_submissions_user_id_fkey ( full_name, email ),
       course_lessons!step_submissions_course_lesson_id_fkey ( title, slug )
-    `)
+    `,
+    )
     .order('created_at', { ascending: false })
     .limit(100);
 
@@ -78,17 +112,15 @@ export default async function InstructorSubmissionsPage({
     query = query.eq('instructor_id', user.id);
   }
 
-  if (filterStatus)     query = query.eq('status', filterStatus);
-  if (filterCourse)     query = query.eq('course_id', filterCourse);
+  if (filterStatus) query = query.eq('status', filterStatus);
+  if (filterCourse) query = query.eq('course_id', filterCourse);
   if (filterCompetency) query = query.not('competency_key', 'is', null);
 
   const { data: submissions, error } = await query;
 
   if (error) {
     return (
-      <div className="p-8 text-red-600 text-sm">
-        Failed to load submissions. Please try again.
-      </div>
+      <div className="p-8 text-red-600 text-sm">Failed to load submissions. Please try again.</div>
     );
   }
 
@@ -100,7 +132,7 @@ export default async function InstructorSubmissionsPage({
   const pendingCount = (counts['submitted'] ?? 0) + (counts['under_review'] ?? 0);
 
   // Resolve course names — try canonical courses table first, fall back to training_courses
-  const courseIds = [...new Set((submissions ?? []).map(s => s.course_id).filter(Boolean))];
+  const courseIds = [...new Set((submissions ?? []).map((s) => s.course_id).filter(Boolean))];
   let courseNameMap = new Map<string, string>();
   if (courseIds.length) {
     const { data: canonCourses } = await supabase
@@ -120,17 +152,27 @@ export default async function InstructorSubmissionsPage({
 
   // Count pending competency sign-offs (submitted/under_review with a competency_key)
   const pendingCompetencyCount = (submissions ?? []).filter(
-    s => s.competency_key && (s.status === 'submitted' || s.status === 'under_review')
+    (s) => s.competency_key && (s.status === 'submitted' || s.status === 'under_review'),
   ).length;
 
-  const tabs: Array<{ label: string; value: string | undefined; competencyOnly?: boolean; count?: number }> = [
-    { label: 'All',                  value: undefined,            count: submissions?.length ?? 0 },
-    { label: 'Needs Review',         value: 'submitted',          count: counts['submitted'] ?? 0 },
-    { label: 'Under Review',         value: 'under_review',       count: counts['under_review'] ?? 0 },
-    { label: 'Competency Sign-offs', value: 'submitted',          competencyOnly: true, count: pendingCompetencyCount },
-    { label: 'Approved',             value: 'approved',           count: counts['approved'] ?? 0 },
-    { label: 'Rejected',             value: 'rejected',           count: counts['rejected'] ?? 0 },
-    { label: 'Revision',             value: 'revision_requested', count: counts['revision_requested'] ?? 0 },
+  const tabs: Array<{
+    label: string;
+    value: string | undefined;
+    competencyOnly?: boolean;
+    count?: number;
+  }> = [
+    { label: 'All', value: undefined, count: submissions?.length ?? 0 },
+    { label: 'Needs Review', value: 'submitted', count: counts['submitted'] ?? 0 },
+    { label: 'Under Review', value: 'under_review', count: counts['under_review'] ?? 0 },
+    {
+      label: 'Competency Sign-offs',
+      value: 'submitted',
+      competencyOnly: true,
+      count: pendingCompetencyCount,
+    },
+    { label: 'Approved', value: 'approved', count: counts['approved'] ?? 0 },
+    { label: 'Rejected', value: 'rejected', count: counts['rejected'] ?? 0 },
+    { label: 'Revision', value: 'revision_requested', count: counts['revision_requested'] ?? 0 },
   ];
 
   return (
@@ -165,14 +207,15 @@ export default async function InstructorSubmissionsPage({
 
         {/* Filter tabs */}
         <div className="flex gap-1 mb-6 bg-white border border-slate-200 rounded-xl p-1 w-fit flex-wrap">
-          {tabs.map(tab => {
+          {tabs.map((tab) => {
             const isCompetencyTab = tab.competencyOnly === true;
             const active = isCompetencyTab
               ? filterCompetency
-              : (filterStatus === tab.value && !filterCompetency) || (tab.value === undefined && !filterStatus && !filterCompetency);
+              : (filterStatus === tab.value && !filterCompetency) ||
+                (tab.value === undefined && !filterStatus && !filterCompetency);
             const qs = new URLSearchParams();
-            if (tab.value)      qs.set('status', tab.value);
-            if (filterCourse)   qs.set('course', filterCourse);
+            if (tab.value) qs.set('status', tab.value);
+            if (filterCourse) qs.set('course', filterCourse);
             if (isCompetencyTab) qs.set('competency', '1');
             const href = `/instructor/submissions${qs.toString() ? `?${qs}` : ''}`;
             return (
@@ -180,16 +223,16 @@ export default async function InstructorSubmissionsPage({
                 key={tab.label}
                 href={href}
                 className={`px-3 py-1.5 rounded-lg text-sm font-medium transition flex items-center gap-1.5 ${
-                  active
-                    ? 'bg-brand-blue-600 text-white'
-                    : 'text-slate-600 hover:bg-slate-50'
+                  active ? 'bg-brand-blue-600 text-white' : 'text-slate-600 hover:bg-slate-50'
                 }`}
               >
                 {tab.label}
                 {tab.count !== undefined && tab.count > 0 && (
-                  <span className={`text-xs px-1.5 py-0.5 rounded-full font-semibold ${
-                    active ? 'bg-brand-blue-500 text-white' : 'bg-slate-100 text-slate-500'
-                  }`}>
+                  <span
+                    className={`text-xs px-1.5 py-0.5 rounded-full font-semibold ${
+                      active ? 'bg-brand-blue-500 text-white' : 'bg-slate-100 text-slate-500'
+                    }`}
+                  >
                     {tab.count}
                   </span>
                 )}
@@ -215,7 +258,8 @@ export default async function InstructorSubmissionsPage({
         ) : (
           <div className="bg-white rounded-xl border border-slate-200 divide-y divide-slate-100">
             {submissions.map((sub: any) => {
-              const statusMeta = STATUS_META[sub.status as SubmissionStatus] ?? STATUS_META.submitted;
+              const statusMeta =
+                STATUS_META[sub.status as SubmissionStatus] ?? STATUS_META.submitted;
               const learner = sub.profiles;
               const lesson = sub.course_lessons;
               const courseName = courseNameMap.get(sub.course_id) ?? sub.course_id;
@@ -263,7 +307,9 @@ export default async function InstructorSubmissionsPage({
                   </div>
 
                   <div className="flex items-center gap-3 ml-4 shrink-0">
-                    <span className={`inline-flex items-center gap-1 text-xs font-medium px-2 py-1 rounded-full border ${statusMeta.color}`}>
+                    <span
+                      className={`inline-flex items-center gap-1 text-xs font-medium px-2 py-1 rounded-full border ${statusMeta.color}`}
+                    >
                       {statusMeta.icon}
                       {statusMeta.label}
                     </span>

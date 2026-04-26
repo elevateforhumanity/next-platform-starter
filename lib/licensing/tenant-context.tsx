@@ -41,21 +41,21 @@ interface TenantContextType {
   usage: LicenseUsage | null;
   isLoading: boolean;
   error: string | null;
-  
+
   // Computed properties
   isTrialActive: boolean;
   trialDaysRemaining: number | null;
   isPastDue: boolean;
   isLicenseValid: boolean;
-  
+
   // Limit checks
   canAddStudent: boolean;
   canAddAdmin: boolean;
   canAddProgram: boolean;
-  
+
   // Feature checks
   hasFeature: (feature: string) => boolean;
-  
+
   // Actions
   refreshTenant: () => Promise<void>;
 }
@@ -75,9 +75,11 @@ export function TenantProvider({ children }: { children: ReactNode }) {
       setError(null);
 
       const supabase = createClient();
-      
+
       // Get current user
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       if (!user) {
         setIsLoading(false);
         return;
@@ -140,7 +142,7 @@ export function TenantProvider({ children }: { children: ReactNode }) {
 
   // Computed properties
   const isTrialActive = license?.status === 'trial';
-  
+
   const trialDaysRemaining = (() => {
     if (!license?.trial_ends_at) return null;
     const trialEnd = new Date(license.trial_ends_at);
@@ -150,22 +152,45 @@ export function TenantProvider({ children }: { children: ReactNode }) {
   })();
 
   const isPastDue = license?.status === 'past_due';
-  
+
   const isLicenseValid = license ? ['active', 'trial'].includes(license.status) : false;
 
   // Limit checks
-  const canAddStudent = !usage || usage.student_limit === -1 || usage.student_count < usage.student_limit;
+  const canAddStudent =
+    !usage || usage.student_limit === -1 || usage.student_count < usage.student_limit;
   const canAddAdmin = !usage || usage.admin_limit === -1 || usage.admin_count < usage.admin_limit;
-  const canAddProgram = !usage || usage.program_limit === -1 || usage.program_count < usage.program_limit;
+  const canAddProgram =
+    !usage || usage.program_limit === -1 || usage.program_count < usage.program_limit;
 
   // Feature check
   const hasFeature = (feature: string): boolean => {
     if (!license) return false;
-    
+
     const planFeatures: Record<string, string[]> = {
-      'starter': ['basic_lms', 'student_portal', 'course_management', 'basic_reports'],
-      'pro': ['basic_lms', 'student_portal', 'course_management', 'basic_reports', 'advanced_reports', 'api_access', 'custom_branding', 'ai_features'],
-      'enterprise': ['basic_lms', 'student_portal', 'course_management', 'basic_reports', 'advanced_reports', 'api_access', 'custom_branding', 'ai_features', 'white_label', 'sso', 'unlimited_storage'],
+      starter: ['basic_lms', 'student_portal', 'course_management', 'basic_reports'],
+      pro: [
+        'basic_lms',
+        'student_portal',
+        'course_management',
+        'basic_reports',
+        'advanced_reports',
+        'api_access',
+        'custom_branding',
+        'ai_features',
+      ],
+      enterprise: [
+        'basic_lms',
+        'student_portal',
+        'course_management',
+        'basic_reports',
+        'advanced_reports',
+        'api_access',
+        'custom_branding',
+        'ai_features',
+        'white_label',
+        'sso',
+        'unlimited_storage',
+      ],
     };
 
     const features = planFeatures[license.plan_id] || planFeatures['starter'];
@@ -189,11 +214,7 @@ export function TenantProvider({ children }: { children: ReactNode }) {
     refreshTenant: loadTenantData,
   };
 
-  return (
-    <TenantContext.Provider value={value}>
-      {children}
-    </TenantContext.Provider>
-  );
+  return <TenantContext.Provider value={value}>{children}</TenantContext.Provider>;
 }
 
 export function useTenant() {
@@ -208,7 +229,7 @@ export function useTenant() {
  * HOC to wrap components that require tenant context
  */
 export function withTenant<P extends object>(
-  Component: React.ComponentType<P & { tenant: TenantContextType }>
+  Component: React.ComponentType<P & { tenant: TenantContextType }>,
 ) {
   return function WithTenantComponent(props: P) {
     const tenant = useTenant();
@@ -219,48 +240,48 @@ export function withTenant<P extends object>(
 /**
  * Component to show content only if license is valid
  */
-export function RequireLicense({ 
-  children, 
-  fallback 
-}: { 
-  children: ReactNode; 
+export function RequireLicense({
+  children,
+  fallback,
+}: {
+  children: ReactNode;
   fallback?: ReactNode;
 }) {
   const { isLicenseValid, isLoading } = useTenant();
-  
+
   if (isLoading) {
     return <div className="animate-pulse bg-gray-200 h-8 rounded" />;
   }
-  
+
   if (!isLicenseValid) {
     return fallback || null;
   }
-  
+
   return <>{children}</>;
 }
 
 /**
  * Component to show content only if a feature is available
  */
-export function RequireFeature({ 
-  feature, 
-  children, 
-  fallback 
-}: { 
+export function RequireFeature({
+  feature,
+  children,
+  fallback,
+}: {
   feature: string;
-  children: ReactNode; 
+  children: ReactNode;
   fallback?: ReactNode;
 }) {
   const { hasFeature, isLoading } = useTenant();
-  
+
   if (isLoading) {
     return <div className="animate-pulse bg-gray-200 h-8 rounded" />;
   }
-  
+
   if (!hasFeature(feature)) {
     return fallback || null;
   }
-  
+
   return <>{children}</>;
 }
 
@@ -269,26 +290,31 @@ export function RequireFeature({
  */
 export function TrialBanner() {
   const { isTrialActive, trialDaysRemaining, isPastDue } = useTenant();
-  
+
   if (isPastDue) {
     return (
       <div className="bg-red-600 text-white px-4 py-2 text-center text-sm">
-        <strong>Payment overdue.</strong> Please update your payment method to continue using all features.
-        <a href="/account/billing" className="ml-2 underline">Update Payment →</a>
+        <strong>Payment overdue.</strong> Please update your payment method to continue using all
+        features.
+        <a href="/account/billing" className="ml-2 underline">
+          Update Payment →
+        </a>
       </div>
     );
   }
-  
+
   if (isTrialActive && trialDaysRemaining !== null) {
     const urgency = trialDaysRemaining <= 3 ? 'bg-orange-500' : 'bg-blue-600';
     return (
       <div className={`${urgency} text-white px-4 py-2 text-center text-sm`}>
         <strong>{trialDaysRemaining} days left</strong> in your trial.
-        <a href="/store/licenses" className="ml-2 underline">Upgrade now →</a>
+        <a href="/store/licenses" className="ml-2 underline">
+          Upgrade now →
+        </a>
       </div>
     );
   }
-  
+
   return null;
 }
 
@@ -297,19 +323,19 @@ export function TrialBanner() {
  */
 export function UsageLimits() {
   const { usage, isLoading } = useTenant();
-  
+
   if (isLoading || !usage) return null;
-  
+
   const formatLimit = (count: number, limit: number) => {
     if (limit === -1) return `${count} / Unlimited`;
     return `${count} / ${limit}`;
   };
-  
+
   const getPercentage = (count: number, limit: number) => {
     if (limit === -1) return 0;
     return Math.min(100, (count / limit) * 100);
   };
-  
+
   return (
     <div className="space-y-3">
       <div>
@@ -318,33 +344,33 @@ export function UsageLimits() {
           <span>{formatLimit(usage.student_count, usage.student_limit)}</span>
         </div>
         <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
-          <div 
+          <div
             className="h-full bg-blue-600 rounded-full transition-all"
             style={{ width: `${getPercentage(usage.student_count, usage.student_limit)}%` }}
           />
         </div>
       </div>
-      
+
       <div>
         <div className="flex justify-between text-sm mb-1">
           <span>Admins</span>
           <span>{formatLimit(usage.admin_count, usage.admin_limit)}</span>
         </div>
         <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
-          <div 
+          <div
             className="h-full bg-green-600 rounded-full transition-all"
             style={{ width: `${getPercentage(usage.admin_count, usage.admin_limit)}%` }}
           />
         </div>
       </div>
-      
+
       <div>
         <div className="flex justify-between text-sm mb-1">
           <span>Programs</span>
           <span>{formatLimit(usage.program_count, usage.program_limit)}</span>
         </div>
         <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
-          <div 
+          <div
             className="h-full bg-purple-600 rounded-full transition-all"
             style={{ width: `${getPercentage(usage.program_count, usage.program_limit)}%` }}
           />

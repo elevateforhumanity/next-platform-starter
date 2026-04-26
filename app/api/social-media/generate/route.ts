@@ -20,14 +20,11 @@ const PROGRAM_INFO = {
   cna: 'Certified Nursing Assistant. 4-6 weeks. High demand in Indianapolis hospitals. $16-20/hour starting. WIOA-funded.',
   cdl: "Commercial Driver's License Class A. 4-6 weeks. $50K-70K/year. High demand. WIOA-funded.",
   hvac: 'HVAC Technician. EPA 608 certification. 6-12 months. $45K-65K/year. ETPL-approved.',
-  welding:
-    'Welding Certification (AWS). 6-12 months. $40K-60K/year. High demand in manufacturing.',
+  welding: 'Welding Certification (AWS). 6-12 months. $40K-60K/year. High demand in manufacturing.',
   'direct-support-professional':
     'Direct Support Professional (DSP). 8-12 weeks. $35K-45K/year. Behavioral health + caregiving. WIOA-funded.',
-  phlebotomy:
-    'Phlebotomy Technician. 4-6 weeks. $30K-40K/year. High demand in healthcare.',
-  'dental-assistant':
-    'Dental Assistant. 8-12 weeks. $35K-45K/year. Clinical + front office.',
+  phlebotomy: 'Phlebotomy Technician. 4-6 weeks. $30K-40K/year. High demand in healthcare.',
+  'dental-assistant': 'Dental Assistant. 8-12 weeks. $35K-45K/year. Clinical + front office.',
   all: '14+ workforce training programs. Funded (WIOA-funded). Earn while you learn. Job placement assistance.',
 };
 
@@ -39,7 +36,7 @@ async function _POST(req: Request) {
     if (!openai) {
       return NextResponse.json(
         { success: false, error: 'AI service not configured' },
-        { status: 503 }
+        { status: 503 },
       );
     }
 
@@ -50,7 +47,7 @@ async function _POST(req: Request) {
       try {
         const { createClient } = await import('@/lib/supabase/server');
         const supabase = await createClient();
-  const db = (await getAdminClient()) || supabase;
+        const db = (await getAdminClient()) || supabase;
 
         const { data: blogPosts } = await db
           .from('blog_posts')
@@ -77,9 +74,7 @@ async function _POST(req: Request) {
       // Fallback if no blog posts found
       return NextResponse.json({
         success: true,
-        posts: Array(count).fill(
-          'No blog posts available. Create blog content first.'
-        ),
+        posts: Array(count).fill('No blog posts available. Create blog content first.'),
       });
     }
 
@@ -91,8 +86,7 @@ async function _POST(req: Request) {
     }
 
     // AI Generation
-    const programInfo =
-      PROGRAM_INFO[program as keyof typeof PROGRAM_INFO] || PROGRAM_INFO.all;
+    const programInfo = PROGRAM_INFO[program as keyof typeof PROGRAM_INFO] || PROGRAM_INFO.all;
 
     const prompt = `Create ${count} engaging social media posts for Elevate for Humanity, a workforce training organization in Indianapolis.
 
@@ -140,23 +134,17 @@ Return ONLY a JSON array of ${count} posts, no other text.`;
 
     // Ensure we have the right number of posts
     if (posts.length < count) {
-      posts = [
-        ...posts,
-        ...Array(count - posts.length).fill(posts[0] || 'Post content'),
-      ];
+      posts = [...posts, ...Array(count - posts.length).fill(posts[0] || 'Post content')];
     }
     posts = posts.slice(0, count);
 
     return NextResponse.json({ success: true, posts });
-  } catch (error) { 
+  } catch (error) {
     logger.error(
       'Social media generation error:',
-      error instanceof Error ? error : new Error(String(error))
+      error instanceof Error ? error : new Error(String(error)),
     );
-    return NextResponse.json(
-      { success: false, error: toErrorMessage(error) },
-      { status: 500 }
-    );
+    return NextResponse.json({ success: false, error: toErrorMessage(error) }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/social-media/generate', _POST);

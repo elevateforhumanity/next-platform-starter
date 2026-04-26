@@ -16,12 +16,7 @@
       },
       {
         "prompt": "According to OSHA standards, which item is considered personal protective equipment (PPE) for barbers?",
-        "choices": [
-          "Apron",
-          "Gloves",
-          "Hairdryer",
-          "Scissors"
-        ],
+        "choices": ["Apron", "Gloves", "Hairdryer", "Scissors"],
         "answerIndex": 1,
         "rationale": "Gloves are considered PPE as they protect the barber from direct contact with potentially infectious materials.",
         "type": "recall"
@@ -40,12 +35,7 @@
       },
       {
         "prompt": "Universal precautions assume that all human blood and certain body fluids are:",
-        "choices": [
-          "Non-infectious",
-          "Potentially infectious",
-          "Sterile",
-          "Harmless"
-        ],
+        "choices": ["Non-infectious", "Potentially infectious", "Sterile", "Harmless"],
         "answerIndex": 1,
         "rationale": "Universal precautions treat all human blood and certain body fluids as potentially infectious to prevent the spread of infections.",
         "type": "recall"

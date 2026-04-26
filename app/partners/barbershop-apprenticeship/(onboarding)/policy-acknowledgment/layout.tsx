@@ -5,10 +5,6 @@ export const metadata: Metadata = {
   description: 'Review and acknowledge barbershop apprenticeship policies.',
 };
 
-export default function PolicyLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function PolicyLayout({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }

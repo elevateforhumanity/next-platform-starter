@@ -40,7 +40,10 @@ async function _PATCH(request: Request, { params }: { params: Promise<{ id: stri
     const body = await request.json().catch(() => null);
     const parsed = ApplicationUpdateSchema.safeParse(body);
     if (!parsed.success) {
-      return NextResponse.json({ error: 'Invalid input', details: parsed.error.flatten() }, { status: 400 });
+      return NextResponse.json(
+        { error: 'Invalid input', details: parsed.error.flatten() },
+        { status: 400 },
+      );
     }
     if (Object.keys(parsed.data).length === 0) {
       return safeError('No fields to update', 400);
@@ -49,7 +52,10 @@ async function _PATCH(request: Request, { params }: { params: Promise<{ id: stri
     // Approval must go through POST /approve — it runs the full pipeline
     // (user creation, enrollment, post-approval actions, audit).
     if (parsed.data.status === 'approved') {
-      return safeError('Use POST /api/admin/applications/[id]/approve to approve applications.', 400);
+      return safeError(
+        'Use POST /api/admin/applications/[id]/approve to approve applications.',
+        400,
+      );
     }
 
     const updateData: Record<string, unknown> = { ...parsed.data };
@@ -60,14 +66,17 @@ async function _PATCH(request: Request, { params }: { params: Promise<{ id: stri
     // Audit log (non-fatal)
     const db = await getAdminClient();
     if (db) {
-      await db.from('audit_logs').insert({
-        actor_id: auth.id,
-        action: updateData.status === 'rejected' ? 'reject' : 'status_change',
-        resource_type: 'application',
-        resource_id: id,
-        before_state: before,
-        after_state: data,
-      }).catch(() => {});
+      await db
+        .from('audit_logs')
+        .insert({
+          actor_id: auth.id,
+          action: updateData.status === 'rejected' ? 'reject' : 'status_change',
+          resource_type: 'application',
+          resource_id: id,
+          before_state: before,
+          after_state: data,
+        })
+        .catch(() => {});
     }
 
     return NextResponse.json({ data });
@@ -92,13 +101,16 @@ async function _DELETE(request: Request, { params }: { params: Promise<{ id: str
 
     const db = await getAdminClient();
     if (db) {
-      await db.from('audit_logs').insert({
-        actor_id: auth.id,
-        action: 'delete',
-        resource_type: 'application',
-        resource_id: id,
-        before_state: before,
-      }).catch(() => {});
+      await db
+        .from('audit_logs')
+        .insert({
+          actor_id: auth.id,
+          action: 'delete',
+          resource_type: 'application',
+          resource_id: id,
+          before_state: before,
+        })
+        .catch(() => {});
     }
 
     return NextResponse.json({ data });
@@ -107,6 +119,6 @@ async function _DELETE(request: Request, { params }: { params: Promise<{ id: str
   }
 }
 
-export const GET    = withApiAudit('/api/admin/applications/[id]', _GET);
-export const PATCH  = withApiAudit('/api/admin/applications/[id]', _PATCH);
+export const GET = withApiAudit('/api/admin/applications/[id]', _GET);
+export const PATCH = withApiAudit('/api/admin/applications/[id]', _PATCH);
 export const DELETE = withApiAudit('/api/admin/applications/[id]', _DELETE);

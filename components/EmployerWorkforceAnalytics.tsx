@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -41,13 +41,15 @@ export default function EmployerWorkforceAnalytics() {
     { name: 'Operations', headcount: 28, openings: 4, avgTenure: '1.8 years' },
   ];
 
-  const maxHires = Math.max(...hiringTrends.map(t => t.hires));
+  const maxHires = Math.max(...hiringTrends.map((t) => t.hires));
 
   return (
     <div className="min-h-screen bg-white">
       <div className="   text-white py-12">
         <div className="max-w-7xl mx-auto px-4">
-          <h1 className="text-4xl font-bold mb-2 text-2xl md:text-3xl lg:text-4xl">Workforce Analytics</h1>
+          <h1 className="text-4xl font-bold mb-2 text-2xl md:text-3xl lg:text-4xl">
+            Workforce Analytics
+          </h1>
           <p className="text-white">Data-driven insights for strategic workforce planning</p>
         </div>
       </div>
@@ -57,7 +59,9 @@ export default function EmployerWorkforceAnalytics() {
           <h2 className="text-2xl font-bold">Overview</h2>
           <select
             value={timeRange}
-            onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setTimeRange(e.target.value)}
+            onChange={(
+              e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+            ) => setTimeRange(e.target.value)}
             className="px-4 py-2 border rounded"
           >
             <option value="7">Last 7 days</option>
@@ -113,7 +117,9 @@ export default function EmployerWorkforceAnalytics() {
                 <div key={trend.month}>
                   <div className="flex justify-between text-sm mb-1">
                     <span className="font-medium">{trend.month}</span>
-                    <span className="text-black">{trend.hires} hires • {trend.applications} applications</span>
+                    <span className="text-black">
+                      {trend.hires} hires • {trend.applications} applications
+                    </span>
                   </div>
                   <div className="flex gap-2">
                     <div className="flex-1 bg-gray-200 rounded-full h-2">
@@ -191,7 +197,9 @@ export default function EmployerWorkforceAnalytics() {
                     </td>
                     <td className="py-3 px-4">{dept.avgTenure}</td>
                     <td className="py-3 px-4">
-                      <Button size="sm" variant="secondary">View Details</Button>
+                      <Button size="sm" variant="secondary">
+                        View Details
+                      </Button>
                     </td>
                   </tr>
                 ))}
@@ -204,21 +212,24 @@ export default function EmployerWorkforceAnalytics() {
           <Card className="p-6   ">
             <h3 className="font-bold mb-3">💡 Insight</h3>
             <p className="text-sm text-black">
-              Your time- has improved by 8% this quarter. Consider sharing your recruitment process as a best practice.
+              Your time- has improved by 8% this quarter. Consider sharing your recruitment process
+              as a best practice.
             </p>
           </Card>
 
           <Card className="p-6   ">
             <h3 className="font-bold mb-3">🎯 Recommendation</h3>
             <p className="text-sm text-black">
-              Partner with Elevate for Humanity to address the AWS skills gap. 15 qualified candidates available.
+              Partner with Elevate for Humanity to address the AWS skills gap. 15 qualified
+              candidates available.
             </p>
           </Card>
 
           <Card className="p-6   ">
             <h3 className="font-bold mb-3">📈 Trend</h3>
             <p className="text-sm text-black">
-              Engineering roles are taking 35% longer to fill. Consider expanding your talent pipeline.
+              Engineering roles are taking 35% longer to fill. Consider expanding your talent
+              pipeline.
             </p>
           </Card>
         </div>

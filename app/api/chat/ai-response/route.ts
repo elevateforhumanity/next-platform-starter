@@ -30,10 +30,7 @@ async function _POST(request: NextRequest) {
     const { conversation_id, message, user_id, context } = await request.json();
 
     if (!message) {
-      return NextResponse.json(
-        { error: 'Message is required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Message is required' }, { status: 400 });
     }
 
     if (!openai) {
@@ -53,10 +50,11 @@ What would you like to know more about?`,
     }
 
     // Build context from previous messages if provided
-    const conversationHistory = context?.previousMessages?.map((msg: any) => ({
-      role: msg.sender === 'user' ? 'user' : 'assistant',
-      content: msg.content,
-    })) || [];
+    const conversationHistory =
+      context?.previousMessages?.map((msg: any) => ({
+        role: msg.sender === 'user' ? 'user' : 'assistant',
+        content: msg.content,
+      })) || [];
 
     // System prompt for the AI
     const systemPrompt = `You are the Elevate for Humanity AI Assistant - a helpful, friendly guide for prospective students and visitors.
@@ -138,9 +136,9 @@ Keep responses concise but helpful. Use bullet points for clarity when listing i
       try {
         const supabase = createClient(
           process.env.NEXT_PUBLIC_SUPABASE_URL!,
-          process.env.SUPABASE_SERVICE_ROLE_KEY!
+          process.env.SUPABASE_SERVICE_ROLE_KEY!,
         );
-        
+
         await supabase.from('ai_chat_context').insert({
           conversation_id,
           context_data: {
@@ -152,8 +150,8 @@ Keep responses concise but helpful. Use bullet points for clarity when listing i
           model: 'gpt-4.1-mini',
         });
       } catch (err) {
-          logger.error("Unhandled error", err instanceof Error ? err : undefined);
-        }
+        logger.error('Unhandled error', err instanceof Error ? err : undefined);
+      }
     }
 
     return NextResponse.json({
@@ -164,7 +162,8 @@ Keep responses concise but helpful. Use bullet points for clarity when listing i
   } catch (err: any) {
     logger.error('AI Chat error:', err);
     return NextResponse.json({
-      response: "I'm having a bit of trouble right now. Please call us at (317) 314-3757 or visit elevateforhumanity.org/apply to get started!",
+      response:
+        "I'm having a bit of trouble right now. Please call us at (317) 314-3757 or visit elevateforhumanity.org/apply to get started!",
       needs_human: true,
     });
   }

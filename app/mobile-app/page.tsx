@@ -62,12 +62,9 @@ export default async function MobileAppPage() {
               <div className="inline-flex items-center justify-center w-16 h-16 bg-brand-blue-100 rounded-full mb-4">
                 <Smartphone className="w-8 h-8 text-brand-blue-600" />
               </div>
-              <h3 className="text-lg font-semibold mb-3 text-black">
-                Works Like a Native App
-              </h3>
+              <h3 className="text-lg font-semibold mb-3 text-black">Works Like a Native App</h3>
               <p className="text-black">
-                Full-screen experience with smooth navigation and native-like
-                performance.
+                Full-screen experience with smooth navigation and native-like performance.
               </p>
             </div>
 
@@ -75,12 +72,9 @@ export default async function MobileAppPage() {
               <div className="inline-flex items-center justify-center w-16 h-16 bg-brand-green-100 rounded-full mb-4">
                 <Wifi className="w-8 h-8 text-brand-green-600" />
               </div>
-              <h3 className="text-lg font-semibold mb-3 text-black">
-                Works Offline
-              </h3>
+              <h3 className="text-lg font-semibold mb-3 text-black">Works Offline</h3>
               <p className="text-black">
-                Access your programs and progress even without an internet
-                connection.
+                Access your programs and progress even without an internet connection.
               </p>
             </div>
 
@@ -88,12 +82,9 @@ export default async function MobileAppPage() {
               <div className="inline-flex items-center justify-center w-16 h-16 bg-brand-blue-100 rounded-full mb-4">
                 <Bell className="w-8 h-8 text-brand-blue-600" />
               </div>
-              <h3 className="text-lg font-semibold mb-3 text-black">
-                Push Notifications
-              </h3>
+              <h3 className="text-lg font-semibold mb-3 text-black">Push Notifications</h3>
               <p className="text-black">
-                Stay updated with program reminders, new opportunities, and
-                important announcements.
+                Stay updated with program reminders, new opportunities, and important announcements.
               </p>
             </div>
 
@@ -101,9 +92,7 @@ export default async function MobileAppPage() {
               <div className="inline-flex items-center justify-center w-16 h-16 bg-brand-orange-100 rounded-full mb-4">
                 <Zap className="w-8 h-8 text-brand-orange-600" />
               </div>
-              <h3 className="text-lg font-semibold mb-3 text-black">
-                Lightning Fast
-              </h3>
+              <h3 className="text-lg font-semibold mb-3 text-black">Lightning Fast</h3>
               <p className="text-black">
                 Optimized for speed with instant loading and smooth transitions.
               </p>
@@ -113,12 +102,9 @@ export default async function MobileAppPage() {
               <div className="inline-flex items-center justify-center w-16 h-16 bg-brand-red-100 rounded-full mb-4">
                 <Download className="w-8 h-8 text-brand-orange-600" />
               </div>
-              <h3 className="text-lg font-semibold mb-3 text-black">
-                No App Store Required
-              </h3>
+              <h3 className="text-lg font-semibold mb-3 text-black">No App Store Required</h3>
               <p className="text-black">
-                Install directly from your browser. Updates happen
-                automatically.
+                Install directly from your browser. Updates happen automatically.
               </p>
             </div>
 
@@ -126,9 +112,7 @@ export default async function MobileAppPage() {
               <div className="inline-flex items-center justify-center w-16 h-16 bg-indigo-100 rounded-full mb-4">
                 <Lock className="w-8 h-8 text-indigo-600" />
               </div>
-              <h3 className="text-lg font-semibold mb-3 text-black">
-                Secure & Private
-              </h3>
+              <h3 className="text-lg font-semibold mb-3 text-black">Secure & Private</h3>
               <p className="text-black">
                 Your data is encrypted and stored securely on your device.
               </p>
@@ -138,7 +122,7 @@ export default async function MobileAppPage() {
       </section>
 
       {/* Installation Instructions */}
-      <section id="install"className="py-16">
+      <section id="install" className="py-16">
         <div className="max-w-4xl mx-auto px-4">
           <h2 className="text-2xl md:text-3xl font-bold text-center mb-12 text-black">
             How to Install
@@ -162,8 +146,7 @@ export default async function MobileAppPage() {
               <li className="flex">
                 <span className="font-bold text-brand-blue-600 mr-3">2.</span>
                 <span>
-                  Tap the <strong>Share</strong> button (square with arrow
-                  pointing up)
+                  Tap the <strong>Share</strong> button (square with arrow pointing up)
                 </span>
               </li>
               <li className="flex">
@@ -180,9 +163,7 @@ export default async function MobileAppPage() {
               </li>
               <li className="flex">
                 <span className="font-bold text-brand-blue-600 mr-3">5.</span>
-                <span>
-                  Find the Elevate icon on your home screen and tap to open
-                </span>
+                <span>Find the Elevate icon on your home screen and tap to open</span>
               </li>
             </ol>
           </div>
@@ -209,8 +190,7 @@ export default async function MobileAppPage() {
               <li className="flex">
                 <span className="font-bold text-brand-green-600 mr-3">3.</span>
                 <span>
-                  Tap <strong>"Add to Home screen"</strong> or{' '}
-                  <strong>"Install app"</strong>
+                  Tap <strong>"Add to Home screen"</strong> or <strong>"Install app"</strong>
                 </span>
               </li>
               <li className="flex">
@@ -221,9 +201,7 @@ export default async function MobileAppPage() {
               </li>
               <li className="flex">
                 <span className="font-bold text-brand-green-600 mr-3">5.</span>
-                <span>
-                  Find the Elevate icon in your app drawer and tap to open
-                </span>
+                <span>Find the Elevate icon in your app drawer and tap to open</span>
               </li>
             </ol>
           </div>
@@ -233,12 +211,9 @@ export default async function MobileAppPage() {
       {/* CTA Section */}
       <section className="py-16">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-2xl md:text-3xl font-bold mb-6">
-            Ready to Get Started?
-          </h2>
+          <h2 className="text-2xl md:text-3xl font-bold mb-6">Ready to Get Started?</h2>
           <p className="text-base md:text-lg mb-8 text-white">
-            Install the app now and take your career development journey with
-            you wherever you go.
+            Install the app now and take your career development journey with you wherever you go.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a

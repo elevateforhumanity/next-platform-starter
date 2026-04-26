@@ -29,7 +29,7 @@ if (args.length === 0) {
 }
 
 function isQuarantined(filePath) {
-  return filePath.split('/').some(seg => seg.startsWith('__'));
+  return filePath.split('/').some((seg) => seg.startsWith('__'));
 }
 
 function quarantinedToLive(filePath) {
@@ -37,16 +37,18 @@ function quarantinedToLive(filePath) {
 }
 
 function appPathToRoute(filePath) {
-  return filePath
-    .replace(/^app/, '')
-    .replace(/\/page\.tsx$/, '')
-    .replace(/\/route\.ts$/, '')
-    .replace(/\/\(app\)/, '')
-    .replace(/\/\(auth\)/, '')
-    .replace(/\/\(dashboard\)/, '')
-    .replace(/\/\(partner\)/, '')
-    .replace(/\/\(public\)/, '')
-    .replace(/\/layout\.tsx$/, '') || '/';
+  return (
+    filePath
+      .replace(/^app/, '')
+      .replace(/\/page\.tsx$/, '')
+      .replace(/\/route\.ts$/, '')
+      .replace(/\/\(app\)/, '')
+      .replace(/\/\(auth\)/, '')
+      .replace(/\/\(dashboard\)/, '')
+      .replace(/\/\(partner\)/, '')
+      .replace(/\/\(public\)/, '')
+      .replace(/\/layout\.tsx$/, '') || '/'
+  );
 }
 
 // Find the quarantined directory for a given route

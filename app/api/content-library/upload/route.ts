@@ -16,7 +16,9 @@ async function _POST(request: NextRequest) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const { data: profile } = await supabase
@@ -59,10 +61,10 @@ async function _POST(request: NextRequest) {
       const contentType = file.type.startsWith('video/')
         ? 'video'
         : file.type.startsWith('image/')
-        ? 'image'
-        : file.type === 'application/pdf'
-        ? 'document'
-        : 'file';
+          ? 'image'
+          : file.type === 'application/pdf'
+            ? 'document'
+            : 'file';
 
       const { data: item, error: dbError } = await supabase
         .from('content_items')

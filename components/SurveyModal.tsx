@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -28,12 +28,7 @@ interface SurveyModalProps {
   onClose: () => void;
 }
 
-export default function SurveyModal({
-  survey,
-  userId,
-  onComplete,
-  onClose,
-}: SurveyModalProps) {
+export default function SurveyModal({ survey, userId, onComplete, onClose }: SurveyModalProps) {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<string, any>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -44,7 +39,7 @@ export default function SurveyModal({
   const progress = ((currentQuestionIndex + 1) / survey.questions.length) * 100;
 
   const handleAnswer = (data: any) => {
-    setAnswers(prev => ({ ...prev, [questionId]: value }));
+    setAnswers((prev) => ({ ...prev, [questionId]: value }));
   };
 
   const handleNext = () => {
@@ -56,13 +51,13 @@ export default function SurveyModal({
     if (isLastQuestion) {
       handleSubmit();
     } else {
-      setCurrentQuestionIndex(prev => prev + 1);
+      setCurrentQuestionIndex((prev) => prev + 1);
     }
   };
 
   const handlePrevious = () => {
     if (!isFirstQuestion) {
-      setCurrentQuestionIndex(prev => prev - 1);
+      setCurrentQuestionIndex((prev) => prev - 1);
     }
   };
 
@@ -86,7 +81,8 @@ export default function SurveyModal({
         const data = await response.json();
         alert(data.error || 'Failed to submit survey');
       }
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
       alert('Failed to submit survey');
     } finally {
@@ -103,7 +99,9 @@ export default function SurveyModal({
           <input
             type="text"
             value={answer || ''}
-            onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => handleAnswer(currentQuestion.id, e.target.value)}
+            onChange={(
+              e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+            ) => handleAnswer(currentQuestion.id, e.target.value)}
             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
             placeholder="Your answer..."
           />
@@ -113,7 +111,9 @@ export default function SurveyModal({
         return (
           <textarea
             value={answer || ''}
-            onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => handleAnswer(currentQuestion.id, e.target.value)}
+            onChange={(
+              e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+            ) => handleAnswer(currentQuestion.id, e.target.value)}
             rows={4}
             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
             placeholder="Your answer..."
@@ -123,7 +123,7 @@ export default function SurveyModal({
       case 'radio':
         return (
           <div className="space-y-3">
-            {currentQuestion.options?.map(option => (
+            {currentQuestion.options?.map((option) => (
               <label
                 key={option}
                 className="flex items-center gap-3 p-4 border-2 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors"
@@ -133,7 +133,11 @@ export default function SurveyModal({
                   name={currentQuestion.id}
                   value={option}
                   checked={answer === option}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => handleAnswer(currentQuestion.id, e.target.value)}
+                  onChange={(
+                    e: React.ChangeEvent<
+                      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+                    >,
+                  ) => handleAnswer(currentQuestion.id, e.target.value)}
                   className="w-5 h-5 text-brand-blue-600 border-gray-300 focus:ring-brand-blue-500"
                 />
                 <span className="text-black">{option}</span>
@@ -145,7 +149,7 @@ export default function SurveyModal({
       case 'checkbox':
         return (
           <div className="space-y-3">
-            {currentQuestion.options?.map(option => (
+            {currentQuestion.options?.map((option) => (
               <label
                 key={option}
                 className="flex items-center gap-3 p-4 border-2 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors"
@@ -154,7 +158,11 @@ export default function SurveyModal({
                   type="checkbox"
                   value={option}
                   checked={(answer || []).includes(option)}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+                  onChange={(
+                    e: React.ChangeEvent<
+                      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+                    >,
+                  ) => {
                     const currentAnswers = answer || [];
                     const newAnswers = e.target.checked
                       ? [...currentAnswers, option]
@@ -172,7 +180,7 @@ export default function SurveyModal({
       case 'rating':
         return (
           <div className="flex gap-2 justify-center">
-            {[1, 2, 3, 4, 5].map(rating => (
+            {[1, 2, 3, 4, 5].map((rating) => (
               <button
                 key={rating}
                 type="button"
@@ -197,7 +205,9 @@ export default function SurveyModal({
               min="0"
               max="10"
               value={answer || 5}
-              onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => handleAnswer(currentQuestion.id, parseInt(e.target.value))}
+              onChange={(
+                e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+              ) => handleAnswer(currentQuestion.id, parseInt(e.target.value))}
               className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
             />
             <div className="flex justify-between text-sm text-black">
@@ -220,12 +230,8 @@ export default function SurveyModal({
         <div className="p-6 border-b">
           <div className="flex items-start justify-between mb-4">
             <div className="flex-1">
-              <h3 className="text-2xl font-bold text-black mb-2">
-                {survey.title}
-              </h3>
-              <p className="text-black">
-                {survey.description}
-              </p>
+              <h3 className="text-2xl font-bold text-black mb-2">{survey.title}</h3>
+              <p className="text-black">{survey.description}</p>
             </div>
             <button
               onClick={onClose}
@@ -245,7 +251,9 @@ export default function SurveyModal({
               />
             </div>
             <div className="flex justify-between mt-2 text-sm text-black">
-              <span>Question {currentQuestionIndex + 1} of {survey.questions.length}</span>
+              <span>
+                Question {currentQuestionIndex + 1} of {survey.questions.length}
+              </span>
               <span>{Math.round(progress)}% Complete</span>
             </div>
           </div>
@@ -256,9 +264,7 @@ export default function SurveyModal({
           <div className="mb-6">
             <h4 className="text-xl font-semibold text-black mb-2">
               {currentQuestion.question}
-              {currentQuestion.required && (
-                <span className="text-brand-orange-600 ml-1">*</span>
-              )}
+              {currentQuestion.required && <span className="text-brand-orange-600 ml-1">*</span>}
             </h4>
             {currentQuestion.type === 'checkbox' && (
               <p className="text-sm text-slate-700">Select all that apply</p>
@@ -287,8 +293,8 @@ export default function SurveyModal({
                   index === currentQuestionIndex
                     ? 'bg-brand-blue-600 w-6'
                     : answers[survey.questions[index].id]
-                    ? 'bg-brand-blue-400'
-                    : 'bg-gray-300'
+                      ? 'bg-brand-blue-400'
+                      : 'bg-gray-300'
                 }`}
               />
             ))}

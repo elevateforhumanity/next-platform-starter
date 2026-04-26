@@ -22,9 +22,7 @@ export class CollaborationProvider {
     this.doc = new Y.Doc();
 
     const wsUrl =
-      config.websocketUrl ||
-      process.env.NEXT_PUBLIC_COLLABORATION_WS_URL ||
-      'ws://localhost:1234';
+      config.websocketUrl || process.env.NEXT_PUBLIC_COLLABORATION_WS_URL || 'ws://localhost:1234';
 
     this.provider = new WebsocketProvider(wsUrl, config.documentId, this.doc);
 
@@ -151,8 +149,6 @@ export class CollaborationProvider {
 /**
  * Create a collaboration provider for a document
  */
-export function createCollaborationProvider(
-  config: CollaborationConfig
-): CollaborationProvider {
+export function createCollaborationProvider(config: CollaborationConfig): CollaborationProvider {
   return new CollaborationProvider(config);
 }

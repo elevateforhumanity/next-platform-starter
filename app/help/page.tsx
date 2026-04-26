@@ -18,7 +18,7 @@ import {
   Zap,
   Shield,
   Award,
-  Rocket
+  Rocket,
 } from 'lucide-react';
 
 export const metadata: Metadata = {
@@ -56,14 +56,14 @@ export default async function HelpPage() {
             <LifeBuoy className="w-5 h-5" />
             <span className="text-sm font-semibold">24/7 Support Available</span>
           </div>
-          
+
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 leading-tight">
             How Can We Help You Today?
           </h1>
-          
+
           <p className="text-lg md:text-xl mb-10 text-white/90 max-w-3xl mx-auto leading-relaxed">
-            Get instant answers, watch tutorials, or connect with our support team. 
-            We're here to ensure your success every step of the way.
+            Get instant answers, watch tutorials, or connect with our support team. We're here to
+            ensure your success every step of the way.
           </p>
 
           {/* Search Bar */}
@@ -317,9 +317,7 @@ export default async function HelpPage() {
                 <Phone className="w-8 h-8 text-blue-600" />
               </div>
               <h3 className="text-xl font-bold text-black mb-3">Call Us</h3>
-              <p className="text-gray-600 mb-6">
-                Speak directly with a support specialist
-              </p>
+              <p className="text-gray-600 mb-6">Speak directly with a support specialist</p>
               <a
                 href="tel:+13173143757"
                 className="text-2xl font-bold text-blue-600 hover:text-blue-700 mb-4 block"
@@ -327,7 +325,8 @@ export default async function HelpPage() {
                 (317) 314-3757
               </a>
               <p className="text-sm text-gray-500">
-                Mon-Fri: 9am-5pm EST<br />
+                Mon-Fri: 9am-5pm EST
+                <br />
                 Sat: 10am-2pm EST
               </p>
             </div>
@@ -338,9 +337,7 @@ export default async function HelpPage() {
                 <Mail className="w-8 h-8 text-green-600" />
               </div>
               <h3 className="text-xl font-bold text-black mb-3">Email Us</h3>
-              <p className="text-gray-600 mb-6">
-                Get a detailed response within 24 hours
-              </p>
+              <p className="text-gray-600 mb-6">Get a detailed response within 24 hours</p>
               <a
                 href="mailto:elevate4humanityedu@gmail.com"
                 className="text-lg font-bold text-green-600 hover:text-green-700 mb-4 block break-all"
@@ -348,7 +345,8 @@ export default async function HelpPage() {
                 elevate4humanityedu@gmail.com
               </a>
               <p className="text-sm text-gray-500">
-                Response time:<br />
+                Response time:
+                <br />
                 Usually within 2-4 hours
               </p>
             </div>
@@ -359,14 +357,13 @@ export default async function HelpPage() {
                 <MessageCircle className="w-8 h-8 text-purple-600" />
               </div>
               <h3 className="text-xl font-bold text-black mb-3">Live Chat</h3>
-              <p className="text-gray-600 mb-6">
-                Chat with us in real-time for instant help
-              </p>
+              <p className="text-gray-600 mb-6">Chat with us in real-time for instant help</p>
               <button className="bg-purple-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-purple-700 transition mb-4">
                 Start Chat
               </button>
               <p className="text-sm text-gray-500">
-                Available:<br />
+                Available:
+                <br />
                 Mon-Fri: 9am-9pm EST
               </p>
             </div>
@@ -402,12 +399,9 @@ export default async function HelpPage() {
       <section className="py-16 bg-brand-blue-700 text-white">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-2xl md:text-3xl font-bold mb-4">
-              Ready to Get Started?
-            </h2>
+            <h2 className="text-2xl md:text-3xl font-bold mb-4">Ready to Get Started?</h2>
             <p className="text-base md:text-lg text-blue-100 mb-8">
-              Join thousands who have launched successful careers through our
-              programs.
+              Join thousands who have launched successful careers through our programs.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <Link

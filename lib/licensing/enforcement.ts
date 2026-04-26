@@ -39,28 +39,30 @@ export async function validateLicense(licenseKey: string): Promise<LicenseValida
 
   // Check expiration
   if (license.expires_at && new Date(license.expires_at) < new Date()) {
-    return { 
-      valid: false, 
-      status: 'expired', 
+    return {
+      valid: false,
+      status: 'expired',
       tenantId: license.tenant_id,
-      message: 'License has expired' 
+      message: 'License has expired',
     };
   }
 
   // Check status
   if (license.status !== 'active') {
-    return { 
-      valid: false, 
+    return {
+      valid: false,
       status: license.status,
       tenantId: license.tenant_id,
-      message: `License is ${license.status}` 
+      message: `License is ${license.status}`,
     };
   }
 
   // Convert features array to object
   const featuresObj: Record<string, boolean> = {};
   if (Array.isArray(license.features)) {
-    license.features.forEach((f: string) => { featuresObj[f] = true; });
+    license.features.forEach((f: string) => {
+      featuresObj[f] = true;
+    });
   }
 
   return {
@@ -90,21 +92,21 @@ export async function validateTenantLicense(tenantId: string): Promise<LicenseVa
 
   // Check expiration
   if (tenant.license_expires_at && new Date(tenant.license_expires_at) < new Date()) {
-    return { 
-      valid: false, 
-      status: 'expired', 
+    return {
+      valid: false,
+      status: 'expired',
       tenantId,
-      message: 'License has expired' 
+      message: 'License has expired',
     };
   }
 
   // Check status
   if (tenant.license_status !== 'active') {
-    return { 
-      valid: false, 
+    return {
+      valid: false,
       status: tenant.license_status,
       tenantId,
-      message: `License is ${tenant.license_status}` 
+      message: `License is ${tenant.license_status}`,
     };
   }
 
@@ -129,8 +131,8 @@ export async function validateTenantLicense(tenantId: string): Promise<LicenseVa
  * Check if tenant has specific feature
  */
 export async function checkFeatureAccess(
-  tenantId: string, 
-  feature: string
+  tenantId: string,
+  feature: string,
 ): Promise<{ allowed: boolean; reason?: string }> {
   const validation = await validateTenantLicense(tenantId);
 
@@ -188,9 +190,9 @@ export async function handleRefund(paymentIntentId: string): Promise<void> {
     metadata: { payment_intent_id: paymentIntentId, tenant_id: purchase.tenant_id },
   });
 
-  logger.info('License suspended due to refund', { 
-    paymentIntentId, 
-    tenantId: purchase.tenant_id 
+  logger.info('License suspended due to refund', {
+    paymentIntentId,
+    tenantId: purchase.tenant_id,
   });
 }
 
@@ -232,9 +234,9 @@ export async function handleDispute(paymentIntentId: string): Promise<void> {
     metadata: { payment_intent_id: paymentIntentId, tenant_id: purchase.tenant_id },
   });
 
-  logger.info('License suspended due to dispute', { 
-    paymentIntentId, 
-    tenantId: purchase.tenant_id 
+  logger.info('License suspended due to dispute', {
+    paymentIntentId,
+    tenantId: purchase.tenant_id,
   });
 }
 
@@ -247,15 +249,9 @@ export async function revokeLicense(tenantId: string, reason: string): Promise<v
 
   await setAuditContext(supabase, { systemActor: 'license_enforcement', requestId });
 
-  await supabase
-    .from('tenants')
-    .update({ license_status: 'cancelled' })
-    .eq('id', tenantId);
+  await supabase.from('tenants').update({ license_status: 'cancelled' }).eq('id', tenantId);
 
-  await supabase
-    .from('licenses')
-    .update({ status: 'revoked' })
-    .eq('tenant_id', tenantId);
+  await supabase.from('licenses').update({ status: 'revoked' }).eq('tenant_id', tenantId);
 
   await logAuditEvent({
     action: 'LICENSE_REVOKED',
@@ -271,10 +267,7 @@ export async function revokeLicense(tenantId: string, reason: string): Promise<v
 /**
  * Extend license expiration
  */
-export async function extendLicense(
-  tenantId: string, 
-  newExpirationDate: Date
-): Promise<void> {
+export async function extendLicense(tenantId: string, newExpirationDate: Date): Promise<void> {
   const supabase = await getAdminClient();
   const requestId = crypto.randomUUID();
 

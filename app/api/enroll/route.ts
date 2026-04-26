@@ -1,4 +1,3 @@
-
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createClient } from '@/lib/supabase/server';
@@ -15,7 +14,11 @@ const enrollSchema = z.object({
   firstName: z.string().min(1).max(100).trim(),
   lastName: z.string().min(1).max(100).trim(),
   email: z.string().email().toLowerCase(),
-  phone: z.string().regex(/^[\d\s\-()+ ]+$/).min(10).optional(),
+  phone: z
+    .string()
+    .regex(/^[\d\s\-()+ ]+$/)
+    .min(10)
+    .optional(),
   programCode: z.string().max(100).optional(),
   courseId: z.string().uuid().optional(),
   fundingInterest: z.string().max(200).optional(),
@@ -39,17 +42,18 @@ async function _POST(req: NextRequest) {
   try {
     rawBody = await req.json();
   } catch {
-    return NextResponse.json(
-      { ok: false, error: 'Invalid JSON payload.' },
-      { status: 400 }
-    );
+    return NextResponse.json({ ok: false, error: 'Invalid JSON payload.' }, { status: 400 });
   }
 
   const parsed = enrollSchema.safeParse(rawBody);
   if (!parsed.success) {
     return NextResponse.json(
-      { ok: false, error: 'Validation failed', fields: parsed.error.issues.map(i => i.path.join('.')) },
-      { status: 400 }
+      {
+        ok: false,
+        error: 'Validation failed',
+        fields: parsed.error.issues.map((i) => i.path.join('.')),
+      },
+      { status: 400 },
     );
   }
 
@@ -77,10 +81,7 @@ async function _POST(req: NextRequest) {
       });
 
       if (!result.success) {
-        return NextResponse.json(
-          { ok: false, error: result.error },
-          { status: 400 }
-        );
+        return NextResponse.json({ ok: false, error: result.error }, { status: 400 });
       }
 
       return NextResponse.json(
@@ -90,16 +91,13 @@ async function _POST(req: NextRequest) {
           courseAccessUrl: result.courseAccessUrl,
           message: 'Successfully enrolled! You can now access the course.',
         },
-        { status: 201 }
+        { status: 201 },
       );
     } catch (err: any) {
-      logger.error(
-        'Enrollment error',
-        err instanceof Error ? err : new Error(String(err))
-      );
+      logger.error('Enrollment error', err instanceof Error ? err : new Error(String(err)));
       return NextResponse.json(
         { ok: false, error: 'Failed to complete enrollment' },
-        { status: 500 }
+        { status: 500 },
       );
     }
   }
@@ -109,10 +107,9 @@ async function _POST(req: NextRequest) {
     return NextResponse.json(
       {
         ok: false,
-        error:
-          'Missing required fields: firstName, lastName, email, programCode.',
+        error: 'Missing required fields: firstName, lastName, email, programCode.',
       },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -130,7 +127,7 @@ async function _POST(req: NextRequest) {
           phone,
           programSlug: programCode,
         }),
-      }
+      },
     );
 
     if (!checkoutResponse.ok) {
@@ -148,7 +145,7 @@ async function _POST(req: NextRequest) {
         message: 'Redirecting to payment...',
         nextStep: 'payment',
       },
-      { status: 201 }
+      { status: 201 },
     );
   } catch (err: any) {
     logger.error('Enrollment API error', err?.message ?? err);
@@ -157,7 +154,7 @@ async function _POST(req: NextRequest) {
         ok: false,
         error: 'Unexpected error while creating checkout. Please try again.',
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

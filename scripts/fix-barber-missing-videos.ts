@@ -27,18 +27,19 @@ import { createClient } from '@supabase/supabase-js';
 
 const DRY_RUN = process.argv.includes('--dry-run');
 
-const OPENAI_KEY   = process.env.OPENAI_API_KEY!;
-const DID_KEY      = process.env.DID_API_KEY!;
-const SUPA_URL     = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const SUPA_SVC     = process.env.SUPABASE_SERVICE_ROLE_KEY!;
-const COURSE_ID    = '3fb5ce19-1cde-434c-a8c6-f138d7d7aa17';
+const OPENAI_KEY = process.env.OPENAI_API_KEY!;
+const DID_KEY = process.env.DID_API_KEY!;
+const SUPA_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const SUPA_SVC = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+const COURSE_ID = '3fb5ce19-1cde-434c-a8c6-f138d7d7aa17';
 
 // Instructor photo — Elizabeth Greene (real face, D-ID compatible)
-const INSTRUCTOR_PHOTO_URL = 'https://cuxzzpsyufcewtmicszk.supabase.co/storage/v1/object/public/avatars/barber/elizabeth-greene-headshot.jpg';
+const INSTRUCTOR_PHOTO_URL =
+  'https://cuxzzpsyufcewtmicszk.supabase.co/storage/v1/object/public/avatars/barber/elizabeth-greene-headshot.jpg';
 
-const DID_API          = 'https://api.d-id.com';
+const DID_API = 'https://api.d-id.com';
 const POLL_INTERVAL_MS = 6000;
-const POLL_TIMEOUT_MS  = 300000;
+const POLL_TIMEOUT_MS = 300000;
 
 const sb = createClient(SUPA_URL, SUPA_SVC);
 
@@ -98,7 +99,7 @@ async function uploadToSupabase(
   localPath: string,
   bucket: string,
   storagePath: string,
-  contentType: string
+  contentType: string,
 ): Promise<string> {
   const buf = fs.readFileSync(localPath);
   const res = await fetch(`${SUPA_URL}/storage/v1/object/${bucket}/${storagePath}`, {
@@ -146,7 +147,7 @@ async function submitDIDTalk(audioUrl: string, photoUrl: string): Promise<string
     throw new Error(`D-ID submit failed (${res.status}): ${txt}`);
   }
 
-  const data = await res.json() as { id: string };
+  const data = (await res.json()) as { id: string };
   return data.id;
 }
 
@@ -154,11 +155,11 @@ async function submitDIDTalk(audioUrl: string, photoUrl: string): Promise<string
 async function pollDIDTalk(talkId: string): Promise<string> {
   const deadline = Date.now() + POLL_TIMEOUT_MS;
   while (Date.now() < deadline) {
-    await new Promise(r => setTimeout(r, POLL_INTERVAL_MS));
+    await new Promise((r) => setTimeout(r, POLL_INTERVAL_MS));
     const res = await fetch(`${DID_API}/talks/${talkId}`, {
       headers: { Authorization: `Basic ${DID_KEY}`, Accept: 'application/json' },
     });
-    const data = await res.json() as { status: string; result_url?: string; error?: any };
+    const data = (await res.json()) as { status: string; result_url?: string; error?: any };
     console.log(`  ⏳ D-ID status: ${data.status}`);
     if (data.status === 'done' && data.result_url) return data.result_url;
     if (data.status === 'error') throw new Error(`D-ID error: ${JSON.stringify(data.error)}`);
@@ -185,8 +186,14 @@ async function resolvePhotoUrl(): Promise<string> {
 
 // ── Main ─────────────────────────────────────────────────────────────
 async function main() {
-  if (!OPENAI_KEY) { console.error('❌ OPENAI_API_KEY not set'); process.exit(1); }
-  if (!DID_KEY)    { console.error('❌ DID_API_KEY not set'); process.exit(1); }
+  if (!OPENAI_KEY) {
+    console.error('❌ OPENAI_API_KEY not set');
+    process.exit(1);
+  }
+  if (!DID_KEY) {
+    console.error('❌ DID_API_KEY not set');
+    process.exit(1);
+  }
 
   // Fetch the 5 broken lessons
   const { data: lessons, error } = await sb
@@ -196,23 +203,30 @@ async function main() {
     .like('video_url', '/videos/%')
     .order('order_index');
 
-  if (error) { console.error('DB error:', error.message); process.exit(1); }
-  if (!lessons?.length) { console.log('✅ No broken video URLs found — all good!'); return; }
+  if (error) {
+    console.error('DB error:', error.message);
+    process.exit(1);
+  }
+  if (!lessons?.length) {
+    console.log('✅ No broken video URLs found — all good!');
+    return;
+  }
 
   console.log(`\n═══ Fixing ${lessons.length} barber lessons with broken video URLs ═══\n`);
 
   const photoUrl = await resolvePhotoUrl();
-  const tmpDir   = fs.mkdtempSync(path.join(os.tmpdir(), 'barber-fix-'));
+  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'barber-fix-'));
 
-  let ok = 0, failed = 0;
+  let ok = 0,
+    failed = 0;
 
   for (const lesson of lessons) {
     console.log(`\n[${ok + failed + 1}/${lessons.length}] ${lesson.title}`);
 
     try {
-      const slug       = lesson.slug || `lesson-${lesson.id.slice(0, 8)}`;
-      const audioPath  = path.join(tmpDir, `${slug}.mp3`);
-      const videoPath  = path.join(tmpDir, `${slug}.mp4`);
+      const slug = lesson.slug || `lesson-${lesson.id.slice(0, 8)}`;
+      const audioPath = path.join(tmpDir, `${slug}.mp3`);
+      const videoPath = path.join(tmpDir, `${slug}.mp4`);
       const storageMp3 = `barber/${slug}.mp3`;
       const storageMp4 = `barber/${slug}.mp4`;
 
@@ -272,4 +286,7 @@ async function main() {
   console.log(`\n═══ Done: ${ok} fixed, ${failed} failed ═══\n`);
 }
 
-main().catch(err => { console.error(err); process.exit(1); });
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});

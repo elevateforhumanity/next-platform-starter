@@ -11,7 +11,11 @@ import { requireRole } from '@/lib/auth/require-role';
 import { logger } from '@/lib/logger';
 
 const ACCESS_STATES = [
-  'active', 'in_progress', 'enrolled', 'confirmed', 'pending_funding_verification',
+  'active',
+  'in_progress',
+  'enrolled',
+  'confirmed',
+  'pending_funding_verification',
 ];
 
 export async function loadLearnerDashboard() {
@@ -26,7 +30,8 @@ export async function loadLearnerDashboard() {
   // program_enrollments has no FK to courses — fetch flat, then join manually.
   const { data: programEnrollments, error: enrollmentError } = await supabase
     .from('program_enrollments')
-    .select(`
+    .select(
+      `
       id,
       course_id,
       program_id,
@@ -37,7 +42,8 @@ export async function loadLearnerDashboard() {
       progress_percent,
       enrolled_at,
       access_granted_at
-    `)
+    `,
+    )
     .eq('user_id', user.id)
     .order('enrolled_at', { ascending: false });
 
@@ -51,19 +57,21 @@ export async function loadLearnerDashboard() {
     .map((e) => e.course_id)
     .filter(Boolean) as string[];
 
-  const { data: enrollmentCourses } = enrollmentCourseIds.length > 0
-    ? await supabase
-        .from('courses')
-        .select('id, title, description, duration_hours')
-        .in('id', enrollmentCourseIds)
-    : { data: [] };
+  const { data: enrollmentCourses } =
+    enrollmentCourseIds.length > 0
+      ? await supabase
+          .from('courses')
+          .select('id, title, description, duration_hours')
+          .in('id', enrollmentCourseIds)
+      : { data: [] };
 
   const courseMap = new Map((enrollmentCourses ?? []).map((c: any) => [c.id, c]));
 
   // ── 3. TRAINING ENROLLMENTS (legacy, optional) ─────────────────────
   const { data: trainingEnrollments, error: trainingError } = await supabase
     .from('training_enrollments')
-    .select(`
+    .select(
+      `
       id,
       course_id,
       status,
@@ -75,7 +83,8 @@ export async function loadLearnerDashboard() {
         description,
         duration_hours
       )
-    `)
+    `,
+    )
     .eq('user_id', user.id)
     .order('enrolled_at', { ascending: false });
 
@@ -89,12 +98,13 @@ export async function loadLearnerDashboard() {
     .filter((e) => !e.course_id && e.program_id)
     .map((e) => e.program_id as string);
 
-  const { data: apprenticeshipPrograms } = programIds.length > 0
-    ? await supabase
-        .from('apprenticeship_programs')
-        .select('id, name, slug, description')
-        .in('id', programIds)
-    : { data: [] };
+  const { data: apprenticeshipPrograms } =
+    programIds.length > 0
+      ? await supabase
+          .from('apprenticeship_programs')
+          .select('id, name, slug, description')
+          .in('id', programIds)
+      : { data: [] };
 
   // ── 5. NORMALIZE + MERGE ENROLLMENTS ──────────────────────────────
   const apMap = new Map((apprenticeshipPrograms ?? []).map((p: any) => [p.id, p]));
@@ -144,13 +154,14 @@ export async function loadLearnerDashboard() {
   // ── 6. LESSON PROGRESS (required if enrolled) ─────────────────────
   const courseIds = enrollments.map((e: any) => e.course_id).filter(Boolean) as string[];
 
-  const { data: lessonProgress, error: progressError } = courseIds.length > 0
-    ? await supabase
-        .from('lesson_progress')
-        .select('course_id, lesson_id, completed')
-        .eq('user_id', user.id)
-        .in('course_id', courseIds)
-    : { data: [], error: null };
+  const { data: lessonProgress, error: progressError } =
+    courseIds.length > 0
+      ? await supabase
+          .from('lesson_progress')
+          .select('course_id, lesson_id, completed')
+          .eq('user_id', user.id)
+          .in('course_id', courseIds)
+      : { data: [], error: null };
 
   if (progressError) {
     logger.error('loadLearnerDashboard: lesson_progress query failed', progressError);
@@ -193,7 +204,8 @@ export async function loadLearnerDashboard() {
   // ── 9. ACHIEVEMENTS (optional) ────────────────────────────────────
   const { data: achievements } = await supabase
     .from('user_achievements')
-    .select(`
+    .select(
+      `
       id,
       earned_at,
       achievements (
@@ -202,7 +214,8 @@ export async function loadLearnerDashboard() {
         description,
         icon
       )
-    `)
+    `,
+    )
     .eq('user_id', user.id)
     .order('earned_at', { ascending: false })
     .limit(5);
@@ -210,7 +223,8 @@ export async function loadLearnerDashboard() {
   // ── 10. CERTIFICATION REQUESTS (optional) ─────────────────────────
   const { data: certRequests } = await supabase
     .from('certification_requests')
-    .select(`
+    .select(
+      `
       id, status, authorization_code, authorization_expires_at,
       certificate_issued_at, created_at,
       programs ( title ),
@@ -221,16 +235,19 @@ export async function loadLearnerDashboard() {
         fee_payer, exam_fee_cents,
         certification_bodies ( name, website )
       )
-    `)
+    `,
+    )
     .eq('user_id', user.id)
     .neq('status', 'pending_completion')
     .order('created_at', { ascending: false })
     .limit(5);
 
   // ── 11. TRAINING HOURS (optional) ─────────────────────────────────
-  const activeEnrollmentId = enrollments.find((e: any) =>
-    ACCESS_STATES.includes(e.status ?? '') || ACCESS_STATES.includes(e.enrollment_state ?? '')
-  )?.id ?? null;
+  const activeEnrollmentId =
+    enrollments.find(
+      (e: any) =>
+        ACCESS_STATES.includes(e.status ?? '') || ACCESS_STATES.includes(e.enrollment_state ?? ''),
+    )?.id ?? null;
 
   const { data: attendanceData } = activeEnrollmentId
     ? await supabase
@@ -247,10 +264,12 @@ export async function loadLearnerDashboard() {
     .eq('user_id', user.id);
 
   const attendanceHours = (attendanceData ?? []).reduce(
-    (sum: number, a: any) => sum + (a.hours_logged ?? 0), 0
+    (sum: number, a: any) => sum + (a.hours_logged ?? 0),
+    0,
   );
   const trainingHours = (hoursData ?? []).reduce(
-    (sum: number, h: any) => sum + Number(h.hours_claimed || 0), 0
+    (sum: number, h: any) => sum + Number(h.hours_claimed || 0),
+    0,
   );
   const totalHours = attendanceHours || trainingHours;
 
@@ -269,15 +288,16 @@ export async function loadLearnerDashboard() {
     .map((e: any) => e.cohort_id)
     .filter(Boolean) as string[];
 
-  const { data: upcomingSchedule } = cohortIds.length > 0
-    ? await supabase
-        .from('cohort_sessions')
-        .select('id, title, session_date, start_time, end_time, location, session_type')
-        .in('cohort_id', cohortIds)
-        .gte('session_date', new Date().toISOString().split('T')[0])
-        .order('session_date', { ascending: true })
-        .limit(3)
-    : { data: [] };
+  const { data: upcomingSchedule } =
+    cohortIds.length > 0
+      ? await supabase
+          .from('cohort_sessions')
+          .select('id, title, session_date, start_time, end_time, location, session_type')
+          .in('cohort_id', cohortIds)
+          .gte('session_date', new Date().toISOString().split('T')[0])
+          .order('session_date', { ascending: true })
+          .limit(3)
+      : { data: [] };
 
   // ── 14. APPLICATIONS (for gate checks and diagnostic) ─────────────
   const { data: applications } = await supabase
@@ -287,9 +307,7 @@ export async function loadLearnerDashboard() {
     .order('created_at', { ascending: false })
     .limit(10);
 
-  const workoneApp = (applications ?? []).find(
-    (a: any) => a.status === 'pending_workone'
-  ) ?? null;
+  const workoneApp = (applications ?? []).find((a: any) => a.status === 'pending_workone') ?? null;
 
   // ── 15. EXTERNAL ENROLLMENTS (optional) ───────────────────────────
   const { data: externalEnrollments } = await supabase
@@ -304,27 +322,36 @@ export async function loadLearnerDashboard() {
     .from('program_enrollments')
     .select('id, enrollment_state, next_required_action, full_name, program_id')
     .eq('user_id', user.id)
-    .in('enrollment_state', ['applied', 'approved', 'confirmed', 'orientation_complete', 'documents_complete'])
+    .in('enrollment_state', [
+      'applied',
+      'approved',
+      'confirmed',
+      'orientation_complete',
+      'documents_complete',
+    ])
     .order('enrolled_at', { ascending: false })
     .limit(1)
     .maybeSingle();
 
   // ── 17. DERIVED STATS ─────────────────────────────────────────────
-  const activeEnrollments = enrollments.filter((e: any) =>
-    ACCESS_STATES.includes(e.status ?? '') || ACCESS_STATES.includes(e.enrollment_state ?? '')
+  const activeEnrollments = enrollments.filter(
+    (e: any) =>
+      ACCESS_STATES.includes(e.status ?? '') || ACCESS_STATES.includes(e.enrollment_state ?? ''),
   );
   const completedEnrollments = enrollments.filter((e: any) => e.status === 'completed');
   const averageProgress =
     activeEnrollments.length > 0
       ? Math.round(
-          activeEnrollments.reduce((sum: number, e: any) => sum + (e.progress_percent ?? e.progress ?? 0), 0) /
-            activeEnrollments.length
+          activeEnrollments.reduce(
+            (sum: number, e: any) => sum + (e.progress_percent ?? e.progress ?? 0),
+            0,
+          ) / activeEnrollments.length,
         )
       : 0;
 
   // Diagnostic: check for paid Stripe session without active enrollment (log only)
   const paidApp = (applications ?? []).find(
-    (a) => a.payment_status === 'paid' && a.status !== 'enrolled'
+    (a) => a.payment_status === 'paid' && a.status !== 'enrolled',
   );
   if (paidApp) {
     const { data: stripeSession } = await supabase

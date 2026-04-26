@@ -17,15 +17,15 @@ import fssync from 'fs';
 import path from 'path';
 import { execSync } from 'child_process';
 
-const RUNWAY_API   = 'https://api.dev.runwayml.com/v1';
+const RUNWAY_API = 'https://api.dev.runwayml.com/v1';
 const RUNWAY_MODEL = 'gen4.5';
-const API_VERSION  = '2024-11-06';
+const API_VERSION = '2024-11-06';
 
 function headers() {
   const key = process.env.RUNWAY_API_KEY;
   if (!key) throw new Error('RUNWAY_API_KEY is not set');
   return {
-    'Authorization': `Bearer ${key}`,
+    Authorization: `Bearer ${key}`,
     'X-Runway-Version': API_VERSION,
     'Content-Type': 'application/json',
   };
@@ -53,10 +53,10 @@ export async function submitRunwayTask(opts: RunwayClipOptions): Promise<string>
     method: 'POST',
     headers: headers(),
     body: JSON.stringify({
-      model:      RUNWAY_MODEL,
+      model: RUNWAY_MODEL,
       promptText: opts.promptText,
-      duration:   opts.duration ?? 10,
-      ratio:      opts.ratio    ?? '1280:720',
+      duration: opts.duration ?? 10,
+      ratio: opts.ratio ?? '1280:720',
     }),
   });
 
@@ -65,7 +65,7 @@ export async function submitRunwayTask(opts: RunwayClipOptions): Promise<string>
     throw new Error(`Runway submit failed (${res.status}): ${err}`);
   }
 
-  const data = await res.json() as { id: string };
+  const data = (await res.json()) as { id: string };
   return data.id;
 }
 
@@ -78,7 +78,7 @@ export async function pollRunwayTask(
   const deadline = Date.now() + timeoutMs;
 
   while (Date.now() < deadline) {
-    await new Promise(r => setTimeout(r, intervalMs));
+    await new Promise((r) => setTimeout(r, intervalMs));
 
     const res = await fetch(`${RUNWAY_API}/tasks/${taskId}`, {
       headers: headers(),
@@ -86,7 +86,7 @@ export async function pollRunwayTask(
 
     if (!res.ok) throw new Error(`Runway poll failed (${res.status})`);
 
-    const task = await res.json() as RunwayTask;
+    const task = (await res.json()) as RunwayTask;
 
     if (task.status === 'SUCCEEDED') {
       const url = task.output?.[0];
@@ -132,18 +132,16 @@ export function buildVisualPrompt(
   segment: string,
   imagePrompt?: string,
 ): string {
-  const base = imagePrompt
-    ? imagePrompt
-    : `${lessonTitle}, professional training environment`;
+  const base = imagePrompt ? imagePrompt : `${lessonTitle}, professional training environment`;
 
   const cinematic = 'cinematic lighting, shallow depth of field, 4K, professional';
 
   const segmentStyle: Record<string, string> = {
-    intro:       'wide establishing shot',
-    concept:     'close-up detail shot',
-    visual:      'overhead or diagram-style view',
+    intro: 'wide establishing shot',
+    concept: 'close-up detail shot',
+    visual: 'overhead or diagram-style view',
     application: 'hands-on demonstration',
-    wrapup:      'confident professional, clean background',
+    wrapup: 'confident professional, clean background',
   };
 
   const style = segmentStyle[segment] ?? 'professional training shot';
@@ -155,7 +153,7 @@ export function buildVisualPrompt(
  */
 export function stitchClips(clipPaths: string[], outputPath: string): void {
   const listFile = outputPath + '.list.txt';
-  fssync.writeFileSync(listFile, clipPaths.map(p => `file '${p}'`).join('\n'));
+  fssync.writeFileSync(listFile, clipPaths.map((p) => `file '${p}'`).join('\n'));
   execSync(
     `ffmpeg -y -f concat -safe 0 -i "${listFile}" -c:v libx264 -preset fast -crf 20 "${outputPath}"`,
     { stdio: 'pipe' },
@@ -166,14 +164,10 @@ export function stitchClips(clipPaths: string[], outputPath: string): void {
 /**
  * Lay an audio track over a video, looping the video if shorter than audio.
  */
-export function muxAudioOverVideo(
-  videoPath: string,
-  audioPath: string,
-  outputPath: string,
-): void {
+export function muxAudioOverVideo(videoPath: string, audioPath: string, outputPath: string): void {
   execSync(
     `ffmpeg -y -stream_loop -1 -i "${videoPath}" -i "${audioPath}" ` +
-    `-c:v libx264 -preset fast -crf 20 -c:a aac -b:a 128k -shortest "${outputPath}"`,
+      `-c:v libx264 -preset fast -crf 20 -c:a aac -b:a 128k -shortest "${outputPath}"`,
     { stdio: 'pipe' },
   );
 }

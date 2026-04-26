@@ -3,8 +3,14 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import {
-  CheckCircle, X, ExternalLink, Mail, Loader2,
-  Send, FileText, AlertTriangle,
+  CheckCircle,
+  X,
+  ExternalLink,
+  Mail,
+  Loader2,
+  Send,
+  FileText,
+  AlertTriangle,
 } from 'lucide-react';
 
 interface Rec {
@@ -117,7 +123,7 @@ export default function CompletionApprovalCard({ rec, mode }: Props) {
               </label>
               <textarea
                 value={loginInstructions}
-                onChange={e => setLoginInstructions(e.target.value)}
+                onChange={(e) => setLoginInstructions(e.target.value)}
                 rows={4}
                 placeholder={`Username: student@email.com\nTemporary password: Abc12345!\nLogin at: https://careersafe.com/login`}
                 className="w-full text-sm border border-slate-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500 focus:border-transparent resize-none mb-2"
@@ -127,7 +133,15 @@ export default function CompletionApprovalCard({ rec, mode }: Props) {
                 disabled={saving || !loginInstructions.trim()}
                 className="inline-flex items-center gap-1.5 text-sm font-semibold bg-brand-blue-600 hover:bg-brand-blue-700 text-white px-4 py-2 rounded-lg disabled:opacity-50 transition"
               >
-                {saving ? <><Loader2 className="w-4 h-4 animate-spin" /> Sending…</> : <><Send className="w-4 h-4" /> Send login to student</>}
+                {saving ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" /> Sending…
+                  </>
+                ) : (
+                  <>
+                    <Send className="w-4 h-4" /> Send login to student
+                  </>
+                )}
               </button>
             </div>
           )}
@@ -140,7 +154,15 @@ export default function CompletionApprovalCard({ rec, mode }: Props) {
                 disabled={saving}
                 className="inline-flex items-center gap-1.5 text-sm font-semibold bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg disabled:opacity-50 transition"
               >
-                {saving ? <><Loader2 className="w-4 h-4 animate-spin" /> Saving…</> : <><CheckCircle className="w-4 h-4" /> Approve</>}
+                {saving ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" /> Saving…
+                  </>
+                ) : (
+                  <>
+                    <CheckCircle className="w-4 h-4" /> Approve
+                  </>
+                )}
               </button>
               <button
                 onClick={() => setShowReject(true)}
@@ -160,17 +182,25 @@ export default function CompletionApprovalCard({ rec, mode }: Props) {
               <input
                 type="text"
                 value={rejectionReason}
-                onChange={e => setRejectionReason(e.target.value)}
+                onChange={(e) => setRejectionReason(e.target.value)}
                 placeholder="e.g. Certificate is illegible — please resubmit a clearer photo"
                 className="w-full text-sm border border-slate-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-400 focus:border-transparent mb-2"
               />
               <div className="flex gap-2">
                 <button
-                  onClick={() => callApprove('reject_credential', { rejection_reason: rejectionReason })}
+                  onClick={() =>
+                    callApprove('reject_credential', { rejection_reason: rejectionReason })
+                  }
                   disabled={saving || !rejectionReason.trim()}
                   className="inline-flex items-center gap-1.5 text-sm font-semibold bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg disabled:opacity-50 transition"
                 >
-                  {saving ? <><Loader2 className="w-4 h-4 animate-spin" /> Saving…</> : 'Send rejection'}
+                  {saving ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" /> Saving…
+                    </>
+                  ) : (
+                    'Send rejection'
+                  )}
                 </button>
                 <button
                   onClick={() => setShowReject(false)}

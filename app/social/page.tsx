@@ -3,10 +3,22 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { 
-  Facebook, Linkedin, Instagram, Youtube, Globe,
-  ArrowRight, Play, Users, Heart, MessageCircle,
-  Share2, ExternalLink, Calendar, Video, Loader2
+import {
+  Facebook,
+  Linkedin,
+  Instagram,
+  Youtube,
+  Globe,
+  ArrowRight,
+  Play,
+  Users,
+  Heart,
+  MessageCircle,
+  Share2,
+  ExternalLink,
+  Calendar,
+  Video,
+  Loader2,
 } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
@@ -33,15 +45,15 @@ interface YouTubeVideo {
 // Animation variants
 const fadeInUp = {
   hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0 }
+  visible: { opacity: 1, y: 0 },
 };
 
 const staggerContainer = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 0.1 }
-  }
+    transition: { staggerChildren: 0.1 },
+  },
 };
 
 const socialPlatforms = [
@@ -98,7 +110,8 @@ const recentPosts = [
     platform: 'Facebook',
     icon: Facebook,
     time: '2 hours ago',
-    content: 'Congratulations to our latest graduates! 🎓 Another cohort of skilled professionals ready to make their mark.',
+    content:
+      'Congratulations to our latest graduates! 🎓 Another cohort of skilled professionals ready to make their mark.',
     image: '/images/pages/social-media-1.jpg',
     likes: 45,
     comments: 12,
@@ -107,7 +120,8 @@ const recentPosts = [
     platform: 'LinkedIn',
     icon: Linkedin,
     time: '5 hours ago',
-    content: 'We are proud to announce our partnership with local employers to provide job placement assistance for all graduates.',
+    content:
+      'We are proud to announce our partnership with local employers to provide job placement assistance for all graduates.',
     likes: 89,
     comments: 23,
   },
@@ -115,7 +129,8 @@ const recentPosts = [
     platform: 'Instagram',
     icon: Instagram,
     time: '1 day ago',
-    content: 'Behind the scenes at our training facility! Our students are working hard to build their futures. 💪',
+    content:
+      'Behind the scenes at our training facility! Our students are working hard to build their futures. 💪',
     image: '/images/pages/social-media-1.jpg',
     likes: 156,
     comments: 34,
@@ -160,12 +175,12 @@ export default function SocialMediaPage() {
 
   useEffect(() => {
     setIsVisible(true);
-    
+
     // Animate stats
     const duration = 2000;
     const steps = 60;
     const interval = duration / steps;
-    
+
     let step = 0;
     const timer = setInterval(() => {
       step++;
@@ -175,7 +190,7 @@ export default function SocialMediaPage() {
         posts: Math.floor(500 * progress),
         engagement: Math.floor(95 * progress),
       });
-      
+
       if (step >= steps) clearInterval(timer);
     }, interval);
 
@@ -196,14 +211,16 @@ export default function SocialMediaPage() {
         if (youtubeResponse.ok) {
           const socialData = await youtubeResponse.json();
           if (socialData.data?.videos?.length > 0) {
-            setYoutubeVideos(socialData.data.videos.map((v: any) => ({
-              id: v.id,
-              title: v.title,
-              thumbnail: v.thumbnail,
-              duration: v.duration,
-              views: formatViews(v.views),
-              youtubeId: v.id,
-            })));
+            setYoutubeVideos(
+              socialData.data.videos.map((v: any) => ({
+                id: v.id,
+                title: v.title,
+                thumbnail: v.thumbnail,
+                duration: v.duration,
+                views: formatViews(v.views),
+                youtubeId: v.id,
+              })),
+            );
           }
         }
       } catch (error) {
@@ -232,7 +249,7 @@ export default function SocialMediaPage() {
     const diffMs = now.getTime() - date.getTime();
     const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
     const diffDays = Math.floor(diffHours / 24);
-    
+
     if (diffHours < 1) return 'Just now';
     if (diffHours < 24) return `${diffHours} hours ago`;
     if (diffDays < 7) return `${diffDays} days ago`;
@@ -252,12 +269,24 @@ export default function SocialMediaPage() {
       {/* Hero */}
       <section className="relative w-full">
         <div className="relative h-[300px] md:h-[400px] w-full overflow-hidden">
-          <Image src="/images/pages/social-page-1.jpg" alt="Connect with Elevate for Humanity" fill className="object-cover" priority sizes="100vw" />
+          <Image
+            src="/images/pages/social-page-1.jpg"
+            alt="Connect with Elevate for Humanity"
+            fill
+            className="object-cover"
+            priority
+            sizes="100vw"
+          />
         </div>
         <div className="bg-white py-10">
           <div className="max-w-5xl mx-auto px-4 text-center">
-            <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">Follow Our Journey</h1>
-            <p className="text-lg text-slate-600 max-w-3xl mx-auto">Stay connected with Elevate for Humanity. Get updates, success stories, tips, and inspiration across all our social platforms.</p>
+            <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">
+              Follow Our Journey
+            </h1>
+            <p className="text-lg text-slate-600 max-w-3xl mx-auto">
+              Stay connected with Elevate for Humanity. Get updates, success stories, tips, and
+              inspiration across all our social platforms.
+            </p>
           </div>
         </div>
       </section>
@@ -284,14 +313,18 @@ export default function SocialMediaPage() {
                 className={`group bg-white rounded-2xl p-6 shadow-sm border border-slate-100 hover:shadow-xl hover:border-slate-200 transition-all duration-500 hover:-translate-y-2`}
                 style={{ animationDelay: `${index * 100}ms` }}
               >
-                <div className={`w-14 h-14 ${platform.color} rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
+                <div
+                  className={`w-14 h-14 ${platform.color} rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}
+                >
                   <platform.icon className="w-7 h-7 text-white" />
                 </div>
-                
+
                 <h3 className="text-xl font-bold text-slate-900 mb-1">{platform.name}</h3>
-                <p className="text-2xl font-bold text-slate-900 mb-2">{platform.followers} followers</p>
+                <p className="text-2xl font-bold text-slate-900 mb-2">
+                  {platform.followers} followers
+                </p>
                 <p className="text-slate-600 text-sm mb-4">{platform.description}</p>
-                
+
                 <span className="inline-flex items-center gap-2 text-brand-blue-600 font-medium group-hover:gap-3 transition-all">
                   {platform.cta} <ArrowRight className="w-4 h-4" />
                 </span>
@@ -310,9 +343,7 @@ export default function SocialMediaPage() {
                 <Youtube className="w-6 h-6 text-brand-red-600" />
                 <span className="text-brand-red-600 font-medium">YouTube Channel</span>
               </div>
-              <h2 className="text-3xl md:text-4xl font-bold text-slate-900">
-                Featured Videos
-              </h2>
+              <h2 className="text-3xl md:text-4xl font-bold text-slate-900">Featured Videos</h2>
             </div>
             <a
               href="https://www.youtube.com/@elevateforhumanity"
@@ -337,9 +368,10 @@ export default function SocialMediaPage() {
                     alt={video.title}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
-                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" />
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  />
                   <div className="absolute inset-0" />
-                  
+
                   {/* Play Button */}
                   <button
                     onClick={() => setActiveVideo(video.youtubeId)}
@@ -349,13 +381,13 @@ export default function SocialMediaPage() {
                       <Play className="w-7 h-7 text-white ml-1" fill="white" />
                     </div>
                   </button>
-                  
+
                   {/* Duration Badge */}
                   <span className="absolute bottom-3 right-3 bg-black/80 text-white text-sm px-2 py-1 rounded">
                     {video.duration}
                   </span>
                 </div>
-                
+
                 <div className="p-5">
                   <h3 className="font-bold text-slate-900 mb-2 line-clamp-2 group-hover:text-brand-blue-600 transition-colors">
                     {video.title}
@@ -368,7 +400,7 @@ export default function SocialMediaPage() {
 
           {/* YouTube Embed Modal */}
           {activeVideo && (
-            <div 
+            <div
               className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4"
               onClick={() => setActiveVideo(null)}
             >
@@ -396,9 +428,7 @@ export default function SocialMediaPage() {
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
-              Latest Updates
-            </h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Latest Updates</h2>
             <p className="text-xl text-slate-600">
               See what we have been sharing across our platforms
             </p>
@@ -427,7 +457,8 @@ export default function SocialMediaPage() {
                       alt="Post image"
                       fill
                       className="object-cover"
-                     sizes="100vw" />
+                      sizes="100vw"
+                    />
                   </div>
                 )}
 
@@ -457,9 +488,10 @@ export default function SocialMediaPage() {
             Join Our Community Today
           </h2>
           <p className="text-xl text-white/90 mb-8">
-            Follow us on your favorite platform and be part of our mission to transform lives through education.
+            Follow us on your favorite platform and be part of our mission to transform lives
+            through education.
           </p>
-          
+
           <div className="flex flex-wrap justify-center gap-4">
             {socialPlatforms.map((platform) => (
               <a
@@ -482,13 +514,11 @@ export default function SocialMediaPage() {
       <section className="py-20">
         <div className="max-w-3xl mx-auto px-4 text-center">
           <Calendar className="w-12 h-12 text-brand-blue-600 mx-auto mb-4" />
-          <h2 className="text-3xl font-bold text-slate-900 mb-4">
-            Never Miss an Update
-          </h2>
+          <h2 className="text-3xl font-bold text-slate-900 mb-4">Never Miss an Update</h2>
           <p className="text-xl text-slate-600 mb-8">
             Subscribe to our newsletter for weekly updates, success stories, and exclusive content.
           </p>
-          
+
           <form className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
             <input
               type="email"

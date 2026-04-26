@@ -36,11 +36,7 @@ function extractLinks(filePath) {
 
   while ((match = hrefRegex.exec(content)) !== null) {
     const link = match[1];
-    if (
-      !link.startsWith('http') &&
-      !link.startsWith('#') &&
-      !link.startsWith('mailto:')
-    ) {
+    if (!link.startsWith('http') && !link.startsWith('#') && !link.startsWith('mailto:')) {
       links.add(link);
     }
   }

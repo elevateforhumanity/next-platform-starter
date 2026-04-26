@@ -54,11 +54,8 @@ async function _POST(req: Request) {
       default:
         return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
     }
-  } catch (error) { 
-    logger.error(
-      'Phone API error:',
-      error instanceof Error ? error : new Error(String(error))
-    );
+  } catch (error) {
+    logger.error('Phone API error:', error instanceof Error ? error : new Error(String(error)));
     return NextResponse.json({ error: 'Phone system error' }, { status: 500 });
   }
 }

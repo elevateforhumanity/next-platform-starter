@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import {
-
   BookOpen,
   FileText,
   Video,
@@ -46,12 +45,20 @@ export default async function LibraryPage() {
     .select('id, status, course_id, progress_percent, created_at')
     .eq('user_id', user.id)
     .order('created_at', { ascending: false });
-  const libCourseIds = [...new Set((rawLibEnrollments || []).map((e: any) => e.course_id).filter(Boolean))];
+  const libCourseIds = [
+    ...new Set((rawLibEnrollments || []).map((e: any) => e.course_id).filter(Boolean)),
+  ];
   const { data: libCourses } = libCourseIds.length
-    ? await supabase.from('courses').select('id, title, description, thumbnail_url').in('id', libCourseIds)
+    ? await supabase
+        .from('courses')
+        .select('id, title, description, thumbnail_url')
+        .in('id', libCourseIds)
     : { data: [] };
   const libCourseMap = Object.fromEntries((libCourses || []).map((c: any) => [c.id, c]));
-  const enrollments = (rawLibEnrollments || []).map((e: any) => ({ ...e, courses: libCourseMap[e.course_id] ?? null }));
+  const enrollments = (rawLibEnrollments || []).map((e: any) => ({
+    ...e,
+    courses: libCourseMap[e.course_id] ?? null,
+  }));
 
   // Fetch library resources
   const { data: resources } = await supabase
@@ -62,7 +69,7 @@ export default async function LibraryPage() {
     .limit(50);
 
   // Fetch course materials for enrolled courses
-  const courseIds = enrollments?.map(e => e.course_id) || [];
+  const courseIds = enrollments?.map((e) => e.course_id) || [];
   const { data: courseMaterials } = await supabase
     .from('course_materials')
     .select('id, title, description, file_url, url, course_id, created_at')
@@ -75,12 +82,12 @@ export default async function LibraryPage() {
     .select('resource_id')
     .eq('user_id', user.id);
 
-  const bookmarkedIds = new Set(bookmarks?.map(b => b.resource_id) || []);
+  const bookmarkedIds = new Set(bookmarks?.map((b) => b.resource_id) || []);
 
   // Group materials by type
-  const documents = courseMaterials?.filter(m => m.type === 'document') || [];
-  const videos = courseMaterials?.filter(m => m.type === 'video') || [];
-  const links = courseMaterials?.filter(m => m.type === 'link') || [];
+  const documents = courseMaterials?.filter((m) => m.type === 'document') || [];
+  const videos = courseMaterials?.filter((m) => m.type === 'video') || [];
+  const links = courseMaterials?.filter((m) => m.type === 'link') || [];
 
   const getFileIcon = (type: string) => {
     switch (type) {
@@ -116,13 +123,14 @@ export default async function LibraryPage() {
     });
   };
 
-  const hasContent = (courseMaterials && courseMaterials.length > 0) || (resources && resources.length > 0);
+  const hasContent =
+    (courseMaterials && courseMaterials.length > 0) || (resources && resources.length > 0);
 
   return (
     <div className="min-h-screen bg-white py-8">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <Breadcrumbs items={[{ label: "LMS", href: "/lms/courses" }, { label: "Library" }]} />
-        </div>
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'LMS', href: '/lms/courses' }, { label: 'Library' }]} />
+      </div>
       <div className="max-w-7xl mx-auto px-4">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
@@ -154,7 +162,7 @@ export default async function LibraryPage() {
               </select>
               <select className="px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-blue-500">
                 <option value="">All Courses</option>
-                {enrollments?.map(e => (
+                {enrollments?.map((e) => (
                   <option key={e.course_id} value={e.course_id}>
                     {e.courses?.title}
                   </option>
@@ -171,8 +179,9 @@ export default async function LibraryPage() {
               <div>
                 <h2 className="text-xl font-bold text-slate-900 mb-4">Course Materials</h2>
                 <div className="space-y-4">
-                  {enrollments.map(enrollment => {
-                    const materials = courseMaterials?.filter(m => m.course_id === enrollment.course_id) || [];
+                  {enrollments.map((enrollment) => {
+                    const materials =
+                      courseMaterials?.filter((m) => m.course_id === enrollment.course_id) || [];
                     if (materials.length === 0) return null;
 
                     return (
@@ -186,13 +195,15 @@ export default async function LibraryPage() {
                               <Folder className="w-5 h-5 text-brand-blue-600" />
                             </div>
                             <div>
-                              <h3 className="font-bold text-slate-900">{enrollment.courses?.title}</h3>
+                              <h3 className="font-bold text-slate-900">
+                                {enrollment.courses?.title}
+                              </h3>
                               <p className="text-sm text-slate-600">{materials.length} resources</p>
                             </div>
                           </div>
                         </div>
                         <div className="divide-y divide-slate-100">
-                          {materials.map(material => {
+                          {materials.map((material) => {
                             const IconComponent = getFileIcon(material.type);
                             const colorClass = getFileColor(material.type);
 
@@ -202,7 +213,9 @@ export default async function LibraryPage() {
                                 className="flex items-center justify-between p-4 hover:bg-white transition"
                               >
                                 <div className="flex items-center gap-4">
-                                  <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${colorClass}`}>
+                                  <div
+                                    className={`w-10 h-10 rounded-lg flex items-center justify-center ${colorClass}`}
+                                  >
                                     <IconComponent className="w-5 h-5" />
                                   </div>
                                   <div>
@@ -219,7 +232,9 @@ export default async function LibraryPage() {
                                 </div>
                                 <div className="flex items-center gap-2">
                                   <button className="p-2 text-slate-400 hover:text-yellow-500 transition">
-                                    <Bookmark className={`w-5 h-5 ${bookmarkedIds.has(material.id) ? 'fill-yellow-500 text-yellow-500' : ''}`} />
+                                    <Bookmark
+                                      className={`w-5 h-5 ${bookmarkedIds.has(material.id) ? 'fill-yellow-500 text-yellow-500' : ''}`}
+                                    />
                                   </button>
                                   {material.file_url && (
                                     <a
@@ -258,7 +273,7 @@ export default async function LibraryPage() {
               <div>
                 <h2 className="text-xl font-bold text-slate-900 mb-4">General Resources</h2>
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {resources.map(resource => {
+                  {resources.map((resource) => {
                     const IconComponent = getFileIcon(resource.type);
                     const colorClass = getFileColor(resource.type);
 
@@ -268,7 +283,9 @@ export default async function LibraryPage() {
                         className="bg-white rounded-xl border border-slate-200 p-4 hover:border-brand-blue-300 hover:shadow-md transition"
                       >
                         <div className="flex items-start gap-3 mb-3">
-                          <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${colorClass}`}>
+                          <div
+                            className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${colorClass}`}
+                          >
                             <IconComponent className="w-5 h-5" />
                           </div>
                           <div className="flex-1 min-w-0">

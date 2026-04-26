@@ -11,11 +11,10 @@ export const runtime = 'nodejs';
 export const maxDuration = 60;
 
 async function _POST(req: Request) {
-    const rateLimited = await applyRateLimit(req, 'contact');
-    if (rateLimited) return rateLimited;
-    const auth = await requireAuth(req);
-    if (auth.error) return auth.error;
-
+  const rateLimited = await applyRateLimit(req, 'contact');
+  if (rateLimited) return rateLimited;
+  const auth = await requireAuth(req);
+  if (auth.error) return auth.error;
 
   // Rate limiting: 10 checkouts per minute per IP
   const identifier = getClientIdentifier(req.headers);
@@ -27,25 +26,19 @@ async function _POST(req: Request) {
       {
         status: 429,
         headers: createRateLimitHeaders(rateLimitResult),
-      }
+      },
     );
   }
 
   if (!process.env.STRIPE_SECRET_KEY) {
-    return NextResponse.json(
-      { error: 'Stripe not configured' },
-      { status: 503 }
-    );
+    return NextResponse.json({ error: 'Stripe not configured' }, { status: 503 });
   }
 
   try {
     const { productId, creatorId } = await req.json();
 
     if (!productId || !creatorId) {
-      return NextResponse.json(
-        { error: 'Missing required fields' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
     // Price must come from DB — never trust client-supplied priceCents
@@ -97,10 +90,7 @@ async function _POST(req: Request) {
     return NextResponse.json({ sessionId: session.id });
   } catch (err: any) {
     const error = toError(err);
-    return NextResponse.json(
-      { error: toErrorMessage(err) },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: toErrorMessage(err) }, { status: 500 });
   }
 }
 export const POST = withRuntime(withApiAudit('/api/checkout/marketplace', _POST));

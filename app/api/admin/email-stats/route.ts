@@ -15,8 +15,10 @@ async function _GET(req: Request) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-  const db = await getAdminClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const db = await getAdminClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -49,10 +51,7 @@ async function _GET(req: Request) {
       timeframe,
     });
   } catch (err: any) {
-    return NextResponse.json(
-      { error: 'Failed to fetch email statistics' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to fetch email statistics' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/admin/email-stats', _GET);

@@ -19,7 +19,6 @@ const { shouldBuild, appRelevant, buildType, categories } = getChangeInfo();
 if (!shouldBuild) {
   process.exit(0); // Exit 0 = ignore build
 } else {
-
   // Show categorized changes for better visibility
   if (categories.html?.length > 0) {
   }

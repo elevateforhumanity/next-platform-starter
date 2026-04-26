@@ -46,7 +46,7 @@ interface GradingResult {
 
 async function gradeWithOpenAI(
   question: Question,
-  answer: string
+  answer: string,
 ): Promise<{ score: number; feedback: string }> {
   if (!OPENAI_API_KEY) {
     throw new Error('OpenAI API key not configured');
@@ -112,7 +112,7 @@ Return ONLY valid JSON, no additional text.
 
 async function gradeWithAnthropic(
   question: Question,
-  answer: string
+  answer: string,
 ): Promise<{ score: number; feedback: string }> {
   if (!ANTHROPIC_API_KEY) {
     throw new Error('Anthropic API key not configured');
@@ -167,8 +167,7 @@ Return ONLY valid JSON, no additional text.
 
   // Extract JSON if wrapped in markdown code blocks
   const jsonMatch =
-    responseText.match(/```json\n([\s\S]*?)\n```/) ||
-    responseText.match(/```\n([\s\S]*?)\n```/);
+    responseText.match(/```json\n([\s\S]*?)\n```/) || responseText.match(/```\n([\s\S]*?)\n```/);
   const jsonText = jsonMatch ? jsonMatch[1] : responseText;
 
   const result = JSON.parse(jsonText);
@@ -179,10 +178,7 @@ Return ONLY valid JSON, no additional text.
   };
 }
 
-function gradeObjectiveQuestion(
-  question: Question,
-  answer: string | number
-): GradingResult {
+function gradeObjectiveQuestion(question: Question, answer: string | number): GradingResult {
   let isCorrect = false;
   let feedback = '';
 
@@ -207,10 +203,7 @@ function gradeObjectiveQuestion(
   };
 }
 
-async function gradeSubjectiveQuestion(
-  question: Question,
-  answer: string
-): Promise<GradingResult> {
+async function gradeSubjectiveQuestion(question: Question, answer: string): Promise<GradingResult> {
   try {
     let result: { score: number; feedback: string };
 
@@ -286,19 +279,10 @@ async function gradeSubmission(request: GradeRequest) {
       }
 
       // Grade based on question type
-      if (
-        question.type === 'multiple_choice' ||
-        question.type === 'true_false'
-      ) {
+      if (question.type === 'multiple_choice' || question.type === 'true_false') {
         gradingResults.push(gradeObjectiveQuestion(question, answer.answer));
-      } else if (
-        question.type === 'short_answer' ||
-        question.type === 'essay'
-      ) {
-        const result = await gradeSubjectiveQuestion(
-          question,
-          String(answer.answer)
-        );
+      } else if (question.type === 'short_answer' || question.type === 'essay') {
+        const result = await gradeSubjectiveQuestion(question, String(answer.answer));
         gradingResults.push(result);
       }
     }
@@ -306,8 +290,7 @@ async function gradeSubmission(request: GradeRequest) {
     // Calculate total score
     const totalScore = gradingResults.reduce((sum, r) => sum + r.score, 0);
     const maxScore = gradingResults.reduce((sum, r) => sum + r.maxScore, 0);
-    const percentageScore =
-      maxScore > 0 ? Math.round((totalScore / maxScore) * 100) : 0;
+    const percentageScore = maxScore > 0 ? Math.round((totalScore / maxScore) * 100) : 0;
 
     // Update submission with grades
     const { error: updateError } = await supabase
@@ -378,8 +361,7 @@ async function processGradingQueue() {
           orgId: submission.org_id,
         });
         processed++;
-      } catch (error) {
-      }
+      } catch (error) {}
     }
 
     return { processed };
@@ -395,8 +377,7 @@ serve(async (req) => {
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'POST, OPTIONS',
-        'Access-Control-Allow-Headers':
-          'authorization, x-client-info, apikey, content-type',
+        'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
       },
     });
   }
@@ -417,27 +398,21 @@ serve(async (req) => {
     const request: GradeRequest = await req.json();
 
     // Validate request
-    if (
-      !request.submissionId ||
-      !request.assessmentId ||
-      !request.userId ||
-      !request.orgId
-    ) {
+    if (!request.submissionId || !request.assessmentId || !request.userId || !request.orgId) {
       return new Response(
         JSON.stringify({
-          error:
-            'Missing required fields: submissionId, assessmentId, userId, orgId',
+          error: 'Missing required fields: submissionId, assessmentId, userId, orgId',
         }),
-        { status: 400, headers: { 'Content-Type': 'application/json' } }
+        { status: 400, headers: { 'Content-Type': 'application/json' } },
       );
     }
 
     // Check if AI provider is configured
     if (!OPENAI_API_KEY && !ANTHROPIC_API_KEY) {
-      return new Response(
-        JSON.stringify({ error: 'No AI provider configured' }),
-        { status: 500, headers: { 'Content-Type': 'application/json' } }
-      );
+      return new Response(JSON.stringify({ error: 'No AI provider configured' }), {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' },
+      });
     }
 
     const result = await gradeSubmission(request);

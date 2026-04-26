@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 
 export default async function BusinessPage() {
   const supabase = await createClient();
-  
+
   // Fetch business programs
   const { data: businessPrograms } = await supabase
     .from('programs')
@@ -34,7 +34,10 @@ export default async function BusinessPage() {
         microLabel={heroBanners['business'].microLabel}
         belowHeroHeadline={heroBanners['business'].belowHeroHeadline}
         belowHeroSubheadline={heroBanners['business'].belowHeroSubheadline}
-        ctas={[heroBanners['business'].primaryCta, ...(heroBanners['business'].secondaryCta ? [heroBanners['business'].secondaryCta] : [])]}
+        ctas={[
+          heroBanners['business'].primaryCta,
+          ...(heroBanners['business'].secondaryCta ? [heroBanners['business'].secondaryCta] : []),
+        ]}
         trustIndicators={heroBanners['business'].trustIndicators}
         transcript={heroBanners['business'].transcript}
         analyticsName={heroBanners['business'].analyticsName}
@@ -46,33 +49,59 @@ export default async function BusinessPage() {
           <h2 className="text-3xl font-bold text-black mb-8">At-a-Glance</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="flex items-start gap-4">
-              <Image src="/images/icons/clock.png" alt="Duration" width={24} height={24} className="flex-shrink-0 mt-1" loading="lazy" />
+              <Image
+                src="/images/icons/clock.png"
+                alt="Duration"
+                width={24}
+                height={24}
+                className="flex-shrink-0 mt-1"
+                loading="lazy"
+              />
               <div>
                 <h3 className="font-bold text-black mb-1">Duration</h3>
                 <p className="text-black">6-12 weeks</p>
               </div>
             </div>
             <div className="flex items-start gap-4">
-              <Image src="/images/icons/dollar.png" alt="Cost" width={24} height={24} className="flex-shrink-0 mt-1" loading="lazy" />
+              <Image
+                src="/images/icons/dollar.png"
+                alt="Cost"
+                width={24}
+                height={24}
+                className="flex-shrink-0 mt-1"
+                loading="lazy"
+              />
               <div>
                 <h3 className="font-bold text-black mb-1">Cost</h3>
                 <p className="text-black">Free with funding when eligible</p>
               </div>
             </div>
             <div className="flex items-start gap-4">
-              <Image src="/images/icons/shield.png" alt="Format" width={24} height={24} className="flex-shrink-0 mt-1" loading="lazy" />
+              <Image
+                src="/images/icons/shield.png"
+                alt="Format"
+                width={24}
+                height={24}
+                className="flex-shrink-0 mt-1"
+                loading="lazy"
+              />
               <div>
                 <h3 className="font-bold text-black mb-1">Format</h3>
                 <p className="text-black">Hybrid (online & in-person)</p>
               </div>
             </div>
             <div className="flex items-start gap-4">
-              <Image src="/images/icons/award.png" alt="Outcome" width={24} height={24} className="flex-shrink-0 mt-1" loading="lazy" />
+              <Image
+                src="/images/icons/award.png"
+                alt="Outcome"
+                width={24}
+                height={24}
+                className="flex-shrink-0 mt-1"
+                loading="lazy"
+              />
               <div>
                 <h3 className="font-bold text-black mb-1">Outcome</h3>
-                <p className="text-black">
-                  QuickBooks, MS Office, Business Admin certification
-                </p>
+                <p className="text-black">QuickBooks, MS Office, Business Admin certification</p>
               </div>
             </div>
           </div>
@@ -82,15 +111,16 @@ export default async function BusinessPage() {
       {/* About the Program */}
       <section className="bg-gray-50 py-16">
         <div className="mx-auto max-w-4xl px-6">
-          <h2 className="text-3xl font-bold text-black mb-6">
-            About the Program
-          </h2>
+          <h2 className="text-3xl font-bold text-black mb-6">About the Program</h2>
           <div className="bg-white rounded-xl p-8 shadow-sm">
             <p className="text-black mb-4">
-              Our Business & Administration pathway prepares you for office, accounting, and management roles across industries. Master essential business software, communication skills, and administrative processes that employers need.
+              Our Business & Administration pathway prepares you for office, accounting, and
+              management roles across industries. Master essential business software, communication
+              skills, and administrative processes that employers need.
             </p>
             <p className="text-black">
-              From bookkeeping and office management to customer service and entrepreneurship, you'll gain practical skills that open doors to stable, professional careers.
+              From bookkeeping and office management to customer service and entrepreneurship,
+              you'll gain practical skills that open doors to stable, professional careers.
             </p>
           </div>
         </div>
@@ -99,23 +129,13 @@ export default async function BusinessPage() {
       {/* Who This Program Is For */}
       <section className="bg-white py-16">
         <div className="mx-auto max-w-4xl px-6">
-          <h2 className="text-3xl font-bold text-black mb-6">
-            Who This Program Is For
-          </h2>
+          <h2 className="text-3xl font-bold text-black mb-6">Who This Program Is For</h2>
           <div className="bg-gray-50 rounded-xl p-8 shadow-sm">
             <ul className="space-y-4 list-disc list-inside">
-              <li className="text-black">
-                Career changers seeking office roles
-              </li>
-              <li className="text-black">
-                Aspiring entrepreneurs and small business owners
-              </li>
-              <li className="text-black">
-                No prior business experience required
-              </li>
-              <li className="text-black">
-                Justice-impacted individuals welcome
-              </li>
+              <li className="text-black">Career changers seeking office roles</li>
+              <li className="text-black">Aspiring entrepreneurs and small business owners</li>
+              <li className="text-black">No prior business experience required</li>
+              <li className="text-black">Justice-impacted individuals welcome</li>
             </ul>
           </div>
         </div>
@@ -124,9 +144,7 @@ export default async function BusinessPage() {
       {/* Benefits Grid */}
       <section className="bg-gray-50 py-16">
         <div className="mx-auto max-w-7xl px-6">
-          <h2 className="text-3xl font-bold text-black mb-8">
-            Program Benefits
-          </h2>
+          <h2 className="text-3xl font-bold text-black mb-8">Program Benefits</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="bg-white rounded-lg p-6 shadow-sm">
               <div className="text-4xl mb-4">💼</div>
@@ -163,16 +181,12 @@ export default async function BusinessPage() {
       {/* Funding Options */}
       <section className="bg-white py-16">
         <div className="mx-auto max-w-4xl px-6">
-          <h2 className="text-3xl font-bold text-black mb-6">
-            Funding Options
-          </h2>
+          <h2 className="text-3xl font-bold text-black mb-6">Funding Options</h2>
           <p className="text-black mb-6">You may qualify for:</p>
           <div className="grid md:grid-cols-2 gap-4">
             <div className="bg-blue-50 rounded-lg p-6">
               <h3 className="font-bold text-black mb-2">WIOA</h3>
-              <p className="text-black text-sm">
-                Workforce Innovation and Opportunity Act funding
-              </p>
+              <p className="text-black text-sm">Workforce Innovation and Opportunity Act funding</p>
             </div>
             <div className="bg-blue-50 rounded-lg p-6">
               <h3 className="font-bold text-black mb-2">WRG</h3>
@@ -180,17 +194,11 @@ export default async function BusinessPage() {
             </div>
             <div className="bg-blue-50 rounded-lg p-6">
               <h3 className="font-bold text-black mb-2">JRI</h3>
-              <p className="text-black text-sm">
-                Justice Reinvestment Initiative
-              </p>
+              <p className="text-black text-sm">Justice Reinvestment Initiative</p>
             </div>
             <div className="bg-blue-50 rounded-lg p-6">
-              <h3 className="font-bold text-black mb-2">
-                Employer Sponsorship
-              </h3>
-              <p className="text-black text-sm">
-                Some employers sponsor business training
-              </p>
+              <h3 className="font-bold text-black mb-2">Employer Sponsorship</h3>
+              <p className="text-black text-sm">Some employers sponsor business training</p>
             </div>
           </div>
         </div>
@@ -199,32 +207,63 @@ export default async function BusinessPage() {
       {/* Support Services */}
       <section className="bg-gray-50 py-16">
         <div className="mx-auto max-w-4xl px-6">
-          <h2 className="text-3xl font-bold text-black mb-6">
-            Support Services
-          </h2>
+          <h2 className="text-3xl font-bold text-black mb-6">Support Services</h2>
           <p className="text-black mb-6">We help coordinate:</p>
           <div className="bg-white rounded-xl p-8 shadow-sm">
             <ul className="space-y-3">
               <li className="flex items-start gap-3">
-                <Image src="/images/icons/users.png" alt="Users" width={20} height={20} className="flex-shrink-0 mt-0.5" loading="lazy" />
+                <Image
+                  src="/images/icons/users.png"
+                  alt="Users"
+                  width={20}
+                  height={20}
+                  className="flex-shrink-0 mt-0.5"
+                  loading="lazy"
+                />
                 <span className="text-black">Case management</span>
               </li>
               <li className="flex items-start gap-3">
-                <Image src="/images/icons/users.png" alt="Users" width={20} height={20} className="flex-shrink-0 mt-0.5" loading="lazy" />
-                <span className="text-black">
-                  Career counseling and job placement
-                </span>
+                <Image
+                  src="/images/icons/users.png"
+                  alt="Users"
+                  width={20}
+                  height={20}
+                  className="flex-shrink-0 mt-0.5"
+                  loading="lazy"
+                />
+                <span className="text-black">Career counseling and job placement</span>
               </li>
               <li className="flex items-start gap-3">
-                <Image src="/images/icons/users.png" alt="Users" width={20} height={20} className="flex-shrink-0 mt-0.5" loading="lazy" />
+                <Image
+                  src="/images/icons/users.png"
+                  alt="Users"
+                  width={20}
+                  height={20}
+                  className="flex-shrink-0 mt-0.5"
+                  loading="lazy"
+                />
                 <span className="text-black">Entrepreneurship mentoring</span>
               </li>
               <li className="flex items-start gap-3">
-                <Image src="/images/icons/users.png" alt="Users" width={20} height={20} className="flex-shrink-0 mt-0.5" loading="lazy" />
+                <Image
+                  src="/images/icons/users.png"
+                  alt="Users"
+                  width={20}
+                  height={20}
+                  className="flex-shrink-0 mt-0.5"
+                  loading="lazy"
+                />
                 <span className="text-black">Transportation resources</span>
               </li>
               <li className="flex items-start gap-3">
-                <Image src="/images/icons/users.png" alt="Users" width={20} height={20} className="flex-shrink-0 mt-0.5" loading="lazy" />
+                <Image
+                  src="/images/icons/users.png"
+                  alt="Users"
+                  width={20}
+                  height={20}
+                  className="flex-shrink-0 mt-0.5"
+                  loading="lazy"
+                />
                 <span className="text-black">Documentation support</span>
               </li>
             </ul>
@@ -235,36 +274,26 @@ export default async function BusinessPage() {
       {/* Career Outcomes */}
       <section className="bg-white py-16">
         <div className="mx-auto max-w-4xl px-6">
-          <h2 className="text-3xl font-bold text-black mb-6">
-            Career Outcomes
-          </h2>
+          <h2 className="text-3xl font-bold text-black mb-6">Career Outcomes</h2>
           <p className="text-black mb-6">Students typically move into:</p>
           <div className="grid md:grid-cols-3 gap-4">
             <div className="bg-green-50 rounded-lg p-6 text-center">
-              <h3 className="font-bold text-black mb-2">
-                Administrative Assistant
-              </h3>
+              <h3 className="font-bold text-black mb-2">Administrative Assistant</h3>
             </div>
             <div className="bg-green-50 rounded-lg p-6 text-center">
               <h3 className="font-bold text-black mb-2">Bookkeeper</h3>
             </div>
             <div className="bg-green-50 rounded-lg p-6 text-center">
-              <h3 className="font-bold text-black mb-2">
-                Office Manager
-              </h3>
+              <h3 className="font-bold text-black mb-2">Office Manager</h3>
             </div>
             <div className="bg-green-50 rounded-lg p-6 text-center">
               <h3 className="font-bold text-black mb-2">Customer Service Rep</h3>
             </div>
             <div className="bg-green-50 rounded-lg p-6 text-center">
-              <h3 className="font-bold text-black mb-2">
-                Small Business Owner
-              </h3>
+              <h3 className="font-bold text-black mb-2">Small Business Owner</h3>
             </div>
             <div className="bg-green-50 rounded-lg p-6 text-center">
-              <h3 className="font-bold text-black mb-2">
-                Accounting Clerk
-              </h3>
+              <h3 className="font-bold text-black mb-2">Accounting Clerk</h3>
             </div>
           </div>
         </div>
@@ -281,9 +310,7 @@ export default async function BusinessPage() {
               </div>
               <div>
                 <h3 className="font-bold mb-1">Apply</h3>
-                <p className="text-black text-sm">
-                  Submit your application online
-                </p>
+                <p className="text-black text-sm">Submit your application online</p>
               </div>
             </div>
             <div className="flex items-start gap-4">
@@ -292,9 +319,7 @@ export default async function BusinessPage() {
               </div>
               <div>
                 <h3 className="font-bold mb-1">Meet with advisor</h3>
-                <p className="text-black text-sm">
-                  Discuss your goals and eligibility
-                </p>
+                <p className="text-black text-sm">Discuss your goals and eligibility</p>
               </div>
             </div>
             <div className="flex items-start gap-4">
@@ -303,9 +328,7 @@ export default async function BusinessPage() {
               </div>
               <div>
                 <h3 className="font-bold mb-1">Confirm eligibility</h3>
-                <p className="text-black text-sm">
-                  We help with funding paperwork
-                </p>
+                <p className="text-black text-sm">We help with funding paperwork</p>
               </div>
             </div>
             <div className="flex items-start gap-4">
@@ -314,9 +337,7 @@ export default async function BusinessPage() {
               </div>
               <div>
                 <h3 className="font-bold mb-1">Enroll</h3>
-                <p className="text-black text-sm">
-                  Start your training program
-                </p>
+                <p className="text-black text-sm">Start your training program</p>
               </div>
             </div>
           </div>

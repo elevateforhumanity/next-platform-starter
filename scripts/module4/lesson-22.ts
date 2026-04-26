@@ -260,7 +260,8 @@ export const quizQuestions = [
       'Use random sectioning to avoid creating a pattern that emphasizes the flatness',
     ],
     correctAnswer: 1,
-    explanation: 'A flat occipital bone lacks natural projection. Removing weight there makes the flatness more visible. The correct approach is to preserve weight at the occipital bone — building or maintaining volume in that zone creates the illusion of normal projection.',
+    explanation:
+      'A flat occipital bone lacks natural projection. Removing weight there makes the flatness more visible. The correct approach is to preserve weight at the occipital bone — building or maintaining volume in that zone creates the illusion of normal projection.',
   },
   {
     id: 'mod4-l22-q2',
@@ -273,12 +274,14 @@ export const quizQuestions = [
       'Better symmetry because varied sections compensate for head shape differences',
     ],
     correctAnswer: 2,
-    explanation: 'Subsection size controls how much hair is included in each cut. Uneven subsection sizes mean some areas receive more or less cutting than others — producing an inconsistent blend with heavy spots, holes, or uneven weight distribution.',
+    explanation:
+      'Subsection size controls how much hair is included in each cut. Uneven subsection sizes mean some areas receive more or less cutting than others — producing an inconsistent blend with heavy spots, holes, or uneven weight distribution.',
   },
   {
     id: 'mod4-l22-q3',
     type: 'next-step' as const,
-    question: 'During sectioning, you notice a strong crown cowlick. What is the correct next step?',
+    question:
+      'During sectioning, you notice a strong crown cowlick. What is the correct next step?',
     options: [
       'Cut against the cowlick immediately to train the hair in the correct direction',
       'Ignore it — cowlicks do not affect sectioning',
@@ -286,7 +289,8 @@ export const quizQuestions = [
       'Wet the hair excessively to flatten the cowlick before sectioning',
     ],
     correctAnswer: 2,
-    explanation: 'A strong crown cowlick means hair grows in a circular or conflicting direction at that point. Smaller sections give you more control over the direction and elevation in that zone. Cutting against the cowlick or ignoring it produces a result that will not lay correctly when dry.',
+    explanation:
+      'A strong crown cowlick means hair grows in a circular or conflicting direction at that point. Smaller sections give you more control over the direction and elevation in that zone. Cutting against the cowlick or ignoring it produces a result that will not lay correctly when dry.',
   },
   {
     id: 'mod4-l22-q4',
@@ -299,12 +303,14 @@ export const quizQuestions = [
       'It controls cutting speed by indicating where to switch from clippers to scissors',
     ],
     correctAnswer: 2,
-    explanation: 'The parietal ridge is the widest point of the head — where the curve of the skull begins to fall away on the sides. It is the structural dividing line between the top section and the sides, and the reference point that determines where the fade begins and where top length is maintained.',
+    explanation:
+      'The parietal ridge is the widest point of the head — where the curve of the skull begins to fall away on the sides. It is the structural dividing line between the top section and the sides, and the reference point that determines where the fade begins and where top length is maintained.',
   },
   {
     id: 'mod4-l22-q5',
     type: 'scenario' as const,
-    question: 'A student executes technically correct cuts but creates uneven sections with crooked partings. What is the result?',
+    question:
+      'A student executes technically correct cuts but creates uneven sections with crooked partings. What is the result?',
     options: [
       'A clean haircut — technique quality overrides sectioning quality',
       'A balanced structure — the cuts will compensate for the uneven sections',
@@ -312,6 +318,7 @@ export const quizQuestions = [
       'A faster service — less precise sectioning allows the barber to move more quickly',
     ],
     correctAnswer: 2,
-    explanation: 'Sectioning is the foundation. Crooked partings mean each section contains a different amount of hair at a different angle — no amount of cutting technique can correct this after the fact. The result is structural inconsistency: uneven blends, asymmetry, and heavy spots that cannot be fixed without re-sectioning.',
+    explanation:
+      'Sectioning is the foundation. Crooked partings mean each section contains a different amount of hair at a different angle — no amount of cutting technique can correct this after the fact. The result is structural inconsistency: uneven blends, asymmetry, and heavy spots that cannot be fixed without re-sectioning.',
   },
 ];

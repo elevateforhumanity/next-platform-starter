@@ -17,7 +17,7 @@ const APP_ROUTE_PREFIXES = [
 
 function isAppRoute(pathname: string) {
   return APP_ROUTE_PREFIXES.some(
-    (prefix) => pathname === prefix || pathname.startsWith(prefix + '/')
+    (prefix) => pathname === prefix || pathname.startsWith(prefix + '/'),
   );
 }
 

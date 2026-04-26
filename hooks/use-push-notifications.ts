@@ -1,7 +1,10 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { getPushNotificationClient, NotificationPermissionState } from '@/lib/notifications/push-client';
+import {
+  getPushNotificationClient,
+  NotificationPermissionState,
+} from '@/lib/notifications/push-client';
 import { getServiceWorkerManager } from '@/lib/offline/service-worker-manager';
 
 export interface UsePushNotificationsReturn {
@@ -40,7 +43,9 @@ export function usePushNotifications(): UsePushNotificationsReturn {
           const permissionState = await client.getPermissionState();
           setState(permissionState);
         }
-      } catch (error) { /* Error handled silently */ } finally {
+      } catch (error) {
+        /* Error handled silently */
+      } finally {
         setIsLoading(false);
       }
     };

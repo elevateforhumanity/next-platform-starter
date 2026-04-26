@@ -226,7 +226,8 @@ export const quizQuestions = [
   {
     id: 'mod4-l25-q1',
     type: 'scenario' as const,
-    question: 'After two passes of scissor over comb on a section, you notice the scissor is making a clicking sound against the comb and the result is uneven. What is the most likely cause and correct response?',
+    question:
+      'After two passes of scissor over comb on a section, you notice the scissor is making a clicking sound against the comb and the result is uneven. What is the most likely cause and correct response?',
     options: [
       'The comb angle is inconsistent — flatten the comb angle and repeat the pass',
       'The still blade is pressing into the comb teeth rather than resting lightly against them — this is dulling the blade and distorting the section height; reduce pressure immediately',
@@ -234,12 +235,14 @@ export const quizQuestions = [
       'The hair is too coarse for scissor over comb — switch to clipper over comb',
     ],
     correctAnswer: 1,
-    explanation: 'A clicking sound during scissor over comb is the still blade contacting the comb teeth under pressure — not resting against them. This has two consequences: it dulls the blade at the contact point, and it causes the comb to flex under pressure, distorting the section height and producing an uneven result. The fix is to reduce pressure on the still blade immediately — it should rest against the comb with the weight of the scissor only. If the blade has already been dulled by repeated contact, the shears may need sharpening before the result improves.',
+    explanation:
+      'A clicking sound during scissor over comb is the still blade contacting the comb teeth under pressure — not resting against them. This has two consequences: it dulls the blade at the contact point, and it causes the comb to flex under pressure, distorting the section height and producing an uneven result. The fix is to reduce pressure on the still blade immediately — it should rest against the comb with the weight of the scissor only. If the blade has already been dulled by repeated contact, the shears may need sharpening before the result improves.',
   },
   {
     id: 'mod4-l25-q2',
     type: 'scenario' as const,
-    question: 'A client with fine hair requests a soft, blended taper. After using clipper over comb to establish the initial length, what is the correct finishing technique?',
+    question:
+      'A client with fine hair requests a soft, blended taper. After using clipper over comb to establish the initial length, what is the correct finishing technique?',
     options: [
       'Use guards to lock in the length — clipper over comb is sufficient for fine hair',
       'Switch to scissor over comb for the final blending passes to produce a softer, more natural finish',
@@ -247,12 +250,14 @@ export const quizQuestions = [
       'No finishing technique is needed — clipper over comb produces a soft finish on fine hair',
     ],
     correctAnswer: 1,
-    explanation: 'Clipper over comb is efficient for establishing length but produces a harder edge than scissor over comb. For fine hair with a soft finish requested, the correct workflow is clipper over comb for bulk removal, then scissor over comb for the final blending passes. Scissor over comb produces a softer, more natural result.',
+    explanation:
+      'Clipper over comb is efficient for establishing length but produces a harder edge than scissor over comb. For fine hair with a soft finish requested, the correct workflow is clipper over comb for bulk removal, then scissor over comb for the final blending passes. Scissor over comb produces a softer, more natural result.',
   },
   {
     id: 'mod4-l25-q3',
     type: 'failure-diagnosis' as const,
-    question: 'After completing a scissor over comb section, the result is choppy and uneven despite correct comb angle and technique. What is the most likely root cause?',
+    question:
+      'After completing a scissor over comb section, the result is choppy and uneven despite correct comb angle and technique. What is the most likely root cause?',
     options: [
       'The comb angle was inconsistent between passes',
       'The shears are dull — they are pushing hair rather than cutting it',
@@ -260,12 +265,14 @@ export const quizQuestions = [
       'The still blade was not resting against the comb',
     ],
     correctAnswer: 1,
-    explanation: 'Choppy, uneven results from scissor over comb — when technique is otherwise correct — are almost always caused by dull shears. Dull blades push hair rather than cutting it cleanly, creating an irregular, choppy finish. Shears must be sharp before beginning any scissor over comb work.',
+    explanation:
+      'Choppy, uneven results from scissor over comb — when technique is otherwise correct — are almost always caused by dull shears. Dull blades push hair rather than cutting it cleanly, creating an irregular, choppy finish. Shears must be sharp before beginning any scissor over comb work.',
   },
   {
     id: 'mod4-l25-q4',
     type: 'next-step' as const,
-    question: 'After a scissor over comb pass, you notice a faint horizontal line across the section. What is the correct next step?',
+    question:
+      'After a scissor over comb pass, you notice a faint horizontal line across the section. What is the correct next step?',
     options: [
       'Take another full pass at the same comb angle to even out the section',
       'Use feathering at the line — light, rapid scissor cuts at the comb edge — to soften it before continuing',
@@ -273,12 +280,14 @@ export const quizQuestions = [
       'The line will disappear when the hair is dry — no correction needed',
     ],
     correctAnswer: 1,
-    explanation: 'A faint horizontal line after a scissor over comb pass is corrected with feathering — light, rapid scissor cuts at the comb edge directly at the line. This softens the line without removing significant length from the surrounding section. Taking another full pass risks removing too much length.',
+    explanation:
+      'A faint horizontal line after a scissor over comb pass is corrected with feathering — light, rapid scissor cuts at the comb edge directly at the line. This softens the line without removing significant length from the surrounding section. Taking another full pass risks removing too much length.',
   },
   {
     id: 'mod4-l25-q5',
     type: 'scenario' as const,
-    question: 'A client requests scissor over comb on a section that is approximately 1/8 inch long. What is the correct response?',
+    question:
+      'A client requests scissor over comb on a section that is approximately 1/8 inch long. What is the correct response?',
     options: [
       'Proceed with scissor over comb — it works at any length',
       'Switch to clipper over comb for this zone — scissor over comb loses precision at very short lengths',
@@ -286,6 +295,7 @@ export const quizQuestions = [
       'Decline to cut the section — it is too short to work safely',
     ],
     correctAnswer: 1,
-    explanation: 'Scissor over comb loses precision at very short lengths (under 1/4 inch) because the comb cannot lift enough hair above the teeth for the scissor to cut accurately. At these lengths, clipper over comb is the more appropriate technique — the clipper blade can cut at the scalp level with precision that scissors cannot match.',
+    explanation:
+      'Scissor over comb loses precision at very short lengths (under 1/4 inch) because the comb cannot lift enough hair above the teeth for the scissor to cut accurately. At these lengths, clipper over comb is the more appropriate technique — the clipper blade can cut at the scalp level with precision that scissors cannot match.',
   },
 ];

@@ -8,92 +8,290 @@ const fs = require('fs');
 const path = require('path');
 
 const API_KEY = process.env.SENDGRID_API_KEY;
-if (!API_KEY) { console.error('SENDGRID_API_KEY not set'); process.exit(1); }
+if (!API_KEY) {
+  console.error('SENDGRID_API_KEY not set');
+  process.exit(1);
+}
 
-const logoBase64 = fs.readFileSync(
-  path.join(__dirname, '../public/images/Elevate_for_Humanity_logo_81bf0fab.jpg')
-).toString('base64');
+const logoBase64 = fs
+  .readFileSync(path.join(__dirname, '../public/images/Elevate_for_Humanity_logo_81bf0fab.jpg'))
+  .toString('base64');
 
 const SECTIONS = [
   {
     title: 'CNA Clinical Partners — Phone Follow-Up',
     color: '#dc2626',
     contacts: [
-      { org: 'Greenwood Village South',       name: 'Jordan Morrow (ED)',    phone: '317-859-4441',   note: 'Ask for Jordan Morrow or Director of Nursing' },
-      { org: 'Greenwood Village South',       name: 'Alexa Ulrey RN (DON)',  phone: '317-859-4441',   note: 'Ask for Alexa Ulrey, Director of Nursing' },
-      { org: 'Bloom at Eagle Creek',          name: 'Administration',        phone: '—',              note: 'admin@bloomateaglecreek.com — email sent' },
-      { org: 'Bloom at Willow',               name: 'Administration',        phone: '—',              note: 'admin@bloomatwillow.com — email sent' },
-      { org: 'Hooverwood Living',             name: 'Leadership Team',       phone: '—',              note: 'info@hooverwood.org — email sent, follow up by phone' },
+      {
+        org: 'Greenwood Village South',
+        name: 'Jordan Morrow (ED)',
+        phone: '317-859-4441',
+        note: 'Ask for Jordan Morrow or Director of Nursing',
+      },
+      {
+        org: 'Greenwood Village South',
+        name: 'Alexa Ulrey RN (DON)',
+        phone: '317-859-4441',
+        note: 'Ask for Alexa Ulrey, Director of Nursing',
+      },
+      {
+        org: 'Bloom at Eagle Creek',
+        name: 'Administration',
+        phone: '—',
+        note: 'admin@bloomateaglecreek.com — email sent',
+      },
+      {
+        org: 'Bloom at Willow',
+        name: 'Administration',
+        phone: '—',
+        note: 'admin@bloomatwillow.com — email sent',
+      },
+      {
+        org: 'Hooverwood Living',
+        name: 'Leadership Team',
+        phone: '—',
+        note: 'info@hooverwood.org — email sent, follow up by phone',
+      },
     ],
   },
   {
     title: 'Healthcare — Phlebotomy & Medical Assistant',
     color: '#7c3aed',
     contacts: [
-      { org: 'Indiana University Health',     name: 'Workforce Development', phone: '(317) 962-2000', note: 'Ask for Workforce Development or HR Partnerships' },
-      { org: 'Community Health Network',      name: 'HR / Workforce Dev',    phone: '(317) 621-6262', note: 'Ask for HR or Workforce Development' },
-      { org: 'Ascension St. Vincent',         name: 'HR / Education',        phone: '(317) 338-2345', note: 'Ask for HR or Education Partnerships' },
-      { org: 'Labcorp',                       name: 'Regional Recruiting',   phone: '(800) 845-6167', note: 'Ask for Regional Recruiting or Workforce Partnerships' },
-      { org: 'Quest Diagnostics',             name: 'Regional HR',           phone: '(866) 697-8378', note: 'Ask for Regional HR or Training Partnerships' },
-      { org: 'American Health Network',       name: 'HR / Practice Ops',     phone: '—',              note: 'Contact form: ahni.com — ask for HR or Practice Operations' },
+      {
+        org: 'Indiana University Health',
+        name: 'Workforce Development',
+        phone: '(317) 962-2000',
+        note: 'Ask for Workforce Development or HR Partnerships',
+      },
+      {
+        org: 'Community Health Network',
+        name: 'HR / Workforce Dev',
+        phone: '(317) 621-6262',
+        note: 'Ask for HR or Workforce Development',
+      },
+      {
+        org: 'Ascension St. Vincent',
+        name: 'HR / Education',
+        phone: '(317) 338-2345',
+        note: 'Ask for HR or Education Partnerships',
+      },
+      {
+        org: 'Labcorp',
+        name: 'Regional Recruiting',
+        phone: '(800) 845-6167',
+        note: 'Ask for Regional Recruiting or Workforce Partnerships',
+      },
+      {
+        org: 'Quest Diagnostics',
+        name: 'Regional HR',
+        phone: '(866) 697-8378',
+        note: 'Ask for Regional HR or Training Partnerships',
+      },
+      {
+        org: 'American Health Network',
+        name: 'HR / Practice Ops',
+        phone: '—',
+        note: 'Contact form: ahni.com — ask for HR or Practice Operations',
+      },
     ],
   },
   {
     title: 'HVAC — Contractors & Employers',
     color: '#d97706',
     contacts: [
-      { org: 'Plumbers & Steamfitters Local 440', name: 'Training Coordinator', phone: '(317) 872-1622', note: 'Ask for Training Coordinator or Apprenticeship Director' },
-      { org: 'Williams Comfort Air',           name: 'Service Manager / HR',  phone: '(317) 268-5900', note: 'Ask for Service Manager or HR' },
-      { org: 'Service Plus Heating & Cooling', name: 'Service Manager / HR',  phone: '(317) 434-2627', note: 'Ask for Service Manager or HR' },
-      { org: 'Peterman Brothers',              name: 'Service Manager / HR',  phone: '(317) 859-4270', note: 'Ask for Service Manager or HR' },
-      { org: 'Godby Heating Plumbing Elec.',   name: 'Service Manager',       phone: '(317) 870-8400', note: 'Ask for Service Manager — mention apprenticeship training' },
-      { org: 'R.T. Moore Company',             name: 'HR / Workforce Dev',    phone: '(317) 823-1500', note: 'Ask for HR or Workforce Development' },
-      { org: 'One Hour Heating & Air',         name: 'Service Manager',       phone: '(317) 742-6699', note: 'Ask for Service Manager' },
-      { org: 'GEMCO Constructors',             name: 'HR / Project Manager',  phone: '(317) 423-0200', note: 'Ask for HR or Project Manager' },
+      {
+        org: 'Plumbers & Steamfitters Local 440',
+        name: 'Training Coordinator',
+        phone: '(317) 872-1622',
+        note: 'Ask for Training Coordinator or Apprenticeship Director',
+      },
+      {
+        org: 'Williams Comfort Air',
+        name: 'Service Manager / HR',
+        phone: '(317) 268-5900',
+        note: 'Ask for Service Manager or HR',
+      },
+      {
+        org: 'Service Plus Heating & Cooling',
+        name: 'Service Manager / HR',
+        phone: '(317) 434-2627',
+        note: 'Ask for Service Manager or HR',
+      },
+      {
+        org: 'Peterman Brothers',
+        name: 'Service Manager / HR',
+        phone: '(317) 859-4270',
+        note: 'Ask for Service Manager or HR',
+      },
+      {
+        org: 'Godby Heating Plumbing Elec.',
+        name: 'Service Manager',
+        phone: '(317) 870-8400',
+        note: 'Ask for Service Manager — mention apprenticeship training',
+      },
+      {
+        org: 'R.T. Moore Company',
+        name: 'HR / Workforce Dev',
+        phone: '(317) 823-1500',
+        note: 'Ask for HR or Workforce Development',
+      },
+      {
+        org: 'One Hour Heating & Air',
+        name: 'Service Manager',
+        phone: '(317) 742-6699',
+        note: 'Ask for Service Manager',
+      },
+      {
+        org: 'GEMCO Constructors',
+        name: 'HR / Project Manager',
+        phone: '(317) 423-0200',
+        note: 'Ask for HR or Project Manager',
+      },
     ],
   },
   {
     title: 'HVAC — Distributors (Branch Manager)',
     color: '#059669',
     contacts: [
-      { org: 'Johnstone Supply Indianapolis',  name: 'Branch Manager',        phone: '(317) 926-5186', note: '1050 E 30th St — ask for Branch Manager' },
-      { org: 'Ferguson Indianapolis',          name: 'Branch Manager',        phone: '(317) 334-1700', note: '8230 Zionsville Rd — ask for Branch Manager' },
-      { org: 'R.E. Michel Company',            name: 'Branch Manager',        phone: '(317) 293-8060', note: '6641 Guion Rd — ask for Branch Manager' },
-      { org: 'United Refrigeration',           name: 'Branch Manager',        phone: '(317) 872-9233', note: '5150 W 84th St — ask for Branch Manager' },
-      { org: 'Gemaire Distributors',           name: 'Branch Manager',        phone: '(317) 291-3535', note: '4020 Industrial Blvd — ask for Branch Manager' },
+      {
+        org: 'Johnstone Supply Indianapolis',
+        name: 'Branch Manager',
+        phone: '(317) 926-5186',
+        note: '1050 E 30th St — ask for Branch Manager',
+      },
+      {
+        org: 'Ferguson Indianapolis',
+        name: 'Branch Manager',
+        phone: '(317) 334-1700',
+        note: '8230 Zionsville Rd — ask for Branch Manager',
+      },
+      {
+        org: 'R.E. Michel Company',
+        name: 'Branch Manager',
+        phone: '(317) 293-8060',
+        note: '6641 Guion Rd — ask for Branch Manager',
+      },
+      {
+        org: 'United Refrigeration',
+        name: 'Branch Manager',
+        phone: '(317) 872-9233',
+        note: '5150 W 84th St — ask for Branch Manager',
+      },
+      {
+        org: 'Gemaire Distributors',
+        name: 'Branch Manager',
+        phone: '(317) 291-3535',
+        note: '4020 Industrial Blvd — ask for Branch Manager',
+      },
     ],
   },
   {
     title: 'CDL / Transportation',
     color: '#1d4ed8',
     contacts: [
-      { org: 'Knight Transportation',          name: 'Recruiting',            phone: '(317) 486-1770', note: '3875 Plainfield Rd — ask for Recruiting or Workforce Partnerships' },
-      { org: 'CPC Logistics',                  name: 'Recruiting',            phone: '(317) 779-1098', note: '7301 Georgetown Rd — ask for Recruiting Manager' },
-      { org: 'Wayne Transports',               name: 'HR / Recruiting',       phone: '—',              note: 'Contact form: waynetransports.com' },
-      { org: 'Buske Logistics',                name: 'HR / Recruiting',       phone: '—',              note: 'Contact form: buske.com' },
-      { org: 'Schneider National',             name: 'Driver Recruiting',     phone: '(800) 558-6767', note: 'Contact form: schneiderjobs.com/contact' },
-      { org: 'Roehl Transport',                name: 'Driver Recruiting',     phone: '(715) 591-7050', note: 'Contact form: roehl.jobs/contact-us' },
-      { org: 'J.B. Hunt Transport',            name: 'Driver Recruiting',     phone: '(800) 777-4968', note: 'Contact form: jbhunt.com/contact-us' },
-      { org: 'Indiana DWD',                    name: 'Workforce Programs',    phone: '(317) 232-6702', note: 'Contact form: in.gov/dwd — CDL training funding' },
+      {
+        org: 'Knight Transportation',
+        name: 'Recruiting',
+        phone: '(317) 486-1770',
+        note: '3875 Plainfield Rd — ask for Recruiting or Workforce Partnerships',
+      },
+      {
+        org: 'CPC Logistics',
+        name: 'Recruiting',
+        phone: '(317) 779-1098',
+        note: '7301 Georgetown Rd — ask for Recruiting Manager',
+      },
+      {
+        org: 'Wayne Transports',
+        name: 'HR / Recruiting',
+        phone: '—',
+        note: 'Contact form: waynetransports.com',
+      },
+      {
+        org: 'Buske Logistics',
+        name: 'HR / Recruiting',
+        phone: '—',
+        note: 'Contact form: buske.com',
+      },
+      {
+        org: 'Schneider National',
+        name: 'Driver Recruiting',
+        phone: '(800) 558-6767',
+        note: 'Contact form: schneiderjobs.com/contact',
+      },
+      {
+        org: 'Roehl Transport',
+        name: 'Driver Recruiting',
+        phone: '(715) 591-7050',
+        note: 'Contact form: roehl.jobs/contact-us',
+      },
+      {
+        org: 'J.B. Hunt Transport',
+        name: 'Driver Recruiting',
+        phone: '(800) 777-4968',
+        note: 'Contact form: jbhunt.com/contact-us',
+      },
+      {
+        org: 'Indiana DWD',
+        name: 'Workforce Programs',
+        phone: '(317) 232-6702',
+        note: 'Contact form: in.gov/dwd — CDL training funding',
+      },
     ],
   },
   {
     title: 'Construction — Contractors & Apprenticeship',
     color: '#0f172a',
     contacts: [
-      { org: 'Messer Construction',            name: 'Workforce Dev / HR',    phone: '(317) 576-9250', note: 'Contact form: messer.com — ask for Workforce Development' },
-      { org: 'IEC Indy',                       name: 'Apprenticeship Dir.',   phone: '(317) 562-1102', note: 'Contact form: iec-indy.org — ask for Apprenticeship Director' },
-      { org: 'Bricklayers Local 4',            name: 'Training Coordinator',  phone: '(800) 322-2830', note: 'Ask for Training Coordinator' },
-      { org: 'Indiana State Bldg Trades',      name: 'Executive Director',    phone: '—',              note: 'Contact form: isbctc.org' },
+      {
+        org: 'Messer Construction',
+        name: 'Workforce Dev / HR',
+        phone: '(317) 576-9250',
+        note: 'Contact form: messer.com — ask for Workforce Development',
+      },
+      {
+        org: 'IEC Indy',
+        name: 'Apprenticeship Dir.',
+        phone: '(317) 562-1102',
+        note: 'Contact form: iec-indy.org — ask for Apprenticeship Director',
+      },
+      {
+        org: 'Bricklayers Local 4',
+        name: 'Training Coordinator',
+        phone: '(800) 322-2830',
+        note: 'Ask for Training Coordinator',
+      },
+      {
+        org: 'Indiana State Bldg Trades',
+        name: 'Executive Director',
+        phone: '—',
+        note: 'Contact form: isbctc.org',
+      },
     ],
   },
   {
     title: 'Manufacturing',
     color: '#475569',
     contacts: [
-      { org: 'Allison Transmission',           name: 'Workforce Dev / HR',    phone: '(317) 242-5000', note: 'Contact form: allisontransmission.com/contact' },
-      { org: 'Rolls-Royce North America',      name: 'Workforce Dev / HR',    phone: '—',              note: 'Contact form: rolls-royce.com/contact.aspx' },
-      { org: 'Eli Lilly and Company',          name: 'Workforce Dev / HR',    phone: '—',              note: 'Contact form: lilly.com/contact' },
+      {
+        org: 'Allison Transmission',
+        name: 'Workforce Dev / HR',
+        phone: '(317) 242-5000',
+        note: 'Contact form: allisontransmission.com/contact',
+      },
+      {
+        org: 'Rolls-Royce North America',
+        name: 'Workforce Dev / HR',
+        phone: '—',
+        note: 'Contact form: rolls-royce.com/contact.aspx',
+      },
+      {
+        org: 'Eli Lilly and Company',
+        name: 'Workforce Dev / HR',
+        phone: '—',
+        note: 'Contact form: lilly.com/contact',
+      },
     ],
   },
 ];
@@ -113,13 +311,17 @@ function buildHtml() {
   let sectionsHtml = '';
 
   for (const section of SECTIONS) {
-    const rows = section.contacts.map(c => `
+    const rows = section.contacts
+      .map(
+        (c) => `
       <tr style="border-bottom:1px solid #f1f5f9;">
         <td style="padding:10px 12px;font-size:13px;font-weight:600;color:#1e293b;">${c.org}</td>
         <td style="padding:10px 12px;font-size:13px;color:#475569;">${c.name}</td>
         <td style="padding:10px 12px;font-size:13px;color:#1e293b;font-weight:600;">${c.phone}</td>
         <td style="padding:10px 12px;font-size:13px;color:#64748b;">${c.note}</td>
-      </tr>`).join('');
+      </tr>`,
+      )
+      .join('');
 
     sectionsHtml += `
       <tr>
@@ -198,50 +400,65 @@ function buildHtml() {
 const total = SECTIONS.reduce((sum, s) => sum + s.contacts.length, 0);
 
 const payload = JSON.stringify({
-  personalizations: [{ to: [{ email: 'elevate4humanityedu@gmail.com', name: 'Elizabeth Greene' }] }],
-  from: { email: 'noreply@elevateforhumanity.org', name: 'Elizabeth Greene | Elevate for Humanity' },
+  personalizations: [
+    { to: [{ email: 'elevate4humanityedu@gmail.com', name: 'Elizabeth Greene' }] },
+  ],
+  from: {
+    email: 'noreply@elevateforhumanity.org',
+    name: 'Elizabeth Greene | Elevate for Humanity',
+  },
   reply_to: { email: 'elevate4humanityedu@gmail.com', name: 'Elizabeth Greene' },
   subject: `Full Phone Call List — ${total} Contacts | Elevate for Humanity`,
   content: [
     {
       type: 'text/plain',
-      value: SECTIONS.map(s =>
-        `\n${s.title.toUpperCase()}\n` +
-        s.contacts.map(c => `  ${c.org} | ${c.name} | ${c.phone} | ${c.note}`).join('\n')
-      ).join('\n') + '\n\n' + CALL_SCRIPT,
+      value:
+        SECTIONS.map(
+          (s) =>
+            `\n${s.title.toUpperCase()}\n` +
+            s.contacts.map((c) => `  ${c.org} | ${c.name} | ${c.phone} | ${c.note}`).join('\n'),
+        ).join('\n') +
+        '\n\n' +
+        CALL_SCRIPT,
     },
     { type: 'text/html', value: buildHtml() },
   ],
-  attachments: [{
-    content: logoBase64,
-    filename: 'Elevate_for_Humanity_logo.jpg',
-    type: 'image/jpeg',
-    disposition: 'inline',
-    content_id: 'elevate_logo',
-  }],
+  attachments: [
+    {
+      content: logoBase64,
+      filename: 'Elevate_for_Humanity_logo.jpg',
+      type: 'image/jpeg',
+      disposition: 'inline',
+      content_id: 'elevate_logo',
+    },
+  ],
 });
 
-const req = https.request({
-  hostname: 'api.sendgrid.com',
-  path: '/v3/mail/send',
-  method: 'POST',
-  headers: {
-    Authorization: `Bearer ${API_KEY}`,
-    'Content-Type': 'application/json',
-    'Content-Length': Buffer.byteLength(payload),
+const req = https.request(
+  {
+    hostname: 'api.sendgrid.com',
+    path: '/v3/mail/send',
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${API_KEY}`,
+      'Content-Type': 'application/json',
+      'Content-Length': Buffer.byteLength(payload),
+    },
   },
-}, res => {
-  let d = ''; res.on('data', c => d += c);
-  res.on('end', () => {
-    if (res.statusCode === 202) {
-      console.log(`✅ Call list delivered to elevate4humanityedu@gmail.com`);
-      console.log(`   ${total} contacts across ${SECTIONS.length} industries`);
-      console.log(`   Timestamp: ${new Date().toISOString()}`);
-    } else {
-      console.log(`❌ Failed (${res.statusCode}): ${d}`);
-    }
-  });
-});
+  (res) => {
+    let d = '';
+    res.on('data', (c) => (d += c));
+    res.on('end', () => {
+      if (res.statusCode === 202) {
+        console.log(`✅ Call list delivered to elevate4humanityedu@gmail.com`);
+        console.log(`   ${total} contacts across ${SECTIONS.length} industries`);
+        console.log(`   Timestamp: ${new Date().toISOString()}`);
+      } else {
+        console.log(`❌ Failed (${res.statusCode}): ${d}`);
+      }
+    });
+  },
+);
 req.on('error', console.error);
 req.write(payload);
 req.end();

@@ -4,7 +4,21 @@ import { useState } from 'react';
 import Image from 'next/image';
 import Logo from '@/components/ui/Logo';
 import Link from 'next/link';
-import { ArrowRight, Menu, X, Phone, Mail, BookOpen, Users, TrendingUp, Clock, DollarSign, Shield, CheckCircle, BarChart2 } from 'lucide-react';
+import {
+  ArrowRight,
+  Menu,
+  X,
+  Phone,
+  Mail,
+  BookOpen,
+  Users,
+  TrendingUp,
+  Clock,
+  DollarSign,
+  Shield,
+  CheckCircle,
+  BarChart2,
+} from 'lucide-react';
 
 const NAV = [
   { label: 'Portals', href: '#portals' },
@@ -39,7 +53,7 @@ const PORTALS = [
   },
   {
     title: 'Partner Portal',
-    desc: 'Collaborate on programs, access partnership resources, track referrals, and manage your organization\'s involvement.',
+    desc: "Collaborate on programs, access partnership resources, track referrals, and manage your organization's involvement.",
     href: '/partner-portal',
     loginHref: '/login?redirect=/partner',
     image: '/images/pages/career-services-page-1.jpg',
@@ -84,9 +98,21 @@ const PORTALS = [
 ];
 
 const FEATURES = [
-  { Icon: TrendingUp, title: 'Personalized Dashboards', desc: 'Role-based views tailored to your needs' },
-  { Icon: BarChart2, title: 'Real-Time Analytics', desc: 'Track progress, outcomes, and performance' },
-  { Icon: BookOpen, title: 'Document Management', desc: 'Access forms, reports, and compliance docs' },
+  {
+    Icon: TrendingUp,
+    title: 'Personalized Dashboards',
+    desc: 'Role-based views tailored to your needs',
+  },
+  {
+    Icon: BarChart2,
+    title: 'Real-Time Analytics',
+    desc: 'Track progress, outcomes, and performance',
+  },
+  {
+    Icon: BookOpen,
+    title: 'Document Management',
+    desc: 'Access forms, reports, and compliance docs',
+  },
   { Icon: Shield, title: 'Secure Access', desc: 'Role-based permissions and data protection' },
 ];
 
@@ -100,23 +126,61 @@ export default function ConnectsLandingPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="flex items-center justify-between h-16">
             <Link href="/connects" className="flex items-center gap-2.5">
-              <Logo alt="Elevate Connects" width={140} height={40} className="h-9 w-auto brightness-0 invert" priority />
-              <span className="hidden sm:inline text-xs font-bold text-cyan-400 bg-cyan-950 px-2.5 py-1 rounded-full border border-cyan-800">Connects</span>
+              <Logo
+                alt="Elevate Connects"
+                width={140}
+                height={40}
+                className="h-9 w-auto brightness-0 invert"
+                priority
+              />
+              <span className="hidden sm:inline text-xs font-bold text-cyan-400 bg-cyan-950 px-2.5 py-1 rounded-full border border-cyan-800">
+                Connects
+              </span>
             </Link>
             <nav className="hidden lg:flex items-center gap-1">
               {NAV.map((n) => (
-                <Link key={n.label} href={n.href} className="px-3 py-2 text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-800 rounded-lg transition-colors">{n.label}</Link>
+                <Link
+                  key={n.label}
+                  href={n.href}
+                  className="px-3 py-2 text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-800 rounded-lg transition-colors"
+                >
+                  {n.label}
+                </Link>
               ))}
-              <Link href="/login" className="ml-1 px-5 py-2.5 text-sm font-bold bg-cyan-600 hover:bg-cyan-700 text-slate-900 rounded-lg transition-colors">Sign In</Link>
+              <Link
+                href="/login"
+                className="ml-1 px-5 py-2.5 text-sm font-bold bg-cyan-600 hover:bg-cyan-700 text-slate-900 rounded-lg transition-colors"
+              >
+                Sign In
+              </Link>
             </nav>
-            <button onClick={() => setMobileOpen(!mobileOpen)} className="lg:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-800" aria-label="Menu">
+            <button
+              onClick={() => setMobileOpen(!mobileOpen)}
+              className="lg:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-800"
+              aria-label="Menu"
+            >
               {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
           </div>
           {mobileOpen && (
             <div className="lg:hidden border-t border-slate-700 py-3 space-y-1">
-              {NAV.map((n) => <Link key={n.label} href={n.href} onClick={() => setMobileOpen(false)} className="block px-3 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-800 rounded-lg">{n.label}</Link>)}
-              <Link href="/login" onClick={() => setMobileOpen(false)} className="block px-3 py-2.5 text-sm font-bold text-cyan-400">Sign In</Link>
+              {NAV.map((n) => (
+                <Link
+                  key={n.label}
+                  href={n.href}
+                  onClick={() => setMobileOpen(false)}
+                  className="block px-3 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-800 rounded-lg"
+                >
+                  {n.label}
+                </Link>
+              ))}
+              <Link
+                href="/login"
+                onClick={() => setMobileOpen(false)}
+                className="block px-3 py-2.5 text-sm font-bold text-cyan-400"
+              >
+                Sign In
+              </Link>
             </div>
           )}
         </div>
@@ -124,19 +188,44 @@ export default function ConnectsLandingPage() {
 
       {/* HERO — static image, portal directory page does not need video */}
       <section className="pt-16">
-        <div className="relative w-full overflow-hidden aspect-[4/3]" style={{ minHeight: '280px', maxHeight: '360px' }}>
-          <Image src="/images/pages/career-services-page-1.jpg" alt="Elevate Connects portal directory" fill sizes="100vw" className="object-cover" priority />
+        <div
+          className="relative w-full overflow-hidden aspect-[4/3]"
+          style={{ minHeight: '280px', maxHeight: '360px' }}
+        >
+          <Image
+            src="/images/pages/career-services-page-1.jpg"
+            alt="Elevate Connects portal directory"
+            fill
+            sizes="100vw"
+            className="object-cover"
+            priority
+          />
         </div>
         <div className="bg-white py-10 md:py-14 px-6">
           <div className="max-w-5xl mx-auto text-center">
             <div className="inline-flex items-center gap-2 bg-white text-slate-900 px-4 py-1.5 rounded-full text-sm font-semibold mb-4">
               <TrendingUp className="w-4 h-4" /> Elevate Connects
             </div>
-            <h1 className="text-3xl md:text-5xl font-bold text-slate-900 mb-4">Your Dashboard. Your Portal.</h1>
-            <p className="text-base md:text-lg text-slate-600 mb-8 max-w-3xl mx-auto">One platform, every role. Access your personalized dashboard — whether you&apos;re a student, employer, partner, staff member, or administrator.</p>
+            <h1 className="text-3xl md:text-5xl font-bold text-slate-900 mb-4">
+              Your Dashboard. Your Portal.
+            </h1>
+            <p className="text-base md:text-lg text-slate-600 mb-8 max-w-3xl mx-auto">
+              One platform, every role. Access your personalized dashboard — whether you&apos;re a
+              student, employer, partner, staff member, or administrator.
+            </p>
             <div className="flex flex-wrap justify-center gap-3">
-              <Link href="/login" className="inline-flex items-center gap-2 bg-cyan-600 hover:bg-cyan-700 text-slate-900 px-7 py-3.5 rounded-lg font-bold transition-colors">Sign In to Your Portal <ArrowRight className="w-5 h-5" /></Link>
-              <Link href="#portals" className="inline-flex items-center gap-2 bg-slate-700 hover:bg-slate-600 text-slate-900 px-7 py-3.5 rounded-lg font-semibold transition-colors">Browse Portals</Link>
+              <Link
+                href="/login"
+                className="inline-flex items-center gap-2 bg-cyan-600 hover:bg-cyan-700 text-slate-900 px-7 py-3.5 rounded-lg font-bold transition-colors"
+              >
+                Sign In to Your Portal <ArrowRight className="w-5 h-5" />
+              </Link>
+              <Link
+                href="#portals"
+                className="inline-flex items-center gap-2 bg-slate-700 hover:bg-slate-600 text-slate-900 px-7 py-3.5 rounded-lg font-semibold transition-colors"
+              >
+                Browse Portals
+              </Link>
             </div>
           </div>
         </div>
@@ -161,14 +250,28 @@ export default function ConnectsLandingPage() {
       <section id="portals" className="py-16 px-6 scroll-mt-20">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">Choose Your Portal</h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">Each portal is tailored to your role. Sign in to access your personalized dashboard, tools, and resources.</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
+              Choose Your Portal
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Each portal is tailored to your role. Sign in to access your personalized dashboard,
+              tools, and resources.
+            </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {PORTALS.map((p) => (
-              <div key={p.title} className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow border border-gray-100">
+              <div
+                key={p.title}
+                className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow border border-gray-100"
+              >
                 <div className="relative w-full aspect-[4/3]" style={{ aspectRatio: '16/9' }}>
-                  <Image src={p.image} alt={p.title} fill className="object-cover" sizes="(max-width: 768px) 100vw, 33vw" />
+                  <Image
+                    src={p.image}
+                    alt={p.title}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                  />
                 </div>
                 <div className="p-5">
                   <div className="flex items-center gap-2.5 mb-3">
@@ -177,13 +280,23 @@ export default function ConnectsLandingPage() {
                   </div>
                   <p className="text-gray-600 text-sm mb-3">{p.desc}</p>
                   <div className="flex flex-wrap gap-1.5 mb-4">
-                    {p.features.map((f) => <span key={f} className={`text-xs px-2 py-1 rounded-full ${p.tagBg}`}>{f}</span>)}
+                    {p.features.map((f) => (
+                      <span key={f} className={`text-xs px-2 py-1 rounded-full ${p.tagBg}`}>
+                        {f}
+                      </span>
+                    ))}
                   </div>
                   <div className="flex gap-2">
-                    <Link href={p.loginHref} className={`flex-1 inline-flex items-center justify-center gap-1.5 ${p.accent} text-slate-900 px-4 py-2.5 rounded-lg text-sm font-bold transition-colors`}>
+                    <Link
+                      href={p.loginHref}
+                      className={`flex-1 inline-flex items-center justify-center gap-1.5 ${p.accent} text-slate-900 px-4 py-2.5 rounded-lg text-sm font-bold transition-colors`}
+                    >
                       Sign In <ArrowRight className="w-4 h-4" />
                     </Link>
-                    <Link href={p.href} className="inline-flex items-center justify-center gap-1 border border-gray-200 hover:bg-white text-gray-700 px-4 py-2.5 rounded-lg text-sm font-semibold transition-colors">
+                    <Link
+                      href={p.href}
+                      className="inline-flex items-center justify-center gap-1 border border-gray-200 hover:bg-white text-gray-700 px-4 py-2.5 rounded-lg text-sm font-semibold transition-colors"
+                    >
                       Details
                     </Link>
                   </div>
@@ -198,16 +311,27 @@ export default function ConnectsLandingPage() {
       <section className="py-16 px-6">
         <div className="max-w-2xl mx-auto text-center">
           <Users className="w-12 h-12 mx-auto mb-4 text-cyan-600" />
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3">Already have an account?</h2>
-          <p className="text-gray-600 mb-6">Sign in and you&apos;ll be automatically directed to your dashboard based on your role.</p>
-          <Link href="/login" className="inline-flex items-center gap-2 bg-cyan-600 hover:bg-cyan-700 text-slate-900 px-8 py-3.5 rounded-lg font-bold text-lg transition-colors">
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3">
+            Already have an account?
+          </h2>
+          <p className="text-gray-600 mb-6">
+            Sign in and you&apos;ll be automatically directed to your dashboard based on your role.
+          </p>
+          <Link
+            href="/login"
+            className="inline-flex items-center gap-2 bg-cyan-600 hover:bg-cyan-700 text-slate-900 px-8 py-3.5 rounded-lg font-bold text-lg transition-colors"
+          >
             Sign In <ArrowRight className="w-5 h-5" />
           </Link>
           <div className="mt-4 text-sm text-gray-500">
             Don&apos;t have an account?{' '}
-            <Link href="/start" className="text-cyan-600 hover:underline font-semibold">Apply for a program</Link>
-            {' '}or{' '}
-            <Link href="/contact" className="text-cyan-600 hover:underline font-semibold">contact us</Link>
+            <Link href="/start" className="text-cyan-600 hover:underline font-semibold">
+              Apply for a program
+            </Link>{' '}
+            or{' '}
+            <Link href="/contact" className="text-cyan-600 hover:underline font-semibold">
+              contact us
+            </Link>
           </div>
         </div>
       </section>
@@ -217,35 +341,76 @@ export default function ConnectsLandingPage() {
         <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-3 gap-8 mb-8">
             <div>
-              <Logo alt="Elevate for Humanity" width={120} height={36} className="h-8 w-auto brightness-0 invert mb-3" />
+              <Logo
+                alt="Elevate for Humanity"
+                width={120}
+                height={36}
+                className="h-8 w-auto brightness-0 invert mb-3"
+              />
               <div className="text-sm">8888 Keystone Crossing, Suite 1300</div>
               <div className="text-sm">Indianapolis, IN 46240</div>
-              <div className="flex items-center gap-2 mt-3 text-sm"><Phone className="w-4 h-4" /><a href="tel:+13173550500" className="hover:text-slate-900">(317) 355-0500</a></div>
-              <div className="flex items-center gap-2 mt-1 text-sm"><Mail className="w-4 h-4" /><a href="mailto:info@elevateforhumanity.org" className="hover:text-slate-900">info@elevateforhumanity.org</a></div>
+              <div className="flex items-center gap-2 mt-3 text-sm">
+                <Phone className="w-4 h-4" />
+                <a href="tel:+13173550500" className="hover:text-slate-900">
+                  (317) 355-0500
+                </a>
+              </div>
+              <div className="flex items-center gap-2 mt-1 text-sm">
+                <Mail className="w-4 h-4" />
+                <a href="mailto:info@elevateforhumanity.org" className="hover:text-slate-900">
+                  info@elevateforhumanity.org
+                </a>
+              </div>
             </div>
             <div>
               <div className="text-slate-900 font-semibold mb-3">Portals</div>
               <div className="space-y-2 text-sm">
-                {PORTALS.map((p) => <Link key={p.title} href={p.href} className="block hover:text-slate-900">{p.title}</Link>)}
+                {PORTALS.map((p) => (
+                  <Link key={p.title} href={p.href} className="block hover:text-slate-900">
+                    {p.title}
+                  </Link>
+                ))}
               </div>
             </div>
             <div>
               <div className="text-slate-900 font-semibold mb-3">Quick Links</div>
               <div className="space-y-2 text-sm">
-                <Link href="/login" className="block hover:text-slate-900">Sign In</Link>
-                <Link href="/start" className="block hover:text-slate-900">Apply for a Program</Link>
-                <Link href="/support" className="block hover:text-slate-900">Support</Link>
-                <Link href="/contact" className="block hover:text-slate-900">Contact</Link>
-                <Link href="/privacy-policy" className="block hover:text-slate-900">Privacy Policy</Link>
-                <Link href="https://www.elevateforhumanity.org" className="block hover:text-slate-900">Main Site</Link>
+                <Link href="/login" className="block hover:text-slate-900">
+                  Sign In
+                </Link>
+                <Link href="/start" className="block hover:text-slate-900">
+                  Apply for a Program
+                </Link>
+                <Link href="/support" className="block hover:text-slate-900">
+                  Support
+                </Link>
+                <Link href="/contact" className="block hover:text-slate-900">
+                  Contact
+                </Link>
+                <Link href="/privacy-policy" className="block hover:text-slate-900">
+                  Privacy Policy
+                </Link>
+                <Link
+                  href="https://www.elevateforhumanity.org"
+                  className="block hover:text-slate-900"
+                >
+                  Main Site
+                </Link>
               </div>
             </div>
           </div>
           <div className="border-t border-gray-800 pt-6 flex flex-col md:flex-row justify-between items-center gap-3 text-sm">
             <div>&copy; {new Date().getFullYear()} Elevate for Humanity. All rights reserved.</div>
             <div className="flex gap-4">
-              <Link href="https://www.elevateforhumanity.org" className="hover:text-slate-900">elevateforhumanity.org</Link>
-              <Link href="https://www.elevateforhumanityeducation.com" className="hover:text-slate-900">Education</Link>
+              <Link href="https://www.elevateforhumanity.org" className="hover:text-slate-900">
+                elevateforhumanity.org
+              </Link>
+              <Link
+                href="https://www.elevateforhumanityeducation.com"
+                className="hover:text-slate-900"
+              >
+                Education
+              </Link>
             </div>
           </div>
         </div>

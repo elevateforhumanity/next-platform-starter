@@ -1,5 +1,3 @@
-
-
 import { NextResponse } from 'next/server';
 import { getStripe } from '@/lib/stripe/client';
 import { createClient } from '@/lib/supabase/server';
@@ -18,19 +16,20 @@ async function _POST(req: Request) {
     if (rateLimited) return rateLimited;
 
     const { apiRequireAdmin } = await import('@/lib/admin/guards');
-    try { await apiRequireAdmin(request); } catch (e) { return e instanceof Response ? e : NextResponse.json({ error: 'Unauthorized' }, { status: 401 }); }
+    try {
+      await apiRequireAdmin(request);
+    } catch (e) {
+      return e instanceof Response
+        ? e
+        : NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
 
-    const {
-      studentId,
-      programId,
-      programSlug,
-      fundingSource = 'WIOA',
-    } = await req.json();
+    const { studentId, programId, programSlug, fundingSource = 'WIOA' } = await req.json();
 
     if (!studentId || !programId || !programSlug) {
       return NextResponse.json(
         { error: 'Missing required fields: studentId, programId, programSlug' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -48,10 +47,7 @@ async function _POST(req: Request) {
         studentId,
         error: profileError,
       });
-      return NextResponse.json(
-        { error: 'Student profile/email not found' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Student profile/email not found' }, { status: 400 });
     }
 
     // Get program details
@@ -62,25 +58,18 @@ async function _POST(req: Request) {
       .maybeSingle();
 
     if (!program) {
-      return NextResponse.json(
-        { error: 'Program not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: 'Program not found' }, { status: 404 });
     }
 
     // Determine price - use env var or program cost
-    const amount = program.total_cost
-      ? Math.round(Number(program.total_cost) * 100)
-      : 29500; // Default $295
+    const amount = program.total_cost ? Math.round(Number(program.total_cost) * 100) : 29500; // Default $295
 
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
 
     // Create Stripe checkout session (sponsor-paid)
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
-      customer_email:
-        process.env.SPONSOR_FINANCE_EMAIL ||
-        'accounting@elevateforhumanity.org',
+      customer_email: process.env.SPONSOR_FINANCE_EMAIL || 'accounting@elevateforhumanity.org',
       line_items: [
         {
           price_data: {
@@ -105,23 +94,20 @@ async function _POST(req: Request) {
         program_slug: programSlug,
         sponsor: '2Exclusive LLC-S',
         student_email: profile.email,
-        student_name:
-          profile.full_name || `${profile.first_name} ${profile.last_name}`,
+        student_name: profile.full_name || `${profile.first_name} ${profile.last_name}`,
       },
     });
 
     // Store funding payment record for audit
-    const { error: paymentError } = await supabase
-      .from('funding_payments')
-      .insert({
-        student_id: studentId,
-        program_id: programId,
-        funding_source: fundingSource,
-        stripe_checkout_session_id: session.id,
-        status: 'created',
-        amount: amount / 100,
-        created_at: new Date().toISOString(),
-      });
+    const { error: paymentError } = await supabase.from('funding_payments').insert({
+      student_id: studentId,
+      program_id: programId,
+      funding_source: fundingSource,
+      stripe_checkout_session_id: session.id,
+      status: 'created',
+      amount: amount / 100,
+      created_at: new Date().toISOString(),
+    });
 
     if (paymentError) {
       logger.warn('Failed to create funding_payments record', paymentError);
@@ -144,7 +130,7 @@ async function _POST(req: Request) {
     logger.error('Funding checkout creation error', err);
     return NextResponse.json(
       { error: toErrorMessage(err) || 'Internal server error' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

@@ -14,8 +14,8 @@ export const maxDuration = 60;
 export const dynamic = 'force-dynamic';
 
 async function _POST(request: Request) {
-    const rateLimited = await applyRateLimit(request, 'contact');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(request, 'contact');
+  if (rateLimited) return rateLimited;
 
   const supabase = await getAdminClient();
   const auth = request.headers.get('x-internal-token');
@@ -29,10 +29,7 @@ async function _POST(request: Request) {
     .eq('reported_to_stripe', false);
 
   if (error || !pendingUsage) {
-    return NextResponse.json(
-      { error: 'Failed to fetch usage' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to fetch usage' }, { status: 500 });
   }
 
   const updates = [];
@@ -48,14 +45,11 @@ async function _POST(request: Request) {
 
     try {
       // Report usage to Stripe subscription item
-      const res = await stripe.subscriptionItems.createUsageRecord(
-        billing.price_id,
-        {
-          quantity: u.quantity,
-          timestamp: Math.floor(new Date(u.period_end).getTime() / 1000),
-          action: 'set',
-        }
-      );
+      const res = await stripe.subscriptionItems.createUsageRecord(billing.price_id, {
+        quantity: u.quantity,
+        timestamp: Math.floor(new Date(u.period_end).getTime() / 1000),
+        action: 'set',
+      });
 
       updates.push(
         supabase
@@ -64,7 +58,7 @@ async function _POST(request: Request) {
             reported_to_stripe: true,
             stripe_usage_record_id: res.id,
           })
-          .eq('id', u.id)
+          .eq('id', u.id),
       );
     } catch (err) {
       logger.error('Failed to report usage for tenant', u.tenant_id, err);

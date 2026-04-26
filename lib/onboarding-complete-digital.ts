@@ -1,4 +1,3 @@
-
 /**
  * Complete Digital Onboarding System
  * All forms, payroll, and documents fully digital
@@ -34,11 +33,7 @@ export interface OnboardingData {
   emergencyContactRelationship: string;
 
   // Tax Information (W-4)
-  filingStatus:
-    | 'single'
-    | 'married-joint'
-    | 'married-separate'
-    | 'head-of-household';
+  filingStatus: 'single' | 'married-joint' | 'married-separate' | 'head-of-household';
   dependents: number;
   additionalWithholding?: number;
   claimExempt: boolean;
@@ -130,7 +125,7 @@ export interface OnboardingStatus {
 }
 
 export function generateCompleteOnboardingPackage(
-  data: Partial<OnboardingData>
+  data: Partial<OnboardingData>,
 ): OnboardingPackage {
   const forms: OnboardingForm[] = [
     {
@@ -249,12 +244,7 @@ export function generateCompleteOnboardingPackage(
       title: 'Complete Personal Information',
       description: 'Provide your full name, contact details, and address',
       required: true,
-      completed: !!(
-        data.firstName &&
-        data.lastName &&
-        data.email &&
-        data.phone
-      ),
+      completed: !!(data.firstName && data.lastName && data.email && data.phone),
       order: 1,
     },
     {
@@ -351,23 +341,17 @@ export function generateCompleteOnboardingPackage(
   const documentsAcknowledged = documents.filter((d) => d.acknowledged).length;
   const checklistCompleted = checklist.filter((c) => c.completed).length;
 
-  const requiredFormsCompleted = forms.filter(
-    (f) => f.required && f.completed
-  ).length;
+  const requiredFormsCompleted = forms.filter((f) => f.required && f.completed).length;
   const requiredFormsTotal = forms.filter((f) => f.required).length;
-  const requiredDocsAcknowledged = documents.filter(
-    (d) => d.required && d.acknowledged
-  ).length;
+  const requiredDocsAcknowledged = documents.filter((d) => d.required && d.acknowledged).length;
   const requiredDocsTotal = documents.filter((d) => d.required).length;
-  const requiredChecklistCompleted = checklist.filter(
-    (c) => c.required && c.completed
-  ).length;
+  const requiredChecklistCompleted = checklist.filter((c) => c.required && c.completed).length;
   const requiredChecklistTotal = checklist.filter((c) => c.required).length;
 
   const overallProgress = Math.round(
     ((formsCompleted + documentsAcknowledged + checklistCompleted) /
       (forms.length + documents.length + checklist.length)) *
-      100
+      100,
   );
 
   const isComplete =

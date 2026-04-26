@@ -78,6 +78,7 @@ SELECT relrowsecurity FROM pg_class WHERE relname = 'profiles';
 ## Phase 2: Add tenant_id Columns + Backfill
 
 **Files (run in this order):**
+
 1. `20260214900000_add_tenant_id_to_core_tables.sql`
 2. `20260214000001_backfill_tenant_id.sql`
 
@@ -159,6 +160,7 @@ WHERE conname LIKE '%tenant_id_not_null%';
 ## Phase 4: RLS Lockdown + Policy Hardening
 
 **Files (run in this order):**
+
 1. `20260214000006_rls_tenancy_lockdown.sql` — locks USING(true) policies, enables RLS on 12 tables
 2. `20260214000004_partner_visibility_policies.sql` — partner access chain
 3. `20260214000005_remove_null_tenant_fallbacks.sql` — removes OR tenant_id IS NULL
@@ -213,6 +215,7 @@ WHERE tablename = 'licenses' AND policyname = 'licenses_own_tenant';
 ## Phase 5: Break Recursion + Admin Policy Sweep
 
 **Files (run in this order):**
+
 1. `20260215000001_break_recursion_use_definer_functions.sql` — replaces 39 inline profile lookups
 2. `20260215000003_rls_test_harness.sql` — creates rls_test_report() function
 3. `20260216000001_batch3a_admin_only_policies.sql` — documents the 199-policy admin sweep
@@ -254,6 +257,7 @@ SELECT * FROM public.rls_test_report();
 ## Phase 6: Tenant Scoping + Immutability Extension
 
 **Files (run in this order):**
+
 1. `20260216000003_extend_tenant_id_immutability.sql` — trigger on 6 more tables
 2. `20260216000004_fix_certificates_policies.sql` — tenant-scoped cert policies
 3. `20260216000007_fix_lesson_progress_tenant_optional.sql` — handles NULL tenant on new signups
@@ -393,14 +397,14 @@ GRANT EXECUTE ON FUNCTION public.is_super_admin() TO authenticated;
 
 ## Summary: 19 Files, 7 Phases
 
-| Phase | Files | What It Does |
-|-------|-------|-------------|
-| 1 | 1 | Foundation: `get_current_tenant_id()`, immutability trigger |
-| 2 | 2 | Add `tenant_id` columns, backfill all NULLs |
-| 3 | 1 | Enforce NOT NULL constraints |
-| 4 | 4 | Lock down USING(true), enable RLS on 12 tables, partner visibility |
-| 5 | 3 | Break recursion, test harness, admin policy sweep |
-| 6 | 7 | Tenant-scope all admin policies, seal workflow inserts |
-| 7 | 1 | Two-tenant isolation proof |
+| Phase | Files | What It Does                                                       |
+| ----- | ----- | ------------------------------------------------------------------ |
+| 1     | 1     | Foundation: `get_current_tenant_id()`, immutability trigger        |
+| 2     | 2     | Add `tenant_id` columns, backfill all NULLs                        |
+| 3     | 1     | Enforce NOT NULL constraints                                       |
+| 4     | 4     | Lock down USING(true), enable RLS on 12 tables, partner visibility |
+| 5     | 3     | Break recursion, test harness, admin policy sweep                  |
+| 6     | 7     | Tenant-scope all admin policies, seal workflow inserts             |
+| 7     | 1     | Two-tenant isolation proof                                         |
 
 **Estimated time:** 2-4 hours with verification between each phase.

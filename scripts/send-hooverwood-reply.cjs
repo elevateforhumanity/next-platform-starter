@@ -4,11 +4,14 @@ const fs = require('fs');
 const path = require('path');
 
 const API_KEY = process.env.SENDGRID_API_KEY;
-if (!API_KEY) { console.error('SENDGRID_API_KEY not set'); process.exit(1); }
+if (!API_KEY) {
+  console.error('SENDGRID_API_KEY not set');
+  process.exit(1);
+}
 
-const logoBase64 = fs.readFileSync(
-  path.join(__dirname, '../public/images/Elevate_for_Humanity_logo_81bf0fab.jpg')
-).toString('base64');
+const logoBase64 = fs
+  .readFileSync(path.join(__dirname, '../public/images/Elevate_for_Humanity_logo_81bf0fab.jpg'))
+  .toString('base64');
 
 const body = `Dear Evan,
 
@@ -29,8 +32,12 @@ elevate4humanityedu@gmail.com
 317-314-3537`;
 
 function buildHtml(text) {
-  const paras = text.split('\n\n').filter(p => p.trim())
-    .map(p => `<p style="margin:0 0 16px 0;color:#1e293b;">${p.trim().replace(/\n/g,'<br>')}</p>`)
+  const paras = text
+    .split('\n\n')
+    .filter((p) => p.trim())
+    .map(
+      (p) => `<p style="margin:0 0 16px 0;color:#1e293b;">${p.trim().replace(/\n/g, '<br>')}</p>`,
+    )
     .join('');
   return `<!DOCTYPE html><html><head><meta charset="utf-8"></head>
 <body style="margin:0;padding:0;background:#f8fafc;font-family:Arial,sans-serif;">
@@ -54,47 +61,58 @@ function buildHtml(text) {
 }
 
 const payload = JSON.stringify({
-  personalizations: [{
-    to: [{ email: 'info@hooverwood.org', name: 'Evan — Hooverwood Living' }],
-    cc: [{ email: 'elevate4humanityedu@gmail.com', name: 'Elizabeth Greene' }],
-  }],
-  from: { email: 'noreply@elevateforhumanity.org', name: 'Elizabeth Greene | Elevate for Humanity' },
+  personalizations: [
+    {
+      to: [{ email: 'info@hooverwood.org', name: 'Evan — Hooverwood Living' }],
+      cc: [{ email: 'elevate4humanityedu@gmail.com', name: 'Elizabeth Greene' }],
+    },
+  ],
+  from: {
+    email: 'noreply@elevateforhumanity.org',
+    name: 'Elizabeth Greene | Elevate for Humanity',
+  },
   reply_to: { email: 'elevate4humanityedu@gmail.com', name: 'Elizabeth Greene' },
   subject: 'Re: CNA Clinical Training Partnership — Elevate for Humanity',
   content: [
     { type: 'text/plain', value: body },
     { type: 'text/html', value: buildHtml(body) },
   ],
-  attachments: [{
-    content: logoBase64,
-    filename: 'Elevate_for_Humanity_logo.jpg',
-    type: 'image/jpeg',
-    disposition: 'inline',
-    content_id: 'elevate_logo',
-  }],
+  attachments: [
+    {
+      content: logoBase64,
+      filename: 'Elevate_for_Humanity_logo.jpg',
+      type: 'image/jpeg',
+      disposition: 'inline',
+      content_id: 'elevate_logo',
+    },
+  ],
 });
 
-const req = https.request({
-  hostname: 'api.sendgrid.com',
-  path: '/v3/mail/send',
-  method: 'POST',
-  headers: {
-    Authorization: `Bearer ${API_KEY}`,
-    'Content-Type': 'application/json',
-    'Content-Length': Buffer.byteLength(payload),
+const req = https.request(
+  {
+    hostname: 'api.sendgrid.com',
+    path: '/v3/mail/send',
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${API_KEY}`,
+      'Content-Type': 'application/json',
+      'Content-Length': Buffer.byteLength(payload),
+    },
   },
-}, res => {
-  let d = ''; res.on('data', c => d += c);
-  res.on('end', () => {
-    if (res.statusCode === 202) {
-      console.log('✅ Delivered to info@hooverwood.org (Evan)');
-      console.log('   CC: elevate4humanityedu@gmail.com');
-      console.log('   Timestamp:', new Date().toISOString());
-    } else {
-      console.log('❌ Failed (' + res.statusCode + '):', d);
-    }
-  });
-});
+  (res) => {
+    let d = '';
+    res.on('data', (c) => (d += c));
+    res.on('end', () => {
+      if (res.statusCode === 202) {
+        console.log('✅ Delivered to info@hooverwood.org (Evan)');
+        console.log('   CC: elevate4humanityedu@gmail.com');
+        console.log('   Timestamp:', new Date().toISOString());
+      } else {
+        console.log('❌ Failed (' + res.statusCode + '):', d);
+      }
+    });
+  },
+);
 req.on('error', console.error);
 req.write(payload);
 req.end();

@@ -1,6 +1,10 @@
 export default function CalendarLoading() {
   return (
-    <div className="min-h-screen bg-white p-6 animate-pulse" role="status" aria-label="Loading calendar">
+    <div
+      className="min-h-screen bg-white p-6 animate-pulse"
+      role="status"
+      aria-label="Loading calendar"
+    >
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-6">
           <div className="h-8 w-32 bg-slate-200 rounded" />

@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import {
-
   Users,
   Plus,
   Search,
@@ -28,24 +27,29 @@ export const metadata: Metadata = {
 export default async function GroupsPage() {
   const supabase = await createClient();
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/lms/groups');
 
   // Fetch user's group memberships (study_groups has no FK to courses)
   const { data: memberships } = await supabase
     .from('study_group_members')
-    .select(`
+    .select(
+      `
       *,
       study_groups (
         id, name, description, course_id,
         max_members, meeting_schedule, is_virtual, is_active
       )
-    `)
+    `,
+    )
     .eq('user_id', user.id);
 
   // Hydrate course titles for groups
-  const groupCourseIds = [...new Set((memberships || [])
-    .map((m: any) => m.study_groups?.course_id).filter(Boolean))];
+  const groupCourseIds = [
+    ...new Set((memberships || []).map((m: any) => m.study_groups?.course_id).filter(Boolean)),
+  ];
   const { data: groupCourses } = groupCourseIds.length
     ? await supabase.from('courses').select('id, title').in('id', groupCourseIds)
     : { data: [] };
@@ -65,11 +69,11 @@ export default async function GroupsPage() {
         memberCount: count || 0,
         joinedAt: membership.joined_at,
       };
-    })
+    }),
   );
 
   // Fetch recent group messages
-  const groupIds = groups.map(g => g.id);
+  const groupIds = groups.map((g) => g.id);
   const { data: recentMessages } = await supabase
     .from('group_messages')
     .select('*, profiles (first_name, last_name)')
@@ -86,17 +90,15 @@ export default async function GroupsPage() {
 
   return (
     <div className="min-h-screen bg-white py-8">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <Breadcrumbs items={[{ label: "LMS", href: "/lms/courses" }, { label: "Groups" }]} />
-        </div>
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'LMS', href: '/lms/courses' }, { label: 'Groups' }]} />
+      </div>
       <div className="max-w-6xl mx-auto px-4">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
           <div>
             <h1 className="text-3xl font-bold text-slate-900">My Groups</h1>
-            <p className="text-slate-600 mt-1">
-              Collaborate and learn with your study groups
-            </p>
+            <p className="text-slate-600 mt-1">Collaborate and learn with your study groups</p>
           </div>
           <div className="mt-4 md:mt-0 flex gap-3">
             <Link
@@ -144,9 +146,7 @@ export default async function GroupsPage() {
                   </div>
 
                   {group.description && (
-                    <p className="text-sm text-slate-600 mb-4 line-clamp-2">
-                      {group.description}
-                    </p>
+                    <p className="text-sm text-slate-600 mb-4 line-clamp-2">{group.description}</p>
                   )}
 
                   <div className="flex flex-wrap gap-4 text-sm text-slate-500">
@@ -203,9 +203,7 @@ export default async function GroupsPage() {
                     ))}
                   </div>
                 ) : (
-                  <p className="text-sm text-slate-500 text-center py-4">
-                    No recent messages
-                  </p>
+                  <p className="text-sm text-slate-500 text-center py-4">No recent messages</p>
                 )}
               </div>
 
@@ -243,7 +241,8 @@ export default async function GroupsPage() {
             <Users className="w-16 h-16 text-slate-300 mx-auto mb-4" />
             <h2 className="text-xl font-bold text-slate-900 mb-2">No Groups Yet</h2>
             <p className="text-slate-600 mb-6 max-w-md mx-auto">
-              Join a study group to collaborate with fellow learners, share resources, and stay motivated.
+              Join a study group to collaborate with fellow learners, share resources, and stay
+              motivated.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <Link
@@ -263,7 +262,10 @@ export default async function GroupsPage() {
 
         {/* Back Link */}
         <div className="mt-8 text-center">
-          <Link href="/lms/community" className="text-brand-blue-600 hover:text-brand-blue-700 font-medium">
+          <Link
+            href="/lms/community"
+            className="text-brand-blue-600 hover:text-brand-blue-700 font-medium"
+          >
             ← Back to Community
           </Link>
         </div>

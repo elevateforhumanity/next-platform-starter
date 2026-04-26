@@ -4,18 +4,7 @@ import React from 'react';
 import { useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
 
-const TYPES = [
-  'mou',
-  'w9',
-  'insurance',
-  'license',
-  'nda',
-  'payroll',
-  'other',
-] as const;
-
-
-
+const TYPES = ['mou', 'w9', 'insurance', 'license', 'nda', 'payroll', 'other'] as const;
 
 export default function PartnerDocumentsPage() {
   const supabase = createClient();
@@ -85,9 +74,7 @@ export default function PartnerDocumentsPage() {
     <div className="rounded-2xl border p-5 space-y-4">
       <div>
         <div className="font-semibold">Documents</div>
-        <div className="text-sm text-black">
-          Upload onboarding documents for approval.
-        </div>
+        <div className="text-sm text-black">Upload onboarding documents for approval.</div>
       </div>
 
       <div className="flex flex-wrap gap-3 items-end">
@@ -117,10 +104,7 @@ export default function PartnerDocumentsPage() {
 
         <div>
           <div className="text-xs text-black mb-1">File</div>
-          <input
-            type="file"
-            onChange={(e) => setFile(e.target.files?.[0] ?? null)}
-          />
+          <input type="file" onChange={(e) => setFile(e.target.files?.[0] ?? null)} />
         </div>
 
         <button
@@ -129,11 +113,7 @@ export default function PartnerDocumentsPage() {
         >
           Upload
         </button>
-        <button
-          className="border rounded-xl px-4 py-2"
-          aria-label="Button"
-          onClick={refresh}
-        >
+        <button className="border rounded-xl px-4 py-2" aria-label="Button" onClick={refresh}>
           Refresh
         </button>
       </div>
@@ -151,9 +131,7 @@ export default function PartnerDocumentsPage() {
             </div>
           ))}
           {docs.length === 0 && (
-            <div className="text-sm text-black">
-              No documents submitted yet.
-            </div>
+            <div className="text-sm text-black">No documents submitted yet.</div>
           )}
         </div>
       </div>

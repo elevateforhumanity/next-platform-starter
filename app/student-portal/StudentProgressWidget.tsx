@@ -2,14 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { 
-  Clock,
-  CheckCircle,
-  AlertCircle,
-  TrendingUp,
-  FileText,
-  ArrowRight
-} from 'lucide-react';
+import { Clock, CheckCircle, AlertCircle, TrendingUp, FileText, ArrowRight } from 'lucide-react';
 
 type DashboardData = {
   enrollments: Array<{
@@ -137,9 +130,7 @@ export default function StudentProgressWidget() {
               <Clock className="w-5 h-5" />
               <span className="text-sm font-medium">Pending Verification</span>
             </div>
-            <p className="text-3xl font-bold text-amber-800">
-              {data.totalPendingHours.toFixed(1)}
-            </p>
+            <p className="text-3xl font-bold text-amber-800">{data.totalPendingHours.toFixed(1)}</p>
           </div>
         )}
 
@@ -158,40 +149,43 @@ export default function StudentProgressWidget() {
       </div>
 
       {/* Per-enrollment breakdown */}
-      {data.enrollments.filter(e => e.program).map((enrollment) => {
-        const program = enrollment.program!;
-        const progress = program.required_hours 
-          ? Math.min(100, (enrollment.hours.verified / program.required_hours) * 100)
-          : 0;
+      {data.enrollments
+        .filter((e) => e.program)
+        .map((enrollment) => {
+          const program = enrollment.program!;
+          const progress = program.required_hours
+            ? Math.min(100, (enrollment.hours.verified / program.required_hours) * 100)
+            : 0;
 
-        return (
-          <div key={enrollment.id} className="border-t border-gray-100 pt-4 mt-4">
-            <div className="flex items-center justify-between mb-2">
-              <h3 className="font-semibold text-slate-900">{program.name}</h3>
+          return (
+            <div key={enrollment.id} className="border-t border-gray-100 pt-4 mt-4">
+              <div className="flex items-center justify-between mb-2">
+                <h3 className="font-semibold text-slate-900">{program.name}</h3>
+                {program.required_hours && (
+                  <span className="text-sm text-slate-700">
+                    {enrollment.hours.verified} / {program.required_hours} hours
+                  </span>
+                )}
+              </div>
+
               {program.required_hours && (
-                <span className="text-sm text-slate-700">
-                  {enrollment.hours.verified} / {program.required_hours} hours
-                </span>
+                <div className="h-2 bg-gray-200 rounded-full overflow-hidden mb-2">
+                  <div
+                    className="h-full bg-brand-green-500 rounded-full transition-all"
+                    style={{ width: `${progress}%` }}
+                  />
+                </div>
+              )}
+
+              {enrollment.tasks.length > 0 && (
+                <div className="text-sm text-slate-700">
+                  {enrollment.tasks.filter((t) => t.status === 'approved').length} of{' '}
+                  {enrollment.tasks.length} tasks completed
+                </div>
               )}
             </div>
-            
-            {program.required_hours && (
-              <div className="h-2 bg-gray-200 rounded-full overflow-hidden mb-2">
-                <div
-                  className="h-full bg-brand-green-500 rounded-full transition-all"
-                  style={{ width: `${progress}%` }}
-                />
-              </div>
-            )}
-
-            {enrollment.tasks.length > 0 && (
-              <div className="text-sm text-slate-700">
-                {enrollment.tasks.filter(t => t.status === 'approved').length} of {enrollment.tasks.length} tasks completed
-              </div>
-            )}
-          </div>
-        );
-      })}
+          );
+        })}
 
       <div className="mt-6 pt-4 border-t border-gray-100">
         <Link

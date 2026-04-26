@@ -26,19 +26,9 @@ const sizeClasses = {
   full: 'max-w-none',
 };
 
-export function Container({
-  children,
-  size = 'lg',
-  className,
-}: ContainerProps) {
+export function Container({ children, size = 'lg', className }: ContainerProps) {
   return (
-    <div
-      className={cn(
-        'mx-auto px-4 sm:px-6 lg:px-8',
-        sizeClasses[size],
-        className
-      )}
-    >
+    <div className={cn('mx-auto px-4 sm:px-6 lg:px-8', sizeClasses[size], className)}>
       {children}
     </div>
   );

@@ -123,7 +123,9 @@ export async function pollVideo(
   while (Date.now() - start < maxWaitMs) {
     const data = await heygenGet(`/v1/video_status.get?video_id=${videoId}`);
     const status = data.data?.status;
-    console.info(`  HeyGen video ${videoId}: ${status} (${Math.round((Date.now() - start) / 1000)}s elapsed)`);
+    console.info(
+      `  HeyGen video ${videoId}: ${status} (${Math.round((Date.now() - start) / 1000)}s elapsed)`,
+    );
 
     if (status === 'completed') return data.data.video_url as string;
     if (status === 'failed') {

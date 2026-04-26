@@ -11,11 +11,7 @@ import {
   processTimeline,
 } from './video-generator-v2';
 import { generateTextToSpeech } from './tts-service';
-import {
-  defaultStorage,
-  getVideoFileSize,
-  VideoMetadata,
-} from './video-storage';
+import { defaultStorage, getVideoFileSize, VideoMetadata } from './video-storage';
 
 const router = express.Router();
 

@@ -88,7 +88,7 @@ function extractRefs(content) {
 }
 
 function isQuarantined(filePath) {
-  return filePath.split('/').some(seg => seg.startsWith('__'));
+  return filePath.split('/').some((seg) => seg.startsWith('__'));
 }
 
 function quarantinedToLive(filePath) {
@@ -96,20 +96,22 @@ function quarantinedToLive(filePath) {
 }
 
 function appPathToRoute(filePath) {
-  return filePath
-    .replace(/^app/, '')
-    .replace(/\/page\.tsx$/, '')
-    .replace(/\/route\.ts$/, '')
-    .replace(/\/\(app\)/, '')
-    .replace(/\/\(auth\)/, '')
-    .replace(/\/\(dashboard\)/, '')
-    .replace(/\/\(partner\)/, '')
-    .replace(/\/\(public\)/, '')
-    .replace(/\/layout\.tsx$/, '') || '/';
+  return (
+    filePath
+      .replace(/^app/, '')
+      .replace(/\/page\.tsx$/, '')
+      .replace(/\/route\.ts$/, '')
+      .replace(/\/\(app\)/, '')
+      .replace(/\/\(auth\)/, '')
+      .replace(/\/\(dashboard\)/, '')
+      .replace(/\/\(partner\)/, '')
+      .replace(/\/\(public\)/, '')
+      .replace(/\/layout\.tsx$/, '') || '/'
+  );
 }
 
 function isHighRisk(route) {
-  return HIGH_RISK_PREFIXES.some(p => route === p || route.startsWith(p + '/'));
+  return HIGH_RISK_PREFIXES.some((p) => route === p || route.startsWith(p + '/'));
 }
 
 function restoreFile(quarantinedFile) {
@@ -223,8 +225,11 @@ for (const file of quarantinedFiles) {
   if (isPageOrRoute) {
     for (const [ref, files] of allRefs) {
       const routeBase = route.replace(/\/\[[^\]]+\]/g, '');
-      if (ref === route || ref.startsWith(route + '/') ||
-          (routeBase && ref.startsWith(routeBase))) {
+      if (
+        ref === route ||
+        ref.startsWith(route + '/') ||
+        (routeBase && ref.startsWith(routeBase))
+      ) {
         refCount += files.size;
         refFiles.push(...files);
       }
@@ -285,7 +290,9 @@ if (JSON_OUT) {
     console.log(`\n✅ quarantine:audit passed — no violations found`);
     console.log(`   Quarantined routes: ${quarantinedFiles.length}`);
   } else {
-    const unfixed = FIX ? violations.filter(v => !fixed.find(f => f.route === v.route)) : violations;
+    const unfixed = FIX
+      ? violations.filter((v) => !fixed.find((f) => f.route === v.route))
+      : violations;
     if (unfixed.length > 0) {
       console.error(`\n❌ quarantine:audit FAILED — ${unfixed.length} violation(s):\n`);
       for (const v of unfixed) {
@@ -309,8 +316,10 @@ if (JSON_OUT) {
 // ── 404 monitor recommendation ───────────────────────────────────────────────
 if (!JSON_OUT && violations.length === 0) {
   // Collect quarantined route prefixes for monitoring
-  const quarantinedRoutes = quarantinedFiles.map(f => appPathToRoute(quarantinedToLive(f)));
-  const uniquePrefixes = [...new Set(quarantinedRoutes.map(r => r.split('/').slice(0, 3).join('/')))].sort();
+  const quarantinedRoutes = quarantinedFiles.map((f) => appPathToRoute(quarantinedToLive(f)));
+  const uniquePrefixes = [
+    ...new Set(quarantinedRoutes.map((r) => r.split('/').slice(0, 3).join('/'))),
+  ].sort();
 
   console.log(`\n📊 Production 404 monitor — watch these prefixes for unexpected traffic:`);
   for (const prefix of uniquePrefixes.slice(0, 20)) {

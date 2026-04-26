@@ -15,7 +15,9 @@ describe('FundingImpactPage', () => {
 
   it('displays the main heading', () => {
     render(<FundingImpactPage />);
-    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('The Impact of Federal Workforce Funding');
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
+      'The Impact of Federal Workforce Funding',
+    );
   });
 
   it('displays the hero section with video element', () => {
@@ -63,7 +65,7 @@ describe('FundingImpactPage', () => {
     render(<FundingImpactPage />);
     const applyButtons = screen.getAllByRole('link', { name: /apply/i });
     expect(applyButtons.length).toBeGreaterThan(0);
-    
+
     const eligibilityButtons = screen.getAllByRole('link', { name: /eligibility/i });
     expect(eligibilityButtons.length).toBeGreaterThan(0);
   });

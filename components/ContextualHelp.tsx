@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 import Image from 'next/image';
@@ -76,9 +76,7 @@ export function ContextualHelp({
         >
           <div className="bg-white rounded-lg shadow-xl border border-gray-200 p-4">
             <div className="flex items-start justify-between mb-2">
-              <h4 className="font-semibold text-black text-sm">
-                {title}
-              </h4>
+              <h4 className="font-semibold text-black text-sm">{title}</h4>
               <button
                 onClick={() => setIsOpen(false)}
                 className="text-slate-700 hover:text-black transition-colors"
@@ -88,9 +86,7 @@ export function ContextualHelp({
               </button>
             </div>
 
-            <p className="text-sm text-black leading-relaxed mb-3">
-              {content}
-            </p>
+            <p className="text-sm text-black leading-relaxed mb-3">{content}</p>
 
             {learnMoreUrl && (
               <a
@@ -111,10 +107,10 @@ export function ContextualHelp({
               position === 'top'
                 ? 'bottom-[-6px] left-1/2 -translate-x-1/2 border-b border-r'
                 : position === 'bottom'
-                ? 'top-[-6px] left-1/2 -translate-x-1/2 border-t border-l'
-                : position === 'left'
-                ? 'right-[-6px] top-1/2 -translate-y-1/2 border-r border-t'
-                : 'left-[-6px] top-1/2 -translate-y-1/2 border-l border-b'
+                  ? 'top-[-6px] left-1/2 -translate-x-1/2 border-t border-l'
+                  : position === 'left'
+                    ? 'right-[-6px] top-1/2 -translate-y-1/2 border-r border-t'
+                    : 'left-[-6px] top-1/2 -translate-y-1/2 border-l border-b'
             }`}
           />
         </div>
@@ -134,13 +130,7 @@ export function InlineHelp({ children }: { children: React.ReactNode }) {
 }
 
 // Help section component for forms
-export function HelpSection({
-  title,
-  children,
-}: {
-  title: string;
-  children: React.ReactNode;
-}) {
+export function HelpSection({ title, children }: { title: string; children: React.ReactNode }) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
@@ -162,19 +152,12 @@ export function HelpSection({
           viewBox="0 0 24 24"
           stroke="currentColor"
         >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M19 9l-7 7-7-7"
-          />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
         </svg>
       </button>
 
       {isExpanded && (
-        <div className="mt-3 text-sm text-brand-blue-800 leading-relaxed">
-          {children}
-        </div>
+        <div className="mt-3 text-sm text-brand-blue-800 leading-relaxed">{children}</div>
       )}
     </div>
   );
@@ -222,9 +205,7 @@ export function KeyboardShortcuts({
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[80vh] overflow-hidden">
             <div className="flex items-center justify-between p-6 border-b">
-              <h3 className="text-xl font-bold text-black">
-                Keyboard Shortcuts
-              </h3>
+              <h3 className="text-xl font-bold text-black">Keyboard Shortcuts</h3>
               <button
                 onClick={() => setIsOpen(false)}
                 className="text-slate-700 hover:text-black"

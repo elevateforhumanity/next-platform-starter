@@ -20,46 +20,49 @@ import { execSync } from 'child_process';
 import { createClient } from '@supabase/supabase-js';
 import OpenAI from 'openai';
 
-const BARBER_COURSE_ID  = '3fb5ce19-1cde-434c-a8c6-f138d7d7aa17';
-const INSTRUCTOR_IMAGE  = path.join(process.cwd(), 'public/images/team/instructors/instructor-barber.jpg');
-const INSTRUCTOR_NAME   = 'James Carter';
-const INSTRUCTOR_TITLE  = 'Master Barber & Educator';
-const COURSE_NAME       = 'Professional Barbering — Indiana State Board Prep';
-const OUTPUT_DIR        = path.join(process.cwd(), 'public/videos/barber-lessons');
-const TEMP_DIR          = path.join(process.cwd(), 'temp/barber-lesson-videos');
+const BARBER_COURSE_ID = '3fb5ce19-1cde-434c-a8c6-f138d7d7aa17';
+const INSTRUCTOR_IMAGE = path.join(
+  process.cwd(),
+  'public/images/team/instructors/instructor-barber.jpg',
+);
+const INSTRUCTOR_NAME = 'James Carter';
+const INSTRUCTOR_TITLE = 'Master Barber & Educator';
+const COURSE_NAME = 'Professional Barbering — Indiana State Board Prep';
+const OUTPUT_DIR = path.join(process.cwd(), 'public/videos/barber-lessons');
+const TEMP_DIR = path.join(process.cwd(), 'temp/barber-lesson-videos');
 const W = 1920;
 const H = 1080;
 
 const DRY_RUN = process.argv.includes('--dry-run');
-const FORCE   = process.argv.includes('--force');
+const FORCE = process.argv.includes('--force');
 
 const args = process.argv.slice(2);
-const onlyArg = args.find(a => a === '--only')
+const onlyArg = args.find((a) => a === '--only')
   ? args[args.indexOf('--only') + 1]
-  : args.find(a => a.startsWith('--only='))?.replace('--only=', '');
-const onlySlugs = onlyArg ? onlyArg.split(',').map(s => s.trim()) : null;
+  : args.find((a) => a.startsWith('--only='))?.replace('--only=', '');
+const onlySlugs = onlyArg ? onlyArg.split(',').map((s) => s.trim()) : null;
 
 const db = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!,
-  { auth: { persistSession: false } }
+  { auth: { persistSession: false } },
 );
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY! });
 
 const ACCENTS: Record<string, string> = {
-  intro:       '#f97316',
-  concept:     '#8b5cf6',
-  visual:      '#10b981',
+  intro: '#f97316',
+  concept: '#8b5cf6',
+  visual: '#10b981',
   application: '#f59e0b',
-  wrapup:      '#f97316',
+  wrapup: '#f97316',
 };
 
 const SEGMENT_LABELS: Record<string, string> = {
-  intro:       'LESSON INTRODUCTION',
-  concept:     'CORE CONCEPT',
-  visual:      'TECHNIQUE OVERVIEW',
+  intro: 'LESSON INTRODUCTION',
+  concept: 'CORE CONCEPT',
+  visual: 'TECHNIQUE OVERVIEW',
   application: 'IN THE SHOP',
-  wrapup:      'LESSON SUMMARY',
+  wrapup: 'LESSON SUMMARY',
 };
 
 interface Slide {
@@ -72,16 +75,21 @@ interface Slide {
 function stripHtml(html: string): string {
   return (html || '')
     .replace(/<[^>]+>/g, ' ')
-    .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
-    .replace(/&nbsp;/g, ' ').replace(/&quot;/g, '"').replace(/&#39;/g, "'")
-    .replace(/\s+/g, ' ').trim();
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/\s+/g, ' ')
+    .trim();
 }
 
 async function planLesson(
   title: string,
   content: string,
   moduleTitle: string,
-  nextTitle?: string
+  nextTitle?: string,
 ): Promise<Slide[]> {
   const plain = stripHtml(content).slice(0, 6000);
 
@@ -89,9 +97,10 @@ async function planLesson(
     model: 'gpt-4o',
     temperature: 0.3,
     max_tokens: 3000,
-    messages: [{
-      role: 'user',
-      content: `You are writing a professional instructional video script for the Elevate for Humanity Professional Barbering Program (Indiana State Board exam prep).
+    messages: [
+      {
+        role: 'user',
+        content: `You are writing a professional instructional video script for the Elevate for Humanity Professional Barbering Program (Indiana State Board exam prep).
 
 Lesson: "${title}" — Module: "${moduleTitle}"
 ${nextTitle ? `Next lesson: "${nextTitle}"` : ''}
@@ -135,11 +144,15 @@ Produce a 5-segment lesson script. Return JSON only, no markdown:
     }
   ]
 }`,
-    }],
+      },
+    ],
   });
 
   const raw = res.choices[0].message.content || '';
-  const cleaned = raw.replace(/^```json?\s*/i, '').replace(/\s*```$/i, '').trim();
+  const cleaned = raw
+    .replace(/^```json?\s*/i, '')
+    .replace(/\s*```$/i, '')
+    .trim();
   return JSON.parse(cleaned).slides as Slide[];
 }
 
@@ -155,17 +168,15 @@ async function generateAudio(text: string, outPath: string): Promise<number> {
   try {
     const dur = execSync(
       `ffprobe -v error -show_entries format=duration -of csv=p=0 "${outPath}"`,
-      { encoding: 'utf-8' }
+      { encoding: 'utf-8' },
     ).trim();
     return parseFloat(dur) || 30;
-  } catch { return 30; }
+  } catch {
+    return 30;
+  }
 }
 
-async function renderSlide(
-  slide: Slide,
-  moduleTitle: string,
-  outPath: string
-): Promise<void> {
+async function renderSlide(slide: Slide, moduleTitle: string, outPath: string): Promise<void> {
   const { createCanvas, loadImage } = await import('canvas');
   const canvas = createCanvas(W, H);
   const ctx = canvas.getContext('2d');
@@ -232,12 +243,17 @@ async function renderSlide(
   });
 
   // Instructor image — bottom left
-  const imgX = 56, imgY = H - 320, imgW = 270, imgH = 220;
+  const imgX = 56,
+    imgY = H - 320,
+    imgW = 270,
+    imgH = 220;
   if (fs.existsSync(INSTRUCTOR_IMAGE)) {
     try {
       const img = await loadImage(INSTRUCTOR_IMAGE);
       ctx.drawImage(img, imgX, imgY, imgW, imgH);
-    } catch { /* skip */ }
+    } catch {
+      /* skip */
+    }
   } else {
     ctx.fillStyle = '#1e293b';
     ctx.fillRect(imgX, imgY, imgW, imgH);
@@ -263,22 +279,24 @@ async function renderSlide(
 function buildSegment(slidePng: string, audioMp3: string, duration: number, outPath: string): void {
   execSync(
     `ffmpeg -y -loop 1 -i "${slidePng}" -i "${audioMp3}" ` +
-    `-vf "scale=${W}:${H},format=yuv420p,fade=in:0:15,fade=out:st=${Math.max(0, duration - 0.5)}:d=0.5" ` +
-    `-c:v libx264 -preset fast -crf 20 ` +
-    `-c:a aac -b:a 128k -ar 44100 -ac 2 ` +
-    `-t ${duration} -movflags +faststart "${outPath}"`,
-    { stdio: 'pipe' }
+      `-vf "scale=${W}:${H},format=yuv420p,fade=in:0:15,fade=out:st=${Math.max(0, duration - 0.5)}:d=0.5" ` +
+      `-c:v libx264 -preset fast -crf 20 ` +
+      `-c:a aac -b:a 128k -ar 44100 -ac 2 ` +
+      `-t ${duration} -movflags +faststart "${outPath}"`,
+    { stdio: 'pipe' },
   );
 }
 
 function assembleVideo(segmentPaths: string[], outPath: string): void {
   const concatFile = outPath.replace('.mp4', '-concat.txt');
-  fs.writeFileSync(concatFile, segmentPaths.map(p => `file '${p}'`).join('\n'));
+  fs.writeFileSync(concatFile, segmentPaths.map((p) => `file '${p}'`).join('\n'));
   execSync(
     `ffmpeg -y -f concat -safe 0 -i "${concatFile}" -c copy -movflags +faststart "${outPath}"`,
-    { stdio: 'pipe' }
+    { stdio: 'pipe' },
   );
-  try { fs.unlinkSync(concatFile); } catch {}
+  try {
+    fs.unlinkSync(concatFile);
+  } catch {}
 }
 
 async function main() {
@@ -302,11 +320,11 @@ async function main() {
   }
 
   const allLessons = dbLessons as any[];
-  const toProcess = onlySlugs
-    ? allLessons.filter(l => onlySlugs.includes(l.slug))
-    : allLessons;
+  const toProcess = onlySlugs ? allLessons.filter((l) => onlySlugs.includes(l.slug)) : allLessons;
 
-  const missing = toProcess.filter(l => FORCE || !fs.existsSync(path.join(OUTPUT_DIR, `${l.slug}.mp4`)));
+  const missing = toProcess.filter(
+    (l) => FORCE || !fs.existsSync(path.join(OUTPUT_DIR, `${l.slug}.mp4`)),
+  );
 
   console.log(`\n=== Barber Lesson Video Generator ===`);
   console.log(`DB lessons   : ${allLessons.length}`);
@@ -314,7 +332,9 @@ async function main() {
   console.log(`Need video   : ${missing.length}`);
   console.log(`Mode         : ${DRY_RUN ? 'DRY RUN' : 'LIVE'} | Force: ${FORCE}\n`);
 
-  let ok = 0, skipped = 0, failed = 0;
+  let ok = 0,
+    skipped = 0,
+    failed = 0;
   const t0 = Date.now();
 
   for (let i = 0; i < toProcess.length; i++) {
@@ -332,7 +352,8 @@ async function main() {
     console.log(`\n▶  [${i + 1}/${toProcess.length}] ${lesson.slug}: ${lesson.title}`);
 
     if (DRY_RUN) {
-      const content = typeof lesson.content === 'object' ? lesson.content?.text || '' : lesson.content || '';
+      const content =
+        typeof lesson.content === 'object' ? lesson.content?.text || '' : lesson.content || '';
       console.log(`   Module  : ${moduleTitle}`);
       console.log(`   Content : ${stripHtml(content).length} chars`);
       continue;
@@ -343,9 +364,8 @@ async function main() {
 
     try {
       process.stdout.write('   Planning...');
-      const lessonContent = typeof lesson.content === 'object'
-        ? lesson.content?.text || ''
-        : lesson.content || '';
+      const lessonContent =
+        typeof lesson.content === 'object' ? lesson.content?.text || '' : lesson.content || '';
       const slides = await planLesson(lesson.title, lessonContent, moduleTitle, nextLesson?.title);
       console.log(` ${slides.length} slides`);
 
@@ -384,14 +404,23 @@ async function main() {
       console.error(`   ❌ ${lesson.slug}: ${err.message}`);
       failed++;
     } finally {
-      try { fs.rmSync(dir, { recursive: true, force: true }); } catch {}
+      try {
+        fs.rmSync(dir, { recursive: true, force: true });
+      } catch {}
     }
   }
 
-  try { if (!DRY_RUN) fs.rmSync(TEMP_DIR, { recursive: true, force: true }); } catch {}
+  try {
+    if (!DRY_RUN) fs.rmSync(TEMP_DIR, { recursive: true, force: true });
+  } catch {}
 
   const elapsed = ((Date.now() - t0) / 60000).toFixed(1);
-  console.log(`\n=== DONE === ${ok} generated | ${skipped} skipped | ${failed} failed | ${elapsed} min`);
+  console.log(
+    `\n=== DONE === ${ok} generated | ${skipped} skipped | ${failed} failed | ${elapsed} min`,
+  );
 }
 
-main().catch(e => { console.error('Fatal:', e); process.exit(1); });
+main().catch((e) => {
+  console.error('Fatal:', e);
+  process.exit(1);
+});

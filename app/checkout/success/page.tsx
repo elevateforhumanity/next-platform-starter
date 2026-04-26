@@ -1,7 +1,6 @@
 import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
 
-
 export const metadata: Metadata = {
   title: 'Checkout Success | Elevate For Humanity',
   description: 'Elevate For Humanity - Career training and workforce development',
@@ -11,11 +10,7 @@ import { Suspense } from 'react';
 import Link from 'next/link';
 
 export const revalidate = 3600;
-function SuccessContent({
-  searchParams,
-}: {
-  searchParams: { session_id?: string };
-}) {
+function SuccessContent({ searchParams }: { searchParams: { session_id?: string } }) {
   const sessionId = searchParams.session_id;
 
   return (
@@ -24,39 +19,32 @@ function SuccessContent({
         <div className="text-center">
           <span className="text-slate-500 flex-shrink-0">•</span>
 
-          <h1 className="text-3xl font-bold text-black mb-4">
-            Payment Successful!
-          </h1>
+          <h1 className="text-3xl font-bold text-black mb-4">Payment Successful!</h1>
 
           <p className="text-lg text-black mb-8">
-            Thank you for choosing Elevate for Humanity. Your platform license
-            is being activated.
+            Thank you for choosing Elevate for Humanity. Your platform license is being activated.
           </p>
 
           <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-lg p-6 mb-8 text-left">
-            <h2 className="text-xl font-semibold text-black mb-4">
-              What happens next?
-            </h2>
+            <h2 className="text-xl font-semibold text-black mb-4">What happens next?</h2>
             <ol className="space-y-3 text-black">
               <li className="flex items-start">
                 <span className="font-semibold mr-2">1.</span>
                 <span>
-                  You'll receive a confirmation email within 5 minutes with your
-                  receipt and next steps.
+                  You'll receive a confirmation email within 5 minutes with your receipt and next
+                  steps.
                 </span>
               </li>
               <li className="flex items-start">
                 <span className="font-semibold mr-2">2.</span>
                 <span>
-                  Our onboarding team will contact you within 24 hours to
-                  schedule your kickoff call.
+                  Our onboarding team will contact you within 24 hours to schedule your kickoff
+                  call.
                 </span>
               </li>
               <li className="flex items-start">
                 <span className="font-semibold mr-2">3.</span>
-                <span>
-                  We'll set up your account and have you live within 2-4 weeks.
-                </span>
+                <span>We'll set up your account and have you live within 2-4 weeks.</span>
               </li>
             </ol>
           </div>
@@ -65,13 +53,9 @@ function SuccessContent({
             <div className="bg-white rounded-lg p-4 mb-8">
               <p className="text-sm text-black">
                 <span className="font-semibold">Session ID:</span>{' '}
-                <code className="bg-gray-200 px-2 py-2 rounded text-xs">
-                  {sessionId}
-                </code>
+                <code className="bg-gray-200 px-2 py-2 rounded text-xs">{sessionId}</code>
               </p>
-              <p className="text-xs text-black mt-2">
-                Save this for your records
-              </p>
+              <p className="text-xs text-black mt-2">Save this for your records</p>
             </div>
           )}
 
@@ -94,17 +78,11 @@ function SuccessContent({
           <div className="mt-8 pt-8 border-t border-gray-200">
             <p className="text-sm text-black">
               Questions? Contact us at{' '}
-              <a
-                href="/contact"
-                className="text-brand-blue-600 hover:underline"
-              >
+              <a href="/contact" className="text-brand-blue-600 hover:underline">
                 our contact form
               </a>{' '}
               or call{' '}
-              <a
-                href="/support"
-                className="text-brand-blue-600 hover:underline"
-              >
+              <a href="/support" className="text-brand-blue-600 hover:underline">
                 (317) 314-3757
               </a>
             </p>
@@ -123,7 +101,6 @@ export default async function CheckoutSuccessPage({
   const resolvedSearchParams = await searchParams;
   const supabase = await createClient();
 
-  
   // Log checkout success
   await supabase.from('page_views').insert({ page: 'checkout_success' }).select();
 

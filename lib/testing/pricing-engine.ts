@@ -14,14 +14,7 @@
  * while the real numbers are being confirmed.
  */
 
-export type Provider =
-  | 'certiport'
-  | 'nrf'
-  | 'workkeys'
-  | 'esco'
-  | 'nha'
-  | 'careersafe'
-  | 'midland';
+export type Provider = 'certiport' | 'nrf' | 'workkeys' | 'esco' | 'nha' | 'careersafe' | 'midland';
 
 export interface PricingInput {
   /** Voucher/exam fee you pay the provider — the true variable cost */
@@ -48,7 +41,7 @@ export interface PricingResult {
  * Minimum acceptable gross margin. Any provider config that produces a margin
  * below this will throw at module load time.
  */
-export const MARGIN_FLOOR = 0.40;
+export const MARGIN_FLOOR = 0.4;
 
 /**
  * Global price adjustment multiplier applied on top of all calculated prices.
@@ -62,13 +55,13 @@ export const GLOBAL_PRICE_MULTIPLIER = 1.05;
  * system maintenance, annual authorization fees) so it gets a higher multiplier.
  */
 const PROVIDER_MULTIPLIERS: Record<Provider, number> = {
-  certiport:  2.1,  // higher compliance burden
-  nrf:        1.9,
-  workkeys:   1.9,
-  esco:       1.8,
-  nha:        1.6,  // NHA already has a high voucher cost; lower multiplier keeps price competitive
-  careersafe: 1.8,  // online delivery — lower fixed cost, same compliance obligation
-  midland:    1.9,  // in-person trade assessment
+  certiport: 2.1, // higher compliance burden
+  nrf: 1.9,
+  workkeys: 1.9,
+  esco: 1.8,
+  nha: 1.6, // NHA already has a high voucher cost; lower multiplier keeps price competitive
+  careersafe: 1.8, // online delivery — lower fixed cost, same compliance obligation
+  midland: 1.9, // in-person trade assessment
 };
 
 export function calculatePrice(input: PricingInput): PricingResult {
@@ -81,8 +74,8 @@ export function calculatePrice(input: PricingInput): PricingResult {
   if (margin < MARGIN_FLOOR) {
     throw new Error(
       `[pricing-engine] Margin floor violation for provider "${input.provider}": ` +
-      `${(margin * 100).toFixed(1)}% < ${(MARGIN_FLOOR * 100).toFixed(1)}% minimum. ` +
-      `True cost $${trueCost}, price $${price}. Raise price or reduce cost.`
+        `${(margin * 100).toFixed(1)}% < ${(MARGIN_FLOOR * 100).toFixed(1)}% minimum. ` +
+        `True cost $${trueCost}, price $${price}. Raise price or reduce cost.`,
     );
   }
 
@@ -100,9 +93,9 @@ export function calculateRetakePrice(voucherCost: number): number {
   const price = Math.ceil(cost * 1.5);
   const margin = (price - cost) / price;
 
-  if (margin < 0.30) {
+  if (margin < 0.3) {
     throw new Error(
-      `[pricing-engine] Retake margin too low: ${(margin * 100).toFixed(1)}% < 30% minimum.`
+      `[pricing-engine] Retake margin too low: ${(margin * 100).toFixed(1)}% < 30% minimum.`,
     );
   }
 

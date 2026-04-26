@@ -16,24 +16,14 @@
       },
       {
         "prompt": "Which tool should be held in the non-dominant hand during the scissor-over-comb technique?",
-        "choices": [
-          "Scissors",
-          "Comb",
-          "Razor",
-          "Clippers"
-        ],
+        "choices": ["Scissors", "Comb", "Razor", "Clippers"],
         "answerIndex": 1,
         "rationale": "The comb is held in the non-dominant hand to lift and control the hair while cutting with the dominant hand.",
         "type": "recall"
       },
       {
         "prompt": "A client presents with thick hair and requests a lighter, more textured look. Which technique should you use?",
-        "choices": [
-          "Scissor-over-comb",
-          "Point cutting",
-          "Clipper cutting",
-          "Razor cutting"
-        ],
+        "choices": ["Scissor-over-comb", "Point cutting", "Clipper cutting", "Razor cutting"],
         "answerIndex": 1,
         "rationale": "Point cutting is ideal for creating texture and reducing bulk, making it suitable for a lighter, more textured look.",
         "type": "scenario"
@@ -52,36 +42,21 @@
       },
       {
         "prompt": "What angle should the scissors be held at during point cutting?",
-        "choices": [
-          "Horizontal",
-          "Vertical",
-          "Diagonal",
-          "Parallel to the comb"
-        ],
+        "choices": ["Horizontal", "Vertical", "Diagonal", "Parallel to the comb"],
         "answerIndex": 1,
         "rationale": "Point cutting requires the scissors to be held at a vertical angle to create texture and soften the ends.",
         "type": "recall"
       },
       {
         "prompt": "A new client asks for a haircut with smooth graduations. Which technique is most appropriate?",
-        "choices": [
-          "Scissor-over-comb",
-          "Clipper cutting",
-          "Razor cutting",
-          "Texturizing shears"
-        ],
+        "choices": ["Scissor-over-comb", "Clipper cutting", "Razor cutting", "Texturizing shears"],
         "answerIndex": 0,
         "rationale": "Scissor-over-comb is ideal for creating smooth graduations and blending different hair lengths.",
         "type": "scenario"
       },
       {
         "prompt": "What is the first step in the scissor-over-comb technique?",
-        "choices": [
-          "Position the comb",
-          "Prepare your tools",
-          "Cut the hair",
-          "Check your work"
-        ],
+        "choices": ["Position the comb", "Prepare your tools", "Cut the hair", "Check your work"],
         "answerIndex": 1,
         "rationale": "The first step is to prepare your tools by ensuring they are clean and disinfected, which is crucial for safety and performance.",
         "type": "recall"
@@ -112,12 +87,7 @@
       },
       {
         "prompt": "A client requests a haircut with more movement and less bulk. Which technique should you incorporate?",
-        "choices": [
-          "Scissor-over-comb",
-          "Point cutting",
-          "Clipper cutting",
-          "Razor cutting"
-        ],
+        "choices": ["Scissor-over-comb", "Point cutting", "Clipper cutting", "Razor cutting"],
         "answerIndex": 1,
         "rationale": "Point cutting is effective for adding movement and reducing bulk, making it suitable for this request.",
         "type": "scenario"
@@ -160,12 +130,7 @@
       },
       {
         "prompt": "A client with fine hair wants a haircut that adds texture. Which technique should you use?",
-        "choices": [
-          "Scissor-over-comb",
-          "Point cutting",
-          "Clipper cutting",
-          "Razor cutting"
-        ],
+        "choices": ["Scissor-over-comb", "Point cutting", "Clipper cutting", "Razor cutting"],
         "answerIndex": 1,
         "rationale": "Point cutting is ideal for adding texture and movement to fine hair without removing too much length.",
         "type": "scenario"
@@ -208,12 +173,7 @@
       },
       {
         "prompt": "A client with a short hairstyle wants a smooth transition between lengths. Which technique is most suitable?",
-        "choices": [
-          "Scissor-over-comb",
-          "Point cutting",
-          "Clipper cutting",
-          "Razor cutting"
-        ],
+        "choices": ["Scissor-over-comb", "Point cutting", "Clipper cutting", "Razor cutting"],
         "answerIndex": 0,
         "rationale": "Scissor-over-comb is particularly useful for creating smooth transitions in shorter hairstyles.",
         "type": "scenario"

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Shield, Award, ExternalLink, CheckCircle, } from 'lucide-react';
+import { Shield, Award, ExternalLink, CheckCircle } from 'lucide-react';
 
 interface CredentialBadgeProps {
   variant?: 'compact' | 'full' | 'inline';
@@ -34,10 +34,10 @@ const credentials = [
   },
 ];
 
-export function CredentialBadges({ 
-  variant = 'compact', 
+export function CredentialBadges({
+  variant = 'compact',
   showVerifyLink = true,
-  className = '' 
+  className = '',
 }: CredentialBadgeProps) {
   if (variant === 'inline') {
     return (
@@ -52,10 +52,7 @@ export function CredentialBadges({
           </span>
         ))}
         {showVerifyLink && (
-          <Link
-            href="/verify-credentials"
-            className="text-xs text-brand-blue-600 hover:underline"
-          >
+          <Link href="/verify-credentials" className="text-xs text-brand-blue-600 hover:underline">
             Verify
           </Link>
         )}
@@ -110,19 +107,16 @@ export function CredentialBadges({
         {credentials.map((cred) => {
           const Icon = cred.icon;
           return (
-            <div
-              key={cred.shortName}
-              className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg"
-            >
-              <div className={`w-10 h-10 bg-${cred.color}-100 rounded-lg flex items-center justify-center flex-shrink-0`}>
+            <div key={cred.shortName} className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
+              <div
+                className={`w-10 h-10 bg-${cred.color}-100 rounded-lg flex items-center justify-center flex-shrink-0`}
+              >
                 <Icon className={`w-5 h-5 text-${cred.color}-600`} />
               </div>
               <div>
                 <p className="font-semibold text-slate-900 text-sm">{cred.name}</p>
                 <p className="text-xs text-slate-700">{cred.description}</p>
-                {cred.id && (
-                  <p className="text-xs text-slate-700 font-mono mt-1">{cred.id}</p>
-                )}
+                {cred.id && <p className="text-xs text-slate-700 font-mono mt-1">{cred.id}</p>}
               </div>
             </div>
           );
@@ -153,10 +147,7 @@ export function CredentialBadgeStrip({ className = '' }: { className?: string })
           WIOA
         </span>
       </div>
-      <Link
-        href="/verify-credentials"
-        className="text-brand-blue-600 hover:underline"
-      >
+      <Link href="/verify-credentials" className="text-brand-blue-600 hover:underline">
         Verify →
       </Link>
     </div>

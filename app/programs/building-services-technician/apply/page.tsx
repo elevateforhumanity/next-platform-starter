@@ -5,7 +5,8 @@ import { ArrowLeft, ArrowRight, Clock, Award, DollarSign } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Apply for Building Services Technician Apprenticeship | Elevate for Humanity',
-  description: 'Apply for the Building Services Technician Apprenticeship. 6000-hour DOL registered program with paid OJT.',
+  description:
+    'Apply for the Building Services Technician Apprenticeship. 6000-hour DOL registered program with paid OJT.',
 };
 
 export default function ApplyPage() {
@@ -17,7 +18,10 @@ export default function ApplyPage() {
           <Breadcrumbs
             items={[
               { label: 'Programs', href: '/programs' },
-              { label: 'Building Services Technician', href: '/programs/building-services-technician' },
+              {
+                label: 'Building Services Technician',
+                href: '/programs/building-services-technician',
+              },
               { label: 'Apply' },
             ]}
             className="text-white/80 mb-4"
@@ -25,7 +29,9 @@ export default function ApplyPage() {
           <span className="inline-block px-3 py-1 bg-green-500 text-white text-sm font-semibold rounded-full mb-3">
             DOL REGISTERED APPRENTICESHIP
           </span>
-          <h1 className="text-3xl md:text-4xl font-bold text-white">Apply for Building Services Technician</h1>
+          <h1 className="text-3xl md:text-4xl font-bold text-white">
+            Apply for Building Services Technician
+          </h1>
           <p className="text-white/90 mt-2">6,000-Hour Program with Paid On-the-Job Training</p>
         </div>
       </section>
@@ -82,7 +88,9 @@ export default function ApplyPage() {
               </li>
               <li className="flex items-start gap-3">
                 <span className="text-blue-600 font-bold">•</span>
-                <span className="text-blue-900">Physically able to work at heights and perform demanding tasks</span>
+                <span className="text-blue-900">
+                  Physically able to work at heights and perform demanding tasks
+                </span>
               </li>
             </ul>
           </div>
@@ -115,8 +123,18 @@ export default function ApplyPage() {
           {/* Option 1: Get More Information */}
           <div className="bg-slate-50 rounded-2xl p-8 text-center">
             <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              <svg
+                className="w-8 h-8 text-blue-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
               </svg>
             </div>
             <h3 className="text-xl font-bold text-slate-900 mb-2">Get More Information</h3>
@@ -138,7 +156,8 @@ export default function ApplyPage() {
             </div>
             <h3 className="text-xl font-bold mb-2">Ready to Apply?</h3>
             <p className="text-green-100 mb-6">
-              Start your application now. We'll review your eligibility and contact you within 2-3 business days.
+              Start your application now. We'll review your eligibility and contact you within 2-3
+              business days.
             </p>
             <Link
               href="/apply/student?program=building-services-technician"
@@ -154,8 +173,17 @@ export default function ApplyPage() {
         <div className="bg-slate-900 text-white rounded-xl p-6 text-center">
           <p className="mb-2">Questions about the program?</p>
           <p className="text-lg">
-            Call <a href="tel:317-314-3757" className="text-green-400 font-bold hover:underline">(317) 314-3757</a> or email{' '}
-            <a href="mailto:elevate4humanityedu@gmail.com" className="text-green-400 font-bold hover:underline">elevate4humanityedu@gmail.com</a>
+            Call{' '}
+            <a href="tel:317-314-3757" className="text-green-400 font-bold hover:underline">
+              (317) 314-3757
+            </a>{' '}
+            or email{' '}
+            <a
+              href="mailto:elevate4humanityedu@gmail.com"
+              className="text-green-400 font-bold hover:underline"
+            >
+              elevate4humanityedu@gmail.com
+            </a>
           </p>
         </div>
 

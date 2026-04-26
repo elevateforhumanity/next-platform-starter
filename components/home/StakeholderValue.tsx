@@ -73,16 +73,18 @@ export default function StakeholderValue() {
             const Icon = s.icon;
             return (
               <ScrollReveal key={i} delay={i * 120}>
-                <div className={`${s.bg} border ${s.border} rounded-2xl p-8 h-full flex flex-col hover:shadow-lg transition-shadow`}>
-                  <div className={`w-12 h-12 rounded-xl ${s.gradient} flex items-center justify-center mb-5`}>
+                <div
+                  className={`${s.bg} border ${s.border} rounded-2xl p-8 h-full flex flex-col hover:shadow-lg transition-shadow`}
+                >
+                  <div
+                    className={`w-12 h-12 rounded-xl ${s.gradient} flex items-center justify-center mb-5`}
+                  >
                     <Icon className="w-6 h-6 text-white" />
                   </div>
                   <p className="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-2">
                     {s.audience}
                   </p>
-                  <h3 className="text-xl font-extrabold text-slate-900 mb-5">
-                    {s.headline}
-                  </h3>
+                  <h3 className="text-xl font-extrabold text-slate-900 mb-5">{s.headline}</h3>
                   <ul className="space-y-3 mb-8 flex-1">
                     {s.benefits.map((b, j) => (
                       <li key={j} className="flex items-start gap-3">

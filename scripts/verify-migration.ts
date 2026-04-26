@@ -1,9 +1,9 @@
 /**
  * Verify Migration: Creator Rejection Fields
- * 
+ *
  * This script verifies that the migration was successful by checking
  * if the new columns exist in the marketplace_creators table.
- * 
+ *
  * Usage: npx tsx scripts/verify-migration.ts
  */
 
@@ -35,8 +35,12 @@ async function verifyMigration() {
         console.error('❌ Migration NOT run - columns do not exist');
         console.error('Error:', error.message);
         console.log('\n📋 To run migration:');
-        console.log('1. Go to: https://supabase.com/dashboard/project/cuxzzpsyufcewtmicszk/sql/new');
-        console.log('2. Copy SQL from: supabase/migrations/20260110_add_creator_rejection_fields.sql');
+        console.log(
+          '1. Go to: https://supabase.com/dashboard/project/cuxzzpsyufcewtmicszk/sql/new',
+        );
+        console.log(
+          '2. Copy SQL from: supabase/migrations/20260110_add_creator_rejection_fields.sql',
+        );
         console.log('3. Paste and run in SQL editor');
         process.exit(1);
       } else {
@@ -71,7 +75,6 @@ async function verifyMigration() {
 
     console.log('\n✅ Migration verification complete!');
     process.exit(0);
-
   } catch (error) {
     console.error('❌ Verification failed:', error);
     process.exit(1);

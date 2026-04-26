@@ -142,14 +142,7 @@ describe('activity tab checkpoint score recording', () => {
   it('calls the checkpoint API when step_type is exam', async () => {
     const mockFetch = vi.fn().mockResolvedValue({ ok: true });
 
-    const result = await activityTabOnComplete(
-      90,
-      {},
-      examLesson,
-      lessonId,
-      courseId,
-      mockFetch,
-    );
+    const result = await activityTabOnComplete(90, {}, examLesson, lessonId, courseId, mockFetch);
 
     expect(mockFetch).toHaveBeenCalledOnce();
     expect(result.apiCalled).toBe(true);
@@ -202,14 +195,7 @@ describe('activity tab checkpoint score recording', () => {
       passing_score: 85, // EPA 608 standard
     };
 
-    const result = await activityTabOnComplete(
-      90,
-      {},
-      customLesson,
-      lessonId,
-      courseId,
-      mockFetch,
-    );
+    const result = await activityTabOnComplete(90, {}, customLesson, lessonId, courseId, mockFetch);
 
     expect(result.payload?.passingScore).toBe(85);
   });

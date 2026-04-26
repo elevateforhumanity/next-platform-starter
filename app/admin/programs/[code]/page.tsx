@@ -7,7 +7,11 @@ import { BookOpen, Users, BarChart3, ArrowRight, Edit3 } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
-export async function generateMetadata({ params }: { params: Promise<{ code: string }> }): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ code: string }>;
+}): Promise<Metadata> {
   const { code } = await params;
   return {
     title: `Program: ${code} | Admin | Elevate For Humanity`,
@@ -23,15 +27,24 @@ export default async function ProgramPage({ params }: { params: Promise<{ code: 
   // Try slug first, then id
   const { data: program } = await db
     .from('programs')
-    .select('id, title, slug, category, description, is_active, published, estimated_weeks, estimated_hours, credential_type, credential_name, created_at')
+    .select(
+      'id, title, slug, category, description, is_active, published, estimated_weeks, estimated_hours, credential_type, credential_name, created_at',
+    )
     .or(`slug.eq.${code},id.eq.${code}`)
     .maybeSingle();
 
   if (!program) notFound();
 
   const [{ data: courses }, { count: enrollmentCount }, { data: modules }] = await Promise.all([
-    db.from('courses').select('id, title, status, updated_at').eq('program_id', program.id).order('updated_at', { ascending: false }),
-    db.from('program_enrollments').select('id', { count: 'exact', head: true }).eq('program_id', program.id),
+    db
+      .from('courses')
+      .select('id, title, status, updated_at')
+      .eq('program_id', program.id)
+      .order('updated_at', { ascending: false }),
+    db
+      .from('program_enrollments')
+      .select('id', { count: 'exact', head: true })
+      .eq('program_id', program.id),
     db.from('modules').select('id, title, slug').eq('program_id', program.id).order('created_at'),
   ]);
 
@@ -44,16 +57,28 @@ export default async function ProgramPage({ params }: { params: Promise<{ code: 
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div>
             <div className="text-xs text-slate-400 mb-1">
-              <Link href="/admin/programs" className="hover:text-blue-600">Programs</Link> / {program.title}
+              <Link href="/admin/programs" className="hover:text-blue-600">
+                Programs
+              </Link>{' '}
+              / {program.title}
             </div>
             <h1 className="text-2xl font-bold text-slate-900">{program.title}</h1>
-            <p className="text-slate-500 text-sm mt-0.5">{program.category} · {program.credential_name ?? program.credential_type ?? 'No credential'}</p>
+            <p className="text-slate-500 text-sm mt-0.5">
+              {program.category} ·{' '}
+              {program.credential_name ?? program.credential_type ?? 'No credential'}
+            </p>
           </div>
           <div className="flex items-center gap-3">
-            <Link href={`/admin/programs/${code}/dashboard`} className="inline-flex items-center gap-1.5 border border-slate-200 text-slate-700 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-slate-50 transition-colors">
+            <Link
+              href={`/admin/programs/${code}/dashboard`}
+              className="inline-flex items-center gap-1.5 border border-slate-200 text-slate-700 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-slate-50 transition-colors"
+            >
               <BarChart3 className="w-4 h-4" /> Dashboard
             </Link>
-            <Link href={`/admin/programs/${program.id}/edit`} className="inline-flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 transition-colors">
+            <Link
+              href={`/admin/programs/${program.id}/edit`}
+              className="inline-flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 transition-colors"
+            >
               <Edit3 className="w-4 h-4" /> Edit
             </Link>
           </div>
@@ -69,7 +94,10 @@ export default async function ProgramPage({ params }: { params: Promise<{ code: 
             { label: 'Modules', value: moduleRows.length, icon: BookOpen },
             { label: 'Est. Hours', value: program.estimated_hours ?? '—', icon: BarChart3 },
           ].map((s) => (
-            <div key={s.label} className="bg-white rounded-xl border border-slate-200 p-5 text-center">
+            <div
+              key={s.label}
+              className="bg-white rounded-xl border border-slate-200 p-5 text-center"
+            >
               <p className="text-3xl font-bold text-blue-600">{s.value}</p>
               <p className="text-sm text-slate-500 mt-1">{s.label}</p>
             </div>
@@ -106,23 +134,42 @@ export default async function ProgramPage({ params }: { params: Promise<{ code: 
         <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
           <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
             <h2 className="font-semibold text-slate-800">Courses ({courseRows.length})</h2>
-            <Link href={`/admin/courses/create?program=${program.id}`} className="text-sm text-blue-600 hover:underline">+ Add Course</Link>
+            <Link
+              href={`/admin/courses/create?program=${program.id}`}
+              className="text-sm text-blue-600 hover:underline"
+            >
+              + Add Course
+            </Link>
           </div>
           {courseRows.length === 0 ? (
             <div className="p-8 text-center text-slate-400">No courses yet.</div>
           ) : (
             <div className="divide-y divide-slate-100">
               {courseRows.map((c) => (
-                <div key={c.id} className="px-6 py-4 flex items-center justify-between hover:bg-slate-50 transition-colors">
+                <div
+                  key={c.id}
+                  className="px-6 py-4 flex items-center justify-between hover:bg-slate-50 transition-colors"
+                >
                   <div>
                     <div className="font-medium text-slate-900">{c.title}</div>
-                    <div className="text-xs text-slate-400 mt-0.5">Updated {new Date(c.updated_at).toLocaleDateString()}</div>
+                    <div className="text-xs text-slate-400 mt-0.5">
+                      Updated {new Date(c.updated_at).toLocaleDateString()}
+                    </div>
                   </div>
                   <div className="flex items-center gap-3">
-                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                      c.status === 'published' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'
-                    }`}>{c.status}</span>
-                    <Link href={`/admin/courses/${c.id}`} className="inline-flex items-center gap-1 text-blue-600 hover:underline text-sm">
+                    <span
+                      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                        c.status === 'published'
+                          ? 'bg-green-100 text-green-700'
+                          : 'bg-yellow-100 text-yellow-700'
+                      }`}
+                    >
+                      {c.status}
+                    </span>
+                    <Link
+                      href={`/admin/courses/${c.id}`}
+                      className="inline-flex items-center gap-1 text-blue-600 hover:underline text-sm"
+                    >
                       <Edit3 className="w-3.5 h-3.5" /> Edit
                     </Link>
                   </div>

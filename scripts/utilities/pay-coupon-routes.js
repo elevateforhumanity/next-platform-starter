@@ -22,10 +22,7 @@
 import { Router } from 'express';
 import { createClient } from '@supabase/supabase-js';
 
-const supa = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_KEY
-);
+const supa = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_KEY);
 export const coupons = Router();
 
 /**
@@ -38,9 +35,7 @@ coupons.post('/api/coupons/validate', async (req, res) => {
   try {
     const { code = '', program_slug = '', list_price_cents } = req.body || {};
     if (!code || !program_slug) {
-      return res
-        .status(400)
-        .json({ valid: false, reason: 'Missing code or program_slug' });
+      return res.status(400).json({ valid: false, reason: 'Missing code or program_slug' });
     }
 
     const { data: c } = await supa
@@ -125,8 +120,7 @@ export async function incrementCouponUsage(couponCode) {
         .update({ redeemed_count: (coupon.redeemed_count || 0) + 1 })
         .eq('id', coupon.id);
     }
-  } catch (e) {
-  }
+  } catch (e) {}
 }
 
 // Client-side helper function (for frontend reference)

@@ -1,4 +1,3 @@
-
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { logAuditEvent, AuditActions } from '@/lib/audit';
@@ -16,7 +15,9 @@ export async function GET(req: NextRequest) {
     const supabase = await createClient();
 
     // Check authentication
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -47,7 +48,8 @@ export async function GET(req: NextRequest) {
     // Build query
     let query = supabase
       .from('profiles')
-      .select(`
+      .select(
+        `
         id,
         full_name,
         email,
@@ -67,7 +69,8 @@ export async function GET(req: NextRequest) {
             slug
           )
         )
-      `)
+      `,
+      )
       .eq('role', 'student');
 
     // Apply date filters
@@ -135,20 +138,22 @@ export async function GET(req: NextRequest) {
       const rows = filteredStudents.flatMap((student: any) => {
         if (!student.enrollments || student.enrollments.length === 0) {
           // Student with no enrollments
-          return [[
-            student.id,
-            student.full_name || '',
-            student.email || '',
-            student.phone || '',
-            formatDate(student.created_at),
-            'No Enrollment',
-            'N/A',
-            '0',
-            '',
-            '',
-            '',
-            ...(includeFinancial ? ['', '', ''] : []),
-          ]];
+          return [
+            [
+              student.id,
+              student.full_name || '',
+              student.email || '',
+              student.phone || '',
+              formatDate(student.created_at),
+              'No Enrollment',
+              'N/A',
+              '0',
+              '',
+              '',
+              '',
+              ...(includeFinancial ? ['', '', ''] : []),
+            ],
+          ];
         }
 
         // One row per enrollment
@@ -171,21 +176,16 @@ export async function GET(req: NextRequest) {
             const tuition = enrollment.tuition_amount || 0;
             const paid = enrollment.paid_amount || 0;
             const balance = tuition - paid;
-            row.push(
-              tuition.toString(),
-              paid.toString(),
-              balance.toString()
-            );
+            row.push(tuition.toString(), paid.toString(), balance.toString());
           }
 
           return row;
         });
       });
 
-      const csv = [
-        headers.join(','),
-        ...rows.map(row => row.map(escapeCsvField).join(','))
-      ].join('\n');
+      const csv = [headers.join(','), ...rows.map((row) => row.map(escapeCsvField).join(','))].join(
+        '\n',
+      );
 
       const timestamp = new Date().toISOString().split('T')[0];
       const filename = `students_export_${timestamp}.csv`;
@@ -205,13 +205,9 @@ export async function GET(req: NextRequest) {
       count: filteredStudents.length,
       exported_at: new Date().toISOString(),
     });
-
   } catch (err: any) {
     // Error: $1
-    return NextResponse.json(
-      { error: 'Failed to export students' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to export students' }, { status: 500 });
   }
 }
 

@@ -92,10 +92,7 @@ while (!success) {
     }
 
     // Check for permission errors
-    if (
-      error.message.includes('EACCES') ||
-      error.message.includes('permission denied')
-    ) {
+    if (error.message.includes('EACCES') || error.message.includes('permission denied')) {
       console.log('💡 Detected: Permission error');
       console.log('🔧 Fixing: Updating permissions...\n');
 

@@ -7,7 +7,8 @@ import { createClient } from '@/lib/supabase/server';
 
 export const metadata: Metadata = {
   title: 'Tuition & Fees | Elevate for Humanity',
-  description: 'Complete tuition and fee schedule for all programs at Elevate for Humanity. Transparent pricing with no hidden costs.',
+  description:
+    'Complete tuition and fee schedule for all programs at Elevate for Humanity. Transparent pricing with no hidden costs.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/tuition-fees',
   },
@@ -17,7 +18,7 @@ export const dynamic = 'force-dynamic';
 
 export default async function TuitionFeesPage() {
   const supabase = await createClient();
-  
+
   // Fetch programs from database
   const { data: dbPrograms } = await supabase
     .from('training_programs')
@@ -29,21 +30,141 @@ export default async function TuitionFeesPage() {
   // DB programs supplement this if tuition_cost is populated
   const STATIC_PROGRAMS = [
     // Prices sourced from INTraining / ETPL official listing (2Exclusive LLC-S / Elevate for Humanity Training Center)
-    { name: 'Barber Apprenticeship', duration: '15 months', tuition: 4890, examFees: 75, examFeesNote: 'Indiana PSI barber exam', materials: 0, fundingType: 'WIOA Eligible — most students pay $0' },
-    { name: 'Beauty & Career Educator Training', duration: '84 days', tuition: 4730, examFees: 75, examFeesNote: 'Indiana PSI exam', materials: 0, fundingType: 'WIOA Eligible — most students pay $0' },
-    { name: 'Bookkeeping / Accounting Clerk', duration: '8 weeks', tuition: 4925, examFees: 0, examFeesNote: 'QuickBooks + MOS exams included', materials: 0, fundingType: 'WIOA Eligible — most students pay $0' },
-    { name: 'Business Management', duration: '5 weeks', tuition: 4900, examFees: 0, examFeesNote: 'Certifications included', materials: 0, fundingType: 'WIOA Eligible — most students pay $0' },
-    { name: 'CPR / AED / First Aid', duration: '1 day', tuition: 575, examFees: 0, examFeesNote: '', materials: 0, fundingType: 'WIOA Eligible' },
-    { name: 'Emergency Health & Safety Technician', duration: '4 weeks', tuition: 4950, examFees: 0, examFeesNote: 'CPR + EMR + OSHA 10 included', materials: 0, fundingType: 'WIOA Eligible — most students pay $0' },
-    { name: 'Home Health Aide', duration: '4 weeks', tuition: 4700, examFees: 0, examFeesNote: 'HHA licensure + CPR + CCHW included', materials: 0, fundingType: 'WIOA Eligible — most students pay $0' },
-    { name: 'HVAC Technician', duration: '12 weeks', tuition: 5000, examFees: 0, examFeesNote: 'EPA 608 + OSHA 30 + CPR + Rise Up included', materials: 0, fundingType: 'WIOA / WRG Eligible — most students pay $0' },
-    { name: 'Medical Assistant', duration: '21 days', tuition: 4325, examFees: 0, examFeesNote: 'CCHW + CPR + Rise Up included', materials: 0, fundingType: 'WIOA Eligible — most students pay $0' },
-    { name: 'Professional Esthetician & Client Services', duration: '5 weeks', tuition: 4575, examFees: 0, examFeesNote: 'OSHA 10 + certifications included', materials: 0, fundingType: 'WIOA Eligible — most students pay $0' },
-    { name: 'Public Safety Reentry Specialist', duration: '45 days', tuition: 4750, examFees: 0, examFeesNote: 'CPRC + CPSP + CCHW + CPR included', materials: 0, fundingType: 'WIOA Eligible — most students pay $0' },
-    { name: 'CDL Training (Class A)', duration: '4 weeks', tuition: 0, examFees: 50, examFeesNote: 'Indiana BMV CDL skills test', materials: 0, fundingType: 'WIOA / WRG Eligible' },
-    { name: 'Tax Preparation', duration: '8 weeks', tuition: 0, examFees: 0, examFeesNote: '', materials: 0, fundingType: 'Grant-Funded' },
-    { name: 'Web Development', duration: '16 weeks', tuition: 0, examFees: 0, examFeesNote: '', materials: 0, fundingType: 'WIOA / WRG Eligible' },
-    { name: 'Cybersecurity Fundamentals', duration: '12 weeks', tuition: 0, examFees: 0, examFeesNote: '', materials: 0, fundingType: 'WIOA / WRG Eligible' },
+    {
+      name: 'Barber Apprenticeship',
+      duration: '15 months',
+      tuition: 4890,
+      examFees: 75,
+      examFeesNote: 'Indiana PSI barber exam',
+      materials: 0,
+      fundingType: 'WIOA Eligible — most students pay $0',
+    },
+    {
+      name: 'Beauty & Career Educator Training',
+      duration: '84 days',
+      tuition: 4730,
+      examFees: 75,
+      examFeesNote: 'Indiana PSI exam',
+      materials: 0,
+      fundingType: 'WIOA Eligible — most students pay $0',
+    },
+    {
+      name: 'Bookkeeping / Accounting Clerk',
+      duration: '8 weeks',
+      tuition: 4925,
+      examFees: 0,
+      examFeesNote: 'QuickBooks + MOS exams included',
+      materials: 0,
+      fundingType: 'WIOA Eligible — most students pay $0',
+    },
+    {
+      name: 'Business Management',
+      duration: '5 weeks',
+      tuition: 4900,
+      examFees: 0,
+      examFeesNote: 'Certifications included',
+      materials: 0,
+      fundingType: 'WIOA Eligible — most students pay $0',
+    },
+    {
+      name: 'CPR / AED / First Aid',
+      duration: '1 day',
+      tuition: 575,
+      examFees: 0,
+      examFeesNote: '',
+      materials: 0,
+      fundingType: 'WIOA Eligible',
+    },
+    {
+      name: 'Emergency Health & Safety Technician',
+      duration: '4 weeks',
+      tuition: 4950,
+      examFees: 0,
+      examFeesNote: 'CPR + EMR + OSHA 10 included',
+      materials: 0,
+      fundingType: 'WIOA Eligible — most students pay $0',
+    },
+    {
+      name: 'Home Health Aide',
+      duration: '4 weeks',
+      tuition: 4700,
+      examFees: 0,
+      examFeesNote: 'HHA licensure + CPR + CCHW included',
+      materials: 0,
+      fundingType: 'WIOA Eligible — most students pay $0',
+    },
+    {
+      name: 'HVAC Technician',
+      duration: '12 weeks',
+      tuition: 5000,
+      examFees: 0,
+      examFeesNote: 'EPA 608 + OSHA 30 + CPR + Rise Up included',
+      materials: 0,
+      fundingType: 'WIOA / WRG Eligible — most students pay $0',
+    },
+    {
+      name: 'Medical Assistant',
+      duration: '21 days',
+      tuition: 4325,
+      examFees: 0,
+      examFeesNote: 'CCHW + CPR + Rise Up included',
+      materials: 0,
+      fundingType: 'WIOA Eligible — most students pay $0',
+    },
+    {
+      name: 'Professional Esthetician & Client Services',
+      duration: '5 weeks',
+      tuition: 4575,
+      examFees: 0,
+      examFeesNote: 'OSHA 10 + certifications included',
+      materials: 0,
+      fundingType: 'WIOA Eligible — most students pay $0',
+    },
+    {
+      name: 'Public Safety Reentry Specialist',
+      duration: '45 days',
+      tuition: 4750,
+      examFees: 0,
+      examFeesNote: 'CPRC + CPSP + CCHW + CPR included',
+      materials: 0,
+      fundingType: 'WIOA Eligible — most students pay $0',
+    },
+    {
+      name: 'CDL Training (Class A)',
+      duration: '4 weeks',
+      tuition: 0,
+      examFees: 50,
+      examFeesNote: 'Indiana BMV CDL skills test',
+      materials: 0,
+      fundingType: 'WIOA / WRG Eligible',
+    },
+    {
+      name: 'Tax Preparation',
+      duration: '8 weeks',
+      tuition: 0,
+      examFees: 0,
+      examFeesNote: '',
+      materials: 0,
+      fundingType: 'Grant-Funded',
+    },
+    {
+      name: 'Web Development',
+      duration: '16 weeks',
+      tuition: 0,
+      examFees: 0,
+      examFeesNote: '',
+      materials: 0,
+      fundingType: 'WIOA / WRG Eligible',
+    },
+    {
+      name: 'Cybersecurity Fundamentals',
+      duration: '12 weeks',
+      tuition: 0,
+      examFees: 0,
+      examFeesNote: '',
+      materials: 0,
+      fundingType: 'WIOA / WRG Eligible',
+    },
   ];
 
   // Use DB data if tuition fields are populated, otherwise use static
@@ -59,9 +180,10 @@ export default async function TuitionFeesPage() {
       fundingType: p.funding_type || 'Self-Pay',
     }));
 
-  const programs = dbMapped.length > 0
-    ? dbMapped
-    : STATIC_PROGRAMS.map(p => ({ ...p, total: p.tuition + p.examFees + p.materials }));
+  const programs =
+    dbMapped.length > 0
+      ? dbMapped
+      : STATIC_PROGRAMS.map((p) => ({ ...p, total: p.tuition + p.examFees + p.materials }));
 
   return (
     <div className="min-h-screen bg-white">
@@ -74,7 +196,14 @@ export default async function TuitionFeesPage() {
 
       {/* Hero Image */}
       <section className="relative h-[200px] sm:h-[280px] md:h-[340px] overflow-hidden">
-        <Image src="/images/pages/tuition-fees-page-1.jpg" alt="Tuition and fee information" fill sizes="100vw" className="object-cover" priority />
+        <Image
+          src="/images/pages/tuition-fees-page-1.jpg"
+          alt="Tuition and fee information"
+          fill
+          sizes="100vw"
+          className="object-cover"
+          priority
+        />
       </section>
 
       {/* Header */}
@@ -93,10 +222,25 @@ export default async function TuitionFeesPage() {
         <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-lg p-6 mb-8">
           <h2 className="font-bold text-gray-900 mb-2">Important Information</h2>
           <ul className="text-gray-700 space-y-2">
-            <li>• All tuition amounts are fixed and not subject to change during your enrollment period</li>
-            <li>• Third-party exam fees are paid directly to the certifying body and are subject to change</li>
-            <li>• Funding eligibility (WIOA/WRG) is determined by your local workforce agency, not by Elevate for Humanity</li>
-            <li>• See our <Link href="/refund-policy" className="text-brand-orange-600 hover:underline">Refund Policy</Link> for cancellation terms</li>
+            <li>
+              • All tuition amounts are fixed and not subject to change during your enrollment
+              period
+            </li>
+            <li>
+              • Third-party exam fees are paid directly to the certifying body and are subject to
+              change
+            </li>
+            <li>
+              • Funding eligibility (WIOA/WRG) is determined by your local workforce agency, not by
+              Elevate for Humanity
+            </li>
+            <li>
+              • See our{' '}
+              <Link href="/refund-policy" className="text-brand-orange-600 hover:underline">
+                Refund Policy
+              </Link>{' '}
+              for cancellation terms
+            </li>
           </ul>
         </div>
 
@@ -118,7 +262,15 @@ export default async function TuitionFeesPage() {
               {programs.length === 0 ? (
                 <tr>
                   <td colSpan={7} className="p-8 text-center text-gray-500">
-                    Program schedule is being updated. <Link href="/programs" className="text-brand-orange-600 hover:underline">View active programs</Link> or <Link href="/contact" className="text-brand-orange-600 hover:underline">contact us</Link> for current pricing.
+                    Program schedule is being updated.{' '}
+                    <Link href="/programs" className="text-brand-orange-600 hover:underline">
+                      View active programs
+                    </Link>{' '}
+                    or{' '}
+                    <Link href="/contact" className="text-brand-orange-600 hover:underline">
+                      contact us
+                    </Link>{' '}
+                    for current pricing.
                   </td>
                 </tr>
               ) : (
@@ -126,14 +278,18 @@ export default async function TuitionFeesPage() {
                   <tr key={program.name} className={index % 2 === 0 ? 'bg-white' : 'bg-white'}>
                     <td className="p-4 font-medium text-gray-900">{program.name}</td>
                     <td className="p-4 text-gray-700">{program.duration}</td>
-                    <td className="p-4 text-right text-gray-900">${program.tuition.toLocaleString()}</td>
+                    <td className="p-4 text-right text-gray-900">
+                      ${program.tuition.toLocaleString()}
+                    </td>
                     <td className="p-4 text-right text-gray-700">
                       {program.examFees > 0 ? `$${program.examFees}` : '—'}
                     </td>
                     <td className="p-4 text-right text-gray-700">
                       {program.materials > 0 ? `$${program.materials}` : '—'}
                     </td>
-                    <td className="p-4 text-right font-bold text-gray-900">${program.total.toLocaleString()}</td>
+                    <td className="p-4 text-right font-bold text-gray-900">
+                      ${program.total.toLocaleString()}
+                    </td>
                     <td className="p-4 text-gray-700 text-sm">{program.fundingType}</td>
                   </tr>
                 ))
@@ -146,22 +302,25 @@ export default async function TuitionFeesPage() {
         <div className="mt-8 bg-yellow-50 border border-yellow-200 rounded-lg p-6">
           <h3 className="font-bold text-gray-900 mb-4">*Third-Party Exam Fees</h3>
           <p className="text-gray-700 mb-4">
-            Some programs prepare students for industry certification exams administered by third parties. 
-            These fees are paid directly to the certifying organization and are not collected by Elevate for Humanity.
+            Some programs prepare students for industry certification exams administered by third
+            parties. These fees are paid directly to the certifying organization and are not
+            collected by Elevate for Humanity.
           </p>
           <ul className="text-gray-700 space-y-2 text-sm">
-            {programs.filter((p: any) => p.examFees > 0).map((program: any) => (
-              <li key={program.name}>
-                <strong>{program.name}:</strong> {program.examFeesNote} — ${program.examFees}
-              </li>
-            ))}
+            {programs
+              .filter((p: any) => p.examFees > 0)
+              .map((program: any) => (
+                <li key={program.name}>
+                  <strong>{program.name}:</strong> {program.examFeesNote} — ${program.examFees}
+                </li>
+              ))}
           </ul>
         </div>
 
         {/* Payment Options */}
         <section className="mt-12">
           <h2 className="text-2xl font-bold text-gray-900 mb-6">Payment Options</h2>
-          
+
           <div className="grid md:grid-cols-3 gap-6">
             <div className="bg-white rounded-lg p-6">
               <h3 className="font-bold text-gray-900 mb-2">Pay in Full</h3>
@@ -169,20 +328,20 @@ export default async function TuitionFeesPage() {
                 Pay the full tuition amount at enrollment. No additional fees.
               </p>
             </div>
-            
+
             <div className="bg-white rounded-lg p-6">
               <h3 className="font-bold text-gray-900 mb-2">Payment Plan</h3>
               <p className="text-gray-700 text-sm">
-                Split your tuition into monthly payments. Down payment required at enrollment. 
-                No interest charged.
+                Split your tuition into monthly payments. Down payment required at enrollment. No
+                interest charged.
               </p>
             </div>
-            
+
             <div className="bg-white rounded-lg p-6">
               <h3 className="font-bold text-gray-900 mb-2">Workforce Funding</h3>
               <p className="text-gray-700 text-sm">
-                Eligible programs may be funded through WIOA or WRG. Contact your local 
-                WorkOne office to determine eligibility.
+                Eligible programs may be funded through WIOA or WRG. Contact your local WorkOne
+                office to determine eligibility.
               </p>
             </div>
           </div>
@@ -191,7 +350,7 @@ export default async function TuitionFeesPage() {
         {/* Additional Fees */}
         <section className="mt-12">
           <h2 className="text-2xl font-bold text-gray-900 mb-6">Additional Information</h2>
-          
+
           <div className="bg-white rounded-lg p-6">
             <h3 className="font-bold text-gray-900 mb-4">What's Included in Tuition</h3>
             <ul className="text-gray-700 space-y-2">
@@ -202,7 +361,7 @@ export default async function TuitionFeesPage() {
               <li>• Certificate of Completion upon successful program completion</li>
             </ul>
           </div>
-          
+
           <div className="bg-white rounded-lg p-6 mt-4">
             <h3 className="font-bold text-gray-900 mb-4">Not Included in Tuition</h3>
             <ul className="text-gray-700 space-y-2">
@@ -218,36 +377,45 @@ export default async function TuitionFeesPage() {
         {/* Footer Links */}
         <div className="mt-12 pt-8 border-t text-center">
           <p className="text-gray-600 mb-4">
-            Questions about tuition or payment options? Contact us at (317) 314-3757 or our contact form
+            Questions about tuition or payment options? Contact us at (317) 314-3757 or our contact
+            form
           </p>
           <div className="flex justify-center gap-6 text-sm">
-            <Link href="/disclosures" className="text-brand-orange-600 hover:underline">Student Disclosures</Link>
-            <Link href="/refund-policy" className="text-brand-orange-600 hover:underline">Refund Policy</Link>
-            <Link href="/enrollment-agreement" className="text-brand-orange-600 hover:underline">Enrollment Agreement</Link>
-          </div>
-        </div>
-      {/* CTA Section */}
-      <section className="bg-brand-blue-700 text-white py-12">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-2xl md:text-3xl font-bold mb-3">Ready to Start Your Career?</h2>
-          <p className="text-white mb-6">Check your eligibility for funded career training programs.</p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/start"
-              className="inline-flex items-center justify-center bg-white text-brand-blue-700 px-6 py-3 rounded-lg font-bold hover:bg-white transition"
-            >
-              Apply Now
+            <Link href="/disclosures" className="text-brand-orange-600 hover:underline">
+              Student Disclosures
             </Link>
-            <a
-              href="/support"
-              className="inline-flex items-center justify-center gap-2 border-2 border-white text-white px-6 py-3 rounded-lg font-bold hover:bg-brand-blue-800 transition"
-            >
-              <Phone className="w-4 h-4" />
-              (317) 314-3757
-            </a>
+            <Link href="/refund-policy" className="text-brand-orange-600 hover:underline">
+              Refund Policy
+            </Link>
+            <Link href="/enrollment-agreement" className="text-brand-orange-600 hover:underline">
+              Enrollment Agreement
+            </Link>
           </div>
         </div>
-      </section>
+        {/* CTA Section */}
+        <section className="bg-brand-blue-700 text-white py-12">
+          <div className="max-w-4xl mx-auto px-4 text-center">
+            <h2 className="text-2xl md:text-3xl font-bold mb-3">Ready to Start Your Career?</h2>
+            <p className="text-white mb-6">
+              Check your eligibility for funded career training programs.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link
+                href="/start"
+                className="inline-flex items-center justify-center bg-white text-brand-blue-700 px-6 py-3 rounded-lg font-bold hover:bg-white transition"
+              >
+                Apply Now
+              </Link>
+              <a
+                href="/support"
+                className="inline-flex items-center justify-center gap-2 border-2 border-white text-white px-6 py-3 rounded-lg font-bold hover:bg-brand-blue-800 transition"
+              >
+                <Phone className="w-4 h-4" />
+                (317) 314-3757
+              </a>
+            </div>
+          </div>
+        </section>
       </div>
     </div>
   );

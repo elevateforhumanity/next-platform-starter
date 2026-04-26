@@ -24,7 +24,7 @@ import type { ProgramCreateInput, ProgramCreateResult } from './types';
 // ── Validation ────────────────────────────────────────────────────────────────
 
 function assertValidInput(input: ProgramCreateInput): void {
-  if (!input.program.slug)  throw new Error('program.slug is required');
+  if (!input.program.slug) throw new Error('program.slug is required');
   if (!input.program.title) throw new Error('program.title is required');
   if (!input.program.description) throw new Error('program.description is required');
   if (!input.modules.length) throw new Error('at least one module is required');
@@ -33,7 +33,7 @@ function assertValidInput(input: ProgramCreateInput): void {
   const lessonSlugs = new Set<string>();
 
   for (const mod of input.modules) {
-    if (!mod.slug)  throw new Error('module.slug is required');
+    if (!mod.slug) throw new Error('module.slug is required');
     if (!mod.title) throw new Error(`module "${mod.slug}" missing title`);
     if (moduleSlugs.has(mod.slug)) throw new Error(`duplicate module slug: ${mod.slug}`);
     moduleSlugs.add(mod.slug);
@@ -41,7 +41,7 @@ function assertValidInput(input: ProgramCreateInput): void {
     if (!mod.lessons.length) throw new Error(`module "${mod.slug}" has no lessons`);
 
     for (const lesson of mod.lessons) {
-      if (!lesson.slug)  throw new Error(`lesson in module "${mod.slug}" missing slug`);
+      if (!lesson.slug) throw new Error(`lesson in module "${mod.slug}" missing slug`);
       if (!lesson.title) throw new Error(`lesson "${lesson.slug}" missing title`);
       if (lessonSlugs.has(lesson.slug)) throw new Error(`duplicate lesson slug: ${lesson.slug}`);
       lessonSlugs.add(lesson.slug);
@@ -54,7 +54,7 @@ function assertValidInput(input: ProgramCreateInput): void {
 
       if (needsPassingScore && !lesson.passingScore) {
         throw new Error(
-          `lesson "${lesson.slug}" (${lesson.lessonType}) requires passingScore (1–100)`
+          `lesson "${lesson.slug}" (${lesson.lessonType}) requires passingScore (1–100)`,
         );
       }
     }
@@ -64,7 +64,7 @@ function assertValidInput(input: ProgramCreateInput): void {
 // ── Pipeline ──────────────────────────────────────────────────────────────────
 
 export async function createAndPublishProgram(
-  input: ProgramCreateInput
+  input: ProgramCreateInput,
 ): Promise<ProgramCreateResult> {
   assertValidInput(input);
 
@@ -72,7 +72,7 @@ export async function createAndPublishProgram(
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!url || !key) {
     throw new Error(
-      'createAndPublishProgram: NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY must be set'
+      'createAndPublishProgram: NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY must be set',
     );
   }
 
@@ -81,12 +81,18 @@ export async function createAndPublishProgram(
   // ── Pre-flight: verify required tables exist before any writes ──────────────
   // Catches the most common schema drift failure (missing table) without
   // requiring the Management API token.
-  for (const table of ['programs', 'courses', 'course_modules', 'course_lessons', 'module_completion_rules'] as const) {
+  for (const table of [
+    'programs',
+    'courses',
+    'course_modules',
+    'course_lessons',
+    'module_completion_rules',
+  ] as const) {
     const { error: tableErr } = await db.from(table).select('id').limit(0);
     if (tableErr) {
       throw new Error(
         `createAndPublishProgram pre-flight failed: table "${table}" is not accessible. ` +
-        `Apply pending migrations and verify Supabase connection. (${tableErr.message})`
+          `Apply pending migrations and verify Supabase connection. (${tableErr.message})`,
       );
     }
   }
@@ -106,22 +112,22 @@ export async function createAndPublishProgram(
     .from('programs')
     .upsert(
       {
-        slug:              input.program.slug,
-        title:             input.program.title,
+        slug: input.program.slug,
+        title: input.program.title,
         // category is NOT NULL — default to 'workforce' for LMS programs
-        category:          input.program.category ?? 'workforce',
-        description:       input.program.description,
+        category: input.program.category ?? 'workforce',
+        description: input.program.description,
         short_description: input.program.shortDescription ?? null,
-        status:            input.program.status ?? 'draft',
-        published:         false,
-        is_active:         input.program.isActive ?? true,
-        delivery_model:    input.program.deliveryModel ?? null,
-        enrollment_type:   input.program.enrollmentType ?? null,
-        has_lms_course:    true,
-        org_id:            orgId,
-        updated_at:        new Date().toISOString(),
+        status: input.program.status ?? 'draft',
+        published: false,
+        is_active: input.program.isActive ?? true,
+        delivery_model: input.program.deliveryModel ?? null,
+        enrollment_type: input.program.enrollmentType ?? null,
+        has_lms_course: true,
+        org_id: orgId,
+        updated_at: new Date().toISOString(),
       },
-      { onConflict: 'slug' }
+      { onConflict: 'slug' },
     )
     .select('id, slug')
     .single();
@@ -136,18 +142,19 @@ export async function createAndPublishProgram(
     .from('courses')
     .upsert(
       {
-        program_id:        program.id,
-        slug:              input.program.slug,
-        title:             courseOverride.title ?? input.program.title,
-        short_description: courseOverride.shortDescription
-                             ?? input.program.shortDescription
-                             ?? input.program.description.slice(0, 160),
-        description:       courseOverride.description ?? input.program.description,
-        status:            'draft',
-        is_active:         true,
-        org_id:            orgId,
+        program_id: program.id,
+        slug: input.program.slug,
+        title: courseOverride.title ?? input.program.title,
+        short_description:
+          courseOverride.shortDescription ??
+          input.program.shortDescription ??
+          input.program.description.slice(0, 160),
+        description: courseOverride.description ?? input.program.description,
+        status: 'draft',
+        is_active: true,
+        org_id: orgId,
       },
-      { onConflict: 'slug' }
+      { onConflict: 'slug' },
     )
     .select('id, slug')
     .single();
@@ -185,8 +192,8 @@ export async function createAndPublishProgram(
     const { data: courseModule, error: modErr } = await db
       .from('course_modules')
       .insert({
-        course_id:   course.id,
-        title:       mod.title,
+        course_id: course.id,
+        title: mod.title,
         order_index: mod.orderIndex,
       })
       .select('id')
@@ -194,30 +201,30 @@ export async function createAndPublishProgram(
 
     if (modErr || !courseModule) {
       throw new Error(
-        `course_modules insert failed for "${mod.slug}": ${modErr?.message ?? 'no row returned'}`
+        `course_modules insert failed for "${mod.slug}": ${modErr?.message ?? 'no row returned'}`,
       );
     }
 
     // Insert lessons for this module
     const sortedLessons = [...mod.lessons].sort((a, b) => a.orderIndex - b.orderIndex);
     const lessonRows = sortedLessons.map((lesson) => ({
-      course_id:      course.id,
-      module_id:      courseModule.id,
-      slug:           lesson.slug,
-      title:          lesson.title,
-      content:        lesson.content ?? {},
-      lesson_type:    lesson.lessonType,
+      course_id: course.id,
+      module_id: courseModule.id,
+      slug: lesson.slug,
+      title: lesson.title,
+      content: lesson.content ?? {},
+      lesson_type: lesson.lessonType,
       // order_index encodes module position: (moduleOrder * 1000) + lessonOrder
       // This matches the convention used by the existing HVAC course and lms_lessons view.
-      order_index:    mod.orderIndex * 1000 + lesson.orderIndex,
-      passing_score:  lesson.passingScore ?? null,
-      is_required:    lesson.isRequired ?? true,
+      order_index: mod.orderIndex * 1000 + lesson.orderIndex,
+      passing_score: lesson.passingScore ?? null,
+      is_required: lesson.isRequired ?? true,
     }));
 
     const { error: lessonsErr } = await db.from('course_lessons').insert(lessonRows);
     if (lessonsErr) {
       throw new Error(
-        `course_lessons insert failed for module "${mod.slug}": ${lessonsErr.message}`
+        `course_lessons insert failed for module "${mod.slug}": ${lessonsErr.message}`,
       );
     }
     lessonCount += lessonRows.length;
@@ -235,7 +242,7 @@ export async function createAndPublishProgram(
     });
     if (ruleErr) {
       throw new Error(
-        `module_completion_rules insert failed for "${mod.slug}": ${ruleErr.message}`
+        `module_completion_rules insert failed for "${mod.slug}": ${ruleErr.message}`,
       );
     }
   }
@@ -267,8 +274,8 @@ export async function createAndPublishProgram(
   }
 
   return {
-    programId:   program.id,
-    courseId:    course.id,
+    programId: program.id,
+    courseId: course.id,
     moduleCount: input.modules.length,
     lessonCount,
     published,

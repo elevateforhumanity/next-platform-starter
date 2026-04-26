@@ -31,15 +31,45 @@ interface Props {
   onSubmitted?: () => void;
 }
 
-const STATUS_UI: Record<Submission['status'], { label: string; color: string; icon: React.ReactNode }> = {
-  submitted:          { label: 'Submitted — awaiting review',  color: 'bg-brand-blue-50 border-brand-blue-200 text-brand-blue-700',  icon: <Clock className="w-4 h-4" /> },
-  under_review:       { label: 'Under review',                 color: 'bg-amber-50 border-amber-200 text-amber-700',                 icon: <ClipboardList className="w-4 h-4" /> },
-  approved:           { label: 'Approved',                     color: 'bg-green-50 border-green-200 text-green-700',                 icon: <CheckCircle2 className="w-4 h-4" /> },
-  rejected:           { label: 'Not accepted',                 color: 'bg-red-50 border-red-200 text-red-700',                       icon: <XCircle className="w-4 h-4" /> },
-  revision_requested: { label: 'Revision requested',           color: 'bg-orange-50 border-orange-200 text-orange-700',              icon: <RotateCcw className="w-4 h-4" /> },
+const STATUS_UI: Record<
+  Submission['status'],
+  { label: string; color: string; icon: React.ReactNode }
+> = {
+  submitted: {
+    label: 'Submitted — awaiting review',
+    color: 'bg-brand-blue-50 border-brand-blue-200 text-brand-blue-700',
+    icon: <Clock className="w-4 h-4" />,
+  },
+  under_review: {
+    label: 'Under review',
+    color: 'bg-amber-50 border-amber-200 text-amber-700',
+    icon: <ClipboardList className="w-4 h-4" />,
+  },
+  approved: {
+    label: 'Approved',
+    color: 'bg-green-50 border-green-200 text-green-700',
+    icon: <CheckCircle2 className="w-4 h-4" />,
+  },
+  rejected: {
+    label: 'Not accepted',
+    color: 'bg-red-50 border-red-200 text-red-700',
+    icon: <XCircle className="w-4 h-4" />,
+  },
+  revision_requested: {
+    label: 'Revision requested',
+    color: 'bg-orange-50 border-orange-200 text-orange-700',
+    icon: <RotateCcw className="w-4 h-4" />,
+  },
 };
 
-export default function StepSubmissionForm({ lessonId, courseId, stepType, lessonTitle, competencyKey, onSubmitted }: Props) {
+export default function StepSubmissionForm({
+  lessonId,
+  courseId,
+  stepType,
+  lessonTitle,
+  competencyKey,
+  onSubmitted,
+}: Props) {
   const [prior, setPrior] = useState<Submission | null>(null);
   const [loading, setLoading] = useState(true);
   const [text, setText] = useState('');
@@ -49,7 +79,10 @@ export default function StepSubmissionForm({ lessonId, courseId, stepType, lesso
 
   useEffect(() => {
     async function loadPrior() {
-      if (!courseId) { setLoading(false); return; }
+      if (!courseId) {
+        setLoading(false);
+        return;
+      }
       try {
         const qs = new URLSearchParams({ course_id: courseId, course_lesson_id: lessonId });
         if (competencyKey) qs.set('competency_key', competencyKey);
@@ -67,8 +100,14 @@ export default function StepSubmissionForm({ lessonId, courseId, stepType, lesso
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!text.trim()) { setError('Submission text is required.'); return; }
-    if (!courseId) { setError('Course context missing — please reload the page.'); return; }
+    if (!text.trim()) {
+      setError('Submission text is required.');
+      return;
+    }
+    if (!courseId) {
+      setError('Course context missing — please reload the page.');
+      return;
+    }
     setSubmitting(true);
     setError(null);
 
@@ -77,9 +116,9 @@ export default function StepSubmissionForm({ lessonId, courseId, stepType, lesso
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         course_lesson_id: lessonId,
-        course_id:        courseId,
-        step_type:        stepType,
-        submission_text:  text.trim(),
+        course_id: courseId,
+        step_type: stepType,
+        submission_text: text.trim(),
         ...(competencyKey ? { competency_key: competencyKey } : {}),
       }),
     });
@@ -100,14 +139,16 @@ export default function StepSubmissionForm({ lessonId, courseId, stepType, lesso
   if (loading) return null;
 
   const canResubmit = prior?.status === 'revision_requested' || prior?.status === 'rejected';
-  const isTerminal  = prior?.status === 'approved';
-  const isPending   = prior && !canResubmit && !isTerminal;
+  const isTerminal = prior?.status === 'approved';
+  const isPending = prior && !canResubmit && !isTerminal;
 
   return (
     <div className="mt-6 space-y-4">
       {/* Prior submission status */}
       {prior && (
-        <div className={`flex items-start gap-3 rounded-xl border p-4 ${STATUS_UI[prior.status].color}`}>
+        <div
+          className={`flex items-start gap-3 rounded-xl border p-4 ${STATUS_UI[prior.status].color}`}
+        >
           <span className="mt-0.5 shrink-0">{STATUS_UI[prior.status].icon}</span>
           <div className="min-w-0">
             <p className="font-semibold text-sm">{STATUS_UI[prior.status].label}</p>
@@ -118,7 +159,13 @@ export default function StepSubmissionForm({ lessonId, courseId, stepType, lesso
             )}
             {prior.reviewed_at && (
               <p className="text-xs mt-1 opacity-70">
-                Reviewed {new Date(prior.reviewed_at).toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' })}
+                Reviewed{' '}
+                {new Date(prior.reviewed_at).toLocaleDateString('en-US', {
+                  timeZone: 'UTC',
+                  month: 'short',
+                  day: 'numeric',
+                  year: 'numeric',
+                })}
               </p>
             )}
           </div>
@@ -138,11 +185,13 @@ export default function StepSubmissionForm({ lessonId, courseId, stepType, lesso
         <form onSubmit={handleSubmit} className="space-y-3">
           <label className="block">
             <span className="text-sm font-medium text-slate-700">
-              {canResubmit ? 'Revised submission' : `Your ${stepType === 'lab' ? 'lab report' : 'assignment'}`}
+              {canResubmit
+                ? 'Revised submission'
+                : `Your ${stepType === 'lab' ? 'lab report' : 'assignment'}`}
             </span>
             <textarea
               value={text}
-              onChange={e => setText(e.target.value)}
+              onChange={(e) => setText(e.target.value)}
               rows={6}
               placeholder={
                 stepType === 'lab'
@@ -154,9 +203,7 @@ export default function StepSubmissionForm({ lessonId, courseId, stepType, lesso
             />
           </label>
 
-          {error && (
-            <p className="text-sm text-red-600">{error}</p>
-          )}
+          {error && <p className="text-sm text-red-600">{error}</p>}
 
           <button
             type="submit"

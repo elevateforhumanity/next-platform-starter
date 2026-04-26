@@ -2,7 +2,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAdminClient } from '@/lib/supabase/admin';
 
-
 import {
   sendProgramHolderApplicationConfirmation,
   sendAdminProgramHolderNotification,
@@ -24,15 +23,11 @@ async function _POST(req: NextRequest) {
 
     // Rate limiting by email
     if (body.contactEmail) {
-      const rateLimit = checkRateLimit(
-        `program-holder:${body.contactEmail}`,
-        2,
-        300000
-      ); // 2 per 5 minutes
+      const rateLimit = checkRateLimit(`program-holder:${body.contactEmail}`, 2, 300000); // 2 per 5 minutes
       if (!rateLimit.allowed) {
         return NextResponse.json(
           { error: 'Too many requests. Please try again in a few minutes.' },
-          { status: 429 }
+          { status: 429 },
         );
       }
     }
@@ -43,24 +38,18 @@ async function _POST(req: NextRequest) {
       if (!verification.success) {
         return NextResponse.json(
           { error: verification.error || 'Verification failed' },
-          { status: 400 }
+          { status: 400 },
         );
       }
     }
 
     // Validation
     if (!body.organizationName || !body.contactName || !body.contactEmail) {
-      return NextResponse.json(
-        { error: 'Missing required fields' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
     if (!body.programsInterested || body.programsInterested.length === 0) {
-      return NextResponse.json(
-        { error: 'Please select at least one program' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Please select at least one program' }, { status: 400 });
     }
 
     // Check for duplicate by email
@@ -79,7 +68,7 @@ async function _POST(req: NextRequest) {
           error:
             'An application with this email is already pending review. Please contact us if you need to update your application.',
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -114,33 +103,32 @@ async function _POST(req: NextRequest) {
     if (insertError) {
       return NextResponse.json(
         { error: 'Failed to submit application. Please try again.' },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
     // Send confirmation email to applicant (non-blocking)
-    sendProgramHolderApplicationConfirmation(
-      body.contactEmail,
-      body.organizationName
-    ).catch((err) => {
-      // Email error - non-blocking
-    });
+    sendProgramHolderApplicationConfirmation(body.contactEmail, body.organizationName).catch(
+      (err) => {
+        // Email error - non-blocking
+      },
+    );
 
     // Send notification to admin (non-blocking)
     sendAdminProgramHolderNotification(
       body.organizationName,
       body.contactEmail,
-      application.id
+      application.id,
     ).catch(() => {});
 
     return NextResponse.json({
       success: true,
       applicationId: application.id,
     });
-  } catch (error) { 
+  } catch (error) {
     return NextResponse.json(
       { error: 'An unexpected error occurred. Please try again.' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

@@ -17,11 +17,14 @@ async function _GET(request: Request) {
     return NextResponse.json(cards);
   } catch (error) {
     logger.error('Store cards API error:', error);
-    return NextResponse.json({ 
-      primary: [], 
-      secondary: [],
-      error: 'Failed to fetch store cards' 
-    }, { status: 500 });
+    return NextResponse.json(
+      {
+        primary: [],
+        secondary: [],
+        error: 'Failed to fetch store cards',
+      },
+      { status: 500 },
+    );
   }
 }
 export const GET = withApiAudit('/api/store/cards', _GET);

@@ -11,8 +11,8 @@ export const dynamic = 'force-dynamic';
 export const maxDuration = 10;
 
 async function _POST(request: Request) {
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
 
   const session = await requireApiAuth();
   const email = session.user?.email;
@@ -40,7 +40,7 @@ async function _POST(request: Request) {
   if (insertError) {
     return NextResponse.json(
       { error: 'Failed to create deletion request. Please try again.' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 

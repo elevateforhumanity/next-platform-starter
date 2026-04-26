@@ -13,14 +13,17 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: 'Salon Partner Program | Indiana Cosmetology Apprenticeship',
-    description: 'Host apprentices and develop talent for your salon with structured training support.',
+    description:
+      'Host apprentices and develop talent for your salon with structured training support.',
     url: 'https://www.elevateforhumanity.org/partners/cosmetology-apprenticeship',
   },
 };
 
 export default async function CosmetologyPartnerPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   let isApproved = false;
   if (user?.email) {

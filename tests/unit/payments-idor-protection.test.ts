@@ -1,6 +1,6 @@
 /**
  * Payments API IDOR Protection Tests
- * 
+ *
  * Tests that payment operations verify resource ownership
  * to prevent Insecure Direct Object Reference (IDOR) attacks.
  */
@@ -112,9 +112,13 @@ function verifyPaymentOwnership(db: MockDatabase, userId: string, paymentId: str
   return payment?.user_id === userId;
 }
 
-function verifySubscriptionOwnership(db: MockDatabase, userId: string, subscriptionId: string): boolean {
+function verifySubscriptionOwnership(
+  db: MockDatabase,
+  userId: string,
+  subscriptionId: string,
+): boolean {
   const subscription = Array.from(db.subscriptions.values()).find(
-    s => s.stripe_subscription_id === subscriptionId
+    (s) => s.stripe_subscription_id === subscriptionId,
   );
   return subscription?.user_id === userId;
 }
@@ -127,7 +131,7 @@ function getUserStripeCustomerId(db: MockDatabase, userId: string): string | nul
 function verifyPaymentMethodOwnership(db: MockDatabase, userId: string, methodId: string): boolean {
   const userCustomerId = getUserStripeCustomerId(db, userId);
   if (!userCustomerId) return false;
-  
+
   const paymentMethod = db.paymentMethods.get(methodId);
   return paymentMethod?.customer === userCustomerId;
 }
@@ -140,19 +144,25 @@ class SecurePaymentsService {
     this.db = db;
   }
 
-  async getPaymentMethods(userId: string, customerId: string): Promise<{ success: boolean; error?: string; methods?: PaymentMethod[] }> {
+  async getPaymentMethods(
+    userId: string,
+    customerId: string,
+  ): Promise<{ success: boolean; error?: string; methods?: PaymentMethod[] }> {
     // IDOR protection: verify customer belongs to user
     if (!verifyCustomerOwnership(this.db, userId, customerId)) {
       return { success: false, error: 'Access denied: customer does not belong to you' };
     }
 
     const methods = Array.from(this.db.paymentMethods.values()).filter(
-      pm => pm.customer === customerId
+      (pm) => pm.customer === customerId,
     );
     return { success: true, methods };
   }
 
-  async processRefund(userId: string, paymentId: string): Promise<{ success: boolean; error?: string }> {
+  async processRefund(
+    userId: string,
+    paymentId: string,
+  ): Promise<{ success: boolean; error?: string }> {
     // IDOR protection: verify payment belongs to user
     if (!verifyPaymentOwnership(this.db, userId, paymentId)) {
       return { success: false, error: 'Access denied: payment does not belong to you' };
@@ -165,7 +175,11 @@ class SecurePaymentsService {
     return { success: true };
   }
 
-  async attachPaymentMethod(userId: string, methodId: string, customerId: string): Promise<{ success: boolean; error?: string }> {
+  async attachPaymentMethod(
+    userId: string,
+    methodId: string,
+    customerId: string,
+  ): Promise<{ success: boolean; error?: string }> {
     // IDOR protection: verify customer belongs to user
     if (!verifyCustomerOwnership(this.db, userId, customerId)) {
       return { success: false, error: 'Access denied: customer does not belong to you' };
@@ -179,7 +193,10 @@ class SecurePaymentsService {
     return { success: true };
   }
 
-  async detachPaymentMethod(userId: string, methodId: string): Promise<{ success: boolean; error?: string }> {
+  async detachPaymentMethod(
+    userId: string,
+    methodId: string,
+  ): Promise<{ success: boolean; error?: string }> {
     // IDOR protection: verify payment method belongs to user's customer
     if (!verifyPaymentMethodOwnership(this.db, userId, methodId)) {
       return { success: false, error: 'Access denied: payment method does not belong to you' };
@@ -189,7 +206,11 @@ class SecurePaymentsService {
     return { success: true };
   }
 
-  async setDefaultPaymentMethod(userId: string, customerId: string, methodId: string): Promise<{ success: boolean; error?: string }> {
+  async setDefaultPaymentMethod(
+    userId: string,
+    customerId: string,
+    methodId: string,
+  ): Promise<{ success: boolean; error?: string }> {
     // IDOR protection: verify customer belongs to user
     if (!verifyCustomerOwnership(this.db, userId, customerId)) {
       return { success: false, error: 'Access denied: customer does not belong to you' };
@@ -199,14 +220,17 @@ class SecurePaymentsService {
     return { success: true };
   }
 
-  async cancelSubscription(userId: string, subscriptionId: string): Promise<{ success: boolean; error?: string }> {
+  async cancelSubscription(
+    userId: string,
+    subscriptionId: string,
+  ): Promise<{ success: boolean; error?: string }> {
     // IDOR protection: verify subscription belongs to user
     if (!verifySubscriptionOwnership(this.db, userId, subscriptionId)) {
       return { success: false, error: 'Access denied: subscription does not belong to you' };
     }
 
     const subscription = Array.from(this.db.subscriptions.values()).find(
-      s => s.stripe_subscription_id === subscriptionId
+      (s) => s.stripe_subscription_id === subscriptionId,
     );
     if (subscription) {
       subscription.status = 'cancelled';
@@ -230,7 +254,7 @@ describe('Payments API IDOR Protection', () => {
       expect(result).toBe(true);
     });
 
-    it('should deny access to another user\'s customer', () => {
+    it("should deny access to another user's customer", () => {
       const result = verifyCustomerOwnership(db, 'user-1', 'cus_user2');
       expect(result).toBe(false);
     });
@@ -252,7 +276,7 @@ describe('Payments API IDOR Protection', () => {
       expect(result).toBe(true);
     });
 
-    it('should deny access to another user\'s payment', () => {
+    it("should deny access to another user's payment", () => {
       const result = verifyPaymentOwnership(db, 'user-1', 'payment-2');
       expect(result).toBe(false);
     });
@@ -269,7 +293,7 @@ describe('Payments API IDOR Protection', () => {
       expect(result).toBe(true);
     });
 
-    it('should deny access to another user\'s subscription', () => {
+    it("should deny access to another user's subscription", () => {
       const result = verifySubscriptionOwnership(db, 'user-1', 'sub_stripe_2');
       expect(result).toBe(false);
     });
@@ -286,7 +310,7 @@ describe('Payments API IDOR Protection', () => {
       expect(result).toBe(true);
     });
 
-    it('should deny access to another user\'s payment method', () => {
+    it("should deny access to another user's payment method", () => {
       const result = verifyPaymentMethodOwnership(db, 'user-1', 'pm-2');
       expect(result).toBe(false);
     });
@@ -300,15 +324,15 @@ describe('Payments API IDOR Protection', () => {
   describe('Get Payment Methods - IDOR Protection', () => {
     it('should return payment methods for own customer', async () => {
       const result = await paymentsService.getPaymentMethods('user-1', 'cus_user1');
-      
+
       expect(result.success).toBe(true);
       expect(result.methods).toHaveLength(1);
       expect(result.methods![0].last4).toBe('4242');
     });
 
-    it('should deny access to another user\'s payment methods', async () => {
+    it("should deny access to another user's payment methods", async () => {
       const result = await paymentsService.getPaymentMethods('user-1', 'cus_user2');
-      
+
       expect(result.success).toBe(false);
       expect(result.error).toBe('Access denied: customer does not belong to you');
     });
@@ -317,14 +341,14 @@ describe('Payments API IDOR Protection', () => {
   describe('Process Refund - IDOR Protection', () => {
     it('should allow refund for own payment', async () => {
       const result = await paymentsService.processRefund('user-1', 'payment-1');
-      
+
       expect(result.success).toBe(true);
       expect(db.payments.get('payment-1')?.status).toBe('refunded');
     });
 
-    it('should deny refund for another user\'s payment', async () => {
+    it("should deny refund for another user's payment", async () => {
       const result = await paymentsService.processRefund('user-1', 'payment-2');
-      
+
       expect(result.success).toBe(false);
       expect(result.error).toBe('Access denied: payment does not belong to you');
       expect(db.payments.get('payment-2')?.status).toBe('succeeded'); // Unchanged
@@ -334,13 +358,13 @@ describe('Payments API IDOR Protection', () => {
   describe('Attach Payment Method - IDOR Protection', () => {
     it('should allow attaching method to own customer', async () => {
       const result = await paymentsService.attachPaymentMethod('user-1', 'pm-new', 'cus_user1');
-      
+
       expect(result.success).toBe(true);
     });
 
-    it('should deny attaching method to another user\'s customer', async () => {
+    it("should deny attaching method to another user's customer", async () => {
       const result = await paymentsService.attachPaymentMethod('user-1', 'pm-new', 'cus_user2');
-      
+
       expect(result.success).toBe(false);
       expect(result.error).toBe('Access denied: customer does not belong to you');
     });
@@ -349,14 +373,14 @@ describe('Payments API IDOR Protection', () => {
   describe('Detach Payment Method - IDOR Protection', () => {
     it('should allow detaching own payment method', async () => {
       const result = await paymentsService.detachPaymentMethod('user-1', 'pm-1');
-      
+
       expect(result.success).toBe(true);
       expect(db.paymentMethods.has('pm-1')).toBe(false);
     });
 
-    it('should deny detaching another user\'s payment method', async () => {
+    it("should deny detaching another user's payment method", async () => {
       const result = await paymentsService.detachPaymentMethod('user-1', 'pm-2');
-      
+
       expect(result.success).toBe(false);
       expect(result.error).toBe('Access denied: payment method does not belong to you');
       expect(db.paymentMethods.has('pm-2')).toBe(true); // Unchanged
@@ -366,13 +390,13 @@ describe('Payments API IDOR Protection', () => {
   describe('Set Default Payment Method - IDOR Protection', () => {
     it('should allow setting default for own customer', async () => {
       const result = await paymentsService.setDefaultPaymentMethod('user-1', 'cus_user1', 'pm-1');
-      
+
       expect(result.success).toBe(true);
     });
 
-    it('should deny setting default for another user\'s customer', async () => {
+    it("should deny setting default for another user's customer", async () => {
       const result = await paymentsService.setDefaultPaymentMethod('user-1', 'cus_user2', 'pm-2');
-      
+
       expect(result.success).toBe(false);
       expect(result.error).toBe('Access denied: customer does not belong to you');
     });
@@ -381,21 +405,21 @@ describe('Payments API IDOR Protection', () => {
   describe('Cancel Subscription - IDOR Protection', () => {
     it('should allow cancelling own subscription', async () => {
       const result = await paymentsService.cancelSubscription('user-1', 'sub_stripe_1');
-      
+
       expect(result.success).toBe(true);
       const subscription = Array.from(db.subscriptions.values()).find(
-        s => s.stripe_subscription_id === 'sub_stripe_1'
+        (s) => s.stripe_subscription_id === 'sub_stripe_1',
       );
       expect(subscription?.status).toBe('cancelled');
     });
 
-    it('should deny cancelling another user\'s subscription', async () => {
+    it("should deny cancelling another user's subscription", async () => {
       const result = await paymentsService.cancelSubscription('user-1', 'sub_stripe_2');
-      
+
       expect(result.success).toBe(false);
       expect(result.error).toBe('Access denied: subscription does not belong to you');
       const subscription = Array.from(db.subscriptions.values()).find(
-        s => s.stripe_subscription_id === 'sub_stripe_2'
+        (s) => s.stripe_subscription_id === 'sub_stripe_2',
       );
       expect(subscription?.status).toBe('active'); // Unchanged
     });
@@ -411,56 +435,63 @@ describe('IDOR Attack Scenarios', () => {
     paymentsService = new SecurePaymentsService(db);
   });
 
-  it('should prevent attacker from viewing victim\'s payment methods', async () => {
+  it("should prevent attacker from viewing victim's payment methods", async () => {
     // Attacker (user-1) tries to view victim's (user-2) payment methods
     const attackResult = await paymentsService.getPaymentMethods('user-1', 'cus_user2');
-    
+
     expect(attackResult.success).toBe(false);
     expect(attackResult.methods).toBeUndefined();
   });
 
-  it('should prevent attacker from processing refund on victim\'s payment', async () => {
+  it("should prevent attacker from processing refund on victim's payment", async () => {
     // Attacker (user-1) tries to refund victim's (user-2) payment
     const attackResult = await paymentsService.processRefund('user-1', 'payment-2');
-    
+
     expect(attackResult.success).toBe(false);
     // Verify victim's payment is unchanged
     expect(db.payments.get('payment-2')?.status).toBe('succeeded');
   });
 
-  it('should prevent attacker from attaching payment method to victim\'s account', async () => {
+  it("should prevent attacker from attaching payment method to victim's account", async () => {
     // Attacker (user-1) tries to attach a payment method to victim's (user-2) customer
-    const attackResult = await paymentsService.attachPaymentMethod('user-1', 'pm-malicious', 'cus_user2');
-    
+    const attackResult = await paymentsService.attachPaymentMethod(
+      'user-1',
+      'pm-malicious',
+      'cus_user2',
+    );
+
     expect(attackResult.success).toBe(false);
   });
 
-  it('should prevent attacker from removing victim\'s payment method', async () => {
+  it("should prevent attacker from removing victim's payment method", async () => {
     // Attacker (user-1) tries to detach victim's (user-2) payment method
     const attackResult = await paymentsService.detachPaymentMethod('user-1', 'pm-2');
-    
+
     expect(attackResult.success).toBe(false);
     // Verify victim's payment method still exists
     expect(db.paymentMethods.has('pm-2')).toBe(true);
   });
 
-  it('should prevent attacker from cancelling victim\'s subscription', async () => {
+  it("should prevent attacker from cancelling victim's subscription", async () => {
     // Attacker (user-1) tries to cancel victim's (user-2) subscription
     const attackResult = await paymentsService.cancelSubscription('user-1', 'sub_stripe_2');
-    
+
     expect(attackResult.success).toBe(false);
     // Verify victim's subscription is unchanged
     const subscription = Array.from(db.subscriptions.values()).find(
-      s => s.stripe_subscription_id === 'sub_stripe_2'
+      (s) => s.stripe_subscription_id === 'sub_stripe_2',
     );
     expect(subscription?.status).toBe('active');
   });
 
   it('should prevent enumeration attacks by returning consistent error messages', async () => {
     // Try accessing non-existent resources - should return same error as unauthorized access
-    const nonExistentCustomer = await paymentsService.getPaymentMethods('user-1', 'cus_nonexistent');
+    const nonExistentCustomer = await paymentsService.getPaymentMethods(
+      'user-1',
+      'cus_nonexistent',
+    );
     const unauthorizedCustomer = await paymentsService.getPaymentMethods('user-1', 'cus_user2');
-    
+
     // Both should fail with access denied (not "not found" which would leak information)
     expect(nonExistentCustomer.success).toBe(false);
     expect(unauthorizedCustomer.success).toBe(false);

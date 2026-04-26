@@ -13,7 +13,9 @@ async function _POST(request: NextRequest) {
 
     const supabase = await createClient();
 
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -37,17 +39,20 @@ async function _POST(request: NextRequest) {
       if (existing.status === 'trial' && existing.trial_ends_at) {
         const trialEnd = new Date(existing.trial_ends_at);
         if (trialEnd < new Date()) {
-          return NextResponse.json({ 
-            error: 'Trial expired',
-            redirect: `/store/apps/${appSlug}?upgrade=true`,
-            subscription: existing
-          }, { status: 402 });
+          return NextResponse.json(
+            {
+              error: 'Trial expired',
+              redirect: `/store/apps/${appSlug}?upgrade=true`,
+              subscription: existing,
+            },
+            { status: 402 },
+          );
         }
       }
-      
-      return NextResponse.json({ 
+
+      return NextResponse.json({
         message: 'Subscription exists',
-        subscription: existing 
+        subscription: existing,
       });
     }
 
@@ -74,13 +79,12 @@ async function _POST(request: NextRequest) {
       return NextResponse.json({ error: 'Failed to create trial' }, { status: 500 });
     }
 
-    return NextResponse.json({ 
+    return NextResponse.json({
       message: 'Trial started',
       subscription,
       trialEndsAt: trialEndsAt.toISOString(),
-      daysRemaining: TRIAL_DURATION_DAYS
+      daysRemaining: TRIAL_DURATION_DAYS,
     });
-
   } catch (error) {
     logger.error('Trial start error:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });

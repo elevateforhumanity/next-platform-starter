@@ -23,13 +23,13 @@ export type PartnerCategory =
   | 'social-services';
 
 export type TrainingRole =
-  | 'ojt'           // On-the-job training site
-  | 'clinical'      // Clinical rotation / externship
+  | 'ojt' // On-the-job training site
+  | 'clinical' // Clinical rotation / externship
   | 'apprenticeship' // RAPIDS-linked apprenticeship employer
-  | 'externship'    // Externship placement
-  | 'placement'     // Job placement partner (not training)
-  | 'lab'           // Lab / skills training facility
-  | 'driving';      // CDL driving school / yard
+  | 'externship' // Externship placement
+  | 'placement' // Job placement partner (not training)
+  | 'lab' // Lab / skills training facility
+  | 'driving'; // CDL driving school / yard
 
 export type DocumentationType =
   | 'mou'
@@ -79,20 +79,25 @@ export const TRAINING_PARTNERS: TrainingPartner[] = [
 
 // ─── CATEGORY METADATA ───────────────────────────────────────────────────────
 
-export const PARTNER_CATEGORIES: Record<PartnerCategory, {
-  label: string;
-  description: string;
-  trainingDescription: string;
-}> = {
+export const PARTNER_CATEGORIES: Record<
+  PartnerCategory,
+  {
+    label: string;
+    description: string;
+    trainingDescription: string;
+  }
+> = {
   barbershop: {
     label: 'Barbershop & Cosmetology',
     description: 'Licensed barbershops and salons providing apprenticeship training.',
-    trainingDescription: 'Apprentices complete 2,000 OJT hours under licensed barber supervision at partner shops.',
+    trainingDescription:
+      'Apprentices complete 2,000 OJT hours under licensed barber supervision at partner shops.',
   },
   healthcare: {
     label: 'Healthcare',
     description: 'Clinical facilities, nursing homes, and medical offices.',
-    trainingDescription: 'Students complete clinical rotations and externships at partner healthcare facilities.',
+    trainingDescription:
+      'Students complete clinical rotations and externships at partner healthcare facilities.',
   },
   cdl: {
     label: 'CDL / Commercial Driving',
@@ -101,34 +106,39 @@ export const PARTNER_CATEGORIES: Record<PartnerCategory, {
   },
   'skilled-trades': {
     label: 'Skilled Trades',
-    description: 'Employer worksites and training labs for HVAC, electrical, welding, and plumbing.',
-    trainingDescription: 'Apprentices and trainees complete OJT hours at employer worksites under journeyman supervision.',
+    description:
+      'Employer worksites and training labs for HVAC, electrical, welding, and plumbing.',
+    trainingDescription:
+      'Apprentices and trainees complete OJT hours at employer worksites under journeyman supervision.',
   },
   technology: {
     label: 'Technology',
     description: 'IT employers providing internship and placement opportunities.',
-    trainingDescription: 'IT programs are delivered fully online. Partners provide internship and job placement.',
+    trainingDescription:
+      'IT programs are delivered fully online. Partners provide internship and job placement.',
   },
   business: {
     label: 'Business & Finance',
     description: 'Tax preparation firms, bookkeeping offices, and business partners.',
-    trainingDescription: 'Business programs are delivered online. Partners provide practicum and placement opportunities.',
+    trainingDescription:
+      'Business programs are delivered online. Partners provide practicum and placement opportunities.',
   },
   'social-services': {
     label: 'Social Services',
     description: 'Community organizations and recovery centers.',
-    trainingDescription: 'Peer recovery specialist students complete supervised practicum hours at partner organizations.',
+    trainingDescription:
+      'Peer recovery specialist students complete supervised practicum hours at partner organizations.',
   },
 };
 
 // ─── HELPERS ─────────────────────────────────────────────────────────────────
 
 export function getActivePartners(): TrainingPartner[] {
-  return TRAINING_PARTNERS.filter(p => p.status === 'active');
+  return TRAINING_PARTNERS.filter((p) => p.status === 'active');
 }
 
 export function getPartnersByCategory(category: PartnerCategory): TrainingPartner[] {
-  return getActivePartners().filter(p => p.category === category);
+  return getActivePartners().filter((p) => p.category === category);
 }
 
 export function getPartnerCount(): number {
@@ -137,6 +147,6 @@ export function getPartnerCount(): number {
 
 export function getCategoriesWithPartners(): PartnerCategory[] {
   const active = getActivePartners();
-  const categories = new Set(active.map(p => p.category));
+  const categories = new Set(active.map((p) => p.category));
   return Array.from(categories) as PartnerCategory[];
 }

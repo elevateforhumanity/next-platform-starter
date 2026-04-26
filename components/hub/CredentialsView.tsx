@@ -3,13 +3,7 @@
 import { useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import Link from 'next/link';
-import { 
-  Award, 
-  ExternalLink, 
-  Download,
-  Clock,
-  Shield,
-CheckCircle, } from 'lucide-react';
+import { Award, ExternalLink, Download, Clock, Shield, CheckCircle } from 'lucide-react';
 
 interface Credential {
   id: string;
@@ -28,10 +22,12 @@ export default function CredentialsView({ userId }: { userId?: string }) {
   useEffect(() => {
     async function fetchCredentials() {
       const supabase = createClient();
-      
+
       let targetUserId = userId;
       if (!targetUserId) {
-        const { data: { user } } = await supabase.auth.getUser();
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
         targetUserId = user?.id;
       }
 
@@ -48,15 +44,19 @@ export default function CredentialsView({ userId }: { userId?: string }) {
         .order('issued_at', { ascending: false });
 
       if (certs && certs.length > 0) {
-        setCredentials(certs.map((cert: any) => ({
-          id: cert.id,
-          title: cert.title,
-          issueDate: cert.issued_at,
-          expiryDate: cert.expires_at,
-          status: cert.status || 'active',
-          verificationUrl: cert.verification_code ? `/verify/${cert.verification_code}` : undefined,
-          certificateUrl: cert.certificate_url,
-        })));
+        setCredentials(
+          certs.map((cert: any) => ({
+            id: cert.id,
+            title: cert.title,
+            issueDate: cert.issued_at,
+            expiryDate: cert.expires_at,
+            status: cert.status || 'active',
+            verificationUrl: cert.verification_code
+              ? `/verify/${cert.verification_code}`
+              : undefined,
+            certificateUrl: cert.certificate_url,
+          })),
+        );
       }
 
       setLoading(false);
@@ -82,10 +82,7 @@ export default function CredentialsView({ userId }: { userId?: string }) {
         <Award className="w-12 h-12 text-slate-300 mx-auto mb-3" />
         <h3 className="font-bold text-slate-900 mb-2">No Credentials Yet</h3>
         <p className="text-slate-600 mb-4">Complete your program to earn credentials</p>
-        <Link 
-          href="/programs"
-          className="text-brand-blue-600 font-medium hover:underline"
-        >
+        <Link href="/programs" className="text-brand-blue-600 font-medium hover:underline">
           Browse Programs →
         </Link>
       </div>
@@ -93,7 +90,12 @@ export default function CredentialsView({ userId }: { userId?: string }) {
   }
 
   const statusConfig = {
-    active: { label: 'Active', color: 'text-brand-green-700', bg: 'bg-brand-green-100', icon: CheckCircle },
+    active: {
+      label: 'Active',
+      color: 'text-brand-green-700',
+      bg: 'bg-brand-green-100',
+      icon: CheckCircle,
+    },
     pending: { label: 'Pending', color: 'text-amber-700', bg: 'bg-amber-100', icon: Clock },
     expired: { label: 'Expired', color: 'text-brand-red-700', bg: 'bg-brand-red-100', icon: Clock },
   };
@@ -117,15 +119,24 @@ export default function CredentialsView({ userId }: { userId?: string }) {
             <div key={credential.id} className="p-4 hover:bg-slate-50 transition">
               <div className="flex items-start justify-between mb-2">
                 <h4 className="font-medium text-slate-900">{credential.title}</h4>
-                <div className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs ${status.bg} ${status.color}`}>
+                <div
+                  className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs ${status.bg} ${status.color}`}
+                >
                   <StatusIcon className="w-3 h-3" />
                   {status.label}
                 </div>
               </div>
 
               <p className="text-sm text-slate-500 mb-3">
-                Issued: {new Date(credential.issueDate).toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' })}
-                {credential.expiryDate && ` • Expires: ${new Date(credential.expiryDate).toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' })}`}
+                Issued:{' '}
+                {new Date(credential.issueDate).toLocaleDateString('en-US', {
+                  timeZone: 'UTC',
+                  month: 'short',
+                  day: 'numeric',
+                  year: 'numeric',
+                })}
+                {credential.expiryDate &&
+                  ` • Expires: ${new Date(credential.expiryDate).toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' })}`}
               </p>
 
               <div className="flex items-center gap-3">

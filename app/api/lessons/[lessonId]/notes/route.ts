@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from 'next/server';
 
-import { createClient } from "@/lib/supabase/server";
-import { getCurrentUser } from "@/lib/auth";
+import { createClient } from '@/lib/supabase/server';
+import { getCurrentUser } from '@/lib/auth';
 import { logger } from '@/lib/logger';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
@@ -11,15 +11,12 @@ export const maxDuration = 60;
 
 export const dynamic = 'force-dynamic';
 
-async function _GET(
-  _req: NextRequest,
-  { params }: { params: Promise<{ lessonId: string }> }
-) {
+async function _GET(_req: NextRequest, { params }: { params: Promise<{ lessonId: string }> }) {
   const supabase = await createClient();
   const user = await getCurrentUser();
 
   if (!user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   const { lessonId } = await params;
@@ -32,32 +29,29 @@ async function _GET(
   }
 
   const { data, error }: any = await supabase
-    .from("lesson_notes")
-    .select("id, position_seconds, body, created_at")
-    .eq("lesson_id", lessonId)
-    .eq("user_id", user.id)
-    .order("created_at", { ascending: false });
+    .from('lesson_notes')
+    .select('id, position_seconds, body, created_at')
+    .eq('lesson_id', lessonId)
+    .eq('user_id', user.id)
+    .order('created_at', { ascending: false });
 
   if (error) {
-    logger.error("notes GET error", error);
-    return NextResponse.json({ error: "DB error" }, { status: 500 });
+    logger.error('notes GET error', error);
+    return NextResponse.json({ error: 'DB error' }, { status: 500 });
   }
 
   return NextResponse.json({ notes: data || [] });
 }
 
-async function _POST(
-  req: NextRequest,
-  { params }: { params: Promise<{ lessonId: string }> }
-) {
-    const rateLimited = await applyRateLimit(req, 'api');
-    if (rateLimited) return rateLimited;
+async function _POST(req: NextRequest, { params }: { params: Promise<{ lessonId: string }> }) {
+  const rateLimited = await applyRateLimit(req, 'api');
+  if (rateLimited) return rateLimited;
 
   const supabase = await createClient();
   const user = await getCurrentUser();
 
   if (!user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   const { lessonId } = await params;
@@ -75,23 +69,28 @@ async function _POST(
   const noteText = text || noteBody;
 
   if (!noteText || !noteText.trim()) {
-    return NextResponse.json({ error: "text required" }, { status: 400 });
+    return NextResponse.json({ error: 'text required' }, { status: 400 });
   }
 
-  const { error } = await supabase.from("lesson_notes").insert({
+  const { error } = await supabase.from('lesson_notes').insert({
     user_id: user.id,
     lesson_id: lessonId,
     body: noteText,
-    position_seconds:
-      typeof positionSeconds === "number" ? Math.floor(positionSeconds) : null,
+    position_seconds: typeof positionSeconds === 'number' ? Math.floor(positionSeconds) : null,
   });
 
   if (error) {
-    logger.error("notes POST error", error);
-    return NextResponse.json({ error: "DB error" }, { status: 500 });
+    logger.error('notes POST error', error);
+    return NextResponse.json({ error: 'DB error' }, { status: 500 });
   }
 
   return NextResponse.json({ success: true });
 }
-export const GET  = withApiAudit('/api/lessons/[lessonId]/notes', _GET  as unknown as (req: Request, ...args: any[]) => Promise<Response>);
-export const POST = withApiAudit('/api/lessons/[lessonId]/notes', _POST as unknown as (req: Request, ...args: any[]) => Promise<Response>);
+export const GET = withApiAudit(
+  '/api/lessons/[lessonId]/notes',
+  _GET as unknown as (req: Request, ...args: any[]) => Promise<Response>,
+);
+export const POST = withApiAudit(
+  '/api/lessons/[lessonId]/notes',
+  _POST as unknown as (req: Request, ...args: any[]) => Promise<Response>,
+);

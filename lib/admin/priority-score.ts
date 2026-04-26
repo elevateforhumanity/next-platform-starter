@@ -27,23 +27,21 @@ export interface PriorityItem {
 }
 
 export function calculatePriorityScore(i: PriorityInput): number {
-  return (
-    (i.risk    ?? 0) * 5 +
-    (i.days    ?? 0) * 2 +
-    (i.money   ?? 0) * 3 +
-    (i.blocked ? 10 : 0)
-  );
+  return (i.risk ?? 0) * 5 + (i.days ?? 0) * 2 + (i.money ?? 0) * 3 + (i.blocked ? 10 : 0);
 }
 
 export function scoreSeverity(score: number): PriorityItem['severity'] {
   if (score >= 30) return 'critical';
   if (score >= 15) return 'high';
-  if (score >= 5)  return 'medium';
+  if (score >= 5) return 'medium';
   return 'low';
 }
 
 const SEVERITY_ORDER: Record<PriorityItem['severity'], number> = {
-  critical: 0, high: 1, medium: 2, low: 3,
+  critical: 0,
+  high: 1,
+  medium: 2,
+  low: 3,
 };
 
 export function sortPriorityItems(items: PriorityItem[]): PriorityItem[] {

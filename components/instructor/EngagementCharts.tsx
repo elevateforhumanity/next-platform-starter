@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   LineChart,
@@ -10,8 +10,8 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
-} from "recharts";
-import { useMemo } from "react";
+} from 'recharts';
+import { useMemo } from 'react';
 
 type Enrollment = { id: string; created_at: string; user_id: string };
 type Certificate = { id: string; created_at: string; user_id: string };
@@ -27,12 +27,9 @@ export function EngagementCharts({
 }) {
   // Aggregate by day
   const data = useMemo(() => {
-    const map = new Map<
-      string,
-      { date: string; enrollments: number; completions: number }
-    >();
+    const map = new Map<string, { date: string; enrollments: number; completions: number }>();
 
-    function add(mapKey: string, key: "enrollments" | "completions") {
+    function add(mapKey: string, key: 'enrollments' | 'completions') {
       const existing = map.get(mapKey) || {
         date: mapKey,
         enrollments: 0,
@@ -44,26 +41,22 @@ export function EngagementCharts({
 
     enrollments.forEach((e) => {
       const d = e.created_at.slice(0, 10); // YYYY-MM-DD
-      add(d, "enrollments");
+      add(d, 'enrollments');
     });
 
     certificates.forEach((c) => {
       const d = c.created_at.slice(0, 10);
-      add(d, "completions");
+      add(d, 'completions');
     });
 
-    return Array.from(map.values()).sort((a, b) =>
-      a.date.localeCompare(b.date)
-    );
+    return Array.from(map.values()).sort((a, b) => a.date.localeCompare(b.date));
   }, [enrollments, certificates]);
 
   return (
     <div className="grid gap-6 md:grid-cols-2">
       {/* Enrollments vs completions over time */}
       <div className="rounded-xl border bg-white p-4 shadow-sm">
-        <h2 className="text-sm font-semibold mb-2">
-          Enrollments vs Certificates (daily)
-        </h2>
+        <h2 className="text-sm font-semibold mb-2">Enrollments vs Certificates (daily)</h2>
         <div className="h-64">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={data}>
@@ -98,11 +91,11 @@ export function EngagementCharts({
             <BarChart
               data={[
                 {
-                  label: "Enrolled",
+                  label: 'Enrolled',
                   value: enrollments.length,
                 },
                 {
-                  label: "Completed",
+                  label: 'Completed',
                   value: certificates.length,
                 },
               ]}

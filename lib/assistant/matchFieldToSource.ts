@@ -38,7 +38,7 @@ export function suggestForField(fieldName: string, fieldLabel: string): Suggeste
  * Generate suggestions for all fields in a form schema.
  */
 export function generateSuggestions(
-  fields: Array<{ fieldName: string; fieldLabel: string }>
+  fields: Array<{ fieldName: string; fieldLabel: string }>,
 ): SuggestedAnswer[] {
   return fields
     .map((f) => suggestForField(f.fieldName, f.fieldLabel))

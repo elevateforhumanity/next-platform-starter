@@ -19,8 +19,6 @@ export default async function BulkCertificatesPage() {
   await requireRole(['admin', 'super_admin']);
   const supabase = await createClient();
 
-
-
   // Fetch certificate templates
   const { data: templates } = await supabase
     .from('certificate_templates')
@@ -42,20 +40,30 @@ export default async function BulkCertificatesPage() {
     ? await supabase.from('profiles').select('id, full_name, email').in('id', bulkUserIds)
     : { data: [] };
   const bulkProfileMap = Object.fromEntries((bulkProfiles ?? []).map((p: any) => [p.id, p]));
-  const eligibleParticipants = (rawEligible ?? []).map((e: any) => ({ ...e, profiles: bulkProfileMap[e.user_id] ?? null }));
+  const eligibleParticipants = (rawEligible ?? []).map((e: any) => ({
+    ...e,
+    profiles: bulkProfileMap[e.user_id] ?? null,
+  }));
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* Hero Image */}
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8">
           <nav className="text-sm mb-4">
             <ol className="flex items-center space-x-2 text-slate-700">
-              <li><Link href="/admin" className="hover:text-primary">Admin</Link></li>
+              <li>
+                <Link href="/admin" className="hover:text-primary">
+                  Admin
+                </Link>
+              </li>
               <li>/</li>
-              <li><Link href="/admin/certificates" className="hover:text-primary">Certificates</Link></li>
+              <li>
+                <Link href="/admin/certificates" className="hover:text-primary">
+                  Certificates
+                </Link>
+              </li>
               <li>/</li>
               <li className="text-slate-900 font-medium">Bulk Issue</li>
             </ol>

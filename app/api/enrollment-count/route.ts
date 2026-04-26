@@ -24,9 +24,18 @@ async function _GET(request: Request) {
 
     const [totalRes, monthRes, todayRes, activeRes] = await Promise.all([
       supabase.from('program_enrollments').select('id', { count: 'exact', head: true }),
-      supabase.from('program_enrollments').select('id', { count: 'exact', head: true }).gte('enrolled_at', startOfMonth),
-      supabase.from('program_enrollments').select('id', { count: 'exact', head: true }).gte('enrolled_at', startOfDay),
-      supabase.from('program_enrollments').select('id', { count: 'exact', head: true }).eq('status', 'active'),
+      supabase
+        .from('program_enrollments')
+        .select('id', { count: 'exact', head: true })
+        .gte('enrolled_at', startOfMonth),
+      supabase
+        .from('program_enrollments')
+        .select('id', { count: 'exact', head: true })
+        .gte('enrolled_at', startOfDay),
+      supabase
+        .from('program_enrollments')
+        .select('id', { count: 'exact', head: true })
+        .eq('status', 'active'),
     ]);
 
     return NextResponse.json(
@@ -40,12 +49,12 @@ async function _GET(request: Request) {
           lastUpdated: now.toISOString(),
         },
       },
-      { headers: { 'Cache-Control': 's-maxage=60, stale-while-revalidate=300' } }
+      { headers: { 'Cache-Control': 's-maxage=60, stale-while-revalidate=300' } },
     );
   } catch (error) {
     return NextResponse.json(
       { success: false, error: 'Failed to fetch enrollment data' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

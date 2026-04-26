@@ -1,6 +1,4 @@
-
 export const revalidate = 3600;
-
 
 import { requireRole } from '@/lib/auth/require-role';
 import { Metadata } from 'next';
@@ -18,12 +16,11 @@ export default async function NewWOTCPage() {
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* Hero Image */}
       <div className="max-w-3xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8">
-          <Link 
+          <Link
             href="/admin/wotc"
             className="inline-flex items-center gap-2 text-slate-700 hover:text-slate-900 mb-4"
           >
@@ -38,13 +35,16 @@ export default async function NewWOTCPage() {
         <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-lg p-4 mb-6">
           <h3 className="font-medium text-brand-blue-800">About WOTC</h3>
           <p className="text-sm text-brand-blue-700 mt-1">
-            The Work Opportunity Tax Credit (WOTC) is a federal tax credit available to employers 
+            The Work Opportunity Tax Credit (WOTC) is a federal tax credit available to employers
             who hire individuals from certain target groups who face barriers to employment.
           </p>
         </div>
 
         {/* Form */}
-        <form action={createWOTCApplication} className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <form
+          action={createWOTCApplication}
+          className="bg-white rounded-xl shadow-sm border border-gray-200 p-6"
+        >
           {/* Employee Information */}
           <div className="mb-8">
             <h2 className="text-lg font-semibold text-slate-900 mb-4 flex items-center gap-2">
@@ -64,9 +64,7 @@ export default async function NewWOTCPage() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-slate-900 mb-1">
-                  Last Name *
-                </label>
+                <label className="block text-sm font-medium text-slate-900 mb-1">Last Name *</label>
                 <input
                   type="text"
                   name="lastName"
@@ -222,11 +220,11 @@ export default async function NewWOTCPage() {
                 { id: 'longterm', label: 'Long-Term Unemployment Recipient' },
               ].map((group) => (
                 <label key={group.id} className="flex items-start gap-3">
-                  <input 
-                    type="checkbox" 
-                    name="targetGroups" 
+                  <input
+                    type="checkbox"
+                    name="targetGroups"
                     value={group.id}
-                    className="mt-1 rounded border-gray-300" 
+                    className="mt-1 rounded border-gray-300"
                   />
                   <span className="text-sm text-slate-900">{group.label}</span>
                 </label>
@@ -251,26 +249,23 @@ export default async function NewWOTCPage() {
           {/* Certification */}
           <div className="mb-8 p-4 bg-gray-50 rounded-lg">
             <label className="flex items-start gap-3">
-              <input 
-                type="checkbox" 
-                name="certification" 
+              <input
+                type="checkbox"
+                name="certification"
                 required
-                className="mt-1 rounded border-gray-300" 
+                className="mt-1 rounded border-gray-300"
               />
               <span className="text-sm text-slate-900">
-                I certify that the information provided is accurate and complete to the best of my knowledge. 
-                I understand that providing false information may result in denial of the tax credit and 
-                potential penalties.
+                I certify that the information provided is accurate and complete to the best of my
+                knowledge. I understand that providing false information may result in denial of the
+                tax credit and potential penalties.
               </span>
             </label>
           </div>
 
           {/* Actions */}
           <div className="flex items-center justify-end gap-4 pt-4 border-t border-gray-200">
-            <Link
-              href="/admin/wotc"
-              className="px-4 py-2 text-slate-900 hover:text-slate-900"
-            >
+            <Link href="/admin/wotc" className="px-4 py-2 text-slate-900 hover:text-slate-900">
               Cancel
             </Link>
             <button

@@ -2,20 +2,14 @@ import { createClient } from '@/lib/supabase/server';
 import { getAdminClient } from '@/lib/supabase/admin';
 import Link from 'next/link';
 import { Metadata } from 'next';
-import { 
-  Award,
-  ArrowRight,
-  Sparkles,
-  Video,
-  Download,
-  MessageSquare
-} from 'lucide-react';
+import { Award, ArrowRight, Sparkles, Video, Download, MessageSquare } from 'lucide-react';
 import { CareerCoursesClient } from './CareerCoursesClient';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const metadata: Metadata = {
   title: 'Career Success Courses | Elevate for Humanity',
-  description: 'Professional video courses for resume writing, interview preparation, and job search strategies. Self-paced learning with lifetime access.',
+  description:
+    'Professional video courses for resume writing, interview preparation, and job search strategies. Self-paced learning with lifetime access.',
 };
 
 export const dynamic = 'force-dynamic';
@@ -35,10 +29,12 @@ export default async function CareerCoursesPage() {
   // Fetch courses from database
   const { data: courses } = await db
     .from('career_courses')
-    .select(`
+    .select(
+      `
       *,
       features:career_course_features(feature, sort_order)
-    `)
+    `,
+    )
     .eq('is_active', true)
     .order('price', { ascending: true });
 
@@ -51,7 +47,9 @@ export default async function CareerCoursesPage() {
       {/* Breadcrumbs */}
       <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[{ label: 'Career Services', href: '/career-services' }, { label: 'Courses' }]} />
+          <Breadcrumbs
+            items={[{ label: 'Career Services', href: '/career-services' }, { label: 'Courses' }]}
+          />
         </div>
       </div>
 
@@ -63,11 +61,10 @@ export default async function CareerCoursesPage() {
               <Sparkles className="w-4 h-4" />
               Self-Paced Video Courses
             </span>
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">
-              Career Success Courses
-            </h1>
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">Career Success Courses</h1>
             <p className="text-xl text-brand-blue-100 mb-8">
-              Professional video training to help you land your dream job. Flexible scheduling with instructor support and lifetime access.
+              Professional video training to help you land your dream job. Flexible scheduling with
+              instructor support and lifetime access.
             </p>
             <div className="flex flex-wrap gap-6 text-sm">
               <div className="flex items-center gap-2">
@@ -88,22 +85,23 @@ export default async function CareerCoursesPage() {
       </section>
 
       {/* Client Component for Cart Functionality */}
-      <CareerCoursesClient 
-        courses={individualCourses} 
-        bundle={bundle} 
-      />
+      <CareerCoursesClient courses={individualCourses} bundle={bundle} />
 
       {/* What's Included */}
       <section className="max-w-7xl mx-auto px-4 py-16">
         <div className="bg-white rounded-2xl p-8 shadow-lg">
-          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">What&apos;s Included in Every Course</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">
+            What&apos;s Included in Every Course
+          </h2>
           <div className="grid md:grid-cols-4 gap-6">
             <div className="text-center">
               <div className="w-14 h-14 bg-brand-blue-100 rounded-xl flex items-center justify-center mx-auto mb-4">
                 <Video className="w-7 h-7 text-brand-blue-600" />
               </div>
               <h3 className="font-semibold mb-2">HD Video Lessons</h3>
-              <p className="text-sm text-gray-600">Professional quality videos you can watch anytime</p>
+              <p className="text-sm text-gray-600">
+                Professional quality videos you can watch anytime
+              </p>
             </div>
             <div className="text-center">
               <div className="w-14 h-14 bg-brand-green-100 rounded-xl flex items-center justify-center mx-auto mb-4">
@@ -124,7 +122,9 @@ export default async function CareerCoursesPage() {
                 <MessageSquare className="w-7 h-7 text-brand-orange-600" />
               </div>
               <h3 className="font-semibold mb-2">Lifetime Access</h3>
-              <p className="text-sm text-gray-600">Access your courses forever, including updates</p>
+              <p className="text-sm text-gray-600">
+                Access your courses forever, including updates
+              </p>
             </div>
           </div>
         </div>
@@ -135,8 +135,8 @@ export default async function CareerCoursesPage() {
             Enrolled in a Training Program?
           </h2>
           <p className="text-brand-green-700 mb-6 max-w-2xl mx-auto">
-            All career services courses are included FREE for students enrolled in our WIOA-funded training programs. 
-            Check your eligibility and get started today.
+            All career services courses are included FREE for students enrolled in our WIOA-funded
+            training programs. Check your eligibility and get started today.
           </p>
           <Link
             href="/wioa-eligibility"

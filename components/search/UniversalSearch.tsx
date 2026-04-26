@@ -4,7 +4,16 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Search, X, ArrowRight, Building2, Code, Briefcase, GraduationCap, Sparkles } from 'lucide-react';
+import {
+  Search,
+  X,
+  ArrowRight,
+  Building2,
+  Code,
+  Briefcase,
+  GraduationCap,
+  Sparkles,
+} from 'lucide-react';
 
 // Types for search results
 interface SearchItem {
@@ -31,7 +40,11 @@ interface UniversalSearchProps {
   className?: string;
 }
 
-const audienceFilters: { id: Audience; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
+const audienceFilters: {
+  id: Audience;
+  label: string;
+  icon: React.ComponentType<{ className?: string }>;
+}[] = [
   { id: 'students', label: 'For Students', icon: GraduationCap },
   { id: 'organizations', label: 'For Organizations', icon: Building2 },
   { id: 'developers', label: 'For Developers', icon: Code },
@@ -60,7 +73,7 @@ export default function UniversalSearch({
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  
+
   const [query, setQuery] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [selectedAudience, setSelectedAudience] = useState<Audience | undefined>(defaultAudience);
@@ -73,7 +86,9 @@ export default function UniversalSearch({
     const fetchResults = async () => {
       if (query.length > 0) {
         try {
-          const response = await fetch(`/api/search?q=${encodeURIComponent(query)}&audience=${selectedAudience || ''}&limit=8`);
+          const response = await fetch(
+            `/api/search?q=${encodeURIComponent(query)}&audience=${selectedAudience || ''}&limit=8`,
+          );
           if (response.ok) {
             const data = await response.json();
             setResults(data.results || []);
@@ -125,30 +140,33 @@ export default function UniversalSearch({
   }, []);
 
   // Keyboard navigation
-  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
-    const items = query ? results : featuredItems;
-    
-    switch (e.key) {
-      case 'ArrowDown':
-        e.preventDefault();
-        setHighlightedIndex(prev => Math.min(prev + 1, items.length - 1));
-        break;
-      case 'ArrowUp':
-        e.preventDefault();
-        setHighlightedIndex(prev => Math.max(prev - 1, -1));
-        break;
-      case 'Enter':
-        e.preventDefault();
-        if (highlightedIndex >= 0 && items[highlightedIndex]) {
-          handleSelect(items[highlightedIndex]);
-        }
-        break;
-      case 'Escape':
-        setIsOpen(false);
-        inputRef.current?.blur();
-        break;
-    }
-  }, [query, results, featuredItems, highlightedIndex]);
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      const items = query ? results : featuredItems;
+
+      switch (e.key) {
+        case 'ArrowDown':
+          e.preventDefault();
+          setHighlightedIndex((prev) => Math.min(prev + 1, items.length - 1));
+          break;
+        case 'ArrowUp':
+          e.preventDefault();
+          setHighlightedIndex((prev) => Math.max(prev - 1, -1));
+          break;
+        case 'Enter':
+          e.preventDefault();
+          if (highlightedIndex >= 0 && items[highlightedIndex]) {
+            handleSelect(items[highlightedIndex]);
+          }
+          break;
+        case 'Escape':
+          setIsOpen(false);
+          inputRef.current?.blur();
+          break;
+      }
+    },
+    [query, results, featuredItems, highlightedIndex],
+  );
 
   const handleSelect = (item: SearchItem) => {
     if (onSelect) {
@@ -235,7 +253,10 @@ export default function UniversalSearch({
               <div className="flex items-center gap-2 text-brand-orange-800">
                 <Sparkles className="w-4 h-4" />
                 <span className="text-sm font-medium">
-                  Recommended for {audienceFilters.find(f => f.id === selectedAudience)?.label.replace('For ', '')}
+                  Recommended for{' '}
+                  {audienceFilters
+                    .find((f) => f.id === selectedAudience)
+                    ?.label.replace('For ', '')}
                 </span>
               </div>
             </div>
@@ -260,10 +281,11 @@ export default function UniversalSearch({
                         alt={item.title}
                         fill
                         className="object-cover"
-                       sizes="100vw" />
+                        sizes="100vw"
+                      />
                     </div>
                   )}
-                  
+
                   {/* Content */}
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
@@ -284,9 +306,11 @@ export default function UniversalSearch({
                   </div>
 
                   {/* Arrow */}
-                  <ArrowRight className={`w-5 h-5 flex-shrink-0 transition-colors ${
-                    highlightedIndex === index ? 'text-brand-orange-600' : 'text-slate-700'
-                  }`} />
+                  <ArrowRight
+                    className={`w-5 h-5 flex-shrink-0 transition-colors ${
+                      highlightedIndex === index ? 'text-brand-orange-600' : 'text-slate-700'
+                    }`}
+                  />
                 </button>
               </li>
             ))}

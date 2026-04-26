@@ -11,7 +11,13 @@ type CourseStatus = 'complete' | 'incomplete' | 'loading';
 
 export default function CertiportExamPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-white flex items-center justify-center"><p className="text-slate-500">Loading...</p></div>}>
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-white flex items-center justify-center">
+          <p className="text-slate-500">Loading...</p>
+        </div>
+      }
+    >
       <CertiportExamContent />
     </Suspense>
   );
@@ -35,7 +41,9 @@ function CertiportExamContent() {
   useEffect(() => {
     async function loadStatus() {
       const supabase = createClient();
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       if (!user) {
         router.push('/login?redirect=/certiport-exam');
         return;
@@ -118,13 +126,18 @@ function CertiportExamContent() {
       acc[exam.category].push({ code: code as CertiportExamCode, ...exam });
       return acc;
     },
-    {} as Record<string, Array<{ code: CertiportExamCode; name: string; category: string; passingScore: number }>>
+    {} as Record<
+      string,
+      Array<{ code: CertiportExamCode; name: string; category: string; passingScore: number }>
+    >,
   );
 
   // If voucher already assigned, show it
   if (existingRequest?.status === 'voucher_assigned' && existingRequest.voucherCode) {
     return (
-      <div className="min-h-screen bg-white py-12 px-4">        <div className="max-w-2xl mx-auto">
+      <div className="min-h-screen bg-white py-12 px-4">
+        {' '}
+        <div className="max-w-2xl mx-auto">
           <div className="bg-white rounded-2xl shadow-lg p-8 text-center">
             <div className="w-16 h-16 bg-brand-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
               <span className="text-slate-500 flex-shrink-0">•</span>
@@ -134,7 +147,9 @@ function CertiportExamContent() {
 
             <div className="bg-brand-blue-700 text-white rounded-xl p-6 mb-6">
               <p className="text-sm text-slate-500 mb-1">Voucher Code</p>
-              <p className="text-3xl font-mono font-bold tracking-wider">{existingRequest.voucherCode}</p>
+              <p className="text-3xl font-mono font-bold tracking-wider">
+                {existingRequest.voucherCode}
+              </p>
             </div>
 
             <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-xl p-4 text-left mb-6">
@@ -142,8 +157,10 @@ function CertiportExamContent() {
                 <MapPin className="w-4 h-4" /> Testing Center
               </h3>
               <p className="text-brand-blue-800 text-sm">
-                Elevate for Humanity Career &amp; Technical Institute<br />
-                8888 Keystone Crossing, Suite 1300<br />
+                Elevate for Humanity Career &amp; Technical Institute
+                <br />
+                8888 Keystone Crossing, Suite 1300
+                <br />
                 Indianapolis, IN 46240
               </p>
             </div>
@@ -197,7 +214,8 @@ function CertiportExamContent() {
           </div>
           <h1 className="text-3xl font-bold text-slate-900">Certification Exam</h1>
           <p className="text-slate-600 mt-2">
-            Select your exam below. {fundingStatus === 'funded'
+            Select your exam below.{' '}
+            {fundingStatus === 'funded'
               ? 'Your exam is covered by your funding program.'
               : 'Exam fee: $150.'}
           </p>
@@ -225,7 +243,9 @@ function CertiportExamContent() {
           ) : fundingStatus === 'self_pay' ? (
             <div className="flex items-center gap-2 bg-brand-blue-50 border border-brand-blue-200 rounded-lg px-4 py-3">
               <Shield className="w-5 h-5 text-brand-blue-600" />
-              <span className="text-brand-blue-800 font-medium">Self-Pay — $150 exam fee (paid to Elevate)</span>
+              <span className="text-brand-blue-800 font-medium">
+                Self-Pay — $150 exam fee (paid to Elevate)
+              </span>
             </div>
           ) : null}
         </div>
@@ -233,7 +253,10 @@ function CertiportExamContent() {
         {/* Exam selection */}
         <div className="space-y-6 mb-8">
           {Object.entries(examCategories).map(([category, exams]) => (
-            <div key={category} className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+            <div
+              key={category}
+              className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden"
+            >
               <div className="bg-white px-6 py-3">
                 <h2 className="text-slate-900 font-semibold">{category}</h2>
               </div>
@@ -257,7 +280,9 @@ function CertiportExamContent() {
                     />
                     <div className="flex-1">
                       <p className="font-medium text-slate-900">{exam.name}</p>
-                      <p className="text-xs text-slate-500">Passing score: {exam.passingScore}/1000</p>
+                      <p className="text-xs text-slate-500">
+                        Passing score: {exam.passingScore}/1000
+                      </p>
                     </div>
                   </label>
                 ))}

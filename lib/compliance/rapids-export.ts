@@ -1,6 +1,6 @@
 /**
  * RAPIDS CSV Export for Bulk Upload
- * 
+ *
  * Generates CSV files formatted for RAPIDS bulk upload portal.
  * RAPIDS accepts CSV uploads for:
  * - New apprentice registrations
@@ -17,11 +17,11 @@ import { setAuditContext } from '@/lib/audit-context';
 function getSupabaseAdmin(): SupabaseClient {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  
+
   if (!url || !key) {
     throw new Error('Missing Supabase configuration for RAPIDS export');
   }
-  
+
   return createClient(url, key);
 }
 
@@ -126,16 +126,17 @@ export const CANCELLATION_REASONS = {
  */
 export async function exportNewRegistrations(
   startDate?: string,
-  endDate?: string
+  endDate?: string,
 ): Promise<{ csv: string; count: number; errors: string[] }> {
   const errors: string[] = [];
-  
+
   // Query enrollments that need RAPIDS registration
   const supabase = getSupabaseAdmin();
   await setAuditContext(supabase, { systemActor: 'rapids_export' });
   let query = supabase
     .from('program_enrollments')
-    .select(`
+    .select(
+      `
       *,
       profiles:user_id (
         id,
@@ -162,7 +163,8 @@ export async function exportNewRegistrations(
         total_hours,
         related_instruction_hours
       )
-    `)
+    `,
+    )
     .eq('rapids_submitted', false)
     .in('status', ['active', 'enrolled']);
 
@@ -185,11 +187,11 @@ export async function exportNewRegistrations(
 
   // Build CSV rows
   const rows: string[][] = [];
-  
+
   for (const enrollment of enrollments) {
     const profile = enrollment.profiles;
     const program = enrollment.programs;
-    
+
     if (!profile || !program) {
       errors.push(`Missing profile or program for enrollment ${enrollment.id}`);
       continue;
@@ -203,7 +205,7 @@ export async function exportNewRegistrations(
 
     // Get program config
     const programConfig = Object.values(RAPIDS_CONFIG.programs).find(
-      p => p.slug === program.slug
+      (p) => p.slug === program.slug,
     );
 
     const row = [
@@ -251,7 +253,7 @@ export async function exportNewRegistrations(
  * Export progress updates to CSV
  */
 export async function exportProgressUpdates(
-  reportDate: string = new Date().toISOString().split('T')[0]
+  reportDate: string = new Date().toISOString().split('T')[0],
 ): Promise<{ csv: string; count: number; errors: string[] }> {
   const errors: string[] = [];
 
@@ -259,7 +261,8 @@ export async function exportProgressUpdates(
   const supabase = getSupabaseAdmin();
   const { data: enrollments, error } = await supabase
     .from('program_enrollments')
-    .select(`
+    .select(
+      `
       *,
       profiles:user_id (
         id,
@@ -270,7 +273,8 @@ export async function exportProgressUpdates(
         name,
         slug
       )
-    `)
+    `,
+    )
     .eq('status', 'active')
     .eq('rapids_submitted', true);
 
@@ -286,7 +290,7 @@ export async function exportProgressUpdates(
 
   for (const enrollment of enrollments) {
     const profile = enrollment.profiles;
-    
+
     if (!profile) continue;
 
     const nameParts = (profile.full_name || '').split(' ');
@@ -305,9 +309,18 @@ export async function exportProgressUpdates(
 
     (hoursData || []).forEach((h: any) => {
       const hrs = Number(h.accepted_hours) || Number(h.hours_claimed) || 0;
-      if (h.source_type === 'ojl' || h.source_type === 'host_shop' || h.source_type === 'timeclock' || h.source_type === 'manual') {
+      if (
+        h.source_type === 'ojl' ||
+        h.source_type === 'host_shop' ||
+        h.source_type === 'timeclock' ||
+        h.source_type === 'manual'
+      ) {
         ojlHours += hrs;
-      } else if (h.source_type === 'rti' || h.source_type === 'in_state_barber_school' || h.source_type === 'continuing_education') {
+      } else if (
+        h.source_type === 'rti' ||
+        h.source_type === 'in_state_barber_school' ||
+        h.source_type === 'continuing_education'
+      ) {
         rtiHours += hrs;
       }
     });
@@ -337,14 +350,15 @@ export async function exportProgressUpdates(
  */
 export async function exportCompletions(
   startDate?: string,
-  endDate?: string
+  endDate?: string,
 ): Promise<{ csv: string; count: number; errors: string[] }> {
   const errors: string[] = [];
   const supabase = getSupabaseAdmin();
 
   let query = supabase
     .from('program_enrollments')
-    .select(`
+    .select(
+      `
       *,
       profiles:user_id (
         id,
@@ -355,7 +369,8 @@ export async function exportCompletions(
         name,
         slug
       )
-    `)
+    `,
+    )
     .eq('status', 'completed')
     .eq('rapids_completion_submitted', false);
 
@@ -380,7 +395,7 @@ export async function exportCompletions(
 
   for (const enrollment of enrollments) {
     const profile = enrollment.profiles;
-    
+
     if (!profile) continue;
 
     const nameParts = (profile.full_name || '').split(' ');
@@ -412,14 +427,15 @@ export async function exportCompletions(
  */
 export async function exportCancellations(
   startDate?: string,
-  endDate?: string
+  endDate?: string,
 ): Promise<{ csv: string; count: number; errors: string[] }> {
   const errors: string[] = [];
   const supabase = getSupabaseAdmin();
 
   let query = supabase
     .from('program_enrollments')
-    .select(`
+    .select(
+      `
       *,
       profiles:user_id (
         id,
@@ -430,7 +446,8 @@ export async function exportCancellations(
         name,
         slug
       )
-    `)
+    `,
+    )
     .in('status', ['cancelled', 'terminated', 'withdrawn'])
     .eq('rapids_cancellation_submitted', false);
 
@@ -455,7 +472,7 @@ export async function exportCancellations(
 
   for (const enrollment of enrollments) {
     const profile = enrollment.profiles;
-    
+
     if (!profile) continue;
 
     const nameParts = (profile.full_name || '').split(' ');
@@ -463,7 +480,10 @@ export async function exportCancellations(
     const lastName = nameParts[nameParts.length - 1] || '';
 
     const reasonCode = enrollment.cancellation_reason_code || '10';
-    const reasonDesc = CANCELLATION_REASONS[reasonCode as keyof typeof CANCELLATION_REASONS] || enrollment.cancellation_reason || 'Other';
+    const reasonDesc =
+      CANCELLATION_REASONS[reasonCode as keyof typeof CANCELLATION_REASONS] ||
+      enrollment.cancellation_reason ||
+      'Other';
 
     const row = [
       RAPIDS_CONFIG.programNumber,
@@ -497,7 +517,7 @@ function generateCSV(headers: string[], rows: string[][]): string {
   };
 
   const headerLine = headers.map(escapeCSV).join(',');
-  const dataLines = rows.map(row => row.map(escapeCSV).join(','));
+  const dataLines = rows.map((row) => row.map(escapeCSV).join(','));
 
   return [headerLine, ...dataLines].join('\n');
 }
@@ -517,7 +537,7 @@ function formatDate(dateStr: string | null | undefined): string {
  */
 export async function markAsSubmitted(
   enrollmentIds: string[],
-  type: 'registration' | 'completion' | 'cancellation'
+  type: 'registration' | 'completion' | 'cancellation',
 ): Promise<{ success: boolean; error?: string }> {
   const supabase = getSupabaseAdmin();
   const updateField = {
@@ -528,7 +548,7 @@ export async function markAsSubmitted(
 
   const { error } = await supabase
     .from('program_enrollments')
-    .update({ 
+    .update({
       [updateField]: true,
       [`${updateField}_at`]: new Date().toISOString(),
     })

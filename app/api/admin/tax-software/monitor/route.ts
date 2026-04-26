@@ -15,9 +15,15 @@ export const maxDuration = 300;
 
 async function guardAdmin() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).maybeSingle();
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('role')
+    .eq('id', user.id)
+    .maybeSingle();
   if (!profile || !['admin', 'super_admin'].includes(profile.role)) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
@@ -28,25 +34,25 @@ async function guardAdmin() {
  * POST - Run IRS monitor
  */
 async function _POST(req: Request) {
-    const rateLimited = await applyRateLimit(req, 'api');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(req, 'api');
+  if (rateLimited) return rateLimited;
 
   const denied = await guardAdmin();
   if (denied) return denied;
   try {
     // Dynamic import to avoid build issues with Node.js modules
     const { createMonitor } = await import('@/lib/tax-software/irs-monitor');
-    
+
     const body = await req.json().catch(() => ({}));
     const { taxYear, sources } = body;
-    
+
     const monitor = createMonitor({
       taxYear: taxYear || new Date().getFullYear() + 1,
-      sources: sources || undefined
+      sources: sources || undefined,
     });
-    
+
     const report = await monitor.run();
-    
+
     return NextResponse.json({
       success: true,
       report: {
@@ -55,15 +61,12 @@ async function _POST(req: Request) {
         sourcesChecked: report.sourcesChecked,
         changesDetected: report.changesDetected,
         updatesFound: report.updatesFound,
-        alertsSent: report.alertsSent
-      }
+        alertsSent: report.alertsSent,
+      },
     });
   } catch (error) {
     logger.error('Error running IRS monitor:', error);
-    return NextResponse.json(
-      { error: 'Failed to run monitor' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to run monitor' }, { status: 500 });
   }
 }
 
@@ -71,26 +74,22 @@ async function _POST(req: Request) {
  * GET - Get monitor status
  */
 async function _GET(request: Request) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const denied = await guardAdmin();
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const denied = await guardAdmin();
   if (denied) return denied;
   try {
     const { createMonitor } = await import('@/lib/tax-software/irs-monitor');
     const monitor = createMonitor();
-    
+
     return NextResponse.json({
       status: 'ready',
       pendingUpdates: monitor.getPendingUpdates().length,
-      unacknowledgedAlerts: monitor.getAlerts().length
+      unacknowledgedAlerts: monitor.getAlerts().length,
     });
   } catch (error) {
     logger.error('Error getting monitor status:', error);
-    return NextResponse.json(
-      { error: 'Failed to get status' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to get status' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/admin/tax-software/monitor', _GET);

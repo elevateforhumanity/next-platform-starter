@@ -9,8 +9,7 @@ export const metadata: Metadata = {
     canonical: 'https://www.elevateforhumanity.org/verify',
   },
   title: 'Verify Certificate | Elevate For Humanity',
-  description:
-    'Verify the authenticity of a certificate issued by Elevate For Humanity',
+  description: 'Verify the authenticity of a certificate issued by Elevate For Humanity',
 };
 
 export const dynamic = 'force-dynamic';
@@ -39,8 +38,7 @@ export default async function VerifyCertificatePage({
 
   if (programCert) {
     certificate = programCert;
-    studentName =
-      programCert.users?.full_name || programCert.users?.email || 'Student';
+    studentName = programCert.users?.full_name || programCert.users?.email || 'Student';
     courseName = programCert.program_name || 'Program';
     completionDate = programCert.issued_at;
     certificateType = 'Program Completion';
@@ -56,8 +54,7 @@ export default async function VerifyCertificatePage({
 
     if (partnerCert) {
       certificate = partnerCert;
-      studentName =
-        partnerCert.users?.full_name || partnerCert.users?.email || 'Student';
+      studentName = partnerCert.users?.full_name || partnerCert.users?.email || 'Student';
       courseName = partnerCert.partner_courses?.course_name || 'Course';
       completionDate = partnerCert.issued_at;
       certificateType = 'Partner Certification';
@@ -74,8 +71,7 @@ export default async function VerifyCertificatePage({
 
     if (moduleCert) {
       certificate = moduleCert;
-      studentName =
-        moduleCert.users?.full_name || moduleCert.users?.email || 'Student';
+      studentName = moduleCert.users?.full_name || moduleCert.users?.email || 'Student';
       courseName = moduleCert.module_name || 'Module';
       completionDate = moduleCert.issued_at;
       certificateType = 'Module Completion';
@@ -87,13 +83,18 @@ export default async function VerifyCertificatePage({
     const { data: mainCert } = await supabase
       .from('certificates')
       .select('*, profiles:student_id(full_name, email)')
-      .or(`certificate_number.eq.${certificateId},verification_token.eq.${certificateId},id.eq.${certificateId}`)
+      .or(
+        `certificate_number.eq.${certificateId},verification_token.eq.${certificateId},id.eq.${certificateId}`,
+      )
       .maybeSingle();
 
     if (mainCert) {
       certificate = mainCert;
       studentName =
-        mainCert.student_name || mainCert.profiles?.full_name || mainCert.profiles?.email || 'Student';
+        mainCert.student_name ||
+        mainCert.profiles?.full_name ||
+        mainCert.profiles?.email ||
+        'Student';
       courseName = mainCert.program_name || 'Program';
       completionDate = mainCert.issued_at || mainCert.completion_date;
       certificateType = 'Program Completion';
@@ -123,7 +124,6 @@ export default async function VerifyCertificatePage({
           priority
           sizes="100vw"
         />
-
       </section>
 
       <section className="py-16">
@@ -188,10 +188,12 @@ export default async function VerifyCertificatePage({
               {certificate?.funding_status && certificate.funding_status !== 'funded' && (
                 <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 mb-4">
                   <p className="text-sm text-amber-800 text-center">
-                    Funding status: <span className="font-semibold capitalize">{certificate.funding_status}</span>
+                    Funding status:{' '}
+                    <span className="font-semibold capitalize">{certificate.funding_status}</span>
                   </p>
                   <p className="text-xs text-amber-600 text-center mt-1">
-                    This credential remains valid. Training was completed and competency was demonstrated.
+                    This credential remains valid. Training was completed and competency was
+                    demonstrated.
                   </p>
                 </div>
               )}
@@ -201,9 +203,7 @@ export default async function VerifyCertificatePage({
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
                     <p className="text-sm text-slate-700">Certificate Number</p>
-                    <p className="font-semibold text-lg">
-                      {certificateId}
-                    </p>
+                    <p className="font-semibold text-lg">{certificateId}</p>
                   </div>
                   <div>
                     <p className="text-sm text-slate-700">Certificate Type</p>
@@ -229,22 +229,18 @@ export default async function VerifyCertificatePage({
                   </div>
                   <div>
                     <p className="text-sm text-slate-700">Issued By</p>
-                    <p className="font-semibold text-lg">
-                      Elevate For Humanity
-                    </p>
+                    <p className="font-semibold text-lg">Elevate For Humanity</p>
                   </div>
                 </div>
               </div>
 
               {/* QR Code Section */}
               <div className="mt-6 text-center">
-                <p className="text-sm text-slate-700 mb-4">
-                  Scan to verify on mobile
-                </p>
+                <p className="text-sm text-slate-700 mb-4">Scan to verify on mobile</p>
                 <div className="inline-block p-4 bg-white border-2 border-gray-200 rounded-lg">
                   <Image
                     src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(
-                      `${process.env.NEXT_PUBLIC_SITE_URL || 'https://elevateforhumanity.com'}/verify/${certificateId}`
+                      `${process.env.NEXT_PUBLIC_SITE_URL || 'https://elevateforhumanity.com'}/verify/${certificateId}`,
                     )}`}
                     alt="QR Code"
                     width={192}
@@ -263,8 +259,7 @@ export default async function VerifyCertificatePage({
                   <strong>Organization:</strong> Elevate For Humanity
                 </p>
                 <p>
-                  <strong>Type:</strong> Workforce Development & Training
-                  Provider
+                  <strong>Type:</strong> Workforce Development & Training Provider
                 </p>
                 <p>
                   <strong>Status:</strong> WIOA Eligible Training Provider
@@ -272,10 +267,7 @@ export default async function VerifyCertificatePage({
                 <p>
                   <strong>Website:</strong>{' '}
                   <a
-                    href={
-                      process.env.NEXT_PUBLIC_SITE_URL ||
-                      'https://elevateforhumanity.com'
-                    }
+                    href={process.env.NEXT_PUBLIC_SITE_URL || 'https://elevateforhumanity.com'}
                     className="underline hover:text-brand-blue-900"
                     target="_blank"
                     rel="noopener noreferrer"

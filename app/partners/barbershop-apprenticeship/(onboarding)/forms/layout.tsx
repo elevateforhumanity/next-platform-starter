@@ -5,10 +5,6 @@ export const metadata: Metadata = {
   description: 'Required forms for the barbershop apprenticeship program.',
 };
 
-export default function FormsLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function FormsLayout({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }

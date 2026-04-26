@@ -15,9 +15,10 @@ export const dynamic = 'force-dynamic';
 
 export default async function ExternalCourseApprovalsPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login');
-
 
   const db = await getAdminClient();
   const { data: profile } = await supabase
@@ -33,7 +34,9 @@ export default async function ExternalCourseApprovalsPage() {
   // Pending: certificate uploaded but not yet approved
   const { data: rawPending } = await supabase
     .from('external_course_completions')
-    .select(`id, user_id, completed_at, certificate_url, login_sent_at, login_instructions, approved_at, rejection_reason, elevate_sponsored, course:program_external_courses(id, title, partner_name, external_url, program_id), program:programs(title, slug)`)
+    .select(
+      `id, user_id, completed_at, certificate_url, login_sent_at, login_instructions, approved_at, rejection_reason, elevate_sponsored, course:program_external_courses(id, title, partner_name, external_url, program_id), program:programs(title, slug)`,
+    )
     .not('certificate_url', 'is', null)
     .is('approved_at', null)
     .order('completed_at', { ascending: true });
@@ -41,34 +44,47 @@ export default async function ExternalCourseApprovalsPage() {
   // Sponsored but no login sent yet
   const { data: rawNeedsLogin } = await supabase
     .from('external_course_completions')
-    .select(`id, user_id, elevate_sponsored, login_sent_at, course:program_external_courses(id, title, partner_name, external_url), program:programs(title, slug)`)
+    .select(
+      `id, user_id, elevate_sponsored, login_sent_at, course:program_external_courses(id, title, partner_name, external_url), program:programs(title, slug)`,
+    )
     .eq('elevate_sponsored', true)
     .is('login_sent_at', null)
     .order('created_at', { ascending: true });
 
   // Hydrate profiles separately (user_id → auth.users, no FK to profiles)
-  const extUserIds = [...new Set([
-    ...(rawPending ?? []).map((r: any) => r.user_id),
-    ...(rawNeedsLogin ?? []).map((r: any) => r.user_id),
-  ].filter(Boolean))];
+  const extUserIds = [
+    ...new Set(
+      [
+        ...(rawPending ?? []).map((r: any) => r.user_id),
+        ...(rawNeedsLogin ?? []).map((r: any) => r.user_id),
+      ].filter(Boolean),
+    ),
+  ];
   const { data: extProfiles } = extUserIds.length
     ? await supabase.from('profiles').select('id, full_name, email').in('id', extUserIds)
     : { data: [] };
   const extProfileMap = Object.fromEntries((extProfiles ?? []).map((p: any) => [p.id, p]));
-  const pending = (rawPending ?? []).map((r: any) => ({ ...r, student: extProfileMap[r.user_id] ?? null }));
-  const needsLogin = (rawNeedsLogin ?? []).map((r: any) => ({ ...r, student: extProfileMap[r.user_id] ?? null }));
+  const pending = (rawPending ?? []).map((r: any) => ({
+    ...r,
+    student: extProfileMap[r.user_id] ?? null,
+  }));
+  const needsLogin = (rawNeedsLogin ?? []).map((r: any) => ({
+    ...r,
+    student: extProfileMap[r.user_id] ?? null,
+  }));
 
   return (
     <div className="min-h-screen bg-white">
       <div className="bg-white border-b px-6 py-3">
-        <Breadcrumbs items={[
-          { label: 'Admin', href: '/admin/dashboard' },
-          { label: 'External Course Approvals' },
-        ]} />
+        <Breadcrumbs
+          items={[
+            { label: 'Admin', href: '/admin/dashboard' },
+            { label: 'External Course Approvals' },
+          ]}
+        />
       </div>
 
       <div className="max-w-5xl mx-auto px-4 py-8 space-y-10">
-
         {/* Needs login sent */}
         {(needsLogin ?? []).length > 0 && (
           <section>
@@ -82,16 +98,12 @@ export default async function ExternalCourseApprovalsPage() {
               </span>
             </div>
             <p className="text-sm text-slate-500 mb-4">
-              These students are Elevate-sponsored. Purchase the course on the partner site,
-              then enter their login credentials below to email them automatically.
+              These students are Elevate-sponsored. Purchase the course on the partner site, then
+              enter their login credentials below to email them automatically.
             </p>
             <div className="space-y-4">
-              {(needsLogin ?? []).map(rec => (
-                <CompletionApprovalCard
-                  key={rec.id}
-                  rec={rec as any}
-                  mode="send_login"
-                />
+              {(needsLogin ?? []).map((rec) => (
+                <CompletionApprovalCard key={rec.id} rec={rec as any} mode="send_login" />
               ))}
             </div>
           </section>
@@ -101,9 +113,7 @@ export default async function ExternalCourseApprovalsPage() {
         <section>
           <div className="flex items-center gap-2 mb-4">
             <Clock className="w-5 h-5 text-brand-blue-500" />
-            <h2 className="text-lg font-bold text-slate-900">
-              Pending Credential Review
-            </h2>
+            <h2 className="text-lg font-bold text-slate-900">Pending Credential Review</h2>
             <span className="ml-auto text-xs bg-brand-blue-100 text-brand-blue-700 px-2 py-0.5 rounded-full font-semibold">
               {(pending ?? []).length}
             </span>
@@ -116,17 +126,12 @@ export default async function ExternalCourseApprovalsPage() {
             </div>
           ) : (
             <div className="space-y-4">
-              {(pending ?? []).map(rec => (
-                <CompletionApprovalCard
-                  key={rec.id}
-                  rec={rec as any}
-                  mode="approve"
-                />
+              {(pending ?? []).map((rec) => (
+                <CompletionApprovalCard key={rec.id} rec={rec as any} mode="approve" />
               ))}
             </div>
           )}
         </section>
-
       </div>
     </div>
   );

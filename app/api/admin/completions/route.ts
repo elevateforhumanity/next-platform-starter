@@ -1,6 +1,6 @@
 import { getAdminClient } from '@/lib/supabase/admin';
 
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from 'next/server';
 import { withAuth } from '@/lib/with-auth';
 import { logger } from '@/lib/logger';
 import { toErrorMessage } from '@/lib/safe';
@@ -12,18 +12,18 @@ export const dynamic = 'force-dynamic';
 
 const toDateString = (value: any) => {
   if (value instanceof Date) return value.toLocaleDateString();
-  if (typeof value === "string" || typeof value === "number") {
+  if (typeof value === 'string' || typeof value === 'number') {
     const d = new Date(value);
-    return Number.isNaN(d.getTime()) ? "" : d.toLocaleDateString();
+    return Number.isNaN(d.getTime()) ? '' : d.toLocaleDateString();
   }
-  return "";
+  return '';
 };
 
 const _GET = withAuth(
   async (req: NextRequest, { user }) => {
     const url = new URL(req.url);
-    const daysParam = url.searchParams.get("days");
-    const format = url.searchParams.get("format") || "json";
+    const daysParam = url.searchParams.get('days');
+    const format = url.searchParams.get('format') || 'json';
     const days = daysParam ? Number(daysParam) : 7;
 
     const since = new Date();
@@ -33,8 +33,9 @@ const _GET = withAuth(
     const db = supabase;
 
     const { data, error }: any = await db
-      .from("partner_certificates")
-      .select(`
+      .from('partner_certificates')
+      .select(
+        `
         id,
         certificate_number,
         certificate_url,
@@ -50,12 +51,13 @@ const _GET = withAuth(
           partner_courses ( course_name ),
           profiles ( full_name, email )
         )
-      `)
-      .gte("issued_date", since.toISOString())
-      .order("issued_date", { ascending: false });
+      `,
+      )
+      .gte('issued_date', since.toISOString())
+      .order('issued_date', { ascending: false });
 
     if (error) {
-      logger.error("[GET /api/admin/completions] error", error);
+      logger.error('[GET /api/admin/completions] error', error);
       return NextResponse.json({ completions: [], error: toErrorMessage(error) }, { status: 200 });
     }
 
@@ -64,7 +66,7 @@ const _GET = withAuth(
       const student = e.profiles ?? {};
       const provider = e.partner_lms_providers ?? {};
       const course = e.partner_courses ?? {};
-      const fundingSource = "WIOA/WRG";
+      const fundingSource = 'WIOA/WRG';
 
       return {
         id: row.id,
@@ -72,26 +74,26 @@ const _GET = withAuth(
         certificateUrl: row.certificate_url,
         verificationUrl: row.verification_url ?? null,
         issuedDate: row.issued_date,
-        courseName: course.course_name ?? "Partner Course",
-        partnerName: provider.provider_name ?? "Partner",
-        studentName: student.full_name ?? "Student",
-        studentEmail: student.email ?? "",
+        courseName: course.course_name ?? 'Partner Course',
+        partnerName: provider.provider_name ?? 'Partner',
+        studentName: student.full_name ?? 'Student',
+        studentEmail: student.email ?? '',
         programName: null,
         fundingSource,
       };
     });
 
-    if (format === "csv") {
+    if (format === 'csv') {
       const headers = [
-        "Student Name",
-        "Student Email",
-        "Course Name",
-        "Partner",
-        "Funding Source",
-        "Certificate Number",
-        "Issued Date",
-        "Certificate URL",
-        "Verification URL",
+        'Student Name',
+        'Student Email',
+        'Course Name',
+        'Partner',
+        'Funding Source',
+        'Certificate Number',
+        'Issued Date',
+        'Certificate URL',
+        'Verification URL',
       ];
 
       const rows = completions.map((c: any) => [
@@ -100,29 +102,29 @@ const _GET = withAuth(
         c.courseName,
         c.partnerName,
         c.fundingSource,
-        c.certificateNumber || "",
+        c.certificateNumber || '',
         toDateString(c.issuedDate),
         c.certificateUrl,
-        c.verificationUrl || "",
+        c.verificationUrl || '',
       ]);
 
       const csv = [
-        headers.join(","),
+        headers.join(','),
         ...rows.map((row: any[]) =>
-          row.map((cell: any) => `"${String(cell).replace(/"/g, '""')}"`).join(",")
+          row.map((cell: any) => `"${String(cell).replace(/"/g, '""')}"`).join(','),
         ),
-      ].join("\n");
+      ].join('\n');
 
       return new NextResponse(csv, {
         headers: {
-          "Content-Type": "text/csv",
-          "Content-Disposition": `attachment; filename="completions-${days}days-${new Date().toISOString().split("T")[0]}.csv"`,
+          'Content-Type': 'text/csv',
+          'Content-Disposition': `attachment; filename="completions-${days}days-${new Date().toISOString().split('T')[0]}.csv"`,
         },
       });
     }
 
     return NextResponse.json({ completions });
   },
-  { roles: ['admin', 'super_admin'] }
+  { roles: ['admin', 'super_admin'] },
 );
 export const GET = withApiAudit('/api/admin/completions', _GET);

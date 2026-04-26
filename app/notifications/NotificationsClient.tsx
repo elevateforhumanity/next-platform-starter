@@ -3,18 +3,18 @@
 import { useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import Link from 'next/link';
-import { 
-  Bell, 
-  Check, 
-  CheckCheck, 
-  MessageSquare, 
-  Heart, 
-  Award, 
-  Calendar, 
+import {
+  Bell,
+  Check,
+  CheckCheck,
+  MessageSquare,
+  Heart,
+  Award,
+  Calendar,
   Users,
   BookOpen,
   Trash2,
-  Settings
+  Settings,
 } from 'lucide-react';
 
 interface Notification {
@@ -33,7 +33,11 @@ interface NotificationsClientProps {
   unreadCount: number;
 }
 
-export default function NotificationsClient({ userId, initialNotifications, unreadCount: initialUnread }: NotificationsClientProps) {
+export default function NotificationsClient({
+  userId,
+  initialNotifications,
+  unreadCount: initialUnread,
+}: NotificationsClientProps) {
   const [notifications, setNotifications] = useState(initialNotifications);
   const [unreadCount, setUnreadCount] = useState(initialUnread);
   const [filter, setFilter] = useState<'all' | 'unread'>('all');
@@ -74,15 +78,10 @@ export default function NotificationsClient({ userId, initialNotifications, unre
 
   const markAsRead = async (id: string) => {
     const supabase = createClient();
-    await supabase
-      .from('notifications')
-      .update({ is_read: true })
-      .eq('id', id);
+    await supabase.from('notifications').update({ is_read: true }).eq('id', id);
 
-    setNotifications(prev => 
-      prev.map(n => n.id === id ? { ...n, is_read: true } : n)
-    );
-    setUnreadCount(prev => Math.max(0, prev - 1));
+    setNotifications((prev) => prev.map((n) => (n.id === id ? { ...n, is_read: true } : n)));
+    setUnreadCount((prev) => Math.max(0, prev - 1));
   };
 
   const markAllAsRead = async () => {
@@ -93,27 +92,23 @@ export default function NotificationsClient({ userId, initialNotifications, unre
       .eq('user_id', userId)
       .eq('is_read', false);
 
-    setNotifications(prev => prev.map(n => ({ ...n, is_read: true })));
+    setNotifications((prev) => prev.map((n) => ({ ...n, is_read: true })));
     setUnreadCount(0);
   };
 
   const deleteNotification = async (id: string) => {
     const supabase = createClient();
-    await supabase
-      .from('notifications')
-      .delete()
-      .eq('id', id);
+    await supabase.from('notifications').delete().eq('id', id);
 
-    const notification = notifications.find(n => n.id === id);
-    setNotifications(prev => prev.filter(n => n.id !== id));
+    const notification = notifications.find((n) => n.id === id);
+    setNotifications((prev) => prev.filter((n) => n.id !== id));
     if (notification && !notification.is_read) {
-      setUnreadCount(prev => Math.max(0, prev - 1));
+      setUnreadCount((prev) => Math.max(0, prev - 1));
     }
   };
 
-  const filteredNotifications = filter === 'unread' 
-    ? notifications.filter(n => !n.is_read)
-    : notifications;
+  const filteredNotifications =
+    filter === 'unread' ? notifications.filter((n) => !n.is_read) : notifications;
 
   return (
     <div className="min-h-screen bg-white py-8">
@@ -122,9 +117,7 @@ export default function NotificationsClient({ userId, initialNotifications, unre
         <div className="flex items-center justify-between mb-6">
           <div>
             <h1 className="text-2xl font-bold text-slate-900">Notifications</h1>
-            {unreadCount > 0 && (
-              <p className="text-sm text-slate-700">{unreadCount} unread</p>
-            )}
+            {unreadCount > 0 && <p className="text-sm text-slate-700">{unreadCount} unread</p>}
           </div>
           <div className="flex items-center gap-2">
             {unreadCount > 0 && (
@@ -150,8 +143,8 @@ export default function NotificationsClient({ userId, initialNotifications, unre
           <button
             onClick={() => setFilter('all')}
             className={`px-4 py-2 rounded-lg text-sm font-medium ${
-              filter === 'all' 
-                ? 'bg-gray-900 text-white' 
+              filter === 'all'
+                ? 'bg-gray-900 text-white'
                 : 'bg-white text-slate-900 border hover:bg-white'
             }`}
           >
@@ -160,8 +153,8 @@ export default function NotificationsClient({ userId, initialNotifications, unre
           <button
             onClick={() => setFilter('unread')}
             className={`px-4 py-2 rounded-lg text-sm font-medium ${
-              filter === 'unread' 
-                ? 'bg-gray-900 text-white' 
+              filter === 'unread'
+                ? 'bg-gray-900 text-white'
                 : 'bg-white text-slate-900 border hover:bg-white'
             }`}
           >
@@ -188,18 +181,16 @@ export default function NotificationsClient({ userId, initialNotifications, unre
                   }`}
                 >
                   <div className="flex gap-4">
-                    <div className="flex-shrink-0 mt-1">
-                      {getIcon(notification.type)}
-                    </div>
+                    <div className="flex-shrink-0 mt-1">{getIcon(notification.type)}</div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-start justify-between gap-4">
                         <div>
-                          <p className={`text-sm ${!notification.is_read ? 'font-semibold' : ''} text-slate-900`}>
+                          <p
+                            className={`text-sm ${!notification.is_read ? 'font-semibold' : ''} text-slate-900`}
+                          >
                             {notification.title}
                           </p>
-                          <p className="text-sm text-slate-700 mt-1">
-                            {notification.message}
-                          </p>
+                          <p className="text-sm text-slate-700 mt-1">{notification.message}</p>
                           <p className="text-xs text-slate-500 mt-2">
                             {formatTime(notification.created_at)}
                           </p>

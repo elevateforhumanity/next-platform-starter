@@ -30,7 +30,7 @@ export default function ExamReadinessWidget({
 
   useEffect(() => {
     fetch(`/api/lms/courses/${courseId}/exam-readiness`)
-      .then(r => r.json())
+      .then((r) => r.json())
       .then(setData)
       .catch(() => null);
   }, [courseId]);

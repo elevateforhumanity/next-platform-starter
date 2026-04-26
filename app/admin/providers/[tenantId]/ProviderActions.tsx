@@ -66,7 +66,7 @@ export default function ProviderActions({
           </p>
           <textarea
             value={reason}
-            onChange={e => setReason(e.target.value)}
+            onChange={(e) => setReason(e.target.value)}
             placeholder="Reason for suspension (optional)"
             rows={2}
             className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-400 resize-none"
@@ -74,7 +74,10 @@ export default function ProviderActions({
           {error && <p className="text-xs text-red-600">{error}</p>}
           <div className="flex gap-2">
             <button
-              onClick={() => { setShowConfirm(false); setError(''); }}
+              onClick={() => {
+                setShowConfirm(false);
+                setError('');
+              }}
               className="flex-1 px-3 py-2 text-sm border border-slate-200 rounded-lg text-slate-600 hover:bg-slate-50 transition"
             >
               Cancel

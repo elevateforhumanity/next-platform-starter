@@ -5,6 +5,7 @@ This document defines what is and is not included in this public repository.
 ## What Is Included
 
 ### Application Code
+
 - Full Next.js application source (`app/`, `components/`, `lib/`)
 - All 1,439 pages and 1,020 API routes
 - All 857 React components
@@ -14,6 +15,7 @@ This document defines what is and is not included in this public repository.
 - Configuration files (`next.config.ts`, `tailwind.config.ts`, `netlify.toml`, etc.)
 
 ### Documentation
+
 - Platform architecture overview
 - Access model and licensing terms
 - Compliance posture summary
@@ -23,10 +25,12 @@ This document defines what is and is not included in this public repository.
 - Support channels
 
 ### Static Assets
+
 - 1,197 static images (workforce photography, program images, UI assets)
 - Public fonts and icons
 
 ### Data
+
 - Program catalog data (`data/`, `lib/programs/`)
 - Team data (`data/team.ts`)
 - Course definitions with lesson-level content (5 fully built courses)
@@ -34,6 +38,7 @@ This document defines what is and is not included in this public repository.
 ## What Is Not Included
 
 ### Secrets and Credentials
+
 - `.env.local` — production environment variables
 - Supabase service role key
 - Stripe secret keys and webhook secrets
@@ -44,6 +49,7 @@ This document defines what is and is not included in this public repository.
 These are managed in the Netlify dashboard and are never committed to source.
 
 ### Live Data
+
 - Student records, PII, enrollment data
 - Payment transaction history
 - Audit logs from production
@@ -51,12 +57,14 @@ These are managed in the Netlify dashboard and are never committed to source.
 - Employer contract documents
 
 ### Proprietary Assets
+
 - Full video library (737 MP4 files — hosted on Supabase Storage and CDN)
 - AI prompt libraries and fine-tuning data
 - Proprietary assessment content
 - Partnership agreement templates (internal versions)
 
 ### Infrastructure Configuration
+
 - Supabase project configuration and RLS policies (applied via migrations, but live config is separate)
 - Netlify environment configuration
 - DNS and domain configuration

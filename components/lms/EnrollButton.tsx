@@ -13,11 +13,7 @@ interface EnrollButtonProps {
   isEnrolled: boolean;
 }
 
-export default function EnrollButton({
-  courseId,
-  courseSlug,
-  isEnrolled,
-}: EnrollButtonProps) {
+export default function EnrollButton({ courseId, courseSlug, isEnrolled }: EnrollButtonProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
@@ -70,9 +66,7 @@ export default function EnrollButton({
           'Enroll Now'
         )}
       </Button>
-      {error && (
-        <p className="text-xs text-brand-orange-600 text-center">{error}</p>
-      )}
+      {error && <p className="text-xs text-brand-orange-600 text-center">{error}</p>}
       <Button variant="outline" className="w-full" asChild>
         <a href={`/lms/courses/${courseId}`}>View Details</a>
       </Button>

@@ -10,7 +10,9 @@ import * as Sentry from '@sentry/nextjs';
 
 export const dynamic = 'force-dynamic';
 function getWebhookSecret() {
-  return process.env.STRIPE_WEBHOOK_SECRET_CAREER_COURSES || process.env.STRIPE_WEBHOOK_SECRET || '';
+  return (
+    process.env.STRIPE_WEBHOOK_SECRET_CAREER_COURSES || process.env.STRIPE_WEBHOOK_SECRET || ''
+  );
 }
 
 async function _POST(req: Request) {
@@ -30,19 +32,16 @@ async function _POST(req: Request) {
   try {
     event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
   } catch (err: any) {
-          Sentry.captureException(err, { tags: { subsystem: 'webhook' } });
+    Sentry.captureException(err, { tags: { subsystem: 'webhook' } });
     logger.error('Webhook signature verification failed:', err.message);
     return NextResponse.json({ error: 'Invalid signature' }, { status: 400 });
   }
 
   const supabase = await getAdminClient();
 
-    if (!supabase) {
-      return NextResponse.json(
-        { error: 'Service temporarily unavailable.' },
-        { status: 503 }
-      );
-    }
+  if (!supabase) {
+    return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });
+  }
 
   switch (event.type) {
     case 'checkout.session.completed': {
@@ -64,15 +63,14 @@ async function _POST(req: Request) {
           .select('id')
           .eq('email', customerEmail)
           .maybeSingle();
-        
+
         userId = profile?.id || null;
       }
 
       // Record purchases for each course
       for (const courseId of courseIds) {
-        const { error } = await supabase
-          .from('career_course_purchases')
-          .upsert({
+        const { error } = await supabase.from('career_course_purchases').upsert(
+          {
             user_id: userId,
             course_id: courseId,
             email: customerEmail || '',
@@ -81,9 +79,11 @@ async function _POST(req: Request) {
             stripe_session_id: session.id,
             status: 'completed',
             purchased_at: new Date().toISOString(),
-          }, {
+          },
+          {
             onConflict: 'user_id,course_id',
-          });
+          },
+        );
 
         if (error) {
           logger.error('Error recording purchase:', error);
@@ -138,4 +138,8 @@ async function _POST(req: Request) {
 
   return NextResponse.json({ received: true });
 }
-export const POST = withApiAudit('/api/webhooks/stripe/career-courses', _POST, { actor_type: 'webhook', skip_body: true , critical: true });
+export const POST = withApiAudit('/api/webhooks/stripe/career-courses', _POST, {
+  actor_type: 'webhook',
+  skip_body: true,
+  critical: true,
+});

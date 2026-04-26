@@ -3,6 +3,7 @@
 ## Current Configuration
 
 Stripe is configured with live keys:
+
 - ✅ Publishable Key: `pk_live_51Rvqjz...`
 - ✅ Secret Key: `sk_live_51Rvqjz...`
 - ✅ Webhook Secret: `whsec_9FCfU8B...`
@@ -11,6 +12,7 @@ Stripe is configured with live keys:
 ## Products to Create in Stripe Dashboard
 
 ### 1. Student Access Subscription
+
 - **Name:** Student Access
 - **Price:** $39.00/month
 - **Type:** Recurring (monthly)
@@ -19,12 +21,14 @@ Stripe is configured with live keys:
   - `tier`: `student`
 
 After creating, add the Price ID to:
+
 ```typescript
 // lib/stripe/app-store-products.ts
-stripePriceId: 'price_xxxxx' // Student Access
+stripePriceId: 'price_xxxxx'; // Student Access
 ```
 
 ### 2. Career Track Subscription
+
 - **Name:** Career Track Access
 - **Price:** $149.00/month
 - **Type:** Recurring (monthly)
@@ -33,24 +37,26 @@ stripePriceId: 'price_xxxxx' // Student Access
   - `tier`: `career`
 
 After creating, add the Price ID to:
+
 ```typescript
 // lib/stripe/app-store-products.ts
-stripePriceId: 'price_xxxxx' // Career Track
+stripePriceId: 'price_xxxxx'; // Career Track
 ```
 
 ### 3. Program Enrollments (One-Time)
 
 Create products for each program:
 
-| Program | Price | Metadata |
-|---------|-------|----------|
-| CNA Training | $2,200 | `product_type: program, program_id: prog-cna` |
-| HVAC Technician | $4,800 | `product_type: program, program_id: prog-hvac` |
-| CDL Training | $5,200 | `product_type: program, program_id: prog-cdl` |
-| Business Apprentice | $3,500 | `product_type: program, program_id: prog-biz` |
+| Program              | Price  | Metadata                                            |
+| -------------------- | ------ | --------------------------------------------------- |
+| CNA Training         | $2,200 | `product_type: program, program_id: prog-cna`       |
+| HVAC Technician      | $4,800 | `product_type: program, program_id: prog-hvac`      |
+| CDL Training         | $5,200 | `product_type: program, program_id: prog-cdl`       |
+| Business Apprentice  | $3,500 | `product_type: program, program_id: prog-biz`       |
 | Esthetics Apprentice | $4,200 | `product_type: program, program_id: prog-esthetics` |
 
 After creating, add Price IDs to:
+
 ```typescript
 // lms-data/paymentPlans.ts
 stripePaymentLink: undefined, // Configure in Stripe Dashboard
@@ -92,14 +98,14 @@ Webhooks are already configured. Ensure these endpoints are registered in Stripe
 
 ### Webhook Events Handled
 
-| Event | Action |
-|-------|--------|
-| `checkout.session.completed` | Creates enrollment, sends welcome email |
-| `customer.subscription.created` | Activates subscription access |
-| `customer.subscription.updated` | Updates subscription status |
-| `customer.subscription.deleted` | Revokes access |
-| `invoice.paid` | Records payment |
-| `invoice.payment_failed` | Sends payment failure notification |
+| Event                           | Action                                  |
+| ------------------------------- | --------------------------------------- |
+| `checkout.session.completed`    | Creates enrollment, sends welcome email |
+| `customer.subscription.created` | Activates subscription access           |
+| `customer.subscription.updated` | Updates subscription status             |
+| `customer.subscription.deleted` | Revokes access                          |
+| `invoice.paid`                  | Records payment                         |
+| `invoice.payment_failed`        | Sends payment failure notification      |
 
 ### Webhook Security
 

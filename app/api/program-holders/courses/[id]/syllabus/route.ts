@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-
 import { createClient } from '@/lib/supabase/server';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeError, safeInternalError, safeDbError } from '@/lib/api/safe-error';
@@ -28,7 +27,7 @@ function validateStoragePath(
   filePath: string,
   uid: string,
   courseAssignmentId: string,
-  filename: string
+  filename: string,
 ): string | null {
   const parts = filePath.split('/');
   if (parts.length !== 3) return 'File path must have exactly 3 segments';
@@ -39,10 +38,7 @@ function validateStoragePath(
   return null;
 }
 
-async function _POST(
-  req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+async function _POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const rateLimited = await applyRateLimit(req, 'api');
   if (rateLimited) return rateLimited;
 
@@ -65,13 +61,12 @@ async function _POST(
     return safeError('Invalid JSON body', 400);
   }
 
-  const { filePath, filename, usesCustomStructure, deliveryStructureNotes } =
-    body as {
-      filePath?: string;
-      filename?: string;
-      usesCustomStructure?: boolean;
-      deliveryStructureNotes?: string;
-    };
+  const { filePath, filename, usesCustomStructure, deliveryStructureNotes } = body as {
+    filePath?: string;
+    filename?: string;
+    usesCustomStructure?: boolean;
+    deliveryStructureNotes?: string;
+  };
 
   if (!filePath || !filename) {
     return safeError('Missing required fields: filePath, filename', 400);
@@ -139,7 +134,7 @@ async function _POST(
       return safeError(
         'This credential has no exam blueprint domains defined. ' +
           'Contact an administrator before uploading a syllabus.',
-        422
+        422,
       );
     }
   }
@@ -182,7 +177,4 @@ async function _POST(
   return NextResponse.json({ ok: true, path: filePath });
 }
 
-export const POST = withApiAudit(
-  '/api/program-holders/courses/[id]/syllabus',
-  _POST
-);
+export const POST = withApiAudit('/api/program-holders/courses/[id]/syllabus', _POST);

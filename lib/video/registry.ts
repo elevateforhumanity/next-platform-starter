@@ -1,6 +1,6 @@
 /**
  * Video Registry - Canonical source of truth for all video content
- * 
+ *
  * Every video must be mapped to a single canonical record (video_id) with:
  * - title, page_slug(s), video_url, transcript_url/text
  * - language, version, status (draft/live), updated_at
@@ -44,7 +44,8 @@ export const VIDEO_REGISTRY: Record<string, VideoRecord> = {
   'hero-home': {
     id: 'hero-home',
     title: 'Elevate for Humanity - Free Career Training Programs',
-    description: 'Discover 100% free, funded workforce training programs in Indianapolis. WIOA-funded programs in healthcare, skilled trades, technology, and business.',
+    description:
+      'Discover 100% free, funded workforce training programs in Indianapolis. WIOA-funded programs in healthcare, skilled trades, technology, and business.',
     video_url: 'https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4',
     thumbnail_url: '/images/pages/healthcare-grad.jpg',
     duration: 'PT1M30S',
@@ -61,7 +62,8 @@ export const VIDEO_REGISTRY: Record<string, VideoRecord> = {
   'cna-hero': {
     id: 'cna-hero',
     title: 'CNA Training Program - Certified Nursing Assistant',
-    description: 'Free CNA training in Indianapolis. State-approved program, 6-8 weeks, job placement assistance.',
+    description:
+      'Free CNA training in Indianapolis. State-approved program, 6-8 weeks, job placement assistance.',
     video_url: 'https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/cna-hero.mp4',
     thumbnail_url: '/images/pages/comp-pathway-healthcare.jpg',
     duration: 'PT45S',
@@ -78,8 +80,10 @@ export const VIDEO_REGISTRY: Record<string, VideoRecord> = {
   'barber-hero': {
     id: 'barber-hero',
     title: 'Barber Apprenticeship Program - Licensed Barber Training',
-    description: 'Registered barber apprenticeship in Indianapolis. Earn while you learn, 2000 hours, state licensure pathway.',
-    video_url: 'https://cms-artifacts.artlist.io/content/generated-video-v1/video__3/video-7b329d1f-3f92-4ec5-acdf-9d2d7ff6de5f.mp4?Expires=2083752835&Key-Pair-Id=K2ZDLYDZI2R1DF&Signature=PwinNDJ~aDGbHoMI8-Hfr28QIj7s~0mwzn92P-muIHO0bW86~4gW6MzRyslLtk~TOzdfX8aTYA9OeGF-sbBPwCBUw8gTpXO6QvhwpJsFW5DiLHnEP6q6vCTvQ-jEpwV20izIuWVSpY-txGY7bDGHhkSq6-wP26b0J-lstFIMwxRHQjJ9rKmX9i4pzNruZJEQ2ILvO-LdWivm98j5TMLm09HgYzesifHFPPzUzNH7NlYwwvIO2-NtXWEuixrQFdJ2Zt4ocgdmqP9auvaeYr9hbS~F6k6CBybWLlnGoLggGkluqp1vFzt-eIslYgFKl8m4Du4UFJawNl3KmcyA9uTWtA__',
+    description:
+      'Registered barber apprenticeship in Indianapolis. Earn while you learn, 2000 hours, state licensure pathway.',
+    video_url:
+      'https://cms-artifacts.artlist.io/content/generated-video-v1/video__3/video-7b329d1f-3f92-4ec5-acdf-9d2d7ff6de5f.mp4?Expires=2083752835&Key-Pair-Id=K2ZDLYDZI2R1DF&Signature=PwinNDJ~aDGbHoMI8-Hfr28QIj7s~0mwzn92P-muIHO0bW86~4gW6MzRyslLtk~TOzdfX8aTYA9OeGF-sbBPwCBUw8gTpXO6QvhwpJsFW5DiLHnEP6q6vCTvQ-jEpwV20izIuWVSpY-txGY7bDGHhkSq6-wP26b0J-lstFIMwxRHQjJ9rKmX9i4pzNruZJEQ2ILvO-LdWivm98j5TMLm09HgYzesifHFPPzUzNH7NlYwwvIO2-NtXWEuixrQFdJ2Zt4ocgdmqP9auvaeYr9hbS~F6k6CBybWLlnGoLggGkluqp1vFzt-eIslYgFKl8m4Du4UFJawNl3KmcyA9uTWtA__',
     thumbnail_url: '/images/pages/barber-gallery-1.jpg',
     duration: 'PT1M',
     upload_date: '2025-01-01',
@@ -95,7 +99,8 @@ export const VIDEO_REGISTRY: Record<string, VideoRecord> = {
   'cdl-hero': {
     id: 'cdl-hero',
     title: 'CDL Training - Commercial Driver License Program',
-    description: 'Free CDL training in Indianapolis. Class A, B, and C commercial driving licenses. WIOA-funded, job placement with local carriers.',
+    description:
+      'Free CDL training in Indianapolis. Class A, B, and C commercial driving licenses. WIOA-funded, job placement with local carriers.',
     video_url: '/videos/cdl-hero.mp4',
     thumbnail_url: '/images/pages/hvac-technician.jpg',
     duration: 'PT50S',
@@ -112,7 +117,8 @@ export const VIDEO_REGISTRY: Record<string, VideoRecord> = {
   'hvac-hero': {
     id: 'hvac-hero',
     title: 'HVAC Technician Training Program',
-    description: 'Free HVAC training in Indianapolis. Learn heating, ventilation, air conditioning, and refrigeration. EPA certification included.',
+    description:
+      'Free HVAC training in Indianapolis. Learn heating, ventilation, air conditioning, and refrigeration. EPA certification included.',
     video_url: '/videos/hvac-hero-final.mp4',
     thumbnail_url: '/images/pages/hvac-technician.jpg',
     duration: 'PT40S',
@@ -243,7 +249,7 @@ export function getVideoById(videoId: string): VideoRecord | null {
  */
 export function getVideoForPage(pageSlug: string): VideoRecord | null {
   const normalizedSlug = pageSlug.startsWith('/') ? pageSlug : `/${pageSlug}`;
-  
+
   for (const video of Object.values(VIDEO_REGISTRY)) {
     if (video.status === 'live' && video.page_slugs.includes(normalizedSlug)) {
       return video;
@@ -257,7 +263,7 @@ export function getVideoForPage(pageSlug: string): VideoRecord | null {
  */
 export function getVideosByCategory(category: string): VideoRecord[] {
   return Object.values(VIDEO_REGISTRY).filter(
-    (video) => video.status === 'live' && video.category === category
+    (video) => video.status === 'live' && video.category === category,
   );
 }
 
@@ -289,7 +295,7 @@ export function getVideoCacheUrl(video: VideoRecord): string {
   if (video.video_url.startsWith('http')) {
     return video.video_url;
   }
-  
+
   // For local URLs, append version parameter for cache busting
   const versionParam = `v=${video.version}&t=${new Date(video.updated_at).getTime()}`;
   const separator = video.video_url.includes('?') ? '&' : '?';
@@ -301,7 +307,7 @@ export function getVideoCacheUrl(video: VideoRecord): string {
  */
 export function validateVideoRecord(video: Partial<VideoRecord>): string[] {
   const errors: string[] = [];
-  
+
   if (!video.id) errors.push('Missing video ID');
   if (!video.title) errors.push('Missing title');
   if (!video.video_url) errors.push('Missing video URL');
@@ -309,6 +315,6 @@ export function validateVideoRecord(video: Partial<VideoRecord>): string[] {
   if (!video.page_slugs || video.page_slugs.length === 0) {
     errors.push('Missing page slugs');
   }
-  
+
   return errors;
 }

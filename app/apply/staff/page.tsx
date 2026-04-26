@@ -8,8 +8,7 @@ export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: 'Staff / Instructor Application | Elevate for Humanity',
-  description:
-    'Join our team to support student success and workforce development.',
+  description: 'Join our team to support student success and workforce development.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/apply/staff',
   },
@@ -18,7 +17,6 @@ export const metadata: Metadata = {
 export default async function StaffApplicationPage() {
   const supabase = await createClient();
 
-  
   // Fetch application settings
   const { data: settings } = await supabase
     .from('site_settings')
@@ -29,7 +27,14 @@ export default async function StaffApplicationPage() {
     <div className="min-h-screen bg-white">
       {/* Hero */}
       <div className="relative h-[200px] sm:h-[260px] overflow-hidden">
-        <Image src="/images/pages/apply-page-3.jpg" alt="Join our team" fill sizes="100vw" className="object-cover" priority />
+        <Image
+          src="/images/pages/apply-page-3.jpg"
+          alt="Join our team"
+          fill
+          sizes="100vw"
+          className="object-cover"
+          priority
+        />
         <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-4 py-2 rounded">
           <span className="text-sm font-bold text-slate-900">Elevate for Humanity</span>
         </div>
@@ -47,12 +52,9 @@ export default async function StaffApplicationPage() {
           <p className="text-xs font-semibold tracking-widest text-brand-blue-700 uppercase mb-2">
             Staff / Instructor Application
           </p>
-          <h1 className="text-3xl sm:text-4xl font-bold text-black mb-3">
-            Join Our Team
-          </h1>
+          <h1 className="text-3xl sm:text-4xl font-bold text-black mb-3">Join Our Team</h1>
           <p className="text-base sm:text-lg text-black max-w-3xl">
-            Support student success and workforce development as part of our
-            team.
+            Support student success and workforce development as part of our team.
           </p>
         </div>
       </section>

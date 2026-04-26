@@ -9,10 +9,7 @@ export const maxDuration = 60;
 
 export const dynamic = 'force-dynamic';
 
-async function _GET(
-  _: Request,
-  { params }: { params: Promise<{ id: string }> }
-) {
+async function _GET(_: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const rateLimited = await applyRateLimit(request, 'api');
     if (rateLimited) return rateLimited;
@@ -30,10 +27,7 @@ async function _GET(
     const adminClient = await getAdminClient();
 
     if (!adminClient) {
-      return NextResponse.json(
-        { error: 'Service temporarily unavailable.' },
-        { status: 503 }
-      );
+      return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });
     }
 
     // Get user's organization
@@ -50,7 +44,7 @@ async function _GET(
     const { data: recap, error: recapErr } = await adminClient
       .from('meeting_recaps')
       .select(
-        'id,organization_id,title,meeting_date,attendee_email,summary,key_points,decisions,follow_up_email,created_at'
+        'id,organization_id,title,meeting_date,attendee_email,summary,key_points,decisions,follow_up_email,created_at',
       )
       .eq('id', id)
       .maybeSingle();
@@ -73,10 +67,9 @@ async function _GET(
   } catch (err: any) {
     return NextResponse.json(
       {
-        err:
-          'Internal server error',
+        err: 'Internal server error',
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

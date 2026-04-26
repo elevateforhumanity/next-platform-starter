@@ -19,14 +19,14 @@ import { logger } from '@/lib/logger';
 
 interface GenerateCourseRequest {
   courseName: string;
-  state?: string;                  // two-letter state code, default 'IN'
-  credentialTarget?: string;       // 'IC&RC' | 'NAADAC' | 'STATE_BOARD' | 'INTERNAL'
-  moduleCount?: number;            // 4–10, default 6
-  lessonsPerModule?: number;       // 3–8, default 5
-  includeCheckpoints?: boolean;    // default true
-  includeFinalExam?: boolean;      // default true
-  complianceTopics?: string[];     // injected into prompt
-  programSlug?: string;            // programs.slug to link to
+  state?: string; // two-letter state code, default 'IN'
+  credentialTarget?: string; // 'IC&RC' | 'NAADAC' | 'STATE_BOARD' | 'INTERNAL'
+  moduleCount?: number; // 4–10, default 6
+  lessonsPerModule?: number; // 3–8, default 5
+  includeCheckpoints?: boolean; // default true
+  includeFinalExam?: boolean; // default true
+  complianceTopics?: string[]; // injected into prompt
+  programSlug?: string; // programs.slug to link to
 }
 
 // ── System prompt ─────────────────────────────────────────────────────────────
@@ -49,11 +49,24 @@ function buildUserPrompt(req: GenerateCourseRequest): string {
     lessonsPerModule = 5,
     includeCheckpoints = true,
     includeFinalExam = true,
-    complianceTopics = ['Ethics', 'Confidentiality', 'Boundaries', 'Cultural Competency', 'Documentation', 'Professional Conduct'],
+    complianceTopics = [
+      'Ethics',
+      'Confidentiality',
+      'Boundaries',
+      'Cultural Competency',
+      'Documentation',
+      'Professional Conduct',
+    ],
   } = req;
 
-  const totalLessons = moduleCount * lessonsPerModule + (includeCheckpoints ? moduleCount : 0) + (includeFinalExam ? 1 : 0);
-  const slug = courseName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+  const totalLessons =
+    moduleCount * lessonsPerModule +
+    (includeCheckpoints ? moduleCount : 0) +
+    (includeFinalExam ? 1 : 0);
+  const slug = courseName
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
 
   return `Generate a complete workforce training course for: "${courseName}"
 
@@ -214,17 +227,17 @@ export async function POST(request: NextRequest) {
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${apiKey}`,
+        Authorization: `Bearer ${apiKey}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         model: 'gpt-4.1',
-        temperature: 0.3,       // low temp = consistent structure
+        temperature: 0.3, // low temp = consistent structure
         max_tokens: 16000,
         response_format: { type: 'json_object' },
         messages: [
           { role: 'system', content: buildSystemPrompt() },
-          { role: 'user',   content: buildUserPrompt(body) },
+          { role: 'user', content: buildUserPrompt(body) },
         ],
       }),
     });
@@ -252,7 +265,7 @@ export async function POST(request: NextRequest) {
 
     // Basic structural validation
     const errors: string[] = [];
-    if (!blueprint.id)      errors.push('missing id');
+    if (!blueprint.id) errors.push('missing id');
     if (!blueprint.modules) errors.push('missing modules');
     if (!Array.isArray(blueprint.modules)) errors.push('modules must be array');
     if (errors.length) {
@@ -275,7 +288,6 @@ export async function POST(request: NextRequest) {
         nextStep: `Save as lib/curriculum/blueprints/${blueprint.id}.ts then run: pnpm tsx scripts/seed-course-from-blueprint.ts --blueprint ${blueprint.id}`,
       },
     });
-
   } catch (err) {
     return safeInternalError(err, 'Course generation failed');
   }

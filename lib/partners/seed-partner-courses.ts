@@ -87,7 +87,7 @@ const MICRO_COURSE_IDS = new Set([
 
 export async function seedPartnerCourses(
   db: SupabaseClient,
-  apply: boolean
+  apply: boolean,
 ): Promise<{ providersUpserted: number; coursesUpserted: number; errors: string[] }> {
   const errors: string[] = [];
   let providersUpserted = 0;
@@ -110,12 +110,12 @@ export async function seedPartnerCourses(
         {
           provider_name: provider.name,
           provider_type: provider.type,
-          website_url:   provider.websiteUrl,
+          website_url: provider.websiteUrl,
           support_email: provider.supportEmail,
-          active:        true,
-          updated_at:    new Date().toISOString(),
+          active: true,
+          updated_at: new Date().toISOString(),
         },
-        { onConflict: 'provider_name' }
+        { onConflict: 'provider_name' },
       )
       .select('id')
       .maybeSingle();
@@ -132,23 +132,21 @@ export async function seedPartnerCourses(
     for (const course of provider.courses) {
       const courseType = MICRO_COURSE_IDS.has(course.id) ? 'micro' : 'partner';
 
-      const { error: courseErr } = await db
-        .from('partner_lms_courses')
-        .upsert(
-          {
-            provider_id:        providerId,
-            course_name:        course.title,
-            course_code:        course.id,
-            course_description: course.description,
-            duration_hours:     parseDurationHours(course.duration),
-            retail_price_cents: Math.round(course.price * 100),
-            is_active:          course.isActive,
-            active:             course.isActive,
-            course_type:        courseType,
-            updated_at:         new Date().toISOString(),
-          },
-          { onConflict: 'provider_id,course_name' }
-        );
+      const { error: courseErr } = await db.from('partner_lms_courses').upsert(
+        {
+          provider_id: providerId,
+          course_name: course.title,
+          course_code: course.id,
+          course_description: course.description,
+          duration_hours: parseDurationHours(course.duration),
+          retail_price_cents: Math.round(course.price * 100),
+          is_active: course.isActive,
+          active: course.isActive,
+          course_type: courseType,
+          updated_at: new Date().toISOString(),
+        },
+        { onConflict: 'provider_id,course_name' },
+      );
 
       if (courseErr) {
         errors.push(`Course "${course.title}" (${provider.name}): ${courseErr.message}`);

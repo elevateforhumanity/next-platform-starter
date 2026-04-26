@@ -88,9 +88,7 @@ export default function ProgramPageLayout({
             <h1 className="text-4xl md:text-5xl font-extrabold mb-4 text-slate-900 leading-tight">
               {title}
             </h1>
-            <p className="text-xl md:text-2xl mb-8 text-slate-600 leading-relaxed">
-              {subtitle}
-            </p>
+            <p className="text-xl md:text-2xl mb-8 text-slate-600 leading-relaxed">{subtitle}</p>
             <div className="flex flex-wrap gap-4">
               <Link
                 href={ctaPrimary.href}
@@ -114,19 +112,27 @@ export default function ProgramPageLayout({
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto grid md:grid-cols-4 gap-6">
             <div className="bg-white rounded-2xl shadow-lg border-2 border-brand-orange-100 p-8 text-center transform hover:scale-105 transition-all">
-              <div className="text-5xl font-black text-brand-orange-600 mb-3 text-3xl md:text-4xl lg:text-5xl">{duration}</div>
+              <div className="text-5xl font-black text-brand-orange-600 mb-3 text-3xl md:text-4xl lg:text-5xl">
+                {duration}
+              </div>
               <div className="text-black font-semibold text-lg">Program Duration</div>
             </div>
             <div className="bg-white rounded-2xl shadow-lg border-2 border-brand-green-100 p-8 text-center transform hover:scale-105 transition-all">
-              <div className="text-5xl font-black text-brand-green-600 mb-3 text-3xl md:text-4xl lg:text-5xl">{cost}</div>
+              <div className="text-5xl font-black text-brand-green-600 mb-3 text-3xl md:text-4xl lg:text-5xl">
+                {cost}
+              </div>
               <div className="text-black font-semibold text-lg">100% Funded</div>
             </div>
             <div className="bg-white rounded-2xl shadow-lg border-2 border-brand-blue-100 p-8 text-center transform hover:scale-105 transition-all">
-              <div className="text-5xl font-black text-brand-blue-600 mb-3 text-3xl md:text-4xl lg:text-5xl">{placement}</div>
+              <div className="text-5xl font-black text-brand-blue-600 mb-3 text-3xl md:text-4xl lg:text-5xl">
+                {placement}
+              </div>
               <div className="text-black font-semibold text-lg">Job Placement</div>
             </div>
             <div className="bg-white rounded-2xl shadow-lg border-2 border-brand-orange-100 p-8 text-center transform hover:scale-105 transition-all">
-              <div className="text-5xl font-black text-brand-orange-600 mb-3 text-3xl md:text-4xl lg:text-5xl">{salary}</div>
+              <div className="text-5xl font-black text-brand-orange-600 mb-3 text-3xl md:text-4xl lg:text-5xl">
+                {salary}
+              </div>
               <div className="text-black font-semibold text-lg">Starting Salary</div>
             </div>
           </div>
@@ -137,7 +143,9 @@ export default function ProgramPageLayout({
       <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
-            <h2 className="text-5xl font-black mb-12 text-center text-3xl md:text-4xl lg:text-5xl">{overviewTitle}</h2>
+            <h2 className="text-5xl font-black mb-12 text-center text-3xl md:text-4xl lg:text-5xl">
+              {overviewTitle}
+            </h2>
 
             <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
               <div className="space-y-6">
@@ -170,7 +178,9 @@ export default function ProgramPageLayout({
       <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
-            <h2 className="text-5xl font-black mb-16 text-center text-3xl md:text-4xl lg:text-5xl">What You'll Learn</h2>
+            <h2 className="text-5xl font-black mb-16 text-center text-3xl md:text-4xl lg:text-5xl">
+              What You'll Learn
+            </h2>
 
             <div className="space-y-16">
               {highlights.map((highlight, index) => (
@@ -193,7 +203,9 @@ export default function ProgramPageLayout({
                   </div>
 
                   <div className={index % 2 === 1 ? 'md:order-1' : ''}>
-                    <h3 className="text-4xl font-bold mb-6 text-black text-2xl md:text-3xl lg:text-4xl">{highlight.title}</h3>
+                    <h3 className="text-4xl font-bold mb-6 text-black text-2xl md:text-3xl lg:text-4xl">
+                      {highlight.title}
+                    </h3>
                     <p className="text-xl text-black leading-relaxed">{highlight.description}</p>
                   </div>
                 </div>
@@ -207,7 +219,9 @@ export default function ProgramPageLayout({
       <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
-            <h2 className="text-5xl font-black mb-12 text-center text-3xl md:text-4xl lg:text-5xl">{careerTitle}</h2>
+            <h2 className="text-5xl font-black mb-12 text-center text-3xl md:text-4xl lg:text-5xl">
+              {careerTitle}
+            </h2>
 
             <div className="grid md:grid-cols-2 gap-12 items-center">
               <div className="relative h-[500px] rounded-3xl overflow-hidden shadow-2xl">
@@ -221,14 +235,15 @@ export default function ProgramPageLayout({
               </div>
 
               <div>
-                <p className="text-xl text-black leading-relaxed mb-8">
-                  {careerDescription}
-                </p>
+                <p className="text-xl text-black leading-relaxed mb-8">{careerDescription}</p>
 
                 <h3 className="text-3xl font-bold mb-6 text-black">Career Opportunities</h3>
                 <div className="grid grid-cols-1 gap-4">
                   {jobTitles.map((job, index) => (
-                    <div key={index} className="   rounded-xl p-5 shadow-sm border-l-4 border-brand-blue-500">
+                    <div
+                      key={index}
+                      className="   rounded-xl p-5 shadow-sm border-l-4 border-brand-blue-500"
+                    >
                       <span className="text-lg font-semibold text-black">{job}</span>
                     </div>
                   ))}
@@ -243,7 +258,9 @@ export default function ProgramPageLayout({
       <section className="py-20    text-white">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-5xl font-black mb-6 text-3xl md:text-4xl lg:text-5xl">{finalCtaTitle}</h2>
+            <h2 className="text-5xl font-black mb-6 text-3xl md:text-4xl lg:text-5xl">
+              {finalCtaTitle}
+            </h2>
             <p className="text-2xl mb-10 opacity-95">{finalCtaDescription}</p>
             <div className="flex flex-wrap gap-6 justify-center">
               <Link

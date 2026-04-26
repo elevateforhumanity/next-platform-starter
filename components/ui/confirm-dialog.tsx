@@ -9,7 +9,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { AlertTriangle, Trash2, CheckCircle, } from 'lucide-react';
+import { AlertTriangle, Trash2, CheckCircle } from 'lucide-react';
 
 interface ConfirmDialogProps {
   open: boolean;
@@ -49,26 +49,32 @@ export function ConfirmDialog({
   };
 
   const Icon = variant === 'danger' ? Trash2 : variant === 'warning' ? AlertTriangle : CheckCircle;
-  const iconColor = variant === 'danger' ? 'text-brand-red-600' : variant === 'warning' ? 'text-yellow-600' : 'text-brand-blue-600';
-  const confirmButtonClass = variant === 'danger' 
-    ? 'bg-brand-red-600 hover:bg-brand-red-700 text-white' 
-    : variant === 'warning'
-    ? 'bg-yellow-600 hover:bg-yellow-700 text-white'
-    : 'bg-brand-blue-600 hover:bg-brand-blue-700 text-white';
+  const iconColor =
+    variant === 'danger'
+      ? 'text-brand-red-600'
+      : variant === 'warning'
+        ? 'text-yellow-600'
+        : 'text-brand-blue-600';
+  const confirmButtonClass =
+    variant === 'danger'
+      ? 'bg-brand-red-600 hover:bg-brand-red-700 text-white'
+      : variant === 'warning'
+        ? 'bg-yellow-600 hover:bg-yellow-700 text-white'
+        : 'bg-brand-blue-600 hover:bg-brand-blue-700 text-white';
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <div className="flex items-center gap-3">
-            <div className={`p-2 rounded-full ${variant === 'danger' ? 'bg-brand-red-100' : variant === 'warning' ? 'bg-yellow-100' : 'bg-brand-blue-100'}`}>
+            <div
+              className={`p-2 rounded-full ${variant === 'danger' ? 'bg-brand-red-100' : variant === 'warning' ? 'bg-yellow-100' : 'bg-brand-blue-100'}`}
+            >
               <Icon className={`w-5 h-5 ${iconColor}`} />
             </div>
             <DialogTitle>{title}</DialogTitle>
           </div>
-          <DialogDescription className="pt-2">
-            {description}
-          </DialogDescription>
+          <DialogDescription className="pt-2">{description}</DialogDescription>
         </DialogHeader>
         <DialogFooter className="gap-2 sm:gap-0">
           <button
@@ -129,7 +135,7 @@ export function useConfirmDialog() {
         });
       });
     },
-    []
+    [],
   );
 
   const dialogProps = {

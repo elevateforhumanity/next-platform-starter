@@ -14,14 +14,17 @@ export const dynamic = 'force-dynamic';
 
 export default async function InstructorMessagesPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   if (!user) redirect('/login?redirect=/lms/messages/instructor');
 
   // Fetch messages from database
   const { data: messages, error } = await supabase
     .from('messages')
-    .select(`
+    .select(
+      `
       id,
       content,
       created_at,
@@ -30,7 +33,8 @@ export default async function InstructorMessagesPage() {
       recipient_id,
       sender:profiles!messages_sender_id_fkey(full_name, avatar_url),
       recipient:profiles!messages_recipient_id_fkey(full_name, avatar_url)
-    `)
+    `,
+    )
     .or(`sender_id.eq.${user.id},recipient_id.eq.${user.id}`)
     .eq('message_type', 'instructor')
     .order('created_at', { ascending: false })
@@ -64,7 +68,7 @@ export default async function InstructorMessagesPage() {
             {messageList.map((msg: any) => {
               const isFromMe = msg.sender_id === user.id;
               const otherPerson = isFromMe ? msg.recipient : msg.sender;
-              
+
               return (
                 <div key={msg.id} className="p-4 hover:bg-white">
                   <div className="flex items-start gap-3">
@@ -74,7 +78,9 @@ export default async function InstructorMessagesPage() {
                     <div className="flex-1">
                       <div className="flex items-center justify-between">
                         <p className="font-medium text-slate-900">
-                          {isFromMe ? `To: ${otherPerson?.full_name || 'Instructor'}` : otherPerson?.full_name || 'Instructor'}
+                          {isFromMe
+                            ? `To: ${otherPerson?.full_name || 'Instructor'}`
+                            : otherPerson?.full_name || 'Instructor'}
                         </p>
                         <span className="text-xs text-slate-700">
                           {new Date(msg.created_at).toLocaleDateString()}
@@ -92,7 +98,7 @@ export default async function InstructorMessagesPage() {
             <MessageSquare className="w-16 h-16 text-slate-700 mx-auto mb-4" />
             <h2 className="text-xl font-semibold text-slate-900 mb-2">No messages yet</h2>
             <p className="text-slate-700 mb-6">Start a conversation with your instructor.</p>
-            <Link 
+            <Link
               href="/lms/messages?type=instructor"
               className="inline-flex items-center gap-2 px-6 py-3 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700"
             >

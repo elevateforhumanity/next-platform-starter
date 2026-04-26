@@ -1,8 +1,28 @@
 import { z } from 'zod';
 
-export const VoiceNameSchema = z.enum(['alloy', 'ash', 'ballad', 'coral', 'echo', 'onyx', 'sage', 'shimmer']);
-export const VideoStyleSchema = z.enum(['barber_broll', 'barbershop_lifestyle', 'tools_closeup', 'mixed']);
-export const SceneLayoutSchema = z.enum(['full_frame', 'lower_third', 'split_left_text', 'split_right_text', 'top_label']);
+export const VoiceNameSchema = z.enum([
+  'alloy',
+  'ash',
+  'ballad',
+  'coral',
+  'echo',
+  'onyx',
+  'sage',
+  'shimmer',
+]);
+export const VideoStyleSchema = z.enum([
+  'barber_broll',
+  'barbershop_lifestyle',
+  'tools_closeup',
+  'mixed',
+]);
+export const SceneLayoutSchema = z.enum([
+  'full_frame',
+  'lower_third',
+  'split_left_text',
+  'split_right_text',
+  'top_label',
+]);
 export const SceneTransitionSchema = z.enum(['cut', 'fade', 'crossfade']);
 
 export const LessonSceneDraftSchema = z.object({
@@ -21,27 +41,45 @@ export const LessonSceneDraftSchema = z.object({
   transitionOut: SceneTransitionSchema.optional(),
 });
 
-export const LessonRenderPlanDraftSchema = z.object({
-  lessonId: z.string().min(1),
-  title: z.string().min(3).max(180),
-  voice: VoiceNameSchema,
-  videoStyle: VideoStyleSchema,
-  targetResolution: z.enum(['1920x1080', '1280x720']),
-  scenes: z.array(LessonSceneDraftSchema).min(4).max(12),
-}).superRefine((data, ctx) => {
-  const ids = new Set<string>();
-  const orders = new Set<number>();
-  for (const scene of data.scenes) {
-    if (ids.has(scene.id)) {
-      ctx.addIssue({ code: z.ZodIssueCode.custom, path: ['scenes'], message: `Duplicate scene id: ${scene.id}` });
+export const LessonRenderPlanDraftSchema = z
+  .object({
+    lessonId: z.string().min(1),
+    title: z.string().min(3).max(180),
+    voice: VoiceNameSchema,
+    videoStyle: VideoStyleSchema,
+    targetResolution: z.enum(['1920x1080', '1280x720']),
+    scenes: z.array(LessonSceneDraftSchema).min(4).max(12),
+  })
+  .superRefine((data, ctx) => {
+    const ids = new Set<string>();
+    const orders = new Set<number>();
+    for (const scene of data.scenes) {
+      if (ids.has(scene.id)) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ['scenes'],
+          message: `Duplicate scene id: ${scene.id}`,
+        });
+      }
+      ids.add(scene.id);
+      if (orders.has(scene.order)) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ['scenes'],
+          message: `Duplicate scene order: ${scene.order}`,
+        });
+      }
+      orders.add(scene.order);
+      if (
+        scene.minClipSeconds !== undefined &&
+        scene.maxClipSeconds !== undefined &&
+        scene.minClipSeconds > scene.maxClipSeconds
+      ) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ['scenes'],
+          message: `Scene ${scene.id}: minClipSeconds > maxClipSeconds`,
+        });
+      }
     }
-    ids.add(scene.id);
-    if (orders.has(scene.order)) {
-      ctx.addIssue({ code: z.ZodIssueCode.custom, path: ['scenes'], message: `Duplicate scene order: ${scene.order}` });
-    }
-    orders.add(scene.order);
-    if (scene.minClipSeconds !== undefined && scene.maxClipSeconds !== undefined && scene.minClipSeconds > scene.maxClipSeconds) {
-      ctx.addIssue({ code: z.ZodIssueCode.custom, path: ['scenes'], message: `Scene ${scene.id}: minClipSeconds > maxClipSeconds` });
-    }
-  }
-});
+  });

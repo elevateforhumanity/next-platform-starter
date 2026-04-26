@@ -1,9 +1,8 @@
-"use client";
+'use client';
 
 import React from 'react';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
-
 
 export default function CookieConsent() {
   const [showBanner, setShowBanner] = useState(false);
@@ -16,7 +15,7 @@ export default function CookieConsent() {
 
   useEffect(() => {
     if (!mounted) return;
-    
+
     // Check cookie first (more reliable than localStorage)
     const getCookie = (name: string) => {
       if (typeof document === 'undefined') return null;
@@ -28,7 +27,7 @@ export default function CookieConsent() {
 
     const cookieConsent = getCookie('cookie-consent');
     const localConsent = localStorage.getItem('cookie-consent');
-    
+
     if (!cookieConsent && !localConsent) {
       // Delay showing banner slightly for better UX
       setTimeout(() => {
@@ -43,7 +42,7 @@ export default function CookieConsent() {
     const expiryDate = new Date();
     expiryDate.setFullYear(expiryDate.getFullYear() + 1);
     document.cookie = `cookie-consent=accepted; expires=${expiryDate.toUTCString()}; path=/; SameSite=Lax`;
-    
+
     localStorage.setItem('cookie-consent', 'accepted');
     localStorage.setItem('cookie-consent-date', new Date().toISOString());
     setIsVisible(false);
@@ -62,7 +61,7 @@ export default function CookieConsent() {
     const expiryDate = new Date();
     expiryDate.setFullYear(expiryDate.getFullYear() + 1);
     document.cookie = `cookie-consent=rejected; expires=${expiryDate.toUTCString()}; path=/; SameSite=Lax`;
-    
+
     localStorage.setItem('cookie-consent', 'rejected');
     localStorage.setItem('cookie-consent-date', new Date().toISOString());
     setIsVisible(false);
@@ -93,7 +92,7 @@ export default function CookieConsent() {
     }
     if (e.key !== 'Tab') return;
     const focusable = bannerRef.current.querySelectorAll<HTMLElement>(
-      'button, a[href], [tabindex]:not([tabindex="-1"])'
+      'button, a[href], [tabindex]:not([tabindex="-1"])',
     );
     if (focusable.length === 0) return;
     const first = focusable[0];
@@ -137,16 +136,18 @@ export default function CookieConsent() {
             <div className="flex-1 pr-4">
               <div className="flex items-start gap-3">
                 <div className="flex-shrink-0 mt-1">
-                  <span className="text-xl text-brand-blue-600" aria-hidden="true">&#x1F36A;</span>
+                  <span className="text-xl text-brand-blue-600" aria-hidden="true">
+                    &#x1F36A;
+                  </span>
                 </div>
                 <div>
                   <h3 id="cookie-consent-title" className="font-semibold text-slate-900 mb-1">
                     We Value Your Privacy
                   </h3>
                   <p className="text-sm text-slate-900 leading-relaxed">
-                    We use cookies to enhance your experience, analyze site
-                    traffic, and provide personalized content. By clicking
-                    &ldquo;Accept&rdquo;, you consent to our use of cookies.{' '}
+                    We use cookies to enhance your experience, analyze site traffic, and provide
+                    personalized content. By clicking &ldquo;Accept&rdquo;, you consent to our use
+                    of cookies.{' '}
                     <a
                       href="/privacy-policy"
                       className="text-brand-blue-600 hover:text-brand-blue-700 underline"
@@ -179,7 +180,9 @@ export default function CookieConsent() {
                 className="p-2 text-slate-700 hover:text-slate-900 transition-colors focus:outline-none focus:ring-2 focus:ring-brand-blue-500 focus:ring-offset-2 rounded"
                 aria-label="Close cookie consent banner"
               >
-                <span className="text-xl leading-none" aria-hidden="true">&times;</span>
+                <span className="text-xl leading-none" aria-hidden="true">
+                  &times;
+                </span>
               </button>
             </div>
           </div>

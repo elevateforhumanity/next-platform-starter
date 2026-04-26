@@ -4,12 +4,12 @@ import { useEffect } from 'react';
 
 /**
  * Disable DevTools in Production
- * 
+ *
  * This component disables common devtools access methods:
  * - Right-click context menu
  * - Keyboard shortcuts (F12, Ctrl+Shift+I, etc.)
  * - Console clearing and warnings
- * 
+ *
  * Note: Determined users can still access devtools, but this
  * deters casual inspection and adds a layer of professionalism.
  */
@@ -33,25 +33,25 @@ export default function DisableDevTools() {
         e.preventDefault();
         return false;
       }
-      
+
       // Ctrl+Shift+I (DevTools)
       if (e.ctrlKey && e.shiftKey && e.key === 'I') {
         e.preventDefault();
         return false;
       }
-      
+
       // Ctrl+Shift+J (Console)
       if (e.ctrlKey && e.shiftKey && e.key === 'J') {
         e.preventDefault();
         return false;
       }
-      
+
       // Ctrl+Shift+C (Inspect Element)
       if (e.ctrlKey && e.shiftKey && e.key === 'C') {
         e.preventDefault();
         return false;
       }
-      
+
       // Ctrl+U (View Source)
       if (e.ctrlKey && e.key === 'u') {
         e.preventDefault();
@@ -87,7 +87,7 @@ export default function DisableDevTools() {
       const threshold = 160;
       const widthThreshold = window.outerWidth - window.innerWidth > threshold;
       const heightThreshold = window.outerHeight - window.innerHeight > threshold;
-      
+
       if (widthThreshold || heightThreshold) {
         // DevTools likely open - log it but don't block
         // Could send to analytics here
@@ -97,10 +97,10 @@ export default function DisableDevTools() {
     // Add event listeners
     document.addEventListener('contextmenu', handleContextMenu);
     document.addEventListener('keydown', handleKeyDown);
-    
+
     // Initial console clear
     clearConsole();
-    
+
     // Periodic devtools detection
     const interval = setInterval(detectDevTools, 1000);
 

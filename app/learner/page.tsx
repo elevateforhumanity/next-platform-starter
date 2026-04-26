@@ -4,17 +4,19 @@ import { createClient } from '@/lib/supabase/server';
 
 export const dynamic = 'force-dynamic';
 
-
 export const metadata: Metadata = {
   title: 'Learner Dashboard | Elevate for Humanity',
-  description: 'Access your learner dashboard to track progress, complete courses, and manage your career training journey.',
+  description:
+    'Access your learner dashboard to track progress, complete courses, and manage your career training journey.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/learner' },
 };
 
 export default async function LearnerPage() {
   try {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       redirect('/login?redirect=/learner/dashboard');

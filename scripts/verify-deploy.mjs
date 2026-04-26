@@ -14,7 +14,7 @@ if (
   /https?:\/\/www\.example\.com/i.test(SITE_URL)
 ) {
   console.error(
-    'Invalid SITE_URL. Replace placeholder with your real domain (e.g., https://your-domain.com).'
+    'Invalid SITE_URL. Replace placeholder with your real domain (e.g., https://your-domain.com).',
   );
   process.exit(254);
 }
@@ -38,8 +38,7 @@ async function collectPaths(distDir) {
   for (const file of entries) {
     const rel = path.relative(distDir, file).replace(/\\/g, '/');
     if (rel === 'index.html') paths.add('/');
-    else if (rel.endsWith('/index.html'))
-      paths.add('/' + rel.slice(0, -'index.html'.length));
+    else if (rel.endsWith('/index.html')) paths.add('/' + rel.slice(0, -'index.html'.length));
     else paths.add('/' + rel);
   }
   // always include robots and sitemap if present
@@ -101,9 +100,7 @@ async function main() {
   const distDir = path.resolve('dist');
   const paths = await collectPaths(distDir);
   if (paths.length === 0) {
-    console.error(
-      'No paths found in dist; did you run a production build (npm run build)?'
-    );
+    console.error('No paths found in dist; did you run a production build (npm run build)?');
     process.exit(1);
   }
   const urls = paths.map((p) => new URL(p, SITE_URL).toString());

@@ -1,16 +1,16 @@
 /**
  * Unified License Management Module
- * 
+ *
  * This is the canonical source for all license-related operations.
  * Use this module instead of:
  * - lib/licenseGuard.ts (deprecated)
  * - lib/license-guard.ts (deprecated)
  * - lib/license.ts (EFH domain license only)
- * 
+ *
  * BILLING AUTHORITY RULES:
  * - DB-Authoritative tiers (trial, lifetime, one_time): Access via expires_at
  * - Stripe-Authoritative tiers (*_monthly, *_annual): Access via current_period_end
- * 
+ *
  * See billing-authority.ts for implementation details.
  */
 
@@ -96,7 +96,10 @@ export async function getTenantLicense(tenantId: string): Promise<License | null
   }
 }
 
-export async function isFeatureEnabled(tenantId: string, feature: keyof License['features']): Promise<boolean> {
+export async function isFeatureEnabled(
+  tenantId: string,
+  feature: keyof License['features'],
+): Promise<boolean> {
   const license = await getTenantLicense(tenantId);
   if (!license) return false;
   return license.features[feature] === true;
@@ -174,7 +177,10 @@ export async function checkUsageLimits(tenantId: string): Promise<{
   };
 }
 
-export async function requireFeature(tenantId: string, feature: keyof License['features']): Promise<void> {
+export async function requireFeature(
+  tenantId: string,
+  feature: keyof License['features'],
+): Promise<void> {
   const enabled = await isFeatureEnabled(tenantId, feature);
   if (!enabled) {
     logger.warn('Feature access denied', { tenantId, feature });
@@ -268,7 +274,7 @@ export const PLAN_FEATURES: Record<LicensePlan, Partial<License['features']>> = 
 export async function logLicenseEvent(
   tenantId: string,
   event: 'created' | 'updated' | 'expired' | 'suspended' | 'validated',
-  metadata?: Record<string, any>
+  metadata?: Record<string, any>,
 ): Promise<void> {
   logger.info('License event', { tenantId, event, ...metadata });
 }
@@ -276,13 +282,15 @@ export async function logLicenseEvent(
 /**
  * Validate API key for tenant access
  */
-export async function validateApiKey(apiKey: string): Promise<{ valid: boolean; tenantId?: string; error?: string }> {
+export async function validateApiKey(
+  apiKey: string,
+): Promise<{ valid: boolean; tenantId?: string; error?: string }> {
   if (!apiKey) {
     return { valid: false, error: 'API key required' };
   }
 
   const supabase = await await getAdminClient();
-  
+
   const { data: tenant, error } = await supabase
     .from('tenants')
     .select('id, status')

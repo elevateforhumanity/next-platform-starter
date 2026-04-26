@@ -1,5 +1,5 @@
-import { Octokit } from "@octokit/rest";
-import { createOAuthAppAuth } from "@octokit/auth-oauth-app";
+import { Octokit } from '@octokit/rest';
+import { createOAuthAppAuth } from '@octokit/auth-oauth-app';
 
 export function getUserOctokit(accessToken: string) {
   return new Octokit({ auth: accessToken });
@@ -12,7 +12,7 @@ export async function getAccessTokenWithCode(code: string) {
     clientSecret: process.env.GITHUB_OAUTH_CLIENT_SECRET!,
   });
 
-  const { token } = await auth({ type: "oauth-user", code }) as any;
+  const { token } = (await auth({ type: 'oauth-user', code })) as any;
   return token as string;
 }
 
@@ -21,24 +21,24 @@ export function getLanguageFromPath(path: string): string {
   const ext = path.split('.').pop()?.toLowerCase();
 
   const languageMap: Record<string, string> = {
-    'ts': 'typescript',
-    'tsx': 'typescript',
-    'js': 'javascript',
-    'jsx': 'javascript',
-    'json': 'json',
-    'md': 'markdown',
-    'mdx': 'markdown',
-    'css': 'css',
-    'scss': 'scss',
-    'html': 'html',
-    'yml': 'yaml',
-    'yaml': 'yaml',
-    'sh': 'shell',
-    'bash': 'shell',
-    'sql': 'sql',
-    'py': 'python',
-    'go': 'go',
-    'rs': 'rust',
+    ts: 'typescript',
+    tsx: 'typescript',
+    js: 'javascript',
+    jsx: 'javascript',
+    json: 'json',
+    md: 'markdown',
+    mdx: 'markdown',
+    css: 'css',
+    scss: 'scss',
+    html: 'html',
+    yml: 'yaml',
+    yaml: 'yaml',
+    sh: 'shell',
+    bash: 'shell',
+    sql: 'sql',
+    py: 'python',
+    go: 'go',
+    rs: 'rust',
   };
 
   return languageMap[ext || ''] || 'plaintext';
@@ -46,9 +46,11 @@ export function getLanguageFromPath(path: string): string {
 
 // Helper to check if file is a course file
 export function isCourseFile(path: string): boolean {
-  return path.startsWith('content/courses/') ||
-         path.startsWith('lms-content/') ||
-         path.includes('/courses/');
+  return (
+    path.startsWith('content/courses/') ||
+    path.startsWith('lms-content/') ||
+    path.includes('/courses/')
+  );
 }
 
 // Helper to get course files only
@@ -65,6 +67,6 @@ export function gh() {
 
 // Helper to parse repo string into owner and name
 export function parseRepo(repo: string) {
-  const [owner, name] = repo.split("/");
+  const [owner, name] = repo.split('/');
   return { owner, name };
 }

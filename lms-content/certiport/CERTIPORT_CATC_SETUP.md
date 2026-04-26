@@ -5,6 +5,7 @@
 **Elevate for Humanity Career and Technical Institute** is now a **Certiport Authorized Testing Center (CATC)**!
 
 You can now offer industry-recognized certification exams including:
+
 - Microsoft Office Specialist (MOS)
 - IC3 Digital Literacy
 - Adobe Certified Professional
@@ -31,10 +32,12 @@ You can now offer industry-recognized certification exams including:
 ## 🚀 Next Steps to Activate Your Testing Center
 
 ### Step 1: Contact Your Sales Consultant
+
 **Call:** 1-888-222-7890
 **Or:** Find local provider at www.certiport.com
 
 **What to discuss:**
+
 - Activate your CATC
 - Choose which certifications to offer
 - Pricing and volume discounts
@@ -42,10 +45,12 @@ You can now offer industry-recognized certification exams including:
 - Marketing support
 
 ### Step 2: Complete Technical Setup
+
 **Support:** 1-888-999-9830, Option 2
 **Email:** customerservices@certiport.com
 
 **Requirements:**
+
 - Computer workstations for testing
 - Internet connection (stable, high-speed)
 - Certiport testing software installation
@@ -53,17 +58,21 @@ You can now offer industry-recognized certification exams including:
 - Secure testing environment
 
 ### Step 3: Order Free Program Kit
+
 **Website:** www.certiport.com
 **Includes:**
+
 - Marketing materials
 - Posters and brochures
 - CATC signage
 - Promotional items
 
 ### Step 4: Download Marketing Materials
+
 **Location:** www.certiport.com → Each certification → "Resources" section
 
 **Available materials:**
+
 - Logos and badges
 - Brochures
 - Social media graphics
@@ -71,7 +80,9 @@ You can now offer industry-recognized certification exams including:
 - Success stories
 
 ### Step 5: Train Your Proctors
+
 **Requirements:**
+
 - Designated proctor(s)
 - Proctor training (online)
 - Understanding of exam procedures
@@ -82,7 +93,9 @@ You can now offer industry-recognized certification exams including:
 ## 💻 Available Certifications
 
 ### 1. **Microsoft Office Specialist (MOS)** ⭐ Most Popular
+
 **Exams:**
+
 - Word (Associate & Expert)
 - Excel (Associate & Expert)
 - PowerPoint
@@ -90,6 +103,7 @@ You can now offer industry-recognized certification exams including:
 - Access
 
 **Best for:**
+
 - Business Administration students
 - Office/Administrative roles
 - All programs (universal skill)
@@ -99,12 +113,15 @@ You can now offer industry-recognized certification exams including:
 ---
 
 ### 2. **IC3 Digital Literacy**
+
 **Modules:**
+
 - Computing Fundamentals
 - Key Applications
 - Living Online
 
 **Best for:**
+
 - Basic computer skills
 - Entry-level positions
 - Digital literacy requirement
@@ -114,7 +131,9 @@ You can now offer industry-recognized certification exams including:
 ---
 
 ### 3. **Adobe Certified Professional**
+
 **Exams:**
+
 - Photoshop
 - Illustrator
 - InDesign
@@ -122,6 +141,7 @@ You can now offer industry-recognized certification exams including:
 - After Effects
 
 **Best for:**
+
 - Graphic design students
 - Marketing programs
 - Creative professionals
@@ -131,13 +151,16 @@ You can now offer industry-recognized certification exams including:
 ---
 
 ### 4. **Autodesk Certified User**
+
 **Exams:**
+
 - AutoCAD
 - Revit
 - Fusion 360
 - Inventor
 
 **Best for:**
+
 - Construction trades
 - HVAC technicians
 - Engineering programs
@@ -147,11 +170,14 @@ You can now offer industry-recognized certification exams including:
 ---
 
 ### 5. **Intuit QuickBooks Certified User**
+
 **Exam:**
+
 - QuickBooks Desktop
 - QuickBooks Online
 
 **Best for:**
+
 - Business administration
 - Bookkeeping
 - Small business owners
@@ -161,13 +187,16 @@ You can now offer industry-recognized certification exams including:
 ---
 
 ### 6. **Entrepreneurship and Small Business (ESB)**
+
 **Exam:**
+
 - Business planning
 - Marketing
 - Financial management
 - Operations
 
 **Best for:**
+
 - Aspiring entrepreneurs
 - Small business owners
 - Business students
@@ -177,7 +206,9 @@ You can now offer industry-recognized certification exams including:
 ---
 
 ### 7. **IT Specialist**
+
 **Exams:**
+
 - Python
 - Java
 - HTML & CSS
@@ -187,6 +218,7 @@ You can now offer industry-recognized certification exams including:
 - Device Configuration & Management
 
 **Best for:**
+
 - IT Support programs
 - Computer science students
 - Tech careers
@@ -196,11 +228,14 @@ You can now offer industry-recognized certification exams including:
 ---
 
 ### 8. **App Development**
+
 **Exam:**
+
 - Mobile app development
 - Programming fundamentals
 
 **Best for:**
+
 - Software development
 - Tech programs
 - App creators
@@ -214,6 +249,7 @@ You can now offer industry-recognized certification exams including:
 ### Physical Requirements
 
 **Testing Room:**
+
 - Quiet, secure space
 - Individual workstations
 - Adequate lighting
@@ -221,6 +257,7 @@ You can now offer industry-recognized certification exams including:
 - No distractions
 
 **Computers:**
+
 - Windows 10/11 or macOS
 - Minimum 4GB RAM (8GB recommended)
 - Stable internet connection
@@ -228,12 +265,14 @@ You can now offer industry-recognized certification exams including:
 - Headphones (for some exams)
 
 **Proctor Station:**
+
 - Separate computer for proctor
 - View of all test-takers
 - Access to Certiport portal
 - Phone for support
 
 **Security:**
+
 - No phones/devices allowed
 - No reference materials
 - Monitored environment
@@ -242,12 +281,14 @@ You can now offer industry-recognized certification exams including:
 ### Software Requirements
 
 **Certiport Testing Software:**
+
 - Download from Certiport portal
 - Install on all testing computers
 - Regular updates required
 - Test connection before exams
 
 **System Check:**
+
 - Run Certiport system check tool
 - Verify internet speed
 - Test exam delivery
@@ -258,6 +299,7 @@ You can now offer industry-recognized certification exams including:
 ## 👥 Proctor Training
 
 ### Proctor Responsibilities:
+
 1. **Check-in candidates**
    - Verify ID
    - Explain exam rules
@@ -274,6 +316,7 @@ You can now offer industry-recognized certification exams including:
    - Issue certificates (if passed)
 
 ### Proctor Training:
+
 - Online training available
 - Certiport certification required
 - Ongoing support from Certiport
@@ -286,6 +329,7 @@ You can now offer industry-recognized certification exams including:
 ### Scheduling Exams
 
 **Options:**
+
 1. **Walk-in testing** - Students schedule directly
 2. **Group testing** - Schedule class sessions
 3. **Individual appointments** - One-on-one testing
@@ -320,6 +364,7 @@ You can now offer industry-recognized certification exams including:
    - Results sent to Certiport
 
 ### Retake Policy:
+
 - Failed exams can be retaken
 - Waiting period may apply
 - Additional fee required
@@ -332,46 +377,57 @@ You can now offer industry-recognized certification exams including:
 ### Exam Fees (Approximate - Verify with Sales Consultant)
 
 **Microsoft Office Specialist:**
+
 - Associate level: $100-$150
 - Expert level: $150-$200
 
 **IC3 Digital Literacy:**
+
 - Per module: $75-$100
 - Full certification: $200-$250
 
 **Adobe Certified Professional:**
+
 - Per exam: $150-$180
 
 **Autodesk Certified User:**
+
 - Per exam: $95-$125
 
 **QuickBooks:**
+
 - Per exam: $95-$125
 
 **ESB:**
+
 - Per exam: $75-$95
 
 **IT Specialist:**
+
 - Per exam: $95-$125
 
 ### Revenue Model
 
 **Option 1: Pass-Through Pricing**
+
 - Charge students exact exam fee
 - No markup
 - Service to students
 
 **Option 2: Markup Pricing**
+
 - Add $25-$50 per exam
 - Revenue for testing center
 - Cover proctor time and overhead
 
 **Option 3: Bundled Pricing**
+
 - Include in program tuition
 - "Free" exams for students
 - Competitive advantage
 
 ### Volume Discounts
+
 - Contact sales consultant
 - Bulk exam purchases
 - Annual contracts
@@ -382,62 +438,74 @@ You can now offer industry-recognized certification exams including:
 ## 📚 Integration into Programs
 
 ### Business Administration Program
+
 ```markdown
 ## Business Administration Certificate
 
 ### Core Competencies:
+
 - Microsoft Office Suite
 - QuickBooks accounting
 - Business fundamentals
 - Professional communication
 
 ### Certifications Earned:
+
 ✅ Microsoft Office Specialist (Word, Excel, PowerPoint)
 ✅ QuickBooks Certified User
 ✅ IC3 Digital Literacy
 ✅ Entrepreneurship & Small Business (ESB)
 
 ### Program Duration: 12 weeks
+
 ### Cost: [Tuition] + Exam fees included
 ```
 
 ### IT Support Program
+
 ```markdown
 ## IT Support Technician Certificate
 
 ### Core Competencies:
+
 - Computer hardware/software
 - Networking fundamentals
 - Cybersecurity basics
 - Technical support
 
 ### Certifications Earned:
+
 ✅ IC3 Digital Literacy
 ✅ IT Specialist: Device Configuration
 ✅ IT Specialist: Networking
 ✅ IT Specialist: Cybersecurity
 
 ### Program Duration: 16 weeks
+
 ### Cost: [Tuition] + Exam fees included
 ```
 
 ### HVAC/Trades Programs
+
 ```markdown
 ## HVAC Technician Program
 
 ### Core Competencies:
+
 - HVAC systems
 - Blueprint reading
 - CAD software
 - Safety protocols
 
 ### Certifications Earned:
+
 ✅ Autodesk Certified User (AutoCAD)
 ✅ OSHA Safety (CareerSafe)
 ✅ EPA 608 Certification
 ✅ IC3 Digital Literacy (optional)
 
 ### Program Duration: 12 weeks
+
 ### Cost: [Tuition] + Exam fees included
 ```
 
@@ -497,6 +565,7 @@ CEO, Elevate for Humanity Career & Training Institute
 ### Website Updates
 
 **Add to Homepage:**
+
 ```
 🏆 Certiport Authorized Testing Center
 
@@ -510,6 +579,7 @@ Earn industry-recognized certifications:
 ```
 
 **Create Certifications Page:**
+
 - List all available exams
 - Pricing information
 - Scheduling instructions
@@ -519,6 +589,7 @@ Earn industry-recognized certifications:
 ### Social Media Posts
 
 **Announcement Post:**
+
 ```
 🎉 BIG NEWS! 🎉
 
@@ -537,6 +608,7 @@ These certifications are valued by employers nationwide and give our students a 
 ```
 
 **Student Success Post:**
+
 ```
 🎓 Congratulations to [Student Name]! 🎓
 
@@ -552,12 +624,14 @@ Ready to start your career? Join Elevate for Humanity!
 ### Physical Marketing
 
 **Order from Certiport:**
+
 - CATC window decal
 - Certification posters
 - Brochures for lobby
 - Success story displays
 
 **Create Your Own:**
+
 - Certification wall (display certificates)
 - Success board (student photos)
 - Exam schedule poster
@@ -573,6 +647,7 @@ Ready to start your career? Join Elevate for Humanity!
 **Login:** Organization Administrator role
 
 **Features:**
+
 - Schedule exams
 - View results
 - Generate reports
@@ -583,6 +658,7 @@ Ready to start your career? Join Elevate for Humanity!
 ### Monthly Metrics
 
 **Track:**
+
 - Exams scheduled
 - Exams completed
 - Pass rate
@@ -626,29 +702,34 @@ NOTES:
 ## 🎯 Best Practices
 
 ### 1. Make Certifications Part of Curriculum
+
 - Required, not optional
 - Built into program timeline
 - Included in tuition (if possible)
 
 ### 2. Prepare Students Well
+
 - Practice exams available
 - Study materials provided
 - Review sessions offered
 - Confidence building
 
 ### 3. Create Testing Schedule
+
 - Regular exam days (e.g., every Friday)
 - Group sessions for classes
 - Individual appointments available
 - Advance scheduling required
 
 ### 4. Celebrate Success
+
 - Certificate ceremony
 - Social media posts
 - Success wall
 - Employer notifications
 
 ### 5. Support Retakes
+
 - Study resources for failed exams
 - Tutoring available
 - Discounted retake fees
@@ -659,22 +740,26 @@ NOTES:
 ## 📞 Support Contacts
 
 ### Certiport Customer Support
+
 - **Phone:** 1-888-999-9830, Option 2
 - **Email:** customerservices@certiport.com
 - **Hours:** [Check support center]
 - **Support Center:** www.certiport.com/support
 
 ### Sales Consultant
+
 - **Phone:** 1-888-222-7890
 - **Purpose:** Activation, pricing, questions
 - **Find Local Provider:** www.certiport.com
 
 ### Technical Support
+
 - **Phone:** 1-888-999-9830, Option 2
 - **Purpose:** System setup, technical issues
 - **Response Time:** Same day
 
 ### Elevate Internal
+
 - **Elizabeth Greene**
 - CEO
 - elizabethpowell6262@gmail.com
@@ -685,6 +770,7 @@ NOTES:
 ## ✅ Activation Checklist
 
 ### Week 1: Initial Setup
+
 - [ ] Call sales consultant (1-888-222-7890)
 - [ ] Discuss which certifications to offer
 - [ ] Get pricing and volume discounts
@@ -692,6 +778,7 @@ NOTES:
 - [ ] Order free program kit
 
 ### Week 2: Technical Setup
+
 - [ ] Call technical support (1-888-999-9830, Option 2)
 - [ ] Set up testing computers
 - [ ] Install Certiport software
@@ -699,6 +786,7 @@ NOTES:
 - [ ] Configure proctor station
 
 ### Week 3: Training & Marketing
+
 - [ ] Complete proctor training
 - [ ] Download marketing materials
 - [ ] Update website
@@ -706,6 +794,7 @@ NOTES:
 - [ ] Print posters/brochures
 
 ### Week 4: Launch
+
 - [ ] Schedule first exams
 - [ ] Email students
 - [ ] Promote certifications
@@ -719,30 +808,35 @@ NOTES:
 ### Entry Level → Career Advancement
 
 **Administrative Assistant:**
+
 1. IC3 Digital Literacy (foundation)
 2. MOS Word Associate
 3. MOS Excel Associate
 4. MOS PowerPoint
 
 **Bookkeeper:**
+
 1. IC3 Digital Literacy
 2. MOS Excel Associate
 3. QuickBooks Certified User
 4. MOS Excel Expert
 
 **IT Support Technician:**
+
 1. IC3 Digital Literacy
 2. IT Specialist: Device Configuration
 3. IT Specialist: Networking
 4. IT Specialist: Cybersecurity
 
 **Graphic Designer:**
+
 1. IC3 Digital Literacy
 2. Adobe Photoshop
 3. Adobe Illustrator
 4. Adobe InDesign
 
 **Small Business Owner:**
+
 1. IC3 Digital Literacy
 2. QuickBooks Certified User
 3. Entrepreneurship & Small Business (ESB)
@@ -753,26 +847,31 @@ NOTES:
 ## 💡 Revenue Opportunities
 
 ### 1. Student Exams
+
 - Primary revenue source
 - Built into program tuition
 - Or charged separately
 
 ### 2. Community Testing
+
 - Open to public
 - Walk-in testing
 - Higher pricing for non-students
 
 ### 3. Corporate Training
+
 - Employer partnerships
 - Group certifications
 - Volume discounts
 
 ### 4. Retake Exams
+
 - Failed exams
 - Certification renewals
 - Upgrade certifications
 
 ### 5. Prep Courses
+
 - Exam preparation classes
 - Study materials
 - Practice exams
@@ -782,6 +881,7 @@ NOTES:
 ## 🚀 Growth Strategy
 
 ### Year 1: Foundation
+
 - Offer 3-5 core certifications
 - Focus on MOS and IC3
 - Build testing procedures
@@ -789,6 +889,7 @@ NOTES:
 - Establish reputation
 
 ### Year 2: Expansion
+
 - Add more certifications
 - Increase exam volume
 - Open to community
@@ -796,6 +897,7 @@ NOTES:
 - Marketing push
 
 ### Year 3: Scale
+
 - Multiple testing sessions weekly
 - Dedicated testing center
 - Additional proctors
@@ -807,6 +909,7 @@ NOTES:
 ## 🎉 Success Stories (Future)
 
 **Template for sharing:**
+
 ```
 🎓 CERTIFICATION SUCCESS! 🎓
 
@@ -827,18 +930,21 @@ Students: Join our next cohort!
 ## 📚 Additional Resources
 
 ### Certiport Resources
+
 - **Website:** www.certiport.com
 - **CATC Page:** www.certiport.com/catc
 - **Support Center:** www.certiport.com/support
 - **Marketing Materials:** Under each certification
 
 ### Study Resources
+
 - **GMetrix:** Practice exams (purchase separately)
 - **Certiport Practice Tests:** Available in portal
 - **Microsoft Learn:** Free training for MOS
 - **Adobe Tutorials:** Free resources online
 
 ### Industry Recognition
+
 - **Microsoft:** Official certification partner
 - **Adobe:** Official certification partner
 - **Autodesk:** Official certification partner
@@ -849,18 +955,21 @@ Students: Join our next cohort!
 ## 🎯 Next Steps
 
 ### This Week:
+
 1. **Call sales consultant** (1-888-222-7890)
 2. **Activate your CATC**
 3. **Choose certifications** to offer
 4. **Get pricing** information
 
 ### Next Week:
+
 5. **Set up testing computers**
 6. **Install software**
 7. **Train proctors**
 8. **Order marketing kit**
 
 ### Launch:
+
 9. **Schedule first exams**
 10. **Promote to students**
 11. **Conduct testing**
@@ -871,6 +980,7 @@ Students: Join our next cohort!
 **You're now positioned to offer industry-recognized certifications that will transform your students' careers!** 🎓✨
 
 **Your Credential Portfolio:**
+
 1. ✅ JRI (Job Readiness Initiative) - EmployIndy
 2. ✅ Milady RISE - Barber program
 3. ✅ NRF RISE Up - Customer service & retail

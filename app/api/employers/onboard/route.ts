@@ -17,22 +17,13 @@ async function _POST(req: Request) {
     if (rateLimited) return rateLimited;
 
     const body = await req.json();
-    const {
-      employer_id,
-      documents,
-      business_name,
-      contact_name,
-      contact_email,
-      contact_phone,
-    } = body;
+    const { employer_id, documents, business_name, contact_name, contact_email, contact_phone } =
+      body;
 
     const supabase = await getAdminClient();
 
     if (!supabase) {
-      return NextResponse.json(
-        { error: 'Service temporarily unavailable.' },
-        { status: 503 }
-      );
+      return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });
     }
 
     const { data, error }: any = await supabase
@@ -100,11 +91,8 @@ async function _POST(req: Request) {
     }
 
     return NextResponse.json({ success: true, onboarding: data });
-  } catch (error) { 
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+  } catch (error) {
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -125,11 +113,8 @@ async function _GET(request: Request) {
     }
 
     return NextResponse.json({ onboardings: data });
-  } catch (error) { 
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+  } catch (error) {
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/employers/onboard', _GET);

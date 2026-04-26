@@ -19,8 +19,7 @@ export const metadata: Metadata = {
     canonical: 'https://www.elevateforhumanity.org/admin/grants/submissions',
   },
   title: 'Submissions | Elevate For Humanity',
-  description:
-    'Review and process grant application submissions.',
+  description: 'Review and process grant application submissions.',
 };
 
 async function getSubmissionsData() {
@@ -33,7 +32,7 @@ async function getSubmissionsData() {
       grant:grant_opportunities(title, agency, due_date),
       entity:entities(name),
       application:grant_applications(draft_title)
-    `
+    `,
     )
     .order('submitted_at', { ascending: false });
 
@@ -55,9 +54,7 @@ function getStatusBadge(status: string) {
 
   const badge = badges[status] || badges.submitted;
   return (
-    <span
-      className={`px-3 py-2 rounded-full text-xs font-semibold ${badge.color}`}
-    >
+    <span className={`px-3 py-2 rounded-full text-xs font-semibold ${badge.color}`}>
       {badge.text}
     </span>
   );
@@ -85,7 +82,9 @@ function getMethodBadge(method: string) {
 export default async function GrantSubmissionsPage() {
   const supabase = await createClient();
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   const { data: profile } = await supabase
     .from('profiles')
@@ -99,23 +98,14 @@ export default async function GrantSubmissionsPage() {
 
   const stats = {
     total: submissions.length,
-    submitted: submissions.filter(
-      (s: Record<string, any>) => s.status === 'submitted'
-    ).length,
-    underReview: submissions.filter(
-      (s: Record<string, any>) => s.status === 'under_review'
-    ).length,
-    awarded: submissions.filter(
-      (s: Record<string, any>) => s.status === 'awarded'
-    ).length,
-    rejected: submissions.filter(
-      (s: Record<string, any>) => s.status === 'rejected'
-    ).length,
+    submitted: submissions.filter((s: Record<string, any>) => s.status === 'submitted').length,
+    underReview: submissions.filter((s: Record<string, any>) => s.status === 'under_review').length,
+    awarded: submissions.filter((s: Record<string, any>) => s.status === 'awarded').length,
+    rejected: submissions.filter((s: Record<string, any>) => s.status === 'rejected').length,
   };
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* Hero Image */}
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Hero Section */}
@@ -129,19 +119,14 @@ export default async function GrantSubmissionsPage() {
             priority
             sizes="100vw"
           />
-
         </section>
 
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h1 className="text-3xl font-bold text-black mb-2">
-                Grant Submissions Archive
-              </h1>
-              <p className="text-black">
-                Complete history of all submitted grant applications
-              </p>
+              <h1 className="text-3xl font-bold text-black mb-2">Grant Submissions Archive</h1>
+              <p className="text-black">Complete history of all submitted grant applications</p>
             </div>
             <Link
               href="/admin/grants/workflow"
@@ -160,27 +145,19 @@ export default async function GrantSubmissionsPage() {
           </div>
           <div className="bg-white rounded-xl shadow-sm p-6">
             <p className="text-sm text-slate-500 mb-1">Submitted</p>
-            <p className="text-3xl font-bold text-brand-blue-600">
-              {stats.submitted}
-            </p>
+            <p className="text-3xl font-bold text-brand-blue-600">{stats.submitted}</p>
           </div>
           <div className="bg-white rounded-xl shadow-sm p-6">
             <p className="text-sm text-slate-500 mb-1">Under Review</p>
-            <p className="text-3xl font-bold text-yellow-600">
-              {stats.underReview}
-            </p>
+            <p className="text-3xl font-bold text-yellow-600">{stats.underReview}</p>
           </div>
           <div className="bg-white rounded-xl shadow-sm p-6">
             <p className="text-sm text-slate-500 mb-1">Awarded</p>
-            <p className="text-3xl font-bold text-brand-green-600">
-              {stats.awarded}
-            </p>
+            <p className="text-3xl font-bold text-brand-green-600">{stats.awarded}</p>
           </div>
           <div className="bg-white rounded-xl shadow-sm p-6">
             <p className="text-sm text-slate-500 mb-1">Rejected</p>
-            <p className="text-3xl font-bold text-brand-orange-600">
-              {stats.rejected}
-            </p>
+            <p className="text-3xl font-bold text-brand-orange-600">{stats.rejected}</p>
           </div>
         </div>
 
@@ -231,22 +208,14 @@ export default async function GrantSubmissionsPage() {
                         {submission.entity?.name || 'Unknown Entity'}
                       </p>
                     </td>
-                    <td className="px-6 py-4">
-                      {getMethodBadge(submission.method)}
-                    </td>
-                    <td className="px-6 py-4">
-                      {getStatusBadge(submission.status)}
-                    </td>
+                    <td className="px-6 py-4">{getMethodBadge(submission.method)}</td>
+                    <td className="px-6 py-4">{getStatusBadge(submission.status)}</td>
                     <td className="px-6 py-4">
                       <div>
                         <p className="text-sm text-black">
-                          {new Date(
-                            submission.submitted_at
-                          ).toLocaleDateString()}
+                          {new Date(submission.submitted_at).toLocaleDateString()}
                         </p>
-                        <p className="text-xs text-slate-500">
-                          by {submission.submitted_by}
-                        </p>
+                        <p className="text-xs text-slate-500">by {submission.submitted_by}</p>
                       </div>
                     </td>
                     <td className="px-6 py-4">
@@ -286,12 +255,8 @@ export default async function GrantSubmissionsPage() {
 
           {submissions.length === 0 && (
             <div className="text-center py-12">
-              <div className="text-6xl mb-4 text-4xl md:text-5xl lg:text-6xl">
-                📋
-              </div>
-              <h3 className="text-lg font-semibold text-black mb-2">
-                No Submissions Yet
-              </h3>
+              <div className="text-6xl mb-4 text-4xl md:text-5xl lg:text-6xl">📋</div>
+              <h3 className="text-lg font-semibold text-black mb-2">No Submissions Yet</h3>
               <p className="text-black mb-6">
                 Start by drafting and submitting your first grant application.
               </p>
@@ -308,17 +273,24 @@ export default async function GrantSubmissionsPage() {
         {/* Export Options */}
         {submissions.length > 0 && (
           <div className="mt-8 bg-white rounded-xl shadow-sm p-6">
-            <h2 className="text-lg font-semibold text-black mb-4">
-              Export Options
-            </h2>
+            <h2 className="text-lg font-semibold text-black mb-4">Export Options</h2>
             <div className="flex gap-4">
-              <button className="bg-brand-green-600 text-white px-6 py-3 rounded-lg hover:bg-brand-green-700 font-semibold" aria-label="Action button">
+              <button
+                className="bg-brand-green-600 text-white px-6 py-3 rounded-lg hover:bg-brand-green-700 font-semibold"
+                aria-label="Action button"
+              >
                 <BarChart className="w-5 h-5 inline-block" /> Export to Excel
               </button>
-              <button className="bg-brand-orange-600 text-white px-6 py-3 rounded-lg hover:bg-brand-orange-700 font-semibold" aria-label="Action button">
+              <button
+                className="bg-brand-orange-600 text-white px-6 py-3 rounded-lg hover:bg-brand-orange-700 font-semibold"
+                aria-label="Action button"
+              >
                 📄 Export to PDF
               </button>
-              <button className="bg-brand-blue-600 text-white px-6 py-3 rounded-lg hover:bg-brand-blue-700 font-semibold" aria-label="Action button">
+              <button
+                className="bg-brand-blue-600 text-white px-6 py-3 rounded-lg hover:bg-brand-blue-700 font-semibold"
+                aria-label="Action button"
+              >
                 <Mail className="w-5 h-5 inline-block" /> Email Report
               </button>
             </div>

@@ -1,4 +1,3 @@
-
 import { getAdminClient } from '@/lib/supabase/admin';
 
 // app/api/exams/submit/route.ts
@@ -13,25 +12,20 @@ export const maxDuration = 60;
 export const dynamic = 'force-dynamic';
 
 async function _POST(request: Request) {
-    const rateLimited = await applyRateLimit(request, 'strict');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(request, 'strict');
+  if (rateLimited) return rateLimited;
 
   const db = await getAdminClient();
   const session = await requireApiAuth();
   const { attemptId, answers } = await request.json();
 
   if (!attemptId || !Array.isArray(answers)) {
-    return NextResponse.json(
-      { error: 'attemptId and answers[] are required' },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: 'attemptId and answers[] are required' }, { status: 400 });
   }
 
   const { data: attempt, error: attemptError } = await db
     .from('exam_attempts')
-    .select(
-      '*, exam:exams(*), exam_attempt_questions(*, question:questions(*))'
-    )
+    .select('*, exam:exams(*), exam_attempt_questions(*, question:questions(*))')
     .eq('id', attemptId)
     .maybeSingle();
 
@@ -45,16 +39,12 @@ async function _POST(request: Request) {
   }
 
   if (attempt.status === 'completed') {
-    return NextResponse.json(
-      { error: 'Attempt already completed' },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: 'Attempt already completed' }, { status: 400 });
   }
 
   // Check time limit
   const now = new Date();
-  const elapsedMinutes =
-    (now.getTime() - new Date(attempt.started_at).getTime()) / (1000 * 60);
+  const elapsedMinutes = (now.getTime() - new Date(attempt.started_at).getTime()) / (1000 * 60);
   if (elapsedMinutes > attempt.exam.time_limit_minutes + 5) {
     // 5-minute grace
     return NextResponse.json({ error: 'Time limit exceeded' }, { status: 400 });
@@ -75,8 +65,7 @@ async function _POST(request: Request) {
     if (typeof studentAnswer === 'undefined') continue;
 
     const correctAnswer = aq.question.correct_answer;
-    const isCorrect =
-      JSON.stringify(studentAnswer) === JSON.stringify(correctAnswer);
+    const isCorrect = JSON.stringify(studentAnswer) === JSON.stringify(correctAnswer);
     if (isCorrect) correctCount++;
 
     updates.push(
@@ -87,7 +76,7 @@ async function _POST(request: Request) {
           is_correct: isCorrect,
           answered_at: now.toISOString(),
         })
-        .eq('id', aq.id)
+        .eq('id', aq.id),
     );
   }
 

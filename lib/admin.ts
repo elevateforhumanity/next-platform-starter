@@ -4,7 +4,7 @@ import { getAdminClient } from '@/lib/supabase/admin';
 import { redirect } from 'next/navigation';
 
 const ADMIN_ROLES = ['admin', 'super_admin', 'org_admin', 'staff'] as const;
-type AdminRole = typeof ADMIN_ROLES[number];
+type AdminRole = (typeof ADMIN_ROLES)[number];
 
 export async function requireAdmin() {
   const supabase = await createClient();

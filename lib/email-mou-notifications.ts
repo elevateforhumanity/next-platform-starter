@@ -21,7 +21,7 @@ export async function sendMOUSignedConfirmation(data: MOUSignedNotificationData)
         <div style="background:#f3f4f6;padding:20px;border-radius:8px;margin:20px 0">
           <p><strong>Program Holder:</strong> ${data.programHolderName}</p>
           <p><strong>Signed by:</strong> ${data.signerName}, ${data.signerTitle}</p>
-          <p><strong>Date:</strong> ${new Date(data.signedAt).toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})}</p>
+          <p><strong>Date:</strong> ${new Date(data.signedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
         </div>
         <p>Questions? <a href="mailto:info@elevateforhumanity.org">info@elevateforhumanity.org</a></p>
         <p>Best regards,<br><strong>Elevate for Humanity</strong></p>
@@ -34,7 +34,9 @@ export async function sendMOUSignedConfirmation(data: MOUSignedNotificationData)
   }
 }
 
-export async function sendMOUSignedAdminNotification(data: MOUSignedNotificationData): Promise<boolean> {
+export async function sendMOUSignedAdminNotification(
+  data: MOUSignedNotificationData,
+): Promise<boolean> {
   try {
     await sendEmail({
       to: process.env.MOU_ARCHIVE_EMAIL || 'agreements@elevateforhumanity.org',
@@ -45,7 +47,7 @@ export async function sendMOUSignedAdminNotification(data: MOUSignedNotification
           <p><strong>Program Holder:</strong> ${data.programHolderName}</p>
           <p><strong>Signed by:</strong> ${data.signerName}, ${data.signerTitle}</p>
           <p><strong>Contact:</strong> ${data.contactEmail}</p>
-          <p><strong>Date:</strong> ${new Date(data.signedAt).toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})}</p>
+          <p><strong>Date:</strong> ${new Date(data.signedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
         </div>
         <a href="${process.env.NEXT_PUBLIC_SITE_URL}/admin/program-holders"
            style="background:#1d4ed8;color:white;padding:12px 24px;text-decoration:none;border-radius:6px;display:inline-block">
@@ -55,7 +57,9 @@ export async function sendMOUSignedAdminNotification(data: MOUSignedNotification
     });
     return true;
   } catch (error) {
-    logger.error('MOU admin notification failed', error as Error, { programHolder: data.programHolderName });
+    logger.error('MOU admin notification failed', error as Error, {
+      programHolder: data.programHolderName,
+    });
     return false;
   }
 }

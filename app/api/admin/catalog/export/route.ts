@@ -11,12 +11,18 @@ async function _GET(request: Request) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-  
-    const { data: { user } } = await supabase.auth.getUser();
+
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
-    const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).maybeSingle();
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('id', user.id)
+      .maybeSingle();
     if (!profile || !['admin', 'super_admin'].includes(profile.role)) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
@@ -26,7 +32,9 @@ async function _GET(request: Request) {
 
     const { data: programs } = await supabase
       .from('programs')
-      .select('id, title, slug, description, category, status, tuition, duration_weeks, total_hours')
+      .select(
+        'id, title, slug, description, category, status, tuition, duration_weeks, total_hours',
+      )
       .eq('status', 'active')
       .order('title');
 
@@ -34,47 +42,76 @@ async function _GET(request: Request) {
 
     // CSV Export
     if (format === 'csv') {
-      const headers = ['ID', 'Title', 'Slug', 'Category', 'Status', 'Tuition', 'Duration (weeks)', 'Total Hours'];
-      const rows = programList.map(p => [
-        p.id, 
-        `"${(p.title || '').replace(/"/g, '""')}"`,
-        p.slug, 
-        p.category, 
-        p.status, 
-        p.tuition, 
-        p.duration_weeks, 
-        p.total_hours
-      ].join(','));
+      const headers = [
+        'ID',
+        'Title',
+        'Slug',
+        'Category',
+        'Status',
+        'Tuition',
+        'Duration (weeks)',
+        'Total Hours',
+      ];
+      const rows = programList.map((p) =>
+        [
+          p.id,
+          `"${(p.title || '').replace(/"/g, '""')}"`,
+          p.slug,
+          p.category,
+          p.status,
+          p.tuition,
+          p.duration_weeks,
+          p.total_hours,
+        ].join(','),
+      );
       const csv = [headers.join(','), ...rows].join('\n');
-      
+
       return new NextResponse(csv, {
         headers: {
           'Content-Type': 'text/csv',
-          'Content-Disposition': 'attachment; filename="catalog-export.csv"'
-        }
+          'Content-Disposition': 'attachment; filename="catalog-export.csv"',
+        },
       });
     }
 
     // XLSX Export (as CSV with xlsx extension - basic implementation)
     if (format === 'xlsx') {
-      const headers = ['ID', 'Title', 'Slug', 'Category', 'Status', 'Tuition', 'Duration (weeks)', 'Total Hours'];
-      const rows = programList.map(p => [
-        p.id, p.title, p.slug, p.category, p.status, p.tuition, p.duration_weeks, p.total_hours
-      ].join('\t'));
+      const headers = [
+        'ID',
+        'Title',
+        'Slug',
+        'Category',
+        'Status',
+        'Tuition',
+        'Duration (weeks)',
+        'Total Hours',
+      ];
+      const rows = programList.map((p) =>
+        [
+          p.id,
+          p.title,
+          p.slug,
+          p.category,
+          p.status,
+          p.tuition,
+          p.duration_weeks,
+          p.total_hours,
+        ].join('\t'),
+      );
       const tsv = [headers.join('\t'), ...rows].join('\n');
-      
+
       return new NextResponse(tsv, {
         headers: {
           'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-          'Content-Disposition': 'attachment; filename="catalog-export.xlsx"'
-        }
+          'Content-Disposition': 'attachment; filename="catalog-export.xlsx"',
+        },
       });
     }
 
     // PDF Export - redirect to Netlify function
     if (format === 'pdf') {
       // Transform data for PDF export
-      const pdfData = programList.map(p => ({
+      const pdfData = programList.map((p) => ({
         title: p.title || 'Untitled',
         category: p.category || 'N/A',
         duration: `${p.duration_weeks || 'N/A'} weeks`,
@@ -111,8 +148,8 @@ async function _GET(request: Request) {
       return new NextResponse(pdfBuffer, {
         headers: {
           'Content-Type': 'application/pdf',
-          'Content-Disposition': 'attachment; filename="catalog-export.pdf"'
-        }
+          'Content-Disposition': 'attachment; filename="catalog-export.pdf"',
+        },
       });
     }
 
@@ -128,8 +165,8 @@ async function _GET(request: Request) {
 }
 
 async function _POST(request: Request) {
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
 
   return GET(request);
 }

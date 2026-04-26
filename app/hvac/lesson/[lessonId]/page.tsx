@@ -23,7 +23,9 @@ import { HVAC_LESSON_UUID } from '@/lib/courses/hvac-legacy-maps';
 import { readFileSync } from 'fs';
 import path from 'path';
 function loadHvacQuizMap(): Record<string, any[]> {
-  const d = JSON.parse(readFileSync(path.join(process.cwd(), 'public/data/hvac-quizzes.json'), 'utf8'));
+  const d = JSON.parse(
+    readFileSync(path.join(process.cwd(), 'public/data/hvac-quizzes.json'), 'utf8'),
+  );
   return d.HVAC_QUIZ_MAP ?? {};
 }
 import { EPA_608_LESSON_TAGS } from '@/lib/courses/hvac-epa-tags';
@@ -31,9 +33,11 @@ import { EPA_608_LESSON_TAGS } from '@/lib/courses/hvac-epa-tags';
 export const dynamic = 'force-dynamic';
 
 // ── Metadata ─────────────────────────────────────────────────────────────────
-export async function generateMetadata(
-  { params }: { params: Promise<{ lessonId: string }> }
-): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ lessonId: string }>;
+}): Promise<Metadata> {
   const { lessonId } = await params;
   const lesson = getHvacLesson(lessonId);
   if (!lesson) return { title: 'Lesson Not Found' };
@@ -44,7 +48,11 @@ export async function generateMetadata(
 }
 
 // ── Page ─────────────────────────────────────────────────────────────────────
-export default async function HvacLessonPage({ params }: { params: Promise<{ lessonId: string }> }) {
+export default async function HvacLessonPage({
+  params,
+}: {
+  params: Promise<{ lessonId: string }>;
+}) {
   const { lessonId } = await params;
   const lesson = getHvacLesson(lessonId);
   if (!lesson) notFound();
@@ -53,14 +61,14 @@ export default async function HvacLessonPage({ params }: { params: Promise<{ les
   const HVAC_QUIZ_MAP = loadHvacQuizMap();
 
   const allLessons = getAllHvacLessons();
-  const currentIdx = allLessons.findIndex(l => l.lessonId === lesson.lessonId);
+  const currentIdx = allLessons.findIndex((l) => l.lessonId === lesson.lessonId);
   const prevLesson = currentIdx > 0 ? allLessons[currentIdx - 1] : null;
   const nextLesson = currentIdx < allLessons.length - 1 ? allLessons[currentIdx + 1] : null;
 
   // Resolve UUID → canonical media paths
   const uuid = HVAC_LESSON_UUID[lesson.lessonId];
-  const videoUrl  = uuid ? `/hvac/videos/lesson-${uuid}.mp4`  : null;
-  const audioUrl  = uuid ? `/hvac/audio/lesson-${uuid}.mp3`   : null;
+  const videoUrl = uuid ? `/hvac/videos/lesson-${uuid}.mp4` : null;
+  const audioUrl = uuid ? `/hvac/audio/lesson-${uuid}.mp3` : null;
   const diagramUrl = `/hvac/diagrams/${lesson.diagramFile}`;
 
   // Quiz questions from HVAC_QUIZ_MAP (keyed by lessonId)
@@ -70,16 +78,17 @@ export default async function HvacLessonPage({ params }: { params: Promise<{ les
   const epaTags = EPA_608_LESSON_TAGS[lesson.lessonId] ?? [];
 
   // Module progress
-  const moduleLessons = allLessons.filter(l => l.module === lesson.module);
-  const moduleIdx = moduleLessons.findIndex(l => l.lessonId === lesson.lessonId);
+  const moduleLessons = allLessons.filter((l) => l.module === lesson.module);
+  const moduleIdx = moduleLessons.findIndex((l) => l.lessonId === lesson.lessonId);
 
   return (
     <div className="min-h-screen bg-slate-900 text-white">
-
       {/* Top nav */}
       <div className="bg-slate-800 border-b border-slate-700 px-6 py-3 flex items-center justify-between">
         <div className="flex items-center gap-3 text-sm">
-          <Link href="/hvac" className="text-slate-400 hover:text-white">← HVAC Course</Link>
+          <Link href="/hvac" className="text-slate-400 hover:text-white">
+            ← HVAC Course
+          </Link>
           <span className="text-slate-600">/</span>
           <span className="text-sky-400 font-semibold">{lesson.module}</span>
         </div>
@@ -98,8 +107,11 @@ export default async function HvacLessonPage({ params }: { params: Promise<{ les
           {/* EPA 608 tags */}
           {epaTags.length > 0 && (
             <div className="flex gap-2 flex-wrap">
-              {epaTags.map(tag => (
-                <span key={tag} className="bg-amber-900/40 border border-amber-600/50 text-amber-300 text-xs font-semibold px-2 py-1 rounded">
+              {epaTags.map((tag) => (
+                <span
+                  key={tag}
+                  className="bg-amber-900/40 border border-amber-600/50 text-amber-300 text-xs font-semibold px-2 py-1 rounded"
+                >
                   EPA 608 {tag}
                 </span>
               ))}
@@ -110,7 +122,9 @@ export default async function HvacLessonPage({ params }: { params: Promise<{ les
         <div className="mt-3">
           <div className="flex justify-between text-xs text-slate-500 mb-1">
             <span>Module progress</span>
-            <span>{moduleIdx + 1} / {moduleLessons.length}</span>
+            <span>
+              {moduleIdx + 1} / {moduleLessons.length}
+            </span>
           </div>
           <div className="h-1.5 bg-slate-700 rounded-full">
             <div
@@ -122,15 +136,10 @@ export default async function HvacLessonPage({ params }: { params: Promise<{ les
       </div>
 
       <div className="max-w-7xl mx-auto px-4 py-6 space-y-6">
-
         {/* SPEC LAYOUT: instructor left | diagram right | concept bottom */}
         {videoUrl ? (
           <div className="rounded-xl overflow-hidden shadow-2xl bg-black">
-            <video
-              controls
-              className="w-full aspect-video"
-              poster={diagramUrl}
-            >
+            <video controls className="w-full aspect-video" poster={diagramUrl}>
               <source src={videoUrl} type="video/mp4" />
               {audioUrl && <source src={audioUrl} type="audio/mpeg" />}
             </video>
@@ -143,7 +152,6 @@ export default async function HvacLessonPage({ params }: { params: Promise<{ les
 
         {/* Two-column: Script_Text left | Diagram right */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-
           {/* LEFT: Script_Text from CSV — real teaching content */}
           <div className="bg-slate-800 rounded-xl p-6">
             <h2 className="text-sky-400 font-bold text-lg mb-4">Lesson Content</h2>
@@ -168,7 +176,9 @@ export default async function HvacLessonPage({ params }: { params: Promise<{ les
 
         {/* BOTTOM: Key Concept from CSV */}
         <div className="bg-slate-700 rounded-xl p-5 border-l-4 border-sky-500">
-          <p className="text-sky-400 font-bold text-xs uppercase tracking-widest mb-2">Key Concept</p>
+          <p className="text-sky-400 font-bold text-xs uppercase tracking-widest mb-2">
+            Key Concept
+          </p>
           <p className="text-white text-base leading-relaxed">{lesson.keyConcept}</p>
         </div>
 
@@ -179,18 +189,25 @@ export default async function HvacLessonPage({ params }: { params: Promise<{ les
               EPA 608 — {epaTags.join(' · ')}
             </p>
             <p className="text-amber-100 text-sm leading-relaxed">
-              This lesson covers content tested on the EPA Section 608 Technician Certification exam.
-              {epaTags.includes('Type I') && ' Type I covers small appliances with 5 lbs or less of refrigerant.'}
-              {epaTags.includes('Type II') && ' Type II covers high-pressure systems including R-22 and R-410A residential equipment.'}
-              {epaTags.includes('Type III') && ' Type III covers low-pressure chillers using R-11 and R-123.'}
-              {epaTags.includes('Universal') && ' Universal certification requires passing Core, Type I, Type II, and Type III.'}
+              This lesson covers content tested on the EPA Section 608 Technician Certification
+              exam.
+              {epaTags.includes('Type I') &&
+                ' Type I covers small appliances with 5 lbs or less of refrigerant.'}
+              {epaTags.includes('Type II') &&
+                ' Type II covers high-pressure systems including R-22 and R-410A residential equipment.'}
+              {epaTags.includes('Type III') &&
+                ' Type III covers low-pressure chillers using R-11 and R-123.'}
+              {epaTags.includes('Universal') &&
+                ' Universal certification requires passing Core, Type I, Type II, and Type III.'}
             </p>
           </div>
         )}
 
         {/* Quiz: 5 questions from HVAC_QUIZ_MAP or CSV fallback */}
         <div className="bg-slate-800 rounded-xl p-6">
-          <p className="text-amber-400 font-bold text-xs uppercase tracking-widest mb-4">Knowledge Check</p>
+          <p className="text-amber-400 font-bold text-xs uppercase tracking-widest mb-4">
+            Knowledge Check
+          </p>
 
           {quizQuestions && quizQuestions.length > 0 ? (
             <div className="space-y-6">
@@ -209,9 +226,13 @@ export default async function HvacLessonPage({ params }: { params: Promise<{ les
                             : 'border-slate-600 bg-slate-700 text-slate-300'
                         }`}
                       >
-                        <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 ${
-                          oi === q.correctAnswer ? 'bg-green-600 text-white' : 'bg-slate-600 text-slate-300'
-                        }`}>
+                        <span
+                          className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 ${
+                            oi === q.correctAnswer
+                              ? 'bg-green-600 text-white'
+                              : 'bg-slate-600 text-slate-300'
+                          }`}
+                        >
                           {String.fromCharCode(65 + oi)}
                         </span>
                         {opt}
@@ -232,7 +253,8 @@ export default async function HvacLessonPage({ params }: { params: Promise<{ les
             <div className="border border-slate-700 rounded-lg p-4">
               <p className="text-white font-semibold mb-2">{lesson.quizQuestion}</p>
               <p className="text-green-300 text-sm">
-                <span className="text-slate-400">Answer: </span>{lesson.quizAnswer}
+                <span className="text-slate-400">Answer: </span>
+                {lesson.quizAnswer}
               </p>
             </div>
           )}
@@ -247,7 +269,9 @@ export default async function HvacLessonPage({ params }: { params: Promise<{ les
             >
               ← {prevLesson.lessonTitle}
             </Link>
-          ) : <div />}
+          ) : (
+            <div />
+          )}
 
           {nextLesson ? (
             <Link
@@ -265,7 +289,6 @@ export default async function HvacLessonPage({ params }: { params: Promise<{ les
             </Link>
           )}
         </div>
-
       </div>
     </div>
   );

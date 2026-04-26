@@ -20,16 +20,16 @@ import { resolveCourseId } from '@/lib/course-builder/schema';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
-export async function POST(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> },
-) {
+export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const rateLimited = await applyRateLimit(request, 'strict');
   if (rateLimited) return rateLimited;
 
   // Auth — admin/super_admin/staff only
   const supabase = await createClient();
-  const { data: { user }, error: authError } = await supabase.auth.getUser();
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser();
   if (authError || !user) return safeError('Unauthorized', 401);
 
   const db = await getAdminClient();
@@ -133,7 +133,7 @@ export async function POST(
             </p>
           </div>
         </div>`,
-    }).catch(e => logger.warn('[grant-access] Email failed', e));
+    }).catch((e) => logger.warn('[grant-access] Email failed', e));
   }
 
   logger.info('[grant-access] Access granted', {
@@ -150,7 +150,7 @@ export async function POST(
     entityId: enrollmentId,
     metadata: { program_name: programName, student_email: studentEmail, granted_at: now },
     req: request,
-  }).catch(e => logger.warn('[grant-access] Audit log failed', e));
+  }).catch((e) => logger.warn('[grant-access] Audit log failed', e));
 
   return NextResponse.json({ ok: true, access_granted_at: now });
 }

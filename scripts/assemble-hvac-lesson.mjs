@@ -23,7 +23,7 @@ const SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 async function getLessonTitles() {
   const res = await fetch(
     `${SUPABASE_URL}/rest/v1/training_lessons?course_id_uuid=eq.f0593164-55be-5867-98e7-8a86770a8dd0&select=lesson_number,title&order=lesson_number`,
-    { headers: { apikey: SERVICE_KEY, Authorization: `Bearer ${SERVICE_KEY}` } }
+    { headers: { apikey: SERVICE_KEY, Authorization: `Bearer ${SERVICE_KEY}` } },
   );
   const rows = await res.json();
   const map = {};
@@ -33,7 +33,13 @@ async function getLessonTitles() {
 
 function getAudioDuration(mp3Path) {
   const result = spawnSync('ffprobe', [
-    '-v', 'quiet', '-show_entries', 'format=duration', '-of', 'csv=p=0', mp3Path
+    '-v',
+    'quiet',
+    '-show_entries',
+    'format=duration',
+    '-of',
+    'csv=p=0',
+    mp3Path,
   ]);
   return parseFloat(result.stdout.toString().trim()) || 90;
 }
@@ -106,16 +112,30 @@ function assembleLesson(lesson, title) {
   const audioMap = hasDiag ? '2:a' : '1:a';
 
   const cmd = [
-    'ffmpeg', '-y',
+    'ffmpeg',
+    '-y',
     ...inputs,
-    '-filter_complex', filterComplex,
-    '-map', '[out]',
-    '-map', audioMap,
-    '-t', String(audioDur),
-    '-c:v', 'libx264', '-preset', 'fast', '-crf', '23',
-    '-c:a', 'aac', '-b:a', '128k',
-    '-movflags', '+faststart',
-    outputPath
+    '-filter_complex',
+    filterComplex,
+    '-map',
+    '[out]',
+    '-map',
+    audioMap,
+    '-t',
+    String(audioDur),
+    '-c:v',
+    'libx264',
+    '-preset',
+    'fast',
+    '-crf',
+    '23',
+    '-c:a',
+    'aac',
+    '-b:a',
+    '128k',
+    '-movflags',
+    '+faststart',
+    outputPath,
   ];
 
   console.log(`  Assembling lesson ${lessonNumber}: "${title}" (${audioDur.toFixed(0)}s)...`);
@@ -133,23 +153,38 @@ function assembleLesson(lesson, title) {
 
 async function main() {
   const arg = process.argv[2];
-  if (!arg) { console.error('Usage: node scripts/assemble-hvac-lesson.mjs <lessonNumber|all>'); process.exit(1); }
+  if (!arg) {
+    console.error('Usage: node scripts/assemble-hvac-lesson.mjs <lessonNumber|all>');
+    process.exit(1);
+  }
 
   console.log('Fetching lesson titles...');
   const titles = await getLessonTitles();
 
   if (arg === 'all') {
-    let done = 0, failed = 0, skipped = 0;
+    let done = 0,
+      failed = 0,
+      skipped = 0;
     for (const lesson of manifest) {
-      if (lesson.status !== 'ready') { skipped++; continue; }
-      const ok = assembleLesson(lesson, titles[lesson.lessonNumber] || `Lesson ${lesson.lessonNumber}`);
-      if (ok) done++; else failed++;
+      if (lesson.status !== 'ready') {
+        skipped++;
+        continue;
+      }
+      const ok = assembleLesson(
+        lesson,
+        titles[lesson.lessonNumber] || `Lesson ${lesson.lessonNumber}`,
+      );
+      if (ok) done++;
+      else failed++;
     }
     console.log(`\nDone: ${done} | Failed: ${failed} | Skipped: ${skipped}`);
   } else {
     const num = parseInt(arg);
-    const lesson = manifest.find(l => l.lessonNumber === num);
-    if (!lesson) { console.error(`Lesson ${num} not found`); process.exit(1); }
+    const lesson = manifest.find((l) => l.lessonNumber === num);
+    if (!lesson) {
+      console.error(`Lesson ${num} not found`);
+      process.exit(1);
+    }
     assembleLesson(lesson, titles[num] || `Lesson ${num}`);
   }
 }

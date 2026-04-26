@@ -1,4 +1,3 @@
-
 export const revalidate = 3600;
 
 import { Metadata } from 'next';
@@ -16,18 +15,26 @@ export default function HvacApplicationSuccessPage() {
       <div className="max-w-lg w-full">
         <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 text-center">
           <div className="w-16 h-16 bg-brand-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-            <svg className="w-8 h-8 text-brand-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            <svg
+              className="w-8 h-8 text-brand-green-600"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M5 13l4 4L19 7"
+              />
             </svg>
           </div>
 
-          <h1 className="text-2xl font-bold text-slate-900 mb-3">
-            Application Submitted
-          </h1>
+          <h1 className="text-2xl font-bold text-slate-900 mb-3">Application Submitted</h1>
 
           <p className="text-black mb-8">
-            Thank you for applying to the HVAC Technician program.
-            We&apos;ve received your application and will be in touch soon.
+            Thank you for applying to the HVAC Technician program. We&apos;ve received your
+            application and will be in touch soon.
           </p>
 
           <div className="bg-white rounded-xl p-6 text-left mb-8">
@@ -35,8 +42,8 @@ export default function HvacApplicationSuccessPage() {
             <div className="space-y-3">
               {[
                 'We review your application and funding eligibility within 2 business days',
-                'You\'ll receive an email with your enrollment status and next steps',
-                'If approved, you\'ll complete orientation and start your 12-week program',
+                "You'll receive an email with your enrollment status and next steps",
+                "If approved, you'll complete orientation and start your 12-week program",
                 'Our team is available to answer questions at any time',
               ].map((step, i) => (
                 <div key={i} className="flex items-start gap-3">
@@ -73,7 +80,10 @@ export default function HvacApplicationSuccessPage() {
 
           <p className="mt-6 text-sm text-black">
             Questions? Email{' '}
-            <a href="mailto:info@elevateforhumanity.org" className="text-brand-blue-600 font-medium hover:underline">
+            <a
+              href="mailto:info@elevateforhumanity.org"
+              className="text-brand-blue-600 font-medium hover:underline"
+            >
               info@elevateforhumanity.org
             </a>
           </p>

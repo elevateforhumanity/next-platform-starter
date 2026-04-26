@@ -8,11 +8,11 @@ export interface KPICard {
   deltaLabel: string;
   href: string;
   urgent?: boolean;
-  sub?: string;         // context line below the value
+  sub?: string; // context line below the value
 }
 
 export interface EnrollmentTrendPoint {
-  month: string;        // e.g. "Jan"
+  month: string; // e.g. "Jan"
   enrollments: number;
 }
 
@@ -42,7 +42,7 @@ export interface RecentStudent {
   enrollment_status: string | null;
   created_at: string | null;
   program_name: string | null;
-  href: string;         // resolved: /admin/students/[id]
+  href: string; // resolved: /admin/students/[id]
 }
 
 export interface RecentApplication {
@@ -66,7 +66,7 @@ export interface BlockedProgram {
   slug: string;
   status: string;
   updatedAt: string;
-  href: string;         // resolved: /admin/programs/[id]
+  href: string; // resolved: /admin/programs/[id]
 }
 
 export interface InactiveLearner {
@@ -77,7 +77,7 @@ export interface InactiveLearner {
   email: string | null;
   daysInactive: number;
   programTitle: string | null;
-  href: string;         // resolved: /admin/students/[userId]
+  href: string; // resolved: /admin/students/[userId]
 }
 
 // Raw counts — typed source of truth for KPI rendering.

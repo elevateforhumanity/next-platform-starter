@@ -31,10 +31,7 @@ export async function requireAuth(request: Request): Promise<{
   if (!authHeader && !cookieHeader) {
     return {
       userId: null,
-      error: NextResponse.json(
-        { error: 'Authentication required' },
-        { status: 401 }
-      ),
+      error: NextResponse.json({ error: 'Authentication required' }, { status: 401 }),
     };
   }
 
@@ -44,10 +41,7 @@ export async function requireAuth(request: Request): Promise<{
   if (!supabaseUrl || !supabaseAnonKey) {
     return {
       userId: null,
-      error: NextResponse.json(
-        { error: 'Authentication required' },
-        { status: 401 }
-      ),
+      error: NextResponse.json({ error: 'Authentication required' }, { status: 401 }),
     };
   }
 
@@ -65,10 +59,7 @@ export async function requireAuth(request: Request): Promise<{
     if (!response.ok) {
       return {
         userId: null,
-        error: NextResponse.json(
-          { error: 'Authentication required' },
-          { status: 401 }
-        ),
+        error: NextResponse.json({ error: 'Authentication required' }, { status: 401 }),
       };
     }
 
@@ -76,10 +67,7 @@ export async function requireAuth(request: Request): Promise<{
     if (!user?.id) {
       return {
         userId: null,
-        error: NextResponse.json(
-          { error: 'Authentication required' },
-          { status: 401 }
-        ),
+        error: NextResponse.json({ error: 'Authentication required' }, { status: 401 }),
       };
     }
 
@@ -87,10 +75,7 @@ export async function requireAuth(request: Request): Promise<{
   } catch {
     return {
       userId: null,
-      error: NextResponse.json(
-        { error: 'Authentication failed' },
-        { status: 401 }
-      ),
+      error: NextResponse.json({ error: 'Authentication failed' }, { status: 401 }),
     };
   }
 }
@@ -101,7 +86,7 @@ export async function requireAuth(request: Request): Promise<{
  */
 function extractTokenFromCookies(cookieHeader: string | null): string {
   if (!cookieHeader) return '';
-  const cookies = cookieHeader.split(';').map(c => c.trim());
+  const cookies = cookieHeader.split(';').map((c) => c.trim());
   for (const cookie of cookies) {
     if (cookie.includes('-auth-token')) {
       try {

@@ -1,5 +1,5 @@
 // components/marketing/FinalCTA.tsx
-import Link from "next/link";
+import Link from 'next/link';
 
 export function FinalCTA() {
   return (
@@ -12,13 +12,12 @@ export function FinalCTA() {
                 Ready to see what&apos;s possible?
               </h2>
               <p className="mt-3 text-3xl font-semibold tracking-tight text-white">
-                For learners, employers, and partners who want more than
-                business-as-usual training.
+                For learners, employers, and partners who want more than business-as-usual training.
               </p>
               <p className="mt-3 text-sm text-slate-600">
-                Elevate plugs into the systems you already work with — workforce
-                boards, courts, employers, and community partners. Together we
-                make sure funded training actually leads to outcomes.
+                Elevate plugs into the systems you already work with — workforce boards, courts,
+                employers, and community partners. Together we make sure funded training actually
+                leads to outcomes.
               </p>
             </div>
             <div className="space-y-4">
@@ -37,8 +36,8 @@ export function FinalCTA() {
                 </Link>
               </div>
               <p className="text-xs text-white">
-                Starting in Marion County with approvals expanding as new
-                partners and locations come online.
+                Starting in Marion County with approvals expanding as new partners and locations
+                come online.
               </p>
             </div>
           </div>

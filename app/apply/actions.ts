@@ -11,9 +11,7 @@ import { sendWorkOneHoldEmail } from '@/lib/email/workone-hold';
 // info@elevateforhumanity.org removed — domain MX points to Resend/SES inbound
 // but no mailbox exists there, so emails bounce and get re-suppressed in a loop.
 // Use only the Gmail address until MX records are updated or Resend forwarding is configured.
-const ADMIN_EMAILS = [
-  'elevate4humanityedu@gmail.com',
-];
+const ADMIN_EMAILS = ['elevate4humanityedu@gmail.com'];
 
 async function sendEmailDirect(to: string, subject: string, html: string) {
   try {
@@ -33,15 +31,15 @@ async function resolveCourseId(supabase: any, programInterest: string): Promise<
   const normalized = programInterest.toLowerCase().replace(/-/g, ' ').trim();
   const ALIASES: Record<string, string> = {
     'cna certification': 'cna training',
-    'cna': 'cna training',
+    cna: 'cna training',
     'cosmetology apprenticeship': 'hair stylist esthetician apprenticeship',
-    'accounting': 'bookkeeping',
+    accounting: 'bookkeeping',
     'home health aide': 'direct support professional',
-    'entrepreneurship': 'entrepreneurship small business',
-    'phlebotomy': 'phlebotomy technician',
+    entrepreneurship: 'entrepreneurship small business',
+    phlebotomy: 'phlebotomy technician',
     'barber apprenticeship': 'barber',
     'hvac technician': 'hvac technician',
-    'hvac': 'hvac technician',
+    hvac: 'hvac technician',
     'hvac tech': 'hvac technician',
   };
   const { data: courses } = await supabase.from('training_courses').select('id, course_name');
@@ -77,7 +75,12 @@ async function createStudentAccount(
   userPassword?: string,
   profileRole: string = 'student',
   onboardingPath: string = '/onboarding/learner',
-): Promise<{ userId?: string; accountCreated: boolean; magicLink?: string | null; programId?: string | null }> {
+): Promise<{
+  userId?: string;
+  accountCreated: boolean;
+  magicLink?: string | null;
+  programId?: string | null;
+}> {
   try {
     const normalizedEmail = email.toLowerCase().trim();
     let userId: string | null = null;
@@ -116,17 +119,22 @@ async function createStudentAccount(
 
       if (newUser?.user) {
         userId = newUser.user.id;
-        await supabase.from('profiles').upsert({
-          id: userId,
-          email: normalizedEmail,
-          first_name: firstName,
-          last_name: lastName,
-          full_name: `${firstName} ${lastName}`,
-          role: profileRole,
-        }, { onConflict: 'id' });
+        await supabase.from('profiles').upsert(
+          {
+            id: userId,
+            email: normalizedEmail,
+            first_name: firstName,
+            last_name: lastName,
+            full_name: `${firstName} ${lastName}`,
+            role: profileRole,
+          },
+          { onConflict: 'id' },
+        );
       } else if (createError) {
         // User exists in auth but not profiles — look up directly by email
-        const { data: authLookup } = await supabase.rpc('get_user_id_by_email', { user_email: normalizedEmail }).maybeSingle();
+        const { data: authLookup } = await supabase
+          .rpc('get_user_id_by_email', { user_email: normalizedEmail })
+          .maybeSingle();
         if (authLookup?.id) {
           userId = authLookup.id;
         } else {
@@ -138,14 +146,17 @@ async function createStudentAccount(
         if (userId) {
           await Promise.all([
             supabase.auth.admin.updateUserById(userId, { password }),
-            supabase.from('profiles').upsert({
-              id: userId,
-              email: normalizedEmail,
-              first_name: firstName,
-              last_name: lastName,
-              full_name: `${firstName} ${lastName}`,
-              role: profileRole,
-            }, { onConflict: 'id' }),
+            supabase.from('profiles').upsert(
+              {
+                id: userId,
+                email: normalizedEmail,
+                first_name: firstName,
+                last_name: lastName,
+                full_name: `${firstName} ${lastName}`,
+                role: profileRole,
+              },
+              { onConflict: 'id' },
+            ),
           ]);
         }
       }
@@ -161,15 +172,23 @@ async function createStudentAccount(
     const [courseId, programResult, linkResult] = await Promise.all([
       resolveCourseId(supabase, programInterest),
       supabase.from('programs').select('id').eq('slug', slug).maybeSingle(),
-      supabase.auth.admin.generateLink({
-        type: 'magiclink',
-        email: normalizedEmail,
-        options: { redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org'}${onboardingPath}` },
-      }).catch((err: any) => { logger.warn('Could not generate magic link', err); return null; }),
+      supabase.auth.admin
+        .generateLink({
+          type: 'magiclink',
+          email: normalizedEmail,
+          options: {
+            redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org'}${onboardingPath}`,
+          },
+        })
+        .catch((err: any) => {
+          logger.warn('Could not generate magic link', err);
+          return null;
+        }),
     ]);
 
     const programId = programResult?.data?.id || courseId || null;
-    const magicLink = linkResult && 'data' in linkResult ? linkResult.data?.properties?.action_link || null : null;
+    const magicLink =
+      linkResult && 'data' in linkResult ? linkResult.data?.properties?.action_link || null : null;
 
     // Link user to application
     await supabase
@@ -177,7 +196,12 @@ async function createStudentAccount(
       .update({ user_id: userId, program_id: programId })
       .eq('id', applicationId);
 
-    logger.info('Student account created — awaiting onboarding completion for enrollment', { applicationId, userId, email: normalizedEmail, programId });
+    logger.info('Student account created — awaiting onboarding completion for enrollment', {
+      applicationId,
+      userId,
+      email: normalizedEmail,
+      programId,
+    });
     return { userId, accountCreated: true, magicLink, programId };
   } catch (err) {
     logger.error('Account creation failed', err as Error);
@@ -321,7 +345,10 @@ async function insertApplication(payload: {
   programInterest: string;
   supportNotes: string;
   source: string;
-}): Promise<{ success: true; applicationId: string; referenceNumber: string; email?: string } | { success: false; error: string }> {
+}): Promise<
+  | { success: true; applicationId: string; referenceNumber: string; email?: string }
+  | { success: false; error: string }
+> {
   let supabase: Awaited<ReturnType<typeof getAdminClient>> | null = null;
   try {
     supabase = await getAdminClient();
@@ -358,24 +385,39 @@ async function insertApplication(payload: {
 
     // ── ETPL program lists ──
     const etplPrograms = [
-      'Building Maintenance', 'Building Maintenance Technician',
-      'Business Startup & Marketing', 'CDL (Commercial Driver\'s License)',
-      'Cybersecurity', 'Cybersecurity Fundamentals',
-      'Drug & Alcohol Specimen Collector', 'Electrical Apprenticeship',
-      'Emergency Health & Safety Tech', 'Home Health Aide',
-      'HVAC Technician', 'IT Support Specialist', 'Medical Assistant',
-      'Peer Recovery Specialist', 'Phlebotomy Technician',
-      'Plumbing Apprenticeship', 'Public Safety Reentry Specialist',
+      'Building Maintenance',
+      'Building Maintenance Technician',
+      'Business Startup & Marketing',
+      "CDL (Commercial Driver's License)",
+      'Cybersecurity',
+      'Cybersecurity Fundamentals',
+      'Drug & Alcohol Specimen Collector',
+      'Electrical Apprenticeship',
+      'Emergency Health & Safety Tech',
+      'Home Health Aide',
+      'HVAC Technician',
+      'IT Support Specialist',
+      'Medical Assistant',
+      'Peer Recovery Specialist',
+      'Phlebotomy Technician',
+      'Plumbing Apprenticeship',
+      'Public Safety Reentry Specialist',
       'Welding Certification',
     ];
     const waitlistPrograms = [
-      'Barber Apprenticeship', 'Beauty Career Educator',
-      'CNA (Certified Nursing Assistant)', 'Cosmetology Apprenticeship',
-      'Esthetician Apprenticeship', 'Nail Technician', 'Tax Preparation',
+      'Barber Apprenticeship',
+      'Beauty Career Educator',
+      'CNA (Certified Nursing Assistant)',
+      'Cosmetology Apprenticeship',
+      'Esthetician Apprenticeship',
+      'Nail Technician',
+      'Tax Preparation',
     ];
 
-    const etplList = etplPrograms.map(p => `<li style="padding:1px 0">${p}</li>`).join('');
-    const waitlistList = waitlistPrograms.map(p => `<li style="padding:1px 0">${p}</li>`).join('');
+    const etplList = etplPrograms.map((p) => `<li style="padding:1px 0">${p}</li>`).join('');
+    const waitlistList = waitlistPrograms
+      .map((p) => `<li style="padding:1px 0">${p}</li>`)
+      .join('');
 
     // Login reminder — no password in email, student set it on the form
     const credentialsBlock = [
@@ -391,26 +433,28 @@ async function insertApplication(payload: {
     // timeout doesn't prevent admin from being notified about new applications.
     const adminSubject = `[NEW APPLICATION] ${payload.firstName} ${payload.lastName} — ${programLabel} [${referenceNumber}]`;
     const adminHtml = [
-        emailHeader,
-        `<h3>New ${payload.source.replace(/-/g, ' ')}</h3>`,
-        `<p style="color:#16a34a"><strong>Status: APPROVED — applicant account created and enrolled automatically</strong></p>`,
-        `<table style="border-collapse:collapse;width:100%;max-width:500px">`,
-        `<tr><td style="padding:6px;font-weight:bold">Name</td><td style="padding:6px">${payload.firstName} ${payload.lastName}</td></tr>`,
-        `<tr><td style="padding:6px;font-weight:bold">Email</td><td style="padding:6px"><a href="mailto:${payload.email}">${payload.email}</a></td></tr>`,
-        `<tr><td style="padding:6px;font-weight:bold">Phone</td><td style="padding:6px"><a href="tel:${payload.phone}">${payload.phone}</a></td></tr>`,
-        `<tr><td style="padding:6px;font-weight:bold">Program</td><td style="padding:6px">${programLabel}</td></tr>`,
-        `<tr><td style="padding:6px;font-weight:bold">City / ZIP</td><td style="padding:6px">${payload.city} ${payload.zip}</td></tr>`,
-        `<tr><td style="padding:6px;font-weight:bold">Reference</td><td style="padding:6px">${referenceNumber}</td></tr>`,
-        payload.supportNotes ? `<tr><td style="padding:6px;font-weight:bold">Details</td><td style="padding:6px">${payload.supportNotes}</td></tr>` : '',
-        `</table>`,
-        supabase ? `<p><a href="${siteUrl}/admin/applications">View All Applications</a></p>` : '',
-        emailFooter,
-      ].filter(Boolean).join('');
+      emailHeader,
+      `<h3>New ${payload.source.replace(/-/g, ' ')}</h3>`,
+      `<p style="color:#16a34a"><strong>Status: APPROVED — applicant account created and enrolled automatically</strong></p>`,
+      `<table style="border-collapse:collapse;width:100%;max-width:500px">`,
+      `<tr><td style="padding:6px;font-weight:bold">Name</td><td style="padding:6px">${payload.firstName} ${payload.lastName}</td></tr>`,
+      `<tr><td style="padding:6px;font-weight:bold">Email</td><td style="padding:6px"><a href="mailto:${payload.email}">${payload.email}</a></td></tr>`,
+      `<tr><td style="padding:6px;font-weight:bold">Phone</td><td style="padding:6px"><a href="tel:${payload.phone}">${payload.phone}</a></td></tr>`,
+      `<tr><td style="padding:6px;font-weight:bold">Program</td><td style="padding:6px">${programLabel}</td></tr>`,
+      `<tr><td style="padding:6px;font-weight:bold">City / ZIP</td><td style="padding:6px">${payload.city} ${payload.zip}</td></tr>`,
+      `<tr><td style="padding:6px;font-weight:bold">Reference</td><td style="padding:6px">${referenceNumber}</td></tr>`,
+      payload.supportNotes
+        ? `<tr><td style="padding:6px;font-weight:bold">Details</td><td style="padding:6px">${payload.supportNotes}</td></tr>`
+        : '',
+      `</table>`,
+      supabase ? `<p><a href="${siteUrl}/admin/applications">View All Applications</a></p>` : '',
+      emailFooter,
+    ]
+      .filter(Boolean)
+      .join('');
 
     await Promise.allSettled(
-      ADMIN_EMAILS.map((addr) =>
-        sendEmailDirect(addr, adminSubject, adminHtml)
-      ),
+      ADMIN_EMAILS.map((addr) => sendEmailDirect(addr, adminSubject, adminHtml)),
     ).then((results) => {
       results.forEach((r, i) => {
         if (r.status === 'rejected') {
@@ -424,7 +468,10 @@ async function insertApplication(payload: {
     // Only the admin notification fires here.
     const isPaymentGated = payload.programInterest.toLowerCase().includes('barber');
     if (isPaymentGated) {
-      logger.info('[Apply] Skipping student welcome email — payment-gated program, webhook will send after payment', { email: payload.email });
+      logger.info(
+        '[Apply] Skipping student welcome email — payment-gated program, webhook will send after payment',
+        { email: payload.email },
+      );
       return;
     }
 
@@ -524,7 +571,12 @@ async function insertApplication(payload: {
 
         emailFooter,
       ].join(''),
-    ).catch((err) => { logger.error('[Apply] Student confirmation email failed:', err instanceof Error ? err.message : err); });
+    ).catch((err) => {
+      logger.error(
+        '[Apply] Student confirmation email failed:',
+        err instanceof Error ? err.message : err,
+      );
+    });
   }
 
   // Path A: DB available — insert application, admin enrolls later
@@ -554,24 +606,27 @@ async function insertApplication(payload: {
         .maybeSingle();
 
       if (error) {
-        logger.error(`[Application] DB insert failed for ${payload.email}`, new Error(error.message));
+        logger.error(
+          `[Application] DB insert failed for ${payload.email}`,
+          new Error(error.message),
+        );
       } else {
         // Derive the profile role and onboarding destination from the application source.
         // These are passed into createStudentAccount so the profile is written correctly
         // on first creation — no post-hoc correction needed.
         const roleBySource: Record<string, string> = {
-          'student-application':        'student',
-          'employer-application':       'employer',
-          'staff-application':          'staff',
+          'student-application': 'student',
+          'employer-application': 'employer',
+          'staff-application': 'staff',
           'program-holder-application': 'program_holder',
         };
         const onboardingBySource: Record<string, string> = {
-          'student-application':        '/onboarding/learner',
-          'employer-application':       '/onboarding/employer',
-          'staff-application':          '/onboarding/staff',
+          'student-application': '/onboarding/learner',
+          'employer-application': '/onboarding/employer',
+          'staff-application': '/onboarding/staff',
           'program-holder-application': '/program-holder/onboarding',
         };
-        const profileRole    = roleBySource[payload.source]    ?? 'student';
+        const profileRole = roleBySource[payload.source] ?? 'student';
         const onboardingPath = onboardingBySource[payload.source] ?? '/onboarding/learner';
 
         // Create auth account so the applicant can log in immediately.
@@ -614,10 +669,19 @@ async function insertApplication(payload: {
   // so the form routes to the thank-you page instead of checkout.
   try {
     await sendEnrollmentEmails();
-    return { success: true, status: 'email_only' as const, applicationId: `email-${referenceNumber}`, referenceNumber };
+    return {
+      success: true,
+      status: 'email_only' as const,
+      applicationId: `email-${referenceNumber}`,
+      referenceNumber,
+    };
   } catch (emailError) {
     logger.error(`[Application] Email send failed for ${payload.email}`, emailError as Error);
-    return { success: false, error: 'We could not process your application. Please email us directly at elevate4humanityedu@gmail.com with your name, phone number, and program interest.' };
+    return {
+      success: false,
+      error:
+        'We could not process your application. Please email us directly at elevate4humanityedu@gmail.com with your name, phone number, and program interest.',
+    };
   }
 }
 
@@ -641,7 +705,9 @@ export async function submitStudentApplication(data: StudentApplicationData) {
       data.requestedFundingSource ? `Funding: ${data.requestedFundingSource}` : '',
       data.householdSize ? `Household: ${data.householdSize}` : '',
       data.annualIncomeUsd ? `Income: $${data.annualIncomeUsd}` : '',
-    ].filter(Boolean).join(' | '),
+    ]
+      .filter(Boolean)
+      .join(' | '),
     source: 'student-application',
   });
 
@@ -652,80 +718,93 @@ export async function submitStudentApplication(data: StudentApplicationData) {
   try {
     supabase = await getAdminClient();
   } catch (err) {
-    logger.error('[Apply] getAdminClient failed in submitStudentApplication — eligibility fields not persisted', err);
+    logger.error(
+      '[Apply] getAdminClient failed in submitStudentApplication — eligibility fields not persisted',
+      err,
+    );
   }
   if (supabase && result.applicationId) {
     const requestedSource = data.requestedFundingSource ?? 'self_pay';
-    const needsWorkOne = ['workone', 'workforce_ready_grant'].includes(requestedSource)
-      && !data.hasWorkOneApproval;
+    const needsWorkOne =
+      ['workone', 'workforce_ready_grant'].includes(requestedSource) && !data.hasWorkOneApproval;
 
     const elig = data.eligibilityData;
     const eligStatus = elig?.eligibilityStatus ?? 'incomplete';
-    const fundingStatus = (elig?.hasSnap || elig?.hasTanf || elig?.hasReferral)
-      ? 'pending' : (elig?.otherFundingSource ? 'pending' : 'none');
-    const readinessStatus = eligStatus === 'eligible' ? 'ready'
-      : eligStatus === 'conditional_review' ? 'conditional' : 'not_ready';
+    const fundingStatus =
+      elig?.hasSnap || elig?.hasTanf || elig?.hasReferral
+        ? 'pending'
+        : elig?.otherFundingSource
+          ? 'pending'
+          : 'none';
+    const readinessStatus =
+      eligStatus === 'eligible'
+        ? 'ready'
+        : eligStatus === 'conditional_review'
+          ? 'conditional'
+          : 'not_ready';
 
     const { error: updateErr } = await supabase
       .from('applications')
       .update({
-        requested_funding_source:   requestedSource,
-        household_size:             data.householdSize ?? null,
-        annual_income_usd:          data.annualIncomeUsd ?? null,
-        justice_involved:           data.justiceInvolved ?? false,
-        has_employer_sponsor:       data.hasEmployerSponsor ?? false,
-        has_workone_approval:       data.hasWorkOneApproval ?? false,
-        workone_approval_ref:       data.workoneApprovalRef ?? null,
+        requested_funding_source: requestedSource,
+        household_size: data.householdSize ?? null,
+        annual_income_usd: data.annualIncomeUsd ?? null,
+        justice_involved: data.justiceInvolved ?? false,
+        has_employer_sponsor: data.hasEmployerSponsor ?? false,
+        has_workone_approval: data.hasWorkOneApproval ?? false,
+        workone_approval_ref: data.workoneApprovalRef ?? null,
         recommended_funding_source: data.eligibilityData?.recommended ?? requestedSource,
-        eligibility_data:           data.eligibilityData ?? null,
-        eligibility_status:         needsWorkOne ? 'pending_workone' : eligStatus,
-        funding_status:             fundingStatus,
-        readiness_status:           readinessStatus,
-        support_needs_transport:    elig?.supportNeedsTransport ?? false,
-        support_needs_other:        elig?.supportNeedsOther ?? false,
-        case_manager_name:          elig?.caseManagerName ?? null,
-        case_manager_email:         elig?.caseManagerEmail ?? null,
-        referral_source:            elig?.referralSource ?? null,
-        eligibility_evaluated_at:   new Date().toISOString(),
-        status:                     needsWorkOne ? 'pending_workone' : 'submitted',
+        eligibility_data: data.eligibilityData ?? null,
+        eligibility_status: needsWorkOne ? 'pending_workone' : eligStatus,
+        funding_status: fundingStatus,
+        readiness_status: readinessStatus,
+        support_needs_transport: elig?.supportNeedsTransport ?? false,
+        support_needs_other: elig?.supportNeedsOther ?? false,
+        case_manager_name: elig?.caseManagerName ?? null,
+        case_manager_email: elig?.caseManagerEmail ?? null,
+        referral_source: elig?.referralSource ?? null,
+        eligibility_evaluated_at: new Date().toISOString(),
+        status: needsWorkOne ? 'pending_workone' : 'submitted',
       })
       .eq('id', result.applicationId);
 
     // Insert structured eligibility review record
     if (elig && !updateErr) {
-      const { error: eligReviewErr } = await supabase.from('application_eligibility_reviews').insert({
-        application_id:             result.applicationId,
-        funding_snap:               elig.hasSnap,
-        funding_tanf:               elig.hasTanf,
-        referral_partner:           elig.hasReferral,
-        referral_source:            elig.referralSource || null,
-        case_manager_name:          elig.caseManagerName || null,
-        case_manager_email:         elig.caseManagerEmail || null,
-        other_funding_source:       elig.otherFundingSource || null,
-        age_confirmed:              elig.isAdult,
-        indiana_resident:           elig.isIndianaResident,
-        education_level:            elig.educationLevel || null,
-        has_diploma_or_ged:         elig.hasDiplomaOrGed,
-        enrolled_in_ged_program:    elig.enrolledInGed,
-        work_authorized:            elig.workAuthorized,
-        active_warrant:             elig.activeWarrant,
-        pending_charges:            elig.pendingCharges,
-        probation_or_parole:        elig.onProbationParole,
-        legal_notes:                elig.legalNotes || null,
-        can_attend_schedule:        elig.canAttendSchedule,
-        has_transportation_plan:    elig.hasTransportationPlan,
-        can_meet_physical:          elig.canMeetPhysical,
-        willing_to_follow_rules:    elig.willingToFollowRules,
-        willing_job_readiness:      elig.willingJobReadiness,
-        unavailable_times:          elig.unavailableTimes || null,
-        motivation:                 elig.motivation || null,
-        support_needs_transport:    elig.supportNeedsTransport ?? false,
-        support_needs_other:        elig.supportNeedsOther ?? false,
-        agrees_attendance_policy:   elig.agreesAttendance,
-        agrees_verification_policy: elig.agreesVerification,
-        eligibility_status:         eligStatus,
-        eligibility_reason_codes:   elig.eligibilityReasonCodes ?? [],
-      });
+      const { error: eligReviewErr } = await supabase
+        .from('application_eligibility_reviews')
+        .insert({
+          application_id: result.applicationId,
+          funding_snap: elig.hasSnap,
+          funding_tanf: elig.hasTanf,
+          referral_partner: elig.hasReferral,
+          referral_source: elig.referralSource || null,
+          case_manager_name: elig.caseManagerName || null,
+          case_manager_email: elig.caseManagerEmail || null,
+          other_funding_source: elig.otherFundingSource || null,
+          age_confirmed: elig.isAdult,
+          indiana_resident: elig.isIndianaResident,
+          education_level: elig.educationLevel || null,
+          has_diploma_or_ged: elig.hasDiplomaOrGed,
+          enrolled_in_ged_program: elig.enrolledInGed,
+          work_authorized: elig.workAuthorized,
+          active_warrant: elig.activeWarrant,
+          pending_charges: elig.pendingCharges,
+          probation_or_parole: elig.onProbationParole,
+          legal_notes: elig.legalNotes || null,
+          can_attend_schedule: elig.canAttendSchedule,
+          has_transportation_plan: elig.hasTransportationPlan,
+          can_meet_physical: elig.canMeetPhysical,
+          willing_to_follow_rules: elig.willingToFollowRules,
+          willing_job_readiness: elig.willingJobReadiness,
+          unavailable_times: elig.unavailableTimes || null,
+          motivation: elig.motivation || null,
+          support_needs_transport: elig.supportNeedsTransport ?? false,
+          support_needs_other: elig.supportNeedsOther ?? false,
+          agrees_attendance_policy: elig.agreesAttendance,
+          agrees_verification_policy: elig.agreesVerification,
+          eligibility_status: eligStatus,
+          eligibility_reason_codes: elig.eligibilityReasonCodes ?? [],
+        });
       if (eligReviewErr) {
         logger.error('[Apply] Failed to insert application_eligibility_reviews', eligReviewErr);
       }
@@ -738,12 +817,12 @@ export async function submitStudentApplication(data: StudentApplicationData) {
     // Send WorkOne hold email — non-blocking, failure does not abort the submission
     if (needsWorkOne && !updateErr) {
       sendWorkOneHoldEmail({
-        firstName:       data.firstName,
-        lastName:        data.lastName,
-        email:           data.email,
-        programName:     data.programInterest || 'your selected program',
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: data.email,
+        programName: data.programInterest || 'your selected program',
         referenceNumber: result.referenceNumber,
-      }).catch(err => logger.error('[Apply] WorkOne hold email failed', err));
+      }).catch((err) => logger.error('[Apply] WorkOne hold email failed', err));
     }
 
     return {
@@ -774,7 +853,11 @@ export async function submitProgramHolderApplication(data: ProgramHolderApplicat
   const organizationName = data.organizationName?.trim();
 
   if (!firstName || !lastName || !email || !phone || !organizationName) {
-    return { success: false, error: 'Required fields missing: first name, last name, email, phone, and organization name are all required.' };
+    return {
+      success: false,
+      error:
+        'Required fields missing: first name, last name, email, phone, and organization name are all required.',
+    };
   }
 
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
@@ -796,7 +879,9 @@ export async function submitProgramHolderApplication(data: ProgramHolderApplicat
       data.numberOfStudents ? `Students: ${data.numberOfStudents}` : '',
       data.programsOffered ? `Programs: ${data.programsOffered}` : '',
       data.partnershipGoals ? `Goals: ${data.partnershipGoals}` : '',
-    ].filter(Boolean).join(' | '),
+    ]
+      .filter(Boolean)
+      .join(' | '),
     source: 'program-holder-application',
   });
 
@@ -827,7 +912,12 @@ export async function submitProgramHolderApplication(data: ProgramHolderApplicat
       }
     }
 
-    return { success: true, applicationId: result.applicationId, referenceNumber: result.referenceNumber, redirectTo: `/apply/program-holder/confirmation` };
+    return {
+      success: true,
+      applicationId: result.applicationId,
+      referenceNumber: result.referenceNumber,
+      redirectTo: `/apply/program-holder/confirmation`,
+    };
   }
   return result;
 }
@@ -835,7 +925,12 @@ export async function submitProgramHolderApplication(data: ProgramHolderApplicat
 async function ensureProgramHolderAccount(
   adminDb: any,
   data: ProgramHolderApplicationData,
-): Promise<{ userId: string | null; holderId: string | null; email: string; organizationName: string }> {
+): Promise<{
+  userId: string | null;
+  holderId: string | null;
+  email: string;
+  organizationName: string;
+}> {
   const normalizedEmail = data.email.toLowerCase().trim();
   const fullName = `${data.firstName} ${data.lastName}`.trim();
   const organizationName = data.organizationName?.trim() || fullName || 'Program Holder';
@@ -899,18 +994,16 @@ async function ensureProgramHolderAccount(
     return { userId: null, holderId: null, email: normalizedEmail, organizationName };
   }
 
-  await adminDb
-    .from('profiles')
-    .upsert(
-      {
-        id: userId,
-        email: normalizedEmail,
-        full_name: fullName || organizationName,
-        role: 'program_holder',
-        phone,
-      },
-      { onConflict: 'id', ignoreDuplicates: false }
-    );
+  await adminDb.from('profiles').upsert(
+    {
+      id: userId,
+      email: normalizedEmail,
+      full_name: fullName || organizationName,
+      role: 'program_holder',
+      phone,
+    },
+    { onConflict: 'id', ignoreDuplicates: false },
+  );
 
   const { data: holderRow } = await adminDb
     .from('program_holders')
@@ -925,7 +1018,7 @@ async function ensureProgramHolderAccount(
         approved_at: new Date().toISOString(),
         name: organizationName,
       },
-      { onConflict: 'user_id', ignoreDuplicates: false }
+      { onConflict: 'user_id', ignoreDuplicates: false },
     )
     .select('id')
     .maybeSingle();
@@ -939,10 +1032,7 @@ async function ensureProgramHolderAccount(
       })
       .eq('id', userId);
   } else {
-    await adminDb
-      .from('profiles')
-      .update({ role: 'program_holder' })
-      .eq('id', userId);
+    await adminDb.from('profiles').update({ role: 'program_holder' }).eq('id', userId);
   }
 
   return { userId, holderId: holderRow?.id ?? null, email: normalizedEmail, organizationName };
@@ -984,7 +1074,9 @@ async function sendProgramHolderWelcomeEmail(
         options: { redirectTo },
       });
       if (linkData?.properties?.action_link) setupLink = linkData.properties.action_link;
-    } catch { /* fallback to default setup link */ }
+    } catch {
+      /* fallback to default setup link */
+    }
   }
 
   const logoUrl = `${siteUrl}/images/Elevate_for_Humanity_logo_81bf0fab.jpg`;
@@ -1080,12 +1172,19 @@ export async function submitEmployerApplication(data: EmployerApplicationData) {
       data.website ? `Website: ${data.website}` : '',
       data.hiringNeeds ? `Hiring: ${data.hiringNeeds}` : '',
       data.positionsAvailable ? `Positions: ${data.positionsAvailable}` : '',
-    ].filter(Boolean).join(' | '),
+    ]
+      .filter(Boolean)
+      .join(' | '),
     source: 'employer-application',
   });
 
   if (result.success) {
-    return { success: true, applicationId: result.applicationId, referenceNumber: result.referenceNumber, redirectTo: `/onboarding/employer` };
+    return {
+      success: true,
+      applicationId: result.applicationId,
+      referenceNumber: result.referenceNumber,
+      redirectTo: `/onboarding/employer`,
+    };
   }
   return result;
 }
@@ -1107,12 +1206,19 @@ export async function submitStaffApplication(data: StaffApplicationData) {
       data.certifications ? `Certifications: ${data.certifications}` : '',
       data.availability ? `Availability: ${data.availability}` : '',
       data.coverLetter ? 'Cover letter provided' : '',
-    ].filter(Boolean).join(' | '),
+    ]
+      .filter(Boolean)
+      .join(' | '),
     source: 'staff-application',
   });
 
   if (result.success) {
-    return { success: true, applicationId: result.applicationId, referenceNumber: result.referenceNumber, redirectTo: `/onboarding/staff` };
+    return {
+      success: true,
+      applicationId: result.applicationId,
+      referenceNumber: result.referenceNumber,
+      redirectTo: `/onboarding/staff`,
+    };
   }
   return result;
 }

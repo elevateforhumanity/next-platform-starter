@@ -7,13 +7,71 @@ import { HVAC_COURSE_ID } from '@/lib/courses/hvac-uuids';
 // from this file, creating a circular dependency. Use the literal directly here.
 const BARBER_COURSE_ID_SCHEMA = '3fb5ce19-1cde-434c-a8c6-f138d7d7aa17';
 
-export type CredentialTarget = 'INTERNAL' | 'STATE_BOARD' | 'IC&RC' | 'NAADAC' | 'CUSTOM' | 'DOL_APPRENTICESHIP';
-export type LessonType = 'video' | 'reading' | 'quiz' | 'assignment' | 'practical' | 'checkpoint' | 'exam' | 'live_session' | 'fieldwork' | 'observation' | 'lesson' | 'lab' | 'certification';
-export type ActivityType = 'video' | 'reading' | 'worksheet' | 'reflection' | 'upload' | 'checklist' | 'quiz' | 'observation' | 'discussion' | 'lab';
-export type RequiredArtifact = 'text' | 'video' | 'audio' | 'checklist' | 'document' | 'image' | 'form';
-export type HourCategory = 'didactic' | 'practical' | 'clinical' | 'fieldwork' | 'observation' | 'supervision' | 'self_study' | 'exam';
-export type EvidenceType = 'quiz' | 'upload' | 'video' | 'audio' | 'checklist' | 'observation' | 'attestation' | 'exam' | 'reflection';
-export type DeliveryMethod = 'online_async' | 'online_live' | 'in_person' | 'hybrid' | 'field_based';
+export type CredentialTarget =
+  | 'INTERNAL'
+  | 'STATE_BOARD'
+  | 'IC&RC'
+  | 'NAADAC'
+  | 'CUSTOM'
+  | 'DOL_APPRENTICESHIP';
+export type LessonType =
+  | 'video'
+  | 'reading'
+  | 'quiz'
+  | 'assignment'
+  | 'practical'
+  | 'checkpoint'
+  | 'exam'
+  | 'live_session'
+  | 'fieldwork'
+  | 'observation'
+  | 'lesson'
+  | 'lab'
+  | 'certification';
+export type ActivityType =
+  | 'video'
+  | 'reading'
+  | 'worksheet'
+  | 'reflection'
+  | 'upload'
+  | 'checklist'
+  | 'quiz'
+  | 'observation'
+  | 'discussion'
+  | 'lab';
+export type RequiredArtifact =
+  | 'text'
+  | 'video'
+  | 'audio'
+  | 'checklist'
+  | 'document'
+  | 'image'
+  | 'form';
+export type HourCategory =
+  | 'didactic'
+  | 'practical'
+  | 'clinical'
+  | 'fieldwork'
+  | 'observation'
+  | 'supervision'
+  | 'self_study'
+  | 'exam';
+export type EvidenceType =
+  | 'quiz'
+  | 'upload'
+  | 'video'
+  | 'audio'
+  | 'checklist'
+  | 'observation'
+  | 'attestation'
+  | 'exam'
+  | 'reflection';
+export type DeliveryMethod =
+  | 'online_async'
+  | 'online_live'
+  | 'in_person'
+  | 'hybrid'
+  | 'field_based';
 
 export interface QuizQuestion {
   id: string;
@@ -38,7 +96,11 @@ export interface CompetencyCheck {
 }
 
 export interface UnlockRule {
-  type: 'pass_assessment' | 'approved_submission' | 'complete_previous_module' | 'achieve_competency';
+  type:
+    | 'pass_assessment'
+    | 'approved_submission'
+    | 'complete_previous_module'
+    | 'achieve_competency';
   minimumScore?: number;
   competencyKey?: string;
 }
@@ -141,7 +203,14 @@ export interface BuilderLesson {
   aiGenerated?: boolean;
   approved?: boolean;
   locked?: boolean;
-  generationStatus?: 'draft' | 'structure_seeded' | 'content_hydrated' | 'assessment_ready' | 'verification_ready' | 'certificate_ready' | 'published';
+  generationStatus?:
+    | 'draft'
+    | 'structure_seeded'
+    | 'content_hydrated'
+    | 'assessment_ready'
+    | 'verification_ready'
+    | 'certificate_ready'
+    | 'published';
   domainKey?: string | null;
   hourCategory?: HourCategory | null;
   evidenceType?: EvidenceType | null;
@@ -192,8 +261,22 @@ export type CourseTemplate = ProgramBuilderTemplate & {
 };
 
 export const ASSESSED_LESSON_TYPES: LessonType[] = ['quiz', 'checkpoint', 'exam'];
-export const CONTENT_LESSON_TYPES: LessonType[] = ['video', 'reading', 'lesson', 'practical', 'lab', 'assignment', 'checkpoint'];
-export const PRACTICAL_LESSON_TYPES: LessonType[] = ['practical', 'lab', 'assignment', 'fieldwork', 'observation'];
+export const CONTENT_LESSON_TYPES: LessonType[] = [
+  'video',
+  'reading',
+  'lesson',
+  'practical',
+  'lab',
+  'assignment',
+  'checkpoint',
+];
+export const PRACTICAL_LESSON_TYPES: LessonType[] = [
+  'practical',
+  'lab',
+  'assignment',
+  'fieldwork',
+  'observation',
+];
 
 export const DEFAULT_ACTIVITIES: Record<string, ActivityType[]> = {
   video: ['video', 'reading'],
@@ -223,7 +306,7 @@ export const DEFAULT_ACTIVITIES: Record<string, ActivityType[]> = {
  */
 const _STATIC_COURSE_FALLBACK: Record<string, string> = {
   'barber-apprenticeship': BARBER_COURSE_ID_SCHEMA,
-  'hvac-technician':       HVAC_COURSE_ID,
+  'hvac-technician': HVAC_COURSE_ID,
 };
 
 /** @deprecated Runtime code must use resolveCourseIdFromDb() from program-resolver.ts */

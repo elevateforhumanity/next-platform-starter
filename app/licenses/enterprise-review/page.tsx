@@ -48,11 +48,14 @@ export default function EnterpriseReviewPage() {
           </div>
           <h1 className="text-2xl font-bold text-slate-900 mb-4">Request Submitted</h1>
           <p className="text-slate-500 mb-8">
-            Your enterprise review request has been received. Our team will evaluate your request 
-            and contact you within 5 business days. Source-use licenses require approval and a 
+            Your enterprise review request has been received. Our team will evaluate your request
+            and contact you within 5 business days. Source-use licenses require approval and a
             signed agreement before any access is granted.
           </p>
-          <Link href="/store/licensing" className="text-brand-blue-400 font-semibold hover:underline">
+          <Link
+            href="/store/licensing"
+            className="text-brand-blue-400 font-semibold hover:underline"
+          >
             Return to Platform Licensing
           </Link>
         </div>
@@ -63,22 +66,15 @@ export default function EnterpriseReviewPage() {
   return (
     <div className="min-h-screen bg-white py-16 px-4">
       <Breadcrumbs
-        items={[
-          { label: 'Licenses', href: '/licenses' },
-          { label: 'Enterprise Review' },
-        ]}
+        items={[{ label: 'Licenses', href: '/licenses' }, { label: 'Enterprise Review' }]}
       />
       <div className="max-w-2xl mx-auto">
-        <h1 className="text-3xl font-bold text-slate-900 mb-4">
-          Request Enterprise Review
-        </h1>
-        <p className="text-slate-500 mb-4">
-          Enterprise Source-Use License — Starting at $75,000
-        </p>
+        <h1 className="text-3xl font-bold text-slate-900 mb-4">Request Enterprise Review</h1>
+        <p className="text-slate-500 mb-4">Enterprise Source-Use License — Starting at $75,000</p>
         <p className="text-slate-700 mb-8 text-sm">
-          This license grants internal use of source code only. It does not include ownership, 
-          rebranding rights, resale rights, credential authority, or managed hosting. 
-          All requests require enterprise approval.
+          This license grants internal use of source code only. It does not include ownership,
+          rebranding rights, resale rights, credential authority, or managed hosting. All requests
+          require enterprise approval.
         </p>
 
         <form onSubmit={handleSubmit} className="bg-gray-800 rounded-xl p-8 space-y-6">
@@ -97,9 +93,7 @@ export default function EnterpriseReviewPage() {
 
           <div className="grid md:grid-cols-2 gap-6">
             <div>
-              <label className="block text-sm font-semibold text-white mb-2">
-                Contact Name *
-              </label>
+              <label className="block text-sm font-semibold text-white mb-2">Contact Name *</label>
               <input
                 type="text"
                 required
@@ -109,9 +103,7 @@ export default function EnterpriseReviewPage() {
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-white mb-2">
-                Title *
-              </label>
+              <label className="block text-sm font-semibold text-white mb-2">Title *</label>
               <input
                 type="text"
                 required
@@ -124,9 +116,7 @@ export default function EnterpriseReviewPage() {
 
           <div className="grid md:grid-cols-2 gap-6">
             <div>
-              <label className="block text-sm font-semibold text-white mb-2">
-                Email *
-              </label>
+              <label className="block text-sm font-semibold text-white mb-2">Email *</label>
               <input
                 type="email"
                 required
@@ -136,9 +126,7 @@ export default function EnterpriseReviewPage() {
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-white mb-2">
-                Phone *
-              </label>
+              <label className="block text-sm font-semibold text-white mb-2">Phone *</label>
               <input
                 type="tel"
                 required
@@ -232,7 +220,9 @@ export default function EnterpriseReviewPage() {
           </button>
 
           {status === 'error' && (
-            <p className="text-brand-red-400 text-center">Something went wrong. Please try again.</p>
+            <p className="text-brand-red-400 text-center">
+              Something went wrong. Please try again.
+            </p>
           )}
         </form>
       </div>

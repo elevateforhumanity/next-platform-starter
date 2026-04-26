@@ -1,4 +1,5 @@
 # Phlebotomy Technician
+
 ## Program Syllabus
 
 **Provider:** Elevate for Humanity  
@@ -6,7 +7,7 @@
 **Program Code:** PHLEB-TECH  
 **Duration:** 4-8 Weeks (120-160 Hours)  
 **Delivery Method:** Classroom + Clinical Rotations  
-**Funding:** WRG • WIOA • Workforce Grants  
+**Funding:** WRG • WIOA • Workforce Grants
 
 ---
 
@@ -32,6 +33,7 @@ Launch your healthcare career in just 4-8 weeks! Learn proper blood draw techniq
 ## Course Outline
 
 ### Module 1: Introduction to Phlebotomy (20 hours)
+
 - Role and responsibilities of phlebotomist
 - Healthcare delivery systems
 - Medical terminology
@@ -40,6 +42,7 @@ Launch your healthcare career in just 4-8 weeks! Learn proper blood draw techniq
 - HIPAA and patient confidentiality
 
 ### Module 2: Safety & Infection Control (20 hours)
+
 - Standard precautions
 - Bloodborne pathogens
 - Personal protective equipment (PPE)
@@ -49,6 +52,7 @@ Launch your healthcare career in just 4-8 weeks! Learn proper blood draw techniq
 - OSHA regulations
 
 ### Module 3: Venipuncture Techniques (40 hours)
+
 - Venipuncture equipment and supplies
 - Vein selection and site preparation
 - Evacuated tube system
@@ -58,6 +62,7 @@ Launch your healthcare career in just 4-8 weeks! Learn proper blood draw techniq
 - Specimen labeling and handling
 
 ### Module 4: Capillary Collection (20 hours)
+
 - Capillary puncture sites
 - Finger stick technique
 - Heel stick (infant collection)
@@ -66,6 +71,7 @@ Launch your healthcare career in just 4-8 weeks! Learn proper blood draw techniq
 - Glucose monitoring
 
 ### Module 5: Special Collections & Procedures (20 hours)
+
 - Blood cultures
 - Glucose tolerance tests
 - Therapeutic drug monitoring
@@ -74,6 +80,7 @@ Launch your healthcare career in just 4-8 weeks! Learn proper blood draw techniq
 - Difficult draws and problem-solving
 
 ### Module 6: Specimen Processing & Quality (20 hours)
+
 - Specimen handling and transport
 - Centrifugation procedures
 - Quality control and quality assurance
@@ -82,6 +89,7 @@ Launch your healthcare career in just 4-8 weeks! Learn proper blood draw techniq
 - Laboratory information systems
 
 ### Module 7: Patient Interaction & Professionalism (10 hours)
+
 - Communication skills
 - Patient identification
 - Managing anxious patients
@@ -90,6 +98,7 @@ Launch your healthcare career in just 4-8 weeks! Learn proper blood draw techniq
 - Customer service
 
 ### Module 8: Clinical Practicum (40-80 hours)
+
 - Supervised venipuncture in clinical setting
 - Minimum 100 successful blood draws
 - Patient interaction
@@ -134,6 +143,7 @@ Launch your healthcare career in just 4-8 weeks! Learn proper blood draw techniq
 ## Clinical Site Requirements
 
 Students complete practicum at approved facilities:
+
 - Hospitals and medical centers
 - Outpatient laboratories
 - Physician offices
@@ -170,6 +180,7 @@ Students complete practicum at approved facilities:
 ## Certifications Earned
 
 Students are prepared to sit for:
+
 1. **Certified Phlebotomy Technician (CPT)** - NHA
 2. **Phlebotomy Technician (PBT)** - ASCP
 3. **Certified Phlebotomy Technician** - NCCT

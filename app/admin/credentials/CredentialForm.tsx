@@ -67,13 +67,28 @@ const BLANK: Omit<CredentialRow, 'id'> = {
 // When issuer_type changes, auto-set sensible defaults
 function deriveDefaults(issuer_type: string): Partial<typeof BLANK> {
   if (issuer_type === 'elevate_issued') {
-    return { issuing_authority: 'Elevate for Humanity', proctor_authority: 'elevate', delivery: 'internal', verification_source: 'elevate' };
+    return {
+      issuing_authority: 'Elevate for Humanity',
+      proctor_authority: 'elevate',
+      delivery: 'internal',
+      verification_source: 'elevate',
+    };
   }
   if (issuer_type === 'elevate_proctored') {
-    return { proctor_authority: 'elevate', delivery: 'internal', verification_source: 'issuer_api', requires_exam: true, exam_type: 'proctored' };
+    return {
+      proctor_authority: 'elevate',
+      delivery: 'internal',
+      verification_source: 'issuer_api',
+      requires_exam: true,
+      exam_type: 'proctored',
+    };
   }
   if (issuer_type === 'partner_delivered') {
-    return { proctor_authority: 'external_vendor', delivery: 'external', verification_source: 'external_link' };
+    return {
+      proctor_authority: 'external_vendor',
+      delivery: 'external',
+      verification_source: 'external_link',
+    };
   }
   return {};
 }
@@ -84,22 +99,29 @@ export default function CredentialForm({ initial, mode }: CredentialFormProps) {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
 
-  const set = (k: keyof typeof form, v: unknown) => setForm(f => ({ ...f, [k]: v }));
+  const set = (k: keyof typeof form, v: unknown) => setForm((f) => ({ ...f, [k]: v }));
 
   const handleIssuerTypeChange = (val: string) => {
-    setForm(f => ({ ...f, issuer_type: val, ...deriveDefaults(val) }));
+    setForm((f) => ({ ...f, issuer_type: val, ...deriveDefaults(val) }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.name.trim()) { setError('Name is required'); return; }
-    if (!form.issuing_authority.trim()) { setError('Issuing authority is required'); return; }
+    if (!form.name.trim()) {
+      setError('Name is required');
+      return;
+    }
+    if (!form.issuing_authority.trim()) {
+      setError('Issuing authority is required');
+      return;
+    }
     setSaving(true);
     setError('');
 
-    const url = mode === 'create'
-      ? '/api/admin/credentials'
-      : `/api/admin/credentials/${(initial as any).id}`;
+    const url =
+      mode === 'create'
+        ? '/api/admin/credentials'
+        : `/api/admin/credentials/${(initial as any).id}`;
     const method = mode === 'create' ? 'POST' : 'PATCH';
 
     try {
@@ -119,17 +141,25 @@ export default function CredentialForm({ initial, mode }: CredentialFormProps) {
     }
   };
 
-  const field = (label: string, key: keyof typeof form, opts?: {
-    placeholder?: string; multiline?: boolean; required?: boolean; type?: string;
-  }) => (
+  const field = (
+    label: string,
+    key: keyof typeof form,
+    opts?: {
+      placeholder?: string;
+      multiline?: boolean;
+      required?: boolean;
+      type?: string;
+    },
+  ) => (
     <div>
       <label className="block text-xs font-medium text-slate-600 mb-1">
-        {label}{opts?.required && <span className="text-red-500 ml-0.5">*</span>}
+        {label}
+        {opts?.required && <span className="text-red-500 ml-0.5">*</span>}
       </label>
       {opts?.multiline ? (
         <textarea
           value={(form[key] as string) ?? ''}
-          onChange={e => set(key, e.target.value)}
+          onChange={(e) => set(key, e.target.value)}
           rows={3}
           placeholder={opts.placeholder}
           className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-brand-blue-400 focus:border-transparent resize-none"
@@ -138,7 +168,16 @@ export default function CredentialForm({ initial, mode }: CredentialFormProps) {
         <input
           type={opts?.type ?? 'text'}
           value={(form[key] as string | number) ?? ''}
-          onChange={e => set(key, opts?.type === 'number' ? (e.target.value ? Number(e.target.value) : null) : e.target.value)}
+          onChange={(e) =>
+            set(
+              key,
+              opts?.type === 'number'
+                ? e.target.value
+                  ? Number(e.target.value)
+                  : null
+                : e.target.value,
+            )
+          }
           placeholder={opts?.placeholder}
           required={opts?.required}
           className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-brand-blue-400 focus:border-transparent"
@@ -147,15 +186,23 @@ export default function CredentialForm({ initial, mode }: CredentialFormProps) {
     </div>
   );
 
-  const select = (label: string, key: keyof typeof form, options: { value: string; label: string }[]) => (
+  const select = (
+    label: string,
+    key: keyof typeof form,
+    options: { value: string; label: string }[],
+  ) => (
     <div>
       <label className="block text-xs font-medium text-slate-600 mb-1">{label}</label>
       <select
         value={(form[key] as string) ?? ''}
-        onChange={e => set(key, e.target.value)}
+        onChange={(e) => set(key, e.target.value)}
         className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-brand-blue-400 focus:border-transparent bg-white"
       >
-        {options.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
+        {options.map((o) => (
+          <option key={o.value} value={o.value}>
+            {o.label}
+          </option>
+        ))}
       </select>
     </div>
   );
@@ -165,7 +212,7 @@ export default function CredentialForm({ initial, mode }: CredentialFormProps) {
       <input
         type="checkbox"
         checked={form[key] as boolean}
-        onChange={e => set(key, e.target.checked)}
+        onChange={(e) => set(key, e.target.checked)}
         className="w-4 h-4 mt-0.5 rounded border-slate-300 text-brand-blue-600"
       />
       <div>
@@ -179,7 +226,6 @@ export default function CredentialForm({ initial, mode }: CredentialFormProps) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-8">
-
       {error && (
         <div className="flex items-center gap-2 bg-red-50 border border-red-200 rounded-lg px-4 py-3 text-sm text-red-700">
           <AlertCircle className="w-4 h-4 shrink-0" />
@@ -192,15 +238,29 @@ export default function CredentialForm({ initial, mode }: CredentialFormProps) {
         <h2 className="font-semibold text-slate-900 flex items-center gap-2">
           <Shield className="w-4 h-4 text-brand-blue-600" />
           Authority Lane
-          <span className="text-xs font-normal text-slate-400 ml-1">— determines who issues and who proctors</span>
+          <span className="text-xs font-normal text-slate-400 ml-1">
+            — determines who issues and who proctors
+          </span>
         </h2>
 
         <div className="grid sm:grid-cols-3 gap-3">
           {[
-            { value: 'elevate_issued',    label: 'Elevate Issued',    desc: 'Elevate owns curriculum, assessment, and certificate' },
-            { value: 'elevate_proctored', label: 'Elevate Proctored', desc: 'National body issues; Elevate administers the exam' },
-            { value: 'partner_delivered', label: 'Partner Delivered', desc: 'Vendor system; Elevate prepares learners only' },
-          ].map(opt => (
+            {
+              value: 'elevate_issued',
+              label: 'Elevate Issued',
+              desc: 'Elevate owns curriculum, assessment, and certificate',
+            },
+            {
+              value: 'elevate_proctored',
+              label: 'Elevate Proctored',
+              desc: 'National body issues; Elevate administers the exam',
+            },
+            {
+              value: 'partner_delivered',
+              label: 'Partner Delivered',
+              desc: 'Vendor system; Elevate prepares learners only',
+            },
+          ].map((opt) => (
             <button
               key={opt.value}
               type="button"
@@ -220,7 +280,8 @@ export default function CredentialForm({ initial, mode }: CredentialFormProps) {
         {isElevateAuthority && (
           <div className="flex items-center gap-2 bg-brand-blue-50 border border-brand-blue-200 rounded-lg px-3 py-2 text-xs text-brand-blue-800">
             <Shield className="w-3.5 h-3.5 shrink-0" />
-            Elevate Proctored Certification — external courses cannot substitute for this credential in programs.
+            Elevate Proctored Certification — external courses cannot substitute for this credential
+            in programs.
           </div>
         )}
       </section>
@@ -229,12 +290,21 @@ export default function CredentialForm({ initial, mode }: CredentialFormProps) {
       <section className="rounded-xl border border-slate-200 p-6 space-y-4">
         <h2 className="font-semibold text-slate-900">Credential Identity</h2>
         <div className="grid sm:grid-cols-2 gap-4">
-          {field('Credential Name', 'name', { required: true, placeholder: 'e.g. EPA Section 608 Certification' })}
+          {field('Credential Name', 'name', {
+            required: true,
+            placeholder: 'e.g. EPA Section 608 Certification',
+          })}
           {field('Abbreviation', 'abbreviation', { placeholder: 'e.g. EPA-608' })}
         </div>
-        {field('Description', 'description', { multiline: true, placeholder: 'What this credential certifies and who it is for' })}
+        {field('Description', 'description', {
+          multiline: true,
+          placeholder: 'What this credential certifies and who it is for',
+        })}
         <div className="grid sm:grid-cols-2 gap-4">
-          {field('Issuing Authority', 'issuing_authority', { required: true, placeholder: 'e.g. Elevate for Humanity, ACT Inc., EPA' })}
+          {field('Issuing Authority', 'issuing_authority', {
+            required: true,
+            placeholder: 'e.g. Elevate for Humanity, ACT Inc., EPA',
+          })}
           {field('Issuing Authority URL', 'issuing_authority_url', { placeholder: 'https://...' })}
         </div>
       </section>
@@ -245,30 +315,36 @@ export default function CredentialForm({ initial, mode }: CredentialFormProps) {
         <div className="grid sm:grid-cols-3 gap-4">
           {select('Credential Stack', 'credential_stack', [
             { value: 'workforce_readiness', label: 'Workforce Readiness' },
-            { value: 'customer_service',    label: 'Customer Service & Retail' },
-            { value: 'hvac_trades',         label: 'Technical & Skilled Trades' },
-            { value: 'workkeys',            label: 'WorkKeys Assessment' },
-            { value: 'digital_workforce',   label: 'Digital Workforce Skills' },
-            { value: 'other',               label: 'Other' },
+            { value: 'customer_service', label: 'Customer Service & Retail' },
+            { value: 'hvac_trades', label: 'Technical & Skilled Trades' },
+            { value: 'workkeys', label: 'WorkKeys Assessment' },
+            { value: 'digital_workforce', label: 'Digital Workforce Skills' },
+            { value: 'other', label: 'Other' },
           ])}
           {select('Stack Level', 'stack_level', [
-            { value: 'foundational',  label: 'Foundational' },
-            { value: 'intermediate',  label: 'Intermediate' },
-            { value: 'advanced',      label: 'Advanced' },
+            { value: 'foundational', label: 'Foundational' },
+            { value: 'intermediate', label: 'Intermediate' },
+            { value: 'advanced', label: 'Advanced' },
           ])}
           {select('Delivery', 'delivery', [
             { value: 'internal', label: 'Internal (LMS)' },
             { value: 'external', label: 'External (Partner)' },
-            { value: 'hybrid',   label: 'Hybrid' },
+            { value: 'hybrid', label: 'Hybrid' },
           ])}
         </div>
         <div className="grid sm:grid-cols-3 gap-4">
-          {field('National Registry ID', 'national_registry_id', { placeholder: 'e.g. ACT-NCRC, EPA-608-UNIVERSAL' })}
+          {field('National Registry ID', 'national_registry_id', {
+            placeholder: 'e.g. ACT-NCRC, EPA-608-UNIVERSAL',
+          })}
           {field('CIP Code', 'cip_code', { placeholder: 'e.g. 47.0201' })}
           {field('SOC Code', 'soc_code', { placeholder: 'e.g. 49-9021' })}
         </div>
         <div className="flex flex-wrap gap-6">
-          {checkbox('WIOA Eligible', 'wioa_eligible', 'Eligible for Workforce Innovation and Opportunity Act funding')}
+          {checkbox(
+            'WIOA Eligible',
+            'wioa_eligible',
+            'Eligible for Workforce Innovation and Opportunity Act funding',
+          )}
           {checkbox('DOL Registered', 'dol_registered', 'Registered with the Department of Labor')}
         </div>
       </section>
@@ -276,28 +352,29 @@ export default function CredentialForm({ initial, mode }: CredentialFormProps) {
       {/* Exam */}
       <section className="rounded-xl border border-slate-200 p-6 space-y-4">
         <h2 className="font-semibold text-slate-900">Exam / Assessment</h2>
-        <div className="flex flex-wrap gap-6">
-          {checkbox('Requires Exam', 'requires_exam')}
-        </div>
+        <div className="flex flex-wrap gap-6">{checkbox('Requires Exam', 'requires_exam')}</div>
         {form.requires_exam && (
           <div className="grid sm:grid-cols-3 gap-4">
             {select('Exam Type', 'exam_type', [
-              { value: 'proctored',   label: 'Proctored Exam' },
-              { value: 'vendor',      label: 'Vendor Platform' },
-              { value: 'assessment',  label: 'Assessment' },
-              { value: 'portfolio',   label: 'Portfolio' },
-              { value: 'none',        label: 'None' },
+              { value: 'proctored', label: 'Proctored Exam' },
+              { value: 'vendor', label: 'Vendor Platform' },
+              { value: 'assessment', label: 'Assessment' },
+              { value: 'portfolio', label: 'Portfolio' },
+              { value: 'none', label: 'None' },
             ])}
             {select('Exam Location', 'exam_location', [
-              { value: 'on_site',       label: 'On-Site (Elevate)' },
-              { value: 'online',        label: 'Online' },
-              { value: 'testing_center',label: 'Testing Center' },
-              { value: 'partner_site',  label: 'Partner Site' },
+              { value: 'on_site', label: 'On-Site (Elevate)' },
+              { value: 'online', label: 'Online' },
+              { value: 'testing_center', label: 'Testing Center' },
+              { value: 'partner_site', label: 'Partner Site' },
             ])}
             {field('Passing Score (%)', 'passing_score', { type: 'number', placeholder: '70' })}
           </div>
         )}
-        {field('Renewal Period (months)', 'renewal_period_months', { type: 'number', placeholder: 'Leave blank if no expiry' })}
+        {field('Renewal Period (months)', 'renewal_period_months', {
+          type: 'number',
+          placeholder: 'Leave blank if no expiry',
+        })}
       </section>
 
       {/* Verification */}
@@ -305,13 +382,15 @@ export default function CredentialForm({ initial, mode }: CredentialFormProps) {
         <h2 className="font-semibold text-slate-900">Verification</h2>
         <div className="grid sm:grid-cols-2 gap-4">
           {select('Verification Source', 'verification_source', [
-            { value: 'elevate',       label: 'Elevate (internal)' },
-            { value: 'issuer_api',    label: 'Issuer API' },
+            { value: 'elevate', label: 'Elevate (internal)' },
+            { value: 'issuer_api', label: 'Issuer API' },
             { value: 'external_link', label: 'External Link' },
-            { value: 'open_badges',   label: 'Open Badges' },
-            { value: 'credly',        label: 'Credly' },
+            { value: 'open_badges', label: 'Open Badges' },
+            { value: 'credly', label: 'Credly' },
           ])}
-          {field('Verification URL', 'verification_url', { placeholder: 'https://verify.example.com' })}
+          {field('Verification URL', 'verification_url', {
+            placeholder: 'https://verify.example.com',
+          })}
         </div>
       </section>
 

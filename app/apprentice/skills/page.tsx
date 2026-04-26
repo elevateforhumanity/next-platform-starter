@@ -14,7 +14,9 @@ export const dynamic = 'force-dynamic';
 
 export default async function ApprenticeSkillsPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     redirect('/login?redirect=/apprentice/skills');
@@ -63,7 +65,7 @@ export default async function ApprenticeSkillsPage() {
         { name: 'OSHA Safety Standards', status: 'completed' },
         { name: 'Personal Protective Equipment', status: 'completed' },
         { name: 'Emergency Procedures', status: 'in-progress' },
-      ]
+      ],
     },
     {
       name: 'Technical Skills',
@@ -71,7 +73,7 @@ export default async function ApprenticeSkillsPage() {
         { name: 'Basic Tool Operation', status: 'completed' },
         { name: 'Equipment Maintenance', status: 'in-progress' },
         { name: 'Quality Control', status: 'not-started' },
-      ]
+      ],
     },
     {
       name: 'Professional Development',
@@ -79,11 +81,12 @@ export default async function ApprenticeSkillsPage() {
         { name: 'Communication Skills', status: 'in-progress' },
         { name: 'Time Management', status: 'not-started' },
         { name: 'Customer Service', status: 'not-started' },
-      ]
+      ],
     },
   ];
 
-  const displayCategories = skillCategories && skillCategories.length > 0 ? skillCategories : defaultCategories;
+  const displayCategories =
+    skillCategories && skillCategories.length > 0 ? skillCategories : defaultCategories;
 
   const getStatusIcon = (status: string) => {
     switch (status) {
@@ -110,10 +113,7 @@ export default async function ApprenticeSkillsPage() {
   return (
     <div className="min-h-screen bg-white">
       <Breadcrumbs
-        items={[
-          { label: 'Apprentice Portal', href: '/apprentice' },
-          { label: 'Skills' },
-        ]}
+        items={[{ label: 'Apprentice Portal', href: '/apprentice' }, { label: 'Skills' }]}
       />
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="mb-8">
@@ -126,12 +126,18 @@ export default async function ApprenticeSkillsPage() {
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold">Overall Progress</h2>
             <span className="text-2xl font-bold text-brand-blue-600">
-              {completedSkills} / {totalSkills || displayCategories.reduce((sum: number, cat: any) => sum + (cat.skills?.length || 0), 0)} skills
+              {completedSkills} /{' '}
+              {totalSkills ||
+                displayCategories.reduce(
+                  (sum: number, cat: any) => sum + (cat.skills?.length || 0),
+                  0,
+                )}{' '}
+              skills
             </span>
           </div>
           <div className="bg-gray-200 rounded-full h-4 mb-2">
-            <div 
-              className="bg-white h-4 rounded-full transition-all" 
+            <div
+              className="bg-white h-4 rounded-full transition-all"
               style={{ width: `${progressPercent}%` }}
             />
           </div>
@@ -152,13 +158,21 @@ export default async function ApprenticeSkillsPage() {
               </div>
               <div className="divide-y">
                 {category.skills?.map((skill: any, skillIndex: number) => (
-                  <div key={skillIndex} className="p-4 flex items-center justify-between hover:bg-white">
+                  <div
+                    key={skillIndex}
+                    className="p-4 flex items-center justify-between hover:bg-white"
+                  >
                     <div className="flex items-center gap-4">
                       {getStatusIcon(skill.status || skill.progress?.[0]?.status)}
                       <span className="font-medium">{skill.name}</span>
                     </div>
-                    <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(skill.status || skill.progress?.[0]?.status || 'not-started')}`}>
-                      {(skill.status || skill.progress?.[0]?.status || 'not-started').replace('-', ' ')}
+                    <span
+                      className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(skill.status || skill.progress?.[0]?.status || 'not-started')}`}
+                    >
+                      {(skill.status || skill.progress?.[0]?.status || 'not-started').replace(
+                        '-',
+                        ' ',
+                      )}
                     </span>
                   </div>
                 ))}

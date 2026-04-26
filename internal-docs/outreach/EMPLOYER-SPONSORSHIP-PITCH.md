@@ -1,4 +1,5 @@
 # Employer Sponsorship Outreach
+
 ## Elevate for Humanity Career and Training Institute
 
 ---
@@ -16,12 +17,14 @@ Elevate for Humanity partners with employers to reduce hiring risk and shorten o
 We prepare candidates with job-ready skills before hire, then offer an employer-sponsored tuition reimbursement model tied to retention.
 
 **How it works:**
+
 - We train and screen candidates
 - You hire qualified graduates
 - Tuition is reimbursed after hire through a simple monthly schedule
 - Payments stop if employment ends
 
 **Why employers partner with us:**
+
 - Reduced onboarding costs
 - Faster time-to-productivity
 - Improved retention
@@ -38,12 +41,12 @@ Elevate for Humanity Career and Training Institute
 
 ### Structure
 
-| Item | Detail |
-|------|--------|
-| Tuition | $5,000 |
+| Item                 | Detail              |
+| -------------------- | ------------------- |
+| Tuition              | $5,000              |
 | Reimbursement amount | $250–$400 per month |
-| Term | 12–20 months |
-| Payments begin | After hire |
+| Term                 | 12–20 months        |
+| Payments begin       | After hire          |
 
 ### Employer Commitments
 

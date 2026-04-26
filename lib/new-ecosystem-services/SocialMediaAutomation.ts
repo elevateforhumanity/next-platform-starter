@@ -116,11 +116,7 @@ export class SocialMediaAutomation {
    * Select platform for rotation
    */
   private selectPlatform(index: number): 'facebook' | 'linkedin' | 'youtube' {
-    const platforms: ('facebook' | 'linkedin' | 'youtube')[] = [
-      'facebook',
-      'linkedin',
-      'youtube',
-    ];
+    const platforms: ('facebook' | 'linkedin' | 'youtube')[] = ['facebook', 'linkedin', 'youtube'];
     return platforms[index % platforms.length];
   }
   /**
@@ -144,8 +140,7 @@ export class SocialMediaAutomation {
         '💡 End your day with purpose: Learn about our nonprofit mission and community impact. 501(c)(3) serving Indiana communities. #Nonprofit #CommunityImpact',
       ],
     };
-    const slot =
-      timeSlot === 0 ? 'morning' : timeSlot === 1 ? 'afternoon' : 'evening';
+    const slot = timeSlot === 0 ? 'morning' : timeSlot === 1 ? 'afternoon' : 'evening';
     const templates = contentTemplates[slot];
     return templates[Math.floor(Math.random() * templates.length)];
   }
@@ -184,7 +179,8 @@ export class SocialMediaAutomation {
       //
       // Trigger Zapier webhook
       await this.triggerZapier(post);
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error logged
       post.status = 'failed';
     }
@@ -293,8 +289,7 @@ export class SocialMediaAutomation {
    * Trigger Zapier webhook for blog integration
    */
   private async triggerZapier(post: SocialMediaPost): Promise<void> {
-    const zapierWebhook =
-      'https://hooks.zapier.com/hooks/catch/YOUR_WEBHOOK_ID/';
+    const zapierWebhook = 'https://hooks.zapier.com/hooks/catch/YOUR_WEBHOOK_ID/';
     try {
       await fetch(zapierWebhook, {
         method: 'POST',
@@ -310,7 +305,8 @@ export class SocialMediaAutomation {
         }),
       });
       //
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
     }
   }
@@ -322,7 +318,15 @@ export class SocialMediaAutomation {
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0);
     const todaysPosts = this.scheduledPosts.filter((post) => {
       const postTime = new Date(post.scheduledTime);
-      const postDate = new Date(postTime.getFullYear(), postTime.getMonth(), postTime.getDate(), 0, 0, 0, 0);
+      const postDate = new Date(
+        postTime.getFullYear(),
+        postTime.getMonth(),
+        postTime.getDate(),
+        0,
+        0,
+        0,
+        0,
+      );
       return postDate.getTime() === today.getTime();
     });
     // Fetch engagement metrics
@@ -336,18 +340,14 @@ export class SocialMediaAutomation {
         comments: acc.comments + (post.engagement?.comments || 0),
         views: acc.views + (post.engagement?.views || 0),
       }),
-      { likes: 0, shares: 0, comments: 0, views: 0 }
+      { likes: 0, shares: 0, comments: 0, views: 0 },
     );
     const topPerforming = todaysPosts
       .sort((a, b) => {
         const aTotal =
-          (a.engagement?.likes || 0) +
-          (a.engagement?.shares || 0) +
-          (a.engagement?.comments || 0);
+          (a.engagement?.likes || 0) + (a.engagement?.shares || 0) + (a.engagement?.comments || 0);
         const bTotal =
-          (b.engagement?.likes || 0) +
-          (b.engagement?.shares || 0) +
-          (b.engagement?.comments || 0);
+          (b.engagement?.likes || 0) + (b.engagement?.shares || 0) + (b.engagement?.comments || 0);
         return bTotal - aTotal;
       })
       .slice(0, 3);
@@ -448,7 +448,7 @@ export class SocialMediaAutomation {
       () => {
         this.scheduleDailyPosts();
       },
-      24 * 60 * 60 * 1000
+      24 * 60 * 60 * 1000,
     );
     //
     //

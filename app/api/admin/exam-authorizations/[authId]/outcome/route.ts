@@ -11,10 +11,7 @@ import { safeError, safeDbError } from '@/lib/api/safe-error';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
-export async function POST(
-  request: Request,
-  { params }: { params: Promise<{ authId: string }> }
-) {
+export async function POST(request: Request, { params }: { params: Promise<{ authId: string }> }) {
   const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;
 
@@ -40,7 +37,8 @@ export async function POST(
     .limit(1)
     .maybeSingle();
 
-  if (schedErr || !schedRow) return safeError('No scheduling record found for this authorization', 404);
+  if (schedErr || !schedRow)
+    return safeError('No scheduling record found for this authorization', 404);
   if (schedRow.outcome) return safeError('Outcome already recorded for this scheduling row', 409);
 
   // Record outcome on scheduling row

@@ -14,8 +14,9 @@ export const dynamic = 'force-dynamic';
 export default async function CreateShopPage() {
   const supabase = await createClient();
 
-
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/employer/shop/create');
 
   const { data: profile } = await supabase
@@ -43,12 +44,8 @@ export default async function CreateShopPage() {
     <div className="min-h-screen bg-white py-12">
       <div className="max-w-2xl mx-auto px-4">
         <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-8">
-          <h1 className="text-3xl font-bold text-black mb-2">
-            Create Your Shop
-          </h1>
-          <p className="text-black mb-8">
-            Set up your shop to start managing apprenticeships
-          </p>
+          <h1 className="text-3xl font-bold text-black mb-2">Create Your Shop</h1>
+          <p className="text-black mb-8">Set up your shop to start managing apprenticeships</p>
 
           <form action={createShop} className="space-y-6">
             <div>

@@ -12,7 +12,7 @@ export const dynamic = 'force-dynamic';
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: Promise<{ submissionId: string }> }
+  { params }: { params: Promise<{ submissionId: string }> },
 ) {
   const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;

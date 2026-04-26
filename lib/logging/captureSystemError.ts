@@ -7,7 +7,7 @@ export async function captureSystemError(
   context?: Record<string, any>,
   errorStack?: string,
   userId?: string,
-  requestId?: string
+  requestId?: string,
 ): Promise<void> {
   try {
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -28,7 +28,8 @@ export async function captureSystemError(
       user_id: userId,
       request_id: requestId,
     });
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     // Don't throw - error capture should never break the app
     logger.error('[captureSystemError] Failed to capture error:', error);
   }

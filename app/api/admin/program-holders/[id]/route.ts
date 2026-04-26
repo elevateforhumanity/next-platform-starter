@@ -8,14 +8,10 @@ export const maxDuration = 60;
 
 export const dynamic = 'force-dynamic';
 
-async function _GET(
-  req: Request,
-  { params }: { params: Promise<{ id: string }> }
-) {
-  
-    const rateLimited = await applyRateLimit(req, 'api');
-    if (rateLimited) return rateLimited;
-const { id } = await params;
+async function _GET(req: Request, { params }: { params: Promise<{ id: string }> }) {
+  const rateLimited = await applyRateLimit(req, 'api');
+  if (rateLimited) return rateLimited;
+  const { id } = await params;
   const supabase = await createRouteHandlerClient({ cookies });
   const {
     data: { user },
@@ -58,7 +54,7 @@ const { id } = await params;
       approved_at,
       created_at,
       user_id
-    `
+    `,
     )
     .eq('id', id)
     .maybeSingle();

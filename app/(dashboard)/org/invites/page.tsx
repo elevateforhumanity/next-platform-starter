@@ -59,7 +59,7 @@ export default function OrgInvitesPage() {
           expires_at,
           accepted_at,
           inviter:profiles!org_invites_invited_by_fkey(full_name)
-        `
+        `,
         )
         .eq('organization_id', profile.organization_id)
         .order('created_at', { ascending: false });
@@ -115,9 +115,7 @@ export default function OrgInvitesPage() {
       setShowInviteForm(false);
       await loadInvites();
     } catch (err) {
-      setError(
-        'An error occurred'
-      );
+      setError('An error occurred');
     } finally {
       setSending(false);
     }
@@ -171,9 +169,7 @@ export default function OrgInvitesPage() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="sm:flex sm:items-center">
         <div className="sm:flex-auto">
-          <h1 className="text-2xl font-semibold text-black">
-            Organization Invitations
-          </h1>
+          <h1 className="text-2xl font-semibold text-black">Organization Invitations</h1>
           <p className="mt-2 text-sm text-black">
             Manage pending and accepted invitations to your organization
           </p>
@@ -197,15 +193,10 @@ export default function OrgInvitesPage() {
       {showInviteForm && (
         <div className="mt-6 bg-white shadow sm:rounded-lg">
           <div className="px-4 py-5 sm:p-6">
-            <h3 className="text-lg font-medium leading-6 text-black">
-              Send New Invitation
-            </h3>
+            <h3 className="text-lg font-medium leading-6 text-black">Send New Invitation</h3>
             <form onSubmit={sendInvite} className="mt-5 space-y-4">
               <div>
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium text-black"
-                >
+                <label htmlFor="email" className="block text-sm font-medium text-black">
                   Email Address
                 </label>
                 <input
@@ -220,10 +211,7 @@ export default function OrgInvitesPage() {
               </div>
 
               <div>
-                <label
-                  htmlFor="role"
-                  className="block text-sm font-medium text-black"
-                >
+                <label htmlFor="role" className="block text-sm font-medium text-black">
                   Role
                 </label>
                 <select
@@ -274,9 +262,7 @@ export default function OrgInvitesPage() {
                     <th className="px-3 py-3.5 text-left text-sm font-semibold text-black">
                       Email
                     </th>
-                    <th className="px-3 py-3.5 text-left text-sm font-semibold text-black">
-                      Role
-                    </th>
+                    <th className="px-3 py-3.5 text-left text-sm font-semibold text-black">Role</th>
                     <th className="px-3 py-3.5 text-left text-sm font-semibold text-black">
                       Status
                     </th>
@@ -294,10 +280,7 @@ export default function OrgInvitesPage() {
                 <tbody className="divide-y divide-gray-200 bg-white">
                   {invites.length === 0 ? (
                     <tr>
-                      <td
-                        colSpan={6}
-                        className="px-3 py-8 text-center text-sm text-black"
-                      >
+                      <td colSpan={6} className="px-3 py-8 text-center text-sm text-black">
                         No invitations found
                       </td>
                     </tr>

@@ -4,7 +4,19 @@ import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
-import { ArrowLeft, CheckCircle2, Building2, ChevronDown, ChevronUp, Pen, Type, CheckSquare, Lock, Loader2, AlertCircle } from 'lucide-react';
+import {
+  ArrowLeft,
+  CheckCircle2,
+  Building2,
+  ChevronDown,
+  ChevronUp,
+  Pen,
+  Type,
+  CheckSquare,
+  Lock,
+  Loader2,
+  AlertCircle,
+} from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { InstitutionalHeader } from '@/components/documents/InstitutionalHeader';
 import SignatureCanvas from 'signature_pad';
@@ -130,7 +142,9 @@ export default function MOUOnboardingPage() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set(MOU_SECTIONS.map(s => s.id)));
+  const [expandedSections, setExpandedSections] = useState<Set<string>>(
+    new Set(MOU_SECTIONS.map((s) => s.id)),
+  );
   const [hasReadAll, setHasReadAll] = useState(false);
 
   // Signer fields
@@ -149,11 +163,17 @@ export default function MOUOnboardingPage() {
   useEffect(() => {
     const supabase = createClient();
     supabase.auth.getUser().then(async ({ data }) => {
-      if (!data?.user) { router.push('/login?redirect=' + encodeURIComponent(window.location.pathname)); return; }
+      if (!data?.user) {
+        router.push('/login?redirect=' + encodeURIComponent(window.location.pathname));
+        return;
+      }
       setSignerEmail(data.user.email ?? '');
 
       const { data: profile } = await supabase
-        .from('profiles').select('full_name, role').eq('id', data.user.id).maybeSingle();
+        .from('profiles')
+        .select('full_name, role')
+        .eq('id', data.user.id)
+        .maybeSingle();
       if (profile?.full_name) setSignerName(profile.full_name);
 
       const { data: existing } = await supabase
@@ -190,11 +210,21 @@ export default function MOUOnboardingPage() {
     resize();
     window.addEventListener('resize', resize);
     setPad(instance);
-    return () => { window.removeEventListener('resize', resize); instance.off(); };
+    return () => {
+      window.removeEventListener('resize', resize);
+      instance.off();
+    };
   }, [method, pad]);
 
   const isValid = () => {
-    if (!signerName.trim() || !signerEmail.trim() || !orgName.trim() || !acknowledged || !hasReadAll) return false;
+    if (
+      !signerName.trim() ||
+      !signerEmail.trim() ||
+      !orgName.trim() ||
+      !acknowledged ||
+      !hasReadAll
+    )
+      return false;
     if (method === 'typed') return typed.trim().length > 1;
     if (method === 'drawn') return drawn !== null;
     return true;
@@ -233,28 +263,34 @@ export default function MOUOnboardingPage() {
     }
   };
 
-  const toggle = (id: string) => setExpandedSections(prev => {
-    const next = new Set(prev);
-    next.has(id) ? next.delete(id) : next.add(id);
-    return next;
-  });
+  const toggle = (id: string) =>
+    setExpandedSections((prev) => {
+      const next = new Set(prev);
+      next.has(id) ? next.delete(id) : next.add(id);
+      return next;
+    });
 
-  if (loading) return (
-    <div className="min-h-screen flex items-center justify-center bg-white">
-      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-blue-600" />
-    </div>
-  );
+  if (loading)
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-white">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-blue-600" />
+      </div>
+    );
 
   return (
     <div className="min-h-screen bg-white">
       <div className="bg-white border-b">
         <div className="max-w-4xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[{ label: 'Onboarding', href: '/onboarding' }, { label: 'Training Network Partner Agreement' }]} />
+          <Breadcrumbs
+            items={[
+              { label: 'Onboarding', href: '/onboarding' },
+              { label: 'Training Network Partner Agreement' },
+            ]}
+          />
         </div>
       </div>
 
       <div className="max-w-4xl mx-auto px-4 py-8 space-y-6">
-
         {/* Header */}
         <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
           <InstitutionalHeader
@@ -270,9 +306,16 @@ export default function MOUOnboardingPage() {
         {alreadySigned && !signed && (
           <div className="bg-brand-green-50 border border-brand-green-200 rounded-xl p-6 text-center">
             <CheckCircle2 className="w-10 h-10 text-brand-green-600 mx-auto mb-3" />
-            <h2 className="text-lg font-semibold text-brand-green-900 mb-1">Agreement Already Signed</h2>
+            <h2 className="text-lg font-semibold text-brand-green-900 mb-1">
+              Agreement Already Signed
+            </h2>
             <p className="text-brand-green-700">Your signature (v{MOU_VERSION}) is on file.</p>
-            <Link href="/program-holder/onboarding" className="inline-block mt-4 text-brand-blue-600 hover:underline">← Back to Onboarding</Link>
+            <Link
+              href="/program-holder/onboarding"
+              className="inline-block mt-4 text-brand-blue-600 hover:underline"
+            >
+              ← Back to Onboarding
+            </Link>
           </div>
         )}
 
@@ -284,20 +327,29 @@ export default function MOUOnboardingPage() {
                 <Building2 className="w-5 h-5 text-brand-blue-600" />
                 <div>
                   <h2 className="font-semibold text-slate-900">Agreement Terms — v{MOU_VERSION}</h2>
-                  <p className="text-xs text-red-600 font-semibold mt-0.5">These terms are not up for negotiation. Read every section before signing.</p>
+                  <p className="text-xs text-red-600 font-semibold mt-0.5">
+                    These terms are not up for negotiation. Read every section before signing.
+                  </p>
                 </div>
               </div>
               <div className="divide-y divide-slate-100">
-                {MOU_SECTIONS.map(s => (
+                {MOU_SECTIONS.map((s) => (
                   <div key={s.id} className="p-5">
-                    <button onClick={() => toggle(s.id)} className="w-full flex items-center justify-between text-left gap-4">
+                    <button
+                      onClick={() => toggle(s.id)}
+                      className="w-full flex items-center justify-between text-left gap-4"
+                    >
                       <span className="font-semibold text-slate-900 text-sm">{s.title}</span>
-                      {expandedSections.has(s.id)
-                        ? <ChevronUp className="w-4 h-4 text-slate-400 flex-shrink-0" />
-                        : <ChevronDown className="w-4 h-4 text-slate-400 flex-shrink-0" />}
+                      {expandedSections.has(s.id) ? (
+                        <ChevronUp className="w-4 h-4 text-slate-400 flex-shrink-0" />
+                      ) : (
+                        <ChevronDown className="w-4 h-4 text-slate-400 flex-shrink-0" />
+                      )}
                     </button>
                     {expandedSections.has(s.id) && (
-                      <p className="mt-3 text-sm text-slate-600 leading-relaxed whitespace-pre-line">{s.content}</p>
+                      <p className="mt-3 text-sm text-slate-600 leading-relaxed whitespace-pre-line">
+                        {s.content}
+                      </p>
                     )}
                   </div>
                 ))}
@@ -307,10 +359,15 @@ export default function MOUOnboardingPage() {
             {/* Read confirmation */}
             <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-5">
               <label className="flex items-start gap-3 cursor-pointer">
-                <input type="checkbox" checked={hasReadAll} onChange={e => setHasReadAll(e.target.checked)}
-                  className="mt-0.5 w-5 h-5 rounded border-slate-300 text-brand-blue-600 focus:ring-brand-blue-500" />
+                <input
+                  type="checkbox"
+                  checked={hasReadAll}
+                  onChange={(e) => setHasReadAll(e.target.checked)}
+                  className="mt-0.5 w-5 h-5 rounded border-slate-300 text-brand-blue-600 focus:ring-brand-blue-500"
+                />
                 <span className="text-sm text-slate-700">
-                  I have read and understand all sections of this Training Network Partner Agreement (v{MOU_VERSION}).
+                  I have read and understand all sections of this Training Network Partner Agreement
+                  (v{MOU_VERSION}).
                 </span>
               </label>
             </div>
@@ -321,44 +378,94 @@ export default function MOUOnboardingPage() {
                 <h3 className="font-semibold text-slate-900">Signer Information</h3>
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-semibold text-slate-600 mb-1">Full Legal Name <span className="text-red-500">*</span></label>
-                    <input type="text" value={signerName} onChange={e => setSignerName(e.target.value)}
+                    <label className="block text-xs font-semibold text-slate-600 mb-1">
+                      Full Legal Name <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      value={signerName}
+                      onChange={(e) => setSignerName(e.target.value)}
                       placeholder="Your full legal name"
-                      className="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-blue-500" />
+                      className="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-blue-500"
+                    />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-slate-600 mb-1">Title / Role <span className="text-slate-500">(optional)</span></label>
-                    <input type="text" value={signerTitle} onChange={e => setSignerTitle(e.target.value)}
+                    <label className="block text-xs font-semibold text-slate-600 mb-1">
+                      Title / Role <span className="text-slate-500">(optional)</span>
+                    </label>
+                    <input
+                      type="text"
+                      value={signerTitle}
+                      onChange={(e) => setSignerTitle(e.target.value)}
                       placeholder="e.g. Executive Director, Owner"
-                      className="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-blue-500" />
+                      className="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-blue-500"
+                    />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-slate-600 mb-1">Organization Name <span className="text-red-500">*</span></label>
-                    <input type="text" value={orgName} onChange={e => setOrgName(e.target.value)}
+                    <label className="block text-xs font-semibold text-slate-600 mb-1">
+                      Organization Name <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      value={orgName}
+                      onChange={(e) => setOrgName(e.target.value)}
                       placeholder="Legal name of your organization"
-                      className="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-blue-500" />
+                      className="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-blue-500"
+                    />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-slate-600 mb-1">Email Address <span className="text-red-500">*</span></label>
-                    <input type="email" value={signerEmail} onChange={e => setSignerEmail(e.target.value)}
-                      className="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-blue-500" />
+                    <label className="block text-xs font-semibold text-slate-600 mb-1">
+                      Email Address <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="email"
+                      value={signerEmail}
+                      onChange={(e) => setSignerEmail(e.target.value)}
+                      className="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-blue-500"
+                    />
                   </div>
                 </div>
 
                 {/* Tier selection */}
                 <div>
-                  <label className="block text-xs font-semibold text-slate-600 mb-2">Participation Tier <span className="text-red-500">*</span></label>
+                  <label className="block text-xs font-semibold text-slate-600 mb-2">
+                    Participation Tier <span className="text-red-500">*</span>
+                  </label>
                   <div className="grid sm:grid-cols-3 gap-3">
-                    {([
-                      { value: 'tier1', label: 'Tier 1 — Facility Host', desc: '1/3 of net revenue' },
-                      { value: 'tier2', label: 'Tier 2 — Coordination Partner', desc: '15% of net revenue' },
-                      { value: 'tier3', label: 'Tier 3 — Referral Partner', desc: '$250–$500 per student' },
-                    ] as const).map(t => (
-                      <button key={t.value} type="button" onClick={() => setTier(t.value)}
+                    {(
+                      [
+                        {
+                          value: 'tier1',
+                          label: 'Tier 1 — Facility Host',
+                          desc: '1/3 of net revenue',
+                        },
+                        {
+                          value: 'tier2',
+                          label: 'Tier 2 — Coordination Partner',
+                          desc: '15% of net revenue',
+                        },
+                        {
+                          value: 'tier3',
+                          label: 'Tier 3 — Referral Partner',
+                          desc: '$250–$500 per student',
+                        },
+                      ] as const
+                    ).map((t) => (
+                      <button
+                        key={t.value}
+                        type="button"
+                        onClick={() => setTier(t.value)}
                         className={`p-3 rounded-lg border-2 text-left transition-colors ${
-                          tier === t.value ? 'border-brand-blue-600 bg-brand-blue-50' : 'border-slate-200 hover:border-slate-300'
-                        }`}>
-                        <p className={`text-xs font-semibold ${tier === t.value ? 'text-brand-blue-700' : 'text-slate-700'}`}>{t.label}</p>
+                          tier === t.value
+                            ? 'border-brand-blue-600 bg-brand-blue-50'
+                            : 'border-slate-200 hover:border-slate-300'
+                        }`}
+                      >
+                        <p
+                          className={`text-xs font-semibold ${tier === t.value ? 'text-brand-blue-700' : 'text-slate-700'}`}
+                        >
+                          {t.label}
+                        </p>
                         <p className="text-[11px] text-slate-500 mt-0.5">{t.desc}</p>
                       </button>
                     ))}
@@ -367,17 +474,25 @@ export default function MOUOnboardingPage() {
 
                 {/* Signature method */}
                 <div>
-                  <label className="block text-xs font-semibold text-slate-600 mb-2">Signature Method</label>
+                  <label className="block text-xs font-semibold text-slate-600 mb-2">
+                    Signature Method
+                  </label>
                   <div className="flex gap-3">
-                    {([
+                    {[
                       { m: 'checkbox' as SignMethod, Icon: CheckSquare, label: 'Checkbox' },
                       { m: 'typed' as SignMethod, Icon: Type, label: 'Type' },
                       { m: 'drawn' as SignMethod, Icon: Pen, label: 'Draw' },
-                    ]).map(({ m, Icon, label }) => (
-                      <button key={m} type="button" onClick={() => setMethod(m)}
+                    ].map(({ m, Icon, label }) => (
+                      <button
+                        key={m}
+                        type="button"
+                        onClick={() => setMethod(m)}
                         className={`flex items-center gap-2 px-4 py-2 rounded-lg border-2 text-sm font-medium transition-colors ${
-                          method === m ? 'border-brand-blue-600 bg-brand-blue-50 text-brand-blue-700' : 'border-slate-200 text-slate-600 hover:border-slate-300'
-                        }`}>
+                          method === m
+                            ? 'border-brand-blue-600 bg-brand-blue-50 text-brand-blue-700'
+                            : 'border-slate-200 text-slate-600 hover:border-slate-300'
+                        }`}
+                      >
                         <Icon className="w-4 h-4" /> {label}
                       </button>
                     ))}
@@ -386,31 +501,57 @@ export default function MOUOnboardingPage() {
 
                 {method === 'typed' && (
                   <div>
-                    <label className="block text-xs font-semibold text-slate-600 mb-1">Type Your Signature <span className="text-red-500">*</span></label>
-                    <input type="text" value={typed} onChange={e => setTyped(e.target.value)}
+                    <label className="block text-xs font-semibold text-slate-600 mb-1">
+                      Type Your Signature <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      value={typed}
+                      onChange={(e) => setTyped(e.target.value)}
                       placeholder="Type your full name"
                       className="w-full max-w-sm px-4 py-3 border border-slate-300 rounded-lg text-2xl focus:ring-2 focus:ring-brand-blue-500"
-                      style={{ fontFamily: "'Brush Script MT', cursive" }} />
+                      style={{ fontFamily: "'Brush Script MT', cursive" }}
+                    />
                   </div>
                 )}
 
                 {method === 'drawn' && (
                   <div>
-                    <label className="block text-xs font-semibold text-slate-600 mb-1">Draw Your Signature <span className="text-red-500">*</span></label>
+                    <label className="block text-xs font-semibold text-slate-600 mb-1">
+                      Draw Your Signature <span className="text-red-500">*</span>
+                    </label>
                     <div className="border-2 border-slate-300 rounded-xl overflow-hidden bg-white max-w-sm">
-                      <canvas ref={canvasRef} style={{ width: '100%', height: '130px', touchAction: 'none' }} />
+                      <canvas
+                        ref={canvasRef}
+                        style={{ width: '100%', height: '130px', touchAction: 'none' }}
+                      />
                     </div>
-                    <button type="button" onClick={() => { pad?.clear(); setDrawn(null); }}
-                      className="text-xs text-brand-blue-600 hover:underline mt-1">Clear</button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        pad?.clear();
+                        setDrawn(null);
+                      }}
+                      className="text-xs text-brand-blue-600 hover:underline mt-1"
+                    >
+                      Clear
+                    </button>
                   </div>
                 )}
 
                 {/* Acknowledgment */}
                 <label className="flex items-start gap-3 cursor-pointer p-4 bg-white rounded-xl border border-slate-200 hover:bg-white transition-colors">
-                  <input type="checkbox" checked={acknowledged} onChange={e => setAcknowledged(e.target.checked)}
-                    className="mt-0.5 w-5 h-5 rounded border-slate-300 text-brand-blue-600 focus:ring-brand-blue-500" />
+                  <input
+                    type="checkbox"
+                    checked={acknowledged}
+                    onChange={(e) => setAcknowledged(e.target.checked)}
+                    className="mt-0.5 w-5 h-5 rounded border-slate-300 text-brand-blue-600 focus:ring-brand-blue-500"
+                  />
                   <span className="text-sm text-slate-700 leading-relaxed">
-                    I have read and understand this Training Network Partner Agreement in full. I am authorized to sign on behalf of my organization. I agree to be bound by its terms. I understand this constitutes a legally binding electronic signature under the Electronic Signatures in Global and National Commerce Act (E-SIGN).
+                    I have read and understand this Training Network Partner Agreement in full. I am
+                    authorized to sign on behalf of my organization. I agree to be bound by its
+                    terms. I understand this constitutes a legally binding electronic signature
+                    under the Electronic Signatures in Global and National Commerce Act (E-SIGN).
                   </span>
                 </label>
 
@@ -422,16 +563,26 @@ export default function MOUOnboardingPage() {
                 )}
 
                 <div className="flex items-center gap-4 pt-2">
-                  <button onClick={handleSign} disabled={!isValid() || submitting}
+                  <button
+                    onClick={handleSign}
+                    disabled={!isValid() || submitting}
                     className={`inline-flex items-center gap-2 px-8 py-3 rounded-xl font-semibold text-base transition-colors ${
-                      isValid() && !submitting ? 'bg-brand-blue-600 text-white hover:bg-brand-blue-700' : 'bg-slate-200 text-slate-400 cursor-not-allowed'
-                    }`}>
-                    {submitting
-                      ? <><Loader2 className="w-5 h-5 animate-spin" /> Signing...</>
-                      : 'Sign Training Network Partner Agreement'}
+                      isValid() && !submitting
+                        ? 'bg-brand-blue-600 text-white hover:bg-brand-blue-700'
+                        : 'bg-slate-200 text-slate-400 cursor-not-allowed'
+                    }`}
+                  >
+                    {submitting ? (
+                      <>
+                        <Loader2 className="w-5 h-5 animate-spin" /> Signing...
+                      </>
+                    ) : (
+                      'Sign Training Network Partner Agreement'
+                    )}
                   </button>
                   <p className="text-xs text-slate-500 flex items-center gap-1.5">
-                    <Lock className="w-3 h-3" /> Signature, IP address, and timestamp recorded securely.
+                    <Lock className="w-3 h-3" /> Signature, IP address, and timestamp recorded
+                    securely.
                   </p>
                 </div>
               </div>
@@ -450,7 +601,10 @@ export default function MOUOnboardingPage() {
         )}
 
         <div className="pb-8">
-          <Link href="/program-holder/onboarding" className="inline-flex items-center gap-2 text-sm text-slate-500 hover:text-slate-700">
+          <Link
+            href="/program-holder/onboarding"
+            className="inline-flex items-center gap-2 text-sm text-slate-500 hover:text-slate-700"
+          >
             <ArrowLeft className="w-4 h-4" /> Back to Onboarding
           </Link>
         </div>

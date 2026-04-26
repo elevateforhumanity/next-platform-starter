@@ -44,25 +44,19 @@ export interface AuditLogEntry {
 export async function logAuditEvent(entry: AuditLogEntry): Promise<void> {
   try {
     // Only log in production or if explicitly enabled
-    if (
-      process.env.NODE_ENV === 'development' &&
-      !process.env.ENABLE_AUDIT_LOGGING
-    ) {
+    if (process.env.NODE_ENV === 'development' && !process.env.ENABLE_AUDIT_LOGGING) {
       return;
     }
 
     // Check if Supabase is available
-    if (
-      !process.env.NEXT_PUBLIC_SUPABASE_URL ||
-      !process.env.SUPABASE_SERVICE_ROLE_KEY
-    ) {
+    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
       console.warn('Audit logging disabled: Supabase not configured');
       return;
     }
 
     const supabase = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL,
-      process.env.SUPABASE_SERVICE_ROLE_KEY
+      process.env.SUPABASE_SERVICE_ROLE_KEY,
     );
 
     const { error } = await supabase.from('audit_logs').insert({
@@ -86,7 +80,7 @@ export async function logAuthEvent(
   userId?: string,
   email?: string,
   success: boolean = true,
-  error?: string
+  error?: string,
 ): Promise<void> {
   await logAuditEvent({
     event_type: `auth.${type}`,
@@ -106,12 +100,10 @@ export async function logDashboardAccess(
   email: string,
   role: string,
   dashboard: string,
-  authorized: boolean
+  authorized: boolean,
 ): Promise<void> {
   await logAuditEvent({
-    event_type: authorized
-      ? 'dashboard.access'
-      : 'dashboard.unauthorized_attempt',
+    event_type: authorized ? 'dashboard.access' : 'dashboard.unauthorized_attempt',
     user_id: userId,
     user_email: email,
     user_role: role,
@@ -130,7 +122,7 @@ export async function logAdminAction(
   action: string,
   resourceType?: string,
   resourceId?: string,
-  details?: Record<string, any>
+  details?: Record<string, any>,
 ): Promise<void> {
   await logAuditEvent({
     event_type: 'admin.action',
@@ -151,7 +143,7 @@ export async function logAdminAction(
 export async function logDataExport(
   userId: string,
   email: string,
-  dataType: string
+  dataType: string,
 ): Promise<void> {
   await logAuditEvent({
     event_type: 'data.export',
@@ -171,7 +163,7 @@ export async function logDataDeletion(
   email: string,
   dataType: string,
   success: boolean,
-  error?: string
+  error?: string,
 ): Promise<void> {
   await logAuditEvent({
     event_type: 'data.delete',
@@ -192,7 +184,7 @@ export async function logLicenseChange(
   adminEmail: string,
   tenantId: string,
   action: string,
-  details: Record<string, any>
+  details: Record<string, any>,
 ): Promise<void> {
   await logAuditEvent({
     event_type: 'license.change',
@@ -213,7 +205,7 @@ export async function logTenantSwitch(
   adminId: string,
   adminEmail: string,
   fromTenantId: string,
-  toTenantId: string
+  toTenantId: string,
 ): Promise<void> {
   await logAuditEvent({
     event_type: 'tenant.switch',
@@ -233,7 +225,7 @@ export async function logComplianceReport(
   userId: string,
   email: string,
   reportType: string,
-  period: string
+  period: string,
 ): Promise<void> {
   await logAuditEvent({
     event_type: 'compliance.report_generated',
@@ -253,7 +245,7 @@ export async function logSuspiciousActivity(
   userId: string | undefined,
   email: string | undefined,
   activity: string,
-  details: Record<string, any>
+  details: Record<string, any>,
 ): Promise<void> {
   await logAuditEvent({
     event_type: 'security.suspicious_activity',

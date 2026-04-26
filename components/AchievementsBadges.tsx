@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -47,20 +47,21 @@ export function AchievementsBadges({ userId }: AchievementsBadgesProps) {
         const data = await res.json();
         setBadges(data.badges || []);
       }
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
     } finally {
       setLoading(false);
     }
   }
 
-  const filteredBadges = badges.filter(badge => {
+  const filteredBadges = badges.filter((badge) => {
     if (filter === 'earned') return badge.earned;
     if (filter === 'locked') return !badge.earned;
     return true;
   });
 
-  const earnedCount = badges.filter(b => b.earned).length;
+  const earnedCount = badges.filter((b) => b.earned).length;
   const totalCount = badges.length;
   const completionPercentage = totalCount > 0 ? (earnedCount / totalCount) * 100 : 0;
 
@@ -77,7 +78,9 @@ export function AchievementsBadges({ userId }: AchievementsBadgesProps) {
       <div className="flex items-center justify-between mb-6">
         <h3 className="text-2xl font-bold text-black">Achievements & Badges</h3>
         <div className="text-right">
-          <p className="text-3xl font-bold text-brand-orange-600">{earnedCount}/{totalCount}</p>
+          <p className="text-3xl font-bold text-brand-orange-600">
+            {earnedCount}/{totalCount}
+          </p>
           <p className="text-sm text-black">Badges Earned</p>
         </div>
       </div>
@@ -148,9 +151,7 @@ export function AchievementsBadges({ userId }: AchievementsBadgesProps) {
               {/* Badge Icon */}
               <div
                 className={`w-16 h-16 mx-auto mb-3 rounded-full flex items-center justify-center ${
-                  isEarned
-                    ? 'bg-emerald-500'
-                    : 'bg-slate-300'
+                  isEarned ? 'bg-emerald-500' : 'bg-slate-300'
                 }`}
               >
                 <IconComponent className="w-8 h-8 text-white" />
@@ -166,15 +167,19 @@ export function AchievementsBadges({ userId }: AchievementsBadgesProps) {
               </h4>
 
               {/* Badge Description */}
-              <p className="text-xs text-center text-black mb-2">
-                {badge.description}
-              </p>
+              <p className="text-xs text-center text-black mb-2">{badge.description}</p>
 
               {/* Progress or Earned Date */}
               {isEarned ? (
                 <div className="text-center">
                   <p className="text-xs text-brand-orange-600 font-medium">
-                    Earned {new Date(badge.earned_at!).toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' })}
+                    Earned{' '}
+                    {new Date(badge.earned_at!).toLocaleDateString('en-US', {
+                      timeZone: 'UTC',
+                      month: 'short',
+                      day: 'numeric',
+                      year: 'numeric',
+                    })}
                   </p>
                 </div>
               ) : badge.progress !== undefined && badge.requirement !== undefined ? (
@@ -218,8 +223,8 @@ export function AchievementsBadges({ userId }: AchievementsBadgesProps) {
             {filter === 'earned'
               ? 'No badges earned yet. Keep learning!'
               : filter === 'locked'
-              ? 'All badges unlocked! Great job!'
-              : 'No badges available'}
+                ? 'All badges unlocked! Great job!'
+                : 'No badges available'}
           </p>
         </div>
       )}

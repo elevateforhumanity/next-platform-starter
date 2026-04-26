@@ -1,6 +1,6 @@
 /**
  * Payment Plan Calculator
- * 
+ *
  * Flow:
  * 1. Customer pays down payment (for approval)
  * 2. Weekly payments calculated based on program hours and remaining amount
@@ -8,10 +8,10 @@
  */
 
 export interface PaymentPlanConfig {
-  totalAmount: number;          // Total program cost
-  downPaymentPercent: number;   // e.g., 0.10 for 10%
-  programHours: number;         // Total program hours
-  hoursPerWeek: number;         // Expected hours per week (e.g., 40)
+  totalAmount: number; // Total program cost
+  downPaymentPercent: number; // e.g., 0.10 for 10%
+  programHours: number; // Total program hours
+  hoursPerWeek: number; // Expected hours per week (e.g., 40)
 }
 
 export interface PaymentPlan {
@@ -71,11 +71,11 @@ export function calculatePaymentPlan(config: PaymentPlanConfig): PaymentPlan {
   // Weekly payments
   for (let week = 1; week <= numberOfWeeks; week++) {
     const dueDate = new Date(startDate);
-    dueDate.setDate(dueDate.getDate() + (week * 7));
+    dueDate.setDate(dueDate.getDate() + week * 7);
 
     // Last payment might be less if we've overpaid
     const paymentAmount = Math.min(weeklyPayment, balance);
-    
+
     if (paymentAmount <= 0) break;
 
     cumulativePaid += paymentAmount;
@@ -109,13 +109,13 @@ export function calculatePaymentPlan(config: PaymentPlanConfig): PaymentPlan {
 export const PROGRAM_PAYMENT_PLANS: Record<string, PaymentPlanConfig> = {
   'barber-apprenticeship': {
     totalAmount: 4980,
-    downPaymentPercent: 0.10, // 10% = $498
+    downPaymentPercent: 0.1, // 10% = $498
     programHours: 2000,
     hoursPerWeek: 40,
   },
   'cosmetology-apprenticeship': {
     totalAmount: 5500,
-    downPaymentPercent: 0.10,
+    downPaymentPercent: 0.1,
     programHours: 1500,
     hoursPerWeek: 40,
   },
@@ -137,7 +137,7 @@ export const PROGRAM_PAYMENT_PLANS: Record<string, PaymentPlanConfig> = {
     programHours: 120,
     hoursPerWeek: 20,
   },
-  'phlebotomy': {
+  phlebotomy: {
     totalAmount: 1500,
     downPaymentPercent: 0.15,
     programHours: 80,

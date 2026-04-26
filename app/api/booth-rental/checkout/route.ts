@@ -65,7 +65,9 @@ export async function POST(request: NextRequest) {
     const supabase = await createClient();
 
     // Get or create Stripe customer
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     let stripeCustomerId: string | undefined;
 
     if (user) {
@@ -110,7 +112,10 @@ export async function POST(request: NextRequest) {
       : null;
 
     if (!weeklyPriceId) {
-      logger.error('[booth-rental/checkout] Missing Stripe price ID', { discipline, key: tier.stripePriceKey });
+      logger.error('[booth-rental/checkout] Missing Stripe price ID', {
+        discipline,
+        key: tier.stripePriceKey,
+      });
       return safeError('Pricing not configured for this discipline. Please contact us.', 503);
     }
 

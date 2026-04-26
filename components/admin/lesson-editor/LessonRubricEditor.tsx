@@ -10,25 +10,25 @@ import { Plus, Trash2 } from 'lucide-react';
 import type { RubricCriterion } from '@/lib/curriculum/lesson-content-schema';
 
 interface Props {
-  rubric:   RubricCriterion[];
+  rubric: RubricCriterion[];
   onChange: (rubric: RubricCriterion[]) => void;
 }
 
 function emptyCriterion(): RubricCriterion {
   return {
-    key:         `criterion-${Date.now()}`,
-    label:       '',
+    key: `criterion-${Date.now()}`,
+    label: '',
     description: '',
-    points:      10,
-    required:    true,
+    points: 10,
+    required: true,
   };
 }
 
 export default function LessonRubricEditor({ rubric, onChange }: Props) {
   const add = () => onChange([...rubric, emptyCriterion()]);
-  const remove = (key: string) => onChange(rubric.filter(c => c.key !== key));
+  const remove = (key: string) => onChange(rubric.filter((c) => c.key !== key));
   const update = (key: string, patch: Partial<RubricCriterion>) =>
-    onChange(rubric.map(c => c.key === key ? { ...c, ...patch } : c));
+    onChange(rubric.map((c) => (c.key === key ? { ...c, ...patch } : c)));
 
   const totalPoints = rubric.reduce((sum, c) => sum + c.points, 0);
 
@@ -56,7 +56,9 @@ export default function LessonRubricEditor({ rubric, onChange }: Props) {
 
       {rubric.length === 0 && (
         <div className="text-center py-6 border-2 border-dashed border-slate-200 rounded-lg">
-          <p className="text-sm text-slate-400">No rubric criteria. Add at least one if evaluator approval is required.</p>
+          <p className="text-sm text-slate-400">
+            No rubric criteria. Add at least one if evaluator approval is required.
+          </p>
         </div>
       )}
 
@@ -81,7 +83,7 @@ export default function LessonRubricEditor({ rubric, onChange }: Props) {
                 <input
                   type="text"
                   value={criterion.label}
-                  onChange={e => update(criterion.key, { label: e.target.value })}
+                  onChange={(e) => update(criterion.key, { label: e.target.value })}
                   placeholder="e.g. Safety Protocol"
                   className="w-full border border-slate-200 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
                 />
@@ -94,7 +96,9 @@ export default function LessonRubricEditor({ rubric, onChange }: Props) {
                   type="number"
                   min={0}
                   value={criterion.points}
-                  onChange={e => update(criterion.key, { points: Math.max(0, parseInt(e.target.value) || 0) })}
+                  onChange={(e) =>
+                    update(criterion.key, { points: Math.max(0, parseInt(e.target.value) || 0) })
+                  }
                   className="w-full border border-slate-200 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
                 />
               </div>
@@ -105,7 +109,7 @@ export default function LessonRubricEditor({ rubric, onChange }: Props) {
                   <input
                     type="checkbox"
                     checked={criterion.required}
-                    onChange={e => update(criterion.key, { required: e.target.checked })}
+                    onChange={(e) => update(criterion.key, { required: e.target.checked })}
                     className="accent-purple-600 w-4 h-4"
                   />
                   <span className="text-sm text-slate-700">Required to pass</span>
@@ -115,10 +119,12 @@ export default function LessonRubricEditor({ rubric, onChange }: Props) {
 
             {/* Description */}
             <div>
-              <label className="block text-xs font-semibold text-slate-600 mb-1">Description *</label>
+              <label className="block text-xs font-semibold text-slate-600 mb-1">
+                Description *
+              </label>
               <textarea
                 value={criterion.description}
-                onChange={e => update(criterion.key, { description: e.target.value })}
+                onChange={(e) => update(criterion.key, { description: e.target.value })}
                 rows={2}
                 placeholder="Describe what the evaluator should look for to award full points..."
                 className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none"

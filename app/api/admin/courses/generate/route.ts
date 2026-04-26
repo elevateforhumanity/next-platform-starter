@@ -126,7 +126,11 @@ async function _POST(req: NextRequest) {
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const db = await getAdminClient();
-    const { data: profile } = await db.from('profiles').select('role').eq('id', user.id).maybeSingle();
+    const { data: profile } = await db
+      .from('profiles')
+      .select('role')
+      .eq('id', user.id)
+      .maybeSingle();
     if (!profile || !ADMIN_ROLES.has(profile.role)) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
@@ -134,7 +138,7 @@ async function _POST(req: NextRequest) {
     if (!process.env.OPENAI_API_KEY) {
       return NextResponse.json(
         { error: 'OPENAI_API_KEY is not configured. Add it to Netlify environment variables.' },
-        { status: 503 }
+        { status: 503 },
       );
     }
 
@@ -160,21 +164,30 @@ async function _POST(req: NextRequest) {
     if (!raw) return NextResponse.json({ error: 'Empty response from OpenAI' }, { status: 500 });
 
     let course: GeneratedCourse;
-    try { course = JSON.parse(raw); }
-    catch { return NextResponse.json({ error: 'OpenAI returned invalid JSON' }, { status: 500 }); }
+    try {
+      course = JSON.parse(raw);
+    } catch {
+      return NextResponse.json({ error: 'OpenAI returned invalid JSON' }, { status: 500 });
+    }
 
     if (!course.title || !course.modules?.length) {
-      return NextResponse.json({ error: 'Generated course missing required fields' }, { status: 500 });
+      return NextResponse.json(
+        { error: 'Generated course missing required fields' },
+        { status: 500 },
+      );
     }
 
     // Normalize lesson_number sequential across all modules
     let n = 1;
     for (const mod of course.modules) {
-      for (const lesson of mod.lessons) { lesson.lesson_number = n++; }
+      for (const lesson of mod.lessons) {
+        lesson.lesson_number = n++;
+      }
     }
 
     logger.info('Course generated', {
-      userId: user.id, title: course.title,
+      userId: user.id,
+      title: course.title,
       modules: course.modules.length,
       lessons: course.modules.reduce((s, m) => s + m.lessons.length, 0),
     });

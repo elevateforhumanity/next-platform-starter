@@ -9,9 +9,16 @@ import { Breadcrumbs, BreadcrumbItem } from '@/components/ui/Breadcrumbs';
 import { FundingBadge } from '@/components/programs/FundingBadge';
 import { createBrowserClient } from '@supabase/ssr';
 import {
-  Clock, DollarSign, TrendingUp, ArrowRight,
-  Award, Calendar, ChevronDown, ChevronUp,
-  GraduationCap, Briefcase,
+  Clock,
+  DollarSign,
+  TrendingUp,
+  ArrowRight,
+  Award,
+  Calendar,
+  ChevronDown,
+  ChevronUp,
+  GraduationCap,
+  Briefcase,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
@@ -68,11 +75,11 @@ export interface PublicProgramPageConfig {
 
   // Accent color — used for badges, icons, stat highlights
   accentColor: {
-    bg: string;      // e.g. 'bg-yellow-100'
-    text: string;    // e.g. 'text-yellow-700'
-    iconBg: string;  // e.g. 'bg-yellow-100'
+    bg: string; // e.g. 'bg-yellow-100'
+    text: string; // e.g. 'text-yellow-700'
+    iconBg: string; // e.g. 'bg-yellow-100'
     iconText: string; // e.g. 'text-yellow-600'
-    dark: string;    // e.g. 'text-yellow-300' (for dark sections)
+    dark: string; // e.g. 'text-yellow-300' (for dark sections)
     darkAccent: string; // e.g. 'text-yellow-400' (for dark section numbers)
   };
 
@@ -169,14 +176,16 @@ export default function PublicProgramPage({ config }: { config: PublicProgramPag
   useEffect(() => {
     const supabase = createBrowserClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     );
 
     const fetchData = async () => {
       const [programRes, modulesRes] = await Promise.all([
         supabase
           .from('programs')
-          .select('title, description, estimated_weeks, estimated_hours, salary_min, salary_max, credential_name, delivery_method, training_hours, career_outcomes, what_you_learn, wioa_approved, dol_registered, placement_rate, completion_rate, total_cost, category')
+          .select(
+            'title, description, estimated_weeks, estimated_hours, salary_min, salary_max, credential_name, delivery_method, training_hours, career_outcomes, what_you_learn, wioa_approved, dol_registered, placement_rate, completion_rate, total_cost, category',
+          )
           .eq('slug', config.programSlug)
           .single(),
         config.courseId
@@ -252,7 +261,9 @@ export default function PublicProgramPage({ config }: { config: PublicProgramPag
       <section className="py-16 bg-slate-50 border-b">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-12">
-            <span className={`inline-block ${c.bg} ${c.text} text-sm font-semibold px-4 py-1 rounded-full mb-4`}>
+            <span
+              className={`inline-block ${c.bg} ${c.text} text-sm font-semibold px-4 py-1 rounded-full mb-4`}
+            >
               Program Structure
             </span>
             <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
@@ -272,11 +283,15 @@ export default function PublicProgramPage({ config }: { config: PublicProgramPag
           <div className="grid md:grid-cols-3 gap-6 mb-12">
             {config.delivery.map((block, index) => (
               <div key={index} className="bg-white rounded-2xl p-8 shadow-sm text-center">
-                <div className={`w-14 h-14 ${c.iconBg} rounded-full flex items-center justify-center mx-auto mb-4`}>
+                <div
+                  className={`w-14 h-14 ${c.iconBg} rounded-full flex items-center justify-center mx-auto mb-4`}
+                >
                   <block.icon className={`w-7 h-7 ${c.iconText}`} />
                 </div>
                 <div className="text-3xl font-bold text-slate-900 mb-1">{block.hours}</div>
-                <div className="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-3">{block.label}</div>
+                <div className="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-3">
+                  {block.label}
+                </div>
                 <p className="text-slate-600 text-sm">{block.description}</p>
               </div>
             ))}
@@ -308,7 +323,9 @@ export default function PublicProgramPage({ config }: { config: PublicProgramPag
       <section className="py-16 bg-slate-50">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-16">
-            <span className={`inline-block ${c.bg} ${c.text} text-sm font-semibold px-4 py-1 rounded-full mb-4`}>
+            <span
+              className={`inline-block ${c.bg} ${c.text} text-sm font-semibold px-4 py-1 rounded-full mb-4`}
+            >
               {config.features.sectionTitle}
             </span>
             <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
@@ -328,7 +345,9 @@ export default function PublicProgramPage({ config }: { config: PublicProgramPag
                 transition={{ delay: index * 0.1 }}
                 className="bg-white rounded-2xl p-8 shadow-sm hover:shadow-md transition-shadow"
               >
-                <div className={`w-12 h-12 ${c.iconBg} rounded-xl flex items-center justify-center mb-4`}>
+                <div
+                  className={`w-12 h-12 ${c.iconBg} rounded-xl flex items-center justify-center mb-4`}
+                >
                   <card.icon className={`w-6 h-6 ${c.iconText}`} />
                 </div>
                 <h3 className="text-xl font-bold text-slate-900 mb-2">{card.title}</h3>
@@ -340,10 +359,12 @@ export default function PublicProgramPage({ config }: { config: PublicProgramPag
       </section>
 
       {/* Curriculum from DB */}
-      <section id="curriculum"className="py-16">
+      <section id="curriculum" className="py-16">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-12">
-            <span className={`inline-block bg-brand-green-100 text-brand-green-700 text-sm font-semibold px-4 py-1 rounded-full mb-4`}>
+            <span
+              className={`inline-block bg-brand-green-100 text-brand-green-700 text-sm font-semibold px-4 py-1 rounded-full mb-4`}
+            >
               Curriculum
             </span>
             <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
@@ -351,7 +372,8 @@ export default function PublicProgramPage({ config }: { config: PublicProgramPag
             </h2>
             {program?.what_you_learn && program.what_you_learn.length > 0 && (
               <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-                {program.estimated_weeks ? `${program.estimated_weeks} weeks` : ''}{program.training_hours ? ` · ${program.training_hours} instructional hours` : ''}
+                {program.estimated_weeks ? `${program.estimated_weeks} weeks` : ''}
+                {program.training_hours ? ` · ${program.training_hours} instructional hours` : ''}
               </p>
             )}
           </div>
@@ -367,7 +389,9 @@ export default function PublicProgramPage({ config }: { config: PublicProgramPag
                   transition={{ delay: i * 0.05 }}
                   className="bg-slate-50 rounded-xl p-5 flex items-start gap-4"
                 >
-                  <div className={`w-10 h-10 ${c.iconBg} rounded-lg flex items-center justify-center flex-shrink-0`}>
+                  <div
+                    className={`w-10 h-10 ${c.iconBg} rounded-lg flex items-center justify-center flex-shrink-0`}
+                  >
                     <span className={`text-sm font-bold ${c.iconText}`}>{mod.order_index}</span>
                   </div>
                   <div>
@@ -375,9 +399,7 @@ export default function PublicProgramPage({ config }: { config: PublicProgramPag
                     {mod.description && (
                       <p className="text-sm text-slate-600 mt-1">{mod.description}</p>
                     )}
-                    {mod.duration && (
-                      <p className="text-xs text-slate-500 mt-1">{mod.duration}</p>
-                    )}
+                    {mod.duration && <p className="text-xs text-slate-500 mt-1">{mod.duration}</p>}
                   </div>
                 </motion.div>
               ))}
@@ -395,12 +417,16 @@ export default function PublicProgramPage({ config }: { config: PublicProgramPag
             </div>
           ) : !loading ? (
             <div className="text-center text-slate-500 py-8">
-              <p>Detailed curriculum provided upon enrollment. Contact us for the full course outline.</p>
+              <p>
+                Detailed curriculum provided upon enrollment. Contact us for the full course
+                outline.
+              </p>
             </div>
           ) : null}
 
           <p className="text-sm text-slate-500 mt-6 text-center">
-            Detailed curriculum provided upon enrollment. Program content may be customized per cohort.
+            Detailed curriculum provided upon enrollment. Program content may be customized per
+            cohort.
           </p>
         </div>
       </section>
@@ -422,12 +448,12 @@ export default function PublicProgramPage({ config }: { config: PublicProgramPag
       <section className="py-16 bg-slate-900">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-16">
-            <span className={`inline-block bg-white/10 ${c.dark} text-sm font-semibold px-4 py-1 rounded-full mb-4`}>
+            <span
+              className={`inline-block bg-white/10 ${c.dark} text-sm font-semibold px-4 py-1 rounded-full mb-4`}
+            >
               Career Progression
             </span>
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-              {config.careerPath.title}
-            </h2>
+            <h2 className="text-3xl sm:text-4xl font-bold mb-4">{config.careerPath.title}</h2>
           </div>
 
           <div className="grid md:grid-cols-4 gap-6">
@@ -514,12 +540,8 @@ export default function PublicProgramPage({ config }: { config: PublicProgramPag
       {/* CTA */}
       <section className="py-16">
         <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center">
-          <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-6">
-            {config.cta.title}
-          </h2>
-          <p className="text-xl text-slate-600 mb-8 max-w-2xl mx-auto">
-            {config.cta.description}
-          </p>
+          <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-6">{config.cta.title}</h2>
+          <p className="text-xl text-slate-600 mb-8 max-w-2xl mx-auto">{config.cta.description}</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href={config.cta.primaryHref}

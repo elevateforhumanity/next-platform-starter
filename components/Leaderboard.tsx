@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
@@ -39,7 +39,9 @@ export function Leaderboard({ entries, timeframe = 'week' }: LeaderboardProps) {
       <CardHeader>
         <div className="flex items-center justify-between">
           <CardTitle>Leaderboard</CardTitle>
-          <Badge variant="outline">{timeframe === 'week' ? 'This Week' : timeframe === 'month' ? 'This Month' : 'All Time'}</Badge>
+          <Badge variant="outline">
+            {timeframe === 'week' ? 'This Week' : timeframe === 'month' ? 'This Month' : 'All Time'}
+          </Badge>
         </div>
       </CardHeader>
       <CardContent>
@@ -53,10 +55,10 @@ export function Leaderboard({ entries, timeframe = 'week' }: LeaderboardProps) {
                   : 'border-gray-200 hover:bg-gray-50'
               } transition`}
             >
-              <div className={`flex items-center justify-center w-12 h-12 rounded-full border-2 ${getRankBadge(entry.rank)}`}>
-                {getRankIcon(entry.rank) || (
-                  <span className="font-bold">{entry.rank}</span>
-                )}
+              <div
+                className={`flex items-center justify-center w-12 h-12 rounded-full border-2 ${getRankBadge(entry.rank)}`}
+              >
+                {getRankIcon(entry.rank) || <span className="font-bold">{entry.rank}</span>}
               </div>
 
               <Image
@@ -73,7 +75,9 @@ export function Leaderboard({ entries, timeframe = 'week' }: LeaderboardProps) {
               </div>
 
               <div className="text-right">
-                <div className="font-bold text-brand-orange-600">{entry.points.toLocaleString('en-US')}</div>
+                <div className="font-bold text-brand-orange-600">
+                  {entry.points.toLocaleString('en-US')}
+                </div>
                 <div className="text-xs text-slate-700">points</div>
               </div>
             </div>

@@ -1,10 +1,10 @@
 /**
  * Avatar Governance Scripts
- * 
+ *
  * ONE GLOBAL AVATAR with deterministic routing layer.
  * Reads page context and delivers the right script immediately.
  * No rebuild required—just master prompt + route-to-script map.
- * 
+ *
  * Designed for: Synthesia / D-ID avatar video generation
  * Response limit: 3 sentences max (spoken avatar constraint)
  */
@@ -36,10 +36,13 @@ Routing logic: Classify the page into one intent using route keywords, then outp
 // ROUTE-TO-SCRIPT MAP (3 sentences max for spoken avatar)
 // =============================================================================
 
-export const PAGE_SCRIPTS: Record<string, {
-  opening: string;
-  nextAction: string;
-}> = {
+export const PAGE_SCRIPTS: Record<
+  string,
+  {
+    opening: string;
+    nextAction: string;
+  }
+> = {
   // === MARKETING / ORIENTATION ===
   '/': {
     opening: `Welcome. This platform is a self-service workforce training and credentialing hub. I can route you to funded training, apprenticeship, employer-sponsored, or self-pay in under a minute.`,
@@ -225,19 +228,19 @@ export const PAGE_SCRIPTS: Record<string, {
 // Micro-scripts for status-based responses
 export const STATUS_SCRIPTS: Record<string, string> = {
   // Application statuses
-  'submitted': `Your application has been submitted and is in queue for review. Typical review time is 1-3 business days after all documents are received.
+  submitted: `Your application has been submitted and is in queue for review. Typical review time is 1-3 business days after all documents are received.
 
 Next action: Check your dashboard for any missing documents or pending items.`,
 
-  'under_review': `Your application is under review. If you have not uploaded all required documents, that is the most common reason for delay.
+  under_review: `Your application is under review. If you have not uploaded all required documents, that is the most common reason for delay.
 
 Next action: Open 'Documents' and confirm every item shows as received.`,
 
-  'approved': `You are approved. Congratulations! Your enrollment is confirmed pending final steps.
+  approved: `You are approved. Congratulations! Your enrollment is confirmed pending final steps.
 
 Next action: Sign the enrollment agreement and complete any remaining payment or funding confirmation.`,
 
-  'denied': `Your application was not approved for this funding path based on eligibility or missing verification. This does not automatically mean you cannot train.
+  denied: `Your application was not approved for this funding path based on eligibility or missing verification. This does not automatically mean you cannot train.
 
 Your options are:
 1. Submit corrected documents if something was unclear
@@ -246,45 +249,45 @@ Your options are:
 
 Next action: Review the denial reason in your dashboard and select an option above.`,
 
-  'paused': `Your file is paused due to inactivity or missing information.
+  paused: `Your file is paused due to inactivity or missing information.
 
 Next action: Complete the missing item shown in your dashboard to resume review.`,
 
-  'enrolled': `You are enrolled and ready to begin. Your course access is now active.
+  enrolled: `You are enrolled and ready to begin. Your course access is now active.
 
 Next action: Go to your dashboard and click 'Start Course' to begin.`,
 
-  'in_progress': `You are currently in progress. Keep up the good work!
+  in_progress: `You are currently in progress. Keep up the good work!
 
 Next action: Continue your current lesson or check for any overdue assignments.`,
 
-  'completed': `Congratulations! You have completed this program. Your credential is being processed.
+  completed: `Congratulations! You have completed this program. Your credential is being processed.
 
 Next action: Check 'Certificates' to download or share your credential once issued.`,
 
   // Document statuses
-  'doc_rejected': `This document cannot be verified (blurry, expired, mismatched name/address, or incomplete).
+  doc_rejected: `This document cannot be verified (blurry, expired, mismatched name/address, or incomplete).
 
 Next action: Re-upload a clear photo that includes all corners and readable text.`,
 
-  'doc_pending': `This document is pending review. Allow 1-2 business days for verification.
+  doc_pending: `This document is pending review. Allow 1-2 business days for verification.
 
 Next action: No action needed. Check back for status update.`,
 
-  'doc_approved': `This document has been verified and approved.
+  doc_approved: `This document has been verified and approved.
 
 Next action: Check if any other documents are still pending.`,
 
   // Funding statuses
-  'funding_pending': `Your funding request is pending approval from the funding agency. This can take 5-10 business days.
+  funding_pending: `Your funding request is pending approval from the funding agency. This can take 5-10 business days.
 
 Next action: No action needed. You will be notified when approved.`,
 
-  'funding_approved': `Your funding has been approved. Training costs will be covered as specified.
+  funding_approved: `Your funding has been approved. Training costs will be covered as specified.
 
 Next action: Complete enrollment to begin your program.`,
 
-  'funding_denied': `Your funding request was not approved. Common reasons: income over threshold, missing documentation, or program not covered.
+  funding_denied: `Your funding request was not approved. Common reasons: income over threshold, missing documentation, or program not covered.
 
 Your options are:
 1. Appeal with additional documentation
@@ -295,7 +298,7 @@ Next action: Review the denial letter in your documents for specific reason.`,
 };
 
 // Helper to get script for a route
-export function getPageScript(route: string): typeof PAGE_SCRIPTS[string] | null {
+export function getPageScript(route: string): (typeof PAGE_SCRIPTS)[string] | null {
   // Exact match first
   if (PAGE_SCRIPTS[route]) {
     return PAGE_SCRIPTS[route];
@@ -322,9 +325,9 @@ export function getStatusScript(status: string): string | null {
 // Build full system prompt for a page
 export function buildSystemPrompt(route: string, userStatus?: string): string {
   const pageScript = getPageScript(route);
-  
+
   let prompt = GLOBAL_SYSTEM_RULES + '\n\n';
-  
+
   if (pageScript) {
     prompt += `Page context: ${route}\n\n`;
     prompt += `Opening message (use on first interaction):\n${pageScript.opening}\n\n`;

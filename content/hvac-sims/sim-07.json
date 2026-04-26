@@ -26,16 +26,12 @@
     "s1-wrong": {
       "id": "s1-wrong",
       "prompt": "Overcharge causes HIGH head and HIGH subcooling. Dirty condenser causes HIGH head. All pressures are low — this is undercharge.",
-      "options": [
-        { "label": "Diagnose as undercharge", "next": "s2", "correct": true }
-      ]
+      "options": [{ "label": "Diagnose as undercharge", "next": "s2", "correct": true }]
     },
     "s1-partial": {
       "id": "s1-partial",
       "prompt": "A failed TXV (stuck closed) would cause very low suction and very high superheat. These readings are consistent with undercharge — the TXV is likely responding correctly to low charge.",
-      "options": [
-        { "label": "Diagnose as undercharge first", "next": "s2", "correct": true }
-      ]
+      "options": [{ "label": "Diagnose as undercharge first", "next": "s2", "correct": true }]
     },
     "s2": {
       "id": "s2",
@@ -50,16 +46,18 @@
       "id": "s2-wrong",
       "prompt": "Adding refrigerant to a leaking system is a violation of EPA Section 608 and wastes refrigerant. Find and fix the leak first.",
       "feedback": "EPA requires leak repair before recharging systems with 50+ lbs. Even smaller systems should be repaired — not just topped off.",
-      "options": [
-        { "label": "Find and repair the leak", "next": "s3", "correct": true }
-      ]
+      "options": [{ "label": "Find and repair the leak", "next": "s3", "correct": true }]
     },
     "s3": {
       "id": "s3",
       "prompt": "You use an electronic leak detector and find a leak at a flare fitting on the liquid line. What do you do?",
       "options": [
         { "label": "Tighten the flare fitting and recharge", "next": "s3-partial" },
-        { "label": "Recover refrigerant, repair the flare, pressure test with nitrogen, evacuate, then recharge", "next": "pass", "correct": true },
+        {
+          "label": "Recover refrigerant, repair the flare, pressure test with nitrogen, evacuate, then recharge",
+          "next": "pass",
+          "correct": true
+        },
         { "label": "Add refrigerant and monitor", "next": "s3-wrong" }
       ]
     },

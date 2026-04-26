@@ -18,7 +18,9 @@ export default async function InstructorDocumentsPage({
   searchParams: Promise<{ type?: string }>;
 }) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/instructor/documents');
 
   const db = await getAdminClient();
@@ -37,7 +39,12 @@ export default async function InstructorDocumentsPage({
     .from('documents')
     .select('id, document_type, file_name, created_at, status')
     .eq('user_id', user.id)
-    .in('document_type', ['government_id', 'instructor_certification', 'instructor_license', 'background_check'])
+    .in('document_type', [
+      'government_id',
+      'instructor_certification',
+      'instructor_license',
+      'background_check',
+    ])
     .order('created_at', { ascending: false });
 
   const { type: focusType } = await searchParams;
@@ -45,15 +52,18 @@ export default async function InstructorDocumentsPage({
   return (
     <div className="min-h-screen bg-slate-50">
       <div className="max-w-3xl mx-auto px-4 py-8">
-        <Breadcrumbs items={[
-          { label: 'Instructor Onboarding', href: '/onboarding/instructor' },
-          { label: 'Documents' },
-        ]} />
+        <Breadcrumbs
+          items={[
+            { label: 'Instructor Onboarding', href: '/onboarding/instructor' },
+            { label: 'Documents' },
+          ]}
+        />
 
         <div className="mt-6">
           <h1 className="text-2xl font-bold text-slate-900">Instructor Documents</h1>
           <p className="text-slate-600 mt-1">
-            Upload the required documents to complete your instructor verification. All files are stored securely and reviewed by the program team.
+            Upload the required documents to complete your instructor verification. All files are
+            stored securely and reviewed by the program team.
           </p>
         </div>
 

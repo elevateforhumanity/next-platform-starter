@@ -15,15 +15,14 @@ import { mapCourseRow, type RawCourseRow } from '@/lib/domain';
 export const dynamic = 'force-dynamic';
 
 const AttachSchema = z.object({
-  course_id:   z.string().uuid('Must be a valid course UUID'),
+  course_id: z.string().uuid('Must be a valid course UUID'),
   is_required: z.boolean().default(true),
-  order_index:  z.number().int().min(0).default(0),
+  order_index: z.number().int().min(0).default(0),
 });
-
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: Promise<{ programId: string }> }
+  { params }: { params: Promise<{ programId: string }> },
 ) {
   const { programId } = await params;
   const auth = await apiRequireAdmin(req);
@@ -32,10 +31,12 @@ export async function GET(
   const db = await getAdminClient();
   const { data, error } = await db
     .from('program_courses')
-    .select(`
+    .select(
+      `
       id, order_index, is_required,
       course:courses(id, title, slug, status, short_description)
-    `)
+    `,
+    )
     .eq('program_id', programId)
     .order('order_index');
 
@@ -55,7 +56,7 @@ export async function GET(
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: Promise<{ programId: string }> }
+  { params }: { params: Promise<{ programId: string }> },
 ) {
   const { programId } = await params;
   const auth = await apiRequireAdmin(req);
@@ -75,16 +76,20 @@ export async function POST(
     .from('program_courses')
     .upsert(
       { program_id: programId, ...parsed.data },
-      { onConflict: 'program_id,course_id', ignoreDuplicates: false }
+      { onConflict: 'program_id,course_id', ignoreDuplicates: false },
     )
     .select()
     .single();
 
   if (error) {
     logger.error('POST program course attach error', error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 
-  logger.info('Internal course attached to program', { programId, courseId: parsed.data.course_id, userId: auth.id });
+  logger.info('Internal course attached to program', {
+    programId,
+    courseId: parsed.data.course_id,
+    userId: auth.id,
+  });
   return NextResponse.json({ item: data }, { status: 201 });
 }

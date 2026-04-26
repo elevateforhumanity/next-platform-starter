@@ -87,8 +87,6 @@ export async function hasRole(requiredRole: string): Promise<boolean> {
     .maybeSingle();
 
   return (
-    profile?.role === requiredRole ||
-    profile?.role === 'admin' ||
-    profile?.role === 'super_admin'
+    profile?.role === requiredRole || profile?.role === 'admin' || profile?.role === 'super_admin'
   );
 }

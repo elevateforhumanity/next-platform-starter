@@ -11,27 +11,20 @@ export const runtime = 'nodejs';
 export const maxDuration = 60;
 
 async function _POST(req: Request) {
-    const rateLimited = await applyRateLimit(req, 'contact');
-    if (rateLimited) return rateLimited;
-    const auth = await requireAuth(req);
-    if (auth.error) return auth.error;
-
+  const rateLimited = await applyRateLimit(req, 'contact');
+  if (rateLimited) return rateLimited;
+  const auth = await requireAuth(req);
+  if (auth.error) return auth.error;
 
   if (!process.env.STRIPE_SECRET_KEY) {
-    return NextResponse.json(
-      { error: 'Stripe not configured' },
-      { status: 503 }
-    );
+    return NextResponse.json({ error: 'Stripe not configured' }, { status: 503 });
   }
 
   try {
     const { priceId, productName } = await req.json();
 
     if (!priceId) {
-      return NextResponse.json(
-        { error: 'Price ID is required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Price ID is required' }, { status: 400 });
     }
 
     const session = await stripe.checkout.sessions.create({
@@ -47,10 +40,7 @@ async function _POST(req: Request) {
     return NextResponse.json({ sessionId: session.id });
   } catch (err: any) {
     const error = toError(err);
-    return NextResponse.json(
-      { error: toErrorMessage(err) },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: toErrorMessage(err) }, { status: 500 });
   }
 }
 export const POST = withRuntime(withApiAudit('/api/checkout/product', _POST));

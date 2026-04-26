@@ -16,8 +16,10 @@ async function _GET(request: Request) {
     const supabase = await createClient();
 
     // Check if user is admin
-    const { data: { user } } = await supabase.auth.getUser();
-    
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -50,10 +52,7 @@ async function _GET(request: Request) {
 
     // Test if we can query the table
     try {
-      const { data, error } = await supabase
-        .from('audit_logs')
-        .select('*')
-        .limit(1);
+      const { data, error } = await supabase.from('audit_logs').select('*').limit(1);
 
       if (!error) {
         checks.tableExists = true;
@@ -88,13 +87,11 @@ async function _GET(request: Request) {
 
     // Test if we can insert
     try {
-      const { error } = await supabase
-        .from('audit_logs')
-        .insert({
-          action_type: 'test',
-          description: 'Schema verification test',
-          details: { test: true },
-        });
+      const { error } = await supabase.from('audit_logs').insert({
+        action_type: 'test',
+        description: 'Schema verification test',
+        details: { test: true },
+      });
 
       if (!error) {
         checks.canInsert = true;
@@ -111,28 +108,33 @@ async function _GET(request: Request) {
     }
 
     // Determine overall status
-    const allColumnsExist = Object.values(checks.requiredColumns).every(v => v);
+    const allColumnsExist = Object.values(checks.requiredColumns).every((v) => v);
     const isReady = checks.tableExists && allColumnsExist && checks.canInsert && checks.canQuery;
 
     return NextResponse.json({
       status: isReady ? 'ready' : 'needs_setup',
       checks,
-      message: isReady 
+      message: isReady
         ? 'audit_logs table is ready for monitoring'
         : 'audit_logs table needs additional setup',
-      recommendations: !isReady ? [
-        !checks.tableExists && 'Create audit_logs table',
-        !allColumnsExist && 'Add missing columns to audit_logs table',
-        !checks.canInsert && 'Grant INSERT permission on audit_logs table',
-        !checks.canQuery && 'Grant SELECT permission on audit_logs table',
-      ].filter(Boolean) : [],
+      recommendations: !isReady
+        ? [
+            !checks.tableExists && 'Create audit_logs table',
+            !allColumnsExist && 'Add missing columns to audit_logs table',
+            !checks.canInsert && 'Grant INSERT permission on audit_logs table',
+            !checks.canQuery && 'Grant SELECT permission on audit_logs table',
+          ].filter(Boolean)
+        : [],
     });
   } catch (error) {
     logger.error('Schema verification error:', error);
-    return NextResponse.json({
-      status: 'error',
-      error: 'Internal server error',
-    }, { status: 500 });
+    return NextResponse.json(
+      {
+        status: 'error',
+        error: 'Internal server error',
+      },
+      { status: 500 },
+    );
   }
 }
 export const GET = withApiAudit('/api/admin/monitoring/verify-schema', _GET);

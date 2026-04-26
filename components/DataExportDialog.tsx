@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -22,7 +22,8 @@ export default function DataExportDialog({
   const [isExporting, setIsExporting] = useState(false);
   const [exportComplete, setExportComplete] = useState(false);
 
-  if (!isOpen) return null; return null;
+  if (!isOpen) return null;
+  return null;
 
   const handleExport = async () => {
     setIsExporting(true);
@@ -62,7 +63,8 @@ export default function DataExportDialog({
         onClose();
         setExportComplete(false);
       }, 2000);
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
       alert('Failed to export data. Please try again.');
     } finally {
@@ -88,12 +90,8 @@ export default function DataExportDialog({
               <Download className="w-5 h-5 text-brand-blue-600" />
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-black">
-                Export Data
-              </h3>
-              <p className="text-sm text-slate-700">
-                {exportTypeLabels[exportType]}
-              </p>
+              <h3 className="text-lg font-semibold text-black">Export Data</h3>
+              <p className="text-sm text-slate-700">{exportTypeLabels[exportType]}</p>
             </div>
           </div>
           <button
@@ -109,9 +107,7 @@ export default function DataExportDialog({
         <div className="p-6 space-y-6">
           {/* Format Selection */}
           <div>
-            <label className="block text-sm font-medium text-black mb-3">
-              Export Format
-            </label>
+            <label className="block text-sm font-medium text-black mb-3">Export Format</label>
             <div className="grid grid-cols-2 gap-3">
               <button
                 onClick={() => setFormat('csv')}
@@ -122,18 +118,20 @@ export default function DataExportDialog({
                     : 'border-gray-200 hover:border-gray-300'
                 } ${isExporting ? 'opacity-50 cursor-not-allowed' : ''}`}
               >
-                <FileSpreadsheet className={`w-5 h-5 ${
-                  format === 'csv' ? 'text-brand-blue-600' : 'text-slate-700'
-                }`} />
+                <FileSpreadsheet
+                  className={`w-5 h-5 ${
+                    format === 'csv' ? 'text-brand-blue-600' : 'text-slate-700'
+                  }`}
+                />
                 <div className="text-left">
-                  <div className={`font-medium ${
-                    format === 'csv' ? 'text-brand-blue-900' : 'text-black'
-                  }`}>
+                  <div
+                    className={`font-medium ${
+                      format === 'csv' ? 'text-brand-blue-900' : 'text-black'
+                    }`}
+                  >
                     CSV
                   </div>
-                  <div className="text-xs text-slate-700">
-                    Excel compatible
-                  </div>
+                  <div className="text-xs text-slate-700">Excel compatible</div>
                 </div>
               </button>
 
@@ -146,18 +144,20 @@ export default function DataExportDialog({
                     : 'border-gray-200 hover:border-gray-300'
                 } ${isExporting ? 'opacity-50 cursor-not-allowed' : ''}`}
               >
-                <FileText className={`w-5 h-5 ${
-                  format === 'pdf' ? 'text-brand-blue-600' : 'text-slate-700'
-                }`} />
+                <FileText
+                  className={`w-5 h-5 ${
+                    format === 'pdf' ? 'text-brand-blue-600' : 'text-slate-700'
+                  }`}
+                />
                 <div className="text-left">
-                  <div className={`font-medium ${
-                    format === 'pdf' ? 'text-brand-blue-900' : 'text-black'
-                  }`}>
+                  <div
+                    className={`font-medium ${
+                      format === 'pdf' ? 'text-brand-blue-900' : 'text-black'
+                    }`}
+                  >
                     PDF
                   </div>
-                  <div className="text-xs text-slate-700">
-                    Print ready
-                  </div>
+                  <div className="text-xs text-slate-700">Print ready</div>
                 </div>
               </button>
             </div>
@@ -167,8 +167,16 @@ export default function DataExportDialog({
           <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-lg p-4">
             <div className="flex gap-3">
               <div className="flex-shrink-0">
-                <svg className="w-5 h-5 text-brand-blue-600" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                <svg
+                  className="w-5 h-5 text-brand-blue-600"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                    clipRule="evenodd"
+                  />
                 </svg>
               </div>
               <div className="text-sm text-brand-blue-800">
@@ -185,9 +193,7 @@ export default function DataExportDialog({
           {/* Active Filters */}
           {Object.keys(filters).length > 0 && (
             <div className="bg-gray-50 rounded-lg p-4">
-              <h4 className="text-sm font-medium text-black mb-2">
-                Active Filters
-              </h4>
+              <h4 className="text-sm font-medium text-black mb-2">Active Filters</h4>
               <div className="space-y-1">
                 {Object.entries(filters).map(([key, value]) => (
                   <div key={key} className="text-sm text-black">
@@ -247,7 +253,8 @@ export function BatchExportDialog({ isOpen, onClose }: BatchExportDialogProps) {
   const [format, setFormat] = useState<'csv' | 'pdf' | 'json'>('csv');
   const [isExporting, setIsExporting] = useState(false);
 
-  if (!isOpen) return null; return null;
+  if (!isOpen) return null;
+  return null;
 
   const tables = [
     { id: 'students', label: 'Students', description: 'All student records' },
@@ -258,10 +265,8 @@ export function BatchExportDialog({ isOpen, onClose }: BatchExportDialogProps) {
   ];
 
   const toggleTable = (tableId: string) => {
-    setSelectedTables(prev =>
-      prev.includes(tableId)
-        ? prev.filter(id => id !== tableId)
-        : [...prev, tableId]
+    setSelectedTables((prev) =>
+      prev.includes(tableId) ? prev.filter((id) => id !== tableId) : [...prev, tableId],
     );
   };
 
@@ -304,7 +309,8 @@ export function BatchExportDialog({ isOpen, onClose }: BatchExportDialogProps) {
 
       alert('Batch export completed successfully!');
       onClose();
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
       alert('Failed to export data. Please try again.');
     } finally {
@@ -322,12 +328,8 @@ export function BatchExportDialog({ isOpen, onClose }: BatchExportDialogProps) {
               <Download className="w-5 h-5 text-purple-600" />
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-black">
-                Batch Export
-              </h3>
-              <p className="text-sm text-slate-700">
-                Export multiple tables at once
-              </p>
+              <h3 className="text-lg font-semibold text-black">Batch Export</h3>
+              <p className="text-sm text-slate-700">Export multiple tables at once</p>
             </div>
           </div>
           <button
@@ -343,11 +345,9 @@ export function BatchExportDialog({ isOpen, onClose }: BatchExportDialogProps) {
         <div className="flex-1 overflow-y-auto p-6 space-y-6">
           {/* Table Selection */}
           <div>
-            <label className="block text-sm font-medium text-black mb-3">
-              Select Tables
-            </label>
+            <label className="block text-sm font-medium text-black mb-3">Select Tables</label>
             <div className="space-y-2">
-              {tables.map(table => (
+              {tables.map((table) => (
                 <label
                   key={table.id}
                   className="flex items-start gap-3 p-4 border-2 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors"
@@ -370,11 +370,9 @@ export function BatchExportDialog({ isOpen, onClose }: BatchExportDialogProps) {
 
           {/* Format Selection */}
           <div>
-            <label className="block text-sm font-medium text-black mb-3">
-              Export Format
-            </label>
+            <label className="block text-sm font-medium text-black mb-3">Export Format</label>
             <div className="grid grid-cols-3 gap-3">
-              {['csv', 'pdf', 'json'].map(fmt => (
+              {['csv', 'pdf', 'json'].map((fmt) => (
                 <button
                   key={fmt}
                   onClick={() => setFormat(fmt as string)}

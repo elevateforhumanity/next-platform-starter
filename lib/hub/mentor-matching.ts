@@ -60,7 +60,8 @@ export async function getMentorMatches(userId: string, limit = 10): Promise<Ment
   // Find graduates from the same program who opted to be mentors
   const { data: mentors } = await supabase
     .from('mentors')
-    .select(`
+    .select(
+      `
       id,
       user_id,
       bio,
@@ -68,7 +69,8 @@ export async function getMentorMatches(userId: string, limit = 10): Promise<Ment
       is_available,
       profiles!mentors_user_id_fkey(full_name, avatar_url),
       enrollments!inner(program_id, status, completed_at, programs(name))
-    `)
+    `,
+    )
     .eq('is_available', true)
     .eq('enrollments.program_id', programId)
     .eq('enrollments.status', 'completed')
@@ -77,24 +79,27 @@ export async function getMentorMatches(userId: string, limit = 10): Promise<Ment
   if (!mentors) return [];
 
   // Get job placements for mentors
-  const mentorUserIds = mentors.map(m => m.user_id);
+  const mentorUserIds = mentors.map((m) => m.user_id);
   const { data: placements } = await supabase
     .from('job_placements')
     .select('user_id, employer_name, job_title')
     .in('user_id', mentorUserIds)
     .eq('status', 'hired');
 
-  const placementMap = new Map(placements?.map(p => [p.user_id, p]) || []);
+  const placementMap = new Map(placements?.map((p) => [p.user_id, p]) || []);
 
   // Get mentee counts
   const { data: menteeCounts } = await supabase
     .from('mentorships')
     .select('mentor_id')
-    .in('mentor_id', mentors.map(m => m.id))
+    .in(
+      'mentor_id',
+      mentors.map((m) => m.id),
+    )
     .eq('status', 'active');
 
   const menteeCountMap = new Map<string, number>();
-  menteeCounts?.forEach(m => {
+  menteeCounts?.forEach((m) => {
     menteeCountMap.set(m.mentor_id, (menteeCountMap.get(m.mentor_id) || 0) + 1);
   });
 
@@ -105,7 +110,7 @@ export async function getMentorMatches(userId: string, limit = 10): Promise<Ment
     const profile = mentor.profiles as any;
     const enrollment = (mentor.enrollments as any)?.[0];
     const placement = placementMap.get(mentor.user_id);
-    
+
     let score = 50; // Base score for same program
     const reasons: string[] = [`Completed ${programName}`];
 
@@ -146,18 +151,16 @@ export async function getMentorMatches(userId: string, limit = 10): Promise<Ment
     });
   }
 
-  return matches
-    .sort((a, b) => b.match_score - a.match_score)
-    .slice(0, limit);
+  return matches.sort((a, b) => b.match_score - a.match_score).slice(0, limit);
 }
 
 /**
  * Request a mentor
  */
 export async function requestMentor(
-  menteeId: string, 
-  mentorId: string, 
-  message?: string
+  menteeId: string,
+  mentorId: string,
+  message?: string,
 ): Promise<{ success: boolean; error?: string }> {
   const supabase = await createClient();
 
@@ -175,30 +178,26 @@ export async function requestMentor(
   }
 
   // Create request
-  const { error } = await supabase
-    .from('mentorships')
-    .insert({
-      mentee_id: menteeId,
-      mentor_id: mentorId,
-      message,
-      status: 'pending',
-    });
+  const { error } = await supabase.from('mentorships').insert({
+    mentee_id: menteeId,
+    mentor_id: mentorId,
+    message,
+    status: 'pending',
+  });
 
   if (error) {
     return { success: false, error: 'Operation failed' };
   }
 
   // Notify mentor
-  await supabase
-    .from('notifications')
-    .insert({
-      user_id: mentorId,
-      type: 'info',
-      title: 'New Mentorship Request',
-      message: 'A student has requested you as their mentor',
-      action_url: '/hub/mentorship',
-      action_label: 'View Request',
-    });
+  await supabase.from('notifications').insert({
+    user_id: mentorId,
+    type: 'info',
+    title: 'New Mentorship Request',
+    message: 'A student has requested you as their mentor',
+    action_url: '/hub/mentorship',
+    action_label: 'View Request',
+  });
 
   return { success: true };
 }
@@ -209,7 +208,7 @@ export async function requestMentor(
 export async function respondToMentorshipRequest(
   mentorId: string,
   requestId: string,
-  accept: boolean
+  accept: boolean,
 ): Promise<{ success: boolean; error?: string }> {
   const supabase = await createClient();
 
@@ -237,17 +236,15 @@ export async function respondToMentorshipRequest(
   }
 
   // Notify mentee
-  await supabase
-    .from('notifications')
-    .insert({
-      user_id: request.mentee_id,
-      type: accept ? 'success' : 'info',
-      title: accept ? 'Mentorship Accepted!' : 'Mentorship Update',
-      message: accept 
-        ? 'Your mentor request has been accepted. You can now connect!'
-        : 'Your mentor request was declined. Try connecting with another mentor.',
-      action_url: '/hub/mentorship',
-    });
+  await supabase.from('notifications').insert({
+    user_id: request.mentee_id,
+    type: accept ? 'success' : 'info',
+    title: accept ? 'Mentorship Accepted!' : 'Mentorship Update',
+    message: accept
+      ? 'Your mentor request has been accepted. You can now connect!'
+      : 'Your mentor request was declined. Try connecting with another mentor.',
+    action_url: '/hub/mentorship',
+  });
 
   return { success: true };
 }
@@ -264,7 +261,8 @@ export async function getUserMentorships(userId: string): Promise<{
   // Get as mentee (my mentors)
   const { data: myMentors } = await supabase
     .from('mentorships')
-    .select(`
+    .select(
+      `
       id,
       status,
       created_at,
@@ -274,7 +272,8 @@ export async function getUserMentorships(userId: string): Promise<{
         bio,
         profiles!mentors_user_id_fkey(full_name, avatar_url)
       )
-    `)
+    `,
+    )
     .eq('mentee_id', userId)
     .eq('status', 'active');
 
@@ -289,13 +288,15 @@ export async function getUserMentorships(userId: string): Promise<{
   if (mentor) {
     const { data } = await supabase
       .from('mentorships')
-      .select(`
+      .select(
+        `
         id,
         status,
         created_at,
         mentee_id,
         profiles!mentorships_mentee_id_fkey(full_name, avatar_url)
-      `)
+      `,
+      )
       .eq('mentor_id', mentor.id)
       .eq('status', 'active');
     myMentees = data || [];
@@ -313,7 +314,7 @@ export async function getUserMentorships(userId: string): Promise<{
 export async function registerAsMentor(
   userId: string,
   bio: string,
-  availability: string[]
+  availability: string[],
 ): Promise<{ success: boolean; error?: string }> {
   const supabase = await createClient();
 
@@ -331,16 +332,17 @@ export async function registerAsMentor(
   }
 
   // Create or update mentor profile
-  const { error } = await supabase
-    .from('mentors')
-    .upsert({
+  const { error } = await supabase.from('mentors').upsert(
+    {
       user_id: userId,
       bio,
       availability,
       is_available: true,
-    }, {
+    },
+    {
       onConflict: 'user_id',
-    });
+    },
+  );
 
   if (error) {
     return { success: false, error: 'Operation failed' };

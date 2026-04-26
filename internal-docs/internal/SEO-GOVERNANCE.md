@@ -2,11 +2,11 @@
 
 **Indexing, Content, and Crawl Control**
 
-| Field | Value |
-|-------|-------|
-| Version | 1.0 |
-| Last Reviewed | January 2025 |
-| Owner | Platform Governance |
+| Field         | Value               |
+| ------------- | ------------------- |
+| Version       | 1.0                 |
+| Last Reviewed | January 2025        |
+| Owner         | Platform Governance |
 
 ---
 
@@ -59,15 +59,15 @@ Only the following roles may approve a page for indexing:
 
 A page may be indexed only if **all** conditions are met:
 
-| # | Condition | Description |
-|---|-----------|-------------|
-| 1 | Public | No authentication required |
-| 2 | Stable | Content does not change per user |
-| 3 | Complete | No placeholders, no "coming soon" |
-| 4 | Evergreen | Valid for at least 6 months |
-| 5 | Canonical | Single clean URL, no parameters |
-| 6 | Governed | Aligned with authoritative documents |
-| 7 | Compliant | Reviewed for compliance language |
+| #   | Condition | Description                          |
+| --- | --------- | ------------------------------------ |
+| 1   | Public    | No authentication required           |
+| 2   | Stable    | Content does not change per user     |
+| 3   | Complete  | No placeholders, no "coming soon"    |
+| 4   | Evergreen | Valid for at least 6 months          |
+| 5   | Canonical | Single clean URL, no parameters      |
+| 6   | Governed  | Aligned with authoritative documents |
+| 7   | Compliant | Reviewed for compliance language     |
 
 **Fail one condition → `noindex, follow`**
 
@@ -80,7 +80,7 @@ A page may be indexed only if **all** conditions are met:
 Default to:
 
 ```html
-<meta name="robots" content="noindex, follow">
+<meta name="robots" content="noindex, follow" />
 ```
 
 **Indexing is opt-in, not opt-out.**
@@ -123,9 +123,9 @@ Every indexed page must include:
 
 ```html
 <title>Unique Page Title (≤60 chars)</title>
-<meta name="description" content="Unique description (140-160 chars)">
-<link rel="canonical" href="https://www.elevateforhumanity.org/exact-path">
-<meta name="robots" content="index, follow">
+<meta name="description" content="Unique description (140-160 chars)" />
+<link rel="canonical" href="https://www.elevateforhumanity.org/exact-path" />
+<meta name="robots" content="index, follow" />
 ```
 
 **No shared or duplicated metadata is allowed.**
@@ -136,13 +136,13 @@ Every indexed page must include:
 
 Any of the following actions require review:
 
-| Action | Review Required |
-|--------|-----------------|
-| Changing page intent | ✅ Yes |
-| Changing page title or description | ✅ Yes |
-| Changing index/noindex status | ✅ Yes |
-| Adding new public routes | ✅ Yes |
-| Removing disclosures | ✅ Yes |
+| Action                             | Review Required |
+| ---------------------------------- | --------------- |
+| Changing page intent               | ✅ Yes          |
+| Changing page title or description | ✅ Yes          |
+| Changing index/noindex status      | ✅ Yes          |
+| Adding new public routes           | ✅ Yes          |
+| Removing disclosures               | ✅ Yes          |
 
 Emergency fixes may be published but must be reviewed within 24 hours.
 
@@ -200,10 +200,11 @@ Emergency fixes may be published but must be reviewed within 24 hours.
 ## Enforcement in Code
 
 See `/lib/seo/indexing-governance.ts` for:
+
 - `INDEXING_GATES` - All conditions that must pass
 - `NEVER_INDEX_PATTERNS` - Blocked URL patterns
 - `isNeverIndexed()` - Runtime check function
 
 ---
 
-*End of Document*
+_End of Document_

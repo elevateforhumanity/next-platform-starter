@@ -1,6 +1,4 @@
-
 export const revalidate = 3600;
-
 
 import { Metadata } from 'next';
 import Link from 'next/link';
@@ -32,13 +30,16 @@ export default function EstheticianApplySuccessPage() {
               <UserPlus className="w-6 h-6 text-white flex-shrink-0" />
               <div>
                 <h2 className="font-bold text-white text-lg leading-tight">Create your account</h2>
-                <p className="text-brand-blue-100 text-sm">Required to access orientation and your apprentice dashboard</p>
+                <p className="text-brand-blue-100 text-sm">
+                  Required to access orientation and your apprentice dashboard
+                </p>
               </div>
             </div>
           </div>
           <div className="p-6">
             <p className="text-black text-sm mb-4">
-              Use the same email address you used at checkout. Your enrollment will be linked automatically.
+              Use the same email address you used at checkout. Your enrollment will be linked
+              automatically.
             </p>
             <Link
               href="/signup?role=apprentice&redirect=/programs/esthetician/enrollment-success"
@@ -48,7 +49,10 @@ export default function EstheticianApplySuccessPage() {
             </Link>
             <p className="text-center text-xs text-black mt-3">
               Already have an account?{' '}
-              <Link href="/login?redirect=/programs/esthetician/enrollment-success" className="text-brand-blue-600 hover:underline">
+              <Link
+                href="/login?redirect=/programs/esthetician/enrollment-success"
+                className="text-brand-blue-600 hover:underline"
+              >
                 Sign in
               </Link>
             </p>

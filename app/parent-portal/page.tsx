@@ -4,15 +4,25 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import {
-  Eye, Calendar, MessageSquare, Bell, BarChart3, Shield,
-  ArrowRight, Phone, CheckCircle2, GraduationCap, Clock,
+  Eye,
+  Calendar,
+  MessageSquare,
+  Bell,
+  BarChart3,
+  Shield,
+  ArrowRight,
+  Phone,
+  CheckCircle2,
+  GraduationCap,
+  Clock,
 } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: 'Parent & Guardian Portal | Elevate For Humanity',
-  description: 'Monitor your student\'s progress, attendance, and grades. Communicate with instructors and stay informed about program updates.',
+  description:
+    "Monitor your student's progress, attendance, and grades. Communicate with instructors and stay informed about program updates.",
   alternates: { canonical: 'https://www.elevateforhumanity.org/parent-portal' },
 };
 
@@ -32,7 +42,7 @@ const FEATURES = [
   {
     icon: MessageSquare,
     title: 'Message Instructors',
-    desc: 'Send and receive messages directly with your student\'s instructors and advisors.',
+    desc: "Send and receive messages directly with your student's instructors and advisors.",
     image: '/images/pages/student-portal-page-4.jpg',
   },
   {
@@ -50,7 +60,7 @@ const FEATURES = [
   {
     icon: Shield,
     title: 'Secure & Private',
-    desc: 'FERPA-compliant access. Your student\'s data is protected and never shared.',
+    desc: "FERPA-compliant access. Your student's data is protected and never shared.",
     image: '/images/pages/student-portal-page-7.jpg',
   },
 ];
@@ -59,13 +69,22 @@ export default async function ParentPortalPage() {
   const supabase = await createClient();
 
   // Check if user is already logged in — show their linked student data if so
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
-  let linkedStudents: { id: string; full_name: string; program: string; enrollment_state: string }[] = [];
+  let linkedStudents: {
+    id: string;
+    full_name: string;
+    program: string;
+    enrollment_state: string;
+  }[] = [];
   if (user) {
     const { data } = await supabase
       .from('parent_student_links')
-      .select('student_id, profiles!parent_student_links_student_id_fkey(full_name), program_enrollments(enrollment_state, programs(title))')
+      .select(
+        'student_id, profiles!parent_student_links_student_id_fkey(full_name), program_enrollments(enrollment_state, programs(title))',
+      )
       .eq('parent_id', user.id)
       .limit(10);
     if (data) {
@@ -90,15 +109,22 @@ export default async function ParentPortalPage() {
           <Image
             src="/images/pages/about-career-training.jpg"
             alt="Parent and guardian portal"
-            fill className="object-cover object-center" priority sizes="100vw"
+            fill
+            className="object-cover object-center"
+            priority
+            sizes="100vw"
           />
         </div>
         <div className="bg-white border-t py-10 text-center px-4">
-          <p className="text-brand-blue-600 font-bold text-xs uppercase tracking-widest mb-3">For Parents &amp; Guardians</p>
-          <h1 className="text-4xl md:text-5xl font-black text-black mb-4">Parent &amp; Guardian Portal</h1>
+          <p className="text-brand-blue-600 font-bold text-xs uppercase tracking-widest mb-3">
+            For Parents &amp; Guardians
+          </p>
+          <h1 className="text-4xl md:text-5xl font-black text-black mb-4">
+            Parent &amp; Guardian Portal
+          </h1>
           <p className="text-black text-lg max-w-2xl mx-auto mb-8">
-            Stay connected to your student&apos;s training journey. Monitor progress, attendance, and grades.
-            Communicate directly with instructors.
+            Stay connected to your student&apos;s training journey. Monitor progress, attendance,
+            and grades. Communicate directly with instructors.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <Link
@@ -124,7 +150,10 @@ export default async function ParentPortalPage() {
             <h2 className="text-xl font-black text-black mb-6">Your Linked Students</h2>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {linkedStudents.map((s) => (
-                <div key={s.id} className="bg-white rounded-2xl border border-slate-200 p-5 flex items-start gap-4">
+                <div
+                  key={s.id}
+                  className="bg-white rounded-2xl border border-slate-200 p-5 flex items-start gap-4"
+                >
                   <div className="w-10 h-10 rounded-full bg-brand-blue-100 flex items-center justify-center flex-shrink-0">
                     <GraduationCap className="w-5 h-5 text-brand-blue-600" />
                   </div>
@@ -135,7 +164,10 @@ export default async function ParentPortalPage() {
                       {s.enrollment_state.replace(/_/g, ' ')}
                     </span>
                   </div>
-                  <Link href={`/parent-portal/student/${s.id}`} className="text-brand-blue-600 hover:text-brand-blue-700 flex-shrink-0">
+                  <Link
+                    href={`/parent-portal/student/${s.id}`}
+                    className="text-brand-blue-600 hover:text-brand-blue-700 flex-shrink-0"
+                  >
                     <ArrowRight className="w-5 h-5" />
                   </Link>
                 </div>
@@ -150,15 +182,25 @@ export default async function ParentPortalPage() {
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl font-black text-black text-center mb-3">What You Can Do</h2>
           <p className="text-black text-center mb-10 max-w-xl mx-auto">
-            Available for parents and guardians of students enrolled in apprenticeship and career training programs.
+            Available for parents and guardians of students enrolled in apprenticeship and career
+            training programs.
           </p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {FEATURES.map((f) => {
               const Icon = f.icon;
               return (
-                <div key={f.title} className="bg-white rounded-2xl border border-slate-200 overflow-hidden flex flex-col">
+                <div
+                  key={f.title}
+                  className="bg-white rounded-2xl border border-slate-200 overflow-hidden flex flex-col"
+                >
                   <div className="relative h-40 flex-shrink-0">
-                    <Image src={f.image} alt={f.title} fill className="object-cover" sizes="(max-width: 640px) 100vw, 33vw" />
+                    <Image
+                      src={f.image}
+                      alt={f.title}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 640px) 100vw, 33vw"
+                    />
                     <div className="absolute top-3 left-3 w-9 h-9 rounded-full bg-white/90 flex items-center justify-center shadow">
                       <Icon className="w-4 h-4 text-brand-blue-600" />
                     </div>
@@ -182,13 +224,14 @@ export default async function ParentPortalPage() {
               <h2 className="text-3xl font-black text-black mb-4">How to Get Access</h2>
               <p className="text-black mb-6 leading-relaxed">
                 Portal access is available for parents and guardians of minor students enrolled in
-                apprenticeship programs. Contact your student&apos;s program coordinator to request access.
+                apprenticeship programs. Contact your student&apos;s program coordinator to request
+                access.
               </p>
               <ul className="space-y-3 mb-8">
                 {[
                   'Your student must be actively enrolled in a program',
-                  'Contact us with your student\'s name and your email address',
-                  'We\'ll create your account and send login instructions within 1 business day',
+                  "Contact us with your student's name and your email address",
+                  "We'll create your account and send login instructions within 1 business day",
                   'Access is free — no fees or subscriptions',
                 ].map((item) => (
                   <li key={item} className="flex items-start gap-3 text-black text-sm">
@@ -216,7 +259,8 @@ export default async function ParentPortalPage() {
               <Image
                 src="/images/pages/about-supportive-services.jpg"
                 alt="Supportive services for students and families"
-                fill className="object-cover"
+                fill
+                className="object-cover"
                 sizes="(max-width: 768px) 100vw, 50vw"
               />
             </div>

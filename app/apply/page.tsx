@@ -1,4 +1,3 @@
-
 export const revalidate = 3600;
 
 import { Metadata } from 'next';
@@ -8,13 +7,13 @@ import Logo from '@/components/ui/Logo';
 import ApplyHeroVideo from './ApplyHeroVideo';
 import ApplyProgramRedirect from './ApplyProgramRedirect';
 
-
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { ArrowRight } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Apply | Check Eligibility for Funded Training | Elevate for Humanity',
-  description: 'Check eligibility for WIOA, WRG, and FSSA IMPACT-funded training in healthcare, trades, technology, and business. Many programs are no cost to eligible Indiana residents.',
+  description:
+    'Check eligibility for WIOA, WRG, and FSSA IMPACT-funded training in healthcare, trades, technology, and business. Many programs are no cost to eligible Indiana residents.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/apply',
   },
@@ -45,22 +44,21 @@ export default async function ApplyPage({
         <ApplyHeroVideo />
       </section>
 
-
-
       {/* Heading */}
       <section className="pt-4 pb-8 px-4">
         <div className="max-w-4xl mx-auto text-center">
-          <p className="text-brand-red-600 font-bold text-xs uppercase tracking-widest mb-2">For Learners</p>
+          <p className="text-brand-red-600 font-bold text-xs uppercase tracking-widest mb-2">
+            For Learners
+          </p>
           <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">
             Check eligibility first. Apply in minutes.
           </h1>
           <p className="text-slate-600 max-w-xl mx-auto">
-            Many programs are fully funded through WIOA, WRG, or FSSA IMPACT for eligible Indiana residents. Check your eligibility before you apply — takes 2 minutes, no account needed.
+            Many programs are fully funded through WIOA, WRG, or FSSA IMPACT for eligible Indiana
+            residents. Check your eligibility before you apply — takes 2 minutes, no account needed.
           </p>
         </div>
       </section>
-
-
 
       {/* Enrollment path links — required for accessibility and E2E navigation */}
       <div className="max-w-6xl mx-auto px-4 pt-2 pb-4 flex flex-wrap gap-4 text-sm">
@@ -77,10 +75,18 @@ export default async function ApplyPage({
         <div className="max-w-6xl mx-auto px-4 pt-6">
           <div className="bg-green-50 border border-green-200 rounded-xl p-6 flex flex-col sm:flex-row sm:items-center gap-4">
             <div className="flex-1">
-              <h2 className="text-lg font-bold text-green-900 mb-1">You likely qualify for funded training</h2>
-              <p className="text-green-800 text-sm">Based on your answers, you may be eligible for WIOA, WRG, or Job Ready Indy funding. Continue your application to confirm eligibility with WorkOne.</p>
+              <h2 className="text-lg font-bold text-green-900 mb-1">
+                You likely qualify for funded training
+              </h2>
+              <p className="text-green-800 text-sm">
+                Based on your answers, you may be eligible for WIOA, WRG, or Job Ready Indy funding.
+                Continue your application to confirm eligibility with WorkOne.
+              </p>
             </div>
-            <Link href="/apply/student" className="flex-shrink-0 bg-green-600 hover:bg-green-700 text-white font-semibold px-5 py-2.5 rounded-lg text-sm transition-colors">
+            <Link
+              href="/apply/student"
+              className="flex-shrink-0 bg-green-600 hover:bg-green-700 text-white font-semibold px-5 py-2.5 rounded-lg text-sm transition-colors"
+            >
               Start Application
             </Link>
           </div>
@@ -91,10 +97,18 @@ export default async function ApplyPage({
         <div className="max-w-6xl mx-auto px-4 pt-6">
           <div className="bg-amber-50 border border-amber-200 rounded-xl p-6 flex flex-col sm:flex-row sm:items-center gap-4">
             <div className="flex-1">
-              <h2 className="text-lg font-bold text-amber-900 mb-1">You may still qualify — or enroll directly</h2>
-              <p className="text-amber-800 text-sm">Funded programs may not be the right fit based on your answers, but you can still enroll through self-pay with flexible payment options starting at $600 down.</p>
+              <h2 className="text-lg font-bold text-amber-900 mb-1">
+                You may still qualify — or enroll directly
+              </h2>
+              <p className="text-amber-800 text-sm">
+                Funded programs may not be the right fit based on your answers, but you can still
+                enroll through self-pay with flexible payment options starting at $600 down.
+              </p>
             </div>
-            <Link href="/programs" className="flex-shrink-0 bg-amber-600 hover:bg-amber-700 text-white font-semibold px-5 py-2.5 rounded-lg text-sm transition-colors">
+            <Link
+              href="/programs"
+              className="flex-shrink-0 bg-amber-600 hover:bg-amber-700 text-white font-semibold px-5 py-2.5 rounded-lg text-sm transition-colors"
+            >
               View Programs
             </Link>
           </div>
@@ -103,7 +117,6 @@ export default async function ApplyPage({
 
       {/* Application cards */}
       <section className="max-w-6xl mx-auto px-4 pb-10 sm:pb-14 space-y-8">
-
         {/* Student — full width, image fills left side */}
         <Link
           href="/apply/student"
@@ -116,7 +129,8 @@ export default async function ApplyPage({
                 alt="Students in hands-on career training"
                 fill
                 className="object-cover"
-               sizes="100vw" />
+                sizes="100vw"
+              />
             </div>
             <div className="flex-1 bg-white p-6 sm:p-8">
               <span className="inline-block bg-brand-blue-600 text-white text-xs font-bold uppercase tracking-wider px-3 py-0.5 rounded-full mb-3">
@@ -131,7 +145,10 @@ export default async function ApplyPage({
                 have tuition with flexible payment options available.
               </p>
               <ul className="text-black text-sm space-y-1 mb-4 list-disc list-inside">
-                <li>Many programs qualify for WIOA, WRG, or FSSA IMPACT funding — check eligibility first</li>
+                <li>
+                  Many programs qualify for WIOA, WRG, or FSSA IMPACT funding — check eligibility
+                  first
+                </li>
                 <li>Takes 2 minutes to check eligibility</li>
                 <li>Self-pay options with payment plans and BNPL available if you don't qualify</li>
                 <li>Response within 1–2 business days</li>
@@ -145,7 +162,6 @@ export default async function ApplyPage({
 
         {/* Secondary cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6">
-
           {/* Employer */}
           <div className="rounded-2xl overflow-hidden border border-slate-200 hover:shadow-lg transition-shadow">
             <div className="relative h-[200px] overflow-hidden">
@@ -154,7 +170,8 @@ export default async function ApplyPage({
                 alt="Employer partnership meeting"
                 fill
                 className="object-cover"
-               sizes="100vw" />
+                sizes="100vw"
+              />
             </div>
             <div className="bg-white p-5">
               <div className="flex items-center gap-2 mb-2">
@@ -162,28 +179,49 @@ export default async function ApplyPage({
                 <Logo alt="Elevate" width={18} height={18} className="opacity-30" />
               </div>
               <p className="text-black text-sm leading-relaxed mb-2">
-                Partner with Elevate to access pre-screened, trained candidates ready to work.
-                We handle recruiting, skills training, and onboarding so you get job-ready hires.
+                Partner with Elevate to access pre-screened, trained candidates ready to work. We
+                handle recruiting, skills training, and onboarding so you get job-ready hires.
               </p>
-              <p className="text-slate-700 text-sm font-semibold mb-2">Available grants and tax credits:</p>
+              <p className="text-slate-700 text-sm font-semibold mb-2">
+                Available grants and tax credits:
+              </p>
               <div className="space-y-1.5 mb-3">
-                <Link href="/employer" className="block text-sm text-brand-blue-600 hover:text-brand-blue-800 hover:underline">
+                <Link
+                  href="/employer"
+                  className="block text-sm text-brand-blue-600 hover:text-brand-blue-800 hover:underline"
+                >
                   <strong>WOTC</strong> — Work Opportunity Tax Credit up to $9,600 per hire
                 </Link>
-                <Link href="/ojt-and-funding" className="block text-sm text-brand-blue-600 hover:text-brand-blue-800 hover:underline">
+                <Link
+                  href="/ojt-and-funding"
+                  className="block text-sm text-brand-blue-600 hover:text-brand-blue-800 hover:underline"
+                >
                   <strong>OJT</strong> — On-the-Job Training reimbursement covers 50-75% of wages
                 </Link>
-                <Link href="/funding" className="block text-sm text-brand-blue-600 hover:text-brand-blue-800 hover:underline">
+                <Link
+                  href="/funding"
+                  className="block text-sm text-brand-blue-600 hover:text-brand-blue-800 hover:underline"
+                >
                   <strong>WIOA</strong> — Workforce Innovation and Opportunity Act funds upskilling
                 </Link>
-                <Link href="/funding" className="block text-sm text-brand-blue-600 hover:text-brand-blue-800 hover:underline">
+                <Link
+                  href="/funding"
+                  className="block text-sm text-brand-blue-600 hover:text-brand-blue-800 hover:underline"
+                >
                   <strong>WRG</strong> — Workforce Ready Grant covers high-demand certifications
                 </Link>
-                <Link href="/funding/state-programs" className="block text-sm text-brand-blue-600 hover:text-brand-blue-800 hover:underline">
-                  <strong>FSSA IMPACT</strong> — Indiana Family and Social Services covers SNAP/TANF participants
+                <Link
+                  href="/funding/state-programs"
+                  className="block text-sm text-brand-blue-600 hover:text-brand-blue-800 hover:underline"
+                >
+                  <strong>FSSA IMPACT</strong> — Indiana Family and Social Services covers SNAP/TANF
+                  participants
                 </Link>
               </div>
-              <Link href="/employer" className="inline-flex items-center gap-2 bg-brand-blue-600 text-white font-semibold px-5 py-2.5 rounded-lg text-sm hover:bg-brand-blue-700 transition-colors">
+              <Link
+                href="/employer"
+                className="inline-flex items-center gap-2 bg-brand-blue-600 text-white font-semibold px-5 py-2.5 rounded-lg text-sm hover:bg-brand-blue-700 transition-colors"
+              >
                 Partner With Us <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
@@ -200,14 +238,17 @@ export default async function ApplyPage({
                 alt="Launch your own training program with Elevate"
                 fill
                 className="object-cover"
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" />
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              />
               {/* Gradient scrim so text is readable over any image */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 p-5">
-                <h2 className="text-lg sm:text-xl font-bold text-white mb-2">Become a Program Holder</h2>
+                <h2 className="text-lg sm:text-xl font-bold text-white mb-2">
+                  Become a Program Holder
+                </h2>
                 <p className="text-white/90 text-sm leading-relaxed mb-3">
-                  Launch your own workforce training program on Elevate&apos;s platform.
-                  We provide the LMS, curriculum, and compliance infrastructure.
+                  Launch your own workforce training program on Elevate&apos;s platform. We provide
+                  the LMS, curriculum, and compliance infrastructure.
                 </p>
                 <span className="inline-flex items-center gap-2 bg-brand-blue-600 text-white font-semibold px-5 py-2.5 rounded-lg text-sm group-hover:gap-3 transition-all">
                   Get Started <ArrowRight className="w-4 h-4" />
@@ -223,7 +264,8 @@ export default async function ApplyPage({
             Every Applicant Gets a Support Bundle
           </h2>
           <p className="text-black text-center mb-8 max-w-2xl mx-auto">
-            Training is just the start. We wrap services around you so nothing gets in the way of finishing.
+            Training is just the start. We wrap services around you so nothing gets in the way of
+            finishing.
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
             {[
@@ -269,37 +311,43 @@ export default async function ApplyPage({
                 desc: 'Exam prep, testing fees, and licensing assistance included with your program.',
               },
             ].map((item) => (
-              <div key={item.title} className="bg-white rounded-xl overflow-hidden border border-slate-100">
+              <div
+                key={item.title}
+                className="bg-white rounded-xl overflow-hidden border border-slate-100"
+              >
                 <div className="relative h-32 sm:h-36 overflow-hidden">
                   <Image
                     src={item.image}
                     alt={item.alt}
                     fill
                     className="object-cover"
-                   sizes="100vw" />
+                    sizes="100vw"
+                  />
                 </div>
                 <div className="p-4">
                   <h3 className="font-semibold text-slate-900 mb-1">{item.title}</h3>
                   <p className="text-black text-sm leading-relaxed">{item.desc}</p>
-                  {'link' in item && item.link && (
-                    item.link.startsWith('http') ? (
+                  {'link' in item &&
+                    item.link &&
+                    (item.link.startsWith('http') ? (
                       <a
                         href={item.link}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-2 bg-brand-blue-600 text-white font-semibold px-4 py-2 rounded-lg text-sm mt-3 hover:bg-brand-blue-700 transition-colors"
                       >
-                        {('linkLabel' in item && item.linkLabel) || 'Learn More'} <ArrowRight className="w-4 h-4" />
+                        {('linkLabel' in item && item.linkLabel) || 'Learn More'}{' '}
+                        <ArrowRight className="w-4 h-4" />
                       </a>
                     ) : (
                       <Link
                         href={item.link}
                         className="inline-flex items-center gap-2 bg-brand-blue-600 text-white font-semibold px-4 py-2 rounded-lg text-sm mt-3 hover:bg-brand-blue-700 transition-colors"
                       >
-                        {('linkLabel' in item && item.linkLabel) || 'Learn More'} <ArrowRight className="w-4 h-4" />
+                        {('linkLabel' in item && item.linkLabel) || 'Learn More'}{' '}
+                        <ArrowRight className="w-4 h-4" />
                       </Link>
-                    )
-                  )}
+                    ))}
                 </div>
               </div>
             ))}

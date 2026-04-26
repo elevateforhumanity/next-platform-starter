@@ -9,7 +9,8 @@ export function EmptyEnrollmentState() {
       </div>
       <h3 className="text-xl font-bold text-slate-900 mb-2">No programs enrolled yet</h3>
       <p className="text-slate-600 text-sm mb-6 max-w-sm mx-auto">
-        Browse available programs and apply to get started. Most programs are funded for eligible Indiana residents.
+        Browse available programs and apply to get started. Most programs are funded for eligible
+        Indiana residents.
       </p>
       <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
         <Link

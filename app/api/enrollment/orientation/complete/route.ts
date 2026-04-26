@@ -10,8 +10,11 @@ async function _POST(req: Request) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
+
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
     if (authError || !user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -39,19 +42,24 @@ async function _POST(req: Request) {
 
     // Check state allows transition
     if (enrollment.enrollment_state !== 'confirmed') {
-      if (enrollment.enrollment_state === 'orientation_complete' || 
-          enrollment.enrollment_state === 'documents_complete' ||
-          enrollment.enrollment_state === 'active') {
-        return NextResponse.json({ 
-          success: true, 
+      if (
+        enrollment.enrollment_state === 'orientation_complete' ||
+        enrollment.enrollment_state === 'documents_complete' ||
+        enrollment.enrollment_state === 'active'
+      ) {
+        return NextResponse.json({
+          success: true,
           message: 'Orientation already completed',
-          redirect: '/enrollment/documents'
+          redirect: '/enrollment/documents',
         });
       }
-      return NextResponse.json({ 
-        error: 'Cannot complete orientation from current state',
-        current_state: enrollment.enrollment_state
-      }, { status: 400 });
+      return NextResponse.json(
+        {
+          error: 'Cannot complete orientation from current state',
+          current_state: enrollment.enrollment_state,
+        },
+        { status: 400 },
+      );
     }
 
     // Advance state

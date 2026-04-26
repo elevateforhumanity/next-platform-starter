@@ -1,5 +1,5 @@
 // PUBLIC ROUTE: simplified program application form
-import { NextResponse } from "next/server";
+import { NextResponse } from 'next/server';
 import { getAdminClient } from '@/lib/supabase/admin';
 import { resolveProgramId } from '@/lib/programs/resolve';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
@@ -12,31 +12,44 @@ export const dynamic = 'force-dynamic';
 
 async function _POST(req: Request) {
   try {
-    try { const rl = await applyRateLimit(req, 'strict'); if (rl) return rl; } catch (e) { console.warn('[rate-limit] applyRateLimit failed — continuing without limit', e); }
+    try {
+      const rl = await applyRateLimit(req, 'strict');
+      if (rl) return rl;
+    } catch (e) {
+      console.warn('[rate-limit] applyRateLimit failed — continuing without limit', e);
+    }
 
     // Accept both form data and JSON
     const contentType = req.headers.get('content-type') || '';
     let program: string, funding: string, name: string, email: string, phone: string;
     if (contentType.includes('application/json')) {
       const json = await req.json();
-      program = json.program; funding = json.funding; name = json.name; email = json.email; phone = json.phone;
+      program = json.program;
+      funding = json.funding;
+      name = json.name;
+      email = json.email;
+      phone = json.phone;
     } else {
       const data = await req.formData();
-      program = data.get('program') as string; funding = data.get('funding') as string;
-      name = data.get('name') as string; email = data.get('email') as string; phone = data.get('phone') as string;
+      program = data.get('program') as string;
+      funding = data.get('funding') as string;
+      name = data.get('name') as string;
+      email = data.get('email') as string;
+      phone = data.get('phone') as string;
     }
 
     // WIOA-style prescreen
-    const eligible = funding !== "Self Pay" && program !== "Not Sure";
+    const eligible = funding !== 'Self Pay' && program !== 'Not Sure';
 
     let supabase: Awaited<ReturnType<typeof getAdminClient>> | null = null;
-    try { supabase = await getAdminClient(); } catch { /* non-fatal — falls back to anon client */ }
+    try {
+      supabase = await getAdminClient();
+    } catch {
+      /* non-fatal — falls back to anon client */
+    }
 
     if (!supabase) {
-      return NextResponse.json(
-        { error: 'Service temporarily unavailable.' },
-        { status: 503 }
-      );
+      return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });
     }
 
     // Resolve program_id so the review page can approve without guessing
@@ -60,7 +73,7 @@ async function _POST(req: Request) {
       program_id: resolvedProgramId,
       funding_type: funding,
       source: 'simple_form',
-      notes: eligible ? "Prescreen passed — WIOA eligible" : "Needs review",
+      notes: eligible ? 'Prescreen passed — WIOA eligible' : 'Needs review',
       status: 'submitted',
       // Required NOT NULL columns — simple form doesn't collect address
       city: 'Unknown',
@@ -75,15 +88,9 @@ async function _POST(req: Request) {
     // Welcome and onboarding emails fire when application moves to 'in_review'
     // via the transition route — not on submission.
 
-    return NextResponse.redirect(
-      new URL("/apply/success", req.url),
-      { status: 303 }
-    );
+    return NextResponse.redirect(new URL('/apply/success', req.url), { status: 303 });
   } catch (err) {
-    return NextResponse.json(
-      { error: "Submission failed" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Submission failed' }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/apply/simple', _POST);

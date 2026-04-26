@@ -30,7 +30,7 @@ function validateEnv() {
       hasErrors = true;
     } else if (config.minLength && value.length < config.minLength) {
       console.error(
-        `❌ Variable ${key} is too short (${value.length} chars, minimum ${config.minLength})`
+        `❌ Variable ${key} is too short (${value.length} chars, minimum ${config.minLength})`,
       );
       console.error(`   Description: ${config.description}\n`);
       hasErrors = true;

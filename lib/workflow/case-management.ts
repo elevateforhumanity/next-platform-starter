@@ -2,7 +2,14 @@ import { logger } from '@/lib/logger';
 import { getAdminClient } from '@/lib/supabase/admin';
 import { auditLog, AuditAction, AuditEntity } from '@/lib/logging/auditLog';
 
-export type CaseStatus = 'draft' | 'pending_signatures' | 'active' | 'in_progress' | 'completed' | 'closed' | 'cancelled';
+export type CaseStatus =
+  | 'draft'
+  | 'pending_signatures'
+  | 'active'
+  | 'in_progress'
+  | 'completed'
+  | 'closed'
+  | 'cancelled';
 export type SignerRole = 'student' | 'employer' | 'program_holder' | 'witness' | 'admin';
 
 export interface EnrollmentCase {
@@ -57,11 +64,17 @@ export interface SignatureCompleteness {
   missing: SignerRole[];
 }
 
-export async function createEnrollmentCase(params: CreateCaseParams): Promise<EnrollmentCase | null> {
+export async function createEnrollmentCase(
+  params: CreateCaseParams,
+): Promise<EnrollmentCase | null> {
   const supabase = await getAdminClient();
-  
-  const defaultSignatures: SignerRole[] = params.signaturesRequired || ['student', 'employer', 'program_holder'];
-  
+
+  const defaultSignatures: SignerRole[] = params.signaturesRequired || [
+    'student',
+    'employer',
+    'program_holder',
+  ];
+
   const { data, error } = await supabase
     .from('enrollment_cases')
     .insert({
@@ -126,7 +139,7 @@ export async function checkSignatureCompleteness(caseId: string): Promise<Signat
 
   const required: SignerRole[] = caseData.signatures_required || [];
   const completed: SignerRole[] = caseData.signatures_completed || [];
-  const missing = required.filter(role => !completed.includes(role));
+  const missing = required.filter((role) => !completed.includes(role));
 
   return {
     complete: missing.length === 0,
@@ -136,7 +149,9 @@ export async function checkSignatureCompleteness(caseId: string): Promise<Signat
   };
 }
 
-export async function addSignature(params: SignatureParams): Promise<{ success: boolean; completeness: SignatureCompleteness }> {
+export async function addSignature(
+  params: SignatureParams,
+): Promise<{ success: boolean; completeness: SignatureCompleteness }> {
   const supabase = await getAdminClient();
 
   // agreement_acceptances: subject_type, subject_id, agreement_key, agreement_version, accepted_name, accepted_email, accepted_ip, user_agent
@@ -158,7 +173,10 @@ export async function addSignature(params: SignatureParams): Promise<{ success: 
 
   if (error) {
     logger.error('[addSignature] Error:', error);
-    return { success: false, completeness: { complete: false, required: [], completed: [], missing: [] } };
+    return {
+      success: false,
+      completeness: { complete: false, required: [], completed: [], missing: [] },
+    };
   }
 
   await auditLog({
@@ -178,7 +196,12 @@ export async function addSignature(params: SignatureParams): Promise<{ success: 
   return { success: true, completeness };
 }
 
-export async function transitionCaseStatus(caseId: string, newStatus: CaseStatus, actorId?: string, actorRole?: string): Promise<boolean> {
+export async function transitionCaseStatus(
+  caseId: string,
+  newStatus: CaseStatus,
+  actorId?: string,
+  actorRole?: string,
+): Promise<boolean> {
   const supabase = await getAdminClient();
 
   const { data: currentCase } = await supabase
@@ -202,10 +225,7 @@ export async function transitionCaseStatus(caseId: string, newStatus: CaseStatus
     updateData.completed_at = new Date().toISOString();
   }
 
-  const { error } = await supabase
-    .from('enrollment_cases')
-    .update(updateData)
-    .eq('id', caseId);
+  const { error } = await supabase.from('enrollment_cases').update(updateData).eq('id', caseId);
 
   if (error) {
     logger.error('[transitionCaseStatus] Error:', error);
@@ -248,7 +268,12 @@ export async function getCaseTasks(caseId: string): Promise<any[]> {
   return data || [];
 }
 
-export async function completeTask(taskId: string, completedBy: string, evidenceUrl?: string, evidenceMetadata?: any): Promise<boolean> {
+export async function completeTask(
+  taskId: string,
+  completedBy: string,
+  evidenceUrl?: string,
+  evidenceMetadata?: any,
+): Promise<boolean> {
   const supabase = await getAdminClient();
 
   const { data: task, error } = await supabase

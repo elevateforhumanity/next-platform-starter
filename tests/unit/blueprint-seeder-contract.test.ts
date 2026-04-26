@@ -21,18 +21,18 @@ import type { BlueprintLessonRef } from '@/lib/curriculum/blueprints/types';
 const GOOD_CONTENT = '<p>' + 'A'.repeat(250) + '</p>';
 
 const GOOD_QUESTIONS = Array.from({ length: 5 }, (_, i) => ({
-  id:            `q${i + 1}`,
-  question:      `Question ${i + 1}?`,
-  options:       ['A', 'B', 'C', 'D'],
+  id: `q${i + 1}`,
+  question: `Question ${i + 1}?`,
+  options: ['A', 'B', 'C', 'D'],
   correctAnswer: 0,
-  explanation:   'Because A.',
+  explanation: 'Because A.',
 }));
 
 function lessonRef(overrides: Partial<BlueprintLessonRef> = {}): BlueprintLessonRef {
   return {
-    slug:      'intro-to-hvac',
-    title:     'Intro to HVAC',
-    order:     1,
+    slug: 'intro-to-hvac',
+    title: 'Intro to HVAC',
+    order: 1,
     domainKey: 'foundations',
     ...overrides,
   };
@@ -100,7 +100,7 @@ describe('validateProductionContent — lesson', () => {
       lessonRef({ objective: 'Understand HVAC basics.' }),
       'lesson',
     );
-    expect(violations.some(v => v.field === 'content')).toBe(true);
+    expect(violations.some((v) => v.field === 'content')).toBe(true);
   });
 
   it('fails when content is too short', () => {
@@ -108,21 +108,20 @@ describe('validateProductionContent — lesson', () => {
       lessonRef({ content: '<p>Short.</p>', objective: 'Learn something.' }),
       'lesson',
     );
-    expect(violations.some(v => v.field === 'content' && v.reason.includes('too short'))).toBe(true);
+    expect(violations.some((v) => v.field === 'content' && v.reason.includes('too short'))).toBe(
+      true,
+    );
   });
 
   it('fails when objective is missing', () => {
-    const violations = validateProductionContent(
-      lessonRef({ content: GOOD_CONTENT }),
-      'lesson',
-    );
-    expect(violations.some(v => v.field === 'objective')).toBe(true);
+    const violations = validateProductionContent(lessonRef({ content: GOOD_CONTENT }), 'lesson');
+    expect(violations.some((v) => v.field === 'objective')).toBe(true);
   });
 
   it('fails with multiple violations when both fields are missing', () => {
     const violations = validateProductionContent(lessonRef(), 'lesson');
     expect(violations.length).toBeGreaterThanOrEqual(2);
-    const fields = violations.map(v => v.field);
+    const fields = violations.map((v) => v.field);
     expect(fields).toContain('objective');
     expect(fields).toContain('content');
   });
@@ -134,10 +133,10 @@ describe('validateProductionContent — checkpoint', () => {
   it('passes when all required fields are present', () => {
     const violations = validateProductionContent(
       lessonRef({
-        content:       GOOD_CONTENT,
-        objective:     'Demonstrate refrigerant handling.',
+        content: GOOD_CONTENT,
+        objective: 'Demonstrate refrigerant handling.',
         quizQuestions: GOOD_QUESTIONS,
-        passingScore:  70,
+        passingScore: 70,
       }),
       'checkpoint',
     );
@@ -149,20 +148,22 @@ describe('validateProductionContent — checkpoint', () => {
       lessonRef({ content: GOOD_CONTENT, objective: 'Learn.', passingScore: 70 }),
       'checkpoint',
     );
-    expect(violations.some(v => v.field === 'quizQuestions')).toBe(true);
+    expect(violations.some((v) => v.field === 'quizQuestions')).toBe(true);
   });
 
   it('fails when quizQuestions has fewer than 5 questions', () => {
     const violations = validateProductionContent(
       lessonRef({
-        content:       GOOD_CONTENT,
-        objective:     'Learn.',
+        content: GOOD_CONTENT,
+        objective: 'Learn.',
         quizQuestions: GOOD_QUESTIONS.slice(0, 3),
-        passingScore:  70,
+        passingScore: 70,
       }),
       'checkpoint',
     );
-    expect(violations.some(v => v.field === 'quizQuestions' && v.reason.includes('only 3'))).toBe(true);
+    expect(violations.some((v) => v.field === 'quizQuestions' && v.reason.includes('only 3'))).toBe(
+      true,
+    );
   });
 
   it('fails when passingScore is missing', () => {
@@ -170,20 +171,22 @@ describe('validateProductionContent — checkpoint', () => {
       lessonRef({ content: GOOD_CONTENT, objective: 'Learn.', quizQuestions: GOOD_QUESTIONS }),
       'checkpoint',
     );
-    expect(violations.some(v => v.field === 'passingScore')).toBe(true);
+    expect(violations.some((v) => v.field === 'passingScore')).toBe(true);
   });
 
   it('fails when passingScore is out of range', () => {
     const violations = validateProductionContent(
       lessonRef({
-        content:       GOOD_CONTENT,
-        objective:     'Learn.',
+        content: GOOD_CONTENT,
+        objective: 'Learn.',
         quizQuestions: GOOD_QUESTIONS,
-        passingScore:  0,
+        passingScore: 0,
       }),
       'checkpoint',
     );
-    expect(violations.some(v => v.field === 'passingScore' && v.reason.includes('out of range'))).toBe(true);
+    expect(
+      violations.some((v) => v.field === 'passingScore' && v.reason.includes('out of range')),
+    ).toBe(true);
   });
 });
 
@@ -207,11 +210,8 @@ describe('validateProductionContent — quiz/exam', () => {
   });
 
   it('fails when quizQuestions is missing for quiz', () => {
-    const violations = validateProductionContent(
-      lessonRef({ passingScore: 70 }),
-      'quiz',
-    );
-    expect(violations.some(v => v.field === 'quizQuestions')).toBe(true);
+    const violations = validateProductionContent(lessonRef({ passingScore: 70 }), 'quiz');
+    expect(violations.some((v) => v.field === 'quizQuestions')).toBe(true);
   });
 
   it('does not require content for quiz type', () => {
@@ -219,7 +219,7 @@ describe('validateProductionContent — quiz/exam', () => {
       lessonRef({ quizQuestions: GOOD_QUESTIONS, passingScore: 70 }),
       'quiz',
     );
-    expect(violations.some(v => v.field === 'content')).toBe(false);
+    expect(violations.some((v) => v.field === 'content')).toBe(false);
   });
 });
 
@@ -239,7 +239,7 @@ describe('validateProductionContent — lab/assignment', () => {
       lessonRef({ content: GOOD_CONTENT, objective: 'Complete the lab.' }),
       'lab',
     );
-    expect(violations.some(v => v.field === 'quizQuestions')).toBe(false);
+    expect(violations.some((v) => v.field === 'quizQuestions')).toBe(false);
   });
 
   it('fails when content is missing for assignment', () => {
@@ -247,7 +247,7 @@ describe('validateProductionContent — lab/assignment', () => {
       lessonRef({ objective: 'Write a report.' }),
       'assignment',
     );
-    expect(violations.some(v => v.field === 'content')).toBe(true);
+    expect(violations.some((v) => v.field === 'content')).toBe(true);
   });
 });
 

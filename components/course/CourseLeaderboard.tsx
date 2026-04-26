@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
 import React from 'react';
 
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 type LeaderboardRow = {
   rank: number;
@@ -63,9 +63,7 @@ export function CourseLeaderboard({ courseId }: { courseId: string }) {
             className="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2"
           >
             <div className="flex items-center gap-3">
-              <span className="text-xs font-bold text-black">
-                #{row.rank}
-              </span>
+              <span className="text-xs font-bold text-black">#{row.rank}</span>
               <span className="font-medium text-black">{row.name}</span>
             </div>
             <div className="flex items-center gap-2">

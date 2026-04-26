@@ -41,10 +41,7 @@ export interface OrgConfig {
 }
 
 export const getOrgConfig = cache(
-  async (
-    supabase: SupabaseClient,
-    organizationId: string
-  ): Promise<OrgConfig> => {
+  async (supabase: SupabaseClient, organizationId: string): Promise<OrgConfig> => {
     const { data, error }: any = await supabase
       .from('organization_settings')
       .select('config')
@@ -56,5 +53,5 @@ export const getOrgConfig = cache(
     }
 
     return (data?.config as OrgConfig) ?? {};
-  }
+  },
 );

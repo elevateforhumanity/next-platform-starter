@@ -1,11 +1,12 @@
 # ETPL Master Submission Package
+
 ## Elevate for Humanity - Provider ID: 10000949
 
 **Submission Date:** November 2024  
 **Provider:** Elevate for Humanity  
 **Contact:** elevate4humanityedu@gmail.com  
 **Phone:** (317) 314-3757  
-**Website:** www.elevateforhumanity.org  
+**Website:** www.elevateforhumanity.org
 
 ---
 
@@ -30,7 +31,7 @@
 
 **ETPL Provider ID:** 10000949  
 **DUNS Number:** [To be provided]  
-**Federal EIN:** [To be provided]  
+**Federal EIN:** [To be provided]
 
 ### Contact Information
 
@@ -59,26 +60,27 @@ Indianapolis, IN [ZIP]
 
 Elevate for Humanity offers **16 ETPL-approved training programs** across multiple career pathways:
 
-| # | Program Name | Duration | Funding | Avg. Starting Wage |
-|---|--------------|----------|---------|-------------------|
-| 1 | Tax Preparation & Financial Services | 10 Weeks | WIOA, WRG, Earn & Learn | $16-$22/hr |
-| 2 | Medical Assistant | 16-24 Weeks | WRG, WIOA | $15-$19/hr |
-| 3 | HVAC Technician | 4-9 Months | WIOA, Workforce Grants | $18-$25/hr |
-| 4 | Barber Apprenticeship | 12-18 Months | Apprenticeship, WIOA, WRG | $25K-$35K/yr + tips |
-| 5 | Business Start-Up & Marketing | 5 Weeks | WIOA, WRG | $20K-$50K/yr |
-| 6 | Emergency Health & Safety Tech | 4 Weeks | WIOA, WRG, Apprenticeship | $15-$20/hr |
-| 7 | Professional Esthetician | 5 Weeks | WIOA, WRG, Apprenticeship | $12-$18/hr + tips |
-| 8 | Peer Recovery Coach (CPRC) | 45 Days | WIOA, JRI | $14-$18/hr |
-| 9 | Building Maintenance Technician | 4-9 Months | WIOA, Apprenticeship | $16-$22/hr |
-| 10 | CDL / Truck Driving | 4-6 Weeks | WIOA, Workforce Grants | $50K-$65K/yr |
-| 11 | Phlebotomy Technician | 4-8 Weeks | WRG, WIOA | $14-$18/hr |
-| 12 | Welding Technology | 12-24 Weeks | WIOA, Apprenticeship | $18-$25/hr |
-| 13 | Electrical Technician | 16-24 Weeks | Apprenticeship, WIOA, WRG | $16-$22/hr |
-| 14 | Pharmacy Technician | 12-16 Weeks | WRG, WIOA | $15-$19/hr |
-| 15 | IT Support Specialist | 12-20 Weeks | WIOA, Workforce Grants | $18-$24/hr |
-| 16 | Culinary Arts & Food Service | 12-18 Months | Apprenticeship, WIOA, WRG | $14-$18/hr |
+| #   | Program Name                         | Duration     | Funding                   | Avg. Starting Wage  |
+| --- | ------------------------------------ | ------------ | ------------------------- | ------------------- |
+| 1   | Tax Preparation & Financial Services | 10 Weeks     | WIOA, WRG, Earn & Learn   | $16-$22/hr          |
+| 2   | Medical Assistant                    | 16-24 Weeks  | WRG, WIOA                 | $15-$19/hr          |
+| 3   | HVAC Technician                      | 4-9 Months   | WIOA, Workforce Grants    | $18-$25/hr          |
+| 4   | Barber Apprenticeship                | 12-18 Months | Apprenticeship, WIOA, WRG | $25K-$35K/yr + tips |
+| 5   | Business Start-Up & Marketing        | 5 Weeks      | WIOA, WRG                 | $20K-$50K/yr        |
+| 6   | Emergency Health & Safety Tech       | 4 Weeks      | WIOA, WRG, Apprenticeship | $15-$20/hr          |
+| 7   | Professional Esthetician             | 5 Weeks      | WIOA, WRG, Apprenticeship | $12-$18/hr + tips   |
+| 8   | Peer Recovery Coach (CPRC)           | 45 Days      | WIOA, JRI                 | $14-$18/hr          |
+| 9   | Building Maintenance Technician      | 4-9 Months   | WIOA, Apprenticeship      | $16-$22/hr          |
+| 10  | CDL / Truck Driving                  | 4-6 Weeks    | WIOA, Workforce Grants    | $50K-$65K/yr        |
+| 11  | Phlebotomy Technician                | 4-8 Weeks    | WRG, WIOA                 | $14-$18/hr          |
+| 12  | Welding Technology                   | 12-24 Weeks  | WIOA, Apprenticeship      | $18-$25/hr          |
+| 13  | Electrical Technician                | 16-24 Weeks  | Apprenticeship, WIOA, WRG | $16-$22/hr          |
+| 14  | Pharmacy Technician                  | 12-16 Weeks  | WRG, WIOA                 | $15-$19/hr          |
+| 15  | IT Support Specialist                | 12-20 Weeks  | WIOA, Workforce Grants    | $18-$24/hr          |
+| 16  | Culinary Arts & Food Service         | 12-18 Months | Apprenticeship, WIOA, WRG | $14-$18/hr          |
 
 **Additional Programs (Not ETPL-Listed):**
+
 - Beauty & Career Educator Training (12-16 Weeks)
 - Certified Peer Support Professional (6-8 Weeks)
 - CPR & First Aid Certification (1 Day)
@@ -126,6 +128,7 @@ Complete syllabi for all ETPL-approved programs are included in this submission 
 ### Educational Standards
 
 All programs are designed to meet or exceed:
+
 - Industry certification requirements
 - State licensing board standards (where applicable)
 - DOL Registered Apprenticeship standards
@@ -135,6 +138,7 @@ All programs are designed to meet or exceed:
 ### Instructor Qualifications
 
 All instructors meet minimum requirements:
+
 - Industry certifications and licenses
 - Minimum 3-5 years professional experience
 - Teaching credential or adult education experience
@@ -164,13 +168,13 @@ All instructors meet minimum requirements:
 
 ### Job Placement Rates (12-Month Average)
 
-| Program Category | Placement Rate | Avg. Time to Employment |
-|------------------|----------------|------------------------|
-| Healthcare | 90% | 60-90 days |
-| Skilled Trades | 95% | 30-60 days |
-| Technology | 85% | 60-90 days |
-| Business/Finance | 85% | 60-90 days |
-| Recovery Services | 85% | 90 days |
+| Program Category  | Placement Rate | Avg. Time to Employment |
+| ----------------- | -------------- | ----------------------- |
+| Healthcare        | 90%            | 60-90 days              |
+| Skilled Trades    | 95%            | 30-60 days              |
+| Technology        | 85%            | 60-90 days              |
+| Business/Finance  | 85%            | 60-90 days              |
+| Recovery Services | 85%            | 90 days                 |
 
 ### Credential Attainment
 
@@ -198,6 +202,7 @@ All instructors meet minimum requirements:
 ### Eligible Funding Sources
 
 All programs are approved for:
+
 - **WIOA (Workforce Innovation and Opportunity Act)**
 - **WRG (Workforce Ready Grant)** - Indiana
 - **Pell Grants** (where applicable)
@@ -208,6 +213,7 @@ All programs are approved for:
 ### Support Services Provided
 
 **Career Services:**
+
 - Career coaching and counseling
 - Resume and interview preparation
 - Job search assistance
@@ -216,6 +222,7 @@ All programs are approved for:
 - Professional clothing assistance
 
 **Wraparound Services:**
+
 - Transportation assistance (bus passes, gas cards)
 - Childcare support (referrals and subsidies)
 - Technology access (laptops, internet)
@@ -224,6 +231,7 @@ All programs are approved for:
 - Emergency financial assistance
 
 **Student Success Support:**
+
 - Academic tutoring and study groups
 - Mentorship programs
 - Peer support networks
@@ -259,6 +267,7 @@ Address: [WorkOne Center Address]
 ## Program Outcomes Reporting
 
 Elevate for Humanity commits to:
+
 - Quarterly performance reporting to Indiana DWD
 - Annual ETPL recertification and updates
 - Student outcome tracking (employment, wages, retention)
@@ -287,7 +296,7 @@ Elevate for Humanity commits to:
 
 I certify that the information contained in this ETPL submission package is true and accurate to the best of my knowledge. Elevate for Humanity commits to maintaining program quality, meeting performance standards, and serving WIOA/WRG-eligible students with excellence.
 
-**Signature:** _________________________  
+**Signature:** ************\_************  
 **Name:** [Executive Director Name]  
 **Title:** Executive Director  
 **Date:** November 2024
@@ -309,7 +318,7 @@ Website: www.elevateforhumanity.org
 
 ---
 
-*This document serves as the master submission package for Indiana ETPL listing. Individual program syllabi are attached as separate documents. All information is current as of November 2024 and subject to updates as programs evolve to meet industry needs.*
+_This document serves as the master submission package for Indiana ETPL listing. Individual program syllabi are attached as separate documents. All information is current as of November 2024 and subject to updates as programs evolve to meet industry needs._
 
 **Document Version:** 1.0  
 **Last Updated:** November 28, 2024  

@@ -68,14 +68,12 @@ async function _GET(req: NextRequest) {
           l.status === 'sent' ||
           l.status === 'delivered' ||
           l.status === 'opened' ||
-          l.status === 'clicked'
+          l.status === 'clicked',
       ).length || 0;
     const totalOpens =
-      logs?.filter((l) => l.status === 'opened' || l.status === 'clicked')
-        .length || 0;
+      logs?.filter((l) => l.status === 'opened' || l.status === 'clicked').length || 0;
     const totalClicks = logs?.filter((l) => l.status === 'clicked').length || 0;
-    const totalBounces =
-      logs?.filter((l) => l.status === 'bounced').length || 0;
+    const totalBounces = logs?.filter((l) => l.status === 'bounced').length || 0;
 
     const overview = {
       totalSent,
@@ -90,21 +88,18 @@ async function _GET(req: NextRequest) {
     // Calculate per-campaign stats
     const campaignStats =
       campaigns?.map((campaign) => {
-        const campaignLogs =
-          logs?.filter((l) => l.campaign_id === campaign.id) || [];
+        const campaignLogs = logs?.filter((l) => l.campaign_id === campaign.id) || [];
         const sent = campaignLogs.filter(
           (l) =>
             l.status === 'sent' ||
             l.status === 'delivered' ||
             l.status === 'opened' ||
-            l.status === 'clicked'
+            l.status === 'clicked',
         ).length;
         const opens = campaignLogs.filter(
-          (l) => l.status === 'opened' || l.status === 'clicked'
+          (l) => l.status === 'opened' || l.status === 'clicked',
         ).length;
-        const clicks = campaignLogs.filter(
-          (l) => l.status === 'clicked'
-        ).length;
+        const clicks = campaignLogs.filter((l) => l.status === 'clicked').length;
 
         return {
           id: campaign.id,
@@ -119,10 +114,7 @@ async function _GET(req: NextRequest) {
       }) || [];
 
     // Calculate timeline data (daily aggregates)
-    const timelineMap = new Map<
-      string,
-      { sent: number; opens: number; clicks: number }
-    >();
+    const timelineMap = new Map<string, { sent: number; opens: number; clicks: number }>();
 
     logs?.forEach((log) => {
       const date = new Date(log.sent_at).toISOString().split('T')[0];
@@ -183,15 +175,9 @@ async function _GET(req: NextRequest) {
         topPerformers,
       },
     });
-  } catch (error) { 
-    logger.error(
-      'Analytics error:',
-      error instanceof Error ? error : new Error(String(error))
-    );
-    return NextResponse.json(
-      { success: false, error: toErrorMessage(error) },
-      { status: 500 }
-    );
+  } catch (error) {
+    logger.error('Analytics error:', error instanceof Error ? error : new Error(String(error)));
+    return NextResponse.json({ success: false, error: toErrorMessage(error) }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/email/analytics', _GET);

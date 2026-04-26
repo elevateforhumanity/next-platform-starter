@@ -16,12 +16,7 @@
       },
       {
         "prompt": "Which thermal tool is typically used to create soft waves in hair?",
-        "choices": [
-          "Curling iron",
-          "Flat iron",
-          "Blow dryer",
-          "Crimping iron"
-        ],
+        "choices": ["Curling iron", "Flat iron", "Blow dryer", "Crimping iron"],
         "answerIndex": 1,
         "rationale": "A flat iron is commonly used to create soft waves by twisting the iron while gliding it down the hair.",
         "type": "recall"
@@ -40,24 +35,14 @@
       },
       {
         "prompt": "A client presents with fine hair and wants to add volume. Which product should the barber use?",
-        "choices": [
-          "Smoothing serum",
-          "Volumizing spray",
-          "Heavy pomade",
-          "Oil-based gel"
-        ],
+        "choices": ["Smoothing serum", "Volumizing spray", "Heavy pomade", "Oil-based gel"],
         "answerIndex": 1,
         "rationale": "A volumizing spray is designed to add lift and body to fine hair, enhancing volume.",
         "type": "scenario"
       },
       {
         "prompt": "During a service, you notice the client's hair is very coarse. What is the best temperature setting for thermal tools?",
-        "choices": [
-          "Low",
-          "Medium",
-          "High",
-          "Very high"
-        ],
+        "choices": ["Low", "Medium", "High", "Very high"],
         "answerIndex": 2,
         "rationale": "Coarse hair can withstand higher temperatures, so a medium to high setting is appropriate.",
         "type": "scenario"
@@ -112,12 +97,7 @@
       },
       {
         "prompt": "Which styling product is best suited for controlling frizz in curly hair?",
-        "choices": [
-          "Volumizing spray",
-          "Smoothing serum",
-          "Texturizing powder",
-          "Dry shampoo"
-        ],
+        "choices": ["Volumizing spray", "Smoothing serum", "Texturizing powder", "Dry shampoo"],
         "answerIndex": 1,
         "rationale": "A smoothing serum is designed to control frizz and add shine to curly hair.",
         "type": "recall"
@@ -172,12 +152,7 @@
       },
       {
         "prompt": "Which tool is most appropriate for achieving tight, defined curls?",
-        "choices": [
-          "Flat iron",
-          "Curling iron",
-          "Blow dryer",
-          "Crimping iron"
-        ],
+        "choices": ["Flat iron", "Curling iron", "Blow dryer", "Crimping iron"],
         "answerIndex": 1,
         "rationale": "A curling iron is specifically designed to create tight, defined curls.",
         "type": "recall"
@@ -208,12 +183,7 @@
       },
       {
         "prompt": "What is a key consideration when selecting styling products for a client?",
-        "choices": [
-          "Client's hair type",
-          "Client's age",
-          "Time of day",
-          "Weather conditions"
-        ],
+        "choices": ["Client's hair type", "Client's age", "Time of day", "Weather conditions"],
         "answerIndex": 0,
         "rationale": "The client's hair type is crucial in selecting the appropriate styling products to achieve the desired outcome.",
         "type": "recall"

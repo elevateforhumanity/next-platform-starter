@@ -13,28 +13,23 @@ export async function createZendeskTicket(params: {
     return;
   }
 
-  const auth = Buffer.from(
-    `${ZENDESK_EMAIL}/token:${ZENDESK_API_TOKEN}`
-  ).toString('base64');
+  const auth = Buffer.from(`${ZENDESK_EMAIL}/token:${ZENDESK_API_TOKEN}`).toString('base64');
 
-  const res = await fetch(
-    `https://${ZENDESK_SUBDOMAIN}.zendesk.com/api/v2/requests.json`,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Basic ${auth}`,
+  const res = await fetch(`https://${ZENDESK_SUBDOMAIN}.zendesk.com/api/v2/requests.json`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Basic ${auth}`,
+    },
+    body: JSON.stringify({
+      request: {
+        requester: { email: params.requesterEmail },
+        subject: params.subject,
+        comment: { body: params.body },
+        tags: params.tags ?? [],
       },
-      body: JSON.stringify({
-        request: {
-          requester: { email: params.requesterEmail },
-          subject: params.subject,
-          comment: { body: params.body },
-          tags: params.tags ?? [],
-        },
-      }),
-    }
-  );
+    }),
+  });
 
   if (!res.ok) {
     const text = await res.text();

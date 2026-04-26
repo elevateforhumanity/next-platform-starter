@@ -6,7 +6,8 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { createClient } from '@/lib/supabase/server';
 export const metadata: Metadata = {
   title: 'Community Guidelines | Elevate for Humanity',
-  description: 'Standards for respectful interaction, behavior expectations, and community participation guidelines.',
+  description:
+    'Standards for respectful interaction, behavior expectations, and community participation guidelines.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/policies/community-guidelines',
   },
@@ -18,10 +19,12 @@ export default async function CommunityGuidelinesPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Policies", href: "/policies" }, { label: "Community Guidelines" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs
+          items={[{ label: 'Policies', href: '/policies' }, { label: 'Community Guidelines' }]}
+        />
       </div>
-<div className="max-w-4xl mx-auto px-4 sm:px-6 py-12">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12">
         <article className="bg-white rounded-xl shadow-sm p-8 md:p-12">
           <div className="mb-8">
             <h1 className="text-4xl font-bold text-black mb-4">Community Guidelines</h1>
@@ -31,34 +34,35 @@ export default async function CommunityGuidelinesPage() {
           <div className="prose prose-lg max-w-none">
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Purpose</h2>
             <p className="text-black mb-6">
-              These Community Guidelines establish standards for respectful interaction and behavior within the 
-              Elevate for Humanity community. We are committed to creating a safe, inclusive, and supportive 
-              environment where all members can learn, grow, and succeed together.
+              These Community Guidelines establish standards for respectful interaction and behavior
+              within the Elevate for Humanity community. We are committed to creating a safe,
+              inclusive, and supportive environment where all members can learn, grow, and succeed
+              together.
             </p>
 
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Our Community Values</h2>
-            
+
             <div className="grid md:grid-cols-2 gap-6 mb-8">
               <div className="bg-brand-blue-50 rounded-lg p-6 border-2 border-brand-blue-200">
                 <h3 className="text-xl font-bold text-black mb-3">Respect</h3>
                 <p className="text-black">
-                  Treat all community members with dignity and respect, regardless of background, identity, 
-                  or perspective. Value diverse experiences and viewpoints.
+                  Treat all community members with dignity and respect, regardless of background,
+                  identity, or perspective. Value diverse experiences and viewpoints.
                 </p>
               </div>
 
               <div className="bg-brand-green-50 rounded-lg p-6 border-2 border-brand-green-200">
                 <h3 className="text-xl font-bold text-black mb-3">Inclusivity</h3>
                 <p className="text-black">
-                  Welcome and support all members. Create an environment where everyone feels valued, 
-                  heard, and able to participate fully.
+                  Welcome and support all members. Create an environment where everyone feels
+                  valued, heard, and able to participate fully.
                 </p>
               </div>
 
               <div className="bg-brand-blue-50 rounded-lg p-6 border-2 border-brand-blue-200">
                 <h3 className="text-xl font-bold text-black mb-3">Support</h3>
                 <p className="text-black">
-                  Help and encourage fellow community members. Share knowledge, offer assistance, 
+                  Help and encourage fellow community members. Share knowledge, offer assistance,
                   and celebrate each other's successes.
                 </p>
               </div>
@@ -66,38 +70,63 @@ export default async function CommunityGuidelinesPage() {
               <div className="bg-brand-orange-50 rounded-lg p-6 border-2 border-brand-orange-200">
                 <h3 className="text-xl font-bold text-black mb-3">Professionalism</h3>
                 <p className="text-black">
-                  Maintain professional conduct in all interactions. Communicate thoughtfully and 
+                  Maintain professional conduct in all interactions. Communicate thoughtfully and
                   constructively, even in disagreement.
                 </p>
               </div>
             </div>
 
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Expected Behaviors</h2>
-            
+
             <div className="bg-brand-green-50 rounded-xl p-6 border-2 border-brand-green-200 mb-6">
               <h3 className="text-xl font-bold text-black mb-4">Do:</h3>
               <ul className="list-disc pl-6 text-black space-y-2">
-                <li><strong>Be Respectful:</strong> Use kind and considerate language in all communications</li>
-                <li><strong>Be Inclusive:</strong> Welcome new members and help them feel part of the community</li>
-                <li><strong>Be Constructive:</strong> Offer helpful feedback and suggestions</li>
-                <li><strong>Be Supportive:</strong> Encourage others and celebrate their achievements</li>
-                <li><strong>Be Professional:</strong> Maintain appropriate boundaries and conduct</li>
-                <li><strong>Be Honest:</strong> Communicate truthfully and authentically</li>
-                <li><strong>Be Accountable:</strong> Take responsibility for your words and actions</li>
-                <li><strong>Be Open-Minded:</strong> Listen to and consider different perspectives</li>
-                <li><strong>Ask Questions:</strong> Seek clarification when needed</li>
-                <li><strong>Share Knowledge:</strong> Help others learn and grow</li>
+                <li>
+                  <strong>Be Respectful:</strong> Use kind and considerate language in all
+                  communications
+                </li>
+                <li>
+                  <strong>Be Inclusive:</strong> Welcome new members and help them feel part of the
+                  community
+                </li>
+                <li>
+                  <strong>Be Constructive:</strong> Offer helpful feedback and suggestions
+                </li>
+                <li>
+                  <strong>Be Supportive:</strong> Encourage others and celebrate their achievements
+                </li>
+                <li>
+                  <strong>Be Professional:</strong> Maintain appropriate boundaries and conduct
+                </li>
+                <li>
+                  <strong>Be Honest:</strong> Communicate truthfully and authentically
+                </li>
+                <li>
+                  <strong>Be Accountable:</strong> Take responsibility for your words and actions
+                </li>
+                <li>
+                  <strong>Be Open-Minded:</strong> Listen to and consider different perspectives
+                </li>
+                <li>
+                  <strong>Ask Questions:</strong> Seek clarification when needed
+                </li>
+                <li>
+                  <strong>Share Knowledge:</strong> Help others learn and grow
+                </li>
               </ul>
             </div>
 
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Prohibited Behaviors</h2>
-            
+
             <div className="bg-brand-red-50 border-l-4 border-brand-red-400 p-6 mb-6">
               <h3 className="text-lg font-bold text-black mb-3">Harassment and Discrimination</h3>
               <p className="text-black mb-2">Absolutely prohibited:</p>
               <ul className="list-disc pl-6 text-black space-y-1">
                 <li>Harassment, bullying, or intimidation of any kind</li>
-                <li>Discrimination based on race, ethnicity, national origin, religion, gender, sexual orientation, disability, age, or any protected characteristic</li>
+                <li>
+                  Discrimination based on race, ethnicity, national origin, religion, gender, sexual
+                  orientation, disability, age, or any protected characteristic
+                </li>
                 <li>Hate speech or slurs targeting individuals or groups</li>
                 <li>Sexual harassment or unwelcome sexual advances</li>
                 <li>Stalking or persistent unwanted contact</li>
@@ -132,7 +161,7 @@ export default async function CommunityGuidelinesPage() {
             </div>
 
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Communication Guidelines</h2>
-            
+
             <h3 className="text-xl font-bold text-black mt-6 mb-3">Online Interactions</h3>
             <p className="text-black mb-4">
               When participating in online forums, discussions, and social media:
@@ -162,19 +191,23 @@ export default async function CommunityGuidelinesPage() {
             </ul>
 
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Conflict Resolution</h2>
-            
+
             <div className="bg-gray-50 rounded-xl p-8 border-2 border-gray-200 mb-6">
-              <h3 className="text-xl font-bold text-black mb-4">If You Experience or Witness Violations</h3>
+              <h3 className="text-xl font-bold text-black mb-4">
+                If You Experience or Witness Violations
+              </h3>
               <div className="space-y-6">
                 <div className="flex gap-6">
                   <div className="flex-shrink-0 w-12 h-12 bg-brand-blue-600 text-white rounded-full flex items-center justify-center font-bold text-xl">
                     1
                   </div>
                   <div>
-                    <h4 className="text-lg font-bold text-black mb-2">Address Directly (if safe)</h4>
+                    <h4 className="text-lg font-bold text-black mb-2">
+                      Address Directly (if safe)
+                    </h4>
                     <p className="text-black">
-                      If you feel comfortable, politely address the behavior with the person directly. 
-                      They may not realize their impact.
+                      If you feel comfortable, politely address the behavior with the person
+                      directly. They may not realize their impact.
                     </p>
                   </div>
                 </div>
@@ -186,8 +219,8 @@ export default async function CommunityGuidelinesPage() {
                   <div>
                     <h4 className="text-lg font-bold text-black mb-2">Report to Staff</h4>
                     <p className="text-black">
-                      Contact an instructor, advisor, or administrator. All reports are taken seriously 
-                      and handled confidentially.
+                      Contact an instructor, advisor, or administrator. All reports are taken
+                      seriously and handled confidentially.
                     </p>
                   </div>
                 </div>
@@ -199,8 +232,8 @@ export default async function CommunityGuidelinesPage() {
                   <div>
                     <h4 className="text-lg font-bold text-black mb-2">Use Reporting Channels</h4>
                     <p className="text-black">
-                      Submit a report through the student portal, email our contact form, 
-                      or call (317) 314-3757.
+                      Submit a report through the student portal, email our contact form, or call
+                      (317) 314-3757.
                     </p>
                   </div>
                 </div>
@@ -212,8 +245,8 @@ export default async function CommunityGuidelinesPage() {
                   <div>
                     <h4 className="text-lg font-bold text-black mb-2">Emergency Situations</h4>
                     <p className="text-black">
-                      For immediate safety concerns, call 911 first, then notify campus security 
-                      at (317) 314-3757 ext. 911.
+                      For immediate safety concerns, call 911 first, then notify campus security at
+                      (317) 314-3757 ext. 911.
                     </p>
                   </div>
                 </div>
@@ -221,7 +254,7 @@ export default async function CommunityGuidelinesPage() {
             </div>
 
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Consequences for Violations</h2>
-            
+
             <div className="bg-yellow-50 border-l-4 border-yellow-400 p-6 mb-6">
               <h3 className="text-lg font-bold text-black mb-2">Minor Violations</h3>
               <ul className="list-disc pl-6 text-black space-y-1">
@@ -255,32 +288,30 @@ export default async function CommunityGuidelinesPage() {
             </div>
 
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Special Considerations</h2>
-            
+
             <h3 className="text-xl font-bold text-black mt-6 mb-3">Freedom of Expression</h3>
             <p className="text-black mb-6">
-              We support open dialogue and diverse perspectives. However, freedom of expression does not 
-              protect harassment, threats, discrimination, or speech that creates a hostile environment 
-              for others. Disagreement is welcome; disrespect is not.
+              We support open dialogue and diverse perspectives. However, freedom of expression does
+              not protect harassment, threats, discrimination, or speech that creates a hostile
+              environment for others. Disagreement is welcome; disrespect is not.
             </p>
 
             <h3 className="text-xl font-bold text-black mt-6 mb-3">Cultural Sensitivity</h3>
             <p className="text-black mb-6">
-              Our community includes people from diverse cultural backgrounds. Be mindful that communication 
-              styles, humor, and social norms vary across cultures. When in doubt, err on the side of 
-              respect and ask for clarification.
+              Our community includes people from diverse cultural backgrounds. Be mindful that
+              communication styles, humor, and social norms vary across cultures. When in doubt, err
+              on the side of respect and ask for clarification.
             </p>
 
             <h3 className="text-xl font-bold text-black mt-6 mb-3">Mental Health and Well-being</h3>
             <p className="text-black mb-6">
-              If you're struggling with mental health, stress, or personal challenges, reach out for support. 
-              We have counseling services and resources available. Taking care of your well-being helps you 
-              be a better community member.
+              If you're struggling with mental health, stress, or personal challenges, reach out for
+              support. We have counseling services and resources available. Taking care of your
+              well-being helps you be a better community member.
             </p>
 
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Reporting and Privacy</h2>
-            <p className="text-black mb-4">
-              When you report a violation:
-            </p>
+            <p className="text-black mb-4">When you report a violation:</p>
             <ul className="list-disc pl-6 mb-6 text-black space-y-2">
               <li>Reports are handled confidentially to the extent possible</li>
               <li>You will not face retaliation for good-faith reports</li>
@@ -303,15 +334,26 @@ export default async function CommunityGuidelinesPage() {
             </ol>
 
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Contact Information</h2>
-            <p className="text-black mb-4">
-              For questions, concerns, or to report violations:
-            </p>
+            <p className="text-black mb-4">For questions, concerns, or to report violations:</p>
             <ul className="list-none mb-6 text-black space-y-2">
-              <li><strong>Email:</strong> <a href="/contact" className="text-brand-blue-600 hover:underline">Contact Us</a></li>
-              <li><strong>Phone:</strong> (317) 314-3757</li>
-              <li><strong>Office Hours:</strong> Monday-Friday, 9:00 AM - 5:00 PM EST</li>
-              <li><strong>Anonymous Reporting:</strong> Available through student portal</li>
-              <li><strong>Emergency:</strong> Call 911, then (317) 314-3757 ext. 911</li>
+              <li>
+                <strong>Email:</strong>{' '}
+                <a href="/contact" className="text-brand-blue-600 hover:underline">
+                  Contact Us
+                </a>
+              </li>
+              <li>
+                <strong>Phone:</strong> (317) 314-3757
+              </li>
+              <li>
+                <strong>Office Hours:</strong> Monday-Friday, 9:00 AM - 5:00 PM EST
+              </li>
+              <li>
+                <strong>Anonymous Reporting:</strong> Available through student portal
+              </li>
+              <li>
+                <strong>Emergency:</strong> Call 911, then (317) 314-3757 ext. 911
+              </li>
             </ul>
 
             <div className="bg-brand-blue-50 border-l-4 border-brand-blue-400 p-6 mt-8">
@@ -319,10 +361,29 @@ export default async function CommunityGuidelinesPage() {
                 <strong>Related Policies:</strong>
               </p>
               <ul className="list-disc pl-6 text-black space-y-1">
-                <li><a href="/policies/student-code" className="text-brand-blue-600 hover:underline">Student Code of Conduct</a></li>
-                <li><a href="/policies/acceptable-use" className="text-brand-blue-600 hover:underline">Acceptable Use Policy</a></li>
-                <li><a href="/policies/moderation" className="text-brand-blue-600 hover:underline">Content Moderation Policy</a></li>
-                <li><a href="/policies/privacy" className="text-brand-blue-600 hover:underline">Privacy Policy</a></li>
+                <li>
+                  <a href="/policies/student-code" className="text-brand-blue-600 hover:underline">
+                    Student Code of Conduct
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="/policies/acceptable-use"
+                    className="text-brand-blue-600 hover:underline"
+                  >
+                    Acceptable Use Policy
+                  </a>
+                </li>
+                <li>
+                  <a href="/policies/moderation" className="text-brand-blue-600 hover:underline">
+                    Content Moderation Policy
+                  </a>
+                </li>
+                <li>
+                  <a href="/policies/privacy" className="text-brand-blue-600 hover:underline">
+                    Privacy Policy
+                  </a>
+                </li>
               </ul>
             </div>
           </div>

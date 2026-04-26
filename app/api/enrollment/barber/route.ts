@@ -17,8 +17,10 @@ async function _POST(request: NextRequest) {
 
     const supabase = await createClient();
 
-    const { data: { user } } = await supabase.auth.getUser();
-    
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -38,9 +40,12 @@ async function _POST(request: NextRequest) {
       .maybeSingle();
 
     if (existingEnrollment) {
-      return NextResponse.json({ 
-        error: 'You are already enrolled in an apprenticeship program' 
-      }, { status: 400 });
+      return NextResponse.json(
+        {
+          error: 'You are already enrolled in an apprenticeship program',
+        },
+        { status: 400 },
+      );
     }
 
     // Verify partner exists and is active
@@ -55,20 +60,21 @@ async function _POST(request: NextRequest) {
     }
 
     if (partner.status !== 'active') {
-      return NextResponse.json({ 
-        error: 'This partner shop is not currently accepting apprentices' 
-      }, { status: 400 });
+      return NextResponse.json(
+        {
+          error: 'This partner shop is not currently accepting apprentices',
+        },
+        { status: 400 },
+      );
     }
 
     // Create enrollment record
-    const { error: enrollError } = await supabase
-      .from('partner_users')
-      .insert({
-        user_id: user.id,
-        partner_id: partnerId,
-        role: 'apprentice',
-        status: 'active',
-      });
+    const { error: enrollError } = await supabase.from('partner_users').insert({
+      user_id: user.id,
+      partner_id: partnerId,
+      role: 'apprentice',
+      status: 'active',
+    });
 
     if (enrollError) {
       logger.error('Enrollment error:', enrollError);
@@ -78,7 +84,7 @@ async function _POST(request: NextRequest) {
     // Update user profile with apprentice role if needed
     await supabase
       .from('profiles')
-      .update({ 
+      .update({
         role: 'apprentice',
         updated_at: new Date().toISOString(),
       })
@@ -86,15 +92,13 @@ async function _POST(request: NextRequest) {
 
     // Create initial progress record
     // Note: apprentice_progress has no partner_id or program_id column
-    await supabase
-      .from('apprentice_progress')
-      .insert({
-        user_id: user.id,
-        total_hours: 0,
-        status: 'active',
-      });
+    await supabase.from('apprentice_progress').insert({
+      user_id: user.id,
+      total_hours: 0,
+      status: 'active',
+    });
 
-    return NextResponse.json({ 
+    return NextResponse.json({
       success: true,
       message: 'Enrollment successful',
       partnerId,

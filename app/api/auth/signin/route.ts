@@ -17,47 +17,47 @@ import { withApiAudit } from '@/lib/audit/withApiAudit';
 const _POST = withRateLimit(
   withErrorHandling(async (request: NextRequest) => {
     const supabase = await createClient();
-    
+
     // Parse and validate request body
     const body = await request.json();
     const validatedData = signInSchema.parse(body);
     const { email, password } = validatedData;
 
-  // Sign in
-  const { data, error } = await supabase.auth.signInWithPassword({
-    email,
-    password,
-  });
+    // Sign in
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
 
-  if (error) {
-    if (error.message.includes('Invalid login credentials')) {
-      throw APIErrors.unauthorized('Invalid email or password');
+    if (error) {
+      if (error.message.includes('Invalid login credentials')) {
+        throw APIErrors.unauthorized('Invalid email or password');
+      }
+      if (error.message.includes('Email not confirmed')) {
+        throw APIErrors.unauthorized('Please confirm your email before signing in');
+      }
+      throw APIErrors.external('Supabase Auth');
     }
-    if (error.message.includes('Email not confirmed')) {
-      throw APIErrors.unauthorized('Please confirm your email before signing in');
+
+    if (!data.user || !data.session) {
+      throw APIErrors.internal('Authentication failed');
     }
-    throw APIErrors.external('Supabase Auth');
-  }
 
-  if (!data.user || !data.session) {
-    throw APIErrors.internal('Authentication failed');
-  }
-
-  return NextResponse.json({
-    success: true,
-    user: {
-      id: data.user.id,
-      email: data.user.email,
-      firstName: data.user.user_metadata?.first_name,
-      lastName: data.user.user_metadata?.last_name,
-    },
-    session: {
-      accessToken: data.session.access_token,
-      expiresAt: data.session.expires_at,
-    },
-  });
+    return NextResponse.json({
+      success: true,
+      user: {
+        id: data.user.id,
+        email: data.user.email,
+        firstName: data.user.user_metadata?.first_name,
+        lastName: data.user.user_metadata?.last_name,
+      },
+      session: {
+        accessToken: data.session.access_token,
+        expiresAt: data.session.expires_at,
+      },
+    });
   }),
-  { limiter: authRateLimit, skipOnMissing: true }
+  { limiter: authRateLimit, skipOnMissing: true },
 );
 
 export const runtime = 'nodejs';

@@ -15,10 +15,7 @@ const supabaseAdmin = createClient(supabaseUrl, supabaseKey);
 /**
  * Check if user has a specific entitlement
  */
-export async function hasEntitlement(
-  userId: string,
-  entitlementKey: string
-): Promise<boolean> {
+export async function hasEntitlement(userId: string, entitlementKey: string): Promise<boolean> {
   const { data, error }: any = await supabaseAdmin.rpc('has_entitlement', {
     p_user_id: userId,
     p_entitlement_key: entitlementKey,
@@ -73,7 +70,7 @@ export async function getActiveSubscription(userId: string) {
  * Get user's subscription tier
  */
 export async function getSubscriptionTier(
-  userId: string
+  userId: string,
 ): Promise<'free' | 'pro' | 'vip' | 'wholesale'> {
   const subscription = await getActiveSubscription(userId);
 
@@ -159,10 +156,7 @@ export async function getSubscriptionStatus(userId: string) {
 /**
  * Check if user has access to a digital product download
  */
-export async function hasDigitalProductAccess(
-  userId: string,
-  productId: string
-): Promise<boolean> {
+export async function hasDigitalProductAccess(userId: string, productId: string): Promise<boolean> {
   const { data, error }: any = await supabaseAdmin
     .from('user_entitlements')
     .select('id')

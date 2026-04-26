@@ -21,6 +21,7 @@ node scripts/generate-images.mjs
 ```
 
 What it does:
+
 - reads every `.md` in `content/image-prompts`
 - sends the text as a prompt to OpenAI's DALL-E 3 image model
 - saves PNGs into `public/generated-images/{slug}.png`
@@ -29,8 +30,8 @@ What it does:
 You can then reference these in your Next.js app, for example:
 
 ```tsx
-import manifest from "@/../public/generated-images/manifest.json";
-const heroSrc = manifest["homepage-hero"]; // "/generated-images/homepage-hero.png"
+import manifest from '@/../public/generated-images/manifest.json';
+const heroSrc = manifest['homepage-hero']; // "/generated-images/homepage-hero.png"
 ```
 
 ## 3. Prepare video jobs from scripts
@@ -44,6 +45,7 @@ node scripts/prepare-video-jobs.mjs
 ```
 
 What it does:
+
 - reads each `.md` video script
 - guesses a reasonable duration
 - writes `content/video-jobs.json` with an array of job objects
@@ -66,6 +68,7 @@ Example job:
 ```
 
 You can plug `video-jobs.json` into:
+
 - ONA / autopilot flows
 - a Cloudflare Worker
 - a backend API route

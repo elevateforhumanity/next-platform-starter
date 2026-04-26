@@ -49,12 +49,18 @@ const INSTRUCTOR_VOICE_MAP: Record<string, string> = {
 
 // Instructor personality instructions for gpt-4o-mini-tts
 const INSTRUCTOR_STYLE_MAP: Record<string, string> = {
-  'dr-sarah-chen': 'Speak as a warm, knowledgeable healthcare instructor. Use a calm, reassuring tone with clear enunciation. Pace yourself for students taking notes.',
-  'marcus-johnson': 'Speak as an experienced trades instructor on a job site. Be direct, practical, and encouraging. Use a confident, steady pace.',
-  'james-williams': 'Speak as a master barber teaching in a shop. Be personable, energetic, and real. Mix professionalism with approachable warmth.',
-  'lisa-martinez': 'Speak as a patient IT instructor. Break down technical concepts clearly. Be encouraging and use a friendly, measured pace.',
-  'robert-davis': 'Speak as a veteran truck driver turned instructor. Be straightforward, safety-focused, and supportive. Use a calm, authoritative tone.',
-  'angela-thompson': 'Speak as a business coach. Be professional, motivating, and clear. Use an upbeat but grounded tone.',
+  'dr-sarah-chen':
+    'Speak as a warm, knowledgeable healthcare instructor. Use a calm, reassuring tone with clear enunciation. Pace yourself for students taking notes.',
+  'marcus-johnson':
+    'Speak as an experienced trades instructor on a job site. Be direct, practical, and encouraging. Use a confident, steady pace.',
+  'james-williams':
+    'Speak as a master barber teaching in a shop. Be personable, energetic, and real. Mix professionalism with approachable warmth.',
+  'lisa-martinez':
+    'Speak as a patient IT instructor. Break down technical concepts clearly. Be encouraging and use a friendly, measured pace.',
+  'robert-davis':
+    'Speak as a veteran truck driver turned instructor. Be straightforward, safety-focused, and supportive. Use a calm, authoritative tone.',
+  'angela-thompson':
+    'Speak as a business coach. Be professional, motivating, and clear. Use an upbeat but grounded tone.',
 };
 
 // ── OpenAI gpt-4o-mini-tts (natural, with personality) ──────────────────
@@ -63,7 +69,7 @@ export async function generateNaturalVoiceover(
   script: string,
   voice: string = 'nova',
   instructorId?: string,
-  outputPath?: string
+  outputPath?: string,
 ): Promise<{ audioBuffer: Buffer; duration: number }> {
   if (!isOpenAIConfigured()) {
     throw new Error('OpenAI not configured');
@@ -76,7 +82,9 @@ export async function generateNaturalVoiceover(
     model: 'gpt-4o-mini-tts',
     voice: voice as any,
     input: script,
-    instructions: instructions || 'Speak as a professional instructor. Be clear, warm, and engaging. Pace yourself for students.',
+    instructions:
+      instructions ||
+      'Speak as a professional instructor. Be clear, warm, and engaging. Pace yourself for students.',
     response_format: 'mp3',
   });
 
@@ -97,7 +105,7 @@ export async function generateNaturalVoiceover(
 export async function generateVoiceover(
   script: string,
   voice: 'alloy' | 'echo' | 'fable' | 'onyx' | 'nova' | 'shimmer' = 'nova',
-  outputPath?: string
+  outputPath?: string,
 ): Promise<{ audioBuffer: Buffer; duration: number }> {
   if (!isOpenAIConfigured()) {
     throw new Error('OpenAI not configured');
@@ -129,7 +137,7 @@ export async function generateVoiceover(
 export async function generateSoraVideo(
   prompt: string,
   seconds: '4' | '8' | '12' = '8',
-  size: '1280x720' | '720x1280' = '1280x720'
+  size: '1280x720' | '720x1280' = '1280x720',
 ): Promise<{ videoUrl: string; videoId: string }> {
   if (!isOpenAIConfigured()) {
     throw new Error('OpenAI not configured');
@@ -171,7 +179,7 @@ export async function generateSoraVideo(
       throw new Error(`Sora failed: ${status.error?.message || 'unknown'}`);
     }
 
-    await new Promise(r => setTimeout(r, 5000));
+    await new Promise((r) => setTimeout(r, 5000));
   }
 
   throw new Error(`Sora timed out after ${maxWaitMs / 1000}s`);
@@ -182,7 +190,7 @@ export async function generateSoraVideo(
 export async function generateDIDVideo(
   script: string,
   photoUrl: string,
-  audioUrl: string
+  audioUrl: string,
 ): Promise<{ videoUrl: string; duration: number }> {
   const { createTalk, pollTalkResult } = await import('@/lib/d-id/generate-talk');
   const { id } = await createTalk({ photoUrl, audioUrl });
@@ -196,17 +204,24 @@ export async function generateDIDVideo(
 export async function generateSynthesiaVideo(
   script: string,
   avatarId: string,
-  voiceId?: string
+  voiceId?: string,
 ): Promise<{ videoUrl: string; duration: number }> {
   const apiKey = process.env.SYNTHESIA_API_KEY;
   if (!apiKey) throw new Error('Synthesia API key not configured');
 
   const createResponse = await fetch('https://api.synthesia.io/v2/videos', {
     method: 'POST',
-    headers: { 'Authorization': apiKey, 'Content-Type': 'application/json' },
+    headers: { Authorization: apiKey, 'Content-Type': 'application/json' },
     body: JSON.stringify({
       test: process.env.NODE_ENV !== 'production',
-      input: [{ scriptText: script, avatar: avatarId, background: 'off_white', ...(voiceId && { voice: voiceId }) }],
+      input: [
+        {
+          scriptText: script,
+          avatar: avatarId,
+          background: 'off_white',
+          ...(voiceId && { voice: voiceId }),
+        },
+      ],
       aspectRatio: '16:9',
     }),
   });
@@ -219,9 +234,9 @@ export async function generateSynthesiaVideo(
   const { id: videoId } = await createResponse.json();
   let attempts = 0;
   while (attempts < 120) {
-    await new Promise(resolve => setTimeout(resolve, 5000));
+    await new Promise((resolve) => setTimeout(resolve, 5000));
     const statusResponse = await fetch(`https://api.synthesia.io/v2/videos/${videoId}`, {
-      headers: { 'Authorization': apiKey },
+      headers: { Authorization: apiKey },
     });
     const statusData = await statusResponse.json();
     if (statusData.status === 'complete') {
@@ -241,25 +256,47 @@ export async function generateSynthesiaVideo(
  * Chain: Synthesia → D-ID → Sora → gpt-4o-mini-tts → tts-1-hd
  */
 export async function generateCourseVideo(
-  request: VideoGenerationRequest
+  request: VideoGenerationRequest,
 ): Promise<VideoGenerationResult> {
   try {
-    const { courseName, lessonNumber, lessonTitle, lessonContent, topics = [], instructorId } = request;
+    const {
+      courseName,
+      lessonNumber,
+      lessonTitle,
+      lessonContent,
+      topics = [],
+      instructorId,
+    } = request;
 
     const instructor = instructorId
-      ? (await import('@/lib/ai-instructors')).AI_INSTRUCTORS.find((i: any) => i.id === instructorId)
+      ? (await import('@/lib/ai-instructors')).AI_INSTRUCTORS.find(
+          (i: any) => i.id === instructorId,
+        )
       : getInstructorForCourse(courseName);
 
     if (!instructor) throw new Error('Instructor not found');
 
-    const script = generateLessonScript(instructor, courseName, lessonNumber, lessonTitle, lessonContent, topics);
+    const script = generateLessonScript(
+      instructor,
+      courseName,
+      lessonNumber,
+      lessonTitle,
+      lessonContent,
+      topics,
+    );
     const voice = INSTRUCTOR_VOICE_MAP[instructor.id] || 'nova';
 
     // 1. Try Synthesia (full avatar video — premium)
     if (process.env.SYNTHESIA_API_KEY) {
       try {
         const result = await generateSynthesiaVideo(script, 'anna_costume1_cameraA');
-        return { success: true, videoUrl: result.videoUrl, duration: result.duration, transcript: script, method: 'synthesia' };
+        return {
+          success: true,
+          videoUrl: result.videoUrl,
+          duration: result.duration,
+          transcript: script,
+          method: 'synthesia',
+        };
       } catch (error) {
         logger.warn('[VideoGen] Synthesia failed, trying D-ID', { error });
       }
@@ -273,7 +310,13 @@ export async function generateCourseVideo(
         const audioBase64 = audioBuffer.toString('base64');
         const audioDataUrl = `data:audio/mp3;base64,${audioBase64}`;
         const result = await generateDIDVideo(script, instructor.avatar, audioDataUrl);
-        return { success: true, videoUrl: result.videoUrl, duration: result.duration, transcript: script, method: 'd-id' };
+        return {
+          success: true,
+          videoUrl: result.videoUrl,
+          duration: result.duration,
+          transcript: script,
+          method: 'd-id',
+        };
       } catch (error) {
         logger.warn('[VideoGen] D-ID failed, trying Sora', { error });
       }
@@ -293,7 +336,11 @@ export async function generateCourseVideo(
     // 4. Try gpt-4o-mini-tts (natural voice with personality)
     if (isOpenAIConfigured()) {
       try {
-        const { audioBuffer, duration } = await generateNaturalVoiceover(script, voice, instructor.id);
+        const { audioBuffer, duration } = await generateNaturalVoiceover(
+          script,
+          voice,
+          instructor.id,
+        );
         const audioBase64 = audioBuffer.toString('base64');
         return {
           success: true,
@@ -333,7 +380,7 @@ export async function generateCourseVideo(
 export async function generateCourseVideos(
   courseName: string,
   lessons: Array<{ number: number; title: string; content: string; topics?: string[] }>,
-  instructorId?: string
+  instructorId?: string,
 ): Promise<VideoGenerationResult[]> {
   const results: VideoGenerationResult[] = [];
   for (const lesson of lessons) {
@@ -346,7 +393,7 @@ export async function generateCourseVideos(
       instructorId,
     });
     results.push(result);
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    await new Promise((resolve) => setTimeout(resolve, 2000));
   }
   return results;
 }

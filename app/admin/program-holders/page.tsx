@@ -28,17 +28,20 @@ export default async function AdminProgramHoldersPage() {
   // Fetch all program holders
   const { data: holders } = await supabase
     .from('program_holders')
-    .select('id, organization_name, name, contact_name, contact_email, contact_phone, status, mou_signed, created_at, user_id')
+    .select(
+      'id, organization_name, name, contact_name, contact_email, contact_phone, status, mou_signed, created_at, user_id',
+    )
     .order('created_at', { ascending: false });
 
   // Fetch program counts per holder
   const holderIds = (holders || []).map((h: any) => h.id);
-  const { data: programCounts } = holderIds.length > 0
-    ? await supabase
-        .from('program_holder_programs')
-        .select('program_holder_id')
-        .in('program_holder_id', holderIds)
-    : { data: [] };
+  const { data: programCounts } =
+    holderIds.length > 0
+      ? await supabase
+          .from('program_holder_programs')
+          .select('program_holder_id')
+          .in('program_holder_id', holderIds)
+      : { data: [] };
 
   const countMap: Record<string, number> = {};
   (programCounts || []).forEach((pc: any) => {
@@ -53,10 +56,9 @@ export default async function AdminProgramHoldersPage() {
     <div className="min-h-screen bg-white">
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="mb-4">
-          <Breadcrumbs items={[
-            { label: 'Admin', href: '/admin/dashboard' },
-            { label: 'Program Holders' },
-          ]} />
+          <Breadcrumbs
+            items={[{ label: 'Admin', href: '/admin/dashboard' }, { label: 'Program Holders' }]}
+          />
         </div>
 
         <div className="flex items-center justify-between mb-8">
@@ -111,14 +113,18 @@ export default async function AdminProgramHoldersPage() {
                   {items.map((h: any) => (
                     <tr key={h.id} className="hover:bg-gray-50">
                       <td className="px-4 py-3">
-                        <p className="font-medium text-slate-900">{h.organization_name || h.name || 'Unnamed'}</p>
+                        <p className="font-medium text-slate-900">
+                          {h.organization_name || h.name || 'Unnamed'}
+                        </p>
                       </td>
                       <td className="px-4 py-3">
                         <p className="text-slate-900">{h.contact_name || '—'}</p>
                         <p className="text-xs text-slate-700">{h.contact_email || ''}</p>
                       </td>
                       <td className="px-4 py-3 text-center">
-                        <span className={`font-medium ${(countMap[h.id] || 0) === 0 ? 'text-amber-600' : 'text-slate-900'}`}>
+                        <span
+                          className={`font-medium ${(countMap[h.id] || 0) === 0 ? 'text-amber-600' : 'text-slate-900'}`}
+                        >
                           {countMap[h.id] || 0}
                         </span>
                       </td>
@@ -130,7 +136,9 @@ export default async function AdminProgramHoldersPage() {
                         )}
                       </td>
                       <td className="px-4 py-3 text-center">
-                        <span className={`text-xs font-medium px-2 py-1 rounded ${STATUS_STYLES[h.status] || 'bg-gray-100 text-slate-700'}`}>
+                        <span
+                          className={`text-xs font-medium px-2 py-1 rounded ${STATUS_STYLES[h.status] || 'bg-gray-100 text-slate-700'}`}
+                        >
                           {h.status}
                         </span>
                       </td>
@@ -158,7 +166,9 @@ export default async function AdminProgramHoldersPage() {
             <div className="text-center py-16">
               <Building2 className="w-12 h-12 text-slate-700 mx-auto mb-3" />
               <p className="text-slate-700 font-medium">No program holders yet</p>
-              <p className="text-sm text-slate-700 mt-1">Program holder applications will appear here when submitted.</p>
+              <p className="text-sm text-slate-700 mt-1">
+                Program holder applications will appear here when submitted.
+              </p>
             </div>
           )}
         </div>

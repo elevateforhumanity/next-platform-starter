@@ -15,7 +15,9 @@ import { getRoleDestination } from '@/lib/auth/role-destinations';
 
 export async function requireGuestOrGetUserHome(): Promise<string | null> {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) return null;
 

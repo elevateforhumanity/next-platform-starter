@@ -4,36 +4,21 @@
     "questions": [
       {
         "prompt": "What is the visible hard part of the nail that extends over the fingertip called?",
-        "choices": [
-          "Nail plate",
-          "Nail bed",
-          "Lunula",
-          "Cuticle"
-        ],
+        "choices": ["Nail plate", "Nail bed", "Lunula", "Cuticle"],
         "answerIndex": 0,
         "rationale": "The nail plate is the visible hard part of the nail that extends over the fingertip.",
         "type": "recall"
       },
       {
         "prompt": "Which part of the nail is responsible for protecting new keratin cells as they form?",
-        "choices": [
-          "Nail plate",
-          "Nail bed",
-          "Lunula",
-          "Cuticle"
-        ],
+        "choices": ["Nail plate", "Nail bed", "Lunula", "Cuticle"],
         "answerIndex": 3,
         "rationale": "The cuticle is the thin layer of skin that covers the base of the nail plate, protecting new keratin cells.",
         "type": "recall"
       },
       {
         "prompt": "A client presents with nails that are thickened, discolored, and brittle. What is the likely condition?",
-        "choices": [
-          "Onychomycosis",
-          "Paronychia",
-          "Psoriasis",
-          "Healthy nails"
-        ],
+        "choices": ["Onychomycosis", "Paronychia", "Psoriasis", "Healthy nails"],
         "answerIndex": 0,
         "rationale": "Onychomycosis is a fungal infection that causes nails to become thickened, discolored, and brittle.",
         "type": "scenario"
@@ -76,12 +61,7 @@
       },
       {
         "prompt": "Which part of the nail is the crescent-shaped whitish area often visible through the nail plate?",
-        "choices": [
-          "Nail plate",
-          "Nail bed",
-          "Lunula",
-          "Cuticle"
-        ],
+        "choices": ["Nail plate", "Nail bed", "Lunula", "Cuticle"],
         "answerIndex": 2,
         "rationale": "The lunula is the crescent-shaped whitish area at the base of the nail, visible through the nail plate.",
         "type": "recall"
@@ -136,12 +116,7 @@
       },
       {
         "prompt": "A client presents with pain and swelling around the nail. What condition might this indicate?",
-        "choices": [
-          "Onychomycosis",
-          "Paronychia",
-          "Psoriasis",
-          "Healthy nails"
-        ],
+        "choices": ["Onychomycosis", "Paronychia", "Psoriasis", "Healthy nails"],
         "answerIndex": 1,
         "rationale": "Pain and swelling around the nail are symptoms of paronychia, an infection of the skin around the nail.",
         "type": "scenario"
@@ -184,12 +159,7 @@
       },
       {
         "prompt": "A client requests a square nail shape during a manicure. What tool should you use?",
-        "choices": [
-          "Cuticle pusher",
-          "Nail file",
-          "Buffer",
-          "Disinfectant"
-        ],
+        "choices": ["Cuticle pusher", "Nail file", "Buffer", "Disinfectant"],
         "answerIndex": 1,
         "rationale": "A nail file is used to shape the free edge of the nails to the client's desired shape.",
         "type": "recall"

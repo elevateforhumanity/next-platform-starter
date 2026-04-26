@@ -3,9 +3,19 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import {
-  ChevronDown, ChevronUp, Play, CheckCircle, Lock,
-  Video, FileText, Brain, FlaskConical, Zap, Shield,
-  Clock, ChevronRight,
+  ChevronDown,
+  ChevronUp,
+  Play,
+  CheckCircle,
+  Lock,
+  Video,
+  FileText,
+  Brain,
+  FlaskConical,
+  Zap,
+  Shield,
+  Clock,
+  ChevronRight,
 } from 'lucide-react';
 
 // ── Types ──────────────────────────────────────────────────────────────
@@ -52,27 +62,27 @@ interface Props {
 // ── Activity icon map ──────────────────────────────────────────────────
 
 const ACTIVITY_ICON: Record<ActivityType, React.ElementType> = {
-  video:      Video,
-  reading:    FileText,
+  video: Video,
+  reading: FileText,
   flashcards: Brain,
-  lab:        FlaskConical,
-  practice:   Zap,
+  lab: FlaskConical,
+  practice: Zap,
   checkpoint: Shield,
 };
 
 const ACTIVITY_COLOR: Record<ActivityType, string> = {
-  video:      'text-brand-blue-600',
-  reading:    'text-slate-500',
+  video: 'text-brand-blue-600',
+  reading: 'text-slate-500',
   flashcards: 'text-purple-600',
-  lab:        'text-green-600',
-  practice:   'text-amber-600',
+  lab: 'text-green-600',
+  practice: 'text-amber-600',
   checkpoint: 'text-brand-red-600',
 };
 
 // Default activities when a lesson has none stored (legacy rows)
 const DEFAULT_LESSON_ACTIVITIES: Activity[] = [
-  { type: 'video',   label: 'Watch Lesson Video',  order: 1, required: true  },
-  { type: 'reading', label: 'Reading',              order: 2, required: true  },
+  { type: 'video', label: 'Watch Lesson Video', order: 1, required: true },
+  { type: 'reading', label: 'Reading', order: 2, required: true },
 ];
 
 // ── Module row ─────────────────────────────────────────────────────────
@@ -94,7 +104,7 @@ function ModuleRow({
 }) {
   const [open, setOpen] = useState(defaultOpen);
 
-  const completedInModule = module.lessons.filter(l => progressMap[l.id]?.completed).length;
+  const completedInModule = module.lessons.filter((l) => progressMap[l.id]?.completed).length;
   const totalInModule = module.lessons.length;
   const modulePct = totalInModule > 0 ? Math.round((completedInModule / totalInModule) * 100) : 0;
   const moduleComplete = completedInModule === totalInModule && totalInModule > 0;
@@ -103,12 +113,14 @@ function ModuleRow({
     <div className="rounded-xl border border-slate-200 bg-white overflow-hidden">
       {/* Module header */}
       <button
-        onClick={() => setOpen(o => !o)}
+        onClick={() => setOpen((o) => !o)}
         className="w-full flex items-center gap-4 px-5 py-4 hover:bg-slate-50 transition text-left"
       >
-        <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 text-xs font-extrabold ${
-          moduleComplete ? 'bg-green-500 text-white' : 'bg-slate-900 text-white'
-        }`}>
+        <div
+          className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 text-xs font-extrabold ${
+            moduleComplete ? 'bg-green-500 text-white' : 'bg-slate-900 text-white'
+          }`}
+        >
           {moduleComplete ? <CheckCircle className="w-4 h-4" /> : module.order_index}
         </div>
 
@@ -119,15 +131,24 @@ function ModuleRow({
             {isEnrolled && (
               <>
                 <div className="w-20 h-1.5 bg-slate-100 rounded-full overflow-hidden">
-                  <div className="h-full bg-brand-blue-600 rounded-full transition-all" style={{ width: `${modulePct}%` }} />
+                  <div
+                    className="h-full bg-brand-blue-600 rounded-full transition-all"
+                    style={{ width: `${modulePct}%` }}
+                  />
                 </div>
-                <span className="text-xs text-slate-500">{completedInModule}/{totalInModule}</span>
+                <span className="text-xs text-slate-500">
+                  {completedInModule}/{totalInModule}
+                </span>
               </>
             )}
           </div>
         </div>
 
-        {open ? <ChevronUp className="w-4 h-4 text-slate-400 flex-shrink-0" /> : <ChevronDown className="w-4 h-4 text-slate-400 flex-shrink-0" />}
+        {open ? (
+          <ChevronUp className="w-4 h-4 text-slate-400 flex-shrink-0" />
+        ) : (
+          <ChevronDown className="w-4 h-4 text-slate-400 flex-shrink-0" />
+        )}
       </button>
 
       {/* Lesson list */}
@@ -139,8 +160,12 @@ function ModuleRow({
             // there is no previous lesson in this module so prevDone is true.
             const prevLesson = idx > 0 ? module.lessons[idx - 1] : undefined;
             const prevDone = idx === 0 || !!progressMap[prevLesson?.id]?.completed;
-            const isLocked = isPendingApproval || (!isEnrolled && idx > 0) || (isEnrolled && !isCompleted && !prevDone);
-            const isCheckpoint = lesson.step_type === 'checkpoint' || lesson.content_type === 'quiz';
+            const isLocked =
+              isPendingApproval ||
+              (!isEnrolled && idx > 0) ||
+              (isEnrolled && !isCompleted && !prevDone);
+            const isCheckpoint =
+              lesson.step_type === 'checkpoint' || lesson.content_type === 'quiz';
             const activities: Activity[] = lesson.activities?.length
               ? [...lesson.activities].sort((a, b) => a.order - b.order)
               : DEFAULT_LESSON_ACTIVITIES;
@@ -201,19 +226,24 @@ function LessonRow({
       {/* Lesson title row */}
       <div
         className="flex items-center gap-3 px-5 py-3.5 hover:bg-slate-50 transition cursor-pointer group"
-        onClick={() => setExpanded(e => !e)}
+        onClick={() => setExpanded((e) => !e)}
       >
-        <div className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 ${
-          isCompleted ? 'bg-green-500' : 'bg-slate-100 group-hover:bg-slate-200'
-        }`}>
-          {isCompleted
-            ? <CheckCircle className="w-3.5 h-3.5 text-white" />
-            : <Play className="w-2.5 h-2.5 text-slate-500" />
-          }
+        <div
+          className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 ${
+            isCompleted ? 'bg-green-500' : 'bg-slate-100 group-hover:bg-slate-200'
+          }`}
+        >
+          {isCompleted ? (
+            <CheckCircle className="w-3.5 h-3.5 text-white" />
+          ) : (
+            <Play className="w-2.5 h-2.5 text-slate-500" />
+          )}
         </div>
 
         <div className="flex-1 min-w-0">
-          <p className={`text-sm font-semibold truncate ${isCompleted ? 'text-green-800' : 'text-slate-900'}`}>
+          <p
+            className={`text-sm font-semibold truncate ${isCompleted ? 'text-green-800' : 'text-slate-900'}`}
+          >
             {lesson.title}
           </p>
           <div className="flex items-center gap-2 mt-0.5">
@@ -224,17 +254,19 @@ function LessonRow({
             )}
             {lesson.duration_minutes && (
               <span className="flex items-center gap-0.5 text-xs text-slate-400">
-                <Clock className="w-3 h-3" />{lesson.duration_minutes}m
+                <Clock className="w-3 h-3" />
+                {lesson.duration_minutes}m
               </span>
             )}
             <span className="text-xs text-slate-400">{activities.length} activities</span>
           </div>
         </div>
 
-        {expanded
-          ? <ChevronUp className="w-3.5 h-3.5 text-slate-400 flex-shrink-0" />
-          : <ChevronDown className="w-3.5 h-3.5 text-slate-400 flex-shrink-0" />
-        }
+        {expanded ? (
+          <ChevronUp className="w-3.5 h-3.5 text-slate-400 flex-shrink-0" />
+        ) : (
+          <ChevronDown className="w-3.5 h-3.5 text-slate-400 flex-shrink-0" />
+        )}
       </div>
 
       {/* Activity menu — NHA style */}
@@ -250,8 +282,8 @@ function LessonRow({
             // Prior required activities = all activities with order < this one
             // that are marked required.
             const priorRequiredDone = activities
-              .filter(a => a.required && a.order < activity.order)
-              .every(a => {
+              .filter((a) => a.required && a.order < activity.order)
+              .every((a) => {
                 // Video and reading completion is not tracked in progressMap —
                 // treat them as done once the lesson is unlocked (isEnrolled).
                 // Only checkpoint completion is tracked explicitly.
@@ -275,11 +307,11 @@ function LessonRow({
                 <Icon className={`w-4 h-4 flex-shrink-0 ${color}`} />
                 <span className="text-sm font-medium text-slate-800 flex-1">{activity.label}</span>
                 {activity.required && (
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wide">Required</span>
+                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wide">
+                    Required
+                  </span>
                 )}
-                {isGated && (
-                  <Lock className="w-3.5 h-3.5 text-slate-400 flex-shrink-0" />
-                )}
+                {isGated && <Lock className="w-3.5 h-3.5 text-slate-400 flex-shrink-0" />}
               </Link>
             );
           })}
@@ -311,8 +343,8 @@ export function CourseModuleAccordion({
   phaseStatus,
 }: Props) {
   // Open the first incomplete module by default
-  const firstIncompleteIdx = modules.findIndex(mod =>
-    mod.lessons.some(l => !progressMap[l.id]?.completed)
+  const firstIncompleteIdx = modules.findIndex((mod) =>
+    mod.lessons.some((l) => !progressMap[l.id]?.completed),
   );
 
   // Phase-level collapse: non-current phases start closed
@@ -343,14 +375,26 @@ export function CourseModuleAccordion({
 
   const totalLessons = modules.reduce((s, m) => s + m.lessons.length, 0);
   const completedLessons = modules.reduce(
-    (s, m) => s + m.lessons.filter(l => progressMap[l.id]?.completed).length,
-    0
+    (s, m) => s + m.lessons.filter((l) => progressMap[l.id]?.completed).length,
+    0,
   );
 
   const statusColors = {
-    current:   { badge: 'bg-blue-100 text-blue-700 border-blue-200',   dot: 'bg-blue-500',   header: 'border-blue-200 bg-blue-50/50' },
-    completed: { badge: 'bg-green-100 text-green-700 border-green-200', dot: 'bg-green-500',  header: 'border-slate-200 bg-white' },
-    locked:    { badge: 'bg-slate-100 text-slate-500 border-slate-200', dot: 'bg-slate-300',  header: 'border-slate-200 bg-slate-50' },
+    current: {
+      badge: 'bg-blue-100 text-blue-700 border-blue-200',
+      dot: 'bg-blue-500',
+      header: 'border-blue-200 bg-blue-50/50',
+    },
+    completed: {
+      badge: 'bg-green-100 text-green-700 border-green-200',
+      dot: 'bg-green-500',
+      header: 'border-slate-200 bg-white',
+    },
+    locked: {
+      badge: 'bg-slate-100 text-slate-500 border-slate-200',
+      dot: 'bg-slate-300',
+      header: 'border-slate-200 bg-slate-50',
+    },
   };
   const colors = statusColors[phaseStatus ?? 'locked'];
 
@@ -358,7 +402,7 @@ export function CourseModuleAccordion({
     <div className={`rounded-xl border overflow-hidden ${colors.header}`}>
       {/* Phase header — always visible, click to expand/collapse */}
       <button
-        onClick={() => phaseStatus !== 'locked' && setPhaseOpen(o => !o)}
+        onClick={() => phaseStatus !== 'locked' && setPhaseOpen((o) => !o)}
         className={`w-full flex items-center gap-3 px-5 py-4 text-left transition-colors ${
           phaseStatus === 'locked' ? 'cursor-default' : 'hover:bg-black/5'
         }`}
@@ -373,8 +417,14 @@ export function CourseModuleAccordion({
               {phaseLabel}
             </span>
             <span className="text-sm font-bold text-slate-900">{phaseName}</span>
-            <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${colors.badge}`}>
-              {phaseStatus === 'current' ? 'Current' : phaseStatus === 'completed' ? 'Complete' : 'Locked'}
+            <span
+              className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${colors.badge}`}
+            >
+              {phaseStatus === 'current'
+                ? 'Current'
+                : phaseStatus === 'completed'
+                  ? 'Complete'
+                  : 'Locked'}
             </span>
           </div>
           <p className="text-xs text-slate-400 mt-0.5">
@@ -399,19 +449,18 @@ export function CourseModuleAccordion({
         )}
 
         {/* Expand/collapse icon */}
-        {phaseStatus === 'locked'
-          ? <Lock className="w-4 h-4 text-slate-300 flex-shrink-0" />
-          : phaseOpen
-            ? <ChevronUp className="w-4 h-4 text-slate-400 flex-shrink-0" />
-            : <ChevronDown className="w-4 h-4 text-slate-400 flex-shrink-0" />
-        }
+        {phaseStatus === 'locked' ? (
+          <Lock className="w-4 h-4 text-slate-300 flex-shrink-0" />
+        ) : phaseOpen ? (
+          <ChevronUp className="w-4 h-4 text-slate-400 flex-shrink-0" />
+        ) : (
+          <ChevronDown className="w-4 h-4 text-slate-400 flex-shrink-0" />
+        )}
       </button>
 
       {/* Module list — only shown when phase is open */}
       {phaseOpen && phaseStatus !== 'locked' && (
-        <div className="border-t border-slate-200 p-4">
-          {moduleList}
-        </div>
+        <div className="border-t border-slate-200 p-4">{moduleList}</div>
       )}
     </div>
   );

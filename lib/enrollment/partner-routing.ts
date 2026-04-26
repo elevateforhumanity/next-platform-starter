@@ -105,7 +105,11 @@ async function ensurePartnerEnrollment(params: {
 
   if (existing) {
     logger.info('[partner-routing] partner_enrollment already exists', {
-      correlationId, partnerId, studentId, programId, id: existing.id,
+      correlationId,
+      partnerId,
+      studentId,
+      programId,
+      id: existing.id,
     });
     return { id: existing.id, outcome: 'already_exists' };
   }
@@ -143,7 +147,11 @@ async function ensurePartnerEnrollment(params: {
       }
 
       logger.info('[partner-routing] partner_enrollment race resolved', {
-        correlationId, partnerId, studentId, programId, id: raceRow.id,
+        correlationId,
+        partnerId,
+        studentId,
+        programId,
+        id: raceRow.id,
       });
       return { id: raceRow.id, outcome: 'already_exists' };
     }
@@ -170,7 +178,9 @@ async function ensureCmiStudent(params: {
 
   if (existing) {
     logger.info('[partner-routing] cmi_student already exists', {
-      correlationId, applicationId, id: existing.id,
+      correlationId,
+      applicationId,
+      id: existing.id,
     });
     return { id: existing.id, outcome: 'already_exists' };
   }
@@ -199,7 +209,9 @@ async function ensureCmiStudent(params: {
       }
 
       logger.info('[partner-routing] cmi_student race resolved', {
-        correlationId, applicationId, id: raceRow.id,
+        correlationId,
+        applicationId,
+        id: raceRow.id,
       });
       return { id: raceRow.id, outcome: 'already_exists' };
     }
@@ -248,7 +260,8 @@ export async function attachPartnerRouting(params: {
     const cmi = await getPartnerByName(db, 'Choice Medical Institute');
 
     const pe = await ensurePartnerEnrollment({
-      db, correlationId,
+      db,
+      correlationId,
       partnerId: cmi.id,
       studentId: application.user_id,
       programId: program.id,
@@ -256,7 +269,8 @@ export async function attachPartnerRouting(params: {
     });
 
     const cs = await ensureCmiStudent({
-      db, correlationId,
+      db,
+      correlationId,
       applicationId: application.id,
       userId: application.user_id,
     });
@@ -284,7 +298,8 @@ export async function attachPartnerRouting(params: {
   const nha = await getPartnerByName(db, 'NHA');
 
   const pe = await ensurePartnerEnrollment({
-    db, correlationId,
+    db,
+    correlationId,
     partnerId: nha.id,
     studentId: application.user_id,
     programId: program.id,

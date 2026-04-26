@@ -44,10 +44,22 @@ export type RollbackResult = {
 // ── Snapshot fields — everything that matters for rollback ────────────────────
 
 const SNAPSHOT_FIELDS = [
-  'title', 'lesson_type', 'order_index', 'content', 'rendered_html',
-  'video_url', 'video_config', 'quiz_questions', 'passing_score',
-  'practical_required', 'competency_checks', 'learning_objectives',
-  'activities', 'duration_minutes', 'instructor_notes', 'status',
+  'title',
+  'lesson_type',
+  'order_index',
+  'content',
+  'rendered_html',
+  'video_url',
+  'video_config',
+  'quiz_questions',
+  'passing_score',
+  'practical_required',
+  'competency_checks',
+  'learning_objectives',
+  'activities',
+  'duration_minutes',
+  'instructor_notes',
+  'status',
 ] as const;
 
 // ── publishLesson ─────────────────────────────────────────────────────────────
@@ -80,10 +92,10 @@ export async function publishLesson(
 
   // Write snapshot
   const snapshot: Record<string, unknown> = {
-    lesson_id:      lessonId,
-    version:        nextVersion,
-    published_at:   now,
-    published_by:   publishedBy,
+    lesson_id: lessonId,
+    version: nextVersion,
+    published_at: now,
+    published_by: publishedBy,
     change_summary: changeSummary ?? null,
   };
   for (const field of SNAPSHOT_FIELDS) {
@@ -105,18 +117,21 @@ export async function publishLesson(
   const { error: updateErr } = await db
     .from('course_lessons')
     .update({
-      version:             nextVersion,
-      published_at:        now,
-      published_by:        publishedBy,
+      version: nextVersion,
+      published_at: now,
+      published_by: publishedBy,
       previous_version_id: versionRow.id,
-      status:              'published',
-      is_published:        true,
-      updated_at:          now,
+      status: 'published',
+      is_published: true,
+      updated_at: now,
     })
     .eq('id', lessonId);
 
   if (updateErr) {
-    logger.error('[versioning] lesson update failed after snapshot', { lessonId, error: updateErr.message });
+    logger.error('[versioning] lesson update failed after snapshot', {
+      lessonId,
+      error: updateErr.message,
+    });
     return { ok: false, error: updateErr.message };
   }
 
@@ -146,7 +161,8 @@ export async function rollbackLesson(
     .maybeSingle();
 
   if (snapErr) return { ok: false, error: snapErr.message };
-  if (!snapshot) return { ok: false, error: `Version ${targetVersion} not found for lesson ${lessonId}` };
+  if (!snapshot)
+    return { ok: false, error: `Version ${targetVersion} not found for lesson ${lessonId}` };
 
   // Restore snapshot fields to live lesson row
   const restore: Record<string, unknown> = { updated_at: new Date().toISOString() };
@@ -154,16 +170,17 @@ export async function rollbackLesson(
     restore[field] = (snapshot as any)[field] ?? null;
   }
   // Mark as draft after rollback — admin must re-publish to go live
-  restore.status       = 'draft';
+  restore.status = 'draft';
   restore.is_published = false;
 
-  const { error: updateErr } = await db
-    .from('course_lessons')
-    .update(restore)
-    .eq('id', lessonId);
+  const { error: updateErr } = await db.from('course_lessons').update(restore).eq('id', lessonId);
 
   if (updateErr) {
-    logger.error('[versioning] rollback failed', { lessonId, targetVersion, error: updateErr.message });
+    logger.error('[versioning] rollback failed', {
+      lessonId,
+      targetVersion,
+      error: updateErr.message,
+    });
     return { ok: false, error: updateErr.message };
   }
 
@@ -183,7 +200,9 @@ export async function getVersionHistory(
 ): Promise<LessonVersion[]> {
   const { data, error } = await db
     .from('course_lesson_versions')
-    .select('id, lesson_id, version, title, lesson_type, published_at, published_by, change_summary')
+    .select(
+      'id, lesson_id, version, title, lesson_type, published_at, published_by, change_summary',
+    )
     .eq('lesson_id', lessonId)
     .order('version', { ascending: false });
 

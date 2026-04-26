@@ -30,7 +30,7 @@ export default function LessonRecap({ topics, lessonTitle }: Props) {
           setStarted(true);
         }
       },
-      { threshold: 0.3 }
+      { threshold: 0.3 },
     );
 
     if (containerRef.current) observer.observe(containerRef.current);
@@ -43,14 +43,17 @@ export default function LessonRecap({ topics, lessonTitle }: Props) {
     if (visibleCount >= topics.length) return;
 
     const timer = setTimeout(() => {
-      setVisibleCount(c => c + 1);
+      setVisibleCount((c) => c + 1);
     }, 800);
 
     return () => clearTimeout(timer);
   }, [started, visibleCount, topics.length]);
 
   return (
-    <div ref={containerRef} className="mt-8 rounded-xl border border-slate-200 bg-white shadow-sm overflow-hidden">
+    <div
+      ref={containerRef}
+      className="mt-8 rounded-xl border border-slate-200 bg-white shadow-sm overflow-hidden"
+    >
       <div className="px-6 py-4 bg-slate-800 text-white">
         <h2 className="text-xl font-bold">Lesson Recap</h2>
         <p className="text-sm text-slate-300 mt-1">
@@ -70,12 +73,16 @@ export default function LessonRecap({ topics, lessonTitle }: Props) {
                   : 'opacity-0 translate-y-4 border-transparent'
               }`}
             >
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 transition-all duration-500 ${
-                isVisible ? 'bg-brand-green-100' : 'bg-slate-100'
-              }`}>
-                <CheckCircle className={`w-5 h-5 transition-colors duration-500 ${
-                  isVisible ? 'text-brand-green-600' : 'text-slate-300'
-                }`} />
+              <div
+                className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 transition-all duration-500 ${
+                  isVisible ? 'bg-brand-green-100' : 'bg-slate-100'
+                }`}
+              >
+                <CheckCircle
+                  className={`w-5 h-5 transition-colors duration-500 ${
+                    isVisible ? 'text-brand-green-600' : 'text-slate-300'
+                  }`}
+                />
               </div>
               <div>
                 <h3 className="font-bold text-slate-900 text-lg">{topic.title}</h3>
@@ -87,9 +94,7 @@ export default function LessonRecap({ topics, lessonTitle }: Props) {
 
         {visibleCount >= topics.length && (
           <div className="mt-4 pt-4 border-t border-slate-200 text-center animate-in fade-in duration-500">
-            <p className="text-lg font-semibold text-slate-800">
-              Ready? Start the quiz below.
-            </p>
+            <p className="text-lg font-semibold text-slate-800">Ready? Start the quiz below.</p>
           </div>
         )}
       </div>

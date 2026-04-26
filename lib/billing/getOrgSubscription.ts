@@ -20,10 +20,7 @@ export interface OrgSubscription {
  * Cached for performance
  */
 export const getOrgSubscription = cache(
-  async (
-    supabase: SupabaseClient,
-    organizationId: string
-  ): Promise<OrgSubscription | null> => {
+  async (supabase: SupabaseClient, organizationId: string): Promise<OrgSubscription | null> => {
     const { data, error }: any = await supabase
       .from('organization_subscriptions')
       .select('*')
@@ -39,5 +36,5 @@ export const getOrgSubscription = cache(
     }
 
     return data;
-  }
+  },
 );

@@ -16,10 +16,7 @@ import { safeError, safeInternalError } from '@/lib/api/safe-error';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> },
-) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;
   const auth = await apiRequireAdmin(request);
@@ -41,7 +38,9 @@ export async function GET(
   // Fetch all documents for this user
   const { data: docs, error: docsErr } = await db
     .from('documents')
-    .select('id, document_type, file_name, file_path, file_url, mime_type, status, verification_status, metadata, created_at, title')
+    .select(
+      'id, document_type, file_name, file_path, file_url, mime_type, status, verification_status, metadata, created_at, title',
+    )
     .eq('user_id', enrollment.user_id)
     .order('created_at', { ascending: false });
 
@@ -60,10 +59,8 @@ export async function GET(
       }
 
       // Extract OCR text from metadata
-      const ocrText = doc.metadata?.ocr_text
-        || doc.metadata?.extracted_text
-        || doc.metadata?.text
-        || null;
+      const ocrText =
+        doc.metadata?.ocr_text || doc.metadata?.extracted_text || doc.metadata?.text || null;
 
       return {
         id: doc.id,
@@ -77,7 +74,7 @@ export async function GET(
         ocr_text: ocrText,
         uploaded_at: doc.created_at,
       };
-    })
+    }),
   );
 
   return NextResponse.json({ documents: withUrls });

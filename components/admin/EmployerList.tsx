@@ -68,22 +68,16 @@ export function EmployerList() {
           <div className="flex items-start justify-between">
             <div className="flex items-start gap-3">
               <div className="w-10 h-10 bg-brand-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                <span className="text-brand-blue-600 font-bold">
-                  {(emp.name || 'E')[0]}
-                </span>
+                <span className="text-brand-blue-600 font-bold">{(emp.name || 'E')[0]}</span>
               </div>
               <div>
                 <p className="font-semibold text-slate-900">{emp.name}</p>
-                {emp.industry && (
-                  <p className="text-sm text-slate-700">{emp.industry}</p>
-                )}
+                {emp.industry && <p className="text-sm text-slate-700">{emp.industry}</p>}
                 <div className="flex flex-wrap gap-3 mt-1 text-xs text-slate-700">
                   {(emp.city || emp.state || emp.location) && (
                     <span className="flex items-center gap-1">
                       <MapPin className="w-3 h-3" />
-                      {emp.city && emp.state
-                        ? `${emp.city}, ${emp.state}`
-                        : emp.location || ''}
+                      {emp.city && emp.state ? `${emp.city}, ${emp.state}` : emp.location || ''}
                     </span>
                   )}
                   {emp.contact_email && (
@@ -100,13 +94,15 @@ export function EmployerList() {
                   )}
                 </div>
                 {emp.status && (
-                  <span className={`inline-block mt-2 text-xs px-2 py-0.5 rounded-full font-medium ${
-                    emp.status === 'active'
-                      ? 'bg-brand-green-100 text-brand-green-700'
-                      : emp.status === 'pending'
-                        ? 'bg-yellow-100 text-yellow-700'
-                        : 'bg-gray-100 text-slate-700'
-                  }`}>
+                  <span
+                    className={`inline-block mt-2 text-xs px-2 py-0.5 rounded-full font-medium ${
+                      emp.status === 'active'
+                        ? 'bg-brand-green-100 text-brand-green-700'
+                        : emp.status === 'pending'
+                          ? 'bg-yellow-100 text-yellow-700'
+                          : 'bg-gray-100 text-slate-700'
+                    }`}
+                  >
                     {emp.status}
                   </span>
                 )}

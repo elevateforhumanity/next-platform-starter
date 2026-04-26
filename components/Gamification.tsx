@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Zap } from 'lucide-react';
@@ -82,7 +82,9 @@ export function Gamification({ points, level, achievements, streak }: Gamificati
                   }`}
                 >
                   <div className="flex justify-center mb-2">
-                    <div className={`p-3 rounded-full ${achievement.earned ? 'bg-brand-orange-600' : 'bg-gray-400'}`}>
+                    <div
+                      className={`p-3 rounded-full ${achievement.earned ? 'bg-brand-orange-600' : 'bg-gray-400'}`}
+                    >
                       <Icon className="text-white" size={24} />
                     </div>
                   </div>

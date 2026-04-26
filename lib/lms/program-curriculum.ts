@@ -151,17 +151,19 @@ export async function getLessonById(lessonId: string): Promise<ProgramLesson | n
  */
 export async function getLessonNav(
   courseId: string,
-  lessonNumber: number
+  lessonNumber: number,
 ): Promise<{ prev: ProgramLesson | null; next: ProgramLesson | null }> {
   const db = await getAdminClient();
 
   const [{ data: prevData }, { data: nextData }] = await Promise.all([
-    db.from('training_lessons')
+    db
+      .from('training_lessons')
       .select('*')
       .eq('course_id', courseId)
       .eq('lesson_number', lessonNumber - 1)
       .maybeSingle(),
-    db.from('training_lessons')
+    db
+      .from('training_lessons')
       .select('*')
       .eq('course_id', courseId)
       .eq('lesson_number', lessonNumber + 1)

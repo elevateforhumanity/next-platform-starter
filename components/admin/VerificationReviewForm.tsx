@@ -11,7 +11,8 @@ import {
   MapPin,
   CreditCard,
   AlertCircle,
-CheckCircle, } from 'lucide-react';
+  CheckCircle,
+} from 'lucide-react';
 
 interface Props {
   verification: any;
@@ -79,8 +80,7 @@ export function VerificationReviewForm({ verification, adminId }: Props) {
             <div>
               <p className="text-sm text-black">Full Name</p>
               <p className="font-semibold text-black">
-                {verification.first_name} {verification.middle_name}{' '}
-                {verification.last_name}
+                {verification.first_name} {verification.middle_name} {verification.last_name}
               </p>
             </div>
           </div>
@@ -89,7 +89,12 @@ export function VerificationReviewForm({ verification, adminId }: Props) {
             <div>
               <p className="text-sm text-black">Date of Birth</p>
               <p className="font-semibold text-black">
-                {new Date(verification.date_of_birth).toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' })}
+                {new Date(verification.date_of_birth).toLocaleDateString('en-US', {
+                  timeZone: 'UTC',
+                  month: 'short',
+                  day: 'numeric',
+                  year: 'numeric',
+                })}
               </p>
             </div>
           </div>
@@ -98,9 +103,7 @@ export function VerificationReviewForm({ verification, adminId }: Props) {
               <CreditCard className="w-5 h-5 text-slate-400 mt-0.5" />
               <div>
                 <p className="text-sm text-black">SSN (Last 4)</p>
-                <p className="font-semibold text-black">
-                  ***-**-{verification.ssn_last_4}
-                </p>
+                <p className="font-semibold text-black">***-**-{verification.ssn_last_4}</p>
               </div>
             </div>
           )}
@@ -124,9 +127,7 @@ export function VerificationReviewForm({ verification, adminId }: Props) {
         <div className="flex items-start gap-3">
           <MapPin className="w-5 h-5 text-slate-400 mt-0.5" />
           <div>
-            <p className="font-semibold text-black">
-              {verification.street_address}
-            </p>
+            <p className="font-semibold text-black">{verification.street_address}</p>
             {verification.address_line_2 && (
               <p className="text-black">{verification.address_line_2}</p>
             )}
@@ -155,9 +156,7 @@ export function VerificationReviewForm({ verification, adminId }: Props) {
             <CreditCard className="w-5 h-5 text-slate-400 mt-0.5" />
             <div>
               <p className="text-sm text-black">ID Number</p>
-              <p className="font-semibold text-black">
-                {verification.id_number}
-              </p>
+              <p className="font-semibold text-black">{verification.id_number}</p>
             </div>
           </div>
           {verification.id_state && (
@@ -165,9 +164,7 @@ export function VerificationReviewForm({ verification, adminId }: Props) {
               <MapPin className="w-5 h-5 text-slate-400 mt-0.5" />
               <div>
                 <p className="text-sm text-black">Issuing State</p>
-                <p className="font-semibold text-black">
-                  {verification.id_state}
-                </p>
+                <p className="font-semibold text-black">{verification.id_state}</p>
               </div>
             </div>
           )}
@@ -177,9 +174,12 @@ export function VerificationReviewForm({ verification, adminId }: Props) {
               <div>
                 <p className="text-sm text-black">Expiration Date</p>
                 <p className="font-semibold text-black">
-                  {new Date(
-                    verification.id_expiration_date
-                  ).toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' })}
+                  {new Date(verification.id_expiration_date).toLocaleDateString('en-US', {
+                    timeZone: 'UTC',
+                    month: 'short',
+                    day: 'numeric',
+                    year: 'numeric',
+                  })}
                 </p>
               </div>
             </div>
@@ -191,9 +191,7 @@ export function VerificationReviewForm({ verification, adminId }: Props) {
         <h2 className="text-2xl font-bold mb-4">Uploaded Documents</h2>
         <div className="grid md:grid-cols-3 gap-4">
           <div>
-            <p className="text-sm font-semibold text-black mb-2">
-              ID Front
-            </p>
+            <p className="text-sm font-semibold text-black mb-2">ID Front</p>
             <a
               href={verification.id_front_url}
               target="_blank"
@@ -211,9 +209,7 @@ export function VerificationReviewForm({ verification, adminId }: Props) {
           </div>
           {verification.id_back_url && (
             <div>
-              <p className="text-sm font-semibold text-black mb-2">
-                ID Back
-              </p>
+              <p className="text-sm font-semibold text-black mb-2">ID Back</p>
               <a
                 href={verification.id_back_url}
                 target="_blank"
@@ -266,19 +262,14 @@ export function VerificationReviewForm({ verification, adminId }: Props) {
             <Shield className="w-5 h-5 text-slate-400 mt-0.5" />
             <div>
               <p className="text-sm text-black">IP Address</p>
-              <p className="font-semibold text-black">
-                {verification.ip_address}
-              </p>
+              <p className="font-semibold text-black">{verification.ip_address}</p>
             </div>
           </div>
         </div>
       </div>
 
       {verification.status === 'pending' && (
-        <form
-          onSubmit={handleSubmit}
-          className="bg-white rounded-lg shadow-sm border p-6"
-        >
+        <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-sm border p-6">
           <h2 className="text-2xl font-bold mb-4">Review Decision</h2>
 
           <div className="space-y-4 mb-6">
@@ -335,9 +326,7 @@ export function VerificationReviewForm({ verification, adminId }: Props) {
 
           {action === 'reject' && (
             <div className="mb-6">
-              <label className="block text-sm font-semibold mb-2">
-                Rejection Reason *
-              </label>
+              <label className="block text-sm font-semibold mb-2">Rejection Reason *</label>
               <textarea
                 value={rejectionReason}
                 onChange={(e) => setRejectionReason(e.target.value)}
@@ -359,9 +348,7 @@ export function VerificationReviewForm({ verification, adminId }: Props) {
             </button>
             <button
               type="submit"
-              disabled={
-                loading || !action || (action === 'reject' && !rejectionReason)
-              }
+              disabled={loading || !action || (action === 'reject' && !rejectionReason)}
               className="px-8 py-3 bg-brand-blue-600 text-white font-semibold rounded-lg hover:bg-brand-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? 'Submitting...' : 'Submit Review'}
@@ -379,9 +366,7 @@ export function VerificationReviewForm({ verification, adminId }: Props) {
           }`}
         >
           <h2 className="text-xl font-bold mb-2">
-            {verification.status === 'approved'
-              ? 'Verification Approved'
-              : 'Verification Rejected'}
+            {verification.status === 'approved' ? 'Verification Approved' : 'Verification Rejected'}
           </h2>
           <p className="text-sm mb-4">
             Reviewed on {new Date(verification.verified_at).toLocaleString('en-US')}

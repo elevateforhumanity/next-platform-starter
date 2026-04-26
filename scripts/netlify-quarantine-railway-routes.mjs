@@ -15,8 +15,8 @@ import { rename, mkdir, readdir, cp, rm } from 'fs/promises';
 import { join, dirname } from 'path';
 import { existsSync } from 'fs';
 
-const RESTORE   = process.argv.includes('--restore');
-const FORCE     = process.argv.includes('--force');
+const RESTORE = process.argv.includes('--restore');
+const FORCE = process.argv.includes('--force');
 const IS_NETLIFY = process.env.NETLIFY === 'true' || FORCE;
 
 if (!IS_NETLIFY && !RESTORE) {
@@ -24,8 +24,8 @@ if (!IS_NETLIFY && !RESTORE) {
   process.exit(0);
 }
 
-const ROOT           = process.cwd();
-const APP_DIR        = join(ROOT, 'app');
+const ROOT = process.cwd();
+const APP_DIR = join(ROOT, 'app');
 const QUARANTINE_DIR = join(ROOT, '.netlify-quarantine', 'app');
 
 // ALLOWLIST: top-level app/ directories Netlify may compile.
@@ -33,31 +33,85 @@ const QUARANTINE_DIR = join(ROOT, '.netlify-quarantine', 'app');
 // 'components' and 'actions' are shared infrastructure imported by layout.tsx —
 // they contain no page.tsx/route.ts so Next.js does not treat them as routes.
 const ALLOWED_TOP_LEVEL = new Set([
-  'about', 'contact', 'programs', 'apply', 'check-eligibility',
-  'eligibility', 'privacy', 'terms', 'accessibility', 'providers',
-  'resources', 'funding', 'partners',
+  'about',
+  'contact',
+  'programs',
+  'apply',
+  'check-eligibility',
+  'eligibility',
+  'privacy',
+  'terms',
+  'accessibility',
+  'providers',
+  'resources',
+  'funding',
+  'partners',
   // Auth entry points — static shells that compile cleanly on Netlify
-  'login', 'signup',
+  'login',
+  'signup',
   // Testing/credentialing — public marketing pages
   'testing',
   // Additional public pages found by exhaustive href scan
-  'achievements', 'calendar', 'careers', 'certiport-exam', 'dmca', 'ebook',
-  'enrollment-agreement', 'equal-opportunity', 'locations', 'next-steps',
-  'platform', 'policies', 'search', 'security', 'training',
+  'achievements',
+  'calendar',
+  'careers',
+  'certiport-exam',
+  'dmca',
+  'ebook',
+  'enrollment-agreement',
+  'equal-opportunity',
+  'locations',
+  'next-steps',
+  'platform',
+  'policies',
+  'search',
+  'security',
+  'training',
   // Public marketing pages linked from compiled routes (verified to exist in app/)
-  'inquiry', 'wioa-eligibility', 'career-services', 'career-training', 'community-services',
-  'testimonials', 'verify',
-  'accreditation', 'alumni', 'apprenticeships', 'cert', 'cna-waitlist', 'cookies',
-  'disclosures', 'employers', 'events', 'faq', 'forms', 'governance', 'legal',
-  'ojt-and-funding', 'pathways', 'privacy-policy', 'refund-policy', 'start',
-  'support', 'terms-of-service', 'verify-credentials',
-  'agencies', 'apprenticeship-sponsor', 'booking',
-  'employment-support', 'federal-compliance', 'instructor-credentials',
-  'partner-with-us', 'partnerships', 'snap-et-partner',
-  'success-stories', 'tuition-fees', 'workone-partner-packet',
+  'inquiry',
+  'wioa-eligibility',
+  'career-services',
+  'career-training',
+  'community-services',
+  'testimonials',
+  'verify',
+  'accreditation',
+  'alumni',
+  'apprenticeships',
+  'cert',
+  'cna-waitlist',
+  'cookies',
+  'disclosures',
+  'employers',
+  'events',
+  'faq',
+  'forms',
+  'governance',
+  'legal',
+  'ojt-and-funding',
+  'pathways',
+  'privacy-policy',
+  'refund-policy',
+  'start',
+  'support',
+  'terms-of-service',
+  'verify-credentials',
+  'agencies',
+  'apprenticeship-sponsor',
+  'booking',
+  'employment-support',
+  'federal-compliance',
+  'instructor-credentials',
+  'partner-with-us',
+  'partnerships',
+  'snap-et-partner',
+  'success-stories',
+  'tuition-fees',
+  'workone-partner-packet',
   // Shared data modules imported by public pages — must never be quarantined
   'data',
-  'components', 'actions',
+  'components',
+  'actions',
 ]);
 
 // Sub-paths inside allowed top-level dirs that must still be quarantined.
@@ -136,25 +190,84 @@ const FORBIDDEN_SUBPATHS = new Set([
 
 // Root-level files that must stay (Next.js requires them, or layout.tsx imports them)
 const ALLOWED_ROOT_FILES = new Set([
-  'page.tsx', 'page.ts', 'layout.tsx', 'layout.ts', 'globals.css',
-  'not-found.tsx', 'not-found.ts', 'error.tsx', 'error.ts',
-  'loading.tsx', 'loading.ts', 'template.tsx', 'template.ts',
-  'robots.ts', 'sitemap.ts', 'favicon.ico',
-  'RootWidgets.tsx', 'HomeClientShell.tsx', 'HomeHeroVideo.tsx',
+  'page.tsx',
+  'page.ts',
+  'layout.tsx',
+  'layout.ts',
+  'globals.css',
+  'not-found.tsx',
+  'not-found.ts',
+  'error.tsx',
+  'error.ts',
+  'loading.tsx',
+  'loading.ts',
+  'template.tsx',
+  'template.ts',
+  'robots.ts',
+  'sitemap.ts',
+  'favicon.ico',
+  'RootWidgets.tsx',
+  'HomeClientShell.tsx',
+  'HomeHeroVideo.tsx',
 ]);
 
 // Forbidden nested segments — quarantine even inside allowed top-level dirs
 const FORBIDDEN_SEGMENTS = new Set([
-  'admin', 'api', 'lms', 'learner', 'student', 'dashboard', 'my-dashboard',
-  'instructor', 'employer', 'partner-dashboard', 'program-holder', 'staff-portal',
-  'case-manager', 'proctor', 'creator', 'builder', 'generate', 'reports',
-  'approvals', 'account', 'profile', 'settings', 'billing', 'checkout', 'pay',
-  'payment', 'enroll', 'enrollment', 'messages', 'notifications', 'certificates',
-  'credentials', 'transcript', 'advising', 'documents', 'compliance', 'apprentice',
-  'schedule', 'videos', 'video', 'ai', 'ai-chat', 'ai-studio', 'ai-tutor',
-  'supersonic', 'tax', 'pwa',
+  'admin',
+  'api',
+  'lms',
+  'learner',
+  'student',
+  'dashboard',
+  'my-dashboard',
+  'instructor',
+  'employer',
+  'partner-dashboard',
+  'program-holder',
+  'staff-portal',
+  'case-manager',
+  'proctor',
+  'creator',
+  'builder',
+  'generate',
+  'reports',
+  'approvals',
+  'account',
+  'profile',
+  'settings',
+  'billing',
+  'checkout',
+  'pay',
+  'payment',
+  'enroll',
+  'enrollment',
+  'messages',
+  'notifications',
+  'certificates',
+  'credentials',
+  'transcript',
+  'advising',
+  'documents',
+  'compliance',
+  'apprentice',
+  'schedule',
+  'videos',
+  'video',
+  'ai',
+  'ai-chat',
+  'ai-studio',
+  'ai-tutor',
+  'supersonic',
+  'tax',
+  'pwa',
   // Auth/app flows — belong to Railway runtime, not Netlify static build
-  'reset-password', 'forgot-password', 'confirm', 'enrollment-success', 'enrollment', 'orientation', 'training',
+  'reset-password',
+  'forgot-password',
+  'confirm',
+  'enrollment-success',
+  'enrollment',
+  'orientation',
+  'training',
 ]);
 
 async function moveEntry(src, dest) {
@@ -176,17 +289,25 @@ async function moveEntry(src, dest) {
 async function countRoutes(dir) {
   let count = 0;
   let entries;
-  try { entries = await readdir(dir, { withFileTypes: true }); } catch { return 0; }
+  try {
+    entries = await readdir(dir, { withFileTypes: true });
+  } catch {
+    return 0;
+  }
   for (const e of entries) {
     if (e.isDirectory()) count += await countRoutes(join(dir, e.name));
-    else if (['page.tsx','page.ts','route.ts','route.tsx'].includes(e.name)) count++;
+    else if (['page.tsx', 'page.ts', 'route.ts', 'route.tsx'].includes(e.name)) count++;
   }
   return count;
 }
 
 async function collectForbiddenNested(dir, quarantineBase, toMove) {
   let entries;
-  try { entries = await readdir(dir, { withFileTypes: true }); } catch { return; }
+  try {
+    entries = await readdir(dir, { withFileTypes: true });
+  } catch {
+    return;
+  }
   for (const entry of entries) {
     if (!entry.isDirectory()) continue;
     const src = join(dir, entry.name);
@@ -207,7 +328,7 @@ async function quarantine() {
 
   for (const entry of entries) {
     const name = entry.name;
-    const src  = join(APP_DIR, name);
+    const src = join(APP_DIR, name);
     const dest = join(QUARANTINE_DIR, name);
 
     if (!entry.isDirectory()) {
@@ -241,7 +362,7 @@ async function quarantine() {
           break;
         } else {
           // Specific sub-path inside this allowed dir
-          const subSrc  = join(src, subRel);
+          const subSrc = join(src, subRel);
           const subDest = join(dest, subRel);
           if (existsSync(subSrc)) {
             toMove.push({ src: subSrc, dest: subDest, label: `${name}/${subRel}` });
@@ -266,10 +387,14 @@ async function quarantine() {
 
 async function restoreRecursive(srcDir, destDir) {
   let entries;
-  try { entries = await readdir(srcDir, { withFileTypes: true }); } catch { return 0; }
+  try {
+    entries = await readdir(srcDir, { withFileTypes: true });
+  } catch {
+    return 0;
+  }
   let n = 0;
   for (const entry of entries) {
-    const src  = join(srcDir, entry.name);
+    const src = join(srcDir, entry.name);
     const dest = join(destDir, entry.name);
     if (entry.isDirectory() && existsSync(dest)) {
       // Destination directory already exists — merge recursively
@@ -284,11 +409,18 @@ async function restoreRecursive(srcDir, destDir) {
 }
 
 async function restore() {
-  if (!existsSync(QUARANTINE_DIR)) { console.log('[quarantine] Nothing to restore.'); return; }
+  if (!existsSync(QUARANTINE_DIR)) {
+    console.log('[quarantine] Nothing to restore.');
+    return;
+  }
   const entries = await readdir(QUARANTINE_DIR, { withFileTypes: true });
   console.log(`[quarantine] Restoring ${entries.length} top-level entries...`);
   const n = await restoreRecursive(QUARANTINE_DIR, APP_DIR);
   console.log(`[quarantine] Restored ${n} entries.`);
 }
 
-if (RESTORE) { await restore(); } else { await quarantine(); }
+if (RESTORE) {
+  await restore();
+} else {
+  await quarantine();
+}

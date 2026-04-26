@@ -22,7 +22,13 @@ export async function PATCH(request: NextRequest) {
   if (auth.error) return auth.error;
 
   const body = await request.json();
-  const { enrollment_id, student_start_date, voucher_issued_date, voucher_paid_date, payout_notes } = body;
+  const {
+    enrollment_id,
+    student_start_date,
+    voucher_issued_date,
+    voucher_paid_date,
+    payout_notes,
+  } = body;
 
   if (!enrollment_id) return safeError('enrollment_id required', 400);
 
@@ -44,31 +50,33 @@ export async function PATCH(request: NextRequest) {
   if (fetchErr || !current) return safeError('Enrollment not found', 404);
 
   const updates: Record<string, string | null> = {
-    student_start_date:  student_start_date  ?? null,
+    student_start_date: student_start_date ?? null,
     voucher_issued_date: voucher_issued_date ?? null,
-    voucher_paid_date:   voucher_paid_date   ?? null,
-    payout_notes:        payout_notes        ?? null,
+    voucher_paid_date: voucher_paid_date ?? null,
+    payout_notes: payout_notes ?? null,
   };
 
   const { data: updated, error: updateErr } = await db
     .from('program_enrollments')
     .update(updates)
     .eq('id', enrollment_id)
-    .select('id, student_start_date, voucher_issued_date, voucher_paid_date, payout_due_date, payout_status, payout_paid_date, payout_notes')
+    .select(
+      'id, student_start_date, voucher_issued_date, voucher_paid_date, payout_due_date, payout_status, payout_paid_date, payout_notes',
+    )
     .single();
 
   if (updateErr) return safeInternalError(updateErr, 'Failed to update enrollment');
 
   // Write audit rows for changed fields
-  const auditRows = TRACKED_FIELDS
-    .filter(f => (updates[f] ?? null) !== ((current as Record<string, string | null>)[f] ?? null))
-    .map(f => ({
-      enrollment_id,
-      changed_by:  auth.user.id,
-      field_name:  f,
-      old_value:   (current as Record<string, string | null>)[f] ?? null,
-      new_value:   updates[f] ?? null,
-    }));
+  const auditRows = TRACKED_FIELDS.filter(
+    (f) => (updates[f] ?? null) !== ((current as Record<string, string | null>)[f] ?? null),
+  ).map((f) => ({
+    enrollment_id,
+    changed_by: auth.user.id,
+    field_name: f,
+    old_value: (current as Record<string, string | null>)[f] ?? null,
+    new_value: updates[f] ?? null,
+  }));
 
   if (auditRows.length > 0) {
     await db.from('enrollment_voucher_audit').insert(auditRows);

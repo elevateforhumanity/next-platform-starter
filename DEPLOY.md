@@ -7,9 +7,11 @@ Choose your deployment method:
 Deploy your own instance in minutes:
 
 ### Netlify (Recommended)
+
 [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/elevateforhumanity/Elevate-lms)
 
 ### Railway
+
 [![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/elevate-lms?referralCode=elevate)
 
 ---
@@ -25,11 +27,11 @@ For organizations wanting full control:
 
 ### License Tiers
 
-| Tier | Price | Includes |
-|------|-------|----------|
-| Starter | $99/mo | 100 students, 1 admin, email support |
-| Professional | $299/mo | 500 students, 5 admins, priority support |
-| Enterprise | $35,000+ | Unlimited, dedicated support, customization |
+| Tier         | Price    | Includes                                    |
+| ------------ | -------- | ------------------------------------------- |
+| Starter      | $99/mo   | 100 students, 1 admin, email support        |
+| Professional | $299/mo  | 500 students, 5 admins, priority support    |
+| Enterprise   | $35,000+ | Unlimited, dedicated support, customization |
 
 ---
 

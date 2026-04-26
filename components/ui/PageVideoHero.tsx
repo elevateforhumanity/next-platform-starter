@@ -7,10 +7,10 @@ import CanonicalVideo from '@/components/video/CanonicalVideo';
 export type HeroSize = 'primary' | 'program' | 'marketing' | 'support';
 
 const SIZE: Record<HeroSize, string> = {
-  primary:   'h-[75vh] min-h-[480px] max-h-[860px]',
-  program:   'h-[65vh] min-h-[420px] max-h-[720px]',
+  primary: 'h-[75vh] min-h-[480px] max-h-[860px]',
+  program: 'h-[65vh] min-h-[420px] max-h-[720px]',
   marketing: 'h-[60vh] min-h-[380px] max-h-[640px]',
-  support:   'h-[50vh] min-h-[300px] max-h-[520px]',
+  support: 'h-[50vh] min-h-[300px] max-h-[520px]',
 };
 
 interface PageVideoHeroProps {
@@ -22,7 +22,12 @@ interface PageVideoHeroProps {
   caption?: string;
 }
 
-export default function PageVideoHero({ videoSrc, posterSrc, size = 'marketing', caption }: PageVideoHeroProps) {
+export default function PageVideoHero({
+  videoSrc,
+  posterSrc,
+  size = 'marketing',
+  caption,
+}: PageVideoHeroProps) {
   const wrapperRef = useRef<HTMLElement>(null);
   const [muted, setMuted] = useState(true);
 

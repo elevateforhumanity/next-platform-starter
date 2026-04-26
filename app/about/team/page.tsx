@@ -5,7 +5,8 @@ import { TEAM } from '@/data/team';
 
 export const metadata: Metadata = {
   title: 'Our Team | Elevate for Humanity',
-  description: 'Meet the Elevate for Humanity team — educators, workforce specialists, and community advocates.',
+  description:
+    'Meet the Elevate for Humanity team — educators, workforce specialists, and community advocates.',
 };
 
 export default function TeamPage() {

@@ -13,7 +13,8 @@ export const courses: Course[] = [
   {
     id: 'cna',
     course_name: 'Certified Nursing Assistant (CNA)',
-    shortDescription: 'State-approved CNA training program preparing students for certification and employment in healthcare facilities.',
+    shortDescription:
+      'State-approved CNA training program preparing students for certification and employment in healthcare facilities.',
     path: '/programs/cna',
     coverImageKey: 'cna-training',
     category: 'Healthcare',
@@ -23,7 +24,8 @@ export const courses: Course[] = [
   {
     id: 'barber',
     course_name: 'Barber Apprenticeship',
-    shortDescription: 'DOL-registered apprenticeship combining classroom instruction with hands-on barbershop training.',
+    shortDescription:
+      'DOL-registered apprenticeship combining classroom instruction with hands-on barbershop training.',
     path: '/programs/barber-apprenticeship',
     coverImageKey: 'barber-training',
     category: 'Skilled Trades',
@@ -33,7 +35,8 @@ export const courses: Course[] = [
   {
     id: 'cdl',
     course_name: 'CDL Commercial Driving',
-    shortDescription: 'Commercial Driver License training for Class A and Class B vehicles with job placement assistance.',
+    shortDescription:
+      'Commercial Driver License training for Class A and Class B vehicles with job placement assistance.',
     path: '/programs/cdl-transportation',
     coverImageKey: 'cdl-trucking',
     category: 'Transportation',
@@ -43,7 +46,8 @@ export const courses: Course[] = [
   {
     id: 'hvac',
     course_name: 'HVAC Technician',
-    shortDescription: 'Heating, ventilation, and air conditioning training with EPA certification preparation.',
+    shortDescription:
+      'Heating, ventilation, and air conditioning training with EPA certification preparation.',
     path: '/programs/hvac',
     coverImageKey: 'hvac-technician',
     category: 'Skilled Trades',
@@ -53,7 +57,8 @@ export const courses: Course[] = [
   {
     id: 'medical-assistant',
     course_name: 'Medical Assistant',
-    shortDescription: 'Clinical and administrative medical assistant training with externship placement.',
+    shortDescription:
+      'Clinical and administrative medical assistant training with externship placement.',
     path: '/programs/medical-assistant/apply',
     coverImageKey: 'medical-assistant',
     category: 'Healthcare',
@@ -63,7 +68,8 @@ export const courses: Course[] = [
   {
     id: 'cybersecurity',
     course_name: 'Cybersecurity Fundamentals',
-    shortDescription: 'Entry-level cybersecurity training covering network security, threat analysis, and CompTIA Security+ prep.',
+    shortDescription:
+      'Entry-level cybersecurity training covering network security, threat analysis, and CompTIA Security+ prep.',
     path: '/programs/technology/cybersecurity',
     coverImageKey: 'cybersecurity',
     category: 'Technology',
@@ -73,7 +79,8 @@ export const courses: Course[] = [
   {
     id: 'welding',
     course_name: 'Welding Technology',
-    shortDescription: 'Hands-on welding training covering MIG, TIG, and stick welding with AWS certification prep.',
+    shortDescription:
+      'Hands-on welding training covering MIG, TIG, and stick welding with AWS certification prep.',
     path: '/programs/welding/apply',
     coverImageKey: 'welding',
     category: 'Skilled Trades',
@@ -83,7 +90,8 @@ export const courses: Course[] = [
   {
     id: 'it-support',
     course_name: 'IT Support Specialist',
-    shortDescription: 'CompTIA A+ and Network+ preparation with hands-on lab experience and help desk training.',
+    shortDescription:
+      'CompTIA A+ and Network+ preparation with hands-on lab experience and help desk training.',
     path: '/programs/technology/it-support',
     coverImageKey: 'it-support',
     category: 'Technology',

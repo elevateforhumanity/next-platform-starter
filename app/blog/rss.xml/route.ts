@@ -5,7 +5,7 @@ export const revalidate = 3600;
 
 export async function GET() {
   const baseUrl = 'https://www.elevateforhumanity.org';
-  
+
   try {
     const supabase = await getDb();
     const { data: posts } = await supabase
@@ -15,7 +15,9 @@ export async function GET() {
       .order('published_at', { ascending: false })
       .limit(50);
 
-    const items = (posts || []).map(post => `
+    const items = (posts || [])
+      .map(
+        (post) => `
     <item>
       <title><![CDATA[${post.title}]]></title>
       <link>${baseUrl}/blog/${post.slug}</link>
@@ -24,7 +26,9 @@ export async function GET() {
       <pubDate>${new Date(post.published_at).toUTCString()}</pubDate>
       <category>${post.category}</category>
       <author>${post.author_name}</author>
-    </item>`).join('');
+    </item>`,
+      )
+      .join('');
 
     const rss = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">

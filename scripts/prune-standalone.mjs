@@ -148,7 +148,7 @@ async function pruneDir(nodeModulesDir) {
   if (existsSync(pnpmDir)) {
     const entries = await readdir(pnpmDir);
     for (const entry of entries) {
-      const shouldPrune = PRUNE_PACKAGES.some(pkg => {
+      const shouldPrune = PRUNE_PACKAGES.some((pkg) => {
         const pnpmName = pkg.startsWith('@') ? pkg.replace('/', '+') : pkg;
         return entry.startsWith(pnpmName + '@') || entry === pnpmName;
       });

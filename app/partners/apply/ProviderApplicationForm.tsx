@@ -73,13 +73,30 @@ type FormData = {
 };
 
 const INITIAL: FormData = {
-  orgName: '', orgType: '', ein: '', website: '',
-  contactName: '', contactTitle: '', contactEmail: '', contactPhone: '',
-  addressLine1: '', addressLine2: '', city: '', state: 'IN', zip: '',
-  programTypes: [], serviceArea: '', annualEnrollment: '',
-  credentialAuthorities: [], wioaEligible: false, etplListed: false,
-  etplState: 'IN', accreditation: '',
-  missionStatement: '', outcomesDescription: '', partnershipGoals: '',
+  orgName: '',
+  orgType: '',
+  ein: '',
+  website: '',
+  contactName: '',
+  contactTitle: '',
+  contactEmail: '',
+  contactPhone: '',
+  addressLine1: '',
+  addressLine2: '',
+  city: '',
+  state: 'IN',
+  zip: '',
+  programTypes: [],
+  serviceArea: '',
+  annualEnrollment: '',
+  credentialAuthorities: [],
+  wioaEligible: false,
+  etplListed: false,
+  etplState: 'IN',
+  accreditation: '',
+  missionStatement: '',
+  outcomesDescription: '',
+  partnershipGoals: '',
   agreedToTerms: false,
 };
 
@@ -91,7 +108,8 @@ function FieldError({ msg }: { msg?: string }) {
 function Label({ children, required }: { children: React.ReactNode; required?: boolean }) {
   return (
     <label className="block text-sm font-medium text-slate-700 mb-1">
-      {children}{required && <span className="text-red-500 ml-0.5">*</span>}
+      {children}
+      {required && <span className="text-red-500 ml-0.5">*</span>}
     </label>
   );
 }
@@ -125,14 +143,20 @@ function Select(props: React.SelectHTMLAttributes<HTMLSelectElement>) {
 }
 
 function CheckboxGroup({
-  options, selected, onChange,
-}: { options: string[]; selected: string[]; onChange: (v: string[]) => void }) {
+  options,
+  selected,
+  onChange,
+}: {
+  options: string[];
+  selected: string[];
+  onChange: (v: string[]) => void;
+}) {
   const toggle = (opt: string) => {
-    onChange(selected.includes(opt) ? selected.filter(x => x !== opt) : [...selected, opt]);
+    onChange(selected.includes(opt) ? selected.filter((x) => x !== opt) : [...selected, opt]);
   };
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-      {options.map(opt => (
+      {options.map((opt) => (
         <label key={opt} className="flex items-center gap-2 cursor-pointer text-sm text-slate-700">
           <input
             type="checkbox"
@@ -157,8 +181,8 @@ export default function ProviderApplicationForm() {
   const [submitError, setSubmitError] = useState('');
 
   const set = (field: keyof FormData, value: unknown) => {
-    setForm(f => ({ ...f, [field]: value }));
-    setErrors(e => ({ ...e, [field]: undefined }));
+    setForm((f) => ({ ...f, [field]: value }));
+    setErrors((e) => ({ ...e, [field]: undefined }));
   };
 
   const stepIndex = STEPS.indexOf(step);
@@ -172,7 +196,8 @@ export default function ProviderApplicationForm() {
     if (s === 'contact') {
       if (!form.contactName.trim()) errs.contactName = 'Required';
       if (!form.contactEmail.trim()) errs.contactEmail = 'Required';
-      else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.contactEmail)) errs.contactEmail = 'Invalid email';
+      else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.contactEmail))
+        errs.contactEmail = 'Invalid email';
       if (!form.contactPhone.trim()) errs.contactPhone = 'Required';
       if (!form.addressLine1.trim()) errs.addressLine1 = 'Required';
       if (!form.city.trim()) errs.city = 'Required';
@@ -226,8 +251,8 @@ export default function ProviderApplicationForm() {
         <CheckCircle className="w-14 h-14 text-brand-green-600 mx-auto mb-4" />
         <h2 className="text-2xl font-bold text-slate-900 mb-2">Application Submitted</h2>
         <p className="text-black mb-6 max-w-md mx-auto">
-          We received your application and will review it within 5–7 business days.
-          You will receive an email at <strong>{form.contactEmail}</strong> when a decision is made.
+          We received your application and will review it within 5–7 business days. You will receive
+          an email at <strong>{form.contactEmail}</strong> when a decision is made.
         </p>
         <button
           onClick={() => router.push('/partners/training-provider')}
@@ -246,13 +271,15 @@ export default function ProviderApplicationForm() {
         <div className="flex items-center gap-1 overflow-x-auto">
           {STEPS.map((s, i) => (
             <div key={s} className="flex items-center gap-1 flex-shrink-0">
-              <div className={`flex items-center gap-1.5 text-xs font-medium px-2 py-1 rounded-full transition ${
-                s === step
-                  ? 'bg-brand-blue-600 text-white'
-                  : i < stepIndex
-                  ? 'bg-brand-green-100 text-brand-green-700'
-                  : 'text-black'
-              }`}>
+              <div
+                className={`flex items-center gap-1.5 text-xs font-medium px-2 py-1 rounded-full transition ${
+                  s === step
+                    ? 'bg-brand-blue-600 text-white'
+                    : i < stepIndex
+                      ? 'bg-brand-green-100 text-brand-green-700'
+                      : 'text-black'
+                }`}
+              >
                 {i < stepIndex ? <CheckCircle className="w-3 h-3" /> : <span>{i + 1}</span>}
                 <span className="hidden sm:inline">{STEP_LABELS[s]}</span>
               </div>
@@ -269,12 +296,16 @@ export default function ProviderApplicationForm() {
             <h2 className="text-lg font-bold text-slate-900">Organization Information</h2>
             <div>
               <Label required>Organization Name</Label>
-              <Input value={form.orgName} onChange={e => set('orgName', e.target.value)} placeholder="Acme Training Institute" />
+              <Input
+                value={form.orgName}
+                onChange={(e) => set('orgName', e.target.value)}
+                placeholder="Acme Training Institute"
+              />
               <FieldError msg={errors.orgName} />
             </div>
             <div>
               <Label required>Organization Type</Label>
-              <Select value={form.orgType} onChange={e => set('orgType', e.target.value)}>
+              <Select value={form.orgType} onChange={(e) => set('orgType', e.target.value)}>
                 <option value="">Select type…</option>
                 <option value="training_provider">Training Provider</option>
                 <option value="workforce_agency">Workforce Agency</option>
@@ -286,11 +317,20 @@ export default function ProviderApplicationForm() {
             <div className="grid sm:grid-cols-2 gap-4">
               <div>
                 <Label>EIN (optional)</Label>
-                <Input value={form.ein} onChange={e => set('ein', e.target.value)} placeholder="12-3456789" />
+                <Input
+                  value={form.ein}
+                  onChange={(e) => set('ein', e.target.value)}
+                  placeholder="12-3456789"
+                />
               </div>
               <div>
                 <Label>Website (optional)</Label>
-                <Input value={form.website} onChange={e => set('website', e.target.value)} placeholder="https://example.org" type="url" />
+                <Input
+                  value={form.website}
+                  onChange={(e) => set('website', e.target.value)}
+                  placeholder="https://example.org"
+                  type="url"
+                />
               </div>
             </div>
           </div>
@@ -303,48 +343,88 @@ export default function ProviderApplicationForm() {
             <div className="grid sm:grid-cols-2 gap-4">
               <div>
                 <Label required>Full Name</Label>
-                <Input value={form.contactName} onChange={e => set('contactName', e.target.value)} placeholder="Jane Smith" />
+                <Input
+                  value={form.contactName}
+                  onChange={(e) => set('contactName', e.target.value)}
+                  placeholder="Jane Smith"
+                />
                 <FieldError msg={errors.contactName} />
               </div>
               <div>
                 <Label>Title</Label>
-                <Input value={form.contactTitle} onChange={e => set('contactTitle', e.target.value)} placeholder="Executive Director" />
+                <Input
+                  value={form.contactTitle}
+                  onChange={(e) => set('contactTitle', e.target.value)}
+                  placeholder="Executive Director"
+                />
               </div>
             </div>
             <div className="grid sm:grid-cols-2 gap-4">
               <div>
                 <Label required>Email</Label>
-                <Input value={form.contactEmail} onChange={e => set('contactEmail', e.target.value)} type="email" placeholder="jane@example.org" />
+                <Input
+                  value={form.contactEmail}
+                  onChange={(e) => set('contactEmail', e.target.value)}
+                  type="email"
+                  placeholder="jane@example.org"
+                />
                 <FieldError msg={errors.contactEmail} />
               </div>
               <div>
                 <Label required>Phone</Label>
-                <Input value={form.contactPhone} onChange={e => set('contactPhone', e.target.value)} type="tel" placeholder="(317) 555-0100" />
+                <Input
+                  value={form.contactPhone}
+                  onChange={(e) => set('contactPhone', e.target.value)}
+                  type="tel"
+                  placeholder="(317) 555-0100"
+                />
                 <FieldError msg={errors.contactPhone} />
               </div>
             </div>
             <div>
               <Label required>Street Address</Label>
-              <Input value={form.addressLine1} onChange={e => set('addressLine1', e.target.value)} placeholder="123 Main St" />
+              <Input
+                value={form.addressLine1}
+                onChange={(e) => set('addressLine1', e.target.value)}
+                placeholder="123 Main St"
+              />
               <FieldError msg={errors.addressLine1} />
             </div>
             <div>
               <Label>Suite / Unit (optional)</Label>
-              <Input value={form.addressLine2} onChange={e => set('addressLine2', e.target.value)} placeholder="Suite 200" />
+              <Input
+                value={form.addressLine2}
+                onChange={(e) => set('addressLine2', e.target.value)}
+                placeholder="Suite 200"
+              />
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
               <div className="col-span-2 sm:col-span-1">
                 <Label required>City</Label>
-                <Input value={form.city} onChange={e => set('city', e.target.value)} placeholder="Indianapolis" />
+                <Input
+                  value={form.city}
+                  onChange={(e) => set('city', e.target.value)}
+                  placeholder="Indianapolis"
+                />
                 <FieldError msg={errors.city} />
               </div>
               <div>
                 <Label required>State</Label>
-                <Input value={form.state} onChange={e => set('state', e.target.value)} placeholder="IN" maxLength={2} />
+                <Input
+                  value={form.state}
+                  onChange={(e) => set('state', e.target.value)}
+                  placeholder="IN"
+                  maxLength={2}
+                />
               </div>
               <div>
                 <Label required>ZIP</Label>
-                <Input value={form.zip} onChange={e => set('zip', e.target.value)} placeholder="46201" maxLength={10} />
+                <Input
+                  value={form.zip}
+                  onChange={(e) => set('zip', e.target.value)}
+                  placeholder="46201"
+                  maxLength={10}
+                />
                 <FieldError msg={errors.zip} />
               </div>
             </div>
@@ -358,22 +438,42 @@ export default function ProviderApplicationForm() {
             <div>
               <Label required>Program Types Offered</Label>
               <p className="text-xs text-black mb-3">Select all that apply.</p>
-              <CheckboxGroup options={PROGRAM_TYPES} selected={form.programTypes} onChange={v => set('programTypes', v)} />
+              <CheckboxGroup
+                options={PROGRAM_TYPES}
+                selected={form.programTypes}
+                onChange={(v) => set('programTypes', v)}
+              />
               <FieldError msg={errors.programTypes} />
             </div>
             <div>
               <Label>Credential Authorities</Label>
-              <p className="text-xs text-black mb-3">Which bodies issue credentials for your programs?</p>
-              <CheckboxGroup options={CREDENTIAL_AUTHORITIES} selected={form.credentialAuthorities} onChange={v => set('credentialAuthorities', v)} />
+              <p className="text-xs text-black mb-3">
+                Which bodies issue credentials for your programs?
+              </p>
+              <CheckboxGroup
+                options={CREDENTIAL_AUTHORITIES}
+                selected={form.credentialAuthorities}
+                onChange={(v) => set('credentialAuthorities', v)}
+              />
             </div>
             <div className="grid sm:grid-cols-2 gap-4">
               <div>
                 <Label>Service Area</Label>
-                <Input value={form.serviceArea} onChange={e => set('serviceArea', e.target.value)} placeholder="Marion County, Central Indiana" />
+                <Input
+                  value={form.serviceArea}
+                  onChange={(e) => set('serviceArea', e.target.value)}
+                  placeholder="Marion County, Central Indiana"
+                />
               </div>
               <div>
                 <Label>Annual Enrollment (approx.)</Label>
-                <Input value={form.annualEnrollment} onChange={e => set('annualEnrollment', e.target.value)} type="number" min="0" placeholder="50" />
+                <Input
+                  value={form.annualEnrollment}
+                  onChange={(e) => set('annualEnrollment', e.target.value)}
+                  type="number"
+                  min="0"
+                  placeholder="50"
+                />
               </div>
             </div>
           </div>
@@ -388,36 +488,50 @@ export default function ProviderApplicationForm() {
                 <input
                   type="checkbox"
                   checked={form.wioaEligible}
-                  onChange={e => set('wioaEligible', e.target.checked)}
+                  onChange={(e) => set('wioaEligible', e.target.checked)}
                   className="mt-0.5 rounded border-slate-300 text-brand-blue-600 focus:ring-brand-blue-500"
                 />
                 <div>
                   <span className="text-sm font-medium text-slate-700">WIOA Eligible</span>
-                  <p className="text-xs text-black">Your programs qualify for Workforce Innovation and Opportunity Act Individual Training Accounts.</p>
+                  <p className="text-xs text-black">
+                    Your programs qualify for Workforce Innovation and Opportunity Act Individual
+                    Training Accounts.
+                  </p>
                 </div>
               </label>
               <label className="flex items-start gap-3 cursor-pointer">
                 <input
                   type="checkbox"
                   checked={form.etplListed}
-                  onChange={e => set('etplListed', e.target.checked)}
+                  onChange={(e) => set('etplListed', e.target.checked)}
                   className="mt-0.5 rounded border-slate-300 text-brand-blue-600 focus:ring-brand-blue-500"
                 />
                 <div>
                   <span className="text-sm font-medium text-slate-700">ETPL Listed</span>
-                  <p className="text-xs text-black">Your organization is on a state Eligible Training Provider List.</p>
+                  <p className="text-xs text-black">
+                    Your organization is on a state Eligible Training Provider List.
+                  </p>
                 </div>
               </label>
             </div>
             {form.etplListed && (
               <div>
                 <Label>ETPL State</Label>
-                <Input value={form.etplState} onChange={e => set('etplState', e.target.value)} placeholder="IN" maxLength={2} />
+                <Input
+                  value={form.etplState}
+                  onChange={(e) => set('etplState', e.target.value)}
+                  placeholder="IN"
+                  maxLength={2}
+                />
               </div>
             )}
             <div>
               <Label>Accreditation (optional)</Label>
-              <Input value={form.accreditation} onChange={e => set('accreditation', e.target.value)} placeholder="ACCSC, COE, state licensure, etc." />
+              <Input
+                value={form.accreditation}
+                onChange={(e) => set('accreditation', e.target.value)}
+                placeholder="ACCSC, COE, state licensure, etc."
+              />
             </div>
           </div>
         )}
@@ -428,15 +542,27 @@ export default function ProviderApplicationForm() {
             <h2 className="text-lg font-bold text-slate-900">About Your Organization</h2>
             <div>
               <Label>Mission Statement</Label>
-              <Textarea value={form.missionStatement} onChange={e => set('missionStatement', e.target.value)} placeholder="Describe your organization's mission and the populations you serve." />
+              <Textarea
+                value={form.missionStatement}
+                onChange={(e) => set('missionStatement', e.target.value)}
+                placeholder="Describe your organization's mission and the populations you serve."
+              />
             </div>
             <div>
               <Label>Outcomes & Track Record</Label>
-              <Textarea value={form.outcomesDescription} onChange={e => set('outcomesDescription', e.target.value)} placeholder="Describe your employment outcomes, credential attainment rates, or other measurable results." />
+              <Textarea
+                value={form.outcomesDescription}
+                onChange={(e) => set('outcomesDescription', e.target.value)}
+                placeholder="Describe your employment outcomes, credential attainment rates, or other measurable results."
+              />
             </div>
             <div>
               <Label>Partnership Goals</Label>
-              <Textarea value={form.partnershipGoals} onChange={e => set('partnershipGoals', e.target.value)} placeholder="What are you hoping to achieve through this partnership?" />
+              <Textarea
+                value={form.partnershipGoals}
+                onChange={(e) => set('partnershipGoals', e.target.value)}
+                placeholder="What are you hoping to achieve through this partnership?"
+              />
             </div>
           </div>
         )}
@@ -455,22 +581,35 @@ export default function ProviderApplicationForm() {
               </ReviewSection>
 
               <ReviewSection label="Contact">
-                <ReviewRow label="Name" value={`${form.contactName}${form.contactTitle ? `, ${form.contactTitle}` : ''}`} />
+                <ReviewRow
+                  label="Name"
+                  value={`${form.contactName}${form.contactTitle ? `, ${form.contactTitle}` : ''}`}
+                />
                 <ReviewRow label="Email" value={form.contactEmail} />
                 <ReviewRow label="Phone" value={form.contactPhone} />
-                <ReviewRow label="Address" value={`${form.addressLine1}${form.addressLine2 ? ` ${form.addressLine2}` : ''}, ${form.city}, ${form.state} ${form.zip}`} />
+                <ReviewRow
+                  label="Address"
+                  value={`${form.addressLine1}${form.addressLine2 ? ` ${form.addressLine2}` : ''}, ${form.city}, ${form.state} ${form.zip}`}
+                />
               </ReviewSection>
 
               <ReviewSection label="Programs">
                 <ReviewRow label="Types" value={form.programTypes.join(', ')} />
-                {form.credentialAuthorities.length > 0 && <ReviewRow label="Credentials" value={form.credentialAuthorities.join(', ')} />}
+                {form.credentialAuthorities.length > 0 && (
+                  <ReviewRow label="Credentials" value={form.credentialAuthorities.join(', ')} />
+                )}
                 {form.serviceArea && <ReviewRow label="Service Area" value={form.serviceArea} />}
               </ReviewSection>
 
               <ReviewSection label="Compliance">
                 <ReviewRow label="WIOA Eligible" value={form.wioaEligible ? 'Yes' : 'No'} />
-                <ReviewRow label="ETPL Listed" value={form.etplListed ? `Yes (${form.etplState})` : 'No'} />
-                {form.accreditation && <ReviewRow label="Accreditation" value={form.accreditation} />}
+                <ReviewRow
+                  label="ETPL Listed"
+                  value={form.etplListed ? `Yes (${form.etplState})` : 'No'}
+                />
+                {form.accreditation && (
+                  <ReviewRow label="Accreditation" value={form.accreditation} />
+                )}
               </ReviewSection>
             </div>
 
@@ -479,12 +618,14 @@ export default function ProviderApplicationForm() {
                 <input
                   type="checkbox"
                   checked={form.agreedToTerms}
-                  onChange={e => set('agreedToTerms', e.target.checked)}
+                  onChange={(e) => set('agreedToTerms', e.target.checked)}
                   className="mt-0.5 rounded border-slate-300 text-brand-blue-600 focus:ring-brand-blue-500"
                 />
                 <span className="text-sm text-slate-700">
-                  I confirm that the information provided is accurate and that I am authorized to submit this application on behalf of my organization.
-                  I understand that approval is subject to review and that Elevate for Humanity may request additional documentation.
+                  I confirm that the information provided is accurate and that I am authorized to
+                  submit this application on behalf of my organization. I understand that approval
+                  is subject to review and that Elevate for Humanity may request additional
+                  documentation.
                 </span>
               </label>
               <FieldError msg={errors.agreedToTerms} />
@@ -524,7 +665,13 @@ export default function ProviderApplicationForm() {
               disabled={submitting}
               className="inline-flex items-center gap-2 bg-brand-blue-600 text-white px-6 py-2.5 rounded-lg text-sm font-semibold hover:bg-brand-blue-700 transition disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              {submitting ? <><Loader2 className="w-4 h-4 animate-spin" /> Submitting…</> : 'Submit Application'}
+              {submitting ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" /> Submitting…
+                </>
+              ) : (
+                'Submit Application'
+              )}
             </button>
           )}
         </div>

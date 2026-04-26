@@ -11,7 +11,7 @@ import { withRuntime } from '@/lib/api/withRuntime';
 
 /**
  * POST /api/license/checkout
- * 
+ *
  * Creates a Stripe Checkout session for license subscription.
  * - Card required upfront (payment_method_collection: 'always')
  * - 14-day trial, no charge until trial ends
@@ -24,13 +24,12 @@ async function _POST(request: NextRequest) {
     const auth = await requireAuth(request);
     if (auth.error) return auth.error;
 
-
     const body = await request.json();
-    const { 
-      planId, 
-      organizationName, 
+    const {
+      planId,
+      organizationName,
       organizationType,
-      contactName, 
+      contactName,
       contactEmail,
       agreementsAccepted, // Required: must accept EULA, TOS, AUP, Disclosures, License Agreement
     } = body;
@@ -40,15 +39,15 @@ async function _POST(request: NextRequest) {
     if (!agreementsAccepted || !Array.isArray(agreementsAccepted)) {
       return NextResponse.json(
         { error: 'You must accept all required agreements to proceed' },
-        { status: 400 }
+        { status: 400 },
       );
     }
-    
-    const missingAgreements = requiredAgreements.filter(a => !agreementsAccepted.includes(a));
+
+    const missingAgreements = requiredAgreements.filter((a) => !agreementsAccepted.includes(a));
     if (missingAgreements.length > 0) {
       return NextResponse.json(
         { error: `Missing required agreements: ${missingAgreements.join(', ')}` },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -57,34 +56,30 @@ async function _POST(request: NextRequest) {
       logger.error('Stripe not configured: STRIPE_SECRET_KEY missing');
       return NextResponse.json(
         { error: 'Payment system is not configured. Please contact support.' },
-        { status: 503 }
+        { status: 503 },
       );
     }
 
     // Validate plan
     if (!planId || !PLANS[planId as PlanId]) {
-      return NextResponse.json(
-        { error: 'Invalid plan selected' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Invalid plan selected' }, { status: 400 });
     }
 
     // Validate required fields
     if (!organizationName || !contactName || !contactEmail) {
-      return NextResponse.json(
-        { error: 'Missing required fields' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
     // Block disposable email domains
-    const disposableDomains = ['tempmail.com', 'throwaway.com', 'mailinator.com', '10minutemail.com'];
+    const disposableDomains = [
+      'tempmail.com',
+      'throwaway.com',
+      'mailinator.com',
+      '10minutemail.com',
+    ];
     const emailDomain = contactEmail.split('@')[1]?.toLowerCase();
     if (disposableDomains.includes(emailDomain)) {
-      return NextResponse.json(
-        { error: 'Please use a work email address' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Please use a work email address' }, { status: 400 });
     }
 
     const plan = PLANS[planId as PlanId];
@@ -94,7 +89,7 @@ async function _POST(request: NextRequest) {
     if (plan.requiresContact) {
       return NextResponse.json(
         { error: 'This plan requires contacting sales. Please use the request form.' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -103,7 +98,7 @@ async function _POST(request: NextRequest) {
       logger.error(`Missing Stripe price ID for plan: ${planId}. Set STRIPE_PRICE_* env vars.`);
       return NextResponse.json(
         { error: 'This plan is not yet configured for checkout. Please contact support.' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -118,22 +113,22 @@ async function _POST(request: NextRequest) {
     let customerId: string;
     if (customers.data.length > 0) {
       customerId = customers.data[0].id;
-      
+
       // Check if customer already has an active subscription (prevent trial abuse)
       const subscriptions = await stripe.subscriptions.list({
         customer: customerId,
         status: 'all',
         limit: 10,
       });
-      
+
       const hasActiveOrTrialing = subscriptions.data.some(
-        sub => sub.status === 'active' || sub.status === 'trialing'
+        (sub) => sub.status === 'active' || sub.status === 'trialing',
       );
-      
+
       if (hasActiveOrTrialing) {
         return NextResponse.json(
           { error: 'You already have an active subscription. Please manage it from your account.' },
-          { status: 400 }
+          { status: 400 },
         );
       }
     } else {
@@ -195,17 +190,14 @@ async function _POST(request: NextRequest) {
       },
     });
 
-    return NextResponse.json({ 
+    return NextResponse.json({
       sessionId: session.id,
       url: session.url,
     });
   } catch (error) {
     logger.error('Checkout error:', error);
     const message = 'Internal server error';
-    return NextResponse.json(
-      { error: message },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
 export const POST = withRuntime(withApiAudit('/api/license/checkout', _POST));

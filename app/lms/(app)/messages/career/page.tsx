@@ -14,21 +14,25 @@ export const dynamic = 'force-dynamic';
 
 export default async function CareerMessagesPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   if (!user) redirect('/login?redirect=/lms/messages/career');
 
   // Fetch messages from database
   const { data: messages, error } = await supabase
     .from('messages')
-    .select(`
+    .select(
+      `
       id,
       content,
       created_at,
       is_read,
       sender_id,
       sender:profiles!messages_sender_id_fkey(full_name)
-    `)
+    `,
+    )
     .or(`sender_id.eq.${user.id},recipient_id.eq.${user.id}`)
     .eq('message_type', 'career')
     .order('created_at', { ascending: false })
@@ -50,7 +54,9 @@ export default async function CareerMessagesPage() {
             </Link>
             <div>
               <h1 className="text-xl font-bold text-slate-900">Career Services</h1>
-              <p className="text-sm text-slate-700">Get help with job placement and career guidance</p>
+              <p className="text-sm text-slate-700">
+                Get help with job placement and career guidance
+              </p>
             </div>
           </div>
         </div>
@@ -61,7 +67,7 @@ export default async function CareerMessagesPage() {
           <div className="bg-white rounded-xl border divide-y">
             {messageList.map((msg: any) => {
               const isFromMe = msg.sender_id === user.id;
-              
+
               return (
                 <div key={msg.id} className="p-4 hover:bg-white">
                   <div className="flex items-start gap-3">
@@ -88,8 +94,10 @@ export default async function CareerMessagesPage() {
           <div className="bg-white rounded-xl border p-12 text-center">
             <MessageSquare className="w-16 h-16 text-slate-700 mx-auto mb-4" />
             <h2 className="text-xl font-semibold text-slate-900 mb-2">No messages yet</h2>
-            <p className="text-slate-700 mb-6">Reach out to our career services team for job placement assistance.</p>
-            <Link 
+            <p className="text-slate-700 mb-6">
+              Reach out to our career services team for job placement assistance.
+            </p>
+            <Link
               href="/lms/messages?type=career"
               className="inline-flex items-center gap-2 px-6 py-3 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700"
             >

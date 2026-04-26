@@ -7,11 +7,11 @@ Score each item Yes/No during or after the call.
 
 ## Category 1 — Problem Awareness
 
-| Signal | Y/N |
-|--------|-----|
-| They acknowledge operational pain (manual tracking, staff load, delays) | |
-| They distinguish enrollment ≠ completion ≠ credentialing | |
-| They reference compliance, audit, or scale concerns | |
+| Signal                                                                  | Y/N |
+| ----------------------------------------------------------------------- | --- |
+| They acknowledge operational pain (manual tracking, staff load, delays) |     |
+| They distinguish enrollment ≠ completion ≠ credentialing                |     |
+| They reference compliance, audit, or scale concerns                     |     |
 
 **If No to most → not a buyer yet.**
 
@@ -19,11 +19,11 @@ Score each item Yes/No during or after the call.
 
 ## Category 2 — Decision Authority
 
-| Signal | Y/N |
-|--------|-----|
-| Someone in the room owns outcomes (not just IT) | |
-| They can influence budget or approval | |
-| They ask "how soon" or "how does this roll out" | |
+| Signal                                          | Y/N |
+| ----------------------------------------------- | --- |
+| Someone in the room owns outcomes (not just IT) |     |
+| They can influence budget or approval           |     |
+| They ask "how soon" or "how does this roll out" |     |
 
 **If No → discovery only, no pricing.**
 
@@ -31,11 +31,11 @@ Score each item Yes/No during or after the call.
 
 ## Category 3 — Build vs Buy Maturity
 
-| Signal | Y/N |
-|--------|-----|
-| They ask about timelines, not stacks | |
-| They ask about governance boundaries | |
-| They accept that some things are intentionally constrained | |
+| Signal                                                     | Y/N |
+| ---------------------------------------------------------- | --- |
+| They ask about timelines, not stacks                       |     |
+| They ask about governance boundaries                       |     |
+| They accept that some things are intentionally constrained |     |
 
 **If they keep pushing stack/schema/code → builder, not buyer.**
 
@@ -43,11 +43,11 @@ Score each item Yes/No during or after the call.
 
 ## Category 4 — Urgency Signals
 
-| Signal | Y/N |
-|--------|-----|
-| They mention a program launch, funding deadline, or partner pressure | |
-| They reference internal frustration or stalled initiatives | |
-| They ask what it would take to start | |
+| Signal                                                               | Y/N |
+| -------------------------------------------------------------------- | --- |
+| They mention a program launch, funding deadline, or partner pressure |     |
+| They reference internal frustration or stalled initiatives           |     |
+| They ask what it would take to start                                 |     |
 
 **If No urgency → deprioritize.**
 
@@ -55,11 +55,11 @@ Score each item Yes/No during or after the call.
 
 ## Category 5 — Risk Posture
 
-| Signal | Y/N |
-|--------|-----|
-| They care about auditability and failure modes | |
-| They don't want staff workarounds | |
-| They react positively to "admin-by-exception" | |
+| Signal                                         | Y/N |
+| ---------------------------------------------- | --- |
+| They care about auditability and failure modes |     |
+| They don't want staff workarounds              |     |
+| They react positively to "admin-by-exception"  |     |
 
 **If they downplay risk → likely to build and regret later.**
 
@@ -67,11 +67,11 @@ Score each item Yes/No during or after the call.
 
 ## How You Use the Scorecard
 
-| Categories with YES | Action |
-|---------------------|--------|
-| 4–5 | **Give pricing ranges** |
-| 2–3 | Stay in fit/demo mode |
-| 0–1 | Politely disengage |
+| Categories with YES | Action                  |
+| ------------------- | ----------------------- |
+| 4–5                 | **Give pricing ranges** |
+| 2–3                 | Stay in fit/demo mode   |
+| 0–1                 | Politely disengage      |
 
 ---
 

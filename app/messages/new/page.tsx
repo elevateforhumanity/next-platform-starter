@@ -51,14 +51,12 @@ export default function NewMessagePage() {
     setIsSubmitting(true);
 
     try {
-      const { error: insertErr } = await supabase
-        .from('messages')
-        .insert({
-          sender_id: userId,
-          subject: formData.subject,
-          body: `[To: ${formData.to}]\n\n${formData.message}`,
-          read: false,
-        });
+      const { error: insertErr } = await supabase.from('messages').insert({
+        sender_id: userId,
+        subject: formData.subject,
+        body: `[To: ${formData.to}]\n\n${formData.message}`,
+        read: false,
+      });
 
       if (insertErr) throw new Error(insertErr.message);
       router.push('/messages?sent=true');
@@ -73,12 +71,17 @@ export default function NewMessagePage() {
     <div className="bg-white min-h-screen">
       <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[{ label: 'Messages', href: '/messages' }, { label: 'New Message' }]} />
+          <Breadcrumbs
+            items={[{ label: 'Messages', href: '/messages' }, { label: 'New Message' }]}
+          />
         </div>
       </div>
 
       <div className="max-w-3xl mx-auto px-4 py-8">
-        <Link href="/messages" className="inline-flex items-center text-slate-700 hover:text-brand-blue-600 mb-6">
+        <Link
+          href="/messages"
+          className="inline-flex items-center text-slate-700 hover:text-brand-blue-600 mb-6"
+        >
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back to Messages
         </Link>
@@ -103,7 +106,9 @@ export default function NewMessagePage() {
               >
                 <option value="">Select recipient</option>
                 {recipients.map((r) => (
-                  <option key={r.id} value={r.id}>{r.name}</option>
+                  <option key={r.id} value={r.id}>
+                    {r.name}
+                  </option>
                 ))}
               </select>
             </div>
@@ -131,7 +136,10 @@ export default function NewMessagePage() {
             </div>
 
             <div className="flex items-center justify-between pt-4 border-t">
-              <button type="button" className="flex items-center text-slate-700 hover:text-brand-blue-600">
+              <button
+                type="button"
+                className="flex items-center text-slate-700 hover:text-brand-blue-600"
+              >
                 <Paperclip className="w-5 h-5 mr-2" />
                 Attach File
               </button>
@@ -144,7 +152,9 @@ export default function NewMessagePage() {
                   disabled={isSubmitting}
                   className="bg-brand-blue-600 hover:bg-brand-blue-700 text-white px-8 py-3 rounded-lg font-bold transition inline-flex items-center disabled:opacity-50"
                 >
-                  {isSubmitting ? 'Sending...' : (
+                  {isSubmitting ? (
+                    'Sending...'
+                  ) : (
                     <>
                       <Send className="w-5 h-5 mr-2" />
                       Send Message

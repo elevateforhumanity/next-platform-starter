@@ -4,12 +4,7 @@
     "questions": [
       {
         "prompt": "A client comes in with thick, curly hair and wants a style that reduces volume but maintains length. Which haircutting technique should you use?",
-        "choices": [
-          "A. Slide cutting",
-          "B. Point cutting",
-          "C. Blunt cutting",
-          "D. Razor cutting"
-        ],
+        "choices": ["A. Slide cutting", "B. Point cutting", "C. Blunt cutting", "D. Razor cutting"],
         "answerIndex": 0,
         "rationale": "Slide cutting is effective for reducing volume while maintaining length, especially on thick, curly hair."
       },
@@ -26,12 +21,7 @@
       },
       {
         "prompt": "A client requests a fade haircut with a gradual blend from short to long. Which tool is most appropriate for achieving the initial short length?",
-        "choices": [
-          "A. Clippers",
-          "B. Scissors",
-          "C. Razor",
-          "D. Thinning shears"
-        ],
+        "choices": ["A. Clippers", "B. Scissors", "C. Razor", "D. Thinning shears"],
         "answerIndex": 0,
         "rationale": "Clippers are best for achieving the precise, short lengths needed in a fade haircut."
       },
@@ -59,23 +49,13 @@
       },
       {
         "prompt": "During a consultation, a client mentions they want a haircut that elongates their round face shape. Which style should you recommend?",
-        "choices": [
-          "A. A-line bob",
-          "B. Pixie cut",
-          "C. Long layers",
-          "D. Blunt cut"
-        ],
+        "choices": ["A. A-line bob", "B. Pixie cut", "C. Long layers", "D. Blunt cut"],
         "answerIndex": 2,
         "rationale": "Long layers can help elongate a round face by adding vertical lines and height."
       },
       {
         "prompt": "A client with fine hair wants more volume. Which technique should you avoid?",
-        "choices": [
-          "A. Layering",
-          "B. Blunt cutting",
-          "C. Texturizing",
-          "D. Thinning"
-        ],
+        "choices": ["A. Layering", "B. Blunt cutting", "C. Texturizing", "D. Thinning"],
         "answerIndex": 3,
         "rationale": "Thinning fine hair can make it appear even thinner, reducing volume."
       },
@@ -92,12 +72,7 @@
       },
       {
         "prompt": "A client requests a bob that is longer in the front and shorter in the back. What is this style called?",
-        "choices": [
-          "A. Inverted bob",
-          "B. Layered bob",
-          "C. Blunt bob",
-          "D. Graduated bob"
-        ],
+        "choices": ["A. Inverted bob", "B. Layered bob", "C. Blunt bob", "D. Graduated bob"],
         "answerIndex": 0,
         "rationale": "An inverted bob is characterized by being longer in the front and shorter in the back."
       },
@@ -114,12 +89,7 @@
       },
       {
         "prompt": "A client with thick, straight hair wants a style with less bulk. Which tool should you use?",
-        "choices": [
-          "A. Clippers",
-          "B. Thinning shears",
-          "C. Razor",
-          "D. Scissors"
-        ],
+        "choices": ["A. Clippers", "B. Thinning shears", "C. Razor", "D. Scissors"],
         "answerIndex": 1,
         "rationale": "Thinning shears are ideal for removing bulk from thick hair without affecting the overall length."
       },
@@ -136,12 +106,7 @@
       },
       {
         "prompt": "A client complains their hair looks too flat after a haircut. What technique could have caused this?",
-        "choices": [
-          "A. Over-direction",
-          "B. Texturizing",
-          "C. Blunt cutting",
-          "D. Layering"
-        ],
+        "choices": ["A. Over-direction", "B. Texturizing", "C. Blunt cutting", "D. Layering"],
         "answerIndex": 2,
         "rationale": "Blunt cutting can make hair appear flat if not combined with other techniques to add volume or movement."
       },
@@ -158,12 +123,7 @@
       },
       {
         "prompt": "A client wants a haircut that requires minimal styling effort. Which style should you recommend?",
-        "choices": [
-          "A. Layered cut",
-          "B. Pixie cut",
-          "C. Bob cut",
-          "D. Shag cut"
-        ],
+        "choices": ["A. Layered cut", "B. Pixie cut", "C. Bob cut", "D. Shag cut"],
         "answerIndex": 1,
         "rationale": "A pixie cut is low-maintenance and requires minimal styling effort, making it ideal for clients seeking simplicity."
       },
@@ -180,12 +140,7 @@
       },
       {
         "prompt": "A client with a square face shape wants a haircut that softens their features. What should you suggest?",
-        "choices": [
-          "A. Blunt bangs",
-          "B. Long layers",
-          "C. Straight bob",
-          "D. Short pixie"
-        ],
+        "choices": ["A. Blunt bangs", "B. Long layers", "C. Straight bob", "D. Short pixie"],
         "answerIndex": 1,
         "rationale": "Long layers can soften the angular features of a square face by adding movement and framing the face."
       },
@@ -202,12 +157,7 @@
       },
       {
         "prompt": "A client with wavy hair wants to enhance their natural texture. Which product should you recommend?",
-        "choices": [
-          "A. Mousse",
-          "B. Gel",
-          "C. Pomade",
-          "D. Hair spray"
-        ],
+        "choices": ["A. Mousse", "B. Gel", "C. Pomade", "D. Hair spray"],
         "answerIndex": 0,
         "rationale": "Mousse is lightweight and helps enhance natural waves without weighing the hair down."
       },

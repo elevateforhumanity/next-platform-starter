@@ -19,6 +19,7 @@
 **ByBlack Certification** is the official seal designating a business as **Black-Owned and Operated**, solely issued by U.S. Black Chambers, Inc. and the ByBlack.us platform.
 
 **Certifying Organization:**
+
 - **U.S. Black Chambers, Inc. (USBC)**
 - National organization supporting Black-owned businesses
 - Supplier diversity portal
@@ -26,6 +27,7 @@
 - Entrepreneurial development programs
 
 **Platform:**
+
 - **ByBlack.us** - National database of Black-owned businesses
 - Supplier diversity portal
 - Contracting opportunities
@@ -36,12 +38,14 @@
 ## ✅ Certification Benefits
 
 ### 1. **Official Recognition**
+
 - ✅ Certified Black-Owned and Operated business
 - ✅ Official ByBlack Badge
 - ✅ Unique certificate
 - ✅ National database listing
 
 ### 2. **Marketing & Branding**
+
 - ✅ Use ByBlack Badge in all marketing materials
 - ✅ Feature on website and social media
 - ✅ Include in email signatures
@@ -49,6 +53,7 @@
 - ✅ Amplify achievement publicly
 
 ### 3. **Business Opportunities**
+
 - ✅ Access to supplier diversity portal
 - ✅ Contracting opportunities
 - ✅ Corporate partner connections
@@ -56,6 +61,7 @@
 - ✅ Business development resources
 
 ### 4. **Support & Resources**
+
 - ✅ USBC membership benefits
 - ✅ Free entrepreneurial development training
 - ✅ Financial education training
@@ -70,6 +76,7 @@
 ### Where to Display the Badge:
 
 **Digital:**
+
 - ✅ Website homepage
 - ✅ Website footer
 - ✅ Email signatures
@@ -79,6 +86,7 @@
 - ✅ Online presentations
 
 **Print:**
+
 - ✅ Business cards
 - ✅ Brochures
 - ✅ Flyers
@@ -88,6 +96,7 @@
 - ✅ Signage
 
 **Social Media:**
+
 - ✅ Post with hashtag: **#ByBlackBusiness**
 - ✅ Tag: **@usblackchambers** on all platforms
 - ✅ Share certification announcement
@@ -100,12 +109,14 @@
 ### Immediate Actions:
 
 **1. Download Certificate & Badge**
+
 - [ ] Login to ByBlack application
 - [ ] Download unique certificate
 - [ ] Download ByBlack Badge
 - [ ] Save files in multiple formats
 
 **2. Update Marketing Materials**
+
 - [ ] Add ByBlack Badge to website
 - [ ] Update email signatures
 - [ ] Update social media profiles
@@ -114,6 +125,7 @@
 - [ ] Update brochures and flyers
 
 **3. Social Media Announcement**
+
 - [ ] Create announcement post
 - [ ] Use hashtag: #ByBlackBusiness
 - [ ] Tag: @usblackchambers
@@ -121,6 +133,7 @@
 - [ ] Celebrate achievement
 
 **4. List in National Database**
+
 - [ ] Visit: www.byblack.us/signup
 - [ ] Complete business listing
 - [ ] Add all business details
@@ -128,6 +141,7 @@
 - [ ] Publish listing
 
 **5. Subscribe & Stay Connected**
+
 - [ ] Subscribe to USBC newsletter
 - [ ] Check supplier diversity portal regularly
 - [ ] Monitor contracting opportunities
@@ -139,11 +153,13 @@
 ## 🌐 Resources & Links
 
 ### ByBlack Platform:
+
 - **Website:** www.byblack.us
 - **Signup/Listing:** www.byblack.us/signup
 - **Application Login:** [Check email for login link]
 
 ### U.S. Black Chambers, Inc.:
+
 - **Website:** www.usblackchambers.org
 - **Membership Information:** Available on website
 - **Training Programs:** Free entrepreneurial development
@@ -152,6 +168,7 @@
 - **Policy Updates:** Subscribe to newsletter
 
 ### Social Media:
+
 - **Facebook:** @usblackchambers
 - **Instagram:** @usblackchambers
 - **LinkedIn:** @usblackchambers
@@ -212,6 +229,7 @@ Certified by U.S. Black Chambers, Inc.
 ### Supplier Diversity:
 
 **Access Through ByBlack:**
+
 - Corporate partner connections
 - Contracting opportunities
 - Procurement opportunities
@@ -219,6 +237,7 @@ Certified by U.S. Black Chambers, Inc.
 - Networking events
 
 **How to Leverage:**
+
 1. Complete detailed business listing
 2. Highlight certifications and capabilities
 3. Showcase training programs
@@ -229,6 +248,7 @@ Certified by U.S. Black Chambers, Inc.
 ### USBC Membership Benefits:
 
 **Free Training:**
+
 - Entrepreneurial development
 - Financial education
 - Business management
@@ -236,12 +256,14 @@ Certified by U.S. Black Chambers, Inc.
 - Operations and compliance
 
 **Technical Assistance:**
+
 - Business consulting
 - Strategic planning
 - Growth strategies
 - Problem-solving support
 
 **Policy Updates:**
+
 - Legislative updates
 - Regulatory changes
 - Industry trends
@@ -254,6 +276,7 @@ Certified by U.S. Black Chambers, Inc.
 ### Leverage Certification:
 
 **1. Website Integration**
+
 - Add ByBlack Badge to homepage
 - Create "Certifications" page
 - Include in "About Us" section
@@ -261,6 +284,7 @@ Certified by U.S. Black Chambers, Inc.
 - Link to ByBlack.us profile
 
 **2. Social Media Campaign**
+
 - Announcement post (all platforms)
 - Regular mentions in posts
 - Include badge in profile images
@@ -268,6 +292,7 @@ Certified by U.S. Black Chambers, Inc.
 - Tag @usblackchambers regularly
 
 **3. Email Marketing**
+
 - Add badge to email signature
 - Announce in newsletter
 - Include in email campaigns
@@ -275,6 +300,7 @@ Certified by U.S. Black Chambers, Inc.
 - Highlight in communications
 
 **4. Print Materials**
+
 - Update business cards
 - Redesign brochures
 - Add to flyers
@@ -282,6 +308,7 @@ Certified by U.S. Black Chambers, Inc.
 - Feature on signage
 
 **5. Partnerships & Proposals**
+
 - Highlight in RFP responses
 - Feature in partnership proposals
 - Include in grant applications
@@ -295,6 +322,7 @@ Certified by U.S. Black Chambers, Inc.
 ### Why This Matters:
 
 **For Elevate for Humanity:**
+
 - ✅ Official recognition as Black-owned business
 - ✅ Access to supplier diversity opportunities
 - ✅ Corporate partner connections
@@ -303,6 +331,7 @@ Certified by U.S. Black Chambers, Inc.
 - ✅ Community representation
 
 **For Students:**
+
 - ✅ Support from certified Black-owned organization
 - ✅ Role model for entrepreneurship
 - ✅ Community investment
@@ -310,6 +339,7 @@ Certified by U.S. Black Chambers, Inc.
 - ✅ Representation matters
 
 **For Community:**
+
 - ✅ Economic development
 - ✅ Job creation
 - ✅ Workforce development
@@ -317,6 +347,7 @@ Certified by U.S. Black Chambers, Inc.
 - ✅ Wealth building
 
 **For Partners:**
+
 - ✅ Supplier diversity goals
 - ✅ Community partnerships
 - ✅ Social impact
@@ -330,10 +361,12 @@ Certified by U.S. Black Chambers, Inc.
 ### Elevate for Humanity Certifications:
 
 **Business Certifications:**
+
 1. ✅ **ByBlack Certified Business** (U.S. Black Chambers, Inc.)
 2. ✅ **SAM.gov Registration** (U.S. Federal Government) - NEW!
 
 **Training Partnerships:**
+
 1. ✅ JRI (Job Readiness Initiative) - EmployIndy
 2. ✅ Milady RISE (Barber Safety)
 3. ✅ NRF RISE Up (Customer Service)
@@ -352,6 +385,7 @@ Certified by U.S. Black Chambers, Inc.
 ### Stay Active:
 
 **Monthly:**
+
 - [ ] Check ByBlack.us for new opportunities
 - [ ] Review supplier diversity portal
 - [ ] Update business listing if needed
@@ -359,6 +393,7 @@ Certified by U.S. Black Chambers, Inc.
 - [ ] Share updates on social media
 
 **Quarterly:**
+
 - [ ] Review USBC newsletter
 - [ ] Attend USBC events (if available)
 - [ ] Update marketing materials
@@ -366,6 +401,7 @@ Certified by U.S. Black Chambers, Inc.
 - [ ] Explore new opportunities
 
 **Annually:**
+
 - [ ] Renew certification (if required)
 - [ ] Update certificate display
 - [ ] Review business listing
@@ -379,6 +415,7 @@ Certified by U.S. Black Chambers, Inc.
 ### Share Your Achievement:
 
 **Internal:**
+
 - Announce to staff
 - Celebrate at team meeting
 - Display certificate in office
@@ -386,6 +423,7 @@ Certified by U.S. Black Chambers, Inc.
 - Recognize significance
 
 **External:**
+
 - Press release to local media
 - Announcement on website
 - Social media campaign
@@ -393,6 +431,7 @@ Certified by U.S. Black Chambers, Inc.
 - Include in marketing materials
 
 **Community:**
+
 - Share with local Black business organizations
 - Connect with other ByBlack certified businesses
 - Participate in USBC events
@@ -404,17 +443,20 @@ Certified by U.S. Black Chambers, Inc.
 ## 📞 Contact Information
 
 ### ByBlack Support:
+
 - **Website:** www.byblack.us
 - **Email:** [Check certification email for contact]
 - **Social Media:** @usblackchambers
 
 ### U.S. Black Chambers, Inc.:
+
 - **Website:** www.usblackchambers.org
 - **Membership:** Available on website
 - **Training:** Free programs available
 - **Support:** Technical assistance available
 
 ### Elevate for Humanity:
+
 - **Organization:** Elevate for Humanity Training Center
 - **Address:** 8888 Keystone Crossing, Indianapolis, IN 46240
 - **Phone:** (317) 314-3757

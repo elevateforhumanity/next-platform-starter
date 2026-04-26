@@ -57,17 +57,25 @@ export default function NewAppointmentPage() {
     }
   };
 
-  const update = (field: string, value: string) => setForm(prev => ({ ...prev, [field]: value }));
+  const update = (field: string, value: string) => setForm((prev) => ({ ...prev, [field]: value }));
 
   return (
     <div className="min-h-screen bg-white p-8">
-
       {/* Hero Image */}
       <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: 'Admin', href: '/admin' }, { label: 'CRM', href: '/admin/crm' }, { label: 'New Appointment' }]} />
+        <Breadcrumbs
+          items={[
+            { label: 'Admin', href: '/admin' },
+            { label: 'CRM', href: '/admin/crm' },
+            { label: 'New Appointment' },
+          ]}
+        />
       </div>
       <div className="max-w-2xl mx-auto">
-        <Link href="/admin/crm/appointments" className="flex items-center gap-2 text-slate-700 hover:text-brand-blue-600 mb-6">
+        <Link
+          href="/admin/crm/appointments"
+          className="flex items-center gap-2 text-slate-700 hover:text-brand-blue-600 mb-6"
+        >
           <ArrowLeft className="w-4 h-4" />
           Back to Appointments
         </Link>
@@ -82,7 +90,9 @@ export default function NewAppointmentPage() {
             <h2 className="text-lg font-bold text-slate-900 mb-6">Appointment Details</h2>
 
             {error && (
-              <div className="mb-4 p-3 bg-brand-red-50 border border-brand-red-200 rounded-lg text-brand-red-700 text-sm">{error}</div>
+              <div className="mb-4 p-3 bg-brand-red-50 border border-brand-red-200 rounded-lg text-brand-red-700 text-sm">
+                {error}
+              </div>
             )}
 
             <div className="space-y-6">
@@ -91,7 +101,7 @@ export default function NewAppointmentPage() {
                 <input
                   type="text"
                   value={form.title}
-                  onChange={e => update('title', e.target.value)}
+                  onChange={(e) => update('title', e.target.value)}
                   placeholder="e.g., Enrollment Consultation"
                   className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                   required
@@ -102,7 +112,7 @@ export default function NewAppointmentPage() {
                 <label className="block text-sm font-medium text-slate-900 mb-2">Type</label>
                 <select
                   value={form.appointment_type}
-                  onChange={e => update('appointment_type', e.target.value)}
+                  onChange={(e) => update('appointment_type', e.target.value)}
                   className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                 >
                   <option value="consultation">Consultation</option>
@@ -120,7 +130,7 @@ export default function NewAppointmentPage() {
                   <input
                     type="date"
                     value={form.date}
-                    onChange={e => update('date', e.target.value)}
+                    onChange={(e) => update('date', e.target.value)}
                     className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                     required
                   />
@@ -130,7 +140,7 @@ export default function NewAppointmentPage() {
                   <input
                     type="time"
                     value={form.time}
-                    onChange={e => update('time', e.target.value)}
+                    onChange={(e) => update('time', e.target.value)}
                     className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                     required
                   />
@@ -139,7 +149,7 @@ export default function NewAppointmentPage() {
                   <label className="block text-sm font-medium text-slate-900 mb-2">Duration</label>
                   <select
                     value={form.duration_minutes}
-                    onChange={e => update('duration_minutes', e.target.value)}
+                    onChange={(e) => update('duration_minutes', e.target.value)}
                     className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                   >
                     <option value="15">15 minutes</option>
@@ -157,7 +167,7 @@ export default function NewAppointmentPage() {
                 <input
                   type="text"
                   value={form.location}
-                  onChange={e => update('location', e.target.value)}
+                  onChange={(e) => update('location', e.target.value)}
                   placeholder="Enter location or paste meeting link"
                   className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                 />
@@ -168,7 +178,7 @@ export default function NewAppointmentPage() {
                 <textarea
                   rows={4}
                   value={form.notes}
-                  onChange={e => update('notes', e.target.value)}
+                  onChange={(e) => update('notes', e.target.value)}
                   placeholder="Add any notes or agenda items..."
                   className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                 />
@@ -182,7 +192,11 @@ export default function NewAppointmentPage() {
               disabled={saving}
               className="px-6 py-3 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700 transition flex items-center gap-2 disabled:opacity-50"
             >
-              {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Calendar className="w-4 h-4" />}
+              {saving ? (
+                <Loader2 className="w-4 h-4 animate-spin" />
+              ) : (
+                <Calendar className="w-4 h-4" />
+              )}
               {saving ? 'Scheduling...' : 'Schedule Appointment'}
             </button>
           </div>

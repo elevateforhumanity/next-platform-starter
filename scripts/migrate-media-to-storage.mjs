@@ -21,7 +21,7 @@ import { join, relative, extname } from 'path';
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 const DRY_RUN = process.argv.includes('--dry-run');
-const DIR_FLAG = process.argv.find(a => a.startsWith('--dir='))?.split('=')[1];
+const DIR_FLAG = process.argv.find((a) => a.startsWith('--dir='))?.split('=')[1];
 
 if (!SUPABASE_URL || !SERVICE_KEY) {
   console.error('NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are required');
@@ -34,12 +34,12 @@ const supabase = createClient(SUPABASE_URL, SERVICE_KEY, {
 
 // Map local path prefix → storage bucket + path prefix
 const MIGRATION_MAP = [
-  { local: 'public/hvac/audio',      bucket: 'course-videos', prefix: 'hvac/audio' },
-  { local: 'public/hvac/videos',     bucket: 'course-videos', prefix: 'hvac/videos' },
-  { local: 'public/hvac/diagrams',   bucket: 'course-videos', prefix: 'hvac/diagrams' },
-  { local: 'public/videos',          bucket: 'course-videos', prefix: 'videos' },
-  { local: 'public/videos/lessons',bucket: 'course-videos', prefix: 'videos/lessons' },
-  { local: 'public/generated/lessons',bucket: 'media',        prefix: 'generated/lessons' },
+  { local: 'public/hvac/audio', bucket: 'course-videos', prefix: 'hvac/audio' },
+  { local: 'public/hvac/videos', bucket: 'course-videos', prefix: 'hvac/videos' },
+  { local: 'public/hvac/diagrams', bucket: 'course-videos', prefix: 'hvac/diagrams' },
+  { local: 'public/videos', bucket: 'course-videos', prefix: 'videos' },
+  { local: 'public/videos/lessons', bucket: 'course-videos', prefix: 'videos/lessons' },
+  { local: 'public/generated/lessons', bucket: 'media', prefix: 'generated/lessons' },
 ];
 
 const MIME_MAP = {
@@ -83,7 +83,7 @@ async function uploadFile(bucket, storagePath, localPath) {
 
 async function main() {
   const targets = DIR_FLAG
-    ? MIGRATION_MAP.filter(m => m.local === DIR_FLAG || DIR_FLAG.startsWith(m.local))
+    ? MIGRATION_MAP.filter((m) => m.local === DIR_FLAG || DIR_FLAG.startsWith(m.local))
     : MIGRATION_MAP;
 
   let total = 0;
@@ -131,7 +131,7 @@ async function main() {
   }
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.error(err);
   process.exit(1);
 });

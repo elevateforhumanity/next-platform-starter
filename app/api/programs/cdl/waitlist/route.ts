@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
   if (limited) return limited;
 
   try {
-  await hydrateProcessEnv();
+    await hydrateProcessEnv();
     const body = await request.json();
 
     const required = ['firstName', 'lastName', 'email', 'phone', 'city', 'zip'];
@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
     if (existing && existing.length > 0) {
       return NextResponse.json(
         { error: 'You already submitted a CDL waitlist application recently.' },
-        { status: 409 }
+        { status: 409 },
       );
     }
 
@@ -64,7 +64,9 @@ export async function POST(request: NextRequest) {
           body.employmentStatus ? `Employment: ${body.employmentStatus}` : '',
           body.fundingSource ? `Funding: ${body.fundingSource}` : '',
           body.notes ? `Notes: ${body.notes}` : '',
-        ].filter(Boolean).join(' | '),
+        ]
+          .filter(Boolean)
+          .join(' | '),
       })
       .select()
       .maybeSingle();
@@ -78,9 +80,9 @@ export async function POST(request: NextRequest) {
     const confirmHtml = buildWaitlistConfirmationEmail(body.firstName.trim());
     await sendEmail({
       to: body.email.toLowerCase().trim(),
-      subject: 'CDL Training Waitlist — You\'re In! | Elevate for Humanity',
+      subject: "CDL Training Waitlist — You're In! | Elevate for Humanity",
       html: confirmHtml,
-    }).catch(err => logger.error('Failed to send CDL waitlist confirmation', err));
+    }).catch((err) => logger.error('Failed to send CDL waitlist confirmation', err));
 
     // Send admin notification
     await sendEmail({
@@ -97,7 +99,7 @@ export async function POST(request: NextRequest) {
           <tr><td style="padding:4px 12px;font-weight:bold;color:#64748b">Funding</td><td style="padding:4px 12px">${body.fundingSource || 'N/A'}</td></tr>
           <tr><td style="padding:4px 12px;font-weight:bold;color:#64748b">Notes</td><td style="padding:4px 12px">${body.notes || 'None'}</td></tr>
         </table>`,
-    }).catch(err => logger.error('Failed to send CDL waitlist admin notification', err));
+    }).catch((err) => logger.error('Failed to send CDL waitlist admin notification', err));
 
     return NextResponse.json({ success: true, id: application?.id });
   } catch (err) {

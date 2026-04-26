@@ -65,13 +65,13 @@ export async function createJob(input: CreateJobInput): Promise<VideoJob> {
   const { data, error } = await supabase
     .from('video_jobs')
     .insert({
-      lesson_id:    input.lesson_id,
-      course_id:    input.course_id,
+      lesson_id: input.lesson_id,
+      course_id: input.course_id,
       lesson_title: input.lesson_title,
-      script:       input.script ?? null,
+      script: input.script ?? null,
       bullet_points: input.bullet_points ?? [],
-      status:       'queued',
-      queued_at:    new Date().toISOString(),
+      status: 'queued',
+      queued_at: new Date().toISOString(),
     })
     .select()
     .single();
@@ -87,7 +87,7 @@ export async function createJob(input: CreateJobInput): Promise<VideoJob> {
     .update({
       video_status: 'queued',
       video_job_id: data.id,
-      video_error:  null,
+      video_error: null,
     })
     .eq('id', input.lesson_id);
 
@@ -98,11 +98,7 @@ export async function createJob(input: CreateJobInput): Promise<VideoJob> {
 // ── Read ──────────────────────────────────────────────────────────────────────
 
 export async function getJob(jobId: string): Promise<VideoJob | null> {
-  const { data, error } = await db()
-    .from('video_jobs')
-    .select('*')
-    .eq('id', jobId)
-    .maybeSingle();
+  const { data, error } = await db().from('video_jobs').select('*').eq('id', jobId).maybeSingle();
 
   if (error) {
     logger.error('[VideoJob] getJob error: ' + error.message);
@@ -152,7 +148,7 @@ export async function markComplete(
     duration_seconds?: number;
     scene_count?: number;
     scene_data?: unknown;
-  }
+  },
 ): Promise<void> {
   const supabase = db();
   const now = new Date().toISOString();
@@ -160,14 +156,14 @@ export async function markComplete(
   const { data: job } = await supabase
     .from('video_jobs')
     .update({
-      status:           'complete',
-      completed_at:     now,
-      video_url:        result.video_url,
-      audio_url:        result.audio_url ?? null,
+      status: 'complete',
+      completed_at: now,
+      video_url: result.video_url,
+      audio_url: result.audio_url ?? null,
       duration_seconds: result.duration_seconds ?? null,
-      scene_count:      result.scene_count ?? null,
-      scene_data:       result.scene_data ?? null,
-      error_message:    null,
+      scene_count: result.scene_count ?? null,
+      scene_data: result.scene_data ?? null,
+      error_message: null,
     })
     .eq('id', jobId)
     .select('lesson_id')
@@ -177,12 +173,12 @@ export async function markComplete(
     await supabase
       .from('course_lessons')
       .update({
-        video_status:       'complete',
-        video_url:          result.video_url,
-        video_error:        null,
+        video_status: 'complete',
+        video_url: result.video_url,
+        video_error: null,
         video_generated_at: now,
-        duration_seconds:   result.duration_seconds ?? null,
-        scene_data:         result.scene_data ?? null,
+        duration_seconds: result.duration_seconds ?? null,
+        scene_data: result.scene_data ?? null,
       })
       .eq('id', job.lesson_id);
   }
@@ -196,9 +192,9 @@ export async function markFailed(jobId: string, errorMessage: string): Promise<v
   const { data: job } = await supabase
     .from('video_jobs')
     .update({
-      status:        'failed',
+      status: 'failed',
       error_message: errorMessage,
-      completed_at:  new Date().toISOString(),
+      completed_at: new Date().toISOString(),
     })
     .eq('id', jobId)
     .select('lesson_id')
@@ -209,7 +205,7 @@ export async function markFailed(jobId: string, errorMessage: string): Promise<v
       .from('course_lessons')
       .update({
         video_status: 'failed',
-        video_error:  errorMessage,
+        video_error: errorMessage,
       })
       .eq('id', job.lesson_id);
   }
@@ -232,10 +228,10 @@ export async function resetJob(lessonId: string, courseId: string): Promise<Vide
     .maybeSingle();
 
   return createJob({
-    lesson_id:    lessonId,
-    course_id:    courseId,
+    lesson_id: lessonId,
+    course_id: courseId,
     lesson_title: lesson?.title ?? 'Untitled',
-    script:       lesson?.script ?? undefined,
+    script: lesson?.script ?? undefined,
     bullet_points: Array.isArray(lesson?.bullet_points) ? lesson.bullet_points : [],
   });
 }

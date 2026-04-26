@@ -1,4 +1,3 @@
-
 // app/api/courses/[courseId]/check-completion/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
@@ -13,8 +12,8 @@ export const dynamic = 'force-dynamic';
 type Params = { params: Promise<{ courseId: string }> };
 
 async function _POST(req: NextRequest, { params }: Params) {
-    const rateLimited = await applyRateLimit(req, 'api');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(req, 'api');
+  if (rateLimited) return rateLimited;
 
   const supabase = await createClient();
   const { courseId } = await params;
@@ -38,39 +37,29 @@ async function _POST(req: NextRequest, { params }: Params) {
 
   if (enrollError || !enrollment) {
     logger.error(enrollError);
-    return NextResponse.json(
-      { error: 'Enrollment not found for this course' },
-      { status: 404 }
-    );
+    return NextResponse.json({ error: 'Enrollment not found for this course' }, { status: 404 });
   }
 
   // 3) Check internal completion flag
   if (!enrollment.internal_complete) {
     return NextResponse.json(
       {
-        error:
-          'Internal course modules are not marked complete yet in the LMS.',
+        error: 'Internal course modules are not marked complete yet in the LMS.',
         code: 'INTERNAL_INCOMPLETE',
       },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
   // 4) Call Postgres function to check external modules
-  const { data: extCheck, error: extError } = await supabase.rpc(
-    'external_modules_complete',
-    {
-      p_course_id: courseId,
-      p_user_id: user.id,
-    }
-  );
+  const { data: extCheck, error: extError } = await supabase.rpc('external_modules_complete', {
+    p_course_id: courseId,
+    p_user_id: user.id,
+  });
 
   if (extError) {
     logger.error(extError);
-    return NextResponse.json(
-      { error: 'Error checking external modules' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Error checking external modules' }, { status: 500 });
   }
 
   const externalOK = Boolean(extCheck);
@@ -86,12 +75,11 @@ async function _POST(req: NextRequest, { params }: Params) {
 
     return NextResponse.json(
       {
-        error:
-          'All required LMS modules are not approved yet.',
+        error: 'All required LMS modules are not approved yet.',
         code: 'EXTERNAL_INCOMPLETE',
         pending_modules: pendingModules,
       },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -106,10 +94,7 @@ async function _POST(req: NextRequest, { params }: Params) {
 
   if (updateError) {
     logger.error(updateError);
-    return NextResponse.json(
-      { error: 'Failed to set course as completed' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to set course as completed' }, { status: 500 });
   }
 
   return NextResponse.json({
@@ -120,9 +105,8 @@ async function _POST(req: NextRequest, { params }: Params) {
 
 // GET endpoint to check status without updating
 async function _GET(req: NextRequest, { params }: Params) {
-  
-    const rateLimited = await applyRateLimit(req, 'api');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(req, 'api');
+  if (rateLimited) return rateLimited;
   const supabase = await createClient();
   const { courseId } = await params;
 
@@ -135,20 +119,14 @@ async function _GET(req: NextRequest, { params }: Params) {
   }
 
   // Get completion status
-  const { data: status, error } = await supabase.rpc(
-    'check_course_completion',
-    {
-      p_course_id: courseId,
-      p_user_id: user.id,
-    }
-  );
+  const { data: status, error } = await supabase.rpc('check_course_completion', {
+    p_course_id: courseId,
+    p_user_id: user.id,
+  });
 
   if (error) {
     logger.error(error);
-    return NextResponse.json(
-      { error: 'Error checking completion status' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Error checking completion status' }, { status: 500 });
   }
 
   // Get external module summary

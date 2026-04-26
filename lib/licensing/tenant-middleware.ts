@@ -21,7 +21,9 @@ export interface TenantContext {
 export async function getTenantContext(request: NextRequest): Promise<TenantContext | null> {
   try {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       return null;
@@ -63,37 +65,28 @@ export async function getTenantContext(request: NextRequest): Promise<TenantCont
  */
 export async function withTenant<T>(
   request: NextRequest,
-  handler: (ctx: TenantContext) => Promise<T>
+  handler: (ctx: TenantContext) => Promise<T>,
 ): Promise<Response | T> {
   const ctx = await getTenantContext(request);
 
   if (!ctx) {
-    return NextResponse.json(
-      { error: 'Unauthorized - no tenant context' },
-      { status: 401 }
-    );
+    return NextResponse.json({ error: 'Unauthorized - no tenant context' }, { status: 401 });
   }
 
   // Check license status
   if (ctx.licenseStatus === 'suspended') {
     return NextResponse.json(
       { error: 'License suspended - please contact support' },
-      { status: 403 }
+      { status: 403 },
     );
   }
 
   if (ctx.licenseStatus === 'expired') {
-    return NextResponse.json(
-      { error: 'License expired - please renew' },
-      { status: 403 }
-    );
+    return NextResponse.json({ error: 'License expired - please renew' }, { status: 403 });
   }
 
   if (ctx.licenseStatus === 'cancelled') {
-    return NextResponse.json(
-      { error: 'License cancelled' },
-      { status: 403 }
-    );
+    return NextResponse.json({ error: 'License cancelled' }, { status: 403 });
   }
 
   return handler(ctx);
@@ -102,10 +95,7 @@ export async function withTenant<T>(
 /**
  * Validate that user has access to a specific tenant
  */
-export async function validateTenantAccess(
-  userId: string,
-  tenantId: string
-): Promise<boolean> {
+export async function validateTenantAccess(userId: string, tenantId: string): Promise<boolean> {
   const supabase = await createClient();
 
   const { data: profile } = await supabase
@@ -126,10 +116,7 @@ export async function validateTenantAccess(
 /**
  * Check if license has specific feature enabled
  */
-export async function hasLicenseFeature(
-  tenantId: string,
-  feature: string
-): Promise<boolean> {
+export async function hasLicenseFeature(tenantId: string, feature: string): Promise<boolean> {
   const supabase = await createClient();
 
   const { data: license } = await supabase
@@ -148,9 +135,7 @@ export async function hasLicenseFeature(
 /**
  * Get all features for a tenant's license
  */
-export async function getLicenseFeatures(
-  tenantId: string
-): Promise<Record<string, boolean>> {
+export async function getLicenseFeatures(tenantId: string): Promise<Record<string, boolean>> {
   const supabase = await createClient();
 
   const { data: license } = await supabase

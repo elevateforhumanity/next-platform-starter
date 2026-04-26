@@ -19,7 +19,7 @@ const APP_DIR = path.join(ROOT, 'app');
 
 // Import archetype route patterns
 const routesJson = JSON.parse(
-  fs.readFileSync(path.join(ROOT, 'scripts', 'archetypes.routes.json'), 'utf8')
+  fs.readFileSync(path.join(ROOT, 'scripts', 'archetypes.routes.json'), 'utf8'),
 );
 
 function getAllPages() {
@@ -47,8 +47,8 @@ function fileToRoute(file) {
   parts.pop(); // Remove page.tsx
 
   const cleaned = parts
-    .filter(seg => !seg.startsWith('(') || !seg.endsWith(')'))
-    .filter(seg => !seg.startsWith('@'));
+    .filter((seg) => !seg.startsWith('(') || !seg.endsWith(')'))
+    .filter((seg) => !seg.startsWith('@'));
 
   return '/' + cleaned.join('/');
 }
@@ -57,8 +57,8 @@ function getArchetypeForRoute(route) {
   const archetypes = routesJson?.archetypes || {};
 
   for (const [key, def] of Object.entries(archetypes)) {
-    const matchers = (def.routeMatchers || []).map(s => new RegExp(s));
-    if (matchers.some(r => r.test(route))) {
+    const matchers = (def.routeMatchers || []).map((s) => new RegExp(s));
+    if (matchers.some((r) => r.test(route))) {
       return key;
     }
   }
@@ -68,7 +68,7 @@ function getArchetypeForRoute(route) {
 
 function needsRefactoring(content) {
   // Check if already using ArchetypeBase
-  if (content.includes('ArchetypeBase') || content.includes('from \'@/components/archetypes')) {
+  if (content.includes('ArchetypeBase') || content.includes("from '@/components/archetypes")) {
     return false;
   }
 
@@ -82,7 +82,9 @@ function needsRefactoring(content) {
 
 function generateRefactoredPage(archetype, originalContent) {
   // Preserve server-side logic if present
-  const hasServerLogic = /createServerClient|getServerSession|cookies\(|headers\(|redirect\(/.test(originalContent);
+  const hasServerLogic = /createServerClient|getServerSession|cookies\(|headers\(|redirect\(/.test(
+    originalContent,
+  );
 
   let newContent = `import { ArchetypeBase } from '@/components/archetypes/ArchetypeBase';\n`;
 
@@ -94,7 +96,9 @@ function generateRefactoredPage(archetype, originalContent) {
   newContent += `\n`;
 
   // Extract and preserve metadata - handle multiline properly
-  const metadataMatch = originalContent.match(/export\s+const\s+metadata\s*=\s*\{[\s\S]*?\n\};\s*\n/);
+  const metadataMatch = originalContent.match(
+    /export\s+const\s+metadata\s*=\s*\{[\s\S]*?\n\};\s*\n/,
+  );
   if (metadataMatch) {
     newContent += metadataMatch[0] + '\n';
   } else {
@@ -125,7 +129,6 @@ function generateRefactoredPage(archetype, originalContent) {
 
   return newContent;
 }
-
 
 const allPages = getAllPages();
 
@@ -162,7 +165,6 @@ for (const file of allPages) {
     fs.writeFileSync(file, newContent, 'utf8');
 
     refactored++;
-
   } catch (error) {
     console.error(`❌ ${route} - error: ${error.message}`);
     errors++;
@@ -170,12 +172,9 @@ for (const file of allPages) {
   }
 }
 
-
 if (unrefactoredFiles.length > 0) {
-  unrefactoredFiles.forEach(({ file, route, reason }) => {
-  });
+  unrefactoredFiles.forEach(({ file, route, reason }) => {});
 }
-
 
 // Write report
 const report = {
@@ -185,15 +184,10 @@ const report = {
   skipped,
   errors,
   remaining: unrefactoredFiles.length,
-  unrefactoredFiles
+  unrefactoredFiles,
 };
 
-fs.writeFileSync(
-  path.join(ROOT, 'refactor-report.json'),
-  JSON.stringify(report, null, 2),
-  'utf8'
-);
-
+fs.writeFileSync(path.join(ROOT, 'refactor-report.json'), JSON.stringify(report, null, 2), 'utf8');
 
 if (unrefactoredFiles.length > 0) {
   process.exit(1);

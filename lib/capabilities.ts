@@ -1,4 +1,3 @@
-
 // =====================================================
 // PLATFORM CAPABILITIES - SINGLE SOURCE OF TRUTH
 // =====================================================
@@ -55,12 +54,7 @@ export const PARTNER_TIERS = {
   BASIC: {
     name: 'Basic',
     price: 0,
-    features: [
-      'program listing',
-      'student referrals',
-      'basic reporting',
-      'email support',
-    ],
+    features: ['program listing', 'student referrals', 'basic reporting', 'email support'],
     limits: {
       programs: 3,
       students: 50,
@@ -193,10 +187,7 @@ export function getTierFeatures(tier: keyof typeof PARTNER_TIERS) {
 /**
  * Check if tier has feature
  */
-export function tierHasFeature(
-  tier: keyof typeof PARTNER_TIERS,
-  feature: string
-): boolean {
+export function tierHasFeature(tier: keyof typeof PARTNER_TIERS, feature: string): boolean {
   return PARTNER_TIERS[tier].features.includes(feature);
 }
 

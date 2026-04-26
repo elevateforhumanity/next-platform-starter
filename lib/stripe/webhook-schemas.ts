@@ -25,7 +25,10 @@ import { z } from 'zod';
 
 /** Stripe metadata numeric string → number */
 const metaInt = (fallback = 0) =>
-  z.string().optional().transform(v => (v ? parseInt(v, 10) || fallback : fallback));
+  z
+    .string()
+    .optional()
+    .transform((v) => (v ? parseInt(v, 10) || fallback : fallback));
 
 const metaStr = z.string().min(1);
 const metaStrOpt = z.string().optional().default('');
@@ -37,14 +40,14 @@ const metaStrOpt = z.string().optional().default('');
  * Required for the testing webhook to create an exam_booking row.
  */
 export const TestingSessionMeta = z.object({
-  payment_type:       z.literal('testing_fee'),
-  exam_type:          metaStr,
-  exam_name:          metaStr,
-  booking_type:       z.enum(['individual', 'organization']).default('individual'),
-  participant_count:  metaInt(1),
-  add_on:             z.enum(['true', 'false']).default('false'),
+  payment_type: z.literal('testing_fee'),
+  exam_type: metaStr,
+  exam_name: metaStr,
+  booking_type: z.enum(['individual', 'organization']).default('individual'),
+  participant_count: metaInt(1),
+  add_on: z.enum(['true', 'false']).default('false'),
   pending_booking_id: metaStrOpt,
-  slot_id:            metaStrOpt,
+  slot_id: metaStrOpt,
 });
 export type TestingSessionMeta = z.infer<typeof TestingSessionMeta>;
 
@@ -70,38 +73,41 @@ const TUITION_CENTS = 498000;
 
 /** Coerce a metadata int, applying a canonical floor for known legacy sentinel values. */
 function metaIntCanonical(sentinel: number, canonical: number, fallback: number) {
-  return z.string().optional().transform(v => {
-    const n = v ? parseInt(v, 10) : fallback;
-    return (isNaN(n) || n === sentinel || n === 0) ? canonical : n;
-  });
+  return z
+    .string()
+    .optional()
+    .transform((v) => {
+      const n = v ? parseInt(v, 10) : fallback;
+      return isNaN(n) || n === sentinel || n === 0 ? canonical : n;
+    });
 }
 
 export const BarberEnrollmentMeta = z.object({
-  program:              z.literal('barber-apprenticeship'),
-  checkout_type:        z.string().min(1),
-  payment_type:         z.enum(['payment_plan', 'pay_in_full', 'bnpl']),
+  program: z.literal('barber-apprenticeship'),
+  checkout_type: z.string().min(1),
+  payment_type: z.enum(['payment_plan', 'pay_in_full', 'bnpl']),
   // pricing_policy absent on pre-consolidation sessions — default to canonical value
-  pricing_policy:       z.string().optional().default('fixed_tuition_v1'),
+  pricing_policy: z.string().optional().default('fixed_tuition_v1'),
   // IDs
-  application_id:       metaStrOpt,
-  student_id:           metaStrOpt,
-  program_id:           metaStrOpt,
+  application_id: metaStrOpt,
+  student_id: metaStrOpt,
+  program_id: metaStrOpt,
   // Amounts — server-authoritative. Legacy sessions may have 0 or missing values;
   // coerce to canonical TUITION_CENTS so replays produce correct enrollment records.
-  checkout_amount_cents:  metaInt(0),
-  original_price_cents:   metaIntCanonical(0, TUITION_CENTS, TUITION_CENTS),
-  adjusted_price_cents:   metaIntCanonical(0, TUITION_CENTS, TUITION_CENTS),
-  weekly_payment_cents:   metaInt(0),
+  checkout_amount_cents: metaInt(0),
+  original_price_cents: metaIntCanonical(0, TUITION_CENTS, TUITION_CENTS),
+  adjusted_price_cents: metaIntCanonical(0, TUITION_CENTS, TUITION_CENTS),
+  weekly_payment_cents: metaInt(0),
   // Legacy sessions used weeks_remaining: '50'. Canonical value is 29.
-  weeks_remaining:        metaIntCanonical(50, PAYMENT_TERM_WEEKS, PAYMENT_TERM_WEEKS),
+  weeks_remaining: metaIntCanonical(50, PAYMENT_TERM_WEEKS, PAYMENT_TERM_WEEKS),
   // Transfer hours — display/ops only, cannot affect price
   transfer_hours_claimed: metaInt(0),
-  remaining_hours:        metaInt(2000),
+  remaining_hours: metaInt(2000),
   // Customer context
-  customer_name:          metaStrOpt,
-  customer_phone:         metaStrOpt,
-  hours_per_week:         metaInt(40),
-  first_billing_date:     metaStrOpt,
+  customer_name: metaStrOpt,
+  customer_phone: metaStrOpt,
+  hours_per_week: metaInt(40),
+  first_billing_date: metaStrOpt,
 });
 export type BarberEnrollmentMeta = z.infer<typeof BarberEnrollmentMeta>;
 
@@ -110,13 +116,13 @@ export type BarberEnrollmentMeta = z.infer<typeof BarberEnrollmentMeta>;
  * Read by invoice.paid and customer.subscription.* events.
  */
 export const BarberSubscriptionMeta = z.object({
-  program:              z.literal('barber-apprenticeship'),
-  user_id:              metaStrOpt,
+  program: z.literal('barber-apprenticeship'),
+  user_id: metaStrOpt,
   weekly_payment_cents: metaInt(0),
-  weeks_remaining:      metaInt(0),
-  hours_per_week:       metaInt(40),
+  weeks_remaining: metaInt(0),
+  hours_per_week: metaInt(40),
   transferred_hours_verified: metaInt(0),
-  first_billing_date:   metaStrOpt,
+  first_billing_date: metaStrOpt,
 });
 export type BarberSubscriptionMeta = z.infer<typeof BarberSubscriptionMeta>;
 
@@ -125,9 +131,9 @@ export type BarberSubscriptionMeta = z.infer<typeof BarberSubscriptionMeta>;
  * Read by invoice.paid and invoice.payment_failed events.
  */
 export const BarberInvoiceMeta = z.object({
-  kind:           z.literal('apprenticeship_enrollment'),
+  kind: z.literal('apprenticeship_enrollment'),
   application_id: metaStr,
-  student_id:     metaStr,
+  student_id: metaStr,
 });
 export type BarberInvoiceMeta = z.infer<typeof BarberInvoiceMeta>;
 
@@ -138,9 +144,9 @@ export type BarberInvoiceMeta = z.infer<typeof BarberInvoiceMeta>;
  * Required for program enrollment completion.
  */
 export const ProgramEnrollmentMeta = z.object({
-  student_id:     metaStr,
-  program_id:     metaStr,
-  program_slug:   metaStr,
+  student_id: metaStr,
+  program_id: metaStr,
+  program_slug: metaStr,
   funding_source: z.string().optional().default('self_pay'),
 });
 export type ProgramEnrollmentMeta = z.infer<typeof ProgramEnrollmentMeta>;
@@ -166,7 +172,7 @@ export function parseWebhookMeta<T>(
   schema: z.ZodType<T>,
   raw: Record<string, string> | null | undefined,
   eventId: string,
-  log: { warn: (msg: string, ctx?: object) => void }
+  log: { warn: (msg: string, ctx?: object) => void },
 ): T | null {
   const result = schema.safeParse(raw ?? {});
   if (!result.success) {

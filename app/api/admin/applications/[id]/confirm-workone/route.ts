@@ -6,10 +6,7 @@ import { applyRateLimit } from '@/lib/api/withRateLimit';
 
 export const dynamic = 'force-dynamic';
 
-export async function POST(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> },
-) {
+export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const rateLimited = await applyRateLimit(request, 'strict');
   if (rateLimited) return rateLimited;
 
@@ -17,7 +14,7 @@ export async function POST(
   if (auth.error) return auth.error;
 
   const { id } = await params;
-  const body = await request.json().catch(() => ({})) as { workone_approval_ref?: string };
+  const body = (await request.json().catch(() => ({}))) as { workone_approval_ref?: string };
 
   const db = await getAdminClient();
 
@@ -36,12 +33,12 @@ export async function POST(
   const { error } = await db
     .from('applications')
     .update({
-      has_workone_approval:  true,
-      workone_approval_ref:  body.workone_approval_ref ?? null,
-      eligibility_status:    'verified',
+      has_workone_approval: true,
+      workone_approval_ref: body.workone_approval_ref ?? null,
+      eligibility_status: 'verified',
       // Move to under_review so staff can proceed with final approval
-      status:                'under_review',
-      updated_at:            new Date().toISOString(),
+      status: 'under_review',
+      updated_at: new Date().toISOString(),
     })
     .eq('id', id);
 

@@ -4,7 +4,8 @@ import Image from 'next/image';
 
 export const metadata: Metadata = {
   title: 'Platform Licensing | Elevate for Humanity',
-  description: 'Operate your organization on enterprise platforms built and managed by Elevate for Humanity. Managed LMS and restricted source-use licensing.',
+  description:
+    'Operate your organization on enterprise platforms built and managed by Elevate for Humanity. Managed LMS and restricted source-use licensing.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/licenses',
   },
@@ -27,14 +28,13 @@ export default function LicensesPage() {
       {/* Header */}
       <section className="py-16 px-4">
         <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-            Platform Licensing
-          </h1>
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">Platform Licensing</h1>
           <p className="text-xl text-gray-700 mb-8">
-            Operate your organization on enterprise platforms built and managed by Elevate for Humanity.
+            Operate your organization on enterprise platforms built and managed by Elevate for
+            Humanity.
           </p>
           <p className="text-sm text-gray-600 border-l-4 border-gray-300 pl-4 text-left max-w-2xl mx-auto">
-            All products are licensed access to platforms operated by Elevate for Humanity. 
+            All products are licensed access to platforms operated by Elevate for Humanity.
             Ownership of software, infrastructure, and intellectual property is not transferred.
           </p>
         </div>
@@ -47,15 +47,15 @@ export default function LicensesPage() {
             <div className="inline-block bg-blue-100 text-blue-800 text-xs font-bold px-3 py-1 rounded-full mb-4">
               PRIMARY LICENSE
             </div>
-            
+
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
               Managed Enterprise LMS Platform
             </h2>
-            
+
             <p className="text-lg text-gray-700 mb-8">
-              A subscription-based, enterprise Learning Management System operated by Elevate for Humanity. 
-              You manage your organization, users, and programs. We manage the platform, infrastructure, 
-              security, upgrades, and enforcement.
+              A subscription-based, enterprise Learning Management System operated by Elevate for
+              Humanity. You manage your organization, users, and programs. We manage the platform,
+              infrastructure, security, upgrades, and enforcement.
             </p>
 
             <h3 className="text-lg font-bold text-gray-900 mb-4">Includes</h3>
@@ -89,15 +89,20 @@ export default function LicensesPage() {
             <h3 className="text-lg font-bold text-gray-900 mb-4">Pricing</h3>
             <div className="bg-gray-50 rounded-lg p-6 mb-8">
               <div className="space-y-2 text-gray-700">
-                <p><span className="font-semibold">One-time setup:</span> $7,500–$15,000</p>
-                <p><span className="font-semibold">Subscription:</span> $1,500–$3,500 per month</p>
+                <p>
+                  <span className="font-semibold">One-time setup:</span> $7,500–$15,000
+                </p>
+                <p>
+                  <span className="font-semibold">Subscription:</span> $1,500–$3,500 per month
+                </p>
                 <p className="text-sm text-gray-600 mt-4">Annual commitment preferred</p>
               </div>
             </div>
 
             <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-8">
               <p className="text-amber-900 font-semibold">
-                An active subscription is required for continued operation. Non-payment results in total platform lockout.
+                An active subscription is required for continued operation. Non-payment results in
+                total platform lockout.
               </p>
             </div>
 
@@ -118,14 +123,13 @@ export default function LicensesPage() {
             <div className="inline-block bg-gray-700 text-gray-300 text-xs font-bold px-3 py-1 rounded-full mb-4">
               ENTERPRISE ONLY
             </div>
-            
-            <h2 className="text-2xl md:text-3xl font-bold mb-6">
-              Restricted Source-Use License
-            </h2>
-            
+
+            <h2 className="text-2xl md:text-3xl font-bold mb-6">Restricted Source-Use License</h2>
+
             <p className="text-gray-300 mb-8">
-              A restricted license granting internal use of source code only. This option exists for 
-              organizations that require code-level deployment and are prepared to assume operational responsibility.
+              A restricted license granting internal use of source code only. This option exists for
+              organizations that require code-level deployment and are prepared to assume
+              operational responsibility.
             </p>
 
             <h3 className="text-lg font-bold mb-4">This license does NOT include</h3>
@@ -158,7 +162,8 @@ export default function LicensesPage() {
       <section className="py-12 px-4 bg-gray-100">
         <div className="max-w-4xl mx-auto text-center">
           <p className="text-lg font-bold text-gray-900">
-            Managed licenses provide operational access.<br />
+            Managed licenses provide operational access.
+            <br />
             Source-use licenses provide limited code access without ownership.
           </p>
         </div>
@@ -166,9 +171,7 @@ export default function LicensesPage() {
 
       {/* Footer */}
       <section className="py-8 px-4 bg-gray-900 text-center">
-        <p className="text-gray-400 text-sm">
-          Powered by Elevate for Humanity
-        </p>
+        <p className="text-gray-400 text-sm">Powered by Elevate for Humanity</p>
       </section>
     </div>
   );

@@ -1,6 +1,6 @@
 /**
  * Security Fixes Tests
- * 
+ *
  * Tests for SQL injection prevention and input sanitization
  */
 
@@ -47,7 +47,7 @@ describe('sanitizeSearchInput', () => {
         "'; DROP TABLE users; --",
         "1' OR '1'='1",
         "admin'--",
-        "1; DELETE FROM users",
+        '1; DELETE FROM users',
         "' UNION SELECT * FROM passwords --",
       ];
 
@@ -223,12 +223,7 @@ describe('Media API Security', () => {
     });
 
     it('should reject non-whitelisted buckets', () => {
-      const maliciousBuckets = [
-        'system',
-        'private',
-        '../other-bucket',
-        'bucket; rm -rf /',
-      ];
+      const maliciousBuckets = ['system', 'private', '../other-bucket', 'bucket; rm -rf /'];
 
       for (const bucket of maliciousBuckets) {
         expect(ALLOWED_BUCKETS.includes(bucket)).toBe(false);
@@ -241,20 +236,20 @@ describe('Command Injection Prevention', () => {
   describe('execFile vs exec', () => {
     it('should demonstrate why execFile is safer', () => {
       // With exec (vulnerable):
-      // exec(`ffmpeg -i "${userInput}"`) 
+      // exec(`ffmpeg -i "${userInput}"`)
       // If userInput = 'file.mp4"; rm -rf /', the command becomes:
       // ffmpeg -i "file.mp4"; rm -rf /
-      
+
       // With execFile (safe):
       // execFile('ffmpeg', ['-i', userInput])
       // The userInput is passed as a single argument, not interpreted by shell
-      
+
       const maliciousInput = 'file.mp4"; rm -rf /';
-      
+
       // In exec, this would be dangerous
       const execCommand = `ffmpeg -i "${maliciousInput}"`;
       expect(execCommand).toContain('rm -rf');
-      
+
       // In execFile, the input is just a string argument
       const execFileArgs = ['-i', maliciousInput];
       // The shell never interprets this, so it's safe
@@ -264,9 +259,7 @@ describe('Command Injection Prevention', () => {
 
   describe('Text Sanitization for TTS', () => {
     function sanitizeText(text: string): string {
-      return text
-        .replace(/[`$\\;"'|&<>]/g, '')
-        .slice(0, 5000);
+      return text.replace(/[`$\\;"'|&<>]/g, '').slice(0, 5000);
     }
 
     it('should remove shell metacharacters', () => {
@@ -303,7 +296,7 @@ describe('Command Injection Prevention', () => {
 
 describe('Authentication Requirements', () => {
   // These are conceptual tests documenting the expected behavior
-  
+
   describe('Media Endpoints', () => {
     it('should require authentication for upload', () => {
       // POST /api/media/upload requires auth

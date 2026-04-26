@@ -24,7 +24,7 @@ function FallbackChatWidget() {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
-      text: 'Hi! 👋 I\'m the Elevate AI assistant. I can help you learn about our free career training programs, check eligibility, or answer questions. How can I help you today?',
+      text: "Hi! 👋 I'm the Elevate AI assistant. I can help you learn about our free career training programs, check eligibility, or answer questions. How can I help you today?",
       sender: 'bot',
       timestamp: new Date(),
     },
@@ -54,7 +54,7 @@ function FallbackChatWidget() {
 
     try {
       // Build conversation history for context
-      const conversationHistory = messages.slice(-6).map(m => ({
+      const conversationHistory = messages.slice(-6).map((m) => ({
         role: m.sender === 'user' ? 'user' : 'assistant',
         content: m.text,
       }));
@@ -67,10 +67,13 @@ function FallbackChatWidget() {
       });
 
       const data = await response.json();
-      
+
       const botMessage: Message = {
         id: (Date.now() + 1).toString(),
-        text: data.reply || data.response || "I'm having trouble right now. Please call us at (317) 314-3757 for assistance.",
+        text:
+          data.reply ||
+          data.response ||
+          "I'm having trouble right now. Please call us at (317) 314-3757 for assistance.",
         sender: 'bot',
         timestamp: new Date(),
       };
@@ -158,7 +161,10 @@ function FallbackChatWidget() {
                       message.sender === 'user' ? 'text-white' : 'text-slate-700'
                     }`}
                   >
-                    {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    {message.timestamp.toLocaleTimeString([], {
+                      hour: '2-digit',
+                      minute: '2-digit',
+                    })}
                   </p>
                 </div>
               </div>
@@ -203,7 +209,11 @@ function FallbackChatWidget() {
                 disabled={!input.trim() || isLoading}
                 className="w-10 h-10 bg-brand-blue-600 text-white rounded-full flex items-center justify-center hover:bg-brand-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Send className="w-5 h-5" />}
+                {isLoading ? (
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                ) : (
+                  <Send className="w-5 h-5" />
+                )}
               </button>
             </form>
           </div>
@@ -215,7 +225,7 @@ function FallbackChatWidget() {
 
 /**
  * LiveChatWidget - Uses Tidio if configured, otherwise falls back to built-in widget
- * 
+ *
  * To enable Tidio:
  * 1. Set NEXT_PUBLIC_TIDIO_KEY environment variable in Netlify
  * 2. Configure the AI assistant in Tidio dashboard using lib/chatbot/config.ts
@@ -237,11 +247,11 @@ import { usePathname } from 'next/navigation';
 
 export function ConditionalLiveChatWidget() {
   const pathname = usePathname();
-  
+
   // Don't show on store pages - they have GuidedDemoChat
   if (pathname?.startsWith('/store')) {
     return null;
   }
-  
+
   return <LiveChatWidget />;
 }

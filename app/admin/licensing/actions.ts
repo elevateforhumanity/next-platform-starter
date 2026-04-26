@@ -6,13 +6,20 @@ import { writeAdminAuditEvent, AuditActions } from '@/lib/audit';
 
 export async function updateLicenseStatus(licenseId: string, status: string) {
   const supabase = await createClient();
-  const { data: { user }, error: authError } = await supabase.auth.getUser();
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser();
   if (authError) throw new Error('Auth failed');
   if (!user) throw new Error('Not authenticated');
 
   const db = await getAdminClient();
 
-  const { data: profile } = await db.from('profiles').select('role').eq('id', user.id).maybeSingle();
+  const { data: profile } = await db
+    .from('profiles')
+    .select('role')
+    .eq('id', user.id)
+    .maybeSingle();
   if (!profile || !['admin', 'super_admin'].includes(profile.role)) throw new Error('Forbidden');
 
   // Confirm the license exists before mutating.

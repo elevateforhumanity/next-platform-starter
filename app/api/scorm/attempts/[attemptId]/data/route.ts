@@ -1,4 +1,3 @@
-
 import { getAdminClient } from '@/lib/supabase/admin';
 
 // app/api/scorm/attempts/[attemptId]/data/route.ts
@@ -12,13 +11,9 @@ export const maxDuration = 60;
 
 export const dynamic = 'force-dynamic';
 
-async function _GET(
-  request: Request,
-  { params }: { params: Promise<{ attemptId: string }> }
-) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
+async function _GET(request: Request, { params }: { params: Promise<{ attemptId: string }> }) {
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
   const supabase = await getAdminClient();
   const { attemptId } = await params;
   const session = await requireApiAuth();
@@ -47,12 +42,9 @@ async function _GET(
   return NextResponse.json({ data: dataMap });
 }
 
-async function _POST(
-  request: Request,
-  { params }: { params: Promise<{ attemptId: string }> }
-) {
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
+async function _POST(request: Request, { params }: { params: Promise<{ attemptId: string }> }) {
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
 
   const supabase = await getAdminClient();
   const { attemptId } = await params;
@@ -78,15 +70,14 @@ async function _POST(
         attempt_id: attemptId,
         cmi_key: key,
         cmi_value: value as string,
-      })
+      }),
     );
   }
 
   await Promise.all(updates);
 
   // Update attempt status based on CMI data
-  const status =
-    data['cmi.core.lesson_status'] || data['cmi.completion_status'];
+  const status = data['cmi.core.lesson_status'] || data['cmi.completion_status'];
   const score = data['cmi.core.score.raw'] || data['cmi.score.raw'];
 
   if (status || score) {

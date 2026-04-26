@@ -36,7 +36,8 @@ async function getCategoryPosts(category: string) {
       .order('published_at', { ascending: false });
 
     return posts || [];
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     return [];
   }
 }
@@ -50,20 +51,15 @@ async function getAllCategories() {
       .eq('published', true)
       .not('category', 'is', null);
 
-    const categories = [
-      ...new Set(posts?.map((p) => p.category).filter(Boolean)),
-    ];
+    const categories = [...new Set(posts?.map((p) => p.category).filter(Boolean))];
     return categories;
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     return [];
   }
 }
 
-export default async function CategoryPage({
-  params,
-}: {
-  params: Promise<{ category: string }>;
-}) {
+export default async function CategoryPage({ params }: { params: Promise<{ category: string }> }) {
   const { category } = await params;
   const posts = await getCategoryPosts(category);
   const allCategories = await getAllCategories();
@@ -75,35 +71,24 @@ export default async function CategoryPage({
 
   return (
     <div className="bg-white min-h-screen">
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Blog", href: "/blog" }, { label: "[Category]" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Blog', href: '/blog' }, { label: '[Category]' }]} />
       </div>
-<div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
         {/* Header */}
         <div className="mb-8">
-          <nav
-            role="navigation"
-            aria-label="Main navigation"
-            className="text-sm text-black mb-4"
-          >
-            <Link
-              href="/blog"
-              aria-label="Link"
-              className="hover:text-brand-blue-600"
-            >
+          <nav role="navigation" aria-label="Main navigation" className="text-sm text-black mb-4">
+            <Link href="/blog" aria-label="Link" className="hover:text-brand-blue-600">
               Blog
             </Link>
             <span className="mx-2">/</span>
-            <span className="text-black font-semibold capitalize">
-              {categoryName}
-            </span>
+            <span className="text-black font-semibold capitalize">{categoryName}</span>
           </nav>
           <h1 className="text-4xl font-bold text-black mb-4 capitalize text-2xl md:text-3xl lg:text-4xl">
             {categoryName}
           </h1>
           <p className="text-black">
-            {posts.length} article{posts.length === 1 ? '' : 's'} in this
-            category
+            {posts.length} article{posts.length === 1 ? '' : 's'} in this category
           </p>
         </div>
 
@@ -130,22 +115,13 @@ export default async function CategoryPage({
                   )}
                   <div className="p-6">
                     <h2 className="text-xl font-bold text-black mb-2">
-                      <Link
-                        href={`/blog/${post.slug}`}
-                        className="hover:text-brand-blue-600"
-                      >
+                      <Link href={`/blog/${post.slug}`} className="hover:text-brand-blue-600">
                         {post.title}
                       </Link>
                     </h2>
-                    {post.excerpt && (
-                      <p className="text-black mb-4 line-clamp-3">
-                        {post.excerpt}
-                      </p>
-                    )}
+                    {post.excerpt && <p className="text-black mb-4 line-clamp-3">{post.excerpt}</p>}
                     <div className="flex items-center justify-between text-sm text-slate-500">
-                      <span>
-                        {new Date(post.published_at).toLocaleDateString()}
-                      </span>
+                      <span>{new Date(post.published_at).toLocaleDateString()}</span>
                       {post.author && <span>By {post.author}</span>}
                     </div>
                   </div>

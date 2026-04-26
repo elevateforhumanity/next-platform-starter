@@ -9,7 +9,7 @@
 - [ ] Documentation update
 - [ ] Refactoring
 - [ ] Configuration change
-- [ ] Other: ___________
+- [ ] Other: ****\_\_\_****
 
 ---
 

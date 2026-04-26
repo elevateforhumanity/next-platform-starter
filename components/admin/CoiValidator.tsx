@@ -303,13 +303,7 @@ export function CoiValidator({
 
 // ── Result display ──
 
-function ResultDisplay({
-  result,
-  onReset,
-}: {
-  result: DecisionResult;
-  onReset: () => void;
-}) {
+function ResultDisplay({ result, onReset }: { result: DecisionResult; onReset: () => void }) {
   const approved = result.decision === 'APPROVED';
   const v = result.validation;
   const f = v.fields;
@@ -330,7 +324,8 @@ function ResultDisplay({
         <div>
           <p className="font-semibold">{approved ? 'COI Approved' : 'COI Rejected'}</p>
           <p className="text-sm opacity-80">
-            Extraction: {result.method} &middot; {v.extractedTextChars.toLocaleString('en-US')} chars
+            Extraction: {result.method} &middot; {v.extractedTextChars.toLocaleString('en-US')}{' '}
+            chars
             {f.acordFormDetected && ' \u00B7 ACORD form detected'}
             {f.ocrConfidence !== null && ` \u00B7 OCR confidence: ${f.ocrConfidence.toFixed(0)}%`}
           </p>
@@ -388,7 +383,11 @@ function ResultDisplay({
           <FieldRow
             label="Policy Number"
             ok={f.policyNumberDetected}
-            detail={f.policyNumberDetected ? 'Detected' : 'Not detected — document may be altered or partial'}
+            detail={
+              f.policyNumberDetected
+                ? 'Detected'
+                : 'Not detected — document may be altered or partial'
+            }
             icon={<Fingerprint className="mt-0.5 h-4 w-4 flex-shrink-0 text-slate-700" />}
           />
 
@@ -423,7 +422,7 @@ function ResultDisplay({
             }
           />
           <FieldRow
-            label="Workers&apos; Compensation"
+            label="Workers' Compensation"
             ok={f.workersCompRequired ? f.workersCompVerified : f.workersCompDetected}
             detail={
               f.workersCompRequired

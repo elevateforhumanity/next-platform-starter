@@ -1,17 +1,16 @@
 'use client';
 
 import { useState } from 'react';
-import { 
-  
-  XCircle, 
-  Clock, 
-  FileText, 
-  User, 
+import {
+  XCircle,
+  Clock,
+  FileText,
+  User,
   Calendar,
   ExternalLink,
   ChevronDown,
   ChevronUp,
-  AlertTriangle
+  AlertTriangle,
 } from 'lucide-react';
 
 interface Submission {
@@ -37,9 +36,9 @@ interface CertificationReviewPanelProps {
   recentSubmissions: Submission[];
 }
 
-export function CertificationReviewPanel({ 
-  pendingSubmissions: initialPending, 
-  recentSubmissions: initialRecent 
+export function CertificationReviewPanel({
+  pendingSubmissions: initialPending,
+  recentSubmissions: initialRecent,
 }: CertificationReviewPanelProps) {
   const [pending, setPending] = useState(initialPending);
   const [recent, setRecent] = useState(initialRecent);
@@ -50,7 +49,7 @@ export function CertificationReviewPanel({
 
   const handleApprove = async (submission: Submission) => {
     setProcessing(submission.id);
-    
+
     try {
       const res = await fetch('/api/admin/certifications/review', {
         method: 'POST',
@@ -64,9 +63,13 @@ export function CertificationReviewPanel({
 
       if (res.ok) {
         // Move from pending to recent
-        const updated = { ...submission, status: 'approved' as const, reviewed_at: new Date().toISOString() };
-        setPending(prev => prev.filter(p => p.id !== submission.id));
-        setRecent(prev => [updated, ...prev]);
+        const updated = {
+          ...submission,
+          status: 'approved' as const,
+          reviewed_at: new Date().toISOString(),
+        };
+        setPending((prev) => prev.filter((p) => p.id !== submission.id));
+        setRecent((prev) => [updated, ...prev]);
       }
     } catch {
       // Approval failed — processing state cleared, user can retry
@@ -82,7 +85,7 @@ export function CertificationReviewPanel({
     }
 
     setProcessing(submission.id);
-    
+
     try {
       const res = await fetch('/api/admin/certifications/review', {
         method: 'POST',
@@ -95,9 +98,13 @@ export function CertificationReviewPanel({
       });
 
       if (res.ok) {
-        const updated = { ...submission, status: 'rejected' as const, reviewed_at: new Date().toISOString() };
-        setPending(prev => prev.filter(p => p.id !== submission.id));
-        setRecent(prev => [updated, ...prev]);
+        const updated = {
+          ...submission,
+          status: 'rejected' as const,
+          reviewed_at: new Date().toISOString(),
+        };
+        setPending((prev) => prev.filter((p) => p.id !== submission.id));
+        setRecent((prev) => [updated, ...prev]);
       }
     } catch {
       // Rejection failed — processing state cleared, user can retry
@@ -107,15 +114,20 @@ export function CertificationReviewPanel({
   };
 
   const renderSubmission = (submission: Submission, showActions: boolean) => (
-    <div key={submission.id} className="bg-white border border-slate-200 rounded-xl overflow-hidden">
+    <div
+      key={submission.id}
+      className="bg-white border border-slate-200 rounded-xl overflow-hidden"
+    >
       {/* Header */}
-      <div 
+      <div
         className="p-4 cursor-pointer hover:bg-slate-50 transition-colors"
         onClick={() => setExpandedId(expandedId === submission.id ? null : submission.id)}
       >
         <div className="flex items-center gap-4">
           {/* Status Icon */}
-          {submission.status === 'approved' && <span className="text-slate-400 flex-shrink-0">•</span>}
+          {submission.status === 'approved' && (
+            <span className="text-slate-400 flex-shrink-0">•</span>
+          )}
           {submission.status === 'rejected' && <XCircle className="w-5 h-5 text-brand-red-600" />}
           {submission.status === 'pending_review' && <Clock className="w-5 h-5 text-amber-600" />}
 
@@ -129,7 +141,14 @@ export function CertificationReviewPanel({
 
           {/* Date */}
           <div className="text-right text-sm text-slate-500">
-            <div>{new Date(submission.created_at).toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' })}</div>
+            <div>
+              {new Date(submission.created_at).toLocaleDateString('en-US', {
+                timeZone: 'UTC',
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric',
+              })}
+            </div>
             <div className="text-xs">{submission.programs?.name}</div>
           </div>
 
@@ -161,16 +180,30 @@ export function CertificationReviewPanel({
                 <FileText className="w-4 h-4" /> Details
               </h4>
               {submission.credential_number && (
-                <p className="text-sm text-slate-600">Credential #: {submission.credential_number}</p>
+                <p className="text-sm text-slate-600">
+                  Credential #: {submission.credential_number}
+                </p>
               )}
               {submission.completion_date && (
                 <p className="text-sm text-slate-600">
-                  Completed: {new Date(submission.completion_date).toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' })}
+                  Completed:{' '}
+                  {new Date(submission.completion_date).toLocaleDateString('en-US', {
+                    timeZone: 'UTC',
+                    month: 'short',
+                    day: 'numeric',
+                    year: 'numeric',
+                  })}
                 </p>
               )}
               {submission.expiration_date && (
                 <p className="text-sm text-slate-600">
-                  Expires: {new Date(submission.expiration_date).toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' })}
+                  Expires:{' '}
+                  {new Date(submission.expiration_date).toLocaleDateString('en-US', {
+                    timeZone: 'UTC',
+                    month: 'short',
+                    day: 'numeric',
+                    year: 'numeric',
+                  })}
                 </p>
               )}
             </div>
@@ -199,7 +232,9 @@ export function CertificationReviewPanel({
               </label>
               <textarea
                 value={reviewNotes[submission.id] || ''}
-                onChange={(e) => setReviewNotes(prev => ({ ...prev, [submission.id]: e.target.value }))}
+                onChange={(e) =>
+                  setReviewNotes((prev) => ({ ...prev, [submission.id]: e.target.value }))
+                }
                 className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                 rows={3}
                 placeholder="Add notes about this submission..."
@@ -278,7 +313,7 @@ export function CertificationReviewPanel({
               <p className="text-slate-600">No certifications pending review.</p>
             </div>
           ) : (
-            pending.map(submission => renderSubmission(submission, true))
+            pending.map((submission) => renderSubmission(submission, true))
           )}
         </div>
       )}
@@ -292,7 +327,7 @@ export function CertificationReviewPanel({
               <p className="text-slate-600">Reviewed certifications will appear here.</p>
             </div>
           ) : (
-            recent.map(submission => renderSubmission(submission, false))
+            recent.map((submission) => renderSubmission(submission, false))
           )}
         </div>
       )}

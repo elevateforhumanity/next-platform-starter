@@ -6,8 +6,7 @@
 export const isRecord = (v: any): v is Record<string, any> =>
   typeof v === 'object' && v !== null && !Array.isArray(v);
 
-export const rec = (v: any): Record<string, any> =>
-  isRecord(v) ? v : {};
+export const rec = (v: any): Record<string, any> => (isRecord(v) ? v : {});
 
 export const str = (v: any, fallback: string | null = null) =>
   typeof v === 'string' ? v : fallback;
@@ -27,16 +26,15 @@ export const date = (v: any, fallback: Date | null = null) => {
   return fallback;
 };
 
-export const arr = <T = unknown>(v: any): T[] =>
-  Array.isArray(v) ? v : [];
+export const arr = <T = unknown>(v: any): T[] => (Array.isArray(v) ? v : []);
 
 export const toDateString = (value: any): string => {
   if (value instanceof Date) return value.toLocaleDateString();
-  if (typeof value === "string" || typeof value === "number") {
+  if (typeof value === 'string' || typeof value === 'number') {
     const d = new Date(value);
-    return Number.isNaN(d.getTime()) ? "" : d.toLocaleDateString();
+    return Number.isNaN(d.getTime()) ? '' : d.toLocaleDateString();
   }
-  return "";
+  return '';
 };
 
 export const toError = (error: any): Error => {

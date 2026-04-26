@@ -6,10 +6,10 @@ import { logger } from '@/lib/logger';
 
 export interface SimReadiness {
   sim_attempts_total: number;
-  sims_passed:        number;
-  sims_available:     number;
-  best_scores:        { sim_key: string; best_score: number | null; passed: boolean }[];
-  readiness_pct:      number;
+  sims_passed: number;
+  sims_available: number;
+  best_scores: { sim_key: string; best_score: number | null; passed: boolean }[];
+  readiness_pct: number;
 }
 
 // Returns the learner's sim readiness for a given credential.
@@ -20,7 +20,7 @@ export async function getSimReadiness(
 ): Promise<SimReadiness | null> {
   const db = await getAdminClient();
   const { data, error } = await db.rpc('sim_readiness_score', {
-    p_learner_id:   learnerId,
+    p_learner_id: learnerId,
     p_credential_id: credentialId,
   });
 
@@ -53,7 +53,7 @@ export async function stampSimReadiness(
 
   const merged = {
     ...(existing?.metadata ?? {}),
-    sim_readiness:            readiness,
+    sim_readiness: readiness,
     sim_readiness_stamped_at: new Date().toISOString(),
   };
 

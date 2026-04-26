@@ -28,12 +28,7 @@
       },
       {
         "prompt": "Which massage movement is characterized by tapping and rhythmic percussion?",
-        "choices": [
-          "Effleurage",
-          "Petrissage",
-          "Tapotement",
-          "Friction"
-        ],
+        "choices": ["Effleurage", "Petrissage", "Tapotement", "Friction"],
         "answerIndex": 2,
         "rationale": "Tapotement involves tapping and rhythmic percussion, which invigorates the skin and enhances its tone and texture.",
         "type": "recall"
@@ -76,12 +71,7 @@
       },
       {
         "prompt": "Which massage technique involves deep, circular movements to generate heat?",
-        "choices": [
-          "Effleurage",
-          "Petrissage",
-          "Tapotement",
-          "Friction"
-        ],
+        "choices": ["Effleurage", "Petrissage", "Tapotement", "Friction"],
         "answerIndex": 3,
         "rationale": "Friction involves deep, circular movements that generate heat and increase blood flow to the treated area.",
         "type": "recall"
@@ -124,12 +114,7 @@
       },
       {
         "prompt": "Which of the following is NOT a contraindication for facial massage?",
-        "choices": [
-          "Severe acne",
-          "Open wounds",
-          "Psoriasis",
-          "Normal, healthy skin"
-        ],
+        "choices": ["Severe acne", "Open wounds", "Psoriasis", "Normal, healthy skin"],
         "answerIndex": 3,
         "rationale": "Normal, healthy skin is not a contraindication for facial massage, whereas the other options are.",
         "type": "recall"
@@ -148,12 +133,7 @@
       },
       {
         "prompt": "What is the correct distance to position a facial steamer from a client's face?",
-        "choices": [
-          "6 inches",
-          "12 inches",
-          "18 inches",
-          "24 inches"
-        ],
+        "choices": ["6 inches", "12 inches", "18 inches", "24 inches"],
         "answerIndex": 1,
         "rationale": "The facial steamer should be positioned at least 12 inches away from the client’s face to avoid overheating or burning the skin.",
         "type": "recall"
@@ -208,12 +188,7 @@
       },
       {
         "prompt": "Which massage movement is primarily used to invigorate the skin?",
-        "choices": [
-          "Effleurage",
-          "Petrissage",
-          "Tapotement",
-          "Vibration"
-        ],
+        "choices": ["Effleurage", "Petrissage", "Tapotement", "Vibration"],
         "answerIndex": 2,
         "rationale": "Tapotement, characterized by tapping and rhythmic percussion, is used to invigorate the skin and enhance its tone and texture.",
         "type": "recall"

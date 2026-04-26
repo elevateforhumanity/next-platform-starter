@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -30,7 +30,7 @@ interface DashboardSidebarProps {
 export function DashboardSidebar({
   upcomingDeadlines = [],
   recentActivity = [],
-  notifications = 0
+  notifications = 0,
 }: DashboardSidebarProps) {
   const [activeBlock, setActiveBlock] = useState<string>('calendar');
 
@@ -42,7 +42,12 @@ export function DashboardSidebar({
     if (days === 0) return 'Today';
     if (days === 1) return 'Tomorrow';
     if (days < 7) return `In ${days} days`;
-    return date.toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' });
+    return date.toLocaleDateString('en-US', {
+      timeZone: 'UTC',
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+    });
   };
 
   return (
@@ -111,9 +116,7 @@ export function DashboardSidebar({
           Calendar
         </h3>
         <div className="text-center">
-          <div className="text-3xl font-bold text-black">
-            {new Date().getDate()}
-          </div>
+          <div className="text-3xl font-bold text-black">{new Date().getDate()}</div>
           <div className="text-sm text-black">
             {new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
           </div>
@@ -138,15 +141,24 @@ export function DashboardSidebar({
           <div className="space-y-3">
             {recentActivity.slice(0, 5).map((activity) => (
               <div key={activity.id} className="flex items-start gap-2">
-                <div className={`w-2 h-2 rounded-full mt-1.5 ${
-                  activity.type === 'completed' ? 'bg-brand-green-500' :
-                  activity.type === 'graded' ? 'bg-brand-blue-500' :
-                  'bg-yellow-500'
-                }`} />
+                <div
+                  className={`w-2 h-2 rounded-full mt-1.5 ${
+                    activity.type === 'completed'
+                      ? 'bg-brand-green-500'
+                      : activity.type === 'graded'
+                        ? 'bg-brand-blue-500'
+                        : 'bg-yellow-500'
+                  }`}
+                />
                 <div className="flex-1">
                   <p className="text-sm text-black">{activity.title}</p>
                   <p className="text-xs text-slate-500">
-                    {activity.timestamp.toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' })}
+                    {activity.timestamp.toLocaleDateString('en-US', {
+                      timeZone: 'UTC',
+                      month: 'short',
+                      day: 'numeric',
+                      year: 'numeric',
+                    })}
                   </p>
                 </div>
               </div>

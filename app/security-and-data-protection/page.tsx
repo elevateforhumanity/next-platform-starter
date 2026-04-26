@@ -1,6 +1,16 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { Shield, Lock, Eye, Server, FileCheck, AlertTriangle, Mail, Key, CheckCircle } from 'lucide-react';
+import {
+  Shield,
+  Lock,
+  Eye,
+  Server,
+  FileCheck,
+  AlertTriangle,
+  Mail,
+  Key,
+  CheckCircle,
+} from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const dynamic = 'force-static';
@@ -137,13 +147,20 @@ export default function SecurityAndDataProtectionPage() {
         <div className="max-w-5xl mx-auto px-6">
           <div className="flex items-center gap-3 mb-4">
             <Shield className="w-8 h-8 text-brand-red-400" />
-            <span className="text-brand-red-400 font-semibold text-sm uppercase tracking-wider">Legal & Compliance</span>
+            <span className="text-brand-red-400 font-semibold text-sm uppercase tracking-wider">
+              Legal & Compliance
+            </span>
           </div>
-          <h1 className="text-4xl md:text-5xl font-extrabold mb-4">Security & Data Protection Statement</h1>
+          <h1 className="text-4xl md:text-5xl font-extrabold mb-4">
+            Security & Data Protection Statement
+          </h1>
           <p className="text-slate-600 text-lg max-w-3xl">
-            How Elevate for Humanity collects, protects, and handles participant, employer, and partner data. Effective January 1, 2025.
+            How Elevate for Humanity collects, protects, and handles participant, employer, and
+            partner data. Effective January 1, 2025.
           </p>
-          <p className="text-slate-500 text-sm mt-4">Last reviewed: May 2025 · Next review: November 2025</p>
+          <p className="text-slate-500 text-sm mt-4">
+            Last reviewed: May 2025 · Next review: November 2025
+          </p>
         </div>
       </div>
 
@@ -170,7 +187,11 @@ export default function SecurityAndDataProtectionPage() {
           const Icon = section.icon;
           const id = section.title.toLowerCase().replace(/[^a-z0-9]+/g, '-');
           return (
-            <div key={section.title} id={id} className="bg-white rounded-xl border border-slate-200 p-8 scroll-mt-20">
+            <div
+              key={section.title}
+              id={id}
+              className="bg-white rounded-xl border border-slate-200 p-8 scroll-mt-20"
+            >
               <div className="flex items-center gap-3 mb-5">
                 <div className="w-10 h-10 bg-brand-red-50 rounded-lg flex items-center justify-center flex-shrink-0">
                   <Icon className="w-5 h-5 text-brand-red-600" />
@@ -221,27 +242,42 @@ export default function SecurityAndDataProtectionPage() {
             <h2 className="text-xl font-bold">Contact Our Data Protection Officer</h2>
           </div>
           <p className="text-slate-600 mb-6">
-            For data access requests, corrections, deletions, or questions about this statement, contact:
+            For data access requests, corrections, deletions, or questions about this statement,
+            contact:
           </p>
           <div className="space-y-1 text-slate-300 text-sm mb-6">
-            <p><strong className="text-white">Elizabeth Greene</strong> — Data Protection Officer</p>
+            <p>
+              <strong className="text-white">Elizabeth Greene</strong> — Data Protection Officer
+            </p>
             <p>Elevate for Humanity</p>
             <p>Indianapolis, Indiana</p>
             <p>
               Email:{' '}
-              <a href="mailto:privacy@elevateforhumanity.org" className="text-brand-red-400 hover:underline">
+              <a
+                href="mailto:privacy@elevateforhumanity.org"
+                className="text-brand-red-400 hover:underline"
+              >
                 privacy@elevateforhumanity.org
               </a>
             </p>
           </div>
           <div className="flex flex-wrap gap-3">
-            <Link href="/contact" className="bg-brand-red-600 hover:bg-brand-red-700 text-white px-6 py-2.5 rounded-lg font-semibold text-sm transition-colors">
+            <Link
+              href="/contact"
+              className="bg-brand-red-600 hover:bg-brand-red-700 text-white px-6 py-2.5 rounded-lg font-semibold text-sm transition-colors"
+            >
               Contact Us
             </Link>
-            <Link href="/privacy-policy" className="border border-slate-600 text-white px-6 py-2.5 rounded-lg font-semibold text-sm hover:bg-slate-800 transition-colors">
+            <Link
+              href="/privacy-policy"
+              className="border border-slate-600 text-white px-6 py-2.5 rounded-lg font-semibold text-sm hover:bg-slate-800 transition-colors"
+            >
               Privacy Policy
             </Link>
-            <Link href="/security" className="border border-slate-600 text-white px-6 py-2.5 rounded-lg font-semibold text-sm hover:bg-slate-800 transition-colors">
+            <Link
+              href="/security"
+              className="border border-slate-600 text-white px-6 py-2.5 rounded-lg font-semibold text-sm hover:bg-slate-800 transition-colors"
+            >
               Security Overview
             </Link>
           </div>

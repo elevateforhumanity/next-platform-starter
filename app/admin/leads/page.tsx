@@ -28,7 +28,9 @@ export default async function AdminLeadsPage() {
 
   const { data: leads } = await supabase
     .from('leads')
-    .select('id, first_name, last_name, email, phone, program_interest, source, status, created_at, last_contacted_at')
+    .select(
+      'id, first_name, last_name, email, phone, program_interest, source, status, created_at, last_contacted_at',
+    )
     .order('created_at', { ascending: false })
     .limit(100);
 
@@ -63,7 +65,10 @@ export default async function AdminLeadsPage() {
             { label: 'Qualified', value: qualifiedCount, icon: TrendingUp },
             { label: 'Enrolled', value: enrolledCount, icon: TrendingUp },
           ].map((s) => (
-            <div key={s.label} className="bg-white rounded-xl border border-slate-200 p-5 text-center">
+            <div
+              key={s.label}
+              className="bg-white rounded-xl border border-slate-200 p-5 text-center"
+            >
               <p className="text-3xl font-bold text-blue-600">{s.value}</p>
               <p className="text-sm text-slate-500 mt-1">{s.label}</p>
             </div>
@@ -97,17 +102,30 @@ export default async function AdminLeadsPage() {
                         </Link>
                       </td>
                       <td className="px-6 py-4 text-slate-500">
-                        <a href={`mailto:${l.email}`} className="inline-flex items-center gap-1 hover:text-blue-600">
-                          <Mail className="w-3.5 h-3.5" />{l.email}
+                        <a
+                          href={`mailto:${l.email}`}
+                          className="inline-flex items-center gap-1 hover:text-blue-600"
+                        >
+                          <Mail className="w-3.5 h-3.5" />
+                          {l.email}
                         </a>
                       </td>
                       <td className="px-6 py-4 text-slate-500">
-                        {l.phone ? <span className="inline-flex items-center gap-1"><Phone className="w-3.5 h-3.5" />{l.phone}</span> : '—'}
+                        {l.phone ? (
+                          <span className="inline-flex items-center gap-1">
+                            <Phone className="w-3.5 h-3.5" />
+                            {l.phone}
+                          </span>
+                        ) : (
+                          '—'
+                        )}
                       </td>
                       <td className="px-6 py-4 text-slate-500">{l.program_interest ?? '—'}</td>
                       <td className="px-6 py-4 text-slate-500">{l.source ?? '—'}</td>
                       <td className="px-6 py-4">
-                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${STATUS_COLORS[l.status] ?? 'bg-slate-100 text-slate-600'}`}>
+                        <span
+                          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${STATUS_COLORS[l.status] ?? 'bg-slate-100 text-slate-600'}`}
+                        >
                           {l.status}
                         </span>
                       </td>

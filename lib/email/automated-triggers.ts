@@ -16,7 +16,7 @@ import { appointmentEmailTemplates } from './templates/appointment-emails';
  */
 export async function sendApplicationReceivedEmail(
   studentEmail: string,
-  firstName: string
+  firstName: string,
 ): Promise<boolean> {
   const template = studentEmailTemplates.applicationReceived;
 
@@ -25,7 +25,7 @@ export async function sendApplicationReceivedEmail(
     from: template.from,
     subject: template.subject,
     html: template.getHtml({ firstName }),
-    text: template.getText({ firstName })
+    text: template.getText({ firstName }),
   });
 
   return result.success;
@@ -41,7 +41,7 @@ export async function sendEnrollmentConfirmationEmail(
   programName: string,
   startDate: string,
   format: string = 'Hybrid (Online + In-Person)',
-  partnerLink?: string
+  partnerLink?: string,
 ): Promise<boolean> {
   const template = studentEmailTemplates.enrollmentConfirmation;
 
@@ -50,7 +50,7 @@ export async function sendEnrollmentConfirmationEmail(
     from: template.from,
     subject: template.subject,
     html: template.getHtml({ firstName, programName, startDate, format, partnerLink }),
-    text: template.getText({ firstName, programName, startDate, format, partnerLink })
+    text: template.getText({ firstName, programName, startDate, format, partnerLink }),
   });
 
   return result.success;
@@ -65,7 +65,7 @@ export async function sendRequirementReminderEmail(
   firstName: string,
   requirementTitle: string,
   dueDate: string,
-  actionLink: string
+  actionLink: string,
 ): Promise<boolean> {
   const subject = `Reminder: ${requirementTitle} due soon`;
 
@@ -119,7 +119,7 @@ Phone: (317) 314-3757
     from: 'noreply@elevateforhumanity.org',
     subject,
     html,
-    text
+    text,
   });
 
   return result.success;
@@ -134,7 +134,7 @@ export async function sendOverdueRequirementAlert(
   firstName: string,
   requirementTitle: string,
   daysOverdue: number,
-  actionLink: string
+  actionLink: string,
 ): Promise<boolean> {
   const subject = `Action Required: ${requirementTitle} is overdue`;
 
@@ -196,7 +196,7 @@ Phone: (317) 314-3757
     from: 'noreply@elevateforhumanity.org',
     subject,
     html,
-    text
+    text,
   });
 
   return result.success;
@@ -212,7 +212,7 @@ export async function sendAppointmentConfirmationEmail(
   appointmentType: string,
   scheduledTime: string,
   meetingLink?: string,
-  phoneNumber?: string
+  phoneNumber?: string,
 ): Promise<boolean> {
   const template = appointmentEmailTemplates.appointmentConfirmation;
 
@@ -221,7 +221,7 @@ export async function sendAppointmentConfirmationEmail(
     from: template.from,
     subject: template.subject,
     html: template.getHtml({ firstName, appointmentType, scheduledTime, meetingLink, phoneNumber }),
-    text: template.getText({ firstName, appointmentType, scheduledTime, meetingLink, phoneNumber })
+    text: template.getText({ firstName, appointmentType, scheduledTime, meetingLink, phoneNumber }),
   });
 
   return result.success;
@@ -237,7 +237,7 @@ export async function sendAppointmentReminder24Hours(
   appointmentType: string,
   scheduledTime: string,
   meetingLink?: string,
-  phoneNumber?: string
+  phoneNumber?: string,
 ): Promise<boolean> {
   const template = appointmentEmailTemplates.reminder24Hours;
 
@@ -246,7 +246,7 @@ export async function sendAppointmentReminder24Hours(
     from: template.from,
     subject: template.subject,
     html: template.getHtml({ firstName, appointmentType, scheduledTime, meetingLink, phoneNumber }),
-    text: template.getText({ firstName, appointmentType, scheduledTime, meetingLink, phoneNumber })
+    text: template.getText({ firstName, appointmentType, scheduledTime, meetingLink, phoneNumber }),
   });
 
   return result.success;
@@ -262,7 +262,7 @@ export async function sendAppointmentReminder1Hour(
   appointmentType: string,
   scheduledTime: string,
   meetingLink?: string,
-  phoneNumber?: string
+  phoneNumber?: string,
 ): Promise<boolean> {
   const template = appointmentEmailTemplates.reminder1Hour;
 
@@ -271,7 +271,7 @@ export async function sendAppointmentReminder1Hour(
     from: template.from,
     subject: template.subject,
     html: template.getHtml({ firstName, appointmentType, scheduledTime, meetingLink, phoneNumber }),
-    text: template.getText({ firstName, appointmentType, scheduledTime, meetingLink, phoneNumber })
+    text: template.getText({ firstName, appointmentType, scheduledTime, meetingLink, phoneNumber }),
   });
 
   return result.success;
@@ -286,7 +286,7 @@ export async function sendAtRiskAlertToAdvisor(
   studentName: string,
   programName: string,
   riskFactors: string[],
-  dashboardLink: string
+  dashboardLink: string,
 ): Promise<boolean> {
   const subject = `Student Alert: ${studentName} needs support`;
 
@@ -303,7 +303,7 @@ export async function sendAtRiskAlertToAdvisor(
 
       <p><strong>Risk Factors:</strong></p>
       <ul>
-        ${riskFactors.map(factor => `<li>${factor}</li>`).join('')}
+        ${riskFactors.map((factor) => `<li>${factor}</li>`).join('')}
       </ul>
 
       <p>
@@ -332,7 +332,7 @@ Student: ${studentName}
 Program: ${programName}
 
 Risk Factors:
-${riskFactors.map(factor => `• ${factor}`).join('\n')}
+${riskFactors.map((factor) => `• ${factor}`).join('\n')}
 
 View student dashboard: ${dashboardLink}
 
@@ -348,7 +348,7 @@ Automated Alert System
     from: 'alerts@www.elevateforhumanity.org',
     subject,
     html,
-    text
+    text,
   });
 
   return result.success;
@@ -363,20 +363,18 @@ export async function queueEmail(
   subject: string,
   html: string,
   text: string,
-  scheduledFor?: Date
+  scheduledFor?: Date,
 ): Promise<boolean> {
   const supabase = await createClient();
 
-  const { error } = await supabase
-    .from('email_queue')
-    .insert({
-      to_email: to,
-      subject,
-      html_body: html,
-      text_body: text,
-      scheduled_for: scheduledFor || new Date(),
-      status: 'pending'
-    });
+  const { error } = await supabase.from('email_queue').insert({
+    to_email: to,
+    subject,
+    html_body: html,
+    text_body: text,
+    scheduled_for: scheduledFor || new Date(),
+    status: 'pending',
+  });
 
   if (error) {
     logger.error('Error queueing email:', error);
@@ -413,7 +411,7 @@ export async function processPendingEmails(): Promise<number> {
       to: email.to_email,
       subject: email.subject,
       html: email.html_body,
-      text: email.text_body
+      text: email.text_body,
     });
 
     if (result.success) {
@@ -422,7 +420,7 @@ export async function processPendingEmails(): Promise<number> {
         .update({
           status: 'sent',
           sent_at: new Date().toISOString(),
-          message_id: result.messageId
+          message_id: result.messageId,
         })
         .eq('id', email.id);
 
@@ -433,7 +431,7 @@ export async function processPendingEmails(): Promise<number> {
         .update({
           status: 'failed',
           error_message: result.error,
-          retry_count: (email.retry_count || 0) + 1
+          retry_count: (email.retry_count || 0) + 1,
         })
         .eq('id', email.id);
     }

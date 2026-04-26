@@ -23,9 +23,7 @@ export default function Hero({
     <section className={`bg-${bg_color}-700 text-white py-20 px-4`}>
       <div className="max-w-4xl mx-auto text-center">
         <h1 className="text-4xl md:text-5xl font-bold mb-6">{title}</h1>
-        {subtitle && (
-          <p className="text-xl md:text-2xl text-white/80 mb-10">{subtitle}</p>
-        )}
+        {subtitle && <p className="text-xl md:text-2xl text-white/80 mb-10">{subtitle}</p>}
         {(cta || cta_secondary) && (
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             {cta && (

@@ -31,7 +31,8 @@ export default async function AtRiskStudentsPage() {
     .eq('id', user.id)
     .maybeSingle();
 
-  if (!profile || !['program_holder','admin','super_admin','staff'].includes(profile.role)) redirect('/login');
+  if (!profile || !['program_holder', 'admin', 'super_admin', 'staff'].includes(profile.role))
+    redirect('/login');
 
   // Get program holder record
   const { data: programHolder } = await supabase
@@ -62,7 +63,7 @@ export default async function AtRiskStudentsPage() {
         slug
       )
     `,
-      { count: 'exact' }
+      { count: 'exact' },
     )
     .eq('program_holder_id', programHolder.id)
     .eq('status', 'active')
@@ -81,9 +82,11 @@ export default async function AtRiskStudentsPage() {
 
   return (
     <div className="min-h-screen bg-white">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <Breadcrumbs items={[{ label: "Program Holder", href: "/program-holder" }, { label: "Students" }]} />
-        </div>
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs
+          items={[{ label: 'Program Holder', href: '/program-holder' }, { label: 'Students' }]}
+        />
+      </div>
       {/* Hero Section */}
       <section className="relative h-48 md:h-64 overflow-hidden">
         <Image
@@ -95,7 +98,6 @@ export default async function AtRiskStudentsPage() {
           priority
           sizes="100vw"
         />
-
       </section>
 
       {/* Content Section */}
@@ -109,13 +111,11 @@ export default async function AtRiskStudentsPage() {
                   <AlertTriangle className="h-10 w-10 text-yellow-600 mr-3 flex-shrink-0 mt-0.5" />
                   <div>
                     <h3 className="text-lg font-semibold text-yellow-900 mb-1">
-                      {studentsNeedingAttention.length} Student(s) Need
-                      Attention
+                      {studentsNeedingAttention.length} Student(s) Need Attention
                     </h3>
                     <p className="text-yellow-800">
-                      These students may be at risk of not completing their
-                      program. Review their progress and provide additional
-                      support.
+                      These students may be at risk of not completing their program. Review their
+                      progress and provide additional support.
                     </p>
                   </div>
                 </div>
@@ -127,9 +127,7 @@ export default async function AtRiskStudentsPage() {
               <div className="bg-white rounded-lg shadow-sm border p-6">
                 <div className="flex items-center gap-3 mb-2">
                   <AlertTriangle className="h-11 w-11 text-yellow-600" />
-                  <h3 className="text-sm font-medium text-black">
-                    At-Risk Students
-                  </h3>
+                  <h3 className="text-sm font-medium text-black">At-Risk Students</h3>
                 </div>
                 <p className="text-3xl font-bold text-yellow-600">
                   {studentsNeedingAttention.length}
@@ -138,9 +136,7 @@ export default async function AtRiskStudentsPage() {
               <div className="bg-white rounded-lg shadow-sm border p-6">
                 <div className="flex items-center gap-3 mb-2">
                   <TrendingDown className="h-11 w-11 text-brand-red-600" />
-                  <h3 className="text-sm font-medium text-black">
-                    Requires Intervention
-                  </h3>
+                  <h3 className="text-sm font-medium text-black">Requires Intervention</h3>
                 </div>
                 <p className="text-3xl font-bold text-brand-red-600">
                   {Math.floor(studentsNeedingAttention.length * 0.3)}
@@ -149,21 +145,18 @@ export default async function AtRiskStudentsPage() {
               <div className="bg-white rounded-lg shadow-sm border p-6">
                 <div className="flex items-center gap-3 mb-2">
                   <Clock className="h-11 w-11 text-brand-blue-600" />
-                  <h3 className="text-sm font-medium text-black">
-                    Avg. Days Enrolled
-                  </h3>
+                  <h3 className="text-sm font-medium text-black">Avg. Days Enrolled</h3>
                 </div>
                 <p className="text-3xl font-bold text-brand-blue-600">
                   {studentsNeedingAttention.length > 0
                     ? Math.round(
                         studentsNeedingAttention.reduce((acc, s) => {
                           const days = Math.floor(
-                            (new Date().getTime() -
-                              new Date(s.enrolled_at).getTime()) /
-                              (1000 * 60 * 60 * 24)
+                            (new Date().getTime() - new Date(s.enrolled_at).getTime()) /
+                              (1000 * 60 * 60 * 24),
                           );
                           return acc + days;
-                        }, 0) / studentsNeedingAttention.length
+                        }, 0) / studentsNeedingAttention.length,
                       )
                     : 0}
                 </p>
@@ -173,9 +166,7 @@ export default async function AtRiskStudentsPage() {
             {/* Students List */}
             <div className="bg-white rounded-lg shadow-sm border p-6">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-black">
-                  Students Requiring Attention
-                </h2>
+                <h2 className="text-2xl font-bold text-black">Students Requiring Attention</h2>
                 <Link
                   href="/program-holder/students"
                   className="text-brand-blue-600 hover:text-brand-blue-700 font-medium"
@@ -189,29 +180,20 @@ export default async function AtRiskStudentsPage() {
                   <table className="w-full">
                     <thead>
                       <tr className="border-b">
-                        <th className="text-left py-3 px-4 font-semibold text-black">
-                          Student
-                        </th>
-                        <th className="text-left py-3 px-4 font-semibold text-black">
-                          Program
-                        </th>
-                        <th className="text-left py-3 px-4 font-semibold text-black">
-                          Enrolled
-                        </th>
+                        <th className="text-left py-3 px-4 font-semibold text-black">Student</th>
+                        <th className="text-left py-3 px-4 font-semibold text-black">Program</th>
+                        <th className="text-left py-3 px-4 font-semibold text-black">Enrolled</th>
                         <th className="text-left py-3 px-4 font-semibold text-black">
                           Risk Factors
                         </th>
-                        <th className="text-left py-3 px-4 font-semibold text-black">
-                          Contact
-                        </th>
+                        <th className="text-left py-3 px-4 font-semibold text-black">Contact</th>
                       </tr>
                     </thead>
                     <tbody>
                       {studentsNeedingAttention.map((enrollment) => {
                         const daysEnrolled = Math.floor(
-                          (new Date().getTime() -
-                            new Date(enrollment.enrolled_at).getTime()) /
-                            (1000 * 60 * 60 * 24)
+                          (new Date().getTime() - new Date(enrollment.enrolled_at).getTime()) /
+                            (1000 * 60 * 60 * 24),
                         );
                         return (
                           <tr
@@ -220,16 +202,13 @@ export default async function AtRiskStudentsPage() {
                           >
                             <td className="py-3 px-4">
                               <div className="font-medium text-black">
-                                {enrollment.student?.first_name}{' '}
-                                {enrollment.student?.last_name}
+                                {enrollment.student?.first_name} {enrollment.student?.last_name}
                               </div>
                             </td>
                             <td className="py-3 px-4 text-black">
                               {enrollment.program?.name || 'N/A'}
                             </td>
-                            <td className="py-3 px-4 text-black">
-                              {daysEnrolled} days ago
-                            </td>
+                            <td className="py-3 px-4 text-black">{daysEnrolled} days ago</td>
                             <td className="py-3 px-4">
                               <span className="px-2 py-2 text-xs rounded bg-yellow-100 text-yellow-800">
                                 Long enrollment
@@ -266,12 +245,8 @@ export default async function AtRiskStudentsPage() {
               ) : (
                 <div className="text-center py-12">
                   <AlertTriangle className="h-16 w-16 text-brand-green-300 mx-auto mb-4" />
-                  <h3 className="text-lg font-semibold text-black mb-2">
-                    No At-Risk Students
-                  </h3>
-                  <p className="text-black mb-6">
-                    All students are progressing well. Great work!
-                  </p>
+                  <h3 className="text-lg font-semibold text-black mb-2">No At-Risk Students</h3>
+                  <p className="text-black mb-6">All students are progressing well. Great work!</p>
                   <Link
                     href="/program-holder/students"
                     className="inline-flex items-center px-6 py-3 bg-brand-blue-600 hover:bg-brand-blue-700 text-white font-semibold rounded-lg transition-colors"
@@ -297,8 +272,7 @@ export default async function AtRiskStudentsPage() {
                 Need Help Supporting At-Risk Students?
               </h3>
               <p className="text-brand-blue-800 mb-4">
-                Our team can provide guidance on intervention strategies and
-                additional resources.
+                Our team can provide guidance on intervention strategies and additional resources.
               </p>
               <Link
                 href="/program-holder/support"

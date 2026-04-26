@@ -26,7 +26,7 @@ export async function sendEmail(options: EmailOptions): Promise<boolean> {
 export async function sendApplicationConfirmation(
   email: string,
   name: string,
-  programName: string
+  programName: string,
 ) {
   return sendEmail({
     to: email,
@@ -56,7 +56,7 @@ export async function sendAdminApplicationNotification(
   applicantName: string,
   applicantEmail: string,
   programName: string,
-  applicationId: string
+  applicationId: string,
 ) {
   return sendEmail({
     to: ADMIN_EMAIL,
@@ -79,7 +79,7 @@ export async function sendAdminApplicationNotification(
 export async function sendEnrollmentApprovalNotification(
   email: string,
   name: string,
-  programName: string
+  programName: string,
 ) {
   return sendEmail({
     to: email,
@@ -106,7 +106,7 @@ export async function sendEnrollmentApprovalNotification(
  */
 export async function sendProgramHolderApplicationConfirmation(
   email: string,
-  organizationName: string
+  organizationName: string,
 ) {
   return sendEmail({
     to: email,
@@ -133,7 +133,7 @@ export async function sendProgramHolderApplicationConfirmation(
 export async function sendAdminProgramHolderNotification(
   organizationName: string,
   contactEmail: string,
-  applicationId: string
+  applicationId: string,
 ) {
   return sendEmail({
     to: ADMIN_EMAIL,
@@ -155,7 +155,7 @@ export async function sendAdminProgramHolderNotification(
 export async function sendDocumentUploadNotification(
   programHolderName: string,
   documentType: string,
-  documentId: string
+  documentId: string,
 ) {
   return sendEmail({
     to: ADMIN_EMAIL,
@@ -177,7 +177,7 @@ export async function sendContactFormNotification(
   name: string,
   email: string,
   subject: string,
-  message: string
+  message: string,
 ) {
   return sendEmail({
     to: ADMIN_EMAIL,
@@ -200,7 +200,7 @@ export async function sendContactFormNotification(
 export async function sendStudentAcceptanceNotification(
   email: string,
   studentName: string,
-  programHolderName: string
+  programHolderName: string,
 ) {
   return sendEmail({
     to: email,
@@ -223,7 +223,7 @@ export async function sendStudentDeclineNotification(
   email: string,
   studentName: string,
   programHolderName: string,
-  reason?: string
+  reason?: string,
 ) {
   return sendEmail({
     to: email,

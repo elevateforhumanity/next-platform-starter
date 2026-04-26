@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { Play } from 'lucide-react';
 import React from 'react';
@@ -22,12 +22,8 @@ export function VideoContent({
           <Play className="h-10 w-10 text-black" />
         </div>
         <div className="flex-1">
-          <h3 className="text-base sm:text-lg font-semibold text-black">
-            {title}
-          </h3>
-          {description && (
-            <p className="mt-1 text-sm text-black">{description}</p>
-          )}
+          <h3 className="text-base sm:text-lg font-semibold text-black">{title}</h3>
+          {description && <p className="mt-1 text-sm text-black">{description}</p>}
           <p className="mt-2 inline-flex items-center rounded-full bg-white px-3 py-2 text-xs font-medium text-slate-500 border border-slate-200">
             {durationLabel}
           </p>

@@ -19,7 +19,9 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhuma
 async function _POST() {
   try {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });

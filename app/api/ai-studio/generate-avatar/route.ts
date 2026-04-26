@@ -37,10 +37,7 @@ async function _POST(request: NextRequest) {
       ip: request.headers.get('x-forwarded-for'),
       userAgent: request.headers.get('user-agent')?.substring(0, 100),
     });
-    return NextResponse.json(
-      { error: 'Avatar generation is not available.' },
-      { status: 410 }
-    );
+    return NextResponse.json({ error: 'Avatar generation is not available.' }, { status: 410 });
   }
 
   try {
@@ -58,10 +55,7 @@ async function _POST(request: NextRequest) {
     } = await request.json();
 
     if (!prompt || prompt.trim().length === 0) {
-      return NextResponse.json(
-        { error: 'Text prompt is required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Text prompt is required' }, { status: 400 });
     }
 
     // Generate avatar video locally
@@ -88,7 +82,7 @@ async function _POST(request: NextRequest) {
       } catch (error) {
         logger.error(
           'Cloudflare Stream upload failed, using local URL:',
-          error instanceof Error ? error : new Error(String(error))
+          error instanceof Error ? error : new Error(String(error)),
         );
       }
     }
@@ -107,11 +101,11 @@ async function _POST(request: NextRequest) {
   } catch (error) {
     logger.error(
       'Avatar generation error:',
-      error instanceof Error ? error : new Error(String(error))
+      error instanceof Error ? error : new Error(String(error)),
     );
     return NextResponse.json(
       { error: toErrorMessage(error) || 'Failed to generate avatar video' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -119,7 +113,7 @@ async function _POST(request: NextRequest) {
 async function generateAvatarLocally(
   text: string,
   voice: string,
-  avatarStyle: string
+  avatarStyle: string,
 ): Promise<string> {
   // Create output directory
   const outputDir = path.join(process.cwd(), 'public', 'generated', 'avatars');
@@ -156,12 +150,7 @@ function getAvatarImage(style: string): string {
   // Map styles to avatar images
   // You can add custom avatar images to public/avatars/
   const avatars: Record<string, string> = {
-    professional: path.join(
-      process.cwd(),
-      'public',
-      'avatars',
-      'professional.jpg'
-    ),
+    professional: path.join(process.cwd(), 'public', 'avatars', 'professional.jpg'),
     friendly: path.join(process.cwd(), 'public', 'avatars', 'friendly.jpg'),
     instructor: path.join(process.cwd(), 'public', 'avatars', 'instructor.jpg'),
     default: path.join(process.cwd(), 'public', 'avatars', 'default.jpg'),
@@ -176,7 +165,7 @@ function getAvatarImage(style: string): string {
 async function generateWithDID(
   text: string,
   voice: string,
-  avatarImageUrl: string
+  avatarImageUrl: string,
 ): Promise<string> {
   const DID_API_KEY = process.env.DID_API_KEY;
 
@@ -243,7 +232,7 @@ async function generateWithDID(
  */
 async function generateWithSynthesia(
   text: string,
-  avatarId: string = 'anna_costume1_cameraA'
+  avatarId: string = 'anna_costume1_cameraA',
 ): Promise<string> {
   const SYNTHESIA_API_KEY = process.env.SYNTHESIA_API_KEY;
 
@@ -275,14 +264,11 @@ async function generateWithSynthesia(
   for (let i = 0; i < 120; i++) {
     await new Promise((resolve) => setTimeout(resolve, 5000));
 
-    const statusResponse = await fetch(
-      `https://api.synthesia.io/v2/videos/${videoId}`,
-      {
-        headers: {
-          Authorization: SYNTHESIA_API_KEY,
-        },
-      }
-    );
+    const statusResponse = await fetch(`https://api.synthesia.io/v2/videos/${videoId}`, {
+      headers: {
+        Authorization: SYNTHESIA_API_KEY,
+      },
+    });
 
     const status = await statusResponse.json();
 

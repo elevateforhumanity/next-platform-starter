@@ -10,12 +10,9 @@ interface SubmitRequest {
   answers: Record<string, string>; // questionId -> answerId
 }
 
-async function _POST(
-  request: NextRequest,
-  { params }: { params: Promise<{ quizId: string }> }
-) {
-    const rateLimited = await applyRateLimit(request, 'strict');
-    if (rateLimited) return rateLimited;
+async function _POST(request: NextRequest, { params }: { params: Promise<{ quizId: string }> }) {
+  const rateLimited = await applyRateLimit(request, 'strict');
+  if (rateLimited) return rateLimited;
 
   const auth = await requireApiRole(['student', 'admin', 'super_admin']);
   if (auth instanceof NextResponse) return auth;
@@ -60,14 +57,16 @@ async function _POST(
   // Get questions with correct answers
   const { data: questions } = await db
     .from('quiz_questions')
-    .select(`
+    .select(
+      `
       id,
       points,
       quiz_answers (
         id,
         is_correct
       )
-    `)
+    `,
+    )
     .eq('quiz_id', quizId);
 
   if (!questions) {
@@ -89,7 +88,9 @@ async function _POST(
     totalPoints += questionPoints;
 
     const selectedAnswerId = answers[question.id];
-    const correctAnswer = question.quiz_answers?.find((a: { id: string; is_correct: boolean }) => a.is_correct);
+    const correctAnswer = question.quiz_answers?.find(
+      (a: { id: string; is_correct: boolean }) => a.is_correct,
+    );
     const isCorrect = selectedAnswerId === correctAnswer?.id;
 
     if (isCorrect) {
@@ -110,17 +111,15 @@ async function _POST(
   // Save all answers in a single batch insert instead of one round-trip per
   // question. For a 50-question quiz the old loop made 50 sequential DB calls.
   if (answerResults.length > 0) {
-    const { error: answersError } = await db
-      .from('quiz_attempt_answers')
-      .insert(
-        answerResults.map((result) => ({
-          attempt_id: attemptId,
-          question_id: result.question_id,
-          selected_answer_id: result.selected_answer_id || null,
-          is_correct: result.is_correct,
-          points_earned: result.points_earned,
-        }))
-      );
+    const { error: answersError } = await db.from('quiz_attempt_answers').insert(
+      answerResults.map((result) => ({
+        attempt_id: attemptId,
+        question_id: result.question_id,
+        selected_answer_id: result.selected_answer_id || null,
+        is_correct: result.is_correct,
+        points_earned: result.points_earned,
+      })),
+    );
 
     if (answersError) {
       logger.error('Error saving quiz answers:', answersError);

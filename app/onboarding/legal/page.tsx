@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -59,9 +58,11 @@ export default function LegalOnboardingPage() {
   async function checkExistingAgreements() {
     try {
       const supabase = createClient();
-      
+
       // Get current user
-      const { data: { user: currentUser } } = await supabase.auth.getUser();
+      const {
+        data: { user: currentUser },
+      } = await supabase.auth.getUser();
       if (!currentUser) {
         router.push('/login');
         return;
@@ -75,12 +76,15 @@ export default function LegalOnboardingPage() {
         .eq('user_id', currentUser.id);
 
       if (signedAgreements) {
-        setAgreements(prev => prev.map(agreement => ({
-          ...agreement,
-          signed: signedAgreements.some(
-            s => s.agreement_type === agreement.type && s.document_version === agreement.version
-          ),
-        })));
+        setAgreements((prev) =>
+          prev.map((agreement) => ({
+            ...agreement,
+            signed: signedAgreements.some(
+              (s) =>
+                s.agreement_type === agreement.type && s.document_version === agreement.version,
+            ),
+          })),
+        );
       }
     } catch (err) {
       console.error('Error checking agreements:', err);
@@ -91,7 +95,7 @@ export default function LegalOnboardingPage() {
 
   async function signAgreement(agreement: Agreement) {
     if (!user) return;
-    
+
     setSigning(true);
     setError(null);
 
@@ -107,24 +111,21 @@ export default function LegalOnboardingPage() {
         .maybeSingle();
 
       // Insert agreement acceptance
-      const { error: insertError } = await supabase
-        .from('license_agreement_acceptances')
-        .insert({
-          user_id: user.id,
-          agreement_type: agreement.type,
-          document_version: agreement.version,
-          document_url: agreement.documentUrl,
-          role_at_signing: profile?.role || 'student',
-          email_at_signing: user.email,
-        });
+      const { error: insertError } = await supabase.from('license_agreement_acceptances').insert({
+        user_id: user.id,
+        agreement_type: agreement.type,
+        document_version: agreement.version,
+        document_url: agreement.documentUrl,
+        role_at_signing: profile?.role || 'student',
+        email_at_signing: user.email,
+      });
 
       if (insertError) throw insertError;
 
       // Update local state
-      setAgreements(prev => prev.map(a => 
-        a.type === agreement.type ? { ...a, signed: true } : a
-      ));
-
+      setAgreements((prev) =>
+        prev.map((a) => (a.type === agreement.type ? { ...a, signed: true } : a)),
+      );
     } catch (err: any) {
       setError('An error occurred');
     } finally {
@@ -134,7 +135,7 @@ export default function LegalOnboardingPage() {
 
   async function completeOnboarding() {
     if (!user) return;
-    
+
     setSigning(true);
     setError(null);
 
@@ -159,18 +160,20 @@ export default function LegalOnboardingPage() {
       // Non-fatal: if this fails the gate is already satisfied above.
       await supabase
         .from('user_onboarding_status')
-        .upsert({
-          user_id: user.id,
-          status: 'complete',
-          agreements_signed: true,
-          completed_at: now,
-        }, { onConflict: 'user_id' })
+        .upsert(
+          {
+            user_id: user.id,
+            status: 'complete',
+            agreements_signed: true,
+            completed_at: now,
+          },
+          { onConflict: 'user_id' },
+        )
         .then(() => {})
         .catch(() => {});
 
       // Redirect to student portal — middleware gate now passes
       router.push('/student-portal');
-
     } catch (err: any) {
       setError('Failed to complete onboarding. Please try again or contact support.');
     } finally {
@@ -178,8 +181,8 @@ export default function LegalOnboardingPage() {
     }
   }
 
-  const allSigned = agreements.every(a => a.signed);
-  const signedCount = agreements.filter(a => a.signed).length;
+  const allSigned = agreements.every((a) => a.signed);
+  const signedCount = agreements.filter((a) => a.signed).length;
 
   if (loading) {
     return (
@@ -197,9 +200,7 @@ export default function LegalOnboardingPage() {
           <div className="w-16 h-16 bg-brand-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <Shield className="w-8 h-8 text-brand-blue-600" />
           </div>
-          <h1 className="text-3xl font-bold text-slate-900 mb-2">
-            Review & Accept Agreements
-          </h1>
+          <h1 className="text-3xl font-bold text-slate-900 mb-2">Review & Accept Agreements</h1>
           <p className="text-slate-600">
             Please review and accept the following agreements to continue.
           </p>
@@ -209,10 +210,12 @@ export default function LegalOnboardingPage() {
         <div className="bg-white rounded-xl p-4 mb-6 shadow-sm border border-slate-200">
           <div className="flex items-center justify-between mb-2">
             <span className="text-sm font-medium text-slate-700">Progress</span>
-            <span className="text-sm text-slate-500">{signedCount} of {agreements.length}</span>
+            <span className="text-sm text-slate-500">
+              {signedCount} of {agreements.length}
+            </span>
           </div>
           <div className="w-full bg-slate-200 rounded-full h-2">
-            <div 
+            <div
               className="bg-brand-blue-600 h-2 rounded-full transition-all duration-300"
               style={{ width: `${(signedCount / agreements.length) * 100}%` }}
             />
@@ -230,7 +233,7 @@ export default function LegalOnboardingPage() {
         {/* Agreements */}
         <div className="space-y-4 mb-8">
           {agreements.map((agreement) => (
-            <div 
+            <div
               key={agreement.type}
               className={`bg-white rounded-xl p-6 shadow-sm border ${
                 agreement.signed ? 'border-brand-green-200' : 'border-slate-200'
@@ -238,9 +241,11 @@ export default function LegalOnboardingPage() {
             >
               <div className="flex items-start justify-between">
                 <div className="flex items-start gap-4">
-                  <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-                    agreement.signed ? 'bg-brand-green-100' : 'bg-slate-100'
-                  }`}>
+                  <div
+                    className={`w-10 h-10 rounded-lg flex items-center justify-center ${
+                      agreement.signed ? 'bg-brand-green-100' : 'bg-slate-100'
+                    }`}
+                  >
                     {agreement.signed ? (
                       <Circle className="w-5 h-5 text-brand-green-600" />
                     ) : (
@@ -250,7 +255,7 @@ export default function LegalOnboardingPage() {
                   <div>
                     <h3 className="font-semibold text-slate-900">{agreement.title}</h3>
                     <p className="text-sm text-slate-500 mb-2">{agreement.description}</p>
-                    <Link 
+                    <Link
                       href={agreement.documentUrl}
                       target="_blank"
                       className="text-sm text-brand-blue-600 hover:underline"
@@ -259,7 +264,7 @@ export default function LegalOnboardingPage() {
                     </Link>
                   </div>
                 </div>
-                
+
                 {!agreement.signed && (
                   <button
                     onClick={() => signAgreement(agreement)}
@@ -269,7 +274,7 @@ export default function LegalOnboardingPage() {
                     {signing ? 'Signing...' : 'I Accept'}
                   </button>
                 )}
-                
+
                 {agreement.signed && (
                   <span className="px-3 py-1 bg-brand-green-100 text-brand-green-700 text-sm font-medium rounded-full">
                     Signed

@@ -79,9 +79,7 @@ const commands = {
         console.log('  - src/App.jsx (backed up)');
         console.log('  - routes.config.mjs (backed up)\n');
 
-        console.log(
-          '⚠️  Please review the changes and test your application\n'
-        );
+        console.log('⚠️  Please review the changes and test your application\n');
         console.log(`📄 Full report: ${reportPath}\n`);
 
         process.exit(0);
@@ -106,7 +104,7 @@ const commands = {
       pages.forEach((page) => {
         const hasImport = imports.some((imp) => imp.name === page.name);
         const hasRoute = routes.some(
-          (route) => route.path === page.route && route.component === page.name
+          (route) => route.path === page.route && route.component === page.name,
         );
 
         const status = hasImport && hasRoute ? '✅' : hasImport ? '⚠️ ' : '❌';
@@ -132,9 +130,7 @@ const commands = {
 
       const byDirectory = {};
       pages.forEach((page) => {
-        const dir = page.relativePath.includes('/')
-          ? page.relativePath.split('/')[0]
-          : 'root';
+        const dir = page.relativePath.includes('/') ? page.relativePath.split('/')[0] : 'root';
 
         if (!byDirectory[dir]) {
           byDirectory[dir] = [];

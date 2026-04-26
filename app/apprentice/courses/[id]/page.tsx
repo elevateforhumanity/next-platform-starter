@@ -28,8 +28,9 @@ export default async function ApprenticeCourseDetailPage({
   const { id } = await params;
   const supabase = await createClient();
 
-
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     redirect('/login?redirect=/apprentice');
@@ -80,7 +81,7 @@ export default async function ApprenticeCourseDetailPage({
     .eq('user_id', user.id)
     .eq('course_id', id);
 
-  const completedModuleIds = new Set(progress?.map(p => p.module_id) || []);
+  const completedModuleIds = new Set(progress?.map((p) => p.module_id) || []);
 
   // If no course found, show default course structure
   const courseData = course || {
@@ -89,55 +90,58 @@ export default async function ApprenticeCourseDetailPage({
     description: 'Learn the foundational skills and knowledge required for your apprenticeship.',
   };
 
-  const moduleData: CourseModule[] = modules?.length ? modules.map(m => ({
-    ...m,
-    completed: completedModuleIds.has(m.id),
-  })) : [
-    {
-      id: '1',
-      title: 'Introduction & Safety',
-      description: 'Overview of the program and essential safety protocols',
-      duration_minutes: 30,
-      order_index: 1,
-      completed: false,
-    },
-    {
-      id: '2',
-      title: 'Tools & Equipment',
-      description: 'Learn about the tools of the trade and proper maintenance',
-      duration_minutes: 45,
-      order_index: 2,
-      completed: false,
-    },
-    {
-      id: '3',
-      title: 'Sanitation & Hygiene',
-      description: 'State-required sanitation procedures and best practices',
-      duration_minutes: 60,
-      order_index: 3,
-      completed: false,
-    },
-    {
-      id: '4',
-      title: 'Client Communication',
-      description: 'Professional communication and consultation skills',
-      duration_minutes: 30,
-      order_index: 4,
-      completed: false,
-    },
-    {
-      id: '5',
-      title: 'Assessment',
-      description: 'Complete the module assessment to proceed',
-      duration_minutes: 20,
-      order_index: 5,
-      completed: false,
-    },
-  ];
+  const moduleData: CourseModule[] = modules?.length
+    ? modules.map((m) => ({
+        ...m,
+        completed: completedModuleIds.has(m.id),
+      }))
+    : [
+        {
+          id: '1',
+          title: 'Introduction & Safety',
+          description: 'Overview of the program and essential safety protocols',
+          duration_minutes: 30,
+          order_index: 1,
+          completed: false,
+        },
+        {
+          id: '2',
+          title: 'Tools & Equipment',
+          description: 'Learn about the tools of the trade and proper maintenance',
+          duration_minutes: 45,
+          order_index: 2,
+          completed: false,
+        },
+        {
+          id: '3',
+          title: 'Sanitation & Hygiene',
+          description: 'State-required sanitation procedures and best practices',
+          duration_minutes: 60,
+          order_index: 3,
+          completed: false,
+        },
+        {
+          id: '4',
+          title: 'Client Communication',
+          description: 'Professional communication and consultation skills',
+          duration_minutes: 30,
+          order_index: 4,
+          completed: false,
+        },
+        {
+          id: '5',
+          title: 'Assessment',
+          description: 'Complete the module assessment to proceed',
+          duration_minutes: 20,
+          order_index: 5,
+          completed: false,
+        },
+      ];
 
-  const completedCount = moduleData.filter(m => m.completed).length;
+  const completedCount = moduleData.filter((m) => m.completed).length;
   const totalMinutes = moduleData.reduce((sum, m) => sum + m.duration_minutes, 0);
-  const progressPercent = moduleData.length > 0 ? Math.round((completedCount / moduleData.length) * 100) : 0;
+  const progressPercent =
+    moduleData.length > 0 ? Math.round((completedCount / moduleData.length) * 100) : 0;
 
   return (
     <div className="min-h-screen bg-white">
@@ -200,10 +204,10 @@ export default async function ApprenticeCourseDetailPage({
                   module.completed
                     ? 'border-brand-green-200 bg-brand-green-50'
                     : isCurrent
-                    ? 'border-brand-blue-500 shadow-lg'
-                    : isLocked
-                    ? 'border-slate-200 opacity-60'
-                    : 'border-slate-200'
+                      ? 'border-brand-blue-500 shadow-lg'
+                      : isLocked
+                        ? 'border-slate-200 opacity-60'
+                        : 'border-slate-200'
                 }`}
               >
                 <div className="p-6">
@@ -214,8 +218,8 @@ export default async function ApprenticeCourseDetailPage({
                         module.completed
                           ? 'bg-brand-green-500 text-white'
                           : isCurrent
-                          ? 'bg-brand-blue-500 text-white'
-                          : 'bg-slate-200 text-slate-500'
+                            ? 'bg-brand-blue-500 text-white'
+                            : 'bg-slate-200 text-slate-500'
                       }`}
                     >
                       {module.completed ? (

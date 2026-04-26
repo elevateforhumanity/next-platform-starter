@@ -8,13 +8,26 @@ export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = { title: 'Program Courses | Elevate Admin' };
 
-export default async function ProgramCoursesPage({ params }: { params: Promise<{ code: string }> }) {
+export default async function ProgramCoursesPage({
+  params,
+}: {
+  params: Promise<{ code: string }>;
+}) {
   const { code } = await params;
   await requireAdmin();
   const supabase = await createClient();
 
-  const { data: program } = await supabase.from('programs').select('id, title, code, slug').or(`code.eq.${code},slug.eq.${code}`).maybeSingle();
-  if (!program) return <div className="p-8"><h1 className="text-2xl font-bold">Program not found</h1></div>;
+  const { data: program } = await supabase
+    .from('programs')
+    .select('id, title, code, slug')
+    .or(`code.eq.${code},slug.eq.${code}`)
+    .maybeSingle();
+  if (!program)
+    return (
+      <div className="p-8">
+        <h1 className="text-2xl font-bold">Program not found</h1>
+      </div>
+    );
 
   const { data: courses } = await supabase
     .from('training_courses')
@@ -39,9 +52,17 @@ export default async function ProgramCoursesPage({ params }: { params: Promise<{
     <div className="max-w-7xl mx-auto px-4 py-8">
       <nav className="text-sm mb-4">
         <ol className="flex items-center space-x-2 text-slate-700">
-          <li><Link href="/admin/programs" className="hover:text-brand-blue-600">Programs</Link></li>
+          <li>
+            <Link href="/admin/programs" className="hover:text-brand-blue-600">
+              Programs
+            </Link>
+          </li>
           <li>/</li>
-          <li><Link href={`/admin/programs/${code}/dashboard`} className="hover:text-brand-blue-600">{program.title}</Link></li>
+          <li>
+            <Link href={`/admin/programs/${code}/dashboard`} className="hover:text-brand-blue-600">
+              {program.title}
+            </Link>
+          </li>
           <li>/</li>
           <li className="text-slate-900 font-medium">Courses</li>
         </ol>
@@ -57,12 +78,14 @@ export default async function ProgramCoursesPage({ params }: { params: Promise<{
         </Link>
       </div>
 
-      {(!courses || courses.length === 0) ? (
+      {!courses || courses.length === 0 ? (
         <div className="bg-white rounded-lg border p-12 text-center">
           <BookOpen className="w-12 h-12 text-slate-700 mx-auto mb-4" />
           <h3 className="text-lg font-medium text-slate-900 mb-2">No courses yet</h3>
           <p className="text-slate-700 mb-4">Create the first course for this program.</p>
-          <Link href="/admin/courses/create" className="text-brand-blue-600 hover:underline">Create Course</Link>
+          <Link href="/admin/courses/create" className="text-brand-blue-600 hover:underline">
+            Create Course
+          </Link>
         </div>
       ) : (
         <div className="bg-white rounded-lg border divide-y">

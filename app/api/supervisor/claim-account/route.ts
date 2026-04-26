@@ -55,27 +55,30 @@ export async function POST(request: NextRequest) {
     }
 
     // Link user_id on any unclaimed rows for this email
-    const unclaimed = supervisorRows.filter(r => !r.user_id);
+    const unclaimed = supervisorRows.filter((r) => !r.user_id);
     if (unclaimed.length === 0) {
       // Already claimed — idempotent success
       return NextResponse.json({
         success: true,
         alreadyClaimed: true,
-        shopIds: supervisorRows.map(r => r.shop_id),
+        shopIds: supervisorRows.map((r) => r.shop_id),
       });
     }
 
     const { error: updateErr } = await db
       .from('shop_supervisors')
       .update({ user_id: user.id })
-      .in('id', unclaimed.map(r => r.id));
+      .in(
+        'id',
+        unclaimed.map((r) => r.id),
+      );
 
     if (updateErr) return safeDbError(updateErr, 'Failed to claim supervisor account');
 
     return NextResponse.json({
       success: true,
       claimed: unclaimed.length,
-      shopIds: unclaimed.map(r => r.shop_id),
+      shopIds: unclaimed.map((r) => r.shop_id),
     });
   } catch (err) {
     return safeInternalError(err, 'Account claim failed');

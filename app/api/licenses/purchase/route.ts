@@ -26,7 +26,7 @@ async function _POST(request: NextRequest) {
     if (!program_id || !license_type || !lms_model) {
       return NextResponse.json(
         { error: 'program_id, license_type, and lms_model are required' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -73,10 +73,7 @@ async function _POST(request: NextRequest) {
         .maybeSingle();
 
       if (licenseError) {
-        return NextResponse.json(
-          { error: 'License operation failed' },
-          { status: 500 }
-        );
+        return NextResponse.json({ error: 'License operation failed' }, { status: 500 });
       }
 
       return NextResponse.json({
@@ -89,12 +86,9 @@ async function _POST(request: NextRequest) {
     // Create Stripe payment intent
     const stripe = getStripe();
     if (!stripe) {
-      return NextResponse.json(
-        { error: 'Payment processing not configured' },
-        { status: 503 }
-      );
+      return NextResponse.json({ error: 'Payment processing not configured' }, { status: 503 });
     }
-    
+
     const paymentIntent = await stripe.paymentIntents.create({
       amount,
       currency: 'usd',
@@ -118,14 +112,9 @@ async function _POST(request: NextRequest) {
         license_key: licenseKey,
         license_type,
         lms_model,
-        can_create_courses: ['internal', 'hybrid', 'unlimited'].includes(
-          lms_model
-        ),
-        can_upload_scorm: ['scorm_only', 'hybrid', 'unlimited'].includes(
-          lms_model
-        ),
-        max_enrollments:
-          lms_model === 'unlimited' ? null : lms_model === 'hybrid' ? 100 : 50,
+        can_create_courses: ['internal', 'hybrid', 'unlimited'].includes(lms_model),
+        can_upload_scorm: ['scorm_only', 'hybrid', 'unlimited'].includes(lms_model),
+        max_enrollments: lms_model === 'unlimited' ? null : lms_model === 'hybrid' ? 100 : 50,
         status: 'pending',
         metadata: {
           stripe_payment_intent_id: paymentIntent.id,
@@ -135,10 +124,7 @@ async function _POST(request: NextRequest) {
       .maybeSingle();
 
     if (licenseError) {
-      return NextResponse.json(
-        { error: 'License operation failed' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'License operation failed' }, { status: 500 });
     }
 
     // Create payment record
@@ -165,10 +151,7 @@ async function _POST(request: NextRequest) {
     });
   } catch (error: any) {
     logger.error('License purchase error:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -198,7 +181,7 @@ async function _GET(request: NextRequest) {
           title,
           slug
         )
-      `
+      `,
       )
       .eq('license_holder_id', user.id)
       .order('created_at', { ascending: false });
@@ -210,10 +193,7 @@ async function _GET(request: NextRequest) {
     return NextResponse.json({ success: true, licenses });
   } catch (error) {
     logger.error('Get licenses error:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/licenses/purchase', _GET);

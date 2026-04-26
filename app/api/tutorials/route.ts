@@ -1,4 +1,3 @@
-
 import { NextRequest, NextResponse } from 'next/server';
 import { parseBody } from '@/lib/api-helpers';
 import { apiAuthGuard } from '@/lib/admin/guards';
@@ -49,12 +48,9 @@ async function _GET(request: NextRequest) {
     }
 
     return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
-  } catch (error) { 
+  } catch (error) {
     logger.error('Tutorials GET error:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch tutorial data' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to fetch tutorial data' }, { status: 500 });
   }
 }
 
@@ -112,12 +108,9 @@ async function _POST(request: NextRequest) {
     }
 
     return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
-  } catch (error) { 
+  } catch (error) {
     logger.error('Tutorials POST error:', error);
-    return NextResponse.json(
-      { error: 'Failed to process tutorial action' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to process tutorial action' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/tutorials', _GET);

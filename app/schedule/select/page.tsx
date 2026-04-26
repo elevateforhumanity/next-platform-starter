@@ -44,7 +44,8 @@ const SCHEDULE_OPTIONS = [
     label: 'Self-Paced Online',
     hours: 'Anytime — complete lessons on your own schedule',
     location: 'Online via Elevate LMS',
-    description: 'Online coursework only. Hands-on labs scheduled separately at the training center.',
+    description:
+      'Online coursework only. Hands-on labs scheduled separately at the training center.',
     badge: 'Online',
     badgeColor: 'bg-emerald-100 text-emerald-700',
   },
@@ -54,15 +55,20 @@ async function confirmSchedule(formData: FormData) {
   'use server';
   const { createClient: createServerClient } = await import('@/lib/supabase/server');
   const supabase = await createServerClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login');
 
   const scheduleType = formData.get('schedule_type') as string;
 
-  await supabase.from('profiles').update({
-    schedule_selected: true,
-    selected_cohort: scheduleType,
-  }).eq('id', user.id);
+  await supabase
+    .from('profiles')
+    .update({
+      schedule_selected: true,
+      selected_cohort: scheduleType,
+    })
+    .eq('id', user.id);
 
   // Ensure training_enrollments row exists — look up course from program_enrollments
   const { data: existing } = await supabase
@@ -106,14 +112,18 @@ async function confirmSchedule(formData: FormData) {
 
 export default async function SelectSchedulePage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login');
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* VIDEO HERO — getting started, full bleed */}
-      <div className="relative w-full overflow-hidden" style={{ height: '55vh', minHeight: 280, maxHeight: 480 }}>
+      <div
+        className="relative w-full overflow-hidden"
+        style={{ height: '55vh', minHeight: 280, maxHeight: 480 }}
+      >
         <CanonicalVideo
           src="/videos/getting-started-hero.mp4"
           poster="/images/pages/calendar-page-1.jpg"
@@ -123,15 +133,24 @@ export default async function SelectSchedulePage() {
 
       <div className="max-w-2xl mx-auto px-4">
         <div className="pt-6 pb-2">
-          <Breadcrumbs items={[{ label: 'Onboarding', href: '/onboarding/learner' }, { label: 'Select Schedule' }]} />
-          <Link href="/onboarding/learner" className="text-sm text-brand-blue-600 flex items-center gap-1 mt-3 mb-6">
+          <Breadcrumbs
+            items={[
+              { label: 'Onboarding', href: '/onboarding/learner' },
+              { label: 'Select Schedule' },
+            ]}
+          />
+          <Link
+            href="/onboarding/learner"
+            className="text-sm text-brand-blue-600 flex items-center gap-1 mt-3 mb-6"
+          >
             <ArrowLeft className="w-4 h-4" /> Back to Onboarding
           </Link>
         </div>
 
         <h1 className="text-2xl font-bold text-slate-900 mb-1">Select Your Schedule</h1>
         <p className="text-sm text-slate-700 mb-8">
-          Choose the schedule that works best for you. Your enrollment coordinator will confirm your exact start date after your application is approved.
+          Choose the schedule that works best for you. Your enrollment coordinator will confirm your
+          exact start date after your application is approved.
         </p>
 
         <form action={confirmSchedule} className="space-y-4">
@@ -148,7 +167,8 @@ export default async function SelectSchedulePage() {
                     alt={opt.imageAlt}
                     fill
                     className="object-cover"
-                   sizes="100vw" />
+                    sizes="100vw"
+                  />
                 </div>
                 {/* Content */}
                 <div className="flex items-start gap-3 p-5 flex-1">
@@ -163,7 +183,9 @@ export default async function SelectSchedulePage() {
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
                       <span className="font-semibold text-slate-900">{opt.label}</span>
-                      <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${opt.badgeColor}`}>
+                      <span
+                        className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${opt.badgeColor}`}
+                      >
                         {opt.badge}
                       </span>
                     </div>

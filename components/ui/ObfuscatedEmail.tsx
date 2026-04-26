@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -11,7 +11,12 @@ interface ObfuscatedEmailProps {
   showIcon?: boolean;
 }
 
-export function ObfuscatedEmail({ user, domain, className = "", showIcon = false }: ObfuscatedEmailProps) {
+export function ObfuscatedEmail({
+  user,
+  domain,
+  className = '',
+  showIcon = false,
+}: ObfuscatedEmailProps) {
   const [revealed, setRevealed] = useState(false);
 
   const email = `${user}@${domain}`;
@@ -33,10 +38,7 @@ export function ObfuscatedEmail({ user, domain, className = "", showIcon = false
   }
 
   return (
-    <a
-      href={`mailto:${email}`}
-      className={className}
-    >
+    <a href={`mailto:${email}`} className={className}>
       {email}
     </a>
   );

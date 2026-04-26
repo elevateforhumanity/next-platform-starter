@@ -23,7 +23,10 @@ import { createClient } from '@supabase/supabase-js';
 import OpenAI from 'openai';
 
 const HVAC_COURSE_ID = '0ba9a61c-1f1b-4019-be6f-90e92eba2bc0';
-const INSTRUCTOR_IMAGE = path.join(process.cwd(), 'public/images/team/instructors/instructor-trades.jpg');
+const INSTRUCTOR_IMAGE = path.join(
+  process.cwd(),
+  'public/images/team/instructors/instructor-trades.jpg',
+);
 const INSTRUCTOR_NAME = 'Marcus Johnson';
 const INSTRUCTOR_TITLE = 'HVAC Master Technician';
 const COURSE_NAME = 'HVAC Technician — EPA 608 Certification';
@@ -35,17 +38,17 @@ const FONT_REG = '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf';
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
+  process.env.SUPABASE_SERVICE_ROLE_KEY!,
 );
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY! });
 
 // ── Accent colors per segment ────────────────────────────────────────
 const ACCENTS: Record<string, string> = {
-  intro:       '#3b82f6',
-  concept:     '#8b5cf6',
-  visual:      '#10b981',
+  intro: '#3b82f6',
+  concept: '#8b5cf6',
+  visual: '#10b981',
   application: '#f59e0b',
-  wrapup:      '#3b82f6',
+  wrapup: '#3b82f6',
 };
 
 interface Slide {
@@ -65,9 +68,14 @@ interface LessonPlan {
 function stripHtml(html: string): string {
   return (html || '')
     .replace(/<[^>]+>/g, ' ')
-    .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
-    .replace(/&nbsp;/g, ' ').replace(/&quot;/g, '"').replace(/&#39;/g, "'")
-    .replace(/\s+/g, ' ').trim();
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/\s+/g, ' ')
+    .trim();
 }
 
 // ── GPT-4o: Generate structured lesson plan ──────────────────────────
@@ -76,7 +84,7 @@ async function planLesson(
   content: string,
   lessonNum: number,
   moduleTitle: string,
-  nextTitle?: string
+  nextTitle?: string,
 ): Promise<LessonPlan> {
   const plain = stripHtml(content).slice(0, 6000);
 
@@ -84,9 +92,10 @@ async function planLesson(
     model: 'gpt-4o',
     temperature: 0.3,
     max_tokens: 3000,
-    messages: [{
-      role: 'user',
-      content: `You are writing a professional instructional video script for the Elevate for Humanity HVAC Technician Training Program (EPA 608 certification prep).
+    messages: [
+      {
+        role: 'user',
+        content: `You are writing a professional instructional video script for the Elevate for Humanity HVAC Technician Training Program (EPA 608 certification prep).
 
 Lesson ${lessonNum}: "${title}" — Module: "${moduleTitle}"
 ${nextTitle ? `Next lesson: "${nextTitle}"` : ''}
@@ -129,16 +138,22 @@ Produce a 5-segment lesson script. Return JSON only, no markdown:
       "narration": "~50 words. Recap the main points. ${nextTitle ? `Preview next lesson: ${nextTitle}.` : 'Direct student to the quiz below.'}"
     }
   ]
-}`
-    }],
+}`,
+      },
+    ],
   });
 
   const raw = res.choices[0].message.content || '';
-  const cleaned = raw.replace(/^```json?\s*/i, '').replace(/\s*```$/i, '').trim();
+  const cleaned = raw
+    .replace(/^```json?\s*/i, '')
+    .replace(/\s*```$/i, '')
+    .trim();
   const plan = JSON.parse(cleaned);
 
-  const totalWords = plan.slides.reduce((sum: number, s: Slide) =>
-    sum + s.narration.split(/\s+/).length, 0);
+  const totalWords = plan.slides.reduce(
+    (sum: number, s: Slide) => sum + s.narration.split(/\s+/).length,
+    0,
+  );
   const estSeconds = Math.ceil(totalWords / 2.4); // ~144 WPM at 0.85x speed
 
   return { slides: plan.slides, totalWords, estSeconds };
@@ -158,10 +173,12 @@ async function generateAudio(text: string, outPath: string): Promise<number> {
   try {
     const dur = execSync(
       `ffprobe -v error -show_entries format=duration -of csv=p=0 "${outPath}"`,
-      { encoding: 'utf-8' }
+      { encoding: 'utf-8' },
     ).trim();
     return parseFloat(dur) || 30;
-  } catch { return 30; }
+  } catch {
+    return 30;
+  }
 }
 
 // ── Canvas: Render a slide frame matching exact Elevate template ─────
@@ -172,7 +189,7 @@ async function renderSlide(
   lessonNum: number,
   moduleTitle: string,
   outPath: string,
-  dalleImagePath?: string
+  dalleImagePath?: string,
 ): Promise<void> {
   const { createCanvas, loadImage } = await import('canvas');
   const canvas = createCanvas(W, H);
@@ -188,11 +205,11 @@ async function renderSlide(
 
   // ── Section label — blue caps, top-left
   const SEGMENT_LABELS: Record<string, string> = {
-    intro:       'LESSON INTRODUCTION',
-    concept:     'CORE CONCEPT',
-    visual:      'SYSTEM OVERVIEW',
+    intro: 'LESSON INTRODUCTION',
+    concept: 'CORE CONCEPT',
+    visual: 'SYSTEM OVERVIEW',
     application: 'ON THE JOB',
-    wrapup:      'LESSON SUMMARY',
+    wrapup: 'LESSON SUMMARY',
   };
   const sectionLabel = SEGMENT_LABELS[slide.segment] || slide.segment.toUpperCase();
   ctx.fillStyle = '#3b82f6';
@@ -269,7 +286,9 @@ async function renderSlide(
     try {
       const img = await loadImage(dalleImagePath);
       ctx.drawImage(img, imgX, imgY, imgW, imgH);
-    } catch { /* skip if load fails */ }
+    } catch {
+      /* skip if load fails */
+    }
   } else {
     // Placeholder box
     ctx.fillStyle = '#1e293b';
@@ -296,31 +315,27 @@ async function renderSlide(
 }
 
 // ── ffmpeg: Composite slide PNG + audio into MP4 segment ─────────────
-function buildSegment(
-  slidePng: string,
-  audioMp3: string,
-  duration: number,
-  outPath: string
-): void {
+function buildSegment(slidePng: string, audioMp3: string, duration: number, outPath: string): void {
   execSync(
     `ffmpeg -y -loop 1 -i "${slidePng}" -i "${audioMp3}" ` +
-    `-vf "scale=${W}:${H},format=yuv420p,fade=in:0:15,fade=out:st=${Math.max(0, duration - 0.5)}:d=0.5" ` +
-    `-c:v libx264 -preset fast -crf 20 ` +
-    `-c:a aac -b:a 128k -ar 44100 -ac 2 ` +
-    `-t ${duration} -movflags +faststart "${outPath}"`,
-    { stdio: 'pipe' }
+      `-vf "scale=${W}:${H},format=yuv420p,fade=in:0:15,fade=out:st=${Math.max(0, duration - 0.5)}:d=0.5" ` +
+      `-c:v libx264 -preset fast -crf 20 ` +
+      `-c:a aac -b:a 128k -ar 44100 -ac 2 ` +
+      `-t ${duration} -movflags +faststart "${outPath}"`,
+    { stdio: 'pipe' },
   );
 }
 
 // ── ffmpeg: Concatenate segments into final video ────────────────────
 function assembleVideo(segmentPaths: string[], outPath: string): void {
   const concatFile = outPath.replace('.mp4', '-concat.txt');
-  fs.writeFileSync(concatFile, segmentPaths.map(p => `file '${p}'`).join('\n'));
-  execSync(
-    `ffmpeg -y -f concat -safe 0 -i "${concatFile}" -c copy "${outPath}"`,
-    { stdio: 'pipe' }
-  );
-  try { fs.unlinkSync(concatFile); } catch {}
+  fs.writeFileSync(concatFile, segmentPaths.map((p) => `file '${p}'`).join('\n'));
+  execSync(`ffmpeg -y -f concat -safe 0 -i "${concatFile}" -c copy "${outPath}"`, {
+    stdio: 'pipe',
+  });
+  try {
+    fs.unlinkSync(concatFile);
+  } catch {}
 }
 
 // ── Upload to Supabase storage ───────────────────────────────────────
@@ -351,14 +366,19 @@ async function main() {
   // Fetch lessons
   const { data: lessons, error } = await supabase
     .from('course_lessons')
-    .select(`
+    .select(
+      `
       id, title, content, lesson_type, order_index, video_url,
       module:module_id (title, order_index)
-    `)
+    `,
+    )
     .eq('course_id', HVAC_COURSE_ID)
     .order('order_index');
 
-  if (error || !lessons) { console.error('DB error:', error?.message); process.exit(1); }
+  if (error || !lessons) {
+    console.error('DB error:', error?.message);
+    process.exit(1);
+  }
 
   // Only lesson-type rows, skip checkpoints
   const allLessons = lessons.filter((l: any) => l.lesson_type === 'lesson');
@@ -366,17 +386,19 @@ async function main() {
   const needsVideo = (l: any) =>
     forceAll || !l.video_url || !l.video_url.includes('/course-videos/');
 
-  const targets = allLessons
-    .filter(needsVideo)
-    .slice(startIdx, startIdx + limit);
+  const targets = allLessons.filter(needsVideo).slice(startIdx, startIdx + limit);
 
   console.log(`Total lesson-type rows: ${allLessons.length}`);
-  console.log(`Already have real video: ${allLessons.filter((l: any) => l.video_url && !l.video_url.includes('/hvac/videos/')).length}`);
+  console.log(
+    `Already have real video: ${allLessons.filter((l: any) => l.video_url && !l.video_url.includes('/hvac/videos/')).length}`,
+  );
   console.log(`To generate: ${targets.length}\n`);
 
   if (!dryRun) fs.mkdirSync(TEMP_DIR, { recursive: true });
 
-  let ok = 0, skip = 0, fail = 0;
+  let ok = 0,
+    skip = 0,
+    fail = 0;
   const t0 = Date.now();
 
   for (let i = 0; i < targets.length; i++) {
@@ -389,7 +411,10 @@ async function main() {
 
     if (dryRun) {
       console.log(`  Module: ${moduleTitle}`);
-      const rawContent = typeof lesson.content === 'object' ? (lesson.content as any)?.text || '' : lesson.content || '';
+      const rawContent =
+        typeof lesson.content === 'object'
+          ? (lesson.content as any)?.text || ''
+          : lesson.content || '';
       console.log(`  Content: ${stripHtml(rawContent).length} chars`);
       console.log(`  Current video: ${lesson.video_url ? 'avatar loop' : 'none'}`);
       continue;
@@ -401,15 +426,20 @@ async function main() {
     try {
       // 1. Plan lesson with GPT-4o
       process.stdout.write('  Planning...');
-      const lessonContent = typeof lesson.content === 'object' ? (lesson.content as any)?.text || '' : lesson.content || '';
+      const lessonContent =
+        typeof lesson.content === 'object'
+          ? (lesson.content as any)?.text || ''
+          : lesson.content || '';
       const plan = await planLesson(
         lesson.title,
         lessonContent,
         lessonNum,
         moduleTitle,
-        nextLesson?.title
+        nextLesson?.title,
       );
-      console.log(` ${plan.totalWords} words, ~${Math.round(plan.estSeconds / 60)}:${String(plan.estSeconds % 60).padStart(2,'0')} min`);
+      console.log(
+        ` ${plan.totalWords} words, ~${Math.round(plan.estSeconds / 60)}:${String(plan.estSeconds % 60).padStart(2, '0')} min`,
+      );
 
       const segmentPaths: string[] = [];
 
@@ -428,11 +458,13 @@ async function main() {
         });
         const imgUrl = imgRes.data[0]?.url;
         if (imgUrl) {
-          const imgBuf = await fetch(imgUrl).then(r => r.arrayBuffer());
+          const imgBuf = await fetch(imgUrl).then((r) => r.arrayBuffer());
           fs.writeFileSync(dalleImagePath, Buffer.from(imgBuf));
           process.stdout.write(' ✓\n');
         }
-      } catch { process.stdout.write(' skipped\n'); }
+      } catch {
+        process.stdout.write(' skipped\n');
+      }
 
       // 3. Generate each slide
       for (let s = 0; s < plan.slides.length; s++) {
@@ -444,7 +476,15 @@ async function main() {
         process.stdout.write(` ${duration.toFixed(0)}s | Slide...`);
 
         const slidePng = path.join(dir, `slide-${s}.png`);
-        await renderSlide(slide, s, plan.slides.length, lessonNum, moduleTitle, slidePng, dalleImagePath);
+        await renderSlide(
+          slide,
+          s,
+          plan.slides.length,
+          lessonNum,
+          moduleTitle,
+          slidePng,
+          dalleImagePath,
+        );
         process.stdout.write(` Segment...`);
 
         const segPath = path.join(dir, `seg-${s}.mp4`);
@@ -472,19 +512,25 @@ async function main() {
 
       console.log(`  ✅ ${url.slice(0, 80)}...`);
       ok++;
-
     } catch (err: any) {
       console.error(`  ❌ ${err.message}`);
       fail++;
     } finally {
-      try { fs.rmSync(dir, { recursive: true, force: true }); } catch {}
+      try {
+        fs.rmSync(dir, { recursive: true, force: true });
+      } catch {}
     }
   }
 
-  try { if (!dryRun) fs.rmSync(TEMP_DIR, { recursive: true, force: true }); } catch {}
+  try {
+    if (!dryRun) fs.rmSync(TEMP_DIR, { recursive: true, force: true });
+  } catch {}
 
   const elapsed = ((Date.now() - t0) / 60000).toFixed(1);
   console.log(`\n=== DONE === ${ok} generated | ${skip} skipped | ${fail} failed | ${elapsed} min`);
 }
 
-main().catch(e => { console.error('Fatal:', e); process.exit(1); });
+main().catch((e) => {
+  console.error('Fatal:', e);
+  process.exit(1);
+});

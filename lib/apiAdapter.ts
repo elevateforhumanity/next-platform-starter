@@ -1,4 +1,3 @@
-
 import { createServerClient } from '@/lib/supabase/server';
 import integrations from '../config/integrations.json';
 
@@ -111,7 +110,7 @@ const externalRestApiAdapter: ApiAdapter = {
         {
           headers: { 'Content-Type': 'application/json' },
           cache: 'no-store',
-        }
+        },
       );
       if (!res.ok) {
         if (res.status === 404) return null;

@@ -3,7 +3,7 @@ import { requireActiveLicense, License } from './requireActiveLicense';
 
 /**
  * STEP 5C: Feature Entitlement Enforcement
- * 
+ *
  * Features are stored in license.features JSONB:
  * {
  *   "ai_features": true,
@@ -17,7 +17,7 @@ import { requireActiveLicense, License } from './requireActiveLicense';
  * }
  */
 
-export type FeatureName = 
+export type FeatureName =
   | 'ai_features'
   | 'white_label'
   | 'custom_domain'
@@ -30,9 +30,11 @@ export type FeatureName =
 export class FeatureNotEnabledError extends Error {
   public statusCode: number = 403;
   public feature: string;
-  
+
   constructor(feature: string) {
-    super(`Feature '${feature}' is not enabled for your license plan. Please upgrade to access this feature.`);
+    super(
+      `Feature '${feature}' is not enabled for your license plan. Please upgrade to access this feature.`,
+    );
     this.name = 'FeatureNotEnabledError';
     this.feature = feature;
   }
@@ -43,9 +45,11 @@ export class LimitExceededError extends Error {
   public limitType: string;
   public current: number;
   public max: number;
-  
+
   constructor(limitType: string, current: number, max: number) {
-    super(`${limitType} limit exceeded. Current: ${current}, Maximum: ${max}. Please upgrade your plan.`);
+    super(
+      `${limitType} limit exceeded. Current: ${current}, Maximum: ${max}. Please upgrade your plan.`,
+    );
     this.name = 'LimitExceededError';
     this.limitType = limitType;
     this.current = current;
@@ -62,7 +66,7 @@ export function hasFeature(license: License, feature: FeatureName): boolean {
 
 /**
  * Require a specific feature to be enabled
- * 
+ *
  * Usage:
  * ```
  * const license = await requireActiveLicense();
@@ -78,7 +82,7 @@ export function requireFeature(license: License, feature: FeatureName): void {
 
 /**
  * Require active license AND specific feature
- * 
+ *
  * Usage:
  * ```
  * const license = await requireLicenseWithFeature('api_access');
@@ -96,16 +100,16 @@ export async function requireLicenseWithFeature(feature: FeatureName): Promise<L
 export function checkLimit(
   license: License,
   limitType: 'users' | 'students' | 'programs',
-  currentCount: number
+  currentCount: number,
 ): void {
   const limitMap = {
     users: license.max_users,
     students: license.max_students,
     programs: license.max_programs,
   };
-  
+
   const max = limitMap[limitType];
-  
+
   // null means unlimited
   if (max !== null && currentCount >= max) {
     throw new LimitExceededError(limitType, currentCount, max);
@@ -115,27 +119,29 @@ export function checkLimit(
 /**
  * Create error response for feature/limit errors
  */
-export function featureErrorResponse(error: FeatureNotEnabledError | LimitExceededError): NextResponse {
+export function featureErrorResponse(
+  error: FeatureNotEnabledError | LimitExceededError,
+): NextResponse {
   if (error instanceof FeatureNotEnabledError) {
     return NextResponse.json(
-      { 
+      {
         error: 'Operation failed',
         code: 'FEATURE_NOT_ENABLED',
-        feature: error.feature
+        feature: error.feature,
       },
-      { status: error.statusCode }
+      { status: error.statusCode },
     );
   }
-  
+
   return NextResponse.json(
-    { 
+    {
       error: 'Operation failed',
       code: 'LIMIT_EXCEEDED',
       limitType: error.limitType,
       current: error.current,
-      max: error.max
+      max: error.max,
     },
-    { status: error.statusCode }
+    { status: error.statusCode },
   );
 }
 
@@ -144,7 +150,7 @@ export function featureErrorResponse(error: FeatureNotEnabledError | LimitExceed
  */
 export function getEnabledFeatures(license: License): FeatureName[] {
   if (!license.features) return [];
-  
+
   return Object.entries(license.features)
     .filter(([, enabled]) => enabled === true)
     .map(([feature]) => feature as FeatureName);
@@ -154,12 +160,12 @@ export function getEnabledFeatures(license: License): FeatureName[] {
  * Check multiple features at once
  */
 export function hasAllFeatures(license: License, features: FeatureName[]): boolean {
-  return features.every(feature => hasFeature(license, feature));
+  return features.every((feature) => hasFeature(license, feature));
 }
 
 /**
  * Check if any of the features are enabled
  */
 export function hasAnyFeature(license: License, features: FeatureName[]): boolean {
-  return features.some(feature => hasFeature(license, feature));
+  return features.some((feature) => hasFeature(license, feature));
 }

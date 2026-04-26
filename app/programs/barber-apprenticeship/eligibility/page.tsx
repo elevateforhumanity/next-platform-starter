@@ -16,7 +16,8 @@ import {
 
 export const metadata: Metadata = {
   title: 'Check Funding Eligibility | Barber Apprenticeship | Elevate for Humanity',
-  description: 'Learn how to check your eligibility for WIOA or Workforce Ready Grant funding for the Barber Apprenticeship program.',
+  description:
+    'Learn how to check your eligibility for WIOA or Workforce Ready Grant funding for the Barber Apprenticeship program.',
 };
 
 export default function BarberEligibilityPage() {
@@ -31,11 +32,10 @@ export default function BarberEligibilityPage() {
           >
             ← Back to Program Details
           </Link>
-          <h1 className="text-3xl sm:text-4xl font-bold mb-4">
-            Check Your Funding Eligibility
-          </h1>
+          <h1 className="text-3xl sm:text-4xl font-bold mb-4">Check Your Funding Eligibility</h1>
           <p className="text-xl text-blue-100">
-            The Barber Apprenticeship may be available at no cost through WIOA or Workforce Ready Grant funding.
+            The Barber Apprenticeship may be available at no cost through WIOA or Workforce Ready
+            Grant funding.
           </p>
         </div>
       </section>
@@ -44,7 +44,7 @@ export default function BarberEligibilityPage() {
       <section className="py-12 bg-gray-50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
           <h2 className="text-2xl font-bold text-gray-900 mb-6">What is Funded Training?</h2>
-          
+
           <div className="grid md:grid-cols-2 gap-6">
             <div className="bg-white rounded-xl p-6 shadow-sm border">
               <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4">
@@ -52,8 +52,8 @@ export default function BarberEligibilityPage() {
               </div>
               <h3 className="text-lg font-bold text-gray-900 mb-2">WIOA Funding</h3>
               <p className="text-gray-600 text-sm mb-3">
-                The Workforce Innovation and Opportunity Act (WIOA) provides funding for eligible adults 
-                and dislocated workers to receive job training at no cost.
+                The Workforce Innovation and Opportunity Act (WIOA) provides funding for eligible
+                adults and dislocated workers to receive job training at no cost.
               </p>
               <ul className="text-sm text-gray-600 space-y-1">
                 <li>• Must be 18+ years old</li>
@@ -68,7 +68,7 @@ export default function BarberEligibilityPage() {
               </div>
               <h3 className="text-lg font-bold text-gray-900 mb-2">Workforce Ready Grant (WRG)</h3>
               <p className="text-gray-600 text-sm mb-3">
-                Indiana's Workforce Ready Grant covers tuition for high-demand certificate programs 
+                Indiana's Workforce Ready Grant covers tuition for high-demand certificate programs
                 for Indiana residents.
               </p>
               <ul className="text-sm text-gray-600 space-y-1">
@@ -86,7 +86,7 @@ export default function BarberEligibilityPage() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
           <h2 className="text-2xl font-bold text-gray-900 mb-2">How to Check Your Eligibility</h2>
           <p className="text-gray-600 mb-8">
-            Eligibility is determined by your local WorkOne office through Indiana Career Connect. 
+            Eligibility is determined by your local WorkOne office through Indiana Career Connect.
             Follow these steps to get started:
           </p>
 
@@ -101,8 +101,8 @@ export default function BarberEligibilityPage() {
                   Create an Indiana Career Connect Account
                 </h3>
                 <p className="text-gray-600 mb-3">
-                  Visit Indiana Career Connect and create a free account. This is the state's official 
-                  workforce development portal.
+                  Visit Indiana Career Connect and create a free account. This is the state's
+                  official workforce development portal.
                 </p>
                 <a
                   href="https://www.indianacareerconnect.com"
@@ -126,15 +126,19 @@ export default function BarberEligibilityPage() {
                   Schedule an Intake Appointment
                 </h3>
                 <p className="text-gray-600 mb-3">
-                  Contact your local WorkOne office to schedule an eligibility intake appointment. 
-                  During this appointment, a case manager will review your situation and determine 
+                  Contact your local WorkOne office to schedule an eligibility intake appointment.
+                  During this appointment, a case manager will review your situation and determine
                   which funding programs you qualify for.
                 </p>
                 <div className="bg-gray-50 rounded-lg p-4">
-                  <p className="font-medium text-gray-900 mb-2">Marion County WorkOne (Indianapolis):</p>
+                  <p className="font-medium text-gray-900 mb-2">
+                    Marion County WorkOne (Indianapolis):
+                  </p>
                   <div className="flex items-center gap-2 text-gray-600 mb-1">
                     <Phone className="w-4 h-4" />
-                    <a href="tel:3176842400" className="hover:text-blue-600">(317) 684-2400</a>
+                    <a href="tel:3176842400" className="hover:text-blue-600">
+                      (317) 684-2400
+                    </a>
                   </div>
                   <div className="flex items-center gap-2 text-gray-600">
                     <MapPin className="w-4 h-4" />
@@ -195,14 +199,16 @@ export default function BarberEligibilityPage() {
                   Request Elevate for Humanity as Your Training Provider
                 </h3>
                 <p className="text-gray-600 mb-3">
-                  Once you're determined eligible, tell your case manager you want to enroll in the 
-                  <strong> Barber Apprenticeship with Elevate for Humanity</strong>. We are an approved 
-                  ETPL (Eligible Training Provider List) provider.
+                  Once you're determined eligible, tell your case manager you want to enroll in the
+                  <strong> Barber Apprenticeship with Elevate for Humanity</strong>. We are an
+                  approved ETPL (Eligible Training Provider List) provider.
                 </p>
                 <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
                   <p className="text-blue-900 text-sm">
-                    <strong>Provider Name:</strong> Elevate for Humanity<br />
-                    <strong>Program:</strong> Barber Apprenticeship (2,000 hours)<br />
+                    <strong>Provider Name:</strong> Elevate for Humanity
+                    <br />
+                    <strong>Program:</strong> Barber Apprenticeship (2,000 hours)
+                    <br />
                     <strong>RAPIDS Code:</strong> 0626CB
                   </p>
                 </div>
@@ -215,13 +221,11 @@ export default function BarberEligibilityPage() {
                 5
               </div>
               <div className="flex-1">
-                <h3 className="text-lg font-bold text-gray-900 mb-2">
-                  We'll Handle the Rest
-                </h3>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">We'll Handle the Rest</h3>
                 <p className="text-gray-600">
-                  Once your funding is approved, we'll receive notification from your case manager. 
-                  We'll then contact you to complete enrollment and match you with a partner barbershop 
-                  to begin your apprenticeship.
+                  Once your funding is approved, we'll receive notification from your case manager.
+                  We'll then contact you to complete enrollment and match you with a partner
+                  barbershop to begin your apprenticeship.
                 </p>
               </div>
             </div>
@@ -233,24 +237,30 @@ export default function BarberEligibilityPage() {
       <section className="py-12 bg-gray-50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
           <h2 className="text-2xl font-bold text-gray-900 mb-6">Expected Timeline</h2>
-          
+
           <div className="flex items-center gap-4 flex-wrap">
             <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-lg shadow-sm">
               <Clock className="w-5 h-5 text-blue-600" />
-              <span className="text-sm"><strong>1-2 weeks:</strong> Intake appointment</span>
+              <span className="text-sm">
+                <strong>1-2 weeks:</strong> Intake appointment
+              </span>
             </div>
             <ArrowRight className="w-5 h-5 text-gray-400 hidden sm:block" />
             <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-lg shadow-sm">
               <Clock className="w-5 h-5 text-blue-600" />
-              <span className="text-sm"><strong>1-2 weeks:</strong> Eligibility determination</span>
+              <span className="text-sm">
+                <strong>1-2 weeks:</strong> Eligibility determination
+              </span>
             </div>
             <ArrowRight className="w-5 h-5 text-gray-400 hidden sm:block" />
             <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-lg shadow-sm">
               <Clock className="w-5 h-5 text-green-600" />
-              <span className="text-sm"><strong>1 week:</strong> Enrollment & shop placement</span>
+              <span className="text-sm">
+                <strong>1 week:</strong> Enrollment & shop placement
+              </span>
             </div>
           </div>
-          
+
           <p className="text-gray-500 text-sm mt-4">
             Total time from first contact to starting training: approximately 3-5 weeks
           </p>
@@ -268,7 +278,7 @@ export default function BarberEligibilityPage() {
                   Don't Want to Wait? Self-Pay Option Available
                 </h3>
                 <p className="text-amber-800 mb-4">
-                  If you don't qualify for funding or prefer to start immediately, you can enroll 
+                  If you don't qualify for funding or prefer to start immediately, you can enroll
                   directly with our self-pay option. Payment plans are available.
                 </p>
                 <div className="flex flex-wrap gap-3">
@@ -296,9 +306,7 @@ export default function BarberEligibilityPage() {
       <section className="py-12 bg-slate-900 text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
           <h2 className="text-2xl font-bold mb-4">Questions About Eligibility?</h2>
-          <p className="text-slate-300 mb-6">
-            Our team can help guide you through the process.
-          </p>
+          <p className="text-slate-300 mb-6">Our team can help guide you through the process.</p>
           <div className="flex flex-wrap justify-center gap-4">
             <a
               href="tel:+13173143757"

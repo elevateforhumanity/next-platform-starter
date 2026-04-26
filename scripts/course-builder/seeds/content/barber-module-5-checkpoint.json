@@ -26,12 +26,7 @@
       },
       {
         "prompt": "During a beard trim, a client requests a specific style that requires precise lines. Which tool is best suited for this task?",
-        "choices": [
-          "Straight razor",
-          "Electric clipper",
-          "Scissors",
-          "Beard comb"
-        ],
+        "choices": ["Straight razor", "Electric clipper", "Scissors", "Beard comb"],
         "answerIndex": 0,
         "rationale": "A straight razor allows for the most precise lines and detailing in beard styling."
       },
@@ -92,12 +87,7 @@
       },
       {
         "prompt": "When sanitizing a straight razor, what is the minimum recommended contact time with a disinfectant solution?",
-        "choices": [
-          "10 seconds",
-          "1 minute",
-          "5 minutes",
-          "15 minutes"
-        ],
+        "choices": ["10 seconds", "1 minute", "5 minutes", "15 minutes"],
         "answerIndex": 2,
         "rationale": "A contact time of 5 minutes is generally recommended to ensure effective disinfection."
       },
@@ -114,12 +104,7 @@
       },
       {
         "prompt": "Which of the following is a contraindication for a straight razor shave?",
-        "choices": [
-          "Dry skin",
-          "Acne",
-          "Oily skin",
-          "Thick beard"
-        ],
+        "choices": ["Dry skin", "Acne", "Oily skin", "Thick beard"],
         "answerIndex": 1,
         "rationale": "Acne can be irritated or cut during a straight razor shave, making it a contraindication."
       },
@@ -191,12 +176,7 @@
       },
       {
         "prompt": "During a shave, the client mentions they have a latex allergy. What should you avoid using?",
-        "choices": [
-          "Latex gloves",
-          "Shaving cream",
-          "Aftershave lotion",
-          "Straight razor"
-        ],
+        "choices": ["Latex gloves", "Shaving cream", "Aftershave lotion", "Straight razor"],
         "answerIndex": 0,
         "rationale": "Latex gloves should be avoided to prevent allergic reactions in clients with latex allergies."
       },
@@ -213,12 +193,7 @@
       },
       {
         "prompt": "A client with a thick beard wants a close shave. Which razor type is most suitable for this task?",
-        "choices": [
-          "Disposable razor",
-          "Electric razor",
-          "Safety razor",
-          "Straight razor"
-        ],
+        "choices": ["Disposable razor", "Electric razor", "Safety razor", "Straight razor"],
         "answerIndex": 3,
         "rationale": "A straight razor provides a closer shave and is ideal for thick beards."
       }

@@ -57,16 +57,16 @@ export function checkpointGateResponse(): NextResponse {
   return NextResponse.json(
     {
       error: 'You must pass the required checkpoint before continuing.',
-      code:  'CHECKPOINT_NOT_PASSED',
+      code: 'CHECKPOINT_NOT_PASSED',
     },
-    { status: 403 }
+    { status: 403 },
   );
 }
 
 export async function enforceCheckpointGate(
   userId: string,
   lessonId: string,
-  courseId: string
+  courseId: string,
 ): Promise<void> {
   const db = await getAdminClient();
 
@@ -131,12 +131,12 @@ export async function enforceCheckpointGate(
 
   if (!bestScore) {
     const err: CheckpointGateError = {
-      code:               'CHECKPOINT_NOT_PASSED',
-      message:            `You must pass "${prevCheckpoint.title}" (≥${prevCheckpoint.passing_score}%) before continuing.`,
+      code: 'CHECKPOINT_NOT_PASSED',
+      message: `You must pass "${prevCheckpoint.title}" (≥${prevCheckpoint.passing_score}%) before continuing.`,
       checkpointLessonId: prevCheckpoint.id,
-      checkpointTitle:    prevCheckpoint.title,
-      requiredScore:      prevCheckpoint.passing_score ?? 80,
-      bestScore:          null,
+      checkpointTitle: prevCheckpoint.title,
+      requiredScore: prevCheckpoint.passing_score ?? 80,
+      bestScore: null,
     };
     throw err;
   }

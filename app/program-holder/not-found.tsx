@@ -7,9 +7,7 @@ export default function ProgramHolderNotFound() {
       <div className="text-center px-4 max-w-lg">
         <div className="text-6xl font-black text-slate-700 mb-4">404</div>
         <h2 className="text-xl font-bold text-slate-900 mb-3">Page Not Found</h2>
-        <p className="text-slate-700 mb-6">
-          This program holder page doesn&apos;t exist.
-        </p>
+        <p className="text-slate-700 mb-6">This program holder page doesn&apos;t exist.</p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <Link
             href="/program-holder/dashboard"

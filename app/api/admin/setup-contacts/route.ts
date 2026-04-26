@@ -1,4 +1,3 @@
-
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { withAuth } from '@/lib/with-auth';
@@ -137,8 +136,7 @@ const _POST = withAuth(
         {
           email: 'rerobison5@gmail.com',
           full_name: 'robert robison',
-          message:
-            'I am interested in starting a business and need help with funding',
+          message: 'I am interested in starting a business and need help with funding',
           interest: 'Business Start-Up',
           status: 'new',
         },
@@ -224,15 +222,10 @@ const _POST = withAuth(
       let skipped = 0;
 
       for (const contact of contacts) {
-        const { error } = await supabase
-          .from('marketing_contacts')
-          .insert(contact);
+        const { error } = await supabase.from('marketing_contacts').insert(contact);
 
         if (error) {
-          if (
-            (error as any).code === '23505' ||
-            toErrorMessage(error)?.includes('duplicate')
-          ) {
+          if ((error as any).code === '23505' || toErrorMessage(error)?.includes('duplicate')) {
             skipped++;
           } else {
             logger.error(`Error inserting ${contact.email}:`, toError(error));
@@ -247,8 +240,18 @@ const _POST = withAuth(
         .from('marketing_contacts')
         .select('*', { count: 'exact', head: true });
 
-      const { data: { user } } = await supabase.auth.getUser();
-      if (user) await logAdminAudit({ action: AdminAction.CONTACTS_SETUP, actorId: user.id, entityType: 'marketing_contacts', entityId: BULK_ENTITY_ID, metadata: { inserted, skipped, total: count || 0 }, req: request });
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (user)
+        await logAdminAudit({
+          action: AdminAction.CONTACTS_SETUP,
+          actorId: user.id,
+          entityType: 'marketing_contacts',
+          entityId: BULK_ENTITY_ID,
+          metadata: { inserted, skipped, total: count || 0 },
+          req: request,
+        });
 
       return NextResponse.json({
         success: true,
@@ -260,19 +263,16 @@ const _POST = withAuth(
         },
       });
     } catch (err: any) {
-      logger.error(
-        'Setup error:',
-        err instanceof Error ? err : new Error(String(err))
-      );
+      logger.error('Setup error:', err instanceof Error ? err : new Error(String(err)));
       return NextResponse.json(
         {
           error: 'Setup failed',
           details: err.toString(),
         },
-        { status: 500 }
+        { status: 500 },
       );
     }
   },
-  { roles: ['admin', 'super_admin'] }
+  { roles: ['admin', 'super_admin'] },
 );
 export const POST = withApiAudit('/api/admin/setup-contacts', _POST);

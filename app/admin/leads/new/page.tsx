@@ -1,4 +1,3 @@
-
 import { requireRole } from '@/lib/auth/require-role';
 import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
@@ -18,11 +17,10 @@ export default async function NewLeadPage() {
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* Hero Image */}
       <div className="max-w-3xl mx-auto px-4 py-8">
         <div className="mb-8">
-          <Link 
+          <Link
             href="/admin/leads"
             className="inline-flex items-center gap-2 text-slate-700 hover:text-slate-900 mb-4"
           >
@@ -33,7 +31,11 @@ export default async function NewLeadPage() {
           <p className="text-slate-700 mt-1">Enter prospective student information</p>
         </div>
 
-        <form action="/api/admin/leads" method="POST" className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <form
+          action="/api/admin/leads"
+          method="POST"
+          className="bg-white rounded-xl shadow-sm border border-gray-200 p-6"
+        >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             <div>
               <label className="block text-sm font-medium text-slate-900 mb-1">First Name *</label>
@@ -78,8 +80,13 @@ export default async function NewLeadPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             <div>
-              <label className="block text-sm font-medium text-slate-900 mb-1">Program Interest</label>
-              <select name="program_interest" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500">
+              <label className="block text-sm font-medium text-slate-900 mb-1">
+                Program Interest
+              </label>
+              <select
+                name="program_interest"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500"
+              >
                 <option value="">Select a program...</option>
                 <option value="CNA">CNA</option>
                 <option value="Medical Admin">Medical Administrative Assistant</option>
@@ -92,7 +99,10 @@ export default async function NewLeadPage() {
             </div>
             <div>
               <label className="block text-sm font-medium text-slate-900 mb-1">Source</label>
-              <select name="source" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500">
+              <select
+                name="source"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500"
+              >
                 <option value="website">Website</option>
                 <option value="referral">Referral</option>
                 <option value="social_media">Social Media</option>

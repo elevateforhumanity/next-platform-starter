@@ -22,7 +22,10 @@ export default function FooterAccordion({ sections }: Props) {
   const [open, setOpen] = useState<string | null>(null);
 
   return (
-    <nav aria-label="Footer navigation" className="divide-y divide-slate-800 border-y border-slate-800 mb-10">
+    <nav
+      aria-label="Footer navigation"
+      className="divide-y divide-slate-800 border-y border-slate-800 mb-10"
+    >
       {sections.map((section) => {
         const isOpen = open === section.title;
         return (

@@ -80,15 +80,71 @@ const patches = [
 </ul>
 <p>Most professional barbers sharpen or replace blades every 3-6 months depending on volume. Keep a log of maintenance dates.</p>`,
     competency_checks: [
-      { key: 'clipper_maintenance', label: 'Clipper Maintenance Procedure', requiresInstructorSignoff: true, isCritical: false },
+      {
+        key: 'clipper_maintenance',
+        label: 'Clipper Maintenance Procedure',
+        requiresInstructorSignoff: true,
+        isCritical: false,
+      },
     ],
     practical_required: true,
     quiz_questions: [
-      { id: 'l15q1', question: 'What does a higher blade number indicate on a clipper blade?', options: ['A longer cut', 'A shorter cut', 'A wider blade', 'A faster motor'], correctAnswer: 1, explanation: 'Higher blade numbers cut shorter. A #10 blade cuts closer to the skin than a #1 blade.' },
-      { id: 'l15q2', question: 'How many drops of clipper oil should be applied during routine maintenance?', options: ['5-10 drops', '2-3 drops', '1 drop only', 'Soak the blade completely'], correctAnswer: 1, explanation: '2-3 drops of clipper oil on the top blade while running is the standard. Excess oil should be wiped off before client use.' },
-      { id: 'l15q3', question: 'What is the correct position of the top blade relative to the bottom blade?', options: ['Flush with the bottom blade', '1/16" behind the bottom blade', '1/4" behind the bottom blade', 'Slightly in front of the bottom blade'], correctAnswer: 1, explanation: 'The top blade should sit 1/16" behind the bottom blade. Misalignment causes nicks and uneven cuts.' },
-      { id: 'l15q4', question: 'A clipper continues to pull hair even after cleaning and oiling. What should you do?', options: ['Apply more oil and continue using it', 'Send it for professional blade sharpening or replacement', 'Use it only on shorter hair', 'Increase the motor speed setting'], correctAnswer: 1, explanation: 'Persistent pulling after maintenance indicates dull blades that need professional sharpening or replacement.' },
-      { id: 'l15q5', question: 'What is the purpose of clipper spray (such as Andis Cool Care)?', options: ['It adds fragrance to the clipper', 'It cools, cleans, and disinfects the blade simultaneously', 'It replaces the need for clipper oil', 'It sharpens the blade edges'], correctAnswer: 1, explanation: 'Clipper spray cools the blade, removes debris, and disinfects — all in one step.' },
+      {
+        id: 'l15q1',
+        question: 'What does a higher blade number indicate on a clipper blade?',
+        options: ['A longer cut', 'A shorter cut', 'A wider blade', 'A faster motor'],
+        correctAnswer: 1,
+        explanation:
+          'Higher blade numbers cut shorter. A #10 blade cuts closer to the skin than a #1 blade.',
+      },
+      {
+        id: 'l15q2',
+        question: 'How many drops of clipper oil should be applied during routine maintenance?',
+        options: ['5-10 drops', '2-3 drops', '1 drop only', 'Soak the blade completely'],
+        correctAnswer: 1,
+        explanation:
+          '2-3 drops of clipper oil on the top blade while running is the standard. Excess oil should be wiped off before client use.',
+      },
+      {
+        id: 'l15q3',
+        question: 'What is the correct position of the top blade relative to the bottom blade?',
+        options: [
+          'Flush with the bottom blade',
+          '1/16" behind the bottom blade',
+          '1/4" behind the bottom blade',
+          'Slightly in front of the bottom blade',
+        ],
+        correctAnswer: 1,
+        explanation:
+          'The top blade should sit 1/16" behind the bottom blade. Misalignment causes nicks and uneven cuts.',
+      },
+      {
+        id: 'l15q4',
+        question:
+          'A clipper continues to pull hair even after cleaning and oiling. What should you do?',
+        options: [
+          'Apply more oil and continue using it',
+          'Send it for professional blade sharpening or replacement',
+          'Use it only on shorter hair',
+          'Increase the motor speed setting',
+        ],
+        correctAnswer: 1,
+        explanation:
+          'Persistent pulling after maintenance indicates dull blades that need professional sharpening or replacement.',
+      },
+      {
+        id: 'l15q5',
+        question: 'What is the purpose of clipper spray (such as Andis Cool Care)?',
+        options: [
+          'It adds fragrance to the clipper',
+          'It cools, cleans, and disinfects the blade simultaneously',
+          'It replaces the need for clipper oil',
+          'It sharpens the blade edges',
+        ],
+        correctAnswer: 1,
+        explanation:
+          'Clipper spray cools the blade, removes debris, and disinfects — all in one step.',
+      },
     ],
   },
   {
@@ -149,11 +205,56 @@ const patches = [
   <li><strong>Annually:</strong> Professional sharpening. Never attempt to sharpen shears yourself with a household sharpener — it will damage the convex edge.</li>
 </ul>`,
     quiz_questions: [
-      { id: 'l16q1', question: 'Which finger should be the ONLY one moving when using barber shears?', options: ['Index finger', 'Ring finger', 'Thumb', 'Pinky'], correctAnswer: 2, explanation: 'Only the thumb moves when cutting. The finger ring stays stationary. Moving both causes fatigue and imprecision.' },
-      { id: 'l16q2', question: 'What cutting technique creates texture by cutting into the ends of the hair at an angle?', options: ['Blunt cutting', 'Point cutting', 'Slide cutting', 'Scissor-over-comb'], correctAnswer: 1, explanation: 'Point cutting uses the tips of the shear to cut into hair ends at an angle, creating texture and removing bulk.' },
-      { id: 'l16q3', question: 'Why should shears NOT be submerged in Barbicide?', options: ['Barbicide does not disinfect metal tools', 'Barbicide corrodes the metal and damages the blades', 'Barbicide is only for plastic tools', 'Submersion dulls the blade edge'], correctAnswer: 1, explanation: 'Barbicide corrodes metal shears. Use spray or wipe disinfection instead.' },
-      { id: 'l16q4', question: 'In scissor-over-comb technique, what determines the graduation of the cut?', options: ['The speed of the cutting strokes', 'The angle of the comb', 'The size of the shear', 'The direction of hair growth'], correctAnswer: 1, explanation: 'The angle of the comb determines how much hair is lifted and therefore the graduation of the cut.' },
-      { id: 'l16q5', question: 'A properly tensioned shear should fall open to what angle under its own weight?', options: ['90 degrees', '60 degrees', '45 degrees', '30 degrees'], correctAnswer: 2, explanation: 'A properly tensioned shear falls open to 45 degrees under its own weight when held by the thumb ring.' },
+      {
+        id: 'l16q1',
+        question: 'Which finger should be the ONLY one moving when using barber shears?',
+        options: ['Index finger', 'Ring finger', 'Thumb', 'Pinky'],
+        correctAnswer: 2,
+        explanation:
+          'Only the thumb moves when cutting. The finger ring stays stationary. Moving both causes fatigue and imprecision.',
+      },
+      {
+        id: 'l16q2',
+        question:
+          'What cutting technique creates texture by cutting into the ends of the hair at an angle?',
+        options: ['Blunt cutting', 'Point cutting', 'Slide cutting', 'Scissor-over-comb'],
+        correctAnswer: 1,
+        explanation:
+          'Point cutting uses the tips of the shear to cut into hair ends at an angle, creating texture and removing bulk.',
+      },
+      {
+        id: 'l16q3',
+        question: 'Why should shears NOT be submerged in Barbicide?',
+        options: [
+          'Barbicide does not disinfect metal tools',
+          'Barbicide corrodes the metal and damages the blades',
+          'Barbicide is only for plastic tools',
+          'Submersion dulls the blade edge',
+        ],
+        correctAnswer: 1,
+        explanation: 'Barbicide corrodes metal shears. Use spray or wipe disinfection instead.',
+      },
+      {
+        id: 'l16q4',
+        question: 'In scissor-over-comb technique, what determines the graduation of the cut?',
+        options: [
+          'The speed of the cutting strokes',
+          'The angle of the comb',
+          'The size of the shear',
+          'The direction of hair growth',
+        ],
+        correctAnswer: 1,
+        explanation:
+          'The angle of the comb determines how much hair is lifted and therefore the graduation of the cut.',
+      },
+      {
+        id: 'l16q5',
+        question: 'A properly tensioned shear should fall open to what angle under its own weight?',
+        options: ['90 degrees', '60 degrees', '45 degrees', '30 degrees'],
+        correctAnswer: 2,
+        explanation:
+          'A properly tensioned shear falls open to 45 degrees under its own weight when held by the thumb ring.',
+      },
     ],
   },
   {
@@ -227,16 +328,77 @@ const patches = [
   <li>Recent facial surgery or chemical peel</li>
 </ul>`,
     competency_checks: [
-      { key: 'razor_blade_change', label: 'Razor Blade Change', requiresInstructorSignoff: true, isCritical: true },
-      { key: 'straight_razor_grip', label: 'Straight Razor Grip & Stroke', requiresInstructorSignoff: true, isCritical: true },
+      {
+        key: 'razor_blade_change',
+        label: 'Razor Blade Change',
+        requiresInstructorSignoff: true,
+        isCritical: true,
+      },
+      {
+        key: 'straight_razor_grip',
+        label: 'Straight Razor Grip & Stroke',
+        requiresInstructorSignoff: true,
+        isCritical: true,
+      },
     ],
     practical_required: true,
     quiz_questions: [
-      { id: 'l17q1', question: 'What is the correct blade angle for a straight razor against the skin?', options: ['10 degrees', '30 degrees', '45 degrees', '60 degrees'], correctAnswer: 1, explanation: 'The blade should be held at 30 degrees to the skin. Too flat = no cutting; too steep = cuts the skin.' },
-      { id: 'l17q2', question: 'In the three-pass shaving method, which pass should always come first?', options: ['Against the grain', 'Across the grain', 'With the grain', 'The order does not matter'], correctAnswer: 2, explanation: 'Always start with the grain (WTG) to remove bulk hair with minimum irritation before subsequent passes.' },
-      { id: 'l17q3', question: 'Why is a hot towel applied before a straight razor shave?', options: ['To open the pores for product absorption only', 'To soften the hair shaft and relax the skin, reducing cutting force by 70%', 'To disinfect the skin before the razor contacts it', 'To remove excess oil that would interfere with the razor'], correctAnswer: 1, explanation: 'A hot towel softens the hair shaft and opens the follicle, reducing the force needed to cut by approximately 70%.' },
-      { id: 'l17q4', question: 'A client has active pseudofolliculitis barbae (razor bumps). What should you do?', options: ['Proceed with WTG and XTG passes only, skip ATG', 'Decline the straight razor service and recommend treatment', 'Apply extra lather and proceed normally', 'Use a safety razor instead of a straight razor'], correctAnswer: 1, explanation: 'Active razor bumps are a contraindication for straight razor shaving. Decline the service and recommend appropriate treatment.' },
-      { id: 'l17q5', question: 'When changing a straight razor blade, what must you wear?', options: ['A face shield', 'Gloves', 'Safety glasses', 'An apron'], correctAnswer: 1, explanation: 'Gloves must be worn when handling used razor blades to prevent bloodborne pathogen exposure.' },
+      {
+        id: 'l17q1',
+        question: 'What is the correct blade angle for a straight razor against the skin?',
+        options: ['10 degrees', '30 degrees', '45 degrees', '60 degrees'],
+        correctAnswer: 1,
+        explanation:
+          'The blade should be held at 30 degrees to the skin. Too flat = no cutting; too steep = cuts the skin.',
+      },
+      {
+        id: 'l17q2',
+        question: 'In the three-pass shaving method, which pass should always come first?',
+        options: [
+          'Against the grain',
+          'Across the grain',
+          'With the grain',
+          'The order does not matter',
+        ],
+        correctAnswer: 2,
+        explanation:
+          'Always start with the grain (WTG) to remove bulk hair with minimum irritation before subsequent passes.',
+      },
+      {
+        id: 'l17q3',
+        question: 'Why is a hot towel applied before a straight razor shave?',
+        options: [
+          'To open the pores for product absorption only',
+          'To soften the hair shaft and relax the skin, reducing cutting force by 70%',
+          'To disinfect the skin before the razor contacts it',
+          'To remove excess oil that would interfere with the razor',
+        ],
+        correctAnswer: 1,
+        explanation:
+          'A hot towel softens the hair shaft and opens the follicle, reducing the force needed to cut by approximately 70%.',
+      },
+      {
+        id: 'l17q4',
+        question:
+          'A client has active pseudofolliculitis barbae (razor bumps). What should you do?',
+        options: [
+          'Proceed with WTG and XTG passes only, skip ATG',
+          'Decline the straight razor service and recommend treatment',
+          'Apply extra lather and proceed normally',
+          'Use a safety razor instead of a straight razor',
+        ],
+        correctAnswer: 1,
+        explanation:
+          'Active razor bumps are a contraindication for straight razor shaving. Decline the service and recommend appropriate treatment.',
+      },
+      {
+        id: 'l17q5',
+        question: 'When changing a straight razor blade, what must you wear?',
+        options: ['A face shield', 'Gloves', 'Safety glasses', 'An apron'],
+        correctAnswer: 1,
+        explanation:
+          'Gloves must be worn when handling used razor blades to prevent bloodborne pathogen exposure.',
+      },
     ],
   },
 ];
@@ -244,11 +406,11 @@ const patches = [
 async function main() {
   for (const patch of patches) {
     const updateData: Record<string, unknown> = {
-      title:               patch.title,
+      title: patch.title,
       learning_objectives: patch.learning_objectives,
-      content:             patch.content,
-      quiz_questions:      patch.quiz_questions,
-      updated_at:          new Date().toISOString(),
+      content: patch.content,
+      quiz_questions: patch.quiz_questions,
+      updated_at: new Date().toISOString(),
     };
     if ('competency_checks' in patch) updateData.competency_checks = patch.competency_checks;
     if ('practical_required' in patch) updateData.practical_required = patch.practical_required;
@@ -262,9 +424,14 @@ async function main() {
     if (error) {
       console.error(`❌ ${patch.slug}:`, error.message);
     } else {
-      console.log(`✅ ${patch.slug} — "${patch.title}" — ${patch.learning_objectives.length} obj, ${patch.quiz_questions.length} q`);
+      console.log(
+        `✅ ${patch.slug} — "${patch.title}" — ${patch.learning_objectives.length} obj, ${patch.quiz_questions.length} q`,
+      );
     }
   }
 }
 
-main().catch(e => { console.error(e); process.exit(1); });
+main().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});

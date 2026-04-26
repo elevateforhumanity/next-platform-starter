@@ -3,13 +3,12 @@
 import { readFileSync, readdirSync, statSync, writeFileSync } from 'fs';
 import { join } from 'path';
 
-
 const results = {
   totalPages: 0,
   pagesChecked: 0,
   criticalIssues: [],
   acceptablePatterns: [],
-  passed: true
+  passed: true,
 };
 
 function checkFile(filePath, content) {
@@ -24,15 +23,15 @@ function checkFile(filePath, content) {
     /lorem ipsum/i,
     /\[placeholder\]/i,
     /TODO:.*content/i,
-    /FIXME:.*content/i
+    /FIXME:.*content/i,
   ];
 
-  placeholderPatterns.forEach(pattern => {
+  placeholderPatterns.forEach((pattern) => {
     if (pattern.test(content)) {
       issues.push({
         type: 'CRITICAL',
         issue: 'Actual placeholder content found',
-        pattern: pattern.toString()
+        pattern: pattern.toString(),
       });
     }
   });
@@ -48,7 +47,7 @@ function checkFile(filePath, content) {
       issues.push({
         type: 'MEDIUM',
         issue: 'Missing h1 tag',
-        note: 'May be in component'
+        note: 'May be in component',
       });
     }
   }
@@ -57,16 +56,16 @@ function checkFile(filePath, content) {
   if (content.includes('example.com') && !content.includes('placeholder=')) {
     issues.push({
       type: 'HIGH',
-      issue: 'example.com in actual content'
+      issue: 'example.com in actual content',
     });
   }
 
   if (issues.length > 0) {
-    const critical = issues.filter(i => i.type === 'CRITICAL');
+    const critical = issues.filter((i) => i.type === 'CRITICAL');
     if (critical.length > 0) {
       results.criticalIssues.push({
         file: filePath,
-        issues: critical
+        issues: critical,
       });
       results.passed = false;
     }
@@ -100,15 +99,12 @@ function scanDirectory(dir) {
 
 scanDirectory('app');
 
-
 if (results.criticalIssues.length > 0) {
   results.criticalIssues.forEach((item, i) => {
-    item.issues.forEach(issue => {
-    });
+    item.issues.forEach((issue) => {});
   });
 }
 
 writeFileSync('reports/final-validation-results.json', JSON.stringify(results, null, 2));
-
 
 process.exit(results.passed ? 0 : 1);

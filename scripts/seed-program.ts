@@ -89,46 +89,62 @@ async function seedProgram(blueprint: ProgramBlueprint, publish: boolean) {
   console.log(`\nSeeding: ${slug} (${program_id})\n`);
 
   // 1. Patch programs row
-  const { error: pErr } = await db.from('programs').update({
-    hero_headline:     blueprint.hero_headline,
-    hero_subheadline:  blueprint.hero_subheadline,
-    length_weeks:      blueprint.length_weeks,
-    certificate_title: blueprint.certificate_title,
-    funding:           blueprint.funding,
-    outcomes:          blueprint.outcomes,
-    requirements:      blueprint.requirements,
-    ...(publish ? { published: true } : {}),
-  }).eq('id', program_id);
-  if (pErr) { console.error('programs patch failed:', pErr.message); process.exit(1); }
+  const { error: pErr } = await db
+    .from('programs')
+    .update({
+      hero_headline: blueprint.hero_headline,
+      hero_subheadline: blueprint.hero_subheadline,
+      length_weeks: blueprint.length_weeks,
+      certificate_title: blueprint.certificate_title,
+      funding: blueprint.funding,
+      outcomes: blueprint.outcomes,
+      requirements: blueprint.requirements,
+      ...(publish ? { published: true } : {}),
+    })
+    .eq('id', program_id);
+  if (pErr) {
+    console.error('programs patch failed:', pErr.message);
+    process.exit(1);
+  }
   console.log('✅ programs row patched');
 
   // 2. program_media
   await db.from('program_media').delete().eq('program_id', program_id);
-  const { error: mErr } = await db.from('program_media').insert([{
-    program_id,
-    media_type: 'hero_image',
-    url:        blueprint.hero_image_url,
-    alt_text:   blueprint.hero_image_alt,
-    sort_order: 1,
-  }]);
-  if (mErr) { console.error('program_media failed:', mErr.message); process.exit(1); }
+  const { error: mErr } = await db.from('program_media').insert([
+    {
+      program_id,
+      media_type: 'hero_image',
+      url: blueprint.hero_image_url,
+      alt_text: blueprint.hero_image_alt,
+      sort_order: 1,
+    },
+  ]);
+  if (mErr) {
+    console.error('program_media failed:', mErr.message);
+    process.exit(1);
+  }
   console.log('✅ program_media inserted');
 
   // 3. program_ctas
   await db.from('program_ctas').delete().eq('program_id', program_id);
-  const { error: cErr } = await db.from('program_ctas').insert(
-    blueprint.ctas.map(c => ({ program_id, ...c }))
-  );
-  if (cErr) { console.error('program_ctas failed:', cErr.message); process.exit(1); }
+  const { error: cErr } = await db
+    .from('program_ctas')
+    .insert(blueprint.ctas.map((c) => ({ program_id, ...c })));
+  if (cErr) {
+    console.error('program_ctas failed:', cErr.message);
+    process.exit(1);
+  }
   console.log('✅ program_ctas inserted');
 
   // 4. program_tracks — upsert by (program_id, track_code)
   for (const track of blueprint.tracks) {
-    const { error: tErr } = await db.from('program_tracks').upsert(
-      { program_id, ...track },
-      { onConflict: 'program_id,track_code' }
-    );
-    if (tErr) { console.error(`program_tracks failed (${track.track_code}):`, tErr.message); process.exit(1); }
+    const { error: tErr } = await db
+      .from('program_tracks')
+      .upsert({ program_id, ...track }, { onConflict: 'program_id,track_code' });
+    if (tErr) {
+      console.error(`program_tracks failed (${track.track_code}):`, tErr.message);
+      process.exit(1);
+    }
   }
   console.log('✅ program_tracks upserted');
 
@@ -145,9 +161,9 @@ async function seedProgram(blueprint: ProgramBlueprint, publish: boolean) {
       process.exit(1);
     }
     await db.from('program_lessons').delete().eq('module_id', upserted.id);
-    const { error: lErr } = await db.from('program_lessons').insert(
-      lessons.map(l => ({ module_id: upserted.id, ...l }))
-    );
+    const { error: lErr } = await db
+      .from('program_lessons')
+      .insert(lessons.map((l) => ({ module_id: upserted.id, ...l })));
     if (lErr) {
       console.error(`program_lessons failed (module ${mod.module_number}):`, lErr.message);
       process.exit(1);
@@ -169,17 +185,25 @@ async function main() {
 
   if (args.includes('--list')) {
     const dir = path.resolve(process.cwd(), 'scripts/blueprints');
-    if (!fs.existsSync(dir)) { console.log('No blueprints yet. Create scripts/blueprints/<slug>.ts'); return; }
-    const files = fs.readdirSync(dir).filter(f => f.endsWith('.ts'));
-    if (!files.length) { console.log('No blueprints yet.'); return; }
+    if (!fs.existsSync(dir)) {
+      console.log('No blueprints yet. Create scripts/blueprints/<slug>.ts');
+      return;
+    }
+    const files = fs.readdirSync(dir).filter((f) => f.endsWith('.ts'));
+    if (!files.length) {
+      console.log('No blueprints yet.');
+      return;
+    }
     console.log('Available blueprints:');
-    files.forEach(f => console.log(`  scripts/blueprints/${f}`));
+    files.forEach((f) => console.log(`  scripts/blueprints/${f}`));
     return;
   }
 
   const bpIdx = args.indexOf('--blueprint');
   if (bpIdx === -1 || !args[bpIdx + 1]) {
-    console.error('Usage: pnpm tsx scripts/seed-program.ts --blueprint scripts/blueprints/<slug>.ts [--publish]');
+    console.error(
+      'Usage: pnpm tsx scripts/seed-program.ts --blueprint scripts/blueprints/<slug>.ts [--publish]',
+    );
     process.exit(1);
   }
 
@@ -199,4 +223,7 @@ async function main() {
   await seedProgram(blueprint, publish);
 }
 
-main().catch(err => { console.error(err); process.exit(1); });
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});

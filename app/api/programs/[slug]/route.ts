@@ -6,18 +6,16 @@ import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+const supabaseKey =
+  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
 /**
  * GET /api/programs/[slug]
- * 
+ *
  * Returns program details with outcomes and requirements.
  * Strict: 404 if not published/active.
  */
-async function _GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ slug: string }> }
-) {
+async function _GET(request: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
   try {
     const rateLimited = await applyRateLimit(request, 'api');
     if (rateLimited) return rateLimited;
@@ -28,7 +26,8 @@ async function _GET(
     // Fetch program
     const { data: program, error: programError } = await supabase
       .from('programs')
-      .select(`
+      .select(
+        `
         id,
         slug,
         name,
@@ -42,23 +41,18 @@ async function _GET(
         hero_image,
         hero_image_alt,
         is_active
-      `)
+      `,
+      )
       .eq('slug', slug)
       .maybeSingle();
 
     if (programError || !program) {
-      return NextResponse.json(
-        { error: 'Program not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: 'Program not found' }, { status: 404 });
     }
 
     // Check if published/active
     if (!program.is_active) {
-      return NextResponse.json(
-        { error: 'Program not available' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: 'Program not available' }, { status: 404 });
     }
 
     // Fetch outcomes
@@ -84,10 +78,7 @@ async function _GET(
     });
   } catch (error) {
     logger.error('Program API error:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/programs/[slug]', _GET);

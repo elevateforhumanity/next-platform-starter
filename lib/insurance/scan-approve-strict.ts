@@ -1,14 +1,11 @@
-import pdf from "pdf-parse";
-import { ocrPdfFirstPages } from "./ocr";
-import {
-  validateCoiText,
-  type CoiTextValidationResult,
-} from "./validate-coi-text";
+import pdf from 'pdf-parse';
+import { ocrPdfFirstPages } from './ocr';
+import { validateCoiText, type CoiTextValidationResult } from './validate-coi-text';
 
 export type StrictInsuranceDecision = {
-  decision: "APPROVED" | "REJECTED";
-  method: "PDF_TEXT" | "OCR" | "NONE";
-  riskLevel: CoiTextValidationResult["riskLevel"];
+  decision: 'APPROVED' | 'REJECTED';
+  method: 'PDF_TEXT' | 'OCR' | 'NONE';
+  riskLevel: CoiTextValidationResult['riskLevel'];
   validation: CoiTextValidationResult;
 };
 
@@ -32,23 +29,23 @@ export async function scanApproveStrict(args: {
   minGlAggregate?: number;
   minProLiabilityPerClaim?: number;
   /** Worker relationship type. Drives conditional WC gate. */
-  workerRelationship?: "w2_employees" | "1099_contractors_only" | "owner_only" | "not_sure";
+  workerRelationship?: 'w2_employees' | '1099_contractors_only' | 'owner_only' | 'not_sure';
 }): Promise<StrictInsuranceDecision> {
-  let extractedText = "";
-  let method: StrictInsuranceDecision["method"] = "PDF_TEXT";
+  let extractedText = '';
+  let method: StrictInsuranceDecision['method'] = 'PDF_TEXT';
   let ocrConfidence: number | undefined;
 
   // 1) Try native PDF text extraction
   try {
     const parsed = await pdf(args.pdfBuffer);
-    extractedText = parsed.text || "";
+    extractedText = parsed.text || '';
   } catch {
-    extractedText = "";
+    extractedText = '';
   }
 
   // 2) If not enough text, try OCR with confidence tracking
   if (extractedText.trim().length < MIN_TEXT_FOR_VALIDATION) {
-    method = "OCR";
+    method = 'OCR';
     const ocrResult = await ocrPdfFirstPages(args.pdfBuffer, 2);
 
     if (ocrResult.text.trim().length > extractedText.trim().length) {
@@ -59,19 +56,17 @@ export async function scanApproveStrict(args: {
 
   // 3) Truly unreadable — reject with specific message
   if (extractedText.trim().length < MIN_TEXT_FOR_ANY_ANALYSIS) {
-    method = "NONE";
+    method = 'NONE';
     return {
-      decision: "REJECTED",
+      decision: 'REJECTED',
       method,
-      riskLevel: "HIGH_RISK",
+      riskLevel: 'HIGH_RISK',
       validation: {
-        status: "FAIL",
-        riskLevel: "HIGH_RISK",
+        status: 'FAIL',
+        riskLevel: 'HIGH_RISK',
         extractedTextChars: extractedText.length,
-        missing: [
-          "Document is not readable — upload a digital PDF (not a photo or scanned image)",
-        ],
-        reasonCodes: ["MISSING:UNREADABLE_DOCUMENT"],
+        missing: ['Document is not readable — upload a digital PDF (not a photo or scanned image)'],
+        reasonCodes: ['MISSING:UNREADABLE_DOCUMENT'],
         fields: {
           acordFormDetected: false,
           insurerName: null,
@@ -85,7 +80,8 @@ export async function scanApproveStrict(args: {
           proLiabilityType: null,
           workersCompDetected: false,
           workersCompVerified: false,
-          workersCompRequired: args.workerRelationship === "w2_employees" || args.workerRelationship === "not_sure",
+          workersCompRequired:
+            args.workerRelationship === 'w2_employees' || args.workerRelationship === 'not_sure',
           relevantBusinessClassDetected: false,
           detectedBusinessClass: null,
           effectiveDate: null,
@@ -117,7 +113,7 @@ export async function scanApproveStrict(args: {
   });
 
   return {
-    decision: validation.status === "PASS" ? "APPROVED" : "REJECTED",
+    decision: validation.status === 'PASS' ? 'APPROVED' : 'REJECTED',
     method,
     riskLevel: validation.riskLevel,
     validation,

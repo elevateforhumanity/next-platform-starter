@@ -51,7 +51,11 @@ function emailLayout(content: string): string {
 /**
  * Welcome Email
  */
-export function welcomeEmail(data: { firstName: string; programName: string; loginUrl: string }): EmailTemplate {
+export function welcomeEmail(data: {
+  firstName: string;
+  programName: string;
+  loginUrl: string;
+}): EmailTemplate {
   return {
     subject: `Welcome to ${data.programName}!`,
     html: emailLayout(`
@@ -70,7 +74,12 @@ export function welcomeEmail(data: { firstName: string; programName: string; log
 /**
  * Course Completion Email
  */
-export function completionEmail(data: { firstName: string; courseName: string; certificateNumber: string; certificateUrl: string }): EmailTemplate {
+export function completionEmail(data: {
+  firstName: string;
+  courseName: string;
+  certificateNumber: string;
+  certificateUrl: string;
+}): EmailTemplate {
   return {
     subject: `🎓 You Completed ${data.courseName}!`,
     html: emailLayout(`
@@ -89,7 +98,10 @@ export function completionEmail(data: { firstName: string; courseName: string; c
 /**
  * Application Confirmation
  */
-export function applicationConfirmationEmail(data: { firstName: string; programName: string }): EmailTemplate {
+export function applicationConfirmationEmail(data: {
+  firstName: string;
+  programName: string;
+}): EmailTemplate {
   return {
     subject: `Application Received - ${data.programName}`,
     html: emailLayout(`

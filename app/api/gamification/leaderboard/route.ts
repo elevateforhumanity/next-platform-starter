@@ -28,20 +28,22 @@ async function _GET(req: NextRequest) {
     if (error) throw error;
 
     // Hydrate profiles separately (leaderboard.user_id has no FK to profiles)
-    const lbUserIds = [...new Set((rawLeaderboard ?? []).map((r: any) => r.user_id).filter(Boolean))];
+    const lbUserIds = [
+      ...new Set((rawLeaderboard ?? []).map((r: any) => r.user_id).filter(Boolean)),
+    ];
     const { data: lbProfiles } = lbUserIds.length
       ? await supabase.from('profiles').select('id, full_name, email').in('id', lbUserIds)
       : { data: [] };
     const lbProfileMap = Object.fromEntries((lbProfiles ?? []).map((p: any) => [p.id, p]));
-    const data = (rawLeaderboard ?? []).map((r: any) => ({ ...r, user: lbProfileMap[r.user_id] ?? null }));
+    const data = (rawLeaderboard ?? []).map((r: any) => ({
+      ...r,
+      user: lbProfileMap[r.user_id] ?? null,
+    }));
 
     return NextResponse.json({ leaderboard: data });
-  } catch (error) { 
+  } catch (error) {
     logger.error('Error fetching leaderboard:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch leaderboard' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to fetch leaderboard' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/gamification/leaderboard', _GET);

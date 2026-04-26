@@ -1,4 +1,3 @@
-
 import { requireRole } from '@/lib/auth/require-role';
 import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
@@ -19,12 +18,11 @@ export default async function NewLeadPage() {
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* Hero Image */}
       <div className="max-w-3xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8">
-          <Link 
+          <Link
             href="/admin/crm/leads"
             className="inline-flex items-center gap-2 text-slate-700 hover:text-slate-900 mb-4"
           >
@@ -36,7 +34,10 @@ export default async function NewLeadPage() {
         </div>
 
         {/* Form */}
-        <form action={createLeadAction} className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <form
+          action={createLeadAction}
+          className="bg-white rounded-xl shadow-sm border border-gray-200 p-6"
+        >
           {/* Personal Information */}
           <div className="mb-8">
             <h2 className="text-lg font-semibold text-slate-900 mb-4 flex items-center gap-2">
@@ -57,9 +58,7 @@ export default async function NewLeadPage() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-slate-900 mb-1">
-                  Last Name *
-                </label>
+                <label className="block text-sm font-medium text-slate-900 mb-1">Last Name *</label>
                 <input
                   type="text"
                   name="last_name"
@@ -170,9 +169,7 @@ export default async function NewLeadPage() {
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-slate-900 mb-1">
-                  Lead Source
-                </label>
+                <label className="block text-sm font-medium text-slate-900 mb-1">Lead Source</label>
                 <select
                   name="source"
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
@@ -189,9 +186,7 @@ export default async function NewLeadPage() {
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-slate-900 mb-1">
-                  Lead Status
-                </label>
+                <label className="block text-sm font-medium text-slate-900 mb-1">Lead Status</label>
                 <select
                   name="status"
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
@@ -225,7 +220,11 @@ export default async function NewLeadPage() {
                 <span className="text-sm text-slate-900">Veteran or military spouse</span>
               </label>
               <label className="flex items-center gap-2">
-                <input type="checkbox" name="dislocatedWorker" className="rounded border-gray-300" />
+                <input
+                  type="checkbox"
+                  name="dislocatedWorker"
+                  className="rounded border-gray-300"
+                />
                 <span className="text-sm text-slate-900">Dislocated worker</span>
               </label>
             </div>
@@ -233,9 +232,7 @@ export default async function NewLeadPage() {
 
           {/* Notes */}
           <div className="mb-8">
-            <label className="block text-sm font-medium text-slate-900 mb-1">
-              Notes
-            </label>
+            <label className="block text-sm font-medium text-slate-900 mb-1">Notes</label>
             <textarea
               name="notes"
               rows={4}
@@ -246,10 +243,7 @@ export default async function NewLeadPage() {
 
           {/* Actions */}
           <div className="flex items-center justify-end gap-4 pt-4 border-t border-gray-200">
-            <Link
-              href="/admin/crm/leads"
-              className="px-4 py-2 text-slate-900 hover:text-slate-900"
-            >
+            <Link href="/admin/crm/leads" className="px-4 py-2 text-slate-900 hover:text-slate-900">
               Cancel
             </Link>
             <button

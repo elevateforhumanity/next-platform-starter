@@ -39,8 +39,10 @@ async function _GET(req: Request) {
         err: 'Automation failed',
         message: 'Internal server error',
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
-export const GET = withRuntime(withApiAudit('/api/cron/enrollment-automation', _GET, { actor_type: 'cron' }));
+export const GET = withRuntime(
+  withApiAudit('/api/cron/enrollment-automation', _GET, { actor_type: 'cron' }),
+);

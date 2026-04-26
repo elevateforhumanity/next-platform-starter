@@ -17,17 +17,17 @@ import { createClient } from '@/lib/supabase/server';
  */
 
 export type AppRole =
-  | "admin"
-  | "hr_admin"
-  | "super_admin"
-  | "delegate"
-  | "program_holder"
-  | "student"
-  | "staff"
-  | "instructor"
-  | "marketing_admin"
-  | "manager"
-  | "provider_admin";
+  | 'admin'
+  | 'hr_admin'
+  | 'super_admin'
+  | 'delegate'
+  | 'program_holder'
+  | 'student'
+  | 'staff'
+  | 'instructor'
+  | 'marketing_admin'
+  | 'manager'
+  | 'provider_admin';
 
 export interface SessionUser {
   id: string;
@@ -54,9 +54,9 @@ export async function getCurrentUserWithRole(): Promise<{
   }
 
   const { data: profile, error: profileError } = await supabase
-    .from("profiles")
-    .select("id, role, full_name, email")
-    .eq("id", user.id)
+    .from('profiles')
+    .select('id, role, full_name, email')
+    .eq('id', user.id)
     .maybeSingle();
 
   if (profileError) {
@@ -85,19 +85,17 @@ export async function getCurrentUserWithRole(): Promise<{
  * Require that the current user has at least one of the allowed roles.
  * Throws an Error if not authorized.
  */
-export async function requireAdmin(
-  allowedRoles: AppRole[] = ["admin", "hr_admin", "super_admin"]
-) {
+export async function requireAdmin(allowedRoles: AppRole[] = ['admin', 'hr_admin', 'super_admin']) {
   const { user, profile } = await getCurrentUserWithRole();
 
   if (!user || !profile) {
-    throw new Error("Not authenticated");
+    throw new Error('Not authenticated');
   }
 
   const role = (user.role || profile.role) as AppRole | string | null;
 
   if (!role || !allowedRoles.includes(role as AppRole)) {
-    throw new Error("Not authorized");
+    throw new Error('Not authorized');
   }
 
   return { user, profile, role };
@@ -190,9 +188,7 @@ const ROLE_HIERARCHY: Record<string, number> = {
 /**
  * Check if user's role is at least the specified level
  */
-export async function requireRoleLevel(
-  minRole: string
-): Promise<{ user: any; profile: any }> {
+export async function requireRoleLevel(minRole: string): Promise<{ user: any; profile: any }> {
   const { user, profile } = await requireRole(Object.keys(ROLE_HIERARCHY));
 
   const userLevel = ROLE_HIERARCHY[profile.role] || 0;

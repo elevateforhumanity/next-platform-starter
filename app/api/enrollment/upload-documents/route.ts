@@ -41,9 +41,7 @@ async function _POST(req: Request) {
         continue; // skip failed files, don't abort the whole batch
       }
 
-      const { data: urlData } = supabase.storage
-        .from('documents')
-        .getPublicUrl(fileName);
+      const { data: urlData } = supabase.storage.from('documents').getPublicUrl(fileName);
 
       documentUrls[fieldName] = urlData.publicUrl;
 

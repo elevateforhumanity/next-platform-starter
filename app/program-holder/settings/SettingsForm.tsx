@@ -10,7 +10,12 @@ interface Props {
   notifyWeeklyReports: boolean;
 }
 
-export default function ProgramHolderSettingsForm({ organization, email, notifyEnrollments, notifyWeeklyReports }: Props) {
+export default function ProgramHolderSettingsForm({
+  organization,
+  email,
+  notifyEnrollments,
+  notifyWeeklyReports,
+}: Props) {
   const [org, setOrg] = useState(organization);
   const [emailVal, setEmailVal] = useState(email);
   const [notifyEnroll, setNotifyEnroll] = useState(notifyEnrollments);
@@ -51,7 +56,11 @@ export default function ProgramHolderSettingsForm({ organization, email, notifyE
         <div className="mb-8">
           <nav className="text-sm mb-4">
             <ol className="flex items-center space-x-2 text-slate-700">
-              <li><Link href="/program-holder" className="hover:text-primary">Program Holder</Link></li>
+              <li>
+                <Link href="/program-holder" className="hover:text-primary">
+                  Program Holder
+                </Link>
+              </li>
               <li>/</li>
               <li className="text-slate-900 font-medium">Settings</li>
             </ol>
@@ -65,21 +74,25 @@ export default function ProgramHolderSettingsForm({ organization, email, notifyE
             <h2 className="text-lg font-semibold mb-4">Organization Information</h2>
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-slate-900 mb-2">Organization Name</label>
+                <label className="block text-sm font-medium text-slate-900 mb-2">
+                  Organization Name
+                </label>
                 <input
                   type="text"
                   className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
                   value={org}
-                  onChange={e => setOrg(e.target.value)}
+                  onChange={(e) => setOrg(e.target.value)}
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-slate-900 mb-2">Contact Email</label>
+                <label className="block text-sm font-medium text-slate-900 mb-2">
+                  Contact Email
+                </label>
                 <input
                   type="email"
                   className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
                   value={emailVal}
-                  onChange={e => setEmailVal(e.target.value)}
+                  onChange={(e) => setEmailVal(e.target.value)}
                 />
               </div>
             </div>
@@ -89,12 +102,14 @@ export default function ProgramHolderSettingsForm({ organization, email, notifyE
             <h2 className="text-lg font-semibold mb-4">Notifications</h2>
             <div className="space-y-3">
               <label className="flex items-center justify-between cursor-pointer">
-                <span className="text-sm text-slate-900">Email notifications for new enrollments</span>
+                <span className="text-sm text-slate-900">
+                  Email notifications for new enrollments
+                </span>
                 <input
                   type="checkbox"
                   className="w-4 h-4 rounded"
                   checked={notifyEnroll}
-                  onChange={e => setNotifyEnroll(e.target.checked)}
+                  onChange={(e) => setNotifyEnroll(e.target.checked)}
                 />
               </label>
               <label className="flex items-center justify-between cursor-pointer">
@@ -103,17 +118,21 @@ export default function ProgramHolderSettingsForm({ organization, email, notifyE
                   type="checkbox"
                   className="w-4 h-4 rounded"
                   checked={notifyReports}
-                  onChange={e => setNotifyReports(e.target.checked)}
+                  onChange={(e) => setNotifyReports(e.target.checked)}
                 />
               </label>
             </div>
           </div>
 
           {error && (
-            <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-4 py-3">{error}</p>
+            <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-4 py-3">
+              {error}
+            </p>
           )}
           {saved && (
-            <p className="text-sm text-green-700 bg-green-50 border border-green-200 rounded-lg px-4 py-3">Settings saved successfully.</p>
+            <p className="text-sm text-green-700 bg-green-50 border border-green-200 rounded-lg px-4 py-3">
+              Settings saved successfully.
+            </p>
           )}
 
           <button

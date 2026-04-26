@@ -10,7 +10,11 @@ import { CheckCircle, Clock, Award, DollarSign, ArrowRight, ShieldCheck } from '
 
 export const dynamic = 'force-dynamic';
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
   const { slug } = await params;
   const db = createPublicClient();
   if (db) {
@@ -19,18 +23,20 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       .select('title, description, short_description')
       .eq('slug', slug)
       .maybeSingle();
-    if (data) return {
-      title: `${data.title} | Elevate for Humanity`,
-      description: data.short_description || data.description || '',
-    };
+    if (data)
+      return {
+        title: `${data.title} | Elevate for Humanity`,
+        description: data.short_description || data.description || '',
+      };
   }
   // Static ProgramSchema programs (richer data)
   const sp = getStaticProgram(slug);
-  if (sp) return {
-    title: sp.metaTitle || `${sp.title} | Elevate for Humanity`,
-    description: sp.metaDescription || sp.subtitle || '',
-    alternates: { canonical: `/programs/${slug}` },
-  };
+  if (sp)
+    return {
+      title: sp.metaTitle || `${sp.title} | Elevate for Humanity`,
+      description: sp.metaDescription || sp.subtitle || '',
+      alternates: { canonical: `/programs/${slug}` },
+    };
   // cf-programs fallback
   const p = staticPrograms.find((p) => p.slug === slug);
   if (!p) return {};
@@ -39,19 +45,63 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 // Funding sources shown on every program page
 const FUNDING_SOURCES = [
-  { label: 'WIOA', tag: 'Federal', detail: 'Workforce Innovation and Opportunity Act — covers eligible high-demand programs for adults, dislocated workers, and youth 16–24.' },
-  { label: 'Workforce Ready Grant', tag: 'Indiana State', detail: 'Covers tuition for high-demand certification programs on the INDemand list.' },
-  { label: 'FSSA IMPACT', tag: 'Indiana State', detail: 'Pays for training at no cost to current SNAP or TANF recipients. Elevate is a participating provider.' },
-  { label: 'Employer Sponsorship', tag: 'OJT / Apprenticeship', detail: 'Employers can sponsor training through OJT wage reimbursement or registered apprenticeship agreements.' },
+  {
+    label: 'WIOA',
+    tag: 'Federal',
+    detail:
+      'Workforce Innovation and Opportunity Act — covers eligible high-demand programs for adults, dislocated workers, and youth 16–24.',
+  },
+  {
+    label: 'Workforce Ready Grant',
+    tag: 'Indiana State',
+    detail: 'Covers tuition for high-demand certification programs on the INDemand list.',
+  },
+  {
+    label: 'FSSA IMPACT',
+    tag: 'Indiana State',
+    detail:
+      'Pays for training at no cost to current SNAP or TANF recipients. Elevate is a participating provider.',
+  },
+  {
+    label: 'Employer Sponsorship',
+    tag: 'OJT / Apprenticeship',
+    detail:
+      'Employers can sponsor training through OJT wage reimbursement or registered apprenticeship agreements.',
+  },
 ];
 
 // How the program works — same for all programs
 const HOW_IT_WORKS = [
-  { n: '01', label: 'Apply and Complete Eligibility Review', detail: 'Submit your application. We review funding eligibility and match you with available pathways.' },
-  { n: '02', label: 'Enroll and Begin Training', detail: 'Complete intake, sign your enrollment agreement, and start your program on the next available cohort date.' },
-  { n: '03', label: 'Complete Coursework and Assessments', detail: 'Work through structured lessons, hands-on labs, and checkpoint assessments tracked in real time.' },
-  { n: '04', label: 'Earn Credentials', detail: 'Pass your final assessment and receive your industry-recognized credential. Publicly verifiable.' },
-  { n: '05', label: 'Connect with Employment Opportunities', detail: 'Access job placement support, employer connections, and Indiana Career Connect listings.' },
+  {
+    n: '01',
+    label: 'Apply and Complete Eligibility Review',
+    detail:
+      'Submit your application. We review funding eligibility and match you with available pathways.',
+  },
+  {
+    n: '02',
+    label: 'Enroll and Begin Training',
+    detail:
+      'Complete intake, sign your enrollment agreement, and start your program on the next available cohort date.',
+  },
+  {
+    n: '03',
+    label: 'Complete Coursework and Assessments',
+    detail:
+      'Work through structured lessons, hands-on labs, and checkpoint assessments tracked in real time.',
+  },
+  {
+    n: '04',
+    label: 'Earn Credentials',
+    detail:
+      'Pass your final assessment and receive your industry-recognized credential. Publicly verifiable.',
+  },
+  {
+    n: '05',
+    label: 'Connect with Employment Opportunities',
+    detail:
+      'Access job placement support, employer connections, and Indiana Career Connect listings.',
+  },
 ];
 
 function ProgramPage({
@@ -71,17 +121,18 @@ function ProgramPage({
   slug: string;
   sections?: Array<{ heading: string; body: string }>;
 }) {
-  const learnItems = sections?.find(s =>
-    s.heading.toLowerCase().includes('learn') || s.heading.toLowerCase().includes('module')
+  const learnItems = sections?.find(
+    (s) => s.heading.toLowerCase().includes('learn') || s.heading.toLowerCase().includes('module'),
   );
 
   return (
     <main className="bg-white">
-
       {/* SECTION 1: OUTCOME FIRST */}
       <section className="bg-slate-950 py-20 px-6">
         <div className="max-w-4xl mx-auto">
-          <p className="text-brand-red-400 text-xs font-bold uppercase tracking-widest mb-4">Program</p>
+          <p className="text-brand-red-400 text-xs font-bold uppercase tracking-widest mb-4">
+            Program
+          </p>
           <h1 className="text-3xl sm:text-4xl font-extrabold text-white leading-tight mb-5">
             {title}
           </h1>
@@ -107,10 +158,16 @@ function ProgramPage({
             </span>
           </div>
           <div className="flex flex-col sm:flex-row gap-4">
-            <Link href={`/programs/${slug}/apply`} className="bg-brand-red-600 hover:bg-brand-red-700 text-white font-extrabold px-10 py-4 rounded-xl transition-colors text-sm text-center">
+            <Link
+              href={`/programs/${slug}/apply`}
+              className="bg-brand-red-600 hover:bg-brand-red-700 text-white font-extrabold px-10 py-4 rounded-xl transition-colors text-sm text-center"
+            >
               Apply Now
             </Link>
-            <Link href="/check-eligibility" className="border-2 border-slate-600 text-slate-300 hover:border-slate-400 hover:text-white font-extrabold px-10 py-4 rounded-xl transition-colors text-sm text-center">
+            <Link
+              href="/check-eligibility"
+              className="border-2 border-slate-600 text-slate-300 hover:border-slate-400 hover:text-white font-extrabold px-10 py-4 rounded-xl transition-colors text-sm text-center"
+            >
               Check Eligibility
             </Link>
           </div>
@@ -120,20 +177,28 @@ function ProgramPage({
       {/* SECTION 2: FUNDING */}
       <section className="bg-brand-red-700 py-14 px-6">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-xl sm:text-2xl font-extrabold text-white mb-3">Funding May Be Available</h2>
+          <h2 className="text-xl sm:text-2xl font-extrabold text-white mb-3">
+            Funding May Be Available
+          </h2>
           <p className="text-red-100 text-sm mb-8 max-w-2xl">
-            This program may qualify for state and federal funding depending on eligibility. Most students pay $0.
+            This program may qualify for state and federal funding depending on eligibility. Most
+            students pay $0.
           </p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
             {FUNDING_SOURCES.map((f) => (
               <div key={f.label} className="bg-white rounded-xl p-5">
-                <p className="text-brand-red-600 text-[10px] font-extrabold uppercase tracking-widest mb-1">{f.tag}</p>
+                <p className="text-brand-red-600 text-[10px] font-extrabold uppercase tracking-widest mb-1">
+                  {f.tag}
+                </p>
                 <h3 className="text-slate-900 font-extrabold text-sm mb-2">{f.label}</h3>
                 <p className="text-slate-600 text-xs leading-relaxed">{f.detail}</p>
               </div>
             ))}
           </div>
-          <Link href="/check-eligibility" className="inline-block bg-white text-brand-red-700 font-extrabold px-8 py-3.5 rounded-xl hover:bg-red-50 transition-colors text-sm">
+          <Link
+            href="/check-eligibility"
+            className="inline-block bg-white text-brand-red-700 font-extrabold px-8 py-3.5 rounded-xl hover:bg-red-50 transition-colors text-sm"
+          >
             Check My Eligibility
           </Link>
         </div>
@@ -150,37 +215,50 @@ function ProgramPage({
       )}
 
       {/* SECTION 3b: OTHER SECTIONS from static content */}
-      {sections && sections.filter(s => !s.heading.toLowerCase().includes('learn')).length > 0 && (
-        <section className="bg-slate-50 py-16 px-6 border-t border-slate-100">
-          <div className="max-w-4xl mx-auto space-y-8">
-            {sections.filter(s => !s.heading.toLowerCase().includes('learn')).map((section) => (
-              <div key={section.heading}>
-                <h2 className="text-lg font-extrabold text-slate-900 mb-3">{section.heading}</h2>
-                <p className="text-slate-600 text-sm leading-relaxed">{section.body}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-      )}
+      {sections &&
+        sections.filter((s) => !s.heading.toLowerCase().includes('learn')).length > 0 && (
+          <section className="bg-slate-50 py-16 px-6 border-t border-slate-100">
+            <div className="max-w-4xl mx-auto space-y-8">
+              {sections
+                .filter((s) => !s.heading.toLowerCase().includes('learn'))
+                .map((section) => (
+                  <div key={section.heading}>
+                    <h2 className="text-lg font-extrabold text-slate-900 mb-3">
+                      {section.heading}
+                    </h2>
+                    <p className="text-slate-600 text-sm leading-relaxed">{section.body}</p>
+                  </div>
+                ))}
+            </div>
+          </section>
+        )}
 
       {/* SECTION 4: CREDENTIALS */}
       {credential && (
         <section className="bg-slate-950 py-14 px-6">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-xl sm:text-2xl font-extrabold text-white mb-8">Credentials You Can Earn</h2>
+            <h2 className="text-xl sm:text-2xl font-extrabold text-white mb-8">
+              Credentials You Can Earn
+            </h2>
             <div className="flex flex-col sm:flex-row gap-4">
               <div className="flex items-start gap-4 bg-slate-900 border border-slate-700 rounded-xl px-6 py-5">
                 <Award className="w-5 h-5 text-brand-red-400 shrink-0 mt-0.5" />
                 <div>
                   <p className="text-white font-extrabold text-sm">{credential}</p>
-                  <p className="text-slate-400 text-xs mt-1">Industry-recognized. Proctored on-site.</p>
+                  <p className="text-slate-400 text-xs mt-1">
+                    Industry-recognized. Proctored on-site.
+                  </p>
                 </div>
               </div>
               <div className="flex items-start gap-4 bg-slate-900 border border-slate-700 rounded-xl px-6 py-5">
                 <CheckCircle className="w-5 h-5 text-brand-red-400 shrink-0 mt-0.5" />
                 <div>
-                  <p className="text-white font-extrabold text-sm">Elevate Completion Certificate</p>
-                  <p className="text-slate-400 text-xs mt-1">Publicly verifiable. Issued on completion.</p>
+                  <p className="text-white font-extrabold text-sm">
+                    Elevate Completion Certificate
+                  </p>
+                  <p className="text-slate-400 text-xs mt-1">
+                    Publicly verifiable. Issued on completion.
+                  </p>
                 </div>
               </div>
             </div>
@@ -194,8 +272,13 @@ function ProgramPage({
           <h2 className="text-2xl font-extrabold text-slate-900 mb-10">How This Program Works</h2>
           <div className="space-y-3">
             {HOW_IT_WORKS.map((step) => (
-              <div key={step.n} className="flex items-start gap-5 border border-slate-200 rounded-xl px-6 py-5">
-                <span className="text-brand-red-600 font-black text-xs tracking-widest shrink-0 mt-0.5">{step.n}</span>
+              <div
+                key={step.n}
+                className="flex items-start gap-5 border border-slate-200 rounded-xl px-6 py-5"
+              >
+                <span className="text-brand-red-600 font-black text-xs tracking-widest shrink-0 mt-0.5">
+                  {step.n}
+                </span>
                 <div>
                   <p className="text-slate-900 font-extrabold text-sm mb-1">{step.label}</p>
                   <p className="text-slate-500 text-xs leading-relaxed">{step.detail}</p>
@@ -212,15 +295,23 @@ function ProgramPage({
           <h2 className="text-xl font-extrabold text-slate-900 mb-8">Program Details</h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {[
-              { label: 'Duration', value: durationWeeks ? `${durationWeeks} weeks` : 'See enrollment' },
+              {
+                label: 'Duration',
+                value: durationWeeks ? `${durationWeeks} weeks` : 'See enrollment',
+              },
               { label: 'Format', value: 'Online + Hands-On' },
               { label: 'Schedule', value: 'Flexible / Cohort-based' },
               { label: 'Prerequisites', value: 'None required' },
               { label: 'Delivery', value: 'Instructor-led with self-paced components' },
               { label: 'Location', value: 'Indianapolis, Indiana' },
             ].map((item) => (
-              <div key={item.label} className="bg-white border border-slate-200 rounded-xl px-5 py-4">
-                <p className="text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-1">{item.label}</p>
+              <div
+                key={item.label}
+                className="bg-white border border-slate-200 rounded-xl px-5 py-4"
+              >
+                <p className="text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-1">
+                  {item.label}
+                </p>
                 <p className="text-slate-900 font-extrabold text-sm">{item.value}</p>
               </div>
             ))}
@@ -232,7 +323,9 @@ function ProgramPage({
       <section className="bg-slate-950 py-14 px-6">
         <div className="max-w-4xl mx-auto">
           <ShieldCheck className="w-7 h-7 text-brand-red-400 mb-5" />
-          <h2 className="text-xl font-extrabold text-white mb-6">Aligned with Workforce Standards</h2>
+          <h2 className="text-xl font-extrabold text-white mb-6">
+            Aligned with Workforce Standards
+          </h2>
           <div className="space-y-3">
             {[
               'WIOA-Aligned Training Structure',
@@ -253,7 +346,9 @@ function ProgramPage({
       <section className="bg-white py-14 px-6 border-t border-slate-100">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-xl font-extrabold text-slate-900 mb-3">Career Pathways</h2>
-          <p className="text-slate-500 text-sm mb-8">Entry-level roles with growth potential in high-demand fields.</p>
+          <p className="text-slate-500 text-sm mb-8">
+            Entry-level roles with growth potential in high-demand fields.
+          </p>
           <div className="flex flex-wrap gap-3">
             {[
               `${title} (Entry Level)`,
@@ -261,7 +356,10 @@ function ProgramPage({
               'Facilities Technician',
               'Apprentice — Registered DOL Pathway',
             ].map((role) => (
-              <span key={role} className="border border-slate-200 rounded-lg px-4 py-2.5 text-slate-700 font-semibold text-sm">
+              <span
+                key={role}
+                className="border border-slate-200 rounded-lg px-4 py-2.5 text-slate-700 font-semibold text-sm"
+              >
                 {role}
               </span>
             ))}
@@ -272,22 +370,31 @@ function ProgramPage({
       {/* SECTION 9: FINAL CTA */}
       <section className="bg-brand-red-700 py-20 px-6">
         <div className="max-w-2xl mx-auto text-center">
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-white mb-5">Start Your Path Today</h2>
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-white mb-5">
+            Start Your Path Today
+          </h2>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href={`/programs/${slug}/apply`} className="bg-white text-brand-red-700 font-extrabold px-10 py-4 rounded-xl hover:bg-red-50 transition-colors text-sm">
+            <Link
+              href={`/programs/${slug}/apply`}
+              className="bg-white text-brand-red-700 font-extrabold px-10 py-4 rounded-xl hover:bg-red-50 transition-colors text-sm"
+            >
               Apply Now
             </Link>
-            <Link href="/check-eligibility" className="border-2 border-white text-white font-extrabold px-10 py-4 rounded-xl hover:bg-white/10 transition-colors text-sm">
+            <Link
+              href="/check-eligibility"
+              className="border-2 border-white text-white font-extrabold px-10 py-4 rounded-xl hover:bg-white/10 transition-colors text-sm"
+            >
               Check Eligibility
             </Link>
           </div>
           <p className="mt-8 text-red-100 text-xs">
             Questions? Call or text{' '}
-            <a href="tel:3173143757" className="text-white font-bold underline">(317) 314-3757</a>
+            <a href="tel:3173143757" className="text-white font-bold underline">
+              (317) 314-3757
+            </a>
           </p>
         </div>
       </section>
-
     </main>
   );
 }

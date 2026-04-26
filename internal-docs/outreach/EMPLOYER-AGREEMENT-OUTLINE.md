@@ -1,4 +1,5 @@
 # Employer Sponsorship Agreement Outline
+
 ## Elevate for Humanity Career and Training Institute
 
 **TEMPLATE — CUSTOMIZE FOR EACH EMPLOYER**
@@ -13,23 +14,23 @@ This agreement establishes a training sponsorship arrangement between [EMPLOYER 
 
 ## Section 1: Program Details
 
-| Item | Detail |
-|------|--------|
-| Program | [PROGRAM NAME] |
-| Duration | [X weeks] |
-| Credential | [CREDENTIAL NAME] |
-| Tuition per participant | $5,000 |
+| Item                    | Detail            |
+| ----------------------- | ----------------- |
+| Program                 | [PROGRAM NAME]    |
+| Duration                | [X weeks]         |
+| Credential              | [CREDENTIAL NAME] |
+| Tuition per participant | $5,000            |
 
 ---
 
 ## Section 2: Sponsorship Structure
 
-| Item | Detail |
-|------|--------|
-| Reimbursement amount | $[250–400] per month |
-| Reimbursement term | [12–20] months |
-| Payment start | First full month after hire date |
-| Payment method | Invoice / Payroll deduction / Direct payment |
+| Item                 | Detail                                       |
+| -------------------- | -------------------------------------------- |
+| Reimbursement amount | $[250–400] per month                         |
+| Reimbursement term   | [12–20] months                               |
+| Payment start        | First full month after hire date             |
+| Payment method       | Invoice / Payroll deduction / Direct payment |
 
 ---
 
@@ -68,9 +69,9 @@ If sponsored employee separates from employer (voluntary or involuntary):
 
 ## Section 6: Number of Sponsored Seats
 
-| Cohort | Sponsored Seats | Start Date |
-|--------|-----------------|------------|
-| [Q1 2025] | [X] | [DATE] |
+| Cohort    | Sponsored Seats | Start Date |
+| --------- | --------------- | ---------- |
+| [Q1 2025] | [X]             | [DATE]     |
 
 Additional seats may be added by written agreement.
 
@@ -101,19 +102,19 @@ Termination does not affect reimbursement obligations for students already enrol
 
 **Employer**
 
-Name: _______________________  
-Title: _______________________  
-Company: _______________________  
-Date: _______________________  
-Signature: _______________________
+Name: **********\_\_\_**********  
+Title: **********\_\_\_**********  
+Company: **********\_\_\_**********  
+Date: **********\_\_\_**********  
+Signature: **********\_\_\_**********
 
 **Elevate for Humanity**
 
-Name: _______________________  
-Title: _______________________  
-Date: _______________________  
-Signature: _______________________
+Name: **********\_\_\_**********  
+Title: **********\_\_\_**********  
+Date: **********\_\_\_**********  
+Signature: **********\_\_\_**********
 
 ---
 
-*This outline is for discussion purposes. Final agreement should be reviewed by appropriate parties before execution.*
+_This outline is for discussion purposes. Final agreement should be reviewed by appropriate parties before execution._

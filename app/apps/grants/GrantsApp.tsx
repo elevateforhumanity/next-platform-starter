@@ -3,9 +3,20 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
-import { 
-  DollarSign, Bell, Settings, Search, Plus, Download, RefreshCw,
-  Calendar, Bookmark, FileText, ChevronRight, Star, Filter
+import {
+  DollarSign,
+  Bell,
+  Settings,
+  Search,
+  Plus,
+  Download,
+  RefreshCw,
+  Calendar,
+  Bookmark,
+  FileText,
+  ChevronRight,
+  Star,
+  Filter,
 } from 'lucide-react';
 
 interface Props {
@@ -17,15 +28,26 @@ interface Props {
   trialDaysRemaining: number;
 }
 
-export function GrantsApp({ user, subscription, opportunities, savedGrants, applications, trialDaysRemaining }: Props) {
-  const [activeTab, setActiveTab] = useState<'discover' | 'saved' | 'applications' | 'calendar'>('discover');
+export function GrantsApp({
+  user,
+  subscription,
+  opportunities,
+  savedGrants,
+  applications,
+  trialDaysRemaining,
+}: Props) {
+  const [activeTab, setActiveTab] = useState<'discover' | 'saved' | 'applications' | 'calendar'>(
+    'discover',
+  );
   const [searchQuery, setSearchQuery] = useState('');
   const [showFilters, setShowFilters] = useState(false);
   const supabase = createClient();
 
-  const filteredOpportunities = opportunities.filter(opp => 
-    !searchQuery || opp.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    opp.agency?.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredOpportunities = opportunities.filter(
+    (opp) =>
+      !searchQuery ||
+      opp.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      opp.agency?.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
   const saveGrant = async (grantId: string) => {
@@ -44,8 +66,10 @@ export function GrantsApp({ user, subscription, opportunities, savedGrants, appl
       {/* Trial Banner */}
       {subscription.status === 'trial' && trialDaysRemaining > 0 && (
         <div className="bg-white text-yellow-900 px-4 py-2 text-center text-sm font-medium">
-          Trial: {trialDaysRemaining} days remaining. 
-          <Link href="/store/apps/grants?upgrade=true" className="underline ml-2">Upgrade now</Link>
+          Trial: {trialDaysRemaining} days remaining.
+          <Link href="/store/apps/grants?upgrade=true" className="underline ml-2">
+            Upgrade now
+          </Link>
         </div>
       )}
 
@@ -68,7 +92,7 @@ export function GrantsApp({ user, subscription, opportunities, savedGrants, appl
           </div>
         </div>
         <div className="max-w-7xl mx-auto px-4 flex gap-1">
-          {['discover', 'saved', 'applications', 'calendar'].map(tab => (
+          {['discover', 'saved', 'applications', 'calendar'].map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab as any)}
@@ -95,7 +119,10 @@ export function GrantsApp({ user, subscription, opportunities, savedGrants, appl
                   className="w-full pl-12 pr-4 py-3 border rounded-lg"
                 />
               </div>
-              <button onClick={() => setShowFilters(!showFilters)} className="px-4 py-3 border rounded-lg flex items-center gap-2">
+              <button
+                onClick={() => setShowFilters(!showFilters)}
+                className="px-4 py-3 border rounded-lg flex items-center gap-2"
+              >
                 <Filter className="w-5 h-5" /> Filters
               </button>
               <button className="px-4 py-3 bg-brand-green-600 text-white rounded-lg flex items-center gap-2">
@@ -120,11 +147,13 @@ export function GrantsApp({ user, subscription, opportunities, savedGrants, appl
               <div className="bg-white rounded-lg p-4 border">
                 <p className="text-gray-500 text-sm">Closing Soon</p>
                 <p className="text-2xl font-bold text-brand-orange-600">
-                  {opportunities.filter(o => {
-                    const deadline = new Date(o.deadline);
-                    const daysUntil = (deadline.getTime() - Date.now()) / (1000 * 60 * 60 * 24);
-                    return daysUntil <= 30 && daysUntil > 0;
-                  }).length}
+                  {
+                    opportunities.filter((o) => {
+                      const deadline = new Date(o.deadline);
+                      const daysUntil = (deadline.getTime() - Date.now()) / (1000 * 60 * 60 * 24);
+                      return daysUntil <= 30 && daysUntil > 0;
+                    }).length
+                  }
                 </p>
               </div>
             </div>
@@ -138,8 +167,11 @@ export function GrantsApp({ user, subscription, opportunities, savedGrants, appl
                   <p className="text-gray-500">Try adjusting your search or sync from Grants.gov</p>
                 </div>
               ) : (
-                filteredOpportunities.map(grant => (
-                  <div key={grant.id} className="bg-white rounded-lg border p-6 hover:shadow-lg transition">
+                filteredOpportunities.map((grant) => (
+                  <div
+                    key={grant.id}
+                    className="bg-white rounded-lg border p-6 hover:shadow-lg transition"
+                  >
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-2">
@@ -149,7 +181,7 @@ export function GrantsApp({ user, subscription, opportunities, savedGrants, appl
                         <p className="text-gray-600 mb-3">{grant.agency}</p>
                         <div className="flex items-center gap-6 text-sm">
                           <span className="text-brand-green-600 font-medium">
-                            {grant.amount_min && grant.amount_max 
+                            {grant.amount_min && grant.amount_max
                               ? `${formatCurrency(grant.amount_min)} - ${formatCurrency(grant.amount_max)}`
                               : 'Amount varies'}
                           </span>
@@ -161,13 +193,13 @@ export function GrantsApp({ user, subscription, opportunities, savedGrants, appl
                         </div>
                       </div>
                       <div className="flex items-center gap-2">
-                        <button 
+                        <button
                           onClick={() => saveGrant(grant.id)}
                           className="p-2 rounded-lg hover:bg-white"
                         >
                           <Bookmark className="w-5 h-5 text-gray-400" />
                         </button>
-                        <Link 
+                        <Link
                           href={`/apps/grants/opportunity/${grant.id}`}
                           className="px-4 py-2 bg-brand-green-600 text-white rounded-lg text-sm font-medium"
                         >
@@ -186,10 +218,12 @@ export function GrantsApp({ user, subscription, opportunities, savedGrants, appl
           <div className="bg-white rounded-xl border p-6">
             <h2 className="text-xl font-bold mb-4">Saved Grants</h2>
             {savedGrants.length === 0 ? (
-              <p className="text-gray-500">No saved grants yet. Browse and save grants you're interested in.</p>
+              <p className="text-gray-500">
+                No saved grants yet. Browse and save grants you're interested in.
+              </p>
             ) : (
               <div className="space-y-4">
-                {savedGrants.map(saved => (
+                {savedGrants.map((saved) => (
                   <div key={saved.id} className="p-4 border rounded-lg">
                     <h3 className="font-bold">{saved.grant?.title || 'Grant'}</h3>
                     <p className="text-sm text-gray-500">{saved.grant?.agency}</p>
@@ -212,20 +246,31 @@ export function GrantsApp({ user, subscription, opportunities, savedGrants, appl
               <p className="text-gray-500">No applications yet. Start by applying to a grant.</p>
             ) : (
               <div className="space-y-4">
-                {applications.map(app => (
-                  <Link key={app.id} href={`/apps/grants/application/${app.id}`} className="block p-4 border rounded-lg hover:bg-white">
+                {applications.map((app) => (
+                  <Link
+                    key={app.id}
+                    href={`/apps/grants/application/${app.id}`}
+                    className="block p-4 border rounded-lg hover:bg-white"
+                  >
                     <div className="flex items-center justify-between">
                       <div>
                         <h3 className="font-bold">{app.grant_title}</h3>
-                        <p className="text-sm text-gray-500">{app.agency} • {formatCurrency(app.requested_amount || 0)}</p>
+                        <p className="text-sm text-gray-500">
+                          {app.agency} • {formatCurrency(app.requested_amount || 0)}
+                        </p>
                       </div>
                       <div className="flex items-center gap-3">
-                        <span className={`px-3 py-1 rounded-full text-xs font-bold ${
-                          app.status === 'awarded' ? 'bg-brand-green-100 text-brand-green-800' :
-                          app.status === 'submitted' ? 'bg-brand-blue-100 text-brand-blue-800' :
-                          app.status === 'draft' ? 'bg-white text-gray-800' :
-                          'bg-yellow-100 text-yellow-800'
-                        }`}>
+                        <span
+                          className={`px-3 py-1 rounded-full text-xs font-bold ${
+                            app.status === 'awarded'
+                              ? 'bg-brand-green-100 text-brand-green-800'
+                              : app.status === 'submitted'
+                                ? 'bg-brand-blue-100 text-brand-blue-800'
+                                : app.status === 'draft'
+                                  ? 'bg-white text-gray-800'
+                                  : 'bg-yellow-100 text-yellow-800'
+                          }`}
+                        >
                           {app.status}
                         </span>
                         <ChevronRight className="w-5 h-5 text-gray-400" />
@@ -234,7 +279,10 @@ export function GrantsApp({ user, subscription, opportunities, savedGrants, appl
                     {app.status === 'draft' && (
                       <div className="mt-2">
                         <div className="h-2 bg-gray-200 rounded-full">
-                          <div className="h-2 bg-white rounded-full" style={{ width: `${app.progress || 0}%` }} />
+                          <div
+                            className="h-2 bg-white rounded-full"
+                            style={{ width: `${app.progress || 0}%` }}
+                          />
                         </div>
                         <p className="text-xs text-gray-500 mt-1">{app.progress || 0}% complete</p>
                       </div>
@@ -251,19 +299,25 @@ export function GrantsApp({ user, subscription, opportunities, savedGrants, appl
             <h2 className="text-xl font-bold mb-4">Upcoming Deadlines</h2>
             <div className="space-y-4">
               {opportunities
-                .filter(o => o.deadline && new Date(o.deadline) > new Date())
+                .filter((o) => o.deadline && new Date(o.deadline) > new Date())
                 .sort((a, b) => new Date(a.deadline).getTime() - new Date(b.deadline).getTime())
                 .slice(0, 10)
-                .map(grant => {
+                .map((grant) => {
                   const deadline = new Date(grant.deadline);
-                  const daysUntil = Math.ceil((deadline.getTime() - Date.now()) / (1000 * 60 * 60 * 24));
+                  const daysUntil = Math.ceil(
+                    (deadline.getTime() - Date.now()) / (1000 * 60 * 60 * 24),
+                  );
                   return (
                     <div key={grant.id} className="flex items-center gap-4 p-4 border rounded-lg">
-                      <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${
-                        daysUntil <= 7 ? 'bg-brand-red-100 text-brand-red-600' :
-                        daysUntil <= 30 ? 'bg-brand-orange-100 text-brand-orange-600' :
-                        'bg-brand-green-100 text-brand-green-600'
-                      }`}>
+                      <div
+                        className={`w-12 h-12 rounded-lg flex items-center justify-center ${
+                          daysUntil <= 7
+                            ? 'bg-brand-red-100 text-brand-red-600'
+                            : daysUntil <= 30
+                              ? 'bg-brand-orange-100 text-brand-orange-600'
+                              : 'bg-brand-green-100 text-brand-green-600'
+                        }`}
+                      >
                         <Calendar className="w-6 h-6" />
                       </div>
                       <div className="flex-1">
@@ -271,7 +325,9 @@ export function GrantsApp({ user, subscription, opportunities, savedGrants, appl
                         <p className="text-sm text-gray-500">{deadline.toLocaleDateString()}</p>
                       </div>
                       <div className="text-right">
-                        <p className={`font-bold ${daysUntil <= 7 ? 'text-brand-red-600' : daysUntil <= 30 ? 'text-brand-orange-600' : 'text-brand-green-600'}`}>
+                        <p
+                          className={`font-bold ${daysUntil <= 7 ? 'text-brand-red-600' : daysUntil <= 30 ? 'text-brand-orange-600' : 'text-brand-green-600'}`}
+                        >
                           {daysUntil} days
                         </p>
                       </div>

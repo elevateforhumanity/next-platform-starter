@@ -17,31 +17,64 @@ export const LMS_PROTECTED_ROUTES: RouteConfig[] = [
   { path: '/lms/admin', allowedRoles: ['admin', 'super_admin'] },
   { path: '/lms/analytics', allowedRoles: ['admin', 'super_admin', 'staff'] },
   { path: '/lms/builder', allowedRoles: ['admin', 'super_admin', 'instructor'] },
-  
+
   // Instructor routes
   { path: '/lms/courses/new', allowedRoles: ['instructor', 'admin', 'super_admin'] },
   { path: '/lms/grading', allowedRoles: ['instructor', 'admin', 'super_admin'] },
   { path: '/lms/roster', allowedRoles: ['instructor', 'staff', 'admin', 'super_admin'] },
-  
+
   // Staff routes
   { path: '/lms/attendance', allowedRoles: ['instructor', 'staff', 'admin', 'super_admin'] },
   { path: '/lms/reports', allowedRoles: ['staff', 'admin', 'super_admin'] },
-  
+
   // Student routes (most LMS pages)
-  { path: '/lms/dashboard', allowedRoles: ['student', 'instructor', 'staff', 'admin', 'super_admin'] },
-  { path: '/lms/courses', allowedRoles: ['student', 'instructor', 'staff', 'admin', 'super_admin'] },
-  { path: '/lms/assignments', allowedRoles: ['student', 'instructor', 'staff', 'admin', 'super_admin'] },
+  {
+    path: '/lms/dashboard',
+    allowedRoles: ['student', 'instructor', 'staff', 'admin', 'super_admin'],
+  },
+  {
+    path: '/lms/courses',
+    allowedRoles: ['student', 'instructor', 'staff', 'admin', 'super_admin'],
+  },
+  {
+    path: '/lms/assignments',
+    allowedRoles: ['student', 'instructor', 'staff', 'admin', 'super_admin'],
+  },
   { path: '/lms/grades', allowedRoles: ['student', 'instructor', 'staff', 'admin', 'super_admin'] },
-  { path: '/lms/certificates', allowedRoles: ['student', 'instructor', 'staff', 'admin', 'super_admin'] },
-  { path: '/lms/progress', allowedRoles: ['student', 'instructor', 'staff', 'admin', 'super_admin'] },
-  { path: '/lms/calendar', allowedRoles: ['student', 'instructor', 'staff', 'admin', 'super_admin'] },
-  { path: '/lms/messages', allowedRoles: ['student', 'instructor', 'staff', 'admin', 'super_admin'] },
-  { path: '/lms/community', allowedRoles: ['student', 'instructor', 'staff', 'admin', 'super_admin'] },
+  {
+    path: '/lms/certificates',
+    allowedRoles: ['student', 'instructor', 'staff', 'admin', 'super_admin'],
+  },
+  {
+    path: '/lms/progress',
+    allowedRoles: ['student', 'instructor', 'staff', 'admin', 'super_admin'],
+  },
+  {
+    path: '/lms/calendar',
+    allowedRoles: ['student', 'instructor', 'staff', 'admin', 'super_admin'],
+  },
+  {
+    path: '/lms/messages',
+    allowedRoles: ['student', 'instructor', 'staff', 'admin', 'super_admin'],
+  },
+  {
+    path: '/lms/community',
+    allowedRoles: ['student', 'instructor', 'staff', 'admin', 'super_admin'],
+  },
   { path: '/lms/forums', allowedRoles: ['student', 'instructor', 'staff', 'admin', 'super_admin'] },
-  { path: '/lms/portfolio', allowedRoles: ['student', 'instructor', 'staff', 'admin', 'super_admin'] },
+  {
+    path: '/lms/portfolio',
+    allowedRoles: ['student', 'instructor', 'staff', 'admin', 'super_admin'],
+  },
   { path: '/lms/badges', allowedRoles: ['student', 'instructor', 'staff', 'admin', 'super_admin'] },
-  { path: '/lms/achievements', allowedRoles: ['student', 'instructor', 'staff', 'admin', 'super_admin'] },
-  { path: '/lms/leaderboard', allowedRoles: ['student', 'instructor', 'staff', 'admin', 'super_admin'] },
+  {
+    path: '/lms/achievements',
+    allowedRoles: ['student', 'instructor', 'staff', 'admin', 'super_admin'],
+  },
+  {
+    path: '/lms/leaderboard',
+    allowedRoles: ['student', 'instructor', 'staff', 'admin', 'super_admin'],
+  },
 ];
 
 /**
@@ -50,15 +83,15 @@ export const LMS_PROTECTED_ROUTES: RouteConfig[] = [
 export function canAccessRoute(path: string, role: string): boolean {
   // Super admin can access everything
   if (role === 'super_admin') return true;
-  
+
   // Find matching route config
-  const routeConfig = LMS_PROTECTED_ROUTES.find(r => 
-    path === r.path || path.startsWith(r.path + '/')
+  const routeConfig = LMS_PROTECTED_ROUTES.find(
+    (r) => path === r.path || path.startsWith(r.path + '/'),
   );
-  
+
   // If no specific config, allow authenticated users
   if (!routeConfig) return true;
-  
+
   return routeConfig.allowedRoles.includes(role as LMSRole);
 }
 

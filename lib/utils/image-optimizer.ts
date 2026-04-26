@@ -1,8 +1,4 @@
-export function getOptimizedImageUrl(
-  src: string,
-  width: number,
-  quality: number = 75
-): string {
+export function getOptimizedImageUrl(src: string, width: number, quality: number = 75): string {
   // For external images, use Next.js Image Optimization API
   if (src.startsWith('http')) {
     return `/_next/image?url=${encodeURIComponent(src)}&w=${width}&q=${quality}`;
@@ -13,9 +9,7 @@ export function getOptimizedImageUrl(
 }
 
 export function getImageSrcSet(src: string, sizes: number[]): string {
-  return sizes
-    .map((size) => `${getOptimizedImageUrl(src, size)} ${size}w`)
-    .join(', ');
+  return sizes.map((size) => `${getOptimizedImageUrl(src, size)} ${size}w`).join(', ');
 }
 
 export function getResponsiveSizes(breakpoints: {

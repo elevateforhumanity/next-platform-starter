@@ -69,10 +69,9 @@ function run(cmd: string, label?: string) {
 }
 
 function getAudioDuration(file: string): number {
-  const out = execSync(
-    `ffprobe -v quiet -show_entries format=duration -of csv=p=0 "${file}"`,
-    { encoding: 'utf-8' },
-  ).trim();
+  const out = execSync(`ffprobe -v quiet -show_entries format=duration -of csv=p=0 "${file}"`, {
+    encoding: 'utf-8',
+  }).trim();
   return parseFloat(out) || 0;
 }
 
@@ -83,10 +82,10 @@ function getAudioDuration(file: string): number {
 function normalizePresenterClip(input: string, output: string) {
   run(
     `ffmpeg -y -i "${input}" ` +
-    `-vf "scale=${TARGET_W}:${TARGET_H}:force_original_aspect_ratio=decrease,pad=${TARGET_W}:${TARGET_H}:(ow-iw)/2:(oh-ih)/2,fps=${TARGET_FPS}" ` +
-    `-c:v libx264 -preset fast -crf 23 ` +
-    `-c:a aac -ar 48000 -ac 2 ` +
-    `-movflags +faststart "${output}"`,
+      `-vf "scale=${TARGET_W}:${TARGET_H}:force_original_aspect_ratio=decrease,pad=${TARGET_W}:${TARGET_H}:(ow-iw)/2:(oh-ih)/2,fps=${TARGET_FPS}" ` +
+      `-c:v libx264 -preset fast -crf 23 ` +
+      `-c:a aac -ar 48000 -ac 2 ` +
+      `-movflags +faststart "${output}"`,
     `normalize ${path.basename(input)}`,
   );
 }
@@ -95,19 +94,15 @@ function normalizePresenterClip(input: string, output: string) {
  * Create a video segment from a static diagram image + narration audio.
  * The diagram is shown full-screen while the narration plays.
  */
-function createDiagramNarrationSegment(
-  diagramPath: string,
-  audioPath: string,
-  output: string,
-) {
+function createDiagramNarrationSegment(diagramPath: string, audioPath: string, output: string) {
   const duration = getAudioDuration(audioPath);
   run(
     `ffmpeg -y -loop 1 -i "${diagramPath}" -i "${audioPath}" ` +
-    `-vf "scale=${TARGET_W}:${TARGET_H}:force_original_aspect_ratio=decrease,pad=${TARGET_W}:${TARGET_H}:(ow-iw)/2:(oh-ih)/2:color=white,fps=${TARGET_FPS}" ` +
-    `-c:v libx264 -preset fast -crf 23 -tune stillimage ` +
-    `-c:a aac -ar 48000 -ac 2 ` +
-    `-t ${duration} -shortest ` +
-    `-movflags +faststart "${output}"`,
+      `-vf "scale=${TARGET_W}:${TARGET_H}:force_original_aspect_ratio=decrease,pad=${TARGET_W}:${TARGET_H}:(ow-iw)/2:(oh-ih)/2:color=white,fps=${TARGET_FPS}" ` +
+      `-c:v libx264 -preset fast -crf 23 -tune stillimage ` +
+      `-c:a aac -ar 48000 -ac 2 ` +
+      `-t ${duration} -shortest ` +
+      `-movflags +faststart "${output}"`,
     `diagram+narration (${Math.round(duration)}s)`,
   );
 }
@@ -116,22 +111,18 @@ function createDiagramNarrationSegment(
  * Create a video segment from narration audio only (dark background with title).
  * Used when no diagram is available.
  */
-function createNarrationOnlySegment(
-  audioPath: string,
-  title: string,
-  output: string,
-) {
+function createNarrationOnlySegment(audioPath: string, title: string, output: string) {
   const duration = getAudioDuration(audioPath);
   // Dark slate background with lesson title text
   const escapedTitle = title.replace(/'/g, "'\\''").replace(/:/g, '\\:');
   run(
     `ffmpeg -y -f lavfi -i "color=c=0x1E293B:s=${TARGET_W}x${TARGET_H}:d=${duration}:r=${TARGET_FPS}" ` +
-    `-i "${audioPath}" ` +
-    `-vf "drawtext=text='${escapedTitle}':fontcolor=white:fontsize=36:x=(w-text_w)/2:y=(h-text_h)/2:font=Arial" ` +
-    `-c:v libx264 -preset fast -crf 23 ` +
-    `-c:a aac -ar 48000 -ac 2 ` +
-    `-t ${duration} -shortest ` +
-    `-movflags +faststart "${output}"`,
+      `-i "${audioPath}" ` +
+      `-vf "drawtext=text='${escapedTitle}':fontcolor=white:fontsize=36:x=(w-text_w)/2:y=(h-text_h)/2:font=Arial" ` +
+      `-c:v libx264 -preset fast -crf 23 ` +
+      `-c:a aac -ar 48000 -ac 2 ` +
+      `-t ${duration} -shortest ` +
+      `-movflags +faststart "${output}"`,
     `narration-only (${Math.round(duration)}s)`,
   );
 }
@@ -154,15 +145,15 @@ function assembleLesson(manifest: LessonManifest, force: boolean): string | null
   let partIdx = 0;
 
   // Process segments in order
-  const presenterSegments = manifest.segments.filter(s => s.type === 'presenter');
-  const diagramSegment = manifest.segments.find(s => s.type === 'diagram');
-  const narrationSegment = manifest.segments.find(s => s.type === 'narration');
+  const presenterSegments = manifest.segments.filter((s) => s.type === 'presenter');
+  const diagramSegment = manifest.segments.find((s) => s.type === 'diagram');
+  const narrationSegment = manifest.segments.find((s) => s.type === 'narration');
 
   // Find specific presenter roles
-  const intro = presenterSegments.find(s => s.role === 'intro');
-  const explanation = presenterSegments.find(s => s.role === 'explanation');
-  const recap = presenterSegments.find(s => s.role === 'recap');
-  const outro = presenterSegments.find(s => s.role === 'outro');
+  const intro = presenterSegments.find((s) => s.role === 'intro');
+  const explanation = presenterSegments.find((s) => s.role === 'explanation');
+  const recap = presenterSegments.find((s) => s.role === 'recap');
+  const outro = presenterSegments.find((s) => s.role === 'outro');
 
   // 1. Brandon intro
   if (intro && fs.existsSync(intro.source)) {
@@ -210,20 +201,26 @@ function assembleLesson(manifest: LessonManifest, force: boolean): string | null
 
   // Concatenate all parts
   const concatFile = path.join(TEMP_DIR, `concat-${manifest.lessonNumber}.txt`);
-  const concatContent = partFiles.map(f => `file '${path.resolve(f)}'`).join('\n');
+  const concatContent = partFiles.map((f) => `file '${path.resolve(f)}'`).join('\n');
   fs.writeFileSync(concatFile, concatContent);
 
   run(
     `ffmpeg -y -f concat -safe 0 -i "${concatFile}" ` +
-    `-c:v libx264 -preset fast -crf 22 ` +
-    `-c:a aac -ar 48000 -ac 2 ` +
-    `-movflags +faststart "${manifest.output}"`,
+      `-c:v libx264 -preset fast -crf 22 ` +
+      `-c:a aac -ar 48000 -ac 2 ` +
+      `-movflags +faststart "${manifest.output}"`,
     `concat ${partFiles.length} parts → final.mp4`,
   );
 
   // Clean up temp parts
-  partFiles.forEach(f => { try { fs.unlinkSync(f); } catch {} });
-  try { fs.unlinkSync(concatFile); } catch {}
+  partFiles.forEach((f) => {
+    try {
+      fs.unlinkSync(f);
+    } catch {}
+  });
+  try {
+    fs.unlinkSync(concatFile);
+  } catch {}
 
   // Copy metadata files alongside the video
   const metaFiles = [
@@ -240,15 +237,19 @@ function assembleLesson(manifest: LessonManifest, force: boolean): string | null
   // Write sources manifest
   fs.writeFileSync(
     path.join(outputDir, 'sources.json'),
-    JSON.stringify({
-      lessonNumber: manifest.lessonNumber,
-      defId: manifest.lessonDefId,
-      uuid: manifest.lessonUuid,
-      title: manifest.title,
-      assembledFrom: partFiles.length + ' segments',
-      hasDiagram: !!manifest.diagram,
-      timestamp: new Date().toISOString(),
-    }, null, 2),
+    JSON.stringify(
+      {
+        lessonNumber: manifest.lessonNumber,
+        defId: manifest.lessonDefId,
+        uuid: manifest.lessonUuid,
+        title: manifest.title,
+        assembledFrom: partFiles.length + ' segments',
+        hasDiagram: !!manifest.diagram,
+        timestamp: new Date().toISOString(),
+      },
+      null,
+      2,
+    ),
   );
 
   return manifest.output;
@@ -262,7 +263,7 @@ function main() {
   const args = process.argv.slice(2);
   const dryRun = args.includes('--dry-run');
   const force = args.includes('--force');
-  const lessonArg = args.find(a => a.startsWith('--lesson='));
+  const lessonArg = args.find((a) => a.startsWith('--lesson='));
 
   if (!lessonArg) {
     console.error('Usage: npx tsx scripts/assemble-lesson.ts --lesson=5 [--force] [--dry-run]');

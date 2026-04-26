@@ -5,7 +5,13 @@ import type { UserRole } from '@/types/database';
 
 export interface ApiAuthResult {
   user: { id: string; email: string };
-  profile: { id: string; role: UserRole; full_name?: string; tenant_id?: string; is_active?: boolean };
+  profile: {
+    id: string;
+    role: UserRole;
+    full_name?: string;
+    tenant_id?: string;
+    is_active?: boolean;
+  };
   /** RLS-respecting client scoped to the authenticated user. */
   db: Awaited<ReturnType<typeof createClient>>;
   /** Service-role client for cross-tenant admin queries. Only use when RLS must be bypassed. */
@@ -34,13 +40,13 @@ export async function requireApiRole(
 ): Promise<ApiAuthResult | NextResponse> {
   const supabase = await createClient();
 
-  const { data: { user }, error } = await supabase.auth.getUser();
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.getUser();
 
   if (error || !user) {
-    return NextResponse.json(
-      { error: 'Unauthorized' },
-      { status: 401 },
-    );
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   // Use admin client for profile lookup to bypass RLS on profiles table,
@@ -56,18 +62,12 @@ export async function requireApiRole(
     .maybeSingle();
 
   if (!profile) {
-    return NextResponse.json(
-      { error: 'Unauthorized — no profile' },
-      { status: 401 },
-    );
+    return NextResponse.json({ error: 'Unauthorized — no profile' }, { status: 401 });
   }
 
   // Deactivated accounts are denied regardless of role
   if (profile.is_active === false) {
-    return NextResponse.json(
-      { error: 'Account deactivated' },
-      { status: 401 },
-    );
+    return NextResponse.json({ error: 'Account deactivated' }, { status: 401 });
   }
 
   if (!allowedRoles.includes(profile.role as UserRole)) {

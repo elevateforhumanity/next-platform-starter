@@ -18,8 +18,10 @@ export function SearchButton() {
   // Load recent searches and popular searches from DB
   useEffect(() => {
     async function loadSearchData() {
-      const { data: { user } } = await supabase.auth.getUser();
-      
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
       if (user) {
         // Load user's recent searches
         const { data: recent } = await supabase
@@ -28,8 +30,8 @@ export function SearchButton() {
           .eq('user_id', user.id)
           .order('searched_at', { ascending: false })
           .limit(5);
-        
-        if (recent) setRecentSearches(recent.map(r => r.query));
+
+        if (recent) setRecentSearches(recent.map((r) => r.query));
       }
 
       // Load popular/suggested searches
@@ -38,7 +40,7 @@ export function SearchButton() {
         .select('query, search_count')
         .order('search_count', { ascending: false })
         .limit(5);
-      
+
       if (popular) setSuggestions(popular);
     }
     if (isOpen) loadSearchData();
@@ -46,14 +48,14 @@ export function SearchButton() {
 
   // Log search to DB
   const logSearch = async (searchQuery: string) => {
-    const { data: { user } } = await supabase.auth.getUser();
-    await supabase
-      .from('search_history')
-      .insert({
-        user_id: user?.id || null,
-        query: searchQuery,
-        searched_at: new Date().toISOString()
-      });
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    await supabase.from('search_history').insert({
+      user_id: user?.id || null,
+      query: searchQuery,
+      searched_at: new Date().toISOString(),
+    });
   };
 
   const handleSearch = async (e: React.FormEvent) => {

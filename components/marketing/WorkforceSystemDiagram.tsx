@@ -67,7 +67,8 @@ export function WorkforceSystemDiagram() {
           One cycle. Every stakeholder.
         </h2>
         <p className="text-slate-400 text-sm text-center max-w-xl mx-auto mb-12">
-          From first contact to employer placement and agency reporting — every step is tracked, documented, and verifiable.
+          From first contact to employer placement and agency reporting — every step is tracked,
+          documented, and verifiable.
         </p>
 
         {/* Desktop: horizontal flow */}
@@ -78,7 +79,9 @@ export function WorkforceSystemDiagram() {
                 href={node.href}
                 className={`flex-1 ${node.color} border rounded-xl p-5 flex flex-col gap-2 hover:border-slate-500 transition-colors group`}
               >
-                <span className={`text-xs font-black ${node.accent} tracking-widest`}>{node.step}</span>
+                <span className={`text-xs font-black ${node.accent} tracking-widest`}>
+                  {node.step}
+                </span>
                 <h3 className="text-white font-extrabold text-base leading-tight">{node.label}</h3>
                 <p className={`text-xs font-semibold ${node.accent}`}>{node.sublabel}</p>
                 <p className="text-slate-400 text-xs leading-relaxed mt-1">{node.detail}</p>
@@ -101,9 +104,13 @@ export function WorkforceSystemDiagram() {
                 className={`block ${node.color} border rounded-xl p-5 hover:border-slate-500 transition-colors`}
               >
                 <div className="flex items-center gap-3 mb-2">
-                  <span className={`text-xs font-black ${node.accent} tracking-widest`}>{node.step}</span>
+                  <span className={`text-xs font-black ${node.accent} tracking-widest`}>
+                    {node.step}
+                  </span>
                   <h3 className="text-white font-extrabold text-sm">{node.label}</h3>
-                  <span className={`text-xs font-semibold ${node.accent} ml-auto`}>{node.sublabel}</span>
+                  <span className={`text-xs font-semibold ${node.accent} ml-auto`}>
+                    {node.sublabel}
+                  </span>
                 </div>
                 <p className="text-slate-400 text-xs leading-relaxed">{node.detail}</p>
               </Link>
@@ -125,7 +132,10 @@ export function WorkforceSystemDiagram() {
             { label: 'Employer placements', value: 'Wage outcomes logged' },
             { label: 'Agency reports', value: 'RAPIDS-compatible' },
           ].map((item) => (
-            <div key={item.label} className="bg-slate-900 border border-slate-800 rounded-lg px-4 py-3 text-center">
+            <div
+              key={item.label}
+              className="bg-slate-900 border border-slate-800 rounded-lg px-4 py-3 text-center"
+            >
               <p className="text-white text-xs font-bold">{item.label}</p>
               <p className="text-slate-400 text-[10px] mt-0.5">{item.value}</p>
             </div>

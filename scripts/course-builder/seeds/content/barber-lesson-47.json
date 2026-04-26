@@ -16,12 +16,7 @@
       },
       {
         "prompt": "Which of the following is NOT a layer of the hair shaft?",
-        "choices": [
-          "Cuticle",
-          "Cortex",
-          "Medulla",
-          "Follicle"
-        ],
+        "choices": ["Cuticle", "Cortex", "Medulla", "Follicle"],
         "answerIndex": 3,
         "rationale": "The follicle is not a layer of the hair shaft; it is the structure in the skin from which the hair grows.",
         "type": "recall"
@@ -52,12 +47,7 @@
       },
       {
         "prompt": "Which phase of the hair growth cycle lasts the longest?",
-        "choices": [
-          "Anagen",
-          "Catagen",
-          "Telogen",
-          "Exogen"
-        ],
+        "choices": ["Anagen", "Catagen", "Telogen", "Exogen"],
         "answerIndex": 0,
         "rationale": "The anagen phase is the growth stage and can last from 2 to 7 years, making it the longest phase of the hair growth cycle.",
         "type": "recall"
@@ -88,24 +78,14 @@
       },
       {
         "prompt": "Which layer of the hair shaft is responsible for its strength and elasticity?",
-        "choices": [
-          "Cuticle",
-          "Cortex",
-          "Medulla",
-          "Follicle"
-        ],
+        "choices": ["Cuticle", "Cortex", "Medulla", "Follicle"],
         "answerIndex": 1,
         "rationale": "The cortex is the thickest layer of the hair shaft and is responsible for the hair's strength and elasticity.",
         "type": "recall"
       },
       {
         "prompt": "A client is concerned about hair damage. Which layer of the hair shaft should you focus on protecting?",
-        "choices": [
-          "Cuticle",
-          "Cortex",
-          "Medulla",
-          "Follicle"
-        ],
+        "choices": ["Cuticle", "Cortex", "Medulla", "Follicle"],
         "answerIndex": 0,
         "rationale": "The cuticle is the outermost layer that protects the hair from environmental damage, so maintaining its integrity is crucial.",
         "type": "scenario"
@@ -124,12 +104,7 @@
       },
       {
         "prompt": "Which of the following is a transitional phase in the hair growth cycle?",
-        "choices": [
-          "Anagen",
-          "Catagen",
-          "Telogen",
-          "Medulla"
-        ],
+        "choices": ["Anagen", "Catagen", "Telogen", "Medulla"],
         "answerIndex": 1,
         "rationale": "The catagen phase is a short transitional period where hair growth slows, and the follicle shrinks.",
         "type": "recall"
@@ -148,24 +123,14 @@
       },
       {
         "prompt": "Which hair shaft layer is often absent in fine hair?",
-        "choices": [
-          "Cuticle",
-          "Cortex",
-          "Medulla",
-          "Follicle"
-        ],
+        "choices": ["Cuticle", "Cortex", "Medulla", "Follicle"],
         "answerIndex": 2,
         "rationale": "The medulla is the innermost layer of the hair shaft and is often absent in fine hair.",
         "type": "recall"
       },
       {
         "prompt": "A client complains of hair breakage. Which layer of the hair shaft should you examine for damage?",
-        "choices": [
-          "Cuticle",
-          "Cortex",
-          "Medulla",
-          "Follicle"
-        ],
+        "choices": ["Cuticle", "Cortex", "Medulla", "Follicle"],
         "answerIndex": 1,
         "rationale": "The cortex is responsible for the hair's strength and elasticity, so damage here could lead to breakage.",
         "type": "scenario"
@@ -196,24 +161,14 @@
       },
       {
         "prompt": "A client asks why their hair feels rough and lacks shine. What could be a reason based on hair anatomy?",
-        "choices": [
-          "Damaged cuticle",
-          "Thick cortex",
-          "Absent medulla",
-          "Short anagen phase"
-        ],
+        "choices": ["Damaged cuticle", "Thick cortex", "Absent medulla", "Short anagen phase"],
         "answerIndex": 0,
         "rationale": "A damaged cuticle can lead to rough, dull hair as it affects the hair's ability to reflect light and retain moisture.",
         "type": "scenario"
       },
       {
         "prompt": "Which phase of the hair growth cycle involves the shedding of hair?",
-        "choices": [
-          "Anagen",
-          "Catagen",
-          "Telogen",
-          "Exogen"
-        ],
+        "choices": ["Anagen", "Catagen", "Telogen", "Exogen"],
         "answerIndex": 2,
         "rationale": "The telogen phase is the resting stage where hair is eventually shed, making way for new growth.",
         "type": "recall"

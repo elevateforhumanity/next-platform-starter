@@ -4,9 +4,9 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 /**
  * SEO-SAFE RESOURCE PAGE TEMPLATE
- * 
+ *
  * Use this template for every resource page. No improvising.
- * 
+ *
  * Requirements:
  * - 800-1,500 words of original content
  * - Informational, not advisory
@@ -29,7 +29,7 @@ interface ResourcePageProps {
   lastReviewed: string;
   reviewedBy: string;
   version?: string;
-  
+
   // Content sections
   intro: string;
   overview: string | React.ReactNode;
@@ -43,7 +43,7 @@ interface ResourcePageProps {
   };
   faqs: FAQ[];
   platformRelation: string | React.ReactNode;
-  
+
   // Links
   parentPage: { href: string; label: string };
   relatedResources: Array<{ href: string; label: string }>;
@@ -71,22 +71,19 @@ export function ResourcePageTemplate({
       {/* Breadcrumbs */}
       <div className="bg-slate-50 border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[{ label: parentPage.label, href: parentPage.href }, { label: title }]} />
+          <Breadcrumbs
+            items={[{ label: parentPage.label, href: parentPage.href }, { label: title }]}
+          />
         </div>
       </div>
 
       {/* Header */}
       <div className="bg-white py-12 border-t">
         <div className="max-w-4xl mx-auto px-4">
-          
-          <h1 className="text-3xl md:text-4xl font-bold mb-4">
-            {title}
-          </h1>
-          
-          <p className="text-slate-300 text-lg max-w-3xl">
-            {description}
-          </p>
-          
+          <h1 className="text-3xl md:text-4xl font-bold mb-4">{title}</h1>
+
+          <p className="text-slate-300 text-lg max-w-3xl">{description}</p>
+
           {/* Metadata bar */}
           <div className="mt-6 flex flex-wrap gap-4 text-sm text-slate-400">
             <span className="flex items-center gap-1">
@@ -109,12 +106,9 @@ export function ResourcePageTemplate({
 
       <div className="max-w-4xl mx-auto px-4 py-12">
         <article className="prose prose-slate max-w-none">
-          
           {/* Intro Section */}
           <section className="mb-10">
-            <p className="text-lg text-slate-700 leading-relaxed">
-              {intro}
-            </p>
+            <p className="text-lg text-slate-700 leading-relaxed">{intro}</p>
           </section>
 
           {/* Section 1: Overview */}
@@ -136,7 +130,9 @@ export function ResourcePageTemplate({
             </h2>
             <ol className="list-decimal list-inside space-y-3 text-slate-700">
               {howItWorks.steps.map((step, index) => (
-                <li key={index} className="leading-relaxed">{step}</li>
+                <li key={index} className="leading-relaxed">
+                  {step}
+                </li>
               ))}
             </ol>
           </section>
@@ -184,27 +180,25 @@ export function ResourcePageTemplate({
 
           {/* Section 6: References & Disclosures */}
           <section className="mb-10 bg-amber-50 rounded-xl p-6 border border-amber-200">
-            <h2 className="text-xl font-bold text-slate-900 mb-4">
-              References & Disclosures
-            </h2>
+            <h2 className="text-xl font-bold text-slate-900 mb-4">References & Disclosures</h2>
             <p className="text-slate-700 mb-4 italic">
               This content is informational only and does not constitute professional advice.
             </p>
             <div className="flex flex-wrap gap-3">
-              <Link 
+              <Link
                 href="/admin/governance"
                 className="text-brand-blue-600 hover:text-brand-blue-700 text-sm font-medium"
               >
                 Governance Documents →
               </Link>
-              <Link 
+              <Link
                 href="/admin/governance/security"
                 className="text-brand-blue-600 hover:text-brand-blue-700 text-sm font-medium"
               >
                 Security & Data Protection →
               </Link>
               {governanceLinks.map((link, index) => (
-                <Link 
+                <Link
                   key={index}
                   href={link.href}
                   className="text-brand-blue-600 hover:text-brand-blue-700 text-sm font-medium"
@@ -218,9 +212,7 @@ export function ResourcePageTemplate({
           {/* Related Resources */}
           {relatedResources.length > 0 && (
             <section className="mb-10">
-              <h2 className="text-xl font-bold text-slate-900 mb-4">
-                Related Resources
-              </h2>
+              <h2 className="text-xl font-bold text-slate-900 mb-4">Related Resources</h2>
               <div className="grid md:grid-cols-2 gap-4">
                 {relatedResources.map((resource, index) => (
                   <Link
@@ -243,7 +235,7 @@ export function ResourcePageTemplate({
             Last reviewed: {lastReviewed} • Reviewed by: {reviewedBy}
             {version && ` • Version: ${version}`}
           </p>
-          <Link 
+          <Link
             href={parentPage.href}
             className="inline-flex items-center px-6 py-3 bg-slate-100 text-slate-700 rounded-lg font-medium hover:bg-slate-200 transition-colors"
           >

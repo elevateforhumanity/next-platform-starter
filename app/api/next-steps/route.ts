@@ -1,5 +1,3 @@
-
-
 import { NextResponse } from 'next/server';
 import { getAdminClient } from '@/lib/supabase/admin';
 import { createClient } from '@/lib/supabase/server';
@@ -17,7 +15,9 @@ function computeProgress(row: any) {
     !!row.program_code,
     !!row.inquiry_submitted,
     !!row.icc_account_created,
-    !!row.workone_appointment_1_completed || !!row.workone_appointment_2_completed || !!row.workone_appointment_3_completed,
+    !!row.workone_appointment_1_completed ||
+      !!row.workone_appointment_2_completed ||
+      !!row.workone_appointment_3_completed,
     !!row.told_advisor_efh,
     !!row.advisor_docs_uploaded,
     row.funding_status === 'approved' || row.funding_status === 'denied',
@@ -33,10 +33,9 @@ function computeProgress(row: any) {
 }
 
 async function _GET(request: Request) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const supabase = await createClient();
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -47,12 +46,9 @@ const supabase = await createClient();
 
   const adminClient = await getAdminClient();
 
-    if (!adminClient) {
-      return NextResponse.json(
-        { error: 'Service temporarily unavailable.' },
-        { status: 503 }
-      );
-    }
+  if (!adminClient) {
+    return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });
+  }
 
   const { data: profile } = await adminClient
     .from('profiles')
@@ -66,8 +62,7 @@ const supabase = await createClient();
     .eq('user_id', user.id)
     .maybeSingle();
 
-  if (error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+  if (error) return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
 
   // Create default row if missing (one-shot UX)
   if (!data) {
@@ -80,8 +75,7 @@ const supabase = await createClient();
       .select('*')
       .single();
 
-    if (createErr)
-      return NextResponse.json({ error: 'Creation failed' }, { status: 500 });
+    if (createErr) return NextResponse.json({ error: 'Creation failed' }, { status: 500 });
 
     return NextResponse.json({
       ...created,
@@ -93,10 +87,9 @@ const supabase = await createClient();
 }
 
 async function _PATCH(req: Request) {
-  
-    const rateLimited = await applyRateLimit(req, 'api');
-    if (rateLimited) return rateLimited;
-const supabase = await createClient();
+  const rateLimited = await applyRateLimit(req, 'api');
+  if (rateLimited) return rateLimited;
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -175,14 +168,11 @@ const supabase = await createClient();
     .select('*')
     .single();
 
-  if (error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+  if (error) return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
 
   // Send email notification to admin
   try {
-    const { data: userData } = await adminClient.auth.admin.getUserById(
-      user.id
-    );
+    const { data: userData } = await adminClient.auth.admin.getUserById(user.id);
     const userEmail = userData?.user?.email || 'Unknown';
     const progress = computeProgress(data);
 
@@ -202,9 +192,8 @@ const supabase = await createClient();
             ${Object.keys(update)
               .map((key) => {
                 const value = update[key];
-                const displayValue = typeof value === 'boolean'
-                  ? (value ? 'Yes' : 'No')
-                  : value || '(empty)';
+                const displayValue =
+                  typeof value === 'boolean' ? (value ? 'Yes' : 'No') : value || '(empty)';
                 return `<li><strong>${key.replace(/_/g, ' ')}:</strong> ${displayValue}</li>`;
               })
               .join('')}
@@ -228,7 +217,10 @@ const supabase = await createClient();
       }).catch((err) => logger.warn('[next-steps] SMS alert failed:', err));
     }
   } catch (emailError) {
-    logger.error('[next-steps] Email notification failed:', emailError instanceof Error ? emailError : undefined);
+    logger.error(
+      '[next-steps] Email notification failed:',
+      emailError instanceof Error ? emailError : undefined,
+    );
   }
 
   return NextResponse.json({ ...data, progress: computeProgress(data) });

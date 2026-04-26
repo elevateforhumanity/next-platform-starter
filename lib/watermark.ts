@@ -11,15 +11,14 @@ export interface WatermarkData {
 /**
  * Add invisible watermark to content
  */
-export function watermarkContent(
-  content: string,
-  data: WatermarkData
-): string {
-  const watermark = Buffer.from(JSON.stringify({
-    u: data.userId,
-    c: data.contentId,
-    t: data.timestamp.getTime(),
-  })).toString('base64');
+export function watermarkContent(content: string, data: WatermarkData): string {
+  const watermark = Buffer.from(
+    JSON.stringify({
+      u: data.userId,
+      c: data.contentId,
+      t: data.timestamp.getTime(),
+    }),
+  ).toString('base64');
   // Add invisible HTML comment
   const invisibleWatermark = `<!-- wm:${watermark} -->`;
   return content + invisibleWatermark;
@@ -66,17 +65,15 @@ This is an automated notification from your Elevate for Humanity LMS platform.
   `.trim();
   try {
     await notifySendgrid(subject, message);
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     // Error: $1
   }
 }
 /**
  * Detect suspicious content usage patterns
  */
-export async function detectSuspiciousUsage(
-  userId: string,
-  contentId: string
-): Promise<boolean> {
+export async function detectSuspiciousUsage(userId: string, contentId: string): Promise<boolean> {
   // In production, check database for patterns
   // For now, just log
   //
@@ -91,7 +88,7 @@ export async function detectSuspiciousUsage(
 export async function watermarkBuild(
   buildId: string,
   deployedBy: string,
-  deployedTo: string
+  deployedTo: string,
 ): Promise<void> {
   const timestamp = new Date();
   const message = `
@@ -109,7 +106,8 @@ Value: $2.5M - $8M
   try {
     await notifySendgrid('Build Deployment Alert', message);
     //
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     // Error: $1
   }
 }

@@ -26,4 +26,3 @@ files.forEach((file) => {
     totalRemoved += removed;
   }
 });
-

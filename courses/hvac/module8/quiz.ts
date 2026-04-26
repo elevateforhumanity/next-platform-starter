@@ -1,6 +1,7 @@
 export const quiz = [
   {
-    question: 'When charging a system using the subcooling method, what indicates the system is properly charged?',
+    question:
+      'When charging a system using the subcooling method, what indicates the system is properly charged?',
     options: [
       'Subcooling matches the manufacturer specification within plus or minus 2 degrees F',
       'Suction pressure is above 100 psi',
@@ -26,7 +27,12 @@ export const quiz = [
   },
   {
     question: 'What is the acceptable tolerance for static pressure measurements in ductwork?',
-    options: ['Plus or minus 0.02 inches water column', 'Plus or minus 0.1 inches water column', 'Plus or minus 0.5 inches water column', 'Plus or minus 1.0 inches water column'],
+    options: [
+      'Plus or minus 0.02 inches water column',
+      'Plus or minus 0.1 inches water column',
+      'Plus or minus 0.5 inches water column',
+      'Plus or minus 1.0 inches water column',
+    ],
     answer: 'Plus or minus 0.02 inches water column',
   },
   {
@@ -34,4 +40,4 @@ export const quiz = [
     options: ['Oxygen', 'Acetylene', 'Dry nitrogen', 'Carbon dioxide'],
     answer: 'Dry nitrogen',
   },
-]
+];

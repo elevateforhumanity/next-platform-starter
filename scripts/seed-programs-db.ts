@@ -18,7 +18,8 @@ const PROGRAMS = [
   {
     slug: 'hvac-technician',
     title: 'HVAC Technician',
-    description: '20-week workforce training program covering HVAC installation, maintenance, and EPA 608 certification.',
+    description:
+      '20-week workforce training program covering HVAC installation, maintenance, and EPA 608 certification.',
     delivery_model: 'hybrid',
     enrollment_type: 'internal',
     has_lms_course: true,
@@ -58,7 +59,8 @@ const PROGRAMS = [
   {
     slug: 'barber-apprenticeship',
     title: 'Barber Apprenticeship',
-    description: 'Indiana-registered barber apprenticeship combining Milady curriculum with on-the-job training.',
+    description:
+      'Indiana-registered barber apprenticeship combining Milady curriculum with on-the-job training.',
     delivery_model: 'hybrid',
     enrollment_type: 'internal',
     has_lms_course: false,
@@ -98,7 +100,8 @@ const PROGRAMS = [
   {
     slug: 'cpr-first-aid',
     title: 'CPR, AED & First Aid',
-    description: 'HSI-certified CPR, AED, and First Aid certification. Included free with any Elevate program.',
+    description:
+      'HSI-certified CPR, AED, and First Aid certification. Included free with any Elevate program.',
     delivery_model: 'partner',
     enrollment_type: 'internal',
     has_lms_course: false,
@@ -156,7 +159,7 @@ async function main() {
           published: programData.published,
           is_active: true,
         },
-        { onConflict: 'slug', ignoreDuplicates: false }
+        { onConflict: 'slug', ignoreDuplicates: false },
       )
       .select('id, slug')
       .single();
@@ -176,13 +179,15 @@ async function main() {
         .from('program_funding')
         .upsert(
           { program_id: row.id, type, is_active: true },
-          { onConflict: 'program_id,type', ignoreDuplicates: false }
+          { onConflict: 'program_id,type', ignoreDuplicates: false },
         );
 
       if (fundingError) {
         // program_funding table may not exist yet (migration pending)
         if (fundingError.message.includes('does not exist')) {
-          console.warn(`  WARN: program_funding table missing — apply migration 20260503000005 first`);
+          console.warn(
+            `  WARN: program_funding table missing — apply migration 20260503000005 first`,
+          );
           break;
         }
         console.error(`  FAIL funding ${type} for ${prog.slug}:`, fundingError.message);
@@ -193,11 +198,13 @@ async function main() {
     }
   }
 
-  console.log(`\nDone: ${upserted} programs upserted, ${fundingInserted} funding rows, ${errors} errors`);
+  console.log(
+    `\nDone: ${upserted} programs upserted, ${fundingInserted} funding rows, ${errors} errors`,
+  );
   if (errors > 0) process.exit(1);
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.error('Fatal:', err.message);
   process.exit(1);
 });

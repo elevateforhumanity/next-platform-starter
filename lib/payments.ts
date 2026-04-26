@@ -1,4 +1,3 @@
-
 import type Stripe from 'stripe';
 import { createClient } from '@/lib/supabase/server';
 
@@ -46,7 +45,7 @@ export interface PaymentIntent {
 export async function getOrCreateStripeCustomer(
   userId: string,
   email: string,
-  name?: string
+  name?: string,
 ): Promise<string> {
   const supabase = await createClient();
   // Check if customer already exists
@@ -68,10 +67,7 @@ export async function getOrCreateStripeCustomer(
     },
   });
   // Save customer ID to profile
-  await supabase
-    .from('profiles')
-    .update({ stripe_customer_id: customer.id })
-    .eq('id', userId);
+  await supabase.from('profiles').update({ stripe_customer_id: customer.id }).eq('id', userId);
   return customer.id;
 }
 /**
@@ -84,7 +80,7 @@ export async function updateStripeCustomer(
     name?: string;
     phone?: string;
     address?: Stripe.AddressParam;
-  }
+  },
 ): Promise<void> {
   await stripe.customers.update(customerId, updates);
 }
@@ -99,7 +95,7 @@ export async function createCoursePaymentIntent(
   courseId: string,
   amount: number,
   currency: string = 'usd',
-  referralCode?: string
+  referralCode?: string,
 ): Promise<PaymentIntent> {
   const supabase = await createClient();
   // Get user email
@@ -115,7 +111,7 @@ export async function createCoursePaymentIntent(
   const customerId = await getOrCreateStripeCustomer(
     userId,
     profile.email,
-    `${profile.first_name} ${profile.last_name}`
+    `${profile.first_name} ${profile.last_name}`,
   );
   // Apply referral discount if provided
   let finalAmount = amount;
@@ -168,7 +164,7 @@ export async function createSubscriptionPaymentIntent(
   userId: string,
   planId: string,
   amount: number,
-  currency: string = 'usd'
+  currency: string = 'usd',
 ): Promise<PaymentIntent> {
   const supabase = await createClient();
   const { data: profile } = await supabase
@@ -182,7 +178,7 @@ export async function createSubscriptionPaymentIntent(
   const customerId = await getOrCreateStripeCustomer(
     userId,
     profile.email,
-    `${profile.first_name} ${profile.last_name}`
+    `${profile.first_name} ${profile.last_name}`,
   );
   const paymentIntent = await stripe.paymentIntents.create({
     amount: Math.round(amount * 100),
@@ -226,7 +222,7 @@ export async function createSubscriptionPaymentIntent(
  * Confirm payment and process enrollment
  */
 export async function confirmPayment(
-  paymentIntentId: string
+  paymentIntentId: string,
 ): Promise<{ success: boolean; enrollmentId?: string }> {
   const supabase = await createClient();
   // Get payment intent from Stripe
@@ -265,17 +261,14 @@ export async function confirmPayment(
       .maybeSingle();
     // Trigger webhook
     const { triggerEnrollmentCreated } = await import('@/lib/webhooks');
-    await triggerEnrollmentCreated(
-      enrollment.id,
-      payment.user_id,
-      payment.course_id
-    );
+    await triggerEnrollmentCreated(enrollment.id, payment.user_id, payment.course_id);
     // Track referral if applicable
     if (payment.metadata?.referral_code) {
       const { trackReferral } = await import('@/lib/referrals');
       try {
         await trackReferral(payment.metadata.referral_code, payment.user_id);
-      } catch (error) { /* Error handled silently */ 
+      } catch (error) {
+        /* Error handled silently */
         // Error: $1
       }
     }
@@ -286,9 +279,7 @@ export async function confirmPayment(
 /**
  * Handle failed payment
  */
-export async function handleFailedPayment(
-  paymentIntentId: string
-): Promise<void> {
+export async function handleFailedPayment(paymentIntentId: string): Promise<void> {
   const supabase = await createClient();
   await supabase
     .from('payments')
@@ -307,7 +298,7 @@ export async function handleFailedPayment(
 export async function processRefund(
   paymentId: string,
   amount?: number,
-  reason?: string
+  reason?: string,
 ): Promise<{ success: boolean; refundId?: string }> {
   const supabase = await createClient();
   // Get payment
@@ -352,9 +343,7 @@ export async function processRefund(
 /**
  * Get customer payment methods
  */
-export async function getPaymentMethods(
-  customerId: string
-): Promise<Stripe.PaymentMethod[]> {
+export async function getPaymentMethods(customerId: string): Promise<Stripe.PaymentMethod[]> {
   const paymentMethods = await stripe.paymentMethods.list({
     customer: customerId,
     type: 'card',
@@ -366,7 +355,7 @@ export async function getPaymentMethods(
  */
 export async function attachPaymentMethod(
   paymentMethodId: string,
-  customerId: string
+  customerId: string,
 ): Promise<void> {
   await stripe.paymentMethods.attach(paymentMethodId, {
     customer: customerId,
@@ -375,9 +364,7 @@ export async function attachPaymentMethod(
 /**
  * Detach payment method from customer
  */
-export async function detachPaymentMethod(
-  paymentMethodId: string
-): Promise<void> {
+export async function detachPaymentMethod(paymentMethodId: string): Promise<void> {
   await stripe.paymentMethods.detach(paymentMethodId);
 }
 /**
@@ -385,7 +372,7 @@ export async function detachPaymentMethod(
  */
 export async function setDefaultPaymentMethod(
   customerId: string,
-  paymentMethodId: string
+  paymentMethodId: string,
 ): Promise<void> {
   await stripe.customers.update(customerId, {
     invoice_settings: {
@@ -402,7 +389,7 @@ export async function setDefaultPaymentMethod(
 export async function createSubscription(
   userId: string,
   priceId: string,
-  paymentMethodId?: string
+  paymentMethodId?: string,
 ): Promise<Stripe.Subscription> {
   const supabase = await createClient();
   const { data: profile } = await supabase
@@ -418,7 +405,7 @@ export async function createSubscription(
     customerId = await getOrCreateStripeCustomer(
       userId,
       profile.email,
-      `${profile.first_name} ${profile.last_name}`
+      `${profile.first_name} ${profile.last_name}`,
     );
   }
   const subscriptionData: Stripe.SubscriptionCreateParams = {
@@ -439,11 +426,9 @@ export async function createSubscription(
     stripe_customer_id: customerId,
     status: subscription.status,
     current_period_start: new Date(
-      (subscription as string).current_period_start * 1000
+      (subscription as string).current_period_start * 1000,
     ).toISOString(),
-    current_period_end: new Date(
-      (subscription as string).current_period_end * 1000
-    ).toISOString(),
+    current_period_end: new Date((subscription as string).current_period_end * 1000).toISOString(),
   });
   return subscription;
 }
@@ -452,7 +437,7 @@ export async function createSubscription(
  */
 export async function cancelSubscription(
   subscriptionId: string,
-  immediately: boolean = false
+  immediately: boolean = false,
 ): Promise<void> {
   const supabase = await createClient();
   if (immediately) {
@@ -476,10 +461,7 @@ export async function cancelSubscription(
 /**
  * Get user payment history
  */
-export async function getPaymentHistory(
-  userId: string,
-  limit: number = 50
-): Promise<Payment[]> {
+export async function getPaymentHistory(userId: string, limit: number = 50): Promise<Payment[]> {
   const supabase = await createClient();
   const { data, error }: any = await supabase
     .from('payments')
@@ -512,7 +494,7 @@ export async function getPayment(paymentId: string): Promise<Payment | null> {
 export function verifyWebhookSignature(
   payload: string | Buffer,
   signature: string,
-  secret: string
+  secret: string,
 ): Stripe.Event {
   return stripe.webhooks.constructEvent(payload, signature, secret);
 }
@@ -539,10 +521,10 @@ export async function handleStripeWebhook(event: Stripe.Event): Promise<void> {
         .update({
           status: subscription.status,
           current_period_start: new Date(
-            (subscription as string).current_period_start * 1000
+            (subscription as string).current_period_start * 1000,
           ).toISOString(),
           current_period_end: new Date(
-            (subscription as string).current_period_end * 1000
+            (subscription as string).current_period_end * 1000,
           ).toISOString(),
         })
         .eq('stripe_subscription_id', subscription.id);
@@ -582,7 +564,7 @@ export async function getCoursePrice(courseId: string): Promise<number> {
  */
 export function calculateTotalWithTax(
   amount: number,
-  taxRate: number = 0
+  taxRate: number = 0,
 ): {
   subtotal: number;
   tax: number;

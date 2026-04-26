@@ -7,7 +7,11 @@ interface PageFlowProps {
   nextStepLabel?: string;
 }
 
-export function PageFlow({ currentStep = 'learn', nextStepHref = '/apply', nextStepLabel = 'Apply Now' }: PageFlowProps) {
+export function PageFlow({
+  currentStep = 'learn',
+  nextStepHref = '/apply',
+  nextStepLabel = 'Apply Now',
+}: PageFlowProps) {
   const steps = [
     { id: 'learn', label: 'Learn About Programs', active: currentStep === 'learn' },
     { id: 'apply', label: 'Submit Application', active: currentStep === 'apply' },
@@ -72,15 +76,27 @@ export function PageFlow({ currentStep = 'learn', nextStepHref = '/apply', nextS
         {/* Quick Links */}
         <div className="mt-6 text-center text-sm text-black">
           <span>Not sure if you qualify? </span>
-          <Link href="/funding" aria-label="Link" className="text-brand-orange-600 hover:underline font-semibold">
+          <Link
+            href="/funding"
+            aria-label="Link"
+            className="text-brand-orange-600 hover:underline font-semibold"
+          >
             Check Eligibility
           </Link>
           <span className="mx-2">•</span>
-          <Link href="/how-it-works" aria-label="Link" className="text-brand-orange-600 hover:underline font-semibold">
+          <Link
+            href="/how-it-works"
+            aria-label="Link"
+            className="text-brand-orange-600 hover:underline font-semibold"
+          >
             How It Works
           </Link>
           <span className="mx-2">•</span>
-          <Link href="/faq" aria-label="Link" className="text-brand-orange-600 hover:underline font-semibold">
+          <Link
+            href="/faq"
+            aria-label="Link"
+            className="text-brand-orange-600 hover:underline font-semibold"
+          >
             FAQ
           </Link>
         </div>
@@ -96,23 +112,44 @@ export function ComplianceFooter() {
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-xs text-black space-y-2">
           <p>
-            <strong>Equal Opportunity:</strong> Elevate for Humanity is an equal opportunity employer and training provider.
-            We do not discriminate on the basis of race, color, religion, sex, national origin, age, disability, or any other protected class.
+            <strong>Equal Opportunity:</strong> Elevate for Humanity is an equal opportunity
+            employer and training provider. We do not discriminate on the basis of race, color,
+            religion, sex, national origin, age, disability, or any other protected class.
           </p>
           <p>
-            <strong>FERPA Compliance:</strong> Student records are protected under the Family Educational Rights and Privacy Act (FERPA).
-            We maintain strict confidentiality of all student information.
+            <strong>FERPA Compliance:</strong> Student records are protected under the Family
+            Educational Rights and Privacy Act (FERPA). We maintain strict confidentiality of all
+            student information.
           </p>
           <p>
-            <strong>Funding Disclaimer:</strong> Program availability and funding eligibility are subject to change.
-            WIOA, WRG, and JRI funding require meeting specific eligibility criteria. Contact us to verify your eligibility.
+            <strong>Funding Disclaimer:</strong> Program availability and funding eligibility are
+            subject to change. WIOA, WRG, and JRI funding require meeting specific eligibility
+            criteria. Contact us to verify your eligibility.
           </p>
           <div className="flex flex-wrap gap-4 mt-4">
-            <Link href="/privacy-policy" aria-label="Link" className="hover:text-brand-orange-600">Privacy Policy</Link>
-            <Link href="/terms-of-service" aria-label="Link" className="hover:text-brand-orange-600">Terms of Service</Link>
-            <Link href="/accessibility" aria-label="Link" className="hover:text-brand-orange-600">Accessibility</Link>
-            <Link href="/ferpa" aria-label="Link" className="hover:text-brand-orange-600">FERPA Notice</Link>
-            <Link href="/equal-opportunity" aria-label="Link" className="hover:text-brand-orange-600">Equal Opportunity</Link>
+            <Link href="/privacy-policy" aria-label="Link" className="hover:text-brand-orange-600">
+              Privacy Policy
+            </Link>
+            <Link
+              href="/terms-of-service"
+              aria-label="Link"
+              className="hover:text-brand-orange-600"
+            >
+              Terms of Service
+            </Link>
+            <Link href="/accessibility" aria-label="Link" className="hover:text-brand-orange-600">
+              Accessibility
+            </Link>
+            <Link href="/ferpa" aria-label="Link" className="hover:text-brand-orange-600">
+              FERPA Notice
+            </Link>
+            <Link
+              href="/equal-opportunity"
+              aria-label="Link"
+              className="hover:text-brand-orange-600"
+            >
+              Equal Opportunity
+            </Link>
           </div>
         </div>
       </div>

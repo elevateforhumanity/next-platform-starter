@@ -1,4 +1,4 @@
-import { logger } from "@/lib/logger";
+import { logger } from '@/lib/logger';
 export type ExamEventType =
   | 'exam_started'
   | 'exam_submitted'
@@ -18,12 +18,12 @@ export type ExamEventType =
   | 'paste_blocked'
   | 'right_click_blocked'
   | 'print_blocked'
-  | 'keydown_blocked'
+  | 'keydown_blocked';
 
 export async function logExamEvent(params: {
-  examSessionId: string
-  eventType: ExamEventType
-  metadata?: Record<string, unknown>
+  examSessionId: string;
+  eventType: ExamEventType;
+  metadata?: Record<string, unknown>;
 }) {
   const res = await fetch('/api/exams/events', {
     method: 'POST',
@@ -31,12 +31,12 @@ export async function logExamEvent(params: {
     body: JSON.stringify({
       exam_session_id: params.examSessionId,
       event_type: params.eventType,
-      metadata: params.metadata ?? {}
-    })
-  })
+      metadata: params.metadata ?? {},
+    }),
+  });
 
   if (!res.ok) {
-    const text = await res.text().catch(() => '')
-    logger.error('Failed to log exam event', undefined, { status: res.status, body: text })
+    const text = await res.text().catch(() => '');
+    logger.error('Failed to log exam event', undefined, { status: res.status, body: text });
   }
 }

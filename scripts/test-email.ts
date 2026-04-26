@@ -1,12 +1,13 @@
 /**
  * Test Email Delivery
- * 
+ *
  * Sends a test email to verify Resend configuration
  * Run with: npx tsx scripts/test-email.ts your@email.com
  */
 
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
-const FROM_EMAIL = process.env.EMAIL_FROM || 'Elevate for Humanity <noreply@elevateforhumanity.org>';
+const FROM_EMAIL =
+  process.env.EMAIL_FROM || 'Elevate for Humanity <noreply@elevateforhumanity.org>';
 
 async function sendTestEmail(to: string) {
   if (!RESEND_API_KEY) {

@@ -1,6 +1,6 @@
 /**
  * Generate Lesson-Specific Audio Files
- * 
+ *
  * Creates professional voiceover audio for each LMS lesson
  * Run with: OPENAI_API_KEY=xxx npx tsx scripts/generate-lesson-audio.ts
  */
@@ -73,7 +73,7 @@ We'll cover active listening, cultural sensitivity, and documentation best pract
 
 Strong communication skills are what employers look for most.`,
   },
-  
+
   // Barber Course Lessons
   {
     filename: 'barber-shop-culture.mp4',
@@ -127,7 +127,7 @@ We'll explain how to get help when you need it and how to make the most of this 
 
 You're not doing this alone. We're here to help you succeed.`,
   },
-  
+
   // Tax/VITA Course Lessons
   {
     filename: 'tax-vita-overview.mp4',
@@ -185,7 +185,7 @@ Service excellence is what brings clients back year after year.`,
 
 async function generateAudio(lesson: LessonAudio): Promise<void> {
   console.log(`\nGenerating: ${lesson.filename}`);
-  
+
   try {
     const response = await openai.audio.speech.create({
       model: 'tts-1-hd',
@@ -198,9 +198,9 @@ async function generateAudio(lesson: LessonAudio): Promise<void> {
     // Save as .mp3 first, then we'll note that videos need the audio
     const mp3Filename = lesson.filename.replace('.mp4', '.mp3');
     const outputPath = path.join(process.cwd(), 'public', 'videos', mp3Filename);
-    
+
     await fs.writeFile(outputPath, buffer);
-    
+
     const stats = await fs.stat(outputPath);
     console.log(`✅ Created: ${mp3Filename} (${Math.round(stats.size / 1024)}KB)`);
   } catch (error) {
@@ -213,23 +213,23 @@ async function main() {
   console.log('='.repeat(60));
   console.log('GENERATING LESSON-SPECIFIC AUDIO');
   console.log('='.repeat(60));
-  
+
   const outputDir = path.join(process.cwd(), 'public', 'videos');
   await fs.mkdir(outputDir, { recursive: true });
-  
+
   let successCount = 0;
-  
+
   for (const lesson of LESSON_AUDIO) {
     try {
       await generateAudio(lesson);
       successCount++;
       // Rate limit
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      await new Promise((resolve) => setTimeout(resolve, 1500));
     } catch (error) {
       console.error(`Failed to generate ${lesson.filename}`);
     }
   }
-  
+
   console.log('\n' + '='.repeat(60));
   console.log(`COMPLETE: ${successCount}/${LESSON_AUDIO.length} audio files generated`);
   console.log('='.repeat(60));

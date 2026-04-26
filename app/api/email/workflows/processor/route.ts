@@ -18,14 +18,14 @@ export const dynamic = 'force-dynamic';
  */
 async function _GET(req: Request) {
   try {
-  await hydrateProcessEnv();
+    await hydrateProcessEnv();
     const rateLimited = await applyRateLimit(req, 'api');
     if (rateLimited) return rateLimited;
 
     if (!resend) {
       return NextResponse.json(
         { success: false, error: 'Email service not configured' },
-        { status: 503 }
+        { status: 503 },
       );
     }
 
@@ -63,10 +63,10 @@ async function _GET(req: Request) {
           name: workflow.name,
           processed,
         });
-      } catch (error) { 
+      } catch (error) {
         logger.error(
           `Error processing workflow ${workflow.id}:`,
-          error instanceof Error ? error : new Error(String(error))
+          error instanceof Error ? error : new Error(String(error)),
         );
         results.push({
           workflowId: workflow.id,
@@ -81,15 +81,12 @@ async function _GET(req: Request) {
       message: `Processed ${workflows.length} workflows`,
       results,
     });
-  } catch (error) { 
+  } catch (error) {
     logger.error(
       'Workflow processor error:',
-      error instanceof Error ? error : new Error(String(error))
+      error instanceof Error ? error : new Error(String(error)),
     );
-    return NextResponse.json(
-      { success: false, error: toErrorMessage(error) },
-      { status: 500 }
-    );
+    return NextResponse.json({ success: false, error: toErrorMessage(error) }, { status: 500 });
   }
 }
 
@@ -99,9 +96,7 @@ async function _GET(req: Request) {
 async function processNewTriggers(supabase: any, workflow: any, now: Date) {
   const trigger = workflow.trigger_event;
   const lookbackMinutes = 5; // Check last 5 minutes
-  const lookbackTime = new Date(
-    now.getTime() - lookbackMinutes * 60 * 1000
-  ).toISOString();
+  const lookbackTime = new Date(now.getTime() - lookbackMinutes * 60 * 1000).toISOString();
 
   let newUsers: any[] = [];
 
@@ -141,9 +136,7 @@ async function processNewTriggers(supabase: any, workflow: any, now: Date) {
 
     case 'abandoned':
       // Find abandoned applications (24 hours old, not completed)
-      const abandonedTime = new Date(
-        now.getTime() - 24 * 60 * 60 * 1000
-      ).toISOString();
+      const abandonedTime = new Date(now.getTime() - 24 * 60 * 60 * 1000).toISOString();
       const { data: abandoned } = await supabase
         .from('students')
         .select('id, email, first_name, last_name, program_name')
@@ -266,9 +259,7 @@ async function processPendingEmails(supabase: any, workflow: any, now: Date) {
               ? nextStepData.delay * 60
               : nextStepData.delay * 24 * 60;
 
-        nextEmailAt = new Date(
-          now.getTime() + delayMinutes * 60 * 1000
-        ).toISOString();
+        nextEmailAt = new Date(now.getTime() + delayMinutes * 60 * 1000).toISOString();
       }
 
       // Update enrollment
@@ -292,10 +283,10 @@ async function processPendingEmails(supabase: any, workflow: any, now: Date) {
       });
 
       processed++;
-    } catch (error) { 
+    } catch (error) {
       logger.error(
         `Error processing enrollment ${enrollment.id}:`,
-        error instanceof Error ? error : new Error(String(error))
+        error instanceof Error ? error : new Error(String(error)),
       );
 
       // Log failure
@@ -317,8 +308,8 @@ async function processPendingEmails(supabase: any, workflow: any, now: Date) {
  * Manual trigger for testing
  */
 async function _POST(req: Request) {
-    const rateLimited = await applyRateLimit(req, 'strict');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(req, 'strict');
+  if (rateLimited) return rateLimited;
 
   return GET(req);
 }

@@ -34,10 +34,7 @@ async function _POST(req: Request) {
 
     if (error) {
       // Error: $1
-      return NextResponse.json(
-        { error: toErrorMessage(error) },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: toErrorMessage(error) }, { status: 500 });
     }
 
     return NextResponse.json({ success: true });
@@ -45,7 +42,7 @@ async function _POST(req: Request) {
     // Error: $1
     return NextResponse.json(
       { err: toErrorMessage(err) || 'Failed to acknowledge handbook' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

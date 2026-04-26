@@ -23,9 +23,7 @@ export default async function StaffPortalUsersPage() {
       return (
         <div className="min-h-screen flex items-center justify-center">
           <div className="text-center">
-            <h1 className="text-2xl font-bold text-black mb-2">
-              Authentication Required
-            </h1>
+            <h1 className="text-2xl font-bold text-black mb-2">Authentication Required</h1>
             <p className="text-black">Please log in to access the staff portal.</p>
           </div>
         </div>
@@ -55,16 +53,12 @@ export default async function StaffPortalUsersPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-8">
             <h1 className="text-3xl font-bold text-black">User Management</h1>
-            <p className="mt-2 text-black">
-              Manage user accounts and permissions
-            </p>
+            <p className="mt-2 text-black">Manage user accounts and permissions</p>
           </div>
 
           <div className="bg-white shadow-md rounded-lg overflow-hidden">
             <div className="px-6 py-4 border-b border-gray-200">
-              <h2 className="text-lg font-semibold text-black">
-                All Users ({users?.length || 0})
-              </h2>
+              <h2 className="text-lg font-semibold text-black">All Users ({users?.length || 0})</h2>
             </div>
 
             <div className="overflow-x-auto">
@@ -98,33 +92,26 @@ export default async function StaffPortalUsersPage() {
                               user.role === 'admin'
                                 ? 'bg-purple-100 text-purple-800'
                                 : user.role === 'staff'
-                                ? 'bg-blue-100 text-blue-800'
-                                : user.role === 'instructor'
-                                ? 'bg-green-100 text-green-800'
-                                : 'bg-gray-100 text-black'
+                                  ? 'bg-blue-100 text-blue-800'
+                                  : user.role === 'instructor'
+                                    ? 'bg-green-100 text-green-800'
+                                    : 'bg-gray-100 text-black'
                             }`}
                           >
                             {user.role || 'user'}
                           </span>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-black">
-                          {user.created_at
-                            ? new Date(user.created_at).toLocaleDateString()
-                            : 'N/A'}
+                          {user.created_at ? new Date(user.created_at).toLocaleDateString() : 'N/A'}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-black">
-                          {user.updated_at
-                            ? new Date(user.updated_at).toLocaleDateString()
-                            : 'N/A'}
+                          {user.updated_at ? new Date(user.updated_at).toLocaleDateString() : 'N/A'}
                         </td>
                       </tr>
                     ))
                   ) : (
                     <tr>
-                      <td
-                        colSpan={4}
-                        className="px-6 py-8 text-center text-black"
-                      >
+                      <td colSpan={4} className="px-6 py-8 text-center text-black">
                         No users found
                       </td>
                     </tr>

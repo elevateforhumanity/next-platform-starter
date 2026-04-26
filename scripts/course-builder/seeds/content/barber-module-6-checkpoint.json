@@ -191,12 +191,7 @@
       },
       {
         "prompt": "What is a key consideration when performing a chemical service on previously bleached hair?",
-        "choices": [
-          "A. Hair density",
-          "B. Hair elasticity",
-          "C. Hair porosity",
-          "D. Hair length"
-        ],
+        "choices": ["A. Hair density", "B. Hair elasticity", "C. Hair porosity", "D. Hair length"],
         "answerIndex": 2,
         "rationale": "Hair porosity is crucial as bleached hair is often more porous, affecting how it absorbs and reacts to chemicals."
       },

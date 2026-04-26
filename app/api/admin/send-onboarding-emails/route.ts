@@ -24,7 +24,7 @@ const SKIP_EMAILS = [
   'test.com',
   'test.elevateforhumanity.org',
   'elevateforhumanity.org',
-  'elizabethpowell6262',  // Owner's test applications (deleted)
+  'elizabethpowell6262', // Owner's test applications (deleted)
 ];
 
 function isBarberProgram(program: string): boolean {
@@ -51,22 +51,20 @@ function formatProgramName(slug: string): string {
     'barber-apprenticeship': 'Barber Apprenticeship',
     'Barber Apprenticeship': 'Barber Apprenticeship',
     'nail-technician': 'Nail Technician',
-    'electrical': 'Electrical Technician',
+    electrical: 'Electrical Technician',
     'peer-recovery-specialist-jri': 'Peer Recovery Specialist',
-    'bookkeeping': 'Bookkeeping',
+    bookkeeping: 'Bookkeeping',
     'tax-prep-financial-services': 'Tax Preparation & Financial Services',
     'beauty-career-educator': 'Beauty Career Educator',
     'Home Health Aide': 'Home Health Aide',
     'home-health-aide': 'Home Health Aide',
-    'Accounting': 'Accounting',
-    'Entrepreneurship': 'Entrepreneurship',
+    Accounting: 'Accounting',
+    Entrepreneurship: 'Entrepreneurship',
     'not-sure': 'Career Training',
-    'Other': 'Career Training',
+    Other: 'Career Training',
   };
   if (map[slug]) return map[slug];
-  return slug
-    .replace(/-/g, ' ')
-    .replace(/\b\w/g, (c) => c.toUpperCase());
+  return slug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
 }
 
 /**
@@ -131,7 +129,8 @@ export async function POST(request: Request) {
     const prog = (app.program_interest || '').toLowerCase();
     if (prog.includes('employer')) continue;
 
-    const name = app.full_name || [app.first_name, app.last_name].filter(Boolean).join(' ') || 'Applicant';
+    const name =
+      app.full_name || [app.first_name, app.last_name].filter(Boolean).join(' ') || 'Applicant';
 
     seen.add(email);
     toSend.push({

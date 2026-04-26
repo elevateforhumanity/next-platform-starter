@@ -27,7 +27,6 @@ Because when you rise, we all rise.
 Elevate for Humanity. Your partner in career transformation.`;
 
 async function generateTTS() {
-
   const outputDir = path.join(__dirname, '..', 'public', 'videos');
   const audioPath = path.join(outputDir, 'intro-voiceover.mp3');
 
@@ -41,21 +40,20 @@ async function generateTTS() {
   // 'en-US-JennyNeural' - Professional female
   // 'en-US-AriaNeural' - Warm female
 
-
   try {
     // Generate TTS using edge-tts CLI
     const command = `npx edge-tts --voice "${voice}" --text "${SCRIPT.replace(/"/g, '\\"')}" --write-media "${audioPath}"`;
 
     await execAsync(command, {
       maxBuffer: 10 * 1024 * 1024,
-      cwd: path.join(__dirname, '..')
+      cwd: path.join(__dirname, '..'),
     });
 
-
     // Get audio duration
-    const { stdout } = await execAsync(`ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 "${audioPath}"`);
+    const { stdout } = await execAsync(
+      `ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 "${audioPath}"`,
+    );
     const duration = parseFloat(stdout.trim());
-
 
     return { audioPath, duration };
   } catch (error) {
@@ -65,7 +63,6 @@ async function generateTTS() {
 }
 
 async function combineWithVideo(audioPath, duration) {
-
   const videoDir = path.join(__dirname, '..', 'public', 'videos');
   const inputVideo = path.join(videoDir, 'logo-animation.mp4');
   const outputVideo = path.join(videoDir, 'intro-with-audio.mp4');
@@ -78,9 +75,10 @@ async function combineWithVideo(audioPath, duration) {
   }
 
   // Get video duration
-  const { stdout } = await execAsync(`ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 "${inputVideo}"`);
+  const { stdout } = await execAsync(
+    `ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 "${inputVideo}"`,
+  );
   const videoDuration = parseFloat(stdout.trim());
-
 
   // Loop video if audio is longer, or trim audio if video is longer
   let ffmpegCommand;
@@ -98,7 +96,7 @@ async function combineWithVideo(audioPath, duration) {
 
   try {
     await execAsync(ffmpegCommand, {
-      maxBuffer: 50 * 1024 * 1024
+      maxBuffer: 50 * 1024 * 1024,
     });
 
     return outputVideo;
@@ -109,7 +107,6 @@ async function combineWithVideo(audioPath, duration) {
 }
 
 async function main() {
-
   try {
     // Generate TTS
     const { audioPath, duration } = await generateTTS();
@@ -120,8 +117,6 @@ async function main() {
     if (videoPath) {
     } else {
     }
-
-
   } catch (error) {
     console.error('\n❌ Error:', error.message);
     process.exit(1);

@@ -1,10 +1,10 @@
 import { logger } from '@/lib/logger';
 /**
  * Notification Service
- * 
+ *
  * Implements outbox pattern for reliable transactional email delivery.
  * Supports no-login token links for document re-upload and enrollment continuation.
- * 
+ *
  * Default sender: notifications@elevateforhumanity.org
  */
 
@@ -141,13 +141,13 @@ export async function useToken(token: string): Promise<{
  */
 export async function buildTokenUrl(
   basePath: string,
-  options: Omit<TokenOptions, 'targetUrl'>
+  options: Omit<TokenOptions, 'targetUrl'>,
 ): Promise<string | null> {
   const targetUrl = `${SITE_URL}${basePath}`;
   const token = await generateToken({ ...options, targetUrl });
-  
+
   if (!token) return null;
-  
+
   const separator = basePath.includes('?') ? '&' : '?';
   return `${targetUrl}${separator}token=${token}`;
 }
@@ -162,7 +162,7 @@ export async function buildTokenUrl(
 export async function notifyInquiryReceived(
   email: string,
   name: string,
-  inquiryType: string
+  inquiryType: string,
 ): Promise<void> {
   await enqueueNotification({
     toEmail: email,
@@ -181,18 +181,15 @@ export async function notifyInquiryReceived(
 export async function notifyApprenticeSubmissionReceived(
   email: string,
   name: string,
-  applicationId: string
+  applicationId: string,
 ): Promise<void> {
-  const continueUrl = await buildTokenUrl(
-    '/lms/enroll/barber-apprenticeship',
-    {
-      purpose: 'continue_enrollment',
-      email,
-      expiresDays: 14,
-      maxUses: 10,
-      metadata: { application_id: applicationId },
-    }
-  );
+  const continueUrl = await buildTokenUrl('/lms/enroll/barber-apprenticeship', {
+    purpose: 'continue_enrollment',
+    email,
+    expiresDays: 14,
+    maxUses: 10,
+    metadata: { application_id: applicationId },
+  });
 
   await enqueueNotification({
     toEmail: email,
@@ -213,18 +210,15 @@ export async function notifyApprenticeSubmissionReceived(
 export async function notifyHostShopSubmissionReceived(
   email: string,
   shopName: string,
-  applicationId: string
+  applicationId: string,
 ): Promise<void> {
-  const continueUrl = await buildTokenUrl(
-    '/portal/partner/enroll/host-shop',
-    {
-      purpose: 'continue_enrollment',
-      email,
-      expiresDays: 14,
-      maxUses: 10,
-      metadata: { application_id: applicationId },
-    }
-  );
+  const continueUrl = await buildTokenUrl('/portal/partner/enroll/host-shop', {
+    purpose: 'continue_enrollment',
+    email,
+    expiresDays: 14,
+    maxUses: 10,
+    metadata: { application_id: applicationId },
+  });
 
   await enqueueNotification({
     toEmail: email,
@@ -248,19 +242,16 @@ export async function notifyDocumentRejected(
   documentType: string,
   rejectionReason: string,
   documentId: string,
-  userId?: string
+  userId?: string,
 ): Promise<void> {
-  const reuploadUrl = await buildTokenUrl(
-    `/upload/${documentType}`,
-    {
-      purpose: 'reupload',
-      email,
-      userId,
-      expiresDays: 7,
-      maxUses: 5,
-      metadata: { document_id: documentId, document_type: documentType },
-    }
-  );
+  const reuploadUrl = await buildTokenUrl(`/upload/${documentType}`, {
+    purpose: 'reupload',
+    email,
+    userId,
+    expiresDays: 7,
+    maxUses: 5,
+    metadata: { document_id: documentId, document_type: documentType },
+  });
 
   await enqueueNotification({
     toEmail: email,
@@ -285,7 +276,7 @@ export async function notifyDocumentVerified(
   name: string,
   documentType: string,
   nextStep: string,
-  continueUrl?: string
+  continueUrl?: string,
 ): Promise<void> {
   await enqueueNotification({
     toEmail: email,
@@ -308,21 +299,18 @@ export async function notifyHostShopDecision(
   shopName: string,
   approved: boolean,
   applicationId: string,
-  reason?: string
+  reason?: string,
 ): Promise<void> {
   let onboardingUrl: string | null = null;
-  
+
   if (approved) {
-    onboardingUrl = await buildTokenUrl(
-      '/shop/onboarding',
-      {
-        purpose: 'continue_enrollment',
-        email,
-        expiresDays: 14,
-        maxUses: 10,
-        metadata: { application_id: applicationId },
-      }
-    );
+    onboardingUrl = await buildTokenUrl('/shop/onboarding', {
+      purpose: 'continue_enrollment',
+      email,
+      expiresDays: 14,
+      maxUses: 10,
+      metadata: { application_id: applicationId },
+    });
   }
 
   await enqueueNotification({
@@ -348,21 +336,18 @@ export async function notifyApprenticeDecision(
   name: string,
   approved: boolean,
   applicationId: string,
-  reason?: string
+  reason?: string,
 ): Promise<void> {
   let portalUrl: string | null = null;
-  
+
   if (approved) {
-    portalUrl = await buildTokenUrl(
-      '/learner/dashboard',
-      {
-        purpose: 'continue_enrollment',
-        email,
-        expiresDays: 14,
-        maxUses: 10,
-        metadata: { application_id: applicationId },
-      }
-    );
+    portalUrl = await buildTokenUrl('/learner/dashboard', {
+      purpose: 'continue_enrollment',
+      email,
+      expiresDays: 14,
+      maxUses: 10,
+      metadata: { application_id: applicationId },
+    });
   }
 
   await enqueueNotification({
@@ -388,7 +373,7 @@ export async function notifyTransferEvaluated(
   name: string,
   acceptedHours: number,
   remainingHours: number,
-  transferId: string
+  transferId: string,
 ): Promise<void> {
   await enqueueNotification({
     toEmail: email,
@@ -413,7 +398,7 @@ export async function notifyMatchAssigned(
   shopEmail: string,
   shopName: string,
   startDate: string,
-  matchId: string
+  matchId: string,
 ): Promise<void> {
   // Notify apprentice
   await enqueueNotification({

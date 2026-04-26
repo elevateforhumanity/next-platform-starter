@@ -30,9 +30,9 @@ import type { DeliveryModel, FundingType, EnrollmentType } from '@/lib/programs/
  */
 const CANONICAL_TO_DB_SLUG: Record<string, string> = {
   'peer-recovery-specialist': 'peer-recovery-specialist-jri',
-  'cna':                      'cna-cert',
-  'cpr-first-aid':            'cpr-cert',
-  'business':                 'business-startup',
+  cna: 'cna-cert',
+  'cpr-first-aid': 'cpr-cert',
+  business: 'business-startup',
 };
 
 export function toDbSlug(canonicalSlug: string): string {
@@ -149,7 +149,8 @@ export async function getProgramBySlug(slug: string): Promise<DbProgram> {
 
   const { data, error } = await db
     .from('programs')
-    .select(`
+    .select(
+      `
       id, slug, title, description, short_description,
       image_url, hero_image_url, estimated_weeks,
       credential_name, funding_tags, wioa_approved,
@@ -163,13 +164,17 @@ export async function getProgramBySlug(slug: string): Promise<DbProgram> {
       program_media(hero_image, hero_image_alt, video_src, voiceover_src, thumbnail, badge_text, badge_color),
       program_outcomes(outcome, outcome_order),
       program_requirements(requirement, requirement_order)
-    `)
+    `,
+    )
     .eq('slug', dbSlug)
     .eq('published', true)
     .maybeSingle();
 
   if (error) throw new Error(`DB error fetching program '${dbSlug}': ${error.message}`);
-  if (!data) throw new Error(`Program not found: '${slug}'${dbSlug !== slug ? ` (db slug: '${dbSlug}')` : ''}`);
+  if (!data)
+    throw new Error(
+      `Program not found: '${slug}'${dbSlug !== slug ? ` (db slug: '${dbSlug}')` : ''}`,
+    );
 
   return data as DbProgram;
 }
@@ -178,18 +183,22 @@ export async function getProgramBySlug(slug: string): Promise<DbProgram> {
  * Fetch all published, active programs for catalog display.
  * Throws on DB error — never returns stale static data.
  */
-export async function getPublishedPrograms(): Promise<Omit<DbProgram, 'program_funding' | 'training_courses'>[]> {
+export async function getPublishedPrograms(): Promise<
+  Omit<DbProgram, 'program_funding' | 'training_courses'>[]
+> {
   const db = await getDb();
 
   const { data, error } = await db
     .from('programs')
-    .select(`
+    .select(
+      `
       id, slug, title, description, short_description,
       image_url, hero_image_url, estimated_weeks,
       credential_name, funding_tags, wioa_approved,
       published, is_active, status, featured, display_order,
       delivery_model, enrollment_type, external_enrollment_url, has_lms_course
-    `)
+    `,
+    )
     .eq('published', true)
     .eq('is_active', true)
     .neq('status', 'archived')
@@ -216,13 +225,13 @@ export function validateDbProgram(program: DbProgram): void {
 
   if (type === 'internal' && program.has_lms_course && program.training_courses.length === 0) {
     throw new Error(
-      `Program '${program.slug}' has has_lms_course=true but no attached training_courses row`
+      `Program '${program.slug}' has has_lms_course=true but no attached training_courses row`,
     );
   }
 
   if (type === 'external' && !program.external_enrollment_url) {
     throw new Error(
-      `Program '${program.slug}' has enrollment_type='external' but no external_enrollment_url`
+      `Program '${program.slug}' has enrollment_type='external' but no external_enrollment_url`,
     );
   }
 }

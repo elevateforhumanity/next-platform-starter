@@ -1,37 +1,101 @@
-
-
 import { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowRight, Building2, Users, Briefcase, Heart, RefreshCw, GraduationCap, type LucideIcon } from 'lucide-react';
+import {
+  ArrowRight,
+  Building2,
+  Users,
+  Briefcase,
+  Heart,
+  RefreshCw,
+  GraduationCap,
+  type LucideIcon,
+} from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: 'Become a Partner | Elevate for Humanity',
-  description: 'Join the Elevate for Humanity partner network. Workforce agencies, employers, training providers, and community organizations.',
+  description:
+    'Join the Elevate for Humanity partner network. Workforce agencies, employers, training providers, and community organizations.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/partners/join' },
 };
 
 const ICON_MAP: Record<string, LucideIcon> = {
-  Building2, Briefcase, GraduationCap, RefreshCw, Users, Heart,
+  Building2,
+  Briefcase,
+  GraduationCap,
+  RefreshCw,
+  Users,
+  Heart,
 };
 
 const FALLBACK_PARTNER_TYPES = [
-  { key: 'workforce-agency',  icon: 'Building2',    title: 'Workforce Agency',        description: 'Refer WIOA, Job Ready Indy, or WRG-funded participants to our approved training programs.',    apply_href: '/partners/apply' },
-  { key: 'employer',          icon: 'Briefcase',    title: 'Employer',                description: 'Hire certified graduates, host apprentices, or post jobs to our placement pipeline.',            apply_href: '/partners/apply' },
-  { key: 'training-provider', icon: 'GraduationCap',title: 'Training Provider',       description: 'Co-deliver programs, share facilities, or list your programs in our catalog.',                   apply_href: '/partners/apply' },
-  { key: 'reentry-org',       icon: 'RefreshCw',    title: 'Reentry Organization',    description: 'Connect justice-involved individuals to Job Ready Indy-funded training and placement services.', apply_href: '/partners/apply' },
-  { key: 'community-org',     icon: 'Users',        title: 'Community Organization',  description: 'Refer clients facing employment barriers to our programs and support services.',                  apply_href: '/partners/apply' },
-  { key: 'philanthropic',     icon: 'Heart',        title: 'Philanthropic Supporter', description: 'Fund training, supplies, scholarships, or wraparound support services.',                          apply_href: '/philanthropy'   },
+  {
+    key: 'workforce-agency',
+    icon: 'Building2',
+    title: 'Workforce Agency',
+    description:
+      'Refer WIOA, Job Ready Indy, or WRG-funded participants to our approved training programs.',
+    apply_href: '/partners/apply',
+  },
+  {
+    key: 'employer',
+    icon: 'Briefcase',
+    title: 'Employer',
+    description:
+      'Hire certified graduates, host apprentices, or post jobs to our placement pipeline.',
+    apply_href: '/partners/apply',
+  },
+  {
+    key: 'training-provider',
+    icon: 'GraduationCap',
+    title: 'Training Provider',
+    description: 'Co-deliver programs, share facilities, or list your programs in our catalog.',
+    apply_href: '/partners/apply',
+  },
+  {
+    key: 'reentry-org',
+    icon: 'RefreshCw',
+    title: 'Reentry Organization',
+    description:
+      'Connect justice-involved individuals to Job Ready Indy-funded training and placement services.',
+    apply_href: '/partners/apply',
+  },
+  {
+    key: 'community-org',
+    icon: 'Users',
+    title: 'Community Organization',
+    description: 'Refer clients facing employment barriers to our programs and support services.',
+    apply_href: '/partners/apply',
+  },
+  {
+    key: 'philanthropic',
+    icon: 'Heart',
+    title: 'Philanthropic Supporter',
+    description: 'Fund training, supplies, scholarships, or wraparound support services.',
+    apply_href: '/philanthropy',
+  },
 ];
 
 const STEPS = [
-  { n: '1', title: 'Submit Application', desc: 'Complete the partner application — takes about 5 minutes.' },
-  { n: '2', title: 'Discovery Call',     desc: 'We identify the right partnership model and programs for your organization.' },
-  { n: '3', title: 'Sign Agreement',     desc: 'Execute an MOU or partnership agreement.' },
-  { n: '4', title: 'Launch',             desc: 'Start referring participants, hiring graduates, or co-delivering programs.' },
+  {
+    n: '1',
+    title: 'Submit Application',
+    desc: 'Complete the partner application — takes about 5 minutes.',
+  },
+  {
+    n: '2',
+    title: 'Discovery Call',
+    desc: 'We identify the right partnership model and programs for your organization.',
+  },
+  { n: '3', title: 'Sign Agreement', desc: 'Execute an MOU or partnership agreement.' },
+  {
+    n: '4',
+    title: 'Launch',
+    desc: 'Start referring participants, hiring graduates, or co-delivering programs.',
+  },
 ];
 
 export default async function JoinPartnerPage() {
@@ -62,13 +126,13 @@ export default async function JoinPartnerPage() {
       </div>
 
       <div className="max-w-5xl mx-auto px-4 py-12">
-
         {/* Barbershop partners — separate path */}
         <div className="bg-amber-50 border border-amber-200 rounded-xl p-5 mb-10 flex flex-col sm:flex-row sm:items-center gap-4">
           <div className="flex-1">
             <p className="font-semibold text-amber-900">Barbershop Apprenticeship Partners</p>
             <p className="text-sm text-amber-800 mt-1">
-              Licensed barbershops joining the Indiana Barbershop Apprenticeship program use the dedicated portal below.
+              Licensed barbershops joining the Indiana Barbershop Apprenticeship program use the
+              dedicated portal below.
             </p>
           </div>
           <Link
@@ -121,7 +185,9 @@ export default async function JoinPartnerPage() {
         {/* CTA */}
         <div className="bg-brand-blue-700 rounded-2xl p-8 text-center text-white">
           <h2 className="text-2xl font-bold mb-2">Ready to Partner?</h2>
-          <p className="text-white mb-6">Submit your application and we will follow up within 2 business days.</p>
+          <p className="text-white mb-6">
+            Submit your application and we will follow up within 2 business days.
+          </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link
               href="/partners/apply"
@@ -137,7 +203,6 @@ export default async function JoinPartnerPage() {
             </Link>
           </div>
         </div>
-
       </div>
     </div>
   );

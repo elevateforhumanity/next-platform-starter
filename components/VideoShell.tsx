@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, { useRef, useEffect } from 'react';
 import { useVideoProgress } from '@/hooks/useVideoProgress';
@@ -45,7 +45,7 @@ export function VideoShell({
           }
         });
       },
-      { threshold: 0.6 }
+      { threshold: 0.6 },
     );
     observer.observe(el);
     return () => observer.disconnect();

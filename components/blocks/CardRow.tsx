@@ -21,11 +21,12 @@ interface Props {
 }
 
 export default function CardRow({ heading, subheading, cards, bg = 'slate' }: Props) {
-  const sectionBg = bg === 'slate' ? 'bg-slate-50 border-y border-slate-200' : 'bg-white border-y border-slate-100';
+  const sectionBg =
+    bg === 'slate' ? 'bg-slate-50 border-y border-slate-200' : 'bg-white border-y border-slate-100';
 
   const accentClass = (accent?: string) => {
-    if (accent === 'red')   return 'border-t-4 border-t-brand-red-600';
-    if (accent === 'blue')  return 'border-t-4 border-t-brand-blue-600';
+    if (accent === 'red') return 'border-t-4 border-t-brand-red-600';
+    if (accent === 'blue') return 'border-t-4 border-t-brand-blue-600';
     if (accent === 'green') return 'border-t-4 border-t-brand-green-600';
     return 'border-t-4 border-t-slate-900';
   };
@@ -35,7 +36,9 @@ export default function CardRow({ heading, subheading, cards, bg = 'slate' }: Pr
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         {(heading || subheading) && (
           <div className="mb-10">
-            {heading && <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-2">{heading}</h2>}
+            {heading && (
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-2">{heading}</h2>
+            )}
             {subheading && <p className="text-slate-500 text-base max-w-2xl">{subheading}</p>}
           </div>
         )}

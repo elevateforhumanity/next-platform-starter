@@ -36,9 +36,7 @@ broken.forEach((link) => {
   internalBroken[link.href].push(link.file);
 });
 
-console.log(
-  `Found ${Object.keys(internalBroken).length} unique broken internal links\n`
-);
+console.log(`Found ${Object.keys(internalBroken).length} unique broken internal links\n`);
 
 // STEP 1: Fix /assets/index.css and /assets/index.js
 console.log('1️⃣  Fixing asset bundle references...\n');
@@ -46,9 +44,7 @@ console.log('1️⃣  Fixing asset bundle references...\n');
 if (!fs.existsSync('./dist/assets/index.css')) {
   // Find actual CSS bundle
   const assets = fs.readdirSync('./dist/assets');
-  const cssBundle = assets.find(
-    (f) => f.startsWith('index-') && f.endsWith('.css')
-  );
+  const cssBundle = assets.find((f) => f.startsWith('index-') && f.endsWith('.css'));
 
   if (cssBundle) {
     const source = path.join('./dist/assets', cssBundle);
@@ -60,7 +56,7 @@ if (!fs.existsSync('./dist/assets/index.css')) {
     // Create minimal CSS
     fs.writeFileSync(
       './dist/assets/index.css',
-      '/* Elevate for Humanity */\nbody { margin: 0; font-family: system-ui; }'
+      '/* Elevate for Humanity */\nbody { margin: 0; font-family: system-ui; }',
     );
     console.log('✅ Created minimal index.css');
     FIXED++;
@@ -70,9 +66,7 @@ if (!fs.existsSync('./dist/assets/index.css')) {
 if (!fs.existsSync('./dist/assets/index.js')) {
   // Find actual JS bundle
   const assets = fs.readdirSync('./dist/assets');
-  const jsBundle = assets.find(
-    (f) => f.startsWith('index-') && f.endsWith('.js')
-  );
+  const jsBundle = assets.find((f) => f.startsWith('index-') && f.endsWith('.js'));
 
   if (jsBundle) {
     const source = path.join('./dist/assets', jsBundle);
@@ -84,7 +78,7 @@ if (!fs.existsSync('./dist/assets/index.js')) {
     // Create minimal JS
     fs.writeFileSync(
       './dist/assets/index.js',
-      '// Elevate for Humanity\nconsole.log("EFH Loaded");'
+      '// Elevate for Humanity\nconsole.log("EFH Loaded");',
     );
     console.log('✅ Created minimal index.js');
     FIXED++;
@@ -101,11 +95,7 @@ function findHTMLFiles(dir) {
   const entries = fs.readdirSync(dir, { withFileTypes: true });
   for (const entry of entries) {
     const fullPath = path.join(dir, entry.name);
-    if (
-      entry.isDirectory() &&
-      !entry.name.startsWith('.') &&
-      entry.name !== 'node_modules'
-    ) {
+    if (entry.isDirectory() && !entry.name.startsWith('.') && entry.name !== 'node_modules') {
       results = results.concat(findHTMLFiles(fullPath));
     } else if (entry.name.endsWith('.html')) {
       results.push(fullPath);
@@ -143,10 +133,7 @@ htmlFiles.forEach((file) => {
 
   Object.entries(assetFixes).forEach(([from, to]) => {
     if (content.includes(from)) {
-      content = content.replace(
-        new RegExp(from.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'),
-        to
-      );
+      content = content.replace(new RegExp(from.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'), to);
       modified = true;
     }
   });

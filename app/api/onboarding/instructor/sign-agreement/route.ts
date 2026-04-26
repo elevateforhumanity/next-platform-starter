@@ -29,14 +29,15 @@ export async function POST(req: NextRequest) {
   }
 
   // Idempotent — upsert so double-clicks don't error
-  const { error } = await db
-    .from('license_agreement_acceptances')
-    .upsert({
+  const { error } = await db.from('license_agreement_acceptances').upsert(
+    {
       user_id: auth.id,
       agreement_type: 'instructor_services',
       accepted_at: new Date().toISOString(),
       ip_address: req.headers.get('x-forwarded-for') ?? req.headers.get('x-real-ip') ?? null,
-    }, { onConflict: 'user_id,agreement_type', ignoreDuplicates: false });
+    },
+    { onConflict: 'user_id,agreement_type', ignoreDuplicates: false },
+  );
 
   if (error) return safeInternalError(error, 'Failed to record agreement');
 

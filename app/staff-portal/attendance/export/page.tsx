@@ -3,9 +3,15 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
-import { 
-  Download, FileSpreadsheet, Calendar, Users, 
-  Filter, Clock, CheckCircle, ArrowLeft
+import {
+  Download,
+  FileSpreadsheet,
+  Calendar,
+  Users,
+  Filter,
+  Clock,
+  CheckCircle,
+  ArrowLeft,
 } from 'lucide-react';
 
 export const metadata: Metadata = {
@@ -18,19 +24,17 @@ export const dynamic = 'force-dynamic';
 
 export default async function ExportAttendancePage() {
   const supabase = await createClient();
-  
 
-  const { data: { user } } = await supabase.auth.getUser();
-  
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   if (!user) {
     redirect('/login?redirect=/staff-portal/attendance/export');
   }
 
   // Fetch cohorts for filter
-  const { data: cohorts } = await supabase
-    .from('cohorts')
-    .select('id, name')
-    .order('name');
+  const { data: cohorts } = await supabase.from('cohorts').select('id, name').order('name');
 
   const cohortList = cohorts || [];
 
@@ -44,19 +48,21 @@ export default async function ExportAttendancePage() {
       {/* Breadcrumbs */}
       <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[
-            { label: 'Staff Portal', href: '/staff-portal' },
-            { label: 'Attendance', href: '/staff-portal/attendance' },
-            { label: 'Export' }
-          ]} />
+          <Breadcrumbs
+            items={[
+              { label: 'Staff Portal', href: '/staff-portal' },
+              { label: 'Attendance', href: '/staff-portal/attendance' },
+              { label: 'Export' },
+            ]}
+          />
         </div>
       </div>
 
       {/* Hero Section */}
       <div className="bg-gradient-to-r from-emerald-600 to-teal-600 text-white">
         <div className="max-w-6xl mx-auto px-4 py-12">
-          <Link 
-            href="/staff-portal/attendance" 
+          <Link
+            href="/staff-portal/attendance"
             className="inline-flex items-center gap-2 text-emerald-100 hover:text-white mb-4"
           >
             <ArrowLeft className="w-4 h-4" />
@@ -82,7 +88,7 @@ export default async function ExportAttendancePage() {
           <div className="lg:col-span-2 space-y-6">
             <div className="bg-white rounded-xl shadow-sm border p-6">
               <h2 className="text-lg font-semibold text-slate-900 mb-6">Export Options</h2>
-              
+
               <form className="space-y-6">
                 {/* Date Range */}
                 <div>
@@ -96,7 +102,11 @@ export default async function ExportAttendancePage() {
                       <input
                         type="date"
                         className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500"
-                        defaultValue={new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]}
+                        defaultValue={
+                          new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
+                            .toISOString()
+                            .split('T')[0]
+                        }
                       />
                     </div>
                     <div>
@@ -119,7 +129,9 @@ export default async function ExportAttendancePage() {
                   <select className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500">
                     <option value="">All Cohorts</option>
                     {cohortList.map((cohort: any) => (
-                      <option key={cohort.id} value={cohort.id}>{cohort.name}</option>
+                      <option key={cohort.id} value={cohort.id}>
+                        {cohort.name}
+                      </option>
                     ))}
                   </select>
                 </div>
@@ -131,7 +143,7 @@ export default async function ExportAttendancePage() {
                     Attendance Status
                   </label>
                   <div className="flex flex-wrap gap-3">
-                    {['All', 'Present', 'Absent', 'Late', 'Excused'].map(status => (
+                    {['All', 'Present', 'Absent', 'Late', 'Excused'].map((status) => (
                       <label key={status} className="flex items-center gap-2">
                         <input
                           type="checkbox"
@@ -155,7 +167,7 @@ export default async function ExportAttendancePage() {
                       { id: 'csv', label: 'CSV', desc: 'Spreadsheet compatible' },
                       { id: 'xlsx', label: 'Excel', desc: 'Microsoft Excel format' },
                       { id: 'pdf', label: 'PDF', desc: 'Print-ready report' },
-                    ].map(format => (
+                    ].map((format) => (
                       <label
                         key={format.id}
                         className="flex items-center gap-3 p-4 border rounded-lg cursor-pointer hover:border-emerald-300 has-[:checked]:border-emerald-500 has-[:checked]:bg-emerald-50"
@@ -188,7 +200,7 @@ export default async function ExportAttendancePage() {
                       'Weekly/monthly summaries',
                       'Absence reasons',
                       'Instructor notes',
-                    ].map(option => (
+                    ].map((option) => (
                       <label key={option} className="flex items-center gap-2">
                         <input
                           type="checkbox"

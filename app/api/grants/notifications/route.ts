@@ -1,4 +1,3 @@
-
 /**
  * Grant Notifications API
  * Manage grant notifications and alerts
@@ -26,8 +25,8 @@ async function _POST(req: NextRequest) {
   try {
     const rateLimited = await applyRateLimit(req, 'api');
     if (rateLimited) return rateLimited;
-  const auth = await apiRequireAdmin(req);
-  const supabaseAdmin = await getAdminClient();
+    const auth = await apiRequireAdmin(req);
+    const supabaseAdmin = await getAdminClient();
 
     const body = await req.json();
     const { action, applicationId, grantId, submittedBy, confirmationNumber, daysRemaining } = body;
@@ -35,20 +34,14 @@ async function _POST(req: NextRequest) {
     switch (action) {
       case 'notify_draft':
         if (!applicationId) {
-          return NextResponse.json(
-            { error: 'applicationId required' },
-            { status: 400 }
-          );
+          return NextResponse.json({ error: 'applicationId required' }, { status: 400 });
         }
         await notifyDraftGenerated(applicationId);
         return NextResponse.json({ success: true, message: 'Draft notification sent' });
 
       case 'notify_package':
         if (!applicationId) {
-          return NextResponse.json(
-            { error: 'applicationId required' },
-            { status: 400 }
-          );
+          return NextResponse.json({ error: 'applicationId required' }, { status: 400 });
         }
         await notifyPackageReady(applicationId);
         return NextResponse.json({ success: true, message: 'Package notification sent' });
@@ -57,7 +50,7 @@ async function _POST(req: NextRequest) {
         if (!applicationId || !submittedBy) {
           return NextResponse.json(
             { error: 'applicationId and submittedBy required' },
-            { status: 400 }
+            { status: 400 },
           );
         }
         await notifyGrantSubmitted(applicationId, submittedBy, confirmationNumber);
@@ -67,7 +60,7 @@ async function _POST(req: NextRequest) {
         if (!grantId || daysRemaining === undefined) {
           return NextResponse.json(
             { error: 'grantId and daysRemaining required' },
-            { status: 400 }
+            { status: 400 },
           );
         }
         await notifyDeadlineApproaching(grantId, daysRemaining);
@@ -84,15 +77,12 @@ async function _POST(req: NextRequest) {
             error:
               'Invalid action. Use: notify_draft, notify_package, notify_submitted, notify_deadline, or check_deadlines',
           },
-          { status: 400 }
+          { status: 400 },
         );
     }
-  } catch (error) { 
+  } catch (error) {
     logger.error('Notification error:', error);
-    return NextResponse.json(
-      { error: 'Operation failed' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Operation failed' }, { status: 500 });
   }
 }
 
@@ -122,12 +112,9 @@ async function _GET(req: NextRequest) {
     }
 
     return NextResponse.json({ notifications });
-  } catch (error) { 
+  } catch (error) {
     logger.error('Error fetching notifications:', error);
-    return NextResponse.json(
-      { error: 'Operation failed' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Operation failed' }, { status: 500 });
   }
 }
 
@@ -142,10 +129,7 @@ async function _PATCH(req: NextRequest) {
     const { notificationId, read } = body;
 
     if (!notificationId) {
-      return NextResponse.json(
-        { error: 'notificationId required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'notificationId required' }, { status: 400 });
     }
 
     const supabaseAdmin = await getAdminClient();
@@ -159,12 +143,9 @@ async function _PATCH(req: NextRequest) {
     }
 
     return NextResponse.json({ success: true, message: 'Notification updated' });
-  } catch (error) { 
+  } catch (error) {
     logger.error('Error updating notification:', error);
-    return NextResponse.json(
-      { error: 'Operation failed' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Operation failed' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/grants/notifications', _GET);

@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 /**
  * Media Integrity Check
- * 
+ *
  * Scans source files for image/video references and verifies they exist.
  * Fails CI if any broken media references are found.
- * 
+ *
  * Output: reports/media_report.json
  */
 
@@ -25,16 +25,16 @@ if (!fs.existsSync(reportsDir)) {
 // Extract media URLs from source files
 function extractMediaUrls(dir) {
   const mediaUrls = new Set();
-  
+
   function scanFile(filePath) {
     const content = fs.readFileSync(filePath, 'utf-8');
-    
+
     // Match src="/images/..." or src="/videos/..." patterns
     const srcMatches = content.matchAll(/src=["'](\/(images|videos)[^"']+)["']/g);
     for (const match of srcMatches) {
       mediaUrls.add(match[1]);
     }
-    
+
     // Match videoUrl: "/videos/..." patterns
     const videoUrlMatches = content.matchAll(/videoUrl:\s*["']([^"']+)["']/g);
     for (const match of videoUrlMatches) {
@@ -43,19 +43,19 @@ function extractMediaUrls(dir) {
       }
     }
   }
-  
+
   function scanDir(dirPath) {
     if (!fs.existsSync(dirPath)) return;
-    
+
     const entries = fs.readdirSync(dirPath, { withFileTypes: true });
     for (const entry of entries) {
       if (entry.name === 'node_modules' || entry.name.startsWith('.')) continue;
-      
+
       const fullPath = path.join(dirPath, entry.name);
       if (entry.isDirectory()) {
         scanDir(fullPath);
       } else if (
-        entry.name.endsWith('.tsx') || 
+        entry.name.endsWith('.tsx') ||
         entry.name.endsWith('.jsx') ||
         entry.name.endsWith('.ts') ||
         entry.name.endsWith('.js')
@@ -64,14 +64,14 @@ function extractMediaUrls(dir) {
       }
     }
   }
-  
+
   // Scan app directory
   scanDir(path.join(rootDir, 'app'));
   // Scan lms-data directory
   scanDir(path.join(rootDir, 'lms-data'));
   // Scan components directory
   scanDir(path.join(rootDir, 'components'));
-  
+
   return Array.from(mediaUrls);
 }
 
@@ -107,10 +107,7 @@ const report = {
   validMedia: validMedia.slice(0, 50), // Limit output size
 };
 
-fs.writeFileSync(
-  path.join(reportsDir, 'media_report.json'),
-  JSON.stringify(report, null, 2)
-);
+fs.writeFileSync(path.join(reportsDir, 'media_report.json'), JSON.stringify(report, null, 2));
 
 console.log('Media Integrity Report');
 console.log('======================');

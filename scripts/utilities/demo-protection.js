@@ -51,8 +51,7 @@ class DemoProtection {
     if (!this.isDemoMode()) return false;
 
     return {
-      error:
-        'Demo Mode: Contact licensing@elevateforhumanity.org for full access',
+      error: 'Demo Mode: Contact licensing@elevateforhumanity.org for full access',
       demo_contact: DEMO_CONFIG.contact_info,
     };
   }

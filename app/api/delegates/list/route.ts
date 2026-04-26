@@ -10,10 +10,9 @@ export const maxDuration = 60;
 export const dynamic = 'force-dynamic';
 
 async function _GET(request: Request) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const supabase = await createRouteHandlerClient({ cookies });
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const supabase = await createRouteHandlerClient({ cookies });
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -39,7 +38,7 @@ const supabase = await createRouteHandlerClient({ cookies });
       can_view_financials,
       program_holder:program_holder_id(name),
       user:user_id(email)
-    `
+    `,
     )
     .order('created_at', { ascending: false });
 

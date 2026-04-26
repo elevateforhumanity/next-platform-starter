@@ -15,7 +15,8 @@ const ADMIN_EMAIL = 'elevate4humanityedu@gmail.com';
 async function _POST(request: Request) {
   try {
     const body = await request.json();
-    const { name, email, phone, notes, appointment_type, appointment_date, appointment_time } = body;
+    const { name, email, phone, notes, appointment_type, appointment_date, appointment_time } =
+      body;
 
     if (!name || !email || !appointment_type || !appointment_date || !appointment_time) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
@@ -30,7 +31,10 @@ async function _POST(request: Request) {
     const typeLabel = typeLabels[appointment_type] || appointment_type;
 
     const dateFormatted = new Date(appointment_date + 'T12:00:00').toLocaleDateString('en-US', {
-      weekday: 'long', month: 'long', day: 'numeric', year: 'numeric',
+      weekday: 'long',
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric',
     });
 
     // Create a Zoom meeting if credentials are configured — otherwise fall back to phone
@@ -60,7 +64,10 @@ async function _POST(request: Request) {
         zoomId = meeting.id;
         logger.info('[Schedule] Zoom meeting created', { meetingId: meeting.id });
       } catch (zoomErr) {
-        logger.warn('[Schedule] Zoom meeting creation failed — proceeding without Zoom link', zoomErr instanceof Error ? zoomErr.message : zoomErr);
+        logger.warn(
+          '[Schedule] Zoom meeting creation failed — proceeding without Zoom link',
+          zoomErr instanceof Error ? zoomErr.message : zoomErr,
+        );
         // Non-fatal: appointment is still saved and emails sent with phone fallback
       }
     } else {
@@ -100,14 +107,18 @@ async function _POST(request: Request) {
 <tr><td style="padding:10px;border:1px solid #e5e7eb;font-weight:bold">Time</td><td style="padding:10px;border:1px solid #e5e7eb">${appointment_time} (Eastern)</td></tr>
 <tr><td style="padding:10px;border:1px solid #e5e7eb;font-weight:bold">Location</td><td style="padding:10px;border:1px solid #e5e7eb">${zoomUrl ? 'Zoom Video Call' : 'Phone / In-Person — details to follow'}</td></tr>
 </table>
-${zoomUrl ? `<div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:16px;margin:16px 0">
+${
+  zoomUrl
+    ? `<div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:16px;margin:16px 0">
 <strong style="color:#1e40af">Join via Zoom</strong><br/>
 <a href="${zoomUrl}" style="color:#2563eb;font-size:14px">${zoomUrl}</a><br/>
 <span style="color:#3b82f6;font-size:12px">Meeting ID: ${zoomId}</span>
-</div>` : `<div style="background:#fefce8;border:1px solid #fde68a;border-radius:8px;padding:16px;margin:16px 0">
+</div>`
+    : `<div style="background:#fefce8;border:1px solid #fde68a;border-radius:8px;padding:16px;margin:16px 0">
 <strong style="color:#92400e">Our team will contact you to confirm meeting details.</strong><br/>
 <span style="color:#78350f;font-size:14px">Questions? Call <strong>(317) 314-3757</strong> or reply to this email.</span>
-</div>`}
+</div>`
+}
 <h3 style="color:#111827">Before Your Meeting</h3>
 <ol style="line-height:1.8">
 <li>Register at <a href="https://indianacareerconnect.com" style="color:#dc2626">indianacareerconnect.com</a> if you haven't already</li>
@@ -119,7 +130,10 @@ ${zoomUrl ? `<div style="background:#eff6ff;border:1px solid #bfdbfe;border-radi
 <p style="color:#6b7280;font-size:12px">Elevate for Humanity &middot; Indianapolis, IN</p>
 </div>`,
     }).catch((err) => {
-      logger.error('[Schedule] Applicant confirmation email failed:', err instanceof Error ? err.message : err);
+      logger.error(
+        '[Schedule] Applicant confirmation email failed:',
+        err instanceof Error ? err.message : err,
+      );
     });
 
     // Notify admin
@@ -139,7 +153,10 @@ ${zoomUrl ? `<div style="background:#eff6ff;border:1px solid #bfdbfe;border-radi
 ${zoomUrl ? `<p><a href="${zoomUrl}">Join Zoom Meeting</a> (ID: ${zoomId})</p>` : `<p><strong>No Zoom link — contact student to arrange meeting.</strong></p>`}
 </div>`,
     }).catch((err) => {
-      logger.error('[Schedule] Admin notification email failed:', err instanceof Error ? err.message : err);
+      logger.error(
+        '[Schedule] Admin notification email failed:',
+        err instanceof Error ? err.message : err,
+      );
     });
 
     return NextResponse.json({ success: true, meetingUrl: zoomUrl });

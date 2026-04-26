@@ -25,7 +25,7 @@ const STANDARDS = {
   audio: {
     minBitrate: 192, // kbps
     maxSize: 1 * 1024 * 1024, // 1MB
-  }
+  },
 };
 
 const issues = {
@@ -61,7 +61,7 @@ async function checkImageQuality(filePath) {
         file: filePath,
         current: `${w}x${h}`,
         required: `${standard.minWidth}x${standard.minHeight}`,
-        size: formatSize(size)
+        size: formatSize(size),
       });
     }
 
@@ -71,7 +71,7 @@ async function checkImageQuality(filePath) {
         file: filePath,
         size: formatSize(size),
         maxSize: formatSize(standard.maxSize),
-        needsCompression: true
+        needsCompression: true,
       });
     }
 
@@ -87,7 +87,7 @@ async function checkVideoQuality(filePath) {
     // Use ffprobe to check video properties
     const output = execSync(
       `ffprobe -v error -select_streams v:0 -show_entries stream=width,height -of csv=p=0 "${filePath}"`,
-      { encoding: 'utf-8' }
+      { encoding: 'utf-8' },
     );
 
     const [width, height] = output.trim().split(',').map(Number);
@@ -99,7 +99,7 @@ async function checkVideoQuality(filePath) {
         file: filePath,
         current: `${width}x${height}`,
         required: `${STANDARDS.videos.minWidth}x${STANDARDS.videos.minHeight}`,
-        size: formatSize(size)
+        size: formatSize(size),
       });
     }
 
@@ -108,7 +108,7 @@ async function checkVideoQuality(filePath) {
         file: filePath,
         size: formatSize(size),
         maxSize: formatSize(STANDARDS.videos.maxSize),
-        needsCompression: true
+        needsCompression: true,
       });
     }
 
@@ -128,7 +128,7 @@ async function checkAudioQuality(filePath) {
     if (filePath.includes('robot') || filePath.includes('tts')) {
       issues.wrongFormat.push({
         file: filePath,
-        reason: 'Robotic TTS file detected - only professional voiceovers allowed'
+        reason: 'Robotic TTS file detected - only professional voiceovers allowed',
       });
     }
 
@@ -137,7 +137,7 @@ async function checkAudioQuality(filePath) {
         file: filePath,
         size: formatSize(size),
         maxSize: formatSize(STANDARDS.audio.maxSize),
-        needsCompression: true
+        needsCompression: true,
       });
     }
 
@@ -174,10 +174,10 @@ function parseSizeString(sizeStr) {
   const unit = match[2].toUpperCase();
 
   const multipliers = {
-    'B': 1,
-    'KB': 1024,
-    'MB': 1024 * 1024,
-    'GB': 1024 * 1024 * 1024,
+    B: 1,
+    KB: 1024,
+    MB: 1024 * 1024,
+    GB: 1024 * 1024 * 1024,
   };
 
   return value * (multipliers[unit] || 1);
@@ -191,7 +191,6 @@ function formatSize(bytes) {
 }
 
 async function main() {
-
   // Check images
   await scanDirectory('public/images', async (filePath, fileName) => {
     if (fileName.match(/\.(jpg|jpeg|png|webp)$/i)) {
@@ -216,25 +215,19 @@ async function main() {
   // Report results
 
   if (issues.lowResolution.length > 0) {
-    issues.lowResolution.forEach(item => {
-    });
+    issues.lowResolution.forEach((item) => {});
   }
 
   if (issues.oversized.length > 0) {
-    issues.oversized.forEach(item => {
-    });
+    issues.oversized.forEach((item) => {});
   }
 
   if (issues.wrongFormat.length > 0) {
-    issues.wrongFormat.forEach(item => {
-    });
+    issues.wrongFormat.forEach((item) => {});
   }
 
   const totalIssues =
-    issues.lowResolution.length +
-    issues.oversized.length +
-    issues.wrongFormat.length;
-
+    issues.lowResolution.length + issues.oversized.length + issues.wrongFormat.length;
 
   if (totalIssues === 0) {
     process.exit(0);
@@ -243,7 +236,7 @@ async function main() {
   }
 }
 
-main().catch(error => {
+main().catch((error) => {
   console.error('Error running media optimization:', error);
   process.exit(1);
 });

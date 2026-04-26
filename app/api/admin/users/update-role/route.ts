@@ -12,8 +12,15 @@ import { withApiAudit } from '@/lib/audit/withApiAudit';
 export const runtime = 'nodejs';
 
 const VALID_ROLES = [
-  'student', 'staff', 'instructor', 'admin', 'super_admin',
-  'program_holder', 'employer', 'partner', 'mentor',
+  'student',
+  'staff',
+  'instructor',
+  'admin',
+  'super_admin',
+  'program_holder',
+  'employer',
+  'partner',
+  'mentor',
 ];
 
 async function _POST(request: NextRequest) {
@@ -22,7 +29,9 @@ async function _POST(request: NextRequest) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const { data: actor } = await supabase
@@ -44,13 +53,16 @@ async function _POST(request: NextRequest) {
     if (!VALID_ROLES.includes(role)) {
       return NextResponse.json(
         { error: `Invalid role. Must be one of: ${VALID_ROLES.join(', ')}` },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     // Only super_admin can promote to admin/super_admin
     if (['admin', 'super_admin'].includes(role) && actor.role !== 'super_admin') {
-      return NextResponse.json({ error: 'Only super_admin can grant admin roles' }, { status: 403 });
+      return NextResponse.json(
+        { error: 'Only super_admin can grant admin roles' },
+        { status: 403 },
+      );
     }
 
     const db = await getAdminClient();

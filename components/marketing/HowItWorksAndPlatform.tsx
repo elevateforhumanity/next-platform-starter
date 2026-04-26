@@ -2,34 +2,34 @@
 
 const steps = [
   {
-    step: "1",
-    title: "Connect & explore options",
-    body: "Share your goals and situation. We look at funding, approvals, and which programs actually fit your life.",
+    step: '1',
+    title: 'Connect & explore options',
+    body: 'Share your goals and situation. We look at funding, approvals, and which programs actually fit your life.',
   },
   {
-    step: "2",
-    title: "Enroll & train with support",
-    body: "Enroll with one of our training partners. You get coaching, reminders, and barrier-busting help along the way.",
+    step: '2',
+    title: 'Enroll & train with support',
+    body: 'Enroll with one of our training partners. You get coaching, reminders, and barrier-busting help along the way.',
   },
   {
-    step: "3",
-    title: "Move into jobs & apprenticeships",
-    body: "We stay connected with employers and workforce partners to help you move into real roles, not just finish a class.",
+    step: '3',
+    title: 'Move into jobs & apprenticeships',
+    body: 'We stay connected with employers and workforce partners to help you move into real roles, not just finish a class.',
   },
 ];
 
 const platform = [
   {
-    label: "Student Portal",
+    label: 'Student Portal',
     body: "Assignments, attendance, milestones, and messages in one place, so you always know what's next.",
   },
   {
-    label: "Employer Dashboard",
-    body: "See your candidates, hours, OJT / WEX status, and outcomes across programs and cohorts.",
+    label: 'Employer Dashboard',
+    body: 'See your candidates, hours, OJT / WEX status, and outcomes across programs and cohorts.',
   },
   {
-    label: "Mobile App",
-    body: "Stay on track from your phone with nudges, check-ins, and quick access to your coach.",
+    label: 'Mobile App',
+    body: 'Stay on track from your phone with nudges, check-ins, and quick access to your coach.',
   },
 ];
 
@@ -47,9 +47,9 @@ export function HowItWorksAndPlatform() {
               A whole ecosystem around each learner.
             </p>
             <p className="mt-3 text-sm text-slate-600">
-              Elevate is designed for real lives — justice-involved learners,
-              parents, career changers, and employers who want to hire
-              differently. We tie funding, training, and employment together.
+              Elevate is designed for real lives — justice-involved learners, parents, career
+              changers, and employers who want to hire differently. We tie funding, training, and
+              employment together.
             </p>
 
             <ol className="mt-8 space-y-5">
@@ -62,12 +62,8 @@ export function HowItWorksAndPlatform() {
                     {step.step}
                   </div>
                   <div>
-                    <h3 className="text-sm font-semibold text-white">
-                      {step.title}
-                    </h3>
-                    <p className="mt-1 text-sm text-slate-600">
-                      {step.body}
-                    </p>
+                    <h3 className="text-sm font-semibold text-white">{step.title}</h3>
+                    <p className="mt-1 text-sm text-slate-600">{step.body}</p>
                   </div>
                 </li>
               ))}
@@ -83,17 +79,14 @@ export function HowItWorksAndPlatform() {
               People + technology that keep everyone aligned.
             </p>
             <p className="mt-2 text-sm text-slate-600">
-              Student and employer portals, mobile, and real humans behind the
-              screens so case managers, workforce boards, and employers can see
-              what's happening in real time.
+              Student and employer portals, mobile, and real humans behind the screens so case
+              managers, workforce boards, and employers can see what's happening in real time.
             </p>
 
             <dl className="mt-6 space-y-4">
               {platform.map((item) => (
                 <div key={item.label} className="space-y-1">
-                  <dt className="text-sm font-semibold text-white">
-                    {item.label}
-                  </dt>
+                  <dt className="text-sm font-semibold text-white">{item.label}</dt>
                   <dd className="text-sm text-white">{item.body}</dd>
                 </div>
               ))}

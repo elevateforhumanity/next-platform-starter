@@ -1,4 +1,3 @@
-
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
@@ -46,7 +45,7 @@ export async function POST(req: Request) {
       return NextResponse.json({
         success: false,
         error: {
-          code: (error as any)?.code || "UNKNOWN",
+          code: (error as any)?.code || 'UNKNOWN',
           message: error instanceof Error ? error.message : String(error),
           details: error.details,
           hint: error.hint,
@@ -63,7 +62,8 @@ export async function POST(req: Request) {
       message: 'Insert test successful (record deleted)',
       insertedId: data.id,
     });
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     return NextResponse.json({
       success: false,
       error: (err as Error).message,

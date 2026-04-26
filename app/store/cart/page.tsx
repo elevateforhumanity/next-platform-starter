@@ -23,7 +23,8 @@ export const metadata: Metadata = {
 export const dynamic = 'force-dynamic';
 
 const CART_ERROR_MESSAGES: Record<string, string> = {
-  'payment-unavailable': 'Checkout is temporarily unavailable. Please try again later or call (317) 314-3757.',
+  'payment-unavailable':
+    'Checkout is temporarily unavailable. Please try again later or call (317) 314-3757.',
   'checkout-failed': 'We could not start your checkout session. Please try again.',
 };
 
@@ -33,11 +34,15 @@ export default async function CartPage({
   searchParams: Promise<{ error?: string }>;
 }) {
   const { error: errorSlug } = await searchParams;
-  const checkoutError = errorSlug ? (CART_ERROR_MESSAGES[errorSlug] ?? 'Something went wrong. Please try again.') : null;
+  const checkoutError = errorSlug
+    ? (CART_ERROR_MESSAGES[errorSlug] ?? 'Something went wrong. Please try again.')
+    : null;
 
   const supabase = await createClient();
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   // Show empty cart for guests instead of redirecting
   if (!user) {
@@ -77,7 +82,8 @@ export default async function CartPage({
   // Get cart items with product details
   const { data: cartItems } = await supabase
     .from('cart_items')
-    .select(`
+    .select(
+      `
       id,
       quantity,
       product:products(
@@ -87,27 +93,35 @@ export default async function CartPage({
         image_url,
         type
       )
-    `)
+    `,
+    )
     .eq('user_id', user.id);
 
-  const subtotal = cartItems?.reduce((sum: number, item: any) => {
-    return sum + (item.product?.price || 0) * item.quantity;
-  }, 0) || 0;
+  const subtotal =
+    cartItems?.reduce((sum: number, item: any) => {
+      return sum + (item.product?.price || 0) * item.quantity;
+    }, 0) || 0;
 
   const tax = subtotal * 0.07; // 7% tax
   const total = subtotal + tax;
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* Hero Image */}
       <section className="relative h-[160px] sm:h-[220px] md:h-[280px] overflow-hidden">
-        <Image src="/images/pages/store-cart-hero.jpg" alt="Elevate store" fill sizes="100vw" className="object-cover" priority />
+        <Image
+          src="/images/pages/store-cart-hero.jpg"
+          alt="Elevate store"
+          fill
+          sizes="100vw"
+          className="object-cover"
+          priority
+        />
       </section>
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Store", href: "/store" }, { label: "Cart" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Store', href: '/store' }, { label: 'Cart' }]} />
       </div>
-<div className="max-w-4xl mx-auto px-4 py-8">
+      <div className="max-w-4xl mx-auto px-4 py-8">
         {checkoutError && (
           <div className="mb-6 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
             {checkoutError}
@@ -129,11 +143,12 @@ export default async function CartPage({
                   <div className="flex gap-4">
                     <div className="w-20 h-20 bg-white rounded-lg overflow-hidden flex-shrink-0 relative">
                       {item.product?.image_url ? (
-                        <Image alt="Product image" 
-                          src={item.product.image_url} 
-                          alt={item.product.name} 
+                        <Image
+                          alt="Product image"
+                          src={item.product.image_url}
+                          alt={item.product.name}
                           fill
-                          className="object-cover" 
+                          className="object-cover"
                           sizes="80px"
                         />
                       ) : (
@@ -150,7 +165,7 @@ export default async function CartPage({
                           <form action={`/api/cart/update`} method="POST">
                             <input type="hidden" name="itemId" value={item.id} />
                             <input type="hidden" name="quantity" value={item.quantity - 1} />
-                            <button 
+                            <button
                               type="submit"
                               className="w-8 h-8 flex items-center justify-center border rounded hover:bg-white"
                               disabled={item.quantity <= 1}
@@ -162,7 +177,7 @@ export default async function CartPage({
                           <form action={`/api/cart/update`} method="POST">
                             <input type="hidden" name="itemId" value={item.id} />
                             <input type="hidden" name="quantity" value={item.quantity + 1} />
-                            <button 
+                            <button
                               type="submit"
                               className="w-8 h-8 flex items-center justify-center border rounded hover:bg-white"
                             >
@@ -176,7 +191,7 @@ export default async function CartPage({
                           </span>
                           <form action={`/api/cart/remove`} method="POST">
                             <input type="hidden" name="itemId" value={item.id} />
-                            <button 
+                            <button
                               type="submit"
                               className="text-brand-red-500 hover:text-brand-red-700"
                             >
@@ -230,7 +245,9 @@ export default async function CartPage({
           <div className="bg-white rounded-xl shadow-sm border p-12 text-center">
             <ShoppingCart className="w-16 h-16 mx-auto mb-4 text-gray-300" />
             <h2 className="text-xl font-semibold mb-2">Your cart is empty</h2>
-            <p className="text-gray-600 mb-6">Browse our store to find resources that support your journey.</p>
+            <p className="text-gray-600 mb-6">
+              Browse our store to find resources that support your journey.
+            </p>
             <Link
               href="/store"
               className="inline-flex items-center gap-2 bg-brand-red-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-brand-red-700"

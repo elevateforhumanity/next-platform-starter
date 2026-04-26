@@ -16,15 +16,14 @@ export const metadata: Metadata = {
 export default async function PaymentCancelPage() {
   const supabase = await createClient();
 
-  
   // Log payment cancellation
   await supabase.from('page_views').insert({ page: 'payment_cancel' }).select();
   return (
     <div className="min-h-screen bg-white  to-white py-20">
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Payment", href: "/payment" }, { label: "Cancel" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Payment', href: '/payment' }, { label: 'Cancel' }]} />
       </div>
-<div className="container mx-auto px-4 max-w-2xl text-center">
+      <div className="container mx-auto px-4 max-w-2xl text-center">
         <div className="bg-white rounded-2xl shadow-xl p-12">
           <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-6">
             <XCircle className="w-12 h-12 text-black" />
@@ -45,13 +44,13 @@ export default async function PaymentCancelPage() {
             </p>
             <ul className="text-left text-brand-blue-800 space-y-2">
               <li>
-                <DollarSign className="w-5 h-5 inline-block" /> Check if you
-                qualify for funded training (WIOA, WRG, Job Ready Indy)
+                <DollarSign className="w-5 h-5 inline-block" /> Check if you qualify for funded
+                training (WIOA, WRG, Job Ready Indy)
               </li>
               <li>💳 Try a different payment method</li>
               <li>
-                <Phone className="w-5 h-5 inline-block" /> Contact us to discuss
-                payment plans: support center
+                <Phone className="w-5 h-5 inline-block" /> Contact us to discuss payment plans:
+                support center
               </li>
               <li>💬 Chat with our enrollment team</li>
             </ul>
@@ -75,17 +74,11 @@ export default async function PaymentCancelPage() {
           <div className="mt-8 pt-8 border-t border-gray-200">
             <p className="text-sm text-black">
               Questions? Contact us at{' '}
-              <a
-                href="/support"
-                className="text-brand-orange-600 hover:underline"
-              >
+              <a href="/support" className="text-brand-orange-600 hover:underline">
                 support center
               </a>{' '}
               or{' '}
-              <a
-                href="/contact"
-                className="text-brand-orange-600 hover:underline"
-              >
+              <a href="/contact" className="text-brand-orange-600 hover:underline">
                 our contact form
               </a>
             </p>

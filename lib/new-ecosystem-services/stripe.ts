@@ -1,8 +1,6 @@
 import { loadStripe } from '@stripe/stripe-js';
 
-const stripePromise = loadStripe(
-  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || ''
-);
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '');
 
 export interface CheckoutSessionData {
   programId: string;
@@ -53,7 +51,10 @@ export async function redirectToCheckout(sessionId: string): Promise<void> {
 /**
  * Enroll a user in a free program via /api/enrollments/create-enforced.
  */
-export async function enrollFree(programId: string, userId: string): Promise<{ enrollmentId: string }> {
+export async function enrollFree(
+  programId: string,
+  userId: string,
+): Promise<{ enrollmentId: string }> {
   const response = await fetch('/api/enrollments/create-enforced', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

@@ -54,7 +54,7 @@ function StatusBadge({ status }: { status: string }) {
 }
 
 export default function StatusPage() {
-  const allOperational = services.every(s => s.status === 'operational');
+  const allOperational = services.every((s) => s.status === 'operational');
   const lastUpdated = new Date().toLocaleString('en-US', {
     dateStyle: 'medium',
     timeStyle: 'short',
@@ -62,11 +62,13 @@ export default function StatusPage() {
 
   return (
     <div className="min-h-screen bg-white">
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Status" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Status' }]} />
       </div>
-{/* Header */}
-      <div className={`${allOperational ? 'bg-brand-green-600' : 'bg-yellow-600'} text-white py-12`}>
+      {/* Header */}
+      <div
+        className={`${allOperational ? 'bg-brand-green-600' : 'bg-yellow-600'} text-white py-12`}
+      >
         <div className="max-w-4xl mx-auto px-4 text-center">
           <div className="flex items-center justify-center gap-3 mb-4">
             {allOperational ? (
@@ -78,9 +80,7 @@ export default function StatusPage() {
           <h1 className="text-3xl font-bold mb-2">
             {allOperational ? 'All Systems Operational' : 'Some Systems Experiencing Issues'}
           </h1>
-          <p className="text-white">
-            Last updated: {lastUpdated}
-          </p>
+          <p className="text-white">Last updated: {lastUpdated}</p>
         </div>
       </div>
 
@@ -114,8 +114,8 @@ export default function StatusPage() {
             <div>
               <h3 className="font-bold text-brand-blue-900 mb-2">Active Monitoring</h3>
               <p className="text-brand-blue-800">
-                Our systems are continuously monitored for performance and availability. 
-                Automated alerts notify our team immediately when issues are detected.
+                Our systems are continuously monitored for performance and availability. Automated
+                alerts notify our team immediately when issues are detected.
               </p>
             </div>
           </div>
@@ -136,13 +136,24 @@ export default function StatusPage() {
         <section className="text-center">
           <p className="text-gray-600 mb-4">
             For support inquiries, please visit our{' '}
-            <Link href="/contact" className="text-brand-blue-600 hover:underline">contact page</Link>.
+            <Link href="/contact" className="text-brand-blue-600 hover:underline">
+              contact page
+            </Link>
+            .
           </p>
           <p className="text-sm text-gray-500">
             View our{' '}
-            <Link href="/policies/sla" className="text-brand-blue-600 hover:underline">Service Level Agreement</Link>
-            {' '}and{' '}
-            <Link href="/policies/incident-response" className="text-brand-blue-600 hover:underline">Incident Response Policy</Link>.
+            <Link href="/policies/sla" className="text-brand-blue-600 hover:underline">
+              Service Level Agreement
+            </Link>{' '}
+            and{' '}
+            <Link
+              href="/policies/incident-response"
+              className="text-brand-blue-600 hover:underline"
+            >
+              Incident Response Policy
+            </Link>
+            .
           </p>
         </section>
       </div>

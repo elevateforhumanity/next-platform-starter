@@ -1,5 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
-
+import { createClient } from '@/lib/supabase/server';
 
 import { toErrorMessage } from '@/lib/safe';
 import { logger } from '@/lib/logger';
@@ -24,13 +23,13 @@ export async function POST(req: Request) {
     const supabase = await createClient();
 
     // Authentication check
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
 
     if (authError || !user) {
-      return Response.json(
-        { error: 'Authentication required' },
-        { status: 401 }
-      );
+      return Response.json({ error: 'Authentication required' }, { status: 401 });
     }
 
     // Check admin role for delete operations
@@ -43,7 +42,7 @@ export async function POST(req: Request) {
     if (!profile || !['admin', 'super_admin'].includes(profile.role)) {
       return Response.json(
         { error: 'Admin access required for delete operations' },
-        { status: 403 }
+        { status: 403 },
       );
     }
 
@@ -51,23 +50,17 @@ export async function POST(req: Request) {
     const { path, bucket = 'media' } = body;
 
     if (!path) {
-      return Response.json({ error: "No path provided" }, { status: 400 });
+      return Response.json({ error: 'No path provided' }, { status: 400 });
     }
 
     // Validate bucket (whitelist)
     if (!ALLOWED_BUCKETS.includes(bucket)) {
-      return Response.json(
-        { error: 'Invalid storage bucket' },
-        { status: 400 }
-      );
+      return Response.json({ error: 'Invalid storage bucket' }, { status: 400 });
     }
 
     // Validate path to prevent path traversal
     if (!SAFE_PATH_PATTERN.test(path) || path.includes('..')) {
-      return Response.json(
-        { error: 'Invalid file path' },
-        { status: 400 }
-      );
+      return Response.json({ error: 'Invalid file path' }, { status: 400 });
     }
 
     const { error } = await supabase.storage.from(bucket).remove([path]);
@@ -89,9 +82,6 @@ export async function POST(req: Request) {
     return Response.json({ ok: true });
   } catch (error) {
     logger.error('Delete error:', error instanceof Error ? error : new Error(String(error)));
-    return Response.json(
-      { error: 'Failed to delete file' },
-      { status: 500 }
-    );
+    return Response.json({ error: 'Failed to delete file' }, { status: 500 });
   }
 }

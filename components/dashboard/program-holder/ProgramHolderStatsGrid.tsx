@@ -42,11 +42,7 @@ export function ProgramHolderStatsGrid({ stats }: Props) {
       />
       <StatCard
         label="This month revenue"
-        value={
-          stats.monthlyRevenue
-            ? `$${stats.monthlyRevenue.toLocaleString()}`
-            : "$0"
-        }
+        value={stats.monthlyRevenue ? `$${stats.monthlyRevenue.toLocaleString()}` : '$0'}
         helper="Funding / revenue recorded"
       />
     </section>
@@ -62,13 +58,9 @@ type StatCardProps = {
 function StatCard({ label, value, helper }: StatCardProps) {
   return (
     <div className="flex flex-col justify-between rounded-2xl bg-white p-3 shadow-sm">
-      <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
-        {label}
-      </p>
+      <p className="text-xs font-medium uppercase tracking-wide text-slate-500">{label}</p>
       <p className="mt-1 text-xl font-semibold text-black">{value}</p>
-      {helper && (
-        <p className="mt-1 text-[11px] text-slate-500">{helper}</p>
-      )}
+      {helper && <p className="mt-1 text-[11px] text-slate-500">{helper}</p>}
     </div>
   );
 }

@@ -208,15 +208,17 @@ export async function getPeerRecommendations(userId: string, limit = 5) {
 
   if (!enrollments?.length) return [];
 
-  const courseIds = enrollments.map(e => e.course_id);
+  const courseIds = enrollments.map((e) => e.course_id);
 
   // Find other users in same courses
   const { data: peers } = await supabase
     .from('program_enrollments')
-    .select(`
+    .select(
+      `
       user_id,
       profiles:user_id (full_name, avatar_url)
-    `)
+    `,
+    )
     .in('course_id', courseIds)
     .neq('user_id', userId)
     .eq('status', 'active')
@@ -224,7 +226,7 @@ export async function getPeerRecommendations(userId: string, limit = 5) {
 
   // Deduplicate and limit
   const uniquePeers = new Map();
-  peers?.forEach(p => {
+  peers?.forEach((p) => {
     if (!uniquePeers.has(p.user_id)) {
       uniquePeers.set(p.user_id, p);
     }
@@ -241,7 +243,8 @@ export async function getTrendingDiscussions(limit = 10) {
 
   const { data } = await supabase
     .from('discussions')
-    .select(`
+    .select(
+      `
       id,
       title,
       content,
@@ -251,7 +254,8 @@ export async function getTrendingDiscussions(limit = 10) {
       like_count,
       created_at,
       profiles:author_id (full_name, avatar_url)
-    `)
+    `,
+    )
     .order('reply_count', { ascending: false })
     .order('created_at', { ascending: false })
     .limit(limit);
@@ -271,7 +275,8 @@ export async function getActiveStudyGroups(params?: {
 
   let query = supabase
     .from('study_groups')
-    .select(`
+    .select(
+      `
       id,
       name,
       description,
@@ -280,7 +285,8 @@ export async function getActiveStudyGroups(params?: {
       is_public,
       max_members,
       created_at
-    `)
+    `,
+    )
     .eq('is_public', true);
 
   if (params?.courseId) {
@@ -291,9 +297,7 @@ export async function getActiveStudyGroups(params?: {
     query = query.eq('program_id', params.programId);
   }
 
-  const { data } = await query
-    .order('created_at', { ascending: false })
-    .limit(params?.limit || 10);
+  const { data } = await query.order('created_at', { ascending: false }).limit(params?.limit || 10);
 
   return data || [];
 }

@@ -5,18 +5,8 @@
  * Ensures nothing slips through the cracks
  */
 
-export type ReportingFrequency =
-  | 'daily'
-  | 'weekly'
-  | 'monthly'
-  | 'quarterly'
-  | 'annual';
-export type ReportingStatus =
-  | 'upcoming'
-  | 'due_soon'
-  | 'overdue'
-  | 'submitted'
-  | 'approved';
+export type ReportingFrequency = 'daily' | 'weekly' | 'monthly' | 'quarterly' | 'annual';
+export type ReportingStatus = 'upcoming' | 'due_soon' | 'overdue' | 'submitted' | 'approved';
 export type ComplianceLevel = 'critical' | 'high' | 'medium' | 'low';
 
 export interface ReportingRequirement {
@@ -510,21 +500,17 @@ export function getAllRequirements(): ReportingRequirement[] {
   ];
 }
 
-export function getRequirementsByFrequency(
-  frequency: ReportingFrequency
-): ReportingRequirement[] {
+export function getRequirementsByFrequency(frequency: ReportingFrequency): ReportingRequirement[] {
   return getAllRequirements().filter((req) => req.frequency === frequency);
 }
 
 export function getCriticalRequirements(): ReportingRequirement[] {
-  return getAllRequirements().filter(
-    (req) => req.complianceLevel === 'critical'
-  );
+  return getAllRequirements().filter((req) => req.complianceLevel === 'critical');
 }
 
 export function calculateDueDate(
   requirement: ReportingRequirement,
-  referenceDate: Date = new Date()
+  referenceDate: Date = new Date(),
 ): Date {
   const dueDate = new Date(referenceDate);
 
@@ -540,7 +526,7 @@ export function calculateDueDate(
       const quarterEnd = new Date(
         dueDate.getFullYear(),
         Math.floor(dueDate.getMonth() / 3) * 3 + 3,
-        0
+        0,
       );
       dueDate.setTime(quarterEnd.getTime());
       dueDate.setDate(dueDate.getDate() + requirement.dueDay);
@@ -557,14 +543,9 @@ export function calculateDueDate(
   return dueDate;
 }
 
-export function getReportingStatus(
-  dueDate: Date,
-  submittedDate?: Date
-): ReportingStatus {
+export function getReportingStatus(dueDate: Date, submittedDate?: Date): ReportingStatus {
   const now = new Date();
-  const daysUntilDue = Math.floor(
-    (dueDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)
-  );
+  const daysUntilDue = Math.floor((dueDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
 
   if (submittedDate) {
     return 'submitted';

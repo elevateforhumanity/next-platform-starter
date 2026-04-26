@@ -11,7 +11,7 @@ export interface Notification {
   created_at: string;
 }
 
-export type NotificationType = 
+export type NotificationType =
   | 'enrollment_approved'
   | 'enrollment_pending'
   | 'course_completed'
@@ -34,10 +34,10 @@ export interface NotificationPayload {
  */
 export function subscribeToNotifications(
   userId: string,
-  onNotification: (notification: Notification) => void
+  onNotification: (notification: Notification) => void,
 ) {
   const supabase = createClient();
-  
+
   const channel = supabase
     .channel(`notifications:${userId}`)
     .on(
@@ -50,7 +50,7 @@ export function subscribeToNotifications(
       },
       (payload) => {
         onNotification(payload.new as Notification);
-      }
+      },
     )
     .subscribe();
 
@@ -65,10 +65,10 @@ export function subscribeToNotifications(
 export function subscribeToCourseProgress(
   userId: string,
   courseId: string,
-  onProgress: (progress: { lesson_id: string; completed: boolean }) => void
+  onProgress: (progress: { lesson_id: string; completed: boolean }) => void,
 ) {
   const supabase = createClient();
-  
+
   const channel = supabase
     .channel(`progress:${userId}:${courseId}`)
     .on(
@@ -83,7 +83,7 @@ export function subscribeToCourseProgress(
         if (payload.new) {
           onProgress(payload.new as { lesson_id: string; completed: boolean });
         }
-      }
+      },
     )
     .subscribe();
 
@@ -97,10 +97,15 @@ export function subscribeToCourseProgress(
  */
 export function subscribeToChatMessages(
   roomId: string,
-  onMessage: (message: { id: string; user_id: string; content: string; created_at: string }) => void
+  onMessage: (message: {
+    id: string;
+    user_id: string;
+    content: string;
+    created_at: string;
+  }) => void,
 ) {
   const supabase = createClient();
-  
+
   const channel = supabase
     .channel(`chat:${roomId}`)
     .on(
@@ -112,8 +117,10 @@ export function subscribeToChatMessages(
         filter: `room_id=eq.${roomId}`,
       },
       (payload) => {
-        onMessage(payload.new as { id: string; user_id: string; content: string; created_at: string });
-      }
+        onMessage(
+          payload.new as { id: string; user_id: string; content: string; created_at: string },
+        );
+      },
     )
     .subscribe();
 
@@ -128,10 +135,10 @@ export function subscribeToChatMessages(
 export function subscribeToPresence(
   roomId: string,
   userId: string,
-  onPresenceChange: (users: { user_id: string; online_at: string }[]) => void
+  onPresenceChange: (users: { user_id: string; online_at: string }[]) => void,
 ) {
   const supabase = createClient();
-  
+
   const channel = supabase
     .channel(`presence:${roomId}`)
     .on('presence', { event: 'sync' }, () => {
@@ -158,7 +165,7 @@ export function subscribeToPresence(
  */
 export async function markNotificationRead(notificationId: string) {
   const supabase = createClient();
-  
+
   const { error } = await supabase
     .from('notifications')
     .update({ read: true })
@@ -172,7 +179,7 @@ export async function markNotificationRead(notificationId: string) {
  */
 export async function markAllNotificationsRead(userId: string) {
   const supabase = createClient();
-  
+
   const { error } = await supabase
     .from('notifications')
     .update({ read: true })
@@ -187,7 +194,7 @@ export async function markAllNotificationsRead(userId: string) {
  */
 export async function getUnreadCount(userId: string): Promise<number> {
   const supabase = createClient();
-  
+
   const { count } = await supabase
     .from('notifications')
     .select('*', { count: 'exact', head: true })
@@ -202,20 +209,18 @@ export async function getUnreadCount(userId: string): Promise<number> {
  */
 export async function sendNotification(
   userId: string,
-  payload: NotificationPayload
+  payload: NotificationPayload,
 ): Promise<boolean> {
   const supabase = createClient();
-  
-  const { error } = await supabase
-    .from('notifications')
-    .insert({
-      user_id: userId,
-      type: payload.type,
-      title: payload.title,
-      message: payload.message,
-      data: payload.data,
-      read: false,
-    });
+
+  const { error } = await supabase.from('notifications').insert({
+    user_id: userId,
+    type: payload.type,
+    title: payload.title,
+    message: payload.message,
+    data: payload.data,
+    read: false,
+  });
 
   return !error;
 }

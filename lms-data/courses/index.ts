@@ -69,7 +69,5 @@ export const allCourses: Course[] = [
 ];
 
 export function getCourseBySlug(slug: string): Course | undefined {
-  return allCourses.find(
-    (course) => course.slug === slug && course.isPublished
-  );
+  return allCourses.find((course) => course.slug === slug && course.isPublished);
 }

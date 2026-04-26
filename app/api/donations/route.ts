@@ -64,8 +64,7 @@ async function _GET(request: Request) {
           return sum;
         }, 0) || 0;
 
-      const totalDonations =
-        donations?.filter((d) => d.payment_status === 'succeeded').length || 0;
+      const totalDonations = donations?.filter((d) => d.payment_status === 'succeeded').length || 0;
 
       return NextResponse.json({
         donations,
@@ -103,11 +102,8 @@ async function _GET(request: Request) {
       total: donations?.length || 0,
       totalAmount,
     });
-  } catch (error) { 
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+  } catch (error) {
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/donations', _GET);

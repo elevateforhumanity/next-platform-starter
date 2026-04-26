@@ -11,7 +11,11 @@ export const metadata: Metadata = {
 };
 
 function fmtDate(iso: string) {
-  return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  return new Date(iso).toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  });
 }
 
 function fmtBytes(bytes: number) {
@@ -27,7 +31,10 @@ export default async function DocumentsPage() {
 
   const { data: documents, count } = await db
     .from('documents')
-    .select('id, title, file_name, filename, document_type, file_type, file_size, created_at, storage_path, url', { count: 'exact' })
+    .select(
+      'id, title, file_name, filename, document_type, file_type, file_size, created_at, storage_path, url',
+      { count: 'exact' },
+    )
     .order('created_at', { ascending: false })
     .limit(50);
 
@@ -35,11 +42,12 @@ export default async function DocumentsPage() {
 
   return (
     <div className="max-w-7xl mx-auto py-8 space-y-6 px-4 sm:px-6 lg:px-8">
-
       <div className="flex items-start justify-between gap-4 flex-wrap">
         <div>
           <nav className="flex items-center gap-1.5 text-xs text-slate-500 mb-2">
-            <Link href="/admin/dashboard" className="hover:text-slate-700">Admin</Link>
+            <Link href="/admin/dashboard" className="hover:text-slate-700">
+              Admin
+            </Link>
             <ChevronRight className="w-3 h-3" />
             <span className="text-slate-900 font-medium">Documents</span>
           </nav>
@@ -47,12 +55,16 @@ export default async function DocumentsPage() {
           <p className="text-sm text-slate-500 mt-1">{count ?? 0} documents on file</p>
         </div>
         <div className="flex gap-3">
-          <Link href="/admin/documents/templates"
-            className="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 transition-colors">
+          <Link
+            href="/admin/documents/templates"
+            className="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 transition-colors"
+          >
             Templates
           </Link>
-          <Link href="/admin/documents/upload"
-            className="inline-flex items-center gap-2 rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-700 transition-colors">
+          <Link
+            href="/admin/documents/upload"
+            className="inline-flex items-center gap-2 rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-700 transition-colors"
+          >
             <Upload className="w-4 h-4" /> Upload
           </Link>
         </div>
@@ -64,8 +76,10 @@ export default async function DocumentsPage() {
             <FileText className="w-8 h-8 text-slate-300 mx-auto mb-3" />
             <p className="text-sm font-semibold text-slate-700">No documents yet</p>
             <p className="text-xs text-slate-400 mt-1">Upload documents to get started</p>
-            <Link href="/admin/documents/upload"
-              className="mt-4 inline-flex items-center gap-2 rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-700 transition-colors">
+            <Link
+              href="/admin/documents/upload"
+              className="mt-4 inline-flex items-center gap-2 rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-700 transition-colors"
+            >
               <Upload className="w-4 h-4" /> Upload first document
             </Link>
           </div>
@@ -76,7 +90,12 @@ export default async function DocumentsPage() {
                 <thead>
                   <tr className="border-b border-slate-100 bg-slate-50">
                     {['Name', 'Type', 'Size', 'Uploaded', ''].map((h, i) => (
-                      <th key={i} className="px-5 py-3 text-left text-[10px] font-bold uppercase tracking-widest text-slate-400">{h}</th>
+                      <th
+                        key={i}
+                        className="px-5 py-3 text-left text-[10px] font-bold uppercase tracking-widest text-slate-400"
+                      >
+                        {h}
+                      </th>
                     ))}
                   </tr>
                 </thead>
@@ -92,21 +111,33 @@ export default async function DocumentsPage() {
                             <div className="w-8 h-8 rounded-lg bg-brand-blue-50 flex items-center justify-center flex-shrink-0">
                               <FileText className="w-4 h-4 text-brand-blue-600" />
                             </div>
-                            <span className="font-semibold text-slate-900 truncate max-w-[200px]">{name}</span>
+                            <span className="font-semibold text-slate-900 truncate max-w-[200px]">
+                              {name}
+                            </span>
                           </div>
                         </td>
                         <td className="px-5 py-3.5 text-slate-500 capitalize">{type}</td>
-                        <td className="px-5 py-3.5 text-slate-500 tabular-nums">{fmtBytes(doc.file_size)}</td>
-                        <td className="px-5 py-3.5 text-slate-500 text-xs whitespace-nowrap">{fmtDate(doc.created_at)}</td>
+                        <td className="px-5 py-3.5 text-slate-500 tabular-nums">
+                          {fmtBytes(doc.file_size)}
+                        </td>
+                        <td className="px-5 py-3.5 text-slate-500 text-xs whitespace-nowrap">
+                          {fmtDate(doc.created_at)}
+                        </td>
                         <td className="px-5 py-3.5 text-right">
                           {href !== '#' ? (
-                            <a href={href} target="_blank" rel="noopener noreferrer"
-                              className="inline-flex items-center gap-1 text-xs font-semibold text-brand-blue-600 hover:text-brand-blue-700">
+                            <a
+                              href={href}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1 text-xs font-semibold text-brand-blue-600 hover:text-brand-blue-700"
+                            >
                               <Download className="w-3 h-3" /> Download
                             </a>
                           ) : (
-                            <Link href={`/admin/documents/${doc.id}`}
-                              className="inline-flex items-center gap-1 text-xs font-semibold text-brand-blue-600 hover:text-brand-blue-700">
+                            <Link
+                              href={`/admin/documents/${doc.id}`}
+                              className="inline-flex items-center gap-1 text-xs font-semibold text-brand-blue-600 hover:text-brand-blue-700"
+                            >
                               View <ArrowRight className="w-3 h-3" />
                             </Link>
                           )}
@@ -131,10 +162,17 @@ export default async function DocumentsPage() {
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-semibold text-slate-900 truncate">{name}</p>
-                      <p className="text-xs text-slate-400">{type} · {fmtDate(doc.created_at)}</p>
+                      <p className="text-xs text-slate-400">
+                        {type} · {fmtDate(doc.created_at)}
+                      </p>
                     </div>
                     {href !== '#' && (
-                      <a href={href} target="_blank" rel="noopener noreferrer" className="text-brand-blue-600">
+                      <a
+                        href={href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-brand-blue-600"
+                      >
                         <Download className="w-4 h-4" />
                       </a>
                     )}

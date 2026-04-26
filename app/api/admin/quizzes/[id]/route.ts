@@ -10,9 +10,15 @@ export const dynamic = 'force-dynamic';
 
 async function requireAdmin() {
   const supabase = await createClient();
-const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return { error: 'Unauthorized', status: 401 };
-  const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).maybeSingle();
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('role')
+    .eq('id', user.id)
+    .maybeSingle();
   if (!profile || !['admin', 'super_admin', 'instructor'].includes(profile.role)) {
     return { error: 'Forbidden', status: 403 };
   }
@@ -20,10 +26,9 @@ const { data: { user } } = await supabase.auth.getUser();
 }
 
 async function _GET(_: Request, { params }: { params: Promise<{ id: string }> }) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const { id } = await params;
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const { id } = await params;
   const auth = await requireAdmin();
   if ('error' in auth) return NextResponse.json({ error: auth.error }, { status: auth.status });
   try {
@@ -36,17 +41,19 @@ const { id } = await params;
 }
 
 async function _PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const { id } = await params;
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const { id } = await params;
   const auth = await requireAdmin();
   if ('error' in auth) return NextResponse.json({ error: auth.error }, { status: auth.status });
   try {
     const body = await request.json().catch(() => null);
     const parsed = QuizUpdateSchema.safeParse(body);
     if (!parsed.success) {
-      return NextResponse.json({ error: 'Invalid input', details: parsed.error.flatten() }, { status: 400 });
+      return NextResponse.json(
+        { error: 'Invalid input', details: parsed.error.flatten() },
+        { status: 400 },
+      );
     }
     if (Object.keys(parsed.data).length === 0) {
       return NextResponse.json({ error: 'No fields to update' }, { status: 400 });
@@ -60,10 +67,9 @@ const { id } = await params;
 }
 
 async function _DELETE(_: Request, { params }: { params: Promise<{ id: string }> }) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const { id } = await params;
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const { id } = await params;
   const auth = await requireAdmin();
   if ('error' in auth) return NextResponse.json({ error: auth.error }, { status: auth.status });
   try {

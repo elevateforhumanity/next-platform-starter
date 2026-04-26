@@ -35,12 +35,11 @@ export function usePushNotifications() {
 
   useEffect(() => {
     const checkSupport = async () => {
-      const supported = 'Notification' in window && 
-                       'serviceWorker' in navigator && 
-                       'PushManager' in window;
-      
+      const supported =
+        'Notification' in window && 'serviceWorker' in navigator && 'PushManager' in window;
+
       if (!supported) {
-        setState(prev => ({ ...prev, supported: false, loading: false }));
+        setState((prev) => ({ ...prev, supported: false, loading: false }));
         return;
       }
 
@@ -69,13 +68,13 @@ export function usePushNotifications() {
   const subscribe = useCallback(async (): Promise<boolean> => {
     if (!state.supported) return false;
 
-    setState(prev => ({ ...prev, loading: true }));
+    setState((prev) => ({ ...prev, loading: true }));
 
     try {
       // Request permission
       const permission = await Notification.requestPermission();
       if (permission !== 'granted') {
-        setState(prev => ({ ...prev, permission, loading: false }));
+        setState((prev) => ({ ...prev, permission, loading: false }));
         return false;
       }
 
@@ -85,7 +84,9 @@ export function usePushNotifications() {
       // Subscribe to push
       const subscription = await registration.pushManager.subscribe({
         userVisibleOnly: true,
-        applicationServerKey: VAPID_PUBLIC_KEY ? urlBase64ToUint8Array(VAPID_PUBLIC_KEY) : undefined,
+        applicationServerKey: VAPID_PUBLIC_KEY
+          ? urlBase64ToUint8Array(VAPID_PUBLIC_KEY)
+          : undefined,
       });
 
       // Send subscription to server
@@ -95,7 +96,7 @@ export function usePushNotifications() {
         body: JSON.stringify(subscription.toJSON()),
       });
 
-      setState(prev => ({
+      setState((prev) => ({
         ...prev,
         permission: 'granted',
         subscribed: true,
@@ -105,13 +106,13 @@ export function usePushNotifications() {
       return true;
     } catch (error) {
       console.error('[Push] Subscription failed:', error);
-      setState(prev => ({ ...prev, loading: false }));
+      setState((prev) => ({ ...prev, loading: false }));
       return false;
     }
   }, [state.supported]);
 
   const unsubscribe = useCallback(async (): Promise<boolean> => {
-    setState(prev => ({ ...prev, loading: true }));
+    setState((prev) => ({ ...prev, loading: true }));
 
     try {
       const registration = await navigator.serviceWorker.ready;
@@ -128,11 +129,11 @@ export function usePushNotifications() {
         await subscription.unsubscribe();
       }
 
-      setState(prev => ({ ...prev, subscribed: false, loading: false }));
+      setState((prev) => ({ ...prev, subscribed: false, loading: false }));
       return true;
     } catch (error) {
       console.error('[Push] Unsubscribe failed:', error);
-      setState(prev => ({ ...prev, loading: false }));
+      setState((prev) => ({ ...prev, loading: false }));
       return false;
     }
   }, []);
@@ -149,7 +150,8 @@ interface NotificationToggleProps {
 }
 
 export function NotificationToggle({ className = '' }: NotificationToggleProps) {
-  const { supported, permission, subscribed, loading, subscribe, unsubscribe } = usePushNotifications();
+  const { supported, permission, subscribed, loading, subscribe, unsubscribe } =
+    usePushNotifications();
 
   if (!supported) {
     return null;
@@ -168,8 +170,8 @@ export function NotificationToggle({ className = '' }: NotificationToggleProps) 
       onClick={handleToggle}
       disabled={loading || permission === 'denied'}
       className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
-        subscribed 
-          ? 'bg-brand-green-500/20 text-brand-green-400' 
+        subscribed
+          ? 'bg-brand-green-500/20 text-brand-green-400'
           : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
       } ${loading ? 'opacity-50 cursor-wait' : ''} ${className}`}
     >
@@ -225,9 +227,7 @@ export function NotificationPermissionBanner({ onDismiss }: NotificationPermissi
       <div className="flex items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <Bell className="w-5 h-5 flex-shrink-0" />
-          <p className="text-sm">
-            Get notified about hour approvals and milestones
-          </p>
+          <p className="text-sm">Get notified about hour approvals and milestones</p>
         </div>
         <div className="flex items-center gap-2">
           <button
@@ -237,10 +237,7 @@ export function NotificationPermissionBanner({ onDismiss }: NotificationPermissi
           >
             Enable
           </button>
-          <button
-            onClick={handleDismiss}
-            className="p-1 hover:bg-brand-blue-500 rounded"
-          >
+          <button onClick={handleDismiss} className="p-1 hover:bg-brand-blue-500 rounded">
             <X className="w-4 h-4" />
           </button>
         </div>
@@ -250,7 +247,7 @@ export function NotificationPermissionBanner({ onDismiss }: NotificationPermissi
 }
 
 // Notification types for the app
-export type NotificationType = 
+export type NotificationType =
   | 'hours_approved'
   | 'hours_rejected'
   | 'milestone_reached'

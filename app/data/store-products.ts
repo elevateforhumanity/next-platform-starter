@@ -44,8 +44,7 @@ export const PLATFORM_APPS: PlatformApp[] = [
     id: 'lms',
     key: 'lms',
     name: 'Learning Management System',
-    description:
-      'Courses, SCORM, certifications, progress tracking, quizzes, and assignments.',
+    description: 'Courses, SCORM, certifications, progress tracking, quizzes, and assignments.',
     enabledByDefault: true,
     icon: '📚',
   },
@@ -53,8 +52,7 @@ export const PLATFORM_APPS: PlatformApp[] = [
     id: 'enrollment',
     key: 'enrollment',
     name: 'Enrollment & Intake',
-    description:
-      'Applications, approvals, cohort management, and student onboarding.',
+    description: 'Applications, approvals, cohort management, and student onboarding.',
     enabledByDefault: true,
     icon: '📝',
   },
@@ -62,8 +60,7 @@ export const PLATFORM_APPS: PlatformApp[] = [
     id: 'admin',
     key: 'admin',
     name: 'Admin Dashboard',
-    description:
-      'User management, reporting, analytics, and system configuration.',
+    description: 'User management, reporting, analytics, and system configuration.',
     enabledByDefault: true,
     icon: '⚙️',
   },
@@ -71,8 +68,7 @@ export const PLATFORM_APPS: PlatformApp[] = [
     id: 'payments',
     key: 'payments',
     name: 'Payments & Billing',
-    description:
-      'Stripe integration, invoices, funding sources, and financial tracking.',
+    description: 'Stripe integration, invoices, funding sources, and financial tracking.',
     enabledByDefault: true,
     icon: '💳',
   },
@@ -80,8 +76,7 @@ export const PLATFORM_APPS: PlatformApp[] = [
     id: 'partner-dashboard',
     key: 'partner-dashboard',
     name: 'Partner Dashboard',
-    description:
-      'Tools for schools, employers, and workforce partners to manage their programs.',
+    description: 'Tools for schools, employers, and workforce partners to manage their programs.',
     enabledByDefault: false,
     icon: '🤝',
   },
@@ -89,8 +84,7 @@ export const PLATFORM_APPS: PlatformApp[] = [
     id: 'case-management',
     key: 'case-management',
     name: 'Case Management',
-    description:
-      'Track barriers, interventions, and wraparound services for learners.',
+    description: 'Track barriers, interventions, and wraparound services for learners.',
     enabledByDefault: false,
     icon: '📋',
   },
@@ -98,8 +92,7 @@ export const PLATFORM_APPS: PlatformApp[] = [
     id: 'employer-portal',
     key: 'employer-portal',
     name: 'Employer Portal',
-    description:
-      'Job postings, candidate matching, and hiring pipeline management.',
+    description: 'Job postings, candidate matching, and hiring pipeline management.',
     enabledByDefault: false,
     icon: '💼',
   },
@@ -107,8 +100,7 @@ export const PLATFORM_APPS: PlatformApp[] = [
     id: 'compliance',
     key: 'compliance',
     name: 'Compliance & Reporting',
-    description:
-      'WIOA, FERPA, and grant reporting with automated data collection.',
+    description: 'WIOA, FERPA, and grant reporting with automated data collection.',
     enabledByDefault: false,
     icon: '📊',
   },
@@ -116,8 +108,7 @@ export const PLATFORM_APPS: PlatformApp[] = [
     id: 'mobile-app',
     key: 'mobile-app',
     name: 'Mobile PWA',
-    description:
-      'Progressive web app for iOS and Android with offline support.',
+    description: 'Progressive web app for iOS and Android with offline support.',
     enabledByDefault: true,
     icon: '📱',
   },
@@ -125,8 +116,7 @@ export const PLATFORM_APPS: PlatformApp[] = [
     id: 'ai-tutor',
     key: 'ai-tutor',
     name: 'AI Tutor',
-    description:
-      'AI-powered tutoring, chat support, and personalized learning assistance.',
+    description: 'AI-powered tutoring, chat support, and personalized learning assistance.',
     enabledByDefault: false,
     icon: '🤖',
   },
@@ -147,8 +137,7 @@ export const STORE_PRODUCTS: StoreProduct[] = [
     id: 'efh-core',
     slug: 'efh-core-platform',
     name: 'EFH Core Workforce Platform',
-    description:
-      'Full workforce-ready LMS, enrollment, payments, and admin system.',
+    description: 'Full workforce-ready LMS, enrollment, payments, and admin system.',
     longDescription:
       'The complete Elevate For Humanity platform with everything you need to launch and manage workforce training programs. Includes LMS, student enrollment, payment processing, admin dashboard, and mobile app.',
     price: 4999,
@@ -184,8 +173,7 @@ export const STORE_PRODUCTS: StoreProduct[] = [
     id: 'efh-school-license',
     slug: 'school-license',
     name: 'School / Training Provider License',
-    description:
-      'White-label license for schools, nonprofits, and workforce providers.',
+    description: 'White-label license for schools, nonprofits, and workforce providers.',
     longDescription:
       'Full platform access with white-labeling, partner dashboard, case management, and compliance tools. Perfect for schools and training providers serving multiple programs and funding sources.',
     price: 15000,
@@ -275,8 +263,7 @@ export const STORE_PRODUCTS: StoreProduct[] = [
     id: 'efh-monthly',
     slug: 'monthly-subscription',
     name: 'Monthly Subscription',
-    description:
-      'Pay-as-you-go access to the core platform with monthly billing.',
+    description: 'Pay-as-you-go access to the core platform with monthly billing.',
     longDescription:
       'Get started with no upfront cost. Monthly subscription includes the core platform with LMS, enrollment, and admin tools. Cancel anytime.',
     price: 499,
@@ -354,11 +341,7 @@ export const COMMUNITY_ADDONS: StoreProduct[] = [
       'Discussion forums',
       'Basic analytics',
     ],
-    idealFor: [
-      'Single program owners',
-      'Small training providers',
-      'Testing community features',
-    ],
+    idealFor: ['Single program owners', 'Small training providers', 'Testing community features'],
     requiresApproval: false,
     stripeProductId: 'prod_ToOcx8FkIywNrw',
     stripePriceId: 'price_1SqlpMIRNf5vPH3AuvVYn1Qa',
@@ -389,11 +372,7 @@ export const COMMUNITY_ADDONS: StoreProduct[] = [
       'Advanced analytics',
       'Priority support',
     ],
-    idealFor: [
-      'Multi-program training providers',
-      'Community colleges',
-      'Workforce boards',
-    ],
+    idealFor: ['Multi-program training providers', 'Community colleges', 'Workforce boards'],
     requiresApproval: false,
     stripeProductId: 'prod_ToOcdTkz2xafSu',
     stripePriceId: 'price_1SqlpMIRNf5vPH3A7FsVZBeC',
@@ -426,11 +405,7 @@ export const COMMUNITY_ADDONS: StoreProduct[] = [
       'Dedicated account manager',
       'SLA with 99.9% uptime',
     ],
-    idealFor: [
-      'State workforce agencies',
-      'Large training networks',
-      'Multi-state programs',
-    ],
+    idealFor: ['State workforce agencies', 'Large training networks', 'Multi-state programs'],
     requiresApproval: false,
     stripeProductId: 'prod_ToOcgzaU2klz7V',
     stripePriceId: 'price_1SqlpNIRNf5vPH3AqltrUPSP',
@@ -457,11 +432,7 @@ export const CLONE_LICENSES: StoreProduct[] = [
       'Email support',
       'Documentation access',
     ],
-    idealFor: [
-      'Individual developers',
-      'Small training providers',
-      'Proof of concept projects',
-    ],
+    idealFor: ['Individual developers', 'Small training providers', 'Proof of concept projects'],
     requiresApproval: false,
     stripeProductId: 'prod_ToOiTGsUDJPopc',
     stripePriceId: 'price_1SqluuIRNf5vPH3A7VEoPwRw',
@@ -525,11 +496,7 @@ export const CLONE_LICENSES: StoreProduct[] = [
       'Architecture consultation',
       'Source code escrow',
     ],
-    idealFor: [
-      'Enterprise organizations',
-      'Government agencies',
-      'Large training networks',
-    ],
+    idealFor: ['Enterprise organizations', 'Government agencies', 'Large training networks'],
     requiresApproval: false,
     stripeProductId: 'prod_ToOiS4Hg9blBzB',
     stripePriceId: 'price_1SqluuIRNf5vPH3ALcAcExyz',

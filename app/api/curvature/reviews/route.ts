@@ -11,7 +11,7 @@ async function _GET(request: Request) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    
+
     const { data: reviews, error } = await supabase
       .from('curvature_reviews')
       .select('id, name, rating, text, date, service')

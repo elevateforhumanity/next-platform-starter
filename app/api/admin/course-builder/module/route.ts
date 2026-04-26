@@ -47,7 +47,12 @@ export async function POST(req: NextRequest) {
     };
 
     if (body.id) {
-      const { data, error } = await db.from('course_modules').update(payload).eq('id', body.id).select('*').single();
+      const { data, error } = await db
+        .from('course_modules')
+        .update(payload)
+        .eq('id', body.id)
+        .select('*')
+        .single();
       if (error) throw error;
       return NextResponse.json({ ok: true, module: data });
     }

@@ -1,6 +1,6 @@
-import fs from "fs";
-import path from "path";
-import { execSync } from "child_process";
+import fs from 'fs';
+import path from 'path';
+import { execSync } from 'child_process';
 
 type Segment = {
   source: string;
@@ -17,7 +17,7 @@ type Manifest = {
   segments: Segment[];
 };
 
-const ROOT = "/workspaces/Elevate-lms";
+const ROOT = '/workspaces/Elevate-lms';
 
 function abs(p: string) {
   return path.isAbsolute(p) ? p : path.join(ROOT, p);
@@ -25,7 +25,7 @@ function abs(p: string) {
 
 function run(cmd: string) {
   console.log(`\n$ ${cmd}\n`);
-  execSync(cmd, { stdio: "inherit" });
+  execSync(cmd, { stdio: 'inherit' });
 }
 
 function ffprobeDuration(file: string): number {
@@ -47,7 +47,7 @@ function cleanDir(dir: string) {
 
 function validateManifest(manifest: Manifest) {
   if (!manifest.segments.length) {
-    throw new Error("Manifest has no segments.");
+    throw new Error('Manifest has no segments.');
   }
 
   for (const [i, seg] of manifest.segments.entries()) {
@@ -58,7 +58,7 @@ function validateManifest(manifest: Manifest) {
       throw new Error(`Segment ${i} has invalid times: start=${seg.start}, end=${seg.end}`);
     }
 
-    const allowed = new Set(["scenic keeper", "instructional keeper"]);
+    const allowed = new Set(['scenic keeper', 'instructional keeper']);
     if (!allowed.has(seg.label)) {
       throw new Error(`Segment ${i} rejected. Invalid keeper label: ${seg.label}`);
     }
@@ -66,7 +66,7 @@ function validateManifest(manifest: Manifest) {
     const dur = ffprobeDuration(abs(seg.source));
     if (seg.start < 0 || seg.end > dur) {
       throw new Error(
-        `Segment ${i} exceeds source duration. source=${seg.source} duration=${dur} start=${seg.start} end=${seg.end}`
+        `Segment ${i} exceeds source duration. source=${seg.source} duration=${dur} start=${seg.start} end=${seg.end}`,
       );
     }
   }
@@ -77,19 +77,19 @@ function validateManifest(manifest: Manifest) {
 }
 
 function build() {
-  const manifestPath = abs("public/videos/barber-lessons/manifests/barber-combined-manifest.json");
-  const manifest: Manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
+  const manifestPath = abs('public/videos/barber-lessons/manifests/barber-combined-manifest.json');
+  const manifest: Manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
 
   validateManifest(manifest);
 
-  const tmpDir = abs("public/videos/barber-lessons/tmp/barber-combined");
+  const tmpDir = abs('public/videos/barber-lessons/tmp/barber-combined');
   cleanDir(tmpDir);
 
-  const listFile = path.join(tmpDir, "concat.txt");
+  const listFile = path.join(tmpDir, 'concat.txt');
   const segmentFiles: string[] = [];
 
   manifest.segments.forEach((seg, i) => {
-    const outFile = path.join(tmpDir, `seg-${String(i + 1).padStart(3, "0")}.mp4`);
+    const outFile = path.join(tmpDir, `seg-${String(i + 1).padStart(3, '0')}.mp4`);
     const duration = seg.end - seg.start;
 
     const cmd = [
@@ -101,8 +101,8 @@ function build() {
       `-af "aresample=44100"`,
       `-c:v libx264 -preset ultrafast -crf 20`,
       `-c:a aac -b:a 192k -ar 44100 -ac 2`,
-      `"${outFile}"`
-    ].join(" ");
+      `"${outFile}"`,
+    ].join(' ');
 
     run(cmd);
     segmentFiles.push(outFile);
@@ -110,12 +110,12 @@ function build() {
 
   fs.writeFileSync(
     listFile,
-    segmentFiles.map((f) => `file '${f.replace(/'/g, "'\\''")}'`).join("\n")
+    segmentFiles.map((f) => `file '${f.replace(/'/g, "'\\''")}'`).join('\n'),
   );
 
-  const stitchedVideo = path.join(tmpDir, "stitched-video.mp4");
+  const stitchedVideo = path.join(tmpDir, 'stitched-video.mp4');
   run(
-    `ffmpeg -y -f concat -safe 0 -i "${listFile}" -c:v libx264 -preset ultrafast -crf 20 -c:a aac -b:a 192k "${stitchedVideo}"`
+    `ffmpeg -y -f concat -safe 0 -i "${listFile}" -c:v libx264 -preset ultrafast -crf 20 -c:a aac -b:a 192k "${stitchedVideo}"`,
   );
 
   const stitchedDuration = ffprobeDuration(stitchedVideo);
@@ -135,8 +135,8 @@ function build() {
       `-c:v copy`,
       `-c:a aac -b:a 192k -ar 44100 -ac 2`,
       `-movflags +faststart`,
-      `"${outputFile}"`
-    ].join(" ")
+      `"${outputFile}"`,
+    ].join(' '),
   );
 
   const finalDuration = ffprobeDuration(outputFile);

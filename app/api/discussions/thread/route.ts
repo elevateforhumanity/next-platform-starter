@@ -1,4 +1,3 @@
-
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { logger } from '@/lib/logger';
@@ -16,7 +15,9 @@ async function _POST(req: Request) {
 
     const supabase = await createClient();
 
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -59,12 +60,12 @@ async function _POST(req: Request) {
           user_id: user.id,
           badge_id: badge.id,
         },
-        { onConflict: 'user_id,badge_id' }
+        { onConflict: 'user_id,badge_id' },
       );
     }
 
     return NextResponse.json({ thread });
-  } catch (error) { 
+  } catch (error) {
     logger.error('Discussion API error:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }

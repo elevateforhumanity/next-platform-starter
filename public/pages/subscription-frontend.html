@@ -13,21 +13,12 @@
     <meta name="author" content="Elevate for Humanity" />
     <meta name="robots" content="index, follow" />
     <meta property="og:type" content="website" />
-    <meta
-      property="og:title"
-      content="Elevate for Humanity - Workforce Development"
-    />
-    <meta
-      property="og:description"
-      content="Government-approved career training platform"
-    />
+    <meta property="og:title" content="Elevate for Humanity - Workforce Development" />
+    <meta property="og:description" content="Government-approved career training platform" />
     <meta property="twitter:card" content="summary_large_image" />
 
     <!-- Google Analytics -->
-    <script
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=G-V9BC7WPMQC"
-    ></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-V9BC7WPMQC"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag() {
@@ -45,9 +36,7 @@
   <body class="bg-gray-50">
     <div class="max-w-7xl mx-auto px-4 py-12">
       <div class="text-center mb-12">
-        <h1 class="text-4xl font-bold text-gray-900 mb-4">
-          Choose Your Learning Plan
-        </h1>
+        <h1 class="text-4xl font-bold text-gray-900 mb-4">Choose Your Learning Plan</h1>
         <p class="text-xl text-gray-600">
           Access our complete library of workforce development programs
         </p>
@@ -147,13 +136,9 @@
         const container = document.getElementById('plans-container');
         container.innerHTML = plans
           .map((plan) => {
-            const price =
-              currentBilling === 'monthly'
-                ? plan.price_monthly
-                : plan.price_yearly;
+            const price = currentBilling === 'monthly' ? plan.price_monthly : plan.price_yearly;
             const period = currentBilling === 'monthly' ? 'month' : 'year';
-            const savings =
-              currentBilling === 'yearly' ? plan.savings_yearly : 0;
+            const savings = currentBilling === 'yearly' ? plan.savings_yearly : 0;
 
             return `
                     <div class="bg-white rounded-lg shadow-lg p-8 ${plan.id === 'professional' ? 'ring-2 ring-blue-500' : ''}">
@@ -174,7 +159,7 @@
                                     </svg>
                                     ${feature}
                                 </li>
-                            `
+                            `,
                               )
                               .join('')}
                         </ul>

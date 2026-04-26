@@ -30,9 +30,7 @@ class StripeProductsCreator {
   async init() {
     try {
       // Try to initialize Stripe
-      this.stripe = require('stripe')(
-        process.env.STRIPE_SECRET_KEY || 'sk_test_demo'
-      );
+      this.stripe = require('stripe')(process.env.STRIPE_SECRET_KEY || 'sk_test_demo');
     } catch (error) {
       this.mockMode = true;
     }
@@ -93,14 +91,13 @@ class StripeProductsCreator {
       try {
         const created = await this.createProduct(product);
         createdProducts.push(created);
-      } catch (error) {
-      }
+      } catch (error) {}
     }
 
     // Save product data
     fs.writeFileSync(
       path.join(__dirname, 'emergency-sale-products.json'),
-      JSON.stringify(createdProducts, null, 2)
+      JSON.stringify(createdProducts, null, 2),
     );
 
     return createdProducts;
@@ -196,11 +193,7 @@ class StripeProductsCreator {
     app.post('/api/stripe/create-checkout', async (req, res) => {
       try {
         const { productId, successUrl, cancelUrl } = req.body;
-        const session = await this.createCheckoutSession(
-          productId,
-          successUrl,
-          cancelUrl
-        );
+        const session = await this.createCheckoutSession(productId, successUrl, cancelUrl);
         res.json({ url: session.url, sessionId: session.id });
       } catch (error) {
         res.status(500).json({ error: error.message });
@@ -210,10 +203,7 @@ class StripeProductsCreator {
     // Get emergency sale products
     app.get('/api/stripe/emergency-products', (req, res) => {
       try {
-        const productsFile = path.join(
-          __dirname,
-          'emergency-sale-products.json'
-        );
+        const productsFile = path.join(__dirname, 'emergency-sale-products.json');
         if (fs.existsSync(productsFile)) {
           const products = JSON.parse(fs.readFileSync(productsFile, 'utf8'));
           res.json({ products });
@@ -224,7 +214,6 @@ class StripeProductsCreator {
         res.status(500).json({ error: error.message });
       }
     });
-
   }
 }
 

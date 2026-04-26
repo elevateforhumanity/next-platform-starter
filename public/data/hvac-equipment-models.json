@@ -118,14 +118,7 @@
     "name": "Gas Furnace System",
     "shortName": "Gas Furnace",
     "description": "The primary heating system in most residential buildings. Burns natural gas or propane to heat air, which the blower distributes through ductwork. Technicians must understand combustion, gas piping, and safety controls.",
-    "moduleIds": [
-      "hvac-04",
-      "hvac-09",
-      "hvac-12",
-      "hvac-13",
-      "hvac-14",
-      "hvac-16"
-    ],
+    "moduleIds": ["hvac-04", "hvac-09", "hvac-12", "hvac-13", "hvac-14", "hvac-16"],
     "components": [
       {
         "name": "Burner Assembly",
@@ -226,14 +219,7 @@
     "name": "Heat Pump System",
     "shortName": "Heat Pump",
     "description": "Operates like an air conditioner but can reverse the refrigeration cycle to provide heating. The reversing valve switches between heating and cooling modes. Auxiliary electric heat strips supplement when outdoor temperatures drop too low.",
-    "moduleIds": [
-      "hvac-04",
-      "hvac-05",
-      "hvac-09",
-      "hvac-11",
-      "hvac-13",
-      "hvac-16"
-    ],
+    "moduleIds": ["hvac-04", "hvac-05", "hvac-09", "hvac-11", "hvac-13", "hvac-16"],
     "components": [
       {
         "name": "Reversing Valve",
@@ -311,11 +297,7 @@
     "name": "Packaged HVAC Unit (Rooftop Unit)",
     "shortName": "Rooftop Unit",
     "description": "A self-contained system with heating and cooling components in one cabinet, typically installed on a commercial building roof. Technicians must understand rooftop access safety, economizers, and commercial controls.",
-    "moduleIds": [
-      "hvac-10",
-      "hvac-12",
-      "hvac-14"
-    ],
+    "moduleIds": ["hvac-10", "hvac-12", "hvac-14"],
     "components": [
       {
         "name": "Compressor Section",
@@ -382,12 +364,7 @@
     "name": "Duct Distribution and Airflow System",
     "shortName": "Duct System",
     "description": "Many HVAC problems are caused by airflow issues, not equipment failure. This model covers supply ducts, return ducts, registers, grilles, filters, and dampers. Technicians must understand how air moves through a building.",
-    "moduleIds": [
-      "hvac-10",
-      "hvac-12",
-      "hvac-13",
-      "hvac-14"
-    ],
+    "moduleIds": ["hvac-10", "hvac-12", "hvac-13", "hvac-14"],
     "components": [
       {
         "name": "Supply Ducts",

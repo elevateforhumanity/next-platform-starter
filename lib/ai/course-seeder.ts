@@ -33,7 +33,7 @@ const VALID_STEP_TYPES = new Set(['lesson', 'checkpoint', 'exam']);
 
 export async function seedCourseToCurriculumLessons(
   courseId: string,
-  programId: string
+  programId: string,
 ): Promise<SeederResult> {
   const db = await getAdminClient();
   const result: SeederResult = {
@@ -75,12 +75,14 @@ export async function seedCourseToCurriculumLessons(
     return result;
   }
 
-  const moduleMap = new Map(modules.map(m => [m.id, m]));
+  const moduleMap = new Map(modules.map((m) => [m.id, m]));
 
   // ── 3. Fetch lessons ──────────────────────────────────────────────────────
   const { data: lessons, error: lessonErr } = await db
     .from('course_lessons')
-    .select('id, module_id, title, slug, lesson_type, order_index, passing_score, activities, content')
+    .select(
+      'id, module_id, title, slug, lesson_type, order_index, passing_score, activities, content',
+    )
     .eq('course_id', courseId)
     .order('order_index', { ascending: true });
 
@@ -101,7 +103,7 @@ export async function seedCourseToCurriculumLessons(
     .eq('course_id', courseId);
 
   const existingByOrder = new Map(
-    (existing ?? []).map(r => [r.lesson_order as number, r.id as string])
+    (existing ?? []).map((r) => [r.lesson_order as number, r.id as string]),
   );
 
   // ── 5. Map and upsert each lesson ─────────────────────────────────────────
@@ -122,19 +124,24 @@ export async function seedCourseToCurriculumLessons(
     let scriptText = '';
     let keyTerms: string[] = [];
     try {
-      const content = typeof lesson.content === 'string'
-        ? JSON.parse(lesson.content)
-        : (lesson.content ?? {});
+      const content =
+        typeof lesson.content === 'string' ? JSON.parse(lesson.content) : (lesson.content ?? {});
       const points: string[] = content.learning_points ?? [];
       const scenario: string = content.scenario ?? '';
       const aq = content.assessment_question ?? {};
 
       // Build script_text from learning points + scenario
       scriptText = [
-        points.length > 0 ? `Learning Points:\n${points.map((p: string) => `• ${p}`).join('\n')}` : '',
+        points.length > 0
+          ? `Learning Points:\n${points.map((p: string) => `• ${p}`).join('\n')}`
+          : '',
         scenario ? `\nScenario:\n${scenario}` : '',
-        aq.question ? `\nAssessment:\n${aq.question}\na) ${aq.choices?.a}\nb) ${aq.choices?.b}\nc) ${aq.choices?.c}\nd) ${aq.choices?.d}\nCorrect: ${aq.correct?.toUpperCase()}\nRationale: ${aq.rationale}` : '',
-      ].filter(Boolean).join('\n');
+        aq.question
+          ? `\nAssessment:\n${aq.question}\na) ${aq.choices?.a}\nb) ${aq.choices?.b}\nc) ${aq.choices?.c}\nd) ${aq.choices?.d}\nCorrect: ${aq.correct?.toUpperCase()}\nRationale: ${aq.rationale}`
+          : '',
+      ]
+        .filter(Boolean)
+        .join('\n');
 
       keyTerms = points.slice(0, 5).map((p: string) => p.split(' ').slice(0, 3).join(' '));
     } catch {
@@ -142,19 +149,19 @@ export async function seedCourseToCurriculumLessons(
     }
 
     const row = {
-      course_id:    courseId,
-      program_id:   programId,
-      module_id:    lesson.module_id,
-      lesson_slug:  lesson.slug,
+      course_id: courseId,
+      program_id: programId,
+      module_id: lesson.module_id,
+      lesson_slug: lesson.slug,
       lesson_title: lesson.title,
       lesson_order: lesson.order_index,
       module_order: moduleOrder,
       module_title: moduleTitle,
-      step_type:    stepType,
+      step_type: stepType,
       passing_score: lesson.passing_score ?? null,
-      script_text:  scriptText,
-      key_terms:    keyTerms,
-      status:       'draft',
+      script_text: scriptText,
+      key_terms: keyTerms,
+      status: 'draft',
     };
 
     const existingId = existingByOrder.get(lesson.order_index);

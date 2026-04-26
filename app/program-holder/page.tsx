@@ -6,29 +6,38 @@ export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: 'Operate Workforce Programs | Elevate for Humanity',
-  description: 'A complete workforce operating system for agencies, employers, and partners to deliver training, track outcomes, and meet compliance requirements — without building the infrastructure.',
+  description:
+    'A complete workforce operating system for agencies, employers, and partners to deliver training, track outcomes, and meet compliance requirements — without building the infrastructure.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/program-holder' },
 };
 
 export default function ProgramHolderPage() {
   return (
     <main className="bg-white">
-
       {/* SECTION 1: POSITIONING */}
       <section className="bg-slate-950 py-24 px-6">
         <div className="max-w-4xl mx-auto text-center">
-          <p className="text-brand-red-400 text-xs font-bold uppercase tracking-widest mb-5">For Agencies · Employers · Partners</p>
+          <p className="text-brand-red-400 text-xs font-bold uppercase tracking-widest mb-5">
+            For Agencies · Employers · Partners
+          </p>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-tight mb-6">
             Operate Workforce Programs Without Building the Infrastructure
           </h1>
           <p className="text-slate-300 text-base sm:text-lg leading-relaxed max-w-3xl mx-auto mb-10">
-            Elevate provides a complete workforce operating system for agencies, employers, and partners to deliver training, track outcomes, and meet compliance requirements.
+            Elevate provides a complete workforce operating system for agencies, employers, and
+            partners to deliver training, track outcomes, and meet compliance requirements.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/contact?subject=platform-demo" className="bg-brand-red-600 hover:bg-brand-red-700 text-white font-extrabold px-10 py-4 rounded-xl transition-colors text-sm">
+            <Link
+              href="/contact?subject=platform-demo"
+              className="bg-brand-red-600 hover:bg-brand-red-700 text-white font-extrabold px-10 py-4 rounded-xl transition-colors text-sm"
+            >
               Request a Demo
             </Link>
-            <Link href="#how-it-works" className="border-2 border-slate-600 text-slate-300 hover:border-slate-400 hover:text-white font-extrabold px-10 py-4 rounded-xl transition-colors text-sm">
+            <Link
+              href="#how-it-works"
+              className="border-2 border-slate-600 text-slate-300 hover:border-slate-400 hover:text-white font-extrabold px-10 py-4 rounded-xl transition-colors text-sm"
+            >
               View How It Works
             </Link>
           </div>
@@ -42,14 +51,31 @@ export default function ProgramHolderPage() {
             Built for Organizations Responsible for Outcomes
           </h2>
           <p className="text-slate-400 text-sm text-center mb-10">
-            If you are responsible for enrollment, performance, or placement — this system is built for you.
+            If you are responsible for enrollment, performance, or placement — this system is built
+            for you.
           </p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {[
-              { label: 'Workforce Development Boards', detail: 'Track participant outcomes, manage WIOA compliance, and report to funders including DWD and WorkOne.' },
-              { label: 'State & Local Agencies', detail: 'Deploy programs at scale with audit-ready records, FSSA IMPACT eligibility tracking, and performance dashboards.' },
-              { label: 'Training Providers & Institutions', detail: 'Run credentialed programs on proven infrastructure without building your own LMS or compliance stack.' },
-              { label: 'Employers & Industry Partners', detail: 'Sponsor apprenticeships, manage OJT agreements, and access a trained talent pipeline through Indiana Career Connect.' },
+              {
+                label: 'Workforce Development Boards',
+                detail:
+                  'Track participant outcomes, manage WIOA compliance, and report to funders including DWD and WorkOne.',
+              },
+              {
+                label: 'State & Local Agencies',
+                detail:
+                  'Deploy programs at scale with audit-ready records, FSSA IMPACT eligibility tracking, and performance dashboards.',
+              },
+              {
+                label: 'Training Providers & Institutions',
+                detail:
+                  'Run credentialed programs on proven infrastructure without building your own LMS or compliance stack.',
+              },
+              {
+                label: 'Employers & Industry Partners',
+                detail:
+                  'Sponsor apprenticeships, manage OJT agreements, and access a trained talent pipeline through Indiana Career Connect.',
+              },
             ].map((item) => (
               <div key={item.label} className="bg-slate-800 border border-slate-700 rounded-xl p-6">
                 <h3 className="text-white font-extrabold text-sm mb-2">{item.label}</h3>
@@ -66,18 +92,28 @@ export default function ProgramHolderPage() {
           <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 text-center mb-3">
             Everything Required to Operate a Workforce Program
           </h2>
-          <p className="text-slate-500 text-sm text-center max-w-xl mx-auto mb-14">Four operational categories. No gaps.</p>
+          <p className="text-slate-500 text-sm text-center max-w-xl mx-auto mb-14">
+            Four operational categories. No gaps.
+          </p>
           <div className="grid sm:grid-cols-2 gap-6">
             {[
               {
                 Icon: BookOpen,
                 title: 'Program Delivery',
-                items: ['Structured training pathways', 'Progress tracking and checkpoints', 'Credential alignment'],
+                items: [
+                  'Structured training pathways',
+                  'Progress tracking and checkpoints',
+                  'Credential alignment',
+                ],
               },
               {
                 Icon: Users,
                 title: 'Participant Management',
-                items: ['Enrollment and intake workflows', 'Case management tools', 'Status and progress visibility'],
+                items: [
+                  'Enrollment and intake workflows',
+                  'Case management tools',
+                  'Status and progress visibility',
+                ],
               },
               {
                 Icon: BarChart3,
@@ -87,7 +123,11 @@ export default function ProgramHolderPage() {
               {
                 Icon: ShieldCheck,
                 title: 'Employer & Placement Integration',
-                items: ['Employer connections via Indiana Career Connect', 'Placement tracking and wage outcomes', 'Outcome reporting for DWD and WorkOne'],
+                items: [
+                  'Employer connections via Indiana Career Connect',
+                  'Placement tracking and wage outcomes',
+                  'Outcome reporting for DWD and WorkOne',
+                ],
               },
             ].map((block) => (
               <div key={block.title} className="border border-slate-200 rounded-xl p-7">
@@ -120,15 +160,50 @@ export default function ProgramHolderPage() {
           </p>
           <div className="space-y-3">
             {[
-              { n: '01', label: 'Intake & Eligibility', detail: 'Participants apply and are matched with funding pathways — WIOA, Workforce Ready Grant, FSSA IMPACT, or employer-sponsored.' },
-              { n: '02', label: 'Enrollment & Program Assignment', detail: 'Participants enrolled with IEP alignment and funding documentation. WorkOne referrals processed directly.' },
-              { n: '03', label: 'Training & Progress Tracking', detail: 'Structured programs with lesson delivery, checkpoint assessments, and attendance logging.' },
-              { n: '04', label: 'Credentialing & Verification', detail: 'Industry certifications issued and publicly verifiable. DOL-aligned credential records.' },
-              { n: '05', label: 'Employer Placement', detail: 'Direct connection to employer opportunities via Indiana Career Connect. OJT agreements, WEX placements, and wage tracking.' },
-              { n: '06', label: 'Reporting & Compliance', detail: 'Real-time dashboards for agencies and partners. RAPIDS-compatible exports. DWD and WorkOne submission ready.' },
+              {
+                n: '01',
+                label: 'Intake & Eligibility',
+                detail:
+                  'Participants apply and are matched with funding pathways — WIOA, Workforce Ready Grant, FSSA IMPACT, or employer-sponsored.',
+              },
+              {
+                n: '02',
+                label: 'Enrollment & Program Assignment',
+                detail:
+                  'Participants enrolled with IEP alignment and funding documentation. WorkOne referrals processed directly.',
+              },
+              {
+                n: '03',
+                label: 'Training & Progress Tracking',
+                detail:
+                  'Structured programs with lesson delivery, checkpoint assessments, and attendance logging.',
+              },
+              {
+                n: '04',
+                label: 'Credentialing & Verification',
+                detail:
+                  'Industry certifications issued and publicly verifiable. DOL-aligned credential records.',
+              },
+              {
+                n: '05',
+                label: 'Employer Placement',
+                detail:
+                  'Direct connection to employer opportunities via Indiana Career Connect. OJT agreements, WEX placements, and wage tracking.',
+              },
+              {
+                n: '06',
+                label: 'Reporting & Compliance',
+                detail:
+                  'Real-time dashboards for agencies and partners. RAPIDS-compatible exports. DWD and WorkOne submission ready.',
+              },
             ].map((step) => (
-              <div key={step.n} className="flex items-start gap-5 bg-slate-900 border border-slate-800 rounded-xl px-6 py-5">
-                <span className="text-brand-red-400 font-black text-xs tracking-widest shrink-0 mt-0.5">{step.n}</span>
+              <div
+                key={step.n}
+                className="flex items-start gap-5 bg-slate-900 border border-slate-800 rounded-xl px-6 py-5"
+              >
+                <span className="text-brand-red-400 font-black text-xs tracking-widest shrink-0 mt-0.5">
+                  {step.n}
+                </span>
                 <div>
                   <p className="text-white font-extrabold text-sm mb-1">{step.label}</p>
                   <p className="text-slate-400 text-xs leading-relaxed">{step.detail}</p>
@@ -154,7 +229,10 @@ export default function ProgramHolderPage() {
               'Connect participants to employers through Indiana Career Connect',
               'Document FSSA IMPACT, WIOA, and WorkOne referrals in one place',
             ].map((item) => (
-              <div key={item} className="flex items-center gap-4 border border-slate-200 rounded-xl px-6 py-4">
+              <div
+                key={item}
+                className="flex items-center gap-4 border border-slate-200 rounded-xl px-6 py-4"
+              >
                 <span className="w-2 h-2 rounded-full bg-brand-red-600 shrink-0" />
                 <p className="text-slate-900 font-semibold text-sm">{item}</p>
               </div>
@@ -184,12 +262,29 @@ export default function ProgramHolderPage() {
           </div>
           <div className="grid sm:grid-cols-3 gap-4">
             {[
-              { label: 'FSSA IMPACT', detail: 'SNAP and TANF recipients trained at no cost. Elevate is a participating provider. Eligibility verified at intake.' },
-              { label: 'WorkOne Integration', detail: 'Case managers refer clients directly. Progress visible in real time without manual updates or phone calls.' },
-              { label: 'Indiana Career Connect', detail: "Graduates posted to Indiana's official workforce portal. Employer connections and job matching built in." },
+              {
+                label: 'FSSA IMPACT',
+                detail:
+                  'SNAP and TANF recipients trained at no cost. Elevate is a participating provider. Eligibility verified at intake.',
+              },
+              {
+                label: 'WorkOne Integration',
+                detail:
+                  'Case managers refer clients directly. Progress visible in real time without manual updates or phone calls.',
+              },
+              {
+                label: 'Indiana Career Connect',
+                detail:
+                  "Graduates posted to Indiana's official workforce portal. Employer connections and job matching built in.",
+              },
             ].map((item) => (
-              <div key={item.label} className="bg-slate-900 border border-slate-800 rounded-xl px-5 py-5 text-left">
-                <p className="text-brand-red-400 font-extrabold text-xs uppercase tracking-widest mb-2">{item.label}</p>
+              <div
+                key={item.label}
+                className="bg-slate-900 border border-slate-800 rounded-xl px-5 py-5 text-left"
+              >
+                <p className="text-brand-red-400 font-extrabold text-xs uppercase tracking-widest mb-2">
+                  {item.label}
+                </p>
                 <p className="text-slate-300 text-xs leading-relaxed">{item.detail}</p>
               </div>
             ))}
@@ -208,12 +303,35 @@ export default function ProgramHolderPage() {
           </p>
           <div className="grid sm:grid-cols-3 gap-6">
             {[
-              { label: 'Managed Platform', detail: 'We host and manage the system while you operate programs. Fastest path to deployment.', tag: 'Most common', highlight: true },
-              { label: 'Branded Deployment', detail: 'Run programs under your organization with custom branding and portals.', tag: 'For partners', highlight: false },
-              { label: 'Enterprise / Source Access', detail: 'Full control for large-scale or state-level implementations.', tag: 'For scale', highlight: false },
+              {
+                label: 'Managed Platform',
+                detail:
+                  'We host and manage the system while you operate programs. Fastest path to deployment.',
+                tag: 'Most common',
+                highlight: true,
+              },
+              {
+                label: 'Branded Deployment',
+                detail: 'Run programs under your organization with custom branding and portals.',
+                tag: 'For partners',
+                highlight: false,
+              },
+              {
+                label: 'Enterprise / Source Access',
+                detail: 'Full control for large-scale or state-level implementations.',
+                tag: 'For scale',
+                highlight: false,
+              },
             ].map((option) => (
-              <div key={option.label} className={`rounded-xl p-7 border-2 flex flex-col ${option.highlight ? 'border-brand-red-600 bg-brand-red-50' : 'border-slate-200 bg-white'}`}>
-                <span className={`text-[10px] font-extrabold uppercase tracking-widest mb-3 ${option.highlight ? 'text-brand-red-600' : 'text-slate-400'}`}>{option.tag}</span>
+              <div
+                key={option.label}
+                className={`rounded-xl p-7 border-2 flex flex-col ${option.highlight ? 'border-brand-red-600 bg-brand-red-50' : 'border-slate-200 bg-white'}`}
+              >
+                <span
+                  className={`text-[10px] font-extrabold uppercase tracking-widest mb-3 ${option.highlight ? 'text-brand-red-600' : 'text-slate-400'}`}
+                >
+                  {option.tag}
+                </span>
                 <h3 className="font-extrabold text-slate-900 text-base mb-3">{option.label}</h3>
                 <p className="text-slate-600 text-xs leading-relaxed flex-1">{option.detail}</p>
               </div>
@@ -229,19 +347,26 @@ export default function ProgramHolderPage() {
             See How It Works in Your Environment
           </h2>
           <p className="text-slate-300 text-sm leading-relaxed mb-10 max-w-xl mx-auto">
-            We will walk through how the system supports your programs, compliance requirements, and reporting needs — including WIOA, FSSA IMPACT, WorkOne referrals, and Indiana Career Connect integration.
+            We will walk through how the system supports your programs, compliance requirements, and
+            reporting needs — including WIOA, FSSA IMPACT, WorkOne referrals, and Indiana Career
+            Connect integration.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/contact?subject=platform-demo" className="bg-brand-red-600 hover:bg-brand-red-700 text-white font-extrabold px-10 py-4 rounded-xl transition-colors text-sm">
+            <Link
+              href="/contact?subject=platform-demo"
+              className="bg-brand-red-600 hover:bg-brand-red-700 text-white font-extrabold px-10 py-4 rounded-xl transition-colors text-sm"
+            >
               Request a Demo
             </Link>
-            <a href="/elevate-platform-overview.pdf" className="inline-flex items-center justify-center gap-2 border-2 border-slate-600 text-slate-300 hover:border-slate-400 hover:text-white font-extrabold px-10 py-4 rounded-xl transition-colors text-sm">
+            <a
+              href="/elevate-platform-overview.pdf"
+              className="inline-flex items-center justify-center gap-2 border-2 border-slate-600 text-slate-300 hover:border-slate-400 hover:text-white font-extrabold px-10 py-4 rounded-xl transition-colors text-sm"
+            >
               <Download className="w-4 h-4" /> Download Overview
             </a>
           </div>
         </div>
       </section>
-
     </main>
   );
 }

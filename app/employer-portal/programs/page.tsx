@@ -1,4 +1,3 @@
-
 import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Image from 'next/image';
@@ -10,10 +9,10 @@ import { createClient } from '@/lib/supabase/server';
 export const revalidate = 3600;
 export const metadata: Metadata = {
   title: 'Employer Programs | Employer Portal',
-  description: 'Explore tax credit programs, apprenticeships, and workforce development opportunities.',
+  description:
+    'Explore tax credit programs, apprenticeships, and workforce development opportunities.',
   robots: { index: false, follow: false },
 };
-
 
 export default async function EmployerProgramsPage() {
   const supabase = await createClient();
@@ -34,24 +33,41 @@ export default async function EmployerProgramsPage() {
 
   return (
     <div className="min-h-screen bg-white">
-            <Breadcrumbs items={[{ label: "Employer Portal", href: "/employer-portal" }, { label: "Programs" }]} />
-<div className="relative h-64 bg-white overflow-hidden">
+      <Breadcrumbs
+        items={[{ label: 'Employer Portal', href: '/employer-portal' }, { label: 'Programs' }]}
+      />
+      <div className="relative h-64 bg-white overflow-hidden">
         <Image
           src="/images/pages/employer-portal-page-3.jpg"
           alt="Employer programs"
           fill
           className="object-cover"
-         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" />
-        
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+        />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid md:grid-cols-4 gap-6 mb-12">
           {[
-            { icon: DollarSign, label: 'WOTC Credit per Hire', value: 'Up to $9,600', color: 'brand-green' },
+            {
+              icon: DollarSign,
+              label: 'WOTC Credit per Hire',
+              value: 'Up to $9,600',
+              color: 'brand-green',
+            },
             { icon: Users, label: 'OJT Wage Reimbursement', value: '50–75%', color: 'brand-blue' },
-            { icon: Award, label: 'Available Programs', value: String(programCount ?? 0), color: 'brand-blue' },
-            { icon: Clock, label: 'Avg. Processing Time', value: '2–4 weeks', color: 'brand-orange' },
+            {
+              icon: Award,
+              label: 'Available Programs',
+              value: String(programCount ?? 0),
+              color: 'brand-blue',
+            },
+            {
+              icon: Clock,
+              label: 'Avg. Processing Time',
+              value: '2–4 weeks',
+              color: 'brand-orange',
+            },
           ].map((stat, index) => (
             <div key={index} className="bg-white rounded-xl p-6 shadow-sm">
               <stat.icon className={`w-8 h-8 text-${stat.color}-600 mb-3`} />
@@ -71,7 +87,8 @@ export default async function EmployerProgramsPage() {
                     alt={program.title}
                     fill
                     className="object-cover"
-                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" />
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  />
                 </div>
                 <div className="md:w-2/3 p-8">
                   <div className="flex items-center gap-3 mb-4">
@@ -81,7 +98,7 @@ export default async function EmployerProgramsPage() {
                     </span>
                   </div>
                   <p className="text-slate-700 mb-6">{program.description}</p>
-                  
+
                   <div className="flex items-center gap-8 mb-6">
                     <div>
                       <p className="text-sm text-slate-700">Potential Savings</p>
@@ -91,7 +108,10 @@ export default async function EmployerProgramsPage() {
                       <p className="text-sm text-slate-700 mb-2">Eligibility</p>
                       <div className="flex flex-wrap gap-2">
                         {program.eligibility.map((item, i) => (
-                          <span key={i} className="px-2 py-1 bg-white text-slate-900 text-xs rounded">
+                          <span
+                            key={i}
+                            className="px-2 py-1 bg-white text-slate-900 text-xs rounded"
+                          >
                             {item}
                           </span>
                         ))}
@@ -106,7 +126,10 @@ export default async function EmployerProgramsPage() {
                     >
                       Learn More <ArrowRight className="w-4 h-4" />
                     </Link>
-                    <Link href="/apply" className="px-6 py-3 border border-brand-blue-600 text-brand-blue-600 rounded-lg hover:bg-brand-blue-50 transition">
+                    <Link
+                      href="/apply"
+                      className="px-6 py-3 border border-brand-blue-600 text-brand-blue-600 rounded-lg hover:bg-brand-blue-50 transition"
+                    >
                       Apply Now
                     </Link>
                   </div>
@@ -120,7 +143,9 @@ export default async function EmployerProgramsPage() {
           <div className="md:flex items-center justify-between">
             <div>
               <h3 className="text-2xl font-bold mb-2">Need Help Choosing a Program?</h3>
-              <p className="text-white">Our team can analyze your hiring needs and recommend the best incentives.</p>
+              <p className="text-white">
+                Our team can analyze your hiring needs and recommend the best incentives.
+              </p>
             </div>
             <Link
               href="/contact"

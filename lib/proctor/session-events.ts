@@ -23,7 +23,7 @@ export async function appendSessionEvent(
   eventType: ExamEventType,
   actorId: string,
   actorRole: string,
-  metadata: Record<string, unknown> = {}
+  metadata: Record<string, unknown> = {},
 ): Promise<void> {
   const { error } = await db.from('exam_session_events').insert({
     session_id: sessionId,
@@ -34,6 +34,9 @@ export async function appendSessionEvent(
   });
 
   if (error) {
-    logger.error(`[session-events] Failed to append ${eventType} for session ${sessionId}:`, error.message);
+    logger.error(
+      `[session-events] Failed to append ${eventType} for session ${sessionId}:`,
+      error.message,
+    );
   }
 }

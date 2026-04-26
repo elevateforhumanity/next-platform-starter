@@ -2,10 +2,10 @@
 
 /**
  * Program Page Contract Enforcement Script
- * 
+ *
  * Validates all /programs/* pages against the program page contract.
  * Run in CI to prevent regressions.
- * 
+ *
  * Usage:
  *   npx ts-node scripts/audit-program-pages.ts
  *   npm run audit:programs
@@ -155,7 +155,7 @@ function findProgramPages(dir: string): string[] {
         // Only audit direct program pages, not nested routes
         const relativePath = path.relative(programsDir, currentDir);
         const depth = relativePath.split(path.sep).filter(Boolean).length;
-        
+
         // Only audit top-level program pages (depth 1)
         if (depth === 1) {
           pages.push(fullPath);
@@ -224,8 +224,8 @@ function main(): void {
 
   const summary: AuditSummary = {
     total: results.length,
-    passed: results.filter(r => r.passed).length,
-    failed: results.filter(r => !r.passed).length,
+    passed: results.filter((r) => r.passed).length,
+    failed: results.filter((r) => !r.passed).length,
     results,
   };
 

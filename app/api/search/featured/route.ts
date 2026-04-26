@@ -7,10 +7,9 @@ import { withApiAudit } from '@/lib/audit/withApiAudit';
 // AUTH: Intentionally public — no authentication required
 
 async function _GET(request: NextRequest) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const searchParams = request.nextUrl.searchParams;
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const searchParams = request.nextUrl.searchParams;
   const audience = searchParams.get('audience') || 'everyone';
   const limit = parseInt(searchParams.get('limit') || '6');
 
@@ -19,7 +18,10 @@ const searchParams = request.nextUrl.searchParams;
     return NextResponse.json({ results });
   } catch (error) {
     logger.error('Featured API error:', error);
-    return NextResponse.json({ results: [], error: 'Failed to fetch featured items' }, { status: 500 });
+    return NextResponse.json(
+      { results: [], error: 'Failed to fetch featured items' },
+      { status: 500 },
+    );
   }
 }
 export const GET = withApiAudit('/api/search/featured', _GET);

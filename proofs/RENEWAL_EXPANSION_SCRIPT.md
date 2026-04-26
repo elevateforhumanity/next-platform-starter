@@ -15,7 +15,7 @@ Start exactly like this:
 > "Today isn't a sales conversation."
 > "It's a confirmation conversation."
 
-*Pause.*
+_Pause._
 
 > "We're going to review what's now dependent on the system, what improved operationally, and what naturally comes next."
 
@@ -60,7 +60,7 @@ Then this line:
 
 > "Those are not features. Those are operating conditions."
 
-*Pause.*
+_Pause._
 
 **This reframes renewal as protecting conditions, not buying software.**
 
@@ -72,7 +72,7 @@ Say:
 
 > "Given that dependency, renewal is straightforward."
 
-*Pause.*
+_Pause._
 
 > "The only real decision is whether you want to keep operating at the current footprint—or expand intentionally."
 
@@ -118,7 +118,7 @@ Say:
 
 > "At renewal, pricing simply reflects the footprint you're already running—plus anything you intentionally add."
 
-*Pause.*
+_Pause._
 
 > "Nothing is repriced retroactively. There are no surprises."
 
@@ -136,7 +136,7 @@ End with this:
 
 > "From our side, the recommendation is to renew and plan expansion deliberately."
 
-*Pause.*
+_Pause._
 
 > "Does that align with how you're thinking?"
 
@@ -187,6 +187,7 @@ Say:
 ## Final Rule
 
 **If renewal feels hard, something upstream slipped:**
+
 - Adoption
 - Scope discipline
 - Governance enforcement

@@ -7,14 +7,11 @@ interface HowFundingWorksProps {
 export function HowFundingWorks({ programSlug }: HowFundingWorksProps) {
   return (
     <section className="my-12 p-8 bg-slate-50 rounded-lg">
-      <h2 className="text-2xl font-bold text-zinc-900 mb-4">
-        How Funding & Enrollment Works
-      </h2>
+      <h2 className="text-2xl font-bold text-zinc-900 mb-4">How Funding & Enrollment Works</h2>
       <p className="text-zinc-700 mb-4">
-        Funding for this program is based on your location, eligibility, and
-        workforce status. To ensure accuracy and avoid delays, Elevate for
-        Humanity uses an appointment-based process in coordination with WorkOne
-        and Indiana Career Connect.
+        Funding for this program is based on your location, eligibility, and workforce status. To
+        ensure accuracy and avoid delays, Elevate for Humanity uses an appointment-based process in
+        coordination with WorkOne and Indiana Career Connect.
       </p>
 
       <div className="my-6">
@@ -26,8 +23,8 @@ export function HowFundingWorks({ programSlug }: HowFundingWorksProps) {
           </li>
           <li className="flex items-start">
             <span className="text-brand-green-600 font-bold mr-2">•</span>
-            Meet with a WorkOne advisor to determine funding eligibility (WIOA,
-            WRG, JRI, Apprenticeship, or other)
+            Meet with a WorkOne advisor to determine funding eligibility (WIOA, WRG, JRI,
+            Apprenticeship, or other)
           </li>
           <li className="flex items-start">
             <span className="text-brand-green-600 font-bold mr-2">•</span>
@@ -37,8 +34,7 @@ export function HowFundingWorks({ programSlug }: HowFundingWorksProps) {
       </div>
 
       <p className="text-zinc-700 mb-6">
-        This process protects your time and ensures you receive correct
-        information the first time.
+        This process protects your time and ensures you receive correct information the first time.
       </p>
 
       <Link

@@ -14,7 +14,7 @@ interface ProfileEditFormProps {
 export default function ProfileEditForm({ user, profile }: ProfileEditFormProps) {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
-  
+
   const [formData, setFormData] = useState({
     full_name: profile?.full_name || user.user_metadata?.full_name || '',
     phone: profile?.phone || '',
@@ -25,9 +25,9 @@ export default function ProfileEditForm({ user, profile }: ProfileEditFormProps)
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     }));
   };
 
@@ -41,25 +41,23 @@ export default function ProfileEditForm({ user, profile }: ProfileEditFormProps)
     try {
       // Update user metadata
       const { error: authError } = await supabase.auth.updateUser({
-        data: { full_name: formData.full_name }
+        data: { full_name: formData.full_name },
       });
 
       if (authError) throw authError;
 
       // Update profile in database
-      const { error: profileError } = await supabase
-        .from('users')
-        .upsert({
-          id: user.id,
-          email: user.email,
-          full_name: formData.full_name,
-          phone: formData.phone,
-          bio: formData.bio,
-          location: formData.location,
-          website: formData.website,
-          linkedin_url: formData.linkedin_url,
-          updated_at: new Date().toISOString(),
-        });
+      const { error: profileError } = await supabase.from('users').upsert({
+        id: user.id,
+        email: user.email,
+        full_name: formData.full_name,
+        phone: formData.phone,
+        bio: formData.bio,
+        location: formData.location,
+        website: formData.website,
+        linkedin_url: formData.linkedin_url,
+        updated_at: new Date().toISOString(),
+      });
 
       if (profileError) throw profileError;
 
@@ -80,7 +78,13 @@ export default function ProfileEditForm({ user, profile }: ProfileEditFormProps)
           <div className="relative">
             <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
               {profile?.avatar_url ? (
-                <Image src={profile.avatar_url} alt={`${profile.full_name || 'User'} profile photo`} width={96} height={96} className="w-full h-full object-cover" />
+                <Image
+                  src={profile.avatar_url}
+                  alt={`${profile.full_name || 'User'} profile photo`}
+                  width={96}
+                  height={96}
+                  className="w-full h-full object-cover"
+                />
               ) : (
                 <UserIcon className="w-12 h-12 text-slate-700" />
               )}
@@ -104,9 +108,7 @@ export default function ProfileEditForm({ user, profile }: ProfileEditFormProps)
         <h2 className="text-lg font-semibold text-slate-900 mb-4">Basic Information</h2>
         <div className="grid md:grid-cols-2 gap-6">
           <div>
-            <label className="block text-sm font-medium text-slate-900 mb-2">
-              Full Name
-            </label>
+            <label className="block text-sm font-medium text-slate-900 mb-2">Full Name</label>
             <input
               type="text"
               name="full_name"
@@ -117,9 +119,7 @@ export default function ProfileEditForm({ user, profile }: ProfileEditFormProps)
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-slate-900 mb-2">
-              Email
-            </label>
+            <label className="block text-sm font-medium text-slate-900 mb-2">Email</label>
             <input
               type="email"
               value={user.email || ''}
@@ -129,9 +129,7 @@ export default function ProfileEditForm({ user, profile }: ProfileEditFormProps)
             <p className="text-xs text-slate-500 mt-1">Email cannot be changed</p>
           </div>
           <div>
-            <label className="block text-sm font-medium text-slate-900 mb-2">
-              Phone Number
-            </label>
+            <label className="block text-sm font-medium text-slate-900 mb-2">Phone Number</label>
             <input
               type="tel"
               name="phone"
@@ -142,9 +140,7 @@ export default function ProfileEditForm({ user, profile }: ProfileEditFormProps)
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-slate-900 mb-2">
-              Location
-            </label>
+            <label className="block text-sm font-medium text-slate-900 mb-2">Location</label>
             <input
               type="text"
               name="location"
@@ -156,9 +152,7 @@ export default function ProfileEditForm({ user, profile }: ProfileEditFormProps)
           </div>
         </div>
         <div className="mt-6">
-          <label className="block text-sm font-medium text-slate-900 mb-2">
-            Bio
-          </label>
+          <label className="block text-sm font-medium text-slate-900 mb-2">Bio</label>
           <textarea
             name="bio"
             value={formData.bio}
@@ -175,9 +169,7 @@ export default function ProfileEditForm({ user, profile }: ProfileEditFormProps)
         <h2 className="text-lg font-semibold text-slate-900 mb-4">Social Links</h2>
         <div className="grid md:grid-cols-2 gap-6">
           <div>
-            <label className="block text-sm font-medium text-slate-900 mb-2">
-              Website
-            </label>
+            <label className="block text-sm font-medium text-slate-900 mb-2">Website</label>
             <input
               type="url"
               name="website"
@@ -188,9 +180,7 @@ export default function ProfileEditForm({ user, profile }: ProfileEditFormProps)
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-slate-900 mb-2">
-              LinkedIn
-            </label>
+            <label className="block text-sm font-medium text-slate-900 mb-2">LinkedIn</label>
             <input
               type="url"
               name="linkedin_url"
@@ -205,9 +195,13 @@ export default function ProfileEditForm({ user, profile }: ProfileEditFormProps)
 
       {/* Message */}
       {message && (
-        <div className={`p-4 rounded-lg ${
-          message.type === 'success' ? 'bg-brand-green-50 text-brand-green-700' : 'bg-brand-red-50 text-brand-red-700'
-        }`}>
+        <div
+          className={`p-4 rounded-lg ${
+            message.type === 'success'
+              ? 'bg-brand-green-50 text-brand-green-700'
+              : 'bg-brand-red-50 text-brand-red-700'
+          }`}
+        >
           {message.text}
         </div>
       )}

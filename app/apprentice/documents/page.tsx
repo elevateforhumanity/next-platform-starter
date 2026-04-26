@@ -14,7 +14,9 @@ export const dynamic = 'force-dynamic';
 
 export default async function ApprenticeDocumentsPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     redirect('/login?redirect=/apprentice/documents');
@@ -42,9 +44,19 @@ export default async function ApprenticeDocumentsPage() {
     .eq('is_required', true);
 
   const defaultDocuments = [
-    { id: 1, name: 'Apprenticeship Agreement', category: 'Contracts', created_at: new Date().toISOString() },
+    {
+      id: 1,
+      name: 'Apprenticeship Agreement',
+      category: 'Contracts',
+      created_at: new Date().toISOString(),
+    },
     { id: 2, name: 'Training Plan', category: 'Training', created_at: new Date().toISOString() },
-    { id: 3, name: 'Safety Certification', category: 'Certifications', created_at: new Date().toISOString() },
+    {
+      id: 3,
+      name: 'Safety Certification',
+      category: 'Certifications',
+      created_at: new Date().toISOString(),
+    },
   ];
 
   const displayDocuments = documents && documents.length > 0 ? documents : defaultDocuments;
@@ -52,10 +64,7 @@ export default async function ApprenticeDocumentsPage() {
   return (
     <div className="min-h-screen bg-white">
       <Breadcrumbs
-        items={[
-          { label: 'Apprentice Portal', href: '/apprentice' },
-          { label: 'Documents' },
-        ]}
+        items={[{ label: 'Apprentice Portal', href: '/apprentice' }, { label: 'Documents' }]}
       />
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="flex items-center justify-between mb-8">
@@ -79,7 +88,10 @@ export default async function ApprenticeDocumentsPage() {
               {displayDocuments.length > 0 ? (
                 <div className="divide-y">
                   {displayDocuments.map((doc: any) => (
-                    <div key={doc.id} className="p-4 flex items-center justify-between hover:bg-white">
+                    <div
+                      key={doc.id}
+                      className="p-4 flex items-center justify-between hover:bg-white"
+                    >
                       <div className="flex items-center gap-4">
                         <FileText className="w-10 h-10 text-brand-blue-500" />
                         <div>
@@ -147,7 +159,10 @@ export default async function ApprenticeDocumentsPage() {
                   </Link>
                 </li>
                 <li>
-                  <Link href="/apprentice/transfer-hours" className="text-brand-blue-600 hover:underline">
+                  <Link
+                    href="/apprentice/transfer-hours"
+                    className="text-brand-blue-600 hover:underline"
+                  >
                     Transfer Hours
                   </Link>
                 </li>

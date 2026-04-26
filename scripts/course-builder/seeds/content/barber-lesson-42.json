@@ -4,12 +4,7 @@
     "questions": [
       {
         "prompt": "What is the standard tip percentage range for barbering services?",
-        "choices": [
-          "10-15%",
-          "15-20%",
-          "20-25%",
-          "5-10%"
-        ],
+        "choices": ["10-15%", "15-20%", "20-25%", "5-10%"],
         "answerIndex": 1,
         "rationale": "In the barbering industry, it is customary for clients to tip between 15% and 20% of the total service cost.",
         "type": "recall"
@@ -76,12 +71,7 @@
       },
       {
         "prompt": "What tool is used to estimate tax liability for quarterly estimated taxes?",
-        "choices": [
-          "Form W-2",
-          "Form 1099",
-          "Form 1040-ES",
-          "Form 940"
-        ],
+        "choices": ["Form W-2", "Form 1099", "Form 1040-ES", "Form 940"],
         "answerIndex": 2,
         "rationale": "IRS Form 1040-ES is used to estimate tax liability for quarterly estimated taxes.",
         "type": "recall"

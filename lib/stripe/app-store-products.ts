@@ -77,7 +77,7 @@ export const APP_STORE_PRODUCTS: AppStoreProduct[] = [
       'Advanced analytics',
       'Career coaching resources',
     ],
-    stripePriceId: 'price_1Sree3IRNf5vPH3Ap8GN1SBP'
+    stripePriceId: 'price_1Sree3IRNf5vPH3Ap8GN1SBP',
   },
   {
     id: 'partner-access',
@@ -103,14 +103,14 @@ export const APP_STORE_PRODUCTS: AppStoreProduct[] = [
  * Get product by tier
  */
 export function getProductByTier(tier: AppAccessTier): AppStoreProduct | undefined {
-  return APP_STORE_PRODUCTS.find(p => p.tier === tier);
+  return APP_STORE_PRODUCTS.find((p) => p.tier === tier);
 }
 
 /**
  * Get all paid products (excludes free and custom)
  */
 export function getPaidProducts(): AppStoreProduct[] {
-  return APP_STORE_PRODUCTS.filter(p => p.price > 0 && p.interval !== 'custom');
+  return APP_STORE_PRODUCTS.filter((p) => p.price > 0 && p.interval !== 'custom');
 }
 
 /**

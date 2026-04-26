@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -32,7 +32,10 @@ export default function RouteGuard({
       const supabase = createClient();
 
       // Get current user
-      const { data: { user }, error } = await supabase.auth.getUser();
+      const {
+        data: { user },
+        error,
+      } = await supabase.auth.getUser();
 
       // If auth is required and no user, redirect to login
       if (requireAuth && (!user || error)) {

@@ -43,7 +43,7 @@ class WebContainerRuntime {
     }
 
     this.emit('Booting WebContainer...\n');
-    
+
     try {
       this.container = await WebContainer.boot();
       this.isBooted = true;
@@ -69,7 +69,7 @@ class WebContainerRuntime {
 
     // Convert flat path->content map to WebContainer file tree structure
     const fileTree = this.buildFileTree(files);
-    
+
     this.emit(`Mounting ${Object.keys(files).length} files...\n`);
     await this.container.mount(fileTree);
     this.emit('Files mounted successfully\n');
@@ -95,7 +95,7 @@ class WebContainerRuntime {
 
       const fileName = parts[parts.length - 1];
       current[fileName] = {
-        file: { contents: content }
+        file: { contents: content },
       };
     }
 
@@ -185,7 +185,7 @@ class WebContainerRuntime {
         write: (data) => {
           this.emit(data);
         },
-      })
+      }),
     );
 
     const exit = process.exit;
@@ -233,7 +233,14 @@ class WebContainerRuntime {
 
     this.emit('\n🚀 Starting dev server...\n');
 
-    const process = await this.spawn('pnpm', ['dev', '--', '--hostname', '0.0.0.0', '--port', '3000']);
+    const process = await this.spawn('pnpm', [
+      'dev',
+      '--',
+      '--hostname',
+      '0.0.0.0',
+      '--port',
+      '3000',
+    ]);
     this.devServerProcess = process;
 
     // Wait for server-ready event

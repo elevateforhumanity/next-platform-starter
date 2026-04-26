@@ -1,5 +1,3 @@
-
-
 import { NextRequest, NextResponse } from 'next/server';
 import { parseBody } from '@/lib/api-helpers';
 import { apiRequireAdmin } from '@/lib/admin/guards';
@@ -37,14 +35,9 @@ async function _GET(request: NextRequest) {
 
     switch (action) {
       case 'pending': {
-        const contentType = searchParams.get(
-          'contentType'
-        ) as ContentType | null;
+        const contentType = searchParams.get('contentType') as ContentType | null;
         const limit = parseInt(searchParams.get('limit') || '50', 10);
-        const reports = await getPendingReports(
-          contentType || undefined,
-          limit
-        );
+        const reports = await getPendingReports(contentType || undefined, limit);
         return NextResponse.json({ reports });
       }
 
@@ -52,10 +45,7 @@ async function _GET(request: NextRequest) {
         const type = searchParams.get('type') as ContentType;
         const contentId = searchParams.get('contentId');
         if (!type || !contentId) {
-          return NextResponse.json(
-            { error: 'type and contentId required' },
-            { status: 400 }
-          );
+          return NextResponse.json({ error: 'type and contentId required' }, { status: 400 });
         }
         const contentReports = await getContentReports(type, contentId);
         return NextResponse.json({ reports: contentReports });
@@ -72,23 +62,16 @@ async function _GET(request: NextRequest) {
         const moderatorId = searchParams.get('moderatorId') || user.id;
         const perfStartDate = searchParams.get('startDate') || undefined;
         const perfEndDate = searchParams.get('endDate') || undefined;
-        const performance = await getModeratorPerformance(
-          moderatorId,
-          perfStartDate,
-          perfEndDate
-        );
+        const performance = await getModeratorPerformance(moderatorId, perfStartDate, perfEndDate);
         return NextResponse.json({ performance });
       }
 
       default:
         return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
     }
-  } catch (error) { 
+  } catch (error) {
     logger.error('Moderation GET error:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch moderation data' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to fetch moderation data' }, { status: 500 });
   }
 }
 
@@ -113,7 +96,7 @@ async function _POST(request: NextRequest) {
         if (!contentType || !contentId || !reason) {
           return NextResponse.json(
             { error: 'contentType, contentId, and reason required' },
-            { status: 400 }
+            { status: 400 },
           );
         }
         const report = await reportContent(
@@ -121,7 +104,7 @@ async function _POST(request: NextRequest) {
           contentId,
           user.id,
           reason as ReportReason,
-          description
+          description,
         );
         return NextResponse.json({ success: true, report });
       }
@@ -131,15 +114,10 @@ async function _POST(request: NextRequest) {
         if (!reportId || !moderationAction) {
           return NextResponse.json(
             { error: 'reportId and moderationAction required' },
-            { status: 400 }
+            { status: 400 },
           );
         }
-        await reviewReport(
-          reportId,
-          user.id,
-          moderationAction as ModerationAction,
-          notes
-        );
+        await reviewReport(reportId, user.id, moderationAction as ModerationAction, notes);
         return NextResponse.json({ success: true });
       }
 
@@ -148,7 +126,7 @@ async function _POST(request: NextRequest) {
         if (!type || !id || !action2) {
           return NextResponse.json(
             { error: 'type, id, and moderationAction required' },
-            { status: 400 }
+            { status: 400 },
           );
         }
         await moderateContent(
@@ -156,7 +134,7 @@ async function _POST(request: NextRequest) {
           id,
           action2 as ModerationAction,
           user.id,
-          moderatorNotes
+          moderatorNotes,
         );
         return NextResponse.json({ success: true });
       }
@@ -164,12 +142,9 @@ async function _POST(request: NextRequest) {
       default:
         return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
     }
-  } catch (error) { 
+  } catch (error) {
     logger.error('Moderation POST error:', error);
-    return NextResponse.json(
-      { error: 'Failed to process moderation action' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to process moderation action' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/moderation', _GET);

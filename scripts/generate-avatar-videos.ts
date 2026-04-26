@@ -34,7 +34,7 @@ Just type your question and I'll do my best to help.
 Whether you need help understanding a concept or preparing for an exam, I'm here for you!`,
     filename: 'avatar-chat-assistant.mp4',
   },
-  
+
   // === STORE ===
   {
     id: 'store',
@@ -169,7 +169,7 @@ What would you like to study today?`,
 
 async function generateVideo(script: VideoScript): Promise<string | null> {
   console.log(`Generating video: ${script.id}...`);
-  
+
   try {
     const response = await fetch('https://api.heygen.com/v2/video/generate', {
       method: 'POST',
@@ -178,23 +178,25 @@ async function generateVideo(script: VideoScript): Promise<string | null> {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        video_inputs: [{
-          character: {
-            type: 'avatar',
-            avatar_id: script.avatarId,
-            avatar_style: 'normal',
+        video_inputs: [
+          {
+            character: {
+              type: 'avatar',
+              avatar_id: script.avatarId,
+              avatar_style: 'normal',
+            },
+            voice: {
+              type: 'text',
+              input_text: script.script,
+              voice_id: script.voiceId,
+              speed: 0.95,
+            },
+            background: {
+              type: 'color',
+              value: '#0f172a',
+            },
           },
-          voice: {
-            type: 'text',
-            input_text: script.script,
-            voice_id: script.voiceId,
-            speed: 0.95,
-          },
-          background: {
-            type: 'color',
-            value: '#0f172a',
-          },
-        }],
+        ],
         dimension: {
           width: 1280,
           height: 720,
@@ -203,7 +205,7 @@ async function generateVideo(script: VideoScript): Promise<string | null> {
     });
 
     const data = await response.json();
-    
+
     if (data.error) {
       console.error(`Error for ${script.id}:`, data.error);
       return null;
@@ -221,7 +223,7 @@ async function checkVideoStatus(videoId: string): Promise<{ status: string; url?
   const response = await fetch(`https://api.heygen.com/v1/video_status.get?video_id=${videoId}`, {
     headers: { 'X-Api-Key': HEYGEN_API_KEY! },
   });
-  
+
   const data = await response.json();
   return {
     status: data.data.status,
@@ -246,12 +248,12 @@ async function main() {
       videoIds[script.id] = videoId;
     }
     // Small delay between requests
-    await new Promise(r => setTimeout(r, 1000));
+    await new Promise((r) => setTimeout(r, 1000));
   }
 
   console.log('\\nAll videos submitted. Video IDs:');
   console.log(JSON.stringify(videoIds, null, 2));
-  
+
   console.log('\\nRun this script again later to check status and download completed videos.');
 }
 

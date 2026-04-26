@@ -23,13 +23,16 @@ async function _GET(request: Request) {
   if (rateLimited) return rateLimited;
 
   const url = new URL(request.url);
-  const iss          = url.searchParams.get('iss');
-  const loginHint    = url.searchParams.get('login_hint');
-  const clientId     = url.searchParams.get('client_id');
+  const iss = url.searchParams.get('iss');
+  const loginHint = url.searchParams.get('login_hint');
+  const clientId = url.searchParams.get('client_id');
   const targetLinkUri = url.searchParams.get('target_link_uri');
 
   if (!iss || !loginHint || !clientId || !targetLinkUri) {
-    return NextResponse.json({ error: 'Missing LTI parameters: iss, login_hint, client_id, target_link_uri required' }, { status: 400 });
+    return NextResponse.json(
+      { error: 'Missing LTI parameters: iss, login_hint, client_id, target_link_uri required' },
+      { status: 400 },
+    );
   }
 
   // Look up platform to get its authorization endpoint
@@ -51,15 +54,15 @@ async function _GET(request: Request) {
 
   // Build the redirect to the platform's authorization endpoint
   const authUrl = new URL(platform.auth_login_url);
-  authUrl.searchParams.set('scope',          'openid');
-  authUrl.searchParams.set('response_type',  'id_token');
-  authUrl.searchParams.set('response_mode',  'form_post');
-  authUrl.searchParams.set('prompt',         'none');
-  authUrl.searchParams.set('client_id',      clientId);
-  authUrl.searchParams.set('redirect_uri',   `${new URL(request.url).origin}/api/lti/launch`);
-  authUrl.searchParams.set('login_hint',     loginHint);
-  authUrl.searchParams.set('state',          state);
-  authUrl.searchParams.set('nonce',          nonce);
+  authUrl.searchParams.set('scope', 'openid');
+  authUrl.searchParams.set('response_type', 'id_token');
+  authUrl.searchParams.set('response_mode', 'form_post');
+  authUrl.searchParams.set('prompt', 'none');
+  authUrl.searchParams.set('client_id', clientId);
+  authUrl.searchParams.set('redirect_uri', `${new URL(request.url).origin}/api/lti/launch`);
+  authUrl.searchParams.set('login_hint', loginHint);
+  authUrl.searchParams.set('state', state);
+  authUrl.searchParams.set('nonce', nonce);
   authUrl.searchParams.set('lti_message_hint', url.searchParams.get('lti_message_hint') ?? '');
 
   const response = NextResponse.redirect(authUrl.toString());
@@ -68,10 +71,10 @@ async function _GET(request: Request) {
   // Value: "<state>.<nonce>" — simple, no external store needed.
   response.cookies.set(LTI_STATE_COOKIE, `${state}.${nonce}`, {
     httpOnly: true,
-    secure:   true,
-    sameSite: 'none',   // required for cross-origin LTI iframe flows
-    maxAge:   STATE_TTL_SECONDS,
-    path:     '/api/lti',
+    secure: true,
+    sameSite: 'none', // required for cross-origin LTI iframe flows
+    maxAge: STATE_TTL_SECONDS,
+    path: '/api/lti',
   });
 
   return response;

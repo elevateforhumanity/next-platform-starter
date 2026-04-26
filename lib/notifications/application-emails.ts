@@ -181,22 +181,30 @@ export async function sendAdminApplicationNotification(application: ApplicationD
                         <td style="color: #6b7280; font-size: 14px; font-weight: 500;">Email:</td>
                         <td style="color: #111827; font-size: 14px; font-weight: 600;"><a href="mailto:${application.email}" style="color: #2563eb; text-decoration: none;">${application.email}</a></td>
                       </tr>
-                      ${application.phone ? `
+                      ${
+                        application.phone
+                          ? `
                       <tr>
                         <td style="color: #6b7280; font-size: 14px; font-weight: 500;">Phone:</td>
                         <td style="color: #111827; font-size: 14px; font-weight: 600;"><a href="tel:${application.phone}" style="color: #2563eb; text-decoration: none;">${application.phone}</a></td>
                       </tr>
-                      ` : ''}
+                      `
+                          : ''
+                      }
                       <tr>
                         <td style="color: #6b7280; font-size: 14px; font-weight: 500;">Program:</td>
                         <td style="color: #111827; font-size: 14px; font-weight: 600;">${application.programInterest}</td>
                       </tr>
-                      ${application.city ? `
+                      ${
+                        application.city
+                          ? `
                       <tr>
                         <td style="color: #6b7280; font-size: 14px; font-weight: 500;">Location:</td>
                         <td style="color: #111827; font-size: 14px; font-weight: 600;">${application.city}${application.zipCode ? `, ${application.zipCode}` : ''}</td>
                       </tr>
-                      ` : ''}
+                      `
+                          : ''
+                      }
                       <tr>
                         <td style="color: #6b7280; font-size: 14px; font-weight: 500;">Submitted:</td>
                         <td style="color: #111827; font-size: 14px; font-weight: 600;">${new Date(application.submittedAt).toLocaleString('en-US', { month: 'long', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' })}</td>

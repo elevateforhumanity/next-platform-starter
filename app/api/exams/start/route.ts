@@ -1,4 +1,3 @@
-
 import { getAdminClient } from '@/lib/supabase/admin';
 
 // app/api/exams/start/route.ts
@@ -15,8 +14,8 @@ export const maxDuration = 60;
 export const dynamic = 'force-dynamic';
 
 async function _POST(request: Request) {
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
 
   const db = await getAdminClient();
   const session = await requireApiAuth();
@@ -48,10 +47,7 @@ async function _POST(request: Request) {
   const previousAttempts = count || 0;
 
   if (previousAttempts >= exam.max_attempts) {
-    return NextResponse.json(
-      { error: 'Maximum attempts reached for this exam' },
-      { status: 403 }
-    );
+    return NextResponse.json({ error: 'Maximum attempts reached for this exam' }, { status: 403 });
   }
 
   const ip = request.headers.get('x-forwarded-for') || 'unknown';
@@ -74,10 +70,7 @@ async function _POST(request: Request) {
     .maybeSingle();
 
   if (attemptError || !attempt) {
-    return NextResponse.json(
-      { error: 'Failed to create attempt' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to create attempt' }, { status: 500 });
   }
 
   // Create question rows

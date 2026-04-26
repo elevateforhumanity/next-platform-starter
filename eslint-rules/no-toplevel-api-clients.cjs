@@ -11,13 +11,14 @@ module.exports = {
       recommended: true,
     },
     messages: {
-      toplevelClient: 'API clients ({{name}}) should not be instantiated at module level. Use lazy initialization inside functions to prevent build-time errors when env vars are missing.',
+      toplevelClient:
+        'API clients ({{name}}) should not be instantiated at module level. Use lazy initialization inside functions to prevent build-time errors when env vars are missing.',
     },
     schema: [],
   },
   create(context) {
     const dangerousClients = ['OpenAI', 'Stripe', 'Resend', 'Redis'];
-    
+
     return {
       VariableDeclaration(node) {
         // Only check top-level declarations

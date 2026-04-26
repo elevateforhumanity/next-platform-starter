@@ -9,14 +9,23 @@ const SITE_URL = 'https://www.elevateforhumanity.org';
 
 export const metadata: Metadata = {
   title: 'Student Support Services | Elevate for Humanity',
-  description: 'Access academic support, financial aid, career services, counseling, and more. We are here to help you succeed throughout your educational journey.',
-  keywords: ['student support', 'academic help', 'financial aid', 'career services', 'tutoring', 'counseling'],
+  description:
+    'Access academic support, financial aid, career services, counseling, and more. We are here to help you succeed throughout your educational journey.',
+  keywords: [
+    'student support',
+    'academic help',
+    'financial aid',
+    'career services',
+    'tutoring',
+    'counseling',
+  ],
   alternates: {
     canonical: `${SITE_URL}/student-support`,
   },
   openGraph: {
     title: 'Student Support Services | Elevate for Humanity',
-    description: 'Access academic support, financial aid, career services, and counseling to help you succeed.',
+    description:
+      'Access academic support, financial aid, career services, and counseling to help you succeed.',
     url: `${SITE_URL}/student-support`,
     siteName: 'Elevate for Humanity',
     type: 'website',
@@ -37,12 +46,48 @@ export const metadata: Metadata = {
 };
 
 const services = [
-  { title: 'Academic Support', description: 'One-on-one tutoring, study groups, and academic advising. Get help with coursework, exam prep, and staying on track in your program.', link: '/student-support/academic', image: '/images/pages/student-portal-page-1.jpg' },
-  { title: 'Financial Aid', description: 'WIOA funding, scholarships, grants, and flexible payment plans. Our team helps you find and apply for every dollar available.', link: '/student-support/financial-aid', image: '/images/pages/financial-aid-page-1.jpg' },
-  { title: 'Career Services', description: 'Job placement assistance, resume writing, interview coaching, and employer connections. We stay with you through your first 90 days on the job.', link: '/student-support/career', image: '/images/pages/career-services-page-1.jpg' },
-  { title: 'Counseling & Wellness', description: 'Personal counseling, mental health resources, and crisis support. Confidential services available to all enrolled students at no cost.', link: '/student-support/counseling', image: '/images/pages/student-portal-page-2.jpg' },
-  { title: 'Accessibility Services', description: 'Accommodations for students with disabilities, assistive technology, and individualized support plans. ADA-compliant facilities and programs.', link: '/student-support/accessibility', image: '/images/pages/accessibility-hero.jpg' },
-  { title: 'Scheduling & Advising', description: 'Class scheduling, program advising, and calendar management. Flexible scheduling for working adults and parents.', link: '/student-support/scheduling', image: '/images/pages/student-portal-page-3.jpg' },
+  {
+    title: 'Academic Support',
+    description:
+      'One-on-one tutoring, study groups, and academic advising. Get help with coursework, exam prep, and staying on track in your program.',
+    link: '/student-support/academic',
+    image: '/images/pages/student-portal-page-1.jpg',
+  },
+  {
+    title: 'Financial Aid',
+    description:
+      'WIOA funding, scholarships, grants, and flexible payment plans. Our team helps you find and apply for every dollar available.',
+    link: '/student-support/financial-aid',
+    image: '/images/pages/financial-aid-page-1.jpg',
+  },
+  {
+    title: 'Career Services',
+    description:
+      'Job placement assistance, resume writing, interview coaching, and employer connections. We stay with you through your first 90 days on the job.',
+    link: '/student-support/career',
+    image: '/images/pages/career-services-page-1.jpg',
+  },
+  {
+    title: 'Counseling & Wellness',
+    description:
+      'Personal counseling, mental health resources, and crisis support. Confidential services available to all enrolled students at no cost.',
+    link: '/student-support/counseling',
+    image: '/images/pages/student-portal-page-2.jpg',
+  },
+  {
+    title: 'Accessibility Services',
+    description:
+      'Accommodations for students with disabilities, assistive technology, and individualized support plans. ADA-compliant facilities and programs.',
+    link: '/student-support/accessibility',
+    image: '/images/pages/accessibility-hero.jpg',
+  },
+  {
+    title: 'Scheduling & Advising',
+    description:
+      'Class scheduling, program advising, and calendar management. Flexible scheduling for working adults and parents.',
+    link: '/student-support/scheduling',
+    image: '/images/pages/student-portal-page-3.jpg',
+  },
 ];
 
 export default function StudentSupportPage() {
@@ -63,18 +108,27 @@ export default function StudentSupportPage() {
         microLabel="Student Support"
         analyticsName="student-support"
       >
-        <p className="text-brand-red-600 font-bold text-xs uppercase tracking-widest mb-3">Elevate for Humanity</p>
+        <p className="text-brand-red-600 font-bold text-xs uppercase tracking-widest mb-3">
+          Elevate for Humanity
+        </p>
         <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 leading-tight mb-4">
           Student Support Services
         </h1>
         <p className="text-slate-600 text-lg leading-relaxed mb-6 max-w-2xl">
-          Academic help, financial aid, career services, and counseling — everything you need to succeed from enrollment through employment.
+          Academic help, financial aid, career services, and counseling — everything you need to
+          succeed from enrollment through employment.
         </p>
         <div className="flex flex-wrap gap-3">
-          <Link href="/start" className="inline-flex items-center gap-2 bg-brand-green-600 text-white px-7 py-3 rounded-lg font-bold hover:bg-brand-green-700 transition text-sm">
+          <Link
+            href="/start"
+            className="inline-flex items-center gap-2 bg-brand-green-600 text-white px-7 py-3 rounded-lg font-bold hover:bg-brand-green-700 transition text-sm"
+          >
             Apply Now <ArrowRight className="w-4 h-4" />
           </Link>
-          <Link href="/student-support/schedule" className="border border-slate-300 text-slate-700 font-bold px-7 py-3 rounded-lg hover:bg-slate-50 transition text-sm">
+          <Link
+            href="/student-support/schedule"
+            className="border border-slate-300 text-slate-700 font-bold px-7 py-3 rounded-lg hover:bg-slate-50 transition text-sm"
+          >
             Schedule Appointment
           </Link>
         </div>
@@ -91,7 +145,10 @@ export default function StudentSupportPage() {
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {services.map((service) => (
-              <div key={service.title} className="group bg-white rounded-xl overflow-hidden border hover:shadow-lg transition">
+              <div
+                key={service.title}
+                className="group bg-white rounded-xl overflow-hidden border hover:shadow-lg transition"
+              >
                 <div className="relative h-44 overflow-hidden">
                   <Image
                     src={service.image}
@@ -127,7 +184,12 @@ export default function StudentSupportPage() {
             <div className="bg-white rounded-xl p-6 text-center">
               <Phone className="w-10 h-10 text-brand-green-600 mx-auto mb-4" />
               <h3 className="font-bold text-gray-900 mb-1">Phone Support</h3>
-              <a href="tel:+13173143757" className="text-brand-green-600 font-semibold hover:underline">(317) 314-3757</a>
+              <a
+                href="tel:+13173143757"
+                className="text-brand-green-600 font-semibold hover:underline"
+              >
+                (317) 314-3757
+              </a>
               <p className="text-sm text-gray-500 mt-1">Mon–Fri 8am–6pm EST</p>
               <Link
                 href="tel:+13173143757"
@@ -171,10 +233,16 @@ export default function StudentSupportPage() {
           alt="Students succeeding in workforce training"
           fill
           className="object-cover"
-         sizes="100vw" />
+          sizes="100vw"
+        />
         <div className="relative z-10 max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Ready to Start Your Career?</h2>
-          <p className="text-white text-lg mb-8">Check your eligibility for funded career training programs. Most students pay $0 out of pocket.</p>
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+            Ready to Start Your Career?
+          </h2>
+          <p className="text-white text-lg mb-8">
+            Check your eligibility for funded career training programs. Most students pay $0 out of
+            pocket.
+          </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/start"

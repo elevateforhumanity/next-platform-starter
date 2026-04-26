@@ -1,7 +1,9 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import FundingEligibilityFlow, { type EligibilityStatus } from '@/components/programs/FundingEligibilityFlow';
+import FundingEligibilityFlow, {
+  type EligibilityStatus,
+} from '@/components/programs/FundingEligibilityFlow';
 import Link from 'next/link';
 import { ArrowLeft, Loader2, CheckCircle, CreditCard } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -47,9 +49,11 @@ export default function NailTechApplyPage() {
       const { createBrowserClient } = await import('@supabase/ssr');
       const supabase = createBrowserClient(
         process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
       );
-      const { data: { session } } = await supabase.auth.getSession();
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
       if (!session) {
         window.location.href = '/login?redirect=/programs/nail-technician-apprenticeship/apply';
       }
@@ -91,9 +95,8 @@ export default function NailTechApplyPage() {
 
       // Self-pay: redirect to Stripe
       if (fundingType === 'self_pay') {
-        const link = paymentPlan === 'full'
-          ? PAYMENT_LINKS.nailTech.full
-          : PAYMENT_LINKS.nailTech.deposit;
+        const link =
+          paymentPlan === 'full' ? PAYMENT_LINKS.nailTech.full : PAYMENT_LINKS.nailTech.deposit;
         const emailParam = encodeURIComponent(email);
         window.location.href = `${link}?prefilled_email=${emailParam}`;
         return;
@@ -109,16 +112,24 @@ export default function NailTechApplyPage() {
   return (
     <div className="min-h-screen bg-white py-12 px-4">
       <div className="max-w-xl mx-auto">
-        <Link href="/programs/nail-technician-apprenticeship" className="inline-flex items-center gap-2 text-sm text-black hover:text-slate-700 mb-8">
+        <Link
+          href="/programs/nail-technician-apprenticeship"
+          className="inline-flex items-center gap-2 text-sm text-black hover:text-slate-700 mb-8"
+        >
           <ArrowLeft className="w-4 h-4" /> Back to Program
         </Link>
 
         <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
           <div className="mb-6">
-            <span className="text-xs font-bold text-brand-green-600 uppercase tracking-wider">DOL Registered Apprenticeship</span>
-            <h1 className="text-2xl font-extrabold text-slate-900 mt-1">Nail Technician Apprenticeship Application</h1>
+            <span className="text-xs font-bold text-brand-green-600 uppercase tracking-wider">
+              DOL Registered Apprenticeship
+            </span>
+            <h1 className="text-2xl font-extrabold text-slate-900 mt-1">
+              Nail Technician Apprenticeship Application
+            </h1>
             <p className="text-black text-sm mt-2">
-              Earn while you learn. Complete this form to begin your application — our team will contact you within 1 business day.
+              Earn while you learn. Complete this form to begin your application — our team will
+              contact you within 1 business day.
             </p>
           </div>
 
@@ -137,36 +148,80 @@ export default function NailTechApplyPage() {
           </div>
 
           {error && (
-            <div className="bg-red-50 border border-red-200 text-red-700 rounded-lg px-4 py-3 text-sm mb-5">{error}</div>
+            <div className="bg-red-50 border border-red-200 text-red-700 rounded-lg px-4 py-3 text-sm mb-5">
+              {error}
+            </div>
           )}
 
           <form onSubmit={handleSubmit} className="space-y-5">
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1" htmlFor="firstName">First Name *</label>
-                <input id="firstName" name="firstName" type="text" required className="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500" />
+                <label className="block text-xs font-bold text-slate-700 mb-1" htmlFor="firstName">
+                  First Name *
+                </label>
+                <input
+                  id="firstName"
+                  name="firstName"
+                  type="text"
+                  required
+                  className="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+                />
               </div>
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1" htmlFor="lastName">Last Name *</label>
-                <input id="lastName" name="lastName" type="text" required className="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500" />
+                <label className="block text-xs font-bold text-slate-700 mb-1" htmlFor="lastName">
+                  Last Name *
+                </label>
+                <input
+                  id="lastName"
+                  name="lastName"
+                  type="text"
+                  required
+                  className="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+                />
               </div>
             </div>
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1" htmlFor="email">Email Address *</label>
-              <input id="email" name="email" type="email" required className="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500" />
+              <label className="block text-xs font-bold text-slate-700 mb-1" htmlFor="email">
+                Email Address *
+              </label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                required
+                className="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+              />
             </div>
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1" htmlFor="phone">Phone Number *</label>
-              <input id="phone" name="phone" type="tel" required className="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500" />
+              <label className="block text-xs font-bold text-slate-700 mb-1" htmlFor="phone">
+                Phone Number *
+              </label>
+              <input
+                id="phone"
+                name="phone"
+                type="tel"
+                required
+                className="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+              />
             </div>
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1" htmlFor="city">City *</label>
-              <input id="city" name="city" type="text" required className="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500" />
+              <label className="block text-xs font-bold text-slate-700 mb-1" htmlFor="city">
+                City *
+              </label>
+              <input
+                id="city"
+                name="city"
+                type="text"
+                required
+                className="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+              />
             </div>
 
             {/* Funding type */}
             <div>
-              <p className="text-xs font-bold text-slate-700 mb-2">How will you fund your training? *</p>
+              <p className="text-xs font-bold text-slate-700 mb-2">
+                How will you fund your training? *
+              </p>
               <div className="space-y-2">
                 {FUNDING_OPTIONS.map((opt) => (
                   <label
@@ -189,7 +244,9 @@ export default function NailTechApplyPage() {
                       <div className="flex items-center gap-2 flex-wrap">
                         <span className="text-xs font-semibold text-slate-900">{opt.label}</span>
                         {opt.badge && (
-                          <span className="text-xs font-bold text-green-700 bg-green-100 px-2 py-0.5 rounded-full">{opt.badge}</span>
+                          <span className="text-xs font-bold text-green-700 bg-green-100 px-2 py-0.5 rounded-full">
+                            {opt.badge}
+                          </span>
                         )}
                       </div>
                       <p className="text-xs text-slate-500 mt-0.5">{opt.desc}</p>
@@ -206,22 +263,50 @@ export default function NailTechApplyPage() {
                   <CreditCard className="w-4 h-4 text-slate-600" />
                   <p className="text-xs font-bold text-slate-700">Payment option</p>
                 </div>
-                <label className={`flex items-start gap-3 rounded-xl border p-3 cursor-pointer bg-white ${paymentPlan === 'deposit' ? 'border-slate-900' : 'border-slate-200'}`}>
-                  <input type="radio" name="paymentPlan" value="deposit" checked={paymentPlan === 'deposit'} onChange={() => setPaymentPlan('deposit')} className="mt-0.5 accent-slate-900" />
+                <label
+                  className={`flex items-start gap-3 rounded-xl border p-3 cursor-pointer bg-white ${paymentPlan === 'deposit' ? 'border-slate-900' : 'border-slate-200'}`}
+                >
+                  <input
+                    type="radio"
+                    name="paymentPlan"
+                    value="deposit"
+                    checked={paymentPlan === 'deposit'}
+                    onChange={() => setPaymentPlan('deposit')}
+                    className="mt-0.5 accent-slate-900"
+                  />
                   <div>
-                    <p className="text-xs font-semibold text-slate-900">35% Deposit + Payment Plan</p>
-                    <p className="text-xs text-slate-500 mt-0.5">$1,750 today, then 6 monthly payments of $542. Total: $5,000.</p>
-                    <p className="text-xs text-green-700 font-medium mt-1">BNPL eligible — Klarna, Afterpay, Zip, Affirm</p>
+                    <p className="text-xs font-semibold text-slate-900">
+                      35% Deposit + Payment Plan
+                    </p>
+                    <p className="text-xs text-slate-500 mt-0.5">
+                      $1,750 today, then 6 monthly payments of $542. Total: $5,000.
+                    </p>
+                    <p className="text-xs text-green-700 font-medium mt-1">
+                      BNPL eligible — Klarna, Afterpay, Zip, Affirm
+                    </p>
                   </div>
                 </label>
-                <label className={`flex items-start gap-3 rounded-xl border p-3 cursor-pointer bg-white ${paymentPlan === 'full' ? 'border-slate-900' : 'border-slate-200'}`}>
-                  <input type="radio" name="paymentPlan" value="full" checked={paymentPlan === 'full'} onChange={() => setPaymentPlan('full')} className="mt-0.5 accent-slate-900" />
+                <label
+                  className={`flex items-start gap-3 rounded-xl border p-3 cursor-pointer bg-white ${paymentPlan === 'full' ? 'border-slate-900' : 'border-slate-200'}`}
+                >
+                  <input
+                    type="radio"
+                    name="paymentPlan"
+                    value="full"
+                    checked={paymentPlan === 'full'}
+                    onChange={() => setPaymentPlan('full')}
+                    className="mt-0.5 accent-slate-900"
+                  />
                   <div>
                     <p className="text-xs font-semibold text-slate-900">Pay in Full — $5,000</p>
-                    <p className="text-xs text-slate-500 mt-0.5">Card, bank transfer, or BNPL accepted.</p>
+                    <p className="text-xs text-slate-500 mt-0.5">
+                      Card, bank transfer, or BNPL accepted.
+                    </p>
                   </div>
                 </label>
-                <p className="text-xs text-slate-400 pt-1">You&apos;ll be redirected to secure Stripe checkout after submitting.</p>
+                <p className="text-xs text-slate-400 pt-1">
+                  You&apos;ll be redirected to secure Stripe checkout after submitting.
+                </p>
               </div>
             )}
 
@@ -236,7 +321,9 @@ export default function NailTechApplyPage() {
                 <CheckCircle className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" />
                 <div>
                   <p className="text-xs font-semibold text-green-900">No payment required today</p>
-                  <p className="text-xs text-green-800 mt-0.5">Our team will verify your funding eligibility within 1–2 business days.</p>
+                  <p className="text-xs text-green-800 mt-0.5">
+                    Our team will verify your funding eligibility within 1–2 business days.
+                  </p>
                 </div>
               </div>
             )}
@@ -247,15 +334,22 @@ export default function NailTechApplyPage() {
               className="w-full bg-brand-red-600 hover:bg-brand-red-700 disabled:opacity-60 text-white font-bold py-3.5 rounded-xl transition-colors flex items-center justify-center gap-2 mt-2"
             >
               {loading ? (
-                <><Loader2 className="w-4 h-4 animate-spin" /> Submitting…</>
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" /> Submitting…
+                </>
               ) : fundingType === 'self_pay' ? (
-                <><CreditCard className="w-4 h-4" /> Submit &amp; Pay</>
+                <>
+                  <CreditCard className="w-4 h-4" /> Submit &amp; Pay
+                </>
               ) : (
                 'Submit Application'
               )}
             </button>
             <p className="text-xs text-black text-center">
-              Questions? <a href="tel:3173143757" className="text-brand-blue-600 hover:underline">(317) 314-3757</a>
+              Questions?{' '}
+              <a href="tel:3173143757" className="text-brand-blue-600 hover:underline">
+                (317) 314-3757
+              </a>
             </p>
           </form>
         </div>

@@ -1,4 +1,3 @@
-
 import { NextResponse } from 'next/server';
 import { writeFile, mkdir } from 'fs/promises';
 import { existsSync } from 'fs';
@@ -37,13 +36,13 @@ async function _POST(request: Request) {
 
     // Authentication check - require admin role
     const supabase = await createClient();
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
 
     if (authError || !user) {
-      return NextResponse.json(
-        { error: 'Authentication required' },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: 'Authentication required' }, { status: 401 });
     }
 
     // Check admin role
@@ -54,27 +53,21 @@ async function _POST(request: Request) {
       .maybeSingle();
 
     if (!profile || !['admin', 'super_admin'].includes(profile.role)) {
-      return NextResponse.json(
-        { error: 'Admin access required' },
-        { status: 403 }
-      );
+      return NextResponse.json({ error: 'Admin access required' }, { status: 403 });
     }
 
     const formData = await request.formData();
     const file = formData.get('video') as File;
 
     if (!file) {
-      return NextResponse.json(
-        { error: 'No video file provided' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'No video file provided' }, { status: 400 });
     }
 
     // Validate file type
     if (!ALLOWED_VIDEO_TYPES.includes(file.type)) {
       return NextResponse.json(
         { error: 'Invalid video type. Allowed: MP4, WebM, QuickTime' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -82,7 +75,7 @@ async function _POST(request: Request) {
     if (file.size > MAX_VIDEO_SIZE) {
       return NextResponse.json(
         { error: 'Video too large. Maximum size is 500MB' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -97,7 +90,7 @@ async function _POST(request: Request) {
     const randomId = crypto.randomUUID().replace(/-/g, '').slice(0, 12);
     const originalFilename = `original-${timestamp}-${randomId}.mp4`;
     const enhancedFilename = `enhanced-${timestamp}-${randomId}.mp4`;
-    
+
     const originalPath = path.join(uploadsDir, originalFilename);
     const enhancedPath = path.join(uploadsDir, enhancedFilename);
 
@@ -111,27 +104,39 @@ async function _POST(request: Request) {
     try {
       // Use execFile with arguments array to prevent command injection
       await execFileAsync('ffmpeg', [
-        '-i', originalPath,
-        '-vf', 'scale=1920:1080:force_original_aspect_ratio=decrease,pad=1920:1080:(ow-iw)/2:(oh-ih)/2,hqdn3d=4:3:6:4.5,eq=contrast=1.1:brightness=0.05:saturation=1.2',
-        '-c:v', 'libx264',
-        '-preset', 'slow',
-        '-crf', '18',
-        '-b:v', '8M',
-        '-maxrate', '10M',
-        '-bufsize', '16M',
-        '-c:a', 'aac',
-        '-b:a', '192k',
-        '-movflags', '+faststart',
-        enhancedPath
+        '-i',
+        originalPath,
+        '-vf',
+        'scale=1920:1080:force_original_aspect_ratio=decrease,pad=1920:1080:(ow-iw)/2:(oh-ih)/2,hqdn3d=4:3:6:4.5,eq=contrast=1.1:brightness=0.05:saturation=1.2',
+        '-c:v',
+        'libx264',
+        '-preset',
+        'slow',
+        '-crf',
+        '18',
+        '-b:v',
+        '8M',
+        '-maxrate',
+        '10M',
+        '-bufsize',
+        '16M',
+        '-c:a',
+        'aac',
+        '-b:a',
+        '192k',
+        '-movflags',
+        '+faststart',
+        enhancedPath,
       ]);
-      
+
       logger.info('Video enhanced successfully', { userId: user.id, filename: enhancedFilename });
 
       return NextResponse.json({
         success: true,
         originalUrl: `/uploads/videos/${originalFilename}`,
         enhancedUrl: `/uploads/videos/${enhancedFilename}`,
-        message: 'Video enhanced successfully! Quality improved, upscaled to 1080p, denoised, and color-corrected.',
+        message:
+          'Video enhanced successfully! Quality improved, upscaled to 1080p, denoised, and color-corrected.',
       });
     } catch (err: any) {
       logger.error('FFmpeg error:', err);
@@ -149,7 +154,7 @@ async function _POST(request: Request) {
     logger.error('Video upload error:', error instanceof Error ? error : new Error(String(error)));
     return NextResponse.json(
       { error: 'Failed to process video', details: toErrorMessage(error) },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -162,13 +167,13 @@ async function _GET(request: Request) {
 
     // Authentication check
     const supabase = await createClient();
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
 
     if (authError || !user) {
-      return NextResponse.json(
-        { error: 'Authentication required' },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: 'Authentication required' }, { status: 401 });
     }
 
     const { searchParams } = new URL(request.url);
@@ -192,11 +197,13 @@ async function _GET(request: Request) {
     try {
       // Use execFile with arguments array to prevent command injection
       const { stdout } = await execFileAsync('ffprobe', [
-        '-v', 'quiet',
-        '-print_format', 'json',
+        '-v',
+        'quiet',
+        '-print_format',
+        'json',
         '-show_format',
         '-show_streams',
-        videoPath
+        videoPath,
       ]);
 
       const metadata = JSON.parse(stdout);
@@ -220,10 +227,7 @@ async function _GET(request: Request) {
     }
   } catch (error) {
     logger.error('Video info error:', error instanceof Error ? error : new Error(String(error)));
-    return NextResponse.json(
-      { error: 'Failed to get video info' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to get video info' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/media/enhance-video', _GET);

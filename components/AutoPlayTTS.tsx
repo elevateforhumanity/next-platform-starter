@@ -11,8 +11,10 @@ interface AutoPlayTTSProps {
 // Detect iOS/iPadOS
 const isIOS = () => {
   if (typeof window === 'undefined') return false;
-  return /iPad|iPhone|iPod/.test(navigator.userAgent) || 
-    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  return (
+    /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+  );
 };
 
 export default function AutoPlayTTS({ text, delay = 1500 }: AutoPlayTTSProps) {
@@ -34,7 +36,7 @@ export default function AutoPlayTTS({ text, delay = 1500 }: AutoPlayTTSProps) {
 
     // Try to find a natural-sounding English voice
     const voices = window.speechSynthesis.getVoices();
-    
+
     // Prefer these voices in order (most natural sounding)
     const preferredVoices = [
       'Samantha', // macOS - very natural
@@ -44,19 +46,20 @@ export default function AutoPlayTTS({ text, delay = 1500 }: AutoPlayTTSProps) {
       'Microsoft Zira', // Windows - decent female
       'Microsoft David', // Windows - decent male
     ];
-    
+
     let selectedVoice = null;
     for (const preferred of preferredVoices) {
-      selectedVoice = voices.find(v => v.name.includes(preferred) && v.lang.startsWith('en'));
+      selectedVoice = voices.find((v) => v.name.includes(preferred) && v.lang.startsWith('en'));
       if (selectedVoice) break;
     }
-    
+
     // Fallback to any English voice
     if (!selectedVoice) {
-      selectedVoice = voices.find(v => v.lang.startsWith('en-US')) || 
-                      voices.find(v => v.lang.startsWith('en'));
+      selectedVoice =
+        voices.find((v) => v.lang.startsWith('en-US')) ||
+        voices.find((v) => v.lang.startsWith('en'));
     }
-    
+
     if (selectedVoice) {
       utterance.voice = selectedVoice;
     }
@@ -65,12 +68,12 @@ export default function AutoPlayTTS({ text, delay = 1500 }: AutoPlayTTSProps) {
       setHasPlayed(true);
       setShowPlayButton(false);
     };
-    
+
     utterance.onstart = () => {
       setHasPlayed(true);
       setShowPlayButton(false);
     };
-    
+
     // Chrome bug workaround: speech cuts off after ~15 seconds
     // Keep speech alive by resuming periodically
     const keepAlive = setInterval(() => {
@@ -81,13 +84,13 @@ export default function AutoPlayTTS({ text, delay = 1500 }: AutoPlayTTSProps) {
         clearInterval(keepAlive);
       }
     }, 10000);
-    
+
     utterance.onend = () => {
       clearInterval(keepAlive);
       setHasPlayed(true);
       setShowPlayButton(false);
     };
-    
+
     window.speechSynthesis.speak(utterance);
   }, [text]);
 
@@ -159,7 +162,7 @@ export default function AutoPlayTTS({ text, delay = 1500 }: AutoPlayTTSProps) {
         aria-label="Play welcome message"
       >
         <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M8 5v14l11-7z"/>
+          <path d="M8 5v14l11-7z" />
         </svg>
       </button>
     );

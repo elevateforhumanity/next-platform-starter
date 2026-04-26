@@ -9,7 +9,9 @@ export const dynamic = 'force-dynamic';
 export async function POST(request: NextRequest) {
   try {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -29,9 +31,10 @@ export async function POST(request: NextRequest) {
       .lte('created_at', endDate || new Date().toISOString());
 
     const totalStudents = enrollments?.length || 0;
-    const activeStudents = enrollments?.filter(e => e.status === 'active').length || 0;
-    const completedStudents = enrollments?.filter(e => e.status === 'completed').length || 0;
-    const complianceRate = totalStudents > 0 ? Math.round((completedStudents / totalStudents) * 100) : 0;
+    const activeStudents = enrollments?.filter((e) => e.status === 'active').length || 0;
+    const completedStudents = enrollments?.filter((e) => e.status === 'completed').length || 0;
+    const complianceRate =
+      totalStudents > 0 ? Math.round((completedStudents / totalStudents) * 100) : 0;
 
     const doc = generateComplianceReportPDF({
       reportDate: new Date().toLocaleDateString(),
@@ -44,9 +47,17 @@ export async function POST(request: NextRequest) {
       details: [
         { metric: 'Total Programs', value: `${programs?.length || 0}`, status: 'Good' },
         { metric: 'Enrollment Rate', value: `${totalStudents}`, status: 'Good' },
-        { metric: 'Completion Rate', value: `${complianceRate}%`, status: complianceRate >= 70 ? 'Good' : 'Needs Improvement' },
+        {
+          metric: 'Completion Rate',
+          value: `${complianceRate}%`,
+          status: complianceRate >= 70 ? 'Good' : 'Needs Improvement',
+        },
         { metric: 'Active Students', value: `${activeStudents}`, status: 'Good' },
-        { metric: 'Retention Rate', value: `${Math.round((activeStudents / (totalStudents || 1)) * 100)}%`, status: 'Good' },
+        {
+          metric: 'Retention Rate',
+          value: `${Math.round((activeStudents / (totalStudents || 1)) * 100)}%`,
+          status: 'Good',
+        },
       ],
     });
 

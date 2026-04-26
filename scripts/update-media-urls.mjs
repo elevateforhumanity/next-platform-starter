@@ -24,12 +24,12 @@ const STORAGE_BASE = `${SUPABASE_URL}/storage/v1/object/public`;
 
 // Map local public paths → storage URLs
 const URL_MAP = [
-  { from: /(['"`])\/hvac\/audio\//g,            to: `$1${STORAGE_BASE}/course-videos/hvac/audio/` },
-  { from: /(['"`])\/hvac\/videos\//g,           to: `$1${STORAGE_BASE}/course-videos/hvac/videos/` },
-  { from: /(['"`])\/hvac\/diagrams\//g,         to: `$1${STORAGE_BASE}/course-videos/hvac/diagrams/` },
-  { from: /(['"`])\/videos\//g,                 to: `$1${STORAGE_BASE}/course-videos/videos/` },
-  { from: /(['"`])\/videos\/lessons\//g,         to: `$1${STORAGE_BASE}/course-videos/videos/lessons/` },
-  { from: /(['"`])\/generated\/lessons\//g,     to: `$1${STORAGE_BASE}/media/generated/lessons/` },
+  { from: /(['"`])\/hvac\/audio\//g, to: `$1${STORAGE_BASE}/course-videos/hvac/audio/` },
+  { from: /(['"`])\/hvac\/videos\//g, to: `$1${STORAGE_BASE}/course-videos/hvac/videos/` },
+  { from: /(['"`])\/hvac\/diagrams\//g, to: `$1${STORAGE_BASE}/course-videos/hvac/diagrams/` },
+  { from: /(['"`])\/videos\//g, to: `$1${STORAGE_BASE}/course-videos/videos/` },
+  { from: /(['"`])\/videos\/lessons\//g, to: `$1${STORAGE_BASE}/course-videos/videos/lessons/` },
+  { from: /(['"`])\/generated\/lessons\//g, to: `$1${STORAGE_BASE}/media/generated/lessons/` },
 ];
 
 const SCAN_DIRS = ['app', 'lib', 'components', 'courses'];

@@ -13,10 +13,11 @@ import {
   AlertTriangle,
   Loader2,
   FileText,
-CheckCircle, } from 'lucide-react';
+  CheckCircle,
+} from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 export default function DataSettingsPage() {
@@ -28,8 +29,10 @@ export default function DataSettingsPage() {
 
   const checkAuth = useCallback(async () => {
     const supabase = createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
     if (!user) {
       router.push('/login?redirect=/lms/settings/data');
       return;
@@ -44,7 +47,7 @@ export default function DataSettingsPage() {
   const handleExportData = async () => {
     setExporting(true);
     // Simulate export
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    await new Promise((resolve) => setTimeout(resolve, 2000));
     setExporting(false);
     alert('Your data export has been initiated. You will receive an email with a download link.');
   };
@@ -66,15 +69,19 @@ export default function DataSettingsPage() {
 
   return (
     <div className="min-h-screen bg-white">
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Lms", href: "/lms" }, { label: "Data" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Lms', href: '/lms' }, { label: 'Data' }]} />
       </div>
-<div className="bg-white border-b border-gray-200">
+      <div className="bg-white border-b border-gray-200">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <nav className="flex items-center gap-2 text-sm text-slate-700 mb-4">
-            <Link href="/lms/dashboard" className="hover:text-slate-900">LMS</Link>
+            <Link href="/lms/dashboard" className="hover:text-slate-900">
+              LMS
+            </Link>
             <ChevronRight className="w-4 h-4" />
-            <Link href="/lms/settings" className="hover:text-slate-900">Settings</Link>
+            <Link href="/lms/settings" className="hover:text-slate-900">
+              Settings
+            </Link>
             <ChevronRight className="w-4 h-4" />
             <span className="text-slate-900 font-medium">Data & Privacy</span>
           </nav>
@@ -93,8 +100,8 @@ export default function DataSettingsPage() {
             <div className="flex-1">
               <h2 className="text-lg font-semibold text-slate-900">Export Your Data</h2>
               <p className="text-slate-700 mt-1 mb-4">
-                Download a copy of all your personal data, including profile information, 
-                course progress, certificates, and activity history.
+                Download a copy of all your personal data, including profile information, course
+                progress, certificates, and activity history.
               </p>
               <button
                 onClick={handleExportData}
@@ -139,7 +146,9 @@ export default function DataSettingsPage() {
             <div className="px-6 py-4 flex items-center justify-between">
               <div>
                 <p className="font-medium text-slate-900">Show in Alumni Directory</p>
-                <p className="text-sm text-slate-700">Appear in the alumni directory after graduation</p>
+                <p className="text-sm text-slate-700">
+                  Appear in the alumni directory after graduation
+                </p>
               </div>
               <label className="relative inline-flex items-center cursor-pointer">
                 <input type="checkbox" defaultChecked className="sr-only peer" />
@@ -149,7 +158,9 @@ export default function DataSettingsPage() {
             <div className="px-6 py-4 flex items-center justify-between">
               <div>
                 <p className="font-medium text-slate-900">Activity Tracking</p>
-                <p className="text-sm text-slate-700">Allow tracking of learning activity for personalized recommendations</p>
+                <p className="text-sm text-slate-700">
+                  Allow tracking of learning activity for personalized recommendations
+                </p>
               </div>
               <label className="relative inline-flex items-center cursor-pointer">
                 <input type="checkbox" defaultChecked className="sr-only peer" />
@@ -178,7 +189,7 @@ export default function DataSettingsPage() {
             <div>
               <h2 className="text-lg font-semibold text-slate-900">Data Retention</h2>
               <p className="text-slate-700 mt-1 mb-4">
-                Your education records are retained in accordance with FERPA regulations and 
+                Your education records are retained in accordance with FERPA regulations and
                 accreditation requirements. Transcripts and certificates are kept permanently.
               </p>
               <div className="flex items-center gap-2 text-sm text-brand-green-600">
@@ -195,21 +206,30 @@ export default function DataSettingsPage() {
             <h2 className="text-lg font-semibold text-slate-900">Legal Documents</h2>
           </div>
           <div className="divide-y divide-gray-200">
-            <Link href="/policies/privacy-notice" className="px-6 py-4 flex items-center justify-between hover:bg-white">
+            <Link
+              href="/policies/privacy-notice"
+              className="px-6 py-4 flex items-center justify-between hover:bg-white"
+            >
               <div className="flex items-center gap-3">
                 <FileText className="w-5 h-5 text-slate-700" />
                 <span className="text-slate-900">Privacy Policy</span>
               </div>
               <ChevronRight className="w-4 h-4 text-slate-700" />
             </Link>
-            <Link href="/policies/ferpa" className="px-6 py-4 flex items-center justify-between hover:bg-white">
+            <Link
+              href="/policies/ferpa"
+              className="px-6 py-4 flex items-center justify-between hover:bg-white"
+            >
               <div className="flex items-center gap-3">
                 <FileText className="w-5 h-5 text-slate-700" />
                 <span className="text-slate-900">FERPA Rights</span>
               </div>
               <ChevronRight className="w-4 h-4 text-slate-700" />
             </Link>
-            <Link href="/policies/data-retention" className="px-6 py-4 flex items-center justify-between hover:bg-white">
+            <Link
+              href="/policies/data-retention"
+              className="px-6 py-4 flex items-center justify-between hover:bg-white"
+            >
               <div className="flex items-center gap-3">
                 <FileText className="w-5 h-5 text-slate-700" />
                 <span className="text-slate-900">Data Retention Policy</span>
@@ -228,8 +248,8 @@ export default function DataSettingsPage() {
             <div className="flex-1">
               <h2 className="text-lg font-semibold text-brand-red-800">Delete Account</h2>
               <p className="text-brand-red-700 mt-1 mb-4">
-                Permanently delete your account and all associated data. This action cannot be undone.
-                Note: Some records may be retained for legal and accreditation purposes.
+                Permanently delete your account and all associated data. This action cannot be
+                undone. Note: Some records may be retained for legal and accreditation purposes.
               </p>
               {!showDeleteConfirm ? (
                 <button

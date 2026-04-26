@@ -85,12 +85,12 @@ A: Yes. Institution-specific questionnaires can be reviewed as part of the procu
 
 ## Quick Reference for Common Frameworks
 
-| Framework | Platform Support |
-|-----------|------------------|
-| **FERPA** | Access controls, audit logging, data separation |
-| **GDPR** | Data ownership clarity, access controls, deletion capability |
-| **SOC 2** | Logging, access controls, availability design |
-| **State Privacy Laws** | Configurable data handling, audit trails |
+| Framework              | Platform Support                                             |
+| ---------------------- | ------------------------------------------------------------ |
+| **FERPA**              | Access controls, audit logging, data separation              |
+| **GDPR**               | Data ownership clarity, access controls, deletion capability |
+| **SOC 2**              | Logging, access controls, availability design                |
+| **State Privacy Laws** | Configurable data handling, audit trails                     |
 
 ---
 

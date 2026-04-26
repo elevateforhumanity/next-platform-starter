@@ -1,4 +1,3 @@
-
 // lib/xapi/video.ts
 import { getXAPIClient } from './xapi-client';
 
@@ -61,8 +60,7 @@ export async function sendVideoStatement(input: VideoStatementInput) {
       result: input.duration
         ? {
             extensions: {
-              'https://w3id.org/xapi/video/extensions/time':
-                input.currentTime || 0,
+              'https://w3id.org/xapi/video/extensions/time': input.currentTime || 0,
               'https://w3id.org/xapi/video/extensions/length': input.duration,
             },
           }
@@ -70,7 +68,8 @@ export async function sendVideoStatement(input: VideoStatementInput) {
     };
 
     await client.sendStatement(statement);
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     // Error: $1
     // Don't throw - we don't want tracking failures to break the app
   }
@@ -82,7 +81,7 @@ export function createVideoProgressTracker(
   courseId: string,
   lessonId: string | undefined,
   learnerId: string,
-  title: string
+  title: string,
 ) {
   let lastReportedTime = 0;
   const REPORT_INTERVAL = 30; // Report every 30 seconds

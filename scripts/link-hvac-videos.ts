@@ -119,7 +119,9 @@ async function main() {
   }
 
   if (!DRY_RUN) {
-    console.log(`\nDone. ${mapped} updated, ${unchanged} already correct, ${exceptions.length} exceptions.`);
+    console.log(
+      `\nDone. ${mapped} updated, ${unchanged} already correct, ${exceptions.length} exceptions.`,
+    );
   }
 }
 

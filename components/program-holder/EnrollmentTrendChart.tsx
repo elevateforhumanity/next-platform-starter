@@ -16,7 +16,20 @@ interface Props {
   data: { month: string; count: number }[];
 }
 
-const MONTH_SHORT = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const MONTH_SHORT = [
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec',
+];
 
 function formatMonth(ym: string): string {
   const [y, m] = ym.split('-');

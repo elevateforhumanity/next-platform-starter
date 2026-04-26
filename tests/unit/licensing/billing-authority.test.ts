@@ -1,14 +1,14 @@
 import { describe, it, expect } from 'vitest';
-import { 
-  isLicenseActiveNow, 
-  isSubscriptionTier, 
+import {
+  isLicenseActiveNow,
+  isSubscriptionTier,
   getBillingAuthority,
   isKnownTier,
   tierRequiresExpiry,
   tierAllowsPerpetual,
   getLicenseAccessMode,
   isAdminRole,
-  type License 
+  type License,
 } from '@/lib/licensing/billing-authority';
 
 describe('billing-authority', () => {

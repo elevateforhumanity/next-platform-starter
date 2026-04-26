@@ -54,15 +54,19 @@ export type LegalName = z.infer<typeof LegalNameSchema>;
 
 export const DemographicsSchema = z.object({
   gender: z.enum(['male', 'female', 'non_binary', 'prefer_not_to_say']).optional(),
-  race: z.array(z.enum([
-    'american_indian_alaska_native',
-    'asian',
-    'black_african_american',
-    'native_hawaiian_pacific_islander',
-    'white',
-    'other',
-    'prefer_not_to_say',
-  ])).optional(),
+  race: z
+    .array(
+      z.enum([
+        'american_indian_alaska_native',
+        'asian',
+        'black_african_american',
+        'native_hawaiian_pacific_islander',
+        'white',
+        'other',
+        'prefer_not_to_say',
+      ]),
+    )
+    .optional(),
   ethnicity: z.enum(['hispanic_latino', 'not_hispanic_latino', 'prefer_not_to_say']).optional(),
   veteran_status: z.boolean().optional(),
   disability_status: z.boolean().optional(),
@@ -70,18 +74,27 @@ export const DemographicsSchema = z.object({
 });
 export type Demographics = z.infer<typeof DemographicsSchema>;
 
-export const ProfileAttributesRecordedPayloadSchema = z.object({
-  legal_name: LegalNameSchema.optional(),
-  postal_code: z.string().regex(/^\d{5}(-\d{4})?$/).optional(),
-  date_of_birth: z.string().date().optional(),
-  phone: z.string().regex(/^\+?[1-9]\d{1,14}$/).optional(),
-  email: z.string().email().optional(),
-  demographics: DemographicsSchema.optional(),
-}).refine(
-  (payload) => Object.values(payload).some((v) => v !== undefined),
-  { message: 'ProfileAttributesRecorded payload must contain at least one attribute' },
-);
-export type ProfileAttributesRecordedPayload = z.infer<typeof ProfileAttributesRecordedPayloadSchema>;
+export const ProfileAttributesRecordedPayloadSchema = z
+  .object({
+    legal_name: LegalNameSchema.optional(),
+    postal_code: z
+      .string()
+      .regex(/^\d{5}(-\d{4})?$/)
+      .optional(),
+    date_of_birth: z.string().date().optional(),
+    phone: z
+      .string()
+      .regex(/^\+?[1-9]\d{1,14}$/)
+      .optional(),
+    email: z.string().email().optional(),
+    demographics: DemographicsSchema.optional(),
+  })
+  .refine((payload) => Object.values(payload).some((v) => v !== undefined), {
+    message: 'ProfileAttributesRecorded payload must contain at least one attribute',
+  });
+export type ProfileAttributesRecordedPayload = z.infer<
+  typeof ProfileAttributesRecordedPayloadSchema
+>;
 
 // ─── IdentityLinked ───────────────────────────────────────────────────────────
 
@@ -142,11 +155,11 @@ export type EnrollmentRecordedPayload = z.infer<typeof EnrollmentRecordedPayload
  */
 export const EnrollmentCorrectedPayloadSchema = z.object({
   target_event_id: z.string().uuid(),
-  corrected_fields: z.record(CorrectableEnrollmentFieldSchema, z.unknown())
-    .refine(
-      (fields) => Object.keys(fields).length > 0,
-      { message: 'corrected_fields must contain at least one field' },
-    ),
+  corrected_fields: z
+    .record(CorrectableEnrollmentFieldSchema, z.unknown())
+    .refine((fields) => Object.keys(fields).length > 0, {
+      message: 'corrected_fields must contain at least one field',
+    }),
   reason: CorrectionReasonSchema,
   corrected_by: z.string().uuid(),
 });
@@ -156,7 +169,9 @@ export type EnrollmentCorrectedPayload = z.infer<typeof EnrollmentCorrectedPaylo
 
 export const WorkforceEventPayloadSchema = z.discriminatedUnion('_event_type', [
   ParticipantCreatedPayloadSchema.extend({ _event_type: z.literal('ParticipantCreated') }),
-  ProfileAttributesRecordedPayloadSchema.extend({ _event_type: z.literal('ProfileAttributesRecorded') }),
+  ProfileAttributesRecordedPayloadSchema.extend({
+    _event_type: z.literal('ProfileAttributesRecorded'),
+  }),
   IdentityLinkedPayloadSchema.extend({ _event_type: z.literal('IdentityLinked') }),
   EnrollmentRecordedPayloadSchema.extend({ _event_type: z.literal('EnrollmentRecorded') }),
   EnrollmentCorrectedPayloadSchema.extend({ _event_type: z.literal('EnrollmentCorrected') }),

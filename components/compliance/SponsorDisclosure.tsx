@@ -5,7 +5,9 @@
 export default function SponsorDisclosure() {
   return (
     <div className="bg-brand-blue-700 text-white rounded-lg p-5 sm:p-6 my-8">
-      <p className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">Registered Apprenticeship Sponsor Disclosure</p>
+      <p className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">
+        Registered Apprenticeship Sponsor Disclosure
+      </p>
       <dl className="space-y-2.5 text-sm">
         <div className="flex flex-col sm:flex-row sm:gap-2">
           <dt className="text-slate-400 font-medium sm:min-w-[180px]">Sponsor of Record:</dt>
@@ -17,7 +19,10 @@ export default function SponsorDisclosure() {
         </div>
         <div className="flex flex-col sm:flex-row sm:gap-2">
           <dt className="text-slate-400 font-medium sm:min-w-[180px]">Training Sites:</dt>
-          <dd className="font-semibold">Sponsor-approved licensed employer and partner locations operating under formal training agreements.</dd>
+          <dd className="font-semibold">
+            Sponsor-approved licensed employer and partner locations operating under formal training
+            agreements.
+          </dd>
         </div>
       </dl>
     </div>

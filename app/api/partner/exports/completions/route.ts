@@ -7,10 +7,9 @@ import { logger } from '@/lib/logger';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 
 async function _GET(request: Request) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const ctx = await getMyPartnerContext();
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const ctx = await getMyPartnerContext();
   if (!ctx) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
@@ -41,34 +40,38 @@ const ctx = await getMyPartnerContext();
 
   for (const s of students) {
     if (s.courses.length === 0) {
-      rows.push(csvRow([
-        s.student_name,
-        s.student_email,
-        s.shop_name,
-        s.placement_start || '',
-        'No enrollments',
-        '0',
-        s.placement_status,
-        '',
-        '',
-        '',
-        String(s.certificate_count),
-      ]));
-    } else {
-      for (const c of s.courses) {
-        rows.push(csvRow([
+      rows.push(
+        csvRow([
           s.student_name,
           s.student_email,
           s.shop_name,
           s.placement_start || '',
-          c.course_title,
-          String(c.progress),
-          c.status,
-          isoDate(c.enrolled_at),
-          isoDate(c.completed_at),
-          c.credential_id || '',
+          'No enrollments',
+          '0',
+          s.placement_status,
+          '',
+          '',
+          '',
           String(s.certificate_count),
-        ]));
+        ]),
+      );
+    } else {
+      for (const c of s.courses) {
+        rows.push(
+          csvRow([
+            s.student_name,
+            s.student_email,
+            s.shop_name,
+            s.placement_start || '',
+            c.course_title,
+            String(c.progress),
+            c.status,
+            isoDate(c.enrolled_at),
+            isoDate(c.completed_at),
+            c.credential_id || '',
+            String(s.certificate_count),
+          ]),
+        );
       }
     }
   }
@@ -130,7 +133,7 @@ async function logExportAudit(
       exported_at: timestamp,
     });
   } catch (err) {
-      logger.error("Unhandled error", err instanceof Error ? err : undefined);
-    }
+    logger.error('Unhandled error', err instanceof Error ? err : undefined);
+  }
 }
 export const GET = withApiAudit('/api/partner/exports/completions', _GET);

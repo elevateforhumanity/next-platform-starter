@@ -1,6 +1,5 @@
 // PUBLIC ROUTE: public interest form
 
-
 // =====================================================
 // INTAKE STAGE 1: INTEREST
 // Captures initial interest without overwhelming the user
@@ -37,7 +36,7 @@ async function _POST(req: NextRequest) {
     if (!parsed.success) {
       return NextResponse.json(
         { error: 'Invalid request', details: parsed.error.issues },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -69,10 +68,7 @@ async function _POST(req: NextRequest) {
 
       if (error) {
         logger.error('Failed to update lead', { error, email: data.email });
-        return NextResponse.json(
-          { error: 'Failed to update interest' },
-          { status: 500 }
-        );
+        return NextResponse.json({ error: 'Failed to update interest' }, { status: 500 });
       }
 
       return NextResponse.json({
@@ -80,7 +76,7 @@ async function _POST(req: NextRequest) {
         leadId: lead.id,
         stage: lead.stage,
         nextStep: '/intake/eligibility',
-        message: 'Welcome back! Let\'s continue where you left off.',
+        message: "Welcome back! Let's continue where you left off.",
       });
     }
 
@@ -102,10 +98,7 @@ async function _POST(req: NextRequest) {
 
     if (error) {
       logger.error('Failed to create lead', { error, data });
-      return NextResponse.json(
-        { error: 'Failed to save interest' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to save interest' }, { status: 500 });
     }
 
     // Log event
@@ -127,14 +120,11 @@ async function _POST(req: NextRequest) {
       leadId: lead.id,
       stage: 'INTEREST',
       nextStep: '/intake/eligibility',
-      message: 'Thank you for your interest! Next, let\'s check your eligibility.',
+      message: "Thank you for your interest! Next, let's check your eligibility.",
     });
   } catch (error) {
     logger.error('Interest intake error', { error });
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/intake/interest', _POST);

@@ -31,16 +31,11 @@ export async function handleRoute<T>(fn: () => Promise<T>): Promise<T | Response
     }
 
     // Next.js redirect/notFound throw special objects with a `digest` property.
-    if (
-      error !== null &&
-      typeof error === 'object' &&
-      'digest' in error
-    ) {
+    if (error !== null && typeof error === 'object' && 'digest' in error) {
       throw error;
     }
 
-    const message =
-      error instanceof Error ? error.message : String(error);
+    const message = error instanceof Error ? error.message : String(error);
 
     logger.error('[handleRoute] Unhandled route error:', message);
 

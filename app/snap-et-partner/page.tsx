@@ -3,32 +3,66 @@ import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { getAdminClient } from '@/lib/supabase/admin';
 import {
-  CheckCircle, AlertCircle, ArrowRight, Phone, FileText,
-  Users, ClipboardList, Building2, Mail,
+  CheckCircle,
+  AlertCircle,
+  ArrowRight,
+  Phone,
+  FileText,
+  Users,
+  ClipboardList,
+  Building2,
+  Mail,
 } from 'lucide-react';
 
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: 'SNAP E&T Partner Agency | Elevate for Humanity',
-  description: 'Refer SNAP recipients to ETPL-approved career training through Indiana\'s SNAP E&T (IMPACT) program. Case manager and agency partner information.',
+  description:
+    "Refer SNAP recipients to ETPL-approved career training through Indiana's SNAP E&T (IMPACT) program. Case manager and agency partner information.",
   alternates: { canonical: 'https://www.elevateforhumanity.org/snap-et-partner' },
 };
 
 const ELIGIBLE_PROGRAMS = [
   { title: 'HVAC Technician', slug: 'hvac-technician', hours: '160 hrs', credential: 'EPA 608' },
   { title: 'CNA / Healthcare', slug: 'cna', hours: '120 hrs', credential: 'State CNA License' },
-  { title: 'Barber Apprenticeship', slug: 'barber-apprenticeship', hours: '2,000 hrs OJL', credential: 'Indiana Barber License' },
+  {
+    title: 'Barber Apprenticeship',
+    slug: 'barber-apprenticeship',
+    hours: '2,000 hrs OJL',
+    credential: 'Indiana Barber License',
+  },
   { title: 'IT Help Desk', slug: 'it-help-desk', hours: '160 hrs', credential: 'CompTIA A+' },
-  { title: 'Peer Recovery Specialist', slug: 'peer-recovery-specialist', hours: '80 hrs', credential: 'CPRS' },
+  {
+    title: 'Peer Recovery Specialist',
+    slug: 'peer-recovery-specialist',
+    hours: '80 hrs',
+    credential: 'CPRS',
+  },
   { title: 'CDL Training', slug: 'cdl-training', hours: '160 hrs', credential: 'Class A CDL' },
 ];
 
 const REFERRAL_STEPS = [
-  { step: '1', title: 'Confirm SNAP Eligibility', desc: 'Verify the participant is an able-bodied adult without dependents (ABAWD) or meets SNAP E&T criteria through FSSA/DFR.' },
-  { step: '2', title: 'Issue Referral', desc: 'Send a referral via your FSSA case management system or contact our agency liaison directly.' },
-  { step: '3', title: 'Participant Enrolls', desc: 'We screen for program fit, confirm funding, and enroll the participant. You receive confirmation within 2 business days.' },
-  { step: '4', title: 'Track Progress', desc: 'Attendance and milestone data reported back to your agency. 80-hour participation tracking automated.' },
+  {
+    step: '1',
+    title: 'Confirm SNAP Eligibility',
+    desc: 'Verify the participant is an able-bodied adult without dependents (ABAWD) or meets SNAP E&T criteria through FSSA/DFR.',
+  },
+  {
+    step: '2',
+    title: 'Issue Referral',
+    desc: 'Send a referral via your FSSA case management system or contact our agency liaison directly.',
+  },
+  {
+    step: '3',
+    title: 'Participant Enrolls',
+    desc: 'We screen for program fit, confirm funding, and enroll the participant. You receive confirmation within 2 business days.',
+  },
+  {
+    step: '4',
+    title: 'Track Progress',
+    desc: 'Attendance and milestone data reported back to your agency. 80-hour participation tracking automated.',
+  },
 ];
 
 export default async function SnapEtPartnerPage() {
@@ -57,15 +91,19 @@ export default async function SnapEtPartnerPage() {
       {/* Hero */}
       <section className="bg-slate-900 py-16 px-4">
         <div className="max-w-4xl mx-auto">
-          <p className="text-xs font-bold uppercase tracking-widest text-brand-red-400 mb-3">For Case Managers &amp; Agency Staff</p>
+          <p className="text-xs font-bold uppercase tracking-widest text-brand-red-400 mb-3">
+            For Case Managers &amp; Agency Staff
+          </p>
           <h1 className="text-4xl font-extrabold text-white mb-4">SNAP E&T Partner Agency</h1>
           <p className="text-slate-300 text-lg max-w-2xl mb-6">
-            Elevate for Humanity is an ETPL-approved, DOL-registered training provider participating in Indiana's SNAP E&T program (IMPACT) through FSSA/DFR.
+            Elevate for Humanity is an ETPL-approved, DOL-registered training provider participating
+            in Indiana's SNAP E&T program (IMPACT) through FSSA/DFR.
           </p>
           <div className="flex items-start gap-3 bg-amber-500/10 border border-amber-500/30 rounded-xl p-4 max-w-2xl">
             <AlertCircle className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
             <p className="text-amber-200 text-sm">
-              Participants must be referred through FSSA or a WorkOne office. Direct enrollment without an agency referral is not available for SNAP E&T funding.
+              Participants must be referred through FSSA or a WorkOne office. Direct enrollment
+              without an agency referral is not available for SNAP E&T funding.
             </p>
           </div>
         </div>
@@ -106,7 +144,10 @@ export default async function SnapEtPartnerPage() {
               'SAM.gov Registered — CAGE: 0Q856',
               '80-Hour Participation Tracking',
             ].map((c) => (
-              <span key={c} className="inline-flex items-center gap-2 rounded-full bg-green-50 border border-green-200 px-4 py-1.5 text-sm font-medium text-green-800">
+              <span
+                key={c}
+                className="inline-flex items-center gap-2 rounded-full bg-green-50 border border-green-200 px-4 py-1.5 text-sm font-medium text-green-800"
+              >
                 <CheckCircle className="w-3.5 h-3.5" /> {c}
               </span>
             ))}
@@ -118,7 +159,10 @@ export default async function SnapEtPartnerPage() {
       <section className="py-14 px-4 bg-slate-50">
         <div className="max-w-5xl mx-auto">
           <h2 className="text-2xl font-bold text-slate-900 mb-2">SNAP E&T Eligible Programs</h2>
-          <p className="text-slate-600 mb-8">All programs below qualify for SNAP E&T funding. Hours shown are minimum participation requirements.</p>
+          <p className="text-slate-600 mb-8">
+            All programs below qualify for SNAP E&T funding. Hours shown are minimum participation
+            requirements.
+          </p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {ELIGIBLE_PROGRAMS.map((p) => (
               <Link
@@ -162,7 +206,8 @@ export default async function SnapEtPartnerPage() {
             <Building2 className="w-8 h-8 text-brand-red-400 mb-3" />
             <h2 className="text-2xl font-bold mb-2">Ready to Refer a Participant?</h2>
             <p className="text-slate-300 max-w-lg">
-              Contact our SNAP E&T liaison or submit a formal partnership request. We respond to agency inquiries within one business day.
+              Contact our SNAP E&T liaison or submit a formal partnership request. We respond to
+              agency inquiries within one business day.
             </p>
           </div>
           <div className="flex flex-col gap-3 shrink-0">

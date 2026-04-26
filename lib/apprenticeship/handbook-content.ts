@@ -1,6 +1,6 @@
 /**
  * Apprenticeship Handbook Content
- * 
+ *
  * This defines the handbook sections for each apprenticeship program.
  * Students must acknowledge each section before completing enrollment.
  */
@@ -65,7 +65,7 @@ DBA Elevate for Humanity Career & Technical Institute
 - This program does NOT issue state licensure hours directly
 - Practical skills training is provided by your sponsoring barbershop
 - You must work under a licensed barber at an approved shop
-      `
+      `,
     },
     {
       id: 'apprentice-responsibilities',
@@ -115,13 +115,14 @@ As a registered apprentice, you have specific responsibilities that you must ful
 - Make all tuition payments on time
 - Notify Elevate immediately if you have payment difficulties
 - Understand that non-payment may result in program suspension
-      `
+      `,
     },
     {
       id: 'sponsor-responsibilities',
       title: 'Sponsor/Employer Responsibilities',
       requiresAcknowledgment: true,
-      acknowledgmentText: 'I understand what my sponsoring barbershop is responsible for providing.',
+      acknowledgmentText:
+        'I understand what my sponsoring barbershop is responsible for providing.',
       content: `
 # Sponsor/Employer Responsibilities
 
@@ -157,7 +158,7 @@ Your sponsoring barbershop has agreed to provide the following as part of your a
 - Assign tasks outside the scope of barber training
 - Discriminate based on protected characteristics
 - Retaliate against apprentice for reporting concerns
-      `
+      `,
     },
     {
       id: 'hour-requirements',
@@ -206,13 +207,14 @@ To be eligible for the Indiana barber license examination, you must complete:
 - Submit official transcripts for evaluation
 - Transfer hours reduce time-in-program, NOT tuition
 - Maximum transfer: 750 hours (50%)
-      `
+      `,
     },
     {
       id: 'program-completion',
       title: 'Program Completion & State Licensure',
       requiresAcknowledgment: true,
-      acknowledgmentText: 'I understand the requirements for program completion and state licensure.',
+      acknowledgmentText:
+        'I understand the requirements for program completion and state licensure.',
       content: `
 # Program Completion & State Licensure
 
@@ -262,7 +264,7 @@ After completing the program, you will:
 - Can work at any licensed barbershop
 - Can rent a chair or open your own shop
 - Must renew license per IPLA requirements
-      `
+      `,
     },
     {
       id: 'policies-procedures',
@@ -320,13 +322,14 @@ Elevate does not discriminate based on:
 - Submit requests in writing
 - Interactive process to determine solutions
 - Confidentiality maintained
-      `
+      `,
     },
     {
       id: 'safety-agreement',
       title: 'Safety Agreement',
       requiresAcknowledgment: true,
-      acknowledgmentText: 'I agree to follow all safety protocols and understand the risks involved in barber training.',
+      acknowledgmentText:
+        'I agree to follow all safety protocols and understand the risks involved in barber training.',
       content: `
 # Safety Agreement
 
@@ -383,7 +386,7 @@ In case of blood exposure:
 4. Disinfect contaminated surfaces
 5. Document the incident
 6. Seek medical evaluation if needed
-      `
+      `,
     },
     {
       id: 'financial-agreement',
@@ -442,13 +445,14 @@ If you experience financial difficulty:
 - Payment plan modifications may be available
 - Temporary suspension option (up to 90 days)
 - We want you to succeed!
-      `
+      `,
     },
     {
       id: 'mou-agreement',
       title: 'Memorandum of Understanding',
       requiresAcknowledgment: true,
-      acknowledgmentText: 'I have read, understand, and agree to all terms in this Memorandum of Understanding.',
+      acknowledgmentText:
+        'I have read, understand, and agree to all terms in this Memorandum of Understanding.',
       content: `
 # Memorandum of Understanding (MOU)
 
@@ -513,9 +517,9 @@ By signing below, all parties agree to the terms of this MOU.
 ---
 
 **This is a legally binding agreement. Read carefully before signing.**
-      `
-    }
-  ]
+      `,
+    },
+  ],
 };
 
 // Copy for other programs with minor modifications
@@ -523,21 +527,21 @@ export const COSMETOLOGY_HANDBOOK: ProgramHandbook = {
   ...BARBER_HANDBOOK,
   programSlug: 'cosmetology-apprenticeship',
   programName: 'Registered Cosmetology Apprenticeship Program',
-  sections: BARBER_HANDBOOK.sections.map(section => ({
+  sections: BARBER_HANDBOOK.sections.map((section) => ({
     ...section,
     content: section.content
       .replace(/barber/gi, 'cosmetology')
       .replace(/barbershop/gi, 'salon')
       .replace(/Barber/g, 'Cosmetology')
-      .replace(/Barbershop/g, 'Salon')
-  }))
+      .replace(/Barbershop/g, 'Salon'),
+  })),
 };
 
 export const ESTHETICIAN_HANDBOOK: ProgramHandbook = {
   ...BARBER_HANDBOOK,
   programSlug: 'esthetician-apprenticeship',
   programName: 'Registered Esthetician Apprenticeship Program',
-  sections: BARBER_HANDBOOK.sections.map(section => ({
+  sections: BARBER_HANDBOOK.sections.map((section) => ({
     ...section,
     content: section.content
       .replace(/barber/gi, 'esthetician')
@@ -545,15 +549,15 @@ export const ESTHETICIAN_HANDBOOK: ProgramHandbook = {
       .replace(/Barber/g, 'Esthetician')
       .replace(/Barbershop/g, 'Spa/Salon')
       .replace(/1,500 hours/g, '700 hours')
-      .replace(/1500/g, '700')
-  }))
+      .replace(/1500/g, '700'),
+  })),
 };
 
 export const NAIL_TECH_HANDBOOK: ProgramHandbook = {
   ...BARBER_HANDBOOK,
   programSlug: 'nail-technician-apprenticeship',
   programName: 'Registered Nail Technician Apprenticeship Program',
-  sections: BARBER_HANDBOOK.sections.map(section => ({
+  sections: BARBER_HANDBOOK.sections.map((section) => ({
     ...section,
     content: section.content
       .replace(/barber/gi, 'nail technician')
@@ -561,8 +565,8 @@ export const NAIL_TECH_HANDBOOK: ProgramHandbook = {
       .replace(/Barber/g, 'Nail Technician')
       .replace(/Barbershop/g, 'Nail Salon')
       .replace(/1,500 hours/g, '450 hours')
-      .replace(/1500/g, '450')
-  }))
+      .replace(/1500/g, '450'),
+  })),
 };
 
 export function getHandbook(programSlug: string): ProgramHandbook | null {

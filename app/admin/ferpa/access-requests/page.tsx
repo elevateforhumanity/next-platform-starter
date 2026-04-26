@@ -48,11 +48,13 @@ export default async function FerpaAccessRequestsPage() {
   return (
     <div className="min-h-screen bg-slate-50">
       <div className="max-w-6xl mx-auto px-4 py-8">
-        <Breadcrumbs items={[
-          { label: 'Admin', href: '/admin' },
-          { label: 'FERPA', href: '/admin/ferpa' },
-          { label: 'Access Requests' },
-        ]} />
+        <Breadcrumbs
+          items={[
+            { label: 'Admin', href: '/admin' },
+            { label: 'FERPA', href: '/admin/ferpa' },
+            { label: 'Access Requests' },
+          ]}
+        />
 
         <div className="mt-6 mb-8 flex items-center justify-between">
           <div>
@@ -102,9 +104,7 @@ export default async function FerpaAccessRequestsPage() {
                         <span className="text-slate-700">{statusLabel[r.status] ?? r.status}</span>
                       </div>
                     </td>
-                    <td className="px-6 py-4 text-slate-600 max-w-xs truncate">
-                      {r.notes ?? '—'}
-                    </td>
+                    <td className="px-6 py-4 text-slate-600 max-w-xs truncate">{r.notes ?? '—'}</td>
                     <td className="px-6 py-4">
                       <Link
                         href={`/admin/documents/${r.id}`}

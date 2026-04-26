@@ -1,6 +1,6 @@
 /**
  * Media URL Helper
- * 
+ *
  * Returns R2 CDN URLs when configured, falls back to local paths.
  * Use this for all video and large image references.
  */
@@ -14,11 +14,11 @@ const R2_PUBLIC_URL = process.env.NEXT_PUBLIC_R2_URL || process.env.CLOUDFLARE_R
 export function getVideoUrl(filename: string): string {
   // Remove leading slash if present
   const cleanName = filename.replace(/^\/?(videos\/)?/, '');
-  
+
   if (R2_PUBLIC_URL) {
     return `${R2_PUBLIC_URL}/videos/${cleanName}`;
   }
-  
+
   return `/videos/${cleanName}`;
 }
 
@@ -28,11 +28,11 @@ export function getVideoUrl(filename: string): string {
  */
 export function getImageUrl(filename: string): string {
   const cleanName = filename.replace(/^\/?(images\/)?/, '');
-  
+
   if (R2_PUBLIC_URL) {
     return `${R2_PUBLIC_URL}/images/${cleanName}`;
   }
-  
+
   return `/images/${cleanName}`;
 }
 

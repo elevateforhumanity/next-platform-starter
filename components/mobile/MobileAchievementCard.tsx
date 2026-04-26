@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { Award, Lock } from 'lucide-react';
 
@@ -28,18 +28,14 @@ export default function MobileAchievementCard({
   return (
     <div
       className={`relative p-4 rounded-lg border transition-all ${
-        unlocked
-          ? '   border-yellow-200'
-          : 'bg-gray-50 border-gray-200'
+        unlocked ? '   border-yellow-200' : 'bg-gray-50 border-gray-200'
       }`}
     >
       {/* Icon */}
       <div className="flex items-start gap-3 mb-3">
         <div
           className={`flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center ${
-            unlocked
-              ? 'bg-gradient-to-br from-yellow-400 to-brand-orange-500'
-              : 'bg-gray-300'
+            unlocked ? 'bg-gradient-to-br from-yellow-400 to-brand-orange-500' : 'bg-gray-300'
           }`}
         >
           {unlocked ? (
@@ -54,26 +50,24 @@ export default function MobileAchievementCard({
         </div>
         <div className="flex-1">
           <h3
-            className={`font-semibold text-sm mb-1 ${
-              unlocked ? 'text-black' : 'text-slate-700'
-            }`}
+            className={`font-semibold text-sm mb-1 ${unlocked ? 'text-black' : 'text-slate-700'}`}
           >
             {title}
           </h3>
-          <p
-            className={`text-xs ${
-              unlocked ? 'text-black' : 'text-slate-700'
-            }`}
-          >
-            {description}
-          </p>
+          <p className={`text-xs ${unlocked ? 'text-black' : 'text-slate-700'}`}>{description}</p>
         </div>
       </div>
       {/* Progress or Unlock Date */}
       {unlocked ? (
         unlockedAt && (
           <div className="text-xs text-slate-700">
-            Unlocked {new Date(unlockedAt).toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' })}
+            Unlocked{' '}
+            {new Date(unlockedAt).toLocaleDateString('en-US', {
+              timeZone: 'UTC',
+              month: 'short',
+              day: 'numeric',
+              year: 'numeric',
+            })}
           </div>
         )
       ) : (

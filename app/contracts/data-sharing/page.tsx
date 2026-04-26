@@ -1,4 +1,3 @@
-
 export const revalidate = 3600;
 
 import Link from 'next/link';
@@ -8,11 +7,16 @@ import { Download, Printer, ArrowLeft, Shield } from 'lucide-react';
 export default function DataSharingPage() {
   return (
     <div className="min-h-screen bg-white py-8">
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Contracts", href: "/contracts" }, { label: "Data Sharing" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs
+          items={[{ label: 'Contracts', href: '/contracts' }, { label: 'Data Sharing' }]}
+        />
       </div>
-<div className="max-w-4xl mx-auto px-4">
-        <Link href="/contracts" className="inline-flex items-center gap-2 text-slate-700 hover:text-slate-900 mb-6">
+      <div className="max-w-4xl mx-auto px-4">
+        <Link
+          href="/contracts"
+          className="inline-flex items-center gap-2 text-slate-700 hover:text-slate-900 mb-6"
+        >
           <ArrowLeft className="w-4 h-4" /> Back to Contracts
         </Link>
         <div className="bg-white rounded-xl shadow-sm border">
@@ -25,18 +29,32 @@ export default function DataSharingPage() {
               </div>
             </div>
             <div className="flex gap-2">
-              <button className="flex items-center gap-2 px-4 py-2 border rounded-lg hover:bg-white"><Printer className="w-4 h-4" /> Print</button>
-              <button className="flex items-center gap-2 px-4 py-2 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700"><Download className="w-4 h-4" /> Download PDF</button>
+              <button className="flex items-center gap-2 px-4 py-2 border rounded-lg hover:bg-white">
+                <Printer className="w-4 h-4" /> Print
+              </button>
+              <button className="flex items-center gap-2 px-4 py-2 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700">
+                <Download className="w-4 h-4" /> Download PDF
+              </button>
             </div>
           </div>
           <div className="p-8 prose max-w-none">
             <h2>1. Purpose</h2>
-            <p>This Data Sharing Agreement governs the collection, use, storage, and sharing of student personally identifiable information (PII) between parties.</p>
+            <p>
+              This Data Sharing Agreement governs the collection, use, storage, and sharing of
+              student personally identifiable information (PII) between parties.
+            </p>
             <h2>2. Data Categories</h2>
             <ul>
-              <li><strong>Enrollment Data:</strong> Name, contact information, program enrollment</li>
-              <li><strong>Progress Data:</strong> Attendance, grades, completion status</li>
-              <li><strong>Outcome Data:</strong> Employment status, wage information, credential attainment</li>
+              <li>
+                <strong>Enrollment Data:</strong> Name, contact information, program enrollment
+              </li>
+              <li>
+                <strong>Progress Data:</strong> Attendance, grades, completion status
+              </li>
+              <li>
+                <strong>Outcome Data:</strong> Employment status, wage information, credential
+                attainment
+              </li>
             </ul>
             <h2>3. Permitted Uses</h2>
             <p>Data may only be used for:</p>
@@ -46,11 +64,20 @@ export default function DataSharingPage() {
               <li>Aggregate statistical analysis (de-identified)</li>
             </ul>
             <h2>4. Security Requirements</h2>
-            <p>All parties must maintain industry-standard security measures including encryption, access controls, and regular security audits.</p>
+            <p>
+              All parties must maintain industry-standard security measures including encryption,
+              access controls, and regular security audits.
+            </p>
             <h2>5. FERPA Compliance</h2>
-            <p>All data handling must comply with the Family Educational Rights and Privacy Act (FERPA) and applicable state privacy laws.</p>
+            <p>
+              All data handling must comply with the Family Educational Rights and Privacy Act
+              (FERPA) and applicable state privacy laws.
+            </p>
             <h2>6. Data Retention</h2>
-            <p>Student records shall be retained for 7 years following program completion or last enrollment activity.</p>
+            <p>
+              Student records shall be retained for 7 years following program completion or last
+              enrollment activity.
+            </p>
           </div>
         </div>
       </div>

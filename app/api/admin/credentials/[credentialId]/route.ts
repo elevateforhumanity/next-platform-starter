@@ -15,13 +15,13 @@ async function requireAdmin() {
   if (!user) return null;
   const db = await getAdminClient();
   const { data: p } = await db.from('profiles').select('role').eq('id', user.id).maybeSingle();
-  if (!p || !['admin','super_admin','org_admin','staff'].includes(p.role)) return null;
+  if (!p || !['admin', 'super_admin', 'org_admin', 'staff'].includes(p.role)) return null;
   return user;
 }
 
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: Promise<{ credentialId: string }> }
+  { params }: { params: Promise<{ credentialId: string }> },
 ) {
   const { credentialId } = await params;
   const user = await requireAdmin();
@@ -48,7 +48,8 @@ export async function PATCH(
     body.metadata = {
       ...(body.metadata ?? {}),
       protected: body.proctor_authority === 'elevate',
-      credential_owner: body.proctor_authority === 'elevate' ? 'elevate' : (body.issuing_authority ?? ''),
+      credential_owner:
+        body.proctor_authority === 'elevate' ? 'elevate' : (body.issuing_authority ?? ''),
     };
   }
 
@@ -68,7 +69,7 @@ export async function PATCH(
 
 export async function DELETE(
   _req: NextRequest,
-  { params }: { params: Promise<{ credentialId: string }> }
+  { params }: { params: Promise<{ credentialId: string }> },
 ) {
   const { credentialId } = await params;
   const user = await requireAdmin();

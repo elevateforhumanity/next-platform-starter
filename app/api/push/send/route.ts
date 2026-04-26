@@ -36,34 +36,44 @@ async function _POST(request: NextRequest) {
     // Verify internal API key or service role
     const authHeader = request.headers.get('authorization');
     const apiKey = process.env.INTERNAL_API_KEY;
-    
+
     // Allow calls from server-side code
     if (apiKey && authHeader !== `Bearer ${apiKey}`) {
       // Check if called from same origin (internal call)
       const origin = request.headers.get('origin');
-      if (origin && !origin.includes('localhost') && !origin.includes(process.env.NEXT_PUBLIC_APP_URL || '')) {
+      if (
+        origin &&
+        !origin.includes('localhost') &&
+        !origin.includes(process.env.NEXT_PUBLIC_APP_URL || '')
+      ) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
       }
     }
 
     if (!VAPID_PUBLIC_KEY || !VAPID_PRIVATE_KEY) {
-      return NextResponse.json({ 
-        error: 'Push notifications not configured',
-      }, { status: 500 });
+      return NextResponse.json(
+        {
+          error: 'Push notifications not configured',
+        },
+        { status: 500 },
+      );
     }
 
     const payload: NotificationPayload = await request.json();
 
     if (!payload.userId || !payload.title || !payload.body) {
-      return NextResponse.json({ 
-        error: 'userId, title, and body are required' 
-      }, { status: 400 });
+      return NextResponse.json(
+        {
+          error: 'userId, title, and body are required',
+        },
+        { status: 400 },
+      );
     }
 
     // Create admin Supabase client
     const supabase = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY!
+      process.env.SUPABASE_SERVICE_ROLE_KEY!,
     );
 
     // Get user's push subscriptions
@@ -78,9 +88,9 @@ async function _POST(request: NextRequest) {
     }
 
     if (!subscriptions || subscriptions.length === 0) {
-      return NextResponse.json({ 
+      return NextResponse.json({
         message: 'No push subscriptions found for user',
-        sent: 0 
+        sent: 0,
       });
     }
 
@@ -115,10 +125,7 @@ async function _POST(request: NextRequest) {
 
         // Remove invalid subscriptions
         if (error.statusCode === 410 || error.statusCode === 404) {
-          await supabase
-            .from('push_subscriptions')
-            .delete()
-            .eq('id', subscription.id);
+          await supabase.from('push_subscriptions').delete().eq('id', subscription.id);
         }
       }
     }

@@ -84,7 +84,7 @@ const _POST = withAuth(
         mou_admin_signed_at,
         mou_admin_sig_url,
         mou_final_pdf_url
-      `
+      `,
       )
       .maybeSingle();
 
@@ -112,7 +112,10 @@ const _POST = withAuth(
         });
       } catch (emailErr) {
         // Non-blocking — log but don't fail the request
-        logger.error('Failed to send MOU archive email:', emailErr instanceof Error ? emailErr : new Error(String(emailErr)));
+        logger.error(
+          'Failed to send MOU archive email:',
+          emailErr instanceof Error ? emailErr : new Error(String(emailErr)),
+        );
       }
     }
 
@@ -127,6 +130,6 @@ const _POST = withAuth(
 
     return Response.json(updated);
   },
-  { roles: ['admin', 'super_admin'] }
+  { roles: ['admin', 'super_admin'] },
 );
 export const POST = withApiAudit('/api/admin/program-holders/mou/countersign', _POST);

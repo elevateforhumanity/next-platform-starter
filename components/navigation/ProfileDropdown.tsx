@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
@@ -50,8 +50,10 @@ export function ProfileDropdown({ className }: Props) {
 
     async function fetchUserData() {
       try {
-        const { data: { user } } = await supabase.auth.getUser();
-        
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
+
         if (!user) {
           setLoading(false);
           return;
@@ -87,7 +89,6 @@ export function ProfileDropdown({ className }: Props) {
           .eq('read', false);
 
         setNotifications({ unread: count || 0 });
-
       } catch (err) {
         console.error('Error fetching user data:', err);
       } finally {
@@ -98,7 +99,9 @@ export function ProfileDropdown({ className }: Props) {
     fetchUserData();
 
     // Subscribe to auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event, session) => {
       if (event === 'SIGNED_OUT') {
         setProfile(null);
       } else if (session?.user) {
@@ -109,24 +112,21 @@ export function ProfileDropdown({ className }: Props) {
     // Subscribe to notification changes
     const notificationChannel = supabase
       .channel('profile-notifications')
-      .on('postgres_changes', 
-        { event: '*', schema: 'public', table: 'notifications' },
-        () => {
-          // Refetch notification count
-          supabase.auth.getUser().then(({ data: { user } }) => {
-            if (user) {
-              supabase
-                .from('notifications')
-                .select('*', { count: 'exact', head: true })
-                .eq('user_id', user.id)
-                .eq('read', false)
-                .then(({ count }) => {
-                  setNotifications({ unread: count || 0 });
-                });
-            }
-          });
-        }
-      )
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'notifications' }, () => {
+        // Refetch notification count
+        supabase.auth.getUser().then(({ data: { user } }) => {
+          if (user) {
+            supabase
+              .from('notifications')
+              .select('*', { count: 'exact', head: true })
+              .eq('user_id', user.id)
+              .eq('read', false)
+              .then(({ count }) => {
+                setNotifications({ unread: count || 0 });
+              });
+          }
+        });
+      })
       .subscribe();
 
     return () => {
@@ -149,14 +149,17 @@ export function ProfileDropdown({ className }: Props) {
   const handleSignOut = async () => {
     setSigningOut(true);
     const supabase = createClient();
-    
+
     try {
       // Log the sign out
       if (profile) {
-        await supabase.from('user_activity').insert({
-          user_id: profile.id,
-          activity_type: 'sign_out',
-        }).catch(() => {});
+        await supabase
+          .from('user_activity')
+          .insert({
+            user_id: profile.id,
+            activity_type: 'sign_out',
+          })
+          .catch(() => {});
       }
 
       await supabase.auth.signOut();
@@ -173,7 +176,7 @@ export function ProfileDropdown({ className }: Props) {
   const getInitials = (name: string) => {
     return name
       .split(' ')
-      .map(n => n[0])
+      .map((n) => n[0])
       .join('')
       .toUpperCase()
       .slice(0, 2);
@@ -217,7 +220,7 @@ export function ProfileDropdown({ className }: Props) {
         ) : (
           <span className="text-sm">{getInitials(profile.full_name)}</span>
         )}
-        
+
         {/* Notification badge */}
         {notifications.unread > 0 && (
           <span className="absolute -top-1 -right-1 w-5 h-5 bg-brand-red-500 text-white text-xs rounded-full flex items-center justify-center">
@@ -258,13 +261,25 @@ export function ProfileDropdown({ className }: Props) {
 
           {/* Quick Stats */}
           <div className="px-4 py-3 border-b bg-gray-50 flex items-center justify-between text-sm">
-            <Link href="/lms/courses" className="text-center hover:text-brand-blue-600" onClick={() => setIsOpen(false)}>
+            <Link
+              href="/lms/courses"
+              className="text-center hover:text-brand-blue-600"
+              onClick={() => setIsOpen(false)}
+            >
               <div className="font-semibold text-slate-900">My Courses</div>
             </Link>
-            <Link href="/lms/certificates" className="text-center hover:text-brand-blue-600" onClick={() => setIsOpen(false)}>
+            <Link
+              href="/lms/certificates"
+              className="text-center hover:text-brand-blue-600"
+              onClick={() => setIsOpen(false)}
+            >
               <div className="font-semibold text-slate-900">Certificates</div>
             </Link>
-            <Link href="/notifications" className="text-center hover:text-brand-blue-600 relative" onClick={() => setIsOpen(false)}>
+            <Link
+              href="/notifications"
+              className="text-center hover:text-brand-blue-600 relative"
+              onClick={() => setIsOpen(false)}
+            >
               <div className="font-semibold text-slate-900">
                 Notifications
                 {notifications.unread > 0 && (
@@ -287,7 +302,7 @@ export function ProfileDropdown({ className }: Props) {
               </span>
               <ChevronRight className="h-4 w-4 text-slate-700" />
             </Link>
-            
+
             <Link
               href="/lms/courses"
               className="flex items-center justify-between px-4 py-2.5 text-sm text-slate-900 hover:bg-gray-50"
@@ -299,7 +314,7 @@ export function ProfileDropdown({ className }: Props) {
               </span>
               <ChevronRight className="h-4 w-4 text-slate-700" />
             </Link>
-            
+
             <Link
               href="/lms/certificates"
               className="flex items-center justify-between px-4 py-2.5 text-sm text-slate-900 hover:bg-gray-50"
@@ -381,7 +396,7 @@ export function ProfileDropdown({ className }: Props) {
               <HelpCircle className="h-4 w-4 text-slate-700" />
               Help & Support
             </Link>
-            
+
             <button
               onClick={handleSignOut}
               disabled={signingOut}

@@ -11,7 +11,10 @@ export const userSchema = z.object({
   email: z.string().email(),
   firstName: z.string().min(1).max(100),
   lastName: z.string().min(1).max(100),
-  phone: z.string().regex(/^\+?[1-9]\d{1,14}$/).optional(),
+  phone: z
+    .string()
+    .regex(/^\+?[1-9]\d{1,14}$/)
+    .optional(),
 });
 
 export const paymentSchema = z.object({

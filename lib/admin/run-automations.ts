@@ -31,7 +31,10 @@ async function dispatchEmail(config: {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL ?? ''}/api/email/send`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'x-internal-key': process.env.INTERNAL_API_KEY ?? '' },
+      headers: {
+        'Content-Type': 'application/json',
+        'x-internal-key': process.env.INTERNAL_API_KEY ?? '',
+      },
       body: JSON.stringify({
         template: config.template,
         to_role: config.to_role,
@@ -102,19 +105,27 @@ async function retryJob(
 // ── Main runner ───────────────────────────────────────────────────────────────
 export async function runAutomations(db: SupabaseClient): Promise<AutomationRunResult> {
   const result: AutomationRunResult = {
-    enqueued: 0, processed: 0, succeeded: 0, failed: 0, skipped: 0, errors: [],
+    enqueued: 0,
+    processed: 0,
+    succeeded: 0,
+    failed: 0,
+    skipped: 0,
+    errors: [],
   };
 
   // 1. Refresh priority queue and enqueue new automation actions
   try {
     const { error: refreshErr } = await db.rpc('refresh_admin_priority_queue');
-    if (refreshErr) logger.warn('[run-automations] priority queue refresh failed', { error: refreshErr.message });
+    if (refreshErr)
+      logger.warn('[run-automations] priority queue refresh failed', { error: refreshErr.message });
 
     const { data: enqueueData, error: enqueueErr } = await db.rpc('enqueue_automation_actions');
     if (enqueueErr) logger.warn('[run-automations] enqueue failed', { error: enqueueErr.message });
     else result.enqueued = enqueueData ?? 0;
   } catch (err: any) {
-    logger.warn('[run-automations] RPC unavailable (migration not applied?)', { error: err.message });
+    logger.warn('[run-automations] RPC unavailable (migration not applied?)', {
+      error: err.message,
+    });
   }
 
   // 2. Pull pending actions (limit 50 per run to prevent timeout)
@@ -131,12 +142,17 @@ export async function runAutomations(db: SupabaseClient): Promise<AutomationRunR
     return result;
   }
 
-  for (const action of (actions ?? [])) {
+  for (const action of actions ?? []) {
     result.processed++;
 
     // Mark as processing
-    await db.from('automation_action_queue')
-      .update({ status: 'processing', started_at: new Date().toISOString(), attempts: (action.attempts ?? 0) + 1 })
+    await db
+      .from('automation_action_queue')
+      .update({
+        status: 'processing',
+        started_at: new Date().toISOString(),
+        attempts: (action.attempts ?? 0) + 1,
+      })
       .eq('id', action.id);
 
     let outcome: 'success' | 'failure' | 'skipped' = 'skipped';
@@ -146,7 +162,11 @@ export async function runAutomations(db: SupabaseClient): Promise<AutomationRunR
       const cfg = action.action_config ?? {};
 
       if (action.action_type === 'send_email') {
-        const r = await dispatchEmail({ ...cfg, reference_id: action.reference_id, reference_table: action.reference_table });
+        const r = await dispatchEmail({
+          ...cfg,
+          reference_id: action.reference_id,
+          reference_table: action.reference_table,
+        });
         outcome = r.ok ? 'success' : 'failure';
         detail = r.detail;
       } else if (action.action_type === 'escalate') {
@@ -168,9 +188,15 @@ export async function runAutomations(db: SupabaseClient): Promise<AutomationRunR
     }
 
     // Update action status
-    const finalStatus = outcome === 'success' ? 'completed' : outcome === 'skipped' ? 'skipped' : 'failed';
-    await db.from('automation_action_queue')
-      .update({ status: finalStatus, completed_at: new Date().toISOString(), last_error: outcome === 'failure' ? detail : null })
+    const finalStatus =
+      outcome === 'success' ? 'completed' : outcome === 'skipped' ? 'skipped' : 'failed';
+    await db
+      .from('automation_action_queue')
+      .update({
+        status: finalStatus,
+        completed_at: new Date().toISOString(),
+        last_error: outcome === 'failure' ? detail : null,
+      })
       .eq('id', action.id);
 
     // Write execution log

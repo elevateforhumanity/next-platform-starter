@@ -9,7 +9,8 @@ export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: 'Reels | Elevate for Humanity',
-  description: 'Short-form videos about career training, success stories, and workforce development from Elevate for Humanity.',
+  description:
+    'Short-form videos about career training, success stories, and workforce development from Elevate for Humanity.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/reels' },
 };
 
@@ -56,7 +57,10 @@ export default async function ReelsPage() {
               <h2 className="text-xl font-bold text-white flex items-center gap-2">
                 <Newspaper className="w-5 h-5 text-brand-red-400" /> From the Blog
               </h2>
-              <Link href="/news" className="text-sm text-brand-red-400 hover:underline flex items-center gap-1">
+              <Link
+                href="/news"
+                className="text-sm text-brand-red-400 hover:underline flex items-center gap-1"
+              >
                 All posts <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>
@@ -67,7 +71,9 @@ export default async function ReelsPage() {
                   href={`/news/${post.slug}`}
                   className="block rounded-xl bg-gray-800 border border-gray-700 p-4 hover:bg-gray-750 hover:border-gray-600 transition"
                 >
-                  <h3 className="font-semibold text-white text-sm leading-snug line-clamp-2">{post.title}</h3>
+                  <h3 className="font-semibold text-white text-sm leading-snug line-clamp-2">
+                    {post.title}
+                  </h3>
                   {post.excerpt && (
                     <p className="text-gray-400 text-xs mt-1 line-clamp-2">{post.excerpt}</p>
                   )}

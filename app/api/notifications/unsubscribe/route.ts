@@ -1,4 +1,3 @@
-
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { logger } from '@/lib/logger';
@@ -13,7 +12,9 @@ async function _POST(request: NextRequest) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -33,7 +34,10 @@ async function _POST(request: NextRequest) {
 
     if (error) {
       logger.error('[Notifications] Failed to remove push subscription:', error);
-      return NextResponse.json({ success: false, error: 'Failed to remove subscription' }, { status: 500 });
+      return NextResponse.json(
+        { success: false, error: 'Failed to remove subscription' },
+        { status: 500 },
+      );
     }
 
     return NextResponse.json({ success: true, message: 'Subscription removed' });
@@ -41,7 +45,7 @@ async function _POST(request: NextRequest) {
     logger.error('[Notifications] Unsubscribe error:', error);
     return NextResponse.json(
       { success: false, error: 'Failed to remove subscription' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

@@ -5,8 +5,15 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useState } from 'react';
 import {
-  FileText, CheckCircle2, Circle, AlertCircle, ArrowRight,
-  Download, Shield, Clock, BookOpen,
+  FileText,
+  CheckCircle2,
+  Circle,
+  AlertCircle,
+  ArrowRight,
+  Download,
+  Shield,
+  Clock,
+  BookOpen,
 } from 'lucide-react';
 import { InstitutionalHeader } from '@/components/documents/InstitutionalHeader';
 
@@ -25,7 +32,8 @@ const REQUIRED_FORMS: FormItem[] = [
   {
     id: 'mou',
     name: 'Memorandum of Understanding (MOU)',
-    description: 'Partnership agreement between your salon and Elevate for Humanity. Must be signed before hosting apprentices.',
+    description:
+      'Partnership agreement between your salon and Elevate for Humanity. Must be signed before hosting apprentices.',
     required: true,
     category: 'legal',
     action: 'sign',
@@ -34,7 +42,8 @@ const REQUIRED_FORMS: FormItem[] = [
   {
     id: 'handbook-ack',
     name: 'Partner Handbook Acknowledgment',
-    description: 'Confirm you have read and understand the Partner Handbook, including responsibilities, policies, and prohibited practices.',
+    description:
+      'Confirm you have read and understand the Partner Handbook, including responsibilities, policies, and prohibited practices.',
     required: true,
     category: 'compliance',
     action: 'sign',
@@ -80,7 +89,8 @@ const REQUIRED_FORMS: FormItem[] = [
   {
     id: 'supervisor-license',
     name: 'Supervising Cosmetologist License',
-    description: "Copy of the licensed cosmetologist's Indiana IPLA license who will directly supervise the apprentice. Must have 2+ years experience.",
+    description:
+      "Copy of the licensed cosmetologist's Indiana IPLA license who will directly supervise the apprentice. Must have 2+ years experience.",
     required: true,
     category: 'compliance',
     action: 'upload',
@@ -89,7 +99,8 @@ const REQUIRED_FORMS: FormItem[] = [
   {
     id: 'safety-checklist',
     name: 'Workplace Safety Self-Assessment',
-    description: 'Complete the workplace safety checklist confirming your salon meets health and safety standards.',
+    description:
+      'Complete the workplace safety checklist confirming your salon meets health and safety standards.',
     required: true,
     category: 'training',
     action: 'complete',
@@ -98,7 +109,8 @@ const REQUIRED_FORMS: FormItem[] = [
   {
     id: 'compensation-agreement',
     name: 'Apprentice Compensation Agreement',
-    description: 'Document the agreed compensation model (hourly, commission, or hybrid) and rate for the apprentice.',
+    description:
+      'Document the agreed compensation model (hourly, commission, or hybrid) and rate for the apprentice.',
     required: true,
     category: 'legal',
     action: 'sign',
@@ -107,7 +119,8 @@ const REQUIRED_FORMS: FormItem[] = [
   {
     id: 'anti-discrimination',
     name: 'Anti-Discrimination & Equal Opportunity Policy',
-    description: "Acknowledge compliance with federal and state anti-discrimination laws and Elevate's equal opportunity policy.",
+    description:
+      "Acknowledge compliance with federal and state anti-discrimination laws and Elevate's equal opportunity policy.",
     required: true,
     category: 'compliance',
     action: 'sign',
@@ -117,7 +130,11 @@ const REQUIRED_FORMS: FormItem[] = [
 
 const categoryLabels: Record<string, { label: string; icon: typeof FileText; color: string }> = {
   legal: { label: 'Legal & Agreements', icon: FileText, color: 'text-purple-600 bg-purple-50' },
-  compliance: { label: 'Compliance & Licensing', icon: Shield, color: 'text-indigo-600 bg-indigo-50' },
+  compliance: {
+    label: 'Compliance & Licensing',
+    icon: Shield,
+    color: 'text-indigo-600 bg-indigo-50',
+  },
   insurance: { label: 'Insurance', icon: Shield, color: 'text-emerald-600 bg-emerald-50' },
   training: { label: 'Training & Safety', icon: BookOpen, color: 'text-amber-600 bg-amber-50' },
 };
@@ -132,8 +149,8 @@ const actionLabels: Record<string, string> = {
 export default function CosmetologyRequiredFormsPage() {
   const [completedForms, setCompletedForms] = useState<Set<string>>(new Set());
 
-  const totalRequired = REQUIRED_FORMS.filter(f => f.required).length;
-  const completedCount = REQUIRED_FORMS.filter(f => completedForms.has(f.id)).length;
+  const totalRequired = REQUIRED_FORMS.filter((f) => f.required).length;
+  const completedCount = REQUIRED_FORMS.filter((f) => completedForms.has(f.id)).length;
   const progress = totalRequired > 0 ? Math.round((completedCount / totalRequired) * 100) : 0;
 
   const categories = ['legal', 'compliance', 'insurance', 'training'];
@@ -141,10 +158,12 @@ export default function CosmetologyRequiredFormsPage() {
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-6xl mx-auto px-4 pt-6">
-        <Breadcrumbs items={[
-          { label: 'Partners', href: '/partners/cosmetology-apprenticeship' },
-          { label: 'Required Forms' },
-        ]} />
+        <Breadcrumbs
+          items={[
+            { label: 'Partners', href: '/partners/cosmetology-apprenticeship' },
+            { label: 'Required Forms' },
+          ]}
+        />
       </div>
 
       <section className="py-6 border-b">
@@ -163,7 +182,9 @@ export default function CosmetologyRequiredFormsPage() {
         <div className="bg-white rounded-xl shadow-sm border p-6 mb-8">
           <div className="flex items-center justify-between mb-3">
             <h2 className="text-lg font-bold text-gray-900">Completion Progress</h2>
-            <span className="text-sm font-medium text-black">{completedCount} of {totalRequired} complete</span>
+            <span className="text-sm font-medium text-black">
+              {completedCount} of {totalRequired} complete
+            </span>
           </div>
           <div className="w-full bg-gray-200 rounded-full h-3 mb-2">
             <div
@@ -173,11 +194,13 @@ export default function CosmetologyRequiredFormsPage() {
           </div>
           {progress === 100 ? (
             <p className="text-sm text-brand-green-600 font-medium flex items-center gap-1">
-              <CheckCircle2 className="w-4 h-4" /> All forms complete — you are ready to host apprentices.
+              <CheckCircle2 className="w-4 h-4" /> All forms complete — you are ready to host
+              apprentices.
             </p>
           ) : (
             <p className="text-sm text-black flex items-center gap-1">
-              <Clock className="w-4 h-4" /> Complete all required forms to begin hosting apprentices.
+              <Clock className="w-4 h-4" /> Complete all required forms to begin hosting
+              apprentices.
             </p>
           )}
         </div>
@@ -219,13 +242,15 @@ export default function CosmetologyRequiredFormsPage() {
         {/* Forms by Category */}
         {categories.map((cat) => {
           const catInfo = categoryLabels[cat];
-          const catForms = REQUIRED_FORMS.filter(f => f.category === cat);
+          const catForms = REQUIRED_FORMS.filter((f) => f.category === cat);
           if (catForms.length === 0) return null;
 
           return (
             <div key={cat} className="mb-8">
               <div className="flex items-center gap-3 mb-4">
-                <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${catInfo.color}`}>
+                <div
+                  className={`w-8 h-8 rounded-lg flex items-center justify-center ${catInfo.color}`}
+                >
                   <catInfo.icon className="w-4 h-4" />
                 </div>
                 <h3 className="text-lg font-bold text-gray-900">{catInfo.label}</h3>
@@ -246,7 +271,9 @@ export default function CosmetologyRequiredFormsPage() {
                           setCompletedForms(next);
                         }}
                         className="mt-0.5 flex-shrink-0"
-                        aria-label={isComplete ? `Mark ${form.name} incomplete` : `Mark ${form.name} complete`}
+                        aria-label={
+                          isComplete ? `Mark ${form.name} incomplete` : `Mark ${form.name} complete`
+                        }
                       >
                         {isComplete ? (
                           <CheckCircle2 className="w-6 h-6 text-brand-green-500" />
@@ -256,11 +283,15 @@ export default function CosmetologyRequiredFormsPage() {
                       </button>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
-                          <h4 className={`font-semibold ${isComplete ? 'text-black line-through' : 'text-gray-900'}`}>
+                          <h4
+                            className={`font-semibold ${isComplete ? 'text-black line-through' : 'text-gray-900'}`}
+                          >
                             {form.name}
                           </h4>
                           {form.required && (
-                            <span className="text-xs bg-red-100 text-red-700 px-1.5 py-0.5 rounded font-medium">Required</span>
+                            <span className="text-xs bg-red-100 text-red-700 px-1.5 py-0.5 rounded font-medium">
+                              Required
+                            </span>
                           )}
                         </div>
                         <p className="text-sm text-black mb-3">{form.description}</p>
@@ -299,9 +330,19 @@ export default function CosmetologyRequiredFormsPage() {
             <div>
               <h3 className="font-bold text-amber-900 mb-1">Need Help?</h3>
               <p className="text-sm text-amber-800">
-                If you have questions about any form or need assistance, contact our partnerships team
-                at <a href="mailto:apprenticeships@elevateforhumanity.org" className="underline font-medium">apprenticeships@elevateforhumanity.org</a> or
-                call <a href="tel:+13173143757" className="underline font-medium">(317) 314-3757</a>.
+                If you have questions about any form or need assistance, contact our partnerships
+                team at{' '}
+                <a
+                  href="mailto:apprenticeships@elevateforhumanity.org"
+                  className="underline font-medium"
+                >
+                  apprenticeships@elevateforhumanity.org
+                </a>{' '}
+                or call{' '}
+                <a href="tel:+13173143757" className="underline font-medium">
+                  (317) 314-3757
+                </a>
+                .
               </p>
             </div>
           </div>

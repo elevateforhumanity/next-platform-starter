@@ -1,4 +1,3 @@
-
 import { NextRequest, NextResponse } from 'next/server';
 import { parseBody } from '@/lib/api-helpers';
 import { createClient } from '@/lib/supabase/server';
@@ -57,7 +56,8 @@ async function _POST(request: NextRequest) {
 
     const supabase = await createClient();
     const db = await getAdminClient();
-  if (!db) return NextResponse.json({ error: 'Admin client failed to initialize' }, { status: 500 });
+    if (!db)
+      return NextResponse.json({ error: 'Admin client failed to initialize' }, { status: 500 });
     const {
       data: { user },
     } = await supabase.auth.getUser();
@@ -112,7 +112,8 @@ async function _POST(request: NextRequest) {
       finalResponse = result.content;
     } catch (err) {
       logger.error('AI chat failed:', err instanceof Error ? err : new Error(String(err)));
-      finalResponse = 'I apologize, but I was unable to generate a response. Please try again or contact student support.';
+      finalResponse =
+        'I apologize, but I was unable to generate a response. Please try again or contact student support.';
     }
 
     // Log conversation
@@ -138,7 +139,8 @@ async function _GET(request: NextRequest) {
 
     const supabase = await createClient();
     const db = await getAdminClient();
-  if (!db) return NextResponse.json({ error: 'Admin client failed to initialize' }, { status: 500 });
+    if (!db)
+      return NextResponse.json({ error: 'Admin client failed to initialize' }, { status: 500 });
     const {
       data: { user },
     } = await supabase.auth.getUser();
@@ -156,7 +158,10 @@ async function _GET(request: NextRequest) {
 
     return NextResponse.json({ conversations });
   } catch (error) {
-    logger.error('AI Instructor GET error:', error instanceof Error ? error : new Error(String(error)));
+    logger.error(
+      'AI Instructor GET error:',
+      error instanceof Error ? error : new Error(String(error)),
+    );
     return NextResponse.json({ error: 'Failed to fetch conversations' }, { status: 500 });
   }
 }

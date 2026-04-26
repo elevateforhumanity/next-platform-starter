@@ -29,7 +29,6 @@ export const maxDuration = 120; // AI generation can take up to 60s
 
 // ─── Auth guard ────────────────────────────────────────────────────────────────
 
-
 // ─── Input schema ──────────────────────────────────────────────────────────────
 
 const InputSchema = z.object({
@@ -47,13 +46,16 @@ const InputSchema = z.object({
 // ─── Slug generator ────────────────────────────────────────────────────────────
 
 function toSlug(title: string): string {
-  return title
-    .toLowerCase()
-    .replace(/[^a-z0-9\s-]/g, '')
-    .replace(/\s+/g, '-')
-    .replace(/-+/g, '-')
-    .slice(0, 80)
-    + '-' + Date.now().toString(36);
+  return (
+    title
+      .toLowerCase()
+      .replace(/[^a-z0-9\s-]/g, '')
+      .replace(/\s+/g, '-')
+      .replace(/-+/g, '-')
+      .slice(0, 80) +
+    '-' +
+    Date.now().toString(36)
+  );
 }
 
 // ─── Handler ───────────────────────────────────────────────────────────────────
@@ -73,7 +75,7 @@ async function _POST(request: NextRequest) {
     if (!parsed.success) {
       return NextResponse.json(
         { error: 'Invalid input', details: parsed.error.flatten() },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -95,14 +97,14 @@ async function _POST(request: NextRequest) {
     // LEGACY_SYSTEM_DISABLED — AI-generated courses must use /api/admin/lms/courses/generate
     return NextResponse.json(
       { error: 'LEGACY_SYSTEM_DISABLED: use POST /api/admin/lms/courses/generate' },
-      { status: 410 }
+      { status: 410 },
     );
 
     // ── Step 2: Insert training_courses ──────────────────────────────────────
     const { data: course, error: courseErr } = await adminDb
       .from('training_courses')
       .insert({
-        course_name: draft.course_name,          // NOT NULL
+        course_name: draft.course_name, // NOT NULL
         title: draft.title,
         description: draft.description || null,
         summary: draft.summary || null,
@@ -127,7 +129,7 @@ async function _POST(request: NextRequest) {
       logger.error('[AI Course Builder] Course insert failed', courseErr);
       return NextResponse.json(
         { error: 'Failed to save course', detail: courseErr?.message },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
@@ -145,8 +147,8 @@ async function _POST(request: NextRequest) {
         .from('training_lessons')
         .insert({
           course_id: course.id,
-          lesson_number: lessonNumber,           // NOT NULL
-          title: lessonDraft.title,              // NOT NULL
+          lesson_number: lessonNumber, // NOT NULL
+          title: lessonDraft.title, // NOT NULL
           description: lessonDraft.description || null,
           content: lessonDraft.content || null,
           order_index: i,
@@ -154,15 +156,16 @@ async function _POST(request: NextRequest) {
           duration_minutes: lessonDraft.duration_minutes || null,
           // Store quiz questions in the jsonb column — quizzes table uses integer PKs
           // incompatible with this course's UUID, so we use the native jsonb field.
-          quiz_questions: lessonDraft.quiz_questions.length > 0
-            ? lessonDraft.quiz_questions
-            : null,
+          quiz_questions: lessonDraft.quiz_questions.length > 0 ? lessonDraft.quiz_questions : null,
         })
         .select('id, title, lesson_number')
         .maybeSingle();
 
       if (lessonErr || !lesson) {
-        logger.error('[AI Course Builder] Lesson insert failed', { lessonNumber, error: lessonErr });
+        logger.error('[AI Course Builder] Lesson insert failed', {
+          lessonNumber,
+          error: lessonErr,
+        });
         lessonErrors.push(`Lesson ${lessonNumber}: ${lessonErr?.message || 'unknown error'}`);
         continue;
       }
@@ -179,30 +182,36 @@ async function _POST(request: NextRequest) {
           content: { text: lessonDraft.content },
         },
         // Block 1: key takeaways
-        ...(lessonDraft.key_takeaways.length > 0 ? [{
-          lesson_id: lesson.id,
-          block_type: 'callout',
-          order_index: 1,
-          content: {
-            heading: 'Key Takeaways',
-            items: lessonDraft.key_takeaways,
-          },
-        }] : []),
+        ...(lessonDraft.key_takeaways.length > 0
+          ? [
+              {
+                lesson_id: lesson.id,
+                block_type: 'callout',
+                order_index: 1,
+                content: {
+                  heading: 'Key Takeaways',
+                  items: lessonDraft.key_takeaways,
+                },
+              },
+            ]
+          : []),
         // Block 2: reflection prompt
-        ...(lessonDraft.reflection_prompt ? [{
-          lesson_id: lesson.id,
-          block_type: 'reflection',
-          order_index: 2,
-          content: {
-            prompt: lessonDraft.reflection_prompt,
-          },
-        }] : []),
+        ...(lessonDraft.reflection_prompt
+          ? [
+              {
+                lesson_id: lesson.id,
+                block_type: 'reflection',
+                order_index: 2,
+                content: {
+                  prompt: lessonDraft.reflection_prompt,
+                },
+              },
+            ]
+          : []),
       ];
 
       if (blocks.length > 0) {
-        const { error: blockErr } = await adminDb
-          .from('lesson_content_blocks')
-          .insert(blocks);
+        const { error: blockErr } = await adminDb.from('lesson_content_blocks').insert(blocks);
 
         if (blockErr) {
           // Non-fatal — lesson is saved, blocks are supplementary
@@ -249,9 +258,8 @@ async function _POST(request: NextRequest) {
         ...(hasPartialFailure && { warnings: lessonErrors }),
         adminUrl: `/admin/courses/${course.id}/content`,
       },
-      { status: 201 }
+      { status: 201 },
     );
-
   } catch (error) {
     logger.error('[AI Course Builder] Unhandled error', error);
     return NextResponse.json({ error: 'Generation failed' }, { status: 500 });

@@ -37,11 +37,11 @@ If an alert fires:
 
 ### Index Count Audit
 
-| Metric | Expected | Actual | Status |
-|--------|----------|--------|--------|
-| Indexed pages | ~50 | | ☐ |
-| Sitemap URLs | ~50 | | ☐ |
-| Blocked by robots | 0 indexed | | ☐ |
+| Metric            | Expected  | Actual | Status |
+| ----------------- | --------- | ------ | ------ |
+| Indexed pages     | ~50       |        | ☐      |
+| Sitemap URLs      | ~50       |        | ☐      |
+| Blocked by robots | 0 indexed |        | ☐      |
 
 ### Surprise URL Check
 
@@ -176,12 +176,12 @@ curl https://www.elevateforhumanity.org/sitemap.xml
 
 ## Escalation Contacts
 
-| Issue | Contact | Response Time |
-|-------|---------|---------------|
-| Manual Action | Platform Governance | Immediate |
-| Security Issue | Security Team | Immediate |
-| Index Bloat | SEO Owner | 24 hours |
-| Content Issue | Content Team | 48 hours |
+| Issue          | Contact             | Response Time |
+| -------------- | ------------------- | ------------- |
+| Manual Action  | Platform Governance | Immediate     |
+| Security Issue | Security Team       | Immediate     |
+| Index Bloat    | SEO Owner           | 24 hours      |
+| Content Issue  | Content Team        | 48 hours      |
 
 ---
 
@@ -194,5 +194,5 @@ curl https://www.elevateforhumanity.org/sitemap.xml
 
 ---
 
-*Last Updated: January 2025*
-*Owner: Platform Governance*
+_Last Updated: January 2025_
+_Owner: Platform Governance_

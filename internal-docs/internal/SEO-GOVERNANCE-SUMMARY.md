@@ -14,12 +14,12 @@ This document summarizes our approach to search engine optimization (SEO), conte
 
 ## Governance Principles
 
-| Principle | Implementation |
-|-----------|----------------|
-| **Publishing ≠ Indexing** | Pages may be published freely; indexing requires explicit approval |
-| **Whitelist-only indexing** | Only pre-approved pages appear in search results |
-| **Compliance alignment** | All indexed content reviewed against authoritative documents |
-| **Automated enforcement** | CI/CD blocks non-compliant changes before deployment |
+| Principle                   | Implementation                                                     |
+| --------------------------- | ------------------------------------------------------------------ |
+| **Publishing ≠ Indexing**   | Pages may be published freely; indexing requires explicit approval |
+| **Whitelist-only indexing** | Only pre-approved pages appear in search results                   |
+| **Compliance alignment**    | All indexed content reviewed against authoritative documents       |
+| **Automated enforcement**   | CI/CD blocks non-compliant changes before deployment               |
 
 ---
 
@@ -80,12 +80,12 @@ All indexed content must:
 
 ## Monitoring
 
-| Frequency | Activity |
-|-----------|----------|
-| Weekly | Search Console coverage scan |
-| Weekly | Index count vs sitemap audit |
-| Monthly | Full indexed page inventory |
-| Monthly | Thin content and canonical audit |
+| Frequency | Activity                         |
+| --------- | -------------------------------- |
+| Weekly    | Search Console coverage scan     |
+| Weekly    | Index count vs sitemap audit     |
+| Monthly   | Full indexed page inventory      |
+| Monthly   | Thin content and canonical audit |
 
 ---
 
@@ -104,12 +104,12 @@ Emergency changes may be deployed but must be reviewed within 24 hours.
 
 ## Documentation References
 
-| Document | Purpose |
-|----------|---------|
-| [Authoritative Documentation Index](/governance) | Master governance documents |
-| [Security & Data Protection](/governance/security) | Data handling practices |
-| [SEO Governance Rules](/docs/SEO-GOVERNANCE.md) | Internal indexing rules |
-| [Resource Index](/resources) | Published informational content |
+| Document                                           | Purpose                         |
+| -------------------------------------------------- | ------------------------------- |
+| [Authoritative Documentation Index](/governance)   | Master governance documents     |
+| [Security & Data Protection](/governance/security) | Data handling practices         |
+| [SEO Governance Rules](/docs/SEO-GOVERNANCE.md)    | Internal indexing rules         |
+| [Resource Index](/resources)                       | Published informational content |
 
 ---
 
@@ -138,6 +138,6 @@ Contact: compliance@elevateforhumanity.org
 
 ---
 
-*Document Version: 1.0*
-*Last Reviewed: January 2025*
-*Owner: Platform Governance*
+_Document Version: 1.0_
+_Last Reviewed: January 2025_
+_Owner: Platform Governance_

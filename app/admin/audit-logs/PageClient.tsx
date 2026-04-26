@@ -74,7 +74,7 @@ export default function AuditLogsPage() {
           log.resource_id || '',
         ]
           .map((field) => `"${field}"`)
-          .join(',')
+          .join(','),
       ),
     ].join('\n');
 
@@ -100,7 +100,6 @@ export default function AuditLogsPage() {
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-
         <div className="mb-4">
           <Breadcrumbs items={[{ label: 'Admin', href: '/admin' }, { label: 'Audit Logs' }]} />
         </div>
@@ -108,14 +107,19 @@ export default function AuditLogsPage() {
         {/* Page header */}
         <div className="flex items-center justify-between mb-8">
           <div>
-            <Link href="/admin/dashboard" className="text-sm text-slate-700 hover:text-slate-700 mb-3 inline-block">
+            <Link
+              href="/admin/dashboard"
+              className="text-sm text-slate-700 hover:text-slate-700 mb-3 inline-block"
+            >
               ← Back to Dashboard
             </Link>
             <div className="flex items-center gap-3">
               <Shield className="w-5 h-5 text-slate-700" />
               <h1 className="text-2xl font-semibold text-slate-900">Audit Logs</h1>
             </div>
-            <p className="text-sm text-slate-700 mt-1">Track all system activities and user actions</p>
+            <p className="text-sm text-slate-700 mt-1">
+              Track all system activities and user actions
+            </p>
           </div>
           <button
             onClick={exportLogs}
@@ -130,12 +134,19 @@ export default function AuditLogsPage() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
           {[
             { label: 'Total Events', value: logs.length },
-            { label: 'Today', value: logs.filter((l) => new Date(l.created_at).toDateString() === new Date().toDateString()).length },
+            {
+              label: 'Today',
+              value: logs.filter(
+                (l) => new Date(l.created_at).toDateString() === new Date().toDateString(),
+              ).length,
+            },
             { label: 'Unique Users', value: new Set(logs.map((l) => l.user_id)).size },
             { label: 'Resource Types', value: new Set(logs.map((l) => l.resource_type)).size },
           ].map(({ label, value }) => (
             <div key={label} className="border border-gray-200 rounded-lg p-5">
-              <p className="text-xs font-medium text-slate-700 uppercase tracking-wide mb-1">{label}</p>
+              <p className="text-xs font-medium text-slate-700 uppercase tracking-wide mb-1">
+                {label}
+              </p>
               <p className="text-2xl font-semibold text-slate-900">{value}</p>
             </div>
           ))}
@@ -146,7 +157,8 @@ export default function AuditLogsPage() {
           <div className="flex flex-wrap gap-4">
             <div className="flex-1 min-w-[200px]">
               <label className="block text-xs font-medium text-slate-700 mb-1">
-                <Search className="w-3.5 h-3.5 inline mr-1" />Search
+                <Search className="w-3.5 h-3.5 inline mr-1" />
+                Search
               </label>
               <input
                 type="text"
@@ -158,7 +170,8 @@ export default function AuditLogsPage() {
             </div>
             <div>
               <label className="block text-xs font-medium text-slate-700 mb-1">
-                <Filter className="w-3.5 h-3.5 inline mr-1" />Action
+                <Filter className="w-3.5 h-3.5 inline mr-1" />
+                Action
               </label>
               <select
                 value={actionFilter}
@@ -205,7 +218,10 @@ export default function AuditLogsPage() {
                 <thead className="bg-gray-50">
                   <tr>
                     {['Timestamp', 'User', 'Action', 'Resource', 'Details'].map((h) => (
-                      <th key={h} className="px-6 py-3 text-left text-xs font-medium text-slate-700 uppercase tracking-wide">
+                      <th
+                        key={h}
+                        className="px-6 py-3 text-left text-xs font-medium text-slate-700 uppercase tracking-wide"
+                      >
                         {h}
                       </th>
                     ))}
@@ -218,7 +234,9 @@ export default function AuditLogsPage() {
                         {new Date(log.created_at).toLocaleString()}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm font-medium text-slate-900">{log.user?.full_name || 'Unknown'}</div>
+                        <div className="text-sm font-medium text-slate-900">
+                          {log.user?.full_name || 'Unknown'}
+                        </div>
                         <div className="text-xs text-slate-700">{log.user?.email || ''}</div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
@@ -229,13 +247,17 @@ export default function AuditLogsPage() {
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="text-sm text-slate-900">{log.resource_type}</div>
                         {log.resource_id && (
-                          <div className="text-xs text-slate-700">ID: {log.resource_id.substring(0, 8)}...</div>
+                          <div className="text-xs text-slate-700">
+                            ID: {log.resource_id.substring(0, 8)}...
+                          </div>
                         )}
                       </td>
                       <td className="px-6 py-4 text-sm">
                         {log.metadata && Object.keys(log.metadata).length > 0 && (
                           <details className="cursor-pointer">
-                            <summary className="text-xs text-slate-700 hover:text-slate-700">View metadata</summary>
+                            <summary className="text-xs text-slate-700 hover:text-slate-700">
+                              View metadata
+                            </summary>
                             <pre className="mt-2 text-xs bg-gray-50 border border-gray-100 p-2 rounded overflow-auto max-w-xs">
                               {JSON.stringify(log.metadata, null, 2)}
                             </pre>
@@ -249,7 +271,6 @@ export default function AuditLogsPage() {
             </div>
           )}
         </div>
-
       </div>
     </div>
   );

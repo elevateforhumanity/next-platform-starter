@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -74,17 +74,11 @@ export function VideoPlayer({ src, title, onProgress, onComplete }: VideoPlayerP
 
       <div className="absolute bottom-0 left-0 right-0    p-4">
         <div className="flex items-center gap-4">
-          <button
-            onClick={togglePlay}
-            className="text-white hover:text-brand-red-500 transition"
-          >
+          <button onClick={togglePlay} className="text-white hover:text-brand-red-500 transition">
             {isPlaying ? <Pause size={24} /> : <Play size={24} />}
           </button>
 
-          <button
-            onClick={toggleMute}
-            className="text-white hover:text-brand-red-500 transition"
-          >
+          <button onClick={toggleMute} className="text-white hover:text-brand-red-500 transition">
             {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
           </button>
 

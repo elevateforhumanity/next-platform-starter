@@ -9,7 +9,7 @@ import { withRuntime } from '@/lib/api/withRuntime';
 // Programs that have a waitlist — all others are rejected
 const WAITLIST_PROGRAMS = new Set(['cdl-training', 'barber-apprenticeship']);
 const PROGRAM_NAMES: Record<string, string> = {
-  'cdl-training':          'CDL (Commercial Driver\'s License)',
+  'cdl-training': "CDL (Commercial Driver's License)",
   'barber-apprenticeship': 'Barber Apprenticeship',
 };
 
@@ -22,14 +22,18 @@ async function _POST(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const { firstName, lastName, email, phone, programSlug, cohortId, fundingInterest, notes } = body;
+    const { firstName, lastName, email, phone, programSlug, cohortId, fundingInterest, notes } =
+      body;
     const fullName = [firstName, lastName].filter(Boolean).join(' ');
 
     if (!firstName || !lastName || !email || !programSlug) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
     if (!WAITLIST_PROGRAMS.has(programSlug)) {
-      return NextResponse.json({ error: 'This program does not currently have a waitlist.' }, { status: 400 });
+      return NextResponse.json(
+        { error: 'This program does not currently have a waitlist.' },
+        { status: 400 },
+      );
     }
 
     const supabase = await getAdminClient();
@@ -47,7 +51,10 @@ async function _POST(request: NextRequest) {
       .maybeSingle();
 
     if (existing) {
-      return NextResponse.json({ error: 'You are already on the waitlist for this program.' }, { status: 409 });
+      return NextResponse.json(
+        { error: 'You are already on the waitlist for this program.' },
+        { status: 409 },
+      );
     }
 
     // Get current position
@@ -62,15 +69,15 @@ async function _POST(request: NextRequest) {
     const { data, error } = await supabase
       .from('waitlist')
       .insert({
-        name:             fullName,
-        email:            email.toLowerCase(),
-        phone:            phone || null,
-        program:          programSlug,
-        program_slug:     programSlug,
+        name: fullName,
+        email: email.toLowerCase(),
+        phone: phone || null,
+        program: programSlug,
+        program_slug: programSlug,
         funding_interest: fundingInterest || null,
-        notes:            notes || null,
+        notes: notes || null,
         position,
-        status:           'waiting',
+        status: 'waiting',
       })
       .select('id, position')
       .maybeSingle();
@@ -80,19 +87,28 @@ async function _POST(request: NextRequest) {
     // Send confirmation email — non-fatal
     try {
       const { data: sgSecret } = await supabase
-        .from('app_secrets').select('value').eq('key', 'SENDGRID_API_KEY').maybeSingle();
+        .from('app_secrets')
+        .select('value')
+        .eq('key', 'SENDGRID_API_KEY')
+        .maybeSingle();
       if (sgSecret?.value) {
         const programLabel = PROGRAM_NAMES[programSlug] ?? programSlug;
         const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org';
         await fetch('https://api.sendgrid.com/v3/mail/send', {
           method: 'POST',
-          headers: { Authorization: `Bearer ${sgSecret.value}`, 'Content-Type': 'application/json' },
+          headers: {
+            Authorization: `Bearer ${sgSecret.value}`,
+            'Content-Type': 'application/json',
+          },
           body: JSON.stringify({
             personalizations: [{ to: [{ email: email.toLowerCase(), name: fullName }] }],
             from: { email: 'noreply@elevateforhumanity.org', name: 'Elevate for Humanity' },
             reply_to: { email: 'elevate4humanityedu@gmail.com', name: 'Elevate for Humanity' },
             subject: `You're on the waitlist — ${programLabel}`,
-            content: [{ type: 'text/html', value: `
+            content: [
+              {
+                type: 'text/html',
+                value: `
 <div style="max-width:600px;margin:0 auto;font-family:Arial,sans-serif;color:#1a1a1a;">
   <div style="text-align:center;padding:32px 24px 16px;">
     <img src="${siteUrl}/images/Elevate_for_Humanity_logo_81bf0fab.jpg" width="160" alt="Elevate for Humanity" />
@@ -115,7 +131,9 @@ async function _POST(request: NextRequest) {
       Questions? Reply to this email or call <strong>(317) 314-3757</strong>.
     </p>
   </div>
-</div>` }],
+</div>`,
+              },
+            ],
           }),
         });
       }

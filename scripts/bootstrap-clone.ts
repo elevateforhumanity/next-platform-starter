@@ -32,12 +32,11 @@ function validateEnv() {
 }
 
 async function bootstrap() {
-
   validateEnv();
 
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!
+    process.env.SUPABASE_SERVICE_ROLE_KEY!,
   );
 
   const orgSlug = process.env.CLONE_ORG_SLUG!;
@@ -64,13 +63,10 @@ async function bootstrap() {
       throw orgError;
     }
 
-
     // 2. Seed default config
-    const { error: configError } = await supabase
-      .from('organization_settings')
-      .insert({
-        organization_id: org.id,
-      });
+    const { error: configError } = await supabase.from('organization_settings').insert({
+      organization_id: org.id,
+    });
 
     if (configError) throw configError;
 
@@ -90,13 +86,11 @@ async function bootstrap() {
     }
 
     // 4. Assign admin role
-    const { error: memberError } = await supabase
-      .from('organization_users')
-      .insert({
-        organization_id: org.id,
-        user_id: userId,
-        role: 'org_admin',
-      });
+    const { error: memberError } = await supabase.from('organization_users').insert({
+      organization_id: org.id,
+      user_id: userId,
+      role: 'org_admin',
+    });
 
     if (memberError) {
       if (memberError.code === '23505') {
@@ -115,17 +109,14 @@ async function bootstrap() {
     if (bindError) throw bindError;
 
     // 6. Create default subscription (trial)
-    const { error: subError } = await supabase
-      .from('organization_subscriptions')
-      .insert({
-        organization_id: org.id,
-        stripe_customer_id: `trial_${org.slug}`,
-        plan: 'trial',
-        status: 'trialing',
-      });
+    const { error: subError } = await supabase.from('organization_subscriptions').insert({
+      organization_id: org.id,
+      stripe_customer_id: `trial_${org.slug}`,
+      plan: 'trial',
+      status: 'trialing',
+    });
 
     if (subError) throw subError;
-
   } catch (error: any) {
     process.exit(1);
   }

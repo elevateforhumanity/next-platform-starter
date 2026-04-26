@@ -1,4 +1,3 @@
-
 export const revalidate = 3600;
 
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
@@ -7,14 +6,7 @@ import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import {
-  ExternalLink,
-  Clock,
-  Award,
-  Users,
-  Phone,
-  Mail,
-CheckCircle, } from 'lucide-react';
+import { ExternalLink, Clock, Award, Users, Phone, Mail, CheckCircle } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'NRF Foundation RISE Up | Short-Term Courses | Elevate For Humanity',
@@ -25,15 +17,13 @@ export const metadata: Metadata = {
 };
 
 export default function NRFPage() {
-
   return (
     <div className="min-h-screen bg-white">
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Partners", href: "/partners" }, { label: "Nrf" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Partners', href: '/partners' }, { label: 'Nrf' }]} />
       </div>
-{/* Hero Section */}
-      <section className="relative h-48 md:h-64 w-full overflow-hidden">
-      </section>
+      {/* Hero Section */}
+      <section className="relative h-48 md:h-64 w-full overflow-hidden"></section>
 
       {/* Features */}
       <section className="py-16">
@@ -44,23 +34,17 @@ export default function NRFPage() {
           <div className="grid md:grid-cols-3 gap-6">
             <div className="bg-white p-6 rounded-xl shadow-sm flex items-start gap-3">
               <span className="text-black flex-shrink-0">•</span>
-              <div className="text-black">
-                Industry-backed credential from NRF Foundation
-              </div>
+              <div className="text-black">Industry-backed credential from NRF Foundation</div>
             </div>
 
             <div className="bg-white p-6 rounded-xl shadow-sm flex items-start gap-3">
               <span className="text-black flex-shrink-0">•</span>
-              <div className="text-black">
-                Foundational employability skills
-              </div>
+              <div className="text-black">Foundational employability skills</div>
             </div>
 
             <div className="bg-white p-6 rounded-xl shadow-sm flex items-start gap-3">
               <span className="text-black flex-shrink-0">•</span>
-              <div className="text-black">
-                Applicable to retail and beyond
-              </div>
+              <div className="text-black">Applicable to retail and beyond</div>
             </div>
 
             <div className="bg-white p-6 rounded-xl shadow-sm flex items-start gap-3">
@@ -70,9 +54,7 @@ export default function NRFPage() {
 
             <div className="bg-white p-6 rounded-xl shadow-sm flex items-start gap-3">
               <span className="text-black flex-shrink-0">•</span>
-              <div className="text-black">
-                Help center support available
-              </div>
+              <div className="text-black">Help center support available</div>
             </div>
           </div>
         </div>
@@ -87,9 +69,7 @@ export default function NRFPage() {
           <div className="grid md:grid-cols-2 gap-6">
             <div className="bg-white border-2 border-slate-200 rounded-xl p-6 hover:border-brand-blue-500 transition-colors">
               <div className="flex items-start justify-between mb-4">
-                <h3 className="text-lg font-bold text-black">
-                  Customer Service Excellence
-                </h3>
+                <h3 className="text-lg font-bold text-black">Customer Service Excellence</h3>
               </div>
 
               <p className="text-black">Retail customer service skills</p>
@@ -97,9 +77,7 @@ export default function NRFPage() {
 
             <div className="bg-white border-2 border-slate-200 rounded-xl p-6 hover:border-brand-blue-500 transition-colors">
               <div className="flex items-start justify-between mb-4">
-                <h3 className="text-lg font-bold text-black">
-                  Professional Communication
-                </h3>
+                <h3 className="text-lg font-bold text-black">Professional Communication</h3>
               </div>
 
               <p className="text-black">Workplace communication</p>
@@ -107,9 +85,7 @@ export default function NRFPage() {
 
             <div className="bg-white border-2 border-slate-200 rounded-xl p-6 hover:border-brand-blue-500 transition-colors">
               <div className="flex items-start justify-between mb-4">
-                <h3 className="text-lg font-bold text-black">
-                  Teamwork & Collaboration
-                </h3>
+                <h3 className="text-lg font-bold text-black">Teamwork & Collaboration</h3>
               </div>
 
               <p className="text-black">Working effectively in teams</p>
@@ -117,9 +93,7 @@ export default function NRFPage() {
 
             <div className="bg-white border-2 border-slate-200 rounded-xl p-6 hover:border-brand-blue-500 transition-colors">
               <div className="flex items-start justify-between mb-4">
-                <h3 className="text-lg font-bold text-black">
-                  Problem Solving
-                </h3>
+                <h3 className="text-lg font-bold text-black">Problem Solving</h3>
               </div>
 
               <p className="text-black">Critical thinking skills</p>
@@ -127,9 +101,7 @@ export default function NRFPage() {
 
             <div className="bg-white border-2 border-slate-200 rounded-xl p-6 hover:border-brand-blue-500 transition-colors">
               <div className="flex items-start justify-between mb-4">
-                <h3 className="text-lg font-bold text-black">
-                  Career Readiness
-                </h3>
+                <h3 className="text-lg font-bold text-black">Career Readiness</h3>
               </div>
 
               <p className="text-black">Employability fundamentals</p>
@@ -141,9 +113,7 @@ export default function NRFPage() {
       {/* Contact Information */}
       <section className="py-16">
         <div className="max-w-4xl mx-auto px-6">
-          <h2 className="text-2xl md:text-3xl font-bold text-black mb-8 text-center">
-            Need Help?
-          </h2>
+          <h2 className="text-2xl md:text-3xl font-bold text-black mb-8 text-center">Need Help?</h2>
           <div className="bg-white rounded-xl p-8 shadow-lg">
             <div className="mt-6 text-center">
               <a
@@ -167,8 +137,7 @@ export default function NRFPage() {
             Ready to Get Started?
           </h2>
           <p className="text-base md:text-lg text-white mb-8">
-            Enroll in NRF Foundation RISE Up courses through Elevate for
-            Humanity
+            Enroll in NRF Foundation RISE Up courses through Elevate for Humanity
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a

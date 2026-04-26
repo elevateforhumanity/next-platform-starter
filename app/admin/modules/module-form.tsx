@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -53,10 +53,7 @@ export function ModuleForm({ programs, module }: ModuleFormProps) {
   }
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="bg-white rounded-lg shadow-sm border p-6 space-y-6"
-    >
+    <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-sm border p-6 space-y-6">
       {error && (
         <div className="bg-brand-red-50 border border-brand-red-200 text-brand-red-700 px-4 py-3 rounded">
           {error}
@@ -65,15 +62,10 @@ export function ModuleForm({ programs, module }: ModuleFormProps) {
 
       {/* Basic Info */}
       <div className="space-y-4">
-        <h2 className="text-xl font-semibold text-black">
-          Basic Information
-        </h2>
+        <h2 className="text-xl font-semibold text-black">Basic Information</h2>
 
         <div>
-          <label
-            htmlFor="program_id"
-            className="block text-sm font-medium text-black mb-1"
-          >
+          <label htmlFor="program_id" className="block text-sm font-medium text-black mb-1">
             Program *
           </label>
           <select
@@ -93,10 +85,7 @@ export function ModuleForm({ programs, module }: ModuleFormProps) {
         </div>
 
         <div>
-          <label
-            htmlFor="title"
-            className="block text-sm font-medium text-black mb-1"
-          >
+          <label htmlFor="title" className="block text-sm font-medium text-black mb-1">
             Module Title *
           </label>
           <input
@@ -111,10 +100,7 @@ export function ModuleForm({ programs, module }: ModuleFormProps) {
         </div>
 
         <div>
-          <label
-            htmlFor="description"
-            className="block text-sm font-medium text-black mb-1"
-          >
+          <label htmlFor="description" className="block text-sm font-medium text-black mb-1">
             Description
           </label>
           <textarea
@@ -134,10 +120,7 @@ export function ModuleForm({ programs, module }: ModuleFormProps) {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
-            <label
-              htmlFor="module_type"
-              className="block text-sm font-medium text-black mb-1"
-            >
+            <label htmlFor="module_type" className="block text-sm font-medium text-black mb-1">
               Module Type *
             </label>
             <select
@@ -155,10 +138,7 @@ export function ModuleForm({ programs, module }: ModuleFormProps) {
           </div>
 
           <div>
-            <label
-              htmlFor="order_index"
-              className="block text-sm font-medium text-black mb-1"
-            >
+            <label htmlFor="order_index" className="block text-sm font-medium text-black mb-1">
               Order *
             </label>
             <input
@@ -172,16 +152,11 @@ export function ModuleForm({ programs, module }: ModuleFormProps) {
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
               placeholder="0"
             />
-            <p className="text-sm text-black mt-1">
-              Display order in program
-            </p>
+            <p className="text-sm text-black mt-1">Display order in program</p>
           </div>
 
           <div>
-            <label
-              htmlFor="duration_hours"
-              className="block text-sm font-medium text-black mb-1"
-            >
+            <label htmlFor="duration_hours" className="block text-sm font-medium text-black mb-1">
               Duration (hours)
             </label>
             <input
@@ -205,10 +180,7 @@ export function ModuleForm({ programs, module }: ModuleFormProps) {
             defaultChecked={module?.is_required ?? true}
             className="w-4 h-4 text-brand-blue-600 border-gray-300 rounded focus:ring-brand-blue-500"
           />
-          <label
-            htmlFor="is_required"
-            className="text-sm font-medium text-black"
-          >
+          <label htmlFor="is_required" className="text-sm font-medium text-black">
             Required Module (students must complete this)
           </label>
         </div>
@@ -219,8 +191,8 @@ export function ModuleForm({ programs, module }: ModuleFormProps) {
         <h2 className="text-xl font-semibold text-black">Content</h2>
         <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-lg p-4">
           <p className="text-sm text-brand-blue-800">
-            <strong>Note:</strong> After creating the module, you can upload
-            SCORM packages or add lesson content from the module edit page.
+            <strong>Note:</strong> After creating the module, you can upload SCORM packages or add
+            lesson content from the module edit page.
           </p>
         </div>
       </div>

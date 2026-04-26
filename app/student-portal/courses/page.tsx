@@ -46,7 +46,9 @@ export default async function StudentCoursesPage() {
     );
   }
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login?next=/student-portal/courses');
 
   // Sample courses
@@ -86,14 +88,14 @@ export default async function StudentCoursesPage() {
     },
   ];
 
-  const activeCourses = courses.filter(c => c.status === 'active');
-  const completedCourses = courses.filter(c => c.status === 'completed');
+  const activeCourses = courses.filter((c) => c.status === 'active');
+  const completedCourses = courses.filter((c) => c.status === 'completed');
 
   const formatDate = (dateStr: string) => {
     const date = new Date(dateStr);
     const now = new Date();
     const diffHours = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60));
-    
+
     if (diffHours < 1) return 'Just now';
     if (diffHours < 24) return `${diffHours} hours ago`;
     const diffDays = Math.floor(diffHours / 24);
@@ -106,7 +108,9 @@ export default async function StudentCoursesPage() {
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <nav className="flex items-center gap-2 text-sm text-gray-500 mb-4">
-            <Link href="/student-portal" className="hover:text-gray-700">Student Portal</Link>
+            <Link href="/student-portal" className="hover:text-gray-700">
+              Student Portal
+            </Link>
             <ChevronRight className="w-4 h-4" />
             <span className="text-gray-900 font-medium">My Courses</span>
           </nav>
@@ -121,7 +125,10 @@ export default async function StudentCoursesPage() {
           <h2 className="text-lg font-semibold text-gray-900 mb-4">Active Courses</h2>
           <div className="space-y-4">
             {activeCourses.map((course) => (
-              <div key={course.id} className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+              <div
+                key={course.id}
+                className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden"
+              >
                 <div className="p-6">
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex items-start gap-4">
@@ -184,7 +191,10 @@ export default async function StudentCoursesPage() {
             <h2 className="text-lg font-semibold text-gray-900 mb-4">Completed Courses</h2>
             <div className="space-y-4">
               {completedCourses.map((course) => (
-                <div key={course.id} className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                <div
+                  key={course.id}
+                  className="bg-white rounded-xl shadow-sm border border-gray-200 p-6"
+                >
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
                       <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">

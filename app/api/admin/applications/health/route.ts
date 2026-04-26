@@ -1,4 +1,3 @@
-
 import { NextRequest, NextResponse } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { getAdminClient } from '@/lib/supabase/admin';
@@ -13,9 +12,9 @@ export const dynamic = 'force-dynamic';
 
 // SLA thresholds in hours
 const SLA_HOURS: Record<string, number> = {
-  submitted:  48,
-  in_review:  72,
-  approved:   24,
+  submitted: 48,
+  in_review: 72,
+  approved: 24,
 };
 
 export async function GET(request: NextRequest) {
@@ -45,7 +44,13 @@ export async function GET(request: NextRequest) {
   const totalHours: Record<string, number> = {};
   const stageCounts: Record<string, number> = {};
   // Stuck: in a non-terminal status past SLA threshold
-  const stuck: Array<{ id: string; status: string; program_slug: string | null; hours_in_status: number; sla_hours: number }> = [];
+  const stuck: Array<{
+    id: string;
+    status: string;
+    program_slug: string | null;
+    hours_in_status: number;
+    sla_hours: number;
+  }> = [];
 
   for (const row of rows ?? []) {
     const status = row.status ?? 'unknown';
@@ -165,12 +170,15 @@ export async function GET(request: NextRequest) {
   }
 
   // Log this run for deadman tracking — fire and forget, never block response
-  db.from('health_check_log').insert({
-    route:    'enrollment-health',
-    ran_at:   now.toISOString(),
-    clean:    integrity.clean,
-    failures: integrity.failures,
-  }).then(() => {}).catch(() => {});
+  db.from('health_check_log')
+    .insert({
+      route: 'enrollment-health',
+      ran_at: now.toISOString(),
+      clean: integrity.clean,
+      failures: integrity.failures,
+    })
+    .then(() => {})
+    .catch(() => {});
 
   return NextResponse.json({
     generated_at: now.toISOString(),
@@ -187,7 +195,7 @@ export async function GET(request: NextRequest) {
       counts: integrity.counts,
     },
     deadman: {
-      last_run_at:            lastRun?.ran_at ?? null,
+      last_run_at: lastRun?.ran_at ?? null,
       interval_threshold_hours: DEADMAN_INTERVAL_HOURS,
     },
   });

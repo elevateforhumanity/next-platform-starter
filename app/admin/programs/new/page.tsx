@@ -15,20 +15,13 @@ export default async function NewProgramPage() {
   await requireRole(['admin', 'super_admin']);
   const supabase = await createClient();
 
-
-
   return (
     <div className="min-h-screen bg-white p-8">
-
       {/* Hero Image */}
       <div className="max-w-4xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-black">
-            Create New Program
-          </h1>
-          <p className="text-black mt-1">
-            Add a new training program to the system
-          </p>
+          <h1 className="text-3xl font-bold text-black">Create New Program</h1>
+          <p className="text-black mt-1">Add a new training program to the system</p>
         </div>
 
         <ProgramForm />

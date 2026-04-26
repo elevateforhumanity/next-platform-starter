@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { useMemo, useState } from "react";
+import { useMemo, useState } from 'react';
 
 type Props = {
   title: string;
@@ -17,22 +17,25 @@ type Props = {
 export function TypedConfirmDialog({
   title,
   description,
-  confirmWord = "CONFIRM",
+  confirmWord = 'CONFIRM',
   impactText,
   sampleLines,
-  confirmButtonText = "Confirm",
+  confirmButtonText = 'Confirm',
   isDanger = true,
   onConfirm,
   onCancel,
 }: Props) {
   const [open, setOpen] = useState(false);
-  const [typed, setTyped] = useState("");
+  const [typed, setTyped] = useState('');
   const [busy, setBusy] = useState(false);
-  const canConfirm = useMemo(() => typed.trim().toUpperCase() === confirmWord.toUpperCase(), [typed, confirmWord]);
+  const canConfirm = useMemo(
+    () => typed.trim().toUpperCase() === confirmWord.toUpperCase(),
+    [typed, confirmWord],
+  );
 
   const close = () => {
     setOpen(false);
-    setTyped("");
+    setTyped('');
     setBusy(false);
     onCancel?.();
   };
@@ -54,7 +57,9 @@ export function TypedConfirmDialog({
         type="button"
         onClick={() => setOpen(true)}
         className={`rounded-lg border px-3 py-2 text-sm font-semibold ${
-          isDanger ? "border-brand-red-200 text-brand-red-800 hover:border-brand-red-300" : "border-gray-200 text-slate-900 hover:border-gray-300"
+          isDanger
+            ? 'border-brand-red-200 text-brand-red-800 hover:border-brand-red-300'
+            : 'border-gray-200 text-slate-900 hover:border-gray-300'
         }`}
       >
         {confirmButtonText}
@@ -66,14 +71,18 @@ export function TypedConfirmDialog({
             <div className="space-y-2">
               <div className="text-lg font-semibold text-slate-900">{title}</div>
               {description ? <div className="text-sm text-slate-900">{description}</div> : null}
-              {impactText ? <div className="text-sm font-semibold text-slate-900">{impactText}</div> : null}
+              {impactText ? (
+                <div className="text-sm font-semibold text-slate-900">{impactText}</div>
+              ) : null}
 
               {sampleLines?.length ? (
                 <div className="rounded-xl border border-gray-200 bg-gray-50 p-3">
                   <div className="text-xs font-semibold text-slate-900">Sample</div>
                   <ul className="mt-2 space-y-1 text-xs text-slate-900">
                     {sampleLines.slice(0, 10).map((line) => (
-                      <li key={line} className="font-mono">{line}</li>
+                      <li key={line} className="font-mono">
+                        {line}
+                      </li>
                     ))}
                   </ul>
                 </div>
@@ -105,10 +114,14 @@ export function TypedConfirmDialog({
                   onClick={run}
                   disabled={!canConfirm || busy}
                   className={`rounded-lg px-3 py-2 text-sm font-semibold text-white ${
-                    !canConfirm || busy ? "bg-gray-400" : isDanger ? "bg-brand-red-700 hover:bg-brand-red-800" : "bg-gray-900 hover:bg-black"
+                    !canConfirm || busy
+                      ? 'bg-gray-400'
+                      : isDanger
+                        ? 'bg-brand-red-700 hover:bg-brand-red-800'
+                        : 'bg-gray-900 hover:bg-black'
                   }`}
                 >
-                  {busy ? "Working…" : "Confirm"}
+                  {busy ? 'Working…' : 'Confirm'}
                 </button>
               </div>
             </div>

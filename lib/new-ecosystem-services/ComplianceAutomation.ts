@@ -186,8 +186,12 @@ export class ComplianceAutomation {
         }
 
         results.push(rule);
-      } catch (error) { /* Error handled silently */ 
-        logger.error(`Error checking rule ${rule.id}`, error as Error, { ruleId: rule.id, ruleName: rule.name });
+      } catch (error) {
+        /* Error handled silently */
+        logger.error(`Error checking rule ${rule.id}`, error as Error, {
+          ruleId: rule.id,
+          ruleName: rule.name,
+        });
         rule.status = 'warning';
         results.push(rule);
       }
@@ -200,7 +204,7 @@ export class ComplianceAutomation {
    * Check individual compliance rule
    */
   private async checkRule(
-    rule: ComplianceRule
+    rule: ComplianceRule,
   ): Promise<'compliant' | 'warning' | 'non-compliant'> {
     // Simulate API call to check compliance
     // In production, this would call actual compliance APIs
@@ -240,9 +244,7 @@ export class ComplianceAutomation {
   /**
    * Check WCAG accessibility compliance
    */
-  private async checkAccessibility(): Promise<
-    'compliant' | 'warning' | 'non-compliant'
-  > {
+  private async checkAccessibility(): Promise<'compliant' | 'warning' | 'non-compliant'> {
     // Check for common accessibility issues
     const issues = [];
 
@@ -258,9 +260,7 @@ export class ComplianceAutomation {
     // Would use actual contrast checking library
 
     // Check for keyboard navigation
-    const focusableElements = document.querySelectorAll(
-      'a, button, input, select, textarea'
-    );
+    const focusableElements = document.querySelectorAll('a, button, input, select, textarea');
 
     return issues.length === 0 ? 'compliant' : 'warning';
   }
@@ -289,12 +289,9 @@ export class ComplianceAutomation {
   /**
    * Check privacy compliance (FERPA, GDPR, CCPA)
    */
-  private async checkPrivacyCompliance(): Promise<
-    'compliant' | 'warning' | 'non-compliant'
-  > {
+  private async checkPrivacyCompliance(): Promise<'compliant' | 'warning' | 'non-compliant'> {
     // Check for privacy policy
-    const hasPrivacyPolicy =
-      document.querySelector('[href*="privacy"]') !== null;
+    const hasPrivacyPolicy = document.querySelector('[href*="privacy"]') !== null;
 
     // Check for cookie consent
     const hasCookieConsent = localStorage.getItem('cookie-consent') !== null;
@@ -302,9 +299,7 @@ export class ComplianceAutomation {
     // Check for data encryption
     const isHTTPS = window.location.protocol === 'https:';
 
-    return hasPrivacyPolicy && hasCookieConsent && isHTTPS
-      ? 'compliant'
-      : 'warning';
+    return hasPrivacyPolicy && hasCookieConsent && isHTTPS ? 'compliant' : 'warning';
   }
 
   /**
@@ -351,9 +346,7 @@ export class ComplianceAutomation {
   /**
    * Check SAM.gov registration status
    */
-  private async checkSAMRegistration(): Promise<
-    'compliant' | 'warning' | 'non-compliant'
-  > {
+  private async checkSAMRegistration(): Promise<'compliant' | 'warning' | 'non-compliant'> {
     try {
       // In production, call SAM.gov API
       // const response = await fetch('https://api.sam.gov/entity-information/v3/entities?ueiSAM=YOUR_UEI');
@@ -361,7 +354,8 @@ export class ComplianceAutomation {
       // return data.entityRegistration[0].registrationStatus === 'Active' ? 'compliant' : 'non-compliant';
 
       return 'compliant'; // Simulated
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       return 'warning';
     }
   }
@@ -373,8 +367,12 @@ export class ComplianceAutomation {
     for (const source of this.dataSources) {
       try {
         await this.fetchFromSource(source);
-      } catch (error) { /* Error handled silently */ 
-        logger.error(`Error fetching from ${source.name}`, error as Error, { sourceName: source.name, sourceUrl: source.url });
+      } catch (error) {
+        /* Error handled silently */
+        logger.error(`Error fetching from ${source.name}`, error as Error, {
+          sourceName: source.name,
+          sourceUrl: source.url,
+        });
       }
     }
   }
@@ -383,7 +381,10 @@ export class ComplianceAutomation {
    * Fetch from individual data source
    */
   private async fetchFromSource(source: ComplianceDataSource): Promise<void> {
-    logger.info(`Fetching updates from ${source.name}`, { sourceName: source.name, sourceUrl: source.url });
+    logger.info(`Fetching updates from ${source.name}`, {
+      sourceName: source.name,
+      sourceUrl: source.url,
+    });
 
     // In production, implement actual API calls
     // For now, simulate
@@ -405,15 +406,9 @@ export class ComplianceAutomation {
    */
   getDashboardData() {
     const total = this.complianceRules.length;
-    const compliant = this.complianceRules.filter(
-      (r) => r.status === 'compliant'
-    ).length;
-    const warnings = this.complianceRules.filter(
-      (r) => r.status === 'warning'
-    ).length;
-    const nonCompliant = this.complianceRules.filter(
-      (r) => r.status === 'non-compliant'
-    ).length;
+    const compliant = this.complianceRules.filter((r) => r.status === 'compliant').length;
+    const warnings = this.complianceRules.filter((r) => r.status === 'warning').length;
+    const nonCompliant = this.complianceRules.filter((r) => r.status === 'non-compliant').length;
 
     return {
       total,
@@ -435,7 +430,7 @@ export class ComplianceAutomation {
       () => {
         this.checkCompliance();
       },
-      60 * 60 * 1000
+      60 * 60 * 1000,
     );
 
     // Fetch updates daily
@@ -443,7 +438,7 @@ export class ComplianceAutomation {
       () => {
         this.fetchUpdates();
       },
-      24 * 60 * 60 * 1000
+      24 * 60 * 60 * 1000,
     );
 
     // Initial check

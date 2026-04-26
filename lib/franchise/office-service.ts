@@ -9,11 +9,11 @@ import { TaxOffice, CreateOfficeInput, OfficeStats } from './types';
 function getServiceClient(): SupabaseClient {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  
+
   if (!supabaseUrl || !supabaseServiceKey) {
     throw new Error('Missing Supabase environment variables');
   }
-  
+
   return createClient(supabaseUrl, supabaseServiceKey);
 }
 
@@ -43,23 +43,23 @@ export class OfficeService {
         parent_efin: '358459', // Your EFIN
         status: 'pending',
         franchise_fee: input.franchise_fee || 0,
-        per_return_fee: input.per_return_fee || 5.00,
+        per_return_fee: input.per_return_fee || 5.0,
         revenue_share_percent: input.revenue_share_percent || 0,
         contract_start_date: input.contract_start_date,
         contract_end_date: input.contract_end_date,
         max_preparers: input.max_preparers || 10,
         max_returns_per_season: input.max_returns_per_season,
         created_by: createdBy,
-        notes: input.notes
+        notes: input.notes,
       })
       .select()
       .maybeSingle();
 
     if (error) throw new Error(`Failed to create office`);
-    
+
     // Log audit event
     await this.logAudit('office_created', 'franchise_office', data.id, null, data);
-    
+
     return data as TaxOffice;
   }
 
@@ -77,7 +77,7 @@ export class OfficeService {
       if (error.code === 'PGRST116') return null;
       throw new Error(`Failed to get office`);
     }
-    
+
     return data as TaxOffice;
   }
 
@@ -95,7 +95,7 @@ export class OfficeService {
       if (error.code === 'PGRST116') return null;
       throw new Error(`Failed to get office`);
     }
-    
+
     return data as TaxOffice;
   }
 
@@ -108,9 +108,7 @@ export class OfficeService {
     limit?: number;
     offset?: number;
   }): Promise<{ offices: TaxOffice[]; total: number }> {
-    let query = this.supabase
-      .from('franchise_offices')
-      .select('*', { count: 'exact' });
+    let query = this.supabase.from('franchise_offices').select('*', { count: 'exact' });
 
     if (filters?.status) {
       query = query.eq('status', filters.status);
@@ -131,10 +129,10 @@ export class OfficeService {
     const { data, error, count } = await query;
 
     if (error) throw new Error(`Failed to list offices`);
-    
+
     return {
       offices: data as TaxOffice[],
-      total: count || 0
+      total: count || 0,
     };
   }
 
@@ -144,22 +142,22 @@ export class OfficeService {
   async updateOffice(officeId: string, updates: Partial<TaxOffice>): Promise<TaxOffice> {
     // Get current state for audit
     const current = await this.getOffice(officeId);
-    
+
     const { data, error } = await this.supabase
       .from('franchise_offices')
       .update({
         ...updates,
-        updated_at: new Date().toISOString()
+        updated_at: new Date().toISOString(),
       })
       .eq('id', officeId)
       .select()
       .maybeSingle();
 
     if (error) throw new Error(`Failed to update office`);
-    
+
     // Log audit event
     await this.logAudit('office_updated', 'franchise_office', officeId, current, data);
-    
+
     return data as TaxOffice;
   }
 
@@ -169,7 +167,7 @@ export class OfficeService {
   async activateOffice(officeId: string): Promise<TaxOffice> {
     return this.updateOffice(officeId, {
       status: 'active',
-      activated_at: new Date().toISOString()
+      activated_at: new Date().toISOString(),
     });
   }
 
@@ -180,7 +178,7 @@ export class OfficeService {
     return this.updateOffice(officeId, {
       status: 'suspended',
       suspended_at: new Date().toISOString(),
-      suspension_reason: reason
+      suspension_reason: reason,
     });
   }
 
@@ -189,11 +187,13 @@ export class OfficeService {
    */
   async deactivateOffice(officeId: string, actorId: string): Promise<TaxOffice> {
     const office = await this.updateOffice(officeId, {
-      status: 'terminated'
+      status: 'terminated',
     });
-    
-    await this.logAudit('office_terminated', 'franchise_office', officeId, null, { terminated_by: actorId });
-    
+
+    await this.logAudit('office_terminated', 'franchise_office', officeId, null, {
+      terminated_by: actorId,
+    });
+
     return office;
   }
 
@@ -204,7 +204,7 @@ export class OfficeService {
     return this.updateOffice(officeId, {
       status: 'terminated',
       suspended_at: new Date().toISOString(),
-      suspension_reason: reason
+      suspension_reason: reason,
     });
   }
 
@@ -227,16 +227,16 @@ export class OfficeService {
     if (error) throw new Error(`Failed to get office stats`);
 
     const returns = submissions || [];
-    const acceptedReturns = returns.filter(r => r.status === 'accepted');
-    const rejectedReturns = returns.filter(r => r.status === 'rejected');
-    
+    const acceptedReturns = returns.filter((r) => r.status === 'accepted');
+    const rejectedReturns = returns.filter((r) => r.status === 'rejected');
+
     const totalRevenue = returns.reduce((sum, r) => sum + (r.client_fee || 0), 0);
     const avgFee = returns.length > 0 ? totalRevenue / returns.length : 0;
     const rejectionRate = returns.length > 0 ? (rejectedReturns.length / returns.length) * 100 : 0;
 
     // Find top preparer
     const preparerCounts: Record<string, number> = {};
-    returns.forEach(r => {
+    returns.forEach((r) => {
       if (r.preparer_id) {
         preparerCounts[r.preparer_id] = (preparerCounts[r.preparer_id] || 0) + 1;
       }
@@ -258,7 +258,7 @@ export class OfficeService {
         .select('first_name, last_name')
         .eq('id', topPreparerId)
         .maybeSingle();
-      
+
       if (preparer) {
         topPreparerName = `${preparer.first_name} ${preparer.last_name}`;
       }
@@ -271,7 +271,7 @@ export class OfficeService {
       average_fee: avgFee,
       rejection_rate: rejectionRate,
       top_preparer_id: topPreparerId,
-      top_preparer_name: topPreparerName
+      top_preparer_name: topPreparerName,
     };
   }
 
@@ -280,7 +280,7 @@ export class OfficeService {
    */
   async assignOwner(officeId: string, userId: string): Promise<TaxOffice> {
     return this.updateOffice(officeId, {
-      owner_id: userId
+      owner_id: userId,
     } as Partial<TaxOffice>);
   }
 
@@ -292,7 +292,7 @@ export class OfficeService {
     entityType: string,
     entityId: string,
     oldValues: unknown,
-    newValues: unknown
+    newValues: unknown,
   ): Promise<void> {
     await this.supabase.from('franchise_audit_log').insert({
       action: eventType,
@@ -300,7 +300,7 @@ export class OfficeService {
       entity_id: entityId,
       old_values: oldValues,
       new_values: newValues,
-      created_at: new Date().toISOString()
+      created_at: new Date().toISOString(),
     });
   }
 }

@@ -13,21 +13,12 @@
     <meta name="author" content="Elevate for Humanity" />
     <meta name="robots" content="index, follow" />
     <meta property="og:type" content="website" />
-    <meta
-      property="og:title"
-      content="Elevate for Humanity - Workforce Development"
-    />
-    <meta
-      property="og:description"
-      content="Government-approved career training platform"
-    />
+    <meta property="og:title" content="Elevate for Humanity - Workforce Development" />
+    <meta property="og:description" content="Government-approved career training platform" />
     <meta property="twitter:card" content="summary_large_image" />
 
     <!-- Google Analytics -->
-    <script
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=G-V9BC7WPMQC"
-    ></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-V9BC7WPMQC"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag() {
@@ -95,9 +86,7 @@
       <label for="licenseInput">Enter Your License Key</label>
       <input id="licenseInput" placeholder="Paste your license key..." />
 
-      <button type="button" onclick="validateLicense()">
-        🔍 Validate License
-      </button>
+      <button type="button" onclick="validateLicense()">🔍 Validate License</button>
 
       <div id="output" style="margin-top: 1.5rem"></div>
     </div>
@@ -116,9 +105,7 @@
         const data = await res.json();
         if (!data.valid) {
           output.innerHTML =
-            '<p style="color:red;">❌ Invalid or expired license: ' +
-            data.reason +
-            '</p>';
+            '<p style="color:red;">❌ Invalid or expired license: ' + data.reason + '</p>';
           return;
         }
 

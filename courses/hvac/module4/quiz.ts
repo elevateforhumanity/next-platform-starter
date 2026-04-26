@@ -21,17 +21,24 @@ export const quiz = [
   },
   {
     question: 'What is the acceptable tolerance for superheat and subcooling measurements?',
-    options: ['Plus or minus 1 degree F', 'Plus or minus 2 degrees F', 'Plus or minus 5 degrees F', 'Plus or minus 10 degrees F'],
+    options: [
+      'Plus or minus 1 degree F',
+      'Plus or minus 2 degrees F',
+      'Plus or minus 5 degrees F',
+      'Plus or minus 10 degrees F',
+    ],
     answer: 'Plus or minus 2 degrees F',
   },
   {
-    question: 'What tool is used to look up the boiling point of a refrigerant at a given pressure?',
+    question:
+      'What tool is used to look up the boiling point of a refrigerant at a given pressure?',
     options: ['Multimeter', 'PT chart', 'Psychrometric chart', 'Duct calculator'],
     answer: 'PT chart',
   },
   {
-    question: 'What component restricts refrigerant flow and causes a pressure drop before the evaporator?',
+    question:
+      'What component restricts refrigerant flow and causes a pressure drop before the evaporator?',
     options: ['Compressor', 'Condenser coil', 'Metering device', 'Accumulator'],
     answer: 'Metering device',
   },
-]
+];

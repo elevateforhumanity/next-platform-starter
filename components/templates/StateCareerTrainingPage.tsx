@@ -18,7 +18,12 @@ export default function StateCareerTrainingPage({ state }: StateCareerTrainingPa
       {/* Breadcrumbs */}
       <div className="bg-slate-50 border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[{ label: 'Programs', href: '/programs' }, { label: `Career Training ${state.name}` }]} />
+          <Breadcrumbs
+            items={[
+              { label: 'Programs', href: '/programs' },
+              { label: `Career Training ${state.name}` },
+            ]}
+          />
         </div>
       </div>
 
@@ -33,15 +38,27 @@ export default function StateCareerTrainingPage({ state }: StateCareerTrainingPa
           <div className="max-w-5xl mx-auto px-4 text-center">
             <div className="flex items-center gap-2 text-brand-green-300 mb-4 justify-center">
               <MapPin className="w-5 h-5" />
-              <span className="text-sm font-medium uppercase tracking-wider">Serving All of {state.name}</span>
+              <span className="text-sm font-medium uppercase tracking-wider">
+                Serving All of {state.name}
+              </span>
             </div>
-            <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">{state.careerTraining.headline}</h1>
-            <p className="text-lg text-slate-600 mb-6 max-w-3xl mx-auto">{state.careerTraining.description}</p>
+            <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">
+              {state.careerTraining.headline}
+            </h1>
+            <p className="text-lg text-slate-600 mb-6 max-w-3xl mx-auto">
+              {state.careerTraining.description}
+            </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/programs" className="inline-flex items-center justify-center px-8 py-4 bg-brand-orange-500 hover:bg-brand-orange-600 text-white rounded-lg text-lg font-bold transition-colors">
+              <Link
+                href="/programs"
+                className="inline-flex items-center justify-center px-8 py-4 bg-brand-orange-500 hover:bg-brand-orange-600 text-white rounded-lg text-lg font-bold transition-colors"
+              >
                 Explore Programs <ArrowRight className="ml-2 w-5 h-5" />
               </Link>
-              <Link href="/how-it-works" className="inline-flex items-center justify-center px-8 py-4 bg-slate-700 hover:bg-slate-600 text-white border border-slate-500 rounded-lg text-lg font-bold transition-colors">
+              <Link
+                href="/how-it-works"
+                className="inline-flex items-center justify-center px-8 py-4 bg-slate-700 hover:bg-slate-600 text-white border border-slate-500 rounded-lg text-lg font-bold transition-colors"
+              >
                 How It Works
               </Link>
             </div>
@@ -77,10 +94,7 @@ export default function StateCareerTrainingPage({ state }: StateCareerTrainingPa
           </h2>
           <div className="flex flex-wrap gap-3">
             {state.majorCities.map((city) => (
-              <span 
-                key={city} 
-                className="px-4 py-2 bg-white rounded-full text-slate-900 shadow-sm"
-              >
+              <span key={city} className="px-4 py-2 bg-white rounded-full text-slate-900 shadow-sm">
                 {city}
               </span>
             ))}
@@ -91,9 +105,7 @@ export default function StateCareerTrainingPage({ state }: StateCareerTrainingPa
       {/* Other States */}
       <section className="py-16">
         <div className="max-w-6xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-slate-900 mb-6">
-            Programs in Other States
-          </h2>
+          <h2 className="text-2xl font-bold text-slate-900 mb-6">Programs in Other States</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {otherStates.map((s) => (
               <Link

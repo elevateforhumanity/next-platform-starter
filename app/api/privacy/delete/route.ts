@@ -21,7 +21,9 @@ export async function POST(req: NextRequest) {
   // Auth: require authenticated session
   const { createClient: createAuthClient } = await import('@/lib/supabase/server');
   const authSupabase = await createAuthClient();
-  const { data: { session: authSession } } = await authSupabase.auth.getSession();
+  const {
+    data: { session: authSession },
+  } = await authSupabase.auth.getSession();
   if (!authSession) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }

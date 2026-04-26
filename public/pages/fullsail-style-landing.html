@@ -13,21 +13,12 @@
     <meta name="author" content="Elevate for Humanity" />
     <meta name="robots" content="index, follow" />
     <meta property="og:type" content="website" />
-    <meta
-      property="og:title"
-      content="Elevate for Humanity - Workforce Development"
-    />
-    <meta
-      property="og:description"
-      content="Government-approved career training platform"
-    />
+    <meta property="og:title" content="Elevate for Humanity - Workforce Development" />
+    <meta property="og:description" content="Government-approved career training platform" />
     <meta property="twitter:card" content="summary_large_image" />
 
     <!-- Google Analytics -->
-    <script
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=G-V9BC7WPMQC"
-    ></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-V9BC7WPMQC"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag() {
@@ -394,8 +385,8 @@
           <div class="hero-badge">89% Job Placement Rate</div>
           <h1 class="hero-title">Start Your Career in Tech &amp; Trades</h1>
           <p class="hero-subtitle">
-            Get job-ready in months, not years with industry-recognized
-            certifications and guaranteed employer connections.
+            Get job-ready in months, not years with industry-recognized certifications and
+            guaranteed employer connections.
           </p>
 
           <ul class="hero-features">
@@ -411,54 +402,28 @@
         <div class="form-section">
           <div class="form-header">
             <h2 class="form-title">Get Program Info</h2>
-            <p class="form-subtitle">
-              Find out if you qualify for free training
-            </p>
+            <p class="form-subtitle">Find out if you qualify for free training</p>
           </div>
 
           <form id="lead-form" onsubmit="handleFormSubmit(event)">
             <div class="form-group">
               <label for="firstName">First Name *</label>
-              <input
-                type="text"
-                id="firstName"
-                name="firstName"
-                class="form-control"
-                required
-              />
+              <input type="text" id="firstName" name="firstName" class="form-control" required />
             </div>
 
             <div class="form-group">
               <label for="lastName">Last Name *</label>
-              <input
-                type="text"
-                id="lastName"
-                name="lastName"
-                class="form-control"
-                required
-              />
+              <input type="text" id="lastName" name="lastName" class="form-control" required />
             </div>
 
             <div class="form-group">
               <label for="email">Email Address *</label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                class="form-control"
-                required
-              />
+              <input type="email" id="email" name="email" class="form-control" required />
             </div>
 
             <div class="form-group">
               <label for="phone">Phone Number *</label>
-              <input
-                type="tel"
-                id="phone"
-                name="phone"
-                class="form-control"
-                required
-              />
+              <input type="tel" id="phone" name="phone" class="form-control" required />
             </div>
 
             <div class="form-group">
@@ -476,12 +441,7 @@
 
             <div class="form-group">
               <label for="employment">Current Employment Status *</label>
-              <select
-                id="employment"
-                name="employment"
-                class="form-select"
-                required
-              >
+              <select id="employment" name="employment" class="form-select" required>
                 <option value="">Select Status</option>
                 <option value="unemployed">Unemployed</option>
                 <option value="underemployed">Underemployed</option>
@@ -490,14 +450,11 @@
               </select>
             </div>
 
-            <button type="submit" class="submit-btn">
-              Get Free Program Info
-            </button>
+            <button type="submit" class="submit-btn">Get Free Program Info</button>
 
             <p class="form-disclaimer">
-              By submitting this form, you consent to receive emails and texts
-              from Elevate for Humanity. You may opt out at any time. Message
-              and data rates may apply.
+              By submitting this form, you consent to receive emails and texts from Elevate for
+              Humanity. You may opt out at any time. Message and data rates may apply.
             </p>
           </form>
         </div>
@@ -512,8 +469,7 @@
             <span class="program-icon">🛡️</span>
             <h3 class="program-title">Cybersecurity</h3>
             <p class="program-description">
-              Protect organizations from cyber threats with CompTIA Security+
-              certification.
+              Protect organizations from cyber threats with CompTIA Security+ certification.
             </p>
             <ul class="program-features">
               <li>CompTIA Security+ Certification</li>
@@ -529,8 +485,7 @@
             <span class="program-icon">☁️</span>
             <h3 class="program-title">Cloud Computing</h3>
             <p class="program-description">
-              Master cloud platforms with Google Cloud and Microsoft Azure
-              certifications.
+              Master cloud platforms with Google Cloud and Microsoft Azure certifications.
             </p>
             <ul class="program-features">
               <li>Google Cloud Certification</li>
@@ -641,7 +596,7 @@
 
         // Show success message
         alert(
-          `Thank you ${data.firstName}! We'll contact you within 24 hours about the ${data.program} program.`
+          `Thank you ${data.firstName}! We'll contact you within 24 hours about the ${data.program} program.`,
         );
 
         // In real implementation, send to your CRM/email system
@@ -653,9 +608,7 @@
 
       // Track form interactions
       document.addEventListener('DOMContentLoaded', function () {
-        const formInputs = document.querySelectorAll(
-          '.form-control, .form-select'
-        );
+        const formInputs = document.querySelectorAll('.form-control, .form-select');
 
         formInputs.forEach((input) => {
           input.addEventListener('focus', function () {

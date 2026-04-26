@@ -45,7 +45,10 @@ async function getFFmpeg() {
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY!;
-const INSTRUCTOR_PHOTO = path.join(process.cwd(), 'public/images/team/elizabeth-greene-headshot.jpg');
+const INSTRUCTOR_PHOTO = path.join(
+  process.cwd(),
+  'public/images/team/elizabeth-greene-headshot.jpg',
+);
 const INSTRUCTOR_NAME = 'Elizabeth Greene';
 const INSTRUCTOR_TITLE = 'Founder & Program Director';
 const VOICE = 'nova';
@@ -74,7 +77,7 @@ async function fetchLessons(courseId: string): Promise<LessonRow[]> {
         apikey: SUPABASE_KEY,
         Authorization: `Bearer ${SUPABASE_KEY}`,
       },
-    }
+    },
   );
   if (!res.ok) throw new Error(`Failed to fetch lessons: ${await res.text()}`);
   return res.json();
@@ -82,19 +85,16 @@ async function fetchLessons(courseId: string): Promise<LessonRow[]> {
 
 // --- Update a lesson row ---
 async function updateLesson(lessonId: string, data: Record<string, any>) {
-  const res = await fetch(
-    `${SUPABASE_URL}/rest/v1/training_lessons?id=eq.${lessonId}`,
-    {
-      method: 'PATCH',
-      headers: {
-        apikey: SUPABASE_KEY,
-        Authorization: `Bearer ${SUPABASE_KEY}`,
-        'Content-Type': 'application/json',
-        Prefer: 'return=minimal',
-      },
-      body: JSON.stringify(data),
-    }
-  );
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/training_lessons?id=eq.${lessonId}`, {
+    method: 'PATCH',
+    headers: {
+      apikey: SUPABASE_KEY,
+      Authorization: `Bearer ${SUPABASE_KEY}`,
+      'Content-Type': 'application/json',
+      Prefer: 'return=minimal',
+    },
+    body: JSON.stringify(data),
+  });
   if (!res.ok) throw new Error(`Failed to update lesson ${lessonId}: ${await res.text()}`);
 }
 
@@ -104,7 +104,7 @@ async function generateLessonVideo(
   courseTitle: string,
   narration: string,
   slideText: string,
-  tempDir: string
+  tempDir: string,
 ): Promise<string> {
   const sceneDir = path.join(tempDir, `lesson-${lesson.order_index}`);
   await fs.mkdir(sceneDir, { recursive: true });
@@ -129,19 +129,15 @@ async function generateLessonVideo(
   });
 
   // Composite frame
-  const frameBuffer = await createInstructorCompositeFrame(
-    slideText,
-    WIDTH, HEIGHT,
-    {
-      instructorImagePath: INSTRUCTOR_PHOTO,
-      instructorName: INSTRUCTOR_NAME,
-      instructorTitle: INSTRUCTOR_TITLE,
-      slideTitle: lesson.title,
-      accentColor,
-      fontSize: 54,
-      titleFontSize: 72,
-    }
-  );
+  const frameBuffer = await createInstructorCompositeFrame(slideText, WIDTH, HEIGHT, {
+    instructorImagePath: INSTRUCTOR_PHOTO,
+    instructorName: INSTRUCTOR_NAME,
+    instructorTitle: INSTRUCTOR_TITLE,
+    slideTitle: lesson.title,
+    accentColor,
+    fontSize: 54,
+    titleFontSize: 72,
+  });
   const framePath = path.join(sceneDir, 'frame.png');
   await fs.writeFile(framePath, frameBuffer);
 
@@ -153,12 +149,29 @@ async function generateLessonVideo(
       .inputOptions(['-loop', '1'])
       .input(audioPath)
       .outputOptions([
-        '-map', '0:v', '-map', '1:a',
-        '-c:v', 'libx264', '-crf', '20', '-preset', 'fast',
-        '-r', '30', '-t', audioDuration.toString(),
-        '-pix_fmt', 'yuv420p',
-        '-c:a', 'aac', '-b:a', '128k',
-        '-shortest', '-movflags', '+faststart',
+        '-map',
+        '0:v',
+        '-map',
+        '1:a',
+        '-c:v',
+        'libx264',
+        '-crf',
+        '20',
+        '-preset',
+        'fast',
+        '-r',
+        '30',
+        '-t',
+        audioDuration.toString(),
+        '-pix_fmt',
+        'yuv420p',
+        '-c:a',
+        'aac',
+        '-b:a',
+        '128k',
+        '-shortest',
+        '-movflags',
+        '+faststart',
       ])
       .output(videoPath)
       .on('end', () => resolve())
@@ -172,18 +185,15 @@ async function generateLessonVideo(
 // --- Upload video to Supabase ---
 async function uploadVideo(localPath: string, storagePath: string): Promise<string> {
   const videoBuffer = await fs.readFile(localPath);
-  const res = await fetch(
-    `${SUPABASE_URL}/storage/v1/object/media/${storagePath}`,
-    {
-      method: 'PUT',
-      headers: {
-        Authorization: `Bearer ${SUPABASE_KEY}`,
-        'Content-Type': 'video/mp4',
-        'x-upsert': 'true',
-      },
-      body: videoBuffer,
-    }
-  );
+  const res = await fetch(`${SUPABASE_URL}/storage/v1/object/media/${storagePath}`, {
+    method: 'PUT',
+    headers: {
+      Authorization: `Bearer ${SUPABASE_KEY}`,
+      'Content-Type': 'video/mp4',
+      'x-upsert': 'true',
+    },
+    body: videoBuffer,
+  });
   if (!res.ok) throw new Error(`Upload failed: ${await res.text()}`);
   return `${SUPABASE_URL}/storage/v1/object/public/media/${storagePath}`;
 }
@@ -198,7 +208,10 @@ async function main() {
   const hasFlag = (name: string) => args.includes(`--${name}`);
 
   const title = getArg('title');
-  const objectives = getArg('objectives')?.split(',').map(s => s.trim()) || [];
+  const objectives =
+    getArg('objectives')
+      ?.split(',')
+      .map((s) => s.trim()) || [];
   let courseId = getArg('course-id');
   const videosOnly = hasFlag('videos-only');
   const overwrite = hasFlag('overwrite');
@@ -206,8 +219,12 @@ async function main() {
   const limit = getArg('limit') ? parseInt(getArg('limit')!) : Infinity;
 
   if (!courseId && !title) {
-    console.error('Usage: npx tsx scripts/build-course-pipeline.ts --title "Course Name" --objectives "obj1,obj2"');
-    console.error('   or: npx tsx scripts/build-course-pipeline.ts --course-id "uuid" --videos-only');
+    console.error(
+      'Usage: npx tsx scripts/build-course-pipeline.ts --title "Course Name" --objectives "obj1,obj2"',
+    );
+    console.error(
+      '   or: npx tsx scripts/build-course-pipeline.ts --course-id "uuid" --videos-only',
+    );
     process.exit(1);
   }
 
@@ -225,7 +242,9 @@ async function main() {
   // Step 1: Build course (if no existing course ID)
   if (!courseId && title) {
     if (dryRun) {
-      console.log(`[dry-run] Would generate course: "${title}" with objectives: ${objectives.join(', ')}`);
+      console.log(
+        `[dry-run] Would generate course: "${title}" with objectives: ${objectives.join(', ')}`,
+      );
       process.exit(0);
     }
     const result = await buildAndSaveCourse({
@@ -246,7 +265,7 @@ async function main() {
   // Fetch course title
   const courseRes = await fetch(
     `${SUPABASE_URL}/rest/v1/training_courses?id=eq.${courseId}&select=course_name`,
-    { headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` } }
+    { headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` } },
   );
   const courseData = await courseRes.json();
   const courseTitle = courseData[0]?.course_name || 'Course';
@@ -290,7 +309,7 @@ async function main() {
     try {
       const enriched = await enrichLessonContent(
         { title: lesson.title, description: lesson.description || '', topics: lesson.topics || [] },
-        courseTitle
+        courseTitle,
       );
 
       // Update lesson content in Supabase
@@ -299,10 +318,17 @@ async function main() {
 
       // Generate video
       console.log(`${prefix} Generating video...`);
-      const videoPath = await generateLessonVideo(lesson, courseTitle, enriched.narration, enriched.slideText, tempDir);
+      const videoPath = await generateLessonVideo(
+        lesson,
+        courseTitle,
+        enriched.narration,
+        enriched.slideText,
+        tempDir,
+      );
 
       // Upload
-      const slug = courseData[0]?.course_name?.toLowerCase().replace(/[^a-z0-9]+/g, '-') || 'course';
+      const slug =
+        courseData[0]?.course_name?.toLowerCase().replace(/[^a-z0-9]+/g, '-') || 'course';
       const storagePath = `lessons/${slug}-lesson-${String(lessonNum).padStart(3, '0')}.mp4`;
       const publicUrl = await uploadVideo(videoPath, storagePath);
 
@@ -310,7 +336,6 @@ async function main() {
       await updateLesson(lesson.id, { video_url: publicUrl });
       videosGenerated++;
       console.log(`${prefix} ✅ ${lesson.title}`);
-
     } catch (err: any) {
       console.error(`${prefix} ❌ Failed: ${lesson.title} — ${err.message}`);
     }

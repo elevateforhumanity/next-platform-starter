@@ -23,12 +23,10 @@ interface LazyVideoProps {
   controls?: boolean;
 }
 
-export default function LazyVideo({ src, poster = '/images/og-default.jpg', className = '' }: LazyVideoProps) {
-  return (
-    <CanonicalVideo
-      src={src}
-      poster={poster}
-      className={className}
-    />
-  );
+export default function LazyVideo({
+  src,
+  poster = '/images/og-default.jpg',
+  className = '',
+}: LazyVideoProps) {
+  return <CanonicalVideo src={src} poster={poster} className={className} />;
 }

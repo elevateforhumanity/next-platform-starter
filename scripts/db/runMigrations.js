@@ -10,7 +10,7 @@ import { fileURLToPath } from 'url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const SERVICE_KEY  = process.env.SUPABASE_SERVICE_ROLE_KEY;
+const SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 if (!SUPABASE_URL || !SERVICE_KEY) {
   console.error('NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are required');
@@ -48,13 +48,12 @@ async function ensureTrackingTable() {
 }
 
 async function getApplied() {
-  const r = await fetch(
-    `${SUPABASE_URL}/rest/v1/efh_migrations?select=filename&limit=10000`,
-    { headers: BASE_HEADERS }
-  );
+  const r = await fetch(`${SUPABASE_URL}/rest/v1/efh_migrations?select=filename&limit=10000`, {
+    headers: BASE_HEADERS,
+  });
   if (!r.ok) return new Set();
   const rows = await r.json();
-  return new Set(Array.isArray(rows) ? rows.map(r => r.filename) : []);
+  return new Set(Array.isArray(rows) ? rows.map((r) => r.filename) : []);
 }
 
 async function markApplied(filename) {
@@ -72,8 +71,9 @@ async function runMigrations() {
     process.exit(1);
   }
 
-  const files = fs.readdirSync(migrationsDir)
-    .filter(f => f.endsWith('.sql'))
+  const files = fs
+    .readdirSync(migrationsDir)
+    .filter((f) => f.endsWith('.sql'))
     .sort();
 
   console.log(`Found ${files.length} migration files`);
@@ -82,10 +82,15 @@ async function runMigrations() {
   const applied = await getApplied();
   console.log(`Already applied: ${applied.size}`);
 
-  let ok = 0, skip = 0, fail = 0;
+  let ok = 0,
+    skip = 0,
+    fail = 0;
 
   for (const file of files) {
-    if (applied.has(file)) { skip++; continue; }
+    if (applied.has(file)) {
+      skip++;
+      continue;
+    }
 
     const sql = fs.readFileSync(path.join(migrationsDir, file), 'utf8');
     process.stdout.write(`  ${file} ... `);
@@ -102,7 +107,7 @@ async function runMigrations() {
         msg.includes('already exists') ||
         msg.includes('42710') || // duplicate_object
         msg.includes('42P07') || // duplicate_table
-        msg.includes('42723');   // duplicate_function
+        msg.includes('42723'); // duplicate_function
       if (alreadyExists) {
         await markApplied(file);
         console.log('SKIP (already exists)');

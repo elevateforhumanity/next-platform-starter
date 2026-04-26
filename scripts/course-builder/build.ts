@@ -4,25 +4,30 @@ import path from 'node:path';
 import { barberCourse } from './seeds/barber-course.seed';
 
 function build(course: typeof barberCourse) {
-  const lessons = course.modules.flatMap(m => [
+  const lessons = course.modules.flatMap((m) => [
     ...m.lessons,
     ...(m.checkpoint ? [m.checkpoint] : []),
   ]);
   const totalHours = course.modules
-    .flatMap(m => [...m.lessons, ...(m.checkpoint ? [m.checkpoint] : [])])
+    .flatMap((m) => [...m.lessons, ...(m.checkpoint ? [m.checkpoint] : [])])
     .reduce((sum, l) => sum + l.hoursCredit, 0);
 
   return {
     ...course,
     meta: {
-      lessonCount: course.modules.flatMap(m => m.lessons).length,
+      lessonCount: course.modules.flatMap((m) => m.lessons).length,
       totalSlugs: lessons.length,
       totalHours: Math.round(totalHours * 100) / 100,
-      domainCoverage: [...new Set(course.modules.flatMap(m => m.lessons.map(l => l.domain)))],
-      ojtBreakdown: course.modules.flatMap(m => m.lessons).reduce((acc, l) => {
-        acc[l.ojtCategory] = (acc[l.ojtCategory] ?? 0) + l.hoursCredit;
-        return acc;
-      }, {} as Record<string, number>),
+      domainCoverage: [...new Set(course.modules.flatMap((m) => m.lessons.map((l) => l.domain)))],
+      ojtBreakdown: course.modules
+        .flatMap((m) => m.lessons)
+        .reduce(
+          (acc, l) => {
+            acc[l.ojtCategory] = (acc[l.ojtCategory] ?? 0) + l.hoursCredit;
+            return acc;
+          },
+          {} as Record<string, number>,
+        ),
     },
   };
 }

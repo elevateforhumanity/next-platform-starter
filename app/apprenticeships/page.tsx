@@ -3,7 +3,8 @@ import { siteConfig } from '@/content/cf-site';
 
 export const metadata = buildMetadata({
   title: 'Apprenticeships',
-  description: 'DOL Registered Apprenticeship programs in barbering, cosmetology, and skilled trades.',
+  description:
+    'DOL Registered Apprenticeship programs in barbering, cosmetology, and skilled trades.',
   path: '/apprenticeships',
 });
 
@@ -11,9 +12,14 @@ export default function Page() {
   return (
     <section className="mx-auto max-w-4xl px-4 py-16">
       <h1 className="text-3xl font-bold">Apprenticeships</h1>
-      <p className="mt-4 text-slate-700">DOL Registered Apprenticeship programs in barbering, cosmetology, and skilled trades.</p>
+      <p className="mt-4 text-slate-700">
+        DOL Registered Apprenticeship programs in barbering, cosmetology, and skilled trades.
+      </p>
       <div className="mt-8 flex gap-4">
-        <a href="mailto:partnerships@elevateforhumanity.org" className="rounded bg-black px-5 py-3 text-white hover:bg-gray-800">
+        <a
+          href="mailto:partnerships@elevateforhumanity.org"
+          className="rounded bg-black px-5 py-3 text-white hover:bg-gray-800"
+        >
           Get in Touch
         </a>
         <a href={siteConfig.handoff.apply} className="rounded border px-5 py-3 hover:bg-slate-50">

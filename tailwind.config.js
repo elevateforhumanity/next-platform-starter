@@ -30,11 +30,11 @@ export default {
       // Typography Scale (CANONICAL - DO NOT MODIFY)
       fontSize: {
         // Readable system-wide scale — bumped for readability
-        'xs': ['14px', { lineHeight: '1.5' }],
-        'sm': ['15px', { lineHeight: '1.5' }],
-        'base': ['17px', { lineHeight: '1.6' }],
-        'lg': ['19px', { lineHeight: '1.75' }],
-        'xl': ['21px', { lineHeight: '1.5' }],
+        xs: ['14px', { lineHeight: '1.5' }],
+        sm: ['15px', { lineHeight: '1.5' }],
+        base: ['17px', { lineHeight: '1.6' }],
+        lg: ['19px', { lineHeight: '1.75' }],
+        xl: ['21px', { lineHeight: '1.5' }],
         '2xl': ['26px', { lineHeight: '1.4' }],
         '3xl': ['32px', { lineHeight: '1.3' }],
         '4xl': ['38px', { lineHeight: '1.2' }],
@@ -53,11 +53,11 @@ export default {
 
         // Body
         'body-lg': ['19px', { lineHeight: '1.75' }],
-        'body': ['17px', { lineHeight: '1.6' }],
+        body: ['17px', { lineHeight: '1.6' }],
         'body-sm': ['15px', { lineHeight: '1.5' }],
 
         // Meta/Small
-        'meta': ['14px', { lineHeight: '1.5', fontWeight: '500' }],
+        meta: ['14px', { lineHeight: '1.5', fontWeight: '500' }],
       },
 
       // Spacing Scale (LOCKED)
@@ -95,8 +95,7 @@ export default {
       // Shadows (LOCKED)
       boxShadow: {
         card: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
-        'card-hover':
-          '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
+        'card-hover': '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
         button: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
         soft: '0 10px 30px rgba(0,0,0,0.08)',
       },

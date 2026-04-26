@@ -1,6 +1,6 @@
 /**
  * License Linking Tests
- * 
+ *
  * Verifies that Stripe checkout sessions include proper metadata
  * for license provisioning and that the webhook handler correctly
  * extracts and uses this metadata.
@@ -86,8 +86,9 @@ describe('License Linking', () => {
 
       // Extract provisioning context as the webhook would
       const adminEmail = session.customer_email || session.metadata.admin_email || '';
-      const companyName = session.metadata.company_name || session.metadata.organization_name || 'Unknown Company';
-      
+      const companyName =
+        session.metadata.company_name || session.metadata.organization_name || 'Unknown Company';
+
       const provisioningContext = {
         correlationId: 'evt_test_event',
         email: adminEmail,
@@ -134,7 +135,8 @@ describe('License Linking', () => {
       };
 
       const adminEmail = session.customer_email || session.metadata.admin_email || '';
-      const companyName = session.metadata.company_name || session.metadata.organization_name || 'Unknown Company';
+      const companyName =
+        session.metadata.company_name || session.metadata.organization_name || 'Unknown Company';
 
       expect(adminEmail).toBe('fallback@test.org');
       expect(companyName).toBe('Unknown Company');

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 import Image from 'next/image';
@@ -34,7 +34,7 @@ export function PeerReview({ assignmentId, studentName }: PeerReviewProps) {
 
   const fetchReviews = useCallback(async () => {
     const supabase = createClient();
-    
+
     try {
       const { data } = await supabase
         .from('peer_reviews')
@@ -43,7 +43,7 @@ export function PeerReview({ assignmentId, studentName }: PeerReviewProps) {
         .order('created_at', { ascending: false });
 
       if (data) {
-        const formatted: Review[] = data.map(r => ({
+        const formatted: Review[] = data.map((r) => ({
           id: r.id,
           reviewer: r.profiles?.full_name || 'Anonymous',
           reviewerAvatar: r.profiles?.avatar_url || '/media/avatars/default.jpg',
@@ -58,7 +58,15 @@ export function PeerReview({ assignmentId, studentName }: PeerReviewProps) {
       console.error('Error fetching reviews:', err);
       // Fallback data
       setReviews([
-        { id: '1', reviewer: 'Sarah Johnson', reviewerAvatar: '/media/avatars/avatar-1.jpg', rating: 5, comment: 'Excellent work!', helpful: 12, timestamp: '2 days ago' },
+        {
+          id: '1',
+          reviewer: 'Sarah Johnson',
+          reviewerAvatar: '/media/avatars/avatar-1.jpg',
+          rating: 5,
+          comment: 'Excellent work!',
+          helpful: 12,
+          timestamp: '2 days ago',
+        },
       ]);
     } finally {
       setLoading(false);
@@ -80,17 +88,19 @@ export function PeerReview({ assignmentId, studentName }: PeerReviewProps) {
 
   const submitReview = async () => {
     if (newReview.rating === 0 || !newReview.comment.trim()) return;
-    
+
     const supabase = createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
     await supabase.from('peer_reviews').insert({
       assignment_id: assignmentId,
       reviewer_id: user?.id,
       rating: newReview.rating,
       comment: newReview.comment,
     });
-    
+
     setNewReview({ rating: 0, comment: '' });
     fetchReviews();
   };
@@ -115,9 +125,8 @@ export function PeerReview({ assignmentId, studentName }: PeerReviewProps) {
     setNewReview({ rating: 0, comment: '' });
   };
 
-  const averageRating = reviews.length > 0
-    ? reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length
-    : 0;
+  const averageRating =
+    reviews.length > 0 ? reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length : 0;
 
   return (
     <div className="space-y-6">
@@ -134,7 +143,11 @@ export function PeerReview({ assignmentId, studentName }: PeerReviewProps) {
                   <Star
                     key={star}
                     size={20}
-                    className={star <= averageRating ? 'fill-brand-orange-500 text-brand-orange-500' : 'text-slate-700'}
+                    className={
+                      star <= averageRating
+                        ? 'fill-brand-orange-500 text-brand-orange-500'
+                        : 'text-slate-700'
+                    }
                   />
                 ))}
               </div>
@@ -165,7 +178,11 @@ export function PeerReview({ assignmentId, studentName }: PeerReviewProps) {
                 >
                   <Star
                     size={32}
-                    className={star <= newReview.rating ? 'fill-brand-orange-500 text-brand-orange-500' : 'text-slate-700'}
+                    className={
+                      star <= newReview.rating
+                        ? 'fill-brand-orange-500 text-brand-orange-500'
+                        : 'text-slate-700'
+                    }
                   />
                 </button>
               ))}
@@ -176,7 +193,9 @@ export function PeerReview({ assignmentId, studentName }: PeerReviewProps) {
             <label className="block text-sm font-semibold mb-2">Your Review</label>
             <textarea
               value={newReview.comment}
-              onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setNewReview({ ...newReview, comment: e.target.value })}
+              onChange={(
+                e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+              ) => setNewReview({ ...newReview, comment: e.target.value })}
               placeholder="Provide constructive feedback..."
               className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-brand-red-500 focus:border-brand-red-500"
               rows={4}
@@ -221,7 +240,11 @@ export function PeerReview({ assignmentId, studentName }: PeerReviewProps) {
                         <Star
                           key={star}
                           size={16}
-                          className={star <= review.rating ? 'fill-brand-orange-500 text-brand-orange-500' : 'text-slate-700'}
+                          className={
+                            star <= review.rating
+                              ? 'fill-brand-orange-500 text-brand-orange-500'
+                              : 'text-slate-700'
+                          }
                         />
                       ))}
                     </div>

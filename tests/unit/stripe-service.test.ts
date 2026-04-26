@@ -1,6 +1,6 @@
 /**
  * Stripe Service Tests
- * 
+ *
  * Tests for Stripe integration helper functions and data validation
  * Note: Direct Stripe API calls require actual API keys
  */
@@ -31,15 +31,15 @@ function validatePaymentIntentParams(params: {
   metadata?: Record<string, string>;
 }): { valid: boolean; errors: string[] } {
   const errors: string[] = [];
-  
+
   if (!params.amount || params.amount <= 0) {
     errors.push('Amount must be greater than 0');
   }
-  
+
   if (!params.currency || params.currency.length !== 3) {
     errors.push('Currency must be a 3-letter ISO code');
   }
-  
+
   if (params.metadata) {
     for (const [key, value] of Object.entries(params.metadata)) {
       if (key.length > 40) {
@@ -50,7 +50,7 @@ function validatePaymentIntentParams(params: {
       }
     }
   }
-  
+
   return { valid: errors.length === 0, errors };
 }
 
@@ -79,7 +79,7 @@ function parseStripeError(error: any): { code: string; message: string; type: st
 function calculateRefundAmount(
   originalAmount: number,
   refundType: 'full' | 'partial',
-  partialAmount?: number
+  partialAmount?: number,
 ): number {
   if (refundType === 'full') {
     return originalAmount;
@@ -95,7 +95,7 @@ describe('StripeService', () => {
     it('should convert dollars to cents for USD', () => {
       expect(formatAmountForStripe(29.99, 'usd')).toBe(2999);
       expect(formatAmountForStripe(100, 'usd')).toBe(10000);
-      expect(formatAmountForStripe(0.50, 'usd')).toBe(50);
+      expect(formatAmountForStripe(0.5, 'usd')).toBe(50);
     });
 
     it('should handle zero decimal currencies', () => {
@@ -161,7 +161,7 @@ describe('StripeService', () => {
       const result = validatePaymentIntentParams({
         amount: 2999,
         currency: 'usd',
-        metadata: { 'this_is_a_very_long_metadata_key_that_exceeds_limit': 'value' },
+        metadata: { this_is_a_very_long_metadata_key_that_exceeds_limit: 'value' },
       });
       expect(result.valid).toBe(false);
     });

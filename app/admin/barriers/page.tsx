@@ -18,8 +18,6 @@ export default async function BarriersPage() {
   await requireRole(['admin', 'super_admin']);
   const supabase = await createClient();
 
-
-
   // Fetch barriers data
   const { data: barriers, count: totalBarriers } = await supabase
     .from('participant_barriers')
@@ -48,14 +46,17 @@ export default async function BarriersPage() {
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* Hero Image */}
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8">
           <nav className="text-sm mb-4">
             <ol className="flex items-center space-x-2 text-slate-700">
-              <li><Link href="/admin" className="hover:text-primary">Admin</Link></li>
+              <li>
+                <Link href="/admin" className="hover:text-primary">
+                  Admin
+                </Link>
+              </li>
               <li>/</li>
               <li className="text-slate-900 font-medium">Barriers</li>
             </ol>
@@ -63,7 +64,9 @@ export default async function BarriersPage() {
           <div className="flex justify-between items-center">
             <div>
               <h1 className="text-3xl font-bold text-slate-900">Barriers Management</h1>
-              <p className="text-slate-700 mt-2">Track and resolve participant barriers to success</p>
+              <p className="text-slate-700 mt-2">
+                Track and resolve participant barriers to success
+              </p>
             </div>
             <button className="bg-brand-blue-600 text-white px-4 py-2 rounded-lg hover:bg-brand-blue-700">
               Add Barrier
@@ -78,7 +81,12 @@ export default async function BarriersPage() {
               <h3 className="text-sm font-medium text-slate-700">Total Barriers</h3>
               <span className="text-brand-blue-600 bg-brand-blue-100 p-2 rounded-lg">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                  />
                 </svg>
               </span>
             </div>
@@ -91,7 +99,12 @@ export default async function BarriersPage() {
               <h3 className="text-sm font-medium text-slate-700">Active</h3>
               <span className="text-brand-orange-600 bg-brand-orange-100 p-2 rounded-lg">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
                 </svg>
               </span>
             </div>
@@ -104,7 +117,12 @@ export default async function BarriersPage() {
               <h3 className="text-sm font-medium text-slate-700">Resolved</h3>
               <span className="text-brand-green-600 bg-brand-green-100 p-2 rounded-lg">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
                 </svg>
               </span>
             </div>
@@ -139,26 +157,31 @@ export default async function BarriersPage() {
           <div className="divide-y">
             {barriers && barriers.length > 0 ? (
               barriers.map((barrier: any) => (
-                <div key={barrier.id} className="p-4 flex items-center justify-between hover:bg-gray-50">
+                <div
+                  key={barrier.id}
+                  className="p-4 flex items-center justify-between hover:bg-gray-50"
+                >
                   <div>
                     <p className="font-medium text-slate-900">{barrier.type || 'Unknown'}</p>
-                    <p className="text-sm text-slate-700">{barrier.description || 'No description'}</p>
+                    <p className="text-sm text-slate-700">
+                      {barrier.description || 'No description'}
+                    </p>
                   </div>
-                  <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-                    barrier.status === 'resolved' 
-                      ? 'bg-brand-green-100 text-brand-green-800' 
-                      : barrier.status === 'active'
-                      ? 'bg-brand-orange-100 text-brand-orange-800'
-                      : 'bg-gray-100 text-slate-900'
-                  }`}>
+                  <span
+                    className={`px-3 py-1 rounded-full text-sm font-medium ${
+                      barrier.status === 'resolved'
+                        ? 'bg-brand-green-100 text-brand-green-800'
+                        : barrier.status === 'active'
+                          ? 'bg-brand-orange-100 text-brand-orange-800'
+                          : 'bg-gray-100 text-slate-900'
+                    }`}
+                  >
                     {barrier.status || 'pending'}
                   </span>
                 </div>
               ))
             ) : (
-              <div className="p-8 text-center text-slate-700">
-                No barriers documented yet
-              </div>
+              <div className="p-8 text-center text-slate-700">No barriers documented yet</div>
             )}
           </div>
         </div>

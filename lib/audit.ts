@@ -22,13 +22,15 @@ async function onAuditFailure(context: string, error: unknown, event: Record<str
   const errorMessage = error instanceof Error ? error.message : String(error);
 
   // Channel 1: Structured log — visible in container/edge logs
-  logger.error(JSON.stringify({
-    level: 'AUDIT_WRITE_FAILURE',
-    timestamp: new Date().toISOString(),
-    context,
-    error: errorMessage,
-    event,
-  }));
+  logger.error(
+    JSON.stringify({
+      level: 'AUDIT_WRITE_FAILURE',
+      timestamp: new Date().toISOString(),
+      context,
+      error: errorMessage,
+      event,
+    }),
+  );
 
   // Channel 2: Application logger
   logger.error(context, error as Error, { event });
@@ -38,11 +40,15 @@ async function onAuditFailure(context: string, error: unknown, event: Record<str
   try {
     const fallbackClient = await getAdminClient();
     // Fire-and-forget: don't await, don't let this throw
-    fallbackClient.from('audit_failures').insert({
-      context,
-      error_message: errorMessage,
-      original_event: event,
-    }).then(() => {}).catch(() => {});
+    fallbackClient
+      .from('audit_failures')
+      .insert({
+        context,
+        error_message: errorMessage,
+        original_event: event,
+      })
+      .then(() => {})
+      .catch(() => {});
   } catch {
     // If even creating the client fails, fall through to file
   }
@@ -86,17 +92,43 @@ export type AuditEvent = {
 // PII field names to redact from metadata payloads.
 // Values are replaced with '[REDACTED]' before insert.
 const PII_METADATA_KEYS = new Set([
-  'email', 'user_email', 'created_emails', 'anonymized_email',
-  'phone', 'phone_number', 'mobile',
-  'ssn', 'ssn_hash', 'ssn_last4', 'ssn_last_4',
-  'date_of_birth', 'dob',
-  'address', 'address_line1', 'address_line2', 'street_address',
-  'full_name', 'first_name', 'last_name', 'name',
-  'tax_id', 'itin', 'ein',
-  'bank_account', 'routing_number', 'account_number',
-  'driver_license', 'state_id', 'government_id',
-  'file_path', 'file_url', 'document_url', 'signed_url',
-  'password', 'temp_password', 'temporary_password',
+  'email',
+  'user_email',
+  'created_emails',
+  'anonymized_email',
+  'phone',
+  'phone_number',
+  'mobile',
+  'ssn',
+  'ssn_hash',
+  'ssn_last4',
+  'ssn_last_4',
+  'date_of_birth',
+  'dob',
+  'address',
+  'address_line1',
+  'address_line2',
+  'street_address',
+  'full_name',
+  'first_name',
+  'last_name',
+  'name',
+  'tax_id',
+  'itin',
+  'ein',
+  'bank_account',
+  'routing_number',
+  'account_number',
+  'driver_license',
+  'state_id',
+  'government_id',
+  'file_path',
+  'file_url',
+  'document_url',
+  'signed_url',
+  'password',
+  'temp_password',
+  'temporary_password',
 ]);
 
 function sanitizeMetadata(metadata: Record<string, any>): Record<string, any> {
@@ -134,7 +166,11 @@ export async function logAuditEvent(event: AuditEvent): Promise<void> {
     // Log to stderr and return — the fallback channels in onAuditFailure handle
     // durable recording once the secret is available.
     if (!supabase) {
-      void onAuditFailure('logAuditEvent: admin client unavailable (key absent)', new Error('No admin client'), payload);
+      void onAuditFailure(
+        'logAuditEvent: admin client unavailable (key absent)',
+        new Error('No admin client'),
+        payload,
+      );
       return;
     }
 
@@ -292,9 +328,7 @@ export const AuditActions = {
 /**
  * Helper to extract IP and User Agent from Next.js request
  */
-export function getRequestMetadata(
-  req: Request | { headers: Headers; ip?: string }
-) {
+export function getRequestMetadata(req: Request | { headers: Headers; ip?: string }) {
   const headers = req.headers;
 
   return {
@@ -320,7 +354,7 @@ export async function auditedAction<T>(
     tenantId?: string;
     userId?: string;
     metadata?: Record<string, any>;
-  }
+  },
 ): Promise<T> {
   const { ipAddress, userAgent } = getRequestMetadata(req);
 
@@ -333,17 +367,15 @@ export async function auditedAction<T>(
       userId: options?.userId,
       action,
       resourceType,
-      resourceId:
-        typeof result === 'object' && result && 'id' in result
-          ? String(result.id)
-          : null,
+      resourceId: typeof result === 'object' && result && 'id' in result ? String(result.id) : null,
       metadata: options?.metadata,
       ipAddress,
       userAgent,
     });
 
     return result;
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     // Log failed action
     await logAuditEvent({
       tenantId: options?.tenantId,
@@ -389,10 +421,12 @@ export type AdminAuditParams = {
  */
 export async function writeAdminAuditEvent(
   supabase: { auth: { getUser: () => Promise<{ data: { user: { id: string } | null } }> } },
-  params: AdminAuditParams
+  params: AdminAuditParams,
 ): Promise<void> {
   try {
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     await logAuditEvent({
       userId: user?.id ?? null,
       action: params.action,

@@ -1,15 +1,11 @@
-"use client";
+'use client';
 
 import React from 'react';
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-export default function ProductApprovalActions({
-  productId,
-}: {
-  productId: string;
-}) {
+export default function ProductApprovalActions({ productId }: { productId: string }) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
@@ -27,7 +23,8 @@ export default function ProductApprovalActions({
       if (!res.ok) throw new Error('Failed to approve');
 
       router.refresh();
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       alert('Failed to approve product');
     } finally {
       setLoading(false);
@@ -49,7 +46,8 @@ export default function ProductApprovalActions({
       if (!res.ok) throw new Error('Failed to reject');
 
       router.refresh();
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       alert('Failed to reject product');
     } finally {
       setLoading(false);

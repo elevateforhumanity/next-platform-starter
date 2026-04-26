@@ -12,8 +12,7 @@ export const metadata: Metadata = {
     canonical: 'https://www.elevateforhumanity.org/programs/admin/settings',
   },
   title: 'Programs Admin Settings | Elevate For Humanity',
-  description:
-    'Configure program settings and preferences.',
+  description: 'Configure program settings and preferences.',
 };
 
 export default async function SettingsPage() {
@@ -27,11 +26,7 @@ export default async function SettingsPage() {
     redirect('/login');
   }
 
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('*')
-    .eq('id', user.id)
-    .single();
+  const { data: profile } = await supabase.from('profiles').select('*').eq('id', user.id).single();
 
   if (profile?.role !== 'admin' && profile?.role !== 'super_admin') {
     redirect('/unauthorized');
@@ -58,13 +53,13 @@ export default async function SettingsPage() {
         <Image
           src="/images/pages/programs-page-3.jpg"
           alt="Settings"
-          fill sizes="100vw"
+          fill
+          sizes="100vw"
           className="object-cover"
           quality={100}
           priority
           sizes="100vw"
         />
-
       </section>
 
       {/* Content Section */}
@@ -74,25 +69,17 @@ export default async function SettingsPage() {
             {/* Stats */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
               <div className="bg-white rounded-lg shadow-sm border p-6">
-                <h3 className="text-sm font-medium text-black mb-2">
-                  Total Items
-                </h3>
-                <p className="text-3xl font-bold text-brand-blue-600">
-                  {count || 0}
-                </p>
+                <h3 className="text-sm font-medium text-black mb-2">Total Items</h3>
+                <p className="text-3xl font-bold text-brand-blue-600">{count || 0}</p>
               </div>
               <div className="bg-white rounded-lg shadow-sm border p-6">
-                <h3 className="text-sm font-medium text-black mb-2">
-                  Active
-                </h3>
+                <h3 className="text-sm font-medium text-black mb-2">Active</h3>
                 <p className="text-3xl font-bold text-brand-green-600">
                   {items?.filter((i) => i.status === 'active').length || 0}
                 </p>
               </div>
               <div className="bg-white rounded-lg shadow-sm border p-6">
-                <h3 className="text-sm font-medium text-black mb-2">
-                  Recent
-                </h3>
+                <h3 className="text-sm font-medium text-black mb-2">Recent</h3>
                 <p className="text-3xl font-bold text-brand-blue-600">
                   {items?.filter((i) => {
                     const created = new Date(i.created_at);
@@ -110,13 +97,8 @@ export default async function SettingsPage() {
               {items && items.length > 0 ? (
                 <div className="space-y-4">
                   {items.map((item: any) => (
-                    <div
-                      key={item.id}
-                      className="p-4 border rounded-lg hover:bg-slate-50"
-                    >
-                      <p className="font-semibold">
-                        {item.title || item.name || item.id}
-                      </p>
+                    <div key={item.id} className="p-4 border rounded-lg hover:bg-slate-50">
+                      <p className="font-semibold">{item.title || item.name || item.id}</p>
                       <p className="text-sm text-black">
                         {new Date(item.created_at).toLocaleDateString()}
                       </p>
@@ -135,12 +117,9 @@ export default async function SettingsPage() {
       <section className="py-16 bg-brand-blue-700">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-2xl md:text-3xl font-bold mb-4">
-              Need Help?
-            </h2>
+            <h2 className="text-2xl md:text-3xl font-bold mb-4">Need Help?</h2>
             <p className="text-base md:text-lg text-brand-blue-100 mb-8">
-              Contact support if you have questions about managing your
-              programs or need assistance.
+              Contact support if you have questions about managing your programs or need assistance.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <Link

@@ -3,8 +3,16 @@
 import { useEffect, useState, useCallback } from 'react';
 import Link from 'next/link';
 import {
-  Plus, RefreshCw, Search, Filter, Clock, CheckCircle2,
-  XCircle, AlertTriangle, Users, Calendar,
+  Plus,
+  RefreshCw,
+  Search,
+  Filter,
+  Clock,
+  CheckCircle2,
+  XCircle,
+  AlertTriangle,
+  Users,
+  Calendar,
 } from 'lucide-react';
 import type { ExamSession, ExamSessionStatus } from '@/lib/proctor/types';
 import { STATUS_CONFIG, RESULT_CONFIG, EXAM_PROVIDERS } from '@/lib/proctor/types';
@@ -36,10 +44,12 @@ export default function ProctorDashboard() {
     }
   }, [search, statusFilter]);
 
-  useEffect(() => { fetchSessions(); }, [fetchSessions]);
+  useEffect(() => {
+    fetchSessions();
+  }, [fetchSessions]);
 
   const todaySessions = sessions.filter(
-    (s) => new Date(s.created_at).toDateString() === new Date().toDateString()
+    (s) => new Date(s.created_at).toDateString() === new Date().toDateString(),
   );
   const activeSessions = sessions.filter((s) => s.status === 'in_progress');
   const completedToday = todaySessions.filter((s) => s.status === 'completed');
@@ -49,10 +59,30 @@ export default function ProctorDashboard() {
     <div className="space-y-8">
       {/* Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard icon={<Calendar className="w-5 h-5" />} label="Today's Sessions" value={todaySessions.length} color="bg-brand-blue-50 text-brand-blue-700" />
-        <StatCard icon={<Clock className="w-5 h-5" />} label="Active Now" value={activeSessions.length} color="bg-yellow-50 text-yellow-700" />
-        <StatCard icon={<CheckCircle2 className="w-5 h-5" />} label="Completed Today" value={completedToday.length} color="bg-brand-green-50 text-brand-green-700" />
-        <StatCard icon={<Users className="w-5 h-5" />} label="Passed Today" value={passedToday.length} color="bg-emerald-50 text-emerald-700" />
+        <StatCard
+          icon={<Calendar className="w-5 h-5" />}
+          label="Today's Sessions"
+          value={todaySessions.length}
+          color="bg-brand-blue-50 text-brand-blue-700"
+        />
+        <StatCard
+          icon={<Clock className="w-5 h-5" />}
+          label="Active Now"
+          value={activeSessions.length}
+          color="bg-yellow-50 text-yellow-700"
+        />
+        <StatCard
+          icon={<CheckCircle2 className="w-5 h-5" />}
+          label="Completed Today"
+          value={completedToday.length}
+          color="bg-brand-green-50 text-brand-green-700"
+        />
+        <StatCard
+          icon={<Users className="w-5 h-5" />}
+          label="Passed Today"
+          value={passedToday.length}
+          color="bg-emerald-50 text-emerald-700"
+        />
       </div>
 
       {/* Active sessions alert */}
@@ -60,7 +90,9 @@ export default function ProctorDashboard() {
         <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-4 flex items-start gap-3">
           <AlertTriangle className="w-5 h-5 text-yellow-600 flex-shrink-0 mt-0.5" />
           <div>
-            <p className="font-semibold text-yellow-900">{activeSessions.length} exam{activeSessions.length > 1 ? 's' : ''} in progress</p>
+            <p className="font-semibold text-yellow-900">
+              {activeSessions.length} exam{activeSessions.length > 1 ? 's' : ''} in progress
+            </p>
             <p className="text-sm text-yellow-700 mt-1">
               {activeSessions.map((s) => s.student_name).join(', ')}
             </p>
@@ -156,7 +188,17 @@ export default function ProctorDashboard() {
   );
 }
 
-function StatCard({ icon, label, value, color }: { icon: React.ReactNode; label: string; value: number; color: string }) {
+function StatCard({
+  icon,
+  label,
+  value,
+  color,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  value: number;
+  color: string;
+}) {
   return (
     <div className={`rounded-xl p-4 ${color}`}>
       <div className="flex items-center gap-2 mb-1">
@@ -172,7 +214,10 @@ function SessionRow({ session }: { session: ExamSession }) {
   const statusCfg = STATUS_CONFIG[session.status];
   const resultCfg = RESULT_CONFIG[session.result];
   const providerLabel = EXAM_PROVIDERS[session.provider]?.label || session.provider;
-  const time = new Date(session.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  const time = new Date(session.created_at).toLocaleTimeString([], {
+    hour: '2-digit',
+    minute: '2-digit',
+  });
   const date = new Date(session.created_at).toLocaleDateString();
 
   return (
@@ -212,8 +257,18 @@ function SessionRow({ session }: { session: ExamSession }) {
 
 function ClipboardIcon({ className }: { className?: string }) {
   return (
-    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+    <svg
+      className={className}
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth={1.5}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+      />
     </svg>
   );
 }

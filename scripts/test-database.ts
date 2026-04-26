@@ -250,8 +250,9 @@ async function testMigrationFiles() {
   const migrationsDir = path.join(process.cwd(), 'supabase/migrations');
 
   try {
-    const files = fs.readdirSync(migrationsDir)
-      .filter(f => f.endsWith('.sql') && !f.startsWith('.'));
+    const files = fs
+      .readdirSync(migrationsDir)
+      .filter((f) => f.endsWith('.sql') && !f.startsWith('.'));
 
     category.tests.push({
       name: 'Migration files found',
@@ -285,11 +286,11 @@ async function testMigrationFiles() {
     category.tests.push({
       name: 'No duplicate policy names',
       passed: duplicatePolicies === 0,
-      details: duplicatePolicies > 0
-        ? `Found ${duplicatePolicies} duplicate policy names`
-        : 'All policy names unique',
+      details:
+        duplicatePolicies > 0
+          ? `Found ${duplicatePolicies} duplicate policy names`
+          : 'All policy names unique',
     });
-
   } catch (error: any) {
     category.tests.push({
       name: 'Migration files analysis',
@@ -330,23 +331,23 @@ async function testSeedFiles() {
   category.tests.push({
     name: 'Single master seed file',
     passed: foundFiles === 1,
-    details: foundFiles > 1
-      ? `⚠️ Multiple seed files found (${foundFiles}) - use 000_master_seed.sql`
-      : 'Single seed file',
+    details:
+      foundFiles > 1
+        ? `⚠️ Multiple seed files found (${foundFiles}) - use 000_master_seed.sql`
+        : 'Single seed file',
   });
 
   results.push(category);
 }
 
 function printResults() {
-
   let totalTests = 0;
   let passedTests = 0;
   let failedTests = 0;
 
   for (const category of results) {
-    const categoryPassed = category.tests.filter(t => t.passed).length;
-    const categoryFailed = category.tests.filter(t => !t.passed).length;
+    const categoryPassed = category.tests.filter((t) => t.passed).length;
+    const categoryFailed = category.tests.filter((t) => !t.passed).length;
     const categoryTotal = category.tests.length;
 
     totalTests += categoryTotal;
@@ -366,7 +367,6 @@ function printResults() {
     }
   }
 
-
   if (failedTests === 0) {
     return 0;
   } else {
@@ -375,7 +375,6 @@ function printResults() {
 }
 
 async function main() {
-
   try {
     await testDatabaseConnection();
     await testCoreTables();

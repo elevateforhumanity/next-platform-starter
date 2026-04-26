@@ -30,10 +30,7 @@ async function _POST(request: NextRequest) {
 
     // Validate required fields
     if (!dashboard_type || !file_name || !file_url) {
-      return NextResponse.json(
-        { error: 'Missing required fields' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
     // Save upload record
@@ -51,18 +48,12 @@ async function _POST(request: NextRequest) {
       .maybeSingle();
 
     if (error) {
-      return NextResponse.json(
-        { error: 'Failed to save upload record' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to save upload record' }, { status: 500 });
     }
 
     return NextResponse.json({ success: true, data });
-  } catch (error) { 
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+  } catch (error) {
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -98,18 +89,12 @@ async function _GET(request: NextRequest) {
     const { data, error } = await query;
 
     if (error) {
-      return NextResponse.json(
-        { error: 'Failed to fetch uploads' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to fetch uploads' }, { status: 500 });
     }
 
     return NextResponse.json({ success: true, data });
-  } catch (error) { 
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+  } catch (error) {
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -133,10 +118,7 @@ async function _DELETE(request: NextRequest) {
     const uploadId = searchParams.get('id');
 
     if (!uploadId) {
-      return NextResponse.json(
-        { error: 'Upload ID required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Upload ID required' }, { status: 400 });
     }
 
     // Delete upload record (only if owned by user)
@@ -147,18 +129,12 @@ async function _DELETE(request: NextRequest) {
       .eq('user_id', user.id);
 
     if (error) {
-      return NextResponse.json(
-        { error: 'Failed to delete upload' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to delete upload' }, { status: 500 });
     }
 
     return NextResponse.json({ success: true });
-  } catch (error) { 
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+  } catch (error) {
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/uploads', _GET);

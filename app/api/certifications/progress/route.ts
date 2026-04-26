@@ -11,7 +11,9 @@ async function _GET(request: NextRequest) {
   if (rateLimited) return rateLimited;
 
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   const { searchParams } = new URL(request.url);
@@ -24,8 +26,8 @@ async function _GET(request: NextRequest) {
   }
 
   // Get program curriculum from JSON
-  const programData = programCurriculum.programs.find(p => p.id === programId);
-  
+  const programData = programCurriculum.programs.find((p) => p.id === programId);
+
   if (!programData) {
     return NextResponse.json({ error: 'Program not found' }, { status: 404 });
   }
@@ -38,11 +40,11 @@ async function _GET(request: NextRequest) {
     .eq('program_id', programId);
 
   // Map certifications with status
-  const certifications = programData.certifications.map(cert => {
-    const submission = submissions?.find(s => s.certification_name === cert.name);
-    
+  const certifications = programData.certifications.map((cert) => {
+    const submission = submissions?.find((s) => s.certification_name === cert.name);
+
     let status: 'not_started' | 'in_progress' | 'pending_review' | 'completed' = 'not_started';
-    
+
     if (submission) {
       if (submission.status === 'approved') {
         status = 'completed';

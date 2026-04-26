@@ -113,10 +113,7 @@ export async function getScormRegistration(registrationId: string) {
 /**
  * Build a launch link for a learner to play a SCORM course.
  */
-export async function buildLaunchLink(
-  registrationId: string,
-  redirectOnExitUrl: string,
-) {
+export async function buildLaunchLink(registrationId: string, redirectOnExitUrl: string) {
   const data = await scormFetch(`/registrations/${registrationId}/launchLink`, {
     method: 'POST',
     body: JSON.stringify({

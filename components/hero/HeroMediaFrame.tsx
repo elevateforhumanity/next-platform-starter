@@ -25,9 +25,7 @@ export default function HeroMediaFrame({
   className = '',
 }: Props) {
   return (
-    <div
-      className={`relative w-full overflow-hidden bg-slate-900 ${heightClass} ${className}`}
-    >
+    <div className={`relative w-full overflow-hidden bg-slate-900 ${heightClass} ${className}`}>
       {children}
     </div>
   );

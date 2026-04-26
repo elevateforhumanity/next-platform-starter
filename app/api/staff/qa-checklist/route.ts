@@ -44,10 +44,7 @@ async function _GET(request: Request) {
       .order('frequency');
 
     if (checklistsError) {
-      return NextResponse.json(
-        { error: 'Failed to fetch checklists' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to fetch checklists' }, { status: 500 });
     }
 
     // Get user's completions for today
@@ -60,17 +57,12 @@ async function _GET(request: Request) {
       .lte('completed_at', `${today}T23:59:59`);
 
     if (completionsError) {
-      return NextResponse.json(
-        { error: 'Failed to fetch completions' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to fetch completions' }, { status: 500 });
     }
 
     // Combine checklists with completion status
     const checklistsWithStatus = checklists?.map((checklist) => {
-      const completion = completions?.find(
-        (c) => c.checklist_id === checklist.id
-      );
+      const completion = completions?.find((c) => c.checklist_id === checklist.id);
       return {
         ...checklist,
         completed: !!completion,
@@ -83,11 +75,8 @@ async function _GET(request: Request) {
       totalChecklists: checklists?.length || 0,
       completedToday: completions?.length || 0,
     });
-  } catch (error) { 
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+  } catch (error) {
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -110,10 +99,7 @@ async function _POST(request: Request) {
     const { checklist_id, notes } = body;
 
     if (!checklist_id) {
-      return NextResponse.json(
-        { error: 'checklist_id is required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'checklist_id is required' }, { status: 400 });
     }
 
     // Verify checklist exists
@@ -124,10 +110,7 @@ async function _POST(request: Request) {
       .maybeSingle();
 
     if (checklistError || !checklist) {
-      return NextResponse.json(
-        { error: 'Checklist not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: 'Checklist not found' }, { status: 404 });
     }
 
     // Create completion
@@ -143,21 +126,15 @@ async function _POST(request: Request) {
       .maybeSingle();
 
     if (completionError) {
-      return NextResponse.json(
-        { error: 'Operation failed' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Operation failed' }, { status: 500 });
     }
 
     return NextResponse.json({
       success: true,
       completion,
     });
-  } catch (error) { 
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+  } catch (error) {
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/staff/qa-checklist', _GET);

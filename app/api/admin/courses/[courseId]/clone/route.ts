@@ -64,16 +64,23 @@ export async function POST(
 
   // ── Clone courses row ─────────────────────────────────────────────────────
 
-  const { id: _id, created_at: _ca, updated_at: _ua, slug: _slug, title: _title,
-          status: _status, ...rest } = src;
+  const {
+    id: _id,
+    created_at: _ca,
+    updated_at: _ua,
+    slug: _slug,
+    title: _title,
+    status: _status,
+    ...rest
+  } = src;
 
   const { data: newCourse, error: courseErr } = await db
     .from('courses')
     .insert({
       ...rest,
-      title:      newTitle,
-      slug:       newSlug,
-      status:     'draft',
+      title: newTitle,
+      slug: newSlug,
+      status: 'draft',
       updated_at: new Date().toISOString(),
     })
     .select('id, slug, title')
@@ -110,11 +117,11 @@ export async function POST(
       const { error: lessonErr } = await db.from('course_lessons').insert(
         lessons.map(({ id: _, course_id: __, course_module_id: ___, ...l }: any) => ({
           ...l,
-          course_id:        newCourseId,
+          course_id: newCourseId,
           course_module_id: newMod.id,
           // Reset publish state on clone — admin must explicitly re-publish.
-          status:           'draft',
-          is_published:     false,
+          status: 'draft',
+          is_published: false,
         })),
       );
       if (lessonErr) errors.push(`lessons in '${mod.title}': ${lessonErr.message}`);

@@ -106,27 +106,33 @@ function getPrimaryCTA(type: ProgramType): string {
  */
 function getFundingLabel(option: FundingOption): string {
   switch (option) {
-    case 'self_pay': return 'Self-Pay';
-    case 'wioa': return 'WIOA Funding';
-    case 'wrg': return 'Workforce Ready Grant';
-    case 'employer': return 'Employer Sponsored';
-    case 'grant': return 'Grant Funded';
-    case 'bnpl': return 'Payment Plan';
+    case 'self_pay':
+      return 'Self-Pay';
+    case 'wioa':
+      return 'WIOA Funding';
+    case 'wrg':
+      return 'Workforce Ready Grant';
+    case 'employer':
+      return 'Employer Sponsored';
+    case 'grant':
+      return 'Grant Funded';
+    case 'bnpl':
+      return 'Payment Plan';
   }
 }
 
 /**
  * ProgramPageContract - Enforces the program page contract
- * 
+ *
  * Every program page must use this layout to ensure consistency
  * and compliance with the program page contract.
  */
 export function ProgramPageContract({ config }: { config: ProgramPageConfig }) {
-
   const primaryCTA = getPrimaryCTA(config.programType);
-  const primaryUrl = config.programType === 'workforce_funded' && config.eligibilityUrl
-    ? config.eligibilityUrl
-    : config.applyUrl;
+  const primaryUrl =
+    config.programType === 'workforce_funded' && config.eligibilityUrl
+      ? config.eligibilityUrl
+      : config.applyUrl;
 
   return (
     <main className="min-h-screen bg-white text-slate-900">
@@ -134,10 +140,7 @@ export function ProgramPageContract({ config }: { config: ProgramPageConfig }) {
       <div className="bg-slate-50 border-b">
         <div className="max-w-7xl mx-auto px-6 py-3">
           <Breadcrumbs
-            items={[
-              { label: 'Programs', href: '/programs' },
-              { label: config.title },
-            ]}
+            items={[{ label: 'Programs', href: '/programs' }, { label: config.title }]}
           />
         </div>
       </div>
@@ -157,9 +160,9 @@ export function ProgramPageContract({ config }: { config: ProgramPageConfig }) {
             fill
             className="object-cover"
             priority
-           sizes="100vw" />
+            sizes="100vw"
+          />
         ) : null}
-
 
         <div className="relative z-10 max-w-7xl mx-auto px-6 py-20">
           <div className="max-w-3xl">
@@ -286,7 +289,9 @@ export function ProgramPageContract({ config }: { config: ProgramPageConfig }) {
               </h3>
               <ul className="space-y-2">
                 {config.outcomes.knowledge.map((item, i) => (
-                  <li key={i} className="text-white">• {item}</li>
+                  <li key={i} className="text-white">
+                    • {item}
+                  </li>
                 ))}
               </ul>
             </div>
@@ -297,7 +302,9 @@ export function ProgramPageContract({ config }: { config: ProgramPageConfig }) {
               </h3>
               <ul className="space-y-2">
                 {config.outcomes.skills.map((item, i) => (
-                  <li key={i} className="text-white">• {item}</li>
+                  <li key={i} className="text-white">
+                    • {item}
+                  </li>
                 ))}
               </ul>
             </div>
@@ -308,7 +315,9 @@ export function ProgramPageContract({ config }: { config: ProgramPageConfig }) {
               </h3>
               <ul className="space-y-2">
                 {config.outcomes.compliance.map((item, i) => (
-                  <li key={i} className="text-white">• {item}</li>
+                  <li key={i} className="text-white">
+                    • {item}
+                  </li>
                 ))}
               </ul>
             </div>
@@ -354,7 +363,9 @@ export function ProgramPageContract({ config }: { config: ProgramPageConfig }) {
 
             <div className="grid md:grid-cols-2 gap-8 mt-8">
               <div>
-                <h4 className="font-semibold text-slate-900 mb-3">This credential can be used for:</h4>
+                <h4 className="font-semibold text-slate-900 mb-3">
+                  This credential can be used for:
+                </h4>
                 <ul className="space-y-2">
                   {config.credential.usedFor.map((item, i) => (
                     <li key={i} className="flex items-start gap-2 text-slate-700">
@@ -397,9 +408,13 @@ export function ProgramPageContract({ config }: { config: ProgramPageConfig }) {
                 }`}
               >
                 <div className="flex items-center gap-2 mb-2">
-                  <DollarSign className={`w-5 h-5 ${
-                    option === config.funding.primaryOption ? 'text-brand-green-600' : 'text-slate-500'
-                  }`} />
+                  <DollarSign
+                    className={`w-5 h-5 ${
+                      option === config.funding.primaryOption
+                        ? 'text-brand-green-600'
+                        : 'text-slate-500'
+                    }`}
+                  />
                   <span className="font-semibold text-slate-900">{getFundingLabel(option)}</span>
                 </div>
                 {option === config.funding.primaryOption && (
@@ -420,7 +435,9 @@ export function ProgramPageContract({ config }: { config: ProgramPageConfig }) {
       {/* FINAL CTA */}
       <section className="bg-slate-900 py-16">
         <div className="max-w-5xl mx-auto px-6 text-center">
-          <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-3">Ready to Get Started?</h2>
+          <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-3">
+            Ready to Get Started?
+          </h2>
           <p className="mt-2 text-slate-300 text-base leading-relaxed mb-8 max-w-xl mx-auto">
             Take the next step toward your new career.
           </p>

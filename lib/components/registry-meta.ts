@@ -2,12 +2,7 @@
 // Import this in Client Components (admin builder UI).
 // Import registry.ts only in Server Components or PageRenderer.
 
-export type RegisteredComponent =
-  | 'Hero'
-  | 'RichText'
-  | 'EventFeed'
-  | 'JobFeed'
-  | 'FormBlock';
+export type RegisteredComponent = 'Hero' | 'RichText' | 'EventFeed' | 'JobFeed' | 'FormBlock';
 
 export const ComponentLabels: Record<RegisteredComponent, string> = {
   Hero: 'Hero Banner',

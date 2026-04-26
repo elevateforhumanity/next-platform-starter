@@ -32,18 +32,23 @@ export default async function SchedulePage() {
     .select('id, status, course_id, progress_percent')
     .eq('user_id', user.id)
     .eq('status', 'active');
-  const schedCourseIds = [...new Set((rawSchedEnrollments || []).map((e: any) => e.course_id).filter(Boolean))];
+  const schedCourseIds = [
+    ...new Set((rawSchedEnrollments || []).map((e: any) => e.course_id).filter(Boolean)),
+  ];
   const { data: schedCourses } = schedCourseIds.length
     ? await supabase.from('courses').select('id, title, description').in('id', schedCourseIds)
     : { data: [] };
   const schedCourseMap = Object.fromEntries((schedCourses || []).map((c: any) => [c.id, c]));
-  const enrollments = (rawSchedEnrollments || []).map((e: any) => ({ ...e, courses: schedCourseMap[e.course_id] ?? null }));
+  const enrollments = (rawSchedEnrollments || []).map((e: any) => ({
+    ...e,
+    courses: schedCourseMap[e.course_id] ?? null,
+  }));
 
   return (
     <div className="min-h-screen bg-white py-8">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <Breadcrumbs items={[{ label: "LMS", href: "/lms/courses" }, { label: "Schedule" }]} />
-        </div>
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'LMS', href: '/lms/courses' }, { label: 'Schedule' }]} />
+      </div>
       <div className="container mx-auto px-4">
         <div className="max-w-6xl mx-auto">
           <div className="flex justify-between items-center mb-8">
@@ -67,9 +72,7 @@ export default async function SchedulePage() {
                     className="flex items-center justify-between p-4 bg-white rounded-lg"
                   >
                     <div>
-                      <p className="font-medium">
-                        {enrollment.courses?.title || 'Course'}
-                      </p>
+                      <p className="font-medium">{enrollment.courses?.title || 'Course'}</p>
                       <p className="text-sm text-slate-700">Continue learning</p>
                     </div>
                     <Link

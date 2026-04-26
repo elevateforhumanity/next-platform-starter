@@ -14,25 +14,24 @@ import { logger } from '@/lib/logger';
 export const dynamic = 'force-dynamic';
 
 const PatchSchema = z.object({
-  partner_name:             z.string().min(1).optional(),
-  title:                    z.string().min(1).optional(),
-  external_url:             z.string().url('Must be a valid URL').optional(),
-  description:              z.string().optional(),
-  duration_display:         z.string().optional(),
-  credential_type:          z.string().optional(),
-  credential_name:          z.string().optional(),
-  enrollment_instructions:  z.string().optional(),
-  opens_in_new_tab:         z.boolean().optional(),
-  is_required:              z.boolean().optional(),
-  sort_order:               z.number().int().min(0).optional(),
+  partner_name: z.string().min(1).optional(),
+  title: z.string().min(1).optional(),
+  external_url: z.string().url('Must be a valid URL').optional(),
+  description: z.string().optional(),
+  duration_display: z.string().optional(),
+  credential_type: z.string().optional(),
+  credential_name: z.string().optional(),
+  enrollment_instructions: z.string().optional(),
+  opens_in_new_tab: z.boolean().optional(),
+  is_required: z.boolean().optional(),
+  sort_order: z.number().int().min(0).optional(),
   manual_completion_enabled: z.boolean().optional(),
-  is_active:                z.boolean().optional(),
+  is_active: z.boolean().optional(),
 });
-
 
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: Promise<{ programId: string; itemId: string }> }
+  { params }: { params: Promise<{ programId: string; itemId: string }> },
 ) {
   const { programId, itemId } = await params;
   const auth = await apiRequireAdmin(req);
@@ -58,14 +57,14 @@ export async function PATCH(
 
   if (error) {
     logger.error('PATCH external course error', error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
   return NextResponse.json({ item: data });
 }
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: Promise<{ programId: string; itemId: string }> }
+  { params }: { params: Promise<{ programId: string; itemId: string }> },
 ) {
   const { programId, itemId } = await params;
   const auth = await apiRequireAdmin(req);
@@ -80,7 +79,7 @@ export async function DELETE(
 
   if (error) {
     logger.error('DELETE external course error', error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
   return NextResponse.json({ ok: true });
 }

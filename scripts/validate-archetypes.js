@@ -26,16 +26,14 @@ const ARCHETYPES = {
   UTILITY: /.*/, // Catch-all
 };
 
-
 // Get all page files
 const pages = execSync(
   'find app -name "page.tsx" -type f | grep -v test | grep -v demo | grep -v backup',
-  { encoding: 'utf-8' }
+  { encoding: 'utf-8' },
 )
   .trim()
   .split('\n')
   .filter(Boolean);
-
 
 // Map pages to archetypes
 const mapping = {};
@@ -72,11 +70,9 @@ Object.entries(mapping).forEach(([archetype, pages]) => {
 const utilityCount = mapping.UTILITY ? mapping.UTILITY.length : 0;
 totalMapped += utilityCount;
 
-
 // Check for unmapped pages
 if (unmapped.length > 0) {
-  unmapped.slice(0, 10).forEach((page) => {
-  });
+  unmapped.slice(0, 10).forEach((page) => {});
   if (unmapped.length > 10) {
   }
   process.exit(1);
@@ -84,9 +80,7 @@ if (unmapped.length > 0) {
 
 // Validate archetype implementations exist
 
-const requiredArchetypes = Object.keys(ARCHETYPES).filter(
-  (a) => a !== 'UTILITY'
-);
+const requiredArchetypes = Object.keys(ARCHETYPES).filter((a) => a !== 'UTILITY');
 const missingArchetypes = [];
 
 requiredArchetypes.forEach((archetype) => {
@@ -97,11 +91,9 @@ requiredArchetypes.forEach((archetype) => {
 });
 
 if (missingArchetypes.length > 0) {
-  missingArchetypes.forEach((arch) => {
-  });
+  missingArchetypes.forEach((arch) => {});
   process.exit(1);
 }
-
 
 // Success
 

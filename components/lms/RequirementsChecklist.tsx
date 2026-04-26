@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
@@ -21,14 +21,20 @@ interface RequirementsChecklistProps {
   enrollmentId: string;
 }
 
-export function RequirementsChecklist({ requirements: initialRequirements, enrollmentId }: RequirementsChecklistProps) {
+export function RequirementsChecklist({
+  requirements: initialRequirements,
+  enrollmentId,
+}: RequirementsChecklistProps) {
   const [requirements, setRequirements] = useState<Requirement[]>(initialRequirements || []);
   const [loading, setLoading] = useState(!initialRequirements?.length);
 
   useEffect(() => {
     // Skip fetch if requirements were passed as props
     if (initialRequirements?.length) return;
-    if (!enrollmentId) { setLoading(false); return; }
+    if (!enrollmentId) {
+      setLoading(false);
+      return;
+    }
 
     const supabase = createClient();
     supabase
@@ -163,17 +169,16 @@ export function RequirementsChecklist({ requirements: initialRequirements, enrol
                 {isCompleted && '• '}
                 {req.title}
               </h3>
-              {req.description && (
-                <p className="text-sm text-black mb-2">
-                  {req.description}
-                </p>
-              )}
+              {req.description && <p className="text-sm text-black mb-2">{req.description}</p>}
               {req.due_date && (
-                <p className={`text-sm mb-2 ${isOverdue ? 'text-brand-orange-600 font-semibold' : 'text-black'}`}>
-                  Due: {new Date(req.due_date).toLocaleDateString('en-US', {
+                <p
+                  className={`text-sm mb-2 ${isOverdue ? 'text-brand-orange-600 font-semibold' : 'text-black'}`}
+                >
+                  Due:{' '}
+                  {new Date(req.due_date).toLocaleDateString('en-US', {
                     month: 'long',
                     day: 'numeric',
-                    year: 'numeric'
+                    year: 'numeric',
                   })}
                   {isOverdue && ' (OVERDUE)'}
                 </p>
@@ -187,14 +192,10 @@ export function RequirementsChecklist({ requirements: initialRequirements, enrol
                 </Link>
               )}
               {isCompleted && req.status === 'verified' && (
-                <p className="text-sm text-brand-green-600">
-                  Verified and approved
-                </p>
+                <p className="text-sm text-brand-green-600">Verified and approved</p>
               )}
               {isCompleted && req.status === 'completed' && (
-                <p className="text-sm text-yellow-600">
-                  Awaiting verification
-                </p>
+                <p className="text-sm text-yellow-600">Awaiting verification</p>
               )}
             </div>
           </div>

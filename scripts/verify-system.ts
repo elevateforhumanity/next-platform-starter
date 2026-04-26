@@ -144,13 +144,19 @@ try {
   const UI_DIRS = ['app', 'components'].map((d) => path.join(ROOT, d));
   const result = execSync(
     `grep -r 'href="#"' ${UI_DIRS.join(' ')} --include="*.tsx" -l 2>/dev/null || true`,
-    { encoding: 'utf8' }
+    { encoding: 'utf8' },
   ).trim();
   const files = result ? result.split('\n').filter(Boolean) : [];
   if (files.length === 0) {
     pass('No href="#" in rendered UI');
   } else {
-    fail(`href="#" found in ${files.length} UI file(s)`, files.slice(0, 3).map((f) => path.relative(ROOT, f)).join(', '));
+    fail(
+      `href="#" found in ${files.length} UI file(s)`,
+      files
+        .slice(0, 3)
+        .map((f) => path.relative(ROOT, f))
+        .join(', '),
+    );
   }
 } catch {
   fail('href="#" scan failed');

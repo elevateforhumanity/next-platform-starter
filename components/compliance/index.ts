@@ -1,6 +1,6 @@
 /**
  * Compliance Components Index
- * 
+ *
  * Centralized exports for all compliance-related components.
  * Use these components to ensure consistent compliance language across the platform.
  */

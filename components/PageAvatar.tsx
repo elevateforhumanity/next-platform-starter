@@ -58,15 +58,18 @@ export default function PageAvatar({ videoSrc, title, position = 'default' }: Pa
     const video = videoRef.current;
     if (!video) return;
     if (isVisible) {
-      video.play().then(() => {
-        setIsPlaying(true);
-        // Unmute automatically — the scroll that triggered visibility is a user gesture
-        if (video.muted && !hasInteracted) {
-          video.muted = false;
-          setIsMuted(false);
-          setHasInteracted(true);
-        }
-      }).catch(() => {});
+      video
+        .play()
+        .then(() => {
+          setIsPlaying(true);
+          // Unmute automatically — the scroll that triggered visibility is a user gesture
+          if (video.muted && !hasInteracted) {
+            video.muted = false;
+            setIsMuted(false);
+            setHasInteracted(true);
+          }
+        })
+        .catch(() => {});
     } else if (!video.paused) {
       video.pause();
       setIsPlaying(false);
@@ -77,7 +80,10 @@ export default function PageAvatar({ videoSrc, title, position = 'default' }: Pa
     const video = videoRef.current;
     if (!video) return;
     if (video.paused) {
-      video.play().then(() => setIsPlaying(true)).catch(() => {});
+      video
+        .play()
+        .then(() => setIsPlaying(true))
+        .catch(() => {});
     } else {
       video.pause();
       setIsPlaying(false);
@@ -102,14 +108,26 @@ export default function PageAvatar({ videoSrc, title, position = 'default' }: Pa
 
   if (position === 'inline') {
     return (
-      <div ref={containerRef} className="w-32 h-32 rounded-full overflow-hidden border-4 border-white shadow-xl bg-slate-900">
-        <video ref={videoRef} className="w-full h-full object-cover" src={videoSrc} playsInline preload="metadata" />
+      <div
+        ref={containerRef}
+        className="w-32 h-32 rounded-full overflow-hidden border-4 border-white shadow-xl bg-slate-900"
+      >
+        <video
+          ref={videoRef}
+          className="w-full h-full object-cover"
+          src={videoSrc}
+          playsInline
+          preload="metadata"
+        />
       </div>
     );
   }
 
   return (
-    <div ref={containerRef} className="w-full rounded-2xl overflow-hidden shadow-xl bg-slate-900 relative aspect-video">
+    <div
+      ref={containerRef}
+      className="w-full rounded-2xl overflow-hidden shadow-xl bg-slate-900 relative aspect-video"
+    >
       <video
         ref={videoRef}
         className="absolute inset-0 w-full h-full object-cover"
@@ -119,7 +137,9 @@ export default function PageAvatar({ videoSrc, title, position = 'default' }: Pa
       />
       {title && (
         <div className="absolute bottom-3 right-3 z-10 pointer-events-none">
-          <span className="bg-black/70 text-white text-xs font-medium rounded px-2 py-1">{title}</span>
+          <span className="bg-black/70 text-white text-xs font-medium rounded px-2 py-1">
+            {title}
+          </span>
         </div>
       )}
     </div>

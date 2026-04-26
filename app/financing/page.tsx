@@ -2,15 +2,30 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { DollarSign, CheckCircle, Clock, Shield, ChevronRight, CreditCard, Landmark, Wallet } from 'lucide-react';
+import {
+  DollarSign,
+  CheckCircle,
+  Clock,
+  Shield,
+  ChevronRight,
+  CreditCard,
+  Landmark,
+  Wallet,
+} from 'lucide-react';
 
 const FINANCING_OPTIONS = [
   {
     id: 'affirm',
     name: 'Affirm',
     tagline: 'Pay over time — no hidden fees',
-    description: 'Split your program cost into monthly payments. Rates from 0–36% APR. Check your rate without affecting your credit score.',
-    terms: ['3, 6, or 12 month plans', 'No prepayment penalty', 'Instant decision', 'Soft credit check only'],
+    description:
+      'Split your program cost into monthly payments. Rates from 0–36% APR. Check your rate without affecting your credit score.',
+    terms: [
+      '3, 6, or 12 month plans',
+      'No prepayment penalty',
+      'Instant decision',
+      'Soft credit check only',
+    ],
     icon: CreditCard,
     color: 'blue',
     cta: 'Apply with Affirm',
@@ -20,8 +35,14 @@ const FINANCING_OPTIONS = [
     id: 'wioa',
     name: 'WIOA / WorkOne Funding',
     tagline: 'Free training for eligible workers',
-    description: 'The Workforce Innovation and Opportunity Act funds training for unemployed and underemployed workers. No repayment required if you qualify.',
-    terms: ['Full tuition covered', 'No income repayment', 'Must meet eligibility', 'WorkOne referral required'],
+    description:
+      'The Workforce Innovation and Opportunity Act funds training for unemployed and underemployed workers. No repayment required if you qualify.',
+    terms: [
+      'Full tuition covered',
+      'No income repayment',
+      'Must meet eligibility',
+      'WorkOne referral required',
+    ],
     icon: Landmark,
     color: 'green',
     cta: 'Check Eligibility',
@@ -31,7 +52,8 @@ const FINANCING_OPTIONS = [
     id: 'payment-plan',
     name: 'Elevate Payment Plan',
     tagline: 'Split into 2–4 installments',
-    description: 'Pay your program cost in installments directly with Elevate. No interest, no credit check. First payment due at enrollment.',
+    description:
+      'Pay your program cost in installments directly with Elevate. No interest, no credit check. First payment due at enrollment.',
     terms: ['2–4 installments', '0% interest', 'No credit check', 'Auto-pay available'],
     icon: Wallet,
     color: 'amber',
@@ -41,10 +63,22 @@ const FINANCING_OPTIONS = [
 ];
 
 const FAQS = [
-  { q: 'Does Affirm affect my credit score?', a: 'Checking your rate with Affirm is a soft inquiry and does not affect your credit score. A hard inquiry only occurs if you accept a loan.' },
-  { q: 'Can I combine WIOA funding with a payment plan?', a: 'If WIOA covers part of your program cost, you can use a payment plan for any remaining balance.' },
-  { q: 'What if I can\'t make a payment?', a: 'Contact us before your payment is due. We work with students on hardship deferrals on a case-by-case basis.' },
-  { q: 'Are all programs eligible for financing?', a: 'Most programs are eligible. Some short-term workshops require full payment at registration.' },
+  {
+    q: 'Does Affirm affect my credit score?',
+    a: 'Checking your rate with Affirm is a soft inquiry and does not affect your credit score. A hard inquiry only occurs if you accept a loan.',
+  },
+  {
+    q: 'Can I combine WIOA funding with a payment plan?',
+    a: 'If WIOA covers part of your program cost, you can use a payment plan for any remaining balance.',
+  },
+  {
+    q: "What if I can't make a payment?",
+    a: 'Contact us before your payment is due. We work with students on hardship deferrals on a case-by-case basis.',
+  },
+  {
+    q: 'Are all programs eligible for financing?',
+    a: 'Most programs are eligible. Some short-term workshops require full payment at registration.',
+  },
 ];
 
 export default function FinancingPage() {
@@ -60,7 +94,8 @@ export default function FinancingPage() {
           </div>
           <h1 className="text-4xl font-extrabold mb-4">Don't let cost stop you</h1>
           <p className="text-slate-300 text-lg leading-relaxed">
-            Elevate offers multiple ways to fund your training — from interest-free payment plans to full WIOA grants. Find the option that works for you.
+            Elevate offers multiple ways to fund your training — from interest-free payment plans to
+            full WIOA grants. Find the option that works for you.
           </p>
         </div>
       </section>
@@ -81,7 +116,10 @@ export default function FinancingPage() {
               amber: 'bg-amber-600 hover:bg-amber-700',
             };
             return (
-              <div key={opt.id} className={`rounded-2xl border-2 p-6 flex flex-col ${colors[opt.color]}`}>
+              <div
+                key={opt.id}
+                className={`rounded-2xl border-2 p-6 flex flex-col ${colors[opt.color]}`}
+              >
                 <div className="mb-4">
                   <Icon className="w-8 h-8 text-slate-700 mb-3" />
                   <h2 className="text-xl font-bold text-slate-900">{opt.name}</h2>
@@ -136,7 +174,9 @@ export default function FinancingPage() {
                 className="w-full flex items-center justify-between px-5 py-4 text-left text-sm font-semibold text-slate-800 hover:bg-slate-50 transition-colors"
               >
                 {faq.q}
-                <ChevronRight className={`w-4 h-4 text-slate-400 transition-transform ${openFaq === i ? 'rotate-90' : ''}`} />
+                <ChevronRight
+                  className={`w-4 h-4 text-slate-400 transition-transform ${openFaq === i ? 'rotate-90' : ''}`}
+                />
               </button>
               {openFaq === i && (
                 <div className="px-5 pb-4 text-sm text-slate-600 leading-relaxed">{faq.a}</div>
@@ -149,7 +189,9 @@ export default function FinancingPage() {
       {/* Bottom CTA */}
       <section className="bg-slate-900 text-white py-14 px-4 text-center">
         <h2 className="text-2xl font-bold mb-3">Ready to get started?</h2>
-        <p className="text-slate-400 mb-6 text-sm">Choose your program and select your payment option at checkout.</p>
+        <p className="text-slate-400 mb-6 text-sm">
+          Choose your program and select your payment option at checkout.
+        </p>
         <Link
           href="/enrollment"
           className="inline-flex items-center gap-2 bg-brand-red-600 hover:bg-brand-red-700 text-white font-bold px-8 py-4 rounded-full transition-colors"

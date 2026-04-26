@@ -1,4 +1,3 @@
-
 // =====================================================
 // CREDENTIAL GENERATION WITH NON-GUESSABLE IDS
 // =====================================================
@@ -101,9 +100,7 @@ export async function createShareLink(params: {
   const supabase = await createServerSupabaseClient();
 
   const token = generateShareToken();
-  const expiresAt = new Date(
-    Date.now() + (params.expiresInMinutes || 60) * 60 * 1000
-  );
+  const expiresAt = new Date(Date.now() + (params.expiresInMinutes || 60) * 60 * 1000);
 
   const { data: shareLink, error } = await supabase
     .from('credential_share_links')
@@ -137,11 +134,7 @@ export async function createShareLink(params: {
 /**
  * Revoke a credential
  */
-export async function revokeCredential(
-  credentialId: string,
-  reason: string,
-  revokedBy: string
-) {
+export async function revokeCredential(credentialId: string, reason: string, revokedBy: string) {
   const supabase = await createServerSupabaseClient();
 
   const { data: credential, error } = await supabase

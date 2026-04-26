@@ -14,9 +14,7 @@ interface ProctoringLaunchParams {
 /**
  * Get proctoring launch URL for an exam attempt
  */
-export function getProctoringLaunchUrl(
-  params: ProctoringLaunchParams
-): string | null {
+export function getProctoringLaunchUrl(params: ProctoringLaunchParams): string | null {
   const { provider, examId, attemptId, studentId } = params;
 
   switch (provider) {
@@ -39,7 +37,7 @@ export function getProctoringLaunchUrl(
  */
 export async function verifyProctoringSession(
   provider: ProctoringProvider,
-  sessionId: string
+  sessionId: string,
 ): Promise<boolean> {
   // This would integrate with the actual proctoring provider's API
   // For now, return true as a placeholder

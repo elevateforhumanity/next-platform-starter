@@ -13,7 +13,10 @@ const ADMIN_ROLES = ['admin', 'super_admin', 'staff'];
 
 async function requireAdminUser() {
   const supabase = await createClient();
-  const { data: { user }, error } = await supabase.auth.getUser();
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.getUser();
   if (error || !user) return { user: null, db: null, error: 'Unauthorized' as const };
 
   const db = await getAdminClient();
@@ -38,7 +41,10 @@ async function _POST(req: Request) {
 
   const { user, db, error: authError } = await requireAdminUser();
   if (authError || !user || !db) {
-    return NextResponse.json({ error: authError }, { status: authError === 'Unauthorized' ? 401 : 403 });
+    return NextResponse.json(
+      { error: authError },
+      { status: authError === 'Unauthorized' ? 401 : 403 },
+    );
   }
 
   const body = await req.json();
@@ -63,7 +69,7 @@ async function _POST(req: Request) {
     .from('wotc_tracking')
     .upsert(
       { employer_id, apprentice_id, hire_date, submitted, eligible },
-      { onConflict: 'apprentice_id' }
+      { onConflict: 'apprentice_id' },
     )
     .select()
     .single();
@@ -82,7 +88,10 @@ async function _GET(request: Request) {
 
   const { user, db, error: authError } = await requireAdminUser();
   if (authError || !user || !db) {
-    return NextResponse.json({ error: authError }, { status: authError === 'Unauthorized' ? 401 : 403 });
+    return NextResponse.json(
+      { error: authError },
+      { status: authError === 'Unauthorized' ? 401 : 403 },
+    );
   }
 
   const { data, error } = await db
@@ -98,9 +107,7 @@ async function _GET(request: Request) {
   const enrichedData = (data ?? []).map((record) => {
     const deadline = new Date(record.hire_date);
     deadline.setDate(deadline.getDate() + 28);
-    const daysRemaining = Math.ceil(
-      (deadline.getTime() - Date.now()) / (1000 * 60 * 60 * 24)
-    );
+    const daysRemaining = Math.ceil((deadline.getTime() - Date.now()) / (1000 * 60 * 60 * 24));
     return {
       ...record,
       deadline: deadline.toISOString().split('T')[0],

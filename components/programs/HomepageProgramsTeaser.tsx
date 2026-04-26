@@ -1,25 +1,25 @@
-import Link from "next/link";
-import Image from "next/image";
+import Link from 'next/link';
+import Image from 'next/image';
 
 export function HomepageProgramsTeaser() {
   const programs = [
     {
-      title: "Healthcare",
-      description: "CNA, Medical Assistant, Pharmacy Tech, and more",
-      image: "/images/pages/comp-home-hero-programs.jpg",
-      href: "/programs/cna",
+      title: 'Healthcare',
+      description: 'CNA, Medical Assistant, Pharmacy Tech, and more',
+      image: '/images/pages/comp-home-hero-programs.jpg',
+      href: '/programs/cna',
     },
     {
-      title: "Barber Apprenticeship",
-      description: "DOL Registered Apprenticeships",
-      image: "/images/pages/adult-learner.jpg",
-      href: "/programs/barber-apprenticeship",
+      title: 'Barber Apprenticeship',
+      description: 'DOL Registered Apprenticeships',
+      image: '/images/pages/adult-learner.jpg',
+      href: '/programs/barber-apprenticeship',
     },
     {
-      title: "Skilled Trades",
-      description: "HVAC, Building Maintenance, CDL",
-      image: "/images/pages/features-hero.jpg",
-      href: "/programs/hvac-technician",
+      title: 'Skilled Trades',
+      description: 'HVAC, Building Maintenance, CDL',
+      image: '/images/pages/features-hero.jpg',
+      href: '/programs/hvac-technician',
     },
   ];
 
@@ -28,9 +28,7 @@ export function HomepageProgramsTeaser() {
       <div className="mx-auto max-w-6xl px-4 py-10 md:py-14">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
-            <h2 className="text-xl font-bold text-black md:text-2xl">
-              Featured programs
-            </h2>
+            <h2 className="text-xl font-bold text-black md:text-2xl">Featured programs</h2>
             <p className="mt-2 max-w-3xl text-sm text-black">
               Start your career in healthcare, trades, or beauty. Most programs are fully funded.
             </p>
@@ -61,9 +59,7 @@ export function HomepageProgramsTeaser() {
                 />
               </div>
               <div className="flex flex-1 flex-col p-4">
-                <h3 className="text-base font-semibold text-black">
-                  {program.title}
-                </h3>
+                <h3 className="text-base font-semibold text-black">{program.title}</h3>
                 <p className="mt-1 text-xs text-black flex-1">{program.description}</p>
                 <div className="mt-3">
                   <Link

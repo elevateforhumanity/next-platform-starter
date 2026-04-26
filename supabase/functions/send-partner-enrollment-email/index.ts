@@ -1,6 +1,6 @@
 // supabase/functions/send-partner-enrollment-email/index.ts
 // deno-lint-ignore-file no-explicit-any
-import "jsr:@supabase/functions-js/edge-runtime.d.ts";
+import 'jsr:@supabase/functions-js/edge-runtime.d.ts';
 
 type RequestBody = {
   to: string;
@@ -12,10 +12,10 @@ type RequestBody = {
   username: string;
 };
 
-const SENDGRID_API_KEY = Deno.env.get("SENDGRID_API_KEY") ?? "";
-const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY") ?? "";
-const EMAIL_FROM = Deno.env.get("EMAIL_FROM") ?? "no-reply@www.elevateforhumanity.org";
-const APP_NAME = "Elevate For Humanity";
+const SENDGRID_API_KEY = Deno.env.get('SENDGRID_API_KEY') ?? '';
+const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY') ?? '';
+const EMAIL_FROM = Deno.env.get('EMAIL_FROM') ?? 'no-reply@www.elevateforhumanity.org';
+const APP_NAME = 'Elevate For Humanity';
 
 function buildSubject(data: RequestBody): string {
   return `You're enrolled in ${data.courseName} (${data.partnerName})`;
@@ -123,11 +123,11 @@ async function sendEmail(body: RequestBody): Promise<Response> {
 
   // Try SendGrid first, fall back to Resend
   if (SENDGRID_API_KEY) {
-    const sgRes = await fetch("https://api.sendgrid.com/v3/mail/send", {
-      method: "POST",
+    const sgRes = await fetch('https://api.sendgrid.com/v3/mail/send', {
+      method: 'POST',
       headers: {
         Authorization: `Bearer ${SENDGRID_API_KEY}`,
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         personalizations: [
@@ -141,17 +141,17 @@ async function sendEmail(body: RequestBody): Promise<Response> {
           name: APP_NAME,
         },
         content: [
-          { type: "text/plain", value: text },
-          { type: "text/html", value: html },
+          { type: 'text/plain', value: text },
+          { type: 'text/html', value: html },
         ],
       }),
     });
 
     if (sgRes.ok) {
-      return new Response(
-        JSON.stringify({ success: true, provider: "sendgrid" }),
-        { status: 200, headers: { "Content-Type": "application/json" } },
-      );
+      return new Response(JSON.stringify({ success: true, provider: 'sendgrid' }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+      });
     }
 
     const errText = await sgRes.text();
@@ -159,11 +159,11 @@ async function sendEmail(body: RequestBody): Promise<Response> {
 
   // Fall back to Resend
   if (RESEND_API_KEY) {
-    const resendRes = await fetch("https://api.resend.com/emails", {
-      method: "POST",
+    const resendRes = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
       headers: {
         Authorization: `Bearer ${RESEND_API_KEY}`,
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         from: `${APP_NAME} <${EMAIL_FROM}>`,
@@ -175,38 +175,38 @@ async function sendEmail(body: RequestBody): Promise<Response> {
     });
 
     if (resendRes.ok) {
-      return new Response(
-        JSON.stringify({ success: true, provider: "resend" }),
-        { status: 200, headers: { "Content-Type": "application/json" } },
-      );
+      return new Response(JSON.stringify({ success: true, provider: 'resend' }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+      });
     }
 
     const errText = await resendRes.text();
   }
 
-  return new Response("Email service not configured", { status: 500 });
+  return new Response('Email service not configured', { status: 500 });
 }
 
 Deno.serve(async (req) => {
-  if (req.method !== "POST") {
-    return new Response("Method not allowed", { status: 405 });
+  if (req.method !== 'POST') {
+    return new Response('Method not allowed', { status: 405 });
   }
 
   let payload: any;
   try {
     payload = await req.json();
   } catch (error) {
-    return new Response("Invalid JSON", { status: 400 });
+    return new Response('Invalid JSON', { status: 400 });
   }
 
   const required: (keyof RequestBody)[] = [
-    "to",
-    "studentName",
-    "courseName",
-    "partnerName",
-    "launchUrl",
-    "partnerLoginUrl",
-    "username",
+    'to',
+    'studentName',
+    'courseName',
+    'partnerName',
+    'launchUrl',
+    'partnerLoginUrl',
+    'username',
   ];
 
   for (const key of required) {
@@ -227,6 +227,3 @@ Deno.serve(async (req) => {
 
   return await sendEmail(body);
 });
-
-
-

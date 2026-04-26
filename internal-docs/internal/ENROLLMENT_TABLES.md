@@ -4,11 +4,11 @@ This document describes the different enrollment tables and when to use each.
 
 ## Tables Overview
 
-| Table | Purpose | Primary Key | Used For |
-|-------|---------|-------------|----------|
-| `enrollments` | Course-level enrollments | `(user_id, course_id)` | Individual course access |
-| `student_enrollments` | Program-level enrollments | `id` (UUID) | Multi-course programs, apprenticeships |
-| `program_enrollments` | Program holder managed enrollments | `id` (UUID) | Workforce-funded programs |
+| Table                 | Purpose                            | Primary Key            | Used For                               |
+| --------------------- | ---------------------------------- | ---------------------- | -------------------------------------- |
+| `enrollments`         | Course-level enrollments           | `(user_id, course_id)` | Individual course access               |
+| `student_enrollments` | Program-level enrollments          | `id` (UUID)            | Multi-course programs, apprenticeships |
+| `program_enrollments` | Program holder managed enrollments | `id` (UUID)            | Workforce-funded programs              |
 
 ---
 
@@ -19,6 +19,7 @@ This document describes the different enrollment tables and when to use each.
 **Purpose:** Tracks individual user enrollment in a single course.
 
 **Schema:**
+
 ```sql
 create table public.enrollments(
   user_id uuid references auth.users(id),
@@ -36,11 +37,13 @@ create table public.enrollments(
 ```
 
 **Use When:**
+
 - User enrolls in a single course
 - Self-paced online courses
 - Partner courses (Coursera, LinkedIn Learning, etc.)
 
 **API Endpoints:**
+
 - `POST /api/enrollments/create` - Create course enrollment
 - `GET /api/enrollments` - List user's enrollments
 - `GET /api/student/enrollments` - Student dashboard enrollments
@@ -54,6 +57,7 @@ create table public.enrollments(
 **Purpose:** Tracks enrollment in multi-module programs (e.g., Barber Apprenticeship).
 
 **Schema:**
+
 ```sql
 create table student_enrollments (
   id uuid primary key,
@@ -71,17 +75,20 @@ create table student_enrollments (
 ```
 
 **Use When:**
+
 - Apprenticeship programs
 - Programs with multiple modules/courses
 - Programs requiring case management
 - Programs with hour tracking
 
 **Related Tables:**
+
 - `module_progress` - Tracks progress per module
 - `hour_logs` - Tracks apprenticeship hours
 - `cases` - Case management workflow
 
 **API Endpoints:**
+
 - `POST /api/webhooks/stripe` - Creates on payment completion
 - `GET /api/learner/dashboard` - Learner portal data
 - `GET /api/apprentice/hours-summary` - Hour tracking
@@ -95,6 +102,7 @@ create table student_enrollments (
 **Purpose:** Program holder managed enrollments with funding pathway enforcement.
 
 **Schema:**
+
 ```sql
 create table program_enrollments (
   id uuid primary key,
@@ -109,18 +117,21 @@ create table program_enrollments (
 ```
 
 **Use When:**
+
 - Workforce-funded programs (WIOA, WRG)
 - Programs managed by program holders
 - Enrollments requiring intake workflow
 - Enrollments with funding pathway enforcement
 
 **Related Tables:**
+
 - `intake_records` - Pre-enrollment intake
 - `enrollment_steps` - Step-by-step workflow
 - `bridge_payment_plans` - Payment plans
 - `employer_sponsorships` - Employer funding
 
 **API Endpoints:**
+
 - `POST /api/enroll/apply` - Application submission
 - `POST /api/enrollments/create-enforced` - Enforced enrollment
 - `POST /api/program-holder/enroll-participant` - Program holder enrollment
@@ -130,15 +141,18 @@ create table program_enrollments (
 ## Funding Pathways
 
 ### Lane 1: Workforce Funded
+
 - No payment required
 - Requires agency referral
 - Tables: `program_enrollments`, `workforce_referrals`
 
 ### Lane 2: Employer Sponsored
+
 - Employer pays via reimbursement
 - Tables: `program_enrollments`, `employer_sponsorships`
 
 ### Lane 3: Structured Tuition (Self-Pay)
+
 - Student pays via payment plan
 - 90-day max term
 - Tables: `program_enrollments`, `bridge_payment_plans`

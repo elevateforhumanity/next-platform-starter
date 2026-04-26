@@ -24,7 +24,9 @@
 ## System Overview
 
 ### Platform Type
+
 **Multi-Sided Workforce Marketplace** connecting:
+
 - Job seekers with training opportunities
 - Training providers with students
 - Employers with trained candidates
@@ -32,6 +34,7 @@
 - Government funders with outcome reporting
 
 ### Architecture Style
+
 - **Frontend:** Server-Side Rendered (SSR) + Static Site Generation (SSG)
 - **Backend:** Serverless API (Edge Runtime)
 - **Database:** PostgreSQL with Row Level Security
@@ -43,30 +46,35 @@
 ## Architecture Principles
 
 ### 1. **Multi-Tenancy**
+
 - Organization-based isolation
 - Shared database with tenant_id filtering
 - Row Level Security (RLS) enforcement
 - Tenant-specific feature flags
 
 ### 2. **Security First**
+
 - Authentication required for all protected routes
 - Authorization via RLS policies
 - Input validation on all endpoints
 - Audit logging for critical actions
 
 ### 3. **Scalability**
+
 - Serverless architecture (auto-scaling)
 - Edge caching for static content
 - Database connection pooling
 - Async processing for heavy operations
 
 ### 4. **Compliance**
+
 - WIOA reporting automation
 - FERPA data protection
 - Audit trail for all data changes
 - Data retention policies
 
 ### 5. **Developer Experience**
+
 - TypeScript for type safety
 - Component-based architecture
 - API-first design
@@ -79,38 +87,45 @@
 ### Frontend Layer
 
 #### Framework
+
 - **Next.js 16.1.1** - React framework with App Router
 - **React 19.2.1** - UI library
 - **TypeScript 5.9.3** - Type safety
 
 #### UI Components
+
 - **Tailwind CSS 3.4.18** - Utility-first CSS
 - **Radix UI** - Accessible component primitives
 - **Framer Motion 12.23.24** - Animations
 - **Lucide React 0.471.2** - Icons
 
 #### State Management
+
 - **Zustand 5.0.9** - Global state
 - **React Hook Form 7.66.1** - Form state
 - **SWR 2.3.6** - Data fetching
 
 #### Validation
+
 - **Zod 4.1.12** - Schema validation
 - **@hookform/resolvers 5.2.2** - Form validation
 
 ### Backend Layer
 
 #### Runtime
+
 - **Node.js 20+** - JavaScript runtime
 - **Edge Runtime** - Netlify Edge Functions
 - **Next.js API Routes** - API endpoints
 
 #### Database
+
 - **Supabase** - PostgreSQL + Auth + Storage
 - **PostgreSQL 15** - Relational database
 - **Row Level Security** - Authorization
 
 #### Authentication
+
 - **Supabase Auth** - User authentication
 - **JWT Tokens** - Session management
 - **OAuth Providers** - Social login
@@ -118,15 +133,18 @@
 ### Infrastructure Layer
 
 #### Hosting
+
 - **Netlify** - Serverless deployment
 - **Edge Network** - Global CDN
 - **Serverless Functions** - API execution
 
 #### Storage
+
 - **Supabase Storage** - File storage
 - **Cloud storage** - Asset storage (optional)
 
 #### Monitoring
+
 - **Sentry 10.32.1** - Error tracking
 - **Analytics** - Performance monitoring
 - **Custom Health Checks** - System monitoring
@@ -134,21 +152,26 @@
 ### Integration Layer
 
 #### Payments
+
 - **Stripe 19.3.1** - Payment processing
 - **Affirm** - Buy now, pay later
 
 #### Communication
+
 - **Resend 6.4.2** - Transactional email
 - **SendGrid 8.1.6** - Marketing email (optional)
 
 #### AI/ML
+
 - **OpenAI 6.9.1** - AI tutors and content generation
 
 #### Video
+
 - **Video.js 8.23.4** - Video player
 - **Cloudflare Stream** - Video hosting (optional)
 
 #### Documents
+
 - **PDF-lib 1.17.1** - PDF generation
 - **jsPDF 3.0.4** - PDF creation
 - **Signature Pad 5.1.1** - E-signatures
@@ -258,6 +281,7 @@ supabase/
 #### Core Tables
 
 **Users & Authentication**
+
 ```sql
 profiles (
   id UUID PRIMARY KEY,
@@ -270,6 +294,7 @@ profiles (
 ```
 
 **Multi-Tenancy**
+
 ```sql
 tenants (
   id UUID PRIMARY KEY,
@@ -289,6 +314,7 @@ licenses (
 ```
 
 **Learning Management**
+
 ```sql
 courses (
   id UUID PRIMARY KEY,
@@ -319,6 +345,7 @@ lessons (
 ```
 
 **Enrollment & Progress**
+
 ```sql
 enrollments (
   id UUID PRIMARY KEY,
@@ -340,6 +367,7 @@ lesson_progress (
 ```
 
 **Payments**
+
 ```sql
 payment_history (
   id UUID PRIMARY KEY,
@@ -354,6 +382,7 @@ payment_history (
 ```
 
 **Compliance**
+
 ```sql
 audit_logs (
   id UUID PRIMARY KEY,
@@ -378,6 +407,7 @@ employment_tracking (
 ### Data Flow
 
 #### Enrollment Flow
+
 ```
 User → Browse Courses → Select Course → Create Enrollment
   ↓
@@ -389,6 +419,7 @@ Enrollment Created → Email Notification → Access Course
 ```
 
 #### Progress Tracking Flow
+
 ```
 User → Start Lesson → Watch Video → Mark Complete
   ↓
@@ -407,6 +438,7 @@ Continue         Update enrollment.completed_at
 #### Policy Examples
 
 **Students can view own enrollments:**
+
 ```sql
 CREATE POLICY "Users can view own enrollments"
 ON enrollments FOR SELECT
@@ -414,6 +446,7 @@ USING (auth.uid() = user_id);
 ```
 
 **Instructors can view own courses:**
+
 ```sql
 CREATE POLICY "Instructors can view own courses"
 ON courses FOR SELECT
@@ -421,6 +454,7 @@ USING (auth.uid() = instructor_id);
 ```
 
 **Admins can view all data:**
+
 ```sql
 CREATE POLICY "Admins can view all"
 ON enrollments FOR SELECT
@@ -434,6 +468,7 @@ USING (
 ```
 
 **Multi-tenant isolation:**
+
 ```sql
 CREATE POLICY "Tenant isolation"
 ON profiles FOR SELECT
@@ -469,16 +504,18 @@ Include in API Requests → Verify Token → Access Granted
 ### Security Features
 
 #### Input Validation
+
 ```typescript
 // Zod schema validation
 const enrollmentSchema = z.object({
   courseId: z.string().uuid(),
   userId: z.string().uuid(),
-  paymentMethod: z.enum(['stripe', 'affirm', 'free'])
+  paymentMethod: z.enum(['stripe', 'affirm', 'free']),
 });
 ```
 
 #### XSS Protection
+
 ```typescript
 // DOMPurify sanitization
 import DOMPurify from 'dompurify';
@@ -486,18 +523,20 @@ const clean = DOMPurify.sanitize(userInput);
 ```
 
 #### CSRF Protection
+
 - Built into Next.js
 - SameSite cookies
 - Origin verification
 
 #### Rate Limiting
+
 ```typescript
 // API rate limiting
 import rateLimit from 'express-rate-limit';
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100 // limit each IP to 100 requests per windowMs
+  max: 100, // limit each IP to 100 requests per windowMs
 });
 ```
 
@@ -541,16 +580,19 @@ const limiter = rateLimit({
 ### Environment Configuration
 
 **Development:**
+
 - Local Next.js server
 - Local Supabase (optional)
 - Stripe test mode
 
 **Staging:**
+
 - Netlify preview deployment
 - Staging database
 - Stripe test mode
 
 **Production:**
+
 - Netlify production
 - Production database
 - Stripe live mode
@@ -562,6 +604,7 @@ const limiter = rateLimit({
 ### External Services
 
 #### Payment Processing (Stripe)
+
 ```
 User → Checkout → Create Session → Stripe Hosted Page
   ↓
@@ -571,6 +614,7 @@ Send Confirmation Email → Grant Access
 ```
 
 #### Email Delivery (Resend)
+
 ```
 Trigger Event → Queue Email → Resend API → Delivery
   ↓
@@ -578,6 +622,7 @@ Track Status → Update Database
 ```
 
 #### AI Integration (OpenAI)
+
 ```
 User Question → API Request → OpenAI → Response
   ↓
@@ -587,6 +632,7 @@ Format Response → Display to User
 ### API Integration Patterns
 
 #### Webhook Handling
+
 ```typescript
 // Stripe webhook handler
 export async function POST(request: Request) {
@@ -594,9 +640,9 @@ export async function POST(request: Request) {
   const event = stripe.webhooks.constructEvent(
     await request.text(),
     signature,
-    process.env.STRIPE_WEBHOOK_SECRET
+    process.env.STRIPE_WEBHOOK_SECRET,
   );
-  
+
   switch (event.type) {
     case 'checkout.session.completed':
       await handleCheckoutComplete(event.data.object);
@@ -607,11 +653,12 @@ export async function POST(request: Request) {
 ```
 
 #### Third-Party API Calls
+
 ```typescript
 // OpenAI integration
 const response = await openai.chat.completions.create({
   model: 'gpt-4',
-  messages: [{ role: 'user', content: prompt }]
+  messages: [{ role: 'user', content: prompt }],
 });
 ```
 
@@ -622,28 +669,33 @@ const response = await openai.chat.completions.create({
 ### Scalability Strategy
 
 #### Horizontal Scaling
+
 - **Serverless functions** - Auto-scale with demand
 - **Database connection pooling** - Efficient connections
 - **CDN caching** - Reduce origin requests
 
 #### Vertical Scaling
+
 - **Database** - Supabase auto-scaling
 - **Build memory** - 8GB for large builds
 
 ### Performance Optimizations
 
 #### Frontend
+
 - **Code splitting** - Dynamic imports
 - **Image optimization** - Next.js Image component
 - **Font optimization** - Next.js Font optimization
 - **Bundle analysis** - Webpack bundle analyzer
 
 #### Backend
+
 - **Edge runtime** - Low latency API responses
 - **Database indexes** - Optimized queries
 - **Caching** - Redis for session data
 
 #### Database
+
 - **Indexes** - All foreign keys indexed
 - **Query optimization** - Explain analyze
 - **Connection pooling** - PgBouncer
@@ -651,6 +703,7 @@ const response = await openai.chat.completions.create({
 ### Performance Metrics
 
 **Target Metrics:**
+
 - **Time to First Byte (TTFB):** < 200ms
 - **First Contentful Paint (FCP):** < 1.5s
 - **Largest Contentful Paint (LCP):** < 2.5s
@@ -664,30 +717,33 @@ const response = await openai.chat.completions.create({
 ### Monitoring Stack
 
 #### Error Tracking (Sentry)
+
 - JavaScript errors
 - API errors
 - Performance issues
 - User feedback
 
 #### Performance Monitoring
+
 - Web vitals
 - API latency
 - Build times
 - Deployment status
 
 #### Custom Health Checks
+
 ```typescript
 // Health check endpoint
 export async function GET() {
   const checks = {
     database: await checkDatabase(),
     stripe: await checkStripe(),
-    email: await checkEmail()
+    email: await checkEmail(),
   };
-  
+
   return Response.json({
     status: allHealthy(checks) ? 'healthy' : 'degraded',
-    checks
+    checks,
   });
 }
 ```
@@ -695,6 +751,7 @@ export async function GET() {
 ### Logging Strategy
 
 #### Application Logs
+
 ```typescript
 import { logger } from '@/lib/logger';
 
@@ -703,6 +760,7 @@ logger.error('Payment failed', { error, userId });
 ```
 
 #### Audit Logs
+
 ```sql
 INSERT INTO audit_logs (user_id, action, resource_type, resource_id)
 VALUES ($1, 'enrollment_created', 'enrollment', $2);
@@ -711,12 +769,14 @@ VALUES ($1, 'enrollment_created', 'enrollment', $2);
 ### Alerting
 
 **Critical Alerts:**
+
 - Database connection failures
 - Payment processing errors
 - Authentication failures
 - High error rates
 
 **Warning Alerts:**
+
 - Slow API responses
 - High memory usage
 - Failed background jobs
@@ -750,24 +810,28 @@ VALUES ($1, 'enrollment_created', 'enrollment', $2);
 ### Technology Decisions
 
 **Why Next.js?**
+
 - Server-side rendering for SEO
 - API routes for backend
 - Built-in optimizations
 - Great developer experience
 
 **Why Supabase?**
+
 - PostgreSQL with modern API
 - Built-in authentication
 - Row Level Security
 - Real-time capabilities
 
 **Why Netlify?**
+
 - Seamless Next.js integration
 - Global edge network
 - Automatic scaling
 - Zero-config deployment
 
 **Why Stripe?**
+
 - Industry-standard payments
 - Excellent documentation
 - Webhook reliability

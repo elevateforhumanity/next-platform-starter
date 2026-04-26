@@ -33,18 +33,18 @@ export interface TaxConfig {
   effectiveDate: string;
   lastUpdated: string;
   source: string;
-  
+
   brackets: Record<string, TaxBracket[]>;
   standardDeductions: Record<string, number> & {
     additionalBlindOrElderly: { single: number; married: number };
   };
-  
+
   eitc: Record<string, EITCParams> & {
     investmentIncomeLimit: number;
     minimumAge: number;
     maximumAge: number;
   };
-  
+
   childTaxCredit: {
     creditPerChild: number;
     refundableMax: number;
@@ -56,14 +56,14 @@ export interface TaxConfig {
     earnedIncomeThreshold: number;
     refundableRate: number;
   };
-  
+
   socialSecurity: {
     wageBase: number;
     taxRate: number;
     employerRate: number;
     selfEmployedRate: number;
   };
-  
+
   medicare: {
     taxRate: number;
     employerRate: number;
@@ -71,14 +71,14 @@ export interface TaxConfig {
     additionalTaxRate: number;
     additionalTaxThreshold: Record<string, number>;
   };
-  
+
   selfEmployment: {
     taxablePercentage: number;
     deductiblePercentage: number;
   };
-  
+
   saltCap: number;
-  
+
   amt: {
     exemption: Record<string, number>;
     phaseOutThreshold: Record<string, number>;
@@ -86,18 +86,18 @@ export interface TaxConfig {
     rate2: number;
     rate2Threshold: number;
   };
-  
+
   niit: {
     rate: number;
     threshold: Record<string, number>;
   };
-  
+
   capitalGains: {
     rate0Threshold: Record<string, number>;
     rate15Threshold: Record<string, number>;
     rates: number[];
   };
-  
+
   qbi: {
     deductionRate: number;
     wageLimit: number;
@@ -106,47 +106,47 @@ export interface TaxConfig {
     thresholdStart: Record<string, number>;
     thresholdEnd: Record<string, number>;
   };
-  
+
   retirementContributions: {
     '401k': { limit: number; catchUpAge: number; catchUpLimit: number };
     ira: { limit: number; catchUpAge: number; catchUpLimit: number };
     sep: { maxPercentage: number; maxDollar: number };
     simple: { limit: number; catchUpAge: number; catchUpLimit: number };
   };
-  
+
   hsa: {
     selfOnly: number;
     family: number;
     catchUpAge: number;
     catchUpLimit: number;
   };
-  
+
   studentLoanInterest: {
     maxDeduction: number;
     phaseOutStart: Record<string, number>;
     phaseOutEnd: Record<string, number>;
   };
-  
+
   educatorExpense: {
     maxDeduction: number;
   };
-  
+
   foreignEarnedIncome: {
     exclusion: number;
     housingExclusionBase: number;
   };
-  
+
   estateAndGift: {
     annualExclusion: number;
     lifetimeExemption: number;
   };
-  
+
   mileageRates: {
     business: number;
     medical: number;
     charity: number;
   };
-  
+
   perDiem: {
     highCost: number;
     lowCost: number;
@@ -165,22 +165,24 @@ export function loadTaxConfig(taxYear: number): TaxConfig {
   if (configCache.has(taxYear)) {
     return configCache.get(taxYear)!;
   }
-  
+
   const configPath = path.join(__dirname, `${taxYear}.json`);
-  
+
   if (!fs.existsSync(configPath)) {
-    throw new Error(`Tax configuration not found for year ${taxYear}. Expected file: ${configPath}`);
+    throw new Error(
+      `Tax configuration not found for year ${taxYear}. Expected file: ${configPath}`,
+    );
   }
-  
+
   const configData = fs.readFileSync(configPath, 'utf-8');
   const config: TaxConfig = JSON.parse(configData);
-  
+
   // Validate config
   validateConfig(config, taxYear);
-  
+
   // Cache it
   configCache.set(taxYear, config);
-  
+
   return config;
 }
 
@@ -190,8 +192,8 @@ export function loadTaxConfig(taxYear: number): TaxConfig {
 export function getAvailableTaxYears(): number[] {
   const files = fs.readdirSync(__dirname);
   return files
-    .filter(f => f.match(/^\d{4}\.json$/))
-    .map(f => parseInt(f.replace('.json', '')))
+    .filter((f) => f.match(/^\d{4}\.json$/))
+    .map((f) => parseInt(f.replace('.json', '')))
     .sort((a, b) => b - a); // Newest first
 }
 
@@ -210,7 +212,7 @@ function validateConfig(config: TaxConfig, expectedYear: number): void {
   if (config.taxYear !== expectedYear) {
     throw new Error(`Config year mismatch: expected ${expectedYear}, got ${config.taxYear}`);
   }
-  
+
   const requiredFields = [
     'brackets',
     'standardDeductions',
@@ -219,24 +221,24 @@ function validateConfig(config: TaxConfig, expectedYear: number): void {
     'socialSecurity',
     'medicare',
     'selfEmployment',
-    'saltCap'
+    'saltCap',
   ];
-  
+
   for (const field of requiredFields) {
     if (!(field in config)) {
       throw new Error(`Missing required field in tax config: ${field}`);
     }
   }
-  
+
   // Validate brackets exist for all filing statuses
   const filingStatuses = [
     'single',
     'married_filing_jointly',
     'married_filing_separately',
     'head_of_household',
-    'qualifying_surviving_spouse'
+    'qualifying_surviving_spouse',
   ];
-  
+
   for (const status of filingStatuses) {
     if (!config.brackets[status]) {
       throw new Error(`Missing tax brackets for filing status: ${status}`);
@@ -259,17 +261,17 @@ export function clearConfigCache(): void {
  */
 export function getConfigMetadata(taxYear: number): { lastUpdated: string; source: string } | null {
   const configPath = path.join(__dirname, `${taxYear}.json`);
-  
+
   if (!fs.existsSync(configPath)) {
     return null;
   }
-  
+
   const configData = fs.readFileSync(configPath, 'utf-8');
   const config = JSON.parse(configData);
-  
+
   return {
     lastUpdated: config.lastUpdated,
-    source: config.source
+    source: config.source,
   };
 }
 

@@ -10,15 +10,15 @@ interface ProgramFitNavigatorProps {
 
 /**
  * Program Fit Navigator - Institutional intake component
- * 
+ *
  * Placement guidelines:
  * - Homepage: Right side, above the fold (card variant)
  * - Programs page: After first section (inline variant)
  * - Footer: Link only (minimal variant)
  */
-export function ProgramFitNavigator({ 
+export function ProgramFitNavigator({
   variant = 'card',
-  className = '' 
+  className = '',
 }: ProgramFitNavigatorProps) {
   const [showInfo, setShowInfo] = useState(false);
 
@@ -74,13 +74,13 @@ export function ProgramFitNavigator({
 
   // Card variant - full featured panel
   return (
-    <div className={`bg-white border border-gray-200 rounded-2xl shadow-lg overflow-hidden ${className}`}>
+    <div
+      className={`bg-white border border-gray-200 rounded-2xl shadow-lg overflow-hidden ${className}`}
+    >
       {/* Header */}
       <div className="bg-gradient-to-r from-brand-blue-600 to-brand-blue-700 px-6 py-4">
         <div className="flex items-center justify-between">
-          <h3 className="text-lg font-bold text-slate-900">
-            Program Fit Navigator
-          </h3>
+          <h3 className="text-lg font-bold text-slate-900">Program Fit Navigator</h3>
           <button
             onClick={() => setShowInfo(!showInfo)}
             className="p-1 text-slate-600 hover:text-white transition-colors"
@@ -101,11 +101,10 @@ export function ProgramFitNavigator({
             <div>
               <h4 className="font-semibold text-slate-900 mb-2">What is this?</h4>
               <p className="text-sm text-slate-900">
-                The Program Fit Navigator is a guided intake designed to help institutions 
-                determine whether our platform is the right fit for their program operations. 
-                It asks a small number of questions about scale, governance, and outcomes, 
-                then recommends next steps. It does not collect sensitive data or commit 
-                you to a sales process.
+                The Program Fit Navigator is a guided intake designed to help institutions determine
+                whether our platform is the right fit for their program operations. It asks a small
+                number of questions about scale, governance, and outcomes, then recommends next
+                steps. It does not collect sensitive data or commit you to a sales process.
               </p>
             </div>
             <button
@@ -121,7 +120,8 @@ export function ProgramFitNavigator({
       {/* Body */}
       <div className="px-6 py-5">
         <p className="text-slate-900 text-sm leading-relaxed mb-4">
-          Built for institutions managing enrollment, compliance, and credentialed outcomes — not just course content.
+          Built for institutions managing enrollment, compliance, and credentialed outcomes — not
+          just course content.
         </p>
 
         <button

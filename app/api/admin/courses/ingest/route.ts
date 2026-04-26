@@ -7,7 +7,8 @@ import { ingestCourse } from '@/lib/ai/course-ingestion';
 import { saveCourseBlueprint } from '@/lib/db/courses';
 import { isOpenAIConfigured, getOpenAIClient } from '@/lib/openai-client';
 import {
-  SAFE_CHARS, MAX_CHARS,
+  SAFE_CHARS,
+  MAX_CHARS,
   summarizeForExtraction,
   persistIngestionDraft,
   loadIngestionDraft,
@@ -17,7 +18,6 @@ import {
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
-
 
 /**
  * POST /api/admin/courses/ingest
@@ -40,7 +40,7 @@ async function _POST(request: Request) {
   if (!isOpenAIConfigured()) {
     return NextResponse.json(
       { error: 'AI features are not configured. Add OPENAI_API_KEY to enable course ingestion.' },
-      { status: 503 }
+      { status: 503 },
     );
   }
 
@@ -50,8 +50,13 @@ async function _POST(request: Request) {
   }
 
   const {
-    source_type, source_text, course_mode, program_id,
-    certificate_enabled, preview_only, blueprint_override,
+    source_type,
+    source_text,
+    course_mode,
+    program_id,
+    certificate_enabled,
+    preview_only,
+    blueprint_override,
     compile_lessons,
   } = body;
 
@@ -71,31 +76,36 @@ async function _POST(request: Request) {
           questionCount: result.questionCount,
           warnings: blueprint_override.warnings ?? [],
         },
-        { status: 201 }
+        { status: 201 },
       );
     } catch (err: any) {
       return NextResponse.json({ error: 'Failed to save course draft.' }, { status: 500 });
     }
   }
 
-  if (!source_type || !['prompt', 'syllabus', 'script', 'transcript', 'document'].includes(source_type)) {
+  if (
+    !source_type ||
+    !['prompt', 'syllabus', 'script', 'transcript', 'document'].includes(source_type)
+  ) {
     return NextResponse.json(
       { error: 'source_type must be one of: prompt, syllabus, script, transcript, document' },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
   if (!source_text || typeof source_text !== 'string' || source_text.trim().length < 20) {
     return NextResponse.json(
       { error: 'source_text is required and must be at least 20 characters' },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
   if (source_text.length > MAX_CHARS) {
     return NextResponse.json(
-      { error: `Document is too large (${Math.round(source_text.length / 1000)}k chars). Maximum is ${MAX_CHARS / 1000}k characters. Split the document and ingest in sections.` },
-      { status: 400 }
+      {
+        error: `Document is too large (${Math.round(source_text.length / 1000)}k chars). Maximum is ${MAX_CHARS / 1000}k characters. Split the document and ingest in sections.`,
+      },
+      { status: 400 },
     );
   }
 
@@ -112,14 +122,14 @@ async function _POST(request: Request) {
       const openai = getOpenAIClient();
       const { summarizedText, chunkCount, wasChunked } = await summarizeForExtraction(
         source_text.trim(),
-        openai
+        openai,
       );
       textForExtraction = summarizedText;
       if (wasChunked) {
         ingestionWarnings.push(
           `Document was large (${Math.round(source_text.length / 1000)}k chars). ` +
-          `Summarized ${chunkCount} sections before generating course structure. ` +
-          `Review all modules carefully — some detail may have been condensed.`
+            `Summarized ${chunkCount} sections before generating course structure. ` +
+            `Review all modules carefully — some detail may have been condensed.`,
         );
       }
     }
@@ -133,7 +143,7 @@ async function _POST(request: Request) {
       course_mode: course_mode || 'standalone',
       program_id: program_id || null,
       certificate_enabled: certificate_enabled ?? true,
-      compile_lessons: !preview_only && (compile_lessons !== false),
+      compile_lessons: !preview_only && compile_lessons !== false,
     });
 
     // Merge any large-doc warnings into blueprint warnings
@@ -161,14 +171,18 @@ async function _POST(request: Request) {
         warnings: blueprint.warnings,
         blueprint,
       },
-      { status: 201 }
+      { status: 201 },
     );
   } catch (err: any) {
     const msg = err?.message || '';
 
     // On timeout or abort, persist summarized text so the admin can resume
     // without re-running the expensive summarization step
-    if (msg.includes('timeout') || msg.includes('aborted') || msg.includes('FUNCTION_INVOCATION_TIMEOUT')) {
+    if (
+      msg.includes('timeout') ||
+      msg.includes('aborted') ||
+      msg.includes('FUNCTION_INVOCATION_TIMEOUT')
+    ) {
       try {
         const jobId = await persistIngestionDraft({
           stage: 'summarized',
@@ -184,9 +198,10 @@ async function _POST(request: Request) {
           {
             resumable: true,
             job_id: jobId,
-            error: 'Processing timed out on a large document. Your progress was saved — click Resume to continue.',
+            error:
+              'Processing timed out on a large document. Your progress was saved — click Resume to continue.',
           },
-          { status: 202 }
+          { status: 202 },
         );
       } catch {
         // persist failed — fall through to generic error
@@ -198,8 +213,11 @@ async function _POST(request: Request) {
     }
     if (msg.includes('JSON') || msg.includes('malformed')) {
       return NextResponse.json(
-        { error: 'AI returned malformed output. Try rephrasing your input or using a shorter document.' },
-        { status: 422 }
+        {
+          error:
+            'AI returned malformed output. Try rephrasing your input or using a shorter document.',
+        },
+        { status: 422 },
       );
     }
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
@@ -255,7 +273,9 @@ async function _GET(request: Request) {
 
     return NextResponse.json({ blueprint, resumed: true }, { status: 200 });
   } catch (err: any) {
-    await updateIngestionDraftStage(jobId, 'failed', { warnings: [err?.message || 'Resume failed'] });
+    await updateIngestionDraftStage(jobId, 'failed', {
+      warnings: [err?.message || 'Resume failed'],
+    });
     return NextResponse.json({ error: 'Resume failed' }, { status: 500 });
   }
 }

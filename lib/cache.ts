@@ -14,7 +14,8 @@ async function getClient() {
       client = createClient({ url: process.env.REDIS_URL });
       // Error: $1
       await client.connect();
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
       return null;
     }
@@ -30,23 +31,21 @@ export async function cacheGet<T = any>(key: string): Promise<T | null> {
     const value = await c.get(key);
     if (!value) return null;
     return JSON.parse(value as string) as T;
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     // Error: $1
     return null;
   }
 }
 
-export async function cacheSet(
-  key: string,
-  value: any,
-  ttlSeconds: number = 300
-): Promise<void> {
+export async function cacheSet(key: string, value: any, ttlSeconds: number = 300): Promise<void> {
   const c = await getClient();
   if (!c) return;
 
   try {
     await c.set(key, JSON.stringify(value), { EX: ttlSeconds });
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     // Error: $1
   }
 }
@@ -57,7 +56,8 @@ export async function cacheDel(key: string): Promise<void> {
 
   try {
     await c.del(key);
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     // Error: $1
   }
 }
@@ -75,7 +75,7 @@ export async function cacheInvalidatePattern(pattern: string): Promise<void> {
     do {
       const result = await c.scan(cursor as any, {
         MATCH: pattern,
-        COUNT: 100
+        COUNT: 100,
       });
 
       cursor = Number(result.cursor);
@@ -90,7 +90,8 @@ export async function cacheInvalidatePattern(pattern: string): Promise<void> {
         await c.del(batch);
       }
     }
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     // Error: $1
   }
 }

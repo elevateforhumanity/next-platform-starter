@@ -8,10 +8,10 @@ import { ArrowLeft, Lock } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
-export async function generateMetadata({ 
-  params 
-}: { 
-  params: Promise<{ slug: string }> 
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
   return {
@@ -19,11 +19,7 @@ export async function generateMetadata({
   };
 }
 
-export default async function CourseLearnPage({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
+export default async function CourseLearnPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const supabase = await createClient();
   const db = await getAdminClient();
@@ -32,7 +28,9 @@ export default async function CourseLearnPage({
     redirect('/login');
   }
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     redirect(`/login?redirect=/career-services/courses/${slug}/learn`);
@@ -41,10 +39,12 @@ export default async function CourseLearnPage({
   // Get course with modules
   const { data: course } = await db
     .from('career_courses')
-    .select(`
+    .select(
+      `
       *,
       modules:career_course_modules(*)
-    `)
+    `,
+    )
     .eq('slug', slug)
     .single();
 
@@ -66,16 +66,17 @@ export default async function CourseLearnPage({
   if (!purchase) {
     const { data: bundlePurchase } = await db
       .from('career_course_purchases')
-      .select(`
+      .select(
+        `
         id,
         course:career_courses!inner(bundle_course_ids)
-      `)
+      `,
+      )
       .eq('user_id', user.id)
       .eq('status', 'completed');
 
-    hasBundleAccess = bundlePurchase?.some((bp: any) => 
-      bp.course?.bundle_course_ids?.includes(course.id)
-    ) || false;
+    hasBundleAccess =
+      bundlePurchase?.some((bp: any) => bp.course?.bundle_course_ids?.includes(course.id)) || false;
   }
 
   const hasAccess = !!purchase || hasBundleAccess;
@@ -119,8 +120,8 @@ export default async function CourseLearnPage({
       <header className="bg-gray-800 border-b border-gray-700">
         <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <Link 
-              href="/career-services/courses/my-courses" 
+            <Link
+              href="/career-services/courses/my-courses"
               className="text-gray-400 hover:text-white"
             >
               <ArrowLeft className="w-5 h-5" />
@@ -134,10 +135,7 @@ export default async function CourseLearnPage({
       </header>
 
       {/* Course Player */}
-      <CoursePlayer 
-        course={course} 
-        modules={sortedModules} 
-      />
+      <CoursePlayer course={course} modules={sortedModules} />
     </div>
   );
 }

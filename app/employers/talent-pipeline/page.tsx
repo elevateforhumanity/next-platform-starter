@@ -3,13 +3,23 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
 import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
-import { Users, Target, Clock, DollarSign, Award, CheckCircle, ArrowRight, Building2 } from 'lucide-react';
+import {
+  Users,
+  Target,
+  Clock,
+  DollarSign,
+  Award,
+  CheckCircle,
+  ArrowRight,
+  Building2,
+} from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: 'Talent Pipeline Program | Employers | Elevate for Humanity',
-  description: 'Build your workforce with pre-trained, certified candidates. Our talent pipeline program connects Indianapolis employers with job-ready graduates at no cost.',
+  description:
+    'Build your workforce with pre-trained, certified candidates. Our talent pipeline program connects Indianapolis employers with job-ready graduates at no cost.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/employers/talent-pipeline',
   },
@@ -19,22 +29,26 @@ const pipelineSteps = [
   {
     step: 1,
     title: 'Define Your Needs',
-    description: 'Tell us about your hiring requirements, skills needed, and timeline. We customize training to match your specifications.',
+    description:
+      'Tell us about your hiring requirements, skills needed, and timeline. We customize training to match your specifications.',
   },
   {
     step: 2,
     title: 'We Train Candidates',
-    description: 'Students receive industry-specific training, certifications, and soft skills development tailored to your requirements.',
+    description:
+      'Students receive industry-specific training, certifications, and soft skills development tailored to your requirements.',
   },
   {
     step: 3,
     title: 'Screen & Interview',
-    description: 'Review pre-screened candidates who meet your criteria. Conduct interviews with job-ready graduates.',
+    description:
+      'Review pre-screened candidates who meet your criteria. Conduct interviews with job-ready graduates.',
   },
   {
     step: 4,
     title: 'Hire & Onboard',
-    description: 'Hire qualified candidates with confidence. We provide ongoing support during the transition period.',
+    description:
+      'Hire qualified candidates with confidence. We provide ongoing support during the transition period.',
   },
 ];
 
@@ -65,32 +79,38 @@ const benefits = [
   {
     icon: DollarSign,
     title: 'Zero Recruitment Costs',
-    description: 'No fees for candidate sourcing, screening, or placement. Our services are funded through workforce grants.',
+    description:
+      'No fees for candidate sourcing, screening, or placement. Our services are funded through workforce grants.',
   },
   {
     icon: Award,
     title: 'Pre-Certified Candidates',
-    description: 'Graduates come with industry certifications, reducing your training time and costs.',
+    description:
+      'Graduates come with industry certifications, reducing your training time and costs.',
   },
   {
     icon: Clock,
     title: 'Faster Time-to-Hire',
-    description: 'Access a pool of pre-screened, job-ready candidates. Fill positions in weeks, not months.',
+    description:
+      'Access a pool of pre-screened, job-ready candidates. Fill positions in weeks, not months.',
   },
   {
     icon: Target,
     title: 'Custom Training',
-    description: 'We can customize curriculum to include your specific processes, tools, and requirements.',
+    description:
+      'We can customize curriculum to include your specific processes, tools, and requirements.',
   },
   {
     icon: Users,
     title: 'Diverse Talent Pool',
-    description: 'Access candidates from underrepresented communities, supporting your DEI initiatives.',
+    description:
+      'Access candidates from underrepresented communities, supporting your DEI initiatives.',
   },
   {
     icon: CheckCircle,
     title: 'Retention Support',
-    description: 'We provide ongoing support to help new hires succeed and stay with your organization.',
+    description:
+      'We provide ongoing support to help new hires succeed and stay with your organization.',
   },
 ];
 
@@ -107,7 +127,7 @@ export default async function TalentPipelinePage() {
       </div>
     );
   }
-  
+
   // Fetch pipeline stats
   const { count: candidateCount } = await supabase
     .from('students')
@@ -116,10 +136,12 @@ export default async function TalentPipelinePage() {
 
   return (
     <div className="min-h-screen bg-white">
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Employers", href: "/employers" }, { label: "Talent Pipeline" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs
+          items={[{ label: 'Employers', href: '/employers' }, { label: 'Talent Pipeline' }]}
+        />
       </div>
-{/* Hero Section */}
+      {/* Hero Section */}
       <section className="relative bg-slate-800 text-white py-20 md:py-28">
         <div className="absolute inset-0 opacity-20">
           <Image
@@ -136,8 +158,8 @@ export default async function TalentPipelinePage() {
               Build Your Talent Pipeline
             </h1>
             <p className="text-xl md:text-2xl text-slate-300 mb-8">
-              Access pre-trained, certified candidates ready to work. No recruitment fees, 
-              no hassle—just qualified talent for your open positions.
+              Access pre-trained, certified candidates ready to work. No recruitment fees, no
+              hassle—just qualified talent for your open positions.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link
@@ -272,9 +294,9 @@ export default async function TalentPipelinePage() {
                 Funded Through Workforce Grants
               </h2>
               <p className="text-xl text-slate-300 mb-6">
-                Our talent pipeline program is funded through WIOA, Next Level Jobs, and other 
-                workforce development grants. This means you get access to trained candidates 
-                at no cost to your organization.
+                Our talent pipeline program is funded through WIOA, Next Level Jobs, and other
+                workforce development grants. This means you get access to trained candidates at no
+                cost to your organization.
               </p>
               <ul className="space-y-3">
                 <li className="flex items-center gap-3 text-slate-300">
@@ -314,8 +336,8 @@ export default async function TalentPipelinePage() {
             Ready to Build Your Talent Pipeline?
           </h2>
           <p className="text-xl text-orange-100 mb-8">
-            Contact us today to discuss your hiring needs and learn how we can help you 
-            find qualified candidates for your open positions.
+            Contact us today to discuss your hiring needs and learn how we can help you find
+            qualified candidates for your open positions.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link

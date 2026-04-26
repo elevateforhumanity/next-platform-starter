@@ -56,8 +56,7 @@ export async function GET(req: NextRequest) {
   const secret = process.env.CRON_SECRET;
   if (secret) {
     const provided =
-      req.headers.get('x-cron-secret') ||
-      new URL(req.url).searchParams.get('secret');
+      req.headers.get('x-cron-secret') || new URL(req.url).searchParams.get('secret');
     if (provided !== secret) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -78,7 +77,8 @@ export async function GET(req: NextRequest) {
     // We join application_followups to count how many emails have been sent.
     const { data: apps, error } = await supabase
       .from('applications')
-      .select(`
+      .select(
+        `
         id,
         first_name,
         last_name,
@@ -88,7 +88,8 @@ export async function GET(req: NextRequest) {
         status,
         created_at,
         application_followups(id)
-      `)
+      `,
+      )
       .eq('status', status)
       .not('email', 'is', null)
       .order('created_at', { ascending: true });
@@ -98,14 +99,13 @@ export async function GET(req: NextRequest) {
       continue;
     }
 
-    for (const raw of (apps ?? [])) {
+    for (const raw of apps ?? []) {
       const app = raw as unknown as ApplicationRow & {
         application_followups: { id: string }[];
       };
 
       const followupCount = app.application_followups?.length ?? 0;
-      const ageHours =
-        (now.getTime() - new Date(app.created_at).getTime()) / 3_600_000;
+      const ageHours = (now.getTime() - new Date(app.created_at).getTime()) / 3_600_000;
 
       // Determine if a follow-up is due
       const isDueFirst = followupCount === 0 && ageHours >= first;

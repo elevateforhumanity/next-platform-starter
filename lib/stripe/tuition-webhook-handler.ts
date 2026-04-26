@@ -2,7 +2,7 @@ import 'server-only';
 import { logger } from '@/lib/logger';
 /**
  * TUITION WEBHOOK HANDLER
- * 
+ *
  * Handles Stripe webhook events for tuition payments:
  * - checkout.session.completed: Grant access, create subscription if installment plan
  * - invoice.paid: Track installment progress, check for completion
@@ -15,10 +15,10 @@ import type Stripe from 'stripe';
 import { createClient } from '@supabase/supabase-js';
 import { resend } from '@/lib/resend';
 import { setAuditContext } from '@/lib/audit-context';
-import { 
-  createInstallmentSubscription, 
+import {
+  createInstallmentSubscription,
   checkAndCancelCompletedSubscription,
-  handleFailedPayment 
+  handleFailedPayment,
 } from './tuition-checkout';
 import { INSTALLMENT_RULES } from './tuition-config';
 
@@ -36,7 +36,7 @@ async function sendWelcomeLetterEmail(studentId: string, programId: string): Pro
 
   const supabaseClient = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!
+    process.env.SUPABASE_SERVICE_ROLE_KEY!,
   );
 
   // Get student info
@@ -215,35 +215,43 @@ async function sendWelcomeLetterEmail(studentId: string, programId: string): Pro
     logger.info(`Welcome letter sent to ${student.email} for program ${programName}`);
 
     // Record emails sent
-    await supabaseClient.from('email_logs').insert([
-      {
-        user_id: studentId,
-        email_type: 'payment_confirmation',
-        recipient_email: student.email,
-        subject: `Payment Confirmed - ${programName}`,
-        status: 'sent',
-        sent_at: new Date().toISOString(),
-      },
-      {
-        user_id: studentId,
-        email_type: 'welcome_letter',
-        recipient_email: student.email,
-        subject: `ACTION REQUIRED: Complete Your Enrollment - ${programName}`,
-        status: 'sent',
-        sent_at: new Date().toISOString(),
-      }
-    ]).catch(() => {}); // Ignore if table doesn't exist
+    await supabaseClient
+      .from('email_logs')
+      .insert([
+        {
+          user_id: studentId,
+          email_type: 'payment_confirmation',
+          recipient_email: student.email,
+          subject: `Payment Confirmed - ${programName}`,
+          status: 'sent',
+          sent_at: new Date().toISOString(),
+        },
+        {
+          user_id: studentId,
+          email_type: 'welcome_letter',
+          recipient_email: student.email,
+          subject: `ACTION REQUIRED: Complete Your Enrollment - ${programName}`,
+          status: 'sent',
+          sent_at: new Date().toISOString(),
+        },
+      ])
+      .catch(() => {}); // Ignore if table doesn't exist
 
     // ============================================
     // ADMIN NOTIFICATION - New Enrollment
     // ============================================
-    await sendAdminEnrollmentNotification(studentId, programId, studentName, student.email, programName);
+    await sendAdminEnrollmentNotification(
+      studentId,
+      programId,
+      studentName,
+      student.email,
+      programName,
+    );
 
     // ============================================
     // RAPIDS - Create pending registration
     // ============================================
     await createRAPIDSPendingRecord(supabaseClient, studentId, programId, studentName, programName);
-
   } catch (error) {
     logger.error('Failed to send emails:', error);
   }
@@ -257,7 +265,7 @@ async function sendAdminEnrollmentNotification(
   programId: string,
   studentName: string,
   studentEmail: string,
-  programName: string
+  programName: string,
 ): Promise<void> {
   const sendgridKey = process.env.SENDGRID_API_KEY;
   if (!sendgridKey) return;
@@ -317,7 +325,6 @@ async function sendAdminEnrollmentNotification(
     });
 
     logger.info(`Admin notification sent for new enrollment: ${studentName}`);
-
   } catch (error) {
     logger.error('Failed to send admin notification:', error);
   }
@@ -332,7 +339,7 @@ async function createRAPIDSPendingRecord(
   studentId: string,
   programId: string,
   studentName: string,
-  programName: string
+  programName: string,
 ): Promise<void> {
   try {
     // Check if this is an apprenticeship program requiring RAPIDS
@@ -343,7 +350,7 @@ async function createRAPIDSPendingRecord(
       .maybeSingle();
 
     const isApprenticeship = program?.type === 'apprenticeship' || program?.rapids_required;
-    
+
     if (!isApprenticeship) {
       logger.info(`Program ${programName} does not require RAPIDS registration`);
       return;
@@ -360,7 +367,6 @@ async function createRAPIDSPendingRecord(
     });
 
     logger.info(`RAPIDS pending record created for ${studentName} - ${programName}`);
-
   } catch (error) {
     logger.error('Failed to create RAPIDS record:', error);
   }
@@ -372,7 +378,7 @@ async function sendPaymentFailedEmail(studentId: string, programId: string): Pro
 
   const supabaseClient = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!
+    process.env.SUPABASE_SERVICE_ROLE_KEY!,
   );
 
   // Get student info
@@ -390,7 +396,6 @@ async function sendPaymentFailedEmail(studentId: string, programId: string): Pro
     .maybeSingle();
 
   if (!student?.email) return;
-
 
   await resend.emails.send({
     from: 'Elevate LMS <billing@elevateforhumanity.org>',
@@ -423,15 +428,15 @@ export async function handleTuitionWebhook(event: Stripe.Event): Promise<void> {
     case 'checkout.session.completed':
       await handleCheckoutCompleted(event.data.object as Stripe.Checkout.Session);
       break;
-      
+
     case 'invoice.paid':
       await handleInvoicePaid(event.data.object as Stripe.Invoice);
       break;
-      
+
     case 'invoice.payment_failed':
       await handleInvoicePaymentFailed(event.data.object as Stripe.Invoice);
       break;
-      
+
     case 'customer.subscription.deleted':
       await handleSubscriptionDeleted(event.data.object as Stripe.Subscription);
       break;
@@ -445,18 +450,18 @@ export async function handleTuitionWebhook(event: Stripe.Event): Promise<void> {
  */
 async function handleCheckoutCompleted(session: Stripe.Checkout.Session): Promise<void> {
   const { metadata } = session;
-  
+
   if (!metadata?.student_id || !metadata?.program_id) {
     logger.error('Missing metadata in checkout session');
     return;
   }
-  
+
   const studentId = metadata.student_id;
   const programId = metadata.program_id;
   const paymentOption = metadata.payment_option;
-  
+
   logger.info(`Checkout completed: ${paymentOption} for student ${studentId}`);
-  
+
   // Record payment in database
   await supabase.from('tuition_payments').insert({
     student_id: studentId,
@@ -467,7 +472,7 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session): Promis
     status: 'completed',
     created_at: new Date().toISOString(),
   });
-  
+
   // Handle based on payment option
   if (paymentOption === 'pay_in_full' || paymentOption === 'bnpl') {
     // Full payment received — enrollment moves to pending_review.
@@ -477,21 +482,22 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session): Promis
     // Notify student (payment confirmed) and admin (action required: grant access)
     await sendWelcomeLetterEmail(studentId, programId);
     // sendWelcomeLetterEmail already fetches student+program — reuse via separate admin call
-    await sendAdminEnrollmentNotification(studentId, programId,
+    await sendAdminEnrollmentNotification(
+      studentId,
+      programId,
       session.customer_details?.name || metadata.student_name || '',
       session.customer_details?.email || metadata.student_email || '',
       metadata.program_name || '',
     ).catch(() => {});
-
   } else if (paymentOption === 'installment_plan' && metadata.create_subscription === 'true') {
     // Deposit paid - create subscription for remaining balance (weekly or monthly)
     const customerId = session.customer as string;
     const paymentIntentId = session.payment_intent as string;
-    
+
     // Get the payment method from the payment intent
     const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
     const paymentMethodId = paymentIntent.payment_method as string;
-    
+
     // Create subscription for weekly/monthly payments
     const result = await createInstallmentSubscription(customerId, paymentMethodId, {
       student_id: studentId,
@@ -504,11 +510,11 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session): Promis
       monthly_amount: metadata.monthly_amount,
       number_of_months: metadata.number_of_months,
     });
-    
+
     if (result.success) {
       // Deposit paid — hold at pending_review until admin grants access.
       await updateEnrollmentStatus(studentId, programId, 'pending_review', 'installment_plan');
-      
+
       // Store subscription ID
       await supabase.from('tuition_subscriptions').insert({
         student_id: studentId,
@@ -520,9 +526,11 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session): Promis
         status: 'active',
         created_at: new Date().toISOString(),
       });
-      
+
       await sendWelcomeLetterEmail(studentId, programId);
-      await sendAdminEnrollmentNotification(studentId, programId,
+      await sendAdminEnrollmentNotification(
+        studentId,
+        programId,
         session.customer_details?.name || metadata.student_name || '',
         session.customer_details?.email || metadata.student_email || '',
         metadata.program_name || '',
@@ -531,7 +539,9 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session): Promis
       logger.error('Failed to create subscription:', result.error);
       // Deposit paid but subscription setup failed — pending_review for admin.
       await updateEnrollmentStatus(studentId, programId, 'pending_review', 'subscription_failed');
-      await sendAdminEnrollmentNotification(studentId, programId,
+      await sendAdminEnrollmentNotification(
+        studentId,
+        programId,
         session.customer_details?.name || metadata.student_name || '',
         session.customer_details?.email || metadata.student_email || '',
         metadata.program_name || '',
@@ -548,20 +558,20 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session): Promis
  */
 async function handleInvoicePaid(invoice: Stripe.Invoice): Promise<void> {
   if (!invoice.subscription) return;
-  
+
   const subscriptionId = invoice.subscription as string;
   const subscription = await stripe.subscriptions.retrieve(subscriptionId);
-  
+
   // Only handle tuition installments
   if (subscription.metadata.payment_type !== 'tuition_installment') return;
-  
+
   const studentId = subscription.metadata.student_id;
   const programId = subscription.metadata.program_id;
   const paymentInterval = subscription.metadata.payment_interval || 'month';
   const amountPaid = invoice.amount_paid / 100;
-  
+
   logger.info(`${paymentInterval}ly payment of $${amountPaid} received for student ${studentId}`);
-  
+
   // Record payment in tuition_payments
   await supabase.from('tuition_payments').insert({
     student_id: studentId,
@@ -573,52 +583,61 @@ async function handleInvoicePaid(invoice: Stripe.Invoice): Promise<void> {
     status: 'completed',
     created_at: new Date().toISOString(),
   });
-  
+
   // Also record in student_payments for unified tracking
-  await supabase.from('student_payments').insert({
-    student_id: studentId,
-    stripe_invoice_id: invoice.id,
-    stripe_subscription_id: subscriptionId,
-    amount: amountPaid,
-    type: paymentInterval === 'week' ? 'weekly_payment' : 'monthly_payment',
-    status: 'completed',
-  }).catch(() => {}); // Ignore if table doesn't exist
-  
+  await supabase
+    .from('student_payments')
+    .insert({
+      student_id: studentId,
+      stripe_invoice_id: invoice.id,
+      stripe_subscription_id: subscriptionId,
+      amount: amountPaid,
+      type: paymentInterval === 'week' ? 'weekly_payment' : 'monthly_payment',
+      status: 'completed',
+    })
+    .catch(() => {}); // Ignore if table doesn't exist
+
   // Update installment count in tuition_subscriptions
   const { data: tuitionSub } = await supabase
     .from('tuition_subscriptions')
     .select('installments_paid, total_installments')
     .eq('stripe_subscription_id', subscriptionId)
     .maybeSingle();
-  
+
   if (tuitionSub) {
     const newCount = (tuitionSub.installments_paid || 0) + 1;
-    
+
     await supabase
       .from('tuition_subscriptions')
-      .update({ 
+      .update({
         installments_paid: newCount,
         last_payment_date: new Date().toISOString(),
       })
       .eq('stripe_subscription_id', subscriptionId);
-    
+
     // Check if all installments paid
     if (newCount >= tuitionSub.total_installments) {
       await supabase
         .from('tuition_subscriptions')
         .update({ status: 'completed' })
         .eq('stripe_subscription_id', subscriptionId);
-      
+
       await updateEnrollmentStatus(studentId, programId, 'active', 'paid_in_full');
-      
+
       // Send completion notification
       await sendPaymentCompletionEmail(studentId, programId);
     } else {
       // Send payment confirmation
-      await sendPaymentConfirmationEmail(studentId, amountPaid, newCount, tuitionSub.total_installments, paymentInterval);
+      await sendPaymentConfirmationEmail(
+        studentId,
+        amountPaid,
+        newCount,
+        tuitionSub.total_installments,
+        paymentInterval,
+      );
     }
   }
-  
+
   // Update student_subscriptions if exists
   await supabase
     .from('student_subscriptions')
@@ -629,24 +648,24 @@ async function handleInvoicePaid(invoice: Stripe.Invoice): Promise<void> {
     })
     .eq('stripe_subscription_id', subscriptionId)
     .catch(() => {});
-  
+
   // Increment weeks_paid
   const { data: studentSub } = await supabase
     .from('student_subscriptions')
     .select('weeks_paid')
     .eq('stripe_subscription_id', subscriptionId)
     .maybeSingle();
-  
+
   if (studentSub) {
     await supabase
       .from('student_subscriptions')
       .update({ weeks_paid: (studentSub.weeks_paid || 0) + 1 })
       .eq('stripe_subscription_id', subscriptionId);
   }
-  
+
   // Check and cancel subscription if complete
   await checkAndCancelCompletedSubscription(subscriptionId);
-  
+
   // Ensure access is active (in case it was suspended)
   await grantCourseAccess(studentId, programId, 'active');
 }
@@ -659,7 +678,7 @@ async function sendPaymentConfirmationEmail(
   amount: number,
   paymentNumber: number,
   totalPayments: number,
-  interval: string
+  interval: string,
 ): Promise<void> {
   const sendgridKey = process.env.SENDGRID_API_KEY;
   if (!sendgridKey) return;
@@ -672,12 +691,12 @@ async function sendPaymentConfirmationEmail(
 
   if (!student?.email) return;
 
-
-  await resend.emails.send({
-    from: 'Elevate for Humanity <billing@elevateforhumanity.org>',
-    to: student.email,
-    subject: `Payment Received - ${paymentNumber} of ${totalPayments}`,
-    html: `
+  await resend.emails
+    .send({
+      from: 'Elevate for Humanity <billing@elevateforhumanity.org>',
+      to: student.email,
+      subject: `Payment Received - ${paymentNumber} of ${totalPayments}`,
+      html: `
       <h2>Payment Confirmed</h2>
       <p>Hi ${student.full_name || 'Student'},</p>
       <p>We've received your ${interval}ly tuition payment of <strong>$${amount.toFixed(2)}</strong>.</p>
@@ -686,7 +705,8 @@ async function sendPaymentConfirmationEmail(
       <p>Thank you for staying on track with your education!</p>
       <p>- Elevate for Humanity</p>
     `,
-  }).catch(err => logger.error('Failed to send payment confirmation:', err));
+    })
+    .catch((err) => logger.error('Failed to send payment confirmation:', err));
 }
 
 /**
@@ -710,12 +730,12 @@ async function sendPaymentCompletionEmail(studentId: string, programId: string):
 
   if (!student?.email) return;
 
-
-  await resend.emails.send({
-    from: 'Elevate for Humanity <billing@elevateforhumanity.org>',
-    to: student.email,
-    subject: 'Congratulations! Tuition Paid in Full',
-    html: `
+  await resend.emails
+    .send({
+      from: 'Elevate for Humanity <billing@elevateforhumanity.org>',
+      to: student.email,
+      subject: 'Congratulations! Tuition Paid in Full',
+      html: `
       <h2>🎉 Tuition Paid in Full!</h2>
       <p>Hi ${student.full_name || 'Student'},</p>
       <p>Congratulations! You have successfully completed all tuition payments for <strong>${program?.title || 'your program'}</strong>.</p>
@@ -723,7 +743,8 @@ async function sendPaymentCompletionEmail(studentId: string, programId: string):
       <p>If you have any questions, please don't hesitate to reach out.</p>
       <p>- Elevate for Humanity</p>
     `,
-  }).catch(err => logger.error('Failed to send completion email:', err));
+    })
+    .catch((err) => logger.error('Failed to send completion email:', err));
 }
 
 /**
@@ -733,18 +754,18 @@ async function sendPaymentCompletionEmail(studentId: string, programId: string):
  */
 async function handleInvoicePaymentFailed(invoice: Stripe.Invoice): Promise<void> {
   if (!invoice.subscription) return;
-  
+
   const subscriptionId = invoice.subscription as string;
   const subscription = await stripe.subscriptions.retrieve(subscriptionId);
-  
+
   // Only handle tuition installments
   if (subscription.metadata.payment_type !== 'tuition_installment') return;
-  
+
   const studentId = subscription.metadata.student_id;
   const programId = subscription.metadata.program_id;
-  
+
   logger.info(`Payment failed for student ${studentId}`);
-  
+
   // Record failed payment
   await supabase.from('tuition_payments').insert({
     student_id: studentId,
@@ -756,22 +777,22 @@ async function handleInvoicePaymentFailed(invoice: Stripe.Invoice): Promise<void
     status: 'failed',
     created_at: new Date().toISOString(),
   });
-  
+
   // Suspend access per INSTALLMENT_RULES
   if (INSTALLMENT_RULES.suspendOnFailure) {
     await suspendCourseAccess(studentId, programId, 'payment_failed');
     await updateEnrollmentStatus(studentId, programId, 'suspended', 'payment_failed');
   }
-  
+
   // Update subscription status
   await supabase
     .from('tuition_subscriptions')
-    .update({ 
+    .update({
       status: 'past_due',
       last_failed_date: new Date().toISOString(),
     })
     .eq('stripe_subscription_id', subscriptionId);
-  
+
   // Send notification email to student
   try {
     await sendPaymentFailedEmail(studentId, programId);
@@ -786,19 +807,19 @@ async function handleInvoicePaymentFailed(invoice: Stripe.Invoice): Promise<void
  */
 async function handleSubscriptionDeleted(subscription: Stripe.Subscription): Promise<void> {
   if (subscription.metadata.payment_type !== 'tuition_installment') return;
-  
+
   const studentId = subscription.metadata.student_id;
   const programId = subscription.metadata.program_id;
-  
+
   const { data: sub } = await supabase
     .from('tuition_subscriptions')
     .select('installments_paid, total_installments, status')
     .eq('stripe_subscription_id', subscription.id)
     .maybeSingle();
-  
+
   if (sub) {
     const isComplete = sub.installments_paid >= sub.total_installments;
-    
+
     if (isComplete) {
       // Subscription completed successfully
       logger.info(`Subscription completed for student ${studentId}`);
@@ -813,7 +834,7 @@ async function handleSubscriptionDeleted(subscription: Stripe.Subscription): Pro
         .from('tuition_subscriptions')
         .update({ status: 'cancelled' })
         .eq('stripe_subscription_id', subscription.id);
-      
+
       // Suspend access if not paid in full
       await suspendCourseAccess(studentId, programId, 'subscription_cancelled');
       await updateEnrollmentStatus(studentId, programId, 'suspended', 'subscription_cancelled');
@@ -825,13 +846,13 @@ async function handleSubscriptionDeleted(subscription: Stripe.Subscription): Pro
  * Helper: Grant course access
  */
 async function grantCourseAccess(
-  studentId: string, 
-  programId: string, 
-  accessLevel: 'full' | 'active'
+  studentId: string,
+  programId: string,
+  accessLevel: 'full' | 'active',
 ): Promise<void> {
   await supabase
     .from('program_enrollments')
-    .update({ 
+    .update({
       access_status: accessLevel,
       access_granted_at: new Date().toISOString(),
     })
@@ -843,13 +864,13 @@ async function grantCourseAccess(
  * Helper: Suspend course access
  */
 async function suspendCourseAccess(
-  studentId: string, 
-  programId: string, 
-  reason: string
+  studentId: string,
+  programId: string,
+  reason: string,
 ): Promise<void> {
   await supabase
     .from('program_enrollments')
-    .update({ 
+    .update({
       access_status: 'suspended',
       suspension_reason: reason,
       suspended_at: new Date().toISOString(),
@@ -862,14 +883,14 @@ async function suspendCourseAccess(
  * Helper: Update enrollment status
  */
 async function updateEnrollmentStatus(
-  studentId: string, 
-  programId: string, 
+  studentId: string,
+  programId: string,
   status: string,
-  paymentStatus: string
+  paymentStatus: string,
 ): Promise<void> {
   await supabase
     .from('program_enrollments')
-    .update({ 
+    .update({
       status,
       payment_status: paymentStatus,
       updated_at: new Date().toISOString(),

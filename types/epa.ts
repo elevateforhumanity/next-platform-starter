@@ -22,40 +22,40 @@ export type EpaPriceType =
   | 'retake';
 
 export interface EpaProduct {
-  key:             string;
-  label:           string;
+  key: string;
+  label: string;
   /** Vendor cost — admin only, never rendered publicly */
-  vendorBase:      number;
-  type:            EpaPriceType;
+  vendorBase: number;
+  type: EpaPriceType;
   /** Explicit retail price (formula doesn't match targets — see epa608-pricing.ts) */
-  retailPrice:     number;
-  description?:    string;
+  retailPrice: number;
+  description?: string;
 }
 
 export interface EpaProgram {
-  key:              string;
-  label:            string;
+  key: string;
+  label: string;
   shortDescription: string;
-  products:         EpaProduct[];
-  featured?:        boolean;
+  products: EpaProduct[];
+  featured?: boolean;
 }
 
 export type EpaPartnerStatus = 'pending' | 'approved' | 'active';
 
 export interface EpaPartner {
-  key:         string;
-  company:     string;
+  key: string;
+  company: string;
   contactName: string;
-  email:       string;
-  phone:       string;
-  status:      EpaPartnerStatus;
+  email: string;
+  phone: string;
+  status: EpaPartnerStatus;
   /**
    * Issued proctor ID for this authorized site.
    * ADMIN ONLY — NEVER expose on any public-facing page or API response.
    * Store in this file only; never log, render, or transmit to the client.
    */
-  proctorId?:  string;
-  notes?:      string[];
+  proctorId?: string;
+  notes?: string[];
 }
 
 /** Admin margin view — never expose vendorBase or margin on public pages */

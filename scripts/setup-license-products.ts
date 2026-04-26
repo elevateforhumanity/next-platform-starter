@@ -1,9 +1,9 @@
 /**
  * Setup Stripe Products and Prices for LMS License Tiers
- * 
+ *
  * Run once to create products in Stripe:
  *   npx ts-node scripts/setup-license-products.ts
- * 
+ *
  * After running, add the price IDs to your .env file.
  */
 
@@ -28,7 +28,8 @@ interface ProductConfig {
 const LICENSE_PRODUCTS: ProductConfig[] = [
   {
     name: 'Elevate LMS - Starter License',
-    description: 'Up to 100 students, 1 admin, 3 programs. Perfect for small training providers and pilot programs.',
+    description:
+      'Up to 100 students, 1 admin, 3 programs. Perfect for small training providers and pilot programs.',
     prices: [
       {
         nickname: 'Starter Monthly',
@@ -48,7 +49,8 @@ const LICENSE_PRODUCTS: ProductConfig[] = [
   },
   {
     name: 'Elevate LMS - Professional License',
-    description: 'Up to 500 students, 5 admins, unlimited programs. For growing training providers and nonprofits.',
+    description:
+      'Up to 500 students, 5 admins, unlimited programs. For growing training providers and nonprofits.',
     prices: [
       {
         nickname: 'Professional Monthly',
@@ -70,19 +72,19 @@ const LICENSE_PRODUCTS: ProductConfig[] = [
 
 async function createLicenseProducts() {
   console.log('Creating Stripe license products and prices...\n');
-  
+
   const envVars: string[] = [];
 
   for (const productConfig of LICENSE_PRODUCTS) {
     console.log(`Creating product: ${productConfig.name}`);
-    
+
     // Check if product already exists
     const existingProducts = await stripe.products.search({
       query: `name:"${productConfig.name}"`,
     });
-    
+
     let product: Stripe.Product;
-    
+
     if (existingProducts.data.length > 0) {
       product = existingProducts.data[0];
       console.log(`  Product already exists: ${product.id}`);
@@ -106,17 +108,15 @@ async function createLicenseProducts() {
         product: product.id,
         active: true,
       });
-      
-      const existingPrice = existingPrices.data.find(
-        p => p.nickname === priceConfig.nickname
-      );
-      
+
+      const existingPrice = existingPrices.data.find((p) => p.nickname === priceConfig.nickname);
+
       if (existingPrice) {
         console.log(`  ${priceConfig.nickname} already exists: ${existingPrice.id}`);
         envVars.push(`${priceConfig.envVar}=${existingPrice.id}`);
         continue;
       }
-      
+
       const price = await stripe.prices.create({
         product: product.id,
         nickname: priceConfig.nickname,
@@ -131,11 +131,11 @@ async function createLicenseProducts() {
           type: 'license',
         },
       });
-      
+
       console.log(`  Created ${priceConfig.nickname}: ${price.id}`);
       envVars.push(`${priceConfig.envVar}=${price.id}`);
     }
-    
+
     console.log('');
   }
 
@@ -143,9 +143,9 @@ async function createLicenseProducts() {
   console.log('Add these to your .env file:');
   console.log('='.repeat(60));
   console.log('');
-  envVars.forEach(v => console.log(v));
+  envVars.forEach((v) => console.log(v));
   console.log('');
-  
+
   return envVars;
 }
 

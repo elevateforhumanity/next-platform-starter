@@ -31,34 +31,34 @@ Programs run 4–18 weeks. Most are fully funded at no cost to eligible particip
 
 ## Who It Serves
 
-| Stakeholder | Role |
-|-------------|------|
-| **Adult learners** | Career changers, dislocated workers, justice-involved individuals, youth 16–24 |
-| **Workforce agencies** | WorkOne, Indiana DWD, EmployIndy — referring and funding participants |
-| **Employers** | Hiring partners, OJT sponsors, apprenticeship co-sponsors |
-| **Program holders** | Community organizations delivering training under Elevate's infrastructure |
-| **Government** | DOL Office of Apprenticeship, WIOA Title I administrators |
-| **Parents / Guardians** | Monitoring progress of enrolled youth participants |
+| Stakeholder             | Role                                                                           |
+| ----------------------- | ------------------------------------------------------------------------------ |
+| **Adult learners**      | Career changers, dislocated workers, justice-involved individuals, youth 16–24 |
+| **Workforce agencies**  | WorkOne, Indiana DWD, EmployIndy — referring and funding participants          |
+| **Employers**           | Hiring partners, OJT sponsors, apprenticeship co-sponsors                      |
+| **Program holders**     | Community organizations delivering training under Elevate's infrastructure     |
+| **Government**          | DOL Office of Apprenticeship, WIOA Title I administrators                      |
+| **Parents / Guardians** | Monitoring progress of enrolled youth participants                             |
 
 ---
 
 ## Training Programs
 
-| Program | Credential | Funding |
-|---------|-----------|---------|
-| HVAC Technician | EPA Section 608 Universal | WIOA · WRG |
-| Certified Nursing Assistant | Indiana ISDH CNA | WIOA · WRG |
-| Peer Recovery Support Specialist | CPRC Pathway | WIOA · JRI |
-| Barber Apprenticeship | Indiana Barber License | DOL Apprenticeship |
-| Hair Stylist Apprenticeship | Indiana Cosmetology License | DOL Apprenticeship |
-| Esthetician Apprenticeship | Indiana Esthetician License | DOL Apprenticeship |
-| CDL Training | Commercial Driver's License | WIOA · EmployIndy |
-| IT Help Desk | CompTIA A+ | WIOA · WRG |
-| Cybersecurity | CompTIA Security+ | WIOA · WRG |
-| Pharmacy Technician | PTCB CPhT | WIOA · WRG |
-| Microsoft Office Specialist | MOS Certification | WIOA · WRG |
-| Business & Finance | Bookkeeping / Accounting | WIOA |
-| Youth Culinary | ServSafe + Culinary Skills | DOL Apprenticeship |
+| Program                          | Credential                  | Funding            |
+| -------------------------------- | --------------------------- | ------------------ |
+| HVAC Technician                  | EPA Section 608 Universal   | WIOA · WRG         |
+| Certified Nursing Assistant      | Indiana ISDH CNA            | WIOA · WRG         |
+| Peer Recovery Support Specialist | CPRC Pathway                | WIOA · JRI         |
+| Barber Apprenticeship            | Indiana Barber License      | DOL Apprenticeship |
+| Hair Stylist Apprenticeship      | Indiana Cosmetology License | DOL Apprenticeship |
+| Esthetician Apprenticeship       | Indiana Esthetician License | DOL Apprenticeship |
+| CDL Training                     | Commercial Driver's License | WIOA · EmployIndy  |
+| IT Help Desk                     | CompTIA A+                  | WIOA · WRG         |
+| Cybersecurity                    | CompTIA Security+           | WIOA · WRG         |
+| Pharmacy Technician              | PTCB CPhT                   | WIOA · WRG         |
+| Microsoft Office Specialist      | MOS Certification           | WIOA · WRG         |
+| Business & Finance               | Bookkeeping / Accounting    | WIOA               |
+| Youth Culinary                   | ServSafe + Culinary Skills  | DOL Apprenticeship |
 
 Programs are delivered directly by Elevate for Humanity or through approved training providers and are aligned with applicable credentialing body requirements.
 
@@ -66,11 +66,11 @@ Programs are delivered directly by Elevate for Humanity or through approved trai
 
 ## Access Model
 
-| Access Type | Description |
-|-------------|-------------|
+| Access Type                 | Description                                                                                                     |
+| --------------------------- | --------------------------------------------------------------------------------------------------------------- |
 | **Managed Platform Access** | Fully operated by Elevate for Humanity. Subscription-based. No source code access. $1,500–$3,500/month + setup. |
-| **Enterprise Source-Use** | Restricted source-use license for qualified enterprises. Approval required. Starts at $75,000. |
-| **Public Transparency** | This repository. Structural and documentation visibility only. Not a deployable copy of production. |
+| **Enterprise Source-Use**   | Restricted source-use license for qualified enterprises. Approval required. Starts at $75,000.                  |
+| **Public Transparency**     | This repository. Structural and documentation visibility only. Not a deployable copy of production.             |
 
 See [docs/access-model.md](docs/access-model.md) for full terms.
 
@@ -79,6 +79,7 @@ See [docs/access-model.md](docs/access-model.md) for full terms.
 ## Core Capabilities
 
 ### Learning Management
+
 - Blueprint-driven course engine — programs defined in code, rendered automatically with no per-program logic
 - Video lessons, quiz engine with pass thresholds, checkpoint gating, lab/assignment instructor sign-off
 - AI tutoring, adaptive flashcards, spaced repetition review, notes, downloadable resources
@@ -86,6 +87,7 @@ See [docs/access-model.md](docs/access-model.md) for full terms.
 - Attendance clock-in, instructor records, cohort scheduling
 
 ### Enrollment and Funding
+
 - Multi-step application with funding eligibility screening
 - WIOA, Workforce Ready Grant, JRI, and Next Level Jobs workflow integration
 - Stripe payments (cards, ACH, Apple Pay, Google Pay) and Affirm BNPL
@@ -93,6 +95,7 @@ See [docs/access-model.md](docs/access-model.md) for full terms.
 - Parent/guardian portal for monitoring youth participant progress
 
 ### Compliance and Reporting
+
 - DOL Registered Apprenticeship (RAPIDS 2025-IN-132301) — RTI hour logs, OJT tracking, competency rubrics
 - WIOA performance reporting — enrollment, completion, credential attainment, employment outcomes
 - Audit logging on all critical actions, RLS on all database tables
@@ -100,6 +103,7 @@ See [docs/access-model.md](docs/access-model.md) for full terms.
 - Monthly compliance summaries for referring agencies
 
 ### Stakeholder Portals
+
 - **Admin panel** — enrollment, compliance, analytics, content, users, programs, and operations
 - **Learner portal** — dashboard, courses, certificates, attendance, career services
 - **Instructor portal** — student management, submission review, sign-off queue
@@ -109,6 +113,7 @@ See [docs/access-model.md](docs/access-model.md) for full terms.
 - **Parent/Guardian portal** — linked student progress, enrollment status, certificates
 
 ### Testing Infrastructure
+
 - Certiport Authorized Testing Center
 - EPA Section 608 authorized testing (ESCO Group, Mainstream Engineering)
 - Online exam booking, proctor scheduling, score reporting
@@ -117,28 +122,28 @@ See [docs/access-model.md](docs/access-model.md) for full terms.
 
 ## Legal and Compliance Standing
 
-| Field | Value |
-|-------|-------|
-| **Legal Name** | 2Exclusive LLC-S |
-| **DBA** | Elevate for Humanity Career & Training Institute |
-| **EIN** | 88-2609728 |
-| **RAPIDS Program** | 2025-IN-132301 |
-| **DOL Registration** | Registered — U.S. Department of Labor, Office of Apprenticeship |
-| **ETPL Status** | Indiana Eligible Training Provider List — listed |
-| **Location** | 8888 Keystone Crossing, Suite 1300, Indianapolis, IN 46240 |
-| **Sponsor Type** | Single Employer |
-| **EPA Authorization** | Section 608 Universal — authorized testing center |
+| Field                 | Value                                                           |
+| --------------------- | --------------------------------------------------------------- |
+| **Legal Name**        | 2Exclusive LLC-S                                                |
+| **DBA**               | Elevate for Humanity Career & Training Institute                |
+| **EIN**               | 88-2609728                                                      |
+| **RAPIDS Program**    | 2025-IN-132301                                                  |
+| **DOL Registration**  | Registered — U.S. Department of Labor, Office of Apprenticeship |
+| **ETPL Status**       | Indiana Eligible Training Provider List — listed                |
+| **Location**          | 8888 Keystone Crossing, Suite 1300, Indianapolis, IN 46240      |
+| **Sponsor Type**      | Single Employer                                                 |
+| **EPA Authorization** | Section 608 Universal — authorized testing center               |
 
 ### Registered Apprenticeship Occupations
 
-| Occupation | RTI Hours | Sponsor | Method |
-|------------|-----------|---------|--------|
-| Building Services Technician (HVAC) | 432 | 2Exclusive LLC-S (206251) | Classroom / Shop / Web-Based |
-| Hair Stylist | 154 | 2Exclusive LLC-S (206251) | Classroom / Shop / Web-Based |
-| Barber | 260 | Elevate for Humanity (208029) | Classroom / Web-Based |
-| Esthetician | 300 | Elevate for Humanity (208029) | Classroom / Web-Based |
-| Nail Tech | 200 | Elevate for Humanity (208029) | Classroom / Web-Based |
-| Youth Culinary | 144 | Elevate for Humanity (208029) | Classroom / Web-Based |
+| Occupation                          | RTI Hours | Sponsor                       | Method                       |
+| ----------------------------------- | --------- | ----------------------------- | ---------------------------- |
+| Building Services Technician (HVAC) | 432       | 2Exclusive LLC-S (206251)     | Classroom / Shop / Web-Based |
+| Hair Stylist                        | 154       | 2Exclusive LLC-S (206251)     | Classroom / Shop / Web-Based |
+| Barber                              | 260       | Elevate for Humanity (208029) | Classroom / Web-Based        |
+| Esthetician                         | 300       | Elevate for Humanity (208029) | Classroom / Web-Based        |
+| Nail Tech                           | 200       | Elevate for Humanity (208029) | Classroom / Web-Based        |
+| Youth Culinary                      | 144       | Elevate for Humanity (208029) | Classroom / Web-Based        |
 
 See [docs/compliance-overview.md](docs/compliance-overview.md) for full compliance posture.
 
@@ -146,20 +151,20 @@ See [docs/compliance-overview.md](docs/compliance-overview.md) for full complian
 
 ## Tech Stack
 
-| Layer | Technology | Version |
-|-------|-----------|---------|
-| Framework | Next.js (App Router, Turbopack) | 16.1.6 |
-| Language | TypeScript | 5.9.3 |
-| UI | React | 19.2.1 |
-| CSS | Tailwind CSS | 3.4.18 |
-| Database | Supabase (PostgreSQL + Auth + RLS) | — |
-| Payments | Stripe | 19.3.1 |
-| Email | Resend | 6.4.2 |
-| AI | OpenAI | 6.9.1 |
-| Monitoring | Sentry | 10.32.1 |
-| Hosting | Netlify | — |
-| Package Manager | pnpm | 10.28.2 |
-| Node.js | — | 20.x |
+| Layer           | Technology                         | Version |
+| --------------- | ---------------------------------- | ------- |
+| Framework       | Next.js (App Router, Turbopack)    | 16.1.6  |
+| Language        | TypeScript                         | 5.9.3   |
+| UI              | React                              | 19.2.1  |
+| CSS             | Tailwind CSS                       | 3.4.18  |
+| Database        | Supabase (PostgreSQL + Auth + RLS) | —       |
+| Payments        | Stripe                             | 19.3.1  |
+| Email           | Resend                             | 6.4.2   |
+| AI              | OpenAI                             | 6.9.1   |
+| Monitoring      | Sentry                             | 10.32.1 |
+| Hosting         | Netlify                            | —       |
+| Package Manager | pnpm                               | 10.28.2 |
+| Node.js         | —                                  | 20.x    |
 
 **Integrations:** Stripe, Affirm, Resend, OpenAI, Supabase, Sentry, Netlify, JotForm, Certiport, D-ID.
 
@@ -171,15 +176,15 @@ This public repository contains the application codebase for transparency and ev
 
 **Verified codebase counts:**
 
-| Artifact | Count |
-|----------|-------|
-| App pages | 1,550 |
-| API routes | 1,157 |
-| React components | 930 |
-| Library modules | 861 |
-| SQL migrations | 430 |
-| Admin sections | 289+ |
-| Netlify serverless functions | 7 |
+| Artifact                     | Count |
+| ---------------------------- | ----- |
+| App pages                    | 1,550 |
+| API routes                   | 1,157 |
+| React components             | 930   |
+| Library modules              | 861   |
+| SQL migrations               | 430   |
+| Admin sections               | 289+  |
+| Netlify serverless functions | 7     |
 
 See [docs/repository-scope.md](docs/repository-scope.md) for full scope details.
 
@@ -233,6 +238,7 @@ The platform is organized into six domains. Each domain owns its data, its API s
 
 **1. LMS Engine** (`lib/lms/engine/`)
 The course delivery core. Stateless functions that read and write learner progress. Nothing outside this module writes to `lesson_progress`, `checkpoint_scores`, `step_submissions`, or `program_completion_certificates`.
+
 - `completion.ts` — the only write path for step completion and uncompletion
 - `progress-calc.ts` — single source of truth for `progress_percent` calculation
 - `gate.ts` — checkpoint gating logic; blocks module access until prior checkpoint passes
@@ -299,6 +305,7 @@ Cross-cutting infrastructure. Email via Resend, AI via OpenAI, file storage via 
 ```
 
 **Request flow:**
+
 ```
 User → App Router (UI) → API route (auth-gated) → Supabase (RLS enforced) → Response
        app/                app/api/                lib/supabase/
@@ -309,12 +316,12 @@ User → App Router (UI) → API route (auth-gated) → Supabase (RLS enforced) 
 
 Elevate operates a unified Workforce Operating System that integrates four traditionally separate systems into a single platform:
 
-| System | What It Does |
-|--------|-------------|
-| **Learning (LMS)** | Delivers structured training, tracks progress, issues credentials |
-| **Funding & Enrollment** | Manages eligibility, government funding workflows (WIOA, WRG, JRI), and payments |
-| **Compliance & Reporting** | DOL RAPIDS, WIOA performance reporting, RTI hour logs, audit trails |
-| **Employment Pipeline** | Connects participants to employers, manages OJT agreements, tracks placement outcomes |
+| System                     | What It Does                                                                          |
+| -------------------------- | ------------------------------------------------------------------------------------- |
+| **Learning (LMS)**         | Delivers structured training, tracks progress, issues credentials                     |
+| **Funding & Enrollment**   | Manages eligibility, government funding workflows (WIOA, WRG, JRI), and payments      |
+| **Compliance & Reporting** | DOL RAPIDS, WIOA performance reporting, RTI hour logs, audit trails                   |
+| **Employment Pipeline**    | Connects participants to employers, manages OJT agreements, tracks placement outcomes |
 
 These systems are delivered through role-based portals for learners, administrators, instructors, employers, workforce agencies, program partners, and parent/guardians. All data is centralized in a PostgreSQL database with row-level security enforcing strict separation between users, programs, and stakeholders.
 
@@ -333,6 +340,7 @@ LMS (training delivery)
 ### Why 1,550 Pages and 1,157 API Routes
 
 The page count is high by design — not bloat:
+
 - **Role-segmented portals** — each stakeholder role has its own subtree (`/admin/`, `/learner/`, `/instructor/`, `/employer/`, `/partner/`, `/program-holder/`, `/staff-portal/`, `/mentor/`, `/parent-portal/`)
 - **Geographic SEO pages** — program pages are duplicated per state (`/career-training-indiana/`, `/career-training-illinois/`, etc.) for organic search coverage
 - **Program-instance pages** — each credential pathway has its own public page, funding page, and application flow
@@ -342,9 +350,8 @@ The API route count follows the same pattern — one route per resource per role
 
 ---
 
-
-
 ### Prerequisites
+
 - Node.js 20+ (< 25)
 - pnpm 10+
 - Supabase project
@@ -429,24 +436,24 @@ Elevate-lms/
 
 ## Ecosystem
 
-| Entity | Type | Role |
-|--------|------|------|
-| **2Exclusive LLC-S** | Legal entity / RAPIDS sponsor | Parent entity, apprenticeship sponsor |
-| **Elevate for Humanity Career & Training Institute** | DBA / training provider | Instruction, RTI delivery, LMS, workforce programs |
-| **Selfish Inc.** | 501(c)(3) nonprofit | Mental wellness and community support |
-| **The Rise Foundation** | DBA of Selfish Inc. | VITA site — free tax preparation |
-| **Supersonic Fast Cash LLC** | Employer | Tax preparation services |
+| Entity                                               | Type                          | Role                                               |
+| ---------------------------------------------------- | ----------------------------- | -------------------------------------------------- |
+| **2Exclusive LLC-S**                                 | Legal entity / RAPIDS sponsor | Parent entity, apprenticeship sponsor              |
+| **Elevate for Humanity Career & Training Institute** | DBA / training provider       | Instruction, RTI delivery, LMS, workforce programs |
+| **Selfish Inc.**                                     | 501(c)(3) nonprofit           | Mental wellness and community support              |
+| **The Rise Foundation**                              | DBA of Selfish Inc.           | VITA site — free tax preparation                   |
+| **Supersonic Fast Cash LLC**                         | Employer                      | Tax preparation services                           |
 
 ---
 
 ## Revenue Model
 
-| Stream | Details |
-|--------|---------|
-| Government funding | WIOA, WRG, JRI, EmployIndy contracts |
+| Stream                       | Details                                                    |
+| ---------------------------- | ---------------------------------------------------------- |
+| Government funding           | WIOA, WRG, JRI, EmployIndy contracts                       |
 | Program holder revenue share | Partners receive 33.33% of net program revenue per student |
-| Self-pay / Stripe | Direct enrollment payments |
-| Platform licensing | Managed Enterprise LMS — $1,500–$3,500/month |
+| Self-pay / Stripe            | Direct enrollment payments                                 |
+| Platform licensing           | Managed Enterprise LMS — $1,500–$3,500/month               |
 
 **Funding disclosure:** Training may be fully funded for eligible participants through WIOA, JRI, and approved funding partners. Eligibility is determined through WorkOne career centers and applicable agency guidelines.
 
@@ -459,16 +466,19 @@ Elevate for Humanity operates a fully integrated Workforce Development Operating
 ### End-to-End Participant Lifecycle
 
 **1. Recruitment & Intake**
+
 - Multi-step application and eligibility screening aligned with WIOA criteria (adult, dislocated worker, youth 16–24)
 - Referral intake from workforce agencies (WorkOne, EmployIndy, reentry organizations)
 - Funding eligibility determination built into the application workflow
 
 **2. Training & Credential Attainment**
+
 - Structured programs with defined RTI hours and measurable skill progression
 - Industry-recognized credentials: EPA 608, OSHA 10/30, CompTIA A+/Security+, PTCB CPhT, Indiana ISDH CNA, Indiana barber/cosmetology licensure
 - Attendance tracking, quiz pass thresholds, checkpoint gating, and instructor sign-off
 
 **3. Case Management & Support Services**
+
 - Participant tracking across enrollment, attendance, and completion
 - Staff and instructor oversight through role-based dashboards
 - Integration points for supportive services (transportation, stipends, wraparound support)
@@ -477,35 +487,36 @@ Elevate for Humanity operates a fully integrated Workforce Development Operating
 
 WIOA performance indicators tracked:
 
-| Indicator | Implementation |
-|-----------|---------------|
-| Measurable Skill Gains (MSG) | Lesson-level progress, quiz scores, checkpoint passage |
-| Credential Attainment | Certificate issuance tied to program completion + exam passage |
-| Employment Rate (Q2 / Q4) | Placement tracking with 6- and 12-month outcome records |
+| Indicator                    | Implementation                                                 |
+| ---------------------------- | -------------------------------------------------------------- |
+| Measurable Skill Gains (MSG) | Lesson-level progress, quiz scores, checkpoint passage         |
+| Credential Attainment        | Certificate issuance tied to program completion + exam passage |
+| Employment Rate (Q2 / Q4)    | Placement tracking with 6- and 12-month outcome records        |
 
 DOL RAPIDS tracking:
 
-| Requirement | Implementation |
-|-------------|---------------|
-| RTI hours | Per-lesson attendance and completion logs |
-| On-the-Job Training (OJT) | OJT agreement management, hour tracking |
-| Competency progression | Checkpoint-gated module advancement |
+| Requirement               | Implementation                            |
+| ------------------------- | ----------------------------------------- |
+| RTI hours                 | Per-lesson attendance and completion logs |
+| On-the-Job Training (OJT) | OJT agreement management, hour tracking   |
+| Competency progression    | Checkpoint-gated module advancement       |
 
 **5. Employment & Outcome Tracking**
+
 - Employer partnerships and job placement pipelines
 - OJT agreements and apprenticeship pathways
 - 6-month and 12-month employment outcome tracking per participant
 
 ### Multi-Stakeholder Access
 
-| Role | Access |
-|------|--------|
-| Participants | Training, progress tracking, credentials, career services |
-| Workforce Agencies | Enrollment tracking, funding oversight, outcome reporting |
-| Employers | Hiring pipeline, OJT management, job postings |
-| Program Providers | Cohort delivery, revenue share reporting, participant tracking |
-| Administrators | Compliance, analytics, system operations |
-| Parent / Guardians | Youth participant progress monitoring |
+| Role               | Access                                                         |
+| ------------------ | -------------------------------------------------------------- |
+| Participants       | Training, progress tracking, credentials, career services      |
+| Workforce Agencies | Enrollment tracking, funding oversight, outcome reporting      |
+| Employers          | Hiring pipeline, OJT management, job postings                  |
+| Program Providers  | Cohort delivery, revenue share reporting, participant tracking |
+| Administrators     | Compliance, analytics, system operations                       |
+| Parent / Guardians | Youth participant progress monitoring                          |
 
 ### Data Integrity & Compliance
 
@@ -525,27 +536,27 @@ This integrated approach reduces administrative burden for workforce agencies wh
 
 ## Documentation
 
-| Document | Purpose |
-|----------|---------|
-| [docs/capability-statement.md](docs/capability-statement.md) | Funder / partner capability statement — WIOA, DOL, NAICS, credentials |
-| [docs/architecture-overview.md](docs/architecture-overview.md) | System map — all stakeholder layers and data flows |
-| [docs/access-model.md](docs/access-model.md) | Managed access, enterprise source-use, public boundaries |
-| [docs/compliance-overview.md](docs/compliance-overview.md) | DOL, WIOA, FERPA, audit, RLS posture |
-| [docs/repository-scope.md](docs/repository-scope.md) | What is and is not in this repository |
-| [docs/SECURITY.md](docs/SECURITY.md) | Vulnerability reporting |
-| [CONTRIBUTING.md](CONTRIBUTING.md) | Contribution guidelines |
-| [SUPPORT.md](SUPPORT.md) | Support channels |
+| Document                                                       | Purpose                                                               |
+| -------------------------------------------------------------- | --------------------------------------------------------------------- |
+| [docs/capability-statement.md](docs/capability-statement.md)   | Funder / partner capability statement — WIOA, DOL, NAICS, credentials |
+| [docs/architecture-overview.md](docs/architecture-overview.md) | System map — all stakeholder layers and data flows                    |
+| [docs/access-model.md](docs/access-model.md)                   | Managed access, enterprise source-use, public boundaries              |
+| [docs/compliance-overview.md](docs/compliance-overview.md)     | DOL, WIOA, FERPA, audit, RLS posture                                  |
+| [docs/repository-scope.md](docs/repository-scope.md)           | What is and is not in this repository                                 |
+| [docs/SECURITY.md](docs/SECURITY.md)                           | Vulnerability reporting                                               |
+| [CONTRIBUTING.md](CONTRIBUTING.md)                             | Contribution guidelines                                               |
+| [SUPPORT.md](SUPPORT.md)                                       | Support channels                                                      |
 
 ---
 
 ## Support
 
-| Channel | Contact |
-|---------|---------|
-| **General** | info@elevateforhumanity.org |
-| **Phone** | (317) 314-3757 |
+| Channel     | Contact                                                                      |
+| ----------- | ---------------------------------------------------------------------------- |
+| **General** | info@elevateforhumanity.org                                                  |
+| **Phone**   | (317) 314-3757                                                               |
 | **Website** | [elevateforhumanity.org/support](https://www.elevateforhumanity.org/support) |
-| **Issues** | [GitHub Issues](https://github.com/elevateforhumanity/Elevate-lms/issues) |
+| **Issues**  | [GitHub Issues](https://github.com/elevateforhumanity/Elevate-lms/issues)    |
 
 ---
 

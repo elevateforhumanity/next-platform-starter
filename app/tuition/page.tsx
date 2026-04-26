@@ -19,7 +19,10 @@ export default function Page() {
         or call {siteConfig.phone}.
       </p>
       <div className="mt-8">
-        <a href={siteConfig.handoff.apply} className="rounded bg-black px-5 py-3 text-white hover:bg-gray-800">
+        <a
+          href={siteConfig.handoff.apply}
+          className="rounded bg-black px-5 py-3 text-white hover:bg-gray-800"
+        >
           Apply Now
         </a>
       </div>

@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import Image, { ImageProps } from "next/image";
+import Image, { ImageProps } from 'next/image';
 
 interface OptimizedImageProps extends Omit<ImageProps, 'src'> {
   src: string;
@@ -31,19 +31,10 @@ export function OptimizedImage({ src, alt, ...props }: OptimizedImageProps) {
   return (
     <picture>
       {/* WebP for modern browsers - best compression */}
-      <source
-        type="image/webp"
-        srcSet={webpPath}
-      />
+      <source type="image/webp" srcSet={webpPath} />
 
       {/* Fallback to Next.js Image component with original format */}
-      <Image
-        src={src}
-        alt={alt}
-        {...props}
-        quality={85}
-        priority={props.priority}
-      />
+      <Image src={src} alt={alt} {...props} quality={85} priority={props.priority} />
     </picture>
   );
 }

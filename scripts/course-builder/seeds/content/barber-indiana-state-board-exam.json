@@ -48,12 +48,7 @@
       },
       {
         "prompt": "Which of the following is a key characteristic of healthy hair?",
-        "choices": [
-          "Dull appearance",
-          "Brittle texture",
-          "Elasticity",
-          "Split ends"
-        ],
+        "choices": ["Dull appearance", "Brittle texture", "Elasticity", "Split ends"],
         "answerIndex": 2,
         "rationale": "Elasticity indicates that the hair can stretch and return to its original shape without breaking, a sign of healthy hair."
       },
@@ -70,23 +65,13 @@
       },
       {
         "prompt": "In Indiana, how often must a barber renew their license?",
-        "choices": [
-          "Every year",
-          "Every two years",
-          "Every three years",
-          "Every five years"
-        ],
+        "choices": ["Every year", "Every two years", "Every three years", "Every five years"],
         "answerIndex": 1,
         "rationale": "Barbers in Indiana are required to renew their licenses every two years to ensure they meet current standards and regulations."
       },
       {
         "prompt": "What is the most effective level of decontamination used in barbershops to prevent the spread of disease?",
-        "choices": [
-          "Sanitation",
-          "Disinfection",
-          "Sterilization",
-          "Cleaning"
-        ],
+        "choices": ["Sanitation", "Disinfection", "Sterilization", "Cleaning"],
         "answerIndex": 2,
         "rationale": "Sterilization is the most effective level of decontamination, eliminating all forms of microbial life."
       },
@@ -147,12 +132,7 @@
       },
       {
         "prompt": "Which of the following is a sign of a chemical burn during a hair coloring service?",
-        "choices": [
-          "Itching",
-          "Redness and blistering",
-          "Dryness",
-          "Dandruff"
-        ],
+        "choices": ["Itching", "Redness and blistering", "Dryness", "Dandruff"],
         "answerIndex": 1,
         "rationale": "Redness and blistering are signs of a chemical burn, indicating a severe reaction to the product."
       },
@@ -169,45 +149,25 @@
       },
       {
         "prompt": "In Indiana, what is the minimum age requirement to apply for a barber license?",
-        "choices": [
-          "16 years old",
-          "18 years old",
-          "21 years old",
-          "25 years old"
-        ],
+        "choices": ["16 years old", "18 years old", "21 years old", "25 years old"],
         "answerIndex": 1,
         "rationale": "The minimum age requirement to apply for a barber license in Indiana is 18 years old."
       },
       {
         "prompt": "What is the correct ratio of bleach to water for disinfecting surfaces in a barbershop?",
-        "choices": [
-          "1:10",
-          "1:5",
-          "1:20",
-          "1:100"
-        ],
+        "choices": ["1:10", "1:5", "1:20", "1:100"],
         "answerIndex": 0,
         "rationale": "A 1:10 ratio of bleach to water is commonly recommended for effective disinfection of surfaces."
       },
       {
         "prompt": "A client wants a style that requires significant volume. Which tool is best suited for this purpose?",
-        "choices": [
-          "Flat iron",
-          "Round brush",
-          "Straight comb",
-          "Thinning shears"
-        ],
+        "choices": ["Flat iron", "Round brush", "Straight comb", "Thinning shears"],
         "answerIndex": 1,
         "rationale": "A round brush is ideal for creating volume and lift when blow-drying hair."
       },
       {
         "prompt": "Which layer of the hair shaft is responsible for its strength and elasticity?",
-        "choices": [
-          "Cuticle",
-          "Cortex",
-          "Medulla",
-          "Follicle"
-        ],
+        "choices": ["Cuticle", "Cortex", "Medulla", "Follicle"],
         "answerIndex": 1,
         "rationale": "The cortex is the middle layer of the hair shaft, providing strength and elasticity."
       },
@@ -224,34 +184,19 @@
       },
       {
         "prompt": "A client requests a fade haircut. Which tool is essential for achieving a smooth transition between lengths?",
-        "choices": [
-          "Razor",
-          "Scissors",
-          "Clippers",
-          "Comb"
-        ],
+        "choices": ["Razor", "Scissors", "Clippers", "Comb"],
         "answerIndex": 2,
         "rationale": "Clippers are essential for creating a smooth transition in a fade haircut."
       },
       {
         "prompt": "What is the maximum amount of time you should leave a chemical relaxer on the hair?",
-        "choices": [
-          "10 minutes",
-          "20 minutes",
-          "30 minutes",
-          "40 minutes"
-        ],
+        "choices": ["10 minutes", "20 minutes", "30 minutes", "40 minutes"],
         "answerIndex": 2,
         "rationale": "Leaving a relaxer on for more than 30 minutes can cause excessive damage to the hair."
       },
       {
         "prompt": "A client has fine, limp hair and wants more body. Which product should you recommend?",
-        "choices": [
-          "Heavy cream",
-          "Volumizing mousse",
-          "Leave-in conditioner",
-          "Oil serum"
-        ],
+        "choices": ["Heavy cream", "Volumizing mousse", "Leave-in conditioner", "Oil serum"],
         "answerIndex": 1,
         "rationale": "Volumizing mousse adds body and lift to fine, limp hair without weighing it down."
       },
@@ -279,12 +224,7 @@
       },
       {
         "prompt": "A client wants to cover their gray hair. Which type of hair color should you recommend?",
-        "choices": [
-          "Temporary",
-          "Semi-permanent",
-          "Permanent",
-          "Lightener"
-        ],
+        "choices": ["Temporary", "Semi-permanent", "Permanent", "Lightener"],
         "answerIndex": 2,
         "rationale": "Permanent hair color provides the best coverage for gray hair."
       },
@@ -345,12 +285,7 @@
       },
       {
         "prompt": "A client wants to lighten their hair several shades. Which product should you use?",
-        "choices": [
-          "Semi-permanent color",
-          "Permanent color",
-          "Lightener",
-          "Gloss"
-        ],
+        "choices": ["Semi-permanent color", "Permanent color", "Lightener", "Gloss"],
         "answerIndex": 2,
         "rationale": "Lightener is necessary to lift the hair several shades lighter."
       },
@@ -389,12 +324,7 @@
       },
       {
         "prompt": "In Indiana, what is the consequence of practicing barbering without a valid license?",
-        "choices": [
-          "A warning",
-          "A fine",
-          "License suspension",
-          "Community service"
-        ],
+        "choices": ["A warning", "A fine", "License suspension", "Community service"],
         "answerIndex": 1,
         "rationale": "Practicing without a valid license can result in a fine as a penalty."
       },
@@ -411,34 +341,19 @@
       },
       {
         "prompt": "Which type of hair is most prone to tangling?",
-        "choices": [
-          "Straight hair",
-          "Wavy hair",
-          "Curly hair",
-          "Coarse hair"
-        ],
+        "choices": ["Straight hair", "Wavy hair", "Curly hair", "Coarse hair"],
         "answerIndex": 2,
         "rationale": "Curly hair is more prone to tangling due to its texture and shape."
       },
       {
         "prompt": "What is the purpose of using a diffuser attachment on a blow dryer?",
-        "choices": [
-          "To straighten hair",
-          "To add volume",
-          "To reduce frizz",
-          "To cool the hair"
-        ],
+        "choices": ["To straighten hair", "To add volume", "To reduce frizz", "To cool the hair"],
         "answerIndex": 2,
         "rationale": "A diffuser reduces frizz and enhances natural curls by distributing air evenly."
       },
       {
         "prompt": "A client wants a haircut that requires minimal styling. Which option should you recommend?",
-        "choices": [
-          "Layered cut",
-          "Blunt cut",
-          "Textured cut",
-          "Undercut"
-        ],
+        "choices": ["Layered cut", "Blunt cut", "Textured cut", "Undercut"],
         "answerIndex": 1,
         "rationale": "A blunt cut is low maintenance and requires minimal styling."
       },
@@ -477,12 +392,7 @@
       },
       {
         "prompt": "A client has a heart-shaped face. Which haircut can help balance their features?",
-        "choices": [
-          "Short layers",
-          "Chin-length bob",
-          "Pixie cut",
-          "Long layers"
-        ],
+        "choices": ["Short layers", "Chin-length bob", "Pixie cut", "Long layers"],
         "answerIndex": 1,
         "rationale": "A chin-length bob helps balance a heart-shaped face by adding width at the jawline."
       },
@@ -499,12 +409,7 @@
       },
       {
         "prompt": "Which of the following is an indication of over-processed hair?",
-        "choices": [
-          "Shiny appearance",
-          "Elasticity",
-          "Brittle texture",
-          "Smooth cuticle"
-        ],
+        "choices": ["Shiny appearance", "Elasticity", "Brittle texture", "Smooth cuticle"],
         "answerIndex": 2,
         "rationale": "Brittle texture indicates that the hair has been over-processed and damaged."
       },
@@ -521,23 +426,13 @@
       },
       {
         "prompt": "In Indiana, what is the required number of hours for a barber apprenticeship program?",
-        "choices": [
-          "1000 hours",
-          "1200 hours",
-          "1500 hours",
-          "1800 hours"
-        ],
+        "choices": ["1000 hours", "1200 hours", "1500 hours", "1800 hours"],
         "answerIndex": 3,
         "rationale": "The state of Indiana requires 1800 hours for a barber apprenticeship program to ensure comprehensive training."
       },
       {
         "prompt": "A client wants to add highlights to their hair. Which technique should you use?",
-        "choices": [
-          "Balayage",
-          "Single-process color",
-          "Glossing",
-          "Toning"
-        ],
+        "choices": ["Balayage", "Single-process color", "Glossing", "Toning"],
         "answerIndex": 0,
         "rationale": "Balayage is a technique used to add natural-looking highlights to the hair."
       },
@@ -565,23 +460,13 @@
       },
       {
         "prompt": "A client wants a hairstyle that enhances their natural curls. Which product should you recommend?",
-        "choices": [
-          "Curl-enhancing cream",
-          "Smoothing serum",
-          "Volumizing spray",
-          "Dry shampoo"
-        ],
+        "choices": ["Curl-enhancing cream", "Smoothing serum", "Volumizing spray", "Dry shampoo"],
         "answerIndex": 0,
         "rationale": "Curl-enhancing cream defines and enhances natural curls without weighing them down."
       },
       {
         "prompt": "What is the primary benefit of using a clarifying shampoo?",
-        "choices": [
-          "Adds moisture",
-          "Removes buildup",
-          "Protects color",
-          "Adds volume"
-        ],
+        "choices": ["Adds moisture", "Removes buildup", "Protects color", "Adds volume"],
         "answerIndex": 1,
         "rationale": "Clarifying shampoo is designed to remove product buildup and impurities from the hair."
       },
@@ -631,12 +516,7 @@
       },
       {
         "prompt": "In Indiana, what is the maximum fine for a first-time violation of barbering regulations?",
-        "choices": [
-          "A. $500",
-          "B. $1,000",
-          "C. $2,000",
-          "D. $5,000"
-        ],
+        "choices": ["A. $500", "B. $1,000", "C. $2,000", "D. $5,000"],
         "answerIndex": 1,
         "rationale": "Indiana state regulations specify that the maximum fine for a first-time violation is $1,000."
       },

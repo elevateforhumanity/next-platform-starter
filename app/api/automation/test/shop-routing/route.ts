@@ -1,4 +1,4 @@
-import { logger } from "@/lib/logger";
+import { logger } from '@/lib/logger';
 import { getAdminClient } from '@/lib/supabase/admin';
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
@@ -9,10 +9,10 @@ export const dynamic = 'force-dynamic';
 
 /**
  * POST /api/automation/test/shop-routing
- * 
+ *
  * Test endpoint for shop routing automation.
  * Simulates apprentice application routing to shops.
- * 
+ *
  * FOR QA/DEMO PURPOSES ONLY.
  */
 async function _POST() {
@@ -22,7 +22,9 @@ async function _POST() {
   const supabase = await createClient();
 
   // Check auth and admin role
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
@@ -52,16 +54,16 @@ async function _POST() {
       },
       {
         name: 'Medium Distance - Medium Capacity',
-        lat: 39.8000,
-        lng: -86.2000,
+        lat: 39.8,
+        lng: -86.2,
         capacity: 5,
         currentApprentices: 3,
         distance: 8.0,
       },
       {
         name: 'Far Shop - Low Capacity',
-        lat: 39.9000,
-        lng: -86.3000,
+        lat: 39.9,
+        lng: -86.3,
         capacity: 3,
         currentApprentices: 2,
         distance: 15.0,
@@ -71,19 +73,19 @@ async function _POST() {
     const testCases = [
       {
         name: 'High Confidence Match',
-        apprenticeLocation: { lat: 39.7700, lng: -86.1600 },
+        apprenticeLocation: { lat: 39.77, lng: -86.16 },
         preferredShopId: null,
         expectedOutcome: 'auto_assigned',
       },
       {
         name: 'Preferred Shop Available',
-        apprenticeLocation: { lat: 39.7700, lng: -86.1600 },
+        apprenticeLocation: { lat: 39.77, lng: -86.16 },
         preferredShopId: 'shop_1', // Will be replaced with actual ID
         expectedOutcome: 'auto_assigned',
       },
       {
         name: 'Low Confidence - Multiple Options',
-        apprenticeLocation: { lat: 39.8500, lng: -86.2500 },
+        apprenticeLocation: { lat: 39.85, lng: -86.25 },
         preferredShopId: null,
         expectedOutcome: 'recommendations_generated',
       },
@@ -151,36 +153,38 @@ async function _POST() {
       }
 
       // Calculate scores for each shop
-      const scoredShops = createdShops.map((shop, index) => {
-        const shopData = testShops[index];
-        
-        // Calculate distance score
-        const distance = Math.sqrt(
-          Math.pow((testCase.apprenticeLocation.lat - shopData.lat) * 69, 2) +
-          Math.pow((testCase.apprenticeLocation.lng - shopData.lng) * 54.6, 2)
-        );
-        const distanceScore = Math.max(0, 1 - (distance / 25));
+      const scoredShops = createdShops
+        .map((shop, index) => {
+          const shopData = testShops[index];
 
-        // Calculate capacity score
-        const availableSlots = shopData.capacity - shopData.currentApprentices;
-        const capacityScore = availableSlots / shopData.capacity;
+          // Calculate distance score
+          const distance = Math.sqrt(
+            Math.pow((testCase.apprenticeLocation.lat - shopData.lat) * 69, 2) +
+              Math.pow((testCase.apprenticeLocation.lng - shopData.lng) * 54.6, 2),
+          );
+          const distanceScore = Math.max(0, 1 - distance / 25);
 
-        // Calculate total score
-        const score = (distanceScore * 0.35) + (capacityScore * 0.25) + (0.25) + (0.7 * 0.15);
+          // Calculate capacity score
+          const availableSlots = shopData.capacity - shopData.currentApprentices;
+          const capacityScore = availableSlots / shopData.capacity;
 
-        return {
-          shopId: shop.id,
-          shopName: shop.name,
-          score,
-          distance,
-          factors: {
-            distanceScore,
-            capacityScore,
-            compatibilityScore: 1,
-            reputationScore: 0.7,
-          },
-        };
-      }).sort((a, b) => b.score - a.score);
+          // Calculate total score
+          const score = distanceScore * 0.35 + capacityScore * 0.25 + 0.25 + 0.7 * 0.15;
+
+          return {
+            shopId: shop.id,
+            shopName: shop.name,
+            score,
+            distance,
+            factors: {
+              distanceScore,
+              capacityScore,
+              compatibilityScore: 1,
+              reputationScore: 0.7,
+            },
+          };
+        })
+        .sort((a, b) => b.score - a.score);
 
       // Determine outcome
       const topScore = scoredShops[0].score;
@@ -234,9 +238,8 @@ async function _POST() {
         actor: 'system',
         ruleset_version: '1.0.0-test',
         confidence_score: topScore,
-        reason_codes: outcome === 'auto_assigned' 
-          ? ['high_confidence_match']
-          : ['below_auto_assign_threshold'],
+        reason_codes:
+          outcome === 'auto_assigned' ? ['high_confidence_match'] : ['below_auto_assign_threshold'],
         input_snapshot: {
           test_case: testCase.name,
           apprentice_location: testCase.apprenticeLocation,
@@ -273,9 +276,9 @@ async function _POST() {
       });
     }
 
-    const passed = results.filter(r => r.passed).length;
-    const failed = results.filter(r => r.success && !r.passed).length;
-    const errors = results.filter(r => !r.success).length;
+    const passed = results.filter((r) => r.passed).length;
+    const failed = results.filter((r) => r.success && !r.passed).length;
+    const errors = results.filter((r) => !r.success).length;
 
     return NextResponse.json({
       success: true,
@@ -289,13 +292,15 @@ async function _POST() {
       results,
       timestamp: new Date().toISOString(),
     });
-
   } catch (error) {
     logger.error('[shop-routing test]', error);
-    return NextResponse.json({
-      success: false,
-      error: 'Internal server error',
-    }, { status: 500 });
+    return NextResponse.json(
+      {
+        success: false,
+        error: 'Internal server error',
+      },
+      { status: 500 },
+    );
   }
 }
 export const POST = withApiAudit('/api/automation/test/shop-routing', _POST);

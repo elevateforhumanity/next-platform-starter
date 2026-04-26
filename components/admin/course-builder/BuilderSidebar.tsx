@@ -1,11 +1,17 @@
 'use client';
 
-
 import type { ElementType } from 'react';
 import Link from 'next/link';
 import {
-  CheckCircle, XCircle, AlertCircle, Plus, Eye,
-  BookOpen, Video, AlertTriangle, Layers,
+  CheckCircle,
+  XCircle,
+  AlertCircle,
+  Plus,
+  Eye,
+  BookOpen,
+  Video,
+  AlertTriangle,
+  Layers,
 } from 'lucide-react';
 import type { ProgramBuilderState, ProgramDerivedState } from './types';
 
@@ -24,30 +30,40 @@ const CHECKLIST_ITEMS: {
   check: (s: ProgramBuilderState, d: ProgramDerivedState) => boolean;
   href?: string;
 }[] = [
-  { key: 'title',       label: 'Program title',       check: (s) => !!s.title?.trim() },
-  { key: 'description', label: 'Description',          check: (s) => !!s.description?.trim() },
-  { key: 'hero',        label: 'Hero image',           check: (s) => !!s.hero_image_url },
-  { key: 'outcomes',    label: '3+ learning outcomes', check: (s) => s.outcomes.length >= 3 },
-  { key: 'curriculum',  label: '1+ phase, 3+ modules, 10+ lessons',
-    check: (_, d) => d.totalPhases >= 1 && d.totalModules >= 3 && d.totalLessons >= 10 },
-  { key: 'duration',    label: 'Duration set',         check: (s) => !!s.estimated_weeks },
-  { key: 'delivery',    label: 'Delivery mode',        check: (s) => !!s.delivery_method },
-  { key: 'cta',         label: 'Primary CTA',          check: (s) => s.ctas.length > 0 },
+  { key: 'title', label: 'Program title', check: (s) => !!s.title?.trim() },
+  { key: 'description', label: 'Description', check: (s) => !!s.description?.trim() },
+  { key: 'hero', label: 'Hero image', check: (s) => !!s.hero_image_url },
+  { key: 'outcomes', label: '3+ learning outcomes', check: (s) => s.outcomes.length >= 3 },
+  {
+    key: 'curriculum',
+    label: '1+ phase, 3+ modules, 10+ lessons',
+    check: (_, d) => d.totalPhases >= 1 && d.totalModules >= 3 && d.totalLessons >= 10,
+  },
+  { key: 'duration', label: 'Duration set', check: (s) => !!s.estimated_weeks },
+  { key: 'delivery', label: 'Delivery mode', check: (s) => !!s.delivery_method },
+  { key: 'cta', label: 'Primary CTA', check: (s) => s.ctas.length > 0 },
 ];
 
-export default function BuilderSidebar({ state, derived, onAddLesson, onAddModule, onPreview }: Props) {
-  const completedCount = CHECKLIST_ITEMS.filter(item => item.check(state, derived)).length;
+export default function BuilderSidebar({
+  state,
+  derived,
+  onAddLesson,
+  onAddModule,
+  onPreview,
+}: Props) {
+  const completedCount = CHECKLIST_ITEMS.filter((item) => item.check(state, derived)).length;
   const totalCount = CHECKLIST_ITEMS.length;
 
   return (
     <div className="sticky top-20 space-y-4">
-
       {/* Completion Checklist */}
       <div className="rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden">
         <div className="border-b border-slate-100 px-5 py-4">
           <div className="flex items-center justify-between">
             <h3 className="text-sm font-semibold text-slate-900">Publish Checklist</h3>
-            <span className={`text-xs font-semibold tabular-nums ${completedCount === totalCount ? 'text-emerald-600' : 'text-slate-500'}`}>
+            <span
+              className={`text-xs font-semibold tabular-nums ${completedCount === totalCount ? 'text-emerald-600' : 'text-slate-500'}`}
+            >
               {completedCount}/{totalCount}
             </span>
           </div>
@@ -60,14 +76,15 @@ export default function BuilderSidebar({ state, derived, onAddLesson, onAddModul
           </div>
         </div>
         <ul className="divide-y divide-slate-50 px-5 py-2">
-          {CHECKLIST_ITEMS.map(item => {
+          {CHECKLIST_ITEMS.map((item) => {
             const done = item.check(state, derived);
             return (
               <li key={item.key} className="flex items-center gap-2.5 py-2">
-                {done
-                  ? <CheckCircle className="h-4 w-4 flex-shrink-0 text-emerald-500" />
-                  : <XCircle className="h-4 w-4 flex-shrink-0 text-slate-300" />
-                }
+                {done ? (
+                  <CheckCircle className="h-4 w-4 flex-shrink-0 text-emerald-500" />
+                ) : (
+                  <XCircle className="h-4 w-4 flex-shrink-0 text-slate-300" />
+                )}
                 <span className={`text-xs ${done ? 'text-slate-600' : 'text-slate-400'}`}>
                   {item.label}
                 </span>
@@ -113,8 +130,9 @@ export default function BuilderSidebar({ state, derived, onAddLesson, onAddModul
             icon={AlertTriangle}
             label="Unpublished lessons"
             value={String(
-              state.phases.flatMap(p => p.modules.flatMap(m => m.lessons))
-                .filter(l => !l.is_published).length
+              state.phases
+                .flatMap((p) => p.modules.flatMap((m) => m.lessons))
+                .filter((l) => !l.is_published).length,
             )}
             status="ok"
           />
@@ -166,7 +184,7 @@ export default function BuilderSidebar({ state, derived, onAddLesson, onAddModul
         <div className="rounded-2xl border border-amber-200 bg-amber-50 px-5 py-4">
           <p className="text-xs font-semibold text-amber-800 mb-2">Cannot publish yet</p>
           <ul className="space-y-1">
-            {derived.missingRequired.slice(0, 5).map(item => (
+            {derived.missingRequired.slice(0, 5).map((item) => (
               <li key={item} className="flex items-start gap-1.5 text-xs text-amber-700">
                 <span className="mt-0.5 flex-shrink-0">·</span>
                 {item}
@@ -183,7 +201,11 @@ export default function BuilderSidebar({ state, derived, onAddLesson, onAddModul
 }
 
 function HealthRow({
-  icon: Icon, label, value, status, note,
+  icon: Icon,
+  label,
+  value,
+  status,
+  note,
 }: {
   icon: ElementType;
   label: string;
@@ -191,8 +213,10 @@ function HealthRow({
   status: 'ok' | 'warn' | 'error';
   note?: string;
 }) {
-  const valueColor = status === 'ok' ? 'text-slate-900' : status === 'warn' ? 'text-amber-600' : 'text-red-600';
-  const iconColor = status === 'ok' ? 'text-slate-400' : status === 'warn' ? 'text-amber-500' : 'text-red-500';
+  const valueColor =
+    status === 'ok' ? 'text-slate-900' : status === 'warn' ? 'text-amber-600' : 'text-red-600';
+  const iconColor =
+    status === 'ok' ? 'text-slate-400' : status === 'warn' ? 'text-amber-500' : 'text-red-500';
 
   return (
     <div className="flex items-center gap-2">

@@ -3,7 +3,10 @@
  * are hidden to prevent information leakage. In development, the original
  * message is returned for debugging.
  */
-export function safeErrorMessage(error: unknown, fallback = 'Something went wrong. Please try again.'): string {
+export function safeErrorMessage(
+  error: unknown,
+  fallback = 'Something went wrong. Please try again.',
+): string {
   if (process.env.NODE_ENV === 'development') {
     if (error instanceof Error) return error.message;
     if (typeof error === 'string') return error;
@@ -16,8 +19,5 @@ export function safeErrorMessage(error: unknown, fallback = 'Something went wron
  */
 export function safeErrorJson(error: unknown, status = 500, fallback?: string) {
   const { NextResponse } = require('next/server');
-  return NextResponse.json(
-    { error: safeErrorMessage(error, fallback) },
-    { status },
-  );
+  return NextResponse.json({ error: safeErrorMessage(error, fallback) }, { status });
 }

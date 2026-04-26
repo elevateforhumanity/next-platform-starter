@@ -5,19 +5,47 @@ import { useRouter } from 'next/navigation';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
-import { Building, ArrowLeft, Upload, MapPin, Globe, Phone, Mail, Save, Loader2, CheckCircle } from 'lucide-react';
+import {
+  Building,
+  ArrowLeft,
+  Upload,
+  MapPin,
+  Globe,
+  Phone,
+  Mail,
+  Save,
+  Loader2,
+  CheckCircle,
+} from 'lucide-react';
 
 const BENEFITS_LIST = [
-  'Health Insurance', 'Dental Insurance', 'Vision Insurance',
-  '401(k) / Retirement', 'Paid Time Off', 'Sick Leave',
-  'Parental Leave', 'Life Insurance', 'Disability Insurance',
-  'Tuition Assistance', 'Training Programs', 'Flexible Schedule',
-  'Remote Work Options', 'Employee Discounts', 'Wellness Programs',
+  'Health Insurance',
+  'Dental Insurance',
+  'Vision Insurance',
+  '401(k) / Retirement',
+  'Paid Time Off',
+  'Sick Leave',
+  'Parental Leave',
+  'Life Insurance',
+  'Disability Insurance',
+  'Tuition Assistance',
+  'Training Programs',
+  'Flexible Schedule',
+  'Remote Work Options',
+  'Employee Discounts',
+  'Wellness Programs',
 ];
 
 const INDUSTRIES = [
-  'Healthcare', 'Technology', 'Manufacturing', 'Retail',
-  'Hospitality', 'Construction', 'Transportation', 'Education', 'Other',
+  'Healthcare',
+  'Technology',
+  'Manufacturing',
+  'Retail',
+  'Hospitality',
+  'Construction',
+  'Transportation',
+  'Education',
+  'Other',
 ];
 
 export default function CompanySetupPage() {
@@ -44,7 +72,9 @@ export default function CompanySetupPage() {
   useEffect(() => {
     async function loadProfile() {
       const supabase = createClient();
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       if (!user) {
         router.push('/login?redirect=/employer-portal/company/setup');
         return;
@@ -75,16 +105,18 @@ export default function CompanySetupPage() {
     loadProfile();
   }, [router]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
+  ) => {
+    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     setSaved(false);
   };
 
   const toggleBenefit = (benefit: string) => {
-    setForm(prev => ({
+    setForm((prev) => ({
       ...prev,
       benefits: prev.benefits.includes(benefit)
-        ? prev.benefits.filter(b => b !== benefit)
+        ? prev.benefits.filter((b) => b !== benefit)
         : [...prev.benefits, benefit],
     }));
     setSaved(false);
@@ -97,12 +129,13 @@ export default function CompanySetupPage() {
 
     try {
       const supabase = createClient();
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       if (!user) return;
 
-      const { error: upsertError } = await supabase
-        .from('employer_profiles')
-        .upsert({
+      const { error: upsertError } = await supabase.from('employer_profiles').upsert(
+        {
           id: user.id,
           company_name: form.company_name,
           industry: form.industry,
@@ -114,7 +147,9 @@ export default function CompanySetupPage() {
           hr_email: form.hr_email,
           address: form.address,
           benefits: form.benefits,
-        }, { onConflict: 'id' });
+        },
+        { onConflict: 'id' },
+      );
 
       if (upsertError) {
         setError(upsertError.message);
@@ -129,7 +164,14 @@ export default function CompanySetupPage() {
   };
 
   // Calculate completion percentage
-  const fields = [form.company_name, form.industry, form.description, form.phone, form.hr_email, form.address];
+  const fields = [
+    form.company_name,
+    form.industry,
+    form.description,
+    form.phone,
+    form.hr_email,
+    form.address,
+  ];
   const filled = fields.filter(Boolean).length;
   const completion = Math.round((filled / fields.length) * 100);
 
@@ -143,11 +185,16 @@ export default function CompanySetupPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      <Breadcrumbs items={[{ label: "Employer Portal", href: "/employer-portal" }, { label: "Company Setup" }]} />
+      <Breadcrumbs
+        items={[{ label: 'Employer Portal', href: '/employer-portal' }, { label: 'Company Setup' }]}
+      />
 
       <div className="bg-white border-b">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <Link href="/employer-portal/company" className="flex items-center gap-2 text-slate-700 hover:text-brand-blue-600 mb-4">
+          <Link
+            href="/employer-portal/company"
+            className="flex items-center gap-2 text-slate-700 hover:text-brand-blue-600 mb-4"
+          >
             <ArrowLeft className="w-4 h-4" />
             Back to Company Profile
           </Link>
@@ -171,12 +218,17 @@ export default function CompanySetupPage() {
             <span className="text-sm font-bold text-brand-blue-600">{completion}%</span>
           </div>
           <div className="w-full bg-gray-200 rounded-full h-2">
-            <div className="bg-white h-2 rounded-full transition-all" style={{ width: `${completion}%` }} />
+            <div
+              className="bg-white h-2 rounded-full transition-all"
+              style={{ width: `${completion}%` }}
+            />
           </div>
         </div>
 
         {error && (
-          <div className="mb-6 p-4 bg-brand-red-50 border border-brand-red-200 rounded-lg text-brand-red-700">{error}</div>
+          <div className="mb-6 p-4 bg-brand-red-50 border border-brand-red-200 rounded-lg text-brand-red-700">
+            {error}
+          </div>
         )}
 
         {saved && (
@@ -191,23 +243,46 @@ export default function CompanySetupPage() {
             <h2 className="text-lg font-bold text-slate-900 mb-6">Basic Information</h2>
             <div className="space-y-6">
               <div>
-                <label className="block text-sm font-medium text-slate-900 mb-2">Company Name *</label>
-                <input type="text" name="company_name" value={form.company_name} onChange={handleChange} required
-                  className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent" />
+                <label className="block text-sm font-medium text-slate-900 mb-2">
+                  Company Name *
+                </label>
+                <input
+                  type="text"
+                  name="company_name"
+                  value={form.company_name}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+                />
               </div>
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-medium text-slate-900 mb-2">Industry *</label>
-                  <select name="industry" value={form.industry} onChange={handleChange} required
-                    className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent">
+                  <label className="block text-sm font-medium text-slate-900 mb-2">
+                    Industry *
+                  </label>
+                  <select
+                    name="industry"
+                    value={form.industry}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+                  >
                     <option value="">Select industry</option>
-                    {INDUSTRIES.map(i => <option key={i}>{i}</option>)}
+                    {INDUSTRIES.map((i) => (
+                      <option key={i}>{i}</option>
+                    ))}
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-slate-900 mb-2">Company Size *</label>
-                  <select name="company_size" value={form.company_size} onChange={handleChange}
-                    className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent">
+                  <label className="block text-sm font-medium text-slate-900 mb-2">
+                    Company Size *
+                  </label>
+                  <select
+                    name="company_size"
+                    value={form.company_size}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+                  >
                     <option value="">Select size</option>
                     <option>1-10 employees</option>
                     <option>11-50 employees</option>
@@ -218,16 +293,34 @@ export default function CompanySetupPage() {
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-medium text-slate-900 mb-2">About Your Company *</label>
-                <textarea name="description" value={form.description} onChange={handleChange} rows={4} required
+                <label className="block text-sm font-medium text-slate-900 mb-2">
+                  About Your Company *
+                </label>
+                <textarea
+                  name="description"
+                  value={form.description}
+                  onChange={handleChange}
+                  rows={4}
+                  required
                   placeholder="Describe your company..."
-                  className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent" />
+                  className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+                />
               </div>
               <div>
-                <label className="block text-sm font-medium text-slate-900 mb-2">EIN (Tax ID)</label>
-                <input type="text" name="ein" value={form.ein} onChange={handleChange} placeholder="XX-XXXXXXX"
-                  className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent" />
-                <p className="text-xs text-slate-700 mt-1">Required for WOTC tax credit processing</p>
+                <label className="block text-sm font-medium text-slate-900 mb-2">
+                  EIN (Tax ID)
+                </label>
+                <input
+                  type="text"
+                  name="ein"
+                  value={form.ein}
+                  onChange={handleChange}
+                  placeholder="XX-XXXXXXX"
+                  className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+                />
+                <p className="text-xs text-slate-700 mt-1">
+                  Required for WOTC tax credit processing
+                </p>
               </div>
             </div>
           </div>
@@ -241,16 +334,29 @@ export default function CompanySetupPage() {
                   <label className="block text-sm font-medium text-slate-900 mb-2">Website</label>
                   <div className="relative">
                     <Globe className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-700" />
-                    <input type="url" name="website" value={form.website} onChange={handleChange} placeholder="www.yourcompany.com"
-                      className="w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent" />
+                    <input
+                      type="url"
+                      name="website"
+                      value={form.website}
+                      onChange={handleChange}
+                      placeholder="www.yourcompany.com"
+                      className="w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+                    />
                   </div>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-slate-900 mb-2">Phone *</label>
                   <div className="relative">
                     <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-700" />
-                    <input type="tel" name="phone" value={form.phone} onChange={handleChange} required placeholder="(555) 123-4567"
-                      className="w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent" />
+                    <input
+                      type="tel"
+                      name="phone"
+                      value={form.phone}
+                      onChange={handleChange}
+                      required
+                      placeholder="(555) 123-4567"
+                      className="w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+                    />
                   </div>
                 </div>
               </div>
@@ -258,17 +364,30 @@ export default function CompanySetupPage() {
                 <label className="block text-sm font-medium text-slate-900 mb-2">HR Email *</label>
                 <div className="relative">
                   <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-700" />
-                  <input type="email" name="hr_email" value={form.hr_email} onChange={handleChange} required placeholder="hr@yourcompany.com"
-                    className="w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent" />
+                  <input
+                    type="email"
+                    name="hr_email"
+                    value={form.hr_email}
+                    onChange={handleChange}
+                    required
+                    placeholder="hr@yourcompany.com"
+                    className="w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+                  />
                 </div>
               </div>
               <div>
                 <label className="block text-sm font-medium text-slate-900 mb-2">Address *</label>
                 <div className="relative">
                   <MapPin className="absolute left-3 top-3 w-5 h-5 text-slate-700" />
-                  <textarea name="address" value={form.address} onChange={handleChange} rows={2} required
+                  <textarea
+                    name="address"
+                    value={form.address}
+                    onChange={handleChange}
+                    rows={2}
+                    required
                     placeholder="Street address, City, State ZIP"
-                    className="w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent" />
+                    className="w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+                  />
                 </div>
               </div>
             </div>
@@ -277,12 +396,21 @@ export default function CompanySetupPage() {
           {/* Benefits */}
           <div className="bg-white rounded-xl shadow-sm p-6">
             <h2 className="text-lg font-bold text-slate-900 mb-6">Benefits Offered</h2>
-            <p className="text-slate-700 mb-4">Select the benefits your company offers to employees:</p>
+            <p className="text-slate-700 mb-4">
+              Select the benefits your company offers to employees:
+            </p>
             <div className="grid md:grid-cols-3 gap-3">
               {BENEFITS_LIST.map((benefit) => (
-                <label key={benefit} className="flex items-center gap-2 p-3 border rounded-lg cursor-pointer hover:border-brand-blue-300">
-                  <input type="checkbox" checked={form.benefits.includes(benefit)} onChange={() => toggleBenefit(benefit)}
-                    className="w-4 h-4 text-brand-blue-600 rounded" />
+                <label
+                  key={benefit}
+                  className="flex items-center gap-2 p-3 border rounded-lg cursor-pointer hover:border-brand-blue-300"
+                >
+                  <input
+                    type="checkbox"
+                    checked={form.benefits.includes(benefit)}
+                    onChange={() => toggleBenefit(benefit)}
+                    className="w-4 h-4 text-brand-blue-600 rounded"
+                  />
                   <span className="text-sm text-slate-900">{benefit}</span>
                 </label>
               ))}
@@ -291,11 +419,17 @@ export default function CompanySetupPage() {
 
           {/* Actions */}
           <div className="flex items-center justify-between">
-            <Link href="/employer-portal/company" className="px-6 py-3 border border-gray-300 rounded-lg hover:bg-white transition">
+            <Link
+              href="/employer-portal/company"
+              className="px-6 py-3 border border-gray-300 rounded-lg hover:bg-white transition"
+            >
               Cancel
             </Link>
-            <button type="submit" disabled={saving}
-              className="px-8 py-3 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700 transition font-semibold flex items-center gap-2 disabled:opacity-50">
+            <button
+              type="submit"
+              disabled={saving}
+              className="px-8 py-3 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700 transition font-semibold flex items-center gap-2 disabled:opacity-50"
+            >
               {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
               {saving ? 'Saving...' : 'Save Profile'}
             </button>

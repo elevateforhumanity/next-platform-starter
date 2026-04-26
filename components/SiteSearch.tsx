@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -175,7 +175,7 @@ export default function SiteSearch() {
     setLoading(true);
     try {
       const supabase = createClient();
-      
+
       // Search programs
       const { data: programs } = await supabase
         .from('training_programs')
@@ -184,7 +184,7 @@ export default function SiteSearch() {
         .or(`name.ilike.%${searchQuery}%,description.ilike.%${searchQuery}%`)
         .limit(5);
 
-      const programResults: SearchResult[] = (programs || []).map(p => ({
+      const programResults: SearchResult[] = (programs || []).map((p) => ({
         title: p.name,
         url: `/programs/${p.slug}`,
         description: p.description?.substring(0, 100) || p.category || '',
@@ -199,7 +199,7 @@ export default function SiteSearch() {
         .ilike('title', `%${searchQuery}%`)
         .limit(3);
 
-      const eventResults: SearchResult[] = (events || []).map(e => ({
+      const eventResults: SearchResult[] = (events || []).map((e) => ({
         title: e.title,
         url: `/events/${e.slug}`,
         description: e.description?.substring(0, 100) || '',
@@ -207,18 +207,23 @@ export default function SiteSearch() {
       }));
 
       // Combine with static pages
-      const staticResults = searchableContent.filter(item =>
-        item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.description.toLowerCase().includes(searchQuery.toLowerCase())
-      ).slice(0, 5);
+      const staticResults = searchableContent
+        .filter(
+          (item) =>
+            item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            item.description.toLowerCase().includes(searchQuery.toLowerCase()),
+        )
+        .slice(0, 5);
 
       setResults([...programResults, ...eventResults, ...staticResults].slice(0, 10));
     } catch (err) {
       console.error('Search error:', err);
       // Fallback to static search
-      setResults(searchableContent.filter(item =>
-        item.title.toLowerCase().includes(searchQuery.toLowerCase())
-      ).slice(0, 10));
+      setResults(
+        searchableContent
+          .filter((item) => item.title.toLowerCase().includes(searchQuery.toLowerCase()))
+          .slice(0, 10),
+      );
     } finally {
       setLoading(false);
     }
@@ -327,10 +332,7 @@ export default function SiteSearch() {
                 className="flex-1 text-lg outline-none"
                 autoFocus
               />
-              <button
-                onClick={() => setIsOpen(false)}
-                className="p-1 hover:bg-slate-100 rounded"
-              >
+              <button onClick={() => setIsOpen(false)} className="p-1 hover:bg-slate-100 rounded">
                 <X className="w-5 h-5 text-slate-400" />
               </button>
             </div>
@@ -340,15 +342,11 @@ export default function SiteSearch() {
               {query.trim().length < 2 ? (
                 <div className="px-4 py-8 text-center text-slate-500">
                   <Search className="w-12 h-12 mx-auto mb-3 text-slate-300" />
-                  <p className="text-sm">
-                    Type at least 2 characters to search
-                  </p>
+                  <p className="text-sm">Type at least 2 characters to search</p>
                 </div>
               ) : results.length === 0 ? (
                 <div className="px-4 py-8 text-center text-slate-500">
-                  <p className="text-sm">
-                    No results found for &quot;{query}&quot;
-                  </p>
+                  <p className="text-sm">No results found for &quot;{query}&quot;</p>
                 </div>
               ) : (
                 <div className="py-2">
@@ -359,18 +357,12 @@ export default function SiteSearch() {
                       onClick={() => setIsOpen(false)}
                       className="flex items-start gap-3 px-4 py-3 hover:bg-slate-50 transition"
                     >
-                      <div
-                        className={`p-2 rounded-lg ${getCategoryColor(result.category)}`}
-                      >
+                      <div className={`p-2 rounded-lg ${getCategoryColor(result.category)}`}>
                         {getCategoryIcon(result.category)}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <div className="font-semibold text-black mb-1">
-                          {result.title}
-                        </div>
-                        <div className="text-sm text-black line-clamp-1">
-                          {result.description}
-                        </div>
+                        <div className="font-semibold text-black mb-1">{result.title}</div>
+                        <div className="text-sm text-black line-clamp-1">{result.description}</div>
                       </div>
                       <div className="text-xs text-slate-400 uppercase tracking-wider">
                         {result.category}
@@ -385,25 +377,17 @@ export default function SiteSearch() {
             <div className="px-4 py-3 bg-slate-50 border-t border-slate-200 flex items-center justify-between text-xs text-slate-500">
               <div className="flex items-center gap-4">
                 <span className="flex items-center gap-1">
-                  <kbd className="px-2 py-0.5 bg-white border border-slate-300 rounded">
-                    ↑
-                  </kbd>
-                  <kbd className="px-2 py-0.5 bg-white border border-slate-300 rounded">
-                    ↓
-                  </kbd>
+                  <kbd className="px-2 py-0.5 bg-white border border-slate-300 rounded">↑</kbd>
+                  <kbd className="px-2 py-0.5 bg-white border border-slate-300 rounded">↓</kbd>
                   <span>Navigate</span>
                 </span>
                 <span className="flex items-center gap-1">
-                  <kbd className="px-2 py-0.5 bg-white border border-slate-300 rounded">
-                    ↵
-                  </kbd>
+                  <kbd className="px-2 py-0.5 bg-white border border-slate-300 rounded">↵</kbd>
                   <span>Select</span>
                 </span>
               </div>
               <span className="flex items-center gap-1">
-                <kbd className="px-2 py-0.5 bg-white border border-slate-300 rounded">
-                  ESC
-                </kbd>
+                <kbd className="px-2 py-0.5 bg-white border border-slate-300 rounded">ESC</kbd>
                 <span>Close</span>
               </span>
             </div>

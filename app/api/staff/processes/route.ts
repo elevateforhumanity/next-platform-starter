@@ -30,10 +30,7 @@ async function _GET(request: Request) {
       .eq('id', user.id)
       .maybeSingle();
 
-    if (
-      !profile ||
-      !['admin', 'super_admin', 'staff', 'advisor'].includes(profile.role)
-    ) {
+    if (!profile || !['admin', 'super_admin', 'staff', 'advisor'].includes(profile.role)) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
@@ -58,11 +55,8 @@ async function _GET(request: Request) {
     }
 
     return NextResponse.json({ processes });
-  } catch (error) { 
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+  } catch (error) {
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/staff/processes', _GET);

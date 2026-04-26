@@ -1,4 +1,5 @@
 # Electrical Technician
+
 ## Program Syllabus
 
 **Provider:** Elevate for Humanity  
@@ -6,7 +7,7 @@
 **Program Code:** ELEC-TECH  
 **Duration:** 16-24 Weeks (640-960 Hours)  
 **Delivery Method:** Classroom + Field Work  
-**Funding:** Registered Apprenticeship • WIOA • WRG  
+**Funding:** Registered Apprenticeship • WIOA • WRG
 
 ---
 
@@ -32,6 +33,7 @@ Start your career in the electrical trades! Learn residential and commercial wir
 ## Course Outline
 
 ### Module 1: Electrical Safety & Fundamentals (60 hours)
+
 - OSHA 10-Hour Construction Safety
 - Electrical hazards and safety
 - Personal protective equipment
@@ -41,6 +43,7 @@ Start your career in the electrical trades! Learn residential and commercial wir
 - Basic electrical theory
 
 ### Module 2: Electrical Theory (80 hours)
+
 - Voltage, current, and resistance
 - Ohm's Law and power calculations
 - Series and parallel circuits
@@ -50,6 +53,7 @@ Start your career in the electrical trades! Learn residential and commercial wir
 - Three-phase systems
 
 ### Module 3: National Electrical Code (NEC) (60 hours)
+
 - NEC structure and navigation
 - Wiring methods and materials
 - Branch circuits and feeders
@@ -59,6 +63,7 @@ Start your career in the electrical trades! Learn residential and commercial wir
 - Code calculations
 
 ### Module 4: Residential Wiring (120 hours)
+
 - Service entrance installation
 - Panel installation and wiring
 - Branch circuit wiring
@@ -68,6 +73,7 @@ Start your career in the electrical trades! Learn residential and commercial wir
 - Low-voltage systems (doorbell, thermostat)
 
 ### Module 5: Commercial Wiring (120 hours)
+
 - Commercial service equipment
 - Conduit systems (EMT, rigid, PVC)
 - Wire pulling techniques
@@ -77,6 +83,7 @@ Start your career in the electrical trades! Learn residential and commercial wir
 - Motor circuits
 
 ### Module 6: Conduit Bending & Installation (60 hours)
+
 - Hand bender techniques
 - Offset bends
 - Three-point saddles
@@ -85,6 +92,7 @@ Start your career in the electrical trades! Learn residential and commercial wir
 - Hydraulic bender operation
 
 ### Module 7: Motor Controls (60 hours)
+
 - Motor types and applications
 - Motor starters and contactors
 - Overload protection
@@ -93,6 +101,7 @@ Start your career in the electrical trades! Learn residential and commercial wir
 - Troubleshooting motor circuits
 
 ### Module 8: Blueprint Reading (40 hours)
+
 - Reading electrical drawings
 - Symbols and abbreviations
 - One-line diagrams
@@ -101,6 +110,7 @@ Start your career in the electrical trades! Learn residential and commercial wir
 - Control diagrams
 
 ### Module 9: Electrical Testing & Troubleshooting (60 hours)
+
 - Multimeter usage
 - Continuity and resistance testing
 - Voltage and current measurement
@@ -109,6 +119,7 @@ Start your career in the electrical trades! Learn residential and commercial wir
 - Troubleshooting techniques
 
 ### Module 10: Field Training (200-400 hours)
+
 - Supervised installation work
 - Residential and commercial projects
 - Tool proficiency development
@@ -185,6 +196,7 @@ Start your career in the electrical trades! Learn residential and commercial wir
 ## Apprenticeship Pathway
 
 Program prepares students for:
+
 - **IBEW Apprenticeship** - Union electrical apprenticeship
 - **IEC Apprenticeship** - Independent Electrical Contractors
 - **ABC Apprenticeship** - Associated Builders and Contractors

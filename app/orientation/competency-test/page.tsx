@@ -2,12 +2,20 @@ import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ClipboardCheck, Clock, BookOpen, HelpCircle, CheckCircle2, ArrowRight } from 'lucide-react';
+import {
+  ClipboardCheck,
+  Clock,
+  BookOpen,
+  HelpCircle,
+  CheckCircle2,
+  ArrowRight,
+} from 'lucide-react';
 
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/orientation/competency-test' },
   title: 'Competency Assessment | Orientation | Elevate For Humanity',
-  description: 'Learn about the competency assessment administered during orientation. Covers reading, math, and career readiness. Not a pass/fail test — used for program placement.',
+  description:
+    'Learn about the competency assessment administered during orientation. Covers reading, math, and career readiness. Not a pass/fail test — used for program placement.',
 };
 
 const WHAT_TO_KNOW = [
@@ -44,7 +52,12 @@ export default function CompetencyTestPage() {
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: 'Orientation', href: '/orientation' }, { label: 'Competency Assessment' }]} />
+        <Breadcrumbs
+          items={[
+            { label: 'Orientation', href: '/orientation' },
+            { label: 'Competency Assessment' },
+          ]}
+        />
       </div>
 
       {/* Hero — image only, title below */}
@@ -53,14 +66,17 @@ export default function CompetencyTestPage() {
           <Image
             src="/images/pages/orientation-page-1.jpg"
             alt="Competency assessment"
-            fill className="object-cover" priority sizes="100vw"
+            fill
+            className="object-cover"
+            priority
+            sizes="100vw"
           />
         </div>
         <div className="bg-white border-t py-10 text-center px-4">
           <h1 className="text-3xl md:text-4xl font-black text-black mb-3">Competency Assessment</h1>
           <p className="text-black text-lg max-w-2xl mx-auto">
-            A brief skills assessment administered during orientation to help us place you in the right program.
-            It is not a pass/fail test — everyone is welcome regardless of results.
+            A brief skills assessment administered during orientation to help us place you in the
+            right program. It is not a pass/fail test — everyone is welcome regardless of results.
           </p>
         </div>
       </section>
@@ -101,15 +117,17 @@ export default function CompetencyTestPage() {
                 ))}
               </ul>
               <p className="text-black text-sm mt-6 leading-relaxed">
-                Results are shared with your enrollment advisor and used only to match you with the right
-                program track and identify any tutoring or support services that may help you succeed.
+                Results are shared with your enrollment advisor and used only to match you with the
+                right program track and identify any tutoring or support services that may help you
+                succeed.
               </p>
             </div>
             <div className="relative h-72 rounded-2xl overflow-hidden">
               <Image
                 src="/images/pages/orientation-page-2.jpg"
                 alt="Student completing assessment"
-                fill className="object-cover"
+                fill
+                className="object-cover"
                 sizes="(max-width: 768px) 100vw, 50vw"
               />
             </div>
@@ -122,8 +140,8 @@ export default function CompetencyTestPage() {
         <div className="max-w-3xl mx-auto">
           <h2 className="text-2xl md:text-3xl font-black text-white mb-4">Ready to Get Started?</h2>
           <p className="text-white text-lg mb-8">
-            The competency assessment is administered during your orientation session.
-            Schedule your orientation to get started.
+            The competency assessment is administered during your orientation session. Schedule your
+            orientation to get started.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <Link
@@ -140,7 +158,13 @@ export default function CompetencyTestPage() {
             </Link>
           </div>
           <p className="text-white text-sm mt-6">
-            Questions? Call <a href="tel:3173143757" className="text-white font-bold underline hover:text-slate-300">(317) 314-3757</a>
+            Questions? Call{' '}
+            <a
+              href="tel:3173143757"
+              className="text-white font-bold underline hover:text-slate-300"
+            >
+              (317) 314-3757
+            </a>
           </p>
         </div>
       </section>

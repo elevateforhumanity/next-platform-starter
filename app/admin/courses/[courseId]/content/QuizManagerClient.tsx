@@ -1,7 +1,15 @@
 'use client';
 
 import { useState } from 'react';
-import { HelpCircle, Plus, Trash2, ChevronDown, ChevronUp, Loader2, CheckCircle } from 'lucide-react';
+import {
+  HelpCircle,
+  Plus,
+  Trash2,
+  ChevronDown,
+  ChevronUp,
+  Loader2,
+  CheckCircle,
+} from 'lucide-react';
 
 interface QuizQuestion {
   question_text: string;
@@ -36,7 +44,7 @@ export default function QuizManagerClient({
   const [quizTitle, setQuizTitle] = useState(initialQuizTitle);
   const [passingScore, setPassingScore] = useState(initialPassingScore);
   const [questions, setQuestions] = useState<QuizQuestion[]>(
-    initialQuestions.length ? initialQuestions : []
+    initialQuestions.length ? initialQuestions : [],
   );
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
@@ -54,14 +62,14 @@ export default function QuizManagerClient({
         const wasCorrect = options[oi] === q.correct_answer;
         options[oi] = val;
         return { ...q, options, correct_answer: wasCorrect ? val : q.correct_answer };
-      })
+      }),
     );
 
   const addOption = (qi: number) =>
     setQuestions((qs) =>
       qs.map((q, i) =>
-        i === qi ? { ...q, options: [...q.options, `Option ${q.options.length + 1}`] } : q
-      )
+        i === qi ? { ...q, options: [...q.options, `Option ${q.options.length + 1}`] } : q,
+      ),
     );
 
   const removeOption = (qi: number, oi: number) =>
@@ -69,18 +77,15 @@ export default function QuizManagerClient({
       qs.map((q, i) => {
         if (i !== qi) return q;
         const options = q.options.filter((_, j) => j !== oi);
-        const correct_answer = q.correct_answer === q.options[oi]
-          ? (options[0] || '')
-          : q.correct_answer;
+        const correct_answer =
+          q.correct_answer === q.options[oi] ? options[0] || '' : q.correct_answer;
         return { ...q, options, correct_answer };
-      })
+      }),
     );
 
-  const addQuestion = () =>
-    setQuestions((qs) => [...qs, { ...BLANK_QUESTION }]);
+  const addQuestion = () => setQuestions((qs) => [...qs, { ...BLANK_QUESTION }]);
 
-  const removeQuestion = (qi: number) =>
-    setQuestions((qs) => qs.filter((_, i) => i !== qi));
+  const removeQuestion = (qi: number) => setQuestions((qs) => qs.filter((_, i) => i !== qi));
 
   const moveQuestion = (qi: number, dir: 'up' | 'down') => {
     const next = dir === 'up' ? qi - 1 : qi + 1;
@@ -107,7 +112,10 @@ export default function QuizManagerClient({
   // ── Save ────────────────────────────────────────────────────────────────────
   const handleSave = async () => {
     const validationError = validate();
-    if (validationError) { setError(validationError); return; }
+    if (validationError) {
+      setError(validationError);
+      return;
+    }
     setError(null);
     setSaving(true);
     setSaved(false);
@@ -115,10 +123,17 @@ export default function QuizManagerClient({
       const res = await fetch(`/api/admin/courses/${courseId}/quiz`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ quiz_title: quizTitle, quiz_passing_score: passingScore, quiz_questions: questions }),
+        body: JSON.stringify({
+          quiz_title: quizTitle,
+          quiz_passing_score: passingScore,
+          quiz_questions: questions,
+        }),
       });
       const json = await res.json();
-      if (!res.ok) { setError(json.error || 'Save failed.'); return; }
+      if (!res.ok) {
+        setError(json.error || 'Save failed.');
+        return;
+      }
       setSaved(true);
       setTimeout(() => setSaved(false), 3000);
     } catch {
@@ -139,18 +154,18 @@ export default function QuizManagerClient({
         <div className="flex items-center gap-3">
           <HelpCircle className="w-5 h-5 text-brand-blue-600" />
           <div>
-            <p className="font-semibold text-slate-900">
-              {quizTitle || 'Course Assessment'}
-            </p>
+            <p className="font-semibold text-slate-900">{quizTitle || 'Course Assessment'}</p>
             <p className="text-sm text-slate-700">
-              {questions.length} question{questions.length !== 1 ? 's' : ''} · Pass at {passingScore}%
-              {questions.length === 0 && ' · No questions yet'}
+              {questions.length} question{questions.length !== 1 ? 's' : ''} · Pass at{' '}
+              {passingScore}%{questions.length === 0 && ' · No questions yet'}
             </p>
           </div>
         </div>
-        {expanded
-          ? <ChevronUp className="w-4 h-4 text-slate-700 shrink-0" />
-          : <ChevronDown className="w-4 h-4 text-slate-700 shrink-0" />}
+        {expanded ? (
+          <ChevronUp className="w-4 h-4 text-slate-700 shrink-0" />
+        ) : (
+          <ChevronDown className="w-4 h-4 text-slate-700 shrink-0" />
+        )}
       </button>
 
       {expanded && (
@@ -167,7 +182,9 @@ export default function QuizManagerClient({
               />
             </div>
             <div>
-              <label className="block text-xs font-medium text-slate-700 mb-1">Passing score %</label>
+              <label className="block text-xs font-medium text-slate-700 mb-1">
+                Passing score %
+              </label>
               <input
                 type="number"
                 min={0}
@@ -191,7 +208,9 @@ export default function QuizManagerClient({
               <div key={qi} className="border rounded-lg p-4 space-y-3 bg-gray-50">
                 {/* Question header */}
                 <div className="flex items-start gap-2">
-                  <span className="text-xs font-semibold text-slate-700 mt-2 w-6 shrink-0">Q{qi + 1}</span>
+                  <span className="text-xs font-semibold text-slate-700 mt-2 w-6 shrink-0">
+                    Q{qi + 1}
+                  </span>
                   <textarea
                     value={q.question_text}
                     onChange={(e) => updateQuestion(qi, { question_text: e.target.value })}
@@ -256,7 +275,9 @@ export default function QuizManagerClient({
                       type="number"
                       min={1}
                       value={q.points}
-                      onChange={(e) => updateQuestion(qi, { points: parseInt(e.target.value) || 1 })}
+                      onChange={(e) =>
+                        updateQuestion(qi, { points: parseInt(e.target.value) || 1 })
+                      }
                       className="w-16 border rounded px-2 py-1 text-xs"
                     />
                   </div>

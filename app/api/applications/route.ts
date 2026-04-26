@@ -39,32 +39,20 @@ async function _POST(req: Request) {
     const rateLimited = await applyRateLimit(req, 'api');
     if (rateLimited) return rateLimited;
 
-
     const body = await req.json();
 
     // Basic required fields - core fields that all forms must have
-    const coreRequired = [
-      'firstName',
-      'lastName',
-      'phone',
-      'email',
-    ];
+    const coreRequired = ['firstName', 'lastName', 'phone', 'email'];
 
     // Program is required but can come from different field names
     const program = body.program || body.programSlug;
     if (!program) {
-      return NextResponse.json(
-        { error: 'Missing required field: program' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Missing required field: program' }, { status: 400 });
     }
 
     for (const field of coreRequired) {
       if (!body[field] || String(body[field]).trim() === '') {
-        return NextResponse.json(
-          { error: `Missing required field: ${field}` },
-          { status: 400 }
-        );
+        return NextResponse.json({ error: `Missing required field: ${field}` }, { status: 400 });
       }
     }
 
@@ -72,8 +60,11 @@ async function _POST(req: Request) {
 
     if (!supabase) {
       return NextResponse.json(
-        { error: 'Service temporarily unavailable. Please call 317-314-3757 for immediate assistance.' },
-        { status: 503 }
+        {
+          error:
+            'Service temporarily unavailable. Please call 317-314-3757 for immediate assistance.',
+        },
+        { status: 503 },
       );
     }
 
@@ -91,8 +82,11 @@ async function _POST(req: Request) {
 
     if (recentApp) {
       return NextResponse.json(
-        { error: 'An application for this program was already submitted with this email in the last 24 hours. Please call 317-314-3757 if you need to make changes.' },
-        { status: 409 }
+        {
+          error:
+            'An application for this program was already submitted with this email in the last 24 hours. Please call 317-314-3757 if you need to make changes.',
+        },
+        { status: 409 },
       );
     }
 
@@ -125,7 +119,7 @@ async function _POST(req: Request) {
     // Does not affect pricing. Progress credit only.
     const transferHoursClaimed = Math.max(
       0,
-      parseInt(body.transferHours ?? body.transfer_hours_claimed ?? '0') || 0
+      parseInt(body.transferHours ?? body.transfer_hours_claimed ?? '0') || 0,
     );
 
     // Determine application status based on funding type and eligibility.
@@ -175,16 +169,14 @@ async function _POST(req: Request) {
       .maybeSingle();
 
     if (error) {
-      const errorCode = (error as any)?.code || "UNKNOWN";
+      const errorCode = (error as any)?.code || 'UNKNOWN';
       const errorMessage = 'Internal server error';
       return NextResponse.json(
         {
-          error:
-            'Failed to save application. Please call 317-314-3757 for immediate assistance.',
-          debug:
-            process.env.NODE_ENV === 'development' ? 'Internal server error' : undefined,
+          error: 'Failed to save application. Please call 317-314-3757 for immediate assistance.',
+          debug: process.env.NODE_ENV === 'development' ? 'Internal server error' : undefined,
         },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
@@ -224,22 +216,33 @@ async function _POST(req: Request) {
         logger.warn('[Applications] Auto-approve threw (non-fatal)', approveErr);
       }
     } else {
-      logger.info('[Applications] Funded application — skipping auto-approve, pending admin review', {
-        applicationId: data.id,
-        fundingType,
-        eligibilityStatus,
-        applicationStatus,
-      });
+      logger.info(
+        '[Applications] Funded application — skipping auto-approve, pending admin review',
+        {
+          applicationId: data.id,
+          fundingType,
+          eligibilityStatus,
+          applicationStatus,
+        },
+      );
     }
 
     // Send email notifications — direct call, no self-fetch
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
-    let emailStatus: { student: string; staff: string } = { student: 'not-attempted', staff: 'not-attempted' };
+    let emailStatus: { student: string; staff: string } = {
+      student: 'not-attempted',
+      staff: 'not-attempted',
+    };
     try {
-      logger.info('[Applications] Sending confirmation email', { to: body.email, ref: referenceNumber, hasPasswordLink: !!passwordSetupLink });
+      logger.info('[Applications] Sending confirmation email', {
+        to: body.email,
+        ref: referenceNumber,
+        hasPasswordLink: !!passwordSetupLink,
+      });
 
       // Build password setup section (only for new users)
-      const passwordSection = passwordSetupLink ? `
+      const passwordSection = passwordSetupLink
+        ? `
             <div style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 20px; margin: 20px 0;">
               <h3 style="margin-top: 0; color: #065f46;">Your Student Account Is Ready</h3>
               <p style="margin-bottom: 16px;">We created your student portal account. Set your password to log in:</p>
@@ -248,7 +251,8 @@ async function _POST(req: Request) {
               </p>
               <p style="color: #64748b; font-size: 13px; margin-bottom: 0;">This link expires in 24 hours. After setting your password, you can log in anytime at <a href="${siteUrl}/login" style="color: #059669;">${siteUrl}/login</a></p>
             </div>
-      ` : '';
+      `
+        : '';
 
       // Confirmation + onboarding email to applicant
       // Build next-steps content based on application status
@@ -257,9 +261,10 @@ async function _POST(req: Request) {
         wrg: 'Workforce Ready Grant / Next Level Jobs',
         fssa: 'FSSA IMPACT',
       };
-      const fundingName = fundingType ? (fundingLabel[fundingType] || fundingType) : null;
+      const fundingName = fundingType ? fundingLabel[fundingType] || fundingType : null;
 
-      const nextStepsHtml = needsICC ? `
+      const nextStepsHtml = needsICC
+        ? `
         <div style="background: #fffbeb; border: 2px solid #f59e0b; border-radius: 8px; padding: 20px; margin: 20px 0;">
           <h3 style="margin-top: 0; color: #92400e;">Action Required — Complete Indiana Career Connect First</h3>
           <p style="color: #78350f;">You selected <strong>${fundingName}</strong> as your funding option. Before we can enroll you, you must complete the Indiana Career Connect process and receive your funding approval.</p>
@@ -276,7 +281,9 @@ async function _POST(req: Request) {
           <a href="https://www.in.gov/dwd/find-a-workone-center/" style="display: inline-block; background: #374151; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold;">Find a WorkOne Center</a>
         </div>
         <p style="color: #64748b; font-size: 14px;">Once you have your approval letter, reapply at <a href="${siteUrl}/programs/hvac-technician/apply" style="color: #ea580c;">${siteUrl}/programs</a> and select your funding type. Your application will be prioritized.</p>
-      ` : isFunded ? `
+      `
+        : isFunded
+          ? `
         <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 20px; margin: 20px 0;">
           <h3 style="margin-top: 0; color: #1e40af;">Application Received — Pending Admin Review</h3>
           <p style="color: #1e3a8a;">You selected <strong>${fundingName}</strong> as your funding option. Your application has been received and is pending review by our enrollment team.</p>
@@ -289,7 +296,8 @@ async function _POST(req: Request) {
           </ol>
         </div>
         ${passwordSection}
-      ` : `
+      `
+          : `
         ${passwordSection}
         <h3 style="color: #0f172a;">What Happens Next</h3>
         <table style="width: 100%; border-collapse: collapse;">
@@ -303,8 +311,8 @@ async function _POST(req: Request) {
       const emailSubject = needsICC
         ? `Action Required — Complete Indiana Career Connect to Enroll [Ref: ${referenceNumber}]`
         : isFunded
-        ? `Application Received — Pending Review [Ref: ${referenceNumber}]`
-        : `Welcome to Elevate for Humanity — ${body.program} [Ref: ${referenceNumber}]`;
+          ? `Application Received — Pending Review [Ref: ${referenceNumber}]`
+          : `Welcome to Elevate for Humanity — ${body.program} [Ref: ${referenceNumber}]`;
 
       const studentEmailResult = await sendEmail({
         to: body.email,
@@ -320,12 +328,16 @@ async function _POST(req: Request) {
 
               ${nextStepsHtml}
 
-              ${!needsICC ? `
+              ${
+                !needsICC
+                  ? `
               <div style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px; margin: 20px 0;">
                 <h3 style="margin-top: 0; color: #ea580c;">Want to Talk Sooner?</h3>
                 <p style="margin-bottom: 12px;">Schedule your advisor call now:</p>
                 <a href="https://calendly.com/elevate4humanityedu" style="display: inline-block; background: #ea580c; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold;">Schedule Call Now</a>
-              </div>` : ''}
+              </div>`
+                  : ''
+              }
 
               <div style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px; margin: 20px 0;">
                 <p style="margin: 0 0 8px 0; font-size: 14px; color: #64748b;">Your Reference Number:</p>
@@ -349,8 +361,8 @@ async function _POST(req: Request) {
       const staffSubject = needsICC
         ? `⚠ Pending Funding [${referenceNumber}]: ${body.firstName} ${body.lastName} — Needs ICC First`
         : isFunded
-        ? `🔵 Admin Review Required [${referenceNumber}]: ${body.firstName} ${body.lastName} — ${fundingName}`
-        : `New Application [${referenceNumber}]: ${body.firstName} ${body.lastName} - ${body.program}`;
+          ? `🔵 Admin Review Required [${referenceNumber}]: ${body.firstName} ${body.lastName} — ${fundingName}`
+          : `New Application [${referenceNumber}]: ${body.firstName} ${body.lastName} - ${body.program}`;
 
       const staffEmailPromise = sendEmail({
         to: 'elevate4humanityedu@gmail.com',
@@ -386,7 +398,10 @@ async function _POST(req: Request) {
         staff: staffEmailResult.success ? 'sent' : staffEmailResult.error || 'failed',
       };
     } catch (emailError) {
-      logger.error('[Applications] Email send threw exception', emailError instanceof Error ? emailError : undefined);
+      logger.error(
+        '[Applications] Email send threw exception',
+        emailError instanceof Error ? emailError : undefined,
+      );
       emailStatus = { student: 'exception', staff: 'exception' };
     }
 
@@ -399,15 +414,14 @@ async function _POST(req: Request) {
         referenceNumber: referenceNumber,
         emailStatus,
       },
-      { status: 200 }
+      { status: 200 },
     );
-  } catch (error) { 
+  } catch (error) {
     return NextResponse.json(
       {
-        error:
-          'Unexpected error. Please call 317-314-3757 for immediate assistance.',
+        error: 'Unexpected error. Please call 317-314-3757 for immediate assistance.',
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

@@ -29,10 +29,9 @@ interface BrandingSettings {
 
 // GET - Retrieve current branding settings
 async function _GET(request: NextRequest) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const apiKey = request.headers.get('x-api-key');
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const apiKey = request.headers.get('x-api-key');
   if (!apiKey) {
     return NextResponse.json({ error: 'Missing API key' }, { status: 401 });
   }
@@ -75,10 +74,9 @@ const apiKey = request.headers.get('x-api-key');
 
 // PATCH - Update branding settings
 async function _PATCH(request: NextRequest) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const apiKey = request.headers.get('x-api-key');
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const apiKey = request.headers.get('x-api-key');
   if (!apiKey) {
     return NextResponse.json({ error: 'Missing API key' }, { status: 401 });
   }
@@ -91,8 +89,11 @@ const apiKey = request.headers.get('x-api-key');
   // Check if white-label feature is enabled
   if (!validation.features?.includes('white_label')) {
     return NextResponse.json(
-      { error: 'White-label branding not included in your license. Upgrade to Professional or Enterprise.' },
-      { status: 403 }
+      {
+        error:
+          'White-label branding not included in your license. Upgrade to Professional or Enterprise.',
+      },
+      { status: 403 },
     );
   }
 
@@ -102,7 +103,10 @@ const apiKey = request.headers.get('x-api-key');
   // Validate colors
   const colorRegex = /^#[0-9A-Fa-f]{6}$/;
   if (body.primary_color && !colorRegex.test(body.primary_color)) {
-    return NextResponse.json({ error: 'Invalid primary_color format. Use hex (e.g., #2563eb)' }, { status: 400 });
+    return NextResponse.json(
+      { error: 'Invalid primary_color format. Use hex (e.g., #2563eb)' },
+      { status: 400 },
+    );
   }
   if (body.secondary_color && !colorRegex.test(body.secondary_color)) {
     return NextResponse.json({ error: 'Invalid secondary_color format' }, { status: 400 });
@@ -143,17 +147,14 @@ const apiKey = request.headers.get('x-api-key');
     if (!validation.features?.includes('custom_domain')) {
       return NextResponse.json(
         { error: 'Custom domain not included in your license' },
-        { status: 403 }
+        { status: 403 },
       );
     }
     updateData.domain = body.custom_domain;
     updateData.domain_verified = false; // Requires verification
   }
 
-  const { error } = await supabase
-    .from('tenants')
-    .update(updateData)
-    .eq('id', validation.tenantId);
+  const { error } = await supabase.from('tenants').update(updateData).eq('id', validation.tenantId);
 
   if (error) {
     return NextResponse.json({ error: 'Failed to update branding' }, { status: 500 });
@@ -162,14 +163,14 @@ const apiKey = request.headers.get('x-api-key');
   return NextResponse.json({
     success: true,
     message: 'Branding updated successfully',
-    updated_fields: Object.keys(updateData).filter(k => k !== 'updated_at'),
+    updated_fields: Object.keys(updateData).filter((k) => k !== 'updated_at'),
   });
 }
 
 // POST - Upload logo/favicon (returns upload URL)
 async function _POST(request: NextRequest) {
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
 
   const apiKey = request.headers.get('x-api-key');
   if (!apiKey) {
@@ -184,7 +185,7 @@ async function _POST(request: NextRequest) {
   if (!validation.features?.includes('white_label')) {
     return NextResponse.json(
       { error: 'White-label branding not included in your license' },
-      { status: 403 }
+      { status: 403 },
     );
   }
 
@@ -200,9 +201,7 @@ async function _POST(request: NextRequest) {
   const path = `${validation.tenantId}/${file_type}/${file_name || `${file_type}.png`}`;
 
   // Create signed upload URL
-  const { data, error } = await supabase.storage
-    .from(bucket)
-    .createSignedUploadUrl(path);
+  const { data, error } = await supabase.storage.from(bucket).createSignedUploadUrl(path);
 
   if (error) {
     return NextResponse.json({ error: 'Failed to create upload URL' }, { status: 500 });
@@ -212,7 +211,8 @@ async function _POST(request: NextRequest) {
     upload_url: data.signedUrl,
     path: data.path,
     token: data.token,
-    instructions: 'PUT your file to upload_url with Content-Type header. Then call PATCH to update branding with the public URL.',
+    instructions:
+      'PUT your file to upload_url with Content-Type header. Then call PATCH to update branding with the public URL.',
     public_url: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${bucket}/${path}`,
   });
 }

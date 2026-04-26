@@ -1,4 +1,3 @@
-
 // lib/partners/careersafe.ts
 // CareerSafe API Integration
 // OSHA 10, OSHA 30, Safety Training
@@ -55,7 +54,8 @@ export class CareerSafeAPI extends BasePartnerAPI {
         loginUrl: response.data.loginUrl,
         passwordPlaintext: response.data.temporaryPassword,
       };
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       this.log('error', 'Failed to create CareerSafe account', {
         error: 'Operation failed',
       });
@@ -65,7 +65,7 @@ export class CareerSafeAPI extends BasePartnerAPI {
 
   async enrollInCourse(
     accountExternalId: string,
-    courseExternalCode: string
+    courseExternalCode: string,
   ): Promise<CourseEnrollment> {
     this.log('info', 'Enrolling in CareerSafe course', {
       accountExternalId,
@@ -93,7 +93,8 @@ export class CareerSafeAPI extends BasePartnerAPI {
         courseName: response.data.courseName,
         accessUrl: response.data.courseUrl,
       };
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       this.log('error', 'Failed to enroll in CareerSafe course', {
         error: 'Operation failed',
       });
@@ -101,9 +102,7 @@ export class CareerSafeAPI extends BasePartnerAPI {
     }
   }
 
-  async getProgress(
-    externalEnrollmentId: string
-  ): Promise<ProgressData | null> {
+  async getProgress(externalEnrollmentId: string): Promise<ProgressData | null> {
     this.log('info', 'Fetching CareerSafe progress', {
       externalEnrollmentId,
     });
@@ -132,7 +131,8 @@ export class CareerSafeAPI extends BasePartnerAPI {
         lessonsCompleted: response.data.chaptersCompleted,
         totalLessons: response.data.totalChapters,
       };
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       if (error instanceof PartnerAPIError && error.statusCode === 404) {
         return null;
       }
@@ -143,9 +143,7 @@ export class CareerSafeAPI extends BasePartnerAPI {
     }
   }
 
-  async getCertificate(
-    externalEnrollmentId: string
-  ): Promise<CertificateData | null> {
+  async getCertificate(externalEnrollmentId: string): Promise<CertificateData | null> {
     this.log('info', 'Fetching CareerSafe certificate', {
       externalEnrollmentId,
     });
@@ -168,7 +166,8 @@ export class CareerSafeAPI extends BasePartnerAPI {
         downloadUrl: response.data.pdfUrl,
         verificationUrl: response.data.verificationUrl,
       };
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       if (error instanceof PartnerAPIError && error.statusCode === 404) {
         return null;
       }
@@ -197,7 +196,8 @@ export class CareerSafeAPI extends BasePartnerAPI {
       });
 
       return response.data.launchUrl;
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       this.log('error', 'Failed to generate CareerSafe SSO URL', {
         error: 'Operation failed',
       });

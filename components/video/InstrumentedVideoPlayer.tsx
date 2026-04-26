@@ -17,11 +17,18 @@ interface InstrumentedVideoPlayerProps {
   className?: string;
 }
 
-type PlaybackEventType = 'load_start' | 'can_play' | 'play' | 'pause' | 'ended' | 'error' | 'progress';
+type PlaybackEventType =
+  | 'load_start'
+  | 'can_play'
+  | 'play'
+  | 'pause'
+  | 'ended'
+  | 'error'
+  | 'progress';
 
 /**
  * Instrumented Video Player
- * 
+ *
  * Features:
  * - Canonical video registry integration
  * - Playback event instrumentation
@@ -48,19 +55,22 @@ export default function InstrumentedVideoPlayer({
   const [hasError, setHasError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [showSoundOverlay, setShowSoundOverlay] = useState(false);
-  const [sessionId] = useState(() => `vs_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`);
+  const [sessionId] = useState(
+    () => `vs_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
+  );
 
   const supabase = createClient();
 
   // Track playback events - direct DB insert
-  const trackEvent = useCallback(async (eventType: PlaybackEventType, extraData?: Record<string, unknown>) => {
-    try {
-      const { data: { user } } = await supabase.auth.getUser();
-      
-      // Direct DB insert for video events
-      await supabase
-        .from('video_playback_events')
-        .insert({
+  const trackEvent = useCallback(
+    async (eventType: PlaybackEventType, extraData?: Record<string, unknown>) => {
+      try {
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
+
+        // Direct DB insert for video events
+        await supabase.from('video_playback_events').insert({
           event_type: eventType,
           video_id: video.id,
           user_id: user?.id,
@@ -69,28 +79,31 @@ export default function InstrumentedVideoPlayer({
           duration: videoRef.current?.duration,
           session_id: sessionId,
           extra_data: extraData,
-          timestamp: new Date().toISOString()
+          timestamp: new Date().toISOString(),
         });
 
-      // Also call API as fallback
-      await fetch('/api/video/events', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          event_type: eventType,
-          video_id: video.id,
-          page_slug: pageSlug,
-          current_time: videoRef.current?.currentTime,
-          duration: videoRef.current?.duration,
-          session_id: sessionId,
-          ...extraData,
-        }),
-      });
-    } catch (e) {
-      // Silent fail for analytics
-      if (process.env.NODE_ENV === 'development') (console as any).debug?.('Failed to track video event', e); // ci-ignore
-    }
-  }, [video.id, pageSlug, sessionId, supabase]);
+        // Also call API as fallback
+        await fetch('/api/video/events', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            event_type: eventType,
+            video_id: video.id,
+            page_slug: pageSlug,
+            current_time: videoRef.current?.currentTime,
+            duration: videoRef.current?.duration,
+            session_id: sessionId,
+            ...extraData,
+          }),
+        });
+      } catch (e) {
+        // Silent fail for analytics
+        if (process.env.NODE_ENV === 'development')
+          (console as any).debug?.('Failed to track video event', e); // ci-ignore
+      }
+    },
+    [video.id, pageSlug, sessionId, supabase],
+  );
 
   // Handle autoplay with sound fallback
   useEffect(() => {
@@ -117,7 +130,8 @@ export default function InstrumentedVideoPlayer({
           trackEvent('play');
         } catch (e2) {
           // Autoplay completely blocked
-          if (process.env.NODE_ENV === 'development') (console as any).debug?.('Autoplay blocked', e2); // ci-ignore
+          if (process.env.NODE_ENV === 'development')
+            (console as any).debug?.('Autoplay blocked', e2); // ci-ignore
         }
       }
     };
@@ -133,7 +147,7 @@ export default function InstrumentedVideoPlayer({
     videoEl.muted = false;
     setIsMuted(false);
     setShowSoundOverlay(false);
-    
+
     if (!isPlaying) {
       videoEl.play().catch(() => {});
       setIsPlaying(true);
@@ -154,7 +168,7 @@ export default function InstrumentedVideoPlayer({
       const time = videoRef.current.currentTime;
       const dur = videoRef.current.duration;
       setCurrentTime(time);
-      
+
       const progress = (time / dur) * 100;
       onProgress?.(progress);
 
@@ -175,7 +189,7 @@ export default function InstrumentedVideoPlayer({
     const videoEl = videoRef.current;
     const error = videoEl?.error;
     const message = error?.message || 'Video playback failed';
-    
+
     setHasError(true);
     setErrorMessage(message);
     setIsLoading(false);
@@ -230,7 +244,7 @@ export default function InstrumentedVideoPlayer({
     setHasError(false);
     setErrorMessage('');
     setIsLoading(true);
-    
+
     const videoEl = videoRef.current;
     if (videoEl) {
       videoEl.load();
@@ -258,10 +272,7 @@ export default function InstrumentedVideoPlayer({
             <RefreshCw className="w-4 h-4" />
             Try Again
           </button>
-          <a
-            href="/support"
-            className="mt-4 text-sm text-brand-blue-400 hover:underline"
-          >
+          <a href="/support" className="mt-4 text-sm text-brand-blue-400 hover:underline">
             Contact Support
           </a>
         </div>

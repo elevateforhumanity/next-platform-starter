@@ -10,7 +10,9 @@ export async function createPlacement(formData: FormData) {
   if (!db) throw new Error('Admin client failed to initialize');
 
   // Get authenticated user
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     redirect('/login');

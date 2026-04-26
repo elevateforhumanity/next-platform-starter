@@ -16,24 +16,14 @@
       },
       {
         "prompt": "Which face shape is considered the most versatile for beard styles?",
-        "choices": [
-          "Round",
-          "Oval",
-          "Square",
-          "Triangular"
-        ],
+        "choices": ["Round", "Oval", "Square", "Triangular"],
         "answerIndex": 1,
         "rationale": "Oval faces are considered the most versatile because most beard styles work well with this shape.",
         "type": "recall"
       },
       {
         "prompt": "A client presents with a round face and wants a beard that elongates their appearance. Which style should you recommend?",
-        "choices": [
-          "Circle beard",
-          "Classic full beard",
-          "Goatee",
-          "Fuller sides"
-        ],
+        "choices": ["Circle beard", "Classic full beard", "Goatee", "Fuller sides"],
         "answerIndex": 2,
         "rationale": "A goatee adds length to the face, creating the illusion of a more oval shape, which is ideal for round faces.",
         "type": "scenario"
@@ -64,24 +54,14 @@
       },
       {
         "prompt": "A new client asks for a beard style that softens their strong jawline. They have a square face. What style should you suggest?",
-        "choices": [
-          "Van Dyke",
-          "Circle beard",
-          "Goatee",
-          "Fuller sides"
-        ],
+        "choices": ["Van Dyke", "Circle beard", "Goatee", "Fuller sides"],
         "answerIndex": 1,
         "rationale": "A circle beard softens the angles of a square face, complementing the strong jawline.",
         "type": "scenario"
       },
       {
         "prompt": "Which tool is primarily used to set the neckline in beard design?",
-        "choices": [
-          "Razor",
-          "Scissors",
-          "Trimmer",
-          "Comb"
-        ],
+        "choices": ["Razor", "Scissors", "Trimmer", "Comb"],
         "answerIndex": 2,
         "rationale": "A trimmer is used to set the neckline, ensuring precision and symmetry.",
         "type": "recall"
@@ -100,12 +80,7 @@
       },
       {
         "prompt": "A client with a rectangular face wants to avoid a beard style that adds length. What should you recommend?",
-        "choices": [
-          "Goatee",
-          "Fuller sides",
-          "Van Dyke",
-          "Elongated styles"
-        ],
+        "choices": ["Goatee", "Fuller sides", "Van Dyke", "Elongated styles"],
         "answerIndex": 1,
         "rationale": "Fuller sides help balance a rectangular face by avoiding additional length.",
         "type": "scenario"
@@ -220,12 +195,7 @@
       },
       {
         "prompt": "A client with a triangular face wants a beard style that adds width at the top. What should you recommend?",
-        "choices": [
-          "Elongated styles",
-          "Goatee",
-          "Fuller cheek lines",
-          "Van Dyke"
-        ],
+        "choices": ["Elongated styles", "Goatee", "Fuller cheek lines", "Van Dyke"],
         "answerIndex": 2,
         "rationale": "Fuller cheek lines add width at the top, balancing a triangular face's narrower forehead.",
         "type": "scenario"

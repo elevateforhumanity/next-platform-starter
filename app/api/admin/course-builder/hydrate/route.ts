@@ -61,33 +61,36 @@ export async function POST(request: NextRequest) {
     if (body.lessonType === 'exam') {
       if (!body.courseTitle) return safeError('courseTitle is required for exam generation', 400);
       result = await generateAndPersistFinalExam(db, {
-        lessonId:           body.lessonId,
-        lessonSlug:         body.lessonId,
-        courseTitle:        body.courseTitle,
-        questionCount:      body.questionCount ?? 50,
-        passingScore:       body.passingScore ?? 80,
+        lessonId: body.lessonId,
+        lessonSlug: body.lessonId,
+        courseTitle: body.courseTitle,
+        questionCount: body.questionCount ?? 50,
+        passingScore: body.passingScore ?? 80,
         domainDistribution: body.domainDistribution,
       });
     } else {
-      if (!body.moduleTitle) return safeError('moduleTitle is required for quiz/checkpoint generation', 400);
+      if (!body.moduleTitle)
+        return safeError('moduleTitle is required for quiz/checkpoint generation', 400);
       result = await generateAndPersistModuleQuiz(db, {
-        lessonId:       body.lessonId,
-        lessonSlug:     body.lessonId,
-        moduleTitle:    body.moduleTitle,
-        domainKey:      body.domainKey,
+        lessonId: body.lessonId,
+        lessonSlug: body.lessonId,
+        moduleTitle: body.moduleTitle,
+        domainKey: body.domainKey,
         competencyKeys: body.competencyKeys,
-        questionCount:  body.questionCount ?? 10,
-        passingScore:   body.passingScore ?? 70,
+        questionCount: body.questionCount ?? 10,
+        passingScore: body.passingScore ?? 70,
       });
     }
 
-    return NextResponse.json({
-      lessonId:      result.lessonId,
-      writtenToDb:   result.writtenToDb,
-      questionCount: result.questions.length,
-      errors:        result.errors,
-    }, { status: result.errors.length ? 207 : 200 });
-
+    return NextResponse.json(
+      {
+        lessonId: result.lessonId,
+        writtenToDb: result.writtenToDb,
+        questionCount: result.questions.length,
+        errors: result.errors,
+      },
+      { status: result.errors.length ? 207 : 200 },
+    );
   } catch (err) {
     return safeInternalError(err, 'Hydration failed');
   }

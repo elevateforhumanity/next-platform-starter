@@ -1,8 +1,8 @@
-'use client'
+'use client';
 
-import dynamic from 'next/dynamic'
-import { useState } from 'react'
-import type { ModuleDef } from '@/courses/hvac/modules'
+import dynamic from 'next/dynamic';
+import { useState } from 'react';
+import type { ModuleDef } from '@/courses/hvac/modules';
 
 const HVACLab = dynamic(() => import('@/components/HVACLab'), {
   ssr: false,
@@ -11,20 +11,20 @@ const HVACLab = dynamic(() => import('@/components/HVACLab'), {
       Loading 3D equipment lab...
     </div>
   ),
-})
+});
 
 interface QuizQuestion {
-  question: string
-  options: string[]
-  answer: string
+  question: string;
+  options: string[];
+  answer: string;
 }
 
 interface ModulePageProps {
-  module: ModuleDef
-  quiz: QuizQuestion[]
-  totalModules: number
-  showLab?: boolean
-  onComplete?: () => void
+  module: ModuleDef;
+  quiz: QuizQuestion[];
+  totalModules: number;
+  showLab?: boolean;
+  onComplete?: () => void;
 }
 
 function SectionHeader({ id, number, title }: { id: string; number: number; title: string }) {
@@ -35,48 +35,59 @@ function SectionHeader({ id, number, title }: { id: string; number: number; titl
       </span>
       <h2 className="text-2xl font-bold text-slate-900">{title}</h2>
     </div>
-  )
+  );
 }
 
 const NAV_ITEMS = [
   { id: 'video', label: 'Video' },
   { id: 'content', label: 'Content' },
   { id: 'quiz', label: 'Quiz' },
-]
+];
 
-export default function ModulePage({ module, quiz, totalModules, showLab = false, onComplete }: ModulePageProps) {
-  const [labComplete, setLabComplete] = useState(false)
-  const [quizAnswers, setQuizAnswers] = useState<Record<number, string>>({})
-  const [quizSubmitted, setQuizSubmitted] = useState(false)
-  const [moduleComplete, setModuleComplete] = useState(false)
+export default function ModulePage({
+  module,
+  quiz,
+  totalModules,
+  showLab = false,
+  onComplete,
+}: ModulePageProps) {
+  const [labComplete, setLabComplete] = useState(false);
+  const [quizAnswers, setQuizAnswers] = useState<Record<number, string>>({});
+  const [quizSubmitted, setQuizSubmitted] = useState(false);
+  const [moduleComplete, setModuleComplete] = useState(false);
 
-  const quizScore = quiz.filter((q, i) => quizAnswers[i] === q.answer).length
-  const quizPassed = quizScore >= Math.ceil(quiz.length * 0.7)
+  const quizScore = quiz.filter((q, i) => quizAnswers[i] === q.answer).length;
+  const quizPassed = quizScore >= Math.ceil(quiz.length * 0.7);
 
   const handleSubmitQuiz = async () => {
-    setQuizSubmitted(true)
+    setQuizSubmitted(true);
     if (quizPassed) {
-      setModuleComplete(true)
-      onComplete?.()
+      setModuleComplete(true);
+      onComplete?.();
       try {
         await fetch(`/api/lessons/hvac-module${module.number}-lesson1/complete`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ quizScore, labComplete, videoWatched: true }),
-        })
+        });
       } catch {
         // best-effort
       }
     }
-  }
+  };
 
   const scrollTo = (id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
-  }
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   const navItems = showLab
-    ? [{ id: 'video', label: 'Video' }, { id: 'content', label: 'Content' }, { id: 'lab', label: '3D Lab' }, { id: 'quiz', label: 'Quiz' }]
-    : NAV_ITEMS
+    ? [
+        { id: 'video', label: 'Video' },
+        { id: 'content', label: 'Content' },
+        { id: 'lab', label: '3D Lab' },
+        { id: 'quiz', label: 'Quiz' },
+      ]
+    : NAV_ITEMS;
 
   return (
     <div className="min-h-screen bg-white">
@@ -113,7 +124,12 @@ export default function ModulePage({ module, quiz, totalModules, showLab = false
       {/* Video */}
       <div id="video" className="max-w-4xl mx-auto px-4 pt-10 scroll-mt-32">
         <div className="overflow-hidden rounded-2xl border bg-black shadow-sm">
-          <video controls preload="metadata" className="aspect-video w-full" src={module.videoUrl} />
+          <video
+            controls
+            preload="metadata"
+            className="aspect-video w-full"
+            src={module.videoUrl}
+          />
         </div>
       </div>
 
@@ -123,11 +139,24 @@ export default function ModulePage({ module, quiz, totalModules, showLab = false
           <SectionHeader id="content" number={1} title="Lesson Content" />
           <div className="space-y-4">
             {module.sections.map((sec) => (
-              <details key={sec.title} className="rounded-xl border bg-white shadow-sm overflow-hidden group">
+              <details
+                key={sec.title}
+                className="rounded-xl border bg-white shadow-sm overflow-hidden group"
+              >
                 <summary className="px-5 py-4 cursor-pointer list-none flex items-center justify-between">
                   <h3 className="text-lg font-bold text-slate-900">{sec.title}</h3>
-                  <svg className="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  <svg
+                    className="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M19 9l-7 7-7-7"
+                    />
                   </svg>
                 </summary>
                 <div className="px-5 pb-4">
@@ -169,9 +198,14 @@ export default function ModulePage({ module, quiz, totalModules, showLab = false
         {/* 3D Lab (Module 1 only) */}
         {showLab && (
           <section>
-            <SectionHeader id="lab" number={module.inspectionSteps ? 3 : 2} title="Interactive 3D Equipment Lab" />
+            <SectionHeader
+              id="lab"
+              number={module.inspectionSteps ? 3 : 2}
+              title="Interactive 3D Equipment Lab"
+            />
             <p className="text-slate-600 mb-4">
-              Click directly on any part of the condenser unit to identify it. Drag to rotate, scroll to zoom.
+              Click directly on any part of the condenser unit to identify it. Drag to rotate,
+              scroll to zoom.
             </p>
             <HVACLab onAllIdentified={() => setLabComplete(true)} />
             {labComplete && (
@@ -191,27 +225,41 @@ export default function ModulePage({ module, quiz, totalModules, showLab = false
           >
             Take the Quiz
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M19 14l-7 7m0 0l-7-7m7 7V3"
+              />
             </svg>
           </button>
         </div>
 
         {/* Quiz */}
         <section>
-          <SectionHeader id="quiz" number={showLab ? 4 : (module.inspectionSteps ? 3 : 2)} title="Knowledge Check" />
+          <SectionHeader
+            id="quiz"
+            number={showLab ? 4 : module.inspectionSteps ? 3 : 2}
+            title="Knowledge Check"
+          />
           <p className="text-slate-600 mb-6">
-            Answer all {quiz.length} questions. You need at least {Math.ceil(quiz.length * 0.7)} correct to pass.
+            Answer all {quiz.length} questions. You need at least {Math.ceil(quiz.length * 0.7)}{' '}
+            correct to pass.
           </p>
           <div className="space-y-6">
             {quiz.map((q, qIdx) => {
-              const selected = quizAnswers[qIdx]
-              const isCorrect = selected === q.answer
-              const showResult = quizSubmitted
+              const selected = quizAnswers[qIdx];
+              const isCorrect = selected === q.answer;
+              const showResult = quizSubmitted;
               return (
                 <div
                   key={qIdx}
                   className={`rounded-xl border shadow-sm overflow-hidden ${
-                    showResult ? (isCorrect ? 'border-green-300 bg-green-50' : 'border-red-300 bg-red-50') : 'bg-white'
+                    showResult
+                      ? isCorrect
+                        ? 'border-green-300 bg-green-50'
+                        : 'border-red-300 bg-red-50'
+                      : 'bg-white'
                   }`}
                 >
                   <div className="px-5 py-4">
@@ -223,12 +271,14 @@ export default function ModulePage({ module, quiz, totalModules, showLab = false
                     </div>
                     <div className="mt-3 ml-10 space-y-2">
                       {q.options.map((opt, optIdx) => {
-                        const isSelected = selected === opt
-                        const isAnswer = q.answer === opt
-                        let optClass = 'border-slate-200 bg-white hover:bg-slate-50'
-                        if (isSelected && !showResult) optClass = 'border-brand-blue-500 bg-brand-blue-50'
-                        if (showResult && isAnswer) optClass = 'border-green-500 bg-green-50'
-                        if (showResult && isSelected && !isAnswer) optClass = 'border-red-400 bg-red-50'
+                        const isSelected = selected === opt;
+                        const isAnswer = q.answer === opt;
+                        let optClass = 'border-slate-200 bg-white hover:bg-slate-50';
+                        if (isSelected && !showResult)
+                          optClass = 'border-brand-blue-500 bg-brand-blue-50';
+                        if (showResult && isAnswer) optClass = 'border-green-500 bg-green-50';
+                        if (showResult && isSelected && !isAnswer)
+                          optClass = 'border-red-400 bg-red-50';
                         return (
                           <button
                             key={optIdx}
@@ -244,18 +294,20 @@ export default function ModulePage({ module, quiz, totalModules, showLab = false
                             </span>
                             <span className="text-slate-800">{opt}</span>
                             {showResult && isAnswer && (
-                              <span className="ml-2 text-green-600 font-semibold">&#10003; Correct</span>
+                              <span className="ml-2 text-green-600 font-semibold">
+                                &#10003; Correct
+                              </span>
                             )}
                             {showResult && isSelected && !isAnswer && (
                               <span className="ml-2 text-red-600 font-semibold">&#10007;</span>
                             )}
                           </button>
-                        )
+                        );
                       })}
                     </div>
                   </div>
                 </div>
-              )
+              );
             })}
           </div>
 
@@ -275,19 +327,29 @@ export default function ModulePage({ module, quiz, totalModules, showLab = false
           )}
 
           {quizSubmitted && (
-            <div className={`mt-6 rounded-xl border-2 p-5 text-center ${quizPassed ? 'border-green-300 bg-green-50' : 'border-red-300 bg-red-50'}`}>
+            <div
+              className={`mt-6 rounded-xl border-2 p-5 text-center ${quizPassed ? 'border-green-300 bg-green-50' : 'border-red-300 bg-red-50'}`}
+            >
               <div className="text-3xl mb-2">{quizPassed ? '\u2713' : '\u2717'}</div>
-              <div className={`font-bold text-lg ${quizPassed ? 'text-green-800' : 'text-red-800'}`}>
+              <div
+                className={`font-bold text-lg ${quizPassed ? 'text-green-800' : 'text-red-800'}`}
+              >
                 {quizPassed ? 'Quiz Passed!' : 'Quiz Not Passed'}
               </div>
               <p className={`text-sm mt-1 ${quizPassed ? 'text-green-700' : 'text-red-700'}`}>
                 You scored {quizScore} out of {quiz.length}.
-                {quizPassed ? '' : ` You need at least ${Math.ceil(quiz.length * 0.7)} correct. Review and try again.`}
+                {quizPassed
+                  ? ''
+                  : ` You need at least ${Math.ceil(quiz.length * 0.7)} correct. Review and try again.`}
               </p>
               {!quizPassed && (
                 <button
                   type="button"
-                  onClick={() => { setQuizSubmitted(false); setQuizAnswers({}); scrollTo('quiz'); }}
+                  onClick={() => {
+                    setQuizSubmitted(false);
+                    setQuizAnswers({});
+                    scrollTo('quiz');
+                  }}
                   className="mt-4 px-6 py-2 rounded-lg bg-brand-blue-600 hover:bg-brand-blue-700 text-white font-semibold transition"
                 >
                   Retry Quiz
@@ -329,5 +391,5 @@ export default function ModulePage({ module, quiz, totalModules, showLab = false
         )}
       </div>
     </div>
-  )
+  );
 }

@@ -25,7 +25,7 @@ const BATCH_SIZE = 25;
 
 type RowMapper = (
   payload: Record<string, unknown>,
-  tenantId: string | null
+  tenantId: string | null,
 ) => { table: string; record: Record<string, unknown> };
 
 const ROUTE_MAP: Record<string, RowMapper> = {
@@ -289,17 +289,17 @@ serve(async (req: Request) => {
     .limit(BATCH_SIZE);
 
   if (fetchErr) {
-    return new Response(
-      JSON.stringify({ error: 'Fetch failed', detail: fetchErr.message }),
-      { status: 500, headers: { 'Content-Type': 'application/json' } }
-    );
+    return new Response(JSON.stringify({ error: 'Fetch failed', detail: fetchErr.message }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' },
+    });
   }
 
   if (!rows || rows.length === 0) {
-    return new Response(
-      JSON.stringify({ message: 'No pending intake rows', processed: 0 }),
-      { status: 200, headers: { 'Content-Type': 'application/json' } }
-    );
+    return new Response(JSON.stringify({ message: 'No pending intake rows', processed: 0 }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    });
   }
 
   const results: ProcessResult[] = [];
@@ -312,10 +312,10 @@ serve(async (req: Request) => {
   const succeeded = results.filter((r) => r.ok).length;
   const failed = results.filter((r) => !r.ok).length;
 
-  return new Response(
-    JSON.stringify({ processed: results.length, succeeded, failed, results }),
-    { status: 200, headers: { 'Content-Type': 'application/json' } }
-  );
+  return new Response(JSON.stringify({ processed: results.length, succeeded, failed, results }), {
+    status: 200,
+    headers: { 'Content-Type': 'application/json' },
+  });
 });
 
 // ── Row processor ──────────────────────────────────────────────
@@ -408,8 +408,16 @@ async function processCareer(db: SupabaseClient, row: IntakeRow): Promise<Proces
 
     // 2. Advance with personal data if available
     const personalFields = [
-      'date_of_birth', 'address', 'city', 'state', 'zip_code',
-      'high_school', 'graduation_year', 'gpa', 'college', 'major',
+      'date_of_birth',
+      'address',
+      'city',
+      'state',
+      'zip_code',
+      'high_school',
+      'graduation_year',
+      'gpa',
+      'college',
+      'major',
     ];
     const personalData: Record<string, unknown> = {};
     for (const f of personalFields) {

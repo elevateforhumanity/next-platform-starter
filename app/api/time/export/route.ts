@@ -1,5 +1,3 @@
-
-
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { toErrorMessage } from '@/lib/safe';
@@ -24,8 +22,7 @@ async function _GET(req: Request) {
     data: { user },
     error: authErr,
   } = await supabase.auth.getUser();
-  if (authErr || !user)
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  if (authErr || !user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   const { searchParams } = new URL(req.url);
   const status = searchParams.get('status') ?? 'SUBMITTED';
@@ -66,21 +63,21 @@ async function _GET(req: Request) {
       entered_at,
       approved_by,
       approved_at
-    `
+    `,
     )
     .eq('status', status.toLowerCase())
     .order('work_date', { ascending: false });
 
   if (hour_type) {
-    const mapped = hour_type === 'RTI' ? 'rti' : hour_type === 'OJT' ? 'ojt' : hour_type.toLowerCase();
+    const mapped =
+      hour_type === 'RTI' ? 'rti' : hour_type === 'OJT' ? 'ojt' : hour_type.toLowerCase();
     q = q.eq('source_type', mapped);
   }
   if (from) q = q.gte('work_date', from);
   if (to) q = q.lte('work_date', to);
 
   const { data, error } = await q;
-  if (error)
-    return NextResponse.json({ error: toErrorMessage(error) }, { status: 500 });
+  if (error) return NextResponse.json({ error: toErrorMessage(error) }, { status: 500 });
 
   const rows = data ?? [];
 
@@ -124,7 +121,7 @@ async function _GET(req: Request) {
         r.approved_by ?? '',
       ]
         .map(csvEscape)
-        .join(',')
+        .join(','),
     ),
   ];
 

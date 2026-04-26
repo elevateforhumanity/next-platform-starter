@@ -57,11 +57,11 @@ export type PipelineResult = {
  */
 function inferLessonType(slug: string): CourseLesson['type'] {
   if (slug.endsWith('-checkpoint')) return 'checkpoint';
-  if (slug.endsWith('-exam'))       return 'exam';
-  if (slug.endsWith('-quiz'))       return 'quiz';
-  if (slug.endsWith('-lab'))        return 'lab';
+  if (slug.endsWith('-exam')) return 'exam';
+  if (slug.endsWith('-quiz')) return 'quiz';
+  if (slug.endsWith('-lab')) return 'lab';
   if (slug.endsWith('-assignment')) return 'assignment';
-  if (slug.endsWith('-cert'))       return 'certification';
+  if (slug.endsWith('-cert')) return 'certification';
   return 'lesson';
 }
 
@@ -74,11 +74,11 @@ function normalizeCompetencyChecks(lesson: CourseLesson): CourseLesson {
   if (!lesson.competencyChecks?.length) return lesson;
   return {
     ...lesson,
-    competencyChecks: lesson.competencyChecks.map(check => {
+    competencyChecks: lesson.competencyChecks.map((check) => {
       const def = getCompetencyDefinition(check.key);
       return {
         ...check,
-        label:     check.label     ?? def?.label     ?? check.key,
+        label: check.label ?? def?.label ?? check.key,
         isCritical: check.isCritical ?? def?.isCritical ?? false,
       };
     }),
@@ -94,7 +94,7 @@ export function normalizeTemplate(template: CourseTemplate): CourseTemplate {
       lessons: mod.lessons.map((lesson, li) => {
         const normalized: CourseLesson = {
           ...lesson,
-          type:  lesson.type ?? inferLessonType(lesson.slug),
+          type: lesson.type ?? inferLessonType(lesson.slug),
           order: lesson.order ?? li + 1,
         };
         return normalizeCompetencyChecks(normalized);
@@ -116,13 +116,16 @@ async function persistCourse(
   const errors: string[] = [];
 
   // Upsert the courses row
-  const { error: courseErr } = await db.from('courses').upsert({
-    id:          courseId,
-    slug:        template.courseSlug,
-    title:       template.title,
-    description: template.description ?? null,
-    updated_at:  new Date().toISOString(),
-  }, { onConflict: 'id' });
+  const { error: courseErr } = await db.from('courses').upsert(
+    {
+      id: courseId,
+      slug: template.courseSlug,
+      title: template.title,
+      description: template.description ?? null,
+      updated_at: new Date().toISOString(),
+    },
+    { onConflict: 'id' },
+  );
   if (courseErr) {
     errors.push(`courses upsert failed: ${courseErr.message}`);
     return { written, skipped, errors };
@@ -148,13 +151,16 @@ async function persistCourse(
     // Upsert module
     const { data: moduleRow, error: modErr } = await db
       .from('course_modules')
-      .upsert({
-        course_id:   courseId,
-        slug:        mod.slug,
-        title:       mod.title,
-        order_index: mod.order,
-        updated_at:  new Date().toISOString(),
-      }, { onConflict: 'course_id,slug' })
+      .upsert(
+        {
+          course_id: courseId,
+          slug: mod.slug,
+          title: mod.title,
+          order_index: mod.order,
+          updated_at: new Date().toISOString(),
+        },
+        { onConflict: 'course_id,slug' },
+      )
       .select('id')
       .maybeSingle();
 
@@ -169,25 +175,28 @@ async function persistCourse(
         continue;
       }
 
-      const { error: lessonErr } = await db.from('course_lessons').upsert({
-        course_id:           courseId,
-        course_module_id:    moduleRow.id,
-        slug:                lesson.slug,
-        title:               lesson.title,
-        lesson_type:         lesson.type,
-        order_index:         lesson.order,
-        learning_objectives: lesson.learningObjectives,
-        content:             lesson.content ?? null,
-        video_url:           lesson.videoUrl ?? null,
-        quiz_questions:      lesson.quizQuestions ?? null,
-        passing_score:       lesson.passingScore ?? null,
-        practical_required:  lesson.practicalRequired ?? false,
-        competency_checks:   lesson.competencyChecks ?? null,
-        instructor_notes:    lesson.instructorNotes ?? null,
-        duration_minutes:    lesson.durationMinutes ?? null,
-        partner_exam_code:   lesson.partnerExamCode ?? null,
-        updated_at:          new Date().toISOString(),
-      }, { onConflict: 'course_id,slug' });
+      const { error: lessonErr } = await db.from('course_lessons').upsert(
+        {
+          course_id: courseId,
+          course_module_id: moduleRow.id,
+          slug: lesson.slug,
+          title: lesson.title,
+          lesson_type: lesson.type,
+          order_index: lesson.order,
+          learning_objectives: lesson.learningObjectives,
+          content: lesson.content ?? null,
+          video_url: lesson.videoUrl ?? null,
+          quiz_questions: lesson.quizQuestions ?? null,
+          passing_score: lesson.passingScore ?? null,
+          practical_required: lesson.practicalRequired ?? false,
+          competency_checks: lesson.competencyChecks ?? null,
+          instructor_notes: lesson.instructorNotes ?? null,
+          duration_minutes: lesson.durationMinutes ?? null,
+          partner_exam_code: lesson.partnerExamCode ?? null,
+          updated_at: new Date().toISOString(),
+        },
+        { onConflict: 'course_id,slug' },
+      );
 
       if (lessonErr) {
         errors.push(`lesson '${lesson.slug}' upsert failed: ${lessonErr.message}`);
@@ -222,14 +231,16 @@ export async function runCoursePublishPipeline(opts: PipelineOptions): Promise<P
       validation,
       lessonsWritten: 0,
       lessonsSkipped: 0,
-      errors: validation.errors.map(e => `${e.moduleSlug}/${e.lessonSlug} [${e.field}]: ${e.message}`),
+      errors: validation.errors.map(
+        (e) => `${e.moduleSlug}/${e.lessonSlug} [${e.field}]: ${e.message}`,
+      ),
     };
   }
 
   if (validation.warnings.length > 0) {
     logger.warn('[course-builder] Validation warnings', {
       courseSlug: template.courseSlug,
-      warnings: validation.warnings.map(w => `${w.lessonSlug} [${w.field}]: ${w.message}`),
+      warnings: validation.warnings.map((w) => `${w.lessonSlug} [${w.field}]: ${w.message}`),
     });
   }
 
@@ -249,7 +260,9 @@ export async function runCoursePublishPipeline(opts: PipelineOptions): Promise<P
       validation,
       lessonsWritten: 0,
       lessonsSkipped: 0,
-      errors: [`programSlug '${template.programSlug}' not registered — add via POST /api/admin/course-builder/program-map`],
+      errors: [
+        `programSlug '${template.programSlug}' not registered — add via POST /api/admin/course-builder/program-map`,
+      ],
     };
   }
 
@@ -270,11 +283,18 @@ export async function runCoursePublishPipeline(opts: PipelineOptions): Promise<P
   }
 
   // Step 5: Persist
-  const { written, skipped, errors: persistErrors } = await persistCourse(template, courseId, db, mode);
+  const {
+    written,
+    skipped,
+    errors: persistErrors,
+  } = await persistCourse(template, courseId, db, mode);
 
   const success = persistErrors.length === 0;
   if (!success) {
-    logger.error('[course-builder] Persistence errors', { courseSlug: template.courseSlug, errors: persistErrors });
+    logger.error('[course-builder] Persistence errors', {
+      courseSlug: template.courseSlug,
+      errors: persistErrors,
+    });
   } else {
     logger.info('[course-builder] Course published', {
       courseSlug: template.courseSlug,

@@ -12,7 +12,13 @@ interface Props {
   userName: string;
 }
 
-export default function EnrollmentForm({ courseId, courseName, price, userEmail, userName }: Props) {
+export default function EnrollmentForm({
+  courseId,
+  courseName,
+  price,
+  userEmail,
+  userName,
+}: Props) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -99,10 +105,14 @@ export default function EnrollmentForm({ courseId, courseName, price, userEmail,
         />
         <span className="text-sm text-slate-600">
           I agree to the{' '}
-          <a href="/terms-of-service" className="text-brand-blue-600 hover:underline">Terms of Service</a>
-          {' '}and{' '}
-          <a href="/privacy-policy" className="text-brand-blue-600 hover:underline">Privacy Policy</a>.
-          I understand that I will have access to this course upon enrollment.
+          <a href="/terms-of-service" className="text-brand-blue-600 hover:underline">
+            Terms of Service
+          </a>{' '}
+          and{' '}
+          <a href="/privacy-policy" className="text-brand-blue-600 hover:underline">
+            Privacy Policy
+          </a>
+          . I understand that I will have access to this course upon enrollment.
         </span>
       </label>
 
@@ -126,7 +136,6 @@ export default function EnrollmentForm({ courseId, courseName, price, userEmail,
           </>
         ) : isFree ? (
           <>Enroll Now — Free</>
-        
         ) : (
           <>
             <CreditCard className="w-5 h-5" />
@@ -145,7 +154,8 @@ export default function EnrollmentForm({ courseId, courseName, price, userEmail,
       {/* Free Course Note */}
       {isFree && (
         <p className="text-center text-sm text-slate-500">
-          This course is funded through workforce grants. No payment required for eligible participants.
+          This course is funded through workforce grants. No payment required for eligible
+          participants.
         </p>
       )}
     </div>

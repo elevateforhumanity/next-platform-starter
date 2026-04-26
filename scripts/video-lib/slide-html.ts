@@ -8,7 +8,11 @@ const W = 1920;
 const H = 1080;
 
 export function esc(s: string): string {
-  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  return s
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
 }
 
 function base(): string {
@@ -67,14 +71,20 @@ export function titleSlideHTML(title: string, subtitle: string, bg64: string): s
 
 // ─── OBJECTIVE SLIDE — "In this lesson you will learn..." ───────
 
-export function objectiveSlideHTML(lessonTitle: string, objectives: string[], delays: number[]): string {
-  const items = objectives.map((o, i) => {
-    const d = delays[i] ?? (1.2 + i * 1.8);
-    return `<div class="obj" style="animation-delay:${d.toFixed(2)}s">
+export function objectiveSlideHTML(
+  lessonTitle: string,
+  objectives: string[],
+  delays: number[],
+): string {
+  const items = objectives
+    .map((o, i) => {
+      const d = delays[i] ?? 1.2 + i * 1.8;
+      return `<div class="obj" style="animation-delay:${d.toFixed(2)}s">
       <div class="bullet" style="animation-delay:${d.toFixed(2)}s">&#9679;</div>
       <div class="tx">${esc(o)}</div>
     </div>`;
-  }).join('');
+    })
+    .join('');
 
   return `<!DOCTYPE html><html><head><style>${base()}
     body { background: #0f172a; }
@@ -132,14 +142,21 @@ export function sectionSlideHTML(num: string, title: string, bg64: string): stri
 
 // ─── BULLETS SLIDE ──────────────────────────────────────────────
 
-export function bulletsSlideHTML(heading: string, bullets: string[], bg64: string, delays: number[]): string {
-  const items = bullets.map((b, i) => {
-    const d = delays[i] ?? (1.0 + i * 1.5);
-    return `<div class="b" style="animation-delay:${d.toFixed(2)}s">
+export function bulletsSlideHTML(
+  heading: string,
+  bullets: string[],
+  bg64: string,
+  delays: number[],
+): string {
+  const items = bullets
+    .map((b, i) => {
+      const d = delays[i] ?? 1.0 + i * 1.5;
+      return `<div class="b" style="animation-delay:${d.toFixed(2)}s">
       <div class="ic" style="animation-delay:${d.toFixed(2)}s">${i + 1}</div>
       <div class="tx">${esc(b)}</div>
     </div>`;
-  }).join('');
+    })
+    .join('');
 
   return `<!DOCTYPE html><html><head><style>${base()}
     .dim { background: rgba(0,0,0,0.4); }
@@ -169,14 +186,16 @@ export function bulletsSlideHTML(heading: string, bullets: string[], bg64: strin
 // ─── DEMO SLIDE — photo with labeled callouts ───────────────────
 
 export function demoSlideHTML(photo64: string, callouts: string[], delays: number[]): string {
-  const items = callouts.map((c, i) => {
-    const d = delays[i] ?? (1.0 + i * 2.0);
-    const top = 110 + i * 90;
-    return `<div class="co" style="top:${top}px; animation-delay:${d.toFixed(2)}s">
+  const items = callouts
+    .map((c, i) => {
+      const d = delays[i] ?? 1.0 + i * 2.0;
+      const top = 110 + i * 90;
+      return `<div class="co" style="top:${top}px; animation-delay:${d.toFixed(2)}s">
       <div class="num" style="animation-delay:${d.toFixed(2)}s">${i + 1}</div>
       <div class="label">${esc(c)}</div>
     </div>`;
-  }).join('');
+    })
+    .join('');
 
   return `<!DOCTYPE html><html><head><style>${base()}
     .dim { background: rgba(0,0,0,0.2); }
@@ -221,11 +240,19 @@ export function diagramSlideHTML(caption: string, diag64: string): string {
 
 // ─── SPLIT SLIDE — bullets left, diagram right ──────────────────
 
-export function splitSlideHTML(heading: string, bullets: string[], diag64: string, bg64: string, delays: number[]): string {
-  const items = bullets.map((b, i) => {
-    const d = delays[i] ?? (1.0 + i * 1.5);
-    return `<div class="it" style="animation-delay:${d.toFixed(2)}s"><div class="dot" style="animation-delay:${d.toFixed(2)}s"></div><div class="tx">${esc(b)}</div></div>`;
-  }).join('');
+export function splitSlideHTML(
+  heading: string,
+  bullets: string[],
+  diag64: string,
+  bg64: string,
+  delays: number[],
+): string {
+  const items = bullets
+    .map((b, i) => {
+      const d = delays[i] ?? 1.0 + i * 1.5;
+      return `<div class="it" style="animation-delay:${d.toFixed(2)}s"><div class="dot" style="animation-delay:${d.toFixed(2)}s"></div><div class="tx">${esc(b)}</div></div>`;
+    })
+    .join('');
 
   return `<!DOCTYPE html><html><head><style>${base()}
     .dim { background: linear-gradient(90deg, rgba(0,0,0,0.5) 46%, rgba(0,0,0,0.15) 100%); }
@@ -256,13 +283,15 @@ export function splitSlideHTML(heading: string, bullets: string[], diag64: strin
 // ─── SUMMARY SLIDE ──────────────────────────────────────────────
 
 export function summarySlideHTML(takeaways: string[], bg64: string, delays: number[]): string {
-  const items = takeaways.map((t, i) => {
-    const d = delays[i] ?? (1.0 + i * 1.5);
-    return `<div class="it" style="animation-delay:${d.toFixed(2)}s">
+  const items = takeaways
+    .map((t, i) => {
+      const d = delays[i] ?? 1.0 + i * 1.5;
+      return `<div class="it" style="animation-delay:${d.toFixed(2)}s">
       <div class="chk" style="animation-delay:${(d + 0.1).toFixed(2)}s">&#10003;</div>
       <div class="tx">${esc(t)}</div>
     </div>`;
-  }).join('');
+    })
+    .join('');
 
   return `<!DOCTYPE html><html><head><style>${base()}
     .dim { background: rgba(0,0,0,0.35); }
@@ -291,25 +320,32 @@ export function summarySlideHTML(takeaways: string[], bg64: string, delays: numb
 
 // ─── QUIZ SLIDE — knowledge check questions ─────────────────────
 
-export function quizSlideHTML(questions: { question: string; options: string[]; answer: number }[], delays: number[]): string {
-  const items = questions.map((q, i) => {
-    const d = delays[i] ?? (1.0 + i * 4.0);
-    const opts = q.options.map((o, j) => {
-      const letter = String.fromCharCode(65 + j); // A, B, C, D
-      return `<div class="opt">
+export function quizSlideHTML(
+  questions: { question: string; options: string[]; answer: number }[],
+  delays: number[],
+): string {
+  const items = questions
+    .map((q, i) => {
+      const d = delays[i] ?? 1.0 + i * 4.0;
+      const opts = q.options
+        .map((o, j) => {
+          const letter = String.fromCharCode(65 + j); // A, B, C, D
+          return `<div class="opt">
         <span class="letter">${letter}</span>
         <span class="otx">${esc(o)}</span>
       </div>`;
-    }).join('');
+        })
+        .join('');
 
-    return `<div class="q" style="animation-delay:${d.toFixed(2)}s">
+      return `<div class="q" style="animation-delay:${d.toFixed(2)}s">
       <div class="qnum">${i + 1}</div>
       <div class="qbody">
         <div class="qtx">${esc(q.question)}</div>
         <div class="opts">${opts}</div>
       </div>
     </div>`;
-  }).join('');
+    })
+    .join('');
 
   return `<!DOCTYPE html><html><head><style>${base()}
     body { background: #0f172a; }
@@ -348,24 +384,28 @@ export function quizSlideHTML(questions: { question: string; options: string[]; 
 export function flowchartSlideHTML(
   title: string,
   nodes: { label: string; description: string; bullets?: string[] }[],
-  delays: number[]
+  delays: number[],
 ): string {
-  const items = nodes.map((n, i) => {
-    const d = delays[i] ?? (2.0 + i * 5.0);
+  const items = nodes
+    .map((n, i) => {
+      const d = delays[i] ?? 2.0 + i * 5.0;
 
-    const subs = (n.bullets || []).map((b, bi) => {
-      const subDelay = d + 0.8 + bi * 0.6;
-      return `<div class="sub-bullet" style="animation-delay:${subDelay.toFixed(2)}s">
+      const subs = (n.bullets || [])
+        .map((b, bi) => {
+          const subDelay = d + 0.8 + bi * 0.6;
+          return `<div class="sub-bullet" style="animation-delay:${subDelay.toFixed(2)}s">
         <span class="sub-dot">&#8226;</span>
         <span class="sub-tx">${esc(b)}</span>
       </div>`;
-    }).join('');
+        })
+        .join('');
 
-    const arrow = i < nodes.length - 1
-      ? `<div class="arrow" style="animation-delay:${(d + 1.5).toFixed(2)}s">&#9660;</div>`
-      : '';
+      const arrow =
+        i < nodes.length - 1
+          ? `<div class="arrow" style="animation-delay:${(d + 1.5).toFixed(2)}s">&#9660;</div>`
+          : '';
 
-    return `<div class="node" style="animation-delay:${d.toFixed(2)}s">
+      return `<div class="node" style="animation-delay:${d.toFixed(2)}s">
       <div class="node-num">${i + 1}</div>
       <div class="node-body">
         <div class="node-label">${esc(n.label)}</div>
@@ -373,7 +413,8 @@ export function flowchartSlideHTML(
         ${subs ? `<div class="subs">${subs}</div>` : ''}
       </div>
     </div>${arrow}`;
-  }).join('');
+    })
+    .join('');
 
   return `<!DOCTYPE html><html><head><style>${base()}
     body { background: #0f172a; }

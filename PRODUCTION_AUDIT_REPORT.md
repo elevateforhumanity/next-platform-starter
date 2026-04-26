@@ -2,21 +2,21 @@
 
 **Date:** 2026-02-01  
 **Stack:** Next.js (App Router) + Supabase  
-**Standard:** Government / Workforce / Licensing-grade system  
+**Standard:** Government / Workforce / Licensing-grade system
 
 ---
 
 ## EXECUTIVE SUMMARY
 
-| Metric | Count | Status |
-|--------|-------|--------|
-| Total Pages | 1,478 | — |
-| Pages WITH Database Connection | 735 (50%) | ⚠️ |
+| Metric                            | Count     | Status      |
+| --------------------------------- | --------- | ----------- |
+| Total Pages                       | 1,478     | —           |
+| Pages WITH Database Connection    | 735 (50%) | ⚠️          |
 | Pages WITHOUT Database Connection | 743 (50%) | ❌ CRITICAL |
-| Admin Pages | 270 | — |
-| Admin Pages Without DB | ~60 | ❌ BROKEN |
-| Core Tables Defined | 75+ | — |
-| Core Tables Actually Used | ~40 | ⚠️ |
+| Admin Pages                       | 270       | —           |
+| Admin Pages Without DB            | ~60       | ❌ BROKEN   |
+| Core Tables Defined               | 75+       | —           |
+| Core Tables Actually Used         | ~40       | ⚠️          |
 
 **VERDICT: NOT PRODUCTION READY**
 
@@ -26,85 +26,85 @@
 
 ### 1.1 Marketing (Public) — 85 pages
 
-| Route | Purpose | DB Connected | Status |
-|-------|---------|--------------|--------|
-| `/` | Homepage | ❌ | PARTIAL - CTAs not wired |
-| `/about` | About page | ❌ | STATIC |
-| `/about/mission` | Mission | ❌ | STATIC |
-| `/about/team` | Team | ❌ | STATIC |
-| `/about/partners` | Partners | ❌ | STATIC |
-| `/programs` | Programs index | ✅ | PARTIAL - some hardcoded |
-| `/programs/barber` | Barber program | ✅ | PARTIAL |
-| `/programs/hvac` | HVAC program | ✅ | PARTIAL |
-| `/contact` | Contact form | ⚠️ | NEEDS VERIFICATION |
-| `/privacy` | Privacy policy | ❌ | STATIC (OK) |
-| `/terms` | Terms | ❌ | STATIC (OK) |
+| Route              | Purpose        | DB Connected | Status                   |
+| ------------------ | -------------- | ------------ | ------------------------ |
+| `/`                | Homepage       | ❌           | PARTIAL - CTAs not wired |
+| `/about`           | About page     | ❌           | STATIC                   |
+| `/about/mission`   | Mission        | ❌           | STATIC                   |
+| `/about/team`      | Team           | ❌           | STATIC                   |
+| `/about/partners`  | Partners       | ❌           | STATIC                   |
+| `/programs`        | Programs index | ✅           | PARTIAL - some hardcoded |
+| `/programs/barber` | Barber program | ✅           | PARTIAL                  |
+| `/programs/hvac`   | HVAC program   | ✅           | PARTIAL                  |
+| `/contact`         | Contact form   | ⚠️           | NEEDS VERIFICATION       |
+| `/privacy`         | Privacy policy | ❌           | STATIC (OK)              |
+| `/terms`           | Terms          | ❌           | STATIC (OK)              |
 
 ### 1.2 Admin Portal — 270 pages
 
-| Route | Purpose | DB Connected | CRUD Status |
-|-------|---------|--------------|-------------|
-| `/admin/dashboard` | Main dashboard | ✅ | READ only |
-| `/admin/users` | User management | ✅ | ✅ COMPLETE |
-| `/admin/enrollments` | Enrollment mgmt | ✅ | ✅ COMPLETE |
-| `/admin/courses` | Course list | ✅ | READ only |
-| `/admin/course-builder` | Course CRUD | ✅ | ✅ COMPLETE |
-| `/admin/programs` | Programs | ✅ | READ only ❌ |
-| `/admin/applications` | Applications | ✅ | READ only ❌ |
-| `/admin/students` | Students | ✅ | READ only ❌ |
-| `/admin/compliance` | Compliance | ✅ | READ only |
-| `/admin/grants` | Grants | ✅ | READ only |
-| `/admin/hr` | HR | ✅ | READ only |
-| `/admin/crm` | CRM | ✅ | READ only |
-| `/admin/audit-logs` | Audit logs | ❌ | BROKEN |
-| `/admin/data-import` | Data import | ❌ | BROKEN |
-| `/admin/course-generator` | AI generator | ❌ | BROKEN |
+| Route                     | Purpose         | DB Connected | CRUD Status  |
+| ------------------------- | --------------- | ------------ | ------------ |
+| `/admin/dashboard`        | Main dashboard  | ✅           | READ only    |
+| `/admin/users`            | User management | ✅           | ✅ COMPLETE  |
+| `/admin/enrollments`      | Enrollment mgmt | ✅           | ✅ COMPLETE  |
+| `/admin/courses`          | Course list     | ✅           | READ only    |
+| `/admin/course-builder`   | Course CRUD     | ✅           | ✅ COMPLETE  |
+| `/admin/programs`         | Programs        | ✅           | READ only ❌ |
+| `/admin/applications`     | Applications    | ✅           | READ only ❌ |
+| `/admin/students`         | Students        | ✅           | READ only ❌ |
+| `/admin/compliance`       | Compliance      | ✅           | READ only    |
+| `/admin/grants`           | Grants          | ✅           | READ only    |
+| `/admin/hr`               | HR              | ✅           | READ only    |
+| `/admin/crm`              | CRM             | ✅           | READ only    |
+| `/admin/audit-logs`       | Audit logs      | ❌           | BROKEN       |
+| `/admin/data-import`      | Data import     | ❌           | BROKEN       |
+| `/admin/course-generator` | AI generator    | ❌           | BROKEN       |
 
 ### 1.3 LMS Portal — 79 pages
 
-| Route | Purpose | DB Connected | Status |
-|-------|---------|--------------|--------|
-| `/lms` | LMS dashboard | ✅ | COMPLETE |
-| `/lms/courses` | Course list | ✅ | COMPLETE |
-| `/lms/courses/[id]` | Course detail | ✅ | COMPLETE |
-| `/lms/courses/[id]/lessons/[id]` | Lesson view | ✅ | COMPLETE |
-| `/lms/profile` | User profile | ✅ | PARTIAL |
-| `/lms/chat` | Chat | ✅ | PARTIAL |
+| Route                            | Purpose       | DB Connected | Status   |
+| -------------------------------- | ------------- | ------------ | -------- |
+| `/lms`                           | LMS dashboard | ✅           | COMPLETE |
+| `/lms/courses`                   | Course list   | ✅           | COMPLETE |
+| `/lms/courses/[id]`              | Course detail | ✅           | COMPLETE |
+| `/lms/courses/[id]/lessons/[id]` | Lesson view   | ✅           | COMPLETE |
+| `/lms/profile`                   | User profile  | ✅           | PARTIAL  |
+| `/lms/chat`                      | Chat          | ✅           | PARTIAL  |
 
 ### 1.4 Student Portal — 29 pages
 
-| Route | Purpose | DB Connected | Status |
-|-------|---------|--------------|--------|
-| `/student/dashboard` | Dashboard | ✅ | COMPLETE |
-| `/student/profile` | Profile | ✅ | PARTIAL |
-| `/student/enrollments` | Enrollments | ✅ | READ only |
-| `/student/documents` | Documents | ✅ | PARTIAL |
-| `/student/certifications` | Certs | ✅ | READ only |
+| Route                     | Purpose     | DB Connected | Status    |
+| ------------------------- | ----------- | ------------ | --------- |
+| `/student/dashboard`      | Dashboard   | ✅           | COMPLETE  |
+| `/student/profile`        | Profile     | ✅           | PARTIAL   |
+| `/student/enrollments`    | Enrollments | ✅           | READ only |
+| `/student/documents`      | Documents   | ✅           | PARTIAL   |
+| `/student/certifications` | Certs       | ✅           | READ only |
 
 ### 1.5 Instructor Portal — 12 pages
 
-| Route | Purpose | DB Connected | Status |
-|-------|---------|--------------|--------|
-| `/instructor/dashboard` | Dashboard | ✅ | PARTIAL |
-| `/instructor/courses` | Courses | ✅ | READ only |
-| `/instructor/analytics` | Analytics | ✅ | PARTIAL |
+| Route                   | Purpose   | DB Connected | Status    |
+| ----------------------- | --------- | ------------ | --------- |
+| `/instructor/dashboard` | Dashboard | ✅           | PARTIAL   |
+| `/instructor/courses`   | Courses   | ✅           | READ only |
+| `/instructor/analytics` | Analytics | ✅           | PARTIAL   |
 
 ### 1.6 Partner Portal — 41 pages
 
-| Route | Purpose | DB Connected | Status |
-|-------|---------|--------------|--------|
-| `/partners/dashboard` | Dashboard | ✅ | PARTIAL |
-| `/partners/students` | Students | ✅ | READ only |
-| `/partners/attendance` | Attendance | ✅ | PARTIAL |
+| Route                  | Purpose    | DB Connected | Status    |
+| ---------------------- | ---------- | ------------ | --------- |
+| `/partners/dashboard`  | Dashboard  | ✅           | PARTIAL   |
+| `/partners/students`   | Students   | ✅           | READ only |
+| `/partners/attendance` | Attendance | ✅           | PARTIAL   |
 
 ### 1.7 Employer Portal — 40 pages
 
-| Route | Purpose | DB Connected | Status |
-|-------|---------|--------------|--------|
-| `/employer/dashboard` | Dashboard | ✅ | PARTIAL |
-| `/employer/placements` | Placements | ✅ | PARTIAL |
-| `/employer/post-job` | Job posting | ✅ | PARTIAL |
-| `/employer/analytics` | Analytics | ✅ | PARTIAL |
+| Route                  | Purpose     | DB Connected | Status  |
+| ---------------------- | ----------- | ------------ | ------- |
+| `/employer/dashboard`  | Dashboard   | ✅           | PARTIAL |
+| `/employer/placements` | Placements  | ✅           | PARTIAL |
+| `/employer/post-job`   | Job posting | ✅           | PARTIAL |
+| `/employer/analytics`  | Analytics   | ✅           | PARTIAL |
 
 ---
 
@@ -121,52 +121,52 @@ audit_logs, donations, employers, job_postings, etc.
 
 ### 2.2 Tables Actually Used in Code (Top 20)
 
-| Table | Usage Count | CRUD Status |
-|-------|-------------|-------------|
-| profiles | 701 | C:7 R:496 U:0 D:0 ❌ |
-| enrollments | 274 | C:6 R:169 U:2 D:1 ⚠️ |
-| programs | 107 | C:0 R:93 U:0 D:0 ❌ |
-| courses | 105 | C:2 R:98 U:3 D:0 ⚠️ |
-| documents | 52 | C:? R:? U:? D:? |
-| certificates | 45 | C:? R:? U:? D:? |
-| applications | 39 | C:3 R:27 U:0 D:1 ❌ |
-| lessons | 24 | C:✅ R:✅ U:✅ D:✅ ✅ |
-| lesson_progress | 20 | C:✅ R:✅ U:✅ D:✅ ✅ |
-| quizzes | 13 | C:✅ R:✅ U:✅ D:✅ ✅ |
+| Table           | Usage Count | CRUD Status            |
+| --------------- | ----------- | ---------------------- |
+| profiles        | 701         | C:7 R:496 U:0 D:0 ❌   |
+| enrollments     | 274         | C:6 R:169 U:2 D:1 ⚠️   |
+| programs        | 107         | C:0 R:93 U:0 D:0 ❌    |
+| courses         | 105         | C:2 R:98 U:3 D:0 ⚠️    |
+| documents       | 52          | C:? R:? U:? D:?        |
+| certificates    | 45          | C:? R:? U:? D:?        |
+| applications    | 39          | C:3 R:27 U:0 D:1 ❌    |
+| lessons         | 24          | C:✅ R:✅ U:✅ D:✅ ✅ |
+| lesson_progress | 20          | C:✅ R:✅ U:✅ D:✅ ✅ |
+| quizzes         | 13          | C:✅ R:✅ U:✅ D:✅ ✅ |
 
 ### 2.3 Missing Required Tables
 
-| Table | Purpose | Status |
-|-------|---------|--------|
-| intakes | Marketing lead capture | ❌ MISSING |
-| cohorts | Program delivery groups | ❌ MISSING |
-| cohort_instructors | Instructor assignments | ❌ MISSING |
-| apprentice_assignments | Site placements | ❌ MISSING |
-| attendance_hours | Time tracking | ⚠️ EXISTS but unused |
-| evaluations | Performance reviews | ❌ MISSING |
-| document_requirements | Required docs per program | ❌ MISSING |
-| funding_sources | Grant/funding tracking | ❌ MISSING |
-| program_funding_links | Program-funding mapping | ❌ MISSING |
+| Table                  | Purpose                   | Status               |
+| ---------------------- | ------------------------- | -------------------- |
+| intakes                | Marketing lead capture    | ❌ MISSING           |
+| cohorts                | Program delivery groups   | ❌ MISSING           |
+| cohort_instructors     | Instructor assignments    | ❌ MISSING           |
+| apprentice_assignments | Site placements           | ❌ MISSING           |
+| attendance_hours       | Time tracking             | ⚠️ EXISTS but unused |
+| evaluations            | Performance reviews       | ❌ MISSING           |
+| document_requirements  | Required docs per program | ❌ MISSING           |
+| funding_sources        | Grant/funding tracking    | ❌ MISSING           |
+| program_funding_links  | Program-funding mapping   | ❌ MISSING           |
 
 ---
 
 ## SECTION 3: CRUD COMPLETENESS MATRIX
 
-| Resource | Create | Read | Update | Delete | API Routes | Admin UI |
-|----------|--------|------|--------|--------|------------|----------|
-| courses | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| lessons | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| quizzes | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| quiz_questions | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| enrollments | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| profiles (users) | ⚠️ | ✅ | ✅ | ⚠️ | ⚠️ | ✅ |
-| programs | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ |
-| applications | ⚠️ | ✅ | ❌ | ❌ | ❌ | ❌ |
-| documents | ⚠️ | ✅ | ❌ | ❌ | ❌ | ❌ |
-| certificates | ⚠️ | ✅ | ❌ | ❌ | ❌ | ❌ |
-| partners | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ |
-| attendance_hours | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| audit_logs | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| Resource         | Create | Read | Update | Delete | API Routes | Admin UI |
+| ---------------- | ------ | ---- | ------ | ------ | ---------- | -------- |
+| courses          | ✅     | ✅   | ✅     | ✅     | ✅         | ✅       |
+| lessons          | ✅     | ✅   | ✅     | ✅     | ✅         | ✅       |
+| quizzes          | ✅     | ✅   | ✅     | ✅     | ✅         | ✅       |
+| quiz_questions   | ✅     | ✅   | ✅     | ✅     | ✅         | ✅       |
+| enrollments      | ✅     | ✅   | ✅     | ✅     | ✅         | ✅       |
+| profiles (users) | ⚠️     | ✅   | ✅     | ⚠️     | ⚠️         | ✅       |
+| programs         | ❌     | ✅   | ❌     | ❌     | ❌         | ❌       |
+| applications     | ⚠️     | ✅   | ❌     | ❌     | ❌         | ❌       |
+| documents        | ⚠️     | ✅   | ❌     | ❌     | ❌         | ❌       |
+| certificates     | ⚠️     | ✅   | ❌     | ❌     | ❌         | ❌       |
+| partners         | ❌     | ✅   | ❌     | ❌     | ❌         | ❌       |
+| attendance_hours | ❌     | ❌   | ❌     | ❌     | ❌         | ❌       |
+| audit_logs       | ❌     | ❌   | ❌     | ❌     | ❌         | ❌       |
 
 ---
 
@@ -182,16 +182,16 @@ audit_logs, donations, employers, job_postings, etc.
 ✅ lesson_progress  
 ✅ certificates  
 ✅ organizations  
-✅ organization_users  
+✅ organization_users
 
 ### 4.2 Security Concerns
 
-| Issue | Severity | Location |
-|-------|----------|----------|
-| Admin role check in UI only | HIGH | Multiple admin pages |
-| No audit logging for admin actions | HIGH | All admin CRUD |
-| Partner data isolation not verified | MEDIUM | Partner portal |
-| Soft delete not implemented | MEDIUM | Most delete operations |
+| Issue                               | Severity | Location               |
+| ----------------------------------- | -------- | ---------------------- |
+| Admin role check in UI only         | HIGH     | Multiple admin pages   |
+| No audit logging for admin actions  | HIGH     | All admin CRUD         |
+| Partner data isolation not verified | MEDIUM   | Partner portal         |
+| Soft delete not implemented         | MEDIUM   | Most delete operations |
 
 ---
 
@@ -199,18 +199,18 @@ audit_logs, donations, employers, job_postings, etc.
 
 ### 5.1 Hardcoded/Fake Content Found
 
-| Location | Issue |
-|----------|-------|
-| Homepage | Fake stats ("10k students") |
-| Programs index | Some hardcoded program cards |
-| Admin dashboard | Sample metrics |
-| Multiple pages | "Coming Soon" placeholders |
+| Location        | Issue                        |
+| --------------- | ---------------------------- |
+| Homepage        | Fake stats ("10k students")  |
+| Programs index  | Some hardcoded program cards |
+| Admin dashboard | Sample metrics               |
+| Multiple pages  | "Coming Soon" placeholders   |
 
 ### 5.2 Pages to REMOVE or COMPLETE
 
 ```
 /admin/audit-logs - No DB connection
-/admin/data-import - No DB connection  
+/admin/data-import - No DB connection
 /admin/course-generator - No DB connection
 /admin/autopilots - No DB connection
 /admin/compliance-dashboard - No DB connection

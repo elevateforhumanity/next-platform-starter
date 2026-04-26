@@ -23,8 +23,8 @@ let warnings = 0;
 function grep(patterns, paths, extensions) {
   // patterns can be a string or array of strings
   const patternList = Array.isArray(patterns) ? patterns : [patterns];
-  const includes = extensions.map(e => `--include='*.${e}'`).join(' ');
-  const patternFlags = patternList.map(p => `-e '${p}'`).join(' ');
+  const includes = extensions.map((e) => `--include='*.${e}'`).join(' ');
+  const patternFlags = patternList.map((p) => `-e '${p}'`).join(' ');
   const cmd = `grep -rni ${patternFlags} ${includes} ${paths}`;
   try {
     const result = execSync(cmd, { encoding: 'utf-8', cwd: process.cwd() });
@@ -57,30 +57,43 @@ const telInFunnel = grep('tel:', salesFunnelPaths, ['tsx', 'ts']);
 if (telInFunnel.length === 0) {
   pass('Rule 1 — No tel: links in store/pricing/platform pages');
 } else {
-  warn('Rule 1', 'tel: links found in sales funnel pages (should use self-service CTAs):', telInFunnel);
+  warn(
+    'Rule 1',
+    'tel: links found in sales funnel pages (should use self-service CTAs):',
+    telInFunnel,
+  );
 }
 
 // --- Rule 2: No "Schedule Demo" CTAs in store pages ---
-const scheduleDemoInStore = grep(['Schedule.*Demo', 'Schedule.*demo'], 'app/store', ['tsx'])
-  .filter(line => !line.includes('route.ts')); // Exclude API routes
+const scheduleDemoInStore = grep(['Schedule.*Demo', 'Schedule.*demo'], 'app/store', ['tsx']).filter(
+  (line) => !line.includes('route.ts'),
+); // Exclude API routes
 
 if (scheduleDemoInStore.length === 0) {
   pass('Rule 2 — No "Schedule Demo" CTAs in store pages');
 } else {
-  warn('Rule 2', '"Schedule Demo" CTAs found in store pages (should use trial/checkout CTAs):', scheduleDemoInStore);
+  warn(
+    'Rule 2',
+    '"Schedule Demo" CTAs found in store pages (should use trial/checkout CTAs):',
+    scheduleDemoInStore,
+  );
 }
 
 // --- Rule 3: No "Request Access" as CTA in sales funnel ---
 const requestAccessInFunnel = grep('Request Access', salesFunnelPaths, ['tsx'])
-  .filter(line => !line.includes('policy'))
-  .filter(line => !line.includes('security'))
-  .filter(line => !line.includes('legal'))
-  .filter(line => !line.includes('// '));
+  .filter((line) => !line.includes('policy'))
+  .filter((line) => !line.includes('security'))
+  .filter((line) => !line.includes('legal'))
+  .filter((line) => !line.includes('// '));
 
 if (requestAccessInFunnel.length === 0) {
   pass('Rule 3 — No "Request Access" CTAs in sales funnel pages');
 } else {
-  warn('Rule 3', '"Request Access" CTAs found in sales funnel (should use self-service CTAs):', requestAccessInFunnel);
+  warn(
+    'Rule 3',
+    '"Request Access" CTAs found in sales funnel (should use self-service CTAs):',
+    requestAccessInFunnel,
+  );
 }
 
 // --- Summary ---

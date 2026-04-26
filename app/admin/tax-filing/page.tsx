@@ -21,8 +21,6 @@ export default async function TaxFilingAdminPage() {
   await requireRole(['admin', 'super_admin']);
   const supabase = await createClient();
 
-
-
   // Fetch applications
   const { data: applications, error } = await supabase
     .from('tax_filing_applications')
@@ -40,14 +38,11 @@ export default async function TaxFilingAdminPage() {
   const stats = {
     total: applications?.length || 0,
     pending: applications?.filter((a) => a.status === 'pending').length || 0,
-    inProgress:
-      applications?.filter((a) => a.status === 'in_progress').length || 0,
+    inProgress: applications?.filter((a) => a.status === 'in_progress').length || 0,
     filed: applications?.filter((a) => a.status === 'filed').length || 0,
-    completed:
-      applications?.filter((a) => a.status === 'completed').length || 0,
+    completed: applications?.filter((a) => a.status === 'completed').length || 0,
     totalPreparers: preparers?.length || 0,
-    activePreparers:
-      preparers?.filter((p) => p.status === 'active').length || 0,
+    activePreparers: preparers?.filter((p) => p.status === 'active').length || 0,
     totalRevenue:
       applications
         ?.filter((a) => a.status === 'completed')
@@ -56,49 +51,33 @@ export default async function TaxFilingAdminPage() {
 
   return (
     <div className="p-6 max-w-7xl mx-auto">
-
       {/* Hero Image */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-black mb-2">
-          Tax Filing Management
-        </h1>
+        <h1 className="text-3xl font-bold text-black mb-2">Tax Filing Management</h1>
         <p className="text-black">
-          Manage tax return applications, preparers, and tax software
-          integration
+          Manage tax return applications, preparers, and tax software integration
         </p>
       </div>
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <div className="bg-white p-6 rounded-lg shadow-sm border border-slate-200">
-          <div className="text-sm font-medium text-black mb-1">
-            Total Returns
-          </div>
+          <div className="text-sm font-medium text-black mb-1">Total Returns</div>
           <div className="text-3xl font-bold text-black">{stats.total}</div>
         </div>
 
         <div className="bg-white p-6 rounded-lg shadow-sm border border-slate-200">
-          <div className="text-sm font-medium text-black mb-1">
-            Pending Assignment
-          </div>
-          <div className="text-3xl font-bold text-brand-orange-600">
-            {stats.pending}
-          </div>
+          <div className="text-sm font-medium text-black mb-1">Pending Assignment</div>
+          <div className="text-3xl font-bold text-brand-orange-600">{stats.pending}</div>
         </div>
 
         <div className="bg-white p-6 rounded-lg shadow-sm border border-slate-200">
-          <div className="text-sm font-medium text-black mb-1">
-            Active Preparers
-          </div>
-          <div className="text-3xl font-bold text-brand-green-600">
-            {stats.activePreparers}
-          </div>
+          <div className="text-sm font-medium text-black mb-1">Active Preparers</div>
+          <div className="text-3xl font-bold text-brand-green-600">{stats.activePreparers}</div>
         </div>
 
         <div className="bg-white p-6 rounded-lg shadow-sm border border-slate-200">
-          <div className="text-sm font-medium text-black mb-1">
-            Total Revenue
-          </div>
+          <div className="text-sm font-medium text-black mb-1">Total Revenue</div>
           <div className="text-3xl font-bold text-brand-blue-600">
             ${stats.totalRevenue.toLocaleString()}
           </div>
@@ -142,16 +121,10 @@ export default async function TaxFilingAdminPage() {
           <h2 className="text-lg font-semibold">Recent Tax Returns</h2>
         </div>
 
-        {error && (
-          <div className="p-6 text-brand-orange-600">
-            Error loading applications
-          </div>
-        )}
+        {error && <div className="p-6 text-brand-orange-600">Error loading applications</div>}
 
         {!error && applications && applications.length === 0 && (
-          <div className="p-12 text-center text-slate-500">
-            No tax filing applications yet
-          </div>
+          <div className="p-12 text-center text-slate-500">No tax filing applications yet</div>
         )}
 
         {!error && applications && applications.length > 0 && (
@@ -198,9 +171,7 @@ export default async function TaxFilingAdminPage() {
                       {app.preparer_id ? (
                         <span className="text-brand-green-600">Assigned</span>
                       ) : (
-                        <span className="text-brand-orange-600">
-                          Unassigned
-                        </span>
+                        <span className="text-brand-orange-600">Unassigned</span>
                       )}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
@@ -234,7 +205,10 @@ export default async function TaxFilingAdminPage() {
                         View
                       </Link>
                       {app.status === 'pending' && (
-                        <button className="text-brand-green-600 hover:text-brand-green-900" aria-label="Action button">
+                        <button
+                          className="text-brand-green-600 hover:text-brand-green-900"
+                          aria-label="Action button"
+                        >
                           Assign
                         </button>
                       )}
@@ -253,8 +227,8 @@ export default async function TaxFilingAdminPage() {
           📋 Tax Software Integration
         </h3>
         <p className="text-brand-blue-800 mb-4">
-          Professional tax preparation powered by professional tax software.
-          Industry-leading tax software with IRS e-file integration.
+          Professional tax preparation powered by professional tax software. Industry-leading tax
+          software with IRS e-file integration.
         </p>
         <div className="grid md:grid-cols-2 gap-4 mt-4">
           <div>
@@ -269,9 +243,7 @@ export default async function TaxFilingAdminPage() {
             </ul>
           </div>
           <div>
-            <h4 className="font-semibold text-brand-blue-900 mb-2">
-              Setup Required:
-            </h4>
+            <h4 className="font-semibold text-brand-blue-900 mb-2">Setup Required:</h4>
             <ul className="list-disc list-inside text-sm text-brand-blue-700">
               <li>professional tax software license</li>
               <li>tax software API credentials</li>
@@ -293,10 +265,9 @@ export default async function TaxFilingAdminPage() {
                     Your Journey Starts Here
                   </h2>
                   <p className="text-lg text-black mb-6 leading-relaxed">
-                    Every great career begins with a single step. Whether you're
-                    looking to change careers, upgrade your skills, or enter the
-                    workforce for the first time, we're here to help you
-                    succeed. Our programs are Funded, government-funded, and
+                    Every great career begins with a single step. Whether you're looking to change
+                    careers, upgrade your skills, or enter the workforce for the first time, we're
+                    here to help you succeed. Our programs are Funded, government-funded, and
                     designed to get you hired fast.
                   </p>
                   <ul className="space-y-4">
@@ -320,9 +291,7 @@ export default async function TaxFilingAdminPage() {
                     </li>
                     <li className="flex items-start">
                       <span className="text-slate-400 flex-shrink-0">•</span>
-                      <span className="text-black">
-                        Flexible scheduling for working adults
-                      </span>
+                      <span className="text-black">Flexible scheduling for working adults</span>
                     </li>
                   </ul>
                 </div>
@@ -346,24 +315,22 @@ export default async function TaxFilingAdminPage() {
         <section className="py-16    text-white">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto text-center">
-              <h2 className="text-2xl md:text-3xl font-bold mb-6">
-              Tax Filing Administration
-                          </h2>
+              <h2 className="text-2xl md:text-3xl font-bold mb-6">Tax Filing Administration</h2>
               <p className="text-base md:text-lg mb-8 text-brand-blue-100">
-              Manage tax return processing and IRS e-filing operations.
-                          </p>
+                Manage tax return processing and IRS e-filing operations.
+              </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link
                   href="/admin/tax-filing"
                   className="bg-white text-brand-blue-700 px-8 py-4 rounded-lg font-bold hover:bg-gray-50 text-lg shadow-2xl transition-all"
                 >
-                View Returns
+                  View Returns
                 </Link>
                 <Link
                   href="/admin/dashboard"
                   className="bg-brand-blue-800 text-white px-8 py-4 rounded-lg font-bold hover:bg-brand-blue-600 border-2 border-white text-lg shadow-2xl transition-all"
                 >
-                View Dashboard
+                  View Dashboard
                 </Link>
               </div>
             </div>

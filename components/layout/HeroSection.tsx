@@ -1,6 +1,6 @@
-import Image from "next/image";
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import Image from 'next/image';
+import Link from 'next/link';
+import { ArrowRight } from 'lucide-react';
 
 interface HeroSectionProps {
   title: string;
@@ -30,7 +30,7 @@ export function HeroSection({
   ctaPrimary,
   ctaSecondary,
   image,
-  imageAlt = "Hero image",
+  imageAlt = 'Hero image',
   stats,
   badge,
 }: HeroSectionProps) {
@@ -46,7 +46,8 @@ export function HeroSection({
             className="object-cover"
             priority
             quality={100}
-           sizes="100vw" />
+            sizes="100vw"
+          />
         </div>
       )}
 
@@ -60,22 +61,16 @@ export function HeroSection({
           )}
 
           {/* Title */}
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-            {title}
-          </h1>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">{title}</h1>
 
           {/* Subtitle */}
           {subtitle && (
-            <p className="text-2xl md:text-3xl text-slate-200 font-light mb-6">
-              {subtitle}
-            </p>
+            <p className="text-2xl md:text-3xl text-slate-200 font-light mb-6">{subtitle}</p>
           )}
 
           {/* Description */}
           {description && (
-            <p className="text-lg md:text-xl text-slate-300 mb-8 leading-relaxed">
-              {description}
-            </p>
+            <p className="text-lg md:text-xl text-slate-300 mb-8 leading-relaxed">{description}</p>
           )}
 
           {/* Stats */}

@@ -10,15 +10,19 @@ export async function exportUserData(userId: string) {
 
   try {
     // Collect all user data from various tables
-    const [profile, enrollments, certificates, assignments, grades, notes, messages] = await Promise.all([
-      supabase.from('profiles').select('*').eq('id', userId).maybeSingle(),
-      supabase.from('program_enrollments').select('*').eq('student_id', userId),
-      supabase.from('certificates').select('*').eq('student_id', userId),
-      supabase.from('assignments').select('*').eq('student_id', userId),
-      supabase.from('grades').select('*').eq('student_id', userId),
-      supabase.from('notes').select('*').eq('user_id', userId),
-      supabase.from('messages').select('*').or(`sender_id.eq.${userId},recipient_id.eq.${userId}`),
-    ]);
+    const [profile, enrollments, certificates, assignments, grades, notes, messages] =
+      await Promise.all([
+        supabase.from('profiles').select('*').eq('id', userId).maybeSingle(),
+        supabase.from('program_enrollments').select('*').eq('student_id', userId),
+        supabase.from('certificates').select('*').eq('student_id', userId),
+        supabase.from('assignments').select('*').eq('student_id', userId),
+        supabase.from('grades').select('*').eq('student_id', userId),
+        supabase.from('notes').select('*').eq('user_id', userId),
+        supabase
+          .from('messages')
+          .select('*')
+          .or(`sender_id.eq.${userId},recipient_id.eq.${userId}`),
+      ]);
 
     const userData = {
       profile: profile.data,
@@ -44,7 +48,8 @@ export async function exportUserData(userId: string) {
       success: true,
       data: userData,
     };
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     // Error: $1
     return {
       success: false,
@@ -90,15 +95,16 @@ export async function deleteUserData(userId: string, options: { keepProfile?: bo
       target_id: userId,
       metadata: {
         keep_profile: options.keepProfile ?? false,
-        deleted_tables: deletions.filter(d => !d.error).length,
+        deleted_tables: deletions.filter((d) => !d.error).length,
       },
     });
 
     return {
       success: true,
-      deletedRecords: deletions.filter(d => !d.error).length,
+      deletedRecords: deletions.filter((d) => !d.error).length,
     };
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     // Error: $1
     return {
       success: false,
@@ -122,21 +128,30 @@ export async function anonymizeUserData(userId: string) {
     // the old code returned success:true even when the profile update failed
     // (e.g. email uniqueness violation) leaving PII intact.
     const [profileResult, messagesResult, notesResult] = await Promise.all([
-      supabase.from('profiles').update({
-        full_name: 'Anonymous User',
-        email: `${anonymousId}@anonymized.local`,
-        phone: null,
-        address: null,
-        date_of_birth: null,
-      }).eq('id', userId),
+      supabase
+        .from('profiles')
+        .update({
+          full_name: 'Anonymous User',
+          email: `${anonymousId}@anonymized.local`,
+          phone: null,
+          address: null,
+          date_of_birth: null,
+        })
+        .eq('id', userId),
 
-      supabase.from('messages').update({
-        content: '[Message content removed]',
-      }).or(`sender_id.eq.${userId},recipient_id.eq.${userId}`),
+      supabase
+        .from('messages')
+        .update({
+          content: '[Message content removed]',
+        })
+        .or(`sender_id.eq.${userId},recipient_id.eq.${userId}`),
 
-      supabase.from('notes').update({
-        content: '[Note content removed]',
-      }).eq('user_id', userId),
+      supabase
+        .from('notes')
+        .update({
+          content: '[Note content removed]',
+        })
+        .eq('user_id', userId),
     ]);
 
     if (profileResult.error) {
@@ -166,7 +181,8 @@ export async function anonymizeUserData(userId: string) {
     });
 
     return { success: true };
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     // Error: $1
     return {
       success: false,
@@ -203,10 +219,7 @@ export async function requestDataPortability(userId: string, format: 'json' | 'c
 export async function getGDPRRequests(userId?: string) {
   const supabase = await createClient();
 
-  let query = supabase
-    .from('gdpr_requests')
-    .select('*')
-    .order('created_at', { ascending: false });
+  let query = supabase.from('gdpr_requests').select('*').order('created_at', { ascending: false });
 
   if (userId) {
     query = query.eq('user_id', userId);
@@ -222,22 +235,23 @@ export async function getGDPRRequests(userId?: string) {
   return data || [];
 }
 
-export async function updateConsentPreferences(userId: string, preferences: {
-  marketing?: boolean;
-  analytics?: boolean;
-  functional?: boolean;
-}) {
+export async function updateConsentPreferences(
+  userId: string,
+  preferences: {
+    marketing?: boolean;
+    analytics?: boolean;
+    functional?: boolean;
+  },
+) {
   const supabase = await createClient();
 
-  const { error } = await supabase
-    .from('consent_preferences')
-    .upsert({
-      user_id: userId,
-      marketing: preferences.marketing ?? false,
-      analytics: preferences.analytics ?? true,
-      functional: preferences.functional ?? true,
-      updated_at: new Date().toISOString(),
-    });
+  const { error } = await supabase.from('consent_preferences').upsert({
+    user_id: userId,
+    marketing: preferences.marketing ?? false,
+    analytics: preferences.analytics ?? true,
+    functional: preferences.functional ?? true,
+    updated_at: new Date().toISOString(),
+  });
 
   if (error) {
     // Error: $1

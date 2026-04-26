@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -130,9 +130,7 @@ export default function PaymentButton({
       {!loading && !error && (
         <div className="text-xs text-black text-center">
           <p>Secure checkout powered by Stripe</p>
-          <p className="mt-1">
-            Pay with card, Klarna, Afterpay, Zip, or bank account
-          </p>
+          <p className="mt-1">Pay with card, Klarna, Afterpay, Zip, or bank account</p>
         </div>
       )}
     </div>

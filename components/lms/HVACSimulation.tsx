@@ -1,82 +1,90 @@
-'use client'
+'use client';
 
-import { Suspense, useEffect, useMemo, useRef, useState } from 'react'
-import { Canvas } from '@react-three/fiber'
-import { Html, OrbitControls, useGLTF } from '@react-three/drei'
-import * as THREE from 'three'
+import { Suspense, useEffect, useMemo, useRef, useState } from 'react';
+import { Canvas } from '@react-three/fiber';
+import { Html, OrbitControls, useGLTF } from '@react-three/drei';
+import * as THREE from 'three';
 
 type Hotspot = {
-  id: string
-  label: string
-  description: string
-  position: [number, number, number]
-}
+  id: string;
+  label: string;
+  description: string;
+  position: [number, number, number];
+};
 
 type HVACSimulationProps = {
-  modelPath: string
-  title?: string
-  hotspots?: Hotspot[]
-  requiredHotspotIds?: string[]
-  onComplete?: () => void
-}
+  modelPath: string;
+  title?: string;
+  hotspots?: Hotspot[];
+  requiredHotspotIds?: string[];
+  onComplete?: () => void;
+};
 
 // Maps hotspot IDs to GLB mesh names for highlighting
 const HOTSPOT_TO_MESH: Record<string, string[]> = {
-  'compressor': ['Compressor'],
+  compressor: ['Compressor'],
   'fan-motor': ['FanMotor', 'TopGrille'],
-  'capacitor': ['Capacitor'],
-  'contactor': ['Contactor'],
+  capacitor: ['Capacitor'],
+  contactor: ['Contactor'],
   'condenser-coil': ['Casing'],
   'refrigerant-lines': ['RefLine1', 'RefLine2'],
   'service-valves': ['RefLine1', 'RefLine2'],
-}
+};
 
-const HIGHLIGHT_COLOR = new THREE.Color('#3b82f6')
-const HIGHLIGHT_EMISSIVE = new THREE.Color('#3b82f6')
+const HIGHLIGHT_COLOR = new THREE.Color('#3b82f6');
+const HIGHLIGHT_EMISSIVE = new THREE.Color('#3b82f6');
 
-function Model({ modelPath, selectedHotspotId }: { modelPath: string; selectedHotspotId: string | null }) {
-  const { scene } = useGLTF(modelPath)
-  const groupRef = useRef<THREE.Group>(null)
-  const originalMaterials = useRef<Map<string, THREE.Material>>(new Map())
+function Model({
+  modelPath,
+  selectedHotspotId,
+}: {
+  modelPath: string;
+  selectedHotspotId: string | null;
+}) {
+  const { scene } = useGLTF(modelPath);
+  const groupRef = useRef<THREE.Group>(null);
+  const originalMaterials = useRef<Map<string, THREE.Material>>(new Map());
 
   const clonedScene = useMemo(() => {
-    const clone = scene.clone()
+    const clone = scene.clone();
     clone.traverse((child) => {
       if ((child as THREE.Mesh).isMesh) {
-        child.castShadow = true
-        child.receiveShadow = true
+        child.castShadow = true;
+        child.receiveShadow = true;
         // Store original material for un-highlighting
-        const mesh = child as THREE.Mesh
+        const mesh = child as THREE.Mesh;
         if (!originalMaterials.current.has(mesh.name)) {
-          originalMaterials.current.set(mesh.name, (mesh.material as THREE.Material).clone())
+          originalMaterials.current.set(mesh.name, (mesh.material as THREE.Material).clone());
         }
       }
-    })
-    return clone
-  }, [scene])
+    });
+    return clone;
+  }, [scene]);
 
   // Highlight/unhighlight meshes when selection changes
   useEffect(() => {
-    const highlightNames = selectedHotspotId ? (HOTSPOT_TO_MESH[selectedHotspotId] || []) : []
+    const highlightNames = selectedHotspotId ? HOTSPOT_TO_MESH[selectedHotspotId] || [] : [];
 
     clonedScene.traverse((child) => {
       if ((child as THREE.Mesh).isMesh) {
-        const mesh = child as THREE.Mesh
-        const mat = mesh.material as THREE.MeshStandardMaterial
-        const orig = originalMaterials.current.get(mesh.name) as THREE.MeshStandardMaterial | undefined
+        const mesh = child as THREE.Mesh;
+        const mat = mesh.material as THREE.MeshStandardMaterial;
+        const orig = originalMaterials.current.get(mesh.name) as
+          | THREE.MeshStandardMaterial
+          | undefined;
 
         if (highlightNames.includes(mesh.name)) {
-          mat.emissive = HIGHLIGHT_EMISSIVE
-          mat.emissiveIntensity = 0.4
+          mat.emissive = HIGHLIGHT_EMISSIVE;
+          mat.emissiveIntensity = 0.4;
         } else if (orig) {
-          mat.emissive = orig.emissive || new THREE.Color(0x000000)
-          mat.emissiveIntensity = orig.emissiveIntensity || 0
+          mat.emissive = orig.emissive || new THREE.Color(0x000000);
+          mat.emissiveIntensity = orig.emissiveIntensity || 0;
         }
       }
-    })
-  }, [selectedHotspotId, clonedScene])
+    });
+  }, [selectedHotspotId, clonedScene]);
 
-  return <primitive ref={groupRef} object={clonedScene} scale={1.6} />
+  return <primitive ref={groupRef} object={clonedScene} scale={1.6} />;
 }
 
 function HotspotMarker({
@@ -84,16 +92,19 @@ function HotspotMarker({
   isClicked,
   onClick,
 }: {
-  hotspot: Hotspot
-  isClicked: boolean
-  onClick: () => void
+  hotspot: Hotspot;
+  isClicked: boolean;
+  onClick: () => void;
 }) {
-  const [hovered, setHovered] = useState(false)
+  const [hovered, setHovered] = useState(false);
 
   return (
     <group position={hotspot.position}>
       <mesh
-        onClick={(e) => { e.stopPropagation(); onClick() }}
+        onClick={(e) => {
+          e.stopPropagation();
+          onClick();
+        }}
         onPointerOver={() => setHovered(true)}
         onPointerOut={() => setHovered(false)}
       >
@@ -110,7 +121,9 @@ function HotspotMarker({
       <Html distanceFactor={4} center style={{ pointerEvents: 'none' }}>
         <div
           className={`whitespace-nowrap rounded-md px-2 py-1 text-xs font-bold shadow-lg ${
-            isClicked ? 'bg-green-600 text-white' : 'bg-white text-slate-900 border border-slate-200'
+            isClicked
+              ? 'bg-green-600 text-white'
+              : 'bg-white text-slate-900 border border-slate-200'
           }`}
           style={{ transform: 'translateY(-24px)' }}
         >
@@ -118,7 +131,7 @@ function HotspotMarker({
         </div>
       </Html>
     </group>
-  )
+  );
 }
 
 export default function HVACSimulation({
@@ -128,25 +141,28 @@ export default function HVACSimulation({
   requiredHotspotIds = [],
   onComplete,
 }: HVACSimulationProps) {
-  const [clickedIds, setClickedIds] = useState<Set<string>>(new Set())
-  const [selectedHotspot, setSelectedHotspot] = useState<Hotspot | null>(null)
+  const [clickedIds, setClickedIds] = useState<Set<string>>(new Set());
+  const [selectedHotspot, setSelectedHotspot] = useState<Hotspot | null>(null);
 
   const handleClick = (hotspot: Hotspot) => {
-    setSelectedHotspot(hotspot)
+    setSelectedHotspot(hotspot);
     setClickedIds((prev) => {
-      const next = new Set(prev)
-      next.add(hotspot.id)
-      const allDone = requiredHotspotIds.every((id) => next.has(id))
+      const next = new Set(prev);
+      next.add(hotspot.id);
+      const allDone = requiredHotspotIds.every((id) => next.has(id));
       if (allDone && !requiredHotspotIds.every((id) => prev.has(id))) {
-        setTimeout(() => onComplete?.(), 600)
+        setTimeout(() => onComplete?.(), 600);
       }
-      return next
-    })
-  }
+      return next;
+    });
+  };
 
   const progress = requiredHotspotIds.length
-    ? Math.round((requiredHotspotIds.filter((id) => clickedIds.has(id)).length / requiredHotspotIds.length) * 100)
-    : 0
+    ? Math.round(
+        (requiredHotspotIds.filter((id) => clickedIds.has(id)).length / requiredHotspotIds.length) *
+          100,
+      )
+    : 0;
 
   return (
     <div className="rounded-2xl border bg-white shadow-sm overflow-hidden">
@@ -177,7 +193,13 @@ export default function HVACSimulation({
             ))}
           </Suspense>
 
-          <OrbitControls enablePan={false} minDistance={2} maxDistance={6} minPolarAngle={0.3} maxPolarAngle={Math.PI / 2} />
+          <OrbitControls
+            enablePan={false}
+            minDistance={2}
+            maxDistance={6}
+            minPolarAngle={0.3}
+            maxPolarAngle={Math.PI / 2}
+          />
         </Canvas>
       </div>
 
@@ -187,11 +209,15 @@ export default function HVACSimulation({
           <div className="flex justify-between text-sm mb-1">
             <span className="font-semibold text-slate-700">Components identified</span>
             <span className="text-slate-500">
-              {requiredHotspotIds.filter((id) => clickedIds.has(id)).length} / {requiredHotspotIds.length}
+              {requiredHotspotIds.filter((id) => clickedIds.has(id)).length} /{' '}
+              {requiredHotspotIds.length}
             </span>
           </div>
           <div className="h-2 w-full rounded-full bg-slate-200">
-            <div className="h-2 rounded-full bg-green-500 transition-all duration-500" style={{ width: `${progress}%` }} />
+            <div
+              className="h-2 rounded-full bg-green-500 transition-all duration-500"
+              style={{ width: `${progress}%` }}
+            />
           </div>
         </div>
 
@@ -211,8 +237,18 @@ export default function HVACSimulation({
               }`}
             >
               {clickedIds.has(h.id) ? (
-                <svg className="w-4 h-4 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                <svg
+                  className="w-4 h-4 text-green-600 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M5 13l4 4L19 7"
+                  />
                 </svg>
               ) : (
                 <div className="w-4 h-4 rounded-full border-2 border-slate-300 flex-shrink-0" />
@@ -223,5 +259,5 @@ export default function HVACSimulation({
         </div>
       </div>
     </div>
-  )
+  );
 }

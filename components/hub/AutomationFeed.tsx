@@ -2,16 +2,17 @@
 
 import { useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
-import { 
-  Zap, 
-  Mail, 
-  Bell, 
-  UserPlus, 
-  BookOpen, 
-  Clock, 
+import {
+  Zap,
+  Mail,
+  Bell,
+  UserPlus,
+  BookOpen,
+  Clock,
   AlertTriangle,
   RefreshCw,
-CheckCircle, } from 'lucide-react';
+  CheckCircle,
+} from 'lucide-react';
 
 interface AutomationEvent {
   id: string;
@@ -84,7 +85,8 @@ export default function AutomationFeed({ limit = 20 }: { limit?: number }) {
           type: log.channel === 'sms' ? 'sms' : 'email',
           title: `${log.channel?.toUpperCase() || 'Email'} sent`,
           description: log.template_name || `To: ${log.recipient}`,
-          status: log.status === 'sent' ? 'success' : log.status === 'failed' ? 'failed' : 'pending',
+          status:
+            log.status === 'sent' ? 'success' : log.status === 'failed' ? 'failed' : 'pending',
           created_at: log.created_at,
           metadata: log.metadata,
         });
@@ -94,12 +96,14 @@ export default function AutomationFeed({ limit = 20 }: { limit?: number }) {
     // Fetch recent enrollments
     const { data: enrollments } = await supabase
       .from('program_enrollments')
-      .select(`
+      .select(
+        `
         id, 
         created_at,
         profiles!enrollments_user_id_fkey(full_name),
         programs(name)
-      `)
+      `,
+      )
       .order('created_at', { ascending: false })
       .limit(10);
 
@@ -144,7 +148,12 @@ export default function AutomationFeed({ limit = 20 }: { limit?: number }) {
     if (diffMins < 60) return `${diffMins}m ago`;
     if (diffHours < 24) return `${diffHours}h ago`;
     if (diffDays < 7) return `${diffDays}d ago`;
-    return date.toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' });
+    return date.toLocaleDateString('en-US', {
+      timeZone: 'UTC',
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+    });
   };
 
   if (loading && events.length === 0) {
@@ -167,7 +176,7 @@ export default function AutomationFeed({ limit = 20 }: { limit?: number }) {
         </div>
         <div className="flex items-center gap-2 text-xs text-slate-500">
           <span>Updated {formatTime(lastRefresh.toISOString())}</span>
-          <button 
+          <button
             onClick={fetchEvents}
             className="p-1 hover:bg-slate-100 rounded"
             disabled={loading}
@@ -203,7 +212,9 @@ export default function AutomationFeed({ limit = 20 }: { limit?: number }) {
         <div className="p-8 text-center">
           <Zap className="w-12 h-12 text-slate-300 mx-auto mb-3" />
           <p className="text-slate-600">No automation events yet</p>
-          <p className="text-slate-400 text-sm">Events will appear as the system processes enrollments and notifications</p>
+          <p className="text-slate-400 text-sm">
+            Events will appear as the system processes enrollments and notifications
+          </p>
         </div>
       )}
     </div>

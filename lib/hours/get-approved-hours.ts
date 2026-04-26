@@ -10,19 +10,10 @@ import { SupabaseClient } from '@supabase/supabase-js';
  */
 
 // Which source_types count as OJL (On-the-Job Learning)
-const OJL_SOURCE_TYPES = new Set([
-  'ojl',
-  'host_shop',
-  'timeclock',
-  'manual',
-]);
+const OJL_SOURCE_TYPES = new Set(['ojl', 'host_shop', 'timeclock', 'manual']);
 
 // Which source_types count as RTI (Related Technical Instruction)
-const RTI_SOURCE_TYPES = new Set([
-  'rti',
-  'in_state_barber_school',
-  'continuing_education',
-]);
+const RTI_SOURCE_TYPES = new Set(['rti', 'in_state_barber_school', 'continuing_education']);
 
 export interface ApprovedHours {
   ojl: number;
@@ -40,7 +31,7 @@ export interface ApprovedHours {
 export async function getApprovedHoursByType(
   db: SupabaseClient,
   userId: string,
-  programSlug?: string
+  programSlug?: string,
 ): Promise<ApprovedHours> {
   let query = db
     .from('hour_entries')
@@ -108,7 +99,7 @@ export async function checkApprenticeshipEligibility(
     min_ojl_hours: number | null;
     min_rti_hours: number | null;
     slug?: string;
-  }
+  },
 ): Promise<EligibilityResult> {
   const hours = await getApprovedHoursByType(db, userId, program.slug);
 
@@ -118,15 +109,11 @@ export async function checkApprenticeshipEligibility(
   const reasons: string[] = [];
 
   if (minOjl > 0 && hours.ojl < minOjl) {
-    reasons.push(
-      `OJL hours: ${hours.ojl} of ${minOjl} required (${minOjl - hours.ojl} remaining)`
-    );
+    reasons.push(`OJL hours: ${hours.ojl} of ${minOjl} required (${minOjl - hours.ojl} remaining)`);
   }
 
   if (minRti > 0 && hours.rti < minRti) {
-    reasons.push(
-      `RTI hours: ${hours.rti} of ${minRti} required (${minRti - hours.rti} remaining)`
-    );
+    reasons.push(`RTI hours: ${hours.rti} of ${minRti} required (${minRti - hours.rti} remaining)`);
   }
 
   return {

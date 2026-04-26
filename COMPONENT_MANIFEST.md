@@ -2,11 +2,11 @@
 
 ## Summary
 
-| Metric | Count |
-|--------|-------|
-| Components with createClient import | 150 |
-| API routes with DB integration | 585 |
-| Total component files | 787 |
+| Metric                              | Count |
+| ----------------------------------- | ----- |
+| Components with createClient import | 150   |
+| API routes with DB integration      | 585   |
+| Total component files               | 787   |
 
 ## Implementation Complete
 
@@ -69,9 +69,10 @@ All interactive components that require database integration now have it.
 ### Components Without DB (UI Primitives)
 
 These components don't need DB integration:
-- ui/* (buttons, cards, inputs, etc.)
-- seo/* (structured data, meta tags)
-- icons/*
+
+- ui/\* (buttons, cards, inputs, etc.)
+- seo/\* (structured data, meta tags)
+- icons/\*
 - LoadingSpinner, StructuredData, etc.
 - Pure display components
 

@@ -1,5 +1,4 @@
-"use client";
-
+'use client';
 
 interface WhatYouWillLearnProps {
   items: string[];
@@ -10,7 +9,7 @@ interface WhatYouWillLearnProps {
 export function WhatYouWillLearn({
   items,
   title = "What you'll learn",
-  className = ''
+  className = '',
 }: WhatYouWillLearnProps) {
   return (
     <section className={`bg-white rounded-2xl border border-slate-200 p-6 md:p-8 ${className}`}>

@@ -32,17 +32,14 @@ export const dynamic = 'force-dynamic';
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org';
 const ADMIN_EMAIL = 'elevate4humanityedu@gmail.com';
 
-export async function POST(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> },
-) {
+export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const rateLimited = await applyRateLimit(request, 'strict');
   if (rateLimited) return rateLimited;
 
   const auth = await apiRequireAdmin(request);
 
   const { id } = await params;
-  const body = await request.json().catch(() => ({})) as {
+  const body = (await request.json().catch(() => ({}))) as {
     action?: string;
     login_instructions?: string;
     rejection_reason?: string;
@@ -56,7 +53,9 @@ export async function POST(
   // Load the completion record with student + course info
   const { data: rec, error: fetchErr } = await db
     .from('external_course_completions')
-    .select(`id, user_id, external_course_id, program_id, login_sent_at, login_instructions, approved_at, certificate_url, course:program_external_courses(title, partner_name, external_url), program:programs(title, slug)`)
+    .select(
+      `id, user_id, external_course_id, program_id, login_sent_at, login_instructions, approved_at, certificate_url, course:program_external_courses(title, partner_name, external_url), program:programs(title, slug)`,
+    )
     .eq('id', id)
     .maybeSingle();
 
@@ -70,12 +69,12 @@ export async function POST(
   (rec as any).student = extStudentProfile ?? null;
 
   const studentEmail = (rec.student as any)?.email ?? '';
-  const studentName  = (rec.student as any)?.full_name ?? 'Student';
-  const courseTitle  = (rec.course as any)?.title ?? 'External Course';
-  const partnerName  = (rec.course as any)?.partner_name ?? 'Partner';
-  const partnerUrl   = (rec.course as any)?.external_url ?? '#';
+  const studentName = (rec.student as any)?.full_name ?? 'Student';
+  const courseTitle = (rec.course as any)?.title ?? 'External Course';
+  const partnerName = (rec.course as any)?.partner_name ?? 'Partner';
+  const partnerUrl = (rec.course as any)?.external_url ?? '#';
   const programTitle = (rec.program as any)?.title ?? '';
-  const programSlug  = (rec.program as any)?.slug ?? '';
+  const programSlug = (rec.program as any)?.slug ?? '';
 
   // ── SEND LOGIN ──────────────────────────────────────────────────────────────
   if (action === 'send_login') {
@@ -118,8 +117,8 @@ export async function POST(
     const { error: updateErr } = await db
       .from('external_course_completions')
       .update({
-        approved_at:  new Date().toISOString(),
-        approved_by:  auth.id,
+        approved_at: new Date().toISOString(),
+        approved_by: auth.id,
         completed_at: new Date().toISOString(),
         rejection_reason: null,
       })
@@ -147,9 +146,9 @@ export async function POST(
     const { error: updateErr } = await db
       .from('external_course_completions')
       .update({
-        approved_at:      null,
-        approved_by:      null,
-        certificate_url:  null,   // clear so student can re-upload
+        approved_at: null,
+        approved_by: null,
+        certificate_url: null, // clear so student can re-upload
         rejection_reason: rejectionReason,
       })
       .eq('id', id);

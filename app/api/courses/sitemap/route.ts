@@ -2,7 +2,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 // AUTH: Intentionally public — no authentication required
 
-
 import { gh, parseRepo } from '@/lib/github';
 import { logger } from '@/lib/logger';
 import { toErrorMessage } from '@/lib/safe';
@@ -19,8 +18,7 @@ async function _GET(req: NextRequest) {
     const rateLimited = await applyRateLimit(req, 'api');
     if (rateLimited) return rateLimited;
 
-    const repo =
-      req.nextUrl.searchParams.get('repo') || 'elevateforhumanity/fix2';
+    const repo = req.nextUrl.searchParams.get('repo') || 'elevateforhumanity/fix2';
     const branch = req.nextUrl.searchParams.get('branch') || 'main';
 
     const client = gh();
@@ -37,9 +35,7 @@ async function _GET(req: NextRequest) {
     // Get all course-related files
     const courseFiles =
       tree.tree
-        ?.filter(
-          (item) => item.path?.startsWith('courses/') && item.type === 'blob'
-        )
+        ?.filter((item) => item.path?.startsWith('courses/') && item.type === 'blob')
         .map((item: any) => ({
           path: item.path,
           type: item.path?.split('.').pop(),
@@ -85,14 +81,14 @@ async function _GET(req: NextRequest) {
       courses: Object.keys(sitemap),
       totalFiles: courseFiles.length,
     });
-  } catch (error) { 
+  } catch (error) {
     logger.error(
       'Generate sitemap error:',
-      error instanceof Error ? error : new Error(String(error))
+      error instanceof Error ? error : new Error(String(error)),
     );
     return NextResponse.json(
       { error: 'Failed to generate sitemap', message: toErrorMessage(error) },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

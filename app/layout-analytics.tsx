@@ -6,15 +6,12 @@ export function Analytics() {
   return null;
 }
 
-export function trackEvent(
-  eventName: string,
-  eventParams?: Record<string, any>
-) {
+export function trackEvent(eventName: string, eventParams?: Record<string, any>) {
   // Analytics disabled for performance
 }
 
 export function trackConversion(
-  conversionType: 'application' | 'enrollment' | 'contact' | 'download'
+  conversionType: 'application' | 'enrollment' | 'contact' | 'download',
 ) {
   // Analytics disabled for performance
 }

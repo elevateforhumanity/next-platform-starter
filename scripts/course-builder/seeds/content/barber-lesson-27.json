@@ -28,12 +28,7 @@
       },
       {
         "prompt": "Which tool is essential for guiding clippers during a flat top cut?",
-        "choices": [
-          "Flat comb",
-          "Round brush",
-          "Straight razor",
-          "Texturizing shears"
-        ],
+        "choices": ["Flat comb", "Round brush", "Straight razor", "Texturizing shears"],
         "answerIndex": 0,
         "rationale": "A flat comb is used to guide clippers during a flat top cut, helping to maintain a level surface.",
         "type": "recall"
@@ -160,12 +155,7 @@
       },
       {
         "prompt": "Which step is NOT part of the flat top cut procedure?",
-        "choices": [
-          "Preparation",
-          "Sectioning",
-          "Leveling",
-          "Blow-drying"
-        ],
+        "choices": ["Preparation", "Sectioning", "Leveling", "Blow-drying"],
         "answerIndex": 3,
         "rationale": "Blow-drying is not listed as a step in the flat top cut procedure, which focuses on preparation, sectioning, clipping, leveling, and detailing.",
         "type": "recall"

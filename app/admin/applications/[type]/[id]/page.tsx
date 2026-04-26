@@ -55,9 +55,6 @@ export default async function ApplicationDetailPage({
   const { type, id } = await params;
   const supabase = await createClient();
 
-
-
-
   // Query from the unified view
   const { data: application, error } = await supabase
     .from('admin_applications_queue')
@@ -75,7 +72,8 @@ export default async function ApplicationDetailPage({
   const lastName = intake.last_name || '';
   const email = intake.email || '';
   const phone = intake.phone || '';
-  const displayName = firstName || lastName ? `${firstName} ${lastName}`.trim() : 'Unknown Applicant';
+  const displayName =
+    firstName || lastName ? `${firstName} ${lastName}`.trim() : 'Unknown Applicant';
 
   // Fetch state events if available
   const { data: stateEvents } = await supabase
@@ -96,7 +94,6 @@ export default async function ApplicationDetailPage({
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* Hero Image */}
       <div className="max-w-7xl mx-auto px-4 py-4">
         <Breadcrumbs
@@ -138,10 +135,7 @@ export default async function ApplicationDetailPage({
           {/* Eligibility Review — full width above main content */}
           {(eligibilityReview || type === 'student') && (
             <div className="lg:col-span-3">
-              <EligibilityReviewPanel
-                review={eligibilityReview ?? null}
-                applicationId={id}
-              />
+              <EligibilityReviewPanel review={eligibilityReview ?? null} applicationId={id} />
             </div>
           )}
 
@@ -171,7 +165,12 @@ export default async function ApplicationDetailPage({
               <h2 className="text-lg font-semibold text-gray-900 mb-4">Application Data</h2>
               <dl className="grid grid-cols-2 gap-4">
                 {Object.entries(intake).map(([key, value]) => {
-                  if (key === 'first_name' || key === 'last_name' || key === 'email' || key === 'phone') {
+                  if (
+                    key === 'first_name' ||
+                    key === 'last_name' ||
+                    key === 'email' ||
+                    key === 'phone'
+                  ) {
                     return null; // Already shown above
                   }
                   return (
@@ -180,7 +179,9 @@ export default async function ApplicationDetailPage({
                         {key.replace(/_/g, ' ')}
                       </dt>
                       <dd className="text-sm text-gray-900">
-                        {typeof value === 'object' ? JSON.stringify(value) : String(value || 'Not provided')}
+                        {typeof value === 'object'
+                          ? JSON.stringify(value)
+                          : String(value || 'Not provided')}
                       </dd>
                     </div>
                   );
@@ -228,7 +229,9 @@ export default async function ApplicationDetailPage({
                 <div>
                   <dt className="text-sm font-medium text-gray-500">Last Updated</dt>
                   <dd className="text-sm text-gray-900">
-                    {application.state_updated_at ? new Date(application.state_updated_at).toLocaleString() : '-'}
+                    {application.state_updated_at
+                      ? new Date(application.state_updated_at).toLocaleString()
+                      : '-'}
                   </dd>
                 </div>
               </dl>
@@ -246,9 +249,7 @@ export default async function ApplicationDetailPage({
                     >
                       <div
                         className={`absolute -left-1.5 top-0 w-3 h-3 rounded-full ${
-                          index === stateEvents.length - 1
-                            ? 'bg-brand-blue-600'
-                            : 'bg-gray-300'
+                          index === stateEvents.length - 1 ? 'bg-brand-blue-600' : 'bg-gray-300'
                         }`}
                       />
                       <div className="text-sm">
@@ -258,7 +259,8 @@ export default async function ApplicationDetailPage({
                           {stateLabels[event.to_state] || event.to_state}
                         </span>
                         <p className="text-gray-500 mt-1 text-xs">
-                          {event.reason || 'State changed'} - {new Date(event.created_at).toLocaleString()}
+                          {event.reason || 'State changed'} -{' '}
+                          {new Date(event.created_at).toLocaleString()}
                         </p>
                         {event.actor_role && (
                           <p className="text-gray-400 text-xs">by {event.actor_role}</p>

@@ -15,7 +15,7 @@ export const dynamic = 'force-dynamic';
 const POINTS = {
   lesson_completed: 10,
   quiz_completed: 25,
-  quiz_perfect: 50,   // bonus on top of quiz_completed
+  quiz_perfect: 50, // bonus on top of quiz_completed
   course_completed: 100,
   certificate_earned: 200,
   badge_earned: 25,
@@ -32,64 +32,58 @@ async function _GET(request: Request) {
     const supabase = await createClient();
 
     // Run all stat queries in parallel
-    const [
-      lessonsResult,
-      coursesResult,
-      quizResult,
-      certsResult,
-      badgesResult,
-      streakResult,
-    ] = await Promise.all([
-      // Completed lessons
-      supabase
-        .from('lesson_progress')
-        .select('id', { count: 'exact', head: true })
-        .eq('user_id', user.id)
-        .eq('completed', true),
+    const [lessonsResult, coursesResult, quizResult, certsResult, badgesResult, streakResult] =
+      await Promise.all([
+        // Completed lessons
+        supabase
+          .from('lesson_progress')
+          .select('id', { count: 'exact', head: true })
+          .eq('user_id', user.id)
+          .eq('completed', true),
 
-      // Completed courses
-      supabase
-        .from('program_enrollments')
-        .select('id', { count: 'exact', head: true })
-        .eq('user_id', user.id)
-        .eq('status', 'completed'),
+        // Completed courses
+        supabase
+          .from('program_enrollments')
+          .select('id', { count: 'exact', head: true })
+          .eq('user_id', user.id)
+          .eq('status', 'completed'),
 
-      // Quiz attempts with scores
-      supabase
-        .from('quiz_attempts')
-        .select('id, score, passed_at')
-        .eq('user_id', user.id)
-        .not('passed_at', 'is', null),
+        // Quiz attempts with scores
+        supabase
+          .from('quiz_attempts')
+          .select('id, score, passed_at')
+          .eq('user_id', user.id)
+          .not('passed_at', 'is', null),
 
-      // Certificates
-      supabase
-        .from('program_completion_certificates')
-        .select('id', { count: 'exact', head: true })
-        .eq('user_id', user.id),
+        // Certificates
+        supabase
+          .from('program_completion_certificates')
+          .select('id', { count: 'exact', head: true })
+          .eq('user_id', user.id),
 
-      // Earned badges with badge details
-      supabase
-        .from('user_badges')
-        .select('id, badge_id, earned_at, badges(id, name, description, icon, points)')
-        .eq('user_id', user.id)
-        .order('earned_at', { ascending: false }),
+        // Earned badges with badge details
+        supabase
+          .from('user_badges')
+          .select('id, badge_id, earned_at, badges(id, name, description, icon, points)')
+          .eq('user_id', user.id)
+          .order('earned_at', { ascending: false }),
 
-      // Most recent 30 days of lesson completions for streak calculation
-      supabase
-        .from('lesson_progress')
-        .select('completed_at')
-        .eq('user_id', user.id)
-        .eq('completed', true)
-        .not('completed_at', 'is', null)
-        .gte('completed_at', new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString())
-        .order('completed_at', { ascending: false }),
-    ]);
+        // Most recent 30 days of lesson completions for streak calculation
+        supabase
+          .from('lesson_progress')
+          .select('completed_at')
+          .eq('user_id', user.id)
+          .eq('completed', true)
+          .not('completed_at', 'is', null)
+          .gte('completed_at', new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString())
+          .order('completed_at', { ascending: false }),
+      ]);
 
     const lessonsCompleted = lessonsResult.count ?? 0;
     const coursesCompleted = coursesResult.count ?? 0;
     const quizAttempts = quizResult.data ?? [];
     const quizzesCompleted = quizAttempts.length;
-    const perfectQuizzes = quizAttempts.filter(q => q.score === 100).length;
+    const perfectQuizzes = quizAttempts.filter((q) => q.score === 100).length;
     const certificatesEarned = certsResult.count ?? 0;
     const userBadges = badgesResult.data ?? [];
     const badgesEarned = userBadges.length;
@@ -97,7 +91,7 @@ async function _GET(request: Request) {
     // Calculate learning streak (consecutive days with at least one lesson)
     let streak = 0;
     const completionDates = (streakResult.data ?? [])
-      .map(r => new Date(r.completed_at!).toDateString())
+      .map((r) => new Date(r.completed_at!).toDateString())
       .filter((v, i, a) => a.indexOf(v) === i); // unique days
 
     if (completionDates.length > 0) {
@@ -190,7 +184,10 @@ async function _POST(request: Request) {
       .maybeSingle();
 
     if (existing) {
-      return NextResponse.json({ error: 'ALREADY_AWARDED', message: 'Badge already earned' }, { status: 409 });
+      return NextResponse.json(
+        { error: 'ALREADY_AWARDED', message: 'Badge already earned' },
+        { status: 409 },
+      );
     }
 
     const { data: awarded, error } = await db
@@ -206,15 +203,18 @@ async function _POST(request: Request) {
 
     if (error) return safeInternalError(error, 'Failed to award badge');
 
-    return NextResponse.json({
-      achievement: {
-        id: awarded.id,
-        badgeId: body.achievementId,
-        name: badge.name,
-        points: badge.points ?? body.points ?? POINTS.badge_earned,
-        earnedAt: awarded.earned_at,
+    return NextResponse.json(
+      {
+        achievement: {
+          id: awarded.id,
+          badgeId: body.achievementId,
+          name: badge.name,
+          points: badge.points ?? body.points ?? POINTS.badge_earned,
+          earnedAt: awarded.earned_at,
+        },
       },
-    }, { status: 201 });
+      { status: 201 },
+    );
   } catch (error) {
     return safeInternalError(error, 'Failed to process achievement');
   }

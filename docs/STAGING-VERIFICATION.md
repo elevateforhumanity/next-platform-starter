@@ -18,13 +18,13 @@ RESEND_API_KEY=...                                     # or SENDGRID_API_KEY
 
 ## What is already proven (dev environment, failure injection)
 
-| Route | Test | Result |
-|---|---|---|
-| `POST /api/enroll/cna?fail=true` | Injected failure | HTTP 500, `{"success":false}`, no fake ID |
+| Route                                     | Test             | Result                                         |
+| ----------------------------------------- | ---------------- | ---------------------------------------------- |
+| `POST /api/enroll/cna?fail=true`          | Injected failure | HTTP 500, `{"success":false}`, no fake ID      |
 | `POST /api/store/cart-checkout?fail=true` | Injected failure | HTTP 303 → `/store/cart?error=checkout-failed` |
-| `POST /api/stripe/checkout?fail=true` | Injected failure | HTTP 303 → `/store?error=checkout-failed` |
-| `guard-no-fake-success.mjs` | Static analysis | Pass |
-| `guard-critical-routes.mjs` | Static analysis | Pass |
+| `POST /api/stripe/checkout?fail=true`     | Injected failure | HTTP 303 → `/store?error=checkout-failed`      |
+| `guard-no-fake-success.mjs`               | Static analysis  | Pass                                           |
+| `guard-critical-routes.mjs`               | Static analysis  | Pass                                           |
 
 ## What must be proven in staging
 
@@ -36,11 +36,13 @@ BASE=https://staging.yourdomain.com bash scripts/verify-failure-paths.sh
 ```
 
 Expected for `POST /api/enroll/cna` happy path:
+
 - HTTP 200
 - Body contains `"enrollmentId":"<real-uuid>"` (UUID format, not timestamp)
 - Row exists in `program_enrollments` table with matching ID
 
 Verify in Supabase Dashboard:
+
 ```sql
 SELECT id, email, status, created_at
 FROM program_enrollments

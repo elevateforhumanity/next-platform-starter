@@ -2,44 +2,53 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
-import { CheckCircle, Clock, MapPin, Monitor, DollarSign, ExternalLink, CalendarDays, Briefcase } from 'lucide-react';
+import {
+  CheckCircle,
+  Clock,
+  MapPin,
+  Monitor,
+  DollarSign,
+  ExternalLink,
+  CalendarDays,
+  Briefcase,
+} from 'lucide-react';
 import { CERT_PROVIDERS, type ExamDefinition } from '@/lib/testing/proctoring-capabilities';
 
 export const dynamic = 'force-dynamic';
 import { getAdminClient } from '@/lib/supabase/admin';
 
 const LEVEL_COLORS: Record<string, string> = {
-  amber:  'bg-amber-50 border-amber-200 text-amber-900',
-  slate:  'bg-slate-50 border-slate-200 text-slate-900',
+  amber: 'bg-amber-50 border-amber-200 text-amber-900',
+  slate: 'bg-slate-50 border-slate-200 text-slate-900',
   yellow: 'bg-yellow-50 border-yellow-200 text-yellow-900',
-  blue:   'bg-blue-50 border-blue-200 text-blue-900',
+  blue: 'bg-blue-50 border-blue-200 text-blue-900',
 };
 
 // Hero images per provider key
 const PROVIDER_HERO: Record<string, string> = {
-  esco:       '/images/pages/hvac-technician.jpg',
-  certiport:  '/images/pages/programs-it-hero.jpg',
-  nha:        '/images/pages/medical-assistant.jpg',
-  nrf:        '/images/pages/apply-employer-hero.jpg',
-  workkeys:   '/images/pages/career-services-page-4.jpg',
+  esco: '/images/pages/hvac-technician.jpg',
+  certiport: '/images/pages/programs-it-hero.jpg',
+  nha: '/images/pages/medical-assistant.jpg',
+  nrf: '/images/pages/apply-employer-hero.jpg',
+  workkeys: '/images/pages/career-services-page-4.jpg',
   careersafe: '/images/pages/apprenticeships-hero.jpg',
-  midland:    '/images/pages/hvac-technician.jpg',
+  midland: '/images/pages/hvac-technician.jpg',
 };
 
 const PROVIDER_ACCENT: Record<string, string> = {
-  esco:       'from-sky-900',
-  certiport:  'from-blue-900',
-  nha:        'from-emerald-900',
-  nrf:        'from-orange-900',
-  workkeys:   'from-violet-900',
+  esco: 'from-sky-900',
+  certiport: 'from-blue-900',
+  nha: 'from-emerald-900',
+  nrf: 'from-orange-900',
+  workkeys: 'from-violet-900',
   careersafe: 'from-yellow-900',
-  midland:    'from-sky-900',
+  midland: 'from-sky-900',
 };
 
 const CAPABILITY_LABEL: Record<string, { label: string; icon: typeof MapPin }> = {
-  IN_PERSON_ONLY:              { label: 'In-person proctored only', icon: MapPin },
-  IN_PERSON_OR_PROVIDER_REMOTE:{ label: 'In-person or remote (provider system)', icon: Monitor },
-  CENTER_REMOTE_ALLOWED:       { label: 'In-person or live online proctoring', icon: Monitor },
+  IN_PERSON_ONLY: { label: 'In-person proctored only', icon: MapPin },
+  IN_PERSON_OR_PROVIDER_REMOTE: { label: 'In-person or remote (provider system)', icon: Monitor },
+  CENTER_REMOTE_ALLOWED: { label: 'In-person or live online proctoring', icon: Monitor },
 };
 
 interface Props {
@@ -61,7 +70,12 @@ export default async function ProviderPage({ params }: Props) {
   const { provider: key } = await params;
 
   // Try DB first — fall back to static file if table is empty or row missing
-  let dbOverride: { description?: string; status?: string; fees?: any; verify_url?: string } | null = null;
+  let dbOverride: {
+    description?: string;
+    status?: string;
+    fees?: any;
+    verify_url?: string;
+  } | null = null;
   try {
     const db = await getAdminClient();
     if (db) {
@@ -72,7 +86,9 @@ export default async function ProviderPage({ params }: Props) {
         .maybeSingle();
       if (data) dbOverride = data;
     }
-  } catch { /* fall through to static */ }
+  } catch {
+    /* fall through to static */
+  }
 
   const provider = CERT_PROVIDERS[key];
   if (!provider) notFound();
@@ -85,17 +101,19 @@ export default async function ProviderPage({ params }: Props) {
     if (dbOverride.verify_url) (provider as any).verifyUrl = dbOverride.verify_url;
   }
 
-  const heroImg   = PROVIDER_HERO[key]   ?? '/images/pages/career-services-hero.jpg';
-  const accent    = PROVIDER_ACCENT[key] ?? 'from-slate-900';
-  const capInfo   = CAPABILITY_LABEL[provider.capability];
-  const CapIcon   = capInfo?.icon ?? MapPin;
-  const isActive  = provider.status === 'active';
+  const heroImg = PROVIDER_HERO[key] ?? '/images/pages/career-services-hero.jpg';
+  const accent = PROVIDER_ACCENT[key] ?? 'from-slate-900';
+  const capInfo = CAPABILITY_LABEL[provider.capability];
+  const CapIcon = capInfo?.icon ?? MapPin;
+  const isActive = provider.status === 'active';
 
   return (
     <main className="min-h-screen bg-white">
-
       {/* HERO */}
-      <section className="relative flex items-end overflow-hidden" style={{ minHeight: 'clamp(420px, 52vw, 600px)' }}>
+      <section
+        className="relative flex items-end overflow-hidden"
+        style={{ minHeight: 'clamp(420px, 52vw, 600px)' }}
+      >
         <Image
           src={heroImg}
           alt={provider.name}
@@ -104,19 +122,29 @@ export default async function ProviderPage({ params }: Props) {
           priority
         />
         {/* gradient overlay — bottom only, no text on video rule doesn't apply to static images */}
-        <div className={`absolute inset-0 bg-gradient-to-t ${accent} via-transparent to-transparent opacity-90`} />
+        <div
+          className={`absolute inset-0 bg-gradient-to-t ${accent} via-transparent to-transparent opacity-90`}
+        />
         <div className="relative z-10 max-w-5xl mx-auto px-6 pb-12 w-full">
           {/* Breadcrumb */}
           <nav className="text-sm text-white/60 mb-4">
-            <Link href="/testing" className="hover:text-white transition-colors">Testing Center</Link>
+            <Link href="/testing" className="hover:text-white transition-colors">
+              Testing Center
+            </Link>
             <span className="mx-2">/</span>
             <span className="text-white">{provider.name}</span>
           </nav>
           {/* Status badge */}
-          <span className={`inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full mb-4 ${
-            isActive ? 'bg-green-500/20 text-green-300 border border-green-500/30' : 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
-          }`}>
-            <span className={`w-1.5 h-1.5 rounded-full ${isActive ? 'bg-green-400' : 'bg-amber-400'}`} />
+          <span
+            className={`inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full mb-4 ${
+              isActive
+                ? 'bg-green-500/20 text-green-300 border border-green-500/30'
+                : 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
+            }`}
+          >
+            <span
+              className={`w-1.5 h-1.5 rounded-full ${isActive ? 'bg-green-400' : 'bg-amber-400'}`}
+            />
             {isActive ? 'Authorized Testing Site' : 'Available Through Partner'}
           </span>
           <h1 className="text-3xl sm:text-5xl font-extrabold text-white leading-tight mb-3">
@@ -131,10 +159,8 @@ export default async function ProviderPage({ params }: Props) {
 
       {/* BODY */}
       <div className="max-w-5xl mx-auto px-6 py-12 grid lg:grid-cols-3 gap-10">
-
         {/* Left — description + exams */}
         <div className="lg:col-span-2 space-y-10">
-
           {/* About */}
           <section>
             <h2 className="text-2xl font-bold text-slate-900 mb-4">About This Exam</h2>
@@ -157,7 +183,7 @@ export default async function ProviderPage({ params }: Props) {
             <div className="space-y-4">
               {provider.exams.map((exam) => {
                 const isObj = typeof exam === 'object';
-                const name = isObj ? (exam as ExamDefinition).name : exam as string;
+                const name = isObj ? (exam as ExamDefinition).name : (exam as string);
                 const desc = isObj ? (exam as ExamDefinition).description : undefined;
                 const duration = isObj ? (exam as ExamDefinition).durationMinutes : undefined;
                 const questions = isObj ? (exam as ExamDefinition).questionCount : undefined;
@@ -173,7 +199,10 @@ export default async function ProviderPage({ params }: Props) {
                       <div className="ml-8 mt-3 flex flex-wrap gap-3">
                         {duration && (
                           <span className="text-xs bg-white border border-slate-200 text-slate-700 px-2.5 py-1 rounded-full">
-                            ⏱ {duration >= 60 ? `${Math.floor(duration / 60)}h${duration % 60 ? ` ${duration % 60}m` : ''}` : `${duration} min`}
+                            ⏱{' '}
+                            {duration >= 60
+                              ? `${Math.floor(duration / 60)}h${duration % 60 ? ` ${duration % 60}m` : ''}`
+                              : `${duration} min`}
                           </span>
                         )}
                         {questions && (
@@ -197,18 +226,29 @@ export default async function ProviderPage({ params }: Props) {
           {/* Proctoring options */}
           <section>
             <h2 className="text-2xl font-bold text-slate-900 mb-4">How It Works</h2>
-            <p className="text-slate-600 text-sm mb-4">All exams are proctored. Most are administered in-person at our Indianapolis testing center.{provider.capability !== 'IN_PERSON_ONLY' ? ' This provider also supports remote proctoring — see options below.' : ''}</p>
+            <p className="text-slate-600 text-sm mb-4">
+              All exams are proctored. Most are administered in-person at our Indianapolis testing
+              center.
+              {provider.capability !== 'IN_PERSON_ONLY'
+                ? ' This provider also supports remote proctoring — see options below.'
+                : ''}
+            </p>
             <div className="grid sm:grid-cols-2 gap-4">
               <div className="bg-slate-50 rounded-xl p-5 border border-slate-100">
                 <MapPin className="w-5 h-5 text-brand-red-600 mb-2" />
                 <h3 className="font-semibold text-slate-900 mb-1">In-Person (Required)</h3>
-                <p className="text-slate-600 text-sm">Proctored at our Indianapolis testing center. Appointment required — no walk-ins. Arrive 15 minutes early with valid government-issued photo ID.</p>
+                <p className="text-slate-600 text-sm">
+                  Proctored at our Indianapolis testing center. Appointment required — no walk-ins.
+                  Arrive 15 minutes early with valid government-issued photo ID.
+                </p>
               </div>
               {provider.capability !== 'IN_PERSON_ONLY' && (
                 <div className="bg-slate-50 rounded-xl p-5 border border-slate-100">
                   <Monitor className="w-5 h-5 text-blue-600 mb-2" />
                   <h3 className="font-semibold text-slate-900 mb-1">
-                    {provider.capability === 'CENTER_REMOTE_ALLOWED' ? 'Live Online Proctoring' : 'Remote (Provider System)'}
+                    {provider.capability === 'CENTER_REMOTE_ALLOWED'
+                      ? 'Live Online Proctoring'
+                      : 'Remote (Provider System)'}
                   </h3>
                   <p className="text-slate-600 text-sm">
                     {provider.capability === 'CENTER_REMOTE_ALLOWED'
@@ -228,11 +268,15 @@ export default async function ProviderPage({ params }: Props) {
                 <h2 className="text-2xl font-bold text-slate-900">Jobs This Credential Unlocks</h2>
               </div>
               <p className="text-slate-700 text-sm mb-6">
-                Employers use these credentials as a hiring filter. Knowing the target level before you test helps you prepare to the right standard.
+                Employers use these credentials as a hiring filter. Knowing the target level before
+                you test helps you prepare to the right standard.
               </p>
               <div className="space-y-4">
                 {((provider as any).ncrcJobProfiles as any[]).map((tier: any) => (
-                  <div key={tier.level} className={`rounded-xl border p-5 ${LEVEL_COLORS[tier.color] ?? LEVEL_COLORS.slate}`}>
+                  <div
+                    key={tier.level}
+                    className={`rounded-xl border p-5 ${LEVEL_COLORS[tier.color] ?? LEVEL_COLORS.slate}`}
+                  >
                     <div className="flex items-baseline gap-3 mb-3">
                       <span className="font-extrabold text-base">{tier.level}</span>
                       <span className="text-xs font-medium opacity-70">{tier.score}</span>
@@ -243,7 +287,9 @@ export default async function ProviderPage({ params }: Props) {
                           <CheckCircle className="w-4 h-4 flex-shrink-0 mt-0.5 opacity-60" />
                           <div>
                             <p className="text-sm font-semibold leading-snug">{job.title}</p>
-                            {job.note && <p className="text-xs opacity-70 leading-snug">{job.note}</p>}
+                            {job.note && (
+                              <p className="text-xs opacity-70 leading-snug">{job.note}</p>
+                            )}
                           </div>
                         </div>
                       ))}
@@ -253,14 +299,10 @@ export default async function ProviderPage({ params }: Props) {
               </div>
             </section>
           )}
-
         </div>
 
         {/* Right — exam portal + pricing + CTA */}
         <aside className="space-y-6">
-
-
-
           {/* Pricing card */}
           <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
             <div className="bg-slate-900 px-6 py-4">
@@ -277,13 +319,13 @@ export default async function ProviderPage({ params }: Props) {
                       <span className="text-slate-700 text-sm font-medium">{fee.label}</span>
                       <span className="text-2xl font-extrabold text-slate-900">${fee.amount}</span>
                     </div>
-                    {fee.note && (
-                      <p className="text-slate-600 text-xs mt-1">{fee.note}</p>
-                    )}
+                    {fee.note && <p className="text-slate-600 text-xs mt-1">{fee.note}</p>}
                   </div>
                 ))
               ) : (
-                <p className="text-slate-700 text-sm">Pricing quoted on request — contact us for details.</p>
+                <p className="text-slate-700 text-sm">
+                  Pricing quoted on request — contact us for details.
+                </p>
               )}
               {provider.groupDiscount && (
                 <div className="bg-green-50 rounded-lg p-3 border border-green-100 mt-2">
@@ -303,8 +345,6 @@ export default async function ProviderPage({ params }: Props) {
                 <CalendarDays className="w-5 h-5" />
                 Book at Elevate Testing Center
               </Link>
-
-
 
               <Link
                 href="/testing"
@@ -345,7 +385,6 @@ export default async function ProviderPage({ params }: Props) {
               )}
             </ul>
           </div>
-
         </aside>
       </div>
 
@@ -353,7 +392,8 @@ export default async function ProviderPage({ params }: Props) {
       <section className="bg-slate-900 py-16 px-6 text-center">
         <h2 className="text-3xl font-extrabold text-white mb-3">Ready to Get Certified?</h2>
         <p className="text-slate-300 mb-8 max-w-xl mx-auto">
-          All exams are by appointment only. Walk-ins are not accepted. Same-day appointments may be available depending on capacity — call us to check.
+          All exams are by appointment only. Walk-ins are not accepted. Same-day appointments may be
+          available depending on capacity — call us to check.
         </p>
         <div className="flex flex-wrap justify-center gap-4">
           {isActive && (
@@ -372,7 +412,6 @@ export default async function ProviderPage({ params }: Props) {
           </Link>
         </div>
       </section>
-
     </main>
   );
 }

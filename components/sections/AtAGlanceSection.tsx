@@ -7,12 +7,7 @@ interface AtAGlanceSectionProps {
   outcome?: string;
 }
 
-export function AtAGlanceSection({
-  duration,
-  cost,
-  format,
-  outcome,
-}: AtAGlanceSectionProps) {
+export function AtAGlanceSection({ duration, cost, format, outcome }: AtAGlanceSectionProps) {
   const items = [
     { icon: Clock, label: 'Duration', value: duration },
     { icon: DollarSign, label: 'Cost', value: cost },

@@ -15,8 +15,8 @@ import { rename, mkdir, readdir } from 'fs/promises';
 import { join, dirname } from 'path';
 import { existsSync } from 'fs';
 
-const RESTORE  = process.argv.includes('--restore');
-const FORCE    = process.argv.includes('--force');
+const RESTORE = process.argv.includes('--restore');
+const FORCE = process.argv.includes('--force');
 const IS_NETLIFY = process.env.NETLIFY === 'true' || FORCE;
 
 if (!IS_NETLIFY && !RESTORE) {
@@ -24,8 +24,8 @@ if (!IS_NETLIFY && !RESTORE) {
   process.exit(0);
 }
 
-const ROOT           = process.cwd();
-const FUNCTIONS_DIR  = join(ROOT, 'netlify', 'functions');
+const ROOT = process.cwd();
+const FUNCTIONS_DIR = join(ROOT, 'netlify', 'functions');
 const QUARANTINE_DIR = join(ROOT, '.netlify-quarantine', 'functions');
 
 // Functions that must NOT deploy to Netlify marketing.
@@ -75,7 +75,7 @@ async function quarantine() {
     const name = entry.name.replace(/\.(ts|js|mjs)$/, '');
     if (!BACKEND_ONLY.has(name)) continue;
 
-    const src  = join(FUNCTIONS_DIR, entry.name);
+    const src = join(FUNCTIONS_DIR, entry.name);
     const dest = join(QUARANTINE_DIR, entry.name);
     await move(src, dest);
     console.log(`[fn-quarantine] quarantined: ${entry.name}`);
@@ -90,7 +90,9 @@ async function quarantine() {
 
   // Report what remains
   const remaining = await readdir(FUNCTIONS_DIR, { withFileTypes: true });
-  console.log(`[fn-quarantine] Remaining functions: ${remaining.map(e => e.name).join(', ') || '(none)'}`);
+  console.log(
+    `[fn-quarantine] Remaining functions: ${remaining.map((e) => e.name).join(', ') || '(none)'}`,
+  );
 }
 
 async function restore() {
@@ -103,7 +105,7 @@ async function restore() {
   let restored = 0;
 
   for (const entry of entries) {
-    const src  = join(QUARANTINE_DIR, entry.name);
+    const src = join(QUARANTINE_DIR, entry.name);
     const dest = join(FUNCTIONS_DIR, entry.name);
     await mkdir(dirname(dest), { recursive: true });
     await rename(src, dest);

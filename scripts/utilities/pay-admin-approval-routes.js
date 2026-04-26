@@ -22,10 +22,7 @@
 import { Router } from 'express';
 import { createClient } from '@supabase/supabase-js';
 
-const supa = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_KEY
-);
+const supa = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_KEY);
 export const approvalsAdmin = Router();
 
 /**
@@ -60,7 +57,7 @@ approvalsAdmin.get('/api/approvals/list', async (req, res) => {
             (r.student_email || '').toLowerCase().includes(needle) ||
             (r.program_slug || '').toLowerCase().includes(needle) ||
             (r.voucher_id || '').toLowerCase().includes(needle) ||
-            (r.case_manager_email || '').toLowerCase().includes(needle)
+            (r.case_manager_email || '').toLowerCase().includes(needle),
         )
       : data;
 
@@ -125,7 +122,7 @@ approvalsAdmin.post('/api/approvals/admin_decide', async (req, res) => {
           },
           {
             onConflict: 'user_id,program_slug',
-          }
+          },
         );
 
         await supa.from('notes').insert({

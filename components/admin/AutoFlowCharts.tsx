@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, { useState, useEffect } from 'react';
 
@@ -15,7 +15,15 @@ export function AutoFlowCharts() {
   const [lastUpdated, setLastUpdated] = useState('');
 
   useEffect(() => {
-    setLastUpdated(new Date().toLocaleString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }));
+    setLastUpdated(
+      new Date().toLocaleString('en-US', {
+        timeZone: 'UTC',
+        month: 'short',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: '2-digit',
+      }),
+    );
     generateAutoFlowCharts();
   }, []);
 
@@ -86,12 +94,8 @@ export function AutoFlowCharts() {
           <div key={index} className="flex items-center">
             <div className="flex-1">
               <div className="flex items-center justify-between mb-2">
-                <span className="font-medium text-brand-text">
-                  {step.stage}
-                </span>
-                <span className="text-sm text-brand-text-muted">
-                  {step.count} students
-                </span>
+                <span className="font-medium text-brand-text">{step.stage}</span>
+                <span className="text-sm text-brand-text-muted">{step.count} students</span>
               </div>
               <div className="w-full bg-brand-border rounded-full h-3">
                 <div
@@ -105,11 +109,7 @@ export function AutoFlowCharts() {
             </div>
             {index < data.length - 1 && (
               <div className="ml-4 text-slate-700">
-                <svg
-                  className="w-6 h-6"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
+                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
                   <path
                     fillRule="evenodd"
                     d="M10.293 15.707a1 1 0 010-1.414L14.586 10l-4.293-4.293a1 1 0 111.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
@@ -130,12 +130,8 @@ export function AutoFlowCharts() {
         {data.map((program, index) => (
           <div key={index} className="program-retention">
             <div className="flex justify-between items-center mb-2">
-              <span className="font-medium text-brand-text">
-                {program.program}
-              </span>
-              <span className="text-lg font-bold text-brand-success">
-                {program.rate}%
-              </span>
+              <span className="font-medium text-brand-text">{program.program}</span>
+              <span className="text-lg font-bold text-brand-success">{program.rate}%</span>
             </div>
             <div className="flex items-center space-x-4">
               <div className="flex-1">
@@ -163,14 +159,10 @@ export function AutoFlowCharts() {
           <div key={index} className="text-center">
             <div className="mb-2">
               <div className="w-16 h-16 mx-auto bg-brand-surface rounded-full flex items-center justify-center">
-                <span className="text-2xl font-bold text-brand-orange-600">
-                  {month.rate}%
-                </span>
+                <span className="text-2xl font-bold text-brand-orange-600">{month.rate}%</span>
               </div>
             </div>
-            <div className="text-sm font-medium text-brand-text">
-              {month.month}
-            </div>
+            <div className="text-sm font-medium text-brand-text">{month.month}</div>
             <div className="text-xs text-brand-text-muted">
               {month.completed}/{month.total}
             </div>
@@ -197,9 +189,7 @@ export function AutoFlowCharts() {
               >
                 {risk.risk}
               </span>
-              <span className="text-sm text-brand-text-muted">
-                {risk.count} students
-              </span>
+              <span className="text-sm text-brand-text-muted">{risk.count} students</span>
             </div>
             <div className="w-full bg-brand-border rounded-full h-3">
               <div
@@ -213,9 +203,7 @@ export function AutoFlowCharts() {
                 style={{ width: `${risk.percentage}%` }}
               />
             </div>
-            <div className="text-xs text-brand-text-light mt-1">
-              {risk.percentage}% of total
-            </div>
+            <div className="text-xs text-brand-text-light mt-1">{risk.percentage}% of total</div>
           </div>
         ))}
       </div>
@@ -226,12 +214,8 @@ export function AutoFlowCharts() {
     <div className="au">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h2 className="text-2xl font-bold text-brand-text">
-            📊 Au Flow Charts
-          </h2>
-          <p className="text-brand-text-muted">
-            Real-time visual analytics updated automatically
-          </p>
+          <h2 className="text-2xl font-bold text-brand-text">📊 Au Flow Charts</h2>
+          <p className="text-brand-text-muted">Real-time visual analytics updated automatically</p>
         </div>
         <button
           onClick={generateAutoFlowCharts}
@@ -244,33 +228,19 @@ export function AutoFlowCharts() {
       {isGenerating ? (
         <div className="text-center py-12">
           <div className="inline-block animate-spin rounded-full h-11 w-11 border-b-2 border-brand-blue-600" />
-          <p className="mt-4 text-brand-text-muted">
-            🤖 Copilot is generating your flow charts...
-          </p>
+          <p className="mt-4 text-brand-text-muted">🤖 Copilot is generating your flow charts...</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {flowCharts.map((chart, index) => (
             <div key={index} className="chart-container">
-              <h3 className="text-lg font-semibold mb-4 text-brand-text">
-                {chart.title}
-              </h3>
-              {chart.type === 'enrollment' && (
-                <EnrollmentFlowChart data={chart.data} />
-              )}
-              {chart.type === 'retention' && (
-                <RetentionChart data={chart.data} />
-              )}
-              {chart.type === 'completion' && (
-                <CompletionChart data={chart.data} />
-              )}
-              {chart.type === 'attrition' && (
-                <AttritionRiskChart data={chart.data} />
-              )}
+              <h3 className="text-lg font-semibold mb-4 text-brand-text">{chart.title}</h3>
+              {chart.type === 'enrollment' && <EnrollmentFlowChart data={chart.data} />}
+              {chart.type === 'retention' && <RetentionChart data={chart.data} />}
+              {chart.type === 'completion' && <CompletionChart data={chart.data} />}
+              {chart.type === 'attrition' && <AttritionRiskChart data={chart.data} />}
               <div className="mt-4 flex justify-between items-center">
-                <span className="text-xs text-brand-text-light">
-                  Last updated: {lastUpdated}
-                </span>
+                <span className="text-xs text-brand-text-light">Last updated: {lastUpdated}</span>
                 <div className="flex space-x-2">
                   <button className="text-xs bg-brand-surface-dark text-brand-text-muted px-3 py-2 rounded hover:bg-brand-border">
                     📊 Export
@@ -286,39 +256,28 @@ export function AutoFlowCharts() {
       )}
       {/* Au Insights */}
       <div className="mt-8 bg-brand-blue-50 border border-brand-blue-200 rounded-lg p-6">
-        <h3 className="text-lg font-semibold text-brand-blue-900 mb-4">
-          🤖 Copilot Insights
-        </h3>
+        <h3 className="text-lg font-semibold text-brand-blue-900 mb-4">🤖 Copilot Insights</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="insight-card bg-white p-4 rounded border">
-            <div className="text-sm font-medium text-brand-text">
-              📈 Trending Up
-            </div>
+            <div className="text-sm font-medium text-brand-text">📈 Trending Up</div>
             <div className="text-xs text-brand-text-muted mt-1">
-              Medical Assistant program showing 91% retention - highest this
-              quarter
+              Medical Assistant program showing 91% retention - highest this quarter
             </div>
           </div>
           <div className="insight-card bg-white p-4 rounded border">
-            <div className="text-sm font-medium text-brand-text">
-              ⚠️ Attention Needed
-            </div>
+            <div className="text-sm font-medium text-brand-text">⚠️ Attention Needed</div>
             <div className="text-xs text-brand-text-muted mt-1">
               10 students at high attrition risk - intervention recommended
             </div>
           </div>
           <div className="insight-card bg-white p-4 rounded border">
-            <div className="text-sm font-medium text-brand-text">
-              🎯 WIOA Compliance
-            </div>
+            <div className="text-sm font-medium text-brand-text">🎯 WIOA Compliance</div>
             <div className="text-xs text-brand-text-muted mt-1">
               All programs meeting federal performance standards
             </div>
           </div>
           <div className="insight-card bg-white p-4 rounded border">
-            <div className="text-sm font-medium text-brand-text">
-              📊 Next Report Due
-            </div>
+            <div className="text-sm font-medium text-brand-text">📊 Next Report Due</div>
             <div className="text-xs text-brand-text-muted mt-1">
               Quarterly WIOA report au in 5 days
             </div>

@@ -15,18 +15,21 @@
 ## 📚 Available Credentials
 
 ### 1. **Customer Service & Sales**
+
 - **Duration:** [Check 4-page overview]
 - **Content:** Customer interaction, sales techniques, service excellence
 - **Exam:** Required (contact Jessica to set up)
 - **Industry Recognition:** NRF-certified
 
 ### 2. **Business of Retail**
+
 - **Duration:** [Check 4-page overview]
 - **Content:** Retail operations, business fundamentals, industry knowledge
 - **Exam:** Required (contact Jessica to set up)
 - **Industry Recognition:** NRF-certified
 
 ### 3. **Additional Credentials**
+
 - Check the 4-page overview document for complete list
 - Pricing information on page 3
 - Course duration and content details
@@ -36,11 +39,13 @@
 ## 🎥 Resources Provided
 
 ### Webinar Recording
+
 - **Link:** https://nrf.zoom.us/rec/share/qeIxdBRBDzdi2ZfUtTPEr9K5XPgygrrGQMunqn3w5n_ucqYbhyUpqMXPKus-cQ8y.VEmVggRaMlC0WwqB
 - **Passcode:** `EL%1.1Ym`
 - **Watch:** Review setup instructions and program details
 
 ### Documents Attached (Check Email)
+
 1. **4-page overview** - Credentials, prices, duration, content (see page 3)
 2. **Orientation Video** - For administrators and teachers
 3. **Help Center** - Step-by-step platform instructions
@@ -52,6 +57,7 @@
 Before purchasing, you can sample courses for FREE:
 
 ### How to Sample:
+
 1. **Choose a course** you want to try
 2. **Email Jessica Viera** with:
    - Course name you want to sample
@@ -68,6 +74,7 @@ Before purchasing, you can sample courses for FREE:
 ## 💳 Purchase & Setup Process
 
 ### Step 1: Register as Training Partner
+
 1. Click registration link: [Provided by Jessica]
 2. Fill out organization information:
    - Organization: Elevate for Humanity Career and Technical Institute
@@ -79,11 +86,13 @@ Before purchasing, you can sample courses for FREE:
 4. Set up new password
 
 ### Step 2: Login to RISE Up Platform
+
 - **Platform URL:** [Provided by Jessica]
 - Use credentials from welcome email
 - Access admin dashboard
 
 ### Step 3: Purchase Credentials
+
 1. Navigate to purchasing section
 2. Select credentials needed
 3. Choose quantity (number of students)
@@ -91,6 +100,7 @@ Before purchasing, you can sample courses for FREE:
 5. Complete purchase
 
 ### Step 4: Add Students
+
 1. Use platform to add student accounts
 2. Assign credentials to students
 3. Students receive email from riseup@kaleidolearning.com
@@ -101,6 +111,7 @@ Before purchasing, you can sample courses for FREE:
 ## 📖 Platform Help Center
 
 **Search for:**
+
 - "quote" - Get pricing quotes
 - "purchase" - How to buy credentials
 - "add a student" - Enroll students
@@ -117,16 +128,19 @@ Before purchasing, you can sample courses for FREE:
 ### Programs That Need RISE Up:
 
 #### 1. **Customer Service Training**
+
 - Add "Customer Service & Sales" credential
 - Required for customer service roles
 - Hospitality, retail, front desk positions
 
 #### 2. **Business Administration**
+
 - Add "Business of Retail" credential
 - Business fundamentals
 - Entrepreneurship preparation
 
 #### 3. **All Programs** (Soft Skills)
+
 - Customer service is universal
 - Professional communication
 - Workplace readiness
@@ -137,21 +151,25 @@ Before purchasing, you can sample courses for FREE:
 ## Customer Service Training Program
 
 ### Week 1-2: Foundation
+
 - Orientation
 - JRI (Job Readiness Initiative)
 - **NRF RISE Up: Customer Service & Sales** (START)
 
 ### Week 3-4: Core Skills
+
 - Continue RISE Up credential
 - Hands-on practice
 - Role-playing scenarios
 
 ### Week 5-6: Advanced & Certification
+
 - Complete RISE Up credential
 - Take certification exam
 - Receive NRF credential
 
 ### Week 7-8: Job Placement
+
 - Resume building
 - Interview prep
 - Job placement support
@@ -195,18 +213,21 @@ CEO, Elevate for Humanity
 ## 💰 Pricing & Budget
 
 ### Check 4-Page Overview (Page 3) for:
+
 - Cost per credential
 - Bulk pricing options
 - Volume discounts
 - Payment terms
 
 ### Funding Options:
+
 - **WIOA funds** - Workforce training
 - **WRG grants** - Workforce Readiness Grant
 - **Employer sponsorship** - Partner companies
 - **Student tuition** - If applicable
 
 ### ROI for Students:
+
 - Industry-recognized credential
 - Higher starting wages
 - Better job placement
@@ -217,6 +238,7 @@ CEO, Elevate for Humanity
 ## 📊 Tracking & Reporting
 
 ### Platform Analytics
+
 - Student enrollment
 - Course progress
 - Completion rates
@@ -248,18 +270,21 @@ Notes: [Any observations or issues]
 ## 🤝 Partnership Benefits
 
 ### For Students:
+
 - ✅ Industry-recognized credentials
 - ✅ Enhanced employability
 - ✅ Professional development
 - ✅ Career advancement
 
 ### For Elevate:
+
 - ✅ Stronger program offerings
 - ✅ Better job placement rates
 - ✅ Employer partnerships
 - ✅ Competitive advantage
 
 ### For Employers:
+
 - ✅ Certified workforce
 - ✅ Reduced training costs
 - ✅ Quality assurance
@@ -270,30 +295,35 @@ Notes: [Any observations or issues]
 ## 📅 Implementation Timeline
 
 ### Week 1: Setup
+
 - [ ] Watch webinar recording
 - [ ] Review 4-page overview
 - [ ] Watch orientation video
 - [ ] Sample a course (optional)
 
 ### Week 2: Registration
+
 - [ ] Register as training partner
 - [ ] Receive welcome email
 - [ ] Set up password
 - [ ] Login to platform
 
 ### Week 3: Planning
+
 - [ ] Review pricing and budget
 - [ ] Decide which credentials to offer
 - [ ] Determine number of students
 - [ ] Get purchase approval
 
 ### Week 4: Purchase
+
 - [ ] Purchase credentials
 - [ ] Set up student accounts
 - [ ] Prepare student communications
 - [ ] Update curriculum
 
 ### Week 5: Launch
+
 - [ ] Email students
 - [ ] Students create accounts
 - [ ] Begin coursework
@@ -304,6 +334,7 @@ Notes: [Any observations or issues]
 ## 📞 Support Contacts
 
 ### NRF Foundation
+
 - **Jessica Viera**
 - Manager, Customer Engagement
 - Email: [From webinar materials]
@@ -311,11 +342,13 @@ Notes: [Any observations or issues]
 - Calendly: [Schedule one-on-one meeting]
 
 ### Technical Support
+
 - **Email:** riseup@kaleidolearning.com
 - **Platform:** Help Center (after login)
 - **Response Time:** 1-2 business days
 
 ### Elevate Internal
+
 - **Elizabeth Greene**
 - CEO
 - Email: Elizabethpowell6262@gmail.com
@@ -326,6 +359,7 @@ Notes: [Any observations or issues]
 ## 🎓 Additional Opportunities
 
 ### NRF Foundation Emerging Leaders Summit
+
 - **When:** September 2025
 - **Where:** Washington DC
 - **For:** Rising talent and emerging leaders
@@ -334,6 +368,7 @@ Notes: [Any observations or issues]
 - **Note:** Limited spaces available
 
 ### Other NRF Programs
+
 - Explore additional credentials
 - Industry certifications
 - Professional development
@@ -344,6 +379,7 @@ Notes: [Any observations or issues]
 ## 📝 Next Steps
 
 ### Immediate Actions:
+
 1. **Watch webinar recording** (use passcode: EL%1.1Ym)
 2. **Review 4-page overview** (check email attachments)
 3. **Watch orientation video** (for administrators)
@@ -353,12 +389,14 @@ Notes: [Any observations or issues]
    - Schedule one-on-one meeting
 
 ### This Week:
+
 5. **Register as training partner**
 6. **Review pricing** (page 3 of overview)
 7. **Plan budget** and funding sources
 8. **Decide which credentials** to offer
 
 ### Next Week:
+
 9. **Purchase credentials**
 10. **Set up student accounts**
 11. **Launch to students**
@@ -369,27 +407,32 @@ Notes: [Any observations or issues]
 ## 💡 Best Practices
 
 ### 1. Start Small
+
 - Sample courses first
 - Pilot with small group
 - Scale based on success
 
 ### 2. Integrate Fully
+
 - Make it required, not optional
 - Part of core curriculum
 - Tied to completion
 
 ### 3. Support Students
+
 - Clear instructions
 - Regular check-ins
 - Celebrate completions
 
 ### 4. Track Everything
+
 - Enrollment
 - Progress
 - Completion
 - Outcomes
 
 ### 5. Promote Success
+
 - Share credentials earned
 - Post on social media
 - Employer testimonials
@@ -400,12 +443,14 @@ Notes: [Any observations or issues]
 ## 🎯 Success Metrics
 
 ### Year 1 Goals:
+
 - **50+ students** earn NRF credentials
 - **80%+ completion rate**
 - **90%+ pass rate** on exams
 - **Improved job placement** rates
 
 ### Long-Term Impact:
+
 - Industry-recognized training provider
 - Stronger employer partnerships
 - Higher student outcomes
@@ -416,12 +461,14 @@ Notes: [Any observations or issues]
 ## 📚 Resources
 
 ### NRF Foundation
+
 - **Website:** https://nrffoundation.org/
 - **RISE Up:** https://nrffoundation.org/rise-up
 - **LinkedIn:** /company/nrf-foundation
 - **Twitter:** @NRFFoundation
 
 ### Related Programs
+
 - **JRI (Job Readiness Initiative)** - Already implemented
 - **Milady RISE** - For barber students
 - **OSHA Safety** - CareerSafe partnership
@@ -452,6 +499,7 @@ Notes: [Any observations or issues]
 ## 🎉 Why This Matters
 
 **NRF RISE Up credentials give your students:**
+
 - National recognition
 - Industry credibility
 - Better job prospects
@@ -468,6 +516,7 @@ Use her Calendly link to schedule one-on-one:
 [Calendly link from email]
 
 **Recommended topics:**
+
 - Pricing and volume discounts
 - Best practices for implementation
 - Success stories from other partners

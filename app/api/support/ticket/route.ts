@@ -1,4 +1,3 @@
-
 // app/api/support/ticket/route.ts
 import { NextResponse } from 'next/server';
 import { requireApiAuth } from '@/lib/auth';
@@ -13,17 +12,14 @@ export const maxDuration = 60;
 export const dynamic = 'force-dynamic';
 
 async function _POST(request: Request) {
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
 
   const session = await requireApiAuth();
   const { subject, message } = await request.json();
 
   if (!subject || !message) {
-    return NextResponse.json(
-      { error: 'subject and message are required' },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: 'subject and message are required' }, { status: 400 });
   }
 
   const email = session.user?.email as string;
@@ -32,22 +28,17 @@ async function _POST(request: Request) {
   // Save to Supabase for internal tracking
   const supabase = await getAdminClient();
 
-    if (!supabase) {
-      return NextResponse.json(
-        { error: 'Service temporarily unavailable.' },
-        { status: 503 }
-      );
-    }
-  const { error: dbError } = await supabase
-    .from('customer_service_tickets')
-    .insert({
-      student_id: userId,
-      subject: subject,
-      description: message,
-      status: 'open',
-      priority: 'normal',
-      category: 'general',
-    });
+  if (!supabase) {
+    return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });
+  }
+  const { error: dbError } = await supabase.from('customer_service_tickets').insert({
+    student_id: userId,
+    subject: subject,
+    description: message,
+    status: 'open',
+    priority: 'normal',
+    category: 'general',
+  });
 
   if (dbError) {
     logger.error('Error saving support ticket to database:', dbError);

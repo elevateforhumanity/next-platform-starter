@@ -34,7 +34,8 @@ const CREDENTIAL_PARTNERS = [
     credentialIssuer: 'NHA (National Healthcareer Association)',
     licenseStatus: 'Self-Pay · Not ETPL Listed',
     instructorReq: 'Phlebotomist with 2+ years clinical experience; CPT or equivalent credential',
-    notes: 'Program is not currently on the WorkOne/ETPL funded list. Self-pay with BNPL options. NHA CPT exam fee $129. Exam administered on-site through Elevate as an NHA Authorized Testing Center.',
+    notes:
+      'Program is not currently on the WorkOne/ETPL funded list. Self-pay with BNPL options. NHA CPT exam fee $129. Exam administered on-site through Elevate as an NHA Authorized Testing Center.',
   },
   {
     program: 'Medical Assistant',
@@ -46,7 +47,8 @@ const CREDENTIAL_PARTNERS = [
     credentialIssuer: 'NHA (National Healthcareer Association)',
     licenseStatus: 'WIOA / WRG Eligible',
     instructorReq: 'Credentialed Medical Assistant or RN with clinical teaching experience',
-    notes: 'NHA CCMA exam fee $165. Exam administered on-site through Elevate as an NHA Authorized Testing Center.',
+    notes:
+      'NHA CCMA exam fee $165. Exam administered on-site through Elevate as an NHA Authorized Testing Center.',
   },
   {
     program: 'CNA — Certified Nursing Assistant',
@@ -58,7 +60,8 @@ const CREDENTIAL_PARTNERS = [
     credentialIssuer: 'Indiana State Department of Health',
     licenseStatus: 'WIOA / WRG Eligible',
     instructorReq: 'RN with 2+ years nursing experience; state-approved CNA instructor',
-    notes: 'Exam administered by Pearson VUE. Fee ~$115. Clinical hours completed at approved healthcare facility.',
+    notes:
+      'Exam administered by Pearson VUE. Fee ~$115. Clinical hours completed at approved healthcare facility.',
   },
   {
     program: 'Barber Apprenticeship',
@@ -69,8 +72,10 @@ const CREDENTIAL_PARTNERS = [
     credentialIssued: 'Indiana Barber License',
     credentialIssuer: 'Indiana IPLA',
     licenseStatus: 'DOL Registered Apprenticeship',
-    instructorReq: 'Licensed Indiana Barber with 5+ years experience; registered apprenticeship sponsor',
-    notes: 'DOL Registered Apprenticeship. PSI exam fee ~$75. Apprentices earn wages during training.',
+    instructorReq:
+      'Licensed Indiana Barber with 5+ years experience; registered apprenticeship sponsor',
+    notes:
+      'DOL Registered Apprenticeship. PSI exam fee ~$75. Apprentices earn wages during training.',
   },
   {
     program: 'HVAC / Building Technician',
@@ -82,7 +87,8 @@ const CREDENTIAL_PARTNERS = [
     credentialIssuer: 'EPA-approved testing organization',
     licenseStatus: 'WIOA / WRG Eligible',
     instructorReq: 'EPA 608 Universal certified technician with 3+ years field experience',
-    notes: 'EPA 608 exam fee: $38 (ESCO) or $26.51 online / $31.82 paper (Mainstream). Proctored on-site by Elizabeth Greene — certified proctor for both. NCCER credentials also available for advanced students.',
+    notes:
+      'EPA 608 exam fee: $38 (ESCO) or $26.51 online / $31.82 paper (Mainstream). Proctored on-site by Elizabeth Greene — certified proctor for both. NCCER credentials also available for advanced students.',
   },
   {
     program: 'CDL — Commercial Driver License',
@@ -99,16 +105,17 @@ const CREDENTIAL_PARTNERS = [
 ];
 
 export default function CredentialPartnersPage() {
-
   return (
     <div className="bg-white min-h-screen">
       {/* Breadcrumbs */}
       <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[
-            { label: 'Compliance', href: '/compliance' },
-            { label: 'Credential Partner Registry' },
-          ]} />
+          <Breadcrumbs
+            items={[
+              { label: 'Compliance', href: '/compliance' },
+              { label: 'Credential Partner Registry' },
+            ]}
+          />
         </div>
       </div>
 
@@ -141,10 +148,10 @@ export default function CredentialPartnersPage() {
             <h2 className="text-lg font-bold text-gray-900 mb-2">Registry Purpose</h2>
             <p className="text-gray-700 text-sm leading-relaxed">
               This registry documents the credential partners authorized to deliver Related
-              Technical Instruction (RTI) for each Elevate program. When a workforce agency,
-              ETPL reviewer, or partner asks &ldquo;Who delivers RTI?&rdquo; — this single
-              document provides the answer. Specific provider names are maintained in internal
-              compliance files and disclosed to authorized reviewers upon request.
+              Technical Instruction (RTI) for each Elevate program. When a workforce agency, ETPL
+              reviewer, or partner asks &ldquo;Who delivers RTI?&rdquo; — this single document
+              provides the answer. Specific provider names are maintained in internal compliance
+              files and disclosed to authorized reviewers upon request.
             </p>
           </div>
 
@@ -188,19 +195,27 @@ export default function CredentialPartnersPage() {
                 <div className="p-6">
                   <div className="grid sm:grid-cols-2 gap-4 mb-4">
                     <div>
-                      <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Partner Type</p>
+                      <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">
+                        Partner Type
+                      </p>
                       <p className="text-sm text-gray-900 font-medium">{partner.partnerType}</p>
                     </div>
                     <div>
-                      <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Licensing Body</p>
+                      <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">
+                        Licensing Body
+                      </p>
                       <p className="text-sm text-gray-700">{partner.licensingBody}</p>
                     </div>
                     <div>
-                      <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Program Assignment</p>
+                      <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">
+                        Program Assignment
+                      </p>
                       <p className="text-sm text-gray-700">{partner.programAssignment}</p>
                     </div>
                     <div>
-                      <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">MOU Status</p>
+                      <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">
+                        MOU Status
+                      </p>
                       <p className="text-sm text-brand-green-700 font-medium flex items-center gap-1">
                         <CheckCircle className="w-4 h-4" /> {partner.mouStatus}
                       </p>
@@ -209,12 +224,20 @@ export default function CredentialPartnersPage() {
 
                   <div className="grid sm:grid-cols-2 gap-4 mb-4">
                     <div>
-                      <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Credential Issued</p>
-                      <p className="text-sm text-gray-900 font-medium">{partner.credentialIssued}</p>
-                      <p className="text-xs text-gray-500 mt-0.5">Issued by: {partner.credentialIssuer}</p>
+                      <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">
+                        Credential Issued
+                      </p>
+                      <p className="text-sm text-gray-900 font-medium">
+                        {partner.credentialIssued}
+                      </p>
+                      <p className="text-xs text-gray-500 mt-0.5">
+                        Issued by: {partner.credentialIssuer}
+                      </p>
                     </div>
                     <div>
-                      <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Instructor Requirements</p>
+                      <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">
+                        Instructor Requirements
+                      </p>
                       <p className="text-sm text-gray-700">{partner.instructorReq}</p>
                     </div>
                   </div>
@@ -247,9 +270,9 @@ export default function CredentialPartnersPage() {
                   instructor credential files are maintained in internal compliance records.
                 </p>
                 <p className="text-sm text-gray-700">
-                  Authorized reviewers (ETPL, DWD, DOL, workforce boards, grant evaluators)
-                  may request full provider documentation by contacting Elevate for Humanity
-                  directly. Verification requests are processed within 5 business days.
+                  Authorized reviewers (ETPL, DWD, DOL, workforce boards, grant evaluators) may
+                  request full provider documentation by contacting Elevate for Humanity directly.
+                  Verification requests are processed within 5 business days.
                 </p>
               </div>
             </div>
@@ -261,16 +284,28 @@ export default function CredentialPartnersPage() {
       <section className="py-10">
         <div className="max-w-4xl mx-auto px-4">
           <div className="flex flex-wrap gap-3">
-            <Link href="/compliance/apprenticeship-structure" className="inline-flex items-center gap-2 px-4 py-2 bg-brand-blue-600 text-white rounded-lg text-sm font-medium hover:bg-brand-blue-700 transition">
+            <Link
+              href="/compliance/apprenticeship-structure"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-brand-blue-600 text-white rounded-lg text-sm font-medium hover:bg-brand-blue-700 transition"
+            >
               Apprenticeship & RTI Structure
             </Link>
-            <Link href="/instructional-framework" className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-white transition">
+            <Link
+              href="/instructional-framework"
+              className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-white transition"
+            >
               Instructional Framework
             </Link>
-            <Link href="/instructor-credentials" className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-white transition">
+            <Link
+              href="/instructor-credentials"
+              className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-white transition"
+            >
               Instructor Credentials
             </Link>
-            <Link href="/compliance/workforce-partnership-packet" className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-white transition">
+            <Link
+              href="/compliance/workforce-partnership-packet"
+              className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-white transition"
+            >
               Workforce Partnership Packet
             </Link>
           </div>

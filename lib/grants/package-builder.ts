@@ -8,7 +8,9 @@ import { setAuditContext } from '@/lib/audit-context';
 import { Document, Packer, Paragraph, HeadingLevel } from 'docx';
 import JSZip from 'jszip';
 
-function getDb() { return getAdminClient(); }
+function getDb() {
+  return getAdminClient();
+}
 
 export interface GrantPackage {
   grantId: string;
@@ -40,9 +42,7 @@ export interface PackageAttachment {
 /**
  * Generate Word document from grant narrative
  */
-export async function generateNarrativeDocx(
-  applicationId: string
-): Promise<Buffer> {
+export async function generateNarrativeDocx(applicationId: string): Promise<Buffer> {
   const { data: app, error } = await getDb()
     .from('grant_applications')
     .select('*, grant:grant_opportunities(*), entity:entities(*)')
@@ -83,14 +83,14 @@ export async function generateNarrativeDocx(
           text: headingText,
           heading: HeadingLevel.HEADING_1,
           spacing: { before: 400, after: 200 },
-        })
+        }),
       );
     } else if (para.trim()) {
       sections.push(
         new Paragraph({
           text: para,
           spacing: { after: 200 },
-        })
+        }),
       );
     }
   }
@@ -110,9 +110,7 @@ export async function generateNarrativeDocx(
 /**
  * Generate PDF from narrative (using HTML to PDF conversion)
  */
-export async function generateNarrativePdf(
-  applicationId: string
-): Promise<Buffer> {
+export async function generateNarrativePdf(applicationId: string): Promise<Buffer> {
   const { data: app, error } = await getDb()
     .from('grant_applications')
     .select('*, grant:grant_opportunities(*), entity:entities(*)')
@@ -199,11 +197,7 @@ function convertMarkdownToHtml(markdown: string): string {
   const paragraphs = html.split('\n\n');
   html = paragraphs
     .map((p) => {
-      if (
-        p.startsWith('<h1>') ||
-        p.startsWith('<h2>') ||
-        p.startsWith('<h3>')
-      ) {
+      if (p.startsWith('<h1>') || p.startsWith('<h2>') || p.startsWith('<h3>')) {
         return p;
       }
       return `<p>${p}</p>`;
@@ -216,9 +210,7 @@ function convertMarkdownToHtml(markdown: string): string {
 /**
  * Generate capability statement PDF
  */
-export async function generateCapabilityStatement(
-  entityId: string
-): Promise<Buffer> {
+export async function generateCapabilityStatement(entityId: string): Promise<Buffer> {
   const { data: entity, error } = await getDb()
     .from('entities')
     .select('*')
@@ -331,9 +323,7 @@ export async function generateCapabilityStatement(
 /**
  * Generate budget spreadsheet (simplified Excel format)
  */
-export async function generateBudgetSpreadsheet(
-  applicationId: string
-): Promise<Buffer> {
+export async function generateBudgetSpreadsheet(applicationId: string): Promise<Buffer> {
   const { data: app, error } = await getDb()
     .from('grant_applications')
     .select('*')
@@ -363,9 +353,7 @@ Total,,0
 /**
  * Build complete grant package
  */
-export async function buildGrantPackage(
-  applicationId: string
-): Promise<GrantPackage> {
+export async function buildGrantPackage(applicationId: string): Promise<GrantPackage> {
   const db = getDb();
   await setAuditContext(db, { systemActor: 'grants_package_builder' }).catch(() => {});
   const { data: app, error } = await db
@@ -484,7 +472,7 @@ export async function buildGrantPackage(
       ],
       created_at: new Date().toISOString(),
     },
-    { onConflict: 'application_id' }
+    { onConflict: 'application_id' },
   );
 
   return {
@@ -513,7 +501,7 @@ export async function buildGrantPackage(
  */
 export async function addAttachmentsToPackage(
   applicationId: string,
-  attachments: PackageAttachment[]
+  attachments: PackageAttachment[],
 ): Promise<Buffer> {
   const pkg = await buildGrantPackage(applicationId);
   const zip = new JSZip();

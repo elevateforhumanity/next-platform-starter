@@ -1,9 +1,9 @@
 /**
  * CANONICAL PROGRAM DATA - Single Source of Truth
- * 
+ *
  * All program pages MUST pull from this file.
  * Do not hardcode program hours, durations, or credentials elsewhere.
- * 
+ *
  * Last verified: January 2026
  */
 
@@ -31,12 +31,12 @@ export interface ProgramData {
 }
 
 // Standard administrator statement - use verbatim on all apprenticeship pages
-export const ADMINISTRATOR_STATEMENT = 
-  "Elevate for Humanity serves as the Program Administrator for registered apprenticeship pathways, coordinating training, employer participation, and funding access.";
+export const ADMINISTRATOR_STATEMENT =
+  'Elevate for Humanity serves as the Program Administrator for registered apprenticeship pathways, coordinating training, employer participation, and funding access.';
 
 // State variation disclaimer - use when hour requirements may vary
-export const STATE_VARIATION_DISCLAIMER = 
-  "Hour requirements may vary by state. Elevate for Humanity administers the pathway shown where required.";
+export const STATE_VARIATION_DISCLAIMER =
+  'Hour requirements may vary by state. Elevate for Humanity administers the pathway shown where required.';
 
 export const PROGRAMS: Record<string, ProgramData> = {
   'barber-apprenticeship': {
@@ -79,7 +79,8 @@ export const PROGRAMS: Record<string, ProgramData> = {
     startingWage: '$10-12/hour + tips',
     wageRange: '$10-16/hour during training',
     careerOutcomeRange: '$30,000-$55,000+/year',
-    stateRequirements: 'Indiana requires 2,000 hours of apprenticeship training for cosmetology licensure.',
+    stateRequirements:
+      'Indiana requires 2,000 hours of apprenticeship training for cosmetology licensure.',
     category: 'apprenticeship',
     isRegisteredApprenticeship: true,
   },
@@ -174,7 +175,7 @@ export function formatHoursWithDuration(program: ProgramData): string {
 
 // Get all apprenticeship programs
 export function getApprenticeshipPrograms(): ProgramData[] {
-  return Object.values(PROGRAMS).filter(p => p.category === 'apprenticeship');
+  return Object.values(PROGRAMS).filter((p) => p.category === 'apprenticeship');
 }
 
 // Validate that a page is using correct hours

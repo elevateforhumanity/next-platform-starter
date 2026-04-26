@@ -4,10 +4,8 @@ export default function Intro() {
   return (
     <section className="py-16">
       <div className="max-w-6xl mx-auto px-6">
-        <h2 className="text-4xl md:text-5xl font-bold text-black mb-8 text-center">
-          What We Do
-        </h2>
-        
+        <h2 className="text-4xl md:text-5xl font-bold text-black mb-8 text-center">What We Do</h2>
+
         <div className="flex flex-col md:flex-row gap-4 mb-12 overflow-x-auto">
           <div className="flex-1 min-w-[300px] bg-white rounded-lg shadow-lg overflow-hidden">
             <div className="relative h-64">
@@ -17,10 +15,13 @@ export default function Intro() {
                 fill
                 className="object-cover"
                 priority
-               sizes="100vw" />
+                sizes="100vw"
+              />
             </div>
             <div className="p-6">
-              <h3 className="text-xl font-bold text-brand-blue-900 mb-3">Funded Workforce Training</h3>
+              <h3 className="text-xl font-bold text-brand-blue-900 mb-3">
+                Funded Workforce Training
+              </h3>
               <p className="text-sm text-black leading-relaxed mb-2">
                 Training funded through WIOA, WRG, and DOL programs for eligible participants.
               </p>
@@ -38,7 +39,8 @@ export default function Intro() {
                 fill
                 className="object-cover"
                 priority
-               sizes="100vw" />
+                sizes="100vw"
+              />
             </div>
             <div className="p-6">
               <h3 className="text-xl font-bold text-brand-green-900 mb-3">Industry Credentials</h3>
@@ -55,9 +57,10 @@ export default function Intro() {
         <div className="bg-gradient-to-r from-brand-red-50 to-brand-orange-50 p-8 rounded-lg text-center">
           <h3 className="text-2xl font-bold text-black mb-4">Who We Serve</h3>
           <p className="text-lg text-black leading-relaxed max-w-4xl mx-auto">
-            Students seeking career training, displaced workers needing new skills, veterans transitioning to civilian careers, 
-            and anyone eligible for workforce development funding. We help you access the training you qualify for and guide you 
-            from enrollment through certification to employment.
+            Students seeking career training, displaced workers needing new skills, veterans
+            transitioning to civilian careers, and anyone eligible for workforce development
+            funding. We help you access the training you qualify for and guide you from enrollment
+            through certification to employment.
           </p>
         </div>
       </div>

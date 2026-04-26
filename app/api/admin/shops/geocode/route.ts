@@ -15,12 +15,14 @@ async function _POST(req: Request) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-  const db = await getAdminClient();
+    const db = await getAdminClient();
     if (!supabase) {
       return NextResponse.json({ error: 'Service unavailable' }, { status: 503 });
     }
 
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -97,7 +99,14 @@ async function _POST(req: Request) {
         })
         .eq('id', shop_id);
 
-      await logAdminAudit({ action: AdminAction.SHOP_GEOCODED, actorId: user.id, entityType: 'shops', entityId: shop_id, metadata: { source: result.source }, req });
+      await logAdminAudit({
+        action: AdminAction.SHOP_GEOCODED,
+        actorId: user.id,
+        entityType: 'shops',
+        entityId: shop_id,
+        metadata: { source: result.source },
+        req,
+      });
 
       return NextResponse.json({
         success: true,
@@ -118,10 +127,7 @@ async function _POST(req: Request) {
     }
   } catch (error) {
     logger.error('Geocode error:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/admin/shops/geocode', _POST);

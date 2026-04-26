@@ -13,6 +13,7 @@ DISCOVER → INQUIRE → APPLY → ENROLL → LEARN → CERTIFY
 ## Stage 1: DISCOVER (Public Site)
 
 **Entry points:**
+
 - Homepage (`/`) → "Programs" or "Apply Now" buttons
 - `/programs` → Browse all program categories
 - `/programs/{category}` → Healthcare, Skilled Trades, Beauty, etc.
@@ -38,6 +39,7 @@ DISCOVER → INQUIRE → APPLY → ENROLL → LEARN → CERTIFY
 **Purpose:** For users not ready to apply. Submits contact info for follow-up.
 
 **Flow:**
+
 ```
 /programs/{slug} → "Request Info"
     ↓
@@ -47,6 +49,7 @@ DISCOVER → INQUIRE → APPLY → ENROLL → LEARN → CERTIFY
 ```
 
 **Program-specific shortcuts:**
+
 - `/programs/barber-apprenticeship/inquiry` → redirects to `/inquiry?program=barber-apprenticeship`
 - `/programs/cosmetology-apprenticeship/inquiry` → redirects to `/inquiry?program=cosmetology-apprenticeship`
 
@@ -59,6 +62,7 @@ DISCOVER → INQUIRE → APPLY → ENROLL → LEARN → CERTIFY
 **Two paths based on program type:**
 
 ### Path A: Standard Programs (most programs)
+
 ```
 /apply?program={slug}
     ↓
@@ -70,6 +74,7 @@ DISCOVER → INQUIRE → APPLY → ENROLL → LEARN → CERTIFY
 ```
 
 ### Path B: Apprenticeship Programs (barber, cosmetology, nail-tech)
+
 ```
 /apply?program=barber-apprenticeship
     ↓
@@ -102,6 +107,7 @@ DISCOVER → INQUIRE → APPLY → ENROLL → LEARN → CERTIFY
 **Two paths based on program funding:**
 
 ### Path A: Funded Programs (WIOA/WRG/JRI)
+
 ```
 /apply/success  (admissions reviews, approves funding)
     ↓
@@ -113,6 +119,7 @@ DISCOVER → INQUIRE → APPLY → ENROLL → LEARN → CERTIFY
 ```
 
 ### Path B: Self-Pay / Apprenticeship Programs
+
 ```
 /apply/success  (admissions reviews application)
     ↓
@@ -149,6 +156,7 @@ DISCOVER → INQUIRE → APPLY → ENROLL → LEARN → CERTIFY
 ```
 
 **Orientation sections (all apprenticeships):**
+
 1. What This Program Leads To
 2. How the Apprenticeship Works
 3. Attendance & Conduct Expectations
@@ -156,6 +164,7 @@ DISCOVER → INQUIRE → APPLY → ENROLL → LEARN → CERTIFY
 5. Compliance & Agreement (checkbox acknowledgment required)
 
 **Standard programs onboarding:**
+
 ```
 /enroll/success
     ↓  "Start Onboarding Now"
@@ -187,6 +196,7 @@ Progress tracking (percentage complete)
 ```
 
 **Apprentice Dashboard (`/apprentice`):**
+
 - `/apprentice/courses` — Course modules
 - `/apprentice/hours` — Hour tracking (OJT + RTI)
 - `/apprentice/timeclock` — Clock in/out
@@ -196,6 +206,7 @@ Progress tracking (percentage complete)
 - `/apprentice/handbook` — Student handbook
 
 **Student Dashboard (`/student-portal`):**
+
 - Announcements
 - Assignments
 - Grades
@@ -203,6 +214,7 @@ Progress tracking (percentage complete)
 - Resources
 
 **Certificates (`/certificates`):**
+
 - View earned certificates
 - Download/print credentials
 - `/certificates/verify` — Public verification
@@ -288,36 +300,36 @@ Progress tracking (percentage complete)
 
 ## All 28 Active Programs — Enrollment Status
 
-| # | Program | Slug | Category | Apply Route | Full Flow |
-|---|---------|------|----------|-------------|-----------|
-| 1 | CNA | `cna-certification` | Healthcare | `/apply?program=cna-certification` | ✅ |
-| 2 | Medical Assistant | `medical-assistant` | Healthcare | `/apply?program=medical-assistant` | ✅ |
-| 3 | Phlebotomy Technician | `phlebotomy-technician` | Healthcare | `/apply?program=phlebotomy-technician` | ✅ |
-| 4 | Home Health Aide | `home-health-aide` | Healthcare | `/apply?program=home-health-aide` | ✅ |
-| 5 | Emergency Health & Safety Tech | `emergency-health-safety-tech` | Healthcare | `/apply?program=emergency-health-safety-tech` | ✅ |
-| 6 | CPR, AED & First Aid | `cpr-first-aid-hsi` | Healthcare | `/inquiry?program=cpr-first-aid-hsi` | ✅ |
-| 7 | HVAC Technician | `hvac-technician` | Skilled Trades | `/apply?program=hvac-technician` | ✅ |
-| 8 | CDL Training | `cdl-training` | Skilled Trades | `/apply?program=cdl-training` | ✅ |
-| 9 | Building Maintenance Tech | `building-maintenance-tech` | Skilled Trades | `/apply?program=building-maintenance-tech` | ✅ |
-| 10 | Barber Apprenticeship | `barber-apprenticeship` | Barber & Beauty | `/programs/barber-apprenticeship/apply` | ✅ Full |
-| 11 | Esthetician | `professional-esthetician` | Barber & Beauty | `/apply?program=professional-esthetician` | ✅ |
-| 12 | Beauty & Career Educator | `beauty-career-educator` | Barber & Beauty | `/apply?program=beauty-career-educator` | ✅ |
-| 13 | Tax Prep & Financial Services | `tax-prep-financial-services` | Business | `/apply?program=tax-prep-financial-services` | ✅ |
-| 14 | Business Start-up & Marketing | `business-startup-marketing` | Business | `/apply?program=business-startup-marketing` | ✅ |
-| 15 | Certified Peer Recovery Coach | `certified-peer-recovery-coach` | Human Services | `/apply?program=certified-peer-recovery-coach` | ✅ |
-| 16 | Public Safety Reentry Specialist | `public-safety-reentry-specialist` | Human Services | `/apply?program=public-safety-reentry-specialist` | ✅ |
-| 17 | Drug & Alcohol Specimen Collector | `drug-alcohol-specimen-collector` | Human Services | `/apply?program=drug-alcohol-specimen-collector` | ✅ |
-| 18 | Direct Support Professional | `direct-support-professional` | Human Services | `/apply?program=direct-support-professional` | ✅ |
-| 19 | Sanitation & Infection Control | `sanitation-infection-control` | Human Services | `/apply?program=sanitation-infection-control` | ✅ |
-| 20 | IT Support Specialist | `it-support` | Technology | `/apply?program=it-support` | ✅ |
-| 21 | Cybersecurity Fundamentals | `cybersecurity` | Technology | `/apply?program=cybersecurity` | ✅ |
-| 22 | Electrical Apprenticeship | `electrical` | Skilled Trades | `/apply?program=electrical` | ✅ |
-| 23 | Plumbing Apprenticeship | `plumbing` | Skilled Trades | `/apply?program=plumbing` | ✅ |
-| 24 | Welding Certification | `welding` | Skilled Trades | `/apply?program=welding` | ✅ |
-| 25 | Diesel Mechanic | `diesel-mechanic` | Skilled Trades | `/apply?program=diesel-mechanic` | ✅ |
-| 26 | Cosmetology Apprenticeship | `cosmetology-apprenticeship` | Barber & Beauty | `/programs/cosmetology-apprenticeship/apply` | ✅ Full |
-| 27 | Nail Technician Apprenticeship | `nail-technician-apprenticeship` | Barber & Beauty | `/apply?program=nail-technician-apprenticeship` | ✅ Full |
-| 28 | Youth Culinary Apprenticeship | `culinary-apprenticeship` | Skilled Trades | `/apply?program=culinary-apprenticeship` | ✅ |
+| #   | Program                           | Slug                               | Category        | Apply Route                                       | Full Flow |
+| --- | --------------------------------- | ---------------------------------- | --------------- | ------------------------------------------------- | --------- |
+| 1   | CNA                               | `cna-certification`                | Healthcare      | `/apply?program=cna-certification`                | ✅        |
+| 2   | Medical Assistant                 | `medical-assistant`                | Healthcare      | `/apply?program=medical-assistant`                | ✅        |
+| 3   | Phlebotomy Technician             | `phlebotomy-technician`            | Healthcare      | `/apply?program=phlebotomy-technician`            | ✅        |
+| 4   | Home Health Aide                  | `home-health-aide`                 | Healthcare      | `/apply?program=home-health-aide`                 | ✅        |
+| 5   | Emergency Health & Safety Tech    | `emergency-health-safety-tech`     | Healthcare      | `/apply?program=emergency-health-safety-tech`     | ✅        |
+| 6   | CPR, AED & First Aid              | `cpr-first-aid-hsi`                | Healthcare      | `/inquiry?program=cpr-first-aid-hsi`              | ✅        |
+| 7   | HVAC Technician                   | `hvac-technician`                  | Skilled Trades  | `/apply?program=hvac-technician`                  | ✅        |
+| 8   | CDL Training                      | `cdl-training`                     | Skilled Trades  | `/apply?program=cdl-training`                     | ✅        |
+| 9   | Building Maintenance Tech         | `building-maintenance-tech`        | Skilled Trades  | `/apply?program=building-maintenance-tech`        | ✅        |
+| 10  | Barber Apprenticeship             | `barber-apprenticeship`            | Barber & Beauty | `/programs/barber-apprenticeship/apply`           | ✅ Full   |
+| 11  | Esthetician                       | `professional-esthetician`         | Barber & Beauty | `/apply?program=professional-esthetician`         | ✅        |
+| 12  | Beauty & Career Educator          | `beauty-career-educator`           | Barber & Beauty | `/apply?program=beauty-career-educator`           | ✅        |
+| 13  | Tax Prep & Financial Services     | `tax-prep-financial-services`      | Business        | `/apply?program=tax-prep-financial-services`      | ✅        |
+| 14  | Business Start-up & Marketing     | `business-startup-marketing`       | Business        | `/apply?program=business-startup-marketing`       | ✅        |
+| 15  | Certified Peer Recovery Coach     | `certified-peer-recovery-coach`    | Human Services  | `/apply?program=certified-peer-recovery-coach`    | ✅        |
+| 16  | Public Safety Reentry Specialist  | `public-safety-reentry-specialist` | Human Services  | `/apply?program=public-safety-reentry-specialist` | ✅        |
+| 17  | Drug & Alcohol Specimen Collector | `drug-alcohol-specimen-collector`  | Human Services  | `/apply?program=drug-alcohol-specimen-collector`  | ✅        |
+| 18  | Direct Support Professional       | `direct-support-professional`      | Human Services  | `/apply?program=direct-support-professional`      | ✅        |
+| 19  | Sanitation & Infection Control    | `sanitation-infection-control`     | Human Services  | `/apply?program=sanitation-infection-control`     | ✅        |
+| 20  | IT Support Specialist             | `it-support`                       | Technology      | `/apply?program=it-support`                       | ✅        |
+| 21  | Cybersecurity Fundamentals        | `cybersecurity`                    | Technology      | `/apply?program=cybersecurity`                    | ✅        |
+| 22  | Electrical Apprenticeship         | `electrical`                       | Skilled Trades  | `/apply?program=electrical`                       | ✅        |
+| 23  | Plumbing Apprenticeship           | `plumbing`                         | Skilled Trades  | `/apply?program=plumbing`                         | ✅        |
+| 24  | Welding Certification             | `welding`                          | Skilled Trades  | `/apply?program=welding`                          | ✅        |
+| 25  | Diesel Mechanic                   | `diesel-mechanic`                  | Skilled Trades  | `/apply?program=diesel-mechanic`                  | ✅        |
+| 26  | Cosmetology Apprenticeship        | `cosmetology-apprenticeship`       | Barber & Beauty | `/programs/cosmetology-apprenticeship/apply`      | ✅ Full   |
+| 27  | Nail Technician Apprenticeship    | `nail-technician-apprenticeship`   | Barber & Beauty | `/apply?program=nail-technician-apprenticeship`   | ✅ Full   |
+| 28  | Youth Culinary Apprenticeship     | `culinary-apprenticeship`          | Skilled Trades  | `/apply?program=culinary-apprenticeship`          | ✅        |
 
 **"Full"** = Has dedicated orientation, documents, and enrollment-success pages.
 

@@ -8,7 +8,9 @@ export const dynamic = 'force-dynamic';
 
 export default async function ArchivedMessagesPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/messages/archived');
 
   // Archived messages: recipient is current user, is_read = true, older than 30 days
@@ -32,7 +34,10 @@ export default async function ArchivedMessagesPage() {
       </div>
 
       <div className="max-w-4xl mx-auto px-4 py-8">
-        <Link href="/messages" className="inline-flex items-center text-slate-600 hover:text-brand-blue-600 mb-6 text-sm">
+        <Link
+          href="/messages"
+          className="inline-flex items-center text-slate-600 hover:text-brand-blue-600 mb-6 text-sm"
+        >
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back to Messages
         </Link>
@@ -42,7 +47,9 @@ export default async function ArchivedMessagesPage() {
             <Archive className="w-7 h-7 text-brand-blue-600" />
             <h1 className="text-2xl font-bold text-slate-900">Archived Messages</h1>
           </div>
-          <span className="text-slate-500 text-sm">{messages.length} message{messages.length !== 1 ? 's' : ''}</span>
+          <span className="text-slate-500 text-sm">
+            {messages.length} message{messages.length !== 1 ? 's' : ''}
+          </span>
         </div>
 
         <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
@@ -50,7 +57,9 @@ export default async function ArchivedMessagesPage() {
             <div className="py-16 text-center">
               <Mail className="w-10 h-10 text-slate-300 mx-auto mb-3" />
               <p className="text-slate-600 font-medium mb-1">No archived messages</p>
-              <p className="text-slate-500 text-sm">Read messages older than 30 days appear here.</p>
+              <p className="text-slate-500 text-sm">
+                Read messages older than 30 days appear here.
+              </p>
             </div>
           ) : (
             <div className="divide-y divide-slate-100">
@@ -58,19 +67,35 @@ export default async function ArchivedMessagesPage() {
                 const senderName = msg.profiles?.full_name ?? 'Sender';
                 const preview = msg.body?.slice(0, 100) ?? '';
                 return (
-                  <div key={msg.id} className="flex items-start gap-4 px-5 py-4 hover:bg-slate-50 transition-colors">
+                  <div
+                    key={msg.id}
+                    className="flex items-start gap-4 px-5 py-4 hover:bg-slate-50 transition-colors"
+                  >
                     <div className="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <span className="text-slate-600 text-xs font-bold">{senderName.charAt(0).toUpperCase()}</span>
+                      <span className="text-slate-600 text-xs font-bold">
+                        {senderName.charAt(0).toUpperCase()}
+                      </span>
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center justify-between gap-2 mb-0.5">
-                        <p className="font-semibold text-slate-900 text-sm truncate">{senderName}</p>
+                        <p className="font-semibold text-slate-900 text-sm truncate">
+                          {senderName}
+                        </p>
                         <span className="text-xs text-slate-400 flex-shrink-0">
-                          {new Date(msg.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                          {new Date(msg.created_at).toLocaleDateString('en-US', {
+                            month: 'short',
+                            day: 'numeric',
+                            year: 'numeric',
+                          })}
                         </span>
                       </div>
-                      {msg.subject && <p className="text-sm text-slate-700 font-medium truncate">{msg.subject}</p>}
-                      <p className="text-xs text-slate-500 truncate mt-0.5">{preview}{msg.body?.length > 100 ? '…' : ''}</p>
+                      {msg.subject && (
+                        <p className="text-sm text-slate-700 font-medium truncate">{msg.subject}</p>
+                      )}
+                      <p className="text-xs text-slate-500 truncate mt-0.5">
+                        {preview}
+                        {msg.body?.length > 100 ? '…' : ''}
+                      </p>
                     </div>
                   </div>
                 );

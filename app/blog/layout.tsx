@@ -2,7 +2,8 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Blog & Success Stories | Elevate For Humanity',
-  description: 'Read success stories from our graduates, workforce development insights, program updates, and career training tips from Elevate for Humanity.',
+  description:
+    'Read success stories from our graduates, workforce development insights, program updates, and career training tips from Elevate for Humanity.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/blog',
     types: {

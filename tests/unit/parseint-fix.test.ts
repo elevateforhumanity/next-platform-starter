@@ -1,6 +1,6 @@
 /**
  * Unit tests to verify parseInt radix parameter fix
- * 
+ *
  * This test ensures that parseInt with radix 10 correctly handles
  * edge cases that could cause issues without the radix parameter.
  */
@@ -41,7 +41,7 @@ describe('parseInt with radix parameter', () => {
     const value1 = undefined;
     const value2 = null;
     const value3 = '';
-    
+
     expect(parseInt((value1 as any) || '0', 10)).toBe(0);
     expect(parseInt((value2 as any) || '0', 10)).toBe(0);
     expect(parseInt(value3 || '0', 10)).toBe(0);

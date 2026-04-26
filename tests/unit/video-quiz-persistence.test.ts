@@ -28,13 +28,25 @@ interface ValidationResult {
 
 function validateQuizPayload(body: QuizAnswerPayload): ValidationResult {
   if (!body.question) {
-    return { valid: false, error: 'Missing required fields: question, selectedAnswer, isCorrect', status: 400 };
+    return {
+      valid: false,
+      error: 'Missing required fields: question, selectedAnswer, isCorrect',
+      status: 400,
+    };
   }
   if (body.selectedAnswer === undefined) {
-    return { valid: false, error: 'Missing required fields: question, selectedAnswer, isCorrect', status: 400 };
+    return {
+      valid: false,
+      error: 'Missing required fields: question, selectedAnswer, isCorrect',
+      status: 400,
+    };
   }
   if (body.isCorrect === undefined) {
-    return { valid: false, error: 'Missing required fields: question, selectedAnswer, isCorrect', status: 400 };
+    return {
+      valid: false,
+      error: 'Missing required fields: question, selectedAnswer, isCorrect',
+      status: 400,
+    };
   }
   return { valid: true };
 }
@@ -53,7 +65,8 @@ interface UpsertRecord {
 
 function buildUpsertRecord(
   userId: string,
-  body: Required<Pick<QuizAnswerPayload, 'question' | 'selectedAnswer' | 'isCorrect'>> & Partial<QuizAnswerPayload>
+  body: Required<Pick<QuizAnswerPayload, 'question' | 'selectedAnswer' | 'isCorrect'>> &
+    Partial<QuizAnswerPayload>,
 ): UpsertRecord {
   return {
     user_id: userId,
@@ -69,7 +82,6 @@ function buildUpsertRecord(
 // ── Tests ─────────────────────────────────────────────────────────────────────
 
 describe('Video quiz payload validation', () => {
-
   it('rejects missing question', () => {
     const result = validateQuizPayload({ selectedAnswer: 0, isCorrect: true });
     expect(result.valid).toBe(false);
@@ -112,7 +124,6 @@ describe('Video quiz payload validation', () => {
 });
 
 describe('Video quiz upsert record builder', () => {
-
   it('builds record with all fields', () => {
     const record = buildUpsertRecord('user-1', {
       question: 'What is R-410A?',
@@ -160,8 +171,18 @@ describe('Video quiz upsert record builder', () => {
 
   it('upsert key is unique per user+lesson+question', () => {
     // Two records with same user+lesson+question should produce identical keys
-    const r1 = buildUpsertRecord('user-1', { question: 'Q?', selectedAnswer: 0, isCorrect: false, lessonId: 'l1' });
-    const r2 = buildUpsertRecord('user-1', { question: 'Q?', selectedAnswer: 1, isCorrect: true,  lessonId: 'l1' });
+    const r1 = buildUpsertRecord('user-1', {
+      question: 'Q?',
+      selectedAnswer: 0,
+      isCorrect: false,
+      lessonId: 'l1',
+    });
+    const r2 = buildUpsertRecord('user-1', {
+      question: 'Q?',
+      selectedAnswer: 1,
+      isCorrect: true,
+      lessonId: 'l1',
+    });
     // Same composite key — r2 should overwrite r1 in DB
     expect(r1.user_id).toBe(r2.user_id);
     expect(r1.lesson_id).toBe(r2.lesson_id);

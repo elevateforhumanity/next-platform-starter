@@ -4,12 +4,17 @@
  */
 
 import { createClient } from '@/lib/supabase/server';
-import type { 
-  CourseCreate, CourseUpdate,
-  LessonCreate, LessonUpdate,
-  QuizCreate, QuizUpdate,
-  QuestionCreate, QuestionUpdate,
-  EnrollmentCreate, EnrollmentUpdate 
+import type {
+  CourseCreate,
+  CourseUpdate,
+  LessonCreate,
+  LessonUpdate,
+  QuizCreate,
+  QuizUpdate,
+  QuestionCreate,
+  QuestionUpdate,
+  EnrollmentCreate,
+  EnrollmentUpdate,
 } from '@/lib/validators/course';
 
 // ============ GENERIC HELPERS ============
@@ -190,11 +195,7 @@ export async function listQuizzes(courseId: string) {
 
 export async function getQuiz(id: string) {
   const supabase = await getSupabase();
-  const { data, error } = await supabase
-    .from('quizzes')
-    .select('*')
-    .eq('id', id)
-    .maybeSingle();
+  const { data, error } = await supabase.from('quizzes').select('*').eq('id', id).maybeSingle();
   if (error?.code === 'PGRST116') return null;
   if (error) throw new Error('Database operation failed');
   return data;
@@ -304,17 +305,21 @@ export async function createEnrollment(input: EnrollmentCreate) {
   return data;
 }
 
-export async function listEnrollments(filters?: { courseId?: string; userId?: string; status?: string }) {
+export async function listEnrollments(filters?: {
+  courseId?: string;
+  userId?: string;
+  status?: string;
+}) {
   const supabase = await getSupabase();
   let query = supabase
     .from('training_enrollments')
     .select('*, student:profiles(id, full_name, email), course:training_courses(id, course_name)')
     .order('enrolled_at', { ascending: false });
-  
+
   if (filters?.courseId) query = query.eq('course_id', filters.courseId);
   if (filters?.userId) query = query.eq('user_id', filters.userId);
   if (filters?.status) query = query.eq('status', filters.status);
-  
+
   const { data, error } = await query;
   if (error) throw new Error('Database operation failed');
   return data || [];
@@ -336,7 +341,7 @@ export async function updateEnrollment(id: string, patch: EnrollmentUpdate) {
   const supabase = await getSupabase();
   const updateData: Record<string, unknown> = { ...patch, updated_at: new Date().toISOString() };
   if (patch.status === 'completed') updateData.completed_at = new Date().toISOString();
-  
+
   const { data, error } = await supabase
     .from('training_enrollments')
     .update(updateData)
@@ -382,13 +387,10 @@ export async function createProgram(input: ProgramCreate) {
 
 export async function listPrograms(filters?: { status?: string }) {
   const supabase = await getSupabase();
-  let query = supabase
-    .from('programs')
-    .select('*')
-    .order('title', { ascending: true });
-  
+  let query = supabase.from('programs').select('*').order('title', { ascending: true });
+
   if (filters?.status) query = query.eq('status', filters.status);
-  
+
   const { data, error } = await query;
   if (error) throw new Error('Database operation failed');
   return data || [];
@@ -396,11 +398,7 @@ export async function listPrograms(filters?: { status?: string }) {
 
 export async function getProgram(id: string) {
   const supabase = await getSupabase();
-  const { data, error } = await supabase
-    .from('programs')
-    .select('*')
-    .eq('id', id)
-    .maybeSingle();
+  const { data, error } = await supabase.from('programs').select('*').eq('id', id).maybeSingle();
   if (error?.code === 'PGRST116') return null;
   if (error) throw new Error('Database operation failed');
   return data;
@@ -460,10 +458,10 @@ export async function listApplications(filters?: { status?: string; programId?: 
     .from('applications')
     .select('*, program:programs(id, title, code)')
     .order('submitted_at', { ascending: false });
-  
+
   if (filters?.status) query = query.eq('status', filters.status);
   if (filters?.programId) query = query.eq('program_id', filters.programId);
-  
+
   const { data, error } = await query;
   if (error) throw new Error('Database operation failed');
   return data || [];
@@ -496,7 +494,7 @@ export async function updateApplication(id: string, patch: ApplicationUpdate) {
   if (patch.status === 'approved' || patch.status === 'rejected') {
     updateData.reviewed_at = new Date().toISOString();
   }
-  
+
   const { data, error } = await db
     .from('applications')
     .update(updateData)
@@ -535,7 +533,7 @@ import type { CourseBlueprint } from '@/lib/ai/course-ingestion';
  */
 export async function saveCourseBlueprint(
   blueprint: CourseBlueprint,
-  options: { program_id?: string | null; created_by?: string | null } = {}
+  options: { program_id?: string | null; created_by?: string | null } = {},
 ): Promise<{ courseId: string; moduleCount: number; lessonCount: number; questionCount: number }> {
   const supabase = await getSupabase();
 

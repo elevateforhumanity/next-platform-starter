@@ -1,36 +1,36 @@
 #!/usr/bin/env node
-import fs from "fs/promises";
-import path from "path";
-import { fileURLToPath } from "url";
+import fs from 'fs/promises';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const scriptsDir = path.join(__dirname, "..", "content", "video-scripts");
-const coursesDir = path.join(scriptsDir, "courses");
-const ecdCoursesDir = path.join(scriptsDir, "ecd-courses");
-const jobsOutPath = path.join(__dirname, "..", "content", "video-jobs.json");
+const scriptsDir = path.join(__dirname, '..', 'content', 'video-scripts');
+const coursesDir = path.join(scriptsDir, 'courses');
+const ecdCoursesDir = path.join(scriptsDir, 'ecd-courses');
+const jobsOutPath = path.join(__dirname, '..', 'content', 'video-jobs.json');
 
 // Enhanced mapping for course videos and other content
 const defaultDurations = [
   // Homepage and general
-  { key: "homepage-hero", seconds: 40 },
-  { key: "about-elevate", seconds: 90 },
-  { key: "how-it-works", seconds: 55 },
-  { key: "employers", seconds: 45 },
-  { key: "program-holder", seconds: 40 },
-  { key: "delegate", seconds: 40 },
+  { key: 'homepage-hero', seconds: 40 },
+  { key: 'about-elevate', seconds: 90 },
+  { key: 'how-it-works', seconds: 55 },
+  { key: 'employers', seconds: 45 },
+  { key: 'program-holder', seconds: 40 },
+  { key: 'delegate', seconds: 40 },
 
   // Course-specific videos
-  { key: "hvac-program", seconds: 45 },
-  { key: "barber-program", seconds: 45 },
-  { key: "healthcare-cna-program", seconds: 45 },
-  { key: "cdl-program", seconds: 45 },
-  { key: "building-tech-program", seconds: 45 },
+  { key: 'hvac-program', seconds: 45 },
+  { key: 'barber-program', seconds: 45 },
+  { key: 'healthcare-cna-program', seconds: 45 },
+  { key: 'cdl-program', seconds: 45 },
+  { key: 'building-tech-program', seconds: 45 },
 
   // Other
-  { key: "apply-now", seconds: 30 },
-  { key: "contact-support", seconds: 25 },
+  { key: 'apply-now', seconds: 30 },
+  { key: 'contact-support', seconds: 25 },
 ];
 
 function guessDuration(slug) {
@@ -63,7 +63,7 @@ function determineProvider(category) {
 async function processDirectory(dir, subdirectory = null) {
   let files;
   try {
-    files = (await fs.readdir(dir)).filter((f) => f.endsWith(".md"));
+    files = (await fs.readdir(dir)).filter((f) => f.endsWith('.md'));
   } catch (err) {
     return [];
   }
@@ -71,11 +71,11 @@ async function processDirectory(dir, subdirectory = null) {
   const jobs = [];
 
   for (const file of files) {
-    const slug = file.replace(/\.md$/, "");
+    const slug = file.replace(/\.md$/, '');
     const scriptPath = path.join(dir, file);
-    const text = await fs.readFile(scriptPath, "utf8");
+    const text = await fs.readFile(scriptPath, 'utf8');
 
-    const firstLine = text.split("\n")[0]?.replace(/^#\s*/, "") ?? slug;
+    const firstLine = text.split('\n')[0]?.replace(/^#\s*/, '') ?? slug;
     const durationSeconds = guessDuration(slug);
     const category = determineCategory(slug, subdirectory);
     const provider = determineProvider(category);
@@ -93,12 +93,17 @@ async function processDirectory(dir, subdirectory = null) {
 
       // Video generation settings
       targetProvider: provider,
-      targetModel: provider === 'heygen' ? 'heygen-v2' : provider === 'synthesia' ? 'synthesia-standard' : 'd-id-basic',
+      targetModel:
+        provider === 'heygen'
+          ? 'heygen-v2'
+          : provider === 'synthesia'
+            ? 'synthesia-standard'
+            : 'd-id-basic',
       durationSeconds,
-      aspectRatio: "16:9",
+      aspectRatio: '16:9',
 
       // Voice and avatar settings
-      voice: "professional-neutral",
+      voice: 'professional-neutral',
       avatar: category === 'course' ? 'instructor-diverse' : 'default',
 
       // Output settings
@@ -110,7 +115,7 @@ async function processDirectory(dir, subdirectory = null) {
         : `public/videos/${slug}.vtt`,
 
       // Status tracking
-      status: "pending",
+      status: 'pending',
       priority: category === 'homepage' ? 'high' : category === 'course' ? 'medium' : 'low',
 
       // Metadata
@@ -123,7 +128,6 @@ async function processDirectory(dir, subdirectory = null) {
 }
 
 async function main() {
-
   const allJobs = [];
 
   // Process root video-scripts directory
@@ -147,15 +151,13 @@ async function main() {
   // Write jobs file
   await fs.writeFile(jobsOutPath, JSON.stringify(allJobs, null, 2));
 
-
   // Summary by category
   const byCategory = allJobs.reduce((acc, job) => {
     acc[job.category] = (acc[job.category] || 0) + 1;
     return acc;
   }, {});
 
-  Object.entries(byCategory).forEach(([cat, count]) => {
-  });
+  Object.entries(byCategory).forEach(([cat, count]) => {});
 
   // Summary by provider
   const byProvider = allJobs.reduce((acc, job) => {
@@ -163,15 +165,13 @@ async function main() {
     return acc;
   }, {});
 
-  Object.entries(byProvider).forEach(([provider, count]) => {
-  });
+  Object.entries(byProvider).forEach(([provider, count]) => {});
 
   // Estimated costs
   const totalCost = allJobs.reduce((sum, job) => sum + job.estimatedCost, 0);
-
 }
 
 main().catch((err) => {
-  console.error("Unexpected error:", err);
+  console.error('Unexpected error:', err);
   process.exit(1);
 });

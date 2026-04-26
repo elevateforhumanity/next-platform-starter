@@ -8,7 +8,7 @@ import { logger } from '@/lib/logger';
 
 /**
  * GET /auth/confirm
- * 
+ *
  * Handles email confirmation links from Supabase.
  * This is the redirect URL for email verification, password reset, etc.
  */
@@ -38,7 +38,9 @@ export async function GET(request: NextRequest) {
         // creating an account — email matches, user_id is null).
         try {
           const db = await getAdminClient();
-          const { data: { user } } = await supabase.auth.getUser();
+          const {
+            data: { user },
+          } = await supabase.auth.getUser();
           if (user?.email && db) {
             // Normalize email to prevent casing mismatches (User@Email.com vs user@email.com)
             const normalizedEmail = user.email.toLowerCase().trim();
@@ -111,7 +113,7 @@ export async function GET(request: NextRequest) {
               // dashboard redirect, send them to their program's enrollment-success
               // page instead. Driven by program_slug so this works for future programs.
               if (redirectTo === '/learner/dashboard?verified=true') {
-                const firstSlug = unlinked!.find(r => r.program_slug)?.program_slug;
+                const firstSlug = unlinked!.find((r) => r.program_slug)?.program_slug;
                 if (firstSlug) {
                   redirectTo = `/programs/${firstSlug}/enrollment-success`;
                 }
@@ -141,7 +143,9 @@ export async function GET(request: NextRequest) {
         // This handles magic links sent by sendProgramHolderWelcomeEmail.
         try {
           const db = await getAdminClient();
-          const { data: { user } } = await supabase.auth.getUser();
+          const {
+            data: { user },
+          } = await supabase.auth.getUser();
           if (user && db) {
             const { data: profile } = await db
               .from('profiles')
@@ -171,7 +175,9 @@ export async function GET(request: NextRequest) {
         // applications or enrollments are linked to the new account.
         try {
           const db = await getAdminClient();
-          const { data: { user } } = await supabase.auth.getUser();
+          const {
+            data: { user },
+          } = await supabase.auth.getUser();
           if (user?.email && db) {
             const { reconcilePreAuthRows } = await import('@/lib/pre-auth-tables');
             await reconcilePreAuthRows(db, user.email).catch((err: unknown) => {
@@ -201,21 +207,15 @@ export async function GET(request: NextRequest) {
 
     if (type === 'recovery') {
       // Send back to forgot-password with a clear message instead of silent login redirect
-      return NextResponse.redirect(
-        new URL('/auth/forgot-password?error=link_expired', CANONICAL)
-      );
+      return NextResponse.redirect(new URL('/auth/forgot-password?error=link_expired', CANONICAL));
     }
 
-    return NextResponse.redirect(
-      new URL('/login?error=verification_failed', CANONICAL)
-    );
+    return NextResponse.redirect(new URL('/login?error=verification_failed', CANONICAL));
   }
 
   // No token_hash or type — redirect to login
   const CANONICAL = process.env.NEXT_PUBLIC_SITE_URL
     ? process.env.NEXT_PUBLIC_SITE_URL
     : new URL(request.url).origin;
-  return NextResponse.redirect(
-    new URL('/login?error=no_token', CANONICAL)
-  );
+  return NextResponse.redirect(new URL('/login?error=no_token', CANONICAL));
 }

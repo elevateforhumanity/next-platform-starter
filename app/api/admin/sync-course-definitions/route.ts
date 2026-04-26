@@ -3,10 +3,15 @@ import { createClient } from '@/lib/supabase/server';
 import { getAdminClient } from '@/lib/supabase/admin';
 import { loadJsonOnce } from '@/lib/data/json-cache';
 
-function loadCourseDefinitions(): any[] { return loadJsonOnce('course-definitions.json'); }
+function loadCourseDefinitions(): any[] {
+  return loadJsonOnce('course-definitions.json');
+}
 function loadHvacQuizzes() {
   const d = loadJsonOnce<any>('hvac-quizzes.json');
-  return { HVAC_QUIZ_MAP: d.HVAC_QUIZ_MAP ?? {} as Record<string, any[]>, getUniversalExam: () => d.UNIVERSAL_EXAM ?? [] as any[] };
+  return {
+    HVAC_QUIZ_MAP: d.HVAC_QUIZ_MAP ?? ({} as Record<string, any[]>),
+    getUniversalExam: () => d.UNIVERSAL_EXAM ?? ([] as any[]),
+  };
 }
 import { logger } from '@/lib/logger';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
@@ -28,7 +33,9 @@ async function requireAdmin() {
   const supabase = await createClient();
   const db = await getAdminClient();
   if (!supabase) return { error: 'Database unavailable', status: 500 };
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return { error: 'Unauthorized', status: 401 };
   const { data: profile } = await db
     .from('profiles')
@@ -47,9 +54,11 @@ function buildLessonHtml(
   description: string,
   duration: string,
   moduleName: string,
-  lessonNum: number
+  lessonNum: number,
 ): string {
-  const meta = duration ? `<p class="text-sm text-slate-700">Duration: ${duration} | Lesson ${lessonNum}</p>` : `<p class="text-sm text-slate-700">Lesson ${lessonNum}</p>`;
+  const meta = duration
+    ? `<p class="text-sm text-slate-700">Duration: ${duration} | Lesson ${lessonNum}</p>`
+    : `<p class="text-sm text-slate-700">Lesson ${lessonNum}</p>`;
   const modLine = `<p class="text-sm text-slate-700 mb-2">Module: ${moduleName}</p>`;
 
   switch (type) {
@@ -99,10 +108,7 @@ async function _POST(request: NextRequest) {
       : COURSE_DEFINITIONS;
 
     if (courses.length === 0) {
-      return NextResponse.json(
-        { error: `No course found with slug "${slug}"` },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: `No course found with slug "${slug}"` }, { status: 404 });
     }
 
     const results: Array<{
@@ -116,24 +122,27 @@ async function _POST(request: NextRequest) {
       const courseId = deterministicUUID(`${course.slug}-course`);
 
       // Upsert course
-      const { error: courseError } = await db
-        .from('training_courses')
-        .upsert(
-          {
-            id: courseId,
-            course_name: course.title,
-            title: course.title,
-            description: course.subtitle,
-            is_active: true,
-            category: course.category,
-            updated_at: new Date().toISOString(),
-          },
-          { onConflict: 'id' }
-        );
+      const { error: courseError } = await db.from('training_courses').upsert(
+        {
+          id: courseId,
+          course_name: course.title,
+          title: course.title,
+          description: course.subtitle,
+          is_active: true,
+          category: course.category,
+          updated_at: new Date().toISOString(),
+        },
+        { onConflict: 'id' },
+      );
 
       if (courseError) {
         logger.error(`[SyncDefs] Course upsert failed: ${course.slug}`, courseError);
-        results.push({ slug: course.slug, courseId, lessonsUpserted: 0, error: 'Course sync failed' });
+        results.push({
+          slug: course.slug,
+          courseId,
+          lessonsUpserted: 0,
+          error: 'Course sync failed',
+        });
         continue;
       }
 
@@ -155,14 +164,21 @@ async function _POST(request: NextRequest) {
           const desc = lesson.description || '';
           const dur = lesson.durationMinutes;
           const durStr = dur ? `${dur} minutes` : '';
-          const contentHtml = buildLessonHtml(lesson.type, lesson.title, desc, durStr, mod.title, lessonNumber);
+          const contentHtml = buildLessonHtml(
+            lesson.type,
+            lesson.title,
+            desc,
+            durStr,
+            mod.title,
+            lessonNumber,
+          );
 
           // Look up quiz questions for this lesson
-          const quizQuestions = lesson.id === 'hvac-10-07'
-            ? getUniversalExam()
-            : HVAC_QUIZ_MAP[lesson.id] || null;
+          const quizQuestions =
+            lesson.id === 'hvac-10-07' ? getUniversalExam() : HVAC_QUIZ_MAP[lesson.id] || null;
 
-          const contentType = lesson.type === 'quiz' ? 'quiz' : lesson.type === 'video' ? 'video' : 'reading';
+          const contentType =
+            lesson.type === 'quiz' ? 'quiz' : lesson.type === 'video' ? 'video' : 'reading';
 
           lessonRows.push({
             id: lessonId,
@@ -190,7 +206,12 @@ async function _POST(request: NextRequest) {
 
       if (deleteError) {
         logger.error(`[SyncDefs] Lesson delete failed: ${course.slug}`, deleteError);
-        results.push({ slug: course.slug, courseId, lessonsUpserted: 0, error: 'Lesson cleanup failed' });
+        results.push({
+          slug: course.slug,
+          courseId,
+          lessonsUpserted: 0,
+          error: 'Lesson cleanup failed',
+        });
         continue;
       }
 
@@ -198,12 +219,13 @@ async function _POST(request: NextRequest) {
       let inserted = 0;
       for (let batch = 0; batch < lessonRows.length; batch += 50) {
         const chunk = lessonRows.slice(batch, batch + 50);
-        const { error: insertError } = await db
-          .from('training_lessons')
-          .insert(chunk);
+        const { error: insertError } = await db.from('training_lessons').insert(chunk);
 
         if (insertError) {
-          logger.error(`[SyncDefs] Lesson insert failed: ${course.slug} batch ${batch}`, insertError);
+          logger.error(
+            `[SyncDefs] Lesson insert failed: ${course.slug} batch ${batch}`,
+            insertError,
+          );
           results.push({
             slug: course.slug,
             courseId,
@@ -223,7 +245,18 @@ async function _POST(request: NextRequest) {
     const totalLessons = results.reduce((sum, r) => sum + r.lessonsUpserted, 0);
     const errors = results.filter((r) => r.error);
 
-    await logAdminAudit({ action: AdminAction.COURSE_DEFINITIONS_SYNCED, actorId: auth.user.id, entityType: 'course_definitions', entityId: BULK_ENTITY_ID, metadata: { courses_synced: results.length, total_lessons: totalLessons, errors: errors.length }, req: request });
+    await logAdminAudit({
+      action: AdminAction.COURSE_DEFINITIONS_SYNCED,
+      actorId: auth.user.id,
+      entityType: 'course_definitions',
+      entityId: BULK_ENTITY_ID,
+      metadata: {
+        courses_synced: results.length,
+        total_lessons: totalLessons,
+        errors: errors.length,
+      },
+      req: request,
+    });
 
     return NextResponse.json({
       success: errors.length === 0,

@@ -5,6 +5,7 @@
 ## 🤖 Active Autopilots (Run Automatically)
 
 ### Build-Time Autopilots
+
 These run automatically during `pnpm build`:
 
 1. ✅ **Route Generator** - Auto-generates routes from pages
@@ -48,6 +49,7 @@ These run automatically during `pnpm build`:
     - File: `scripts/security-compliance-autopilot.mjs`
 
 ### GitHub Actions Autopilots
+
 These run automatically on schedule or events:
 
 1. ✅ **CI Autopilot** - Runs on every push/PR
@@ -75,21 +77,25 @@ These run automatically on schedule or events:
 These can be run manually when needed:
 
 1. **Full Setup Orchestrator**
+
    ```bash
    bash scripts/autopilot-full-setup.sh
    ```
 
 2. **Netlify Configuration**
+
    ```bash
    bash scripts/autopilot-configure-netlify.sh
    ```
 
 3. **Advanced Autopilot** - Continuous testing
+
    ```bash
    bash scripts/advanced-autopilot.sh
    ```
 
 4. **Autopilot Loop** - Continuous monitoring
+
    ```bash
    bash scripts/autopilot-loop.sh
    ```
@@ -102,21 +108,25 @@ These can be run manually when needed:
 ## 📊 Quick Commands
 
 ### Check Autopilot Status
+
 ```bash
 node scripts/check-autopilots.mjs
 ```
 
 ### Run All Auto-Fixes
+
 ```bash
 pnpm run autopilot:fix
 ```
 
 ### Run All Checks
+
 ```bash
 pnpm run autopilot:check
 ```
 
 ### Pre-Push Validation
+
 ```bash
 pnpm run autopilot:prepush
 ```
@@ -142,6 +152,7 @@ pnpm run autopilot:prepush
 **Status:** 🟢 ALL SYSTEMS OPERATIONAL
 
 To update this dashboard, run:
+
 ```bash
 bash scripts/activate-all-autopilots.sh
 ```

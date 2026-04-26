@@ -17,19 +17,28 @@ export default function JobCard({ job, href, showApply = false }: JobCardProps) 
     : false;
 
   return (
-    <div className={`group bg-white rounded-2xl border overflow-hidden shadow-sm transition-all ${
-      isExpired ? 'border-slate-200 opacity-60' : 'border-slate-200 hover:border-brand-blue-200 hover:shadow-md hover:-translate-y-0.5'
-    }`}>
+    <div
+      className={`group bg-white rounded-2xl border overflow-hidden shadow-sm transition-all ${
+        isExpired
+          ? 'border-slate-200 opacity-60'
+          : 'border-slate-200 hover:border-brand-blue-200 hover:shadow-md hover:-translate-y-0.5'
+      }`}
+    >
       <div className="p-5">
         {/* Header */}
         <div className="flex items-start justify-between gap-3 mb-3">
           <div className="min-w-0">
-            <Link href={dest} className="font-bold text-slate-900 text-base leading-snug hover:text-brand-blue-700 transition-colors line-clamp-2">
+            <Link
+              href={dest}
+              className="font-bold text-slate-900 text-base leading-snug hover:text-brand-blue-700 transition-colors line-clamp-2"
+            >
               {job.title}
             </Link>
             <p className="text-sm text-slate-500 mt-0.5">Elevate Employer Partner</p>
           </div>
-          <span className={`flex-shrink-0 text-[11px] font-semibold px-2.5 py-1 rounded-full ${jobTypeBadge(job.job_type ?? job.employment_type)}`}>
+          <span
+            className={`flex-shrink-0 text-[11px] font-semibold px-2.5 py-1 rounded-full ${jobTypeBadge(job.job_type ?? job.employment_type)}`}
+          >
             {jobTypeLabel(job.job_type ?? job.employment_type)}
           </span>
         </div>
@@ -67,11 +76,18 @@ export default function JobCard({ job, href, showApply = false }: JobCardProps) 
         {/* Skills */}
         {job.skills_required && job.skills_required.length > 0 && (
           <div className="flex flex-wrap gap-1.5 mb-4">
-            {job.skills_required.slice(0, 4).map(s => (
-              <span key={s} className="text-[11px] bg-slate-100 text-slate-600 px-2.5 py-0.5 rounded-full">{s}</span>
+            {job.skills_required.slice(0, 4).map((s) => (
+              <span
+                key={s}
+                className="text-[11px] bg-slate-100 text-slate-600 px-2.5 py-0.5 rounded-full"
+              >
+                {s}
+              </span>
             ))}
             {job.skills_required.length > 4 && (
-              <span className="text-[11px] text-slate-500">+{job.skills_required.length - 4} more</span>
+              <span className="text-[11px] text-slate-500">
+                +{job.skills_required.length - 4} more
+              </span>
             )}
           </div>
         )}
@@ -79,18 +95,26 @@ export default function JobCard({ job, href, showApply = false }: JobCardProps) 
         {/* Deadline */}
         {job.application_deadline && (
           <p className={`text-xs mb-3 ${isExpired ? 'text-brand-red-500' : 'text-slate-400'}`}>
-            {isExpired ? 'Applications closed' : `Apply by ${new Date(job.application_deadline).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`}
+            {isExpired
+              ? 'Applications closed'
+              : `Apply by ${new Date(job.application_deadline).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`}
           </p>
         )}
 
         {/* CTA */}
         <div className="flex gap-2">
           {showApply && !isExpired ? (
-            <Link href={dest} className="flex-1 text-center bg-brand-blue-600 text-white px-4 py-2.5 rounded-xl text-sm font-semibold hover:bg-brand-blue-700 transition-colors">
+            <Link
+              href={dest}
+              className="flex-1 text-center bg-brand-blue-600 text-white px-4 py-2.5 rounded-xl text-sm font-semibold hover:bg-brand-blue-700 transition-colors"
+            >
               Apply Now
             </Link>
           ) : (
-            <Link href={dest} className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand-blue-600 hover:gap-2.5 transition-all">
+            <Link
+              href={dest}
+              className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand-blue-600 hover:gap-2.5 transition-all"
+            >
               View details <ArrowRight className="w-4 h-4" />
             </Link>
           )}

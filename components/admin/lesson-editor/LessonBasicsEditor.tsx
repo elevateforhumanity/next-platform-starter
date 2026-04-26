@@ -8,16 +8,16 @@
 import { ALL_LESSON_TYPES, LESSON_TYPE_META, type LessonType } from '@/lib/curriculum/lesson-types';
 
 interface Props {
-  title:          string;
-  slug:           string;
-  lessonType:     LessonType;
-  status:         string;
+  title: string;
+  slug: string;
+  lessonType: LessonType;
+  status: string;
   durationMinutes: number;
-  orderIndex:     number;
+  orderIndex: number;
   onChange: (patch: {
-    title?:           string;
-    lessonType?:      LessonType;
-    status?:          string;
+    title?: string;
+    lessonType?: LessonType;
+    status?: string;
     durationMinutes?: number;
   }) => void;
 }
@@ -25,7 +25,13 @@ interface Props {
 const STATUS_OPTIONS = ['draft', 'review', 'published', 'archived'];
 
 export default function LessonBasicsEditor({
-  title, slug, lessonType, status, durationMinutes, orderIndex, onChange,
+  title,
+  slug,
+  lessonType,
+  status,
+  durationMinutes,
+  orderIndex,
+  onChange,
 }: Props) {
   const meta = LESSON_TYPE_META[lessonType];
 
@@ -40,7 +46,7 @@ export default function LessonBasicsEditor({
           <input
             type="text"
             value={title}
-            onChange={e => onChange({ title: e.target.value })}
+            onChange={(e) => onChange({ title: e.target.value })}
             placeholder="Enter lesson title"
             className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
           />
@@ -49,7 +55,10 @@ export default function LessonBasicsEditor({
         {/* Slug (read-only) */}
         <div>
           <label className="block text-xs font-semibold text-slate-600 mb-1">
-            Slug <span className="text-slate-400 font-normal">(identity key — do not change after seeding)</span>
+            Slug{' '}
+            <span className="text-slate-400 font-normal">
+              (identity key — do not change after seeding)
+            </span>
           </label>
           <input
             type="text"
@@ -77,10 +86,10 @@ export default function LessonBasicsEditor({
           </label>
           <select
             value={lessonType}
-            onChange={e => onChange({ lessonType: e.target.value as LessonType })}
+            onChange={(e) => onChange({ lessonType: e.target.value as LessonType })}
             className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
           >
-            {ALL_LESSON_TYPES.map(t => (
+            {ALL_LESSON_TYPES.map((t) => (
               <option key={t} value={t}>
                 {LESSON_TYPE_META[t].badge} {LESSON_TYPE_META[t].label}
               </option>
@@ -94,11 +103,13 @@ export default function LessonBasicsEditor({
           <label className="block text-xs font-semibold text-slate-600 mb-1">Status</label>
           <select
             value={status}
-            onChange={e => onChange({ status: e.target.value })}
+            onChange={(e) => onChange({ status: e.target.value })}
             className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
           >
-            {STATUS_OPTIONS.map(s => (
-              <option key={s} value={s}>{s.charAt(0).toUpperCase() + s.slice(1)}</option>
+            {STATUS_OPTIONS.map((s) => (
+              <option key={s} value={s}>
+                {s.charAt(0).toUpperCase() + s.slice(1)}
+              </option>
             ))}
           </select>
         </div>
@@ -112,7 +123,7 @@ export default function LessonBasicsEditor({
             type="number"
             min={0}
             value={durationMinutes}
-            onChange={e => onChange({ durationMinutes: parseInt(e.target.value) || 0 })}
+            onChange={(e) => onChange({ durationMinutes: parseInt(e.target.value) || 0 })}
             className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
           />
         </div>

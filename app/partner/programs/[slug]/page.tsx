@@ -5,7 +5,11 @@ import PartnerProgramClient from './PartnerProgramClient';
 
 export const dynamic = 'force-dynamic';
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
   const { slug } = await params;
   const title = slug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
   return {
@@ -14,13 +18,18 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   };
 }
 
-export default async function PartnerProgramPage({ params }: { params: Promise<{ slug: string }> }) {
+export default async function PartnerProgramPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
   const { slug } = await params;
 
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect(`/login?redirect=/partner/programs/${slug}`);
-
 
   // Partner role guard
   const { data: profile } = await supabase
@@ -49,13 +58,10 @@ export default async function PartnerProgramPage({ params }: { params: Promise<{
     .eq('slug', slug)
     .maybeSingle();
 
-  const programName = program?.title || program?.name || slug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+  const programName =
+    program?.title ||
+    program?.name ||
+    slug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
 
-  return (
-    <PartnerProgramClient
-      slug={slug}
-      programName={programName}
-      orgId={orgId}
-    />
-  );
+  return <PartnerProgramClient slug={slug} programName={programName} orgId={orgId} />;
 }

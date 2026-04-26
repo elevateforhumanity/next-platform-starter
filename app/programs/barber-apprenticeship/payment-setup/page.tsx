@@ -3,12 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { loadStripe } from '@stripe/stripe-js';
-import {
-  Elements,
-  PaymentElement,
-  useStripe,
-  useElements,
-} from '@stripe/react-stripe-js';
+import { Elements, PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { Shield, CreditCard, Lock, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
@@ -82,16 +77,20 @@ function PaymentSetupForm({ weeklyAmount }: { weeklyAmount: number }) {
         className="w-full flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-400 disabled:opacity-50 disabled:cursor-not-allowed text-slate-900 font-bold py-4 rounded-xl transition-colors text-base"
       >
         {submitting ? (
-          <><Loader2 className="w-5 h-5 animate-spin" /> Setting up payments…</>
+          <>
+            <Loader2 className="w-5 h-5 animate-spin" /> Setting up payments…
+          </>
         ) : (
-          <><Lock className="w-5 h-5" /> Save Card &amp; Activate Program</>
+          <>
+            <Lock className="w-5 h-5" /> Save Card &amp; Activate Program
+          </>
         )}
       </button>
 
       <p className="text-center text-xs text-slate-500">
         Your card will not be charged today. First payment of{' '}
-        <strong className="text-slate-300">${(weeklyAmount / 100).toFixed(2)}</strong>{' '}
-        drafts next Friday at 10:00 AM ET.
+        <strong className="text-slate-300">${(weeklyAmount / 100).toFixed(2)}</strong> drafts next
+        Friday at 10:00 AM ET.
       </p>
     </form>
   );
@@ -107,9 +106,12 @@ export default function PaymentSetupPage() {
 
   useEffect(() => {
     fetch('/api/barber/setup-intent', { method: 'POST' })
-      .then(r => r.json())
-      .then(data => {
-        if (data.error) { setFatalError(data.error); return; }
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.error) {
+          setFatalError(data.error);
+          return;
+        }
         setClientSecret(data.clientSecret);
         if (data.weeklyPaymentCents) setWeeklyAmount(data.weeklyPaymentCents);
       })
@@ -123,7 +125,9 @@ export default function PaymentSetupPage() {
       <div className="bg-slate-900 border-b border-slate-800 px-6 py-4">
         <div className="max-w-lg mx-auto flex items-center justify-between">
           <div>
-            <p className="text-amber-400 text-xs uppercase tracking-widest mb-0.5">Barber Apprenticeship</p>
+            <p className="text-amber-400 text-xs uppercase tracking-widest mb-0.5">
+              Barber Apprenticeship
+            </p>
             <h1 className="text-white font-bold text-lg">Payment Setup</h1>
           </div>
           <div className="flex items-center gap-1.5 text-slate-400 text-xs">
@@ -134,7 +138,6 @@ export default function PaymentSetupPage() {
       </div>
 
       <div className="max-w-lg mx-auto px-6 py-10 space-y-8">
-
         {/* Summary card */}
         <div className="bg-slate-800 border border-slate-700 rounded-2xl p-6 space-y-4">
           <div className="flex items-center gap-3">
@@ -143,7 +146,9 @@ export default function PaymentSetupPage() {
             </div>
             <div>
               <p className="font-semibold text-white">Weekly Payment Plan</p>
-              <p className="text-slate-400 text-sm">Barber Apprenticeship — 2,000 OJL hrs @ 40 hrs/wk</p>
+              <p className="text-slate-400 text-sm">
+                Barber Apprenticeship — 2,000 OJL hrs @ 40 hrs/wk
+              </p>
             </div>
           </div>
 
@@ -168,7 +173,7 @@ export default function PaymentSetupPage() {
             'Cancel or update your card anytime',
             'Automatic reminder 3 days before each payment',
             'Failed payments get a 7-day grace period before suspension',
-          ].map(text => (
+          ].map((text) => (
             <div key={text} className="flex items-center gap-2.5 text-sm text-slate-300">
               <CheckCircle className="w-4 h-4 text-green-400 shrink-0" />
               {text}

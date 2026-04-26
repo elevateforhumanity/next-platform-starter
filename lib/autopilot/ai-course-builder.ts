@@ -1,10 +1,10 @@
-import OpenAI from "openai";
+import OpenAI from 'openai';
 
 function slugify(text: string): string {
   return text
     .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
 }
 
 function getOpenAIClient() {
@@ -21,7 +21,7 @@ export async function buildCourse({ title, objectives }: { title: string; object
 Create a full course with modules and lessons.
 
 Title: ${title}
-Objectives: ${objectives.join(", ")}
+Objectives: ${objectives.join(', ')}
 
 Format output as JSON:
 {
@@ -40,13 +40,13 @@ Format output as JSON:
 `;
 
   const res = await client.chat.completions.create({
-    model: "gpt-4.1-mini",
-    messages: [{ role: "user", content: prompt }],
+    model: 'gpt-4.1-mini',
+    messages: [{ role: 'user', content: prompt }],
   });
 
   const raw = res.choices[0].message.content;
   if (!raw) {
-    throw new Error("No response from OpenAI");
+    throw new Error('No response from OpenAI');
   }
 
   const json = JSON.parse(raw);

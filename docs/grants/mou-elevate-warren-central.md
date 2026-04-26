@@ -1,5 +1,7 @@
 # MEMORANDUM OF UNDERSTANDING
+
 ## Elevate for Humanity & Warren Central High School
+
 ## WIOA In-School Youth Career Coaching Partnership
 
 ---
@@ -113,26 +115,26 @@ By signing below, both parties agree to the terms of this Memorandum of Understa
 
 **Elevate for Humanity**
 
-Signature: ___________________________
+Signature: ************\_\_\_************
 
 Name: Elizabeth Greene
 
 Title: Founder & Executive Director
 
-Date: ___________________________
+Date: ************\_\_\_************
 
 ---
 
 **Warren Central High School**
 
-Signature: ___________________________
+Signature: ************\_\_\_************
 
 Name: Masimba Taylor
 
 Title: Principal
 
-Date: ___________________________
+Date: ************\_\_\_************
 
 ---
 
-*Elevate for Humanity | www.elevateforhumanity.org | Indianapolis, Indiana*
+_Elevate for Humanity | www.elevateforhumanity.org | Indianapolis, Indiana_

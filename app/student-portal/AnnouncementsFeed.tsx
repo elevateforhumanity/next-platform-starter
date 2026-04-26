@@ -13,7 +13,7 @@ type Announcement = {
 
 /**
  * AnnouncementsFeed - Database-backed announcements
- * 
+ *
  * Rules:
  * - Fetches from /api/announcements (student audience)
  * - No data = no component (returns null)
@@ -117,7 +117,8 @@ export default function AnnouncementsFeed() {
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { timeZone: 'UTC',
+    return date.toLocaleDateString('en-US', {
+      timeZone: 'UTC',
       month: 'long',
       day: 'numeric',
       year: 'numeric',
@@ -138,9 +139,7 @@ export default function AnnouncementsFeed() {
               className={`bg-white rounded-xl p-6 border-l-4 ${getBorderColor(announcement.severity)}`}
             >
               <div className="flex items-start justify-between mb-3">
-                <h3 className="text-lg font-bold text-black">
-                  {announcement.title}
-                </h3>
+                <h3 className="text-lg font-bold text-black">{announcement.title}</h3>
                 <span
                   className={`text-xs px-2 py-1 rounded-full inline-flex items-center gap-1 ${getBadgeColor(announcement.severity)}`}
                 >
@@ -148,9 +147,7 @@ export default function AnnouncementsFeed() {
                   {getLabel(announcement.severity)}
                 </span>
               </div>
-              <p className="text-sm text-slate-700 mb-3">
-                {formatDate(announcement.published_at)}
-              </p>
+              <p className="text-sm text-slate-700 mb-3">{formatDate(announcement.published_at)}</p>
               <p className="text-slate-700">{announcement.body}</p>
             </div>
           ))}

@@ -2,10 +2,7 @@
  * Find an item by slug from any content array.
  * Returns undefined if not found — callers should handle with notFound().
  */
-export function findBySlug<T extends { slug: string }>(
-  items: T[],
-  slug: string,
-): T | undefined {
+export function findBySlug<T extends { slug: string }>(items: T[], slug: string): T | undefined {
   return items.find((item) => item.slug === slug);
 }
 

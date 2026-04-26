@@ -14,7 +14,7 @@ export interface ProgramHolderStudent {
 
 export async function assignProgramToHolder(
   holderId: string,
-  programSlug: string
+  programSlug: string,
 ): Promise<string | null> {
   const supabase = await createClient();
 
@@ -31,9 +31,7 @@ export async function assignProgramToHolder(
   return data;
 }
 
-export async function getProgramHolderStudents(
-  holderId: string
-): Promise<ProgramHolderStudent[]> {
+export async function getProgramHolderStudents(holderId: string): Promise<ProgramHolderStudent[]> {
   const supabase = await createClient();
 
   const { data, error } = await supabase.rpc('get_program_holder_students', {
@@ -64,19 +62,18 @@ export async function getProgramHolderPrograms(holderId: string) {
   return data || [];
 }
 
-export async function canAccessStudent(
-  holderId: string,
-  studentId: string
-): Promise<boolean> {
+export async function canAccessStudent(holderId: string, studentId: string): Promise<boolean> {
   const supabase = await createClient();
 
   const { data, error } = await supabase
     .from('program_enrollments')
-    .select(`
+    .select(
+      `
       id,
       course_id,
       courses!inner(id, category, slug)
-    `)
+    `,
+    )
     .eq('user_id', studentId)
     .maybeSingle();
 
@@ -95,8 +92,6 @@ export async function canAccessStudent(
 
   const course = data.courses as any;
   return programs.some(
-    (p) =>
-      course.category === p.program_slug ||
-      course.slug.startsWith(p.program_slug)
+    (p) => course.category === p.program_slug || course.slug.startsWith(p.program_slug),
   );
 }

@@ -26,9 +26,7 @@
       "id": "s1-wrong",
       "prompt": "The contactor is confirmed closed (fan runs). Low charge would not cause humming. A humming motor that cannot start points to the capacitor.",
       "feedback": "Humming + trips on overload = motor trying but cannot turn = capacitor failure.",
-      "options": [
-        { "label": "Check the capacitor", "next": "s2", "correct": true }
-      ]
+      "options": [{ "label": "Check the capacitor", "next": "s2", "correct": true }]
     },
     "s2": {
       "id": "s2",
@@ -43,15 +41,17 @@
       "id": "s2-wrong",
       "prompt": "Testing a live capacitor without discharge is dangerous — it can hold a lethal charge even after power is removed.",
       "feedback": "Always discharge capacitors before handling. Use a 10kΩ, 5W resistor across the terminals.",
-      "options": [
-        { "label": "Discharge after LOTO, then test", "next": "s3", "correct": true }
-      ]
+      "options": [{ "label": "Discharge after LOTO, then test", "next": "s3", "correct": true }]
     },
     "s2-partial": {
       "id": "s2-partial",
       "prompt": "Replacing without testing is acceptable in the field but wastes parts if the capacitor is good. What is the correct test?",
       "options": [
-        { "label": "Discharge after LOTO, measure capacitance in microfarads", "next": "s3", "correct": true }
+        {
+          "label": "Discharge after LOTO, measure capacitance in microfarads",
+          "next": "s3",
+          "correct": true
+        }
       ]
     },
     "s3": {
@@ -67,9 +67,7 @@
       "id": "s3-wrong",
       "prompt": "The HERM section reads 28 µF vs. rated 45 µF — that is 38% low, well outside the ±6% tolerance. The dual-run capacitor must be replaced as a unit.",
       "feedback": "Dual-run capacitors are replaced as a complete unit. A weak HERM section causes the compressor to draw excess current and trip.",
-      "options": [
-        { "label": "Replace the dual-run capacitor", "next": "pass", "correct": true }
-      ]
+      "options": [{ "label": "Replace the dual-run capacitor", "next": "pass", "correct": true }]
     },
     "pass": {
       "id": "pass",

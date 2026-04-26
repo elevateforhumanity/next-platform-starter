@@ -2,7 +2,16 @@
 
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
-import { Search, Award, Calendar, User, Building2, XCircle, Loader2, ShieldCheck } from 'lucide-react';
+import {
+  Search,
+  Award,
+  Calendar,
+  User,
+  Building2,
+  XCircle,
+  Loader2,
+  ShieldCheck,
+} from 'lucide-react';
 
 type VerifyRecord = {
   credentialId: string;
@@ -14,15 +23,18 @@ type VerifyRecord = {
   status: string;
 };
 
-type VerifyResponse =
-  | { ok: true; record: VerifyRecord }
-  | { ok: false; reason: string };
+type VerifyResponse = { ok: true; record: VerifyRecord } | { ok: false; reason: string };
 
 function fmtDate(iso: string | null): string {
   if (!iso) return '—';
   const d = new Date(iso);
   if (Number.isNaN(d.getTime())) return iso;
-  return d.toLocaleDateString('en-US', { timeZone: 'UTC', year: 'numeric', month: 'long', day: 'numeric' });
+  return d.toLocaleDateString('en-US', {
+    timeZone: 'UTC',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
 }
 
 export default function VerifyClient({ initialId }: { initialId?: string }) {
@@ -69,7 +81,9 @@ export default function VerifyClient({ initialId }: { initialId?: string }) {
       <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-8">
         <form onSubmit={onSubmit} className="flex gap-4">
           <div className="flex-1">
-            <label htmlFor="credentialId" className="sr-only">Certificate ID</label>
+            <label htmlFor="credentialId" className="sr-only">
+              Certificate ID
+            </label>
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-700" />
               <input
@@ -141,7 +155,9 @@ export default function VerifyClient({ initialId }: { initialId?: string }) {
                       <Building2 className="w-4 h-4" />
                       <span>Certificate Number</span>
                     </div>
-                    <p className="font-semibold text-slate-900 font-mono">{resp.record.credentialId}</p>
+                    <p className="font-semibold text-slate-900 font-mono">
+                      {resp.record.credentialId}
+                    </p>
                   </div>
                 </div>
 

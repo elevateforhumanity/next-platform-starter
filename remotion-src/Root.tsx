@@ -1,6 +1,10 @@
 import { Composition } from 'remotion';
 import { ElevateLesson, type ElevateLessonProps } from './compositions/ElevateLesson';
-import { SlideLesson, calcSlideLessonFrames, type SlideLessonProps } from './compositions/SlideLesson';
+import {
+  SlideLesson,
+  calcSlideLessonFrames,
+  type SlideLessonProps,
+} from './compositions/SlideLesson';
 
 // Default props for Remotion Studio preview
 const defaultProps: ElevateLessonProps = {
@@ -14,8 +18,10 @@ const defaultProps: ElevateLessonProps = {
     'The four dimensions of recovery: Health, Home, Purpose, Community.',
     'Confidentiality is the cornerstone of trust in peer support.',
   ],
-  example: 'Marcus had been in recovery for two years when he met James, who had just been discharged from treatment. Instead of giving advice, Marcus simply said: "I\'ve been where you are. What do you need right now?" That question changed everything.',
-  summary: 'Peer recovery support is a powerful, evidence-based practice built on lived experience, mutual respect, and the belief that recovery is possible for everyone.',
+  example:
+    'Marcus had been in recovery for two years when he met James, who had just been discharged from treatment. Instead of giving advice, Marcus simply said: "I\'ve been where you are. What do you need right now?" That question changed everything.',
+  summary:
+    'Peer recovery support is a powerful, evidence-based practice built on lived experience, mutual respect, and the belief that recovery is possible for everyone.',
   quizTeaser: 'Ready to test your knowledge? Complete the checkpoint quiz to continue.',
   audioSrc: 'https://example.com/audio.mp3', // replaced at render time
   backgroundImageSrc: 'https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg',
@@ -45,7 +51,8 @@ const slideLessonDefaultProps: SlideLessonProps = {
         'Respect, honesty, and clear boundaries',
         'Your role is to support — not direct',
       ],
-      narration: 'Ethics guide how peer recovery specialists support others with respect, honesty, and boundaries.',
+      narration:
+        'Ethics guide how peer recovery specialists support others with respect, honesty, and boundaries.',
       clip_keyword: 'support group',
       clipUrl: null,
       imageUrl: 'https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg',
@@ -61,7 +68,8 @@ const slideLessonDefaultProps: SlideLessonProps = {
         'Professional boundaries',
         'Non-judgmental presence',
       ],
-      narration: 'Respect, confidentiality, boundaries, and professional conduct are the pillars of ethical peer support.',
+      narration:
+        'Respect, confidentiality, boundaries, and professional conduct are the pillars of ethical peer support.',
       clip_keyword: 'professional meeting',
       clipUrl: null,
       imageUrl: 'https://images.pexels.com/photos/3184338/pexels-photo-3184338.jpeg',

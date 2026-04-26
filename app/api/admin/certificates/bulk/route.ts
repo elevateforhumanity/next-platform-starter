@@ -9,12 +9,19 @@ export const dynamic = 'force-dynamic';
 async function _POST(req: NextRequest) {
   const supabase = await createClient();
   const db = await getAdminClient();
-  if (!db) return NextResponse.json({ error: 'Admin client failed to initialize' }, { status: 500 });
+  if (!db)
+    return NextResponse.json({ error: 'Admin client failed to initialize' }, { status: 500 });
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-  const { data: profile } = await db.from('profiles').select('role').eq('id', user.id).maybeSingle();
+  const { data: profile } = await db
+    .from('profiles')
+    .select('role')
+    .eq('id', user.id)
+    .maybeSingle();
   if (profile?.role !== 'admin' && profile?.role !== 'super_admin') {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
@@ -37,26 +44,27 @@ async function _POST(req: NextRequest) {
         .eq('id', enrollmentId)
         .maybeSingle();
 
-      if (!enrollment) { failed++; continue; }
+      if (!enrollment) {
+        failed++;
+        continue;
+      }
 
       const certNumber = generateCertificateNumber('EFH');
 
       // Insert certificate
-      const { error: insertErr } = await db
-        .from('issued_certificates')
-        .insert({
-          certificate_number: certNumber,
-          recipient_name: (enrollment as any).profiles?.full_name || 'Unknown',
-          recipient_email: (enrollment as any).profiles?.email || '',
-          student_id: enrollment.user_id,
-          template_id: templateId,
-          course_id: enrollment.course_id,
-          enrollment_id: enrollmentId,
-          issue_date: issueDate || new Date().toISOString().split('T')[0],
-          signed_by: signedBy || 'Elevate for Humanity Career & Technical Institute',
-          status: 'issued',
-          issued_by: user.id,
-        });
+      const { error: insertErr } = await db.from('issued_certificates').insert({
+        certificate_number: certNumber,
+        recipient_name: (enrollment as any).profiles?.full_name || 'Unknown',
+        recipient_email: (enrollment as any).profiles?.email || '',
+        student_id: enrollment.user_id,
+        template_id: templateId,
+        course_id: enrollment.course_id,
+        enrollment_id: enrollmentId,
+        issue_date: issueDate || new Date().toISOString().split('T')[0],
+        signed_by: signedBy || 'Elevate for Humanity Career & Technical Institute',
+        status: 'issued',
+        issued_by: user.id,
+      });
 
       if (insertErr) {
         // Fallback to certificates table

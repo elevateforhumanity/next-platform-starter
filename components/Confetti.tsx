@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -31,13 +31,13 @@ const colors = [
   '#BB8FCE', // Purple
   '#85C1E2', // Light Blue
   '#F8B739', // Gold
-  '#EC7063'  // Pink
+  '#EC7063', // Pink
 ];
 
 export default function Confetti({
   active = true,
   duration = 3000,
-  pieceCount = 50
+  pieceCount = 50,
 }: ConfettiProps) {
   const [pieces, setPieces] = useState<ConfettiPiece[]>([]);
   const [isActive, setIsActive] = useState(active);
@@ -52,7 +52,7 @@ export default function Confetti({
         rotation: Math.random() * 360,
         color: colors[Math.floor(Math.random() * colors.length)],
         size: Math.random() * 10 + 5,
-        delay: Math.random() * 0.5
+        delay: Math.random() * 0.5,
       }));
 
       setPieces(newPieces);
@@ -79,24 +79,24 @@ export default function Confetti({
               x: `${piece.x}vw`,
               y: '-10vh',
               rotate: piece.rotation,
-              opacity: 1
+              opacity: 1,
             }}
             animate={{
               y: '110vh',
               rotate: piece.rotation + 720,
-              opacity: [1, 1, 0.8, 0]
+              opacity: [1, 1, 0.8, 0],
             }}
             transition={{
               duration: 3 + Math.random() * 2,
               delay: piece.delay,
-              ease: 'easeIn'
+              ease: 'easeIn',
             }}
             style={{
               position: 'absolute',
               width: `${piece.size}px`,
               height: `${piece.size}px`,
               backgroundColor: piece.color,
-              borderRadius: Math.random() > 0.5 ? '50%' : '0%'
+              borderRadius: Math.random() > 0.5 ? '50%' : '0%',
             }}
           />
         ))}
@@ -108,7 +108,7 @@ export default function Confetti({
 // Alternative: Confetti Cannon Effect
 export function ConfettiCannon({
   active = true,
-  duration = 2000
+  duration = 2000,
 }: Omit<ConfettiProps, 'pieceCount'>) {
   const [isActive, setIsActive] = useState(active);
 
@@ -129,7 +129,7 @@ export function ConfettiCannon({
     angle: -60 + Math.random() * 40,
     velocity: 15 + Math.random() * 10,
     color: colors[Math.floor(Math.random() * colors.length)],
-    size: Math.random() * 8 + 4
+    size: Math.random() * 8 + 4,
   }));
 
   const rightCannon = Array.from({ length: 30 }, (_, i) => ({
@@ -137,7 +137,7 @@ export function ConfettiCannon({
     angle: 180 + 60 - Math.random() * 40,
     velocity: 15 + Math.random() * 10,
     color: colors[Math.floor(Math.random() * colors.length)],
-    size: Math.random() * 8 + 4
+    size: Math.random() * 8 + 4,
   }));
 
   return (
@@ -155,24 +155,24 @@ export function ConfettiCannon({
               x: '0vw',
               y: '100vh',
               rotate: 0,
-              opacity: 1
+              opacity: 1,
             }}
             animate={{
               x: `${vx * 5}vw`,
               y: `${100 + vy * 5}vh`,
               rotate: 720,
-              opacity: 0
+              opacity: 0,
             }}
             transition={{
               duration: 2,
-              ease: [0.25, 0.46, 0.45, 0.94]
+              ease: [0.25, 0.46, 0.45, 0.94],
             }}
             style={{
               position: 'absolute',
               width: `${piece.size}px`,
               height: `${piece.size}px`,
               backgroundColor: piece.color,
-              borderRadius: Math.random() > 0.5 ? '50%' : '0%'
+              borderRadius: Math.random() > 0.5 ? '50%' : '0%',
             }}
           />
         );
@@ -191,24 +191,24 @@ export function ConfettiCannon({
               x: '100vw',
               y: '100vh',
               rotate: 0,
-              opacity: 1
+              opacity: 1,
             }}
             animate={{
               x: `${100 + vx * 5}vw`,
               y: `${100 + vy * 5}vh`,
               rotate: -720,
-              opacity: 0
+              opacity: 0,
             }}
             transition={{
               duration: 2,
-              ease: [0.25, 0.46, 0.45, 0.94]
+              ease: [0.25, 0.46, 0.45, 0.94],
             }}
             style={{
               position: 'absolute',
               width: `${piece.size}px`,
               height: `${piece.size}px`,
               backgroundColor: piece.color,
-              borderRadius: Math.random() > 0.5 ? '50%' : '0%'
+              borderRadius: Math.random() > 0.5 ? '50%' : '0%',
             }}
           />
         );
@@ -218,11 +218,7 @@ export function ConfettiCannon({
 }
 
 // Burst Effect from Center
-export function ConfettiBurst({
-  active = true,
-  duration = 2000,
-  pieceCount = 40
-}: ConfettiProps) {
+export function ConfettiBurst({ active = true, duration = 2000, pieceCount = 40 }: ConfettiProps) {
   const [isActive, setIsActive] = useState(active);
 
   useEffect(() => {
@@ -249,7 +245,7 @@ export function ConfettiBurst({
       vy: Math.sin(radians) * velocity,
       color: colors[Math.floor(Math.random() * colors.length)],
       size: Math.random() * 10 + 5,
-      rotation: Math.random() * 360
+      rotation: Math.random() * 360,
     };
   });
 
@@ -263,25 +259,25 @@ export function ConfettiBurst({
             y: 0,
             rotate: piece.rotation,
             opacity: 1,
-            scale: 0
+            scale: 0,
           }}
           animate={{
             x: piece.vx * 30,
             y: piece.vy * 30,
             rotate: piece.rotation + 720,
             opacity: 0,
-            scale: 1
+            scale: 1,
           }}
           transition={{
             duration: 1.5,
-            ease: [0.25, 0.46, 0.45, 0.94]
+            ease: [0.25, 0.46, 0.45, 0.94],
           }}
           style={{
             position: 'absolute',
             width: `${piece.size}px`,
             height: `${piece.size}px`,
             backgroundColor: piece.color,
-            borderRadius: Math.random() > 0.5 ? '50%' : '0%'
+            borderRadius: Math.random() > 0.5 ? '50%' : '0%',
           }}
         />
       ))}

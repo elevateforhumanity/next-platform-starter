@@ -1,4 +1,3 @@
-
 export const revalidate = 3600;
 
 import { Metadata } from 'next';
@@ -10,7 +9,8 @@ const SITE_URL = 'https://www.elevateforhumanity.org';
 
 export const metadata: Metadata = {
   title: 'Training Delivery Model Disclosure | Elevate for Humanity',
-  description: 'How Elevate for Humanity delivers training: online didactic instruction via LMS, hands-on training at approved employer partner sites, and virtual support services.',
+  description:
+    'How Elevate for Humanity delivers training: online didactic instruction via LMS, hands-on training at approved employer partner sites, and virtual support services.',
   alternates: { canonical: `${SITE_URL}/disclosures/training-delivery` },
 };
 
@@ -42,11 +42,11 @@ export default function TrainingDeliveryDisclosure() {
             <p className="text-sm text-slate-700 leading-relaxed">
               Elevate for Humanity (operating as 2Exclusive LLC-S, DBA Elevate for Humanity Career
               &amp; Training Institute) is a <strong>workforce training institute</strong> and{' '}
-              <strong>DOL Registered Apprenticeship Sponsor</strong> (RAPIDS: 2025-IN-132301). We are
-              an Indiana DWD-approved training provider listed on the Eligible Training Provider List
-              (ETPL). Elevate is <strong>not a traditional campus-based institution</strong>. Training
-              is delivered through a combination of online instruction and employer-based hands-on
-              learning at approved partner sites.
+              <strong>DOL Registered Apprenticeship Sponsor</strong> (RAPIDS: 2025-IN-132301). We
+              are an Indiana DWD-approved training provider listed on the Eligible Training Provider
+              List (ETPL). Elevate is <strong>not a traditional campus-based institution</strong>.
+              Training is delivered through a combination of online instruction and employer-based
+              hands-on learning at approved partner sites.
             </p>
           </div>
         </div>
@@ -69,12 +69,14 @@ export default function TrainingDeliveryDisclosure() {
                 </h3>
                 <p className="text-sm text-slate-600 mb-2">
                   All Related Technical Instruction (RTI) and classroom-equivalent coursework is
-                  delivered online through the Elevate Learning Management System (LMS). This includes
-                  curriculum modules, video instruction, quizzes, assessments, and progress tracking.
+                  delivered online through the Elevate Learning Management System (LMS). This
+                  includes curriculum modules, video instruction, quizzes, assessments, and progress
+                  tracking.
                 </p>
                 <p className="text-sm text-slate-600">
                   Students access course materials on their own schedule with structured deadlines.
-                  Instructor support is available via the platform, email, and scheduled virtual sessions.
+                  Instructor support is available via the platform, email, and scheduled virtual
+                  sessions.
                 </p>
               </div>
             </div>
@@ -94,27 +96,44 @@ export default function TrainingDeliveryDisclosure() {
                   requirements, licensing standards, and geographic accessibility.
                 </p>
                 <div className="bg-white rounded-lg p-4 border border-slate-200">
-                  <h4 className="text-sm font-semibold text-slate-800 mb-2">Training Sites by Program Type</h4>
+                  <h4 className="text-sm font-semibold text-slate-800 mb-2">
+                    Training Sites by Program Type
+                  </h4>
                   <ul className="text-sm text-slate-600 space-y-2">
                     <li className="flex gap-2">
                       <span className="text-brand-orange-600 font-bold">•</span>
-                      <span><strong>Barber &amp; Cosmetology Apprenticeships:</strong> Licensed partner barbershops and salons in the Indianapolis metro area</span>
+                      <span>
+                        <strong>Barber &amp; Cosmetology Apprenticeships:</strong> Licensed partner
+                        barbershops and salons in the Indianapolis metro area
+                      </span>
                     </li>
                     <li className="flex gap-2">
                       <span className="text-brand-orange-600 font-bold">•</span>
-                      <span><strong>Healthcare (CNA, Phlebotomy, Medical Assistant):</strong> Partner clinical facilities, nursing homes, and medical offices</span>
+                      <span>
+                        <strong>Healthcare (CNA, Phlebotomy, Medical Assistant):</strong> Partner
+                        clinical facilities, nursing homes, and medical offices
+                      </span>
                     </li>
                     <li className="flex gap-2">
                       <span className="text-brand-orange-600 font-bold">•</span>
-                      <span><strong>CDL / Commercial Driving:</strong> Partner driving schools with yard and road training facilities</span>
+                      <span>
+                        <strong>CDL / Commercial Driving:</strong> Partner driving schools with yard
+                        and road training facilities
+                      </span>
                     </li>
                     <li className="flex gap-2">
                       <span className="text-brand-orange-600 font-bold">•</span>
-                      <span><strong>Skilled Trades (HVAC, Electrical, Welding, Plumbing):</strong> Employer worksites and partner training labs</span>
+                      <span>
+                        <strong>Skilled Trades (HVAC, Electrical, Welding, Plumbing):</strong>{' '}
+                        Employer worksites and partner training labs
+                      </span>
                     </li>
                     <li className="flex gap-2">
                       <span className="text-brand-orange-600 font-bold">•</span>
-                      <span><strong>IT, Business, &amp; Tax Preparation:</strong> Delivered fully online; no physical training site required</span>
+                      <span>
+                        <strong>IT, Business, &amp; Tax Preparation:</strong> Delivered fully
+                        online; no physical training site required
+                      </span>
                     </li>
                   </ul>
                 </div>
@@ -132,9 +151,10 @@ export default function TrainingDeliveryDisclosure() {
                 </h3>
                 <p className="text-sm text-slate-600">
                   Career counseling, case management, funding navigation, and advising are available
-                  virtually (video, phone, chat) and in-person by appointment. WIOA-funded participants
-                  also work with their assigned WorkOne career advisor. Supportive services (transportation
-                  assistance, childcare support, supplies) are coordinated through applicable funding programs.
+                  virtually (video, phone, chat) and in-person by appointment. WIOA-funded
+                  participants also work with their assigned WorkOne career advisor. Supportive
+                  services (transportation assistance, childcare support, supplies) are coordinated
+                  through applicable funding programs.
                 </p>
               </div>
             </div>
@@ -172,8 +192,9 @@ export default function TrainingDeliveryDisclosure() {
           <h2 className="text-xl font-bold text-slate-900 mb-4">Credential Issuance</h2>
           <p className="text-sm text-slate-600 mb-3">
             Industry credentials and licenses are issued by recognized third-party certifying
-            authorities — not by Elevate for Humanity. Elevate issues program completion certificates
-            documenting hours completed, competencies achieved, and program requirements met.
+            authorities — not by Elevate for Humanity. Elevate issues program completion
+            certificates documenting hours completed, competencies achieved, and program
+            requirements met.
           </p>
           <div className="bg-white rounded-lg p-4 border border-slate-200">
             <h3 className="text-sm font-semibold text-slate-800 mb-2">Credentialing Authorities</h3>
@@ -194,16 +215,18 @@ export default function TrainingDeliveryDisclosure() {
       {/* Funding Eligibility Disclaimer */}
       <section className="py-10 border-t border-slate-200">
         <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-xl font-bold text-slate-900 mb-4">Funding &amp; Tuition Disclosure</h2>
+          <h2 className="text-xl font-bold text-slate-900 mb-4">
+            Funding &amp; Tuition Disclosure
+          </h2>
           <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
             <p className="text-sm text-amber-900 leading-relaxed">
-              <strong>Important:</strong> Many Elevate programs may be available at no cost to eligible
-              participants through federal and state workforce funding programs including WIOA
-              (Workforce Innovation and Opportunity Act), WRG (Workforce Ready Grant), and Job Ready Indy
-              (Job Ready Indy). Eligibility is determined by your local WorkOne
-              career center, not by Elevate. Not all applicants will qualify for funded training.
-              Self-pay options and payment plans are available for participants who do not qualify
-              for workforce funding. See{' '}
+              <strong>Important:</strong> Many Elevate programs may be available at no cost to
+              eligible participants through federal and state workforce funding programs including
+              WIOA (Workforce Innovation and Opportunity Act), WRG (Workforce Ready Grant), and Job
+              Ready Indy (Job Ready Indy). Eligibility is determined by your local WorkOne career
+              center, not by Elevate. Not all applicants will qualify for funded training. Self-pay
+              options and payment plans are available for participants who do not qualify for
+              workforce funding. See{' '}
               <Link href="/tuition-fees" className="text-amber-800 underline font-semibold">
                 Tuition &amp; Fees
               </Link>{' '}
@@ -218,16 +241,21 @@ export default function TrainingDeliveryDisclosure() {
         <div className="max-w-4xl mx-auto px-4">
           <h2 className="text-xl font-bold text-slate-900 mb-4">Employer Partner Documentation</h2>
           <p className="text-sm text-slate-600 mb-3">
-            All employer training sites operate under documented agreements with Elevate for Humanity.
-            See our{' '}
-            <Link href="/partners/training-sites" className="text-brand-red-600 underline font-semibold">
+            All employer training sites operate under documented agreements with Elevate for
+            Humanity. See our{' '}
+            <Link
+              href="/partners/training-sites"
+              className="text-brand-red-600 underline font-semibold"
+            >
               Employer Partners &amp; Training Sites
             </Link>{' '}
             page for current partner listings. Training site documentation includes:
           </p>
           <ul className="text-sm text-slate-600 space-y-1 mb-4">
             <li>• Memoranda of Understanding (MOUs) with employer partners</li>
-            <li>• Training site agreements specifying supervision, safety, and competency standards</li>
+            <li>
+              • Training site agreements specifying supervision, safety, and competency standards
+            </li>
             <li>• RAPIDS-linked employer registrations for apprenticeship programs</li>
             <li>• OJT contracts for WIOA-funded placements</li>
             <li>• Clinical affiliation agreements for healthcare programs</li>

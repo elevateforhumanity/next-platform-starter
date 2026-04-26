@@ -28,7 +28,8 @@ import {
   HelpCircle,
   Info,
   AlertTriangle,
-CheckCircle, } from 'lucide-react';
+  CheckCircle,
+} from 'lucide-react';
 import AnnouncementsFeed from './AnnouncementsFeed';
 import EnrollmentDashboard from './EnrollmentDashboard';
 import StudentProgressWidget from './StudentProgressWidget';
@@ -42,13 +43,23 @@ export const metadata: Metadata = {
   title: 'Student Portal | Elevate For Humanity',
   description:
     'Access your courses, track progress, connect with instructors, view grades, manage your schedule, and access career services. Your complete student dashboard.',
-  keywords: ['student portal', 'student dashboard', 'course access', 'grades', 'schedule', 'career services', 'student resources'],
+  keywords: [
+    'student portal',
+    'student dashboard',
+    'course access',
+    'grades',
+    'schedule',
+    'career services',
+    'student resources',
+  ],
 };
 
 export default async function StudentPortalPage() {
   // Authenticated users go directly to the canonical learner dashboard
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (user) redirect('/learner/dashboard');
 
   const quickLinks = [
@@ -194,8 +205,15 @@ export default async function StudentPortalPage() {
     { count: publishedPrograms },
     { count: certificatesIssued },
   ] = await Promise.all([
-    db.from('program_enrollments').select('*', { count: 'exact', head: true }).eq('status', 'active'),
-    db.from('programs').select('*', { count: 'exact', head: true }).eq('published', true).eq('is_active', true),
+    db
+      .from('program_enrollments')
+      .select('*', { count: 'exact', head: true })
+      .eq('status', 'active'),
+    db
+      .from('programs')
+      .select('*', { count: 'exact', head: true })
+      .eq('published', true)
+      .eq('is_active', true),
     db.from('program_completion_certificates').select('*', { count: 'exact', head: true }),
   ]);
 
@@ -209,22 +227,52 @@ export default async function StudentPortalPage() {
     .limit(8);
 
   const FALLBACK_FAQS = [
-    { id: '1', question: 'How do I access my courses?', answer: 'Click "My Courses" from the dashboard. All enrolled courses will appear with direct links to course materials, lectures, and assignments.' },
-    { id: '2', question: 'Where can I view my grades?', answer: 'Navigate to "Grades & Progress" to see current grades, assignment scores, and overall completion percentage for each course.' },
-    { id: '3', question: 'How do I contact my instructor?', answer: 'Go to "Instructors" to see contact information, office hours, and messaging options for all your instructors.' },
-    { id: '4', question: 'Can I download my transcripts?', answer: 'Yes! Visit "Documents" to request official transcripts, download unofficial transcripts, and access certificates.' },
-    { id: '5', question: 'What career services are available?', answer: 'All students have free access to resume building, interview prep, job placement assistance, and networking events. Click "Career Services" to learn more.' },
-    { id: '6', question: 'How do I get technical support?', answer: 'Contact student services via phone, email, or live chat. Technical support is available Monday–Friday 9AM–6PM EST.' },
+    {
+      id: '1',
+      question: 'How do I access my courses?',
+      answer:
+        'Click "My Courses" from the dashboard. All enrolled courses will appear with direct links to course materials, lectures, and assignments.',
+    },
+    {
+      id: '2',
+      question: 'Where can I view my grades?',
+      answer:
+        'Navigate to "Grades & Progress" to see current grades, assignment scores, and overall completion percentage for each course.',
+    },
+    {
+      id: '3',
+      question: 'How do I contact my instructor?',
+      answer:
+        'Go to "Instructors" to see contact information, office hours, and messaging options for all your instructors.',
+    },
+    {
+      id: '4',
+      question: 'Can I download my transcripts?',
+      answer:
+        'Yes! Visit "Documents" to request official transcripts, download unofficial transcripts, and access certificates.',
+    },
+    {
+      id: '5',
+      question: 'What career services are available?',
+      answer:
+        'All students have free access to resume building, interview prep, job placement assistance, and networking events. Click "Career Services" to learn more.',
+    },
+    {
+      id: '6',
+      question: 'How do I get technical support?',
+      answer:
+        'Contact student services via phone, email, or live chat. Technical support is available Monday–Friday 9AM–6PM EST.',
+    },
   ];
 
-  const faqs = (faqsFromDb && faqsFromDb.length > 0) ? faqsFromDb : FALLBACK_FAQS;
+  const faqs = faqsFromDb && faqsFromDb.length > 0 ? faqsFromDb : FALLBACK_FAQS;
 
   return (
     <div className="min-h-screen bg-white">
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Student Portal" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Student Portal' }]} />
       </div>
-{/* Hero Section */}
+      {/* Hero Section */}
       <section className="relative h-48 md:h-64 overflow-hidden">
         <Image
           src="/images/pages/student-portal-page-7.jpg"
@@ -235,18 +283,25 @@ export default async function StudentPortalPage() {
           priority
           sizes="100vw"
         />
-
       </section>
 
       {/* Login / enroll strip */}
       <section className="bg-brand-blue-50 border-b border-brand-blue-100 py-4">
         <div className="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-brand-blue-900 font-medium text-sm">Already enrolled? Log in to access your courses, grades, and progress.</p>
+          <p className="text-brand-blue-900 font-medium text-sm">
+            Already enrolled? Log in to access your courses, grades, and progress.
+          </p>
           <div className="flex gap-3 flex-shrink-0">
-            <Link href="/login?redirect=/learner/dashboard" className="inline-flex items-center gap-2 bg-brand-blue-600 text-white px-5 py-2 rounded-lg font-semibold text-sm hover:bg-brand-blue-700 transition">
+            <Link
+              href="/login?redirect=/learner/dashboard"
+              className="inline-flex items-center gap-2 bg-brand-blue-600 text-white px-5 py-2 rounded-lg font-semibold text-sm hover:bg-brand-blue-700 transition"
+            >
               Log In
             </Link>
-            <Link href="/start" className="inline-flex items-center gap-2 border border-brand-blue-600 text-brand-blue-700 px-5 py-2 rounded-lg font-semibold text-sm hover:bg-brand-blue-100 transition">
+            <Link
+              href="/start"
+              className="inline-flex items-center gap-2 border border-brand-blue-600 text-brand-blue-700 px-5 py-2 rounded-lg font-semibold text-sm hover:bg-brand-blue-100 transition"
+            >
               Apply Now
             </Link>
           </div>
@@ -265,9 +320,7 @@ export default async function StudentPortalPage() {
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-6">
           <h2 className="text-4xl font-black text-black mb-4">Quick Access</h2>
-          <p className="text-xl text-slate-700 mb-12">
-            Everything you need in one place
-          </p>
+          <p className="text-xl text-slate-700 mb-12">Everything you need in one place</p>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {quickLinks.map((link, index) => (
               <Link
@@ -276,7 +329,13 @@ export default async function StudentPortalPage() {
                 className="bg-white border-2 border-gray-200 rounded-2xl overflow-hidden hover:border-brand-blue-600 hover:shadow-lg transition group"
               >
                 <div className="relative h-36 overflow-hidden">
-                  <Image src={link.image} alt={link.title} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover group-hover:scale-105 transition-transform duration-300" />
+                  <Image
+                    src={link.image}
+                    alt={link.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
                 </div>
                 <div className="p-6">
                   <h3 className="text-xl font-bold text-black mb-2 group-hover:text-brand-blue-600 transition">
@@ -299,9 +358,7 @@ export default async function StudentPortalPage() {
       {/* Career Services */}
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-6">
-          <h2 className="text-4xl font-black text-black mb-4">
-            Career Services
-          </h2>
+          <h2 className="text-4xl font-black text-black mb-4">Career Services</h2>
           <p className="text-xl text-slate-700 mb-12">
             Free support to help you land your dream job
           </p>
@@ -335,9 +392,7 @@ export default async function StudentPortalPage() {
       {/* Student Resources */}
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-6">
-          <h2 className="text-4xl font-black text-black mb-4">
-            Student Resources
-          </h2>
+          <h2 className="text-4xl font-black text-black mb-4">Student Resources</h2>
           <p className="text-xl text-slate-700 mb-12">
             Tools and information to support your success
           </p>
@@ -349,9 +404,7 @@ export default async function StudentPortalPage() {
                 className="bg-white rounded-xl p-6 hover:shadow-lg transition"
               >
                 <resource.icon className="w-10 h-10 text-brand-blue-600 mb-4" />
-                <h3 className="text-lg font-bold text-black mb-2">
-                  {resource.title}
-                </h3>
+                <h3 className="text-lg font-bold text-black mb-2">{resource.title}</h3>
                 <p className="text-slate-700 text-sm">{resource.description}</p>
               </Link>
             ))}
@@ -362,9 +415,7 @@ export default async function StudentPortalPage() {
       {/* Support Options */}
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-6">
-          <h2 className="text-4xl font-black text-black mb-4 text-center">
-            Need Help?
-          </h2>
+          <h2 className="text-4xl font-black text-black mb-4 text-center">Need Help?</h2>
           <p className="text-xl text-slate-700 mb-12 text-center">
             Student services is here to support you
           </p>
@@ -376,9 +427,7 @@ export default async function StudentPortalPage() {
                 className="bg-white border-2 border-gray-200 rounded-xl p-6 hover:border-brand-blue-600 transition text-center"
               >
                 <option.icon className="w-12 h-12 text-brand-blue-600 mx-auto mb-4" />
-                <h3 className="text-lg font-bold text-black mb-2">
-                  {option.title}
-                </h3>
+                <h3 className="text-lg font-bold text-black mb-2">{option.title}</h3>
                 <p className="text-slate-700 text-sm">{option.description}</p>
               </Link>
             ))}
@@ -394,13 +443,8 @@ export default async function StudentPortalPage() {
           </h2>
           <div className="space-y-6">
             {faqs.map((faq: any) => (
-              <div
-                key={faq.id}
-                className="bg-white border-2 border-gray-200 rounded-xl p-6"
-              >
-                <h3 className="text-xl font-bold text-black mb-3">
-                  {faq.question}
-                </h3>
+              <div key={faq.id} className="bg-white border-2 border-gray-200 rounded-xl p-6">
+                <h3 className="text-xl font-bold text-black mb-3">{faq.question}</h3>
                 <p className="text-slate-700">{faq.answer}</p>
               </div>
             ))}
@@ -433,9 +477,7 @@ export default async function StudentPortalPage() {
       {/* CTA Section */}
       <section className="py-16 bg-brand-blue-700">
         <div className="max-w-4xl mx-auto px-6 text-center">
-          <h2 className="text-4xl font-black text-white mb-6">
-            Questions? Contact Us
-          </h2>
+          <h2 className="text-4xl font-black text-white mb-6">Questions? Contact Us</h2>
           <p className="text-xl text-white mb-8">
             Need help with your enrollment, courses, or funding? We&apos;re here for you.
           </p>

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { createClient } from '@/lib/supabase/client';
 
@@ -36,10 +36,7 @@ const SERVICE_TYPES = [
   { key: 'other', label: 'Other Services', icon: '📋' },
 ];
 
-export default function ServiceLoggingForm({
-  enrollmentId,
-  onSuccess,
-}: ServiceLoggingFormProps) {
+export default function ServiceLoggingForm({ enrollmentId, onSuccess }: ServiceLoggingFormProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
@@ -77,27 +74,27 @@ export default function ServiceLoggingForm({
     setLoading(true);
 
     try {
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
 
       // Direct DB insert for service log
-      const { error: dbError } = await supabase
-        .from('apprentice_service_logs')
-        .insert({
-          enrollment_id: enrollmentId,
-          user_id: user?.id,
-          date,
-          hours: parseFloat(hours),
-          services_performed: services,
-          total_services: Object.values(services).reduce((sum, count) => sum + count, 0),
-          notes,
-          logged_at: new Date().toISOString()
-        });
+      const { error: dbError } = await supabase.from('apprentice_service_logs').insert({
+        enrollment_id: enrollmentId,
+        user_id: user?.id,
+        date,
+        hours: parseFloat(hours),
+        services_performed: services,
+        total_services: Object.values(services).reduce((sum, count) => sum + count, 0),
+        notes,
+        logged_at: new Date().toISOString(),
+      });
 
       if (!dbError) {
         // Update cumulative hours
         await supabase.rpc('update_apprentice_cumulative_hours', {
           p_enrollment_id: enrollmentId,
-          p_hours: parseFloat(hours)
+          p_hours: parseFloat(hours),
         });
       }
 
@@ -133,7 +130,8 @@ export default function ServiceLoggingForm({
       } else {
         alert('Failed to log hours. Please try again.');
       }
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
       alert('An error occurred. Please try again.');
     } finally {
@@ -141,10 +139,7 @@ export default function ServiceLoggingForm({
     }
   };
 
-  const totalServices = Object.values(services).reduce(
-    (sum, count) => sum + count,
-    0
-  );
+  const totalServices = Object.values(services).reduce((sum, count) => sum + count, 0);
 
   if (!isOpen) {
     return (
@@ -161,9 +156,7 @@ export default function ServiceLoggingForm({
   return (
     <div className="bg-white rounded-xl shadow-lg border border-slate-200 p-6">
       <div className="flex items-center justify-between mb-6">
-        <h3 className="text-2xl font-bold text-black">
-          Log Hours & Services
-        </h3>
+        <h3 className="text-2xl font-bold text-black">Log Hours & Services</h3>
         <button
           onClick={() => setIsOpen(false)}
           className="text-slate-400 hover:text-black transition-colors"
@@ -176,9 +169,7 @@ export default function ServiceLoggingForm({
         {/* Date and Hours */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-semibold text-black mb-2">
-              Date
-            </label>
+            <label className="block text-sm font-semibold text-black mb-2">Date</label>
             <input
               type="date"
               value={date}
@@ -189,9 +180,7 @@ export default function ServiceLoggingForm({
             />
           </div>
           <div>
-            <label className="block text-sm font-semibold text-black mb-2">
-              Hours Worked
-            </label>
+            <label className="block text-sm font-semibold text-black mb-2">Hours Worked</label>
             <input
               type="number"
               step="0.5"
@@ -208,22 +197,15 @@ export default function ServiceLoggingForm({
         {/* Service Counters */}
         <div>
           <div className="flex items-center justify-between mb-4">
-            <label className="block text-sm font-semibold text-black">
-              Services Performed
-            </label>
+            <label className="block text-sm font-semibold text-black">Services Performed</label>
             <span className="text-sm text-black">
-              Total:{' '}
-              <span className="font-bold text-brand-blue-600">{totalServices}</span>{' '}
-              services
+              Total: <span className="font-bold text-brand-blue-600">{totalServices}</span> services
             </span>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {SERVICE_TYPES.map(({ key, label, icon }) => (
-              <div
-                key={key}
-                className="bg-slate-50 rounded-lg p-4 border border-slate-200"
-              >
+              <div key={key} className="bg-slate-50 rounded-lg p-4 border border-slate-200">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-sm font-semibold text-black">
                     {icon} {label}
@@ -241,12 +223,7 @@ export default function ServiceLoggingForm({
                     type="number"
                     min="0"
                     value={services[key as keyof ServiceCount]}
-                    onChange={(e) =>
-                      handleServiceChange(
-                        key as keyof ServiceCount,
-                        e.target.value
-                      )
-                    }
+                    onChange={(e) => handleServiceChange(key as keyof ServiceCount, e.target.value)}
                     className="flex-1 text-center px-2 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500 font-bold text-lg"
                   />
                   <button
@@ -264,9 +241,7 @@ export default function ServiceLoggingForm({
 
         {/* Notes */}
         <div>
-          <label className="block text-sm font-semibold text-black mb-2">
-            Notes (Optional)
-          </label>
+          <label className="block text-sm font-semibold text-black mb-2">Notes (Optional)</label>
           <textarea
             value={notes}
             onChange={(e) => setNotes(e.target.value)}

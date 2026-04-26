@@ -4,12 +4,7 @@
     "questions": [
       {
         "prompt": "What is the first step in the sanitation sequence for barbering tools?",
-        "choices": [
-          "Pre-clean",
-          "Disinfect",
-          "Contact time",
-          "Rinse"
-        ],
+        "choices": ["Pre-clean", "Disinfect", "Contact time", "Rinse"],
         "answerIndex": 0,
         "rationale": "Pre-cleaning is the first step and involves removing visible debris to prepare items for effective disinfection.",
         "type": "recall"
@@ -28,48 +23,28 @@
       },
       {
         "prompt": "How much of the Indiana state board exam score is allocated to proper draping techniques?",
-        "choices": [
-          "5%",
-          "10%",
-          "15%",
-          "20%"
-        ],
+        "choices": ["5%", "10%", "15%", "20%"],
         "answerIndex": 0,
         "rationale": "Proper draping techniques account for approximately 5% of the total score on the Indiana state board exam.",
         "type": "recall"
       },
       {
         "prompt": "What is the ideal angle to hold a razor when performing a shave?",
-        "choices": [
-          "15 degrees",
-          "30 degrees",
-          "45 degrees",
-          "60 degrees"
-        ],
+        "choices": ["15 degrees", "30 degrees", "45 degrees", "60 degrees"],
         "answerIndex": 1,
         "rationale": "Holding the razor at a 30-degree angle minimizes the risk of cuts and irritation during a shave.",
         "type": "recall"
       },
       {
         "prompt": "What should be done after removing hair clippings from the work area?",
-        "choices": [
-          "Store tools",
-          "Apply disinfectant",
-          "Rinse tools",
-          "Sweep the floor"
-        ],
+        "choices": ["Store tools", "Apply disinfectant", "Rinse tools", "Sweep the floor"],
         "answerIndex": 1,
         "rationale": "After removing hair clippings, surfaces should be wiped down with a disinfectant to maintain hygiene.",
         "type": "recall"
       },
       {
         "prompt": "Which step is essential before applying disinfectant to tools?",
-        "choices": [
-          "Drying tools",
-          "Pre-cleaning",
-          "Heating tools",
-          "Applying oil"
-        ],
+        "choices": ["Drying tools", "Pre-cleaning", "Heating tools", "Applying oil"],
         "answerIndex": 1,
         "rationale": "Pre-cleaning is essential to remove visible debris, ensuring the disinfectant can work effectively.",
         "type": "recall"
@@ -88,12 +63,7 @@
       },
       {
         "prompt": "What percentage of the state board exam score is dedicated to sanitation procedures?",
-        "choices": [
-          "5%",
-          "10%",
-          "15%",
-          "20%"
-        ],
+        "choices": ["5%", "10%", "15%", "20%"],
         "answerIndex": 2,
         "rationale": "Sanitation procedures account for about 15% of the total score on the Indiana state board exam.",
         "type": "recall"
@@ -184,12 +154,7 @@
       },
       {
         "prompt": "A client with thick hair wants a smooth fade. What technique should you use?",
-        "choices": [
-          "Clipper-over-comb",
-          "Scissor-over-comb",
-          "Razor cutting",
-          "Freehand clippers"
-        ],
+        "choices": ["Clipper-over-comb", "Scissor-over-comb", "Razor cutting", "Freehand clippers"],
         "answerIndex": 0,
         "rationale": "The clipper-over-comb technique helps blend and soften lines, achieving a smooth fade on thick hair.",
         "type": "scenario"

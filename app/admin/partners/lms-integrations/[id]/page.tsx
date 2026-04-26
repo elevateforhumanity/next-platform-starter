@@ -18,7 +18,8 @@ import {
   Edit,
   Trash2,
   ExternalLink,
-CheckCircle, } from 'lucide-react';
+  CheckCircle,
+} from 'lucide-react';
 import Image from 'next/image';
 
 export const dynamic = 'force-dynamic';
@@ -38,9 +39,6 @@ export default async function LMSIntegrationDetailPage({ params }: Props) {
   await requireRole(['admin', 'super_admin']);
   const { id } = await params;
   const supabase = await createClient();
-
-
-
 
   // Fetch LMS provider
   const { data: provider, error } = await supabase
@@ -64,7 +62,7 @@ export default async function LMSIntegrationDetailPage({ params }: Props) {
   const { count: enrollmentCount } = await supabase
     .from('partner_lms_enrollments')
     .select('*', { count: 'exact', head: true })
-    .in('course_id', courses?.map(c => c.id) || []);
+    .in('course_id', courses?.map((c) => c.id) || []);
 
   // Fetch recent sync logs
   const { data: syncLogs } = await supabase
@@ -83,7 +81,6 @@ export default async function LMSIntegrationDetailPage({ params }: Props) {
 
   return (
     <div className="p-6 max-w-7xl mx-auto">
-
       {/* Hero Image */}
       {/* Header */}
       <div className="mb-6">
@@ -99,7 +96,13 @@ export default async function LMSIntegrationDetailPage({ params }: Props) {
           <div className="flex items-center gap-4">
             <div className="w-16 h-16 bg-brand-blue-100 rounded-xl flex items-center justify-center">
               {provider.logo_url ? (
-                <Image src={provider.logo_url} alt={`${provider.provider_name} logo`} width={48} height={48} className="w-12 h-12 object-contain" />
+                <Image
+                  src={provider.logo_url}
+                  alt={`${provider.provider_name} logo`}
+                  width={48}
+                  height={48}
+                  className="w-12 h-12 object-contain"
+                />
               ) : (
                 <Globe className="w-8 h-8 text-brand-blue-600" />
               )}
@@ -108,9 +111,11 @@ export default async function LMSIntegrationDetailPage({ params }: Props) {
               <h1 className="text-2xl font-bold text-slate-900">{provider.provider_name}</h1>
               <p className="text-slate-600">{provider.provider_type || 'LMS Provider'}</p>
               <div className="flex items-center gap-2 mt-1">
-                <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium ${
-                  statusColors[provider.status] || 'bg-gray-100 text-slate-900'
-                }`}>
+                <span
+                  className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium ${
+                    statusColors[provider.status] || 'bg-gray-100 text-slate-900'
+                  }`}
+                >
                   {provider.status === 'active' ? (
                     <span className="text-slate-400 flex-shrink-0">•</span>
                   ) : (
@@ -181,7 +186,7 @@ export default async function LMSIntegrationDetailPage({ params }: Props) {
             </div>
             <div>
               <p className="text-2xl font-bold text-slate-900">
-                {syncLogs?.filter(l => l.status === 'error').length || 0}
+                {syncLogs?.filter((l) => l.status === 'error').length || 0}
               </p>
               <p className="text-sm text-slate-600">Sync Errors</p>
             </div>
@@ -217,9 +222,13 @@ export default async function LMSIntegrationDetailPage({ params }: Props) {
                       </p>
                     </div>
                     <div className="flex items-center gap-2">
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                        course.active ? 'bg-brand-green-100 text-brand-green-800' : 'bg-gray-100 text-slate-900'
-                      }`}>
+                      <span
+                        className={`px-2 py-1 rounded-full text-xs font-medium ${
+                          course.active
+                            ? 'bg-brand-green-100 text-brand-green-800'
+                            : 'bg-gray-100 text-slate-900'
+                        }`}
+                      >
                         {course.active ? 'Active' : 'Inactive'}
                       </span>
                       {course.course_url && (
@@ -267,10 +276,15 @@ export default async function LMSIntegrationDetailPage({ params }: Props) {
                     className="flex items-center justify-between p-3 border border-slate-100 rounded-lg"
                   >
                     <div className="flex items-center gap-3">
-                      <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                        log.status === 'success' ? 'bg-brand-green-100' :
-                        log.status === 'error' ? 'bg-brand-red-100' : 'bg-yellow-100'
-                      }`}>
+                      <div
+                        className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                          log.status === 'success'
+                            ? 'bg-brand-green-100'
+                            : log.status === 'error'
+                              ? 'bg-brand-red-100'
+                              : 'bg-yellow-100'
+                        }`}
+                      >
                         {log.status === 'success' ? (
                           <span className="text-slate-400 flex-shrink-0">•</span>
                         ) : log.status === 'error' ? (
@@ -287,9 +301,7 @@ export default async function LMSIntegrationDetailPage({ params }: Props) {
                       </div>
                     </div>
                     <div className="text-right">
-                      <p className="text-sm text-slate-900">
-                        {log.records_synced || 0} records
-                      </p>
+                      <p className="text-sm text-slate-900">{log.records_synced || 0} records</p>
                       {log.error_message && (
                         <p className="text-xs text-brand-red-600 truncate max-w-[200px]">
                           {log.error_message}

@@ -11,8 +11,10 @@ export default function NotificationBell() {
   useEffect(() => {
     const fetchUnread = async () => {
       const supabase = createClient();
-      const { data: { user } } = await supabase.auth.getUser();
-      
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
       if (user) {
         const { count } = await supabase
           .from('notifications')
@@ -25,7 +27,7 @@ export default function NotificationBell() {
     };
 
     fetchUnread();
-    
+
     // Poll every 30 seconds
     const interval = setInterval(fetchUnread, 30000);
     return () => clearInterval(interval);

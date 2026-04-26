@@ -10,15 +10,14 @@ import { safeError } from '@/lib/api/safe-error';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
-export async function GET(
-  request: Request,
-  { params }: { params: Promise<{ courseId: string }> }
-) {
+export async function GET(request: Request, { params }: { params: Promise<{ courseId: string }> }) {
   const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;
 
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return safeError('Unauthorized', 401);
 
   const { courseId } = await params;
@@ -51,7 +50,7 @@ export async function GET(
 
   // Call evaluate_exam_readiness for structured result
   const { data: readiness, error: rpcErr } = await db.rpc('evaluate_exam_readiness', {
-    p_user_id:    user.id,
+    p_user_id: user.id,
     p_program_id: programId,
   });
 
@@ -91,25 +90,28 @@ export async function GET(
         .filter((s: { lesson_id: string; score: number }) => lessonIds.has(s.lesson_id))
         .map((s: { score: number }) => s.score);
 
-      const avg = domainScores.length > 0
-        ? Math.round(domainScores.reduce((a: number, b: number) => a + b, 0) / domainScores.length)
-        : 0;
+      const avg =
+        domainScores.length > 0
+          ? Math.round(
+              domainScores.reduce((a: number, b: number) => a + b, 0) / domainScores.length,
+            )
+          : 0;
 
       const passed = avg > 0 && (d.domain_min_score === null || avg >= d.domain_min_score);
 
       return {
-        domain_key:       d.domain_key,
-        domain_name:      d.domain_name,
+        domain_key: d.domain_key,
+        domain_name: d.domain_name,
         domain_min_score: d.domain_min_score,
-        learner_avg:      avg,
+        learner_avg: avg,
         passed,
-        failure_reason:   !passed
+        failure_reason: !passed
           ? avg === 0
             ? `${d.domain_name}: not yet covered`
             : `${d.domain_name}: ${avg}% (need ${d.domain_min_score}%)`
           : null,
       };
-    })
+    }),
   );
 
   // Active authorization if any
@@ -124,16 +126,16 @@ export async function GET(
     .maybeSingle();
 
   return NextResponse.json({
-    applicable:              true,
-    is_ready:                r?.is_ready ?? false,
-    avg_score:               r?.avg_checkpoint_score ?? null,
-    min_score:               r?.min_checkpoint_score ?? null,
-    checkpoints_passed:      r?.checkpoints_passed ?? 0,
-    checkpoints_total:       r?.checkpoints_total ?? 0,
-    lessons_completed:       r?.lessons_completed ?? 0,
-    lessons_total:           r?.lessons_total ?? 0,
-    failure_reasons:         r?.failure_reasons ?? [],
-    domains:                 domainStatuses,
+    applicable: true,
+    is_ready: r?.is_ready ?? false,
+    avg_score: r?.avg_checkpoint_score ?? null,
+    min_score: r?.min_checkpoint_score ?? null,
+    checkpoints_passed: r?.checkpoints_passed ?? 0,
+    checkpoints_total: r?.checkpoints_total ?? 0,
+    lessons_completed: r?.lessons_completed ?? 0,
+    lessons_total: r?.lessons_total ?? 0,
+    failure_reasons: r?.failure_reasons ?? [],
+    domains: domainStatuses,
     authorization_expires_at: auth?.expires_at ?? null,
   });
 }

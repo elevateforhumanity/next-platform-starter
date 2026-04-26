@@ -26,46 +26,46 @@ import { logger } from '@/lib/logger';
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 export interface DomainGap {
-  domainKey:          string;
-  domainName:         string;
-  weightPercent:      number;
+  domainKey: string;
+  domainName: string;
+  weightPercent: number;
   lessonsInCurriculum: number;
-  lessonsWithQuizzes:  number;
+  lessonsWithQuizzes: number;
   /** True if at least one lesson exists and it has at least one quiz */
-  isCovered:          boolean;
-  missingLessons:     boolean;
-  missingQuizzes:     boolean;
+  isCovered: boolean;
+  missingLessons: boolean;
+  missingQuizzes: boolean;
 }
 
 export interface ProgramAudit {
-  programId:            string;
-  programSlug:          string;
-  programName:          string;
+  programId: string;
+  programSlug: string;
+  programName: string;
   /** Null if no program_credentials row exists */
-  primaryCredentialId:  string | null;
+  primaryCredentialId: string | null;
   primaryCredentialName: string | null;
   primaryCredentialAbbr: string | null;
   hasProgramCredential: boolean;
-  hasExamDomains:       boolean;
-  hasCompletionRules:   boolean;
+  hasExamDomains: boolean;
+  hasCompletionRules: boolean;
   /** Total published lessons in curriculum_lessons for this program */
-  totalLessons:         number;
+  totalLessons: number;
   /** Lessons with at least one quiz */
-  lessonsWithQuizzes:   number;
+  lessonsWithQuizzes: number;
   /** Per-domain breakdown — empty if no exam domains seeded */
-  domains:              DomainGap[];
+  domains: DomainGap[];
   /** True when all domains covered, all lessons have quizzes, completion rules exist */
-  isAligned:            boolean;
+  isAligned: boolean;
   /** Summary of what is missing */
-  gaps:                 string[];
+  gaps: string[];
 }
 
 export interface AlignmentAudit {
-  auditedAt:       string;
-  totalPrograms:   number;
+  auditedAt: string;
+  totalPrograms: number;
   alignedPrograms: number;
-  gapPrograms:     number;
-  programs:        ProgramAudit[];
+  gapPrograms: number;
+  programs: ProgramAudit[];
   /** Programs with no credential mapping at all */
   unmappedPrograms: string[];
   /** Credentials in credential_registry with no program_credentials row */
@@ -79,7 +79,7 @@ export interface AlignmentAudit {
  * Read-only — makes no writes.
  */
 export async function runAlignmentAudit(
-  programSlugs?: string[]   // if provided, audit only these programs
+  programSlugs?: string[], // if provided, audit only these programs
 ): Promise<AlignmentAudit> {
   const db = await getAdminClient();
   const auditedAt = new Date().toISOString();
@@ -87,8 +87,13 @@ export async function runAlignmentAudit(
   if (!db) {
     logger.error('credential-alignment-audit: database unavailable');
     return {
-      auditedAt, totalPrograms: 0, alignedPrograms: 0, gapPrograms: 0,
-      programs: [], unmappedPrograms: [], unmappedCredentials: [],
+      auditedAt,
+      totalPrograms: 0,
+      alignedPrograms: 0,
+      gapPrograms: 0,
+      programs: [],
+      unmappedPrograms: [],
+      unmappedCredentials: [],
     };
   }
 
@@ -107,8 +112,13 @@ export async function runAlignmentAudit(
   if (progErr || !programs) {
     logger.error('credential-alignment-audit: failed to load programs', { progErr });
     return {
-      auditedAt, totalPrograms: 0, alignedPrograms: 0, gapPrograms: 0,
-      programs: [], unmappedPrograms: [], unmappedCredentials: [],
+      auditedAt,
+      totalPrograms: 0,
+      alignedPrograms: 0,
+      gapPrograms: 0,
+      programs: [],
+      unmappedPrograms: [],
+      unmappedCredentials: [],
     };
   }
 
@@ -124,7 +134,7 @@ export async function runAlignmentAudit(
   }
 
   // ── Load credential_registry for name resolution ───────────────────────────
-  const credentialIds = [...new Set((pcRows ?? []).map(r => r.credential_id))];
+  const credentialIds = [...new Set((pcRows ?? []).map((r) => r.credential_id))];
   const { data: credRows } = await db
     .from('credential_registry')
     .select('id, name, abbreviation')
@@ -150,7 +160,7 @@ export async function runAlignmentAudit(
   }
 
   // ── Load curriculum_lessons with quiz counts ───────────────────────────────
-  const programIds = programs.map(p => p.id);
+  const programIds = programs.map((p) => p.id);
 
   const { data: lessonRows } = await db
     .from('curriculum_lessons')
@@ -160,7 +170,7 @@ export async function runAlignmentAudit(
 
   // Group lessons by program and by domain
   const lessonsByProgram = new Map<string, typeof lessonRows>();
-  const lessonsByDomain  = new Map<string, string[]>(); // domain_id → lesson_ids
+  const lessonsByDomain = new Map<string, string[]>(); // domain_id → lesson_ids
 
   for (const l of lessonRows ?? []) {
     if (!lessonsByProgram.has(l.program_id)) {
@@ -177,13 +187,13 @@ export async function runAlignmentAudit(
   }
 
   // ── Load quiz counts per lesson ────────────────────────────────────────────
-  const lessonIds = (lessonRows ?? []).map(l => l.id);
+  const lessonIds = (lessonRows ?? []).map((l) => l.id);
   const { data: quizRows } = await db
     .from('curriculum_quizzes')
     .select('lesson_id')
     .in('lesson_id', lessonIds.length ? lessonIds : ['00000000-0000-0000-0000-000000000000']);
 
-  const lessonsWithQuizSet = new Set((quizRows ?? []).map(q => q.lesson_id));
+  const lessonsWithQuizSet = new Set((quizRows ?? []).map((q) => q.lesson_id));
 
   // ── Load completion_rules ──────────────────────────────────────────────────
   const { data: ruleRows } = await db
@@ -193,7 +203,7 @@ export async function runAlignmentAudit(
     .eq('is_active', true)
     .in('entity_id', programIds.length ? programIds : ['00000000-0000-0000-0000-000000000000']);
 
-  const programsWithRules = new Set((ruleRows ?? []).map(r => r.entity_id));
+  const programsWithRules = new Set((ruleRows ?? []).map((r) => r.entity_id));
 
   // ── Audit each program ─────────────────────────────────────────────────────
   const audits: ProgramAudit[] = [];
@@ -206,33 +216,33 @@ export async function runAlignmentAudit(
     const hasRules = programsWithRules.has(prog.id);
 
     const totalLessons = lessons.length;
-    const lessonsWithQuizzes = lessons.filter(l => lessonsWithQuizSet.has(l.id)).length;
+    const lessonsWithQuizzes = lessons.filter((l) => lessonsWithQuizSet.has(l.id)).length;
 
     // Per-domain gap analysis
     const domainGaps: DomainGap[] = domains
-      .filter(d => d.weight_percent > 0)
-      .map(d => {
+      .filter((d) => d.weight_percent > 0)
+      .map((d) => {
         const domainLessonIds = lessonsByDomain.get(d.id) ?? [];
         const domainLessons = domainLessonIds.length;
-        const domainLessonsWithQuizzes = domainLessonIds.filter(id =>
-          lessonsWithQuizSet.has(id)
+        const domainLessonsWithQuizzes = domainLessonIds.filter((id) =>
+          lessonsWithQuizSet.has(id),
         ).length;
 
         return {
-          domainKey:           d.domain_key,
-          domainName:          d.domain_name,
-          weightPercent:       d.weight_percent,
+          domainKey: d.domain_key,
+          domainName: d.domain_name,
+          weightPercent: d.weight_percent,
           lessonsInCurriculum: domainLessons,
-          lessonsWithQuizzes:  domainLessonsWithQuizzes,
-          isCovered:           domainLessons > 0 && domainLessonsWithQuizzes > 0,
-          missingLessons:      domainLessons === 0,
-          missingQuizzes:      domainLessons > 0 && domainLessonsWithQuizzes === 0,
+          lessonsWithQuizzes: domainLessonsWithQuizzes,
+          isCovered: domainLessons > 0 && domainLessonsWithQuizzes > 0,
+          missingLessons: domainLessons === 0,
+          missingQuizzes: domainLessons > 0 && domainLessonsWithQuizzes === 0,
         };
       });
 
     // Collect gaps
     const gaps: string[] = [];
-    if (!pc)       gaps.push('No primary credential mapped in program_credentials');
+    if (!pc) gaps.push('No primary credential mapped in program_credentials');
     if (pc && domains.length === 0) gaps.push('No exam domains seeded in credential_exam_domains');
     if (!hasRules) gaps.push('No completion_rules defined');
     if (totalLessons === 0 && pc) gaps.push('No curriculum lessons generated');
@@ -241,7 +251,9 @@ export async function runAlignmentAudit(
       if (dg.missingLessons) {
         gaps.push(`Domain "${dg.domainName}" (${dg.weightPercent}%): no lessons`);
       } else if (dg.missingQuizzes) {
-        gaps.push(`Domain "${dg.domainName}" (${dg.weightPercent}%): ${dg.lessonsInCurriculum} lessons but no quizzes`);
+        gaps.push(
+          `Domain "${dg.domainName}" (${dg.weightPercent}%): ${dg.lessonsInCurriculum} lessons but no quizzes`,
+        );
       }
     }
 
@@ -250,47 +262,45 @@ export async function runAlignmentAudit(
       domains.length > 0 &&
       hasRules &&
       totalLessons > 0 &&
-      domainGaps.every(d => d.isCovered);
+      domainGaps.every((d) => d.isCovered);
 
     audits.push({
-      programId:             prog.id,
-      programSlug:           prog.slug,
-      programName:           prog.name,
-      primaryCredentialId:   pc?.credentialId ?? null,
+      programId: prog.id,
+      programSlug: prog.slug,
+      programName: prog.name,
+      primaryCredentialId: pc?.credentialId ?? null,
       primaryCredentialName: cred?.name ?? null,
       primaryCredentialAbbr: cred?.abbreviation ?? null,
-      hasProgramCredential:  !!pc,
-      hasExamDomains:        domains.length > 0,
-      hasCompletionRules:    hasRules,
+      hasProgramCredential: !!pc,
+      hasExamDomains: domains.length > 0,
+      hasCompletionRules: hasRules,
       totalLessons,
       lessonsWithQuizzes,
-      domains:               domainGaps,
+      domains: domainGaps,
       isAligned,
       gaps,
     });
   }
 
   // ── Unmapped credentials ───────────────────────────────────────────────────
-  const mappedCredentialIds = new Set([...pcByProgram.values()].map(v => v.credentialId));
+  const mappedCredentialIds = new Set([...pcByProgram.values()].map((v) => v.credentialId));
   const { data: allCreds } = await db
     .from('credential_registry')
     .select('id, name, abbreviation')
     .eq('is_active', true);
 
-  const unmappedCredentials = (allCreds ?? []).filter(c => !mappedCredentialIds.has(c.id));
+  const unmappedCredentials = (allCreds ?? []).filter((c) => !mappedCredentialIds.has(c.id));
 
-  const unmappedPrograms = audits
-    .filter(a => !a.hasProgramCredential)
-    .map(a => a.programSlug);
+  const unmappedPrograms = audits.filter((a) => !a.hasProgramCredential).map((a) => a.programSlug);
 
-  const alignedPrograms = audits.filter(a => a.isAligned).length;
+  const alignedPrograms = audits.filter((a) => a.isAligned).length;
 
   return {
     auditedAt,
-    totalPrograms:   audits.length,
+    totalPrograms: audits.length,
     alignedPrograms,
-    gapPrograms:     audits.length - alignedPrograms,
-    programs:        audits,
+    gapPrograms: audits.length - alignedPrograms,
+    programs: audits,
     unmappedPrograms,
     unmappedCredentials,
   };
@@ -350,7 +360,7 @@ export function formatAuditReport(audit: AlignmentAudit): string {
         const dStatus = d.isCovered ? '✓' : '✗';
         lines.push(
           `   ${dStatus} ${d.domainKey} (${d.weightPercent}%): ` +
-          `${d.lessonsInCurriculum} lessons, ${d.lessonsWithQuizzes} with quizzes`
+            `${d.lessonsInCurriculum} lessons, ${d.lessonsWithQuizzes} with quizzes`,
         );
       }
     }
@@ -367,11 +377,11 @@ export function formatAuditReport(audit: AlignmentAudit): string {
  * without the full per-domain breakdown.
  */
 export function summarizeGaps(audit: AlignmentAudit): {
-  totalGaps:          number;
+  totalGaps: number;
   missingCredentials: string[];
-  missingDomains:     { program: string; domain: string; weight: number }[];
-  missingQuizzes:     { program: string; domain: string; lessons: number }[];
-  missingRules:       string[];
+  missingDomains: { program: string; domain: string; weight: number }[];
+  missingQuizzes: { program: string; domain: string; lessons: number }[];
+  missingRules: string[];
 } {
   const missingCredentials: string[] = [];
   const missingDomains: { program: string; domain: string; weight: number }[] = [];
@@ -380,20 +390,31 @@ export function summarizeGaps(audit: AlignmentAudit): {
 
   for (const p of audit.programs) {
     if (!p.hasProgramCredential) missingCredentials.push(p.programSlug);
-    if (!p.hasCompletionRules)   missingRules.push(p.programSlug);
+    if (!p.hasCompletionRules) missingRules.push(p.programSlug);
 
     for (const d of p.domains) {
       if (d.missingLessons) {
-        missingDomains.push({ program: p.programSlug, domain: d.domainKey, weight: d.weightPercent });
+        missingDomains.push({
+          program: p.programSlug,
+          domain: d.domainKey,
+          weight: d.weightPercent,
+        });
       } else if (d.missingQuizzes) {
-        missingQuizzes.push({ program: p.programSlug, domain: d.domainKey, lessons: d.lessonsInCurriculum });
+        missingQuizzes.push({
+          program: p.programSlug,
+          domain: d.domainKey,
+          lessons: d.lessonsInCurriculum,
+        });
       }
     }
   }
 
   return {
-    totalGaps: missingCredentials.length + missingDomains.length +
-               missingQuizzes.length + missingRules.length,
+    totalGaps:
+      missingCredentials.length +
+      missingDomains.length +
+      missingQuizzes.length +
+      missingRules.length,
     missingCredentials,
     missingDomains,
     missingQuizzes,

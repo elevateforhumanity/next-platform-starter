@@ -77,4 +77,3 @@ const publicRoutes = allRoutes.filter((route) => {
 
 // Remove duplicates and sort
 const uniqueRoutes = [...new Set(publicRoutes)].sort();
-

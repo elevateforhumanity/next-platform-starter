@@ -1,4 +1,3 @@
-
 // Email Templates for Elevate for Humanity
 
 export const emailTemplates = {
@@ -744,10 +743,7 @@ export function getTemplate(key: EmailTemplateKey) {
   return emailTemplates[key];
 }
 
-export function renderTemplate(
-  key: EmailTemplateKey,
-  variables: Record<string, string>
-) {
+export function renderTemplate(key: EmailTemplateKey, variables: Record<string, string>) {
   const template = emailTemplates[key];
   let html = template.html;
   let subject = template.subject;

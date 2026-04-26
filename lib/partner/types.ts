@@ -1,6 +1,6 @@
 /**
  * Partner Types and Status Logic
- * 
+ *
  * Partners do NOT require manual admin approval.
  * Access is granted automatically when required documents are uploaded and validated.
  */
@@ -9,7 +9,7 @@ export type PartnerStatus = 'draft' | 'submitted' | 'active' | 'restricted';
 
 export type DocumentStatus = 'pending' | 'accepted' | 'rejected';
 
-export type DocumentType = 
+export type DocumentType =
   | 'partner_mou'
   | 'w9'
   | 'business_formation'
@@ -75,12 +75,7 @@ export const REQUIRED_DOCUMENTS: Record<string, Record<string, DocumentType[]>> 
       'barber_shop_license',
     ],
     // Add other states as needed
-    default: [
-      'partner_mou',
-      'w9',
-      'business_formation',
-      'liability_insurance',
-    ],
+    default: ['partner_mou', 'w9', 'business_formation', 'liability_insurance'],
   },
   COSMETOLOGY: {
     Indiana: [
@@ -90,12 +85,7 @@ export const REQUIRED_DOCUMENTS: Record<string, Record<string, DocumentType[]>> 
       'liability_insurance',
       'cosmetology_shop_license',
     ],
-    default: [
-      'partner_mou',
-      'w9',
-      'business_formation',
-      'liability_insurance',
-    ],
+    default: ['partner_mou', 'w9', 'business_formation', 'liability_insurance'],
   },
   CNA: {
     default: [
@@ -107,12 +97,7 @@ export const REQUIRED_DOCUMENTS: Record<string, Record<string, DocumentType[]>> 
     ],
   },
   HVAC: {
-    default: [
-      'partner_mou',
-      'w9',
-      'business_formation',
-      'liability_insurance',
-    ],
+    default: ['partner_mou', 'w9', 'business_formation', 'liability_insurance'],
   },
 };
 
@@ -144,14 +129,14 @@ export function getRequiredDocuments(programId: string, state: string): Document
 export function areAllDocumentsAccepted(
   documents: PartnerDocument[],
   programId: string,
-  state: string
+  state: string,
 ): boolean {
   const required = getRequiredDocuments(programId, state);
   const acceptedTypes = documents
-    .filter(d => d.program_id === programId && d.state === state && d.status === 'accepted')
-    .map(d => d.document_type);
-  
-  return required.every(docType => acceptedTypes.includes(docType));
+    .filter((d) => d.program_id === programId && d.state === state && d.status === 'accepted')
+    .map((d) => d.document_type);
+
+  return required.every((docType) => acceptedTypes.includes(docType));
 }
 
 /**
@@ -160,14 +145,14 @@ export function areAllDocumentsAccepted(
 export function getMissingDocuments(
   documents: PartnerDocument[],
   programId: string,
-  state: string
+  state: string,
 ): DocumentType[] {
   const required = getRequiredDocuments(programId, state);
   const uploadedTypes = documents
-    .filter(d => d.program_id === programId && d.state === state)
-    .map(d => d.document_type);
-  
-  return required.filter(docType => !uploadedTypes.includes(docType));
+    .filter((d) => d.program_id === programId && d.state === state)
+    .map((d) => d.document_type);
+
+  return required.filter((docType) => !uploadedTypes.includes(docType));
 }
 
 /**
@@ -176,16 +161,16 @@ export function getMissingDocuments(
 export function getPendingDocuments(
   documents: PartnerDocument[],
   programId: string,
-  state: string
+  state: string,
 ): PartnerDocument[] {
   return documents.filter(
-    d => d.program_id === programId && d.state === state && d.status === 'pending'
+    (d) => d.program_id === programId && d.state === state && d.status === 'pending',
   );
 }
 
 /**
  * Calculate partner status based on documents
- * 
+ *
  * Status logic:
  * - draft: Initial state, no documents submitted
  * - submitted: At least one document uploaded, waiting for review
@@ -194,7 +179,7 @@ export function getPendingDocuments(
  */
 export function calculatePartnerStatus(
   partner: Partner,
-  documents: PartnerDocument[]
+  documents: PartnerDocument[],
 ): PartnerStatus {
   if (documents.length === 0) {
     return 'draft';
@@ -210,7 +195,7 @@ export function calculatePartnerStatus(
   }
 
   // Check if any documents are pending
-  const hasPending = documents.some(d => d.status === 'pending');
+  const hasPending = documents.some((d) => d.status === 'pending');
   if (hasPending) {
     return 'submitted';
   }
@@ -226,12 +211,12 @@ export function hasPartnerProgramAccess(
   partner: Partner,
   documents: PartnerDocument[],
   programId: string,
-  state: string
+  state: string,
 ): boolean {
   if (partner.status !== 'active') return false;
   if (!partner.programs.includes(programId)) return false;
   if (!partner.states_of_operation.includes(state)) return false;
-  
+
   return areAllDocumentsAccepted(documents, programId, state);
 }
 
@@ -240,10 +225,10 @@ export function hasPartnerProgramAccess(
  */
 export function getPartnerActivePrograms(
   partner: Partner,
-  documents: PartnerDocument[]
+  documents: PartnerDocument[],
 ): Array<{ programId: string; state: string }> {
   const activePrograms: Array<{ programId: string; state: string }> = [];
-  
+
   for (const programId of partner.programs) {
     for (const state of partner.states_of_operation) {
       if (areAllDocumentsAccepted(documents, programId, state)) {
@@ -251,6 +236,6 @@ export function getPartnerActivePrograms(
       }
     }
   }
-  
+
   return activePrograms;
 }

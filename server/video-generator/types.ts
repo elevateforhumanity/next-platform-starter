@@ -1,6 +1,11 @@
 export type VoiceName = 'alloy' | 'ash' | 'ballad' | 'coral' | 'echo' | 'onyx' | 'sage' | 'shimmer';
 export type VideoStyle = 'barber_broll' | 'barbershop_lifestyle' | 'tools_closeup' | 'mixed';
-export type SceneLayout = 'full_frame' | 'lower_third' | 'split_left_text' | 'split_right_text' | 'top_label';
+export type SceneLayout =
+  | 'full_frame'
+  | 'lower_third'
+  | 'split_left_text'
+  | 'split_right_text'
+  | 'top_label';
 export type SceneTransition = 'cut' | 'fade' | 'crossfade';
 
 // ── GPT output (draft) ────────────────────────────────────────────────────────

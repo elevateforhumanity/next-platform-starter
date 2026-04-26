@@ -1,17 +1,10 @@
-"use client";
+'use client';
 
 import React from 'react';
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import {
-  LayoutDashboard,
-  Users,
-  FileText,
-  Shield,
-  Settings,
-  AlertCircle,
-} from 'lucide-react';
+import { LayoutDashboard, Users, FileText, Shield, Settings, AlertCircle } from 'lucide-react';
 
 /**
  * PROGRAM HOLDER NAVIGATION
@@ -67,7 +60,11 @@ export default function ProgramHolderNav() {
   };
 
   return (
-    <nav role="navigation" aria-label="Main navigation" className="w-64 bg-gray-900 text-white min-h-screen p-4 overflow-y-auto">
+    <nav
+      role="navigation"
+      aria-label="Main navigation"
+      className="w-64 bg-gray-900 text-white min-h-screen p-4 overflow-y-auto"
+    >
       {/* Logo/Brand */}
       <div className="mb-8">
         <Link href="/" aria-label="Link" className="flex items-center gap-2">

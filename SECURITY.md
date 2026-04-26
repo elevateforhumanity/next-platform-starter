@@ -17,6 +17,7 @@ We take security seriously at Elevate for Humanity. If you discover a security v
 Instead, please email us at: **security@elevateforhumanity.org**
 
 Include the following in your report:
+
 - Description of the vulnerability
 - Steps to reproduce
 - Potential impact
@@ -32,6 +33,7 @@ Include the following in your report:
 ### Scope
 
 The following are in scope:
+
 - elevateforhumanity.org and subdomains
 - Elevate-lms application
 - API endpoints
@@ -49,6 +51,7 @@ The following are in scope:
 ### Safe Harbor
 
 We will not pursue legal action against security researchers who:
+
 - Act in good faith
 - Avoid privacy violations
 - Do not destroy data
@@ -57,6 +60,7 @@ We will not pursue legal action against security researchers who:
 ## Security Measures
 
 This application implements:
+
 - Row Level Security (RLS) on all database tables
 - Server-side only access to service role keys
 - Webhook signature verification for Stripe

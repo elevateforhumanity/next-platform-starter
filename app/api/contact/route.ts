@@ -37,53 +37,46 @@ async function _POST(req: Request) {
     const rateLimited = await applyRateLimit(req, 'api');
     if (rateLimited) return rateLimited;
 
-
     // Parse and validate request body
     const body = await req.json().catch(() => null);
 
     if (!body) {
-      return NextResponse.json(
-        { ok: false, error: 'Invalid request body' },
-        { status: 400 }
-      );
+      return NextResponse.json({ ok: false, error: 'Invalid request body' }, { status: 400 });
     }
 
     // Check if this is a demo schedule submission
     const demoScheduleParsed = DemoScheduleSchema.safeParse(body);
-    
+
     if (demoScheduleParsed.success) {
       // Handle demo schedule form (all fields optional)
       const demoData = demoScheduleParsed.data;
-      
+
       // Only save if email provided
       if (demoData.email) {
         const supabase = await getAdminClient();
 
-    if (!supabase) {
-      return NextResponse.json(
-        { error: 'Service temporarily unavailable.' },
-        { status: 503 }
-      );
-    }
+        if (!supabase) {
+          return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });
+        }
         const nameParts = (demoData.name || '').trim().split(/\s+/);
         const firstName = nameParts[0] || '';
         const lastName = nameParts.slice(1).join(' ') || '';
-        
-        const { error: dbError } = await supabase
-          .from('marketing_contacts')
-          .insert({
-            first_name: firstName,
-            last_name: lastName,
-            email: demoData.email,
-            tags: ['demo_request', demoData.role || 'prospect', demoData.organization || ''].filter(Boolean),
-          });
-        
+
+        const { error: dbError } = await supabase.from('marketing_contacts').insert({
+          first_name: firstName,
+          last_name: lastName,
+          email: demoData.email,
+          tags: ['demo_request', demoData.role || 'prospect', demoData.organization || ''].filter(
+            Boolean,
+          ),
+        });
+
         if (dbError) {
           logger.error('Error inserting demo request:', dbError);
           // Non-blocking for demo form
         }
       }
-      
+
       return NextResponse.json({ ok: true });
     }
 
@@ -94,9 +87,9 @@ async function _POST(req: Request) {
         {
           ok: false,
           error: 'Invalid form submission',
-          details: parsed.error.flatten().fieldErrors
+          details: parsed.error.flatten().fieldErrors,
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -106,20 +99,22 @@ async function _POST(req: Request) {
     let dbSaved = false;
     try {
       const supabase = await getAdminClient();
-      
+
       // Split name into first/last for marketing_contacts table
       const nameParts = data.name.trim().split(/\s+/);
       const firstName = nameParts[0] || '';
       const lastName = nameParts.slice(1).join(' ') || '';
-      
-      const { error: dbError } = await supabase
-        .from('marketing_contacts')
-        .insert({
-          first_name: firstName,
-          last_name: lastName,
-          email: data.email,
-          tags: ['contact_form', data.role || 'general', data.program || data.interest || 'inquiry'].filter(Boolean),
-        });
+
+      const { error: dbError } = await supabase.from('marketing_contacts').insert({
+        first_name: firstName,
+        last_name: lastName,
+        email: data.email,
+        tags: [
+          'contact_form',
+          data.role || 'general',
+          data.program || data.interest || 'inquiry',
+        ].filter(Boolean),
+      });
 
       if (dbError) {
         logger.warn('Could not save contact to database (non-blocking):', dbError);
@@ -142,7 +137,7 @@ async function _POST(req: Request) {
     logger.error('Contact API error:', err);
     return NextResponse.json(
       { ok: false, error: 'Something went wrong. Please try again.' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

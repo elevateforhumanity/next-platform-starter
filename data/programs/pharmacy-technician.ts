@@ -7,7 +7,8 @@ import type { ProgramSchema } from '@/lib/programs/program-schema';
 export const PHARMACY_TECHNICIAN: ProgramSchema = {
   slug: 'pharmacy-technician',
   title: 'Pharmacy Technician',
-  subtitle: 'Prepare for the PTCB Certified Pharmacy Technician (CPhT) exam. Learn medication dispensing, pharmacy law, sterile compounding, and inventory management in 10 weeks.',
+  subtitle:
+    'Prepare for the PTCB Certified Pharmacy Technician (CPhT) exam. Learn medication dispensing, pharmacy law, sterile compounding, and inventory management in 10 weeks.',
   sector: 'healthcare',
   category: 'Healthcare',
 
@@ -38,41 +39,72 @@ export const PHARMACY_TECHNICIAN: ProgramSchema = {
     {
       name: 'PTCB Certified Pharmacy Technician (CPhT)',
       issuer: 'Pharmacy Technician Certification Board (PTCB)',
-      description: 'National certification recognized by all 50 states. Required for employment in most pharmacy settings.',
+      description:
+        'National certification recognized by all 50 states. Required for employment in most pharmacy settings.',
       validity: '2 years (60 CE hours to renew)',
     },
     {
       name: 'ExCPT Certification',
       issuer: 'National Healthcareer Association (NHA)',
-      description: 'Alternative national pharmacy technician certification accepted by major retail and hospital pharmacies.',
+      description:
+        'Alternative national pharmacy technician certification accepted by major retail and hospital pharmacies.',
       validity: '2 years',
     },
     {
       name: 'Sterile Compounding Certificate',
       issuer: 'Elevate for Humanity',
-      description: 'Competency-based assessment covering USP 797 sterile compounding procedures and aseptic technique.',
+      description:
+        'Competency-based assessment covering USP 797 sterile compounding procedures and aseptic technique.',
     },
     {
       name: 'CPR / First Aid / AED',
       issuer: 'American Heart Association',
-      description: 'Nationally accredited emergency response certification required by most healthcare employers.',
+      description:
+        'Nationally accredited emergency response certification required by most healthcare employers.',
       validity: '2 years',
     },
     {
       name: 'HIPAA Compliance Certificate',
       issuer: 'Elevate for Humanity',
-      description: 'Training in patient privacy, PHI handling, and HIPAA regulations for pharmacy settings.',
+      description:
+        'Training in patient privacy, PHI handling, and HIPAA regulations for pharmacy settings.',
     },
   ],
 
   outcomes: [
-    { statement: 'Accurately fill prescriptions using NDC numbers and sig codes with zero dispensing errors on practical exam', assessedAt: 'Week 8' },
-    { statement: 'Calculate dosages for oral, injectable, and IV medications using dimensional analysis', assessedAt: 'Week 4' },
-    { statement: 'Perform aseptic technique and sterile compounding per USP 797 standards', assessedAt: 'Week 7' },
-    { statement: 'Identify 200 top medications by brand/generic name, classification, and common side effects', assessedAt: 'Week 9' },
-    { statement: 'Process insurance claims and resolve third-party rejections using pharmacy software', assessedAt: 'Week 6' },
-    { statement: 'Pass PTCB practice exam with 80% or higher (90 questions, 2 hours)', assessedAt: 'Week 10' },
-    { statement: 'Apply federal and state pharmacy law including DEA schedules I–V and controlled substance handling', assessedAt: 'Week 5' },
+    {
+      statement:
+        'Accurately fill prescriptions using NDC numbers and sig codes with zero dispensing errors on practical exam',
+      assessedAt: 'Week 8',
+    },
+    {
+      statement:
+        'Calculate dosages for oral, injectable, and IV medications using dimensional analysis',
+      assessedAt: 'Week 4',
+    },
+    {
+      statement: 'Perform aseptic technique and sterile compounding per USP 797 standards',
+      assessedAt: 'Week 7',
+    },
+    {
+      statement:
+        'Identify 200 top medications by brand/generic name, classification, and common side effects',
+      assessedAt: 'Week 9',
+    },
+    {
+      statement:
+        'Process insurance claims and resolve third-party rejections using pharmacy software',
+      assessedAt: 'Week 6',
+    },
+    {
+      statement: 'Pass PTCB practice exam with 80% or higher (90 questions, 2 hours)',
+      assessedAt: 'Week 10',
+    },
+    {
+      statement:
+        'Apply federal and state pharmacy law including DEA schedules I–V and controlled substance handling',
+      assessedAt: 'Week 5',
+    },
   ],
 
   careerPathway: [
@@ -103,51 +135,162 @@ export const PHARMACY_TECHNICIAN: ProgramSchema = {
   ],
 
   weeklySchedule: [
-    { week: 'Week 1', title: 'Pharmacy Foundations', competencyMilestone: 'Identify pharmacy settings, roles, and workflow. Pass HIPAA assessment.' },
-    { week: 'Week 2', title: 'Pharmacy Law & Ethics', competencyMilestone: 'Classify DEA schedules I–V, explain controlled substance handling, identify state-specific regulations.' },
-    { week: 'Week 3', title: 'Pharmaceutical Calculations', competencyMilestone: 'Calculate dosages using dimensional analysis, convert between metric/apothecary systems.' },
-    { week: 'Week 4', title: 'Pharmacology I', competencyMilestone: 'Identify 100 top medications by brand/generic, classify by drug category.' },
-    { week: 'Week 5', title: 'Pharmacology II', competencyMilestone: 'Identify remaining 100 top medications, recognize common drug interactions and side effects.' },
-    { week: 'Week 6', title: 'Prescription Processing', competencyMilestone: 'Read and interpret prescriptions, process insurance claims, resolve third-party rejections.' },
-    { week: 'Week 7', title: 'Sterile Compounding', competencyMilestone: 'Demonstrate aseptic technique per USP 797, prepare IV admixtures in clean room simulation.' },
-    { week: 'Week 8', title: 'Dispensing Practicum', competencyMilestone: 'Fill 50 prescriptions with zero errors using pharmacy software, verify NDC and sig codes.' },
-    { week: 'Week 9', title: 'PTCB Exam Prep', competencyMilestone: 'Complete 3 full-length practice exams (90 questions each), score 80%+ consistently.' },
-    { week: 'Week 10', title: 'Certification & Placement', competencyMilestone: 'Take proctored PTCB exam, earn CPR/AED, complete mock interviews and resume workshop.' },
+    {
+      week: 'Week 1',
+      title: 'Pharmacy Foundations',
+      competencyMilestone:
+        'Identify pharmacy settings, roles, and workflow. Pass HIPAA assessment.',
+    },
+    {
+      week: 'Week 2',
+      title: 'Pharmacy Law & Ethics',
+      competencyMilestone:
+        'Classify DEA schedules I–V, explain controlled substance handling, identify state-specific regulations.',
+    },
+    {
+      week: 'Week 3',
+      title: 'Pharmaceutical Calculations',
+      competencyMilestone:
+        'Calculate dosages using dimensional analysis, convert between metric/apothecary systems.',
+    },
+    {
+      week: 'Week 4',
+      title: 'Pharmacology I',
+      competencyMilestone:
+        'Identify 100 top medications by brand/generic, classify by drug category.',
+    },
+    {
+      week: 'Week 5',
+      title: 'Pharmacology II',
+      competencyMilestone:
+        'Identify remaining 100 top medications, recognize common drug interactions and side effects.',
+    },
+    {
+      week: 'Week 6',
+      title: 'Prescription Processing',
+      competencyMilestone:
+        'Read and interpret prescriptions, process insurance claims, resolve third-party rejections.',
+    },
+    {
+      week: 'Week 7',
+      title: 'Sterile Compounding',
+      competencyMilestone:
+        'Demonstrate aseptic technique per USP 797, prepare IV admixtures in clean room simulation.',
+    },
+    {
+      week: 'Week 8',
+      title: 'Dispensing Practicum',
+      competencyMilestone:
+        'Fill 50 prescriptions with zero errors using pharmacy software, verify NDC and sig codes.',
+    },
+    {
+      week: 'Week 9',
+      title: 'PTCB Exam Prep',
+      competencyMilestone:
+        'Complete 3 full-length practice exams (90 questions each), score 80%+ consistently.',
+    },
+    {
+      week: 'Week 10',
+      title: 'Certification & Placement',
+      competencyMilestone:
+        'Take proctored PTCB exam, earn CPR/AED, complete mock interviews and resume workshop.',
+    },
   ],
 
   curriculum: [
     {
       title: 'Pharmacy Foundations & Law',
-      topics: ['Pharmacy settings: retail, hospital, mail-order, compounding', 'Pharmacy technician roles and scope of practice', 'Federal pharmacy law: FDCA, CSA, OBRA-90, Combat Methamphetamine Act', 'State-specific regulations and Board of Pharmacy requirements', 'HIPAA and patient privacy in pharmacy', 'DEA schedules I–V and controlled substance handling'],
+      topics: [
+        'Pharmacy settings: retail, hospital, mail-order, compounding',
+        'Pharmacy technician roles and scope of practice',
+        'Federal pharmacy law: FDCA, CSA, OBRA-90, Combat Methamphetamine Act',
+        'State-specific regulations and Board of Pharmacy requirements',
+        'HIPAA and patient privacy in pharmacy',
+        'DEA schedules I–V and controlled substance handling',
+      ],
     },
     {
       title: 'Pharmaceutical Calculations',
-      topics: ['Metric system conversions', 'Dimensional analysis for dosage calculations', 'Concentration and dilution calculations', 'IV flow rate calculations (mL/hr, gtt/min)', 'Pediatric and weight-based dosing', 'Business math: markup, discount, inventory turnover'],
+      topics: [
+        'Metric system conversions',
+        'Dimensional analysis for dosage calculations',
+        'Concentration and dilution calculations',
+        'IV flow rate calculations (mL/hr, gtt/min)',
+        'Pediatric and weight-based dosing',
+        'Business math: markup, discount, inventory turnover',
+      ],
     },
     {
       title: 'Pharmacology',
-      topics: ['Drug classification systems', 'Top 200 medications: brand/generic names', 'Mechanism of action by drug class', 'Common side effects and contraindications', 'Drug interactions and therapeutic duplications', 'OTC medications and patient counseling boundaries'],
+      topics: [
+        'Drug classification systems',
+        'Top 200 medications: brand/generic names',
+        'Mechanism of action by drug class',
+        'Common side effects and contraindications',
+        'Drug interactions and therapeutic duplications',
+        'OTC medications and patient counseling boundaries',
+      ],
     },
     {
       title: 'Prescription Processing & Insurance',
-      topics: ['Reading and interpreting prescriptions', 'Sig codes and medical abbreviations', 'NDC numbers and drug identification', 'Third-party insurance processing', 'Prior authorizations and formulary management', 'Pharmacy software systems (simulated)'],
+      topics: [
+        'Reading and interpreting prescriptions',
+        'Sig codes and medical abbreviations',
+        'NDC numbers and drug identification',
+        'Third-party insurance processing',
+        'Prior authorizations and formulary management',
+        'Pharmacy software systems (simulated)',
+      ],
     },
     {
       title: 'Sterile & Non-Sterile Compounding',
-      topics: ['USP 797 standards for sterile compounding', 'Aseptic technique and garbing procedures', 'Laminar airflow hood operation', 'IV admixture preparation', 'Non-sterile compounding: creams, suspensions, capsules', 'Quality assurance and beyond-use dating'],
+      topics: [
+        'USP 797 standards for sterile compounding',
+        'Aseptic technique and garbing procedures',
+        'Laminar airflow hood operation',
+        'IV admixture preparation',
+        'Non-sterile compounding: creams, suspensions, capsules',
+        'Quality assurance and beyond-use dating',
+      ],
     },
     {
       title: 'Certification Prep & Career Placement',
-      topics: ['PTCB exam format: 90 questions, 2 hours, 4 domains', 'Full-length practice exams with score analysis', 'Weak-area review and targeted study plans', 'Resume building for pharmacy positions', 'Mock interviews with pharmacy hiring scenarios', 'Employer introductions and placement support'],
+      topics: [
+        'PTCB exam format: 90 questions, 2 hours, 4 domains',
+        'Full-length practice exams with score analysis',
+        'Weak-area review and targeted study plans',
+        'Resume building for pharmacy positions',
+        'Mock interviews with pharmacy hiring scenarios',
+        'Employer introductions and placement support',
+      ],
     },
   ],
 
   complianceAlignment: [
-    { standard: 'PTCB Certification', description: 'Program curriculum aligned to PTCB exam content outline across all 4 knowledge domains.' },
-    { standard: 'USP 797', description: 'Sterile compounding training follows United States Pharmacopeia Chapter 797 standards.' },
-    { standard: 'WIOA Title I', description: 'Program eligible for Workforce Innovation and Opportunity Act funding through Indiana DWD.' },
-    { standard: 'Indiana Board of Pharmacy', description: 'Training meets Indiana requirements for pharmacy technician registration.' },
-    { standard: 'ETPL Listed', description: 'Eligible Training Provider List — approved for Individual Training Accounts through local workforce boards.' },
+    {
+      standard: 'PTCB Certification',
+      description:
+        'Program curriculum aligned to PTCB exam content outline across all 4 knowledge domains.',
+    },
+    {
+      standard: 'USP 797',
+      description:
+        'Sterile compounding training follows United States Pharmacopeia Chapter 797 standards.',
+    },
+    {
+      standard: 'WIOA Title I',
+      description:
+        'Program eligible for Workforce Innovation and Opportunity Act funding through Indiana DWD.',
+    },
+    {
+      standard: 'Indiana Board of Pharmacy',
+      description: 'Training meets Indiana requirements for pharmacy technician registration.',
+    },
+    {
+      standard: 'ETPL Listed',
+      description:
+        'Eligible Training Provider List — approved for Individual Training Accounts through local workforce boards.',
+    },
   ],
 
   trainingPhases: [
@@ -241,7 +384,8 @@ export const PHARMACY_TECHNICIAN: ProgramSchema = {
   cta: {
     applyHref: '/apply?program=pharmacy-technician',
     requestInfoHref: '/programs/pharmacy-technician/request-info',
-    careerConnectHref: 'https://www.indianacareerconnect.com/jobs/search?q=pharmacy+technician&location=Indiana',
+    careerConnectHref:
+      'https://www.indianacareerconnect.com/jobs/search?q=pharmacy+technician&location=Indiana',
     advisorHref: '/contact',
   },
 
@@ -251,15 +395,13 @@ export const PHARMACY_TECHNICIAN: ProgramSchema = {
     'Background check (required for pharmacy employment)',
     'No prior pharmacy experience required',
   ],
-  equipmentIncluded: 'All training materials, pharmacy software access, compounding supplies, and certification exam fees included',
-  modality: 'Hybrid — Online instruction via LMS, hands-on labs at training facility, pharmacy simulation exercises',
+  equipmentIncluded:
+    'All training materials, pharmacy software access, compounding supplies, and certification exam fees included',
+  modality:
+    'Hybrid — Online instruction via LMS, hands-on labs at training facility, pharmacy simulation exercises',
   facilityInfo: 'Elevate training center, Indianapolis',
   bilingualSupport: 'Bilingual (English/Spanish) instruction available.',
-  employerPartners: [
-    'CVS Health',
-    'Walgreens',
-    'Local independent pharmacies (onboarding)',
-  ],
+  employerPartners: ['CVS Health', 'Walgreens', 'Local independent pharmacies (onboarding)'],
   pricingIncludes: [
     '200 instructional hours (10 weeks)',
     'PTCB exam fee',
@@ -269,13 +411,30 @@ export const PHARMACY_TECHNICIAN: ProgramSchema = {
     'LMS access for full program duration',
     'Career placement support',
   ],
-  paymentTerms: 'WIOA and Next Level Jobs funding accepted. Payment plans available for self-pay students.',
+  paymentTerms:
+    'WIOA and Next Level Jobs funding accepted. Payment plans available for self-pay students.',
 
   faqs: [
-    { question: 'Do I need pharmacy experience?', answer: 'No. This program starts from the basics and prepares you for the PTCB national certification exam in 10 weeks.' },
-    { question: 'What is the PTCB exam?', answer: 'The Pharmacy Technician Certification Board (PTCB) exam is a 90-question, 2-hour national certification. Passing earns the CPhT credential, recognized by all 50 states and required by most employers.' },
-    { question: 'Is this program free?', answer: 'Yes, for eligible participants through WIOA or Next Level Jobs funding. Self-pay is $4,200 with payment plans available.' },
-    { question: 'Where can I work after certification?', answer: 'Retail pharmacies (CVS, Walgreens), hospitals, compounding pharmacies, mail-order pharmacies, and long-term care facilities.' },
+    {
+      question: 'Do I need pharmacy experience?',
+      answer:
+        'No. This program starts from the basics and prepares you for the PTCB national certification exam in 10 weeks.',
+    },
+    {
+      question: 'What is the PTCB exam?',
+      answer:
+        'The Pharmacy Technician Certification Board (PTCB) exam is a 90-question, 2-hour national certification. Passing earns the CPhT credential, recognized by all 50 states and required by most employers.',
+    },
+    {
+      question: 'Is this program free?',
+      answer:
+        'Yes, for eligible participants through WIOA or Next Level Jobs funding. Self-pay is $4,200 with payment plans available.',
+    },
+    {
+      question: 'Where can I work after certification?',
+      answer:
+        'Retail pharmacies (CVS, Walgreens), hospitals, compounding pharmacies, mail-order pharmacies, and long-term care facilities.',
+    },
   ],
 
   breadcrumbs: [
@@ -285,5 +444,6 @@ export const PHARMACY_TECHNICIAN: ProgramSchema = {
   ],
 
   metaTitle: 'Pharmacy Technician Training | PTCB Certified | Indianapolis',
-  metaDescription: '10-week pharmacy technician program. PTCB CPhT exam prep, sterile compounding, and 5 credentials. 180–220 hours. WIOA funding available.',
+  metaDescription:
+    '10-week pharmacy technician program. PTCB CPhT exam prep, sterile compounding, and 5 credentials. 180–220 hours. WIOA funding available.',
 };

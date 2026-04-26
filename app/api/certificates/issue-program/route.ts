@@ -16,7 +16,9 @@ async function _POST(request: NextRequest) {
 
   try {
     const supabase = await createRouteHandlerClient({ cookies });
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const { data: profile } = await supabase
@@ -45,14 +47,20 @@ async function _POST(request: NextRequest) {
     }
 
     if (enrollment.status !== 'completed') {
-      return NextResponse.json({ error: 'Enrollment must be completed before issuing certificate' }, { status: 400 });
+      return NextResponse.json(
+        { error: 'Enrollment must be completed before issuing certificate' },
+        { status: 400 },
+      );
     }
 
     // Credential pipeline gate — payment + exam passage
     // Admins cannot bypass this: if the learner hasn't paid or passed the exam,
     // the certificate must not be issued regardless of who is requesting.
     if (enrollment.program_id) {
-      const gate = await checkCertificateIssuanceEligibility(enrollment.user_id, enrollment.program_id);
+      const gate = await checkCertificateIssuanceEligibility(
+        enrollment.user_id,
+        enrollment.program_id,
+      );
       if (!gate.eligible) {
         return NextResponse.json({ error: gate.reason }, { status: 400 });
       }
@@ -66,7 +74,10 @@ async function _POST(request: NextRequest) {
       .maybeSingle();
 
     if (existing) {
-      return NextResponse.json({ error: 'Certificate already issued', certificate_id: existing.id }, { status: 409 });
+      return NextResponse.json(
+        { error: 'Certificate already issued', certificate_id: existing.id },
+        { status: 409 },
+      );
     }
 
     const certNumber = `EFH-${Date.now().toString(36).toUpperCase()}`;

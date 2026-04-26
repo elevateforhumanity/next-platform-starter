@@ -23,7 +23,7 @@ export function isTerminalStatus(status: ReturnLifecycleStatus): boolean {
 
 export function canTransitionTo(
   current: ReturnLifecycleStatus,
-  next: ReturnLifecycleStatus
+  next: ReturnLifecycleStatus,
 ): boolean {
   return RETURN_STATUS_FLOW[current]?.includes(next) ?? false;
 }

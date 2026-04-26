@@ -19,21 +19,34 @@ async function _POST(req: NextRequest) {
 
   const supabase = await createClient();
   const db = await getAdminClient();
-  if (!db) return NextResponse.json({ error: 'Admin client failed to initialize' }, { status: 500 });
+  if (!db)
+    return NextResponse.json({ error: 'Admin client failed to initialize' }, { status: 500 });
 
-  let body: { applicationId: string; score: number; answers: Record<string, string>; passed: boolean };
-  try { body = await req.json(); } catch { return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 }); }
+  let body: {
+    applicationId: string;
+    score: number;
+    answers: Record<string, string>;
+    passed: boolean;
+  };
+  try {
+    body = await req.json();
+  } catch {
+    return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 });
+  }
 
   const { applicationId, score, answers, passed } = body;
 
   // Save assessment result to job_applications
   if (applicationId) {
     const timestamp = new Date().toISOString();
-    await db.from('job_applications').update({
-      status: passed ? 'assessment_passed' : 'assessment_failed',
-      notes: `Assessment score: ${score}% — ${passed ? 'PASSED' : 'FAILED'} at ${timestamp}`,
-      updated_at: timestamp,
-    }).eq('id', applicationId);
+    await db
+      .from('job_applications')
+      .update({
+        status: passed ? 'assessment_passed' : 'assessment_failed',
+        notes: `Assessment score: ${score}% — ${passed ? 'PASSED' : 'FAILED'} at ${timestamp}`,
+        updated_at: timestamp,
+      })
+      .eq('id', applicationId);
 
     // If passed, fetch application details and send next_steps email
     if (passed) {
@@ -61,7 +74,9 @@ async function _POST(req: NextRequest) {
             interviewTime: 'To be confirmed',
             zoomLink: `${process.env.NEXT_PUBLIC_SITE_URL}/careers/interview/${applicationId}`,
           });
-          await sendEmail({ to: profile.email, ...tpl }).catch(e => logger.error('[Assessment] Email failed:', e));
+          await sendEmail({ to: profile.email, ...tpl }).catch((e) =>
+            logger.error('[Assessment] Email failed:', e),
+          );
         }
       }
     }

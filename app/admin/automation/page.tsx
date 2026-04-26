@@ -3,17 +3,16 @@ import { requireRole } from '@/lib/auth/require-role';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { createClient } from '@/lib/supabase/server';
 import Link from 'next/link';
-import { 
-  Zap, 
-  Mail, 
-  Bell, 
-  Clock, 
-  
-  XCircle, 
+import {
+  Zap,
+  Mail,
+  Bell,
+  Clock,
+  XCircle,
   RefreshCw,
   Calendar,
   Users,
-  AlertTriangle
+  AlertTriangle,
 } from 'lucide-react';
 
 export const metadata: Metadata = {
@@ -27,8 +26,6 @@ export const dynamic = 'force-dynamic';
 export default async function AutomationLogPage() {
   await requireRole(['admin', 'super_admin', 'staff']);
   const supabase = await createClient();
-  
-
 
   // Check admin role
 
@@ -54,17 +51,25 @@ export default async function AutomationLogPage() {
     .limit(20);
 
   // Hydrate profiles separately (user_id → auth.users, no FK to profiles)
-  const autoUserIds = [...new Set((rawAutoEnrollments ?? []).map((e: any) => e.user_id).filter(Boolean))];
+  const autoUserIds = [
+    ...new Set((rawAutoEnrollments ?? []).map((e: any) => e.user_id).filter(Boolean)),
+  ];
   const { data: autoProfiles } = autoUserIds.length
     ? await supabase.from('profiles').select('id, full_name').in('id', autoUserIds)
     : { data: [] };
   const autoProfileMap = Object.fromEntries((autoProfiles ?? []).map((p: any) => [p.id, p]));
-  const recentEnrollments = (rawAutoEnrollments ?? []).map((e: any) => ({ ...e, profiles: autoProfileMap[e.user_id] ?? null }));
+  const recentEnrollments = (rawAutoEnrollments ?? []).map((e: any) => ({
+    ...e,
+    profiles: autoProfileMap[e.user_id] ?? null,
+  }));
 
   // Calculate stats
-  const emailsSent = deliveryLogs?.filter(l => l.channel === 'email' && l.status === 'sent').length || 0;
-  const emailsFailed = deliveryLogs?.filter(l => l.channel === 'email' && l.status === 'failed').length || 0;
-  const smsSent = deliveryLogs?.filter(l => l.channel === 'sms' && l.status === 'sent').length || 0;
+  const emailsSent =
+    deliveryLogs?.filter((l) => l.channel === 'email' && l.status === 'sent').length || 0;
+  const emailsFailed =
+    deliveryLogs?.filter((l) => l.channel === 'email' && l.status === 'failed').length || 0;
+  const smsSent =
+    deliveryLogs?.filter((l) => l.channel === 'sms' && l.status === 'sent').length || 0;
   const notificationCount = notifications?.length || 0;
 
   const stats = [
@@ -91,7 +96,6 @@ export default async function AutomationLogPage() {
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* Hero Image */}
       <div className="bg-white border-b">
         <div className="max-w-7xl mx-auto px-4 py-6">
@@ -112,7 +116,9 @@ export default async function AutomationLogPage() {
           {stats.map((stat) => (
             <div key={stat.label} className="bg-white rounded-xl shadow-sm p-6">
               <div className="flex items-center gap-4">
-                <div className={`w-12 h-12 bg-${stat.color}-100 rounded-lg flex items-center justify-center`}>
+                <div
+                  className={`w-12 h-12 bg-${stat.color}-100 rounded-lg flex items-center justify-center`}
+                >
                   <stat.icon className={`w-6 h-6 text-${stat.color}-600`} />
                 </div>
                 <div>
@@ -140,7 +146,9 @@ export default async function AutomationLogPage() {
                   <div key={log.id} className="p-4 hover:bg-gray-50">
                     <div className="flex items-start justify-between">
                       <div className="flex items-center gap-3">
-                        <div className={`p-2 rounded-lg ${log.status === 'sent' ? 'bg-brand-green-100' : log.status === 'failed' ? 'bg-brand-red-100' : 'bg-yellow-100'}`}>
+                        <div
+                          className={`p-2 rounded-lg ${log.status === 'sent' ? 'bg-brand-green-100' : log.status === 'failed' ? 'bg-brand-red-100' : 'bg-yellow-100'}`}
+                        >
                           {log.status === 'sent' ? (
                             <span className="text-slate-400 flex-shrink-0">•</span>
                           ) : log.status === 'failed' ? (
@@ -151,7 +159,8 @@ export default async function AutomationLogPage() {
                         </div>
                         <div>
                           <p className="font-medium text-slate-900 text-sm">
-                            {log.channel?.toUpperCase() || 'Email'}: {log.template_name || 'Message'}
+                            {log.channel?.toUpperCase() || 'Email'}:{' '}
+                            {log.template_name || 'Message'}
                           </p>
                           <p className="text-slate-700 text-xs truncate max-w-[200px]">
                             To: {log.recipient || 'Unknown'}
@@ -178,7 +187,9 @@ export default async function AutomationLogPage() {
                 <Users className="w-5 h-5 text-brand-green-500" />
                 Enrollment Automations
               </h2>
-              <span className="text-sm text-slate-700">{recentEnrollments?.length || 0} recent</span>
+              <span className="text-sm text-slate-700">
+                {recentEnrollments?.length || 0} recent
+              </span>
             </div>
             <div className="divide-y max-h-[500px] overflow-y-auto">
               {recentEnrollments && recentEnrollments.length > 0 ? (
@@ -190,15 +201,18 @@ export default async function AutomationLogPage() {
                           <span className="text-slate-400 flex-shrink-0">•</span>
                         </div>
                         <div>
-                          <p className="font-medium text-slate-900 text-sm">
-                            Enrollment completed
-                          </p>
+                          <p className="font-medium text-slate-900 text-sm">Enrollment completed</p>
                           <p className="text-slate-700 text-xs">
-                            {enrollment.profiles?.full_name || 'Student'} → {(enrollment.programs as any)?.title || (enrollment.programs as any)?.name || 'Program'}
+                            {enrollment.profiles?.full_name || 'Student'} →{' '}
+                            {(enrollment.programs as any)?.title ||
+                              (enrollment.programs as any)?.name ||
+                              'Program'}
                           </p>
                         </div>
                       </div>
-                      <span className="text-xs text-slate-700">{formatTime(enrollment.created_at)}</span>
+                      <span className="text-xs text-slate-700">
+                        {formatTime(enrollment.created_at)}
+                      </span>
                     </div>
                   </div>
                 ))
@@ -222,7 +236,9 @@ export default async function AutomationLogPage() {
             <div className="p-4 bg-gray-50 rounded-lg">
               <div className="flex items-center justify-between mb-2">
                 <span className="font-medium text-slate-900">Nudge Emails</span>
-                <span className="text-xs px-2 py-1 bg-brand-green-100 text-brand-green-700 rounded">Active</span>
+                <span className="text-xs px-2 py-1 bg-brand-green-100 text-brand-green-700 rounded">
+                  Active
+                </span>
               </div>
               <p className="text-sm text-slate-700">Sends inactivity reminders</p>
               <p className="text-xs text-slate-700 mt-1">Runs daily at 9:00 AM</p>
@@ -230,7 +246,9 @@ export default async function AutomationLogPage() {
             <div className="p-4 bg-gray-50 rounded-lg">
               <div className="flex items-center justify-between mb-2">
                 <span className="font-medium text-slate-900">Missed Check-ins</span>
-                <span className="text-xs px-2 py-1 bg-brand-green-100 text-brand-green-700 rounded">Active</span>
+                <span className="text-xs px-2 py-1 bg-brand-green-100 text-brand-green-700 rounded">
+                  Active
+                </span>
               </div>
               <p className="text-sm text-slate-700">Alerts for missed OJT check-ins</p>
               <p className="text-xs text-slate-700 mt-1">Runs daily at 6:00 PM</p>
@@ -238,14 +256,17 @@ export default async function AutomationLogPage() {
             <div className="p-4 bg-gray-50 rounded-lg">
               <div className="flex items-center justify-between mb-2">
                 <span className="font-medium text-slate-900">End of Day Summary</span>
-                <span className="text-xs px-2 py-1 bg-brand-green-100 text-brand-green-700 rounded">Active</span>
+                <span className="text-xs px-2 py-1 bg-brand-green-100 text-brand-green-700 rounded">
+                  Active
+                </span>
               </div>
               <p className="text-sm text-slate-700">Daily progress summaries</p>
               <p className="text-xs text-slate-700 mt-1">Runs daily at 8:00 PM</p>
             </div>
           </div>
           <p className="text-xs text-slate-700 mt-4">
-            Note: Cron jobs are triggered by scheduled cron. Check deployment dashboard for execution logs.
+            Note: Cron jobs are triggered by scheduled cron. Check deployment dashboard for
+            execution logs.
           </p>
         </div>
       </div>

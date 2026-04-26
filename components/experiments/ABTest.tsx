@@ -11,7 +11,7 @@ interface ABTestProps {
 
 /**
  * A/B Test wrapper component
- * 
+ *
  * Usage:
  * ```tsx
  * <ABTest experiment={EXPERIMENTS.homepageCTA}>
@@ -25,17 +25,17 @@ interface ABTestProps {
  */
 export function ABTest({ experiment, children, fallback }: ABTestProps) {
   const { variant, isLoading } = useExperiment(experiment);
-  
+
   if (isLoading && fallback) {
     return <>{fallback}</>;
   }
-  
+
   return <>{children(variant)}</>;
 }
 
 /**
  * Variant component for cleaner syntax
- * 
+ *
  * Usage:
  * ```tsx
  * <Experiment experiment={EXPERIMENTS.homepageCTA}>
@@ -60,33 +60,23 @@ interface VariantProps {
 
 export function Experiment({ experiment, children }: ExperimentProps) {
   const { variant } = useExperiment(experiment);
-  
+
   // Find the matching variant child
   const childArray = Array.isArray(children) ? children : [children];
-  
+
   for (const child of childArray) {
-    if (
-      child && 
-      typeof child === 'object' && 
-      'props' in child &&
-      child.props?.id === variant.id
-    ) {
+    if (child && typeof child === 'object' && 'props' in child && child.props?.id === variant.id) {
       return <>{child.props.children}</>;
     }
   }
-  
+
   // Fallback to control variant
   for (const child of childArray) {
-    if (
-      child && 
-      typeof child === 'object' && 
-      'props' in child &&
-      child.props?.id === 'control'
-    ) {
+    if (child && typeof child === 'object' && 'props' in child && child.props?.id === 'control') {
       return <>{child.props.children}</>;
     }
   }
-  
+
   // Return first child as last resort
   return <>{childArray[0]}</>;
 }

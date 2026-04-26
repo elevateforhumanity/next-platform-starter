@@ -31,9 +31,9 @@ export type EventType = z.infer<typeof EventTypeSchema>;
  * Drives policy-gated enrollment eligibility checks.
  */
 export const VerificationLevelSchema = z.enum([
-  'unverified',    // Self-reported only, no document check
+  'unverified', // Self-reported only, no document check
   'self_attested', // Participant signed attestation
-  'document',      // Staff reviewed a physical or digital document
+  'document', // Staff reviewed a physical or digital document
   'authoritative', // Verified against an authoritative external source (e.g. SSA, DMV)
 ]);
 export type VerificationLevel = z.infer<typeof VerificationLevelSchema>;
@@ -50,7 +50,7 @@ export const IdTypeSchema = z.enum([
   'military_id',
   'tribal_id',
   'birth_certificate',
-  'ead',              // Employment Authorization Document
+  'ead', // Employment Authorization Document
   'other',
 ]);
 export type IdType = z.infer<typeof IdTypeSchema>;
@@ -61,13 +61,13 @@ export type IdType = z.infer<typeof IdTypeSchema>;
  */
 export const FundingSourceSchema = z.enum([
   'WIOA_ADULT',
-  'WIOA_DW',       // Dislocated Worker
+  'WIOA_DW', // Dislocated Worker
   'WIOA_YOUTH',
-  'WRG',           // Workforce Ready Grant (Indiana)
-  'JRI',           // Justice Reinvestment Initiative
-  'WEX',           // Work Experience
+  'WRG', // Workforce Ready Grant (Indiana)
+  'JRI', // Justice Reinvestment Initiative
+  'WEX', // Work Experience
   'TANF',
-  'SNAP_ET',       // SNAP Employment & Training
+  'SNAP_ET', // SNAP Employment & Training
   'SELF_PAY',
   'EMPLOYER_SPONSORED',
   'SCHOLARSHIP',
@@ -86,7 +86,7 @@ export const IntakeSourceSchema = z.enum([
   'workforce_board_referral',
   'jri_referral',
   'walk_in',
-  'import',         // Bulk data migration
+  'import', // Bulk data migration
 ]);
 export type IntakeSource = z.infer<typeof IntakeSourceSchema>;
 
@@ -136,7 +136,11 @@ export const CreateParticipantCommandSchema = z.object({
   participant_uid: z.string().uuid(),
   intake_source: IntakeSourceSchema,
   initial_verification_level: VerificationLevelSchema,
-  authority_id: z.string().uuid({ message: 'authority_id must be the UUID of the staff member or system creating this record' }),
+  authority_id: z
+    .string()
+    .uuid({
+      message: 'authority_id must be the UUID of the staff member or system creating this record',
+    }),
   correlation_id: z.string().uuid(),
   occurred_at: z.string().datetime({ offset: true }),
 });
@@ -156,37 +160,54 @@ export const RecordAttributesCommandSchema = z.object({
   causation_id: z.string().uuid().optional(),
   correlation_id: z.string().uuid(),
   occurred_at: z.string().datetime({ offset: true }),
-  attributes: z.object({
-    legal_name: z.object({
-      first: z.string().min(1).max(100),
-      middle: z.string().max(100).optional(),
-      last: z.string().min(1).max(100),
-      suffix: z.string().max(20).optional(),
-    }).optional(),
-    postal_code: z.string().regex(/^\d{5}(-\d{4})?$/, 'Must be a valid US ZIP code').optional(),
-    date_of_birth: z.string().date().optional(),
-    phone: z.string().regex(/^\+?[1-9]\d{1,14}$/).optional(),
-    email: z.string().email().optional(),
-    demographics: z.object({
-      gender: z.enum(['male', 'female', 'non_binary', 'prefer_not_to_say']).optional(),
-      race: z.array(z.enum([
-        'american_indian_alaska_native',
-        'asian',
-        'black_african_american',
-        'native_hawaiian_pacific_islander',
-        'white',
-        'other',
-        'prefer_not_to_say',
-      ])).optional(),
-      ethnicity: z.enum(['hispanic_latino', 'not_hispanic_latino', 'prefer_not_to_say']).optional(),
-      veteran_status: z.boolean().optional(),
-      disability_status: z.boolean().optional(),
-      english_language_learner: z.boolean().optional(),
-    }).optional(),
-  }).refine(
-    (attrs) => Object.keys(attrs).length > 0,
-    { message: 'RecordAttributes command must include at least one attribute' },
-  ),
+  attributes: z
+    .object({
+      legal_name: z
+        .object({
+          first: z.string().min(1).max(100),
+          middle: z.string().max(100).optional(),
+          last: z.string().min(1).max(100),
+          suffix: z.string().max(20).optional(),
+        })
+        .optional(),
+      postal_code: z
+        .string()
+        .regex(/^\d{5}(-\d{4})?$/, 'Must be a valid US ZIP code')
+        .optional(),
+      date_of_birth: z.string().date().optional(),
+      phone: z
+        .string()
+        .regex(/^\+?[1-9]\d{1,14}$/)
+        .optional(),
+      email: z.string().email().optional(),
+      demographics: z
+        .object({
+          gender: z.enum(['male', 'female', 'non_binary', 'prefer_not_to_say']).optional(),
+          race: z
+            .array(
+              z.enum([
+                'american_indian_alaska_native',
+                'asian',
+                'black_african_american',
+                'native_hawaiian_pacific_islander',
+                'white',
+                'other',
+                'prefer_not_to_say',
+              ]),
+            )
+            .optional(),
+          ethnicity: z
+            .enum(['hispanic_latino', 'not_hispanic_latino', 'prefer_not_to_say'])
+            .optional(),
+          veteran_status: z.boolean().optional(),
+          disability_status: z.boolean().optional(),
+          english_language_learner: z.boolean().optional(),
+        })
+        .optional(),
+    })
+    .refine((attrs) => Object.keys(attrs).length > 0, {
+      message: 'RecordAttributes command must include at least one attribute',
+    }),
 });
 export type RecordAttributesCommand = z.infer<typeof RecordAttributesCommandSchema>;
 
@@ -252,17 +273,26 @@ export const CorrectEnrollmentCommandSchema = z.object({
   command_type: z.literal('CorrectEnrollment'),
   participant_uid: z.string().uuid(),
   authority_id: z.string().uuid(),
-  causation_id: z.string().uuid(),  // Required — must reference the enrollment event being corrected
+  causation_id: z.string().uuid(), // Required — must reference the enrollment event being corrected
   correlation_id: z.string().uuid(),
   occurred_at: z.string().datetime({ offset: true }),
-  target_event_id: z.string().uuid({ message: 'target_event_id must be the event_id of the EnrollmentRecorded event being corrected' }),
-  corrected_fields: z.record(CorrectableEnrollmentFieldSchema, z.unknown())
-    .refine(
-      (fields) => Object.keys(fields).length > 0,
-      { message: 'corrected_fields must contain at least one field' },
-    ),
+  target_event_id: z
+    .string()
+    .uuid({
+      message:
+        'target_event_id must be the event_id of the EnrollmentRecorded event being corrected',
+    }),
+  corrected_fields: z
+    .record(CorrectableEnrollmentFieldSchema, z.unknown())
+    .refine((fields) => Object.keys(fields).length > 0, {
+      message: 'corrected_fields must contain at least one field',
+    }),
   reason: CorrectionReasonSchema,
-  corrected_by: z.string().uuid({ message: 'corrected_by must be the UUID of the staff member authorizing the correction' }),
+  corrected_by: z
+    .string()
+    .uuid({
+      message: 'corrected_by must be the UUID of the staff member authorizing the correction',
+    }),
 });
 export type CorrectEnrollmentCommand = z.infer<typeof CorrectEnrollmentCommandSchema>;
 

@@ -69,12 +69,15 @@ async function _GET(request: Request) {
     if (expiringIn3?.length) {
       results.expiring_3_days = expiringIn3.length;
       for (const license of expiringIn3) {
-        await supabase.from('license_events').insert({
-          license_id: license.id,
-          organization_id: license.organization_id,
-          event_type: 'trial_expiring_soon',
-          event_data: { days_remaining: 3, expires_at: license.expires_at },
-        }).catch(() => {});
+        await supabase
+          .from('license_events')
+          .insert({
+            license_id: license.id,
+            organization_id: license.organization_id,
+            event_type: 'trial_expiring_soon',
+            event_data: { days_remaining: 3, expires_at: license.expires_at },
+          })
+          .catch(() => {});
       }
     }
 
@@ -92,12 +95,15 @@ async function _GET(request: Request) {
     if (expiringIn1?.length) {
       results.expiring_1_day = expiringIn1.length;
       for (const license of expiringIn1) {
-        await supabase.from('license_events').insert({
-          license_id: license.id,
-          organization_id: license.organization_id,
-          event_type: 'trial_expiring_urgent',
-          event_data: { days_remaining: 1, expires_at: license.expires_at },
-        }).catch(() => {});
+        await supabase
+          .from('license_events')
+          .insert({
+            license_id: license.id,
+            organization_id: license.organization_id,
+            event_type: 'trial_expiring_urgent',
+            event_data: { days_remaining: 1, expires_at: license.expires_at },
+          })
+          .catch(() => {});
       }
     }
 
@@ -121,15 +127,20 @@ async function _GET(request: Request) {
 
         if (org && !org.onboarding_started_at) {
           results.abandoned++;
-          await supabase.from('license_events').insert({
-            license_id: license.id,
-            organization_id: license.organization_id,
-            event_type: 'trial_abandoned',
-            event_data: {
-              created_at: license.created_at,
-              days_since_creation: Math.floor((now.getTime() - new Date(license.created_at).getTime()) / (24 * 60 * 60 * 1000)),
-            },
-          }).catch(() => {});
+          await supabase
+            .from('license_events')
+            .insert({
+              license_id: license.id,
+              organization_id: license.organization_id,
+              event_type: 'trial_abandoned',
+              event_data: {
+                created_at: license.created_at,
+                days_since_creation: Math.floor(
+                  (now.getTime() - new Date(license.created_at).getTime()) / (24 * 60 * 60 * 1000),
+                ),
+              },
+            })
+            .catch(() => {});
         }
       }
     }
@@ -153,12 +164,15 @@ async function _GET(request: Request) {
           results.errors.push('Failed to expire license: see logs');
         } else {
           results.expired++;
-          await supabase.from('license_events').insert({
-            license_id: license.id,
-            organization_id: license.organization_id,
-            event_type: 'trial_expired',
-            event_data: { expired_by: 'cron/trial-lifecycle' },
-          }).catch(() => {});
+          await supabase
+            .from('license_events')
+            .insert({
+              license_id: license.id,
+              organization_id: license.organization_id,
+              event_type: 'trial_expired',
+              event_data: { expired_by: 'cron/trial-lifecycle' },
+            })
+            .catch(() => {});
         }
       }
     }

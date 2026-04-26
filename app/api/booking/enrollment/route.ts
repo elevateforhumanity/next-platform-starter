@@ -18,30 +18,31 @@ async function _POST(req: Request) {
     const { firstName, lastName, email, phone, program, notes, date, time, type } = body;
 
     if (!firstName || !lastName || !email || !phone || !date || !time) {
-      return NextResponse.json(
-        { error: 'Missing required fields' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
     const supabase = await createClient();
 
     // DB write is required — no fallthrough on failure
     const booking = await requireDbWrite(
-      supabase.from('appointments').insert({
-        first_name: firstName,
-        last_name: lastName,
-        email,
-        phone,
-        program_interest: program || null,
-        notes: notes || null,
-        appointment_date: date,
-        appointment_time: time,
-        appointment_type: type || 'enrollment_consultation',
-        status: 'scheduled',
-        source: 'website',
-      }).select().maybeSingle(),
-      'Failed to create booking'
+      supabase
+        .from('appointments')
+        .insert({
+          first_name: firstName,
+          last_name: lastName,
+          email,
+          phone,
+          program_interest: program || null,
+          notes: notes || null,
+          appointment_date: date,
+          appointment_time: time,
+          appointment_type: type || 'enrollment_consultation',
+          status: 'scheduled',
+          source: 'website',
+        })
+        .select()
+        .maybeSingle(),
+      'Failed to create booking',
     );
 
     // Email is secondary — only runs after DB success

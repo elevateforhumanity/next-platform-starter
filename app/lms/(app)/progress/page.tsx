@@ -7,16 +7,15 @@ import Image from 'next/image';
 import { ProgressDashboard } from '@/components/ProgressDashboard';
 import { ProgressTrackingDashboard } from '@/components/ProgressTrackingDashboard';
 import { LmsHeroBanner } from '@/components/lms/LmsHeroBanner';
-import { 
-  TrendingUp, 
-  Clock, 
-  
+import {
+  TrendingUp,
+  Clock,
   BookOpen,
   Award,
   Target,
   Calendar,
   ChevronRight,
-  Play
+  Play,
 } from 'lucide-react';
 
 export const metadata: Metadata = {
@@ -32,7 +31,9 @@ export const dynamic = 'force-dynamic';
 export default async function ProgressPage() {
   const supabase = await createClient();
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     redirect('/login');
@@ -46,30 +47,35 @@ export default async function ProgressPage() {
     totalLessons: 0,
     completedLessons: 0,
     totalHours: 0,
-    streak: 0
+    streak: 0,
   };
 
   try {
     // Get enrollments
     const { data: enrollmentData } = await supabase
       .from('program_enrollments')
-      .select('id, status, progress_percent, course_id, program_id, updated_at, completed_lessons, enrolled_at')
+      .select(
+        'id, status, progress_percent, course_id, program_id, updated_at, completed_lessons, enrolled_at',
+      )
       .eq('user_id', user.id)
       .order('updated_at', { ascending: false });
 
     if (enrollmentData) {
       // Hydrate course details separately (no FK on program_enrollments.course_id)
-      const courseIds = [...new Set(enrollmentData.map(e => e.course_id).filter(Boolean))];
+      const courseIds = [...new Set(enrollmentData.map((e) => e.course_id).filter(Boolean))];
       const { data: coursesData } = courseIds.length
-        ? await supabase.from('courses').select('id, title, description, thumbnail_url, total_lessons, duration_hours').in('id', courseIds)
+        ? await supabase
+            .from('courses')
+            .select('id, title, description, thumbnail_url, total_lessons, duration_hours')
+            .in('id', courseIds)
         : { data: [] };
-      const courseMap = Object.fromEntries((coursesData || []).map(c => [c.id, c]));
+      const courseMap = Object.fromEntries((coursesData || []).map((c) => [c.id, c]));
 
-      enrollments = enrollmentData.map(e => ({ ...e, courses: courseMap[e.course_id] ?? null }));
+      enrollments = enrollmentData.map((e) => ({ ...e, courses: courseMap[e.course_id] ?? null }));
       stats.totalCourses = enrollments.length;
-      stats.completedCourses = enrollments.filter(e => e.status === 'completed').length;
+      stats.completedCourses = enrollments.filter((e) => e.status === 'completed').length;
 
-      enrollments.forEach(e => {
+      enrollments.forEach((e) => {
         stats.totalLessons += e.courses?.total_lessons || 0;
         stats.completedLessons += e.completed_lessons || 0;
         stats.totalHours += e.courses?.duration_hours || 0;
@@ -79,20 +85,22 @@ export default async function ProgressPage() {
     // Get recent progress activity (student_progress has no FK to courses/lessons)
     const { data: progressData } = await supabase
       .from('student_progress')
-      .select('id, course_id, lesson_id, progress_percentage, completed, last_accessed_at, updated_at')
+      .select(
+        'id, course_id, lesson_id, progress_percentage, completed, last_accessed_at, updated_at',
+      )
       .eq('student_id', user.id)
       .order('updated_at', { ascending: false })
       .limit(10);
 
     if (progressData) {
       // Hydrate course titles
-      const pCourseIds = [...new Set(progressData.map(p => p.course_id).filter(Boolean))];
+      const pCourseIds = [...new Set(progressData.map((p) => p.course_id).filter(Boolean))];
       const { data: pCourses } = pCourseIds.length
         ? await supabase.from('courses').select('id, title').in('id', pCourseIds)
         : { data: [] };
-      const pCourseMap = Object.fromEntries((pCourses || []).map(c => [c.id, c]));
+      const pCourseMap = Object.fromEntries((pCourses || []).map((c) => [c.id, c]));
 
-      recentActivity = progressData.map(p => ({
+      recentActivity = progressData.map((p) => ({
         ...p,
         courses: pCourseMap[p.course_id] ?? null,
         lessons: null, // lesson title lookup omitted — lesson_id references curriculum_lessons
@@ -111,19 +119,21 @@ export default async function ProgressPage() {
       let streak = 1;
       const today = new Date();
       today.setHours(0, 0, 0, 0);
-      
+
       const lastActivity = new Date(activityDates[0].updated_at);
       lastActivity.setHours(0, 0, 0, 0);
-      
+
       // Check if last activity was today or yesterday
-      const diffDays = Math.floor((today.getTime() - lastActivity.getTime()) / (1000 * 60 * 60 * 24));
+      const diffDays = Math.floor(
+        (today.getTime() - lastActivity.getTime()) / (1000 * 60 * 60 * 24),
+      );
       if (diffDays <= 1) {
         for (let i = 1; i < activityDates.length; i++) {
           const current = new Date(activityDates[i].updated_at);
           const prev = new Date(activityDates[i - 1].updated_at);
           current.setHours(0, 0, 0, 0);
           prev.setHours(0, 0, 0, 0);
-          
+
           const dayDiff = Math.floor((prev.getTime() - current.getTime()) / (1000 * 60 * 60 * 24));
           if (dayDiff === 1) {
             streak++;
@@ -139,9 +149,8 @@ export default async function ProgressPage() {
   }
 
   // Calculate overall progress percentage
-  const overallProgress = stats.totalLessons > 0 
-    ? Math.round((stats.completedLessons / stats.totalLessons) * 100) 
-    : 0;
+  const overallProgress =
+    stats.totalLessons > 0 ? Math.round((stats.completedLessons / stats.totalLessons) * 100) : 0;
 
   // Format relative time
   const formatTimeAgo = (dateString: string) => {
@@ -151,7 +160,7 @@ export default async function ProgressPage() {
     const diffMins = Math.floor(diffMs / 60000);
     const diffHours = Math.floor(diffMs / 3600000);
     const diffDays = Math.floor(diffMs / 86400000);
-    
+
     if (diffMins < 60) return `${diffMins}m ago`;
     if (diffHours < 24) return `${diffHours}h ago`;
     if (diffDays < 7) return `${diffDays}d ago`;
@@ -160,9 +169,9 @@ export default async function ProgressPage() {
 
   return (
     <div className="min-h-screen bg-white py-8">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <Breadcrumbs items={[{ label: "LMS", href: "/lms/courses" }, { label: "Progress" }]} />
-        </div>
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'LMS', href: '/lms/courses' }, { label: 'Progress' }]} />
+      </div>
       <div className="max-w-7xl mx-auto px-4">
         <LmsHeroBanner
           title="My Progress"
@@ -185,7 +194,7 @@ export default async function ProgressPage() {
               </div>
             </div>
           </div>
-          
+
           <div className="bg-white rounded-xl border border-slate-200 p-4">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-brand-green-100 rounded-lg flex items-center justify-center">
@@ -197,7 +206,7 @@ export default async function ProgressPage() {
               </div>
             </div>
           </div>
-          
+
           <div className="bg-white rounded-xl border border-slate-200 p-4">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-brand-blue-100 rounded-lg flex items-center justify-center">
@@ -209,7 +218,7 @@ export default async function ProgressPage() {
               </div>
             </div>
           </div>
-          
+
           <div className="bg-white rounded-xl border border-slate-200 p-4">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-brand-orange-100 rounded-lg flex items-center justify-center">
@@ -221,7 +230,7 @@ export default async function ProgressPage() {
               </div>
             </div>
           </div>
-          
+
           <div className="bg-white rounded-xl border border-slate-200 p-4">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-brand-red-100 rounded-lg flex items-center justify-center">
@@ -233,7 +242,7 @@ export default async function ProgressPage() {
               </div>
             </div>
           </div>
-          
+
           <div className="bg-white rounded-xl border border-slate-200 p-4">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-yellow-100 rounded-lg flex items-center justify-center">
@@ -258,10 +267,15 @@ export default async function ProgressPage() {
               {enrollments.length > 0 ? (
                 <div className="divide-y divide-slate-200">
                   {enrollments.map((enrollment) => {
-                    const progress = enrollment.courses?.total_lessons > 0
-                      ? Math.round((enrollment.completed_lessons || 0) / enrollment.courses.total_lessons * 100)
-                      : 0;
-                    
+                    const progress =
+                      enrollment.courses?.total_lessons > 0
+                        ? Math.round(
+                            ((enrollment.completed_lessons || 0) /
+                              enrollment.courses.total_lessons) *
+                              100,
+                          )
+                        : 0;
+
                     return (
                       <Link
                         key={enrollment.id}
@@ -271,9 +285,10 @@ export default async function ProgressPage() {
                         <div className="flex items-start gap-4">
                           <div className="w-16 h-16 bg-white rounded-xl flex items-center justify-center flex-shrink-0 relative overflow-hidden">
                             {enrollment.courses?.thumbnail_url ? (
-                              <Image alt="Progress indicator" 
-                                src={enrollment.courses.thumbnail_url} 
-                                alt={enrollment.courses.title || 'Course thumbnail'} 
+                              <Image
+                                alt="Progress indicator"
+                                src={enrollment.courses.thumbnail_url}
+                                alt={enrollment.courses.title || 'Course thumbnail'}
                                 fill
                                 className="object-cover rounded-xl"
                                 sizes="64px"
@@ -287,21 +302,24 @@ export default async function ProgressPage() {
                               <h3 className="font-bold text-slate-900 truncate">
                                 {enrollment.courses?.title || 'Course'}
                               </h3>
-                              <span className={`px-2 py-1 rounded text-xs font-medium ${
-                                enrollment.status === 'completed'
-                                  ? 'bg-brand-green-100 text-brand-green-700'
-                                  : 'bg-brand-blue-100 text-brand-blue-700'
-                              }`}>
+                              <span
+                                className={`px-2 py-1 rounded text-xs font-medium ${
+                                  enrollment.status === 'completed'
+                                    ? 'bg-brand-green-100 text-brand-green-700'
+                                    : 'bg-brand-blue-100 text-brand-blue-700'
+                                }`}
+                              >
                                 {enrollment.status === 'completed' ? 'Completed' : 'In Progress'}
                               </span>
                             </div>
                             <p className="text-sm text-slate-600 mb-3">
-                              {enrollment.completed_lessons || 0} of {enrollment.courses?.total_lessons || 0} lessons completed
+                              {enrollment.completed_lessons || 0} of{' '}
+                              {enrollment.courses?.total_lessons || 0} lessons completed
                             </p>
                             <div className="flex items-center gap-4">
                               <div className="flex-1">
                                 <div className="h-2 bg-white rounded-full overflow-hidden">
-                                  <div 
+                                  <div
                                     className={`h-full rounded-full ${
                                       progress === 100 ? 'bg-brand-green-500' : 'bg-brand-blue-500'
                                     }`}
@@ -343,7 +361,7 @@ export default async function ProgressPage() {
             {/* Recent Activity */}
             <div className="bg-white rounded-2xl border border-slate-200 p-6">
               <h3 className="font-bold text-slate-900 mb-4">Recent Activity</h3>
-              
+
               {recentActivity.length > 0 ? (
                 <div className="space-y-4">
                   {recentActivity.slice(0, 5).map((activity, i) => (
@@ -363,9 +381,7 @@ export default async function ProgressPage() {
                   ))}
                 </div>
               ) : (
-                <p className="text-sm text-slate-600 text-center py-4">
-                  No recent activity
-                </p>
+                <p className="text-sm text-slate-600 text-center py-4">No recent activity</p>
               )}
             </div>
 
@@ -381,9 +397,9 @@ export default async function ProgressPage() {
                 </div>
               </div>
               <p className="text-sm text-brand-orange-100">
-                {stats.streak > 0 
-                  ? "Keep it up! You're on a roll!" 
-                  : "Start learning today to build your streak!"}
+                {stats.streak > 0
+                  ? "Keep it up! You're on a roll!"
+                  : 'Start learning today to build your streak!'}
               </p>
             </div>
 
@@ -391,13 +407,13 @@ export default async function ProgressPage() {
             <div className="bg-white rounded-2xl border border-slate-200 p-6">
               <h3 className="font-bold text-slate-900 mb-4">Quick Actions</h3>
               <div className="space-y-2">
-                <Link 
+                <Link
                   href="/lms/courses"
                   className="block w-full text-center bg-brand-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-brand-blue-700 transition"
                 >
                   Continue Learning
                 </Link>
-                <Link 
+                <Link
                   href="/lms/certificates"
                   className="block w-full text-center border border-slate-200 text-slate-700 px-4 py-2 rounded-lg font-medium hover:bg-white transition"
                 >

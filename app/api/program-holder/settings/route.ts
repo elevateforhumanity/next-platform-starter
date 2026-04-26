@@ -14,14 +14,25 @@ export async function PATCH(req: NextRequest) {
   if (rateLimited) return rateLimited;
 
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return safeError('Unauthorized', 401);
 
   const db = await getAdminClient();
-  const { data: profile } = await db.from('profiles').select('role').eq('id', user.id).maybeSingle();
+  const { data: profile } = await db
+    .from('profiles')
+    .select('role')
+    .eq('id', user.id)
+    .maybeSingle();
   if (!profile || !ALLOWED_ROLES.includes(profile.role)) return safeError('Forbidden', 403);
 
-  let body: { organization?: string; email?: string; notify_enrollments?: boolean; notify_weekly_reports?: boolean };
+  let body: {
+    organization?: string;
+    email?: string;
+    notify_enrollments?: boolean;
+    notify_weekly_reports?: boolean;
+  };
   try {
     body = await req.json();
   } catch {
@@ -41,7 +52,10 @@ export async function PATCH(req: NextRequest) {
 
   // Notification preferences — upsert into program_holder_notification_preferences if it exists,
   // otherwise store on the program_holders row
-  if (typeof body.notify_enrollments === 'boolean' || typeof body.notify_weekly_reports === 'boolean') {
+  if (
+    typeof body.notify_enrollments === 'boolean' ||
+    typeof body.notify_weekly_reports === 'boolean'
+  ) {
     const { data: holder } = await db
       .from('program_holders')
       .select('id')
@@ -50,13 +64,12 @@ export async function PATCH(req: NextRequest) {
 
     if (holder) {
       const notifUpdates: Record<string, unknown> = {};
-      if (typeof body.notify_enrollments === 'boolean') notifUpdates.notify_enrollments = body.notify_enrollments;
-      if (typeof body.notify_weekly_reports === 'boolean') notifUpdates.notify_weekly_reports = body.notify_weekly_reports;
+      if (typeof body.notify_enrollments === 'boolean')
+        notifUpdates.notify_enrollments = body.notify_enrollments;
+      if (typeof body.notify_weekly_reports === 'boolean')
+        notifUpdates.notify_weekly_reports = body.notify_weekly_reports;
 
-      await db
-        .from('program_holders')
-        .update(notifUpdates)
-        .eq('id', holder.id);
+      await db.from('program_holders').update(notifUpdates).eq('id', holder.id);
     }
   }
 

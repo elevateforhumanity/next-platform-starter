@@ -19,7 +19,9 @@ export async function POST(request: NextRequest) {
   if (rateLimited) return rateLimited;
 
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return safeError('Unauthorized', 401);
 
   let body: {
@@ -92,7 +94,9 @@ export async function GET(request: NextRequest) {
   if (rateLimited) return rateLimited;
 
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return safeError('Unauthorized', 401);
 
   const { searchParams } = new URL(request.url);
@@ -113,10 +117,10 @@ export async function GET(request: NextRequest) {
 
   if (error) return safeDbError(error, 'Failed to fetch attempts');
 
-  const best = attempts?.find(a => a.passed) ?? attempts?.[0] ?? null;
+  const best = attempts?.find((a) => a.passed) ?? attempts?.[0] ?? null;
 
   return NextResponse.json({
-    hasPassed: attempts?.some(a => a.passed) ?? false,
+    hasPassed: attempts?.some((a) => a.passed) ?? false,
     bestScore: best?.score ?? null,
     totalAttempts: attempts?.length ?? 0,
     latestAttempt: best,

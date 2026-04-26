@@ -25,11 +25,20 @@ export const metadata = {
 export default function SponsorLicensingPage() {
   return (
     <div className="bg-white">
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Platform", href: "/platform" }, { label: "Sponsors" }]} />
-        <p className="text-sm text-black mt-1">Part of the <a href="/platform" className="text-brand-red-600 font-medium hover:underline">Elevate Workforce Operating System</a>. <a href="/store/licensing" className="hover:underline">View pricing →</a></p>
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Platform', href: '/platform' }, { label: 'Sponsors' }]} />
+        <p className="text-sm text-black mt-1">
+          Part of the{' '}
+          <a href="/platform" className="text-brand-red-600 font-medium hover:underline">
+            Elevate Workforce Operating System
+          </a>
+          .{' '}
+          <a href="/store/licensing" className="hover:underline">
+            View pricing →
+          </a>
+        </p>
       </div>
-{/* Hero Banner */}
+      {/* Hero Banner */}
       <ModernLandingHero
         badge="Sponsor-in-a-Box Licensing"
         headline="License Our Apprenticeship"
@@ -38,26 +47,22 @@ export default function SponsorLicensingPage() {
         description="The platform serves as the system of record for programs. Program activation is driven by required signatures. Tasks, milestones, and reporting are initialized automatically. All actions are logged for audit and reimbursement purposes."
         imageSrc="/images/pages/apply-employer-hero.jpg"
         imageAlt="Apprenticeship Licensing Partnership"
-        primaryCTA={{ text: "View Pricing Tiers", href: "#pricing" }}
-        secondaryCTA={{ text: "Contact Sales", href: "#contact" }}
+        primaryCTA={{ text: 'View Pricing Tiers', href: '#pricing' }}
+        secondaryCTA={{ text: 'Contact Sales', href: '#contact' }}
         features={[
-          "RAPIDS lifecycle tracking • DOL compliance built-in",
-          "WIOA/WRG-safe infrastructure • Audit-defensible systems",
-          "White-label ready • Deploy in weeks, not years"
+          'RAPIDS lifecycle tracking • DOL compliance built-in',
+          'WIOA/WRG-safe infrastructure • Audit-defensible systems',
+          'White-label ready • Deploy in weeks, not years',
         ]}
         imageOnRight={true}
       />
 
       {/* Pricing Tiers */}
-      <section id="pricing"className="py-20">
+      <section id="pricing" className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-black mb-4">
-              Choose Your Tier
-            </h2>
-            <p className="text-xl text-black">
-              WIOA/WRG-safe, audit-defensible, ready to deploy
-            </p>
+            <h2 className="text-4xl md:text-5xl font-bold text-black mb-4">Choose Your Tier</h2>
+            <p className="text-xl text-black">WIOA/WRG-safe, audit-defensible, ready to deploy</p>
           </div>
 
           <div className="grid lg:grid-cols-3 gap-8">
@@ -65,7 +70,13 @@ export default function SponsorLicensingPage() {
             <div className="bg-white rounded-3xl shadow-lg border-2 border-slate-200 p-8 hover:shadow-2xl transition">
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-12 h-12 bg-brand-blue-100 rounded-xl flex items-center justify-center">
-                  <Image src="/images/icons/shield.png" alt="Starter" width={24} height={24} className="w-6 h-6 text-brand-blue-600" />
+                  <Image
+                    src="/images/icons/shield.png"
+                    alt="Starter"
+                    width={24}
+                    height={24}
+                    className="w-6 h-6 text-brand-blue-600"
+                  />
                 </div>
                 <div>
                   <h3 className="text-2xl font-bold text-black">Starter</h3>
@@ -95,34 +106,24 @@ export default function SponsorLicensingPage() {
                 </div>
                 <div className="flex items-start gap-3">
                   <CheckCircle className="w-5 h-5 text-brand-blue-600 flex-shrink-0 mt-0.5" />
-                  <span className="text-sm text-black">
-                    RAPIDS lifecycle tracking
-                  </span>
+                  <span className="text-sm text-black">RAPIDS lifecycle tracking</span>
                 </div>
                 <div className="flex items-start gap-3">
                   <CheckCircle className="w-5 h-5 text-brand-blue-600 flex-shrink-0 mt-0.5" />
-                  <span className="text-sm text-black">
-                    WIOA/WRG compatibility
-                  </span>
+                  <span className="text-sm text-black">WIOA/WRG compatibility</span>
                 </div>
                 <div className="flex items-start gap-3">
                   <CheckCircle className="w-5 h-5 text-brand-blue-600 flex-shrink-0 mt-0.5" />
-                  <span className="text-sm text-black">
-                    Employer onboarding + MOU workflow
-                  </span>
+                  <span className="text-sm text-black">Employer onboarding + MOU workflow</span>
                 </div>
                 <div className="flex items-start gap-3">
                   <CheckCircle className="w-5 h-5 text-brand-blue-600 flex-shrink-0 mt-0.5" />
-                  <span className="text-sm text-black">
-                    Audit logs + exports
-                  </span>
+                  <span className="text-sm text-black">Audit logs + exports</span>
                 </div>
               </div>
 
               <div className="bg-brand-blue-50 rounded-xl p-4 mb-6">
-                <p className="text-sm font-bold text-black mb-2">
-                  Includes:
-                </p>
+                <p className="text-sm font-bold text-black mb-2">Includes:</p>
                 <ul className="text-sm text-black space-y-1">
                   <li>• Up to 5 employers</li>
                   <li>• Up to 25 apprentices</li>
@@ -147,12 +148,16 @@ export default function SponsorLicensingPage() {
 
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
-                  <Image src="/images/icons/users.png" alt="Growth" width={24} height={24} className="w-6 h-6 text-white" />
+                  <Image
+                    src="/images/icons/users.png"
+                    alt="Growth"
+                    width={24}
+                    height={24}
+                    className="w-6 h-6 text-white"
+                  />
                 </div>
                 <div>
-                  <h3 className="text-2xl font-bold text-slate-900">
-                    Professional
-                  </h3>
+                  <h3 className="text-2xl font-bold text-slate-900">Professional</h3>
                   <p className="text-sm text-black">Regional Authority</p>
                 </div>
               </div>
@@ -166,17 +171,14 @@ export default function SponsorLicensingPage() {
 
               <div className="mb-6">
                 <p className="text-sm text-white font-medium mb-4">
-                  Best for: Multi-county regions, workforce boards, large
-                  nonprofits
+                  Best for: Multi-county regions, workforce boards, large nonprofits
                 </p>
               </div>
 
               <div className="space-y-3 mb-8">
                 <div className="flex items-start gap-3">
                   <CheckCircle className="w-5 h-5 text-brand-green-400 flex-shrink-0 mt-0.5" />
-                  <span className="text-sm text-white">
-                    Everything in Starter
-                  </span>
+                  <span className="text-sm text-white">Everything in Starter</span>
                 </div>
                 <div className="flex items-start gap-3">
                   <CheckCircle className="w-5 h-5 text-brand-green-400 flex-shrink-0 mt-0.5" />
@@ -186,27 +188,19 @@ export default function SponsorLicensingPage() {
                 </div>
                 <div className="flex items-start gap-3">
                   <CheckCircle className="w-5 h-5 text-brand-green-400 flex-shrink-0 mt-0.5" />
-                  <span className="text-sm text-white">
-                    Multi-trade programs
-                  </span>
+                  <span className="text-sm text-white">Multi-trade programs</span>
                 </div>
                 <div className="flex items-start gap-3">
                   <CheckCircle className="w-5 h-5 text-brand-green-400 flex-shrink-0 mt-0.5" />
-                  <span className="text-sm text-white">
-                    WOTC + OJT tracking
-                  </span>
+                  <span className="text-sm text-white">WOTC + OJT tracking</span>
                 </div>
                 <div className="flex items-start gap-3">
                   <CheckCircle className="w-5 h-5 text-brand-green-400 flex-shrink-0 mt-0.5" />
-                  <span className="text-sm text-white">
-                    ETPL performance dashboards
-                  </span>
+                  <span className="text-sm text-white">ETPL performance dashboards</span>
                 </div>
                 <div className="flex items-start gap-3">
                   <CheckCircle className="w-5 h-5 text-brand-green-400 flex-shrink-0 mt-0.5" />
-                  <span className="text-sm text-white">
-                    WorkOne read-only oversight views
-                  </span>
+                  <span className="text-sm text-white">WorkOne read-only oversight views</span>
                 </div>
               </div>
 
@@ -233,19 +227,13 @@ export default function SponsorLicensingPage() {
                   <TrendingUp className="w-6 h-6 text-brand-blue-600" />
                 </div>
                 <div>
-                  <h3 className="text-2xl font-bold text-black">
-                    Enterprise
-                  </h3>
-                  <p className="text-sm text-black">
-                    State / Tribal / National
-                  </p>
+                  <h3 className="text-2xl font-bold text-black">Enterprise</h3>
+                  <p className="text-sm text-black">State / Tribal / National</p>
                 </div>
               </div>
 
               <div className="mb-6">
-                <div className="text-4xl font-bold text-black mb-2">
-                  Custom
-                </div>
+                <div className="text-4xl font-bold text-black mb-2">Custom</div>
                 <div className="text-sm text-black">
                   $7,500–$15,000/month
                   <br />+ $25,000–$50,000 setup
@@ -254,54 +242,39 @@ export default function SponsorLicensingPage() {
 
               <div className="mb-6">
                 <p className="text-sm text-black font-medium mb-4">
-                  Best for: State agencies, tribal nations, national
-                  intermediaries
+                  Best for: State agencies, tribal nations, national intermediaries
                 </p>
               </div>
 
               <div className="space-y-3 mb-8">
                 <div className="flex items-start gap-3">
                   <CheckCircle className="w-5 h-5 text-brand-blue-600 flex-shrink-0 mt-0.5" />
-                  <span className="text-sm text-black">
-                    Everything in Professional
-                  </span>
+                  <span className="text-sm text-black">Everything in Professional</span>
                 </div>
                 <div className="flex items-start gap-3">
                   <CheckCircle className="w-5 h-5 text-brand-blue-600 flex-shrink-0 mt-0.5" />
-                  <span className="text-sm text-black">
-                    Multi-state rules engine
-                  </span>
+                  <span className="text-sm text-black">Multi-state rules engine</span>
                 </div>
                 <div className="flex items-start gap-3">
                   <CheckCircle className="w-5 h-5 text-brand-blue-600 flex-shrink-0 mt-0.5" />
-                  <span className="text-sm text-black">
-                    Tenant licensing enforcement
-                  </span>
+                  <span className="text-sm text-black">Tenant licensing enforcement</span>
                 </div>
                 <div className="flex items-start gap-3">
                   <CheckCircle className="w-5 h-5 text-brand-blue-600 flex-shrink-0 mt-0.5" />
-                  <span className="text-sm text-black">
-                    SOC-style audit controls
-                  </span>
+                  <span className="text-sm text-black">SOC-style audit controls</span>
                 </div>
                 <div className="flex items-start gap-3">
                   <CheckCircle className="w-5 h-5 text-brand-blue-600 flex-shrink-0 mt-0.5" />
-                  <span className="text-sm text-black">
-                    Monitoring response bundles
-                  </span>
+                  <span className="text-sm text-black">Monitoring response bundles</span>
                 </div>
                 <div className="flex items-start gap-3">
                   <CheckCircle className="w-5 h-5 text-brand-blue-600 flex-shrink-0 mt-0.5" />
-                  <span className="text-sm text-black">
-                    Dedicated onboarding + training
-                  </span>
+                  <span className="text-sm text-black">Dedicated onboarding + training</span>
                 </div>
               </div>
 
               <div className="bg-brand-blue-50 rounded-xl p-4 mb-6">
-                <p className="text-sm font-bold text-black mb-2">
-                  Includes:
-                </p>
+                <p className="text-sm font-bold text-black mb-2">Includes:</p>
                 <ul className="text-sm text-black space-y-1">
                   <li>• Unlimited employers & apprentices</li>
                   <li>• Custom contract terms</li>
@@ -323,9 +296,7 @@ export default function SponsorLicensingPage() {
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-black mb-4">
-              Optional Add-Ons
-            </h2>
+            <h2 className="text-4xl font-bold text-black mb-4">Optional Add-Ons</h2>
             <p className="text-xl text-black">À la carte services</p>
           </div>
 
@@ -352,14 +323,9 @@ export default function SponsorLicensingPage() {
                 description: 'When permitted by state',
               },
             ].map((addon, i) => (
-              <div
-                key={i}
-                className="bg-white rounded-2xl p-6 border border-slate-200"
-              >
+              <div key={i} className="bg-white rounded-2xl p-6 border border-slate-200">
                 <h3 className="font-bold text-black mb-2">{addon.title}</h3>
-                <div className="text-2xl font-bold text-brand-blue-600 mb-2">
-                  {addon.price}
-                </div>
+                <div className="text-2xl font-bold text-brand-blue-600 mb-2">{addon.price}</div>
                 <p className="text-sm text-black">{addon.description}</p>
               </div>
             ))}
@@ -374,20 +340,14 @@ export default function SponsorLicensingPage() {
             <div className="inline-block px-4 py-2 bg-brand-green-100 text-brand-green-700 rounded-full text-sm font-bold mb-4">
               Allowed & Safe
             </div>
-            <h2 className="text-4xl font-bold text-black mb-4">
-              Employer Fees
-            </h2>
-            <p className="text-lg text-black">
-              Paid by employer — never grant funds
-            </p>
+            <h2 className="text-4xl font-bold text-black mb-4">Employer Fees</h2>
+            <p className="text-lg text-black">Paid by employer — never grant funds</p>
           </div>
 
           <div className="bg-white rounded-3xl p-8 shadow-lg border-2 border-brand-green-200">
             <div className="grid md:grid-cols-3 gap-6 mb-8">
               <div className="text-center">
-                <div className="text-3xl font-bold text-black mb-2">
-                  $250–$750
-                </div>
+                <div className="text-3xl font-bold text-black mb-2">$250–$750</div>
                 <div className="text-sm text-black">
                   Onboarding/admin fee
                   <br />
@@ -395,9 +355,7 @@ export default function SponsorLicensingPage() {
                 </div>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold text-black mb-2">
-                  $50–$150
-                </div>
+                <div className="text-3xl font-bold text-black mb-2">$50–$150</div>
                 <div className="text-sm text-black">
                   Per-apprentice platform fee
                   <br />
@@ -405,9 +363,7 @@ export default function SponsorLicensingPage() {
                 </div>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold text-black mb-2">
-                  Bundled
-                </div>
+                <div className="text-3xl font-bold text-black mb-2">Bundled</div>
                 <div className="text-sm text-black">
                   Compliance/reporting
                   <br />
@@ -418,8 +374,8 @@ export default function SponsorLicensingPage() {
 
             <div className="bg-brand-green-50 border border-brand-green-200 rounded-xl p-4">
               <p className="text-sm text-black">
-                <strong className="text-black">Rule:</strong> Never bill
-                training, wages, kits, or grant-funded costs.
+                <strong className="text-black">Rule:</strong> Never bill training, wages, kits, or
+                grant-funded costs.
               </p>
             </div>
           </div>
@@ -430,12 +386,8 @@ export default function SponsorLicensingPage() {
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-black mb-4">
-              What You Get
-            </h2>
-            <p className="text-xl text-black">
-              State-grade workforce infrastructure
-            </p>
+            <h2 className="text-4xl md:text-5xl font-bold text-black mb-4">What You Get</h2>
+            <p className="text-xl text-black">State-grade workforce infrastructure</p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -455,14 +407,12 @@ export default function SponsorLicensingPage() {
               {
                 icon: Users,
                 title: 'Role-Based Access',
-                description:
-                  'Sponsor, employer, WorkOne views with appropriate permissions',
+                description: 'Sponsor, employer, WorkOne views with appropriate permissions',
               },
               {
                 icon: Globe,
                 title: 'Multi-State Ready',
-                description:
-                  'State rules engine, tenant licensing, white-label branding',
+                description: 'State rules engine, tenant licensing, white-label branding',
               },
               {
                 icon: Building2,
@@ -473,17 +423,14 @@ export default function SponsorLicensingPage() {
               {
                 icon: Check,
                 title: 'Audit-Ready',
-                description:
-                  'One-click exports, monitoring bundles, immutable audit logs',
+                description: 'One-click exports, monitoring bundles, immutable audit logs',
               },
             ].map((feature, i) => (
               <div key={i} className="bg-white rounded-2xl p-6">
                 <div className="w-12 h-12 bg-brand-blue-100 rounded-xl flex items-center justify-center mb-4">
                   <feature.icon className="w-6 h-6 text-brand-blue-600" />
                 </div>
-                <h3 className="text-xl font-bold text-black mb-2">
-                  {feature.title}
-                </h3>
+                <h3 className="text-xl font-bold text-black mb-2">{feature.title}</h3>
                 <p className="text-black">{feature.description}</p>
               </div>
             ))}
@@ -495,8 +442,8 @@ export default function SponsorLicensingPage() {
       <section className="py-8 border-t border-slate-200">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <p className="text-sm text-black">
-            Credentials and instructional partners may be provided by the licensee. 
-            Licensing covers platform access, automation infrastructure, and compliance reporting.
+            Credentials and instructional partners may be provided by the licensee. Licensing covers
+            platform access, automation infrastructure, and compliance reporting.
           </p>
         </div>
       </section>
@@ -504,9 +451,7 @@ export default function SponsorLicensingPage() {
       {/* CTA */}
       <section className="py-20 bg-brand-blue-700   text-white">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            Ready to License?
-          </h2>
+          <h2 className="text-4xl md:text-5xl font-bold mb-6">Ready to License?</h2>
           <p className="text-2xl mb-10 text-white">
             Let's discuss which tier fits your organization.
           </p>

@@ -36,7 +36,12 @@ export function DesktopNav({ items }: DesktopNavProps) {
     }, 150);
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent, name: string, hasChildren: boolean, childrenCount: number = 0) => {
+  const handleKeyDown = (
+    e: React.KeyboardEvent,
+    name: string,
+    hasChildren: boolean,
+    childrenCount: number = 0,
+  ) => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
       if (hasChildren) {
@@ -87,7 +92,12 @@ export function DesktopNav({ items }: DesktopNavProps) {
     }
   };
 
-  const handleDropdownKeyDown = (e: React.KeyboardEvent, name: string, index: number, childrenCount: number) => {
+  const handleDropdownKeyDown = (
+    e: React.KeyboardEvent,
+    name: string,
+    index: number,
+    childrenCount: number,
+  ) => {
     if (e.key === 'ArrowDown') {
       e.preventDefault();
       const nextIndex = Math.min(index + 1, childrenCount - 1);
@@ -182,7 +192,9 @@ export function DesktopNav({ items }: DesktopNavProps) {
                         setOpenDropdown(null);
                         setFocusedIndex(-1);
                       }}
-                      onKeyDown={(e) => handleDropdownKeyDown(e, item.name, index, item.children?.length || 0)}
+                      onKeyDown={(e) =>
+                        handleDropdownKeyDown(e, item.name, index, item.children?.length || 0)
+                      }
                     >
                       {child.name}
                     </Link>

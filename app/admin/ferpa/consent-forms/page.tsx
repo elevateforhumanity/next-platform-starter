@@ -12,12 +12,15 @@ export default async function FerpaConsentFormsPage() {
 
   const { data: forms, count } = await db
     .from('documents')
-    .select('id, file_name, status, created_at, user_id, profiles(full_name, email)', { count: 'exact' })
+    .select('id, file_name, status, created_at, user_id, profiles(full_name, email)', {
+      count: 'exact',
+    })
     .eq('document_type', 'consent')
     .order('created_at', { ascending: false })
     .limit(50);
 
-  const signedCount = forms?.filter((f: any) => f.status === 'approved' || f.status === 'signed').length ?? 0;
+  const signedCount =
+    forms?.filter((f: any) => f.status === 'approved' || f.status === 'signed').length ?? 0;
   const pendingCount = forms?.filter((f: any) => f.status === 'pending').length ?? 0;
 
   return (
@@ -76,10 +79,18 @@ export default async function FerpaConsentFormsPage() {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-slate-100 bg-slate-50">
-                    <th className="text-left py-3 px-5 text-[10px] font-bold uppercase tracking-widest text-slate-400">Student</th>
-                    <th className="text-left py-3 px-4 text-[10px] font-bold uppercase tracking-widest text-slate-400">File</th>
-                    <th className="text-left py-3 px-4 text-[10px] font-bold uppercase tracking-widest text-slate-400">Status</th>
-                    <th className="text-left py-3 px-4 text-[10px] font-bold uppercase tracking-widest text-slate-400">Date</th>
+                    <th className="text-left py-3 px-5 text-[10px] font-bold uppercase tracking-widest text-slate-400">
+                      Student
+                    </th>
+                    <th className="text-left py-3 px-4 text-[10px] font-bold uppercase tracking-widest text-slate-400">
+                      File
+                    </th>
+                    <th className="text-left py-3 px-4 text-[10px] font-bold uppercase tracking-widest text-slate-400">
+                      Status
+                    </th>
+                    <th className="text-left py-3 px-4 text-[10px] font-bold uppercase tracking-widest text-slate-400">
+                      Date
+                    </th>
                     <th className="py-3 px-4" />
                   </tr>
                 </thead>
@@ -87,20 +98,24 @@ export default async function FerpaConsentFormsPage() {
                   {forms.map((form: any) => (
                     <tr key={form.id} className="hover:bg-slate-50 transition-colors">
                       <td className="py-3.5 px-5">
-                        <p className="font-medium text-slate-900">{form.profiles?.full_name ?? '—'}</p>
+                        <p className="font-medium text-slate-900">
+                          {form.profiles?.full_name ?? '—'}
+                        </p>
                         <p className="text-xs text-slate-400">{form.profiles?.email ?? ''}</p>
                       </td>
                       <td className="py-3.5 px-4 text-slate-600 text-xs font-mono truncate max-w-[200px]">
                         {form.file_name ?? form.id}
                       </td>
                       <td className="py-3.5 px-4">
-                        <span className={`inline-flex px-2 py-0.5 rounded text-[10px] font-semibold ${
-                          form.status === 'approved' || form.status === 'signed'
-                            ? 'bg-emerald-100 text-emerald-800'
-                            : form.status === 'pending'
-                            ? 'bg-amber-100 text-amber-800'
-                            : 'bg-slate-100 text-slate-600'
-                        }`}>
+                        <span
+                          className={`inline-flex px-2 py-0.5 rounded text-[10px] font-semibold ${
+                            form.status === 'approved' || form.status === 'signed'
+                              ? 'bg-emerald-100 text-emerald-800'
+                              : form.status === 'pending'
+                                ? 'bg-amber-100 text-amber-800'
+                                : 'bg-slate-100 text-slate-600'
+                          }`}
+                        >
                           {form.status ?? 'unknown'}
                         </span>
                       </td>

@@ -21,51 +21,60 @@ const OUTPUT_DIR = path.join(process.cwd(), 'public');
 const MISSING_IMAGES = [
   {
     path: '/images/cdl-hero.jpg',
-    prompt: 'Professional photo of a commercial truck driver in front of a large semi-truck, wearing safety vest, confident pose, sunny day at trucking facility, high quality corporate photography',
+    prompt:
+      'Professional photo of a commercial truck driver in front of a large semi-truck, wearing safety vest, confident pose, sunny day at trucking facility, high quality corporate photography',
   },
   {
     path: '/images/getting-started-hero.jpg',
-    prompt: 'Diverse group of adult students at orientation, receiving welcome packets, modern training facility lobby, excited expressions, professional corporate photography, bright lighting',
+    prompt:
+      'Diverse group of adult students at orientation, receiving welcome packets, modern training facility lobby, excited expressions, professional corporate photography, bright lighting',
   },
   {
     path: '/images/healthcare/medical-terminology.jpg',
-    prompt: 'Healthcare student studying medical textbook with anatomical diagrams, modern classroom setting, focused learning, medical terminology charts on wall, professional educational photography',
+    prompt:
+      'Healthcare student studying medical textbook with anatomical diagrams, modern classroom setting, focused learning, medical terminology charts on wall, professional educational photography',
   },
   {
     path: '/images/healthcare/phlebotomy-hero.jpg',
-    prompt: 'Professional phlebotomist drawing blood from patient arm, clinical setting, proper technique demonstration, healthcare training environment, clean medical photography',
+    prompt:
+      'Professional phlebotomist drawing blood from patient arm, clinical setting, proper technique demonstration, healthcare training environment, clean medical photography',
   },
   {
     path: '/images/hvac-hero.jpg',
-    prompt: 'HVAC technician working on air conditioning unit on rooftop, wearing safety gear and tool belt, professional trade worker, sunny day, corporate industrial photography',
+    prompt:
+      'HVAC technician working on air conditioning unit on rooftop, wearing safety gear and tool belt, professional trade worker, sunny day, corporate industrial photography',
   },
   {
     path: '/images/technology/cybersecurity-hero.jpg',
-    prompt: 'Cybersecurity professional at computer workstation with multiple monitors showing security dashboards, modern tech office, focused concentration, blue lighting accents, corporate tech photography',
+    prompt:
+      'Cybersecurity professional at computer workstation with multiple monitors showing security dashboards, modern tech office, focused concentration, blue lighting accents, corporate tech photography',
   },
   {
     path: '/images/trades/electrical-hero.jpg',
-    prompt: 'Electrician working on electrical panel, wearing safety glasses and gloves, professional trade worker, industrial setting, proper safety equipment, corporate photography',
+    prompt:
+      'Electrician working on electrical panel, wearing safety glasses and gloves, professional trade worker, industrial setting, proper safety equipment, corporate photography',
   },
   {
     path: '/images/trades/welding-hero.jpg',
-    prompt: 'Welder in full protective gear with welding mask, sparks flying from welding torch, industrial workshop setting, dramatic lighting, professional trade photography',
+    prompt:
+      'Welder in full protective gear with welding mask, sparks flying from welding torch, industrial workshop setting, dramatic lighting, professional trade photography',
   },
   {
     path: '/images/training-providers-hero.jpg',
-    prompt: 'Professional instructors and trainers in modern classroom, diverse group of educators, training facility with equipment visible, collaborative atmosphere, corporate educational photography',
+    prompt:
+      'Professional instructors and trainers in modern classroom, diverse group of educators, training facility with equipment visible, collaborative atmosphere, corporate educational photography',
   },
 ];
 
-async function generateImage(item: typeof MISSING_IMAGES[0]): Promise<boolean> {
+async function generateImage(item: (typeof MISSING_IMAGES)[0]): Promise<boolean> {
   console.log(`🖼️  Generating: ${item.path}`);
-  
+
   try {
     const response = await fetch('https://api.openai.com/v1/images/generations', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${OPENAI_API_KEY}`,
+        Authorization: `Bearer ${OPENAI_API_KEY}`,
       },
       body: JSON.stringify({
         model: 'dall-e-3',
@@ -83,19 +92,21 @@ async function generateImage(item: typeof MISSING_IMAGES[0]): Promise<boolean> {
 
     const data = await response.json();
     const imageUrl = data.data[0].url;
-    
+
     // Download the image
     const imageResponse = await fetch(imageUrl);
     const imageBuffer = await imageResponse.arrayBuffer();
-    
+
     // Ensure directory exists
     const outputPath = path.join(OUTPUT_DIR, item.path);
     const dir = path.dirname(outputPath);
     fs.mkdirSync(dir, { recursive: true });
-    
+
     fs.writeFileSync(outputPath, Buffer.from(imageBuffer));
-    console.log(`   ✅ Saved: ${outputPath} (${(imageBuffer.byteLength / 1024 / 1024).toFixed(2)} MB)`);
-    
+    console.log(
+      `   ✅ Saved: ${outputPath} (${(imageBuffer.byteLength / 1024 / 1024).toFixed(2)} MB)`,
+    );
+
     return true;
   } catch (error) {
     console.log(`   ❌ Failed: ${error}`);
@@ -116,15 +127,15 @@ async function generateAllImages() {
     const result = await generateImage(item);
     if (result) success++;
     else failed++;
-    
+
     // Delay to avoid rate limits
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    await new Promise((resolve) => setTimeout(resolve, 2000));
   }
 
   console.log('');
   console.log(`✅ Generated: ${success}/${MISSING_IMAGES.length} images`);
   if (failed > 0) console.log(`❌ Failed: ${failed} images`);
-  
+
   return { success, failed };
 }
 

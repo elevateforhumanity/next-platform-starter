@@ -140,9 +140,7 @@ describe('FormulaEngine', () => {
     });
 
     it('uses cell references in functions', () => {
-      expect(
-        formulaEngine.evaluate('=SUM(A1,A2,A3)', { A1: 1, A2: 2, A3: 3 })
-      ).toBe(6);
+      expect(formulaEngine.evaluate('=SUM(A1,A2,A3)', { A1: 1, A2: 2, A3: 3 })).toBe(6);
     });
   });
 

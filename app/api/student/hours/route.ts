@@ -6,7 +6,7 @@ import { withApiAudit } from '@/lib/audit/withApiAudit';
 
 /**
  * GET /api/student/hours
- * 
+ *
  * Returns detailed hours log for the current student.
  * Groups by enrollment with verified/pending breakdown.
  * Strict rendering: Returns empty array if no data.
@@ -19,7 +19,10 @@ async function _GET(request: Request) {
     const supabase = await createClient();
 
     // Get current user
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
     if (authError || !user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -29,7 +32,8 @@ async function _GET(request: Request) {
     // Fetch enrollments with program info
     const { data: enrollments, error: enrollError } = await supabase
       .from('program_enrollments')
-      .select(`
+      .select(
+        `
         id,
         program:programs (
           id,
@@ -37,7 +41,8 @@ async function _GET(request: Request) {
           slug,
           required_hours
         )
-      `)
+      `,
+      )
       .eq('student_id', studentId)
       .in('status', ['active', 'enrolled', 'in_progress', 'completed']);
 
@@ -63,7 +68,7 @@ async function _GET(request: Request) {
 
     // Group hours by enrollment
     const hoursByEnrollment: Record<string, typeof hours> = {};
-    (hours || []).forEach(h => {
+    (hours || []).forEach((h) => {
       if (!hoursByEnrollment[h.enrollment_id]) {
         hoursByEnrollment[h.enrollment_id] = [];
       }
@@ -72,14 +77,14 @@ async function _GET(request: Request) {
 
     // Build response
     const result = enrollments
-      .filter(e => e.program) // Only include enrollments with valid programs
-      .map(enrollment => {
+      .filter((e) => e.program) // Only include enrollments with valid programs
+      .map((enrollment) => {
         const entries = hoursByEnrollment[enrollment.id] || [];
         const verified_total = entries
-          .filter(e => e.verified)
+          .filter((e) => e.verified)
           .reduce((sum, e) => sum + Number(e.hours), 0);
         const pending_total = entries
-          .filter(e => !e.verified)
+          .filter((e) => !e.verified)
           .reduce((sum, e) => sum + Number(e.hours), 0);
 
         return {
@@ -92,7 +97,7 @@ async function _GET(request: Request) {
           pending_total,
         };
       })
-      .filter(e => e.entries.length > 0 || e.required_hours); // Only show if has hours or has requirements
+      .filter((e) => e.entries.length > 0 || e.required_hours); // Only show if has hours or has requirements
 
     return NextResponse.json({ enrollments: result });
   } catch (error) {

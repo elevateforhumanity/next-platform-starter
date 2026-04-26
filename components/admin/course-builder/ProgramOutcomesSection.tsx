@@ -30,14 +30,12 @@ export default function ProgramOutcomesSection({ state, onChange }: Props) {
 
   const removeOutcome = (id: string) => {
     onChange({
-      outcomes: outcomes
-        .filter(o => o.id !== id)
-        .map((o, i) => ({ ...o, outcome_order: i })),
+      outcomes: outcomes.filter((o) => o.id !== id).map((o, i) => ({ ...o, outcome_order: i })),
     });
   };
 
   const updateOutcome = (id: string, text: string) => {
-    onChange({ outcomes: outcomes.map(o => o.id === id ? { ...o, text } : o) });
+    onChange({ outcomes: outcomes.map((o) => (o.id === id ? { ...o, text } : o)) });
   };
 
   return (
@@ -59,11 +57,13 @@ export default function ProgramOutcomesSection({ state, onChange }: Props) {
         {outcomes.map((outcome, idx) => (
           <div key={outcome.id} className="flex items-start gap-2 group">
             <GripVertical className="mt-2.5 h-4 w-4 flex-shrink-0 text-slate-300 cursor-grab" />
-            <span className="mt-2 flex-shrink-0 text-xs font-medium text-slate-400 w-5 text-right">{idx + 1}.</span>
+            <span className="mt-2 flex-shrink-0 text-xs font-medium text-slate-400 w-5 text-right">
+              {idx + 1}.
+            </span>
             <input
               type="text"
               value={outcome.text}
-              onChange={e => updateOutcome(outcome.id, e.target.value)}
+              onChange={(e) => updateOutcome(outcome.id, e.target.value)}
               className="flex-1 rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-900 focus:border-brand-blue-500 focus:outline-none focus:ring-2 focus:ring-brand-blue-500/20"
               placeholder="e.g. Diagnose and repair HVAC refrigerant systems"
             />
@@ -80,12 +80,19 @@ export default function ProgramOutcomesSection({ state, onChange }: Props) {
         {/* Add row */}
         <div className="flex items-center gap-2 pt-1">
           <div className="w-4 flex-shrink-0" />
-          <span className="flex-shrink-0 text-xs font-medium text-slate-300 w-5 text-right">{outcomes.length + 1}.</span>
+          <span className="flex-shrink-0 text-xs font-medium text-slate-300 w-5 text-right">
+            {outcomes.length + 1}.
+          </span>
           <input
             type="text"
             value={draft}
-            onChange={e => setDraft(e.target.value)}
-            onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); addOutcome(); } }}
+            onChange={(e) => setDraft(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault();
+                addOutcome();
+              }
+            }}
             placeholder="Add an outcome and press Enter…"
             className="flex-1 rounded-lg border border-dashed border-slate-300 px-3 py-2 text-sm text-slate-900 placeholder-slate-400 focus:border-brand-blue-500 focus:outline-none focus:ring-2 focus:ring-brand-blue-500/20"
           />

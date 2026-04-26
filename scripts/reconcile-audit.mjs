@@ -9,7 +9,10 @@ import Stripe from 'stripe';
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
-if (!SUPABASE_KEY) { console.error('SUPABASE_SERVICE_ROLE_KEY is required'); process.exit(1); }
+if (!SUPABASE_KEY) {
+  console.error('SUPABASE_SERVICE_ROLE_KEY is required');
+  process.exit(1);
+}
 
 // Pull Stripe key from app_secrets via service role
 const db = createClient(SUPABASE_URL, SUPABASE_KEY, {
@@ -45,8 +48,8 @@ async function fetchAllPaidSessions(stripe) {
   }
 
   return sessions
-    .filter(s => s.payment_status === 'paid' && s.mode !== 'setup')
-    .map(s => ({
+    .filter((s) => s.payment_status === 'paid' && s.mode !== 'setup')
+    .map((s) => ({
       session_id: s.id,
       email: s.customer_details?.email ?? null,
       amount_cents: s.amount_total ?? 0,
@@ -57,9 +60,8 @@ async function fetchAllPaidSessions(stripe) {
       student_id: s.metadata?.student_id ?? null,
       user_id: s.metadata?.user_id ?? null,
       kind: s.metadata?.kind ?? null,
-      payment_intent_id: typeof s.payment_intent === 'string'
-        ? s.payment_intent
-        : s.payment_intent?.id ?? null,
+      payment_intent_id:
+        typeof s.payment_intent === 'string' ? s.payment_intent : (s.payment_intent?.id ?? null),
       metadata_keys: Object.keys(s.metadata ?? {}),
     }));
 }
@@ -69,7 +71,9 @@ async function fetchAllPaidSessions(stripe) {
 async function fetchEnrollments() {
   const { data, error } = await db
     .from('program_enrollments')
-    .select('id,user_id,student_id,program_slug,program_id,enrollment_state,payment_status,stripe_checkout_session_id,stripe_payment_intent_id,created_at,funding_source');
+    .select(
+      'id,user_id,student_id,program_slug,program_id,enrollment_state,payment_status,stripe_checkout_session_id,stripe_payment_intent_id,created_at,funding_source',
+    );
   if (error) throw error;
   return data ?? [];
 }
@@ -77,7 +81,9 @@ async function fetchEnrollments() {
 async function fetchStudentEnrollments() {
   const { data, error } = await db
     .from('student_enrollments')
-    .select('id,student_id,program_id,program_slug,stripe_checkout_session_id,payment_status,enrollment_state,status,created_at,funding_source');
+    .select(
+      'id,student_id,program_id,program_slug,stripe_checkout_session_id,payment_status,enrollment_state,status,created_at,funding_source',
+    );
   if (error) throw error;
   return data ?? [];
 }
@@ -85,7 +91,9 @@ async function fetchStudentEnrollments() {
 async function fetchApplications() {
   const { data, error } = await db
     .from('applications')
-    .select('id,user_id,program_slug,status,payment_status,payment_provider,payment_reference,payment_completed_at,funding_type,funding_verified');
+    .select(
+      'id,user_id,program_slug,status,payment_status,payment_provider,payment_reference,payment_completed_at,funding_type,funding_verified',
+    );
   if (error) throw error;
   return data ?? [];
 }
@@ -114,20 +122,22 @@ function auditA_PaidNotEnrolled(sessions, enrollments, studentEnrollments) {
   // Build lookup sets
   const enrolledBySession = new Set(
     [...enrollments, ...studentEnrollments]
-      .map(e => e.stripe_checkout_session_id)
-      .filter(Boolean)
+      .map((e) => e.stripe_checkout_session_id)
+      .filter(Boolean),
   );
-  const enrolledByPI = new Set(
-    enrollments.map(e => e.stripe_payment_intent_id).filter(Boolean)
-  );
+  const enrolledByPI = new Set(enrollments.map((e) => e.stripe_payment_intent_id).filter(Boolean));
   const enrolledBySlugUser = new Set(
-    enrollments.map(e => `${e.program_slug}::${e.user_id ?? e.student_id}`).filter(s => !s.includes('null'))
+    enrollments
+      .map((e) => `${e.program_slug}::${e.user_id ?? e.student_id}`)
+      .filter((s) => !s.includes('null')),
   );
 
-  const missing = sessions.filter(s => {
+  const missing = sessions.filter((s) => {
     const bySession = enrolledBySession.has(s.session_id);
     const byPI = s.payment_intent_id && enrolledByPI.has(s.payment_intent_id);
-    const bySlugUser = s.program_slug && (s.user_id || s.student_id) &&
+    const bySlugUser =
+      s.program_slug &&
+      (s.user_id || s.student_id) &&
       enrolledBySlugUser.has(`${s.program_slug}::${s.user_id ?? s.student_id}`);
     return !bySession && !byPI && !bySlugUser;
   });
@@ -136,25 +146,28 @@ function auditA_PaidNotEnrolled(sessions, enrollments, studentEnrollments) {
 }
 
 function auditB_EnrolledNotPaid(enrollments, sessions, financials, applications) {
-  const paidSessions = new Set(sessions.map(s => s.session_id));
-  const paidPIs = new Set(sessions.map(s => s.payment_intent_id).filter(Boolean));
+  const paidSessions = new Set(sessions.map((s) => s.session_id));
+  const paidPIs = new Set(sessions.map((s) => s.payment_intent_id).filter(Boolean));
   const verifiedFinancials = new Set(
-    financials.filter(f => f.verification_status === 'verified').map(f => f.application_id)
+    financials.filter((f) => f.verification_status === 'verified').map((f) => f.application_id),
   );
   const verifiedApps = new Set(
-    applications.filter(a => a.funding_verified === true).map(a => a.id)
+    applications.filter((a) => a.funding_verified === true).map((a) => a.id),
   );
 
-  return enrollments.filter(e => {
-    const paidBySession = e.stripe_checkout_session_id && paidSessions.has(e.stripe_checkout_session_id);
+  return enrollments.filter((e) => {
+    const paidBySession =
+      e.stripe_checkout_session_id && paidSessions.has(e.stripe_checkout_session_id);
     const paidByPI = e.stripe_payment_intent_id && paidPIs.has(e.stripe_payment_intent_id);
     const isFunded = e.funding_source && !['SELF_PAY', 'self_pay', null].includes(e.funding_source);
     // Check if there's a verified financial record for this user
-    const hasVerifiedFunding = [...verifiedFinancials].some(appId => {
-      const app = applications.find(a => a.id === appId);
+    const hasVerifiedFunding = [...verifiedFinancials].some((appId) => {
+      const app = applications.find((a) => a.id === appId);
       return app && (app.user_id === e.user_id || app.user_id === e.student_id);
     });
-    const isActive = ['active', 'enrolled', 'approved'].includes(e.enrollment_state ?? e.status ?? '');
+    const isActive = ['active', 'enrolled', 'approved'].includes(
+      e.enrollment_state ?? e.status ?? '',
+    );
     return isActive && !paidBySession && !paidByPI && !isFunded && !hasVerifiedFunding;
   });
 }
@@ -162,9 +175,9 @@ function auditB_EnrolledNotPaid(enrollments, sessions, financials, applications)
 function auditC_WebhookNotProcessed(webhookEvents, enrollments) {
   // Webhook events for checkout.session.completed that have no corresponding enrollment
   // created within 5 minutes after the event
-  return webhookEvents.filter(evt => {
+  return webhookEvents.filter((evt) => {
     const evtTime = new Date(evt.created_at).getTime();
-    const hasEnrollment = enrollments.some(e => {
+    const hasEnrollment = enrollments.some((e) => {
       const enrollTime = new Date(e.created_at).getTime();
       return enrollTime >= evtTime - 60000 && enrollTime <= evtTime + 300000;
     });
@@ -174,19 +187,23 @@ function auditC_WebhookNotProcessed(webhookEvents, enrollments) {
 
 function auditD_BNPLGaps(enrollments, financials, applications) {
   const verifiedFinancials = new Set(
-    financials.filter(f => f.verification_status === 'verified').map(f => f.application_id)
+    financials.filter((f) => f.verification_status === 'verified').map((f) => f.application_id),
   );
 
-  return enrollments.filter(e => {
-    const isBNPL = e.funding_source && !['SELF_PAY', 'self_pay'].includes(e.funding_source)
-      && !e.stripe_checkout_session_id && !e.stripe_payment_intent_id;
+  return enrollments.filter((e) => {
+    const isBNPL =
+      e.funding_source &&
+      !['SELF_PAY', 'self_pay'].includes(e.funding_source) &&
+      !e.stripe_checkout_session_id &&
+      !e.stripe_payment_intent_id;
     if (!isBNPL) return false;
     const isActive = ['active', 'enrolled', 'approved'].includes(e.enrollment_state ?? '');
     if (!isActive) return false;
     // Check if funding is actually verified
-    const app = applications.find(a =>
-      (a.user_id === e.user_id || a.user_id === e.student_id) &&
-      a.program_slug === e.program_slug
+    const app = applications.find(
+      (a) =>
+        (a.user_id === e.user_id || a.user_id === e.student_id) &&
+        a.program_slug === e.program_slug,
     );
     if (!app) return true; // no app = definitely unverified
     return !verifiedFinancials.has(app.id);
@@ -194,10 +211,16 @@ function auditD_BNPLGaps(enrollments, financials, applications) {
 }
 
 function auditMetadata(sessions) {
-  const missing_application_id = sessions.filter(s => !s.application_id && s.kind === 'program_enrollment');
-  const missing_program_slug = sessions.filter(s => !s.program_slug && s.kind === 'program_enrollment');
-  const missing_user_id = sessions.filter(s => !s.user_id && !s.student_id && s.kind === 'program_enrollment');
-  const no_kind = sessions.filter(s => !s.kind);
+  const missing_application_id = sessions.filter(
+    (s) => !s.application_id && s.kind === 'program_enrollment',
+  );
+  const missing_program_slug = sessions.filter(
+    (s) => !s.program_slug && s.kind === 'program_enrollment',
+  );
+  const missing_user_id = sessions.filter(
+    (s) => !s.user_id && !s.student_id && s.kind === 'program_enrollment',
+  );
+  const no_kind = sessions.filter((s) => !s.kind);
   return { missing_application_id, missing_program_slug, missing_user_id, no_kind };
 }
 
@@ -218,13 +241,14 @@ async function main() {
   console.log(`      → ${sessions.length} paid sessions total`);
 
   console.log('[3/7] Fetching DB state...');
-  const [enrollments, studentEnrollments, applications, financials, webhookEvents] = await Promise.all([
-    fetchEnrollments(),
-    fetchStudentEnrollments(),
-    fetchApplications(),
-    fetchApplicationFinancials(),
-    fetchWebhookEvents(),
-  ]);
+  const [enrollments, studentEnrollments, applications, financials, webhookEvents] =
+    await Promise.all([
+      fetchEnrollments(),
+      fetchStudentEnrollments(),
+      fetchApplications(),
+      fetchApplicationFinancials(),
+      fetchWebhookEvents(),
+    ]);
   console.log(`      → program_enrollments: ${enrollments.length}`);
   console.log(`      → student_enrollments: ${studentEnrollments.length}`);
   console.log(`      → applications: ${applications.length}`);
@@ -319,7 +343,7 @@ async function main() {
   console.log('\n' + '='.repeat(70));
   console.log('METADATA AUDIT — STRIPE SESSION METADATA COMPLETENESS');
   console.log('='.repeat(70));
-  const programSessions = sessions.filter(s => s.kind === 'program_enrollment');
+  const programSessions = sessions.filter((s) => s.kind === 'program_enrollment');
   console.log(`  Total paid sessions:              ${sessions.length}`);
   console.log(`  program_enrollment kind:          ${programSessions.length}`);
   console.log(`  No kind at all:                   ${meta.no_kind.length}`);
@@ -330,7 +354,9 @@ async function main() {
   if (meta.no_kind.length > 0) {
     console.log('\n  Sessions with no kind metadata (sample, max 5):');
     for (const s of meta.no_kind.slice(0, 5)) {
-      console.log(`    ${s.session_id} | ${s.email} | $${(s.amount_cents/100).toFixed(2)} | ${s.created_iso} | meta:[${s.metadata_keys.join(',')}]`);
+      console.log(
+        `    ${s.session_id} | ${s.email} | $${(s.amount_cents / 100).toFixed(2)} | ${s.created_iso} | meta:[${s.metadata_keys.join(',')}]`,
+      );
     }
   }
 
@@ -338,15 +364,17 @@ async function main() {
   console.log('\n' + '='.repeat(70));
   console.log('REPAIR CANDIDATES (Audit A with application_id — can auto-repair)');
   console.log('='.repeat(70));
-  const repairable = auditA.filter(s => s.application_id && s.program_slug);
-  const needsManual = auditA.filter(s => !s.application_id || !s.program_slug);
+  const repairable = auditA.filter((s) => s.application_id && s.program_slug);
+  const needsManual = auditA.filter((s) => !s.application_id || !s.program_slug);
   console.log(`  Auto-repairable (have application_id + slug): ${repairable.length}`);
   console.log(`  Needs manual review (missing metadata):       ${needsManual.length}`);
 
   if (repairable.length > 0) {
     console.log('\n  Repairable sessions:');
     for (const s of repairable) {
-      console.log(`    ${s.session_id} | app:${s.application_id} | slug:${s.program_slug} | ${s.email}`);
+      console.log(
+        `    ${s.session_id} | app:${s.application_id} | slug:${s.program_slug} | ${s.email}`,
+      );
     }
   }
 
@@ -355,11 +383,21 @@ async function main() {
   console.log('SUMMARY');
   console.log('='.repeat(70));
   const critical = auditA.length + auditB.length;
-  console.log(`  A. Paid not enrolled:          ${auditA.length}  ${auditA.length > 0 ? '❌ CRITICAL' : '✅'}`);
-  console.log(`  B. Enrolled not paid:          ${auditB.length}  ${auditB.length > 0 ? '❌ CRITICAL' : '✅'}`);
-  console.log(`  C. Webhook not processed:      ${auditC.length}  ${auditC.length > 0 ? '⚠️  REVIEW' : '✅'}`);
-  console.log(`  D. BNPL unverified active:     ${auditD.length}  ${auditD.length > 0 ? '❌ CRITICAL' : '✅'}`);
-  console.log(`  Metadata gaps (program kind):  ${meta.missing_application_id.length} missing app_id`);
+  console.log(
+    `  A. Paid not enrolled:          ${auditA.length}  ${auditA.length > 0 ? '❌ CRITICAL' : '✅'}`,
+  );
+  console.log(
+    `  B. Enrolled not paid:          ${auditB.length}  ${auditB.length > 0 ? '❌ CRITICAL' : '✅'}`,
+  );
+  console.log(
+    `  C. Webhook not processed:      ${auditC.length}  ${auditC.length > 0 ? '⚠️  REVIEW' : '✅'}`,
+  );
+  console.log(
+    `  D. BNPL unverified active:     ${auditD.length}  ${auditD.length > 0 ? '❌ CRITICAL' : '✅'}`,
+  );
+  console.log(
+    `  Metadata gaps (program kind):  ${meta.missing_application_id.length} missing app_id`,
+  );
   console.log('');
   if (critical === 0 && auditD.length === 0) {
     console.log('  ✅ System is clean. No repair needed.');
@@ -408,22 +446,25 @@ async function main() {
       // Upsert enrollment — same logic as webhook handler
       const { data: enrollment, error: enrollErr } = await db
         .from('program_enrollments')
-        .upsert({
-          student_id: app.user_id,
-          user_id: app.user_id,
-          program_slug: s.program_slug,
-          stripe_checkout_session_id: s.session_id,
-          stripe_payment_intent_id: s.payment_intent_id,
-          amount_paid_cents: s.amount_cents,
-          funding_source: 'self_pay',
-          enrollment_state: 'active',
-          payment_status: 'paid',
-          paid_at: new Date(s.created * 1000).toISOString(),
-          source: 'stripe_reconciliation_repair',
-        }, {
-          onConflict: 'stripe_checkout_session_id',
-          ignoreDuplicates: true,
-        })
+        .upsert(
+          {
+            student_id: app.user_id,
+            user_id: app.user_id,
+            program_slug: s.program_slug,
+            stripe_checkout_session_id: s.session_id,
+            stripe_payment_intent_id: s.payment_intent_id,
+            amount_paid_cents: s.amount_cents,
+            funding_source: 'self_pay',
+            enrollment_state: 'active',
+            payment_status: 'paid',
+            paid_at: new Date(s.created * 1000).toISOString(),
+            source: 'stripe_reconciliation_repair',
+          },
+          {
+            onConflict: 'stripe_checkout_session_id',
+            ignoreDuplicates: true,
+          },
+        )
         .select('id')
         .single();
 
@@ -434,7 +475,11 @@ async function main() {
         // Update application status
         await db
           .from('applications')
-          .update({ status: 'enrolled', payment_status: 'paid', payment_completed_at: new Date(s.created * 1000).toISOString() })
+          .update({
+            status: 'enrolled',
+            payment_status: 'paid',
+            payment_completed_at: new Date(s.created * 1000).toISOString(),
+          })
           .eq('id', s.application_id);
       }
     }
@@ -450,7 +495,7 @@ async function main() {
   }
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.error('FATAL:', err);
   process.exit(2);
 });

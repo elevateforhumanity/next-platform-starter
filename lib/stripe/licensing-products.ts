@@ -1,10 +1,10 @@
 /**
  * Stripe Licensing Products Configuration
- * 
+ *
  * Two products only:
  * 1. Managed Enterprise LMS Platform (subscription)
  * 2. Restricted Source-Use License (invoice only)
- * 
+ *
  * All products are licensed access. Ownership is not transferred.
  */
 
@@ -86,10 +86,10 @@ export const ENFORCEMENT_RULES = {
     past_due: 'grace_period_7_days',
     unpaid: 'suspended',
     canceled: 'total_lockout',
-    
+
     // Grace period before lockout
     gracePeriodDays: 7,
-    
+
     // What happens on lockout
     lockoutBehavior: {
       adminAccess: false,
@@ -108,9 +108,9 @@ export const ENFORCEMENT_RULES = {
 /**
  * Required disclaimer text
  */
-export const LICENSING_DISCLAIMER = 
+export const LICENSING_DISCLAIMER =
   'All products are licensed access to platforms operated by Elevate for Humanity. ' +
   'Ownership of software, infrastructure, and intellectual property is not transferred.';
 
-export const OWNERSHIP_STATEMENT = 
+export const OWNERSHIP_STATEMENT =
   'We sell managed access and operational control, not software ownership.';

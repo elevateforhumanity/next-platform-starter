@@ -13,7 +13,7 @@ export const dynamic = 'force-dynamic';
 
 async function _POST(request: NextRequest) {
   try {
-  await hydrateProcessEnv();
+    await hydrateProcessEnv();
     const rateLimited = await applyRateLimit(request, 'strict');
     if (rateLimited) return rateLimited;
 
@@ -35,26 +35,13 @@ async function _POST(request: NextRequest) {
 
     if (
       !profile ||
-      ![
-        'admin',
-        'super_admin',
-        'staff',
-        'program_holder',
-        'instructor',
-      ].includes(profile.role)
+      !['admin', 'super_admin', 'staff', 'program_holder', 'instructor'].includes(profile.role)
     ) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
     const body = await parseBody<Record<string, any>>(request);
-    const {
-      name,
-      subject,
-      from_name,
-      from_email,
-      html_content,
-      target_audience,
-    } = body;
+    const { name, subject, from_name, from_email, html_content, target_audience } = body;
 
     // Get recipients based on target audience
     let recipients: any[] = [];
@@ -123,17 +110,11 @@ async function _POST(request: NextRequest) {
         break;
 
       default:
-        return NextResponse.json(
-          { error: 'Invalid target audience' },
-          { status: 400 }
-        );
+        return NextResponse.json({ error: 'Invalid target audience' }, { status: 400 });
     }
 
     if (recipients.length === 0) {
-      return NextResponse.json(
-        { error: 'No recipients found' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'No recipients found' }, { status: 400 });
     }
 
     // Create campaign record
@@ -154,10 +135,7 @@ async function _POST(request: NextRequest) {
       .maybeSingle();
 
     if (campaignError || !campaign) {
-      return NextResponse.json(
-        { error: 'Failed to create campaign' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to create campaign' }, { status: 500 });
     }
 
     // Send emails in batches (Resend allows 100 per request)
@@ -173,10 +151,7 @@ async function _POST(request: NextRequest) {
           .replace(/\{\{student_name\}\}/g, recipient.full_name || 'Student')
           .replace(/\{\{user_name\}\}/g, recipient.full_name || 'User')
           .replace(/\{\{organization_name\}\}/g, 'Elevate for Humanity')
-          .replace(
-            /\{\{dashboard_link\}\}/g,
-            'https://www.elevateforhumanity.org/dashboard'
-          )
+          .replace(/\{\{dashboard_link\}\}/g, 'https://www.elevateforhumanity.org/dashboard')
           .replace(/\{\{support_email\}\}/g, 'support@elevateforhumanity.org')
           .replace(/\{\{support_phone\}\}/g, '(555) 123-4567');
 
@@ -203,8 +178,7 @@ async function _POST(request: NextRequest) {
             campaign_id: campaign.id,
             recipient_email: recipient.email,
             status: 'failed',
-            error_message:
-              'Internal server error',
+            error_message: 'Internal server error',
           });
         }
       });
@@ -227,13 +201,12 @@ async function _POST(request: NextRequest) {
       sent_count: sentCount,
       total_recipients: recipients.length,
     });
-  } catch (error) { 
+  } catch (error) {
     return NextResponse.json(
       {
-        error:
-          'Internal server error',
+        error: 'Internal server error',
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

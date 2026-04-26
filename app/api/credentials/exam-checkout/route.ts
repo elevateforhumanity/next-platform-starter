@@ -11,7 +11,6 @@ import { getStripeServer } from '@/lib/stripe/get-stripe-server';
  * Returns: { url: string } — Stripe hosted checkout URL
  */
 
-
 import { NextRequest, NextResponse } from 'next/server';
 
 import { apiAuthGuard } from '@/lib/admin/guards';
@@ -60,13 +59,13 @@ export async function POST(req: NextRequest) {
     attempt.learner_id,
     attempt.credential_id,
     attempt.program_id ?? null,
-    attempt.id
+    attempt.id,
   );
 
   if (!decision.requiresCheckout) {
     return NextResponse.json(
       { error: 'Checkout not required — funding is already approved' },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -93,7 +92,7 @@ export async function POST(req: NextRequest) {
   if (amountCents <= 0) {
     return NextResponse.json(
       { error: 'Exam fee amount not configured for this credential. Contact (317) 314-3757.' },
-      { status: 400 }
+      { status: 400 },
     );
   }
 

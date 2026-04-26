@@ -10,10 +10,7 @@ export interface ApiResponse<T = any> {
   details?: any;
 }
 
-export async function api<T>(
-  path: string,
-  init?: RequestInit
-): Promise<ApiResponse<T>> {
+export async function api<T>(path: string, init?: RequestInit): Promise<ApiResponse<T>> {
   const res = await fetch(path, {
     ...init,
     headers: {
@@ -23,11 +20,11 @@ export async function api<T>(
   });
 
   const json = await res.json().catch(() => ({}));
-  
+
   if (!res.ok) {
     return { error: json?.error || `Request failed: ${res.status}`, details: json?.details };
   }
-  
+
   return json as ApiResponse<T>;
 }
 
@@ -40,8 +37,7 @@ export const apiPost = <T>(path: string, body: any) =>
 export const apiPatch = <T>(path: string, body: any) =>
   api<T>(path, { method: 'PATCH', body: JSON.stringify(body) });
 
-export const apiDelete = <T>(path: string) =>
-  api<T>(path, { method: 'DELETE' });
+export const apiDelete = <T>(path: string) => api<T>(path, { method: 'DELETE' });
 
 // Error codes for API responses
 export enum ErrorCode {
@@ -91,27 +87,25 @@ export const APIErrors = {
 import { NextRequest, NextResponse } from 'next/server';
 
 // Higher-order function for consistent error handling in API routes
-export function withErrorHandling(
-  handler: (request: NextRequest) => Promise<NextResponse>
-) {
+export function withErrorHandling(handler: (request: NextRequest) => Promise<NextResponse>) {
   return async (request: NextRequest): Promise<NextResponse> => {
     try {
       return await handler(request);
     } catch (error: any) {
       logger.error('API Error:', error);
-      
+
       // Check if it's a structured API error
       if (error.status && error.error) {
         return NextResponse.json(
           { error: error.error, code: error.code, details: error.details },
-          { status: error.status }
+          { status: error.status },
         );
       }
-      
+
       // Default to internal server error
       return NextResponse.json(
         { error: 'Internal server error', code: ErrorCode.INTERNAL_ERROR },
-        { status: 500 }
+        { status: 500 },
       );
     }
   };

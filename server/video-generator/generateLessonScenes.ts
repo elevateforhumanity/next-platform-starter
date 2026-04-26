@@ -8,9 +8,14 @@ const MAX_ATTEMPTS = 3;
 function stripHtml(html: string): string {
   return (html || '')
     .replace(/<[^>]+>/g, ' ')
-    .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
-    .replace(/&nbsp;/g, ' ').replace(/&quot;/g, '"').replace(/&#39;/g, "'")
-    .replace(/\s+/g, ' ').trim();
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/\s+/g, ' ')
+    .trim();
 }
 
 export async function generateLessonScenes(opts: {
@@ -44,13 +49,18 @@ export async function generateLessonScenes(opts: {
     });
 
     const raw = res.choices[0].message.content ?? '';
-    const cleaned = raw.replace(/^```json?\s*/i, '').replace(/\s*```$/i, '').trim();
+    const cleaned = raw
+      .replace(/^```json?\s*/i, '')
+      .replace(/\s*```$/i, '')
+      .trim();
 
     try {
       const parsed = JSON.parse(cleaned);
       const result = LessonRenderPlanDraftSchema.safeParse(parsed);
       if (result.success) return result.data;
-      lastError = new Error(`Schema validation failed: ${JSON.stringify(result.error.issues.slice(0, 3))}`);
+      lastError = new Error(
+        `Schema validation failed: ${JSON.stringify(result.error.issues.slice(0, 3))}`,
+      );
       console.warn(`  ⚠ Attempt ${attempt + 1} schema error: ${lastError.message}`);
     } catch (e) {
       lastError = new Error(`JSON parse failed: ${e}`);

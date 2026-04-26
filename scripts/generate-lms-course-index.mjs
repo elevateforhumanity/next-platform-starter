@@ -1,18 +1,18 @@
-import fs from "fs";
-import path from "path";
+import fs from 'fs';
+import path from 'path';
 
 const ROOT = process.cwd();
-const COURSES_DIR = path.join(ROOT, "lms-data", "courses");
-const OUT_FILE = path.join(COURSES_DIR, "index.ts");
+const COURSES_DIR = path.join(ROOT, 'lms-data', 'courses');
+const OUT_FILE = path.join(COURSES_DIR, 'index.ts');
 
 function read(file) {
-  return fs.readFileSync(file, "utf8");
+  return fs.readFileSync(file, 'utf8');
 }
 
 function listCourseFiles() {
   return fs
     .readdirSync(COURSES_DIR)
-    .filter((f) => f.startsWith("program-") && f.endsWith(".ts"))
+    .filter((f) => f.startsWith('program-') && f.endsWith('.ts'))
     .sort()
     .map((f) => ({ file: f, abs: path.join(COURSES_DIR, f) }));
 }
@@ -45,13 +45,13 @@ for (const f of files) {
     file: f.file,
     exportName,
     slug,
-    importPath: `./${f.file.replace(/\.ts$/, "")}`,
+    importPath: `./${f.file.replace(/\.ts$/, '')}`,
   });
 }
 
 if (problems.length) {
-  console.error("❌ Cannot generate index.ts due to problems:");
-  for (const p of problems) console.error(" - " + p);
+  console.error('❌ Cannot generate index.ts due to problems:');
+  for (const p of problems) console.error(' - ' + p);
   process.exit(1);
 }
 
@@ -86,4 +86,4 @@ lines.push(`  return allCourses.filter((c) => c.isPublished !== false);`);
 lines.push(`}`);
 lines.push(``);
 
-fs.writeFileSync(OUT_FILE, lines.join("\n"), "utf8");
+fs.writeFileSync(OUT_FILE, lines.join('\n'), 'utf8');

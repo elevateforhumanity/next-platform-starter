@@ -20,13 +20,9 @@ async function getWorkflowData() {
     .select('*')
     .order('due_date', { ascending: true });
 
-  const { data: entities } = await db
-    .from('grant_entities')
-    .select('*');
+  const { data: entities } = await db.from('grant_entities').select('*');
 
-  const { data: applications } = await db
-    .from('grant_applications')
-    .select('*');
+  const { data: applications } = await db.from('grant_applications').select('*');
 
   return {
     grants: grants || [],
@@ -38,7 +34,9 @@ async function getWorkflowData() {
 export default async function GrantWorkflowPage() {
   const supabase = await createClient();
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   const { data: profile } = await supabase
     .from('profiles')
@@ -52,21 +50,14 @@ export default async function GrantWorkflowPage() {
 
   const statusCounts = {
     intake: grants.length,
-    draft: applications.filter((a: Record<string, any>) => a.status === 'draft')
-      .length,
-    review: applications.filter(
-      (a: Record<string, any>) => a.status === 'review'
-    ).length,
-    ready: applications.filter((a: Record<string, any>) => a.status === 'ready')
-      .length,
-    submitted: applications.filter(
-      (a: Record<string, any>) => a.status === 'submitted'
-    ).length,
+    draft: applications.filter((a: Record<string, any>) => a.status === 'draft').length,
+    review: applications.filter((a: Record<string, any>) => a.status === 'review').length,
+    ready: applications.filter((a: Record<string, any>) => a.status === 'ready').length,
+    submitted: applications.filter((a: Record<string, any>) => a.status === 'submitted').length,
   };
 
   return (
     <div>
-
       {/* Hero Image */}
       {/* Hero Section */}
       <section className="relative h-48 md:h-64 overflow-hidden">
@@ -79,18 +70,13 @@ export default async function GrantWorkflowPage() {
           priority
           sizes="100vw"
         />
-
       </section>
 
       <div className="min-h-screen bg-white">
         <div className="max-w-7xl mx-auto px-4 py-8">
           <div className="mb-8">
-            <h1 className="text-3xl font-bold text-black mb-2">
-              Grant Autopilot Workflow
-            </h1>
-            <p className="text-black">
-              Complete grant management from discovery to submission
-            </p>
+            <h1 className="text-3xl font-bold text-black mb-2">Grant Autopilot Workflow</h1>
+            <p className="text-black">Complete grant management from discovery to submission</p>
           </div>
 
           {/* Workflow Progress Bar */}
@@ -144,9 +130,7 @@ export default async function GrantWorkflowPage() {
             {/* Stage 1: Intake - New Opportunities */}
             <section className="rounded-xl shadow-sm p-6">
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-semibold text-black">
-                  🟡 Intake: New Opportunities
-                </h2>
+                <h2 className="text-xl font-semibold text-black">🟡 Intake: New Opportunities</h2>
                 <Link
                   href="/admin/grants/intake"
                   className="text-sm text-brand-blue-600 hover:text-brand-blue-700 font-medium"
@@ -160,12 +144,8 @@ export default async function GrantWorkflowPage() {
                     key={grant.id}
                     className="border border-slate-200 rounded-lg p-4 hover:border-brand-blue-300 transition"
                   >
-                    <h3 className="font-semibold text-black mb-1">
-                      {grant.title}
-                    </h3>
-                    <p className="text-sm text-black mb-2">
-                      {grant.agency || 'Federal Agency'}
-                    </p>
+                    <h3 className="font-semibold text-black mb-1">{grant.title}</h3>
+                    <p className="text-sm text-black mb-2">{grant.agency || 'Federal Agency'}</p>
                     <div className="flex items-center justify-between">
                       <span className="text-xs text-slate-500">
                         Due: {new Date(grant.due_date).toLocaleDateString()}

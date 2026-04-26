@@ -14,9 +14,10 @@ export const metadata: Metadata = {
 
 export default async function AdminProvidersPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login');
-
 
   const db = await getAdminClient();
   if (!db) return <div className="p-8 text-red-600">Database unavailable</div>;
@@ -44,7 +45,7 @@ export default async function AdminProvidersPage() {
     .in('status', ['pending', 'under_review']);
 
   // Ghost tenants: approved but no provider_admin profile linked (D3 fix)
-  const tenantIds = (tenants ?? []).map(t => t.id);
+  const tenantIds = (tenants ?? []).map((t) => t.id);
   let ghostTenantIds = new Set<string>();
   if (tenantIds.length > 0) {
     const { data: adminProfiles } = await supabase
@@ -52,17 +53,16 @@ export default async function AdminProvidersPage() {
       .select('tenant_id')
       .in('tenant_id', tenantIds)
       .eq('role', 'provider_admin');
-    const tenantsWithAdmin = new Set((adminProfiles ?? []).map(p => p.tenant_id));
-    ghostTenantIds = new Set(tenantIds.filter(id => !tenantsWithAdmin.has(id)));
+    const tenantsWithAdmin = new Set((adminProfiles ?? []).map((p) => p.tenant_id));
+    ghostTenantIds = new Set(tenantIds.filter((id) => !tenantsWithAdmin.has(id)));
   }
 
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-5xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[
-          { label: 'Admin', href: '/admin/dashboard' },
-          { label: 'Providers' },
-        ]} />
+        <Breadcrumbs
+          items={[{ label: 'Admin', href: '/admin/dashboard' }, { label: 'Providers' }]}
+        />
       </div>
 
       <div className="max-w-5xl mx-auto px-4 pb-16">
@@ -90,8 +90,11 @@ export default async function AdminProvidersPage() {
           <div className="bg-yellow-50 border border-yellow-200 rounded-xl px-5 py-3 flex items-start gap-3 mb-4">
             <AlertTriangle className="w-4 h-4 text-yellow-600 flex-shrink-0 mt-0.5" />
             <p className="text-sm text-yellow-800">
-              <strong>{ghostTenantIds.size} provider{ghostTenantIds.size > 1 ? 's' : ''}</strong> approved but missing a provider admin account.
-              Auth user creation may have failed during approval. Open each and retry the invite.
+              <strong>
+                {ghostTenantIds.size} provider{ghostTenantIds.size > 1 ? 's' : ''}
+              </strong>{' '}
+              approved but missing a provider admin account. Auth user creation may have failed
+              during approval. Open each and retry the invite.
             </p>
           </div>
         )}
@@ -109,7 +112,7 @@ export default async function AdminProvidersPage() {
           </div>
         ) : (
           <div className="space-y-3">
-            {(tenants ?? []).map(tenant => (
+            {(tenants ?? []).map((tenant) => (
               <Link
                 key={tenant.id}
                 href={'/admin/providers/' + tenant.id}
@@ -130,7 +133,10 @@ export default async function AdminProvidersPage() {
                 </div>
                 <div className="flex items-center gap-2">
                   {ghostTenantIds.has(tenant.id) && (
-                    <span className="flex items-center gap-1 text-xs font-medium text-yellow-700 bg-yellow-100 px-2 py-0.5 rounded-full" title="No provider admin account linked">
+                    <span
+                      className="flex items-center gap-1 text-xs font-medium text-yellow-700 bg-yellow-100 px-2 py-0.5 rounded-full"
+                      title="No provider admin account linked"
+                    >
                       <AlertTriangle className="w-3 h-3" /> No admin
                     </span>
                   )}

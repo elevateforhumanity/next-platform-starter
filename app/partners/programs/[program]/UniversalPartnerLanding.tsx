@@ -6,7 +6,8 @@ import { ArrowRight, Phone } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import type { ProgramConfig } from '@/lib/partners/program-config';
 
-const CALENDLY_URL = process.env.NEXT_PUBLIC_CALENDLY_30MIN || 'https://calendly.com/elevate4humanityedu/30min';
+const CALENDLY_URL =
+  process.env.NEXT_PUBLIC_CALENDLY_30MIN || 'https://calendly.com/elevate4humanityedu/30min';
 
 export default function UniversalPartnerLanding({ config }: { config: ProgramConfig }) {
   const Cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
@@ -14,16 +15,27 @@ export default function UniversalPartnerLanding({ config }: { config: ProgramCon
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: 'Partners', href: '/partners' }, { label: config.shortName }]} />
+        <Breadcrumbs
+          items={[{ label: 'Partners', href: '/partners' }, { label: config.shortName }]}
+        />
       </div>
 
       {/* Hero */}
       <section className="relative bg-brand-blue-700 text-white py-20 overflow-hidden">
         <div className="absolute inset-0">
-          <Image src={config.heroImage} alt={`${config.shortName} training`} fill className="object-cover" priority  sizes="100vw" />
+          <Image
+            src={config.heroImage}
+            alt={`${config.shortName} training`}
+            fill
+            className="object-cover"
+            priority
+            sizes="100vw"
+          />
         </div>
         <div className="relative max-w-4xl mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">{config.shortName} Partner Program</h1>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">
+            {config.shortName} Partner Program
+          </h1>
           <p className="text-xl text-white mb-8 max-w-2xl mx-auto">{config.description}</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
@@ -47,14 +59,20 @@ export default function UniversalPartnerLanding({ config }: { config: ProgramCon
       {/* How It Works */}
       <section className="py-16">
         <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-slate-900 mb-6 text-center">How the Program Works</h2>
+          <h2 className="text-3xl font-bold text-slate-900 mb-6 text-center">
+            How the Program Works
+          </h2>
           {config.registeredApprenticeship && (
-            <p className="text-center text-orange-600 font-semibold mb-4">USDOL Registered Apprenticeship</p>
+            <p className="text-center text-orange-600 font-semibold mb-4">
+              USDOL Registered Apprenticeship
+            </p>
           )}
           <p className="text-lg text-black text-center mb-12 max-w-2xl mx-auto">
-            Your {config.siteLabel} hosts {config.traineeLabelPlural} who complete {config.trainingHours.toLocaleString()} hours of
-            on-the-job training under a {config.supervisorTitle.toLowerCase()}.
-            {config.theoryProvider && ` ${Cap(config.traineeLabelPlural)} also complete theory coursework through ${config.theoryProvider}.`}
+            Your {config.siteLabel} hosts {config.traineeLabelPlural} who complete{' '}
+            {config.trainingHours.toLocaleString()} hours of on-the-job training under a{' '}
+            {config.supervisorTitle.toLowerCase()}.
+            {config.theoryProvider &&
+              ` ${Cap(config.traineeLabelPlural)} also complete theory coursework through ${config.theoryProvider}.`}
           </p>
           <div className="grid md:grid-cols-3 gap-8">
             <div className="text-center">
@@ -63,7 +81,8 @@ export default function UniversalPartnerLanding({ config }: { config: ProgramCon
               </div>
               <h3 className="font-bold text-slate-900 mb-2">Apply &amp; Get Approved</h3>
               <p className="text-black text-sm">
-                Submit your application{config.siteVisitRequired ? ', complete a Zoom site visit,' : ''} and sign the MOU.
+                Submit your application
+                {config.siteVisitRequired ? ', complete a Zoom site visit,' : ''} and sign the MOU.
                 Approval takes about {config.approvalTimeline}.
               </p>
             </div>
@@ -71,10 +90,13 @@ export default function UniversalPartnerLanding({ config }: { config: ProgramCon
               <div className="w-14 h-14 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-orange-600 font-bold text-xl">2</span>
               </div>
-              <h3 className="font-bold text-slate-900 mb-2">Host {Cap(config.traineeLabelPlural)}</h3>
+              <h3 className="font-bold text-slate-900 mb-2">
+                Host {Cap(config.traineeLabelPlural)}
+              </h3>
               <p className="text-black text-sm">
-                We match qualified {config.traineeLabelPlural} to your {config.siteLabel}. They complete {config.trainingHours.toLocaleString()} hours
-                of training under your {config.supervisorTitle.toLowerCase()}.
+                We match qualified {config.traineeLabelPlural} to your {config.siteLabel}. They
+                complete {config.trainingHours.toLocaleString()} hours of training under your{' '}
+                {config.supervisorTitle.toLowerCase()}.
               </p>
             </div>
             <div className="text-center">
@@ -95,7 +117,9 @@ export default function UniversalPartnerLanding({ config }: { config: ProgramCon
       {/* Requirements */}
       <section className="py-16">
         <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-slate-900 mb-10 text-center">What Partner {Cap(config.siteLabelPlural)} Need to Know</h2>
+          <h2 className="text-3xl font-bold text-slate-900 mb-10 text-center">
+            What Partner {Cap(config.siteLabelPlural)} Need to Know
+          </h2>
           <div className="grid md:grid-cols-2 gap-6">
             {config.requirements.map((req) => (
               <div key={req.title} className="bg-white p-6 rounded-xl border border-gray-200">
@@ -113,11 +137,40 @@ export default function UniversalPartnerLanding({ config }: { config: ProgramCon
           <h2 className="text-3xl font-bold text-slate-900 mb-10 text-center">Approval Timeline</h2>
           <div className="space-y-6">
             {[
-              { step: '1', title: 'Submit Application', time: 'Day 1', desc: 'Complete the online partner application form.' },
-              { step: '2', title: 'Verification', time: 'Days 1-3', desc: 'We verify your credentials and licensing.' },
-              ...(config.siteVisitRequired ? [{ step: '3', title: 'Video Site Visit', time: 'Days 3-5', desc: `A 15-minute Zoom call to walk through your ${config.siteLabel}.` }] : []),
-              { step: config.siteVisitRequired ? '4' : '3', title: 'MOU Signing', time: config.siteVisitRequired ? 'Days 5-6' : 'Days 3-5', desc: 'Review and sign the Memorandum of Understanding.' },
-              { step: config.siteVisitRequired ? '5' : '4', title: 'Approved', time: `~${config.approvalTimeline}`, desc: `Your ${config.siteLabel} is approved and listed as a registered worksite.` },
+              {
+                step: '1',
+                title: 'Submit Application',
+                time: 'Day 1',
+                desc: 'Complete the online partner application form.',
+              },
+              {
+                step: '2',
+                title: 'Verification',
+                time: 'Days 1-3',
+                desc: 'We verify your credentials and licensing.',
+              },
+              ...(config.siteVisitRequired
+                ? [
+                    {
+                      step: '3',
+                      title: 'Video Site Visit',
+                      time: 'Days 3-5',
+                      desc: `A 15-minute Zoom call to walk through your ${config.siteLabel}.`,
+                    },
+                  ]
+                : []),
+              {
+                step: config.siteVisitRequired ? '4' : '3',
+                title: 'MOU Signing',
+                time: config.siteVisitRequired ? 'Days 5-6' : 'Days 3-5',
+                desc: 'Review and sign the Memorandum of Understanding.',
+              },
+              {
+                step: config.siteVisitRequired ? '5' : '4',
+                title: 'Approved',
+                time: `~${config.approvalTimeline}`,
+                desc: `Your ${config.siteLabel} is approved and listed as a registered worksite.`,
+              },
             ].map((item) => (
               <div key={item.step} className="flex items-start gap-4">
                 <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center flex-shrink-0">
@@ -126,7 +179,9 @@ export default function UniversalPartnerLanding({ config }: { config: ProgramCon
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-1">
                     <h3 className="font-bold text-slate-900">{item.title}</h3>
-                    <span className="text-xs bg-white text-black px-2 py-0.5 rounded-full">{item.time}</span>
+                    <span className="text-xs bg-white text-black px-2 py-0.5 rounded-full">
+                      {item.time}
+                    </span>
                   </div>
                   <p className="text-black text-sm">{item.desc}</p>
                 </div>
@@ -139,10 +194,15 @@ export default function UniversalPartnerLanding({ config }: { config: ProgramCon
       {/* FAQ */}
       <section className="py-16">
         <div className="max-w-3xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-slate-900 mb-10 text-center">Frequently Asked Questions</h2>
+          <h2 className="text-3xl font-bold text-slate-900 mb-10 text-center">
+            Frequently Asked Questions
+          </h2>
           <div className="space-y-4">
             {config.faq.map((item, i) => (
-              <details key={i} className="bg-white rounded-xl border border-gray-200 overflow-hidden group">
+              <details
+                key={i}
+                className="bg-white rounded-xl border border-gray-200 overflow-hidden group"
+              >
                 <summary className="px-6 py-4 cursor-pointer font-semibold text-slate-900 hover:bg-white transition-colors">
                   {item.question}
                 </summary>

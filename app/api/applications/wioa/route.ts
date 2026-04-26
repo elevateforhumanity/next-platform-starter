@@ -16,10 +16,7 @@ async function _POST(req: Request) {
     if (rateLimited) return rateLimited;
 
     // Rate limiting
-    const ip =
-      req.headers.get('x-forwarded-for') ||
-      req.headers.get('x-real-ip') ||
-      'unknown';
+    const ip = req.headers.get('x-forwarded-for') || req.headers.get('x-real-ip') || 'unknown';
     const { ok } = await checkRateLimit({
       key: `wioa-apply:${ip}`,
       limit: 3,
@@ -29,7 +26,7 @@ async function _POST(req: Request) {
     if (!ok) {
       return NextResponse.json(
         { error: 'Too many requests. Please try again in a minute.' },
-        { status: 429 }
+        { status: 429 },
       );
     }
 
@@ -37,10 +34,7 @@ async function _POST(req: Request) {
     const supabase = await getAdminClient();
 
     if (!supabase) {
-      return NextResponse.json(
-        { error: 'Service temporarily unavailable.' },
-        { status: 503 }
-      );
+      return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });
     }
 
     // Generate reference number
@@ -70,9 +64,7 @@ async function _POST(req: Request) {
       `Justice Involvement: ${body.hasJusticeInvolvement ? 'Yes' : 'No'}`,
       `\n=== AUTHORIZATION ===`,
       `Work Auth Doc: ${body.workAuthDocument}`,
-      body.documentExpirationDate
-        ? `Expires: ${body.documentExpirationDate}`
-        : '',
+      body.documentExpirationDate ? `Expires: ${body.documentExpirationDate}` : '',
       `Barriers: ${Array.isArray(body.barriers) ? body.barriers.join(', ') : 'None'}`,
       body.otherBarrier ? `Other Barrier: ${body.otherBarrier}` : '',
       `Case Manager: ${body.hasCaseManager ? 'Yes' : 'No'}`,
@@ -107,12 +99,10 @@ async function _POST(req: Request) {
     if (error) {
       return NextResponse.json(
         {
-          error:
-            'Failed to save application. Please call 317-314-3757 for assistance.',
-          details:
-            process.env.NODE_ENV === 'development' ? 'Internal server error' : undefined,
+          error: 'Failed to save application. Please call 317-314-3757 for assistance.',
+          details: process.env.NODE_ENV === 'development' ? 'Internal server error' : undefined,
         },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
@@ -155,7 +145,9 @@ async function _POST(req: Request) {
           `,
         }),
       });
-    } catch { /* non-fatal */ }
+    } catch {
+      /* non-fatal */
+    }
 
     // Send notification to admin
     try {
@@ -182,7 +174,9 @@ async function _POST(req: Request) {
           `,
         }),
       });
-    } catch { /* non-fatal */ }
+    } catch {
+      /* non-fatal */
+    }
 
     return NextResponse.json(
       {
@@ -190,15 +184,14 @@ async function _POST(req: Request) {
         id: data.id,
         referenceNumber: referenceNumber,
       },
-      { status: 200 }
+      { status: 200 },
     );
-  } catch (error) { 
+  } catch (error) {
     return NextResponse.json(
       {
-        error:
-          'Internal server error',
+        error: 'Internal server error',
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

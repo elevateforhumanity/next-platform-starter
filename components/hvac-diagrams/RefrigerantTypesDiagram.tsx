@@ -24,7 +24,8 @@ const FAMILIES = [
     phaseOut: 'Fully phased out in the U.S. in 1996 under the Montreal Protocol.',
     examples: ['R-11', 'R-12', 'R-113', 'R-114', 'R-115'],
     uses: 'Older car AC (R-12), older commercial refrigeration',
-    keyFact: 'Highest ODP of all refrigerant families. R-11 is the ODP reference point (ODP = 1.0).',
+    keyFact:
+      'Highest ODP of all refrigerant families. R-11 is the ODP reference point (ODP = 1.0).',
     icon: XCircle,
     iconColor: 'text-brand-red-500',
     bg: 'bg-brand-red-50',
@@ -42,10 +43,12 @@ const FAMILIES = [
     gwpColor: 'text-amber-600',
     status: 'PHASED OUT',
     statusColor: 'bg-amber-500',
-    phaseOut: 'R-22 production and import ended January 1, 2020. Recovered/reclaimed R-22 can still be used for service.',
+    phaseOut:
+      'R-22 production and import ended January 1, 2020. Recovered/reclaimed R-22 can still be used for service.',
     examples: ['R-22', 'R-123', 'R-124', 'R-141b'],
     uses: 'Older residential split systems (R-22), large centrifugal chillers (R-123)',
-    keyFact: 'R-22 is still available as recovered/reclaimed refrigerant for servicing existing equipment — but supply is limited and prices are high.',
+    keyFact:
+      'R-22 is still available as recovered/reclaimed refrigerant for servicing existing equipment — but supply is limited and prices are high.',
     icon: AlertTriangle,
     iconColor: 'text-amber-500',
     bg: 'bg-amber-50',
@@ -63,10 +66,12 @@ const FAMILIES = [
     gwpColor: 'text-amber-600',
     status: 'CURRENT',
     statusColor: 'bg-brand-blue-600',
-    phaseOut: 'Being phased DOWN (not banned) under the AIM Act starting 2025. High-GWP HFCs like R-410A are being replaced by lower-GWP alternatives.',
+    phaseOut:
+      'Being phased DOWN (not banned) under the AIM Act starting 2025. High-GWP HFCs like R-410A are being replaced by lower-GWP alternatives.',
     examples: ['R-410A', 'R-134a', 'R-404A', 'R-407C', 'R-32'],
     uses: 'Current residential and commercial HVAC, automotive AC (R-134a), commercial refrigeration (R-404A)',
-    keyFact: 'Zero ODP because no chlorine. But high GWP — R-410A has GWP of 2,088. The AIM Act phases down production, not use of existing systems.',
+    keyFact:
+      'Zero ODP because no chlorine. But high GWP — R-410A has GWP of 2,088. The AIM Act phases down production, not use of existing systems.',
     icon: CheckCircle,
     iconColor: 'text-brand-blue-500',
     bg: 'bg-brand-blue-50',
@@ -87,7 +92,8 @@ const FAMILIES = [
     phaseOut: 'Not being phased out. These are the replacement refrigerants for high-GWP HFCs.',
     examples: ['R-1234yf', 'R-1234ze', 'R-454B', 'R-466A', 'R-32 blends'],
     uses: 'New residential HVAC (replacing R-410A), new automotive AC (replacing R-134a)',
-    keyFact: 'Zero ODP and near-zero GWP. R-454B (Puron Advance) and R-466A are replacing R-410A in new equipment manufactured after 2025.',
+    keyFact:
+      'Zero ODP and near-zero GWP. R-454B (Puron Advance) and R-466A are replacing R-410A in new equipment manufactured after 2025.',
     icon: CheckCircle,
     iconColor: 'text-brand-green-500',
     bg: 'bg-brand-green-50',
@@ -110,22 +116,36 @@ export default function RefrigerantTypesDiagram({ onComplete }: { onComplete?: (
 
   return (
     <div className="space-y-5">
-
       <div className="bg-brand-blue-700 rounded-2xl p-5 text-white">
-        <p className="text-brand-red-400 text-xs font-bold uppercase tracking-widest mb-1">EPA 608 Core — Refrigerant Families</p>
+        <p className="text-brand-red-400 text-xs font-bold uppercase tracking-widest mb-1">
+          EPA 608 Core — Refrigerant Families
+        </p>
         <h2 className="text-xl font-extrabold">CFC · HCFC · HFC · HFO</h2>
-        <p className="text-slate-500 text-sm mt-1">Tap each family to see ODP, GWP, phase-out status, and common refrigerants.</p>
+        <p className="text-slate-500 text-sm mt-1">
+          Tap each family to see ODP, GWP, phase-out status, and common refrigerants.
+        </p>
       </div>
 
       {/* ODP / GWP quick reference */}
       <div className="grid grid-cols-2 gap-3">
         <div className="bg-white rounded-xl border border-slate-200 p-3">
-          <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">ODP Reference</p>
-          <p className="text-xs text-slate-600 leading-relaxed">Ozone Depletion Potential measured relative to <span className="font-bold text-slate-900">R-11 = 1.0</span>. Higher = more ozone damage.</p>
+          <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">
+            ODP Reference
+          </p>
+          <p className="text-xs text-slate-600 leading-relaxed">
+            Ozone Depletion Potential measured relative to{' '}
+            <span className="font-bold text-slate-900">R-11 = 1.0</span>. Higher = more ozone
+            damage.
+          </p>
         </div>
         <div className="bg-white rounded-xl border border-slate-200 p-3">
-          <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">GWP Reference</p>
-          <p className="text-xs text-slate-600 leading-relaxed">Global Warming Potential measured relative to <span className="font-bold text-slate-900">CO₂ = 1</span>. Higher = more warming.</p>
+          <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">
+            GWP Reference
+          </p>
+          <p className="text-xs text-slate-600 leading-relaxed">
+            Global Warming Potential measured relative to{' '}
+            <span className="font-bold text-slate-900">CO₂ = 1</span>. Higher = more warming.
+          </p>
         </div>
       </div>
 
@@ -140,7 +160,9 @@ export default function RefrigerantTypesDiagram({ onComplete }: { onComplete?: (
               key={f.id}
               onClick={() => handleClick(f.id)}
               className={`relative rounded-2xl border-2 p-4 text-left transition-all ${
-                isActive ? `${f.bg} ${f.border} shadow-lg scale-[1.02]` : 'bg-white border-slate-200 hover:shadow-sm'
+                isActive
+                  ? `${f.bg} ${f.border} shadow-lg scale-[1.02]`
+                  : 'bg-white border-slate-200 hover:shadow-sm'
               }`}
             >
               {isSeen && !isActive && (
@@ -158,7 +180,9 @@ export default function RefrigerantTypesDiagram({ onComplete }: { onComplete?: (
                   <span className={`font-bold ${f.gwpColor}`}>{f.gwp}</span>
                 </div>
               </div>
-              <span className={`mt-2 inline-block text-white text-[10px] font-extrabold px-2 py-0.5 rounded-full ${f.statusColor}`}>
+              <span
+                className={`mt-2 inline-block text-white text-[10px] font-extrabold px-2 py-0.5 rounded-full ${f.statusColor}`}
+              >
                 {f.status}
               </span>
             </button>
@@ -170,35 +194,49 @@ export default function RefrigerantTypesDiagram({ onComplete }: { onComplete?: (
       {activeFamily && (
         <div className={`rounded-2xl border-2 ${activeFamily.border} overflow-hidden`}>
           <div className={`${activeFamily.headerBg} px-5 py-3`}>
-            <h3 className="text-slate-900 font-extrabold text-lg">{activeFamily.name} — {activeFamily.full}</h3>
+            <h3 className="text-slate-900 font-extrabold text-lg">
+              {activeFamily.name} — {activeFamily.full}
+            </h3>
             <p className="text-slate-600 text-xs mt-0.5">{activeFamily.atoms}</p>
           </div>
           <div className={`${activeFamily.bg} p-5 space-y-4`}>
-
             {/* ODP / GWP */}
             <div className="grid grid-cols-2 gap-3">
               <div className="bg-white rounded-xl border border-slate-200 p-3 text-center">
                 <p className="text-xs text-slate-500 font-medium">Ozone Depletion Potential</p>
-                <p className={`text-2xl font-extrabold mt-1 ${activeFamily.odpColor}`}>{activeFamily.odp}</p>
+                <p className={`text-2xl font-extrabold mt-1 ${activeFamily.odpColor}`}>
+                  {activeFamily.odp}
+                </p>
               </div>
               <div className="bg-white rounded-xl border border-slate-200 p-3 text-center">
                 <p className="text-xs text-slate-500 font-medium">Global Warming Potential</p>
-                <p className={`text-2xl font-extrabold mt-1 ${activeFamily.gwpColor}`}>{activeFamily.gwp}</p>
+                <p className={`text-2xl font-extrabold mt-1 ${activeFamily.gwpColor}`}>
+                  {activeFamily.gwp}
+                </p>
               </div>
             </div>
 
             {/* Phase-out */}
             <div className="bg-white rounded-xl border border-slate-200 p-4">
-              <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Phase-Out Status</p>
+              <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">
+                Phase-Out Status
+              </p>
               <p className="text-sm text-slate-700">{activeFamily.phaseOut}</p>
             </div>
 
             {/* Examples */}
             <div className="bg-white rounded-xl border border-slate-200 p-4">
-              <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Common Refrigerants</p>
+              <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">
+                Common Refrigerants
+              </p>
               <div className="flex flex-wrap gap-2">
                 {activeFamily.examples.map((ex) => (
-                  <span key={ex} className="bg-slate-100 text-slate-700 text-xs font-bold px-2.5 py-1 rounded-lg">{ex}</span>
+                  <span
+                    key={ex}
+                    className="bg-slate-100 text-slate-700 text-xs font-bold px-2.5 py-1 rounded-lg"
+                  >
+                    {ex}
+                  </span>
                 ))}
               </div>
               <p className="text-xs text-slate-500 mt-2">{activeFamily.uses}</p>
@@ -207,7 +245,9 @@ export default function RefrigerantTypesDiagram({ onComplete }: { onComplete?: (
             {/* Key fact */}
             <div className="bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 flex gap-2">
               <span className="text-amber-500 flex-shrink-0">⚡</span>
-              <p className="text-amber-800 text-xs font-semibold leading-relaxed">{activeFamily.keyFact}</p>
+              <p className="text-amber-800 text-xs font-semibold leading-relaxed">
+                {activeFamily.keyFact}
+              </p>
             </div>
           </div>
         </div>

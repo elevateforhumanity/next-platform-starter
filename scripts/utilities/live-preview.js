@@ -82,8 +82,7 @@ const mockData = {
         },
         {
           title: 'Military Spouse Support',
-          description:
-            'Flexible training programs designed for military families.',
+          description: 'Flexible training programs designed for military families.',
           features: [
             'Remote learning options',
             'Portable certifications',
@@ -93,8 +92,7 @@ const mockData = {
         },
         {
           title: 'Veteran Entrepreneurship',
-          description:
-            'Business development and entrepreneurship training for veterans.',
+          description: 'Business development and entrepreneurship training for veterans.',
           features: [
             'Business plan development',
             'Access to capital resources',
@@ -116,8 +114,7 @@ const mockData = {
       priorities: [
         {
           title: 'Workforce Development',
-          description:
-            'Skills training and career pathways for underserved communities',
+          description: 'Skills training and career pathways for underserved communities',
           icon: '💼',
         },
         {
@@ -137,8 +134,7 @@ const mockData = {
         },
         {
           title: 'Entrepreneurship',
-          description:
-            'Small business development and entrepreneurship training',
+          description: 'Small business development and entrepreneurship training',
           icon: '🚀',
         },
       ],
@@ -152,8 +148,7 @@ const mockData = {
         {
           title: 'Individual Learner Grants',
           fundingRange: '$500 - $5,000',
-          description:
-            'Direct support for individuals pursuing education and training programs.',
+          description: 'Direct support for individuals pursuing education and training programs.',
           eligibleRecipients: [
             'Low-income individuals',
             'Justice-involved individuals',
@@ -279,29 +274,16 @@ const mockData = {
 };
 
 // API routes
-app.get('/api/government/contracts', (req, res) =>
-  res.json(mockData.government.contracts)
-);
-app.get('/api/government/compliance', (req, res) =>
-  res.json(mockData.government.compliance)
-);
-app.get('/api/government/veterans', (req, res) =>
-  res.json(mockData.government.veterans)
-);
-app.get('/api/philanthropy/overview', (req, res) =>
-  res.json(mockData.philanthropy.overview)
-);
-app.get('/api/philanthropy/impact', (req, res) =>
-  res.json(mockData.philanthropy.impact)
-);
-app.get('/api/philanthropy/giving', (req, res) =>
-  res.json(mockData.philanthropy.giving)
-);
+app.get('/api/government/contracts', (req, res) => res.json(mockData.government.contracts));
+app.get('/api/government/compliance', (req, res) => res.json(mockData.government.compliance));
+app.get('/api/government/veterans', (req, res) => res.json(mockData.government.veterans));
+app.get('/api/philanthropy/overview', (req, res) => res.json(mockData.philanthropy.overview));
+app.get('/api/philanthropy/impact', (req, res) => res.json(mockData.philanthropy.impact));
+app.get('/api/philanthropy/giving', (req, res) => res.json(mockData.philanthropy.giving));
 
 // Serve index.html for all routes (SPA)
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-app.listen(PORT, '0.0.0.0', () => {
-});
+app.listen(PORT, '0.0.0.0', () => {});

@@ -24,7 +24,8 @@ export const metadata: Metadata = {
 const PROGRAMS = [
   {
     title: 'Barber Apprenticeship',
-    description: 'Complete 2,000-hour apprenticeship to become a licensed barber in Indiana. Learn cutting, styling, shaving, and business skills.',
+    description:
+      'Complete 2,000-hour apprenticeship to become a licensed barber in Indiana. Learn cutting, styling, shaving, and business skills.',
     href: '/programs/barber-apprenticeship',
     image: '/hero-images/barber-hero.jpg',
     hours: 2000,
@@ -34,7 +35,8 @@ const PROGRAMS = [
   },
   {
     title: 'Cosmetology Apprenticeship',
-    description: 'Full cosmetology training covering hair, skin, and nails. 1,500-hour program prepares you for state licensure.',
+    description:
+      'Full cosmetology training covering hair, skin, and nails. 1,500-hour program prepares you for state licensure.',
     href: '/programs/cosmetology-apprenticeship',
     image: '/hero-images/barber-beauty-cat-new.jpg',
     hours: 1500,
@@ -44,7 +46,8 @@ const PROGRAMS = [
   },
   {
     title: 'Esthetician Apprenticeship',
-    description: 'Specialize in skincare with 700 hours of training. Learn facials, treatments, and advanced skin techniques.',
+    description:
+      'Specialize in skincare with 700 hours of training. Learn facials, treatments, and advanced skin techniques.',
     href: '/programs/esthetician-apprenticeship',
     image: '/hero-images/barber-beauty-cat-new.jpg',
     hours: 700,
@@ -54,7 +57,8 @@ const PROGRAMS = [
   },
   {
     title: 'Nail Technician Apprenticeship',
-    description: 'Master nail artistry with 450 hours of training. Learn manicures, pedicures, acrylics, and nail art.',
+    description:
+      'Master nail artistry with 450 hours of training. Learn manicures, pedicures, acrylics, and nail art.',
     href: '/programs/nail-technician-apprenticeship',
     image: '/hero-images/barber-beauty-cat-new.jpg',
     hours: 450,
@@ -65,10 +69,26 @@ const PROGRAMS = [
 ];
 
 const WHY = [
-  { icon: DollarSign, label: 'Earn While Learning', detail: 'Work in a salon and earn income while completing your training hours.' },
-  { icon: Clock,      label: 'Flexible Schedule',   detail: 'Complete hours at your own pace while working with your sponsor.' },
-  { icon: Award,      label: 'State Licensure',     detail: 'Programs meet Indiana state requirements for professional licensure.' },
-  { icon: CheckCircle,label: 'DOL Registered',      detail: 'Official U.S. Department of Labor registered apprenticeship programs.' },
+  {
+    icon: DollarSign,
+    label: 'Earn While Learning',
+    detail: 'Work in a salon and earn income while completing your training hours.',
+  },
+  {
+    icon: Clock,
+    label: 'Flexible Schedule',
+    detail: 'Complete hours at your own pace while working with your sponsor.',
+  },
+  {
+    icon: Award,
+    label: 'State Licensure',
+    detail: 'Programs meet Indiana state requirements for professional licensure.',
+  },
+  {
+    icon: CheckCircle,
+    label: 'DOL Registered',
+    detail: 'Official U.S. Department of Labor registered apprenticeship programs.',
+  },
 ];
 
 export default async function BeautyProgramsPage() {
@@ -88,17 +108,21 @@ export default async function BeautyProgramsPage() {
         belowHeroSubheadline="Barber · Cosmetology · Esthetics · Nails — earn while you learn with flat-fee pricing and DOL-registered programs."
         ctas={[
           { label: 'View Programs', href: '#programs' },
-          { label: 'Apply Now', href: '/apply?program=barber-apprenticeship', variant: 'secondary' },
+          {
+            label: 'Apply Now',
+            href: '/apply?program=barber-apprenticeship',
+            variant: 'secondary',
+          },
         ]}
-        trustIndicators={['DOL Registered', 'ETPL Approved', 'Earn wages from day one', 'Flat-fee pricing']}
+        trustIndicators={[
+          'DOL Registered',
+          'ETPL Approved',
+          'Earn wages from day one',
+          'Flat-fee pricing',
+        ]}
       />
 
-      <Breadcrumbs
-        items={[
-          { label: 'Programs', href: '/programs' },
-          { label: 'Beauty' },
-        ]}
-      />
+      <Breadcrumbs items={[{ label: 'Programs', href: '/programs' }, { label: 'Beauty' }]} />
 
       <PathwayDisclosure programName="Beauty" programSlug="beauty" />
 
@@ -106,17 +130,24 @@ export default async function BeautyProgramsPage() {
       <section className="py-16 bg-white border-b border-slate-100">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-slate-900 mb-3">Why Choose an Apprenticeship?</h2>
-      {enrollmentCount > 0 && (
-        <p className="text-sm text-slate-500 mt-1">
-          {enrollmentCount.toLocaleString()} learners currently enrolled
-        </p>
-      )}
-            <p className="text-slate-600 max-w-xl mx-auto">A proven path to licensure with real-world experience and income from day one.</p>
+            <h2 className="text-3xl font-bold text-slate-900 mb-3">
+              Why Choose an Apprenticeship?
+            </h2>
+            {enrollmentCount > 0 && (
+              <p className="text-sm text-slate-500 mt-1">
+                {enrollmentCount.toLocaleString()} learners currently enrolled
+              </p>
+            )}
+            <p className="text-slate-600 max-w-xl mx-auto">
+              A proven path to licensure with real-world experience and income from day one.
+            </p>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {WHY.map(({ icon: Icon, label, detail }) => (
-              <div key={label} className="bg-slate-50 rounded-xl p-6 text-center border border-slate-200">
+              <div
+                key={label}
+                className="bg-slate-50 rounded-xl p-6 text-center border border-slate-200"
+              >
                 <Icon className="w-10 h-10 text-brand-blue-600 mx-auto mb-3" />
                 <h3 className="font-bold text-slate-900 mb-2">{label}</h3>
                 <p className="text-slate-600 text-sm leading-relaxed">{detail}</p>
@@ -131,7 +162,9 @@ export default async function BeautyProgramsPage() {
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-slate-900 mb-3">Choose Your Program</h2>
-            <p className="text-slate-600">All programs include theory materials, hour logging, and career support.</p>
+            <p className="text-slate-600">
+              All programs include theory materials, hour logging, and career support.
+            </p>
           </div>
           <div className="grid md:grid-cols-2 gap-8">
             {PROGRAMS.map((p) => (
@@ -154,14 +187,24 @@ export default async function BeautyProgramsPage() {
                 </div>
                 <div className="p-6 flex flex-col flex-1">
                   <h3 className="text-xl font-bold text-slate-900 mb-2">{p.title}</h3>
-                  <p className="text-slate-600 text-sm mb-4 leading-relaxed flex-1">{p.description}</p>
+                  <p className="text-slate-600 text-sm mb-4 leading-relaxed flex-1">
+                    {p.description}
+                  </p>
                   <div className="flex items-center gap-4 text-xs text-slate-500 mb-4">
-                    <span className="flex items-center gap-1"><Clock className="w-3.5 h-3.5" />{p.hours.toLocaleString()} hours</span>
+                    <span className="flex items-center gap-1">
+                      <Clock className="w-3.5 h-3.5" />
+                      {p.hours.toLocaleString()} hours
+                    </span>
                     <span>{p.duration}</span>
                   </div>
                   <div className="flex flex-wrap gap-2 mb-4">
                     {p.highlights.map((h) => (
-                      <span key={h} className="bg-slate-100 text-slate-700 px-3 py-1 rounded-full text-xs font-medium">{h}</span>
+                      <span
+                        key={h}
+                        className="bg-slate-100 text-slate-700 px-3 py-1 rounded-full text-xs font-medium"
+                      >
+                        {h}
+                      </span>
                     ))}
                   </div>
                   <div className="flex items-center text-brand-blue-600 font-semibold text-sm group-hover:text-brand-blue-700">
@@ -174,20 +217,17 @@ export default async function BeautyProgramsPage() {
         </div>
       </section>
 
-      <HostShopRequirements
-        programTrack="all"
-        showApprovalProcess={true}
-        showMultiRegion={true}
-      />
+      <HostShopRequirements programTrack="all" showApprovalProcess={true} showMultiRegion={true} />
 
       {/* Important notice */}
       <section className="py-10 bg-amber-50 border-y border-amber-200">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <h3 className="text-lg font-bold text-amber-900 mb-3">Important Notice</h3>
           <p className="text-amber-800 text-sm leading-relaxed">
-            These apprenticeship programs are not a substitute for licensed cosmetology, barber, esthetician, or nail technician schools.
-            Apprenticeships are an alternative pathway to licensure that requires working under a licensed sponsor.
-            You must secure a sponsor before beginning your apprenticeship hours.
+            These apprenticeship programs are not a substitute for licensed cosmetology, barber,
+            esthetician, or nail technician schools. Apprenticeships are an alternative pathway to
+            licensure that requires working under a licensed sponsor. You must secure a sponsor
+            before beginning your apprenticeship hours.
           </p>
         </div>
       </section>
@@ -204,8 +244,11 @@ export default async function BeautyProgramsPage() {
               'Indiana Manicurist License (issued by Indiana Professional Licensing Agency)',
             ]}
             employmentOutcomes={[
-              'Licensed Cosmetologist', 'Licensed Barber', 'Licensed Esthetician',
-              'Licensed Nail Technician', 'Salon/Barbershop Owner',
+              'Licensed Cosmetologist',
+              'Licensed Barber',
+              'Licensed Esthetician',
+              'Licensed Nail Technician',
+              'Salon/Barbershop Owner',
             ]}
           />
         </div>

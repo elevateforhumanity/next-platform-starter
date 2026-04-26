@@ -37,12 +37,7 @@ const FLASH_SALE_PACKAGES = {
       '30-Day Support',
       'License Dashboard',
     ],
-    files: [
-      'complete-lms',
-      'government-compliance',
-      'analytics',
-      'white-label',
-    ],
+    files: ['complete-lms', 'government-compliance', 'analytics', 'white-label'],
     licenseType: 'business',
   },
   enterprise_emergency: {
@@ -58,12 +53,7 @@ const FLASH_SALE_PACKAGES = {
       'Revenue Sharing Deal',
       'Unlimited Licenses',
     ],
-    files: [
-      'full-ecosystem',
-      'government-contracts',
-      'templates',
-      'deployment',
-    ],
+    files: ['full-ecosystem', 'government-contracts', 'templates', 'deployment'],
     licenseType: 'enterprise',
   },
 };
@@ -88,9 +78,7 @@ app.post('/api/create-checkout-session', async (req, res) => {
             product_data: {
               name: `🔥 FLASH SALE: ${package.name}`,
               description: `Emergency Sale - ${Math.round(((package.originalPrice - package.price) / package.originalPrice) * 100)}% OFF!`,
-              images: [
-                'https://elevateforhumanity.org/images/flash-sale-banner.png',
-              ],
+              images: ['https://elevateforhumanity.org/images/flash-sale-banner.png'],
             },
             unit_amount: package.price * 100,
           },
@@ -122,11 +110,7 @@ app.post(
     let event;
 
     try {
-      event = stripe.webhooks.constructEvent(
-        req.body,
-        sig,
-        process.env.STRIPE_WEBHOOK_SECRET
-      );
+      event = stripe.webhooks.constructEvent(req.body, sig, process.env.STRIPE_WEBHOOK_SECRET);
     } catch (err) {
       return res.status(400).send(`Webhook Error: ${err.message}`);
     }
@@ -144,7 +128,7 @@ app.post(
         const { licenseKey, expiresAt } = generateLicense(
           customerEmail,
           packageId,
-          365 // 1 year
+          365, // 1 year
         );
 
         // Generate PDF certificate
@@ -152,32 +136,20 @@ app.post(
           customerEmail,
           FLASH_SALE_PACKAGES[packageId].name,
           licenseKey,
-          expiresAt
+          expiresAt,
         );
 
         // Send email with license and download links
-        await sendFlashSaleLicense(
-          customerEmail,
-          packageId,
-          licenseKey,
-          certificatePath
-        );
-
-      } catch (error) {
-      }
+        await sendFlashSaleLicense(customerEmail, packageId, licenseKey, certificatePath);
+      } catch (error) {}
     }
 
     res.json({ received: true });
-  }
+  },
 );
 
 // Email delivery function
-async function sendFlashSaleLicense(
-  email,
-  packageId,
-  licenseKey,
-  certificatePath
-) {
+async function sendFlashSaleLicense(email, packageId, licenseKey, certificatePath) {
   const package = FLASH_SALE_PACKAGES[packageId];
 
   // Email template for flash sale
@@ -214,9 +186,7 @@ async function sendFlashSaleLicense(
 // Success page data endpoint
 app.get('/api/flash-sale-success/:sessionId', async (req, res) => {
   try {
-    const session = await stripe.checkout.sessions.retrieve(
-      req.params.sessionId
-    );
+    const session = await stripe.checkout.sessions.retrieve(req.params.sessionId);
     const packageId = session.metadata.packageId;
 
     res.json({
@@ -231,7 +201,6 @@ app.get('/api/flash-sale-success/:sessionId', async (req, res) => {
 });
 
 const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => {
-});
+app.listen(PORT, () => {});
 
 module.exports = app;

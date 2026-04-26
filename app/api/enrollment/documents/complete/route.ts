@@ -10,8 +10,11 @@ async function _POST(req: Request) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
+
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
     if (authError || !user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -39,18 +42,23 @@ async function _POST(req: Request) {
 
     // Check state allows transition
     if (enrollment.enrollment_state !== 'orientation_complete') {
-      if (enrollment.enrollment_state === 'documents_complete' || 
-          enrollment.enrollment_state === 'active') {
-        return NextResponse.json({ 
-          success: true, 
+      if (
+        enrollment.enrollment_state === 'documents_complete' ||
+        enrollment.enrollment_state === 'active'
+      ) {
+        return NextResponse.json({
+          success: true,
           message: 'Documents already submitted',
-          redirect: '/dashboard'
+          redirect: '/dashboard',
         });
       }
-      return NextResponse.json({ 
-        error: 'Cannot submit documents from current state',
-        current_state: enrollment.enrollment_state
-      }, { status: 400 });
+      return NextResponse.json(
+        {
+          error: 'Cannot submit documents from current state',
+          current_state: enrollment.enrollment_state,
+        },
+        { status: 400 },
+      );
     }
 
     // Store document references (optional - for audit trail)
@@ -96,15 +104,16 @@ async function _POST(req: Request) {
 
         if (linkedCourses && linkedCourses.length > 0) {
           for (const course of linkedCourses) {
-            await supabase
-              .from('training_enrollments')
-              .upsert({
+            await supabase.from('training_enrollments').upsert(
+              {
                 user_id: user.id,
                 course_id: course.id,
                 status: 'active',
                 progress: 0,
                 enrolled_at: new Date().toISOString(),
-              }, { onConflict: 'user_id,course_id' });
+              },
+              { onConflict: 'user_id,course_id' },
+            );
           }
           logger.info('Created training_enrollments for activated student', {
             userId: user.id,
@@ -112,7 +121,9 @@ async function _POST(req: Request) {
             courseCount: linkedCourses.length,
           });
         } else {
-          logger.warn('No training_courses found for program', { programId: enrollment.program_id });
+          logger.warn('No training_courses found for program', {
+            programId: enrollment.program_id,
+          });
         }
       } catch (bridgeErr) {
         logger.error('Failed to create training_enrollments bridge', bridgeErr as Error);
@@ -129,9 +140,8 @@ async function _POST(req: Request) {
           .eq('id', enrollment.program_id)
           .maybeSingle();
         if (prog?.slug) {
-          await supabase
-            .from('external_program_enrollments')
-            .upsert({
+          await supabase.from('external_program_enrollments').upsert(
+            {
               user_id: user.id,
               program_slug: prog.slug,
               enrollment_state: 'active',
@@ -142,7 +152,9 @@ async function _POST(req: Request) {
               enrolled_at: now,
               created_at: now,
               updated_at: now,
-            }, { onConflict: 'user_id,program_slug' });
+            },
+            { onConflict: 'user_id,program_slug' },
+          );
         }
       } catch (extErr) {
         logger.error('Failed to write external_program_enrollments', extErr as Error);

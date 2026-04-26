@@ -16,12 +16,7 @@
       },
       {
         "prompt": "What angle should be maintained between the razor and the skin for an effective shave?",
-        "choices": [
-          "15 degrees",
-          "30 degrees",
-          "45 degrees",
-          "60 degrees"
-        ],
+        "choices": ["15 degrees", "30 degrees", "45 degrees", "60 degrees"],
         "answerIndex": 1,
         "rationale": "A 30-degree angle is optimal for cutting hair efficiently while minimizing the risk of cutting the skin.",
         "type": "recall"
@@ -40,12 +35,7 @@
       },
       {
         "prompt": "What is the correct sequence of passes for a straight razor shave?",
-        "choices": [
-          "XTG, ATG, WTG",
-          "WTG, XTG, ATG",
-          "ATG, WTG, XTG",
-          "WTG, ATG, XTG"
-        ],
+        "choices": ["XTG, ATG, WTG", "WTG, XTG, ATG", "ATG, WTG, XTG", "WTG, ATG, XTG"],
         "answerIndex": 1,
         "rationale": "The typical sequence involves shaving with the grain first, then across, and finally against the grain if appropriate.",
         "type": "recall"
@@ -76,12 +66,7 @@
       },
       {
         "prompt": "How much of the Indiana state board practical exam focuses on safety and sanitation?",
-        "choices": [
-          "10%",
-          "20%",
-          "30%",
-          "40%"
-        ],
+        "choices": ["10%", "20%", "30%", "40%"],
         "answerIndex": 1,
         "rationale": "Safety and sanitation comprise approximately 20% of the practical exam, emphasizing their importance.",
         "type": "recall"

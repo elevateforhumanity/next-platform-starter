@@ -16,7 +16,8 @@ import {
   FileText,
   Clock,
   AlertCircle,
-CheckCircle, } from 'lucide-react';
+  CheckCircle,
+} from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
@@ -27,8 +28,7 @@ interface Props {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { programId } = await params;
   const supabase = await createClient();
-  
-  
+
   const { data: program } = await supabase
     .from('programs')
     .select('title')
@@ -36,7 +36,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     .maybeSingle();
 
   return {
-    title: program ? `${program.title || program?.title || program?.name} | Program Holder` : 'Program | Program Holder',
+    title: program
+      ? `${program.title || program?.title || program?.name} | Program Holder`
+      : 'Program | Program Holder',
     robots: { index: false, follow: false },
   };
 }
@@ -69,7 +71,10 @@ export default async function ProgramHolderProgramPage({ params }: Props) {
     ? await supabase.from('profiles').select('id, first_name, last_name, email').in('id', phUserIds)
     : { data: [] };
   const phProfileMap = Object.fromEntries((phProfiles ?? []).map((p: any) => [p.id, p]));
-  const enrollments = (rawEnrollments ?? []).map((e: any) => ({ ...e, profiles: phProfileMap[e.user_id] ?? null }));
+  const enrollments = (rawEnrollments ?? []).map((e: any) => ({
+    ...e,
+    profiles: phProfileMap[e.user_id] ?? null,
+  }));
 
   // Fetch courses in program
   const { data: courses, count: courseCount } = await supabase
@@ -78,14 +83,16 @@ export default async function ProgramHolderProgramPage({ params }: Props) {
     .eq('program_id', programId);
 
   // Stats
-  const activeEnrollments = enrollments?.filter(e => e.status === 'active').length || 0;
-  const completedEnrollments = enrollments?.filter(e => e.status === 'completed').length || 0;
+  const activeEnrollments = enrollments?.filter((e) => e.status === 'active').length || 0;
+  const completedEnrollments = enrollments?.filter((e) => e.status === 'completed').length || 0;
 
   return (
     <div className="p-6 max-w-7xl mx-auto">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <Breadcrumbs items={[{ label: "Program Holder", href: "/program-holder" }, { label: "Programs" }]} />
-        </div>
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs
+          items={[{ label: 'Program Holder', href: '/program-holder' }, { label: 'Programs' }]}
+        />
+      </div>
       {/* Header */}
       <div className="mb-6">
         <Link
@@ -98,12 +105,18 @@ export default async function ProgramHolderProgramPage({ params }: Props) {
 
         <div className="flex items-start justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-slate-900">{program.title || program?.title || program?.name}</h1>
+            <h1 className="text-2xl font-bold text-slate-900">
+              {program.title || program?.title || program?.name}
+            </h1>
             <p className="text-slate-600">{program.description}</p>
             <div className="flex items-center gap-2 mt-2">
-              <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                program.status === 'active' ? 'bg-brand-green-100 text-brand-green-800' : 'bg-white text-slate-900'
-              }`}>
+              <span
+                className={`px-2 py-1 rounded-full text-xs font-medium ${
+                  program.status === 'active'
+                    ? 'bg-brand-green-100 text-brand-green-800'
+                    : 'bg-white text-slate-900'
+                }`}
+              >
                 {program.status || 'Active'}
               </span>
               {program.duration_weeks && (
@@ -186,18 +199,25 @@ export default async function ProgramHolderProgramPage({ params }: Props) {
         <div className="lg:col-span-2 bg-white rounded-xl border border-slate-200 p-6">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold text-slate-900">Recent Enrollments</h2>
-            <Link href={`/program-holder/programs/${programId}/students`} className="text-sm text-brand-blue-600 hover:underline">
+            <Link
+              href={`/program-holder/programs/${programId}/students`}
+              className="text-sm text-brand-blue-600 hover:underline"
+            >
               View All
             </Link>
           </div>
           {enrollments && enrollments.length > 0 ? (
             <div className="space-y-3">
               {enrollments.map((enrollment: any) => (
-                <div key={enrollment.id} className="flex items-center justify-between p-3 bg-white rounded-lg">
+                <div
+                  key={enrollment.id}
+                  className="flex items-center justify-between p-3 bg-white rounded-lg"
+                >
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 bg-brand-blue-100 rounded-full flex items-center justify-center">
                       <span className="text-brand-blue-600 font-semibold">
-                        {enrollment.profiles?.first_name?.[0]}{enrollment.profiles?.last_name?.[0]}
+                        {enrollment.profiles?.first_name?.[0]}
+                        {enrollment.profiles?.last_name?.[0]}
                       </span>
                     </div>
                     <div>
@@ -208,7 +228,9 @@ export default async function ProgramHolderProgramPage({ params }: Props) {
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className="text-sm font-medium text-slate-900">{enrollment.progress || 0}%</p>
+                    <p className="text-sm font-medium text-slate-900">
+                      {enrollment.progress || 0}%
+                    </p>
                     <p className="text-xs text-slate-500">{enrollment.status}</p>
                   </div>
                 </div>

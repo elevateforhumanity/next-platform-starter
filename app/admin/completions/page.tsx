@@ -17,8 +17,6 @@ export default async function CompletionsPage() {
   await requireRole(['admin', 'super_admin']);
   const supabase = await createClient();
 
-
-
   // Fetch completion stats
   const { count: totalCompletions } = await supabase
     .from('program_enrollments')
@@ -29,7 +27,10 @@ export default async function CompletionsPage() {
     .from('program_enrollments')
     .select('*', { count: 'exact', head: true })
     .eq('status', 'completed')
-    .gte('completed_at', new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString());
+    .gte(
+      'completed_at',
+      new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString(),
+    );
 
   const { count: thisWeekCompletions } = await supabase
     .from('program_enrollments')
@@ -46,23 +47,33 @@ export default async function CompletionsPage() {
     .limit(20);
 
   // Hydrate profiles separately (user_id → auth.users, no FK to profiles)
-  const completionUserIds = [...new Set((rawCompletions ?? []).map((e: any) => e.user_id).filter(Boolean))];
+  const completionUserIds = [
+    ...new Set((rawCompletions ?? []).map((e: any) => e.user_id).filter(Boolean)),
+  ];
   const { data: completionProfiles } = completionUserIds.length
     ? await supabase.from('profiles').select('id, full_name, email').in('id', completionUserIds)
     : { data: [] };
-  const completionProfileMap = Object.fromEntries((completionProfiles ?? []).map((p: any) => [p.id, p]));
-  const recentCompletions = (rawCompletions ?? []).map((e: any) => ({ ...e, profiles: completionProfileMap[e.user_id] ?? null }));
+  const completionProfileMap = Object.fromEntries(
+    (completionProfiles ?? []).map((p: any) => [p.id, p]),
+  );
+  const recentCompletions = (rawCompletions ?? []).map((e: any) => ({
+    ...e,
+    profiles: completionProfileMap[e.user_id] ?? null,
+  }));
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* Hero Image */}
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8">
           <nav className="text-sm mb-4">
             <ol className="flex items-center space-x-2 text-slate-700">
-              <li><Link href="/admin" className="hover:text-primary">Admin</Link></li>
+              <li>
+                <Link href="/admin" className="hover:text-primary">
+                  Admin
+                </Link>
+              </li>
               <li>/</li>
               <li className="text-slate-900 font-medium">Completions</li>
             </ol>
@@ -85,7 +96,12 @@ export default async function CompletionsPage() {
               <h3 className="text-sm font-medium text-slate-700">Total Completions</h3>
               <span className="text-brand-green-600 bg-brand-green-100 p-2 rounded-lg">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
                 </svg>
               </span>
             </div>
@@ -98,7 +114,12 @@ export default async function CompletionsPage() {
               <h3 className="text-sm font-medium text-slate-700">This Month</h3>
               <span className="text-brand-blue-600 bg-brand-blue-100 p-2 rounded-lg">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                  />
                 </svg>
               </span>
             </div>
@@ -111,7 +132,12 @@ export default async function CompletionsPage() {
               <h3 className="text-sm font-medium text-slate-700">This Week</h3>
               <span className="text-brand-blue-600 bg-brand-blue-100 p-2 rounded-lg">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+                  />
                 </svg>
               </span>
             </div>
@@ -124,7 +150,12 @@ export default async function CompletionsPage() {
               <h3 className="text-sm font-medium text-slate-700">Avg. Completion Time</h3>
               <span className="text-brand-orange-600 bg-brand-orange-100 p-2 rounded-lg">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
                 </svg>
               </span>
             </div>
@@ -142,13 +173,18 @@ export default async function CompletionsPage() {
           <div className="divide-y">
             {recentCompletions && recentCompletions.length > 0 ? (
               recentCompletions.map((completion: any) => (
-                <div key={completion.id} className="p-4 flex items-center justify-between hover:bg-gray-50">
+                <div
+                  key={completion.id}
+                  className="p-4 flex items-center justify-between hover:bg-gray-50"
+                >
                   <div className="flex items-center gap-4">
                     <div className="w-10 h-10 bg-brand-green-100 rounded-full flex items-center justify-center">
                       <span className="text-slate-400 flex-shrink-0">•</span>
                     </div>
                     <div>
-                      <p className="font-medium text-slate-900">{completion.profiles?.full_name || 'Unknown'}</p>
+                      <p className="font-medium text-slate-900">
+                        {completion.profiles?.full_name || 'Unknown'}
+                      </p>
                       <p className="text-sm text-slate-700">{completion.profiles?.email}</p>
                     </div>
                   </div>
@@ -158,7 +194,7 @@ export default async function CompletionsPage() {
                   </div>
                   <div className="text-right">
                     <p className="font-medium text-slate-900">
-                      {completion.completed_at 
+                      {completion.completed_at
                         ? new Date(completion.completed_at).toLocaleDateString()
                         : 'N/A'}
                     </p>
@@ -167,9 +203,7 @@ export default async function CompletionsPage() {
                 </div>
               ))
             ) : (
-              <div className="p-8 text-center text-slate-700">
-                No completions recorded yet
-              </div>
+              <div className="p-8 text-center text-slate-700">No completions recorded yet</div>
             )}
           </div>
         </div>

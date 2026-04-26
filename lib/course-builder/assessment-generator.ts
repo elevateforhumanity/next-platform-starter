@@ -190,15 +190,30 @@ export function generateFinalExam(spec: FinalExamSpec): GeneratedQuestion[] {
       const scenarioCount = domainCount - mcCount - tfCount;
 
       for (let i = 0; i < mcCount; i++) {
-        questions.push({ ...buildMCPlaceholder(sortOrder, `${spec.courseTitle} — ${domainKey}`, domainKey, undefined, 'medium'), sortOrder });
+        questions.push({
+          ...buildMCPlaceholder(
+            sortOrder,
+            `${spec.courseTitle} — ${domainKey}`,
+            domainKey,
+            undefined,
+            'medium',
+          ),
+          sortOrder,
+        });
         sortOrder++;
       }
       for (let i = 0; i < tfCount; i++) {
-        questions.push({ ...buildTFPlaceholder(sortOrder, `${spec.courseTitle} — ${domainKey}`, domainKey), sortOrder });
+        questions.push({
+          ...buildTFPlaceholder(sortOrder, `${spec.courseTitle} — ${domainKey}`, domainKey),
+          sortOrder,
+        });
         sortOrder++;
       }
       for (let i = 0; i < scenarioCount; i++) {
-        questions.push({ ...buildScenarioPlaceholder(sortOrder, `${spec.courseTitle} — ${domainKey}`, domainKey), sortOrder });
+        questions.push({
+          ...buildScenarioPlaceholder(sortOrder, `${spec.courseTitle} — ${domainKey}`, domainKey),
+          sortOrder,
+        });
         sortOrder++;
       }
     }
@@ -209,7 +224,15 @@ export function generateFinalExam(spec: FinalExamSpec): GeneratedQuestion[] {
     const scenarioCount = count - mcCount - tfCount;
 
     for (let i = 0; i < mcCount; i++) {
-      questions.push(buildMCPlaceholder(i, spec.courseTitle, undefined, undefined, i < 10 ? 'easy' : i < 30 ? 'medium' : 'hard'));
+      questions.push(
+        buildMCPlaceholder(
+          i,
+          spec.courseTitle,
+          undefined,
+          undefined,
+          i < 10 ? 'easy' : i < 30 ? 'medium' : 'hard',
+        ),
+      );
     }
     for (let i = 0; i < tfCount; i++) {
       questions.push(buildTFPlaceholder(mcCount + i, spec.courseTitle));
@@ -247,22 +270,20 @@ export async function persistAssessmentQuestions(
     }
   }
 
-  const rows = questions.map(q => ({
-    lesson_id:      lessonId,
-    question_type:  q.questionType,
-    prompt:         q.prompt,
-    choices:        q.choices ? JSON.stringify(q.choices) : null,
+  const rows = questions.map((q) => ({
+    lesson_id: lessonId,
+    question_type: q.questionType,
+    prompt: q.prompt,
+    choices: q.choices ? JSON.stringify(q.choices) : null,
     correct_answer: q.correctAnswer !== undefined ? JSON.stringify(q.correctAnswer) : null,
-    explanation:    q.explanation ?? null,
+    explanation: q.explanation ?? null,
     competency_key: q.competencyKey ?? null,
-    difficulty:     q.difficulty,
-    domain_key:     q.domainKey ?? null,
-    sort_order:     q.sortOrder,
+    difficulty: q.difficulty,
+    domain_key: q.domainKey ?? null,
+    sort_order: q.sortOrder,
   }));
 
-  const { error: insertErr } = await db
-    .from('assessment_questions')
-    .insert(rows);
+  const { error: insertErr } = await db.from('assessment_questions').insert(rows);
 
   if (insertErr) {
     errors.push(`Failed to insert questions: ${insertErr.message}`);
@@ -271,14 +292,13 @@ export async function persistAssessmentQuestions(
 
   // Also write quiz_questions jsonb on course_lessons for backward compat
   const quizQuestionsJsonb: QuizQuestion[] = questions
-    .filter(q => q.questionType === 'multiple_choice' || q.questionType === 'true_false')
+    .filter((q) => q.questionType === 'multiple_choice' || q.questionType === 'true_false')
     .map((q, idx) => ({
       id: q.id,
       question: q.prompt,
       options: q.choices ?? ['True', 'False'],
-      correctAnswer: typeof q.correctAnswer === 'number'
-        ? q.correctAnswer
-        : q.correctAnswer === true ? 0 : 1,
+      correctAnswer:
+        typeof q.correctAnswer === 'number' ? q.correctAnswer : q.correctAnswer === true ? 0 : 1,
       explanation: q.explanation,
     }));
 

@@ -1,6 +1,6 @@
 /**
  * Enrollment API Unit Tests
- * 
+ *
  * Tests enrollment logic without importing Next.js route handlers
  */
 
@@ -42,7 +42,7 @@ class EnrollmentService {
 
   async createEnrollment(
     userId: string | null,
-    request: EnrollmentRequest
+    request: EnrollmentRequest,
   ): Promise<EnrollmentResponse | ApiError> {
     // Check authentication
     if (!userId) {
@@ -102,7 +102,7 @@ class EnrollmentService {
   async updateProgress(
     userId: string | null,
     enrollmentId: string,
-    progress: number
+    progress: number,
   ): Promise<EnrollmentResponse | ApiError> {
     if (!userId) {
       return { error: 'Unauthorized', status: 401 };
@@ -132,7 +132,7 @@ class EnrollmentService {
 
   async dropEnrollment(
     userId: string | null,
-    enrollmentId: string
+    enrollmentId: string,
   ): Promise<{ success: boolean } | ApiError> {
     if (!userId) {
       return { error: 'Unauthorized', status: 401 };
@@ -169,7 +169,7 @@ describe('Enrollment API', () => {
   describe('POST /api/enrollments (createEnrollment)', () => {
     it('should reject unauthenticated requests', async () => {
       const result = await service.createEnrollment(null, { courseId: 'course-1' });
-      
+
       expect(service.isError(result)).toBe(true);
       if (service.isError(result)) {
         expect(result.status).toBe(401);
@@ -179,7 +179,7 @@ describe('Enrollment API', () => {
 
     it('should reject requests without courseId', async () => {
       const result = await service.createEnrollment('user-1', { courseId: '' });
-      
+
       expect(service.isError(result)).toBe(true);
       if (service.isError(result)) {
         expect(result.status).toBe(400);
@@ -189,7 +189,7 @@ describe('Enrollment API', () => {
 
     it('should reject enrollment for non-existent user', async () => {
       const result = await service.createEnrollment('non-existent-user', { courseId: 'course-1' });
-      
+
       expect(service.isError(result)).toBe(true);
       if (service.isError(result)) {
         expect(result.status).toBe(404);
@@ -199,7 +199,7 @@ describe('Enrollment API', () => {
 
     it('should reject enrollment for non-existent course', async () => {
       const result = await service.createEnrollment('user-1', { courseId: 'non-existent-course' });
-      
+
       expect(service.isError(result)).toBe(true);
       if (service.isError(result)) {
         expect(result.status).toBe(404);
@@ -210,7 +210,7 @@ describe('Enrollment API', () => {
     it('should reject duplicate enrollment', async () => {
       await service.createEnrollment('user-1', { courseId: 'course-1' });
       const result = await service.createEnrollment('user-1', { courseId: 'course-1' });
-      
+
       expect(service.isError(result)).toBe(true);
       if (service.isError(result)) {
         expect(result.status).toBe(400);
@@ -220,7 +220,7 @@ describe('Enrollment API', () => {
 
     it('should create enrollment successfully', async () => {
       const result = await service.createEnrollment('user-1', { courseId: 'course-1' });
-      
+
       expect(service.isError(result)).toBe(false);
       if (!service.isError(result)) {
         expect(result.student_id).toBe('user-1');
@@ -234,7 +234,7 @@ describe('Enrollment API', () => {
     it('should allow same user to enroll in multiple courses', async () => {
       const result1 = await service.createEnrollment('user-1', { courseId: 'course-1' });
       const result2 = await service.createEnrollment('user-1', { courseId: 'course-2' });
-      
+
       expect(service.isError(result1)).toBe(false);
       expect(service.isError(result2)).toBe(false);
     });
@@ -242,7 +242,7 @@ describe('Enrollment API', () => {
     it('should allow multiple users to enroll in same course', async () => {
       const result1 = await service.createEnrollment('user-1', { courseId: 'course-1' });
       const result2 = await service.createEnrollment('user-2', { courseId: 'course-1' });
-      
+
       expect(service.isError(result1)).toBe(false);
       expect(service.isError(result2)).toBe(false);
     });
@@ -251,7 +251,7 @@ describe('Enrollment API', () => {
   describe('GET /api/enrollments (getEnrollments)', () => {
     it('should reject unauthenticated requests', async () => {
       const result = await service.getEnrollments(null);
-      
+
       expect(service.isError(result)).toBe(true);
       if (service.isError(result)) {
         expect(result.status).toBe(401);
@@ -260,7 +260,7 @@ describe('Enrollment API', () => {
 
     it('should return empty array for user with no enrollments', async () => {
       const result = await service.getEnrollments('user-1');
-      
+
       expect(service.isError(result)).toBe(false);
       expect(Array.isArray(result)).toBe(true);
       expect(result).toHaveLength(0);
@@ -269,9 +269,9 @@ describe('Enrollment API', () => {
     it('should return user enrollments', async () => {
       await service.createEnrollment('user-1', { courseId: 'course-1' });
       await service.createEnrollment('user-1', { courseId: 'course-2' });
-      
+
       const result = await service.getEnrollments('user-1');
-      
+
       expect(service.isError(result)).toBe(false);
       if (!service.isError(result)) {
         expect(result).toHaveLength(2);
@@ -281,9 +281,9 @@ describe('Enrollment API', () => {
     it('should only return enrollments for authenticated user', async () => {
       await service.createEnrollment('user-1', { courseId: 'course-1' });
       await service.createEnrollment('user-2', { courseId: 'course-1' });
-      
+
       const result = await service.getEnrollments('user-1');
-      
+
       expect(service.isError(result)).toBe(false);
       if (!service.isError(result)) {
         expect(result).toHaveLength(1);
@@ -295,7 +295,7 @@ describe('Enrollment API', () => {
   describe('PATCH /api/enrollments (updateProgress)', () => {
     it('should reject unauthenticated requests', async () => {
       const result = await service.updateProgress(null, 'enrollment-1', 50);
-      
+
       expect(service.isError(result)).toBe(true);
       if (service.isError(result)) {
         expect(result.status).toBe(401);
@@ -305,10 +305,10 @@ describe('Enrollment API', () => {
     it('should reject invalid progress values', async () => {
       const enrollment = await service.createEnrollment('user-1', { courseId: 'course-1' });
       if (service.isError(enrollment)) throw new Error('Setup failed');
-      
+
       const result1 = await service.updateProgress('user-1', enrollment.id, -10);
       const result2 = await service.updateProgress('user-1', enrollment.id, 150);
-      
+
       expect(service.isError(result1)).toBe(true);
       expect(service.isError(result2)).toBe(true);
     });
@@ -316,9 +316,9 @@ describe('Enrollment API', () => {
     it('should update progress successfully', async () => {
       const enrollment = await service.createEnrollment('user-1', { courseId: 'course-1' });
       if (service.isError(enrollment)) throw new Error('Setup failed');
-      
+
       const result = await service.updateProgress('user-1', enrollment.id, 50);
-      
+
       expect(service.isError(result)).toBe(false);
       if (!service.isError(result)) {
         expect(result.progress_percentage).toBe(50);
@@ -329,9 +329,9 @@ describe('Enrollment API', () => {
     it('should mark enrollment as completed at 100%', async () => {
       const enrollment = await service.createEnrollment('user-1', { courseId: 'course-1' });
       if (service.isError(enrollment)) throw new Error('Setup failed');
-      
+
       const result = await service.updateProgress('user-1', enrollment.id, 100);
-      
+
       expect(service.isError(result)).toBe(false);
       if (!service.isError(result)) {
         expect(result.progress_percentage).toBe(100);
@@ -342,9 +342,9 @@ describe('Enrollment API', () => {
     it('should reject updating another user enrollment', async () => {
       const enrollment = await service.createEnrollment('user-1', { courseId: 'course-1' });
       if (service.isError(enrollment)) throw new Error('Setup failed');
-      
+
       const result = await service.updateProgress('user-2', enrollment.id, 50);
-      
+
       expect(service.isError(result)).toBe(true);
       if (service.isError(result)) {
         expect(result.status).toBe(404);
@@ -355,7 +355,7 @@ describe('Enrollment API', () => {
   describe('DELETE /api/enrollments (dropEnrollment)', () => {
     it('should reject unauthenticated requests', async () => {
       const result = await service.dropEnrollment(null, 'enrollment-1');
-      
+
       expect(service.isError(result)).toBe(true);
       if (service.isError(result)) {
         expect(result.status).toBe(401);
@@ -365,9 +365,9 @@ describe('Enrollment API', () => {
     it('should drop enrollment successfully', async () => {
       const enrollment = await service.createEnrollment('user-1', { courseId: 'course-1' });
       if (service.isError(enrollment)) throw new Error('Setup failed');
-      
+
       const result = await service.dropEnrollment('user-1', enrollment.id);
-      
+
       expect(service.isError(result)).toBe(false);
       if (!service.isError(result)) {
         expect(result.success).toBe(true);
@@ -377,9 +377,9 @@ describe('Enrollment API', () => {
     it('should reject dropping another user enrollment', async () => {
       const enrollment = await service.createEnrollment('user-1', { courseId: 'course-1' });
       if (service.isError(enrollment)) throw new Error('Setup failed');
-      
+
       const result = await service.dropEnrollment('user-2', enrollment.id);
-      
+
       expect(service.isError(result)).toBe(true);
       if (service.isError(result)) {
         expect(result.status).toBe(404);
@@ -391,7 +391,7 @@ describe('Enrollment API', () => {
 describe('Enrollment Data Validation', () => {
   it('should validate UUID format for courseId', () => {
     const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-    
+
     expect(uuidRegex.test('123e4567-e89b-12d3-a456-426614174000')).toBe(true);
     expect(uuidRegex.test('not-a-uuid')).toBe(false);
     expect(uuidRegex.test('')).toBe(false);
@@ -399,7 +399,7 @@ describe('Enrollment Data Validation', () => {
 
   it('should validate progress percentage range', () => {
     const isValidProgress = (p: number) => p >= 0 && p <= 100;
-    
+
     expect(isValidProgress(0)).toBe(true);
     expect(isValidProgress(50)).toBe(true);
     expect(isValidProgress(100)).toBe(true);
@@ -409,7 +409,7 @@ describe('Enrollment Data Validation', () => {
 
   it('should validate enrollment status values', () => {
     const validStatuses = ['active', 'completed', 'dropped'];
-    
+
     expect(validStatuses.includes('active')).toBe(true);
     expect(validStatuses.includes('completed')).toBe(true);
     expect(validStatuses.includes('dropped')).toBe(true);
@@ -426,7 +426,7 @@ describe('Enrollment Business Rules', () => {
 
   it('should set initial progress to 0 on enrollment', async () => {
     const result = await service.createEnrollment('user-1', { courseId: 'course-1' });
-    
+
     if (!service.isError(result)) {
       expect(result.progress_percentage).toBe(0);
     }
@@ -434,7 +434,7 @@ describe('Enrollment Business Rules', () => {
 
   it('should set initial status to active on enrollment', async () => {
     const result = await service.createEnrollment('user-1', { courseId: 'course-1' });
-    
+
     if (!service.isError(result)) {
       expect(result.status).toBe('active');
     }
@@ -444,7 +444,7 @@ describe('Enrollment Business Rules', () => {
     const before = new Date();
     const result = await service.createEnrollment('user-1', { courseId: 'course-1' });
     const after = new Date();
-    
+
     if (!service.isError(result)) {
       const enrolledAt = new Date(result.enrolled_at);
       expect(enrolledAt >= before).toBe(true);
@@ -455,9 +455,9 @@ describe('Enrollment Business Rules', () => {
   it('should auto-complete enrollment at 100% progress', async () => {
     const enrollment = await service.createEnrollment('user-1', { courseId: 'course-1' });
     if (service.isError(enrollment)) throw new Error('Setup failed');
-    
+
     await service.updateProgress('user-1', enrollment.id, 100);
-    
+
     const enrollments = await service.getEnrollments('user-1');
     if (!service.isError(enrollments)) {
       expect(enrollments[0].status).toBe('completed');

@@ -32,14 +32,22 @@ export default function TakeAttendancePage() {
   const [loading, setLoading] = useState(true);
 
   const today = new Date().toLocaleDateString('en-US', {
-    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
   });
 
   useEffect(() => {
     async function load() {
       const supabase = createClient();
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) { router.push('/login?redirect=' + encodeURIComponent(window.location.pathname)); return; }
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (!user) {
+        router.push('/login?redirect=' + encodeURIComponent(window.location.pathname));
+        return;
+      }
 
       const { data: cohortData } = await supabase
         .from('cohorts')
@@ -61,12 +69,14 @@ export default function TakeAttendancePage() {
   }, [router]);
 
   const setStatus = (studentId: string, status: AttendanceStatus) => {
-    setAttendance(prev => ({ ...prev, [studentId]: status }));
+    setAttendance((prev) => ({ ...prev, [studentId]: status }));
   };
 
   const markAll = (status: AttendanceStatus) => {
     const all: Record<string, AttendanceStatus> = {};
-    students.forEach(s => { all[s.id] = status; });
+    students.forEach((s) => {
+      all[s.id] = status;
+    });
     setAttendance(all);
   };
 
@@ -78,10 +88,11 @@ export default function TakeAttendancePage() {
     setSaving(true);
     setError(null);
 
-    const records = students.map(s => ({
+    const records = students.map((s) => ({
       user_id: s.id,
       status: attendance[s.id] || 'absent',
-      minutes_attended: attendance[s.id] === 'present' ? 390 : attendance[s.id] === 'late' ? 300 : 0,
+      minutes_attended:
+        attendance[s.id] === 'present' ? 390 : attendance[s.id] === 'late' ? 300 : 0,
     }));
 
     const cohortId = selectedCohort || 'draft';
@@ -118,18 +129,20 @@ export default function TakeAttendancePage() {
     excused: 'bg-slate-100 text-slate-600 border-slate-300',
   };
 
-  const presentCount = Object.values(attendance).filter(s => s === 'present').length;
-  const absentCount = Object.values(attendance).filter(s => s === 'absent').length;
+  const presentCount = Object.values(attendance).filter((s) => s === 'present').length;
+  const absentCount = Object.values(attendance).filter((s) => s === 'absent').length;
 
   return (
     <div className="min-h-screen bg-white">
       <div className="bg-white border-b">
         <div className="max-w-5xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[
-            { label: 'Staff Portal', href: '/staff-portal' },
-            { label: 'Attendance', href: '/staff-portal/attendance' },
-            { label: 'Take Attendance' },
-          ]} />
+          <Breadcrumbs
+            items={[
+              { label: 'Staff Portal', href: '/staff-portal' },
+              { label: 'Attendance', href: '/staff-portal/attendance' },
+              { label: 'Take Attendance' },
+            ]}
+          />
         </div>
       </div>
 
@@ -145,7 +158,9 @@ export default function TakeAttendancePage() {
         </div>
 
         {error && (
-          <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm">{error}</div>
+          <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm">
+            {error}
+          </div>
         )}
         {saved && (
           <div className="mb-4 p-4 bg-green-50 border border-green-200 rounded-xl text-green-700 text-sm">
@@ -158,26 +173,35 @@ export default function TakeAttendancePage() {
           <label className="block text-sm font-medium text-slate-700 mb-2">Select Cohort</label>
           <select
             value={selectedCohort}
-            onChange={e => setSelectedCohort(e.target.value)}
+            onChange={(e) => setSelectedCohort(e.target.value)}
             className="w-full border border-slate-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-brand-blue-500"
           >
             <option value="">— Select cohort —</option>
-            {cohorts.map(c => (
-              <option key={c.id} value={c.id}>{c.name}</option>
+            {cohorts.map((c) => (
+              <option key={c.id} value={c.id}>
+                {c.name}
+              </option>
             ))}
           </select>
         </div>
 
         {/* Quick actions */}
         <div className="flex gap-3 mb-4">
-          <button onClick={() => markAll('present')} className="px-4 py-2 text-sm bg-green-100 text-green-700 rounded-lg hover:bg-green-200 font-medium">
+          <button
+            onClick={() => markAll('present')}
+            className="px-4 py-2 text-sm bg-green-100 text-green-700 rounded-lg hover:bg-green-200 font-medium"
+          >
             Mark All Present
           </button>
-          <button onClick={() => markAll('absent')} className="px-4 py-2 text-sm bg-red-100 text-red-700 rounded-lg hover:bg-red-200 font-medium">
+          <button
+            onClick={() => markAll('absent')}
+            className="px-4 py-2 text-sm bg-red-100 text-red-700 rounded-lg hover:bg-red-200 font-medium"
+          >
             Mark All Absent
           </button>
           <span className="ml-auto text-sm text-slate-500 self-center">
-            {presentCount} present · {absentCount} absent · {students.length - presentCount - absentCount} unmarked
+            {presentCount} present · {absentCount} absent ·{' '}
+            {students.length - presentCount - absentCount} unmarked
           </span>
         </div>
 
@@ -187,7 +211,7 @@ export default function TakeAttendancePage() {
             <div className="p-8 text-center text-slate-400">No active students found.</div>
           ) : (
             <div className="divide-y divide-slate-100">
-              {students.map(student => (
+              {students.map((student) => (
                 <div key={student.id} className="flex items-center justify-between px-5 py-4">
                   <div className="flex items-center gap-3">
                     <div className="w-9 h-9 rounded-full bg-brand-blue-100 flex items-center justify-center text-brand-blue-700 font-semibold text-sm">
@@ -196,19 +220,21 @@ export default function TakeAttendancePage() {
                     <span className="font-medium text-slate-900">{student.full_name}</span>
                   </div>
                   <div className="flex gap-2">
-                    {(['present', 'late', 'excused', 'absent'] as AttendanceStatus[]).map(status => (
-                      <button
-                        key={status}
-                        onClick={() => setStatus(student.id, status)}
-                        className={`px-3 py-1.5 text-xs font-medium rounded-lg border capitalize transition-all ${
-                          attendance[student.id] === status
-                            ? statusColors[status] + ' ring-2 ring-offset-1 ring-current'
-                            : 'bg-white text-slate-500 border-slate-200 hover:border-slate-300'
-                        }`}
-                      >
-                        {status}
-                      </button>
-                    ))}
+                    {(['present', 'late', 'excused', 'absent'] as AttendanceStatus[]).map(
+                      (status) => (
+                        <button
+                          key={status}
+                          onClick={() => setStatus(student.id, status)}
+                          className={`px-3 py-1.5 text-xs font-medium rounded-lg border capitalize transition-all ${
+                            attendance[student.id] === status
+                              ? statusColors[status] + ' ring-2 ring-offset-1 ring-current'
+                              : 'bg-white text-slate-500 border-slate-200 hover:border-slate-300'
+                          }`}
+                        >
+                          {status}
+                        </button>
+                      ),
+                    )}
                   </div>
                 </div>
               ))}

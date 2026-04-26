@@ -1,5 +1,3 @@
-
-
 import { NextRequest, NextResponse } from 'next/server';
 import { requireApiAuth, APIAuthError } from '@/lib/auth';
 import { logger } from '@/lib/logger';
@@ -27,7 +25,7 @@ async function _GET(request: NextRequest) {
     const rateLimited = await applyRateLimit(request, 'api');
     if (rateLimited) return rateLimited;
 
-    const user = await requireApiAuth() as User;
+    const user = (await requireApiAuth()) as User;
     const { searchParams } = new URL(request.url);
     const action = searchParams.get('action');
     const flowId = searchParams.get('flowId');
@@ -36,7 +34,7 @@ async function _GET(request: NextRequest) {
       const userRole = user.role || 'student';
       const recommended = await getRecommendedOnboarding(
         user.id,
-        userRole as 'student' | 'instructor' | 'admin'
+        userRole as 'student' | 'instructor' | 'admin',
       );
       return NextResponse.json({ recommended });
     }
@@ -46,19 +44,13 @@ async function _GET(request: NextRequest) {
       return NextResponse.json({ progress });
     }
 
-    return NextResponse.json(
-      { error: 'Invalid action or missing parameters' },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: 'Invalid action or missing parameters' }, { status: 400 });
   } catch (error) {
     if (error instanceof APIAuthError) {
       return NextResponse.json({ error: 'Internal server error' }, { status: 401 });
     }
     logger.error('Onboarding GET error:', error);
-    return NextResponse.json(
-      { error: getErrorMessage(error) },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: getErrorMessage(error) }, { status: 500 });
   }
 }
 
@@ -67,15 +59,12 @@ async function _POST(request: NextRequest) {
     const rateLimited = await applyRateLimit(request, 'api');
     if (rateLimited) return rateLimited;
 
-    const user = await requireApiAuth() as User;
+    const user = (await requireApiAuth()) as User;
     const body = await parseBody<{ action?: string; flowId?: string }>(request);
     const { action, flowId } = body;
 
     if (!flowId) {
-      return NextResponse.json(
-        { error: 'flowId is required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'flowId is required' }, { status: 400 });
     }
 
     switch (action) {
@@ -115,10 +104,7 @@ async function _POST(request: NextRequest) {
       return NextResponse.json({ error: 'Internal server error' }, { status: 401 });
     }
     logger.error('Onboarding POST error:', error);
-    return NextResponse.json(
-      { error: getErrorMessage(error) },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: getErrorMessage(error) }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/onboarding', _GET);

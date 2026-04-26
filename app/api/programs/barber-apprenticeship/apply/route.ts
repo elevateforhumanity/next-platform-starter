@@ -46,10 +46,7 @@ export async function POST(req: Request) {
     const supabase = await getAdminClient();
 
     if (!supabase) {
-      return NextResponse.json(
-        { error: 'Service temporarily unavailable.' },
-        { status: 503 }
-      );
+      return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });
     }
 
     // Insert into applications table
@@ -91,7 +88,7 @@ export async function POST(req: Request) {
       logger.error('Supabase insert error:', error);
       return NextResponse.json(
         { error: 'Failed to submit application. Please call 317-314-3757.' },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
@@ -145,9 +142,6 @@ export async function POST(req: Request) {
     });
   } catch (err: any) {
     logger.error('Barber application error:', err);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

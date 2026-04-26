@@ -13,19 +13,16 @@
  *   }
  */
 
-export type PageSearchParams = Promise<
-  Record<string, string | string[] | undefined>
->;
+export type PageSearchParams = Promise<Record<string, string | string[] | undefined>>;
 
-export type PageParams<T extends Record<string, string> = Record<string, string>> =
-  Promise<T>;
+export type PageParams<T extends Record<string, string> = Record<string, string>> = Promise<T>;
 
 /**
  * Await and return searchParams. Centralises the await so callers
  * cannot accidentally use the raw Promise.
  */
 export async function resolveSearchParams(
-  searchParams: PageSearchParams
+  searchParams: PageSearchParams,
 ): Promise<Record<string, string | string[] | undefined>> {
   return await searchParams;
 }
@@ -36,7 +33,7 @@ export async function resolveSearchParams(
  */
 export function getParam(
   params: Record<string, string | string[] | undefined>,
-  key: string
+  key: string,
 ): string | undefined {
   const val = params[key];
   if (Array.isArray(val)) return val[0];
@@ -47,7 +44,7 @@ export function getParam(
  * Build a URLSearchParams from resolved searchParams, handling string[].
  */
 export function toURLSearchParams(
-  params: Record<string, string | string[] | undefined>
+  params: Record<string, string | string[] | undefined>,
 ): URLSearchParams {
   const qs = new URLSearchParams();
   for (const [key, value] of Object.entries(params)) {

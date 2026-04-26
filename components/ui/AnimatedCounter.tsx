@@ -10,7 +10,13 @@ interface AnimatedCounterProps {
   className?: string;
 }
 
-export function AnimatedCounter({ end, duration = 2000, prefix = '', suffix = '', className = '' }: AnimatedCounterProps) {
+export function AnimatedCounter({
+  end,
+  duration = 2000,
+  prefix = '',
+  suffix = '',
+  className = '',
+}: AnimatedCounterProps) {
   const ref = useRef<HTMLSpanElement>(null);
   const [count, setCount] = useState(0);
   const [started, setStarted] = useState(false);
@@ -26,7 +32,7 @@ export function AnimatedCounter({ end, duration = 2000, prefix = '', suffix = ''
           observer.unobserve(el);
         }
       },
-      { threshold: 0.5 }
+      { threshold: 0.5 },
     );
 
     observer.observe(el);
@@ -51,7 +57,9 @@ export function AnimatedCounter({ end, duration = 2000, prefix = '', suffix = ''
 
   return (
     <span ref={ref} className={className}>
-      {prefix}{count.toLocaleString('en-US')}{suffix}
+      {prefix}
+      {count.toLocaleString('en-US')}
+      {suffix}
     </span>
   );
 }

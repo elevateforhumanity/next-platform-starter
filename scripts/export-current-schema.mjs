@@ -11,52 +11,53 @@ if (!supabaseKey) {
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-
 async function exportSchema() {
   try {
     // Get all tables
-    const { data: tables, error } = await supabase
-      .rpc('exec_sql', {
-        sql: `
+    const { data: tables, error } = await supabase.rpc('exec_sql', {
+      sql: `
           SELECT table_name
           FROM information_schema.tables
           WHERE table_schema = 'public'
             AND table_type = 'BASE TABLE'
           ORDER BY table_name
-        `
-      });
+        `,
+    });
 
     if (error) {
-
       // Alternative: Query known tables
       const knownTables = [
-        'profiles', 'applications', 'programs', 'enrollments',
-        'marketplace_creators', 'marketplace_products', 'marketplace_sales',
-        'program_holders', 'program_holder_documents', 'program_holder_verification',
-        'program_holder_banking'
+        'profiles',
+        'applications',
+        'programs',
+        'enrollments',
+        'marketplace_creators',
+        'marketplace_products',
+        'marketplace_sales',
+        'program_holders',
+        'program_holder_documents',
+        'program_holder_verification',
+        'program_holder_banking',
       ];
 
       const schemaDoc = {
         exported_at: new Date().toISOString(),
         method: 'sample_query',
-        tables: {}
+        tables: {},
       };
 
       for (const tableName of knownTables) {
-        const { data, error: err } = await supabase
-          .from(tableName)
-          .select('*')
-          .limit(1);
+        const { data, error: err } = await supabase.from(tableName).select('*').limit(1);
 
         if (!err && data && data[0]) {
           schemaDoc.tables[tableName] = {
             exists: true,
-            columns: Object.keys(data[0])
+            columns: Object.keys(data[0]),
           };
         } else if (!err) {
           schemaDoc.tables[tableName] = {
             exists: true,
-            columns: []
+            columns: [],
           };
         } else {
         }
@@ -66,7 +67,6 @@ async function exportSchema() {
 
       return schemaDoc;
     }
-
   } catch (error) {
     console.error('❌ Error:', error.message);
   }

@@ -14,10 +14,11 @@ export const metadata: Metadata = {
 
 export default async function SecuritySettingsPage() {
   const supabase = await createClient();
-  
 
-  const { data: { user } } = await supabase.auth.getUser();
-  
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   if (!user) {
     redirect('/login?redirect=/account/settings/security');
   }
@@ -26,11 +27,13 @@ export default async function SecuritySettingsPage() {
     <div className="min-h-screen bg-white">
       <div className="bg-white border-b">
         <div className="max-w-4xl mx-auto px-4 py-4">
-          <Breadcrumbs items={[
-            { label: 'Account', href: '/account' },
-            { label: 'Settings', href: '/account/settings' },
-            { label: 'Security' }
-          ]} />
+          <Breadcrumbs
+            items={[
+              { label: 'Account', href: '/account' },
+              { label: 'Settings', href: '/account/settings' },
+              { label: 'Security' },
+            ]}
+          />
         </div>
       </div>
 

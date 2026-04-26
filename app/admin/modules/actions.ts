@@ -9,7 +9,9 @@ import { logAdminAudit, AdminAction, BULK_ENTITY_ID } from '@/lib/admin/audit-lo
 export async function createModule(formData: FormData) {
   const supabase = await createClient();
   const db = await getAdminClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     redirect('/login');
@@ -33,23 +35,27 @@ export async function createModule(formData: FormData) {
   const duration_hours = formData.get('duration_hours') as string;
   const is_required = formData.get('is_required') === 'on';
 
-  const { error } = await db
-    .from('modules')
-    .insert({
-      program_id,
-      title,
-      description,
-      module_type,
-      order_index: parseInt(order_index),
-      duration_hours: duration_hours ? parseFloat(duration_hours) : null,
-      is_required,
-    });
+  const { error } = await db.from('modules').insert({
+    program_id,
+    title,
+    description,
+    module_type,
+    order_index: parseInt(order_index),
+    duration_hours: duration_hours ? parseFloat(duration_hours) : null,
+    is_required,
+  });
 
   if (error) {
     throw new Error('Operation failed');
   }
 
-  await logAdminAudit({ action: AdminAction.MODULE_CREATED, actorId: user.id, entityType: 'training_modules', entityId: BULK_ENTITY_ID, metadata: { title } });
+  await logAdminAudit({
+    action: AdminAction.MODULE_CREATED,
+    actorId: user.id,
+    entityType: 'training_modules',
+    entityId: BULK_ENTITY_ID,
+    metadata: { title },
+  });
 
   revalidatePath('/admin/modules');
   redirect('/admin/modules');
@@ -58,11 +64,17 @@ export async function createModule(formData: FormData) {
 export async function updateModule(id: string, formData: FormData) {
   const supabase = await createClient();
   const db = await getAdminClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) redirect('/login');
 
-  const { data: profile } = await db.from('profiles').select('role').eq('id', user.id).maybeSingle();
+  const { data: profile } = await db
+    .from('profiles')
+    .select('role')
+    .eq('id', user.id)
+    .maybeSingle();
   if (profile?.role !== 'admin' && profile?.role !== 'super_admin') redirect('/unauthorized');
 
   const { data: existing } = await db.from('modules').select('id').eq('id', id).maybeSingle();
@@ -94,7 +106,13 @@ export async function updateModule(id: string, formData: FormData) {
     throw new Error('Operation failed');
   }
 
-  await logAdminAudit({ action: AdminAction.MODULE_UPDATED, actorId: user.id, entityType: 'training_modules', entityId: id, metadata: {} });
+  await logAdminAudit({
+    action: AdminAction.MODULE_UPDATED,
+    actorId: user.id,
+    entityType: 'training_modules',
+    entityId: id,
+    metadata: {},
+  });
 
   revalidatePath('/admin/modules');
   redirect('/admin/modules');
@@ -103,26 +121,35 @@ export async function updateModule(id: string, formData: FormData) {
 export async function deleteModule(id: string) {
   const supabase = await createClient();
   const db = await getAdminClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) throw new Error('Unauthorized');
 
-  const { data: profile } = await db.from('profiles').select('role').eq('id', user.id).maybeSingle();
+  const { data: profile } = await db
+    .from('profiles')
+    .select('role')
+    .eq('id', user.id)
+    .maybeSingle();
   if (profile?.role !== 'admin' && profile?.role !== 'super_admin') throw new Error('Unauthorized');
 
   const { data: existing } = await db.from('modules').select('id').eq('id', id).maybeSingle();
   if (!existing) throw new Error('Module not found');
 
-  const { error } = await db
-    .from('modules')
-    .delete()
-    .eq('id', id);
+  const { error } = await db.from('modules').delete().eq('id', id);
 
   if (error) {
     throw new Error('Operation failed');
   }
 
-  await logAdminAudit({ action: AdminAction.MODULE_DELETED, actorId: user.id, entityType: 'training_modules', entityId: id, metadata: {} });
+  await logAdminAudit({
+    action: AdminAction.MODULE_DELETED,
+    actorId: user.id,
+    entityType: 'training_modules',
+    entityId: id,
+    metadata: {},
+  });
 
   revalidatePath('/admin/modules');
 }

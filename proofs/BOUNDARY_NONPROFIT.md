@@ -39,11 +39,11 @@
 
 ## How Changes Are Handled
 
-| Category | Handling |
-|----------|----------|
-| **Configuration** | Immediate |
-| **Extension** | Planned intentionally |
-| **Core changes** | Evaluated against funding risk |
+| Category          | Handling                       |
+| ----------------- | ------------------------------ |
+| **Configuration** | Immediate                      |
+| **Extension**     | Planned intentionally          |
+| **Core changes**  | Evaluated against funding risk |
 
 ---
 

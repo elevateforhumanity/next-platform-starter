@@ -13,18 +13,18 @@ function IntakeForm() {
   // Map slug to select value
   const SLUG_TO_VALUE: Record<string, string> = {
     'hvac-technician': 'hvac',
-    'hvac': 'hvac',
+    hvac: 'hvac',
     'barber-apprenticeship': 'barbering',
-    'barbering': 'barbering',
+    barbering: 'barbering',
     'cna-cert': 'cna',
-    'cna': 'cna',
+    cna: 'cna',
     'cdl-training': 'cdl',
-    'cdl': 'cdl',
+    cdl: 'cdl',
     'medical-assistant': 'medical-assistant',
     'phlebotomy-technician': 'phlebotomy',
-    'phlebotomy': 'phlebotomy',
-    'welding': 'welding',
-    'electrical': 'electrical',
+    phlebotomy: 'phlebotomy',
+    welding: 'welding',
+    electrical: 'electrical',
   };
   const initialProgram = SLUG_TO_VALUE[programParam] || programParam || '';
   const [loading, setLoading] = useState(false);
@@ -74,31 +74,38 @@ function IntakeForm() {
             Thank you for your interest in Elevate for Humanity.
           </p>
           <p className="text-sm text-black mb-2">
-            Check your email — we sent you a link to access your learner account and track your application status.
+            Check your email — we sent you a link to access your learner account and track your
+            application status.
           </p>
           {fundingTag === 'jri' && (
             <p className="text-base text-slate-700 mb-6">
-              Based on your responses, you may qualify for Job Ready Indy funding.
-              Our team will review your eligibility and contact you within 2 business days.
+              Based on your responses, you may qualify for Job Ready Indy funding. Our team will
+              review your eligibility and contact you within 2 business days.
             </p>
           )}
           {fundingTag === 'self-pay' && (
             <p className="text-base text-slate-700 mb-6">
-              We&apos;ve noted your self-pay preference. Our enrollment team will contact you
-              with program details and payment options within 2 business days.
+              We&apos;ve noted your self-pay preference. Our enrollment team will contact you with
+              program details and payment options within 2 business days.
             </p>
           )}
           {(fundingTag === 'wioa' || fundingTag === 'pending-review') && (
             <p className="text-base text-slate-700 mb-6">
-              We will review your funding eligibility and contact you within 2 business days.
-              You may qualify for WIOA, WRG, or other workforce funding.
+              We will review your funding eligibility and contact you within 2 business days. You
+              may qualify for WIOA, WRG, or other workforce funding.
             </p>
           )}
           <div className="flex flex-col sm:flex-row gap-3 justify-center mt-8">
-            <Link href="/programs" className="bg-brand-red-600 hover:bg-brand-red-700 text-white font-bold px-6 py-3 rounded-lg transition-colors text-center">
+            <Link
+              href="/programs"
+              className="bg-brand-red-600 hover:bg-brand-red-700 text-white font-bold px-6 py-3 rounded-lg transition-colors text-center"
+            >
               Browse Programs
             </Link>
-            <Link href="/" className="bg-white hover:bg-slate-200 text-slate-900 font-bold px-6 py-3 rounded-lg transition-colors text-center">
+            <Link
+              href="/"
+              className="bg-white hover:bg-slate-200 text-slate-900 font-bold px-6 py-3 rounded-lg transition-colors text-center"
+            >
               Back to Home
             </Link>
           </div>
@@ -112,12 +119,10 @@ function IntakeForm() {
       {/* Hero */}
       <section className="bg-slate-900 py-12">
         <div className="max-w-2xl mx-auto px-4">
-          <h1 className="text-3xl sm:text-4xl font-bold mb-3">
-            Funding & Apprenticeship Intake
-          </h1>
+          <h1 className="text-3xl sm:text-4xl font-bold mb-3">Funding & Apprenticeship Intake</h1>
           <p className="text-black text-lg">
-            This form screens your eligibility for workforce-funded training programs
-            including WIOA, WRG, and Job Ready Indy. Funding is not guaranteed and requires partner review.
+            This form screens your eligibility for workforce-funded training programs including
+            WIOA, WRG, and Job Ready Indy. Funding is not guaranteed and requires partner review.
           </p>
         </div>
       </section>
@@ -126,7 +131,10 @@ function IntakeForm() {
       <section className="py-12">
         <div className="max-w-2xl mx-auto px-4">
           {error && (
-            <div className="bg-brand-red-50 border border-brand-red-200 text-brand-red-800 px-4 py-3 rounded-lg mb-6" role="alert">
+            <div
+              className="bg-brand-red-50 border border-brand-red-200 text-brand-red-800 px-4 py-3 rounded-lg mb-6"
+              role="alert"
+            >
               {error}
             </div>
           )}
@@ -137,27 +145,76 @@ function IntakeForm() {
               <h2 className="text-lg font-bold text-slate-900 mb-4">Personal Information</h2>
               <div className="space-y-4">
                 <div>
-                  <label htmlFor="full_name" className="block text-sm font-semibold text-slate-700 mb-1">Full Name *</label>
-                  <input id="full_name" name="full_name" required className="w-full border border-slate-300 bg-white text-slate-900 p-3 rounded-lg focus:ring-2 focus:ring-brand-red-500 focus:border-brand-red-500" />
+                  <label
+                    htmlFor="full_name"
+                    className="block text-sm font-semibold text-slate-700 mb-1"
+                  >
+                    Full Name *
+                  </label>
+                  <input
+                    id="full_name"
+                    name="full_name"
+                    required
+                    className="w-full border border-slate-300 bg-white text-slate-900 p-3 rounded-lg focus:ring-2 focus:ring-brand-red-500 focus:border-brand-red-500"
+                  />
                 </div>
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div>
-                    <label htmlFor="email" className="block text-sm font-semibold text-slate-700 mb-1">Email</label>
-                    <input id="email" name="email" type="email" className="w-full border border-slate-300 bg-white text-slate-900 p-3 rounded-lg focus:ring-2 focus:ring-brand-red-500 focus:border-brand-red-500" />
+                    <label
+                      htmlFor="email"
+                      className="block text-sm font-semibold text-slate-700 mb-1"
+                    >
+                      Email
+                    </label>
+                    <input
+                      id="email"
+                      name="email"
+                      type="email"
+                      className="w-full border border-slate-300 bg-white text-slate-900 p-3 rounded-lg focus:ring-2 focus:ring-brand-red-500 focus:border-brand-red-500"
+                    />
                   </div>
                   <div>
-                    <label htmlFor="phone" className="block text-sm font-semibold text-slate-700 mb-1">Phone</label>
-                    <input id="phone" name="phone" type="tel" className="w-full border border-slate-300 bg-white text-slate-900 p-3 rounded-lg focus:ring-2 focus:ring-brand-red-500 focus:border-brand-red-500" />
+                    <label
+                      htmlFor="phone"
+                      className="block text-sm font-semibold text-slate-700 mb-1"
+                    >
+                      Phone
+                    </label>
+                    <input
+                      id="phone"
+                      name="phone"
+                      type="tel"
+                      className="w-full border border-slate-300 bg-white text-slate-900 p-3 rounded-lg focus:ring-2 focus:ring-brand-red-500 focus:border-brand-red-500"
+                    />
                   </div>
                 </div>
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div>
-                    <label htmlFor="city" className="block text-sm font-semibold text-slate-700 mb-1">City</label>
-                    <input id="city" name="city" className="w-full border border-slate-300 bg-white text-slate-900 p-3 rounded-lg focus:ring-2 focus:ring-brand-red-500 focus:border-brand-red-500" />
+                    <label
+                      htmlFor="city"
+                      className="block text-sm font-semibold text-slate-700 mb-1"
+                    >
+                      City
+                    </label>
+                    <input
+                      id="city"
+                      name="city"
+                      className="w-full border border-slate-300 bg-white text-slate-900 p-3 rounded-lg focus:ring-2 focus:ring-brand-red-500 focus:border-brand-red-500"
+                    />
                   </div>
                   <div>
-                    <label htmlFor="state" className="block text-sm font-semibold text-slate-700 mb-1">State</label>
-                    <input id="state" name="state" defaultValue="IN" className="w-full border border-slate-300 bg-white text-slate-900 p-3 rounded-lg focus:ring-2 focus:ring-brand-red-500 focus:border-brand-red-500" />
+                    <label
+                      htmlFor="state"
+                      className="block text-sm font-semibold text-slate-700 mb-1"
+                    >
+                      State
+                    </label>
+                    <input
+                      id="state"
+                      name="state"
+                      defaultValue="IN"
+                      className="w-full border border-slate-300 bg-white text-slate-900 p-3 rounded-lg focus:ring-2 focus:ring-brand-red-500 focus:border-brand-red-500"
+                    />
                   </div>
                 </div>
               </div>
@@ -168,8 +225,18 @@ function IntakeForm() {
               <h2 className="text-lg font-bold text-slate-900 mb-4">Program Interest</h2>
               <div className="space-y-4">
                 <div>
-                  <label htmlFor="program_interest" className="block text-sm font-semibold text-slate-700 mb-1">Which program are you interested in?</label>
-                  <select id="program_interest" name="program_interest" defaultValue={initialProgram || 'barbering'} className="w-full border border-slate-300 bg-white text-slate-900 p-3 rounded-lg focus:ring-2 focus:ring-brand-red-500 focus:border-brand-red-500">
+                  <label
+                    htmlFor="program_interest"
+                    className="block text-sm font-semibold text-slate-700 mb-1"
+                  >
+                    Which program are you interested in?
+                  </label>
+                  <select
+                    id="program_interest"
+                    name="program_interest"
+                    defaultValue={initialProgram || 'barbering'}
+                    className="w-full border border-slate-300 bg-white text-slate-900 p-3 rounded-lg focus:ring-2 focus:ring-brand-red-500 focus:border-brand-red-500"
+                  >
                     <option value="barbering">Barber Apprenticeship</option>
                     <option value="cna">CNA Certification</option>
                     <option value="cdl">CDL Training</option>
@@ -183,8 +250,18 @@ function IntakeForm() {
                   </select>
                 </div>
                 <div>
-                  <label htmlFor="preferred_location" className="block text-sm font-semibold text-slate-700 mb-1">Preferred Training Location</label>
-                  <input id="preferred_location" name="preferred_location" placeholder="e.g. Indianapolis, Kokomo" className="w-full border border-slate-300 bg-white text-slate-900 p-3 rounded-lg focus:ring-2 focus:ring-brand-red-500 focus:border-brand-red-500" />
+                  <label
+                    htmlFor="preferred_location"
+                    className="block text-sm font-semibold text-slate-700 mb-1"
+                  >
+                    Preferred Training Location
+                  </label>
+                  <input
+                    id="preferred_location"
+                    name="preferred_location"
+                    placeholder="e.g. Indianapolis, Kokomo"
+                    className="w-full border border-slate-300 bg-white text-slate-900 p-3 rounded-lg focus:ring-2 focus:ring-brand-red-500 focus:border-brand-red-500"
+                  />
                 </div>
               </div>
             </div>
@@ -194,8 +271,17 @@ function IntakeForm() {
               <h2 className="text-lg font-bold text-slate-900 mb-4">Funding Eligibility</h2>
               <div className="space-y-4">
                 <div>
-                  <label htmlFor="employment_status" className="block text-sm font-semibold text-slate-700 mb-1">Current Employment Status</label>
-                  <select id="employment_status" name="employment_status" className="w-full border border-slate-300 bg-white text-slate-900 p-3 rounded-lg focus:ring-2 focus:ring-brand-red-500 focus:border-brand-red-500">
+                  <label
+                    htmlFor="employment_status"
+                    className="block text-sm font-semibold text-slate-700 mb-1"
+                  >
+                    Current Employment Status
+                  </label>
+                  <select
+                    id="employment_status"
+                    name="employment_status"
+                    className="w-full border border-slate-300 bg-white text-slate-900 p-3 rounded-lg focus:ring-2 focus:ring-brand-red-500 focus:border-brand-red-500"
+                  >
                     <option value="">Select...</option>
                     <option value="unemployed">Unemployed</option>
                     <option value="part-time">Part-Time</option>
@@ -204,22 +290,49 @@ function IntakeForm() {
                   </select>
                 </div>
                 <div>
-                  <label htmlFor="funding_needed" className="block text-sm font-semibold text-slate-700 mb-1">Do you need funding assistance?</label>
-                  <select id="funding_needed" name="funding_needed" className="w-full border border-slate-300 bg-white text-slate-900 p-3 rounded-lg focus:ring-2 focus:ring-brand-red-500 focus:border-brand-red-500">
+                  <label
+                    htmlFor="funding_needed"
+                    className="block text-sm font-semibold text-slate-700 mb-1"
+                  >
+                    Do you need funding assistance?
+                  </label>
+                  <select
+                    id="funding_needed"
+                    name="funding_needed"
+                    className="w-full border border-slate-300 bg-white text-slate-900 p-3 rounded-lg focus:ring-2 focus:ring-brand-red-500 focus:border-brand-red-500"
+                  >
                     <option value="true">Yes, I need funding assistance</option>
                     <option value="false">No, I can self-pay</option>
                   </select>
                 </div>
                 <div>
-                  <label htmlFor="probation_or_reentry" className="block text-sm font-semibold text-slate-700 mb-1">Are you connected to probation, reentry, or community corrections?</label>
-                  <select id="probation_or_reentry" name="probation_or_reentry" className="w-full border border-slate-300 bg-white text-slate-900 p-3 rounded-lg focus:ring-2 focus:ring-brand-red-500 focus:border-brand-red-500">
+                  <label
+                    htmlFor="probation_or_reentry"
+                    className="block text-sm font-semibold text-slate-700 mb-1"
+                  >
+                    Are you connected to probation, reentry, or community corrections?
+                  </label>
+                  <select
+                    id="probation_or_reentry"
+                    name="probation_or_reentry"
+                    className="w-full border border-slate-300 bg-white text-slate-900 p-3 rounded-lg focus:ring-2 focus:ring-brand-red-500 focus:border-brand-red-500"
+                  >
                     <option value="false">No</option>
                     <option value="true">Yes</option>
                   </select>
                 </div>
                 <div>
-                  <label htmlFor="workforce_connection" className="block text-sm font-semibold text-slate-700 mb-1">Are you connected to any workforce services?</label>
-                  <select id="workforce_connection" name="workforce_connection" className="w-full border border-slate-300 bg-white text-slate-900 p-3 rounded-lg focus:ring-2 focus:ring-brand-red-500 focus:border-brand-red-500">
+                  <label
+                    htmlFor="workforce_connection"
+                    className="block text-sm font-semibold text-slate-700 mb-1"
+                  >
+                    Are you connected to any workforce services?
+                  </label>
+                  <select
+                    id="workforce_connection"
+                    name="workforce_connection"
+                    className="w-full border border-slate-300 bg-white text-slate-900 p-3 rounded-lg focus:ring-2 focus:ring-brand-red-500 focus:border-brand-red-500"
+                  >
                     <option value="">None / Not sure</option>
                     <option value="workone">WorkOne Indiana</option>
                     <option value="fssa">FSSA (Family &amp; Social Services Administration)</option>
@@ -237,8 +350,17 @@ function IntakeForm() {
               <h2 className="text-lg font-bold text-slate-900 mb-4">Additional Information</h2>
               <div className="space-y-4">
                 <div>
-                  <label htmlFor="referral_source" className="block text-sm font-semibold text-slate-700 mb-1">How did you hear about us?</label>
-                  <select id="referral_source" name="referral_source" className="w-full border border-slate-300 bg-white text-slate-900 p-3 rounded-lg focus:ring-2 focus:ring-brand-red-500 focus:border-brand-red-500">
+                  <label
+                    htmlFor="referral_source"
+                    className="block text-sm font-semibold text-slate-700 mb-1"
+                  >
+                    How did you hear about us?
+                  </label>
+                  <select
+                    id="referral_source"
+                    name="referral_source"
+                    className="w-full border border-slate-300 bg-white text-slate-900 p-3 rounded-lg focus:ring-2 focus:ring-brand-red-500 focus:border-brand-red-500"
+                  >
                     <option value="">Select...</option>
                     <option value="website">Website</option>
                     <option value="social-media">Social Media</option>
@@ -250,18 +372,32 @@ function IntakeForm() {
                   </select>
                 </div>
                 <div>
-                  <label htmlFor="notes" className="block text-sm font-semibold text-slate-700 mb-1">Tell us about your goals (optional)</label>
-                  <textarea id="notes" name="notes" rows={4} className="w-full border border-slate-300 bg-white text-slate-900 p-3 rounded-lg focus:ring-2 focus:ring-brand-red-500 focus:border-brand-red-500" />
+                  <label
+                    htmlFor="notes"
+                    className="block text-sm font-semibold text-slate-700 mb-1"
+                  >
+                    Tell us about your goals (optional)
+                  </label>
+                  <textarea
+                    id="notes"
+                    name="notes"
+                    rows={4}
+                    className="w-full border border-slate-300 bg-white text-slate-900 p-3 rounded-lg focus:ring-2 focus:ring-brand-red-500 focus:border-brand-red-500"
+                  />
                 </div>
               </div>
             </div>
 
             {/* Disclaimer */}
             <div className="bg-white border border-slate-200 rounded-lg p-4 text-sm text-black">
-              By submitting this form, you authorize 2Exclusive LLC-S (DBA Elevate for Humanity Career &amp; Technical Institute) to review your
-              eligibility for workforce-funded training programs. Funding eligibility is determined
-              by our workforce partners and is not guaranteed. Your information will be kept
-              confidential in accordance with our <Link href="/privacy-policy" className="text-brand-red-600 underline">privacy policy</Link>.
+              By submitting this form, you authorize 2Exclusive LLC-S (DBA Elevate for Humanity
+              Career &amp; Technical Institute) to review your eligibility for workforce-funded
+              training programs. Funding eligibility is determined by our workforce partners and is
+              not guaranteed. Your information will be kept confidential in accordance with our{' '}
+              <Link href="/privacy-policy" className="text-brand-red-600 underline">
+                privacy policy
+              </Link>
+              .
             </div>
 
             <button
@@ -269,8 +405,12 @@ function IntakeForm() {
               disabled={loading}
               className="w-full bg-brand-red-600 hover:bg-brand-red-700 disabled:bg-slate-400 text-white text-lg font-bold p-4 rounded-lg transition-colors flex items-center justify-center gap-2"
             >
-              {loading ? 'Submitting...' : (
-                <>Check Eligibility & Apply <ArrowRight className="w-5 h-5" /></>
+              {loading ? (
+                'Submitting...'
+              ) : (
+                <>
+                  Check Eligibility & Apply <ArrowRight className="w-5 h-5" />
+                </>
               )}
             </button>
           </form>
@@ -282,11 +422,13 @@ function IntakeForm() {
 
 export default function IntakePage() {
   return (
-    <Suspense fallback={
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-red-600"></div>
-      </div>
-    }>
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-red-600"></div>
+        </div>
+      }
+    >
       <IntakeForm />
     </Suspense>
   );

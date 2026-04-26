@@ -60,7 +60,6 @@ function wrapRouteWithErrorHandling(content: string): string {
 }
 
 async function main() {
-
   const files = await glob(`${API_DIR}/**/route.{ts,tsx}`, { ignore: '**/node_modules/**' });
 
   let fixed = 0;
@@ -84,7 +83,6 @@ async function main() {
       skipped++;
     }
   }
-
 }
 
 main().catch(console.error);

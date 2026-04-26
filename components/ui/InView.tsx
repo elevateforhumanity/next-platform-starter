@@ -24,7 +24,7 @@ function getSharedObserver(): IntersectionObserver {
           }
         }
       },
-      { threshold: 0.05, rootMargin: '50px 0px -60px 0px' }
+      { threshold: 0.05, rootMargin: '50px 0px -60px 0px' },
     );
   }
   return sharedObserver;
@@ -98,7 +98,9 @@ export function InView({
     <div
       ref={ref}
       className={`${animClass} ${className}`}
-      style={mounted ? { transitionDuration: `${duration}ms`, transitionDelay: `${delay}ms` } : undefined}
+      style={
+        mounted ? { transitionDuration: `${duration}ms`, transitionDelay: `${delay}ms` } : undefined
+      }
     >
       {children}
     </div>

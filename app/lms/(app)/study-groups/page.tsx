@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import {
-
   Users,
   Plus,
   Search,
@@ -76,20 +75,23 @@ export default async function StudyGroupsPage() {
   // Fetch user's study group memberships with group details
   const { data: myGroupMemberships } = await supabase
     .from('study_group_members')
-    .select(`
+    .select(
+      `
       *,
       study_groups (
         id, name, description, course_id,
         max_members, meeting_schedule, is_virtual, meeting_link, created_at
       )
-    `)
+    `,
+    )
     .eq('user_id', user.id);
 
   const typedMemberships = (myGroupMemberships || []) as GroupMembership[];
 
   // Hydrate course titles for my groups
-  const myGroupCourseIds = [...new Set(typedMemberships
-    .map((m: any) => m.study_groups?.course_id).filter(Boolean))];
+  const myGroupCourseIds = [
+    ...new Set(typedMemberships.map((m: any) => m.study_groups?.course_id).filter(Boolean)),
+  ];
   const { data: myGroupCourses } = myGroupCourseIds.length
     ? await supabase.from('courses').select('id, title').in('id', myGroupCourseIds)
     : { data: [] };
@@ -102,12 +104,18 @@ export default async function StudyGroupsPage() {
     .from('study_groups')
     .select('*, study_group_members (user_id)')
     .eq('is_active', true)
-    .not('id', 'in', `(${joinedGroupIds.length > 0 ? joinedGroupIds.join(',') : '00000000-0000-0000-0000-000000000000'})`)
+    .not(
+      'id',
+      'in',
+      `(${joinedGroupIds.length > 0 ? joinedGroupIds.join(',') : '00000000-0000-0000-0000-000000000000'})`,
+    )
     .order('created_at', { ascending: false })
     .limit(20);
 
   // Hydrate course titles for available groups
-  const availCourseIds = [...new Set((rawAvailableGroups || []).map((g: any) => g.course_id).filter(Boolean))];
+  const availCourseIds = [
+    ...new Set((rawAvailableGroups || []).map((g: any) => g.course_id).filter(Boolean)),
+  ];
   const { data: availCourses } = availCourseIds.length
     ? await supabase.from('courses').select('id, title').in('id', availCourseIds)
     : { data: [] };
@@ -123,19 +131,24 @@ export default async function StudyGroupsPage() {
     .select('id, course_id')
     .eq('user_id', user.id)
     .eq('status', 'active');
-  const sgCourseIds = [...new Set((rawEnrollments || []).map((e: any) => e.course_id).filter(Boolean))];
+  const sgCourseIds = [
+    ...new Set((rawEnrollments || []).map((e: any) => e.course_id).filter(Boolean)),
+  ];
   const { data: sgCourses } = sgCourseIds.length
     ? await supabase.from('courses').select('id, title').in('id', sgCourseIds)
     : { data: [] };
   const sgCourseMap = Object.fromEntries((sgCourses || []).map((c: any) => [c.id, c]));
-  const enrollments = (rawEnrollments || []).map((e: any) => ({ ...e, courses: sgCourseMap[e.course_id] ?? null }));
+  const enrollments = (rawEnrollments || []).map((e: any) => ({
+    ...e,
+    courses: sgCourseMap[e.course_id] ?? null,
+  }));
 
   const typedEnrollments = (enrollments || []) as Enrollment[];
   const typedAvailableGroups = (availableGroups || []) as StudyGroup[];
 
   const myGroups: MyGroup[] = typedMemberships
-    .filter(m => m.study_groups !== null)
-    .map(m => ({
+    .filter((m) => m.study_groups !== null)
+    .map((m) => ({
       ...m.study_groups!,
       role: m.role,
       memberCount: 0,
@@ -157,17 +170,15 @@ export default async function StudyGroupsPage() {
 
   return (
     <div className="min-h-screen bg-white py-8">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <Breadcrumbs items={[{ label: "LMS", href: "/lms/courses" }, { label: "Study Groups" }]} />
-        </div>
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'LMS', href: '/lms/courses' }, { label: 'Study Groups' }]} />
+      </div>
       <div className="max-w-6xl mx-auto px-4">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
           <div>
             <h1 className="text-3xl font-bold text-slate-900">Study Groups</h1>
-            <p className="text-slate-600 mt-1">
-              Learn together with fellow students
-            </p>
+            <p className="text-slate-600 mt-1">Learn together with fellow students</p>
           </div>
           <div className="mt-4 md:mt-0">
             <button className="flex items-center gap-2 px-4 py-2 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700 transition">
@@ -190,7 +201,7 @@ export default async function StudyGroupsPage() {
             </div>
             <select className="px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-blue-500">
               <option value="">All Courses</option>
-              {typedEnrollments.map(e => (
+              {typedEnrollments.map((e) => (
                 <option key={e.courses?.id} value={e.courses?.id}>
                   {e.courses?.title}
                 </option>
@@ -226,11 +237,9 @@ export default async function StudyGroupsPage() {
                       </span>
                     )}
                   </div>
-                  
+
                   {group.description && (
-                    <p className="text-sm text-slate-600 mb-4 line-clamp-2">
-                      {group.description}
-                    </p>
+                    <p className="text-sm text-slate-600 mb-4 line-clamp-2">{group.description}</p>
                   )}
 
                   <div className="flex flex-wrap gap-4 text-sm text-slate-500">
@@ -267,7 +276,7 @@ export default async function StudyGroupsPage() {
           <h2 className="text-xl font-bold text-slate-900 mb-4">
             {myGroups.length > 0 ? 'Discover More Groups' : 'Available Study Groups'}
           </h2>
-          
+
           {typedAvailableGroups.length > 0 ? (
             <div className="grid md:grid-cols-2 gap-4">
               {typedAvailableGroups.map((group) => {
@@ -275,10 +284,7 @@ export default async function StudyGroupsPage() {
                 const isFull = group.max_members && memberCount >= group.max_members;
 
                 return (
-                  <div
-                    key={group.id}
-                    className="bg-white rounded-xl border border-slate-200 p-6"
-                  >
+                  <div key={group.id} className="bg-white rounded-xl border border-slate-200 p-6">
                     <div className="flex items-start justify-between mb-4">
                       <div className="flex items-center gap-3">
                         <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center">
@@ -343,7 +349,8 @@ export default async function StudyGroupsPage() {
               <Users className="w-16 h-16 text-slate-300 mx-auto mb-4" />
               <h3 className="text-xl font-bold text-slate-900 mb-2">No Study Groups Yet</h3>
               <p className="text-slate-600 mb-6 max-w-md mx-auto">
-                Be the first to create a study group for your course! Collaborate with classmates to learn together.
+                Be the first to create a study group for your course! Collaborate with classmates to
+                learn together.
               </p>
               <button className="inline-flex items-center gap-2 bg-brand-blue-600 text-white px-6 py-3 rounded-xl font-bold hover:bg-brand-blue-700 transition">
                 <Plus className="w-5 h-5" />
@@ -389,7 +396,10 @@ export default async function StudyGroupsPage() {
 
         {/* Back Link */}
         <div className="mt-8 text-center">
-          <Link href="/lms/community" className="text-brand-blue-600 hover:text-brand-blue-700 font-medium">
+          <Link
+            href="/lms/community"
+            className="text-brand-blue-600 hover:text-brand-blue-700 font-medium"
+          >
             ← Back to Community
           </Link>
         </div>

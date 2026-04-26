@@ -70,16 +70,24 @@ export async function POST(request: NextRequest) {
     if (error) return safeDbError(error, 'Failed to create signoff');
 
     // If hour_block signoff, credit practical hours to ledger
-    if (signoff_type === 'hour_block' && hour_type === 'practical' && hours_verified && module_number) {
+    if (
+      signoff_type === 'hour_block' &&
+      hour_type === 'practical' &&
+      hours_verified &&
+      module_number
+    ) {
       const modCol = `mod${module_number}_practical`;
-      await db.from('barber_hour_ledger').upsert({
-        user_id,
-        program_id: BARBER_PROGRAM_ID,
-        [modCol]: hours_verified,
-        practical_hours: hours_verified,
-        total_hours: hours_verified,
-        updated_at: new Date().toISOString(),
-      }, { onConflict: 'user_id,program_id', ignoreDuplicates: false });
+      await db.from('barber_hour_ledger').upsert(
+        {
+          user_id,
+          program_id: BARBER_PROGRAM_ID,
+          [modCol]: hours_verified,
+          practical_hours: hours_verified,
+          total_hours: hours_verified,
+          updated_at: new Date().toISOString(),
+        },
+        { onConflict: 'user_id,program_id', ignoreDuplicates: false },
+      );
 
       await db.from('barber_hour_events').insert({
         user_id,

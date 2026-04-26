@@ -31,7 +31,9 @@ export async function POST(req: NextRequest) {
   const webhookSecret = process.env.STRIPE_MICRO_CLASS_WEBHOOK_SECRET;
 
   if (!stripeKey || !webhookSecret) {
-    logger.error('[micro-classes/webhook] Missing STRIPE_SECRET_KEY or STRIPE_MICRO_CLASS_WEBHOOK_SECRET');
+    logger.error(
+      '[micro-classes/webhook] Missing STRIPE_SECRET_KEY or STRIPE_MICRO_CLASS_WEBHOOK_SECRET',
+    );
     return NextResponse.json({ error: 'Server misconfiguration' }, { status: 500 });
   }
 
@@ -94,9 +96,9 @@ export async function POST(req: NextRequest) {
   });
 
   const customerEmail = fullSession.customer_details?.email ?? '';
-  const customerName  = fullSession.customer_details?.name ?? '';
-  const amountPaid    = fullSession.amount_total ?? 0;
-  const priceId       = fullSession.line_items?.data?.[0]?.price?.id ?? course.stripePriceId;
+  const customerName = fullSession.customer_details?.name ?? '';
+  const amountPaid = fullSession.amount_total ?? 0;
+  const priceId = fullSession.line_items?.data?.[0]?.price?.id ?? course.stripePriceId;
 
   if (!customerEmail) {
     logger.error('[micro-classes/webhook] No customer email', { sessionId: session.id });
@@ -105,21 +107,24 @@ export async function POST(req: NextRequest) {
 
   // Record enrollment
   const { error: insertError } = await db.from('micro_class_enrollments').insert({
-    course_id:          courseId,
-    partner_id:         course.partnerId,
-    student_email:      customerEmail,
-    student_name:       customerName,
-    stripe_session_id:  session.id,
-    stripe_price_id:    priceId,
-    amount_paid_cents:  amountPaid,
-    vendor_cost_cents:  course.vendorCost * 100,
-    enrollment_url:     course.enrollmentUrl,
-    login_url:          course.loginUrl,
-    access_email_sent:  false,
+    course_id: courseId,
+    partner_id: course.partnerId,
+    student_email: customerEmail,
+    student_name: customerName,
+    stripe_session_id: session.id,
+    stripe_price_id: priceId,
+    amount_paid_cents: amountPaid,
+    vendor_cost_cents: course.vendorCost * 100,
+    enrollment_url: course.enrollmentUrl,
+    login_url: course.loginUrl,
+    access_email_sent: false,
   });
 
   if (insertError) {
-    logger.error('[micro-classes/webhook] Insert failed', { error: insertError, sessionId: session.id });
+    logger.error('[micro-classes/webhook] Insert failed', {
+      error: insertError,
+      sessionId: session.id,
+    });
     return NextResponse.json({ error: 'DB insert failed' }, { status: 500 });
   }
 

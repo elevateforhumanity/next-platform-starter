@@ -1,9 +1,9 @@
 /**
  * AUTHORITATIVE CERTIFICATE ISSUANCE SERVICE
- * 
+ *
  * This is the single source of truth for issuing certificates.
  * All certificate issuance MUST go through this service.
- * 
+ *
  * Features:
  * - Idempotent: will not create duplicate certificates
  * - Sends delivery email automatically
@@ -60,7 +60,7 @@ export interface IssueCertificateResult {
  * Idempotent - returns existing certificate if already issued.
  */
 export async function issueCertificate(
-  params: IssueCertificateParams
+  params: IssueCertificateParams,
 ): Promise<IssueCertificateResult> {
   const {
     supabase,
@@ -105,7 +105,13 @@ export async function issueCertificate(
           id: existingCert.id,
           certificate_number: existingCert.certificate_number,
           student_name: existingCert.metadata?.student_name || studentName,
-          program_name: existingCert.program_name || existingCert.course_title || existingCert.metadata?.course_name || programName || courseTitle || 'Course',
+          program_name:
+            existingCert.program_name ||
+            existingCert.course_title ||
+            existingCert.metadata?.course_name ||
+            programName ||
+            courseTitle ||
+            'Course',
           completion_date: existingCert.issued_at || existingCert.metadata?.completion_date || '',
           url: certificateUrl,
         },
@@ -208,34 +214,32 @@ export async function issueCertificate(
     const certificateUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org'}/certificates/${certificate.id}`;
 
     if (studentEmail) {
-    try {
-      const { emailService } = await import('@/lib/notifications/email');
-      await emailService.sendCertificateNotification(
-        studentEmail,
-        studentName,
-        displayName,
-        certificateUrl
-      );
-      logger.info('Certificate delivery email sent', {
-        email: studentEmail,
-        certificateId: certificate.id,
-      });
-    } catch (emailError) {
-      logger.error('Certificate email failed', emailError as Error);
-      // Don't fail - certificate is issued
-    }
+      try {
+        const { emailService } = await import('@/lib/notifications/email');
+        await emailService.sendCertificateNotification(
+          studentEmail,
+          studentName,
+          displayName,
+          certificateUrl,
+        );
+        logger.info('Certificate delivery email sent', {
+          email: studentEmail,
+          certificateId: certificate.id,
+        });
+      } catch (emailError) {
+        logger.error('Certificate email failed', emailError as Error);
+        // Don't fail - certificate is issued
+      }
     } // end if (studentEmail)
 
     // Create in-app notification
-    await supabase
-      .from('notifications')
-      .insert({
-        user_id: studentId,
-        type: 'achievement',
-        title: 'Certificate Issued!',
-        message: `Congratulations! Your certificate for ${displayName} is ready.`,
-        action_url: certificateUrl,
-      });
+    await supabase.from('notifications').insert({
+      user_id: studentId,
+      type: 'achievement',
+      title: 'Certificate Issued!',
+      message: `Congratulations! Your certificate for ${displayName} is ready.`,
+      action_url: certificateUrl,
+    });
 
     return {
       success: true,

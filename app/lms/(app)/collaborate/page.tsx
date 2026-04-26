@@ -3,9 +3,16 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
-import { 
-  Users, Video, FileText, Calendar, Plus, 
-  MessageSquare, Share2, Clock, ChevronRight
+import {
+  Users,
+  Video,
+  FileText,
+  Calendar,
+  Plus,
+  MessageSquare,
+  Share2,
+  Clock,
+  ChevronRight,
 } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
@@ -50,8 +57,9 @@ const collaborationTools = [
 export default async function CollaboratePage() {
   const supabase = await createClient();
 
-
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     redirect('/login?redirect=/lms/collaborate');
@@ -62,10 +70,9 @@ export default async function CollaboratePage() {
       {/* Breadcrumbs */}
       <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[
-            { label: 'LMS', href: '/lms/dashboard' },
-            { label: 'Collaborate' }
-          ]} />
+          <Breadcrumbs
+            items={[{ label: 'LMS', href: '/lms/dashboard' }, { label: 'Collaborate' }]}
+          />
         </div>
       </div>
 
@@ -96,16 +103,28 @@ export default async function CollaboratePage() {
               className="bg-white rounded-xl p-6 shadow-sm border hover:border-brand-blue-300 hover:shadow-md transition-all"
             >
               <div className="flex items-start gap-4">
-                <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${
-                  tool.color === 'blue' ? 'bg-brand-blue-100' :
-                  tool.color === 'green' ? 'bg-brand-green-100' :
-                  tool.color === 'blue' ? 'bg-brand-blue-100' : 'bg-brand-orange-100'
-                }`}>
-                  <tool.icon className={`w-6 h-6 ${
-                    tool.color === 'blue' ? 'text-brand-blue-600' :
-                    tool.color === 'green' ? 'text-brand-green-600' :
-                    tool.color === 'blue' ? 'text-brand-blue-600' : 'text-brand-orange-600'
-                  }`} />
+                <div
+                  className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${
+                    tool.color === 'blue'
+                      ? 'bg-brand-blue-100'
+                      : tool.color === 'green'
+                        ? 'bg-brand-green-100'
+                        : tool.color === 'blue'
+                          ? 'bg-brand-blue-100'
+                          : 'bg-brand-orange-100'
+                  }`}
+                >
+                  <tool.icon
+                    className={`w-6 h-6 ${
+                      tool.color === 'blue'
+                        ? 'text-brand-blue-600'
+                        : tool.color === 'green'
+                          ? 'text-brand-green-600'
+                          : tool.color === 'blue'
+                            ? 'text-brand-blue-600'
+                            : 'text-brand-orange-600'
+                    }`}
+                  />
                 </div>
                 <div className="flex-1">
                   <h3 className="font-semibold text-slate-900">{tool.title}</h3>
@@ -123,7 +142,10 @@ export default async function CollaboratePage() {
           <div className="bg-white rounded-xl shadow-sm border">
             <div className="p-6 border-b flex items-center justify-between">
               <h2 className="font-semibold text-slate-900">My Study Groups</h2>
-              <Link href="/lms/study-groups" className="text-brand-blue-600 hover:text-brand-blue-700 text-sm font-medium">
+              <Link
+                href="/lms/study-groups"
+                className="text-brand-blue-600 hover:text-brand-blue-700 text-sm font-medium"
+              >
                 View All
               </Link>
             </div>
@@ -131,9 +153,7 @@ export default async function CollaboratePage() {
               <div className="text-center py-8">
                 <Users className="w-12 h-12 text-slate-700 mx-auto mb-4" />
                 <h3 className="font-medium text-slate-900 mb-2">No groups yet</h3>
-                <p className="text-slate-700 text-sm mb-4">
-                  Join a study group or create your own
-                </p>
+                <p className="text-slate-700 text-sm mb-4">Join a study group or create your own</p>
                 <Link
                   href="/lms/study-groups"
                   className="text-brand-blue-600 hover:text-brand-blue-700 font-medium text-sm"
@@ -148,7 +168,10 @@ export default async function CollaboratePage() {
           <div className="bg-white rounded-xl shadow-sm border">
             <div className="p-6 border-b flex items-center justify-between">
               <h2 className="font-semibold text-slate-900">Upcoming Sessions</h2>
-              <Link href="/lms/collaborate/meetings" className="text-brand-blue-600 hover:text-brand-blue-700 text-sm font-medium">
+              <Link
+                href="/lms/collaborate/meetings"
+                className="text-brand-blue-600 hover:text-brand-blue-700 text-sm font-medium"
+              >
                 Schedule
               </Link>
             </div>

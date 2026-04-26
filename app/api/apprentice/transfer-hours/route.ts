@@ -10,10 +10,9 @@ export const dynamic = 'force-dynamic';
 
 // GET: Fetch transfer hour requests for current user
 async function _GET(req: Request) {
-  
-    const rateLimited = await applyRateLimit(req, 'api');
-    if (rateLimited) return rateLimited;
-const supabase = await createClient();
+  const rateLimited = await applyRateLimit(req, 'api');
+  if (rateLimited) return rateLimited;
+  const supabase = await createClient();
 
   const {
     data: { user },
@@ -26,13 +25,15 @@ const supabase = await createClient();
 
   const { data: requests, error } = await supabase
     .from('transfer_hour_requests')
-    .select(`
+    .select(
+      `
       *,
       student_enrollments (
         id,
         programs (name, slug)
       )
-    `)
+    `,
+    )
     .eq('student_id', user.id)
     .order('created_at', { ascending: false });
 
@@ -45,8 +46,8 @@ const supabase = await createClient();
 
 // POST: Submit a transfer hour request
 async function _POST(req: Request) {
-    const rateLimited = await applyRateLimit(req, 'api');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(req, 'api');
+  if (rateLimited) return rateLimited;
 
   const supabase = await createClient();
 
@@ -77,17 +78,11 @@ async function _POST(req: Request) {
   }
 
   if (!hours_requested || hours_requested <= 0 || hours_requested > 2000) {
-    return NextResponse.json(
-      { error: 'Hours must be between 1 and 2000' },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: 'Hours must be between 1 and 2000' }, { status: 400 });
   }
 
   if (!previous_school_name) {
-    return NextResponse.json(
-      { error: 'Previous school name required' },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: 'Previous school name required' }, { status: 400 });
   }
 
   // Verify enrollment belongs to user
@@ -113,7 +108,7 @@ async function _POST(req: Request) {
   if (existingRequest) {
     return NextResponse.json(
       { error: 'You already have a pending transfer request for this enrollment' },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -143,10 +138,7 @@ async function _POST(req: Request) {
 
   if (insertError) {
     logger.error('Error creating transfer request:', insertError);
-    return NextResponse.json(
-      { error: 'Failed to submit transfer request' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to submit transfer request' }, { status: 500 });
   }
 
   return NextResponse.json({

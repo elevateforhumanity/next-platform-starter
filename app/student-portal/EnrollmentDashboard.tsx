@@ -2,15 +2,16 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { 
-  BookOpen, 
-  ExternalLink, 
-  ArrowRight, 
+import {
+  BookOpen,
+  ExternalLink,
+  ArrowRight,
   AlertCircle,
   Clock,
   GraduationCap,
   Building2,
-CheckCircle, } from 'lucide-react';
+  CheckCircle,
+} from 'lucide-react';
 
 type Enrollment = {
   source_table: string;
@@ -96,11 +97,23 @@ export default function EnrollmentDashboard() {
   const getDeliveryModeLabel = (mode: string) => {
     switch (mode) {
       case 'partner':
-        return { label: 'Short-Term Course', icon: Building2, color: 'text-brand-blue-600 bg-brand-blue-50' };
+        return {
+          label: 'Short-Term Course',
+          icon: Building2,
+          color: 'text-brand-blue-600 bg-brand-blue-50',
+        };
       case 'hybrid':
-        return { label: 'Apprenticeship', icon: GraduationCap, color: 'text-brand-orange-600 bg-brand-orange-50' };
+        return {
+          label: 'Apprenticeship',
+          icon: GraduationCap,
+          color: 'text-brand-orange-600 bg-brand-orange-50',
+        };
       default:
-        return { label: 'Online Course', icon: BookOpen, color: 'text-brand-blue-600 bg-brand-blue-50' };
+        return {
+          label: 'Online Course',
+          icon: BookOpen,
+          color: 'text-brand-blue-600 bg-brand-blue-50',
+        };
     }
   };
 
@@ -131,20 +144,18 @@ export default function EnrollmentDashboard() {
                   </div>
 
                   <div className="flex flex-wrap items-center gap-2 mt-2">
-                    <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${modeInfo.color}`}>
+                    <span
+                      className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${modeInfo.color}`}
+                    >
                       <ModeIcon className="w-3 h-3" />
                       {modeInfo.label}
                     </span>
 
                     {enrollment.provider_name && (
-                      <span className="text-xs text-slate-700">
-                        via {enrollment.provider_name}
-                      </span>
+                      <span className="text-xs text-slate-700">via {enrollment.provider_name}</span>
                     )}
 
-                    <span className="text-xs text-slate-700 capitalize">
-                      {enrollment.status}
-                    </span>
+                    <span className="text-xs text-slate-700 capitalize">{enrollment.status}</span>
 
                     {enrollment.inferred_delivery_mode && (
                       <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium text-amber-600 bg-amber-50">

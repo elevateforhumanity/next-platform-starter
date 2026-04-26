@@ -13,16 +13,20 @@ async function _GET(request: NextRequest) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
-    
+
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
+
     if (authError || !user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const { data: enrollments, error } = await supabase
       .from('program_enrollments')
-      .select(`
+      .select(
+        `
         id,
         course_id,
         status,
@@ -37,7 +41,8 @@ async function _GET(request: NextRequest) {
           description,
           duration_hours
         )
-      `)
+      `,
+      )
       .eq('user_id', user.id)
       .order('created_at', { ascending: false });
 

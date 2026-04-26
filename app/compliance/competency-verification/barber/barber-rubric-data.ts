@@ -20,7 +20,8 @@ export type RubricSection = {
 const SECTION_1: RubricSection = {
   section: 1,
   title: 'Sanitation, Safety & State Compliance',
-  description: 'Non-negotiable competencies required by Indiana PLA and state board standards. Failure in any sanitation competency triggers automatic remediation before advancement.',
+  description:
+    'Non-negotiable competencies required by Indiana PLA and state board standards. Failure in any sanitation competency triggers automatic remediation before advancement.',
   items: [
     {
       id: 'SAN-01',
@@ -35,7 +36,8 @@ const SECTION_1: RubricSection = {
         'Proper storage of disinfected tools in closed container',
         'Disposable items (razor blades, neck strips) discarded after single use',
       ],
-      failurePolicy: 'Automatic remediation required. Cannot advance to client services until re-assessed.',
+      failurePolicy:
+        'Automatic remediation required. Cannot advance to client services until re-assessed.',
     },
     {
       id: 'SAN-02',
@@ -79,7 +81,8 @@ const SECTION_1: RubricSection = {
         'Incident documentation completed',
         'Knowledge of bloodborne pathogen transmission prevention',
       ],
-      failurePolicy: 'Automatic remediation required. Must demonstrate correct protocol before resuming razor services.',
+      failurePolicy:
+        'Automatic remediation required. Must demonstrate correct protocol before resuming razor services.',
     },
     {
       id: 'SAN-05',
@@ -102,7 +105,8 @@ const SECTION_1: RubricSection = {
 const SECTION_2: RubricSection = {
   section: 2,
   title: 'Clipper & Cutting Technique',
-  description: 'Primary trade skills assessed through live haircut demonstrations on models/clients. Evaluated by credential partner instructor and employer barber.',
+  description:
+    'Primary trade skills assessed through live haircut demonstrations on models/clients. Evaluated by credential partner instructor and employer barber.',
   items: [
     {
       id: 'CUT-01',
@@ -183,7 +187,8 @@ const SECTION_2: RubricSection = {
 const SECTION_3: RubricSection = {
   section: 3,
   title: 'Shaving & Razor Techniques',
-  description: 'High-liability skill area. Assessed through hands-on practical exam with strict safety requirements. Especially important for Indiana state board alignment.',
+  description:
+    'High-liability skill area. Assessed through hands-on practical exam with strict safety requirements. Especially important for Indiana state board alignment.',
   items: [
     {
       id: 'RAZ-01',
@@ -199,7 +204,8 @@ const SECTION_3: RubricSection = {
         'No unsafe cuts or improper handling during assessment',
         'Blade disposal in sharps container when applicable',
       ],
-      failurePolicy: 'Any unsafe handling results in immediate assessment stop. Must complete remediation before re-assessment.',
+      failurePolicy:
+        'Any unsafe handling results in immediate assessment stop. Must complete remediation before re-assessment.',
     },
     {
       id: 'RAZ-02',
@@ -253,7 +259,8 @@ const SECTION_3: RubricSection = {
 const SECTION_4: RubricSection = {
   section: 4,
   title: 'Client Services & Professionalism',
-  description: 'Workforce-aligned competencies for job placement, employer satisfaction, and apprenticeship completion validation. Assessed through employer OJT evaluation and instructor review.',
+  description:
+    'Workforce-aligned competencies for job placement, employer satisfaction, and apprenticeship completion validation. Assessed through employer OJT evaluation and instructor review.',
   items: [
     {
       id: 'CLI-01',
@@ -320,7 +327,8 @@ const SECTION_4: RubricSection = {
 const SECTION_5: RubricSection = {
   section: 5,
   title: 'Shop Operations & Business Readiness',
-  description: 'Competencies for shop management, business operations, and entrepreneurship readiness. Evaluated primarily by employer supervisor and program holder.',
+  description:
+    'Competencies for shop management, business operations, and entrepreneurship readiness. Evaluated primarily by employer supervisor and program holder.',
   items: [
     {
       id: 'BIZ-01',
@@ -414,7 +422,8 @@ const SECTION_5: RubricSection = {
 const SECTION_6: RubricSection = {
   section: 6,
   title: 'OJT Performance Evaluation',
-  description: 'Separate checklist used by barbershop employer partners for structured OJT evaluation. Assessed at 30-day, midpoint, and final review checkpoints.',
+  description:
+    'Separate checklist used by barbershop employer partners for structured OJT evaluation. Assessed at 30-day, midpoint, and final review checkpoints.',
   items: [
     {
       id: 'OJT-01',
@@ -502,9 +511,16 @@ export const BARBER_SECTIONS: RubricSection[] = [
 // Summary stats
 export const BARBER_STATS = {
   totalCompetencies: BARBER_SECTIONS.reduce((sum, s) => sum + s.items.length, 0),
-  totalRTIHours: BARBER_SECTIONS.reduce((sum, s) => sum + s.items.reduce((h, i) => h + i.rtiHours, 0), 0),
-  totalOJTHours: BARBER_SECTIONS.reduce((sum, s) => sum + s.items.reduce((h, i) => h + i.ojtHours, 0), 0),
+  totalRTIHours: BARBER_SECTIONS.reduce(
+    (sum, s) => sum + s.items.reduce((h, i) => h + i.rtiHours, 0),
+    0,
+  ),
+  totalOJTHours: BARBER_SECTIONS.reduce(
+    (sum, s) => sum + s.items.reduce((h, i) => h + i.ojtHours, 0),
+    0,
+  ),
   sections: BARBER_SECTIONS.length,
-  scoringScale: '1 = Not Competent | 2 = Developing | 3 = Competent (Industry Ready) | 4 = Advanced | 5 = Mastery',
+  scoringScale:
+    '1 = Not Competent | 2 = Developing | 3 = Competent (Industry Ready) | 4 = Advanced | 5 = Mastery',
   passingStandard: 'Minimum score of 3 (Competent) in all core competencies',
 };

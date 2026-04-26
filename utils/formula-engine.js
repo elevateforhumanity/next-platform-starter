@@ -2,8 +2,7 @@ class FormulaEngine {
   constructor() {
     this.functions = {
       SUM: (...args) => args.reduce((a, b) => a + b, 0),
-      AVERAGE: (...args) =>
-        args.length === 0 ? 0 : args.reduce((a, b) => a + b, 0) / args.length,
+      AVERAGE: (...args) => (args.length === 0 ? 0 : args.reduce((a, b) => a + b, 0) / args.length),
       MIN: (...args) => Math.min(...args),
       MAX: (...args) => Math.max(...args),
       COUNT: (...args) => args.length,
@@ -32,10 +31,7 @@ class FormulaEngine {
       }
 
       // Numbers (including decimals)
-      if (
-        /\d/.test(ch) ||
-        (ch === '.' && i + 1 < expr.length && /\d/.test(expr[i + 1]))
-      ) {
+      if (/\d/.test(ch) || (ch === '.' && i + 1 < expr.length && /\d/.test(expr[i + 1]))) {
         let num = '';
         while (i < expr.length && (/\d/.test(expr[i]) || expr[i] === '.')) {
           num += expr[i];
@@ -153,12 +149,24 @@ class FormulaEngine {
         const op = consume('operator').value;
         const right = parseAdditive();
         switch (op) {
-          case '>=': left = left >= right ? 1 : 0; break;
-          case '<=': left = left <= right ? 1 : 0; break;
-          case '!=': left = left !== right ? 1 : 0; break;
-          case '==': left = left === right ? 1 : 0; break;
-          case '>':  left = left > right ? 1 : 0; break;
-          case '<':  left = left < right ? 1 : 0; break;
+          case '>=':
+            left = left >= right ? 1 : 0;
+            break;
+          case '<=':
+            left = left <= right ? 1 : 0;
+            break;
+          case '!=':
+            left = left !== right ? 1 : 0;
+            break;
+          case '==':
+            left = left === right ? 1 : 0;
+            break;
+          case '>':
+            left = left > right ? 1 : 0;
+            break;
+          case '<':
+            left = left < right ? 1 : 0;
+            break;
         }
       }
       return left;

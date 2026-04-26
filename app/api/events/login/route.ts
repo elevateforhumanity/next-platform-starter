@@ -11,8 +11,8 @@ export const maxDuration = 60;
 export const dynamic = 'force-dynamic';
 
 async function _POST(req: NextRequest) {
-    const rateLimited = await applyRateLimit(req, 'strict');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(req, 'strict');
+  if (rateLimited) return rateLimited;
 
   const supabase = await createRouteHandlerClient({ cookies });
   const {

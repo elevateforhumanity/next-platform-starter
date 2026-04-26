@@ -12,13 +12,15 @@ export const dynamic = 'force-dynamic';
 // Body: { status: 'approved' | 'rejected', feedback?: string }
 export async function POST(
   req: NextRequest,
-  { params }: { params: Promise<{ evidenceId: string }> }
+  { params }: { params: Promise<{ evidenceId: string }> },
 ) {
   const rateLimited = await applyRateLimit(req, 'api');
   if (rateLimited) return rateLimited;
 
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return safeError('Unauthorized', 401);
 
   const { data: profile } = await supabase

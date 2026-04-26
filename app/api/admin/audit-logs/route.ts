@@ -1,5 +1,3 @@
-
-
 import { NextRequest, NextResponse } from 'next/server';
 import { getAuditLogs, getAuditStats } from '@/lib/auditLog';
 import { withAuth } from '@/lib/with-auth';
@@ -40,7 +38,7 @@ export const GET = withAuth(
           'Timestamp,Actor,Action,Entity,Entity ID',
           ...logs.map(
             (item: any) =>
-              `${item.created_at},${item.actor_user_id || 'system'},${item.action},${item.entity},${item.entity_id || ''}`
+              `${item.created_at},${item.actor_user_id || 'system'},${item.action},${item.entity},${item.entity_id || ''}`,
           ),
         ].join('\n');
 
@@ -73,13 +71,10 @@ export const GET = withAuth(
         logs: result.logs,
         stats,
       });
-    } catch (error) { 
+    } catch (error) {
       logger.error('Error fetching audit logs:', error);
-      return NextResponse.json(
-        { error: 'Failed to fetch audit logs' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to fetch audit logs' }, { status: 500 });
     }
   },
-  { roles: ['admin', 'super_admin'] }
+  { roles: ['admin', 'super_admin'] },
 );

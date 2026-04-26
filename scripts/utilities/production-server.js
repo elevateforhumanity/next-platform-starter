@@ -58,12 +58,7 @@ app.get('/api/emergency-sale', (req, res) => {
         originalPrice: 9999,
         salePrice: 2999,
         savings: 7000,
-        features: [
-          '33+ Programs',
-          'Federal Partnerships',
-          'Revenue Sharing',
-          'Full Source Code',
-        ],
+        features: ['33+ Programs', 'Federal Partnerships', 'Revenue Sharing', 'Full Source Code'],
       },
       {
         id: 'source-code',
@@ -149,7 +144,6 @@ app.use((error, req, res, next) => {
 
 // Start server
 app.listen(PORT, '0.0.0.0', () => {
-
   // Placeholder for startup alert
 });
 

@@ -58,7 +58,9 @@ export async function GET(
 
   // No PDF stored — return a plain-text pay stub summary as a downloadable file
   const date = new Date(stub.created_at).toLocaleDateString('en-US', {
-    year: 'numeric', month: 'long', day: 'numeric',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
   });
 
   const text = [

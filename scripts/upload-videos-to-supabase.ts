@@ -13,17 +13,24 @@ import { createClient } from '@supabase/supabase-js';
 
 const sb = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
+  process.env.SUPABASE_SERVICE_ROLE_KEY!,
 );
 
 const DIRS: { dir: string; prefix: string; table: string }[] = [
-  { dir: path.join(process.cwd(), 'public/videos/barber-lessons'), prefix: 'barber', table: 'course_lessons' },
+  {
+    dir: path.join(process.cwd(), 'public/videos/barber-lessons'),
+    prefix: 'barber',
+    table: 'course_lessons',
+  },
 ];
 
 async function main() {
   for (const { dir, prefix, table } of DIRS) {
-    if (!fs.existsSync(dir)) { console.log(`Skipping ${dir} — not found`); continue; }
-    const files = fs.readdirSync(dir).filter(f => f.endsWith('.mp4'));
+    if (!fs.existsSync(dir)) {
+      console.log(`Skipping ${dir} — not found`);
+      continue;
+    }
+    const files = fs.readdirSync(dir).filter((f) => f.endsWith('.mp4'));
     console.log(`\nUploading ${files.length} videos from ${path.basename(dir)}...\n`);
 
     for (const file of files) {
@@ -36,10 +43,16 @@ async function main() {
         .from('course-videos')
         .upload(storagePath, fileData, { contentType: 'video/mp4', upsert: true });
 
-      if (upErr) { process.stdout.write(` ❌ ${upErr.message}\n`); continue; }
+      if (upErr) {
+        process.stdout.write(` ❌ ${upErr.message}\n`);
+        continue;
+      }
 
       const { data: urlData } = sb.storage.from('course-videos').getPublicUrl(storagePath);
-      const { error: dbErr } = await sb.from(table).update({ video_url: urlData.publicUrl }).eq('slug', slug);
+      const { error: dbErr } = await sb
+        .from(table)
+        .update({ video_url: urlData.publicUrl })
+        .eq('slug', slug);
 
       if (dbErr) process.stdout.write(` ❌ DB: ${dbErr.message}\n`);
       else process.stdout.write(` ✅  ${urlData.publicUrl}\n`);
@@ -48,4 +61,7 @@ async function main() {
   console.log('\nAll done.');
 }
 
-main().catch(e => { console.error(e); process.exit(1); });
+main().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});

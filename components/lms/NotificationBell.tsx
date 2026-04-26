@@ -1,11 +1,15 @@
-"use client";
+'use client';
 
 import React from 'react';
 
 import { useState, useEffect, useCallback } from 'react';
 import { Bell, BookOpen, Award, X } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
-import { subscribeToNotifications, markNotificationRead, markAllNotificationsRead } from '@/lib/realtime/notifications';
+import {
+  subscribeToNotifications,
+  markNotificationRead,
+  markAllNotificationsRead,
+} from '@/lib/realtime/notifications';
 
 interface Notification {
   id: string;
@@ -44,7 +48,7 @@ export function NotificationBell() {
           message: n.message,
           time: getTimeAgo(n.created_at),
           read: n.read,
-        }))
+        })),
       );
     }
   }, []);
@@ -58,23 +62,24 @@ export function NotificationBell() {
       if (!user) return;
       const unsubscribe = subscribeToNotifications(user.id, (payload) => {
         const newNotif = payload as any;
-        setNotifications((prev) => [{
-          id: newNotif.id,
-          type: newNotif.type || 'system',
-          title: newNotif.title || 'New notification',
-          message: newNotif.message || '',
-          time: 'Just now',
-          read: false,
-        }, ...prev]);
+        setNotifications((prev) => [
+          {
+            id: newNotif.id,
+            type: newNotif.type || 'system',
+            title: newNotif.title || 'New notification',
+            message: newNotif.message || '',
+            time: 'Just now',
+            read: false,
+          },
+          ...prev,
+        ]);
       });
       return () => unsubscribe();
     });
   }, [fetchNotifications]);
 
   const getTimeAgo = (date: string) => {
-    const seconds = Math.floor(
-      (new Date().getTime() - new Date(date).getTime()) / 1000
-    );
+    const seconds = Math.floor((new Date().getTime() - new Date(date).getTime()) / 1000);
     if (seconds < 60) return 'Just now';
     if (seconds < 3600) return `${Math.floor(seconds / 60)} minutes ago`;
     if (seconds < 86400) return `${Math.floor(seconds / 3600)} hours ago`;
@@ -85,14 +90,14 @@ export function NotificationBell() {
 
   const markAsRead = async (id: string) => {
     await markNotificationRead(id);
-    setNotifications(
-      notifications.map((n) => (n.id === id ? { ...n, read: true } : n))
-    );
+    setNotifications(notifications.map((n) => (n.id === id ? { ...n, read: true } : n)));
   };
 
   const markAllAsRead = async () => {
     const supabase = createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) return;
     await markAllNotificationsRead(user.id);
     setNotifications(notifications.map((n) => ({ ...n, read: true })));
@@ -137,10 +142,7 @@ export function NotificationBell() {
       {isOpen && (
         <>
           {/* Mobile Overlay */}
-          <div
-            className="fixed inset-0 z-40 md:hidden"
-            onClick={() => setIsOpen(false)}
-          />
+          <div className="fixed inset-0 z-40 md:hidden" onClick={() => setIsOpen(false)} />
 
           {/* Notification Panel */}
           <div className="absolute right-0 mt-2 w-96 max-w-[calc(100vw-2rem)] bg-white rounded-lg shadow-xl border border-slate-200 z-50">
@@ -168,14 +170,10 @@ export function NotificationBell() {
                     }`}
                   >
                     <div className="flex gap-3">
-                      <div className="flex-shrink-0 mt-1">
-                        {getIcon(notification.type)}
-                      </div>
+                      <div className="flex-shrink-0 mt-1">{getIcon(notification.type)}</div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-start justify-between gap-2">
-                          <h4 className="font-semibold text-sm text-black">
-                            {notification.title}
-                          </h4>
+                          <h4 className="font-semibold text-sm text-black">{notification.title}</h4>
                           <button
                             onClick={() => deleteNotification(notification.id)}
                             className="flex-shrink-0 text-slate-400 hover:text-black"
@@ -183,13 +181,9 @@ export function NotificationBell() {
                             <X className="w-4 h-4" />
                           </button>
                         </div>
-                        <p className="text-sm text-black mt-1">
-                          {notification.message}
-                        </p>
+                        <p className="text-sm text-black mt-1">{notification.message}</p>
                         <div className="flex items-center gap-3 mt-2">
-                          <span className="text-xs text-slate-500">
-                            {notification.time}
-                          </span>
+                          <span className="text-xs text-slate-500">{notification.time}</span>
                           {!notification.read && (
                             <button
                               onClick={() => markAsRead(notification.id)}

@@ -7,12 +7,18 @@ import CredentialForm from '../CredentialForm';
 
 export const dynamic = 'force-dynamic';
 
-export async function generateMetadata(
-  { params }: { params: Promise<{ credentialId: string }> }
-): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ credentialId: string }>;
+}): Promise<Metadata> {
   const { credentialId } = await params;
   const db = await getAdminClient();
-  const { data } = await supabase.from('credential_registry').select('name').eq('id', credentialId).single();
+  const { data } = await supabase
+    .from('credential_registry')
+    .select('name')
+    .eq('id', credentialId)
+    .single();
   return { title: data ? `${data.name} | Credential Registry` : 'Edit Credential | Admin' };
 }
 
@@ -23,12 +29,19 @@ export default async function EditCredentialPage({
 }) {
   const { credentialId } = await params;
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login');
   const db = await getAdminClient();
 
-  const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).maybeSingle();
-  if (!profile || !['admin','super_admin','org_admin','staff'].includes(profile.role)) redirect('/unauthorized');
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('role')
+    .eq('id', user.id)
+    .maybeSingle();
+  if (!profile || !['admin', 'super_admin', 'org_admin', 'staff'].includes(profile.role))
+    redirect('/unauthorized');
 
   const { data: credential } = await supabase
     .from('credential_registry')
@@ -54,11 +67,13 @@ export default async function EditCredentialPage({
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-3xl mx-auto px-4 py-8">
-        <Breadcrumbs items={[
-          { label: 'Admin', href: '/admin' },
-          { label: 'Credential Registry', href: '/admin/credentials' },
-          { label: credential.name },
-        ]} />
+        <Breadcrumbs
+          items={[
+            { label: 'Admin', href: '/admin' },
+            { label: 'Credential Registry', href: '/admin/credentials' },
+            { label: credential.name },
+          ]}
+        />
 
         <h1 className="text-2xl font-bold text-slate-900 mt-6 mb-2">{credential.name}</h1>
         {credential.abbreviation && (

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { createClient } from '@/lib/supabase/client';
 
@@ -18,9 +18,7 @@ export default function NotificationPrompt() {
       const status = await manager.getPermissionStatus();
 
       // Show prompt if permission is not yet requested and not dismissed
-      const wasDismissed = localStorage.getItem(
-        'notification-prompt-dismissed'
-      );
+      const wasDismissed = localStorage.getItem('notification-prompt-dismissed');
       if (status.prompt && !wasDismissed) {
         // Wait 10 seconds before showing prompt
         setTimeout(() => setShow(true), 10000);
@@ -38,25 +36,26 @@ export default function NotificationPrompt() {
 
     if (granted) {
       await manager.subscribeToPush();
-      
+
       // Log notification opt-in to DB
-      const { data: { user } } = await supabase.auth.getUser();
-      await supabase
-        .from('notification_preferences')
-        .upsert({
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      await supabase.from('notification_preferences').upsert(
+        {
           user_id: user?.id,
           push_enabled: true,
-          opted_in_at: new Date().toISOString()
-        }, { onConflict: 'user_id' });
+          opted_in_at: new Date().toISOString(),
+        },
+        { onConflict: 'user_id' },
+      );
 
       // Log the event
-      await supabase
-        .from('notification_events')
-        .insert({
-          user_id: user?.id,
-          event_type: 'push_enabled',
-          timestamp: new Date().toISOString()
-        });
+      await supabase.from('notification_events').insert({
+        user_id: user?.id,
+        event_type: 'push_enabled',
+        timestamp: new Date().toISOString(),
+      });
 
       setShow(false);
     }
@@ -68,14 +67,14 @@ export default function NotificationPrompt() {
     localStorage.setItem('notification-prompt-dismissed', 'true');
 
     // Log dismissal to DB
-    const { data: { user } } = await supabase.auth.getUser();
-    await supabase
-      .from('notification_events')
-      .insert({
-        user_id: user?.id,
-        event_type: 'prompt_dismissed',
-        timestamp: new Date().toISOString()
-      });
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    await supabase.from('notification_events').insert({
+      user_id: user?.id,
+      event_type: 'prompt_dismissed',
+      timestamp: new Date().toISOString(),
+    });
   };
 
   if (!show || dismissed) {
@@ -92,8 +91,7 @@ export default function NotificationPrompt() {
           <div className="flex-1">
             <h3 className="font-semibold text-black mb-1">Stay Updated</h3>
             <p className="text-sm text-black mb-3">
-              Get notified about new courses, achievements, and important
-              updates.
+              Get notified about new courses, achievements, and important updates.
             </p>
             <div className="flex items-center gap-2">
               <button
@@ -110,10 +108,7 @@ export default function NotificationPrompt() {
               </button>
             </div>
           </div>
-          <button
-            onClick={handleDismiss}
-            className="flex-shrink-0 p-1 hover:bg-gray-100 rounded"
-          >
+          <button onClick={handleDismiss} className="flex-shrink-0 p-1 hover:bg-gray-100 rounded">
             <X size={20} className="text-slate-700" />
           </button>
         </div>

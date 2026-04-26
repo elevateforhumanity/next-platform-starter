@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
 import { createClient } from '@/lib/supabase/client';
 
 import React from 'react';
 
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 type Bookmark = {
   id: string;
@@ -52,7 +52,9 @@ export function LessonSidebar({
   // Load lesson sidebar data from DB
   useEffect(() => {
     async function loadSidebarData() {
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       if (!user) return;
 
       // Load bookmarks
@@ -87,20 +89,18 @@ export function LessonSidebar({
   }, [lessonId, supabase]);
 
   // new note state
-  const [noteBody, setNoteBody] = useState("");
+  const [noteBody, setNoteBody] = useState('');
   const [attachTime, setAttachTime] = useState(true);
 
   // new bookmark state
-  const [bookmarkLabel, setBookmarkLabel] = useState("");
+  const [bookmarkLabel, setBookmarkLabel] = useState('');
 
   // new question/answer state
-  const [qaTab, setQaTab] = useState<"list" | "ask">("list");
-  const [questionTitle, setQuestionTitle] = useState("");
-  const [questionBody, setQuestionBody] = useState("");
-  const [answerBody, setAnswerBody] = useState("");
-  const [answerForQuestion, setAnswerForQuestion] = useState<string | null>(
-    null
-  );
+  const [qaTab, setQaTab] = useState<'list' | 'ask'>('list');
+  const [questionTitle, setQuestionTitle] = useState('');
+  const [questionBody, setQuestionBody] = useState('');
+  const [answerBody, setAnswerBody] = useState('');
+  const [answerForQuestion, setAnswerForQuestion] = useState<string | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -109,9 +109,9 @@ export function LessonSidebar({
       try {
         setLoading(true);
         const [bmRes, noteRes, qaRes] = await Promise.all([
-          fetch(`/api/lessons/${lessonId}/bookmarks`, { cache: "no-store" }),
-          fetch(`/api/lessons/${lessonId}/notes`, { cache: "no-store" }),
-          fetch(`/api/lessons/${lessonId}/qa`, { cache: "no-store" }),
+          fetch(`/api/lessons/${lessonId}/bookmarks`, { cache: 'no-store' }),
+          fetch(`/api/lessons/${lessonId}/notes`, { cache: 'no-store' }),
+          fetch(`/api/lessons/${lessonId}/qa`, { cache: 'no-store' }),
         ]);
 
         if (!cancelled) {
@@ -144,8 +144,8 @@ export function LessonSidebar({
     if (Number.isNaN(positionSeconds)) return;
 
     const res = await fetch(`/api/lessons/${lessonId}/bookmarks`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         label: bookmarkLabel || null,
         positionSeconds,
@@ -154,11 +154,9 @@ export function LessonSidebar({
     const json = await res.json();
     if (res.ok && json.bookmark) {
       setBookmarks((prev) =>
-        [...prev, json.bookmark].sort(
-          (a, b) => a.position_seconds - b.position_seconds
-        )
+        [...prev, json.bookmark].sort((a, b) => a.position_seconds - b.position_seconds),
       );
-      setBookmarkLabel("");
+      setBookmarkLabel('');
     }
   };
 
@@ -167,8 +165,8 @@ export function LessonSidebar({
     const positionSeconds = attachTime ? getCurrentTime() : null;
 
     const res = await fetch(`/api/lessons/${lessonId}/notes`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         body: noteBody.trim(),
         positionSeconds,
@@ -177,7 +175,7 @@ export function LessonSidebar({
     const json = await res.json();
     if (res.ok && json.note) {
       setNotes((prev) => [json.note, ...prev]);
-      setNoteBody("");
+      setNoteBody('');
     }
   };
 
@@ -185,10 +183,10 @@ export function LessonSidebar({
     if (!questionTitle.trim() || !questionBody.trim()) return;
 
     const res = await fetch(`/api/lessons/${lessonId}/qa`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        kind: "question",
+        kind: 'question',
         title: questionTitle.trim(),
         body: questionBody.trim(),
       }),
@@ -196,9 +194,9 @@ export function LessonSidebar({
     const json = await res.json();
     if (res.ok && json.question) {
       setQuestions((prev) => [json.question, ...prev]);
-      setQuestionTitle("");
-      setQuestionBody("");
-      setQaTab("list");
+      setQuestionTitle('');
+      setQuestionBody('');
+      setQaTab('list');
     }
   };
 
@@ -206,10 +204,10 @@ export function LessonSidebar({
     if (!answerBody.trim()) return;
 
     const res = await fetch(`/api/lessons/${lessonId}/qa`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        kind: "answer",
+        kind: 'answer',
         questionId,
         body: answerBody.trim(),
       }),
@@ -223,10 +221,10 @@ export function LessonSidebar({
                 ...q,
                 lesson_answers: [...(q.lesson_answers || []), json.answer],
               }
-            : q
-        )
+            : q,
+        ),
       );
-      setAnswerBody("");
+      setAnswerBody('');
       setAnswerForQuestion(null);
     }
   };
@@ -235,30 +233,28 @@ export function LessonSidebar({
     const s = Math.floor(seconds);
     const m = Math.floor(s / 60);
     const r = s % 60;
-    return `${m}:${r.toString().padStart(2, "0")}`;
+    return `${m}:${r.toString().padStart(2, '0')}`;
   };
 
   const formatDate = (raw: string) =>
     new Date(raw).toLocaleDateString(undefined, {
-      month: "short",
-      day: "numeric",
+      month: 'short',
+      day: 'numeric',
     });
 
   return (
     <div className="flex flex-col gap-4 rounded-xl border bg-white p-3 text-xs shadow-sm">
-      {loading && (
-        <p className="text-[11px] text-slate-500">Loading tools…</p>
-      )}
+      {loading && <p className="text-[11px] text-slate-500">Loading tools…</p>}
 
       {/* BOOKMARKS */}
       <section className="space-y-1.5">
-        <h3 className="text-xs font-semibold text-black">
-          Bookmarks
-        </h3>
+        <h3 className="text-xs font-semibold text-black">Bookmarks</h3>
         <div className="flex gap-2">
           <input
             value={bookmarkLabel}
-            onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setBookmarkLabel(e.target.value)}
+            onChange={(
+              e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+            ) => setBookmarkLabel(e.target.value)}
             placeholder="Label (optional)"
             className="flex-1 rounded border px-2 py-2 text-[11px]"
           />
@@ -282,11 +278,9 @@ export function LessonSidebar({
                   onClick={() => seekTo(b.position_seconds)}
                   className="text-left text-[11px] text-brand-blue-700 hover:underline"
                 >
-                  {b.label || "Bookmark"} • {formatTime(b.position_seconds)}
+                  {b.label || 'Bookmark'} • {formatTime(b.position_seconds)}
                 </button>
-                <span className="text-[10px] text-slate-500">
-                  {formatDate(b.created_at)}
-                </span>
+                <span className="text-[10px] text-slate-500">{formatDate(b.created_at)}</span>
               </li>
             ))}
           </ul>
@@ -302,7 +296,9 @@ export function LessonSidebar({
         <h3 className="text-xs font-semibold text-black">Notes</h3>
         <textarea
           value={noteBody}
-          onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setNoteBody(e.target.value)}
+          onChange={(
+            e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+          ) => setNoteBody(e.target.value)}
           placeholder="Write a note about this lesson…"
           className="h-16 w-full resize-none rounded border px-2 py-2 text-[11px]"
         />
@@ -311,7 +307,9 @@ export function LessonSidebar({
             <input
               type="checkbox"
               checked={attachTime}
-              onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setAttachTime(e.target.checked)}
+              onChange={(
+                e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+              ) => setAttachTime(e.target.checked)}
             />
             Attach current time
           </label>
@@ -327,12 +325,9 @@ export function LessonSidebar({
         {notes.length ? (
           <ul className="mt-1 max-h-32 space-y-1.5 overflow-auto">
             {notes.map((n) => (
-              <li
-                key={n.id}
-                className="rounded bg-slate-50 px-2 py-2 text-[11px]"
-              >
+              <li key={n.id} className="rounded bg-slate-50 px-2 py-2 text-[11px]">
                 <div className="flex items-center justify-between">
-                  {typeof n.position_seconds === "number" ? (
+                  {typeof n.position_seconds === 'number' ? (
                     <button
                       type="button"
                       onClick={() => seekTo(n.position_seconds!)}
@@ -343,46 +338,36 @@ export function LessonSidebar({
                   ) : (
                     <span className="text-slate-500">Note</span>
                   )}
-                  <span className="text-[10px] text-slate-500">
-                    {formatDate(n.created_at)}
-                  </span>
+                  <span className="text-[10px] text-slate-500">{formatDate(n.created_at)}</span>
                 </div>
                 <p className="mt-0.5 text-black">{n.body}</p>
               </li>
             ))}
           </ul>
         ) : (
-          <p className="text-[11px] text-slate-500">
-            Keep all your key takeaways in one place.
-          </p>
+          <p className="text-[11px] text-slate-500">Keep all your key takeaways in one place.</p>
         )}
       </section>
 
       {/* Q&A */}
       <section className="space-y-1.5 border-t pt-2">
         <div className="flex items-center justify-between text-[11px]">
-          <h3 className="font-semibold text-black">
-            Lesson Q&amp;A
-          </h3>
+          <h3 className="font-semibold text-black">Lesson Q&amp;A</h3>
           <div className="flex gap-1 rounded-full bg-slate-100 p-0.5">
             <button
               type="button"
-              onClick={() => setQaTab("list")}
+              onClick={() => setQaTab('list')}
               className={`rounded-full px-2 py-0.5 ${
-                qaTab === "list"
-                  ? "bg-white text-black shadow"
-                  : "text-black"
+                qaTab === 'list' ? 'bg-white text-black shadow' : 'text-black'
               }`}
             >
               Questions
             </button>
             <button
               type="button"
-              onClick={() => setQaTab("ask")}
+              onClick={() => setQaTab('ask')}
               className={`rounded-full px-2 py-0.5 ${
-                qaTab === "ask"
-                  ? "bg-white text-black shadow"
-                  : "text-black"
+                qaTab === 'ask' ? 'bg-white text-black shadow' : 'text-black'
               }`}
             >
               Ask
@@ -390,17 +375,21 @@ export function LessonSidebar({
           </div>
         </div>
 
-        {qaTab === "ask" ? (
+        {qaTab === 'ask' ? (
           <div className="space-y-1.5 rounded-lg bg-slate-50 p-2">
             <input
               value={questionTitle}
-              onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setQuestionTitle(e.target.value)}
+              onChange={(
+                e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+              ) => setQuestionTitle(e.target.value)}
               placeholder="Short question title"
               className="w-full rounded border px-2 py-2 text-[11px]"
             />
             <textarea
               value={questionBody}
-              onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setQuestionBody(e.target.value)}
+              onChange={(
+                e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+              ) => setQuestionBody(e.target.value)}
               placeholder="Describe your question…"
               className="h-16 w-full resize-none rounded border px-2 py-2 text-[11px]"
             />
@@ -416,17 +405,10 @@ export function LessonSidebar({
           <div className="space-y-1 max-h-40 overflow-auto">
             {questions.length ? (
               questions.map((q) => (
-                <div
-                  key={q.id}
-                  className="rounded-lg bg-slate-50 p-2 text-[11px]"
-                >
-                  <p className="font-semibold text-black">
-                    {q.title}
-                  </p>
+                <div key={q.id} className="rounded-lg bg-slate-50 p-2 text-[11px]">
+                  <p className="font-semibold text-black">{q.title}</p>
                   <p className="text-black">{q.body}</p>
-                  <p className="mt-0.5 text-[10px] text-slate-500">
-                    {formatDate(q.created_at)}
-                  </p>
+                  <p className="mt-0.5 text-[10px] text-slate-500">{formatDate(q.created_at)}</p>
 
                   {/* Answers */}
                   {q.lesson_answers && q.lesson_answers.length > 0 && (
@@ -445,23 +427,21 @@ export function LessonSidebar({
                   {/* Answer form toggle */}
                   <button
                     type="button"
-                    onClick={() =>
-                      setAnswerForQuestion(
-                        answerForQuestion === q.id ? null : q.id
-                      )
-                    }
+                    onClick={() => setAnswerForQuestion(answerForQuestion === q.id ? null : q.id)}
                     className="mt-1 text-[10px] font-semibold text-brand-blue-700 hover:underline"
                   >
-                    {answerForQuestion === q.id
-                      ? "Cancel"
-                      : "Reply to this question"}
+                    {answerForQuestion === q.id ? 'Cancel' : 'Reply to this question'}
                   </button>
 
                   {answerForQuestion === q.id && (
                     <div className="mt-1 space-y-1">
                       <textarea
                         value={answerBody}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setAnswerBody(e.target.value)}
+                        onChange={(
+                          e: React.ChangeEvent<
+                            HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+                          >,
+                        ) => setAnswerBody(e.target.value)}
                         placeholder="Type your answer…"
                         className="h-12 w-full resize-none rounded border px-2 py-2 text-[11px]"
                       />

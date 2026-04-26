@@ -25,13 +25,17 @@ export default function RotatingBanner({ lines, variant = 'dark', intervalMs = 4
     timerRef.current = setInterval(() => {
       setCurrent((c) => (c + 1) % lines.length);
     }, intervalMs);
-    return () => { if (timerRef.current) clearInterval(timerRef.current); };
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
   }, [paused, lines.length, intervalMs]);
 
   const bg =
-    variant === 'red'  ? 'bg-brand-red-600' :
-    variant === 'blue' ? 'bg-brand-blue-700' :
-                         'bg-slate-900';
+    variant === 'red'
+      ? 'bg-brand-red-600'
+      : variant === 'blue'
+        ? 'bg-brand-blue-700'
+        : 'bg-slate-900';
   const textColor = 'text-white';
 
   return (

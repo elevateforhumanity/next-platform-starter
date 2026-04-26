@@ -25,9 +25,7 @@
       "id": "s1-wrong",
       "prompt": "Jumping to refrigerant charge without baseline data wastes time. What should you measure first?",
       "feedback": "Always gather baseline operating data before opening the refrigerant circuit.",
-      "options": [
-        { "label": "Go back and measure temperatures", "next": "s2", "correct": true }
-      ]
+      "options": [{ "label": "Go back and measure temperatures", "next": "s2", "correct": true }]
     },
     "s1-partial": {
       "id": "s1-partial",
@@ -41,7 +39,11 @@
       "prompt": "Return air: 78°F. Supply air: 72°F. Temperature split is 6°F (target 14–22°F). What does this tell you?",
       "options": [
         { "label": "System is working normally", "next": "s2-wrong" },
-        { "label": "Low heat transfer — check airflow and refrigerant charge", "next": "s3", "correct": true },
+        {
+          "label": "Low heat transfer — check airflow and refrigerant charge",
+          "next": "s3",
+          "correct": true
+        },
         { "label": "Thermostat is miscalibrated", "next": "s2-wrong" }
       ]
     },
@@ -58,7 +60,11 @@
       "prompt": "You check the filter — it is severely clogged. Static pressure reads 0.9 in. w.c. (rated 0.5). What do you do?",
       "options": [
         { "label": "Add refrigerant — low charge is the problem", "next": "s3-wrong" },
-        { "label": "Replace the filter and recheck temperature split", "next": "s4", "correct": true },
+        {
+          "label": "Replace the filter and recheck temperature split",
+          "next": "s4",
+          "correct": true
+        },
         { "label": "Replace the blower motor", "next": "s3-wrong" }
       ]
     },
@@ -66,15 +72,17 @@
       "id": "s3-wrong",
       "prompt": "High static pressure and a clogged filter point to airflow restriction — not refrigerant charge. Fix the root cause first.",
       "feedback": "Never add refrigerant when airflow is restricted — you will overcharge the system.",
-      "options": [
-        { "label": "Replace the filter and recheck", "next": "s4", "correct": true }
-      ]
+      "options": [{ "label": "Replace the filter and recheck", "next": "s4", "correct": true }]
     },
     "s4": {
       "id": "s4",
       "prompt": "After replacing the filter, static pressure drops to 0.45 in. w.c. Temperature split is now 18°F. What do you do?",
       "options": [
-        { "label": "Verify the repair and document — system is operating correctly", "next": "pass", "correct": true },
+        {
+          "label": "Verify the repair and document — system is operating correctly",
+          "next": "pass",
+          "correct": true
+        },
         { "label": "Add refrigerant anyway", "next": "s4-wrong" },
         { "label": "Replace the TXV", "next": "s4-wrong" }
       ]
@@ -83,9 +91,7 @@
       "id": "s4-wrong",
       "prompt": "The system is now operating within spec. No further repairs are needed.",
       "feedback": "When operating parameters are within spec after a repair, verify and document — do not add unnecessary parts.",
-      "options": [
-        { "label": "Verify and document the repair", "next": "pass", "correct": true }
-      ]
+      "options": [{ "label": "Verify and document the repair", "next": "pass", "correct": true }]
     },
     "pass": {
       "id": "pass",

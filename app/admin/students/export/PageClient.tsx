@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import React from 'react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
@@ -6,8 +6,6 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 export const dynamic = 'force-dynamic';
-
-
 
 export default function ExportStudentsPage() {
   const router = useRouter();
@@ -68,12 +66,11 @@ export default function ExportStudentsPage() {
 
   return (
     <div className="min-h-screen bg-white py-8">
-
       {/* Hero Image */}
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Admin", href: "/admin" }, { label: "Export" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Admin', href: '/admin' }, { label: 'Export' }]} />
       </div>
-<div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
           <Link
             href="/admin/students"
@@ -81,9 +78,7 @@ export default function ExportStudentsPage() {
           >
             ← Back to Students
           </Link>
-          <h1 className="text-3xl font-bold text-black">
-            Export Student Data
-          </h1>
+          <h1 className="text-3xl font-bold text-black">Export Student Data</h1>
           <p className="mt-2 text-black">
             Generate and download student reports in various formats.
           </p>
@@ -99,9 +94,7 @@ export default function ExportStudentsPage() {
         {/* Export Options */}
         <div className="bg-white rounded-lg shadow">
           <div className="px-6 py-4 border-b border-gray-200">
-            <h2 className="text-lg font-semibold text-black">
-              Export Options
-            </h2>
+            <h2 className="text-lg font-semibold text-black">Export Options</h2>
           </div>
 
           <div className="p-6 space-y-6">
@@ -122,32 +115,18 @@ export default function ExportStudentsPage() {
                   />
                   <div>
                     <div className="font-semibold text-black">CSV</div>
-                    <div className="text-xs text-black">
-                      Excel compatible
-                    </div>
+                    <div className="text-xs text-black">Excel compatible</div>
                   </div>
                 </label>
                 <label className="flex items-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-brand-blue-500 opacity-50">
-                  <input
-                    type="radio"
-                    name="format"
-                    value="excel"
-                    disabled
-                    className="mr-3"
-                  />
+                  <input type="radio" name="format" value="excel" disabled className="mr-3" />
                   <div>
                     <div className="font-semibold text-black">Excel</div>
                     <div className="text-xs text-black">Available now</div>
                   </div>
                 </label>
                 <label className="flex items-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-brand-blue-500 opacity-50">
-                  <input
-                    type="radio"
-                    name="format"
-                    value="pdf"
-                    disabled
-                    className="mr-3"
-                  />
+                  <input type="radio" name="format" value="pdf" disabled className="mr-3" />
                   <div>
                     <div className="font-semibold text-black">PDF</div>
                     <div className="text-xs text-black">Available now</div>
@@ -163,34 +142,15 @@ export default function ExportStudentsPage() {
               </label>
               <div className="space-y-2">
                 <label className="flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    checked
-                    disabled
-                    className="rounded text-brand-blue-600"
-                  />
-                  <span className="text-sm text-black">
-                    Basic Information (Name, Email, Phone)
-                  </span>
+                  <input type="checkbox" checked disabled className="rounded text-brand-blue-600" />
+                  <span className="text-sm text-black">Basic Information (Name, Email, Phone)</span>
                 </label>
                 <label className="flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    checked
-                    disabled
-                    className="rounded text-brand-blue-600"
-                  />
-                  <span className="text-sm text-black">
-                    Enrollment Status
-                  </span>
+                  <input type="checkbox" checked disabled className="rounded text-brand-blue-600" />
+                  <span className="text-sm text-black">Enrollment Status</span>
                 </label>
                 <label className="flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    checked
-                    disabled
-                    className="rounded text-brand-blue-600"
-                  />
+                  <input type="checkbox" checked disabled className="rounded text-brand-blue-600" />
                   <span className="text-sm text-black">Course Progress</span>
                 </label>
                 <label className="flex items-center gap-2">
@@ -200,9 +160,7 @@ export default function ExportStudentsPage() {
                     onChange={(e) => setIncludeGrades(e.target.checked)}
                     className="rounded text-brand-blue-600"
                   />
-                  <span className="text-sm text-black">
-                    Grades and Assessments
-                  </span>
+                  <span className="text-sm text-black">Grades and Assessments</span>
                 </label>
                 <label className="flex items-center gap-2">
                   <input
@@ -211,9 +169,7 @@ export default function ExportStudentsPage() {
                     onChange={(e) => setIncludeAttendance(e.target.checked)}
                     className="rounded text-brand-blue-600"
                   />
-                  <span className="text-sm text-black">
-                    Attendance Records
-                  </span>
+                  <span className="text-sm text-black">Attendance Records</span>
                 </label>
                 <label className="flex items-center gap-2">
                   <input
@@ -222,9 +178,7 @@ export default function ExportStudentsPage() {
                     onChange={(e) => setIncludeCertificates(e.target.checked)}
                     className="rounded text-brand-blue-600"
                   />
-                  <span className="text-sm text-black">
-                    Certificates Earned
-                  </span>
+                  <span className="text-sm text-black">Certificates Earned</span>
                 </label>
                 <label className="flex items-center gap-2">
                   <input
@@ -233,41 +187,31 @@ export default function ExportStudentsPage() {
                     onChange={(e) => setIncludeFinancial(e.target.checked)}
                     className="rounded text-brand-blue-600"
                   />
-                  <span className="text-sm text-black">
-                    Financial Information
-                  </span>
+                  <span className="text-sm text-black">Financial Information</span>
                 </label>
               </div>
             </div>
 
             {/* Filter Options */}
             <div>
-              <label className="block text-sm font-medium text-black mb-3">
-                Filter Students
-              </label>
+              <label className="block text-sm font-medium text-black mb-3">Filter Students</label>
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs text-black mb-1">
-                    Program
-                  </label>
+                  <label className="block text-xs text-black mb-1">Program</label>
                   <select
                     value={program}
                     onChange={(e) => setProgram(e.target.value)}
                     className="w-full rounded-md border-gray-300 shadow-sm focus:border-brand-blue-500 focus:ring-brand-blue-500"
                   >
                     <option value="">All Programs</option>
-                    <option value="barber-apprenticeship">
-                      Barber Apprenticeship
-                    </option>
+                    <option value="barber-apprenticeship">Barber Apprenticeship</option>
                     <option value="cna">CNA</option>
                     <option value="hvac">HVAC</option>
                     <option value="medical-assistant">Medical Assistant</option>
                   </select>
                 </div>
                 <div>
-                  <label className="block text-xs text-black mb-1">
-                    Status
-                  </label>
+                  <label className="block text-xs text-black mb-1">Status</label>
                   <select
                     value={status}
                     onChange={(e) => setStatus(e.target.value)}
@@ -281,9 +225,7 @@ export default function ExportStudentsPage() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-xs text-black mb-1">
-                    Start Date From
-                  </label>
+                  <label className="block text-xs text-black mb-1">Start Date From</label>
                   <input
                     type="date"
                     value={startDate}
@@ -292,9 +234,7 @@ export default function ExportStudentsPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-xs text-black mb-1">
-                    Start Date To
-                  </label>
+                  <label className="block text-xs text-black mb-1">Start Date To</label>
                   <input
                     type="date"
                     value={endDate}
@@ -307,9 +247,7 @@ export default function ExportStudentsPage() {
 
             {/* Export Actions */}
             <div className="flex justify-between items-center pt-4 border-t border-gray-200">
-              <div className="text-sm text-black">
-                Ready to export student data
-              </div>
+              <div className="text-sm text-black">Ready to export student data</div>
               <div className="flex gap-4">
                 <Link
                   href="/admin/students"
@@ -332,9 +270,7 @@ export default function ExportStudentsPage() {
         {/* Recent Exports */}
         <div className="mt-6 bg-white rounded-lg shadow">
           <div className="px-6 py-4 border-b border-gray-200">
-            <h2 className="text-lg font-semibold text-black">
-              Recent Exports
-            </h2>
+            <h2 className="text-lg font-semibold text-black">Recent Exports</h2>
           </div>
           <div className="p-6">
             <div className="text-center text-black py-8">

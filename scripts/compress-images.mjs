@@ -40,7 +40,8 @@ async function compressImage(filePath) {
     const originalSize = fileStats.size;
 
     // Skip if already small
-    if (originalSize < 100000) { // 100KB
+    if (originalSize < 100000) {
+      // 100KB
       stats.skipped++;
       return { skipped: true, path: filePath };
     }
@@ -73,7 +74,6 @@ async function compressImage(filePath) {
       stats.processed++;
       stats.totalSaved += saved;
 
-
       return { success: true, path: filePath, saved };
     } else if (ext === '.jpg' || ext === '.jpeg') {
       await pipeline.jpeg({ quality: QUALITY, progressive: true }).toFile(filePath + '.tmp');
@@ -86,7 +86,6 @@ async function compressImage(filePath) {
 
       stats.processed++;
       stats.totalSaved += saved;
-
 
       return { success: true, path: filePath, saved };
     }
@@ -118,16 +117,13 @@ async function findImages(dir, images = []) {
 }
 
 async function main() {
-
   await ensureBackupDir();
 
   const images = await findImages('public/images');
 
-
   for (const img of images) {
     await compressImage(img);
   }
-
 }
 
 main().catch(console.error);

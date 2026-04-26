@@ -11,11 +11,11 @@ interface SocialShareProps {
 
 export function SocialShare({ url, title, description }: SocialShareProps) {
   const [copied, setCopied] = useState(false);
-  
+
   const encodedUrl = encodeURIComponent(url);
   const encodedTitle = encodeURIComponent(title);
   const encodedDesc = encodeURIComponent(description || '');
-  
+
   const shareLinks = {
     facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
     twitter: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`,
@@ -23,7 +23,7 @@ export function SocialShare({ url, title, description }: SocialShareProps) {
     email: `mailto:?subject=${encodedTitle}&body=${encodedDesc}%0A%0A${encodedUrl}`,
     whatsapp: `https://wa.me/?text=${encodedTitle}%20${encodedUrl}`,
   };
-  
+
   const copyToClipboard = async () => {
     try {
       await navigator.clipboard.writeText(url);
@@ -33,11 +33,11 @@ export function SocialShare({ url, title, description }: SocialShareProps) {
       console.error('Failed to copy:', err);
     }
   };
-  
+
   return (
     <div className="flex items-center gap-2">
       <span className="text-sm text-slate-700 mr-2">Share:</span>
-      
+
       <a
         href={shareLinks.facebook}
         target="_blank"
@@ -47,7 +47,7 @@ export function SocialShare({ url, title, description }: SocialShareProps) {
       >
         <Facebook className="w-5 h-5" />
       </a>
-      
+
       <a
         href={shareLinks.twitter}
         target="_blank"
@@ -57,7 +57,7 @@ export function SocialShare({ url, title, description }: SocialShareProps) {
       >
         <Twitter className="w-5 h-5" />
       </a>
-      
+
       <a
         href={shareLinks.linkedin}
         target="_blank"
@@ -67,7 +67,7 @@ export function SocialShare({ url, title, description }: SocialShareProps) {
       >
         <Linkedin className="w-5 h-5" />
       </a>
-      
+
       <a
         href={shareLinks.whatsapp}
         target="_blank"
@@ -77,7 +77,7 @@ export function SocialShare({ url, title, description }: SocialShareProps) {
       >
         <MessageCircle className="w-5 h-5" />
       </a>
-      
+
       <a
         href={shareLinks.email}
         className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-600 text-white hover:bg-gray-700 transition"
@@ -85,7 +85,7 @@ export function SocialShare({ url, title, description }: SocialShareProps) {
       >
         <Mail className="w-5 h-5" />
       </a>
-      
+
       <button
         onClick={copyToClipboard}
         className={`w-10 h-10 flex items-center justify-center rounded-full transition ${
@@ -95,10 +95,8 @@ export function SocialShare({ url, title, description }: SocialShareProps) {
       >
         <Link2 className="w-5 h-5" />
       </button>
-      
-      {copied && (
-        <span className="text-sm text-brand-green-600 font-medium">Copied!</span>
-      )}
+
+      {copied && <span className="text-sm text-brand-green-600 font-medium">Copied!</span>}
     </div>
   );
 }

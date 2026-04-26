@@ -18,16 +18,15 @@ async function _POST(req: NextRequest) {
 
     // Check if R2 is configured
     if (!isR2Configured()) {
-      return NextResponse.json(
-        { error: 'R2 storage is not configured' },
-        { status: 503 }
-      );
+      return NextResponse.json({ error: 'R2 storage is not configured' }, { status: 503 });
     }
 
     // Check authentication (admin only)
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -46,7 +45,7 @@ async function _POST(req: NextRequest) {
     // Parse form data
     const formData = await req.formData();
     const file = formData.get('file') as File | null;
-    const folder = formData.get('folder') as string || 'uploads';
+    const folder = (formData.get('folder') as string) || 'uploads';
 
     if (!file) {
       return NextResponse.json({ error: 'No file provided' }, { status: 400 });
@@ -55,7 +54,7 @@ async function _POST(req: NextRequest) {
     if (file.size > MAX_FILE_SIZE) {
       return NextResponse.json(
         { error: `File too large. Max size is ${MAX_FILE_SIZE / 1024 / 1024}MB` },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -67,14 +66,11 @@ async function _POST(req: NextRequest) {
     // Upload to R2
     const buffer = Buffer.from(await file.arrayBuffer());
     const contentType = getContentType(file.name) || file.type;
-    
+
     const result = await uploadToR2(buffer, key, contentType);
 
     if (!result.success) {
-      return NextResponse.json(
-        { error: result.error || 'Upload failed' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: result.error || 'Upload failed' }, { status: 500 });
     }
 
     return NextResponse.json({
@@ -84,13 +80,9 @@ async function _POST(req: NextRequest) {
       size: file.size,
       contentType,
     });
-
   } catch (error) {
     logger.error('R2 upload error:', error);
-    return NextResponse.json(
-      { error: 'Upload failed' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Upload failed' }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/r2/upload', _POST);

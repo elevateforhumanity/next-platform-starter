@@ -32,7 +32,9 @@ export function DocumentUploadForm({ requirements }: Props) {
   // Load previously uploaded documents from DB
   useEffect(() => {
     async function loadUploadedDocs() {
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       if (!user) return;
 
       const { data } = await supabase
@@ -103,7 +105,9 @@ export function DocumentUploadForm({ requirements }: Props) {
 
       setSuccess(true);
       // Redirect to the correct documents page based on role
-      const { data: { user: currentUser } } = await supabase.auth.getUser();
+      const {
+        data: { user: currentUser },
+      } = await supabase.auth.getUser();
       let dest = '/program-holder/onboarding';
       if (currentUser) {
         const { data: prof } = await supabase
@@ -135,12 +139,8 @@ export function DocumentUploadForm({ requirements }: Props) {
         <div className="flex items-center gap-4 mb-4">
           <span className="text-slate-500 flex-shrink-0">•</span>
           <div>
-            <h2 className="text-2xl font-bold text-brand-green-900">
-              Document Uploaded!
-            </h2>
-            <p className="text-brand-green-700">
-              Your document has been submitted for review.
-            </p>
+            <h2 className="text-2xl font-bold text-brand-green-900">Document Uploaded!</h2>
+            <p className="text-brand-green-700">Your document has been submitted for review.</p>
           </div>
         </div>
         <p className="text-brand-green-800">Redirecting to your documents page...</p>
@@ -148,9 +148,7 @@ export function DocumentUploadForm({ requirements }: Props) {
     );
   }
 
-  const selectedRequirement = requirements.find(
-    (r) => r.document_type === documentType
-  );
+  const selectedRequirement = requirements.find((r) => r.document_type === documentType);
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
@@ -168,9 +166,7 @@ export function DocumentUploadForm({ requirements }: Props) {
         <h3 className="text-xl font-bold mb-4">Document Information</h3>
 
         <div className="mb-6">
-          <label className="block text-sm font-semibold mb-2">
-            Document Type *
-          </label>
+          <label className="block text-sm font-semibold mb-2">Document Type *</label>
           <select
             value={documentType}
             onChange={(e) => setDocumentType(e.target.value)}
@@ -189,9 +185,7 @@ export function DocumentUploadForm({ requirements }: Props) {
         {selectedRequirement && (
           <div className="mb-6 p-4 bg-brand-blue-50 border border-brand-blue-200 rounded-lg">
             <h4 className="font-semibold text-brand-blue-900 mb-2">Instructions</h4>
-            <p className="text-sm text-brand-blue-800 mb-3">
-              {selectedRequirement.instructions}
-            </p>
+            <p className="text-sm text-brand-blue-800 mb-3">{selectedRequirement.instructions}</p>
             <div className="text-xs text-brand-blue-700">
               <strong>Accepted formats:</strong>{' '}
               {selectedRequirement.accepted_formats.join(', ').toUpperCase()}
@@ -203,9 +197,7 @@ export function DocumentUploadForm({ requirements }: Props) {
         )}
 
         <div>
-          <label className="block text-sm font-semibold mb-2">
-            Upload File *
-          </label>
+          <label className="block text-sm font-semibold mb-2">Upload File *</label>
           <div className="border-2 border-dashed border-slate-300 rounded-lg p-8 text-center hover:border-brand-blue-500 transition">
             <Upload className="w-16 h-16 text-slate-400 mx-auto mb-4" />
             <input
@@ -217,14 +209,10 @@ export function DocumentUploadForm({ requirements }: Props) {
               id="fileUpload"
             />
             <label htmlFor="fileUpload" className="cursor-pointer">
-              <span className="text-brand-blue-600 font-semibold text-lg">
-                Click to upload
-              </span>
+              <span className="text-brand-blue-600 font-semibold text-lg">Click to upload</span>
               <span className="text-black"> or drag and drop</span>
             </label>
-            <p className="text-sm text-slate-500 mt-2">
-              PDF, JPG, PNG or WEBP (max 10MB)
-            </p>
+            <p className="text-sm text-slate-500 mt-2">PDF, JPG, PNG or WEBP (max 10MB)</p>
             {file && (
               <div className="mt-4 p-3 bg-brand-green-50 border border-brand-green-200 rounded-lg">
                 <p className="text-sm text-brand-green-800 font-semibold">

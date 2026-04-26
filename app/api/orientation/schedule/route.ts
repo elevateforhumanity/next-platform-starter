@@ -16,7 +16,10 @@ const ADMIN_EMAIL = 'elevate4humanityedu@gmail.com';
 
 // Strip characters that could be used for email header injection
 function sanitize(value: string): string {
-  return value.replace(/[\r\n\t]/g, ' ').trim().slice(0, 200);
+  return value
+    .replace(/[\r\n\t]/g, ' ')
+    .trim()
+    .slice(0, 200);
 }
 
 async function _POST(request: Request) {
@@ -63,7 +66,10 @@ async function _POST(request: Request) {
     logger.info('[Orientation] Zoom meeting created', { meetingId: meeting.id, email: safeEmail });
 
     const dateFormatted = new Date(date + 'T12:00:00').toLocaleDateString('en-US', {
-      weekday: 'long', month: 'long', day: 'numeric', year: 'numeric',
+      weekday: 'long',
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric',
     });
 
     const sessionLabel = isBarbershop ? 'Barbershop Walk-Through' : 'Virtual Orientation';
@@ -112,7 +118,10 @@ async function _POST(request: Request) {
     return NextResponse.json({ success: true, meetingUrl: meeting.join_url });
   } catch (err) {
     logger.error('[Orientation] Error:', err instanceof Error ? err.message : err);
-    return NextResponse.json({ error: 'Failed to create meeting. Please call (317) 314-3757.' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to create meeting. Please call (317) 314-3757.' },
+      { status: 500 },
+    );
   }
 }
 export const POST = withApiAudit('/api/orientation/schedule', _POST);

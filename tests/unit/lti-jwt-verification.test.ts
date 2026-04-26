@@ -14,10 +14,7 @@ interface StateValidationResult {
   error?: string;
 }
 
-function validateLtiState(
-  stateParam: string,
-  cookieHeader: string
-): StateValidationResult {
+function validateLtiState(stateParam: string, cookieHeader: string): StateValidationResult {
   const match = cookieHeader.match(/(?:^|;\s*)lti_state=([^;]+)/);
   const cookieValue = match?.[1] ?? '';
   const [cookieState] = cookieValue.split('.');
@@ -31,7 +28,10 @@ function validateLtiState(
   return { valid: true };
 }
 
-function validateLtiNonce(jwtNonce: string | undefined, cookieHeader: string): StateValidationResult {
+function validateLtiNonce(
+  jwtNonce: string | undefined,
+  cookieHeader: string,
+): StateValidationResult {
   const match = cookieHeader.match(/(?:^|;\s*)lti_state=([^;]+)/);
   const cookieValue = match?.[1] ?? '';
   const [, cookieNonce] = cookieValue.split('.');
@@ -68,14 +68,13 @@ function extractLtiPayload(idToken: string): LtiPayloadExtract | null {
 
 function makeJwt(payload: object): string {
   const header = Buffer.from(JSON.stringify({ alg: 'RS256', typ: 'JWT' })).toString('base64url');
-  const body   = Buffer.from(JSON.stringify(payload)).toString('base64url');
+  const body = Buffer.from(JSON.stringify(payload)).toString('base64url');
   return `${header}.${body}.fakesig`;
 }
 
 // ── Tests ─────────────────────────────────────────────────────────────────────
 
 describe('LTI state/nonce CSRF guard', () => {
-
   it('rejects when state cookie is absent', () => {
     const result = validateLtiState('abc123', '');
     expect(result.valid).toBe(false);
@@ -106,7 +105,6 @@ describe('LTI state/nonce CSRF guard', () => {
 });
 
 describe('LTI nonce replay guard', () => {
-
   it('rejects when JWT nonce does not match cookie nonce', () => {
     const result = validateLtiNonce('wrong-nonce', 'lti_state=state123.correct-nonce');
     expect(result.valid).toBe(false);
@@ -130,7 +128,6 @@ describe('LTI nonce replay guard', () => {
 });
 
 describe('LTI JWT payload extraction', () => {
-
   it('returns null for malformed token (not 3 parts)', () => {
     expect(extractLtiPayload('notavalidjwt')).toBeNull();
     expect(extractLtiPayload('a.b')).toBeNull();

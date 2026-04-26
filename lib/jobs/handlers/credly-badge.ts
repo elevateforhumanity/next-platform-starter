@@ -31,7 +31,9 @@ export async function handleCredlyBadgeIssue(payload: Record<string, any>): Prom
   } = payload;
 
   if (!learner_credential_id || !badge_template_id || !recipient_email) {
-    throw new Error('Missing required payload fields: learner_credential_id, badge_template_id, recipient_email');
+    throw new Error(
+      'Missing required payload fields: learner_credential_id, badge_template_id, recipient_email',
+    );
   }
 
   const db = await getAdminClient();

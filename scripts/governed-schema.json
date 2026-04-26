@@ -8,15 +8,7 @@
     "target_id",
     "target_type"
   ],
-  "ai_audit_log": [
-    "action",
-    "created_at",
-    "details",
-    "id",
-    "ip_address",
-    "updated_at",
-    "user_id"
-  ],
+  "ai_audit_log": ["action", "created_at", "details", "id", "ip_address", "updated_at", "user_id"],
   "applications": [
     "advisor_assigned",
     "advisor_email",
@@ -161,15 +153,7 @@
     "subject_id",
     "subject_type"
   ],
-  "case_events": [
-    "action",
-    "created_at",
-    "details",
-    "id",
-    "ip_address",
-    "updated_at",
-    "user_id"
-  ],
+  "case_events": ["action", "created_at", "details", "id", "ip_address", "updated_at", "user_id"],
   "documents": [
     "application_id",
     "created_at",

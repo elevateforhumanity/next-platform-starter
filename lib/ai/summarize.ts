@@ -1,5 +1,5 @@
-import OpenAI from "openai";
-import { logger } from "@/lib/logger";
+import OpenAI from 'openai';
+import { logger } from '@/lib/logger';
 
 // Lazy-load OpenAI client to prevent build-time errors
 function getClient() {
@@ -13,32 +13,32 @@ function getClient() {
 export async function summarizeText(text: string, maxLength = 200) {
   const client = getClient();
   if (!client) {
-    logger.warn("OpenAI API key not configured");
-    return text.slice(0, maxLength) + "...";
+    logger.warn('OpenAI API key not configured');
+    return text.slice(0, maxLength) + '...';
   }
 
   try {
     const res = await client.chat.completions.create({
-      model: "gpt-4.1",
+      model: 'gpt-4.1',
       messages: [
         {
-          role: "system",
-          content:
-            "Summarize content at 8th-grade reading level. Be concise and clear.",
+          role: 'system',
+          content: 'Summarize content at 8th-grade reading level. Be concise and clear.',
         },
-        { role: "user", content: text },
+        { role: 'user', content: text },
       ],
       temperature: 0.5,
       max_tokens: 150,
     });
 
-    return res.choices[0].message.content || text.slice(0, maxLength) + "...";
-  } catch (error) { /* Error handled silently */ 
-    logger.error("Summarization error", error as Error, {
+    return res.choices[0].message.content || text.slice(0, maxLength) + '...';
+  } catch (error) {
+    /* Error handled silently */
+    logger.error('Summarization error', error as Error, {
       textLength: text.length,
-      maxLength
+      maxLength,
     });
-    return text.slice(0, maxLength) + "...";
+    return text.slice(0, maxLength) + '...';
   }
 }
 

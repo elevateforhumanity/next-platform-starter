@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 import { useState, useEffect, useRef } from 'react';
@@ -19,7 +19,7 @@ export function MobileVoiceOver() {
         setHasInteracted(true);
         // Au the audio
         if (audioRef.current) {
-          audioRef.current.play().catch(error => {
+          audioRef.current.play().catch((error) => {
             // If au is blocked, show the play button
           });
         }

@@ -26,9 +26,7 @@ export default function SectionIntro({
         </p>
       )}
       <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">{heading}</h2>
-      {body && (
-        <p className="text-slate-600 text-base leading-relaxed mt-2">{body}</p>
-      )}
+      {body && <p className="text-slate-600 text-base leading-relaxed mt-2">{body}</p>}
     </div>
   );
 }

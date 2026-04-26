@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -19,18 +19,29 @@ interface CourseProgress {
 
 export function ProgressTrackingDashboard() {
   const [timeRange, setTimeRange] = useState('week');
-  const [overallProgress, setOverallProgress] = useState({ completionRate: 0, studyHours: 0, coursesInProgress: 0, coursesCompleted: 0, streak: 0, averageScore: 0 });
+  const [overallProgress, setOverallProgress] = useState({
+    completionRate: 0,
+    studyHours: 0,
+    coursesInProgress: 0,
+    coursesCompleted: 0,
+    streak: 0,
+    averageScore: 0,
+  });
   const [courses, setCourses] = useState<CourseProgress[]>([]);
-  const [weeklyActivity, setWeeklyActivity] = useState<{ day: string; hours: number; completed: number }[]>([]);
-  const [milestones, setMilestones] = useState<{ title: string; completed: boolean; date: string }[]>([]);
+  const [weeklyActivity, setWeeklyActivity] = useState<
+    { day: string; hours: number; completed: number }[]
+  >([]);
+  const [milestones, setMilestones] = useState<
+    { title: string; completed: boolean; date: string }[]
+  >([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch(`/api/learner/progress?range=${timeRange}`)
-      .then(r => r.json())
-      .then(d => {
+      .then((r) => r.json())
+      .then((d) => {
         if (d.data) {
-          setOverallProgress(p => d.data.overallProgress || p);
+          setOverallProgress((p) => d.data.overallProgress || p);
           setCourses(d.data.courses || []);
           setWeeklyActivity(d.data.weeklyActivity || []);
           setMilestones(d.data.milestones || []);
@@ -40,24 +51,33 @@ export function ProgressTrackingDashboard() {
       .finally(() => setLoading(false));
   }, [timeRange]);
 
-  const maxHours = weeklyActivity.length ? Math.max(...weeklyActivity.map(d => d.hours)) : 1;
+  const maxHours = weeklyActivity.length ? Math.max(...weeklyActivity.map((d) => d.hours)) : 1;
 
   if (loading) return <div className="py-12 text-center text-slate-500">Loading progress...</div>;
-  if (!courses.length) return <div className="py-12 text-center text-slate-500">No progress data yet. Enroll in a course to get started.</div>;
+  if (!courses.length)
+    return (
+      <div className="py-12 text-center text-slate-500">
+        No progress data yet. Enroll in a course to get started.
+      </div>
+    );
 
-  const milestonesFull = milestones.length ? milestones : [
-    { title: 'Complete 10 Lessons', completed: false, date: '' },
-    { title: 'First Quiz Passed', completed: false, date: '' },
-    { title: 'Mid-Course Project', completed: false, date: '' },
-    { title: 'Advanced Module Started', completed: false, date: 'In Progress' },
-    { title: 'Final Project', completed: false, date: 'Upcoming' },
-  ];
+  const milestonesFull = milestones.length
+    ? milestones
+    : [
+        { title: 'Complete 10 Lessons', completed: false, date: '' },
+        { title: 'First Quiz Passed', completed: false, date: '' },
+        { title: 'Mid-Course Project', completed: false, date: '' },
+        { title: 'Advanced Module Started', completed: false, date: 'In Progress' },
+        { title: 'Final Project', completed: false, date: 'Upcoming' },
+      ];
 
   return (
     <div className="min-h-screen bg-white">
       <div className="   text-white py-12">
         <div className="max-w-7xl mx-auto px-4">
-          <h1 className="text-4xl font-bold mb-2 text-2xl md:text-3xl lg:text-4xl">Progress Dashboard</h1>
+          <h1 className="text-4xl font-bold mb-2 text-2xl md:text-3xl lg:text-4xl">
+            Progress Dashboard
+          </h1>
           <p className="text-white">Track your learning journey in real-time</p>
         </div>
       </div>
@@ -67,7 +87,9 @@ export function ProgressTrackingDashboard() {
           <h2 className="text-2xl font-bold">Overview</h2>
           <select
             value={timeRange}
-            onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setTimeRange(e.target.value)}
+            onChange={(
+              e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+            ) => setTimeRange(e.target.value)}
             className="px-4 py-2 border rounded"
           >
             <option value="week">This Week</option>
@@ -79,7 +101,9 @@ export function ProgressTrackingDashboard() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
           <Card className="p-6">
             <h3 className="text-sm text-black mb-2">Overall Completion</h3>
-            <p className="text-3xl font-bold text-brand-orange-600">{overallProgress.completionRate}%</p>
+            <p className="text-3xl font-bold text-brand-orange-600">
+              {overallProgress.completionRate}%
+            </p>
             <div className="w-full bg-gray-200 rounded-full h-2 mt-3">
               <div
                 className="   h-2 rounded-full"
@@ -90,7 +114,9 @@ export function ProgressTrackingDashboard() {
 
           <Card className="p-6">
             <h3 className="text-sm text-black mb-2">Study Hours</h3>
-            <p className="text-3xl font-bold text-brand-orange-500">{overallProgress.studyHours}h</p>
+            <p className="text-3xl font-bold text-brand-orange-500">
+              {overallProgress.studyHours}h
+            </p>
             <p className="text-sm text-brand-green-600 mt-2">↑ 15% from last week</p>
           </Card>
 
@@ -102,7 +128,9 @@ export function ProgressTrackingDashboard() {
 
           <Card className="p-6">
             <h3 className="text-sm text-black mb-2">Courses In Progress</h3>
-            <p className="text-3xl font-bold text-brand-blue-600">{overallProgress.coursesInProgress}</p>
+            <p className="text-3xl font-bold text-brand-blue-600">
+              {overallProgress.coursesInProgress}
+            </p>
             <p className="text-sm text-black mt-2">{overallProgress.coursesCompleted} completed</p>
           </Card>
 
@@ -127,7 +155,9 @@ export function ProgressTrackingDashboard() {
                 <div key={day.day}>
                   <div className="flex justify-between text-sm mb-1">
                     <span className="font-medium">{day.day}</span>
-                    <span className="text-black">{day.hours}h • {day.completed} lessons</span>
+                    <span className="text-black">
+                      {day.hours}h • {day.completed} lessons
+                    </span>
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-2">
                     <div
@@ -145,13 +175,19 @@ export function ProgressTrackingDashboard() {
             <div className="space-y-3">
               {milestonesFull.map((milestone, index) => (
                 <div key={index} className="flex items-start gap-3">
-                  <div className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 ${
-                    milestone.completed ? 'bg-brand-green-500 text-white' : 'bg-gray-300 text-black'
-                  }`}>
+                  <div
+                    className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 ${
+                      milestone.completed
+                        ? 'bg-brand-green-500 text-white'
+                        : 'bg-gray-300 text-black'
+                    }`}
+                  >
                     {milestone.completed ? '•' : index + 1}
                   </div>
                   <div className="flex-1">
-                    <p className={`font-medium ${milestone.completed ? 'text-black' : 'text-black'}`}>
+                    <p
+                      className={`font-medium ${milestone.completed ? 'text-black' : 'text-black'}`}
+                    >
                       {milestone.title}
                     </p>
                     <p className="text-sm text-slate-700">{milestone.date}</p>
@@ -176,12 +212,18 @@ export function ProgressTrackingDashboard() {
                     <p className="text-sm text-slate-700">Last activity: {course.lastActivity}</p>
                   </div>
                   <div className="text-right">
-                    <div className="text-2xl font-bold text-brand-orange-600">{course.progress}%</div>
-                    <span className={`inline-block mt-1 px-2 py-2 rounded text-xs font-medium ${
-                      course.status === 'on-track' ? 'bg-brand-green-100 text-brand-green-700' :
-                      course.status === 'behind' ? 'bg-yellow-100 text-yellow-700' :
-                      'bg-brand-blue-100 text-brand-blue-700'
-                    }`}>
+                    <div className="text-2xl font-bold text-brand-orange-600">
+                      {course.progress}%
+                    </div>
+                    <span
+                      className={`inline-block mt-1 px-2 py-2 rounded text-xs font-medium ${
+                        course.status === 'on-track'
+                          ? 'bg-brand-green-100 text-brand-green-700'
+                          : course.status === 'behind'
+                            ? 'bg-yellow-100 text-yellow-700'
+                            : 'bg-brand-blue-100 text-brand-blue-700'
+                      }`}
+                    >
                       {course.status.replace('-', ' ')}
                     </span>
                   </div>

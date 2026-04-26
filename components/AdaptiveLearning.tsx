@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -28,7 +28,9 @@ export function AdaptiveLearning({
   completedTopics,
 }: AdaptiveLearningProps) {
   const [recommendations, setRecommendations] = useState<LearningPath[]>([]);
-  const [learningStyle, setLearningStyle] = useState<'visual' | 'auditory' | 'kinesthetic'>('visual');
+  const [learningStyle, setLearningStyle] = useState<'visual' | 'auditory' | 'kinesthetic'>(
+    'visual',
+  );
 
   useEffect(() => {
     // AI-powered recommendations based on user performance
@@ -60,7 +62,7 @@ export function AdaptiveLearning({
         },
       ];
 
-      setRecommendations(paths.filter(p => p.recommended));
+      setRecommendations(paths.filter((p) => p.recommended));
     };
 
     generateRecommendations();
@@ -98,7 +100,9 @@ export function AdaptiveLearning({
               <div className="text-sm text-black">Skill Level</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-brand-orange-600">{completedTopics.length}</div>
+              <div className="text-3xl font-bold text-brand-orange-600">
+                {completedTopics.length}
+              </div>
               <div className="text-sm text-black">Topics Mastered</div>
             </div>
             <div className="text-center">
@@ -130,7 +134,9 @@ export function AdaptiveLearning({
                   <div>
                     <h3 className="font-semibold text-lg mb-1">{path.title}</h3>
                     <div className="flex items-center gap-2">
-                      <span className={`px-2 py-2 rounded text-xs font-semibold ${getDifficultyColor(path.difficulty)}`}>
+                      <span
+                        className={`px-2 py-2 rounded text-xs font-semibold ${getDifficultyColor(path.difficulty)}`}
+                      >
                         {path.difficulty}
                       </span>
                       <span className="text-sm text-black">{path.estimatedTime}</span>
@@ -143,10 +149,7 @@ export function AdaptiveLearning({
                   <div className="text-sm text-black mb-2">Topics covered:</div>
                   <div className="flex flex-wrap gap-2">
                     {path.topics.map((topic, index) => (
-                      <span
-                        key={index}
-                        className="px-2 py-2 bg-gray-100 rounded text-xs"
-                      >
+                      <span key={index} className="px-2 py-2 bg-gray-100 rounded text-xs">
                         {topic}
                       </span>
                     ))}

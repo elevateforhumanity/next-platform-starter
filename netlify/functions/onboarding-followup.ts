@@ -6,7 +6,8 @@ import type { Config } from '@netlify/functions';
  * to applicants who haven't responded within 24 hours.
  */
 export default async () => {
-  const siteUrl = process.env.URL || process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+  const siteUrl =
+    process.env.URL || process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
   const cronSecret = process.env.CRON_SECRET || '';
 
   const resp = await fetch(`${siteUrl}/api/cron/onboarding-followup`, {

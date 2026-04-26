@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, { createContext, useContext, useState } from 'react';
 
@@ -59,7 +59,9 @@ interface TabsListProps {
 
 export const TabsList: React.FC<TabsListProps> = ({ children, className = '' }) => {
   return (
-    <div className={`inline-flex h-10 items-center justify-center rounded-md bg-slate-100 p-1 text-slate-500 ${className}`}>
+    <div
+      className={`inline-flex h-10 items-center justify-center rounded-md bg-slate-100 p-1 text-slate-500 ${className}`}
+    >
       {children}
     </div>
   );

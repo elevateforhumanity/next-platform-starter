@@ -12,16 +12,14 @@ if (!supabaseKey) {
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 async function applyMigration() {
-
   const sql = readFileSync('supabase/migrations/20251227_fix_verification_schema.sql', 'utf8');
-
 
   try {
     // Split by semicolon and execute each statement
     const statements = sql
       .split(';')
-      .map(s => s.trim())
-      .filter(s => s.length > 0 && !s.startsWith('--'));
+      .map((s) => s.trim())
+      .filter((s) => s.length > 0 && !s.startsWith('--'));
 
     for (const statement of statements) {
       if (statement.includes('COMMENT ON')) {
@@ -41,8 +39,6 @@ async function applyMigration() {
       } else {
       }
     }
-
-
   } catch (error) {
     console.error('❌ Error:', error.message);
   }

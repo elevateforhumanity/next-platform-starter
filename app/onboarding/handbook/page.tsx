@@ -15,7 +15,9 @@ export const dynamic = 'force-dynamic';
 export default async function OnboardingStepPage() {
   const supabase = await createClient();
   if (!supabase) redirect('/login');
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login');
 
   return (
@@ -29,8 +31,13 @@ export default async function OnboardingStepPage() {
         <div className="bg-white rounded-xl p-8 shadow-sm border text-center">
           <span className="text-slate-400 flex-shrink-0">•</span>
           <h1 className="text-2xl font-bold text-gray-900 mb-4">Onboarding Step</h1>
-          <p className="text-gray-600 mb-8">Complete this step to continue your onboarding process.</p>
-          <Link href="/dashboard" className="inline-flex items-center gap-2 bg-brand-blue-600 text-white px-6 py-3 rounded-lg hover:bg-brand-blue-700">
+          <p className="text-gray-600 mb-8">
+            Complete this step to continue your onboarding process.
+          </p>
+          <Link
+            href="/dashboard"
+            className="inline-flex items-center gap-2 bg-brand-blue-600 text-white px-6 py-3 rounded-lg hover:bg-brand-blue-700"
+          >
             Continue <ArrowRight className="w-5 h-5" />
           </Link>
         </div>

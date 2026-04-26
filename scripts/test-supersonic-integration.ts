@@ -17,12 +17,8 @@ if (!supabaseUrl || !supabaseServiceKey) {
 const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
 async function testDatabaseConnection() {
-
   try {
-    const { data, error } = await supabase
-      .from('appointments')
-      .select('count')
-      .limit(1);
+    const { data, error } = await supabase.from('appointments').select('count').limit(1);
 
     if (error) {
       return false;
@@ -35,7 +31,6 @@ async function testDatabaseConnection() {
 }
 
 async function testAppointmentsTable() {
-
   try {
     // Test insert
     const testAppointment = {
@@ -60,7 +55,6 @@ async function testAppointmentsTable() {
       return false;
     }
 
-
     // Clean up test data
     if (data) {
       await supabase.from('appointments').delete().eq('id', data.id);
@@ -73,7 +67,6 @@ async function testAppointmentsTable() {
 }
 
 async function testTaxDocumentsTable() {
-
   try {
     const testDocument = {
       file_name: 'test.pdf',
@@ -95,7 +88,6 @@ async function testTaxDocumentsTable() {
       return false;
     }
 
-
     // Clean up test data
     if (data) {
       await supabase.from('tax_documents').delete().eq('id', data.id);
@@ -108,7 +100,6 @@ async function testTaxDocumentsTable() {
 }
 
 async function testStorageBucket() {
-
   try {
     const { data: buckets, error } = await supabase.storage.listBuckets();
 
@@ -116,7 +107,7 @@ async function testStorageBucket() {
       return false;
     }
 
-    const documentsBucket = buckets?.find(b => b.id === 'documents');
+    const documentsBucket = buckets?.find((b) => b.id === 'documents');
 
     if (!documentsBucket) {
       return false;
@@ -129,7 +120,6 @@ async function testStorageBucket() {
 }
 
 async function testEmailConfiguration() {
-
   const resendKey = process.env.RESEND_API_KEY;
 
   if (!resendKey) {
@@ -144,7 +134,6 @@ async function testEmailConfiguration() {
 }
 
 async function runTests() {
-
   const results = {
     database: await testDatabaseConnection(),
     appointments: await testAppointmentsTable(),
@@ -153,12 +142,9 @@ async function runTests() {
     email: await testEmailConfiguration(),
   };
 
+  Object.entries(results).forEach(([test, passed]) => {});
 
-  Object.entries(results).forEach(([test, passed]) => {
-  });
-
-  const allPassed = Object.values(results).every(r => r);
-
+  const allPassed = Object.values(results).every((r) => r);
 
   process.exit(allPassed ? 0 : 1);
 }

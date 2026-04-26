@@ -11,7 +11,7 @@ export const dynamic = 'force-dynamic';
 
 /**
  * Video Playback Events API
- * 
+ *
  * Instruments video playback for analytics and debugging:
  * - load_start: Video started loading
  * - can_play: Video ready to play
@@ -27,7 +27,7 @@ async function _POST(request: NextRequest) {
     if (rateLimited) return rateLimited;
 
     const body = await request.json();
-    
+
     const event: VideoPlaybackEvent = {
       event_type: body.event_type,
       video_id: body.video_id,
@@ -79,7 +79,10 @@ async function _POST(request: NextRequest) {
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    logger.error('Video events API error', error instanceof Error ? error : new Error(String(error)));
+    logger.error(
+      'Video events API error',
+      error instanceof Error ? error : new Error(String(error)),
+    );
     return NextResponse.json({ error: 'Failed to record event' }, { status: 500 });
   }
 }

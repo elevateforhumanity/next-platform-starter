@@ -75,9 +75,7 @@ class LMSPerformanceMonitor {
     return {
       ...this.metrics,
       cacheEfficiency:
-        (this.metrics.cacheHits /
-          (this.metrics.cacheHits + this.metrics.cacheMisses)) *
-        100,
+        (this.metrics.cacheHits / (this.metrics.cacheHits + this.metrics.cacheMisses)) * 100,
     };
   }
 
@@ -91,17 +89,14 @@ class LMSPerformanceMonitor {
       });
 
       // Preload enrolled course details
-      const enrolledCourses = JSON.parse(
-        localStorage.getItem('enrolledCourses') || '[]'
-      );
+      const enrolledCourses = JSON.parse(localStorage.getItem('enrolledCourses') || '[]');
       enrolledCourses.forEach((courseId) => {
         fetch(`/api/lms/course/${courseId}`).then((response) => {
           if (response.ok) {
           }
         });
       });
-    } catch (error) {
-    }
+    } catch (error) {}
   }
 }
 
@@ -116,7 +111,7 @@ document.addEventListener(
       lmsMonitor.preloadCriticalData();
     }
   },
-  { once: true }
+  { once: true },
 );
 
 // Report metrics to server for monitoring

@@ -7,10 +7,9 @@ import { withApiAudit } from '@/lib/audit/withApiAudit';
 // AUTH: Intentionally public — no authentication required
 
 async function _GET(request: NextRequest) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const searchParams = request.nextUrl.searchParams;
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const searchParams = request.nextUrl.searchParams;
   const category = searchParams.get('category') || undefined;
   const audience = searchParams.get('audience') || undefined;
   const featured = searchParams.get('featured') === 'true';
@@ -24,7 +23,7 @@ const searchParams = request.nextUrl.searchParams;
       getCategories(),
     ]);
 
-    return NextResponse.json({ 
+    return NextResponse.json({
       products,
       categories,
       total: products.length,
@@ -33,11 +32,14 @@ const searchParams = request.nextUrl.searchParams;
     });
   } catch (error) {
     logger.error('Products API error:', error);
-    return NextResponse.json({ 
-      products: [], 
-      categories: [],
-      error: 'Failed to fetch products' 
-    }, { status: 500 });
+    return NextResponse.json(
+      {
+        products: [],
+        categories: [],
+        error: 'Failed to fetch products',
+      },
+      { status: 500 },
+    );
   }
 }
 export const GET = withApiAudit('/api/products', _GET);

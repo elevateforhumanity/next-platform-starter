@@ -15,7 +15,6 @@ import type { SupabaseClient } from '@supabase/supabase-js';
  *   - After 5 attempts: status = 'failed' (visible in admin/jobs)
  */
 
-
 import { NextRequest, NextResponse } from 'next/server';
 import { getAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
@@ -47,9 +46,10 @@ function isAuthorized(req: NextRequest): boolean {
 
 async function handleCertificateIssued(
   db: SupabaseClient,
-  payload: CertificateIssuedPayload
+  payload: CertificateIssuedPayload,
 ): Promise<void> {
-  const { certificateId, learnerId, learnerEmail, learnerName, credentialName, certificateUrl } = payload;
+  const { certificateId, learnerId, learnerEmail, learnerName, credentialName, certificateUrl } =
+    payload;
 
   // 1. Send credential email (if learner email is available)
   if (learnerEmail) {
@@ -59,7 +59,7 @@ async function handleCertificateIssued(
         learnerEmail,
         learnerName ?? 'Learner',
         credentialName ?? 'Certificate of Completion',
-        certificateUrl ?? `${process.env.NEXT_PUBLIC_SITE_URL ?? ''}/certificates/${certificateId}`
+        certificateUrl ?? `${process.env.NEXT_PUBLIC_SITE_URL ?? ''}/certificates/${certificateId}`,
       );
       logger.info('Certificate email sent', { certificateId, email: learnerEmail });
     } catch (err) {
@@ -69,15 +69,13 @@ async function handleCertificateIssued(
   }
 
   // 2. Create in-app notification
-  const { error: notifError } = await db
-    .from('notifications')
-    .insert({
-      user_id: learnerId,
-      type: 'achievement',
-      title: 'Certificate Issued!',
-      message: `Your certificate for ${credentialName ?? 'your course'} is ready.`,
-      action_url: certificateUrl ?? `/certificates/${certificateId}`,
-    });
+  const { error: notifError } = await db.from('notifications').insert({
+    user_id: learnerId,
+    type: 'achievement',
+    title: 'Certificate Issued!',
+    message: `Your certificate for ${credentialName ?? 'your course'} is ready.`,
+    action_url: certificateUrl ?? `/certificates/${certificateId}`,
+  });
 
   if (notifError) {
     // Notification failure is non-fatal — log and continue
@@ -119,10 +117,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
 
   // Mark all claimed jobs as 'processing' before executing
   const jobIds = jobs.map((j) => j.id);
-  await db
-    .from('job_queue')
-    .update({ status: 'processing' })
-    .in('id', jobIds);
+  await db.from('job_queue').update({ status: 'processing' }).in('id', jobIds);
 
   const results = { completed: 0, failed: 0, retrying: 0 };
 
@@ -131,7 +126,9 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       if (job.type === 'certificate_issued') {
         await handleCertificateIssued(db, job.payload as CertificateIssuedPayload);
       } else {
-        logger.error('Unknown job type', new Error(`Unknown job type: ${job.type}`), { jobId: job.id });
+        logger.error('Unknown job type', new Error(`Unknown job type: ${job.type}`), {
+          jobId: job.id,
+        });
         return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
       }
 
@@ -142,7 +139,6 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
         .eq('id', job.id);
 
       results.completed++;
-
     } catch (err) {
       const attempts = (job.attempts as number) + 1;
       const message = err instanceof Error ? err.message : 'Unknown error';
@@ -154,17 +150,28 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
           .update({ status: 'failed', attempts, last_error: message })
           .eq('id', job.id);
 
-        logger.error('Job permanently failed', new Error(message), { jobId: job.id, type: job.type, attempts });
+        logger.error('Job permanently failed', new Error(message), {
+          jobId: job.id,
+          type: job.type,
+          attempts,
+        });
         results.failed++;
       } else {
         // Schedule retry with exponential-ish backoff
-        const retryAfter = new Date(Date.now() + RETRY_DELAY_MINUTES * 60 * 1000 * attempts).toISOString();
+        const retryAfter = new Date(
+          Date.now() + RETRY_DELAY_MINUTES * 60 * 1000 * attempts,
+        ).toISOString();
         await db
           .from('job_queue')
           .update({ status: 'pending', attempts, run_after: retryAfter, last_error: message })
           .eq('id', job.id);
 
-        logger.error('Job failed — will retry', new Error(message), { jobId: job.id, type: job.type, attempts, retryAfter });
+        logger.error('Job failed — will retry', new Error(message), {
+          jobId: job.id,
+          type: job.type,
+          attempts,
+          retryAfter,
+        });
         results.retrying++;
       }
     }

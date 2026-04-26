@@ -3,10 +3,10 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
-import { 
-  HelpCircle, 
-  MessageSquare, 
-  Phone, 
+import {
+  HelpCircle,
+  MessageSquare,
+  Phone,
   Mail,
   BookOpen,
   Video,
@@ -15,7 +15,8 @@ import {
   ChevronRight,
   Clock,
   PenSquare,
-CheckCircle, } from 'lucide-react';
+  CheckCircle,
+} from 'lucide-react';
 import { SupportForm } from './SupportForm';
 
 export const metadata: Metadata = {
@@ -28,23 +29,28 @@ export const dynamic = 'force-dynamic';
 const FAQ_ITEMS = [
   {
     question: 'How do I reset my password?',
-    answer: 'Click on "Forgot Password" on the login page and enter your email. You\'ll receive a link to reset your password.',
+    answer:
+      'Click on "Forgot Password" on the login page and enter your email. You\'ll receive a link to reset your password.',
   },
   {
     question: 'How do I access my course materials?',
-    answer: 'Go to "My Courses" in the dashboard, select your course, and click on the lesson you want to access.',
+    answer:
+      'Go to "My Courses" in the dashboard, select your course, and click on the lesson you want to access.',
   },
   {
     question: 'How do I submit an assignment?',
-    answer: 'Navigate to the assignment page, upload your file or enter your response, and click "Submit".',
+    answer:
+      'Navigate to the assignment page, upload your file or enter your response, and click "Submit".',
   },
   {
     question: 'How do I contact my instructor?',
-    answer: 'Use the Messages feature to send a direct message to your instructor, or check the course page for office hours.',
+    answer:
+      'Use the Messages feature to send a direct message to your instructor, or check the course page for office hours.',
   },
   {
     question: 'How do I download my certificate?',
-    answer: 'Go to "Certificates" in your dashboard. Click on the certificate you want and select "Download".',
+    answer:
+      'Go to "Certificates" in your dashboard. Click on the certificate you want and select "Download".',
   },
 ];
 
@@ -78,7 +84,9 @@ const SUPPORT_CATEGORIES = [
 export default async function SupportPage() {
   const supabase = await createClient();
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     redirect('/login');
@@ -103,9 +111,9 @@ export default async function SupportPage() {
 
   return (
     <div className="min-h-screen bg-white py-8">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <Breadcrumbs items={[{ label: "LMS", href: "/lms/courses" }, { label: "Support" }]} />
-        </div>
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'LMS', href: '/lms/courses' }, { label: 'Support' }]} />
+      </div>
       <div className="max-w-5xl mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-12">
@@ -134,7 +142,9 @@ export default async function SupportPage() {
                 key={category.title}
                 className="bg-white rounded-xl p-6 border border-slate-200 hover:border-brand-blue-300 hover:shadow-md transition text-left"
               >
-                <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-4 ${category.color}`}>
+                <div
+                  className={`w-12 h-12 rounded-xl flex items-center justify-center mb-4 ${category.color}`}
+                >
                   <IconComponent className="w-6 h-6" />
                 </div>
                 <h3 className="font-bold text-slate-900 mb-1">{category.title}</h3>
@@ -158,14 +168,15 @@ export default async function SupportPage() {
                       <span className="font-medium text-slate-900">{item.question}</span>
                       <ChevronRight className="w-5 h-5 text-slate-400 group-open:rotate-90 transition-transform" />
                     </summary>
-                    <div className="px-6 pb-6 text-slate-600">
-                      {item.answer}
-                    </div>
+                    <div className="px-6 pb-6 text-slate-600">{item.answer}</div>
                   </details>
                 ))}
               </div>
               <div className="p-6 bg-white border-t border-slate-200">
-                <Link href="/support/help" className="text-brand-blue-600 font-medium hover:text-brand-blue-700">
+                <Link
+                  href="/support/help"
+                  className="text-brand-blue-600 font-medium hover:text-brand-blue-700"
+                >
                   View All Help Articles →
                 </Link>
               </div>
@@ -192,7 +203,10 @@ export default async function SupportPage() {
             <div className="bg-white rounded-2xl border border-slate-200 p-6">
               <h3 className="font-bold text-slate-900 mb-4">Other Ways to Reach Us</h3>
               <div className="space-y-4">
-                <a href="/support" className="flex items-center gap-3 text-slate-600 hover:text-brand-blue-600">
+                <a
+                  href="/support"
+                  className="flex items-center gap-3 text-slate-600 hover:text-brand-blue-600"
+                >
                   <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
                     <Phone className="w-5 h-5" />
                   </div>
@@ -201,7 +215,10 @@ export default async function SupportPage() {
                     <div className="text-sm">(317) 314-3757</div>
                   </div>
                 </a>
-                <a href="/contact" className="flex items-center gap-3 text-slate-600 hover:text-brand-blue-600">
+                <a
+                  href="/contact"
+                  className="flex items-center gap-3 text-slate-600 hover:text-brand-blue-600"
+                >
                   <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
                     <Mail className="w-5 h-5" />
                   </div>
@@ -250,12 +267,18 @@ export default async function SupportPage() {
                       className="block p-3 bg-white rounded-lg hover:bg-white transition"
                     >
                       <div className="flex items-center justify-between">
-                        <span className="font-medium text-slate-900 truncate">{ticket.subject}</span>
-                        <span className={`px-2 py-1 rounded text-xs font-medium ${
-                          ticket.status === 'open' ? 'bg-yellow-100 text-yellow-700' :
-                          ticket.status === 'resolved' ? 'bg-brand-green-100 text-brand-green-700' :
-                          'bg-white text-slate-700'
-                        }`}>
+                        <span className="font-medium text-slate-900 truncate">
+                          {ticket.subject}
+                        </span>
+                        <span
+                          className={`px-2 py-1 rounded text-xs font-medium ${
+                            ticket.status === 'open'
+                              ? 'bg-yellow-100 text-yellow-700'
+                              : ticket.status === 'resolved'
+                                ? 'bg-brand-green-100 text-brand-green-700'
+                                : 'bg-white text-slate-700'
+                          }`}
+                        >
                           {ticket.status}
                         </span>
                       </div>

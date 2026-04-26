@@ -10,7 +10,7 @@
 "Absolutely—in a controlled sandbox."
 For evaluation, we keep the governed core read-only so nothing breaks accidentally. If there's serious interest, we do a structured extensibility session where your team can safely customize without risking outcomes.
 
-*Then stop.*
+_Then stop._
 
 ---
 
@@ -22,7 +22,7 @@ For evaluation, we keep the governed core read-only so nothing breaks accidental
 "We can cover the stack, but it's not the decision driver."
 The hard part here isn't the language—it's the lifecycle enforcement and operational guarantees. We usually save stack details for technical diligence after alignment.
 
-*Stop talking.*
+_Stop talking._
 
 ---
 
@@ -34,7 +34,7 @@ The hard part here isn't the language—it's the lifecycle enforcement and opera
 "You could—but that's an intentional decision, not a default."
 The platform is designed so core lifecycle changes are deliberate, scoped, and governed. That's how you avoid accidental breakage later.
 
-*Pause. Let that sit.*
+_Pause. Let that sit._
 
 ---
 
@@ -46,7 +46,7 @@ The platform is designed so core lifecycle changes are deliberate, scoped, and g
 "Happy to—at the right stage."
 At this point, the question is whether the outcomes and governance model fit. Deep internals come after that decision.
 
-*Then stop.*
+_Then stop._
 
 ---
 
@@ -58,4 +58,4 @@ At this point, the question is whether the outcomes and governance model fit. De
 "Of course."
 Before you do, can I ask—what would you need to be confident moving forward?
 
-*This either re-engages them or cleanly qualifies them out.*
+_This either re-engages them or cleanly qualifies them out._

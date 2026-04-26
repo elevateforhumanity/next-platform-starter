@@ -79,13 +79,13 @@ export async function getStudentRiskStatus(enrollmentId: string): Promise<RiskSt
 export async function updateRequirementStatus(
   requirementId: string,
   status: string,
-  evidenceUrl?: string
+  evidenceUrl?: string,
 ): Promise<boolean> {
   const supabase = await createClient();
 
   const updateData: any = {
     status,
-    updated_at: new Date().toISOString()
+    updated_at: new Date().toISOString(),
   };
 
   if (evidenceUrl) {
@@ -112,7 +112,7 @@ export async function verifyRequirement(
   requirementId: string,
   verifiedBy: string,
   approved: boolean,
-  rejectionReason?: string
+  rejectionReason?: string,
 ): Promise<boolean> {
   const supabase = await createClient();
 
@@ -120,7 +120,7 @@ export async function verifyRequirement(
     status: approved ? 'verified' : 'rejected',
     verified_by: verifiedBy,
     verified_at: new Date().toISOString(),
-    updated_at: new Date().toISOString()
+    updated_at: new Date().toISOString(),
   };
 
   if (!approved && rejectionReason) {
@@ -138,14 +138,12 @@ export async function verifyRequirement(
   }
 
   // Log verification action
-  await supabase
-    .from('verification_actions')
-    .insert({
-      requirement_id: requirementId,
-      action_type: approved ? 'approved' : 'rejected',
-      performed_by: verifiedBy,
-      notes: rejectionReason || null
-    });
+  await supabase.from('verification_actions').insert({
+    requirement_id: requirementId,
+    action_type: approved ? 'approved' : 'rejected',
+    performed_by: verifiedBy,
+    notes: rejectionReason || null,
+  });
 
   return true;
 }
@@ -159,7 +157,7 @@ export async function createRequirement(
   title: string,
   description?: string,
   dueDate?: string,
-  priority: string = 'normal'
+  priority: string = 'normal',
 ): Promise<string | null> {
   const supabase = await createClient();
 
@@ -172,7 +170,7 @@ export async function createRequirement(
       description,
       due_date: dueDate,
       priority,
-      status: 'pending'
+      status: 'pending',
     })
     .select('id')
     .maybeSingle();
@@ -215,7 +213,8 @@ export async function getPendingVerifications(programIds: string[]): Promise<Stu
 
   const { data, error }: any = await supabase
     .from('student_requirements')
-    .select(`
+    .select(
+      `
       *,
       enrollments!inner(
         program_id,
@@ -225,7 +224,8 @@ export async function getPendingVerifications(programIds: string[]): Promise<Stu
           email
         )
       )
-    `)
+    `,
+    )
     .in('enrollments.program_id', programIds)
     .eq('status', 'completed')
     .order('updated_at', { ascending: true });
@@ -246,6 +246,6 @@ export async function recalculateRiskStatus(enrollmentId: string): Promise<void>
 
   // Call the database function
   await supabase.rpc('calculate_student_risk_status', {
-    p_enrollment_id: enrollmentId
+    p_enrollment_id: enrollmentId,
   });
 }

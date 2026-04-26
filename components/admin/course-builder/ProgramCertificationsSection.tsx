@@ -18,14 +18,18 @@ interface Props {
   onChange: (patch: Partial<ProgramBuilderState>) => void;
 }
 
-export default function ProgramCertificationsSection({ state, onChange, availableCredentials }: Props) {
+export default function ProgramCertificationsSection({
+  state,
+  onChange,
+  availableCredentials,
+}: Props) {
   const [selectedId, setSelectedId] = useState('');
   const credentials = state.credentials;
 
   const attachCredential = () => {
-    const cred = availableCredentials.find(c => c.id === selectedId);
+    const cred = availableCredentials.find((c) => c.id === selectedId);
     if (!cred) return;
-    if (credentials.some(c => c.credential_id === cred.id)) return;
+    if (credentials.some((c) => c.credential_id === cred.id)) return;
 
     const next: ProgramCredential = {
       id: crypto.randomUUID(),
@@ -41,9 +45,9 @@ export default function ProgramCertificationsSection({ state, onChange, availabl
   };
 
   const removeCredential = (id: string) => {
-    const remaining = credentials.filter(c => c.id !== id);
+    const remaining = credentials.filter((c) => c.id !== id);
     // If we removed the primary, promote the first remaining
-    if (remaining.length > 0 && !remaining.some(c => c.is_primary)) {
+    if (remaining.length > 0 && !remaining.some((c) => c.is_primary)) {
       remaining[0] = { ...remaining[0], is_primary: true };
     }
     onChange({ credentials: remaining });
@@ -51,12 +55,12 @@ export default function ProgramCertificationsSection({ state, onChange, availabl
 
   const setPrimary = (id: string) => {
     onChange({
-      credentials: credentials.map(c => ({ ...c, is_primary: c.id === id })),
+      credentials: credentials.map((c) => ({ ...c, is_primary: c.id === id })),
     });
   };
 
   const unattachedCredentials = availableCredentials.filter(
-    ac => !credentials.some(c => c.credential_id === ac.id)
+    (ac) => !credentials.some((c) => c.credential_id === ac.id),
   );
 
   return (
@@ -74,18 +78,22 @@ export default function ProgramCertificationsSection({ state, onChange, availabl
           <p className="text-sm text-slate-400 italic">No credentials attached yet.</p>
         )}
 
-        {credentials.map(cred => (
+        {credentials.map((cred) => (
           <div
             key={cred.id}
             className={`flex items-center gap-3 rounded-xl border px-4 py-3 ${cred.is_primary ? 'border-brand-blue-200 bg-brand-blue-50' : 'border-slate-200 bg-white'}`}
           >
-            <div className={`flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg ${cred.is_primary ? 'bg-brand-blue-600' : 'bg-slate-100'}`}>
+            <div
+              className={`flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg ${cred.is_primary ? 'bg-brand-blue-600' : 'bg-slate-100'}`}
+            >
               <Award className={`h-5 w-5 ${cred.is_primary ? 'text-white' : 'text-slate-500'}`} />
             </div>
 
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2">
-                <span className="text-sm font-semibold text-slate-900 truncate">{cred.credential_name}</span>
+                <span className="text-sm font-semibold text-slate-900 truncate">
+                  {cred.credential_name}
+                </span>
                 {cred.credential_abbreviation && (
                   <span className="flex-shrink-0 rounded bg-slate-100 px-1.5 py-0.5 text-xs font-mono text-slate-600">
                     {cred.credential_abbreviation}
@@ -102,11 +110,13 @@ export default function ProgramCertificationsSection({ state, onChange, availabl
                   <input
                     type="checkbox"
                     checked={cred.is_required}
-                    onChange={e => onChange({
-                      credentials: credentials.map(c =>
-                        c.id === cred.id ? { ...c, is_required: e.target.checked } : c
-                      ),
-                    })}
+                    onChange={(e) =>
+                      onChange({
+                        credentials: credentials.map((c) =>
+                          c.id === cred.id ? { ...c, is_required: e.target.checked } : c,
+                        ),
+                      })
+                    }
                     className="rounded"
                   />
                   Required for completion
@@ -140,13 +150,14 @@ export default function ProgramCertificationsSection({ state, onChange, availabl
           <div className="flex items-center gap-2 pt-1">
             <select
               value={selectedId}
-              onChange={e => setSelectedId(e.target.value)}
+              onChange={(e) => setSelectedId(e.target.value)}
               className="flex-1 rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-900 focus:border-brand-blue-500 focus:outline-none focus:ring-2 focus:ring-brand-blue-500/20 bg-white"
             >
               <option value="">Select a credential to attach…</option>
-              {unattachedCredentials.map(c => (
+              {unattachedCredentials.map((c) => (
                 <option key={c.id} value={c.id}>
-                  {c.name}{c.abbreviation ? ` (${c.abbreviation})` : ''} — {c.issuing_authority}
+                  {c.name}
+                  {c.abbreviation ? ` (${c.abbreviation})` : ''} — {c.issuing_authority}
                 </option>
               ))}
             </select>
@@ -164,7 +175,9 @@ export default function ProgramCertificationsSection({ state, onChange, availabl
         {unattachedCredentials.length === 0 && credentials.length === 0 && (
           <p className="text-sm text-slate-400">
             No credentials exist in the registry yet.{' '}
-            <a href="/admin/credentials" className="text-brand-blue-600 hover:underline">Add credentials →</a>
+            <a href="/admin/credentials" className="text-brand-blue-600 hover:underline">
+              Add credentials →
+            </a>
           </p>
         )}
       </div>

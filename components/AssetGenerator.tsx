@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 import { sanitizeHtml } from '@/lib/sanitize';
@@ -94,7 +94,7 @@ export default function AssetGenerator() {
             assetType,
             content,
           }),
-        }
+        },
       );
 
       const data = await response.json();
@@ -102,7 +102,7 @@ export default function AssetGenerator() {
       if (data.success) {
         setGeneratedAsset(data.asset);
         setAssetName(
-          `${ASSET_TYPES[assetType].name} - ${new Date().toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' })}`
+          `${ASSET_TYPES[assetType].name} - ${new Date().toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' })}`,
         );
       } else {
         alert('Failed to generate asset: ' + data.error);
@@ -147,7 +147,8 @@ export default function AssetGenerator() {
       setGeneratedAsset(null);
       setAssetName('');
       setContent('');
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
       alert('Failed to save asset');
     } finally {
@@ -171,14 +172,10 @@ export default function AssetGenerator() {
         {/* Configuration Panel */}
         <div className="space-y-6">
           <div className="bg-white rounded-lg shadow-md p-6">
-            <h2 className="text-2xl font-semibold text-brand-text mb-4">
-              Asset Configuration
-            </h2>
+            <h2 className="text-2xl font-semibold text-brand-text mb-4">Asset Configuration</h2>
             {/* Asset Type */}
             <div className="mb-4">
-              <label className="block text-sm font-medium text-brand-text mb-2">
-                Asset Type
-              </label>
+              <label className="block text-sm font-medium text-brand-text mb-2">Asset Type</label>
               <div className="grid grid-cols-1 gap-3">
                 {Object.values(ASSET_TYPES).map((type) => (
                   <button
@@ -192,12 +189,8 @@ export default function AssetGenerator() {
                   >
                     <div className="flex items-start justify-between">
                       <div>
-                        <h3 className="font-semibold text-brand-text">
-                          {type.name}
-                        </h3>
-                        <p className="text-sm text-brand-text-muted">
-                          {type.description}
-                        </p>
+                        <h3 className="font-semibold text-brand-text">{type.name}</h3>
+                        <p className="text-sm text-brand-text-muted">{type.description}</p>
                       </div>
                       <span className="text-xs text-brand-text-light bg-brand-surface-dark px-2 py-2 rounded">
                         {type.dimensions}
@@ -217,13 +210,13 @@ export default function AssetGenerator() {
                 rows={4}
                 placeholder="Describe what the asset should communicate..."
                 value={content}
-                onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setContent(e.target.value)}
+                onChange={(
+                  e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+                ) => setContent(e.target.value)}
               />
               {currentAssetType.examples.length > 0 && (
                 <div className="mt-2">
-                  <p className="text-xs text-brand-text-light mb-1">
-                    Examples:
-                  </p>
+                  <p className="text-xs text-brand-text-light mb-1">Examples:</p>
                   {currentAssetType.examples.map((example, i) => (
                     <button
                       key={i}
@@ -274,19 +267,19 @@ export default function AssetGenerator() {
           {/* Save Panel */}
           {generatedAsset && (
             <div className="bg-white rounded-lg shadow-md p-6">
-              <h2 className="text-2xl font-semibold text-brand-text mb-4">
-                Save Asset
-              </h2>
+              <h2 className="text-2xl font-semibold text-brand-text mb-4">Save Asset</h2>
               <div className="mb-4">
-                <label className="block text-sm font-medium text-brand-text mb-2">
-                  Asset Name
-                </label>
+                <label className="block text-sm font-medium text-brand-text mb-2">Asset Name</label>
                 <input
                   type="text"
                   className="w-full border border-brand-border-dark rounded-lg px-4 py-2 focus:ring-2 focus:ring-brand-focus focus:border-transparent"
                   placeholder="e.g., Program Launch Social Post"
                   value={assetName}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setAssetName(e.target.value)}
+                  onChange={(
+                    e: React.ChangeEvent<
+                      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+                    >,
+                  ) => setAssetName(e.target.value)}
                 />
               </div>
               <button
@@ -328,20 +321,14 @@ export default function AssetGenerator() {
                 {/* Copy Text */}
                 {generatedAsset.copyText && (
                   <div className="mt-4 p-4 bg-brand-surface rounded-lg">
-                    <h3 className="font-semibold text-brand-text mb-2">
-                      Copy Text:
-                    </h3>
-                    <p className="text-brand-text text-sm">
-                      {generatedAsset.copyText}
-                    </p>
+                    <h3 className="font-semibold text-brand-text mb-2">Copy Text:</h3>
+                    <p className="text-brand-text text-sm">{generatedAsset.copyText}</p>
                   </div>
                 )}
                 {/* Download Options */}
                 <div className="mt-4 flex gap-3">
                   <button
-                    onClick={() =>
-                      downloadAsHTML(generatedAsset.html, assetName)
-                    }
+                    onClick={() => downloadAsHTML(generatedAsset.html, assetName)}
                     className="flex-1 bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg transition-colors"
                   >
                     Download HTML
@@ -370,9 +357,7 @@ export default function AssetGenerator() {
                   d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
                 />
               </svg>
-              <h3 className="text-lg font-medium text-brand-text mb-2">
-                No Asset Generated Yet
-              </h3>
+              <h3 className="text-lg font-medium text-brand-text mb-2">No Asset Generated Yet</h3>
               <p className="text-brand-text-light">
                 Select an asset type and describe what you want to create
               </p>

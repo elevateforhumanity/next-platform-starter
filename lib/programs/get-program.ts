@@ -16,47 +16,46 @@ import { logger } from '@/lib/logger';
 
 // Slugs fully migrated to DB — no static data/programs/<slug>.ts file exists.
 // For these, a minimal ProgramSchema is synthesized from the DB record.
-const DB_MIGRATED_SLUGS = new Set([
-  'peer-recovery-specialist',
-]);
+const DB_MIGRATED_SLUGS = new Set(['peer-recovery-specialist']);
 
 // Static registry — add new programs here when created
 const PROGRAM_REGISTRY: Record<string, () => Promise<{ default: ProgramSchema }>> = {
-  'cna':                           () => import('@/data/programs/cna'),
-  'hvac-technician':               () => import('@/data/programs/hvac-technician'),
-  'barber-apprenticeship':         () => import('@/data/programs/barber-apprenticeship'),
-  'beauty-career-educator':        () => import('@/data/programs/beauty-career-educator'),
-  'bookkeeping':                   () => import('@/data/programs/bookkeeping'),
-  'business-administration':       () => import('@/data/programs/business-administration'),
-  'cad-drafting':                  () => import('@/data/programs/cad-drafting'),
-  'cdl-training':                  () => import('@/data/programs/cdl-training'),
-  'construction-trades-certification': () => import('@/data/programs/construction-trades-certification'),
-  'cosmetology-apprenticeship':    () => import('@/data/programs/cosmetology-apprenticeship'),
-  'culinary-apprenticeship':       () => import('@/data/programs/culinary-apprenticeship'),
-  'cybersecurity-analyst':         () => import('@/data/programs/cybersecurity-analyst'),
-  'diesel-mechanic':               () => import('@/data/programs/diesel-mechanic'),
-  'electrical':                    () => import('@/data/programs/electrical'),
-  'emergency-health-safety':       () => import('@/data/programs/emergency-health-safety'),
-  'health-safety':                 () => import('@/data/programs/emergency-health-safety'),
-  'entrepreneurship':              () => import('@/data/programs/entrepreneurship'),
-  'esthetician':                   () => import('@/data/programs/esthetician'),
-  'forklift':                      () => import('@/data/programs/forklift'),
-  'graphic-design':                () => import('@/data/programs/graphic-design'),
-  'home-health-aide':              () => import('@/data/programs/home-health-aide'),
-  'it-help-desk':                  () => import('@/data/programs/it-help-desk'),
-  'medical-assistant':             () => import('@/data/programs/medical-assistant'),
-  'nail-technician-apprenticeship':() => import('@/data/programs/nail-technician-apprenticeship'),
-  'network-administration':        () => import('@/data/programs/network-administration'),
-  'network-support-technician':    () => import('@/data/programs/network-support-technician'),
-  'office-administration':         () => import('@/data/programs/office-administration'),
-  'pharmacy-technician':           () => import('@/data/programs/pharmacy-technician'),
-  'phlebotomy':                    () => import('@/data/programs/phlebotomy'),
-  'plumbing':                      () => import('@/data/programs/plumbing'),
-  'project-management':            () => import('@/data/programs/project-management'),
-  'software-development':          () => import('@/data/programs/software-development'),
-  'tax-preparation':               () => import('@/data/programs/tax-preparation'),
-  'web-development':               () => import('@/data/programs/web-development'),
-  'welding':                       () => import('@/data/programs/welding'),
+  cna: () => import('@/data/programs/cna'),
+  'hvac-technician': () => import('@/data/programs/hvac-technician'),
+  'barber-apprenticeship': () => import('@/data/programs/barber-apprenticeship'),
+  'beauty-career-educator': () => import('@/data/programs/beauty-career-educator'),
+  bookkeeping: () => import('@/data/programs/bookkeeping'),
+  'business-administration': () => import('@/data/programs/business-administration'),
+  'cad-drafting': () => import('@/data/programs/cad-drafting'),
+  'cdl-training': () => import('@/data/programs/cdl-training'),
+  'construction-trades-certification': () =>
+    import('@/data/programs/construction-trades-certification'),
+  'cosmetology-apprenticeship': () => import('@/data/programs/cosmetology-apprenticeship'),
+  'culinary-apprenticeship': () => import('@/data/programs/culinary-apprenticeship'),
+  'cybersecurity-analyst': () => import('@/data/programs/cybersecurity-analyst'),
+  'diesel-mechanic': () => import('@/data/programs/diesel-mechanic'),
+  electrical: () => import('@/data/programs/electrical'),
+  'emergency-health-safety': () => import('@/data/programs/emergency-health-safety'),
+  'health-safety': () => import('@/data/programs/emergency-health-safety'),
+  entrepreneurship: () => import('@/data/programs/entrepreneurship'),
+  esthetician: () => import('@/data/programs/esthetician'),
+  forklift: () => import('@/data/programs/forklift'),
+  'graphic-design': () => import('@/data/programs/graphic-design'),
+  'home-health-aide': () => import('@/data/programs/home-health-aide'),
+  'it-help-desk': () => import('@/data/programs/it-help-desk'),
+  'medical-assistant': () => import('@/data/programs/medical-assistant'),
+  'nail-technician-apprenticeship': () => import('@/data/programs/nail-technician-apprenticeship'),
+  'network-administration': () => import('@/data/programs/network-administration'),
+  'network-support-technician': () => import('@/data/programs/network-support-technician'),
+  'office-administration': () => import('@/data/programs/office-administration'),
+  'pharmacy-technician': () => import('@/data/programs/pharmacy-technician'),
+  phlebotomy: () => import('@/data/programs/phlebotomy'),
+  plumbing: () => import('@/data/programs/plumbing'),
+  'project-management': () => import('@/data/programs/project-management'),
+  'software-development': () => import('@/data/programs/software-development'),
+  'tax-preparation': () => import('@/data/programs/tax-preparation'),
+  'web-development': () => import('@/data/programs/web-development'),
+  welding: () => import('@/data/programs/welding'),
 };
 
 export async function getProgramBySlug(slug: string): Promise<ProgramSchema | null> {
@@ -93,7 +92,7 @@ export async function getProgramBySlug(slug: string): Promise<ProgramSchema | nu
     const mod = await loader();
     // Data files use named exports (e.g. HVAC_TECHNICIAN) — find the first ProgramSchema export
     const named = Object.values(mod).find(
-      (v) => v && typeof v === 'object' && 'slug' in v && 'title' in v && 'cta' in v
+      (v) => v && typeof v === 'object' && 'slug' in v && 'title' in v && 'cta' in v,
     ) as ProgramSchema | undefined;
     return named ?? null;
   } catch (err) {

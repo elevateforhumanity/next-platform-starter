@@ -15,11 +15,8 @@ export default async function TaxPreparerTrainingPage() {
   await requireRole(['admin', 'super_admin']);
   const supabase = await createClient();
 
-
-
   return (
     <div className="min-h-screen bg-white py-8">
-
       {/* Hero Image */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
@@ -29,9 +26,7 @@ export default async function TaxPreparerTrainingPage() {
           >
             ← Back to Tax Filing
           </Link>
-          <h1 className="text-3xl font-bold text-black">
-            Tax Preparer Training
-          </h1>
+          <h1 className="text-3xl font-bold text-black">Tax Preparer Training</h1>
           <p className="mt-2 text-black">
             Manage VITA certification training and continuing education.
           </p>
@@ -54,58 +49,66 @@ export default async function TaxPreparerTrainingPage() {
 
         <div className="bg-white rounded-lg shadow mb-6">
           <div className="px-6 py-4 border-b border-gray-200">
-            <h2 className="text-lg font-semibold text-black">
-              VITA Certification Training
-            </h2>
+            <h2 className="text-lg font-semibold text-black">VITA Certification Training</h2>
           </div>
           <div className="p-6">
             <div className="space-y-4">
               <div className="border border-gray-200 rounded-lg p-4">
-                <h3 className="font-semibold text-black mb-2">
-                  Basic Certification
-                </h3>
+                <h3 className="font-semibold text-black mb-2">Basic Certification</h3>
                 <p className="text-sm text-black mb-3">
                   Complete IRS VITA training and pass certification test
                 </p>
                 <div className="flex gap-3">
-                  <button className="px-4 py-2 bg-brand-blue-600 text-white rounded-md hover:bg-brand-blue-700 text-sm" aria-label="Action button">
+                  <button
+                    className="px-4 py-2 bg-brand-blue-600 text-white rounded-md hover:bg-brand-blue-700 text-sm"
+                    aria-label="Action button"
+                  >
                     Start Training
                   </button>
-                  <button className="px-4 py-2 border border-gray-300 rounded-md text-black hover:bg-gray-50 text-sm" aria-label="Action button">
+                  <button
+                    className="px-4 py-2 border border-gray-300 rounded-md text-black hover:bg-gray-50 text-sm"
+                    aria-label="Action button"
+                  >
                     View Materials
                   </button>
                 </div>
               </div>
 
               <div className="border border-gray-200 rounded-lg p-4">
-                <h3 className="font-semibold text-black mb-2">
-                  Advanced Certification
-                </h3>
+                <h3 className="font-semibold text-black mb-2">Advanced Certification</h3>
                 <p className="text-sm text-black mb-3">
                   Advanced tax scenarios and complex returns
                 </p>
                 <div className="flex gap-3">
-                  <button className="px-4 py-2 bg-brand-blue-600 text-white rounded-md hover:bg-brand-blue-700 text-sm" aria-label="Action button">
+                  <button
+                    className="px-4 py-2 bg-brand-blue-600 text-white rounded-md hover:bg-brand-blue-700 text-sm"
+                    aria-label="Action button"
+                  >
                     Start Training
                   </button>
-                  <button className="px-4 py-2 border border-gray-300 rounded-md text-black hover:bg-gray-50 text-sm" aria-label="Action button">
+                  <button
+                    className="px-4 py-2 border border-gray-300 rounded-md text-black hover:bg-gray-50 text-sm"
+                    aria-label="Action button"
+                  >
                     View Materials
                   </button>
                 </div>
               </div>
 
               <div className="border border-gray-200 rounded-lg p-4">
-                <h3 className="font-semibold text-black mb-2">
-                  Quality Review Training
-                </h3>
-                <p className="text-sm text-black mb-3">
-                  Learn to review and approve tax returns
-                </p>
+                <h3 className="font-semibold text-black mb-2">Quality Review Training</h3>
+                <p className="text-sm text-black mb-3">Learn to review and approve tax returns</p>
                 <div className="flex gap-3">
-                  <button className="px-4 py-2 bg-brand-blue-600 text-white rounded-md hover:bg-brand-blue-700 text-sm" aria-label="Action button">
+                  <button
+                    className="px-4 py-2 bg-brand-blue-600 text-white rounded-md hover:bg-brand-blue-700 text-sm"
+                    aria-label="Action button"
+                  >
                     Start Training
                   </button>
-                  <button className="px-4 py-2 border border-gray-300 rounded-md text-black hover:bg-gray-50 text-sm" aria-label="Action button">
+                  <button
+                    className="px-4 py-2 border border-gray-300 rounded-md text-black hover:bg-gray-50 text-sm"
+                    aria-label="Action button"
+                  >
                     View Materials
                   </button>
                 </div>
@@ -115,9 +118,7 @@ export default async function TaxPreparerTrainingPage() {
         </div>
 
         <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-lg p-6">
-          <h3 className="text-lg font-semibold text-brand-blue-900 mb-2">
-            Training Resources
-          </h3>
+          <h3 className="text-lg font-semibold text-brand-blue-900 mb-2">Training Resources</h3>
           <ul className="space-y-2 text-brand-blue-800">
             <li>• IRS VITA Training Materials</li>
             <li>• Practice Tax Scenarios</li>

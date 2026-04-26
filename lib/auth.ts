@@ -16,7 +16,7 @@ import { logger } from '@/lib/logger';
 export function createBuildTimeSupabaseClient() {
   return createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
   );
 }
 
@@ -27,27 +27,23 @@ export function createBuildTimeSupabaseClient() {
 export async function createServerSupabaseClient() {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  
+
   if (!supabaseUrl || !supabaseAnonKey) {
     if (process.env.NODE_ENV === 'development') {
       logger.warn('[Auth] Missing Supabase env vars. Auth features disabled.');
     }
     return null;
   }
-  
+
   const cookieStore = await cookies();
 
-  return createServerClient(
-    supabaseUrl,
-    supabaseAnonKey,
-    {
-      cookies: {
-        get(name: string) {
-          return cookieStore.get(name)?.value;
-        },
+  return createServerClient(supabaseUrl, supabaseAnonKey, {
+    cookies: {
+      get(name: string) {
+        return cookieStore.get(name)?.value;
       },
-    }
-  );
+    },
+  });
 }
 
 // Alias for compatibility with old code using createRouteHandlerClient
@@ -59,11 +55,11 @@ export async function createRouteHandlerClient(_options?: Record<string, any>) {
 
 export async function getSession() {
   const supabase = await createServerSupabaseClient();
-  
+
   if (!supabase) {
     return null;
   }
-  
+
   try {
     // Use getUser() instead of getSession() — getUser() validates the JWT
     // with the Supabase server, while getSession() only reads from cookies
@@ -82,7 +78,9 @@ export async function getSession() {
     }
 
     // Reconstruct a session-like object for backward compatibility
-    const { data: { session } } = await supabase.auth.getSession();
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
     if (session) return session;
 
     // If getUser succeeds but getSession doesn't, build a minimal session
@@ -109,7 +107,7 @@ export async function getCurrentUser() {
 
   const supabase = await createServerSupabaseClient();
   if (!supabase) return null;
-  
+
   const { data: profile, error } = await supabase
     .from('profiles')
     .select('*')
@@ -163,11 +161,13 @@ export async function getAuthUser(): Promise<AuthUser | null> {
       id: session.user.id,
       email: session.user.email || '',
       role: profile.role as UserRole,
-      full_name: profile.first_name && profile.last_name
-        ? `${profile.first_name} ${profile.last_name}`
-        : undefined,
+      full_name:
+        profile.first_name && profile.last_name
+          ? `${profile.first_name} ${profile.last_name}`
+          : undefined,
     };
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     logger.error('Error getting auth user', error as Error);
     return null;
   }
@@ -205,9 +205,7 @@ export async function requireApiAuth() {
 export async function requireAuth(redirectTo?: string) {
   const session = await getSession();
   if (!session) {
-    const loginUrl = redirectTo
-      ? `/login?redirect=${encodeURIComponent(redirectTo)}`
-      : '/login';
+    const loginUrl = redirectTo ? `/login?redirect=${encodeURIComponent(redirectTo)}` : '/login';
     redirect(loginUrl);
   }
   return session;
@@ -297,9 +295,7 @@ export async function canAccessStudent(studentId: string): Promise<boolean> {
   return false;
 }
 
-export async function canAccessEnrollment(
-  enrollmentId: string
-): Promise<boolean> {
+export async function canAccessEnrollment(enrollmentId: string): Promise<boolean> {
   const user = await getCurrentUser();
   if (!user) return false;
 
@@ -326,11 +322,7 @@ export async function canAccessEnrollment(
   if (role === 'delegate' && enrollment.delegate_id === user.id) return true;
 
   // Program holders can access their enrollments
-  if (
-    role === 'program_holder' &&
-    enrollment.program_holder_id === user.profile.id
-  )
-    return true;
+  if (role === 'program_holder' && enrollment.program_holder_id === user.profile.id) return true;
 
   return false;
 }

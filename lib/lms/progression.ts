@@ -14,7 +14,7 @@
 export function isLessonUnlocked(
   idx: number,
   lessonIds: string[],
-  progressMap: Record<string, { completed?: boolean } | undefined>
+  progressMap: Record<string, { completed?: boolean } | undefined>,
 ): boolean {
   if (idx === 0) return true;
   const prevId = lessonIds[idx - 1];
@@ -28,11 +28,11 @@ export function isLessonUnlocked(
 export function isModuleUnlocked(
   idx: number,
   modules: Array<{ lessons: Array<{ id: string }> }>,
-  progressMap: Record<string, { completed?: boolean } | undefined>
+  progressMap: Record<string, { completed?: boolean } | undefined>,
 ): boolean {
   if (idx === 0) return true;
   const prevModule = modules[idx - 1];
-  return prevModule.lessons.every(l => !!progressMap[l.id]?.completed);
+  return prevModule.lessons.every((l) => !!progressMap[l.id]?.completed);
 }
 
 /**
@@ -40,10 +40,10 @@ export function isModuleUnlocked(
  */
 export function moduleProgress(
   lessonIds: string[],
-  progressMap: Record<string, { completed?: boolean } | undefined>
+  progressMap: Record<string, { completed?: boolean } | undefined>,
 ): number {
   if (lessonIds.length === 0) return 0;
-  const done = lessonIds.filter(id => !!progressMap[id]?.completed).length;
+  const done = lessonIds.filter((id) => !!progressMap[id]?.completed).length;
   return Math.round((done / lessonIds.length) * 100);
 }
 
@@ -52,7 +52,7 @@ export function moduleProgress(
  */
 export function isCourseComplete(
   modules: Array<{ lessons: Array<{ id: string }> }>,
-  progressMap: Record<string, { completed?: boolean } | undefined>
+  progressMap: Record<string, { completed?: boolean } | undefined>,
 ): boolean {
-  return modules.every(m => m.lessons.every(l => !!progressMap[l.id]?.completed));
+  return modules.every((m) => m.lessons.every((l) => !!progressMap[l.id]?.completed));
 }

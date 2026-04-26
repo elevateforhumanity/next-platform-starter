@@ -18,7 +18,12 @@ import { join } from 'node:path';
 const WEBPACK_CACHE = join(process.cwd(), '.next', 'cache', 'webpack');
 
 async function exists(p) {
-  try { await access(p); return true; } catch { return false; }
+  try {
+    await access(p);
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 if (await exists(WEBPACK_CACHE)) {

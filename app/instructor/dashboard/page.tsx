@@ -18,8 +18,7 @@ import {
 
 export const metadata: Metadata = {
   title: 'Instructor Dashboard | Elevate For Humanity',
-  description:
-    'Manage your students, track progress, and oversee training programs.',
+  description: 'Manage your students, track progress, and oversee training programs.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/instructor/dashboard',
   },
@@ -27,11 +26,7 @@ export const metadata: Metadata = {
 
 export default async function InstructorDashboard() {
   // Require instructor or admin role
-  const { user, profile } = await requireRole([
-    'instructor',
-    'admin',
-    'super_admin',
-  ]);
+  const { user, profile } = await requireRole(['instructor', 'admin', 'super_admin']);
 
   const supabase = await createClient();
 
@@ -43,21 +38,26 @@ export default async function InstructorDashboard() {
 
   const courseIds = (myCourses || []).map((c: any) => c.id);
 
-  const { data: legacyStudents } = courseIds.length > 0
-    ? await supabase
-        .from('training_enrollments')
-        .select('id, status, enrolled_at, started_at, created_at, course_id, profiles (id, full_name, email), programs:training_courses (title, training_hours)')
-        .in('course_id', courseIds)
-        .order('enrolled_at', { ascending: false })
-        .limit(50)
-    : { data: [] };
+  const { data: legacyStudents } =
+    courseIds.length > 0
+      ? await supabase
+          .from('training_enrollments')
+          .select(
+            'id, status, enrolled_at, started_at, created_at, course_id, profiles (id, full_name, email), programs:training_courses (title, training_hours)',
+          )
+          .in('course_id', courseIds)
+          .order('enrolled_at', { ascending: false })
+          .limit(50)
+      : { data: [] };
 
   // ── Current path: program_enrollments (all non-legacy programs) ───────────
   // Admins see all; instructors see programs where they are assigned.
   const isAdmin = profile.role === 'admin' || profile.role === 'super_admin';
   let programEnrollQuery = supabase
     .from('program_enrollments')
-    .select('id, status, created_at, program_id, user_id, profiles (id, full_name, email), programs (title)')
+    .select(
+      'id, status, created_at, program_id, user_id, profiles (id, full_name, email), programs (title)',
+    )
     .order('created_at', { ascending: false })
     .limit(50);
 
@@ -117,7 +117,9 @@ export default async function InstructorDashboard() {
     if (pid) seenProfileIds.add(pid);
     students.push(row);
   }
-  students.sort((a, b) => new Date(b.created_at ?? 0).getTime() - new Date(a.created_at ?? 0).getTime());
+  students.sort(
+    (a, b) => new Date(b.created_at ?? 0).getTime() - new Date(a.created_at ?? 0).getTime(),
+  );
 
   // Calculate stats
   const totalStudents = students.length;
@@ -149,7 +151,7 @@ export default async function InstructorDashboard() {
   const coursePerformance = Object.values(programMap)
     .sort((a, b) => b.students - a.students)
     .slice(0, 5)
-    .map(p => ({
+    .map((p) => ({
       name: p.name.length > 35 ? p.name.slice(0, 32) + '…' : p.name,
       students: p.students,
       completionRate: p.students > 0 ? Math.round((p.completed / p.students) * 100) : 0,
@@ -174,7 +176,9 @@ export default async function InstructorDashboard() {
   // Hour summary for instructor-scoped students (top 10 by total hours)
   const { data: hourSummary } = await supabase
     .from('student_hour_summary')
-    .select('student_id, theory_hours, lab_hours, field_hours, total_approved_hours, total_pending_hours')
+    .select(
+      'student_id, theory_hours, lab_hours, field_hours, total_approved_hours, total_pending_hours',
+    )
     .order('total_approved_hours', { ascending: false })
     .limit(10);
 
@@ -193,15 +197,23 @@ export default async function InstructorDashboard() {
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* Hero Image */}
       <section className="relative h-[160px] sm:h-[220px] md:h-[280px] overflow-hidden">
-        <Image src="/images/pages/instructor-page-8.jpg" alt="Instructor portal" fill sizes="100vw" className="object-cover" priority />
+        <Image
+          src="/images/pages/instructor-page-8.jpg"
+          alt="Instructor portal"
+          fill
+          sizes="100vw"
+          className="object-cover"
+          priority
+        />
       </section>
       {/* Breadcrumbs */}
       <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[{ label: 'Instructor', href: '/instructor' }, { label: 'Dashboard' }]} />
+          <Breadcrumbs
+            items={[{ label: 'Instructor', href: '/instructor' }, { label: 'Dashboard' }]}
+          />
         </div>
       </div>
 
@@ -210,12 +222,8 @@ export default async function InstructorDashboard() {
         <div className="mx-auto max-w-7xl px-6 py-6">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-black">
-                Instructor Dashboard
-              </h1>
-              <p className="text-black mt-1">
-                Welcome back, {profile?.full_name || 'Instructor'}!
-              </p>
+              <h1 className="text-3xl font-bold text-black">Instructor Dashboard</h1>
+              <p className="text-black mt-1">Welcome back, {profile?.full_name || 'Instructor'}!</p>
             </div>
             <Link
               href="/instructor/students/new"
@@ -236,9 +244,7 @@ export default async function InstructorDashboard() {
                 <Users className="text-brand-blue-600" size={24} />
               </div>
               <div>
-                <p className="text-base md:text-lg font-bold text-black">
-                  {totalStudents}
-                </p>
+                <p className="text-base md:text-lg font-bold text-black">{totalStudents}</p>
                 <p className="text-sm text-black">Total Students</p>
               </div>
             </div>
@@ -250,9 +256,7 @@ export default async function InstructorDashboard() {
                 <span className="text-slate-500 flex-shrink-0">•</span>
               </div>
               <div>
-                <p className="text-base md:text-lg font-bold text-black">
-                  {activeStudents}
-                </p>
+                <p className="text-base md:text-lg font-bold text-black">{activeStudents}</p>
                 <p className="text-sm text-black">Active</p>
               </div>
             </div>
@@ -264,9 +268,7 @@ export default async function InstructorDashboard() {
                 <Award className="text-brand-blue-600" size={24} />
               </div>
               <div>
-                <p className="text-base md:text-lg font-bold text-black">
-                  {completedStudents}
-                </p>
+                <p className="text-base md:text-lg font-bold text-black">{completedStudents}</p>
                 <p className="text-sm text-black">Completed</p>
               </div>
             </div>
@@ -293,9 +295,7 @@ export default async function InstructorDashboard() {
             {/* Students List */}
             <div className="bg-white rounded-xl p-6 shadow-sm border border-slate-200">
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-bold text-black">
-                  Recent Students
-                </h2>
+                <h2 className="text-xl font-bold text-black">Recent Students</h2>
                 <Link
                   href="/instructor/students"
                   className="text-brand-blue-600 hover:text-brand-blue-700 text-sm font-medium"
@@ -315,9 +315,7 @@ export default async function InstructorDashboard() {
                           <h3 className="font-semibold text-black">
                             {student.profiles?.full_name || 'Unknown'}
                           </h3>
-                          <p className="text-sm text-black">
-                            {student.programs?.title ?? '—'}
-                          </p>
+                          <p className="text-sm text-black">{student.programs?.title ?? '—'}</p>
                           {student.programs?.training_hours && (
                             <p className="text-xs text-slate-500 mt-1">
                               {student.programs.training_hours} hours
@@ -337,8 +335,7 @@ export default async function InstructorDashboard() {
                             {student.status}
                           </span>
                           <p className="text-xs text-slate-500 mt-2">
-                            Started{' '}
-                            {safeFormatDate(student.started_at || student.created_at)}
+                            Started {safeFormatDate(student.started_at || student.created_at)}
                           </p>
                         </div>
                       </div>
@@ -375,7 +372,9 @@ export default async function InstructorDashboard() {
                     <ClipboardList className="w-5 h-5 text-brand-blue-600 shrink-0" />
                     <div>
                       <p className="font-medium text-brand-blue-900">Review Submissions</p>
-                      <p className="text-xs text-brand-blue-700">Labs &amp; assignments awaiting sign-off</p>
+                      <p className="text-xs text-brand-blue-700">
+                        Labs &amp; assignments awaiting sign-off
+                      </p>
                     </div>
                   </div>
                   {(pendingSubmissions ?? 0) > 0 && (
@@ -411,18 +410,60 @@ export default async function InstructorDashboard() {
               <div className="mt-8">
                 <h3 className="text-lg font-semibold text-black mb-4">Instructor Tools</h3>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                  <Link href="/instructor/courses" aria-label="Courses" className="p-3 bg-white border rounded-lg hover:border-brand-blue-500 hover:shadow text-sm">Courses</Link>
-                  <Link href="/instructor/students" aria-label="Students" className="p-3 bg-white border rounded-lg hover:border-brand-blue-500 hover:shadow text-sm">Students</Link>
-                  <Link href="/instructor/programs" aria-label="Programs" className="p-3 bg-white border rounded-lg hover:border-brand-blue-500 hover:shadow text-sm">Programs</Link>
-                  <Link href="/instructor/submissions" aria-label="Submissions" className="p-3 bg-white border rounded-lg hover:border-brand-blue-500 hover:shadow text-sm flex items-center justify-between gap-1">
+                  <Link
+                    href="/instructor/courses"
+                    aria-label="Courses"
+                    className="p-3 bg-white border rounded-lg hover:border-brand-blue-500 hover:shadow text-sm"
+                  >
+                    Courses
+                  </Link>
+                  <Link
+                    href="/instructor/students"
+                    aria-label="Students"
+                    className="p-3 bg-white border rounded-lg hover:border-brand-blue-500 hover:shadow text-sm"
+                  >
+                    Students
+                  </Link>
+                  <Link
+                    href="/instructor/programs"
+                    aria-label="Programs"
+                    className="p-3 bg-white border rounded-lg hover:border-brand-blue-500 hover:shadow text-sm"
+                  >
+                    Programs
+                  </Link>
+                  <Link
+                    href="/instructor/submissions"
+                    aria-label="Submissions"
+                    className="p-3 bg-white border rounded-lg hover:border-brand-blue-500 hover:shadow text-sm flex items-center justify-between gap-1"
+                  >
                     <span>Submissions</span>
                     {(pendingSubmissions ?? 0) > 0 && (
-                      <span className="bg-brand-blue-600 text-white text-xs font-bold px-1.5 py-0.5 rounded-full leading-none">{pendingSubmissions}</span>
+                      <span className="bg-brand-blue-600 text-white text-xs font-bold px-1.5 py-0.5 rounded-full leading-none">
+                        {pendingSubmissions}
+                      </span>
                     )}
                   </Link>
-                  <Link href="/instructor/campaigns" aria-label="Campaigns" className="p-3 bg-white border rounded-lg hover:border-brand-blue-500 hover:shadow text-sm">Campaigns</Link>
-                  <Link href="/instructor/analytics" aria-label="Analytics" className="p-3 bg-white border rounded-lg hover:border-brand-blue-500 hover:shadow text-sm">Analytics</Link>
-                  <Link href="/instructor/settings" aria-label="Settings" className="p-3 bg-white border rounded-lg hover:border-brand-blue-500 hover:shadow text-sm">Settings</Link>
+                  <Link
+                    href="/instructor/campaigns"
+                    aria-label="Campaigns"
+                    className="p-3 bg-white border rounded-lg hover:border-brand-blue-500 hover:shadow text-sm"
+                  >
+                    Campaigns
+                  </Link>
+                  <Link
+                    href="/instructor/analytics"
+                    aria-label="Analytics"
+                    className="p-3 bg-white border rounded-lg hover:border-brand-blue-500 hover:shadow text-sm"
+                  >
+                    Analytics
+                  </Link>
+                  <Link
+                    href="/instructor/settings"
+                    aria-label="Settings"
+                    className="p-3 bg-white border rounded-lg hover:border-brand-blue-500 hover:shadow text-sm"
+                  >
+                    Settings
+                  </Link>
                 </div>
               </div>
 
@@ -430,15 +471,17 @@ export default async function InstructorDashboard() {
               <div className="mt-6">
                 <h3 className="text-lg font-semibold text-black mb-4">Community</h3>
                 <div className="space-y-2">
-                  <Link 
-                    href="/community" 
+                  <Link
+                    href="/community"
                     className="block w-full text-left px-4 py-3 bg-brand-blue-50 hover:bg-brand-blue-100 rounded-lg transition border border-brand-blue-200"
                   >
                     <p className="font-medium text-brand-blue-900">Community Hub</p>
-                    <p className="text-xs text-brand-blue-700">Connect with students and instructors</p>
+                    <p className="text-xs text-brand-blue-700">
+                      Connect with students and instructors
+                    </p>
                   </Link>
-                  <Link 
-                    href="/lms/forums" 
+                  <Link
+                    href="/lms/forums"
                     className="block w-full text-left px-4 py-3 bg-brand-blue-50 hover:bg-brand-blue-100 rounded-lg transition border border-brand-blue-200"
                   >
                     <p className="font-medium text-brand-blue-900">Discussion Forums</p>
@@ -456,11 +499,18 @@ export default async function InstructorDashboard() {
                   {coursePerformance.map((c, i) => (
                     <div key={i}>
                       <div className="flex items-baseline justify-between mb-1">
-                        <span className="text-sm font-medium text-slate-800 truncate max-w-[60%]">{c.name}</span>
-                        <span className="text-xs text-slate-500 flex-shrink-0 ml-2">{c.students} enrolled · {c.completionRate}%</span>
+                        <span className="text-sm font-medium text-slate-800 truncate max-w-[60%]">
+                          {c.name}
+                        </span>
+                        <span className="text-xs text-slate-500 flex-shrink-0 ml-2">
+                          {c.students} enrolled · {c.completionRate}%
+                        </span>
                       </div>
                       <div className="h-1.5 rounded-full bg-slate-100 overflow-hidden">
-                        <div className="h-full rounded-full bg-brand-blue-500" style={{ width: `${c.completionRate}%` }} />
+                        <div
+                          className="h-full rounded-full bg-brand-blue-500"
+                          style={{ width: `${c.completionRate}%` }}
+                        />
                       </div>
                     </div>
                   ))}
@@ -477,12 +527,21 @@ export default async function InstructorDashboard() {
                 </h3>
                 {(pendingOjtReps?.length ?? 0) > 0 && (
                   <div className="mb-4">
-                    <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 mb-2">Unverified OJT Reps</p>
+                    <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 mb-2">
+                      Unverified OJT Reps
+                    </p>
                     <div className="space-y-2">
                       {pendingOjtReps!.map((rep: any) => (
-                        <div key={rep.id} className="flex items-center justify-between bg-amber-50 rounded-lg px-3 py-2 text-sm">
-                          <span className="font-medium text-slate-800">{rep.profiles?.full_name ?? rep.profiles?.email ?? 'Student'}</span>
-                          <span className="text-xs text-slate-500">{safeFormatDate(rep.created_at)}</span>
+                        <div
+                          key={rep.id}
+                          className="flex items-center justify-between bg-amber-50 rounded-lg px-3 py-2 text-sm"
+                        >
+                          <span className="font-medium text-slate-800">
+                            {rep.profiles?.full_name ?? rep.profiles?.email ?? 'Student'}
+                          </span>
+                          <span className="text-xs text-slate-500">
+                            {safeFormatDate(rep.created_at)}
+                          </span>
                         </div>
                       ))}
                     </div>
@@ -490,12 +549,21 @@ export default async function InstructorDashboard() {
                 )}
                 {(pendingSignoffs?.length ?? 0) > 0 && (
                   <div>
-                    <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 mb-2">Pending Module Sign-Offs</p>
+                    <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 mb-2">
+                      Pending Module Sign-Offs
+                    </p>
                     <div className="space-y-2">
                       {pendingSignoffs!.map((s: any) => (
-                        <div key={s.id} className="flex items-center justify-between bg-amber-50 rounded-lg px-3 py-2 text-sm">
-                          <span className="font-medium text-slate-800">{s.profiles?.full_name ?? s.profiles?.email ?? 'Student'}</span>
-                          <span className="text-xs text-slate-400 capitalize">{s.signoff_type?.replace(/_/g, ' ')}</span>
+                        <div
+                          key={s.id}
+                          className="flex items-center justify-between bg-amber-50 rounded-lg px-3 py-2 text-sm"
+                        >
+                          <span className="font-medium text-slate-800">
+                            {s.profiles?.full_name ?? s.profiles?.email ?? 'Student'}
+                          </span>
+                          <span className="text-xs text-slate-400 capitalize">
+                            {s.signoff_type?.replace(/_/g, ' ')}
+                          </span>
                         </div>
                       ))}
                     </div>
@@ -526,12 +594,24 @@ export default async function InstructorDashboard() {
                     <tbody className="divide-y divide-slate-100">
                       {hourSummary!.map((row: any) => (
                         <tr key={row.student_id}>
-                          <td className="py-2 text-slate-700 font-medium truncate max-w-[160px]">{hourProfileMap.get(row.student_id) ?? row.student_id.slice(0, 8) + '…'}</td>
-                          <td className="py-2 text-right text-slate-600">{Number(row.theory_hours ?? 0).toFixed(1)}</td>
-                          <td className="py-2 text-right text-slate-600">{Number(row.lab_hours ?? 0).toFixed(1)}</td>
-                          <td className="py-2 text-right text-slate-600">{Number(row.field_hours ?? 0).toFixed(1)}</td>
-                          <td className="py-2 text-right font-semibold text-green-700">{Number(row.total_approved_hours ?? 0).toFixed(1)}</td>
-                          <td className="py-2 text-right text-amber-600">{Number(row.total_pending_hours ?? 0).toFixed(1)}</td>
+                          <td className="py-2 text-slate-700 font-medium truncate max-w-[160px]">
+                            {hourProfileMap.get(row.student_id) ?? row.student_id.slice(0, 8) + '…'}
+                          </td>
+                          <td className="py-2 text-right text-slate-600">
+                            {Number(row.theory_hours ?? 0).toFixed(1)}
+                          </td>
+                          <td className="py-2 text-right text-slate-600">
+                            {Number(row.lab_hours ?? 0).toFixed(1)}
+                          </td>
+                          <td className="py-2 text-right text-slate-600">
+                            {Number(row.field_hours ?? 0).toFixed(1)}
+                          </td>
+                          <td className="py-2 text-right font-semibold text-green-700">
+                            {Number(row.total_approved_hours ?? 0).toFixed(1)}
+                          </td>
+                          <td className="py-2 text-right text-amber-600">
+                            {Number(row.total_pending_hours ?? 0).toFixed(1)}
+                          </td>
                         </tr>
                       ))}
                     </tbody>

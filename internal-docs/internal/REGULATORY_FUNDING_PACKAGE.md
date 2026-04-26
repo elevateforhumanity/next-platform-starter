@@ -13,6 +13,7 @@
 **Indiana / DOL expectation:** Clear administrative authority and control.
 
 **Alignment:**
+
 - Elevate for Humanity serves as the Program Administrator
 - All student intake, enrollment, and partner access are centrally controlled
 - No employer or partner can onboard learners without administrative approval
@@ -28,6 +29,7 @@
 **Expectation:** Eligibility verification before participation.
 
 **Alignment:**
+
 - Intake enforced through a server-side application state machine
 - Eligibility, documentation, and review steps must be completed in sequence
 - Applications cannot be submitted out of order or partially
@@ -43,6 +45,7 @@
 **Expectation:** Accurate enrollment records and participation tracking.
 
 **Alignment:**
+
 - Enrollment provisioning handled through atomic database transactions
 - Program and course enrollments are created together or not at all
 - Duplicate or partial enrollments are prevented through idempotency controls
@@ -58,6 +61,7 @@
 **Expectation:** Approved employers only, with documented access control.
 
 **Alignment:**
+
 - Employer and partner approval uses a two-phase approval process
 - Partners are explicitly approved, denied, or suspended
 - No access granted until approval is complete and auditable
@@ -73,6 +77,7 @@
 **Expectation:** Auditable lifecycle records.
 
 **Alignment:**
+
 - All application, enrollment, and approval actions are logged
 - Lifecycle state changes are timestamped and attributable
 - Invalid or bypass attempts are recorded
@@ -85,7 +90,7 @@
 
 ## Document 2 — Grant & Funding Application Boilerplate
 
-*Use verbatim in grant applications.*
+_Use verbatim in grant applications._
 
 ### Program Integrity & Controls
 
@@ -111,7 +116,7 @@
 
 ## Document 3 — Regulator-Facing Technical Appendix
 
-*Attach as Appendix A to approvals or RFPs.*
+_Attach as Appendix A to approvals or RFPs._
 
 ### A. Controlled Application Lifecycle
 
@@ -128,6 +133,7 @@
 ### C. Partner Approval Workflow
 
 Explicit approval states:
+
 - `pending`
 - `approved_pending_user`
 - `approved`
@@ -151,19 +157,19 @@ Auth system integration handled separately to prevent partial approvals.
 
 ## Usage Guide
 
-| Document | Use For |
-|----------|---------|
+| Document   | Use For                                                 |
+| ---------- | ------------------------------------------------------- |
 | Document 1 | Indiana DWD, workforce boards, apprenticeship reviewers |
-| Document 2 | Grant and funding applications (paste directly) |
-| Document 3 | Compliance appendix for approvals or RFPs |
+| Document 2 | Grant and funding applications (paste directly)         |
+| Document 3 | Compliance appendix for approvals or RFPs               |
 
 ---
 
 ## Supporting Documentation
 
-| Document | Location |
-|----------|----------|
-| Operational Readiness Audit | `docs/OPERATIONAL_READINESS_AUDIT.md` |
-| Admin Runbook | `docs/ADMIN_RUNBOOK.md` |
-| Cohort Onboarding Checklist | `docs/COHORT_ONBOARDING_CHECKLIST.md` |
+| Document                     | Location                               |
+| ---------------------------- | -------------------------------------- |
+| Operational Readiness Audit  | `docs/OPERATIONAL_READINESS_AUDIT.md`  |
+| Admin Runbook                | `docs/ADMIN_RUNBOOK.md`                |
+| Cohort Onboarding Checklist  | `docs/COHORT_ONBOARDING_CHECKLIST.md`  |
 | Indiana Workforce Compliance | `docs/INDIANA_WORKFORCE_COMPLIANCE.md` |

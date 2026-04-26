@@ -11,7 +11,7 @@ export const dynamic = 'force-dynamic';
 
 /**
  * STEP 6E: Admin endpoint for dead letter jobs
- * 
+ *
  * GET /api/admin/jobs?status=dead - List dead letter jobs
  * GET /api/admin/jobs?status=failed - List failed jobs
  * GET /api/admin/jobs - List all jobs
@@ -74,7 +74,10 @@ async function _GET(request: NextRequest) {
       total: jobs?.length || 0,
     });
   } catch (error) {
-    logger.error('Admin jobs endpoint error', error instanceof Error ? error : new Error(String(error)));
+    logger.error(
+      'Admin jobs endpoint error',
+      error instanceof Error ? error : new Error(String(error)),
+    );
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

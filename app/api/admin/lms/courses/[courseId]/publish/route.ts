@@ -1,4 +1,3 @@
-
 /**
  * POST /api/admin/lms/courses/[courseId]/publish
  *
@@ -55,12 +54,11 @@ async function runHealthCheck(
       const isAssessment = ['quiz', 'checkpoint', 'exam'].includes(type);
 
       if (!l.lesson_type) issues.push('no lesson_type');
-      if (!l.content)     issues.push('no content');
+      if (!l.content) issues.push('no content');
       // Assessments (checkpoint/quiz/exam) are quiz-only — no video required
       if (!isAssessment && !l.video_url) issues.push('no video');
       // Assessments must have quiz_questions
-      if (isAssessment &&
-          (!l.quiz_questions || (l.quiz_questions as unknown[]).length === 0)) {
+      if (isAssessment && (!l.quiz_questions || (l.quiz_questions as unknown[]).length === 0)) {
         issues.push('no quiz_questions');
       }
       if (issues.length > 0) {
@@ -89,7 +87,10 @@ export async function POST(
   try {
     const supabase = await createClient();
 
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
     if (authError || !user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -113,7 +114,7 @@ export async function POST(
     if (!health.pass) {
       return NextResponse.json(
         {
-          error:           'PUBLISH_BLOCKED',
+          error: 'PUBLISH_BLOCKED',
           blocking_issues: health.blocking_issues,
         },
         { status: 422 },
@@ -123,12 +124,12 @@ export async function POST(
     const result = await publishCourse(supabase, courseId, user.id, label);
 
     await logAdminAudit({
-      action:     AdminAction.COURSE_PUBLISHED,
-      actorId:    user.id,
+      action: AdminAction.COURSE_PUBLISHED,
+      actorId: user.id,
       entityType: 'courses',
-      entityId:   courseId,
-      metadata:   { label, lesson_count: (result as any)?.lessonCount },
-      req:        request,
+      entityId: courseId,
+      metadata: { label, lesson_count: (result as any)?.lessonCount },
+      req: request,
     });
 
     return NextResponse.json({ success: true, ...result });

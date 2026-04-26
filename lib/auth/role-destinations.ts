@@ -48,44 +48,44 @@ export type UserRole =
  */
 export const ROLE_DESTINATIONS: Record<string, string> = {
   // ── Platform admins ───────────────────────────────────────────────
-  super_admin:      '/my-dashboard',        // needs full hub — all tabs
-  admin:            '/my-dashboard',        // needs full hub — all tabs
-  org_admin:        '/my-dashboard',        // org-level admin — full hub
+  super_admin: '/my-dashboard', // needs full hub — all tabs
+  admin: '/my-dashboard', // needs full hub — all tabs
+  org_admin: '/my-dashboard', // org-level admin — full hub
 
   // ── Internal Elevate staff ────────────────────────────────────────
-  staff:            '/staff-portal/dashboard',
+  staff: '/staff-portal/dashboard',
 
   // ── Education staff ───────────────────────────────────────────────
-  instructor:       '/instructor/dashboard',
-  mentor:           '/mentor/dashboard',
-  creator:          '/creator/dashboard',
+  instructor: '/instructor/dashboard',
+  mentor: '/mentor/dashboard',
+  creator: '/creator/dashboard',
 
   // ── Workforce / case management ───────────────────────────────────
-  case_manager:     '/case-manager/dashboard',
-  workforce_board:  '/workforce-board/dashboard',
+  case_manager: '/case-manager/dashboard',
+  workforce_board: '/workforce-board/dashboard',
 
   // ── Program administration ────────────────────────────────────────
-  program_holder:   '/program-holder/dashboard',
-  provider_admin:   '/provider/dashboard',
-  sponsor:          '/program-holder/dashboard', // sponsors manage programs
+  program_holder: '/program-holder/dashboard',
+  provider_admin: '/provider/dashboard',
+  sponsor: '/program-holder/dashboard', // sponsors manage programs
 
   // ── Employer & industry partners ─────────────────────────────────
-  employer:         '/employer/dashboard',
-  partner:          '/partner/dashboard',   // smart-routes to /partner/attendance
+  employer: '/employer/dashboard',
+  partner: '/partner/dashboard', // smart-routes to /partner/attendance
 
   // ── Learners ──────────────────────────────────────────────────────
-  student:          '/learner/dashboard',
+  student: '/learner/dashboard',
 
   // ── Family ────────────────────────────────────────────────────────
   // parent role handled via /parent-portal — no requireRole yet, falls through
-  delegate:         '/my-dashboard',        // delegate portal not yet built
+  delegate: '/my-dashboard', // delegate portal not yet built
 
   // ── Tax / supersonic — separate business lines ────────────────────
-  vita_staff:       '/tax',
+  vita_staff: '/tax',
   supersonic_staff: '/supersonic-fast-cash',
 
   // ── Grant clients ─────────────────────────────────────────────────
-  grant_client:     '/grants',
+  grant_client: '/grants',
 };
 
 /**

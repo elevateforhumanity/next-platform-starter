@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import { FileText, AlertCircle } from 'lucide-react';
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 interface UserProfile {
@@ -45,7 +45,9 @@ export default function StudentApplicationPage() {
 
   const loadUserData = useCallback(async () => {
     const supabase = createClient();
-    const { data: { user: authUser } } = await supabase.auth.getUser();
+    const {
+      data: { user: authUser },
+    } = await supabase.auth.getUser();
 
     if (!authUser) {
       router.push('/login?redirect=/lms/apply');
@@ -128,7 +130,7 @@ export default function StudentApplicationPage() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="max-w-7xl mx-auto px-4 py-4">
-          <Breadcrumbs items={[{ label: "LMS", href: "/lms/courses" }, { label: "Apply" }]} />
+          <Breadcrumbs items={[{ label: 'LMS', href: '/lms/courses' }, { label: 'Apply' }]} />
         </div>
         <div className="animate-spin rounded-full h-11 w-11 border-b-2 border-emerald-600"></div>
       </div>
@@ -150,16 +152,25 @@ export default function StudentApplicationPage() {
           </div>
           <h1 className="text-2xl font-bold mb-2">Application Already Submitted</h1>
           <p className="text-slate-700 mb-4">
-            You submitted an application on {new Date(existingApplication.submitted_at).toLocaleDateString('en-US', { timeZone: 'UTC' })}
+            You submitted an application on{' '}
+            {new Date(existingApplication.submitted_at).toLocaleDateString('en-US', {
+              timeZone: 'UTC',
+            })}
           </p>
-          <div className={`inline-block px-4 py-2 rounded-full text-sm font-medium ${
-            existingApplication.status === 'approved' ? 'bg-brand-green-100 text-brand-green-800' :
-            existingApplication.status === 'rejected' ? 'bg-brand-red-100 text-brand-red-800' :
-            'bg-yellow-100 text-yellow-800'
-          }`}>
-            Status: {existingApplication.status.charAt(0).toUpperCase() + existingApplication.status.slice(1)}
+          <div
+            className={`inline-block px-4 py-2 rounded-full text-sm font-medium ${
+              existingApplication.status === 'approved'
+                ? 'bg-brand-green-100 text-brand-green-800'
+                : existingApplication.status === 'rejected'
+                  ? 'bg-brand-red-100 text-brand-red-800'
+                  : 'bg-yellow-100 text-yellow-800'
+            }`}
+          >
+            Status:{' '}
+            {existingApplication.status.charAt(0).toUpperCase() +
+              existingApplication.status.slice(1)}
           </div>
-          
+
           {existingApplication.status === 'approved' && (
             <div className="mt-6">
               <a
@@ -207,7 +218,9 @@ export default function StudentApplicationPage() {
           <div className="grid grid-cols-2 gap-4 text-sm">
             <div>
               <span className="text-slate-700">Name</span>
-              <p className="font-medium">{user?.first_name} {user?.last_name}</p>
+              <p className="font-medium">
+                {user?.first_name} {user?.last_name}
+              </p>
             </div>
             <div>
               <span className="text-slate-700">Email</span>

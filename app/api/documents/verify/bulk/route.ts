@@ -96,7 +96,8 @@ export const POST = withErrorHandling(async (request: NextRequest) => {
       await auditLog({
         actorId: user.id,
         actorRole: profile.role,
-        action: action === 'approve' ? AuditAction.DOCUMENT_VERIFIED : AuditAction.DOCUMENT_REJECTED,
+        action:
+          action === 'approve' ? AuditAction.DOCUMENT_VERIFIED : AuditAction.DOCUMENT_REJECTED,
         entity: AuditEntity.DOCUMENT,
         entityId: documentId,
         metadata: {
@@ -105,7 +106,8 @@ export const POST = withErrorHandling(async (request: NextRequest) => {
           owner_type: document.owner_type,
           owner_id: document.owner_id,
           bulk_operation: true,
-          ...(action === 'approve' && verificationNotes && { verification_notes: verificationNotes }),
+          ...(action === 'approve' &&
+            verificationNotes && { verification_notes: verificationNotes }),
           ...(action === 'reject' && { rejection_reason: rejectionReason }),
         },
       });
@@ -113,8 +115,13 @@ export const POST = withErrorHandling(async (request: NextRequest) => {
       // Trigger downstream automation for approved transfer docs
       let triggeredAutomation: string | undefined;
       if (action === 'approve') {
-        const transferDocTypes = ['school_transcript', 'certificate', 'out_of_state_license', 'employment_verification'];
-        
+        const transferDocTypes = [
+          'school_transcript',
+          'certificate',
+          'out_of_state_license',
+          'employment_verification',
+        ];
+
         if (transferDocTypes.includes(document.document_type)) {
           // Check if there are pending transfer requests for this user
           const { data: pendingTransfers } = await supabase
@@ -128,7 +135,7 @@ export const POST = withErrorHandling(async (request: NextRequest) => {
             for (const transfer of pendingTransfers) {
               const sourceType = (transfer.source_type || 'work_experience') as TransferSourceType;
               const canEvaluate = await canEvaluateTransfer(document.user_id, sourceType);
-              
+
               if (canEvaluate.allowed) {
                 // Update transfer status to pending (ready for evaluation)
                 await supabase
@@ -139,7 +146,7 @@ export const POST = withErrorHandling(async (request: NextRequest) => {
                     docs_verified_at: new Date().toISOString(),
                   })
                   .eq('id', transfer.id);
-                
+
                 triggeredAutomation = 'transfer_ready_for_evaluation';
               }
             }

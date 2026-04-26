@@ -1,13 +1,13 @@
 /**
  * TUITION CONFIGURATION
- * 
+ *
  * This file defines the locked-down payment structure for non-funded students.
- * 
+ *
  * THREE PAYMENT TIERS (in order of preference):
  * 1. Third-Party Financing (Klarna/Afterpay/Zip/Klarna) - Student approved by provider, we get paid upfront
  * 2. Employer Sponsorship - Employer pays, requires signed agreement
  * 3. Internal Payment Plan - Deposit + 6-month autopay max, strict enforcement
- * 
+ *
  * RULES:
  * - No custom terms
  * - No verbal negotiations
@@ -23,7 +23,7 @@ export interface ProgramTuition {
   programName: string;
   tuitionAmount: number;
   registrationFee: number; // Non-refundable, included in tuition
-  
+
   // Internal payment plan structure (Tier 3)
   internalPlan: {
     minDownPayment: number;
@@ -121,10 +121,10 @@ export const TIER1_THIRD_PARTY_FINANCING = {
   name: 'Pay in 4',
   providers: ['klarna', 'afterpay_clearpay', 'zip'] as const,
   enabled: true,
-  
+
   // Stripe payment method types to enable
   stripePaymentMethods: ['klarna', 'afterpay_clearpay', 'zip'] as const,
-  
+
   // Terms (set by providers, not us)
   typicalTerms: {
     minAmount: 50,
@@ -132,10 +132,12 @@ export const TIER1_THIRD_PARTY_FINANCING = {
     payments: 4,
     apr: 0, // Interest-free when paid on time
   },
-  
+
   // What we tell students
-  studentMessage: 'Pay in 4 interest-free payments with Klarna, Afterpay, or Zip. Get approved in minutes.',
-  declinedMessage: 'No problem—you can use our school payment plan instead (deposit + monthly autopay).',
+  studentMessage:
+    'Pay in 4 interest-free payments with Klarna, Afterpay, or Zip. Get approved in minutes.',
+  declinedMessage:
+    'No problem—you can use our school payment plan instead (deposit + monthly autopay).',
 };
 
 /**
@@ -145,27 +147,24 @@ export const TIER1_THIRD_PARTY_FINANCING = {
 export const TIER2_EMPLOYER_SPONSORSHIP = {
   name: 'Employer-Sponsored',
   enabled: true,
-  
+
   requirements: [
     'Employer must be approved partner',
     'Signed employer agreement required BEFORE enrollment',
     'Agreement must specify payment schedule',
   ],
-  
+
   // Typical structure
   typicalTerms: {
     paymentSchedule: 'monthly_post_hire',
     maxTermMonths: 12,
   },
-  
+
   // What we tell students
   studentMessage: 'Your employer can pay your tuition directly or through payroll deduction.',
-  
+
   // Required documents
-  requiredDocuments: [
-    'employer_sponsorship_agreement',
-    'employer_payment_authorization',
-  ],
+  requiredDocuments: ['employer_sponsorship_agreement', 'employer_payment_authorization'],
 };
 
 /**
@@ -176,7 +175,7 @@ export const TIER2_EMPLOYER_SPONSORSHIP = {
 export const TIER3A_BRIDGE_PLAN = {
   name: 'Bridge Payment Plan',
   enabled: true,
-  
+
   // HARD LIMITS - DO NOT CHANGE WITHOUT EXECUTIVE APPROVAL
   rules: {
     downPayment: 600, // Fixed $600 minimum
@@ -187,19 +186,15 @@ export const TIER3A_BRIDGE_PLAN = {
     lateFee: 50,
     gracePeriodDays: 7,
   },
-  
+
   // TRANSITION REQUIREMENT AT DAY 90
   transitionRequirement: {
     deadline: 90, // days
-    options: [
-      'employer_reimbursement',
-      'third_party_financing',
-      'pay_remaining_balance_in_full',
-    ],
+    options: ['employer_reimbursement', 'third_party_financing', 'pay_remaining_balance_in_full'],
     noExtensions: true,
     noRenegotiation: true,
   },
-  
+
   // ENFORCEMENT - AUTOMATIC, NO EXCEPTIONS
   enforcement: {
     missedPaymentAction: 'academic_pause' as const,
@@ -208,10 +203,11 @@ export const TIER3A_BRIDGE_PLAN = {
     noManualPaymentOption: true,
     day90Action: 'transition_or_pause' as const,
   },
-  
+
   // What we tell students
-  studentMessage: 'Start with $500 down and $200/month for 3 months while we help you secure long-term funding.',
-  
+  studentMessage:
+    'Start with $500 down and $200/month for 3 months while we help you secure long-term funding.',
+
   // Required documents
   requiredDocuments: [
     'enrollment_agreement',
@@ -230,14 +226,10 @@ export const TIER3A_BRIDGE_PLAN = {
 export const TIER3B_EXTERNAL_FINANCING = {
   name: 'External Financing Required',
   enabled: true,
-  
+
   // When this applies
-  triggers: [
-    'monthly_payment_below_200',
-    'term_beyond_90_days',
-    'bridge_plan_transition',
-  ],
-  
+  triggers: ['monthly_payment_below_200', 'term_beyond_90_days', 'bridge_plan_transition'],
+
   // External options
   options: [
     {
@@ -250,10 +242,11 @@ export const TIER3B_EXTERNAL_FINANCING = {
       description: 'Employer pays remaining balance directly or via payroll deduction.',
     },
   ],
-  
+
   // What we tell students
-  studentMessage: 'For flexible payment options, use Klarna, Afterpay, or Zip at checkout, or employer sponsorship.',
-  
+  studentMessage:
+    'For flexible payment options, use Klarna, Afterpay, or Zip at checkout, or employer sponsorship.',
+
   // What we do NOT do
   prohibited: [
     'Internal plans longer than 90 days',
@@ -268,18 +261,18 @@ export const TIER3B_EXTERNAL_FINANCING = {
 
 export const REFUND_POLICY = {
   registrationFee: 150, // Non-refundable
-  
+
   beforeProgramStart: {
     refundType: 'full_minus_fee' as const,
     processingDays: 10,
   },
-  
+
   afterProgramStart: {
     refundType: 'prorated' as const,
     noRefundAfterPercent: 50,
     calculation: '(AmountPaid - RegistrationFee) × (1 - CompletionPercent)',
   },
-  
+
   nonRefundableItems: [
     'Registration fee ($150)',
     'Materials/supplies already issued',
@@ -291,7 +284,7 @@ export const REFUND_POLICY = {
 // DECISION LOGIC
 // =============================================================================
 
-export type PaymentEligibility = 
+export type PaymentEligibility =
   | 'funded' // WIOA, Pell, etc. - not covered by this config
   | 'pay_in_full'
   | 'third_party_financing'
@@ -316,8 +309,9 @@ export function determinePaymentEligibility(params: {
   hasEmployerSponsor: boolean;
   canPayDeposit: boolean;
 }): PaymentDecision {
-  const { isFundingEligible, canPayInFull, bnplApproved, hasEmployerSponsor, canPayDeposit } = params;
-  
+  const { isFundingEligible, canPayInFull, bnplApproved, hasEmployerSponsor, canPayDeposit } =
+    params;
+
   // Step 1: Check funding eligibility
   if (isFundingEligible) {
     return {
@@ -326,7 +320,7 @@ export function determinePaymentEligibility(params: {
       nextStep: 'Process through funded enrollment pathway.',
     };
   }
-  
+
   // Step 2: Can pay in full?
   if (canPayInFull) {
     return {
@@ -335,7 +329,7 @@ export function determinePaymentEligibility(params: {
       nextStep: 'Process pay-in-full checkout.',
     };
   }
-  
+
   // Step 3: Third-party financing
   if (bnplApproved === true) {
     return {
@@ -344,7 +338,7 @@ export function determinePaymentEligibility(params: {
       nextStep: 'Complete checkout with BNPL payment method.',
     };
   }
-  
+
   // Step 4: Employer sponsorship
   if (hasEmployerSponsor) {
     return {
@@ -353,7 +347,7 @@ export function determinePaymentEligibility(params: {
       nextStep: 'Obtain signed employer agreement, then process enrollment.',
     };
   }
-  
+
   // Step 5: Internal payment plan
   if (canPayDeposit) {
     return {
@@ -362,7 +356,7 @@ export function determinePaymentEligibility(params: {
       nextStep: 'Process deposit checkout and create subscription.',
     };
   }
-  
+
   // Step 6: Not enrollment-ready
   return {
     eligibility: 'not_ready',
@@ -376,22 +370,22 @@ export function determinePaymentEligibility(params: {
 // =============================================================================
 
 export function getProgramTuition(programId: string): ProgramTuition | undefined {
-  return PROGRAM_TUITION.find(p => p.programId === programId);
+  return PROGRAM_TUITION.find((p) => p.programId === programId);
 }
 
 export function calculateRefund(
   amountPaid: number,
   completionPercent: number,
-  hasStarted: boolean
+  hasStarted: boolean,
 ): number {
   if (!hasStarted) {
     return Math.max(0, amountPaid - REFUND_POLICY.registrationFee);
   }
-  
+
   if (completionPercent >= REFUND_POLICY.afterProgramStart.noRefundAfterPercent) {
     return 0;
   }
-  
+
   const refundableAmount = amountPaid - REFUND_POLICY.registrationFee;
   return Math.max(0, Math.round(refundableAmount * (1 - completionPercent / 100)));
 }
@@ -415,12 +409,12 @@ export const PAYMENT_METHODS = {
 export const INSTALLMENT_RULES = {
   // Payment frequency
   interval: 'week' as const, // 'week' or 'month'
-  
+
   // Enforcement
   suspendOnFailure: true,
   gracePeriodDays: 3,
   maxFailedPayments: 2,
-  
+
   // Late fees
   lateFee: 25,
   applyLateFeeAfterDays: 7,
@@ -435,13 +429,13 @@ export interface TuitionProduct {
   programName: string;
   totalTuition: number;
   registrationFee: number;
-  
+
   // Pay in full option
   payInFull: {
     amount: number;
     discount: number;
   };
-  
+
   // Installment plan (weekly payments after deposit)
   installmentPlan: {
     depositAmount: number;
@@ -554,5 +548,5 @@ export const TUITION_PRODUCTS: TuitionProduct[] = [
  * Get tuition config for a program
  */
 export function getTuitionConfig(programId: string): TuitionProduct | undefined {
-  return TUITION_PRODUCTS.find(p => p.programId === programId);
+  return TUITION_PRODUCTS.find((p) => p.programId === programId);
 }

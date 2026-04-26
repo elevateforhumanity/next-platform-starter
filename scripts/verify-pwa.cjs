@@ -69,46 +69,41 @@ if (fs.existsSync(manifestPath)) {
     check(
       'Manifest has name',
       manifest.name && manifest.name.length > 0,
-      'Manifest missing "name" field'
+      'Manifest missing "name" field',
     );
 
     check(
       'Manifest has short_name',
       manifest.short_name && manifest.short_name.length > 0,
-      'Manifest missing "short_name" field'
+      'Manifest missing "short_name" field',
     );
 
-    check(
-      'Manifest has start_url',
-      manifest.start_url,
-      'Manifest missing "start_url" field'
-    );
+    check('Manifest has start_url', manifest.start_url, 'Manifest missing "start_url" field');
 
     check(
       'Manifest has display mode',
-      manifest.display &&
-        ['standalone', 'fullscreen', 'minimal-ui'].includes(manifest.display),
-      'Manifest missing or invalid "display" field'
+      manifest.display && ['standalone', 'fullscreen', 'minimal-ui'].includes(manifest.display),
+      'Manifest missing or invalid "display" field',
     );
 
     check(
       'Manifest has theme_color',
       manifest.theme_color,
       'Manifest missing "theme_color" field',
-      'Theme color helps with app appearance'
+      'Theme color helps with app appearance',
     );
 
     check(
       'Manifest has background_color',
       manifest.background_color,
       'Manifest missing "background_color" field',
-      'Background color used for splash screen'
+      'Background color used for splash screen',
     );
 
     check(
       'Manifest has icons',
       manifest.icons && manifest.icons.length > 0,
-      'Manifest missing "icons" array'
+      'Manifest missing "icons" array',
     );
 
     if (manifest.icons && manifest.icons.length > 0) {
@@ -118,19 +113,19 @@ if (fs.existsSync(manifestPath)) {
           `Icon ${size}`,
           iconSizes.some((s) => s === size),
           `Missing icon size: ${size}`,
-          `Icon size ${size} recommended for better compatibility`
+          `Icon size ${size} recommended for better compatibility`,
         );
       });
 
       // Check for maskable icons
       const hasMaskable = manifest.icons.some(
-        (icon) => icon.purpose && icon.purpose.includes('maskable')
+        (icon) => icon.purpose && icon.purpose.includes('maskable'),
       );
       check(
         'Maskable icons',
         hasMaskable,
         null,
-        'No maskable icons found - recommended for Android adaptive icons'
+        'No maskable icons found - recommended for Android adaptive icons',
       );
     }
   } catch (error) {
@@ -150,40 +145,40 @@ if (fs.existsSync(swPath)) {
   check(
     'SW has install event',
     swContent.includes("addEventListener('install'"),
-    'Service worker missing install event listener'
+    'Service worker missing install event listener',
   );
 
   check(
     'SW has activate event',
     swContent.includes("addEventListener('activate'"),
-    'Service worker missing activate event listener'
+    'Service worker missing activate event listener',
   );
 
   check(
     'SW has fetch event',
     swContent.includes("addEventListener('fetch'"),
-    'Service worker missing fetch event listener'
+    'Service worker missing fetch event listener',
   );
 
   check(
     'SW has cache name',
     /CACHE_NAME|CACHE_VERSION/.test(swContent),
     null,
-    'Service worker should define cache name/version'
+    'Service worker should define cache name/version',
   );
 
   check(
     'SW has skipWaiting',
     swContent.includes('skipWaiting'),
     null,
-    'Service worker should call skipWaiting() for faster updates'
+    'Service worker should call skipWaiting() for faster updates',
   );
 
   check(
     'SW has clients.claim',
     swContent.includes('clients.claim'),
     null,
-    'Service worker should call clients.claim() to take control immediately'
+    'Service worker should call clients.claim() to take control immediately',
   );
 } else {
   errors.push('sw.js not found');
@@ -197,23 +192,22 @@ if (fs.existsSync(layoutPath)) {
 
   check(
     'Manifest linked in metadata',
-    layoutContent.includes('manifest:') ||
-      layoutContent.includes('manifest.json'),
-    'Manifest not linked in layout metadata'
+    layoutContent.includes('manifest:') || layoutContent.includes('manifest.json'),
+    'Manifest not linked in layout metadata',
   );
 
   check(
     'Service worker registration',
     layoutContent.includes('ServiceWorkerRegistration'),
     null,
-    'Service worker registration component not found in layout'
+    'Service worker registration component not found in layout',
   );
 
   check(
     'Theme color meta tag',
     layoutContent.includes('theme-color'),
     null,
-    'Theme color meta tag not found'
+    'Theme color meta tag not found',
   );
 } else {
   warnings.push('app/layout.tsx not found - cannot verify integration');
@@ -233,7 +227,7 @@ if (fs.existsSync(envExample)) {
     'VAPID keys documented',
     envContent.includes('VAPID'),
     null,
-    'VAPID keys not documented in .env.example (needed for push notifications)'
+    'VAPID keys not documented in .env.example (needed for push notifications)',
   );
 } else {
   warnings.push('.env.example not found');

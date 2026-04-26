@@ -1,9 +1,9 @@
 /**
  * Upload PDFs to Cloudflare R2
- * 
- * Usage: 
+ *
+ * Usage:
  *   R2_ENDPOINT=xxx R2_ACCESS_KEY=xxx R2_SECRET_KEY=xxx R2_BUCKET=xxx node scripts/pdf-generation/upload-to-r2.mjs
- * 
+ *
  * Or set env vars in .env.local and run:
  *   node -r dotenv/config scripts/pdf-generation/upload-to-r2.mjs
  */
@@ -29,7 +29,7 @@ async function main() {
   if (!endpoint || !accessKey || !secretKey) {
     console.error('Missing R2 credentials. Set R2_ENDPOINT, R2_ACCESS_KEY, R2_SECRET_KEY');
     console.log('\nFor now, PDFs are available locally at:');
-    FILES.forEach(f => console.log(`  ${LOCAL_DIR}/${f.local}`));
+    FILES.forEach((f) => console.log(`  ${LOCAL_DIR}/${f.local}`));
     console.log('\nManually upload to R2 bucket or use wrangler CLI.');
     process.exit(1);
   }
@@ -47,7 +47,7 @@ async function main() {
 
   for (const file of FILES) {
     const localPath = path.join(LOCAL_DIR, file.local);
-    
+
     if (!fs.existsSync(localPath)) {
       console.error(`✗ File not found: ${localPath}`);
       continue;
@@ -56,12 +56,14 @@ async function main() {
     const body = fs.readFileSync(localPath);
 
     try {
-      await client.send(new PutObjectCommand({
-        Bucket: bucket,
-        Key: file.remote,
-        Body: body,
-        ContentType: 'application/pdf',
-      }));
+      await client.send(
+        new PutObjectCommand({
+          Bucket: bucket,
+          Key: file.remote,
+          Body: body,
+          ContentType: 'application/pdf',
+        }),
+      );
       console.log(`✓ Uploaded: ${file.remote}`);
     } catch (err) {
       console.error(`✗ Failed to upload ${file.remote}:`, err.message);

@@ -65,10 +65,7 @@ export async function syncUserProfile(input: SyncUserInput) {
       updated_at: new Date().toISOString(),
     };
 
-    await supabase
-      .from('profiles')
-      .update(updatePayload)
-      .eq('email', email);
+    await supabase.from('profiles').update(updatePayload).eq('email', email);
   } else {
     // New user: tenant_id is set ONLY on initial insert
     await supabase.from('profiles').insert({

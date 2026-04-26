@@ -6,16 +6,15 @@ import { fileURLToPath } from 'url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const migrationsDir = path.join(__dirname, '..', 'supabase', 'migrations');
 
-
-const files = fs.readdirSync(migrationsDir)
-  .filter(f => f.endsWith('.sql'))
+const files = fs
+  .readdirSync(migrationsDir)
+  .filter((f) => f.endsWith('.sql'))
   .sort();
-
 
 const policyNames = new Set();
 const duplicates = [];
 
-files.forEach(file => {
+files.forEach((file) => {
   const content = fs.readFileSync(path.join(migrationsDir, file), 'utf8');
   const policyMatches = content.matchAll(/CREATE POLICY "([^"]+)"/g);
 
@@ -29,8 +28,6 @@ files.forEach(file => {
 });
 
 if (duplicates.length > 0) {
-  duplicates.forEach(d => {
-  });
+  duplicates.forEach((d) => {});
 } else {
 }
-

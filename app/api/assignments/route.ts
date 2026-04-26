@@ -1,4 +1,3 @@
-
 import { NextResponse } from 'next/server';
 import { parseBody } from '@/lib/api-helpers';
 import { createServerSupabaseClient, getCurrentUser } from '@/lib/auth';
@@ -46,7 +45,7 @@ async function _GET(request: Request) {
           score,
           submitted_at
         )
-      `
+      `,
       )
       .order('due_date', { ascending: true });
 
@@ -58,19 +57,13 @@ async function _GET(request: Request) {
 
     if (error) {
       logger.error('Error fetching assignments:', error);
-      return NextResponse.json(
-        { error: 'Failed to fetch assignments' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to fetch assignments' }, { status: 500 });
     }
 
     return NextResponse.json({ assignments });
-  } catch (error) { 
+  } catch (error) {
     logger.error('Error in GET /api/assignments:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -86,20 +79,13 @@ async function _POST(request: Request) {
     }
 
     const body = await parseBody<Record<string, any>>(request);
-    const {
-      courseId,
-      title,
-      description,
-      instructions,
-      dueDate,
-      pointsPossible,
-      submissionType,
-    } = body;
+    const { courseId, title, description, instructions, dueDate, pointsPossible, submissionType } =
+      body;
 
     if (!courseId || !title) {
       return NextResponse.json(
         { error: 'Missing required fields: courseId, title' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -121,19 +107,13 @@ async function _POST(request: Request) {
 
     if (error) {
       logger.error('Error creating assignment:', error);
-      return NextResponse.json(
-        { error: 'Failed to create assignment' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to create assignment' }, { status: 500 });
     }
 
     return NextResponse.json({ assignment }, { status: 201 });
-  } catch (error) { 
+  } catch (error) {
     logger.error('Error in POST /api/assignments:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/assignments', _GET);

@@ -1,16 +1,24 @@
 'use client';
 
-
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { useState } from 'react';
 import Link from 'next/link';
-import { 
-
-  Globe, ArrowRight, Loader2, Code, 
-  Plug, Copy, Check, ExternalLink, Zap, Shield,
-  BookOpen, CreditCard, Users, BarChart3
+import {
+  Globe,
+  ArrowRight,
+  Loader2,
+  Code,
+  Plug,
+  Copy,
+  Check,
+  ExternalLink,
+  Zap,
+  Shield,
+  BookOpen,
+  CreditCard,
+  Users,
+  BarChart3,
 } from 'lucide-react';
-
 
 type Step = 'platform' | 'url' | 'features' | 'generating' | 'setup';
 
@@ -38,18 +46,42 @@ const PLATFORMS = [
 ];
 
 const FEATURES = [
-  { id: 'courses', name: 'Course Catalog', icon: BookOpen, description: 'Display and sell courses' },
-  { id: 'enrollment', name: 'Enrollment & Payments', icon: CreditCard, description: 'Accept payments, enroll students' },
-  { id: 'dashboard', name: 'Student Dashboard', icon: Users, description: 'Progress tracking, certificates' },
+  {
+    id: 'courses',
+    name: 'Course Catalog',
+    icon: BookOpen,
+    description: 'Display and sell courses',
+  },
+  {
+    id: 'enrollment',
+    name: 'Enrollment & Payments',
+    icon: CreditCard,
+    description: 'Accept payments, enroll students',
+  },
+  {
+    id: 'dashboard',
+    name: 'Student Dashboard',
+    icon: Users,
+    description: 'Progress tracking, certificates',
+  },
   { id: 'login', name: 'Authentication', icon: Shield, description: 'Student login/signup' },
-  { id: 'progress', name: 'Progress Tracking', icon: BarChart3, description: 'Track completion, analytics' },
+  {
+    id: 'progress',
+    name: 'Progress Tracking',
+    icon: BarChart3,
+    description: 'Track completion, analytics',
+  },
 ];
 
 export default function ConnectPage() {
   const [step, setStep] = useState<Step>('platform');
   const [platform, setPlatform] = useState('');
   const [url, setUrl] = useState('');
-  const [selectedFeatures, setSelectedFeatures] = useState<string[]>(['courses', 'enrollment', 'dashboard']);
+  const [selectedFeatures, setSelectedFeatures] = useState<string[]>([
+    'courses',
+    'enrollment',
+    'dashboard',
+  ]);
   const [integration, setIntegration] = useState<Integration | null>(null);
   const [copied, setCopied] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -84,16 +116,18 @@ export default function ConnectPage() {
   };
 
   const toggleFeature = (id: string) => {
-    setSelectedFeatures(prev => 
-      prev.includes(id) ? prev.filter(f => f !== id) : [...prev, id]
+    setSelectedFeatures((prev) =>
+      prev.includes(id) ? prev.filter((f) => f !== id) : [...prev, id],
     );
   };
 
   return (
-    <div className="min-h-screen bg-white">            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Connect" }]} />
+    <div className="min-h-screen bg-white">
+      {' '}
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Connect' }]} />
       </div>
-{/* Header */}
+      {/* Header */}
       <header className="border-b border-white/10">
         <div className="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2 text-white">
@@ -110,7 +144,6 @@ export default function ConnectPage() {
           </div>
         </div>
       </header>
-
       <main className="max-w-4xl mx-auto px-4 py-12">
         {/* Step 1: Select Platform */}
         {step === 'platform' && (
@@ -120,16 +153,16 @@ export default function ConnectPage() {
                 Keep Your Website, Add LMS Power
               </h1>
               <p className="text-slate-600 text-lg">
-                Stay on your current platform. We'll give you code to add courses, 
-                enrollments, and student management to your existing site.
+                Stay on your current platform. We'll give you code to add courses, enrollments, and
+                student management to your existing site.
               </p>
             </div>
 
             <div className="bg-white/5 backdrop-blur rounded-2xl p-8">
               <h2 className="text-slate-900 font-bold mb-6">What platform is your site on?</h2>
-              
+
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-                {PLATFORMS.filter(p => p.popular).map((p) => (
+                {PLATFORMS.filter((p) => p.popular).map((p) => (
                   <button
                     key={p.id}
                     onClick={() => setPlatform(p.id)}
@@ -146,7 +179,7 @@ export default function ConnectPage() {
               </div>
 
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {PLATFORMS.filter(p => !p.popular).map((p) => (
+                {PLATFORMS.filter((p) => !p.popular).map((p) => (
                   <button
                     key={p.id}
                     onClick={() => setPlatform(p.id)}
@@ -178,9 +211,7 @@ export default function ConnectPage() {
         {step === 'url' && (
           <div className="space-y-8">
             <div className="text-center">
-              <h1 className="text-4xl font-black text-slate-900 mb-4">
-                Enter Your Website URL
-              </h1>
+              <h1 className="text-4xl font-black text-slate-900 mb-4">Enter Your Website URL</h1>
               <p className="text-slate-600">
                 We'll analyze your site to provide the best integration.
               </p>
@@ -189,7 +220,7 @@ export default function ConnectPage() {
             <div className="bg-white/5 backdrop-blur rounded-2xl p-8 space-y-6">
               <div>
                 <label className="block text-white font-medium mb-2">
-                  Your {PLATFORMS.find(p => p.id === platform)?.name} Site URL
+                  Your {PLATFORMS.find((p) => p.id === platform)?.name} Site URL
                 </label>
                 <input
                   type="url"
@@ -224,12 +255,8 @@ export default function ConnectPage() {
         {step === 'features' && (
           <div className="space-y-8">
             <div className="text-center">
-              <h1 className="text-4xl font-black text-slate-900 mb-4">
-                What Do You Want to Add?
-              </h1>
-              <p className="text-slate-600">
-                Select the features you want on your site.
-              </p>
+              <h1 className="text-4xl font-black text-slate-900 mb-4">What Do You Want to Add?</h1>
+              <p className="text-slate-600">Select the features you want on your site.</p>
             </div>
 
             <div className="bg-white/5 backdrop-blur rounded-2xl p-8 space-y-4">
@@ -246,18 +273,22 @@ export default function ConnectPage() {
                         : 'border-white/20 hover:border-white/40'
                     }`}
                   >
-                    <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${
-                      selected ? 'bg-cyan-500' : 'bg-white/10'
-                    }`}>
+                    <div
+                      className={`w-12 h-12 rounded-lg flex items-center justify-center ${
+                        selected ? 'bg-cyan-500' : 'bg-white/10'
+                      }`}
+                    >
                       <Icon className={`w-6 h-6 ${selected ? 'text-white' : 'text-slate-400'}`} />
                     </div>
                     <div className="flex-1">
                       <p className="text-slate-900 font-bold">{feature.name}</p>
                       <p className="text-slate-500 text-sm">{feature.description}</p>
                     </div>
-                    <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
-                      selected ? 'border-cyan-500 bg-cyan-500' : 'border-white/30'
-                    }`}>
+                    <div
+                      className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
+                        selected ? 'border-cyan-500 bg-cyan-500' : 'border-white/30'
+                      }`}
+                    >
                       {selected && <Check className="w-4 h-4 text-white" />}
                     </div>
                   </button>
@@ -294,7 +325,7 @@ export default function ConnectPage() {
               Generating Your Integration...
             </h2>
             <p className="text-slate-600">
-              Creating custom code for {PLATFORMS.find(p => p.id === platform)?.name}
+              Creating custom code for {PLATFORMS.find((p) => p.id === platform)?.name}
             </p>
           </div>
         )}
@@ -329,7 +360,11 @@ export default function ConnectPage() {
                       onClick={() => copyToClipboard(integration.siteId, 'siteId')}
                       className="px-3 bg-white/10 rounded-r-lg hover:bg-white/20"
                     >
-                      {copied === 'siteId' ? <Check className="w-4 h-4 text-brand-green-400" /> : <Copy className="w-4 h-4 text-slate-400" />}
+                      {copied === 'siteId' ? (
+                        <Check className="w-4 h-4 text-brand-green-400" />
+                      ) : (
+                        <Copy className="w-4 h-4 text-slate-400" />
+                      )}
                     </button>
                   </div>
                 </div>
@@ -343,7 +378,11 @@ export default function ConnectPage() {
                       onClick={() => copyToClipboard(integration.apiKey, 'apiKey')}
                       className="px-3 bg-white/10 rounded-r-lg hover:bg-white/20"
                     >
-                      {copied === 'apiKey' ? <Check className="w-4 h-4 text-brand-green-400" /> : <Copy className="w-4 h-4 text-slate-400" />}
+                      {copied === 'apiKey' ? (
+                        <Check className="w-4 h-4 text-brand-green-400" />
+                      ) : (
+                        <Copy className="w-4 h-4 text-slate-400" />
+                      )}
                     </button>
                   </div>
                 </div>
@@ -361,7 +400,11 @@ export default function ConnectPage() {
                   onClick={() => copyToClipboard(integration.embedScript, 'embed')}
                   className="flex items-center gap-2 px-3 py-1 bg-white/10 rounded-lg text-sm text-slate-300 hover:bg-white/20"
                 >
-                  {copied === 'embed' ? <Check className="w-4 h-4 text-brand-green-400" /> : <Copy className="w-4 h-4" />}
+                  {copied === 'embed' ? (
+                    <Check className="w-4 h-4 text-brand-green-400" />
+                  ) : (
+                    <Copy className="w-4 h-4" />
+                  )}
                   Copy
                 </button>
               </div>
@@ -370,7 +413,7 @@ export default function ConnectPage() {
                   {integration.embedScript}
                 </code>
               </pre>
-              
+
               <div className="mt-4 p-4 bg-white/10 rounded-lg">
                 <p className="text-brand-blue-300 text-sm font-medium mb-2">
                   {integration.platform} Instructions:
@@ -398,7 +441,11 @@ export default function ConnectPage() {
                         onClick={() => copyToClipboard(comp.embedCode, `comp-${idx}`)}
                         className="text-slate-400 hover:text-white"
                       >
-                        {copied === `comp-${idx}` ? <Check className="w-4 h-4 text-brand-green-400" /> : <Copy className="w-4 h-4" />}
+                        {copied === `comp-${idx}` ? (
+                          <Check className="w-4 h-4 text-brand-green-400" />
+                        ) : (
+                          <Copy className="w-4 h-4" />
+                        )}
                       </button>
                     </div>
                     <p className="text-slate-500 text-sm mb-2">{comp.description}</p>

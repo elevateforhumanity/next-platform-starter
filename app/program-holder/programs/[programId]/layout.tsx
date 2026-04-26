@@ -3,8 +3,14 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { requireProgramAccess } from '@/lib/auth/require-program-holder';
 import {
-  LayoutDashboard, Users, GraduationCap, FileText, BarChart3,
-  Clock, AlertTriangle, ArrowLeft,
+  LayoutDashboard,
+  Users,
+  GraduationCap,
+  FileText,
+  BarChart3,
+  Clock,
+  AlertTriangle,
+  ArrowLeft,
 } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
@@ -49,19 +55,20 @@ export default async function ProgramScopedLayout({
       <div className="bg-white border-b">
         <div className="max-w-7xl mx-auto px-4 py-3">
           <div className="flex items-center gap-3">
-            <Link
-              href="/program-holder/programs"
-              className="text-slate-700 hover:text-slate-700"
-            >
+            <Link href="/program-holder/programs" className="text-slate-700 hover:text-slate-700">
               <ArrowLeft className="w-4 h-4" />
             </Link>
             <div className="flex items-center gap-2">
               <span className="text-sm text-slate-700">Program:</span>
               <span className="font-semibold text-slate-900">{programName}</span>
               {program.is_active ? (
-                <span className="text-xs bg-brand-green-100 text-brand-green-800 px-2 py-0.5 rounded">Active</span>
+                <span className="text-xs bg-brand-green-100 text-brand-green-800 px-2 py-0.5 rounded">
+                  Active
+                </span>
               ) : (
-                <span className="text-xs bg-white text-slate-700 px-2 py-0.5 rounded">Inactive</span>
+                <span className="text-xs bg-white text-slate-700 px-2 py-0.5 rounded">
+                  Inactive
+                </span>
               )}
             </div>
           </div>

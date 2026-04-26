@@ -47,7 +47,10 @@ function fail(check, detail = '') {
 
 async function httpGet(url, headers = {}) {
   const res = await fetch(url, { headers, redirect: 'follow' });
-  return { status: res.status, body: res.status < 400 ? await res.json().catch(() => res.text()) : null };
+  return {
+    status: res.status,
+    body: res.status < 400 ? await res.json().catch(() => res.text()) : null,
+  };
 }
 
 async function httpHead(url) {
@@ -90,7 +93,7 @@ if (!INTERNAL_KEY) {
   try {
     const { status, body } = await httpGet(
       `${BASE_URL}/api/internal/program-proof/hvac-technician`,
-      { 'x-internal-key': INTERNAL_KEY }
+      { 'x-internal-key': INTERNAL_KEY },
     );
 
     if (status !== 200 || !body?.proof) {
@@ -112,9 +115,15 @@ if (!INTERNAL_KEY) {
       const c = p.counts;
       const countsOk = c.modules > 0 && c.lessons > 0 && c.ctas > 0 && c.tracks > 0;
       if (countsOk) {
-        pass('proof endpoint — counts > 0', `modules=${c.modules} lessons=${c.lessons} ctas=${c.ctas} tracks=${c.tracks}`);
+        pass(
+          'proof endpoint — counts > 0',
+          `modules=${c.modules} lessons=${c.lessons} ctas=${c.ctas} tracks=${c.tracks}`,
+        );
       } else {
-        fail('proof endpoint — counts > 0', `modules=${c.modules} lessons=${c.lessons} ctas=${c.ctas} tracks=${c.tracks}`);
+        fail(
+          'proof endpoint — counts > 0',
+          `modules=${c.modules} lessons=${c.lessons} ctas=${c.ctas} tracks=${c.tracks}`,
+        );
       }
     }
   } catch (e) {
@@ -133,10 +142,10 @@ if (!SUPABASE_URL || !SERVICE_KEY) {
     const insertRes = await fetch(`${SUPABASE_URL}/rest/v1/applications`, {
       method: 'POST',
       headers: {
-        'apikey': SERVICE_KEY,
-        'Authorization': `Bearer ${SERVICE_KEY}`,
+        apikey: SERVICE_KEY,
+        Authorization: `Bearer ${SERVICE_KEY}`,
         'Content-Type': 'application/json',
-        'Prefer': 'return=representation',
+        Prefer: 'return=representation',
       },
       body: JSON.stringify({
         first_name: 'GONOGO',
@@ -169,12 +178,15 @@ if (!SUPABASE_URL || !SERVICE_KEY) {
         // Read back
         const readRes = await fetch(
           `${SUPABASE_URL}/rest/v1/applications?id=eq.${insertedId}&select=id,program_interest,program_slug,status`,
-          { headers: { 'apikey': SERVICE_KEY, 'Authorization': `Bearer ${SERVICE_KEY}` } }
+          { headers: { apikey: SERVICE_KEY, Authorization: `Bearer ${SERVICE_KEY}` } },
         );
         const readRows = await readRes.json();
 
         if (readRows?.[0]?.id === insertedId && readRows[0].program_slug === 'hvac-technician') {
-          pass('apply flow DB write', `id=${insertedId} program_slug=${programSlug} program_interest=${programInterest}`);
+          pass(
+            'apply flow DB write',
+            `id=${insertedId} program_slug=${programSlug} program_interest=${programInterest}`,
+          );
         } else {
           fail('apply flow DB write', `read-back mismatch: ${JSON.stringify(readRows)}`);
         }
@@ -187,7 +199,7 @@ if (!SUPABASE_URL || !SERVICE_KEY) {
     if (insertedId) {
       await fetch(`${SUPABASE_URL}/rest/v1/applications?id=eq.${insertedId}`, {
         method: 'DELETE',
-        headers: { 'apikey': SERVICE_KEY, 'Authorization': `Bearer ${SERVICE_KEY}` },
+        headers: { apikey: SERVICE_KEY, Authorization: `Bearer ${SERVICE_KEY}` },
       }).catch(() => {});
     }
   }
@@ -197,14 +209,22 @@ if (!SUPABASE_URL || !SERVICE_KEY) {
 console.log('\n--- CHECK 6: Login redirect default ---');
 try {
   const src = readFileSync('lib/auth/role-destinations.ts', 'utf8');
-  const hasLearnerDefault = src.includes("return '/learner/dashboard'") || src.includes('return \'/learner/dashboard\'');
-  const hasLmsFallback = src.includes("return '/lms/dashboard'") || src.includes('return \'/lms/dashboard\'');
-  const studentEntry = src.includes("student:") && src.includes("'/learner/dashboard'");
+  const hasLearnerDefault =
+    src.includes("return '/learner/dashboard'") || src.includes("return '/learner/dashboard'");
+  const hasLmsFallback =
+    src.includes("return '/lms/dashboard'") || src.includes("return '/lms/dashboard'");
+  const studentEntry = src.includes('student:') && src.includes("'/learner/dashboard'");
 
   if (hasLearnerDefault && !hasLmsFallback && studentEntry) {
-    pass('login redirect default', 'getRoleDestination returns /learner/dashboard, student mapped, no /lms/dashboard fallback');
+    pass(
+      'login redirect default',
+      'getRoleDestination returns /learner/dashboard, student mapped, no /lms/dashboard fallback',
+    );
   } else {
-    fail('login redirect default', `hasLearnerDefault=${hasLearnerDefault} hasLmsFallback=${hasLmsFallback} studentEntry=${studentEntry}`);
+    fail(
+      'login redirect default',
+      `hasLearnerDefault=${hasLearnerDefault} hasLmsFallback=${hasLmsFallback} studentEntry=${studentEntry}`,
+    );
   }
 } catch (e) {
   fail('login redirect default', String(e));
@@ -216,21 +236,32 @@ try {
   const src = readFileSync('lib/programs/get-program.ts', 'utf8');
 
   // Must have hvac-technician in DB_MIGRATED_SLUGS
-  const inMigratedSet = src.includes("DB_MIGRATED_SLUGS = new Set(['hvac-technician'])") ||
-                        src.includes('DB_MIGRATED_SLUGS = new Set(["hvac-technician"])');
+  const inMigratedSet =
+    src.includes("DB_MIGRATED_SLUGS = new Set(['hvac-technician'])") ||
+    src.includes('DB_MIGRATED_SLUGS = new Set(["hvac-technician"])');
 
   // Must NOT have hvac-technician in PROGRAM_REGISTRY
-  const inRegistry = src.includes("'hvac-technician':") && src.includes('import(') &&
-                     src.match(/'hvac-technician'\s*:\s*\(\)\s*=>\s*import/);
+  const inRegistry =
+    src.includes("'hvac-technician':") &&
+    src.includes('import(') &&
+    src.match(/'hvac-technician'\s*:\s*\(\)\s*=>\s*import/);
 
   // Must NOT have silent catch for DB-migrated path
   // The DB-migrated block should NOT contain a try/catch wrapping getPublishedProgramBySlug
-  const hasSilentCatch = src.match(/DB_MIGRATED_SLUGS\.has\(slug\)[^}]+catch\s*\{[^}]*return null/s);
+  const hasSilentCatch = src.match(
+    /DB_MIGRATED_SLUGS\.has\(slug\)[^}]+catch\s*\{[^}]*return null/s,
+  );
 
   if (inMigratedSet && !inRegistry && !hasSilentCatch) {
-    pass('no static HVAC resolver', 'hvac-technician in DB_MIGRATED_SLUGS, not in PROGRAM_REGISTRY, no silent catch');
+    pass(
+      'no static HVAC resolver',
+      'hvac-technician in DB_MIGRATED_SLUGS, not in PROGRAM_REGISTRY, no silent catch',
+    );
   } else {
-    fail('no static HVAC resolver', `inMigratedSet=${inMigratedSet} inRegistry=${!!inRegistry} hasSilentCatch=${!!hasSilentCatch}`);
+    fail(
+      'no static HVAC resolver',
+      `inMigratedSet=${inMigratedSet} inRegistry=${!!inRegistry} hasSilentCatch=${!!hasSilentCatch}`,
+    );
   }
 } catch (e) {
   fail('no static HVAC resolver', String(e));
@@ -252,9 +283,15 @@ try {
   const buildIsHardFail = hasBuildStep && !buildHasContinueOnError;
 
   if (!hasLintInMainJob && hasLegacyLintJob && buildIsHardFail) {
-    pass('CI structure', 'lint removed from test-and-build, legacy-lint job exists, build is hard fail');
+    pass(
+      'CI structure',
+      'lint removed from test-and-build, legacy-lint job exists, build is hard fail',
+    );
   } else {
-    fail('CI structure', `lintInMain=${hasLintInMainJob} legacyLint=${hasLegacyLintJob} hasBuildStep=${hasBuildStep} buildHardFail=${buildIsHardFail}`);
+    fail(
+      'CI structure',
+      `lintInMain=${hasLintInMainJob} legacyLint=${hasLegacyLintJob} hasBuildStep=${hasBuildStep} buildHardFail=${buildIsHardFail}`,
+    );
   }
 } catch (e) {
   fail('CI structure', String(e));

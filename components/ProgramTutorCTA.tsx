@@ -62,7 +62,7 @@ export function ProgramTutorCTA({
     }
     if (e.key === 'Tab' && modalRef.current) {
       const focusable = modalRef.current.querySelectorAll<HTMLElement>(
-        'button, input, [tabindex]:not([tabindex="-1"])'
+        'button, input, [tabindex]:not([tabindex="-1"])',
       );
       if (focusable.length === 0) return;
       const first = focusable[0];
@@ -92,7 +92,7 @@ export function ProgramTutorCTA({
     const trimmed = (text || input).trim();
     if (!trimmed || loading) return;
 
-    setMessages(prev => [...prev, { role: 'user', content: trimmed }]);
+    setMessages((prev) => [...prev, { role: 'user', content: trimmed }]);
     setInput('');
     setLoading(true);
 
@@ -104,15 +104,18 @@ export function ProgramTutorCTA({
       });
       const data = await res.json();
       if (data.error) {
-        setMessages(prev => [...prev, { role: 'assistant', content: data.error }]);
+        setMessages((prev) => [...prev, { role: 'assistant', content: data.error }]);
       } else {
-        setMessages(prev => [...prev, { role: 'assistant', content: data.message }]);
+        setMessages((prev) => [...prev, { role: 'assistant', content: data.message }]);
       }
     } catch {
-      setMessages(prev => [...prev, {
-        role: 'assistant',
-        content: 'Sorry, I couldn\'t connect. Please try again.',
-      }]);
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: 'assistant',
+          content: "Sorry, I couldn't connect. Please try again.",
+        },
+      ]);
     } finally {
       setLoading(false);
     }
@@ -127,7 +130,10 @@ export function ProgramTutorCTA({
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className={buttonClassName ?? 'inline-flex items-center gap-2 rounded-xl bg-white px-5 py-2.5 text-sm font-semibold text-slate-900 transition hover:bg-white/90'}
+          className={
+            buttonClassName ??
+            'inline-flex items-center gap-2 rounded-xl bg-white px-5 py-2.5 text-sm font-semibold text-slate-900 transition hover:bg-white/90'
+          }
         >
           <MessageCircle className="w-4 h-4" />
           Ask the AI Tutor
@@ -148,7 +154,9 @@ export function ProgramTutorCTA({
           role="dialog"
           aria-modal="true"
           aria-label={`${programName} AI Tutor`}
-          onClick={(e) => { if (e.target === e.currentTarget) setOpen(false); }}
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setOpen(false);
+          }}
         >
           <div
             ref={modalRef}
@@ -162,7 +170,9 @@ export function ProgramTutorCTA({
                   <MessageCircle className="w-4 h-4 text-brand-blue-400" />
                   <span className="text-sm font-semibold text-white">{programName} AI Tutor</span>
                 </div>
-                <p className="text-xs text-white/40 mt-0.5">Program info only. For eligibility decisions, submit an application.</p>
+                <p className="text-xs text-white/40 mt-0.5">
+                  Program info only. For eligibility decisions, submit an application.
+                </p>
               </div>
               <button
                 type="button"
@@ -177,12 +187,17 @@ export function ProgramTutorCTA({
             {/* Messages */}
             <div className="flex-1 overflow-y-auto p-4 space-y-3">
               {messages.map((msg, i) => (
-                <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                  <div className={`max-w-[85%] rounded-xl px-4 py-2.5 text-sm leading-relaxed ${
-                    msg.role === 'user'
-                      ? 'bg-brand-blue-600 text-white'
-                      : 'bg-white/5 border border-white/10 text-white/90'
-                  }`}>
+                <div
+                  key={i}
+                  className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
+                >
+                  <div
+                    className={`max-w-[85%] rounded-xl px-4 py-2.5 text-sm leading-relaxed ${
+                      msg.role === 'user'
+                        ? 'bg-brand-blue-600 text-white'
+                        : 'bg-white/5 border border-white/10 text-white/90'
+                    }`}
+                  >
                     {msg.content}
                   </div>
                 </div>
@@ -216,7 +231,10 @@ export function ProgramTutorCTA({
             {/* Input */}
             <div className="border-t border-white/10 p-3 shrink-0">
               <form
-                onSubmit={(e) => { e.preventDefault(); handleSend(); }}
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  handleSend();
+                }}
                 className="flex gap-2"
               >
                 <input

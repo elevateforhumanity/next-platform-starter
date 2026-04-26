@@ -58,8 +58,8 @@ export async function POST(request: NextRequest) {
       .eq('is_active', true)
       .maybeSingle();
 
-    let authorized       = false;
-    let authPath         = '';
+    let authorized = false;
+    let authPath = '';
     // verifiedShopId (stored in verified_shop_id) is only populated for shop supervisor approvals; partner approvals leave it null.
     let verifiedShopId: string | null = null;
     let supervisorRowId: string | null = null;
@@ -75,9 +75,9 @@ export async function POST(request: NextRequest) {
         .maybeSingle();
 
       if (placement) {
-        authorized      = true;
-        authPath        = 'shop_supervisors';
-        verifiedShopId  = supervisorRow.shop_id;
+        authorized = true;
+        authPath = 'shop_supervisors';
+        verifiedShopId = supervisorRow.shop_id;
         supervisorRowId = supervisorRow.id;
       }
     }
@@ -106,8 +106,8 @@ export async function POST(request: NextRequest) {
           .maybeSingle();
 
         if (textPlacement) {
-          authorized     = true;
-          authPath       = 'email_fallback';
+          authorized = true;
+          authPath = 'email_fallback';
           verifiedShopId = null; // shop_placements has no shop_id FK
         }
       }
@@ -145,24 +145,24 @@ export async function POST(request: NextRequest) {
     const { error: updateErr } = await db
       .from('competency_log')
       .update({
-        supervisor_verified:      true,
-        supervisor_verified_at:   new Date().toISOString(),
-        status:                   'verified',
+        supervisor_verified: true,
+        supervisor_verified_at: new Date().toISOString(),
+        status: 'verified',
         // Audit fields — immutable record of who verified, from which shop,
         // via which auth path. Required for DOL/state board compliance review.
-        verifier_user_id:         user.id,
-        verifier_supervisor_id:   supervisorRowId,
-        verified_shop_id:         verifiedShopId,
-        verification_auth_path:   authPath,
+        verifier_user_id: user.id,
+        verifier_supervisor_id: supervisorRowId,
+        verified_shop_id: verifiedShopId,
+        verification_auth_path: authPath,
       })
       .eq('id', competencyLogId);
 
     if (updateErr) return safeDbError(updateErr, 'Failed to verify rep');
 
     return NextResponse.json({
-      success:      true,
-      verified:     true,
-      authPath,                          // surface to caller for logging/debugging
+      success: true,
+      verified: true,
+      authPath, // surface to caller for logging/debugging
       verifiedShopId,
     });
   } catch (err) {

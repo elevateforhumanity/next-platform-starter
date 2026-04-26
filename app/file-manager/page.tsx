@@ -18,7 +18,9 @@ export const dynamic = 'force-dynamic';
 
 export default async function FileManagerPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/file-manager');
 
   return (
@@ -35,7 +37,11 @@ export default async function FileManagerPage() {
           <div className="flex gap-3">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-700" />
-              <input type="text" placeholder="Search files..." className="pl-10 pr-4 py-2 border rounded-lg" />
+              <input
+                type="text"
+                placeholder="Search files..."
+                className="pl-10 pr-4 py-2 border rounded-lg"
+              />
             </div>
             <button className="flex items-center gap-2 px-4 py-2 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700">
               <Upload className="w-5 h-5" /> Upload
@@ -50,7 +56,10 @@ export default async function FileManagerPage() {
             { name: 'Course Materials', count: 8, icon: Folder, color: 'blue' },
             { name: 'Submissions', count: 5, icon: Folder, color: 'orange' },
           ].map((folder, i) => (
-            <div key={i} className="bg-white rounded-xl p-6 shadow-sm border hover:shadow-md cursor-pointer">
+            <div
+              key={i}
+              className="bg-white rounded-xl p-6 shadow-sm border hover:shadow-md cursor-pointer"
+            >
               <folder.icon className={`w-10 h-10 text-${folder.color}-600 mb-3`} />
               <h3 className="font-semibold text-slate-900">{folder.name}</h3>
               <p className="text-slate-700 text-sm">{folder.count} files</p>
@@ -62,14 +71,20 @@ export default async function FileManagerPage() {
           <div className="p-4 border-b flex items-center justify-between">
             <h2 className="font-semibold text-slate-900">Recent Files</h2>
             <div className="flex gap-2">
-              <button className="p-2 hover:bg-white rounded"><Grid className="w-5 h-5 text-slate-700" /></button>
-              <button className="p-2 hover:bg-white rounded"><List className="w-5 h-5 text-slate-700" /></button>
+              <button className="p-2 hover:bg-white rounded">
+                <Grid className="w-5 h-5 text-slate-700" />
+              </button>
+              <button className="p-2 hover:bg-white rounded">
+                <List className="w-5 h-5 text-slate-700" />
+              </button>
             </div>
           </div>
           <div className="p-8 text-center">
             <File className="w-12 h-12 text-slate-700 mx-auto mb-4" />
             <p className="text-slate-700">No recent files</p>
-            <button className="mt-4 text-brand-blue-600 hover:underline">Upload your first file</button>
+            <button className="mt-4 text-brand-blue-600 hover:underline">
+              Upload your first file
+            </button>
           </div>
         </div>
       </div>

@@ -4,8 +4,15 @@ import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { getAdminClient } from '@/lib/supabase/admin';
 import {
-  CheckCircle, ArrowRight, Phone, Mail, FileText,
-  Users, TrendingUp, ClipboardList, Building2,
+  CheckCircle,
+  ArrowRight,
+  Phone,
+  Mail,
+  FileText,
+  Users,
+  TrendingUp,
+  ClipboardList,
+  Building2,
 } from 'lucide-react';
 import { WorkforceSystemDiagram } from '@/components/marketing/WorkforceSystemDiagram';
 
@@ -13,7 +20,8 @@ export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: 'For Workforce Agencies | Elevate for Humanity',
-  description: 'WorkOne case managers, DWD staff, and workforce boards: real-time participant tracking, WIOA documentation, credential verification, employer placement reporting, and RAPIDS-compatible outcomes — all in one system.',
+  description:
+    'WorkOne case managers, DWD staff, and workforce boards: real-time participant tracking, WIOA documentation, credential verification, employer placement reporting, and RAPIDS-compatible outcomes — all in one system.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/for-agencies' },
 };
 
@@ -80,7 +88,9 @@ export default async function ForAgenciesPage() {
     <div className="min-h-screen bg-white">
       <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[{ label: 'Agencies', href: '/agencies' }, { label: 'Refer Clients' }]} />
+          <Breadcrumbs
+            items={[{ label: 'Agencies', href: '/agencies' }, { label: 'Refer Clients' }]}
+          />
         </div>
       </div>
 
@@ -89,17 +99,23 @@ export default async function ForAgenciesPage() {
         <Image
           src="/images/pages/government-1.jpg"
           alt="Workforce agency partnership"
-          fill sizes="100vw"
+          fill
+          sizes="100vw"
           className="object-cover"
           priority
         />
         <div className="absolute inset-0 bg-slate-900/60" />
         <div className="absolute inset-0 flex items-end">
           <div className="max-w-4xl mx-auto px-4 pb-10 w-full">
-            <p className="text-xs font-bold uppercase tracking-widest text-brand-red-400 mb-2">For WorkOne, DWD &amp; Case Managers</p>
-            <h1 className="text-3xl sm:text-4xl font-extrabold text-white mb-3">Refer Clients to Funded Career Training</h1>
+            <p className="text-xs font-bold uppercase tracking-widest text-brand-red-400 mb-2">
+              For WorkOne, DWD &amp; Case Managers
+            </p>
+            <h1 className="text-3xl sm:text-4xl font-extrabold text-white mb-3">
+              Refer Clients to Funded Career Training
+            </h1>
             <p className="text-slate-200 text-lg max-w-2xl">
-              ETPL-approved. WIOA-funded. RAPIDS-tracked. We handle enrollment, training, and outcome reporting — you focus on your clients.
+              ETPL-approved. WIOA-funded. RAPIDS-tracked. We handle enrollment, training, and
+              outcome reporting — you focus on your clients.
             </p>
           </div>
         </div>
@@ -174,7 +190,10 @@ export default async function ForAgenciesPage() {
           <div className="max-w-5xl mx-auto">
             <div className="flex items-center justify-between mb-8">
               <h2 className="text-2xl font-bold text-slate-900">ETPL-Approved Programs</h2>
-              <Link href="/programs" className="text-sm font-semibold text-brand-red-600 hover:underline flex items-center gap-1">
+              <Link
+                href="/programs"
+                className="text-sm font-semibold text-brand-red-600 hover:underline flex items-center gap-1"
+              >
                 All programs <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
@@ -190,7 +209,9 @@ export default async function ForAgenciesPage() {
                   </p>
                   <h3 className="font-bold text-slate-900 text-sm leading-snug">{p.title}</h3>
                   {p.short_description && (
-                    <p className="text-xs text-slate-500 mt-1 line-clamp-2">{p.short_description}</p>
+                    <p className="text-xs text-slate-500 mt-1 line-clamp-2">
+                      {p.short_description}
+                    </p>
                   )}
                 </Link>
               ))}
@@ -205,12 +226,16 @@ export default async function ForAgenciesPage() {
       {/* PLATFORM CAPABILITIES */}
       <section className="py-16 px-4 bg-white border-t border-slate-100">
         <div className="max-w-6xl mx-auto">
-          <p className="text-brand-red-600 text-xs font-bold uppercase tracking-widest text-center mb-3">What the system does</p>
+          <p className="text-brand-red-600 text-xs font-bold uppercase tracking-widest text-center mb-3">
+            What the system does
+          </p>
           <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 text-center mb-4">
             Built for how workforce agencies actually operate.
           </h2>
           <p className="text-slate-500 text-sm text-center max-w-2xl mx-auto mb-12">
-            Most training providers hand you a completion certificate and walk away. Elevate runs the full cycle — intake, training, credentialing, placement, and the documentation your agency needs for reporting.
+            Most training providers hand you a completion certificate and walk away. Elevate runs
+            the full cycle — intake, training, credentialing, placement, and the documentation your
+            agency needs for reporting.
           </p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
@@ -258,25 +283,55 @@ export default async function ForAgenciesPage() {
       {/* WHAT AGENCIES SEE */}
       <section className="py-16 px-4 bg-slate-950">
         <div className="max-w-5xl mx-auto">
-          <p className="text-brand-red-400 text-xs font-bold uppercase tracking-widest text-center mb-3">Agency visibility</p>
+          <p className="text-brand-red-400 text-xs font-bold uppercase tracking-widest text-center mb-3">
+            Agency visibility
+          </p>
           <h2 className="text-2xl sm:text-3xl font-extrabold text-white text-center mb-4">
             Your clients. Your outcomes. Your reports.
           </h2>
           <p className="text-slate-400 text-sm text-center max-w-xl mx-auto mb-12">
-            Workforce boards and case managers get a dedicated view — not a generic training portal. Here's what's visible from day one.
+            Workforce boards and case managers get a dedicated view — not a generic training portal.
+            Here's what's visible from day one.
           </p>
           <div className="grid sm:grid-cols-2 gap-4 mb-10">
             {[
-              { label: 'Participant enrollment status', detail: 'Active, completed, withdrawn — updated in real time' },
-              { label: 'Lesson and checkpoint progress', detail: 'Percentage complete, last activity, pass/fail on assessments' },
-              { label: 'Credential issuance', detail: 'Date issued, credential type, verification link' },
-              { label: 'Employer placement', detail: 'Employer name, job title, start date, hourly wage' },
-              { label: 'Funding source per participant', detail: 'WIOA, WRG, IMPACT, or self-pay — tracked per record' },
-              { label: 'Attendance and cohort records', detail: 'Session dates, hours logged, instructor sign-off' },
-              { label: 'FERPA-compliant data access', detail: 'Role-based access controls, consent tracking, audit log' },
-              { label: 'Exportable outcome reports', detail: 'CSV and PDF exports formatted for DWD and RAPIDS submission' },
+              {
+                label: 'Participant enrollment status',
+                detail: 'Active, completed, withdrawn — updated in real time',
+              },
+              {
+                label: 'Lesson and checkpoint progress',
+                detail: 'Percentage complete, last activity, pass/fail on assessments',
+              },
+              {
+                label: 'Credential issuance',
+                detail: 'Date issued, credential type, verification link',
+              },
+              {
+                label: 'Employer placement',
+                detail: 'Employer name, job title, start date, hourly wage',
+              },
+              {
+                label: 'Funding source per participant',
+                detail: 'WIOA, WRG, IMPACT, or self-pay — tracked per record',
+              },
+              {
+                label: 'Attendance and cohort records',
+                detail: 'Session dates, hours logged, instructor sign-off',
+              },
+              {
+                label: 'FERPA-compliant data access',
+                detail: 'Role-based access controls, consent tracking, audit log',
+              },
+              {
+                label: 'Exportable outcome reports',
+                detail: 'CSV and PDF exports formatted for DWD and RAPIDS submission',
+              },
             ].map((item) => (
-              <div key={item.label} className="flex items-start gap-3 bg-slate-900 border border-slate-800 rounded-lg px-5 py-4">
+              <div
+                key={item.label}
+                className="flex items-start gap-3 bg-slate-900 border border-slate-800 rounded-lg px-5 py-4"
+              >
                 <CheckCircle className="w-4 h-4 text-brand-red-400 mt-0.5 shrink-0" />
                 <div>
                   <p className="text-white text-sm font-semibold">{item.label}</p>
@@ -303,7 +358,8 @@ export default async function ForAgenciesPage() {
             <Building2 className="w-8 h-8 text-brand-red-400 mb-4" />
             <h2 className="text-2xl font-bold mb-3">Ready to Refer a Client?</h2>
             <p className="text-slate-300 mb-6">
-              Contact our agency liaison directly or send clients to our enrollment page. We respond to agency inquiries within one business day.
+              Contact our agency liaison directly or send clients to our enrollment page. We respond
+              to agency inquiries within one business day.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link
@@ -325,17 +381,24 @@ export default async function ForAgenciesPage() {
             <ul className="space-y-3 text-sm">
               <li className="flex items-center gap-2 text-slate-300">
                 <Phone className="w-4 h-4 text-brand-red-400 shrink-0" />
-                <a href="tel:+13173143757" className="hover:text-white">(317) 314-3757</a>
+                <a href="tel:+13173143757" className="hover:text-white">
+                  (317) 314-3757
+                </a>
               </li>
               <li className="flex items-center gap-2 text-slate-300">
                 <Mail className="w-4 h-4 text-brand-red-400 shrink-0" />
-                <a href="mailto:agencies@elevateforhumanity.org" className="hover:text-white break-all">
+                <a
+                  href="mailto:agencies@elevateforhumanity.org"
+                  className="hover:text-white break-all"
+                >
                   agencies@elevateforhumanity.org
                 </a>
               </li>
               <li className="flex items-center gap-2 text-slate-300">
                 <FileText className="w-4 h-4 text-brand-red-400 shrink-0" />
-                <Link href="/agencies" className="hover:text-white">Full agency overview</Link>
+                <Link href="/agencies" className="hover:text-white">
+                  Full agency overview
+                </Link>
               </li>
             </ul>
           </div>

@@ -39,11 +39,11 @@
 
 ## How Changes Are Handled
 
-| Category | Handling |
-|----------|----------|
-| **Configuration** | Controlled |
-| **Extension** | Reviewed and approved |
-| **Core changes** | Strategic, cross-program decisions only |
+| Category          | Handling                                |
+| ----------------- | --------------------------------------- |
+| **Configuration** | Controlled                              |
+| **Extension**     | Reviewed and approved                   |
+| **Core changes**  | Strategic, cross-program decisions only |
 
 ---
 

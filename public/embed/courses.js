@@ -52,8 +52,7 @@
       const courses = await this.fetchCourses(config);
 
       if (courses.length === 0) {
-        container.innerHTML =
-          '<div class="efh-empty">No courses available</div>';
+        container.innerHTML = '<div class="efh-empty">No courses available</div>';
         return;
       }
 
@@ -150,12 +149,8 @@
     },
 
     renderCourse(course, config) {
-      const imageUrl =
-        course.thumbnail_url ||
-        'https://via.placeholder.com/400x200?text=Course';
-      const duration = course.duration
-        ? `${Math.floor(course.duration / 60)} hours`
-        : 'Self-paced';
+      const imageUrl = course.thumbnail_url || 'https://via.placeholder.com/400x200?text=Course';
+      const duration = course.duration ? `${Math.floor(course.duration / 60)} hours` : 'Self-paced';
       const enrollUrl = `${this.lmsBase}/courses/${course.id}`;
 
       return `

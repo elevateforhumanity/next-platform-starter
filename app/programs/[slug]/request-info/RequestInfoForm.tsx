@@ -56,7 +56,8 @@ export default function RequestInfoForm({ slug, programTitle, applyHref }: Props
         <CheckCircle2 className="w-12 h-12 text-brand-green-600 mx-auto mb-4" />
         <h2 className="text-2xl font-bold text-slate-900 mb-2">We&apos;ll be in touch</h2>
         <p className="text-black mb-6">
-          Your inquiry about <strong>{programTitle}</strong> has been received. An advisor will contact you within 1 business day.
+          Your inquiry about <strong>{programTitle}</strong> has been received. An advisor will
+          contact you within 1 business day.
         </p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <a
@@ -77,7 +78,10 @@ export default function RequestInfoForm({ slug, programTitle, applyHref }: Props
   }
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 space-y-5">
+    <form
+      onSubmit={handleSubmit}
+      className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 space-y-5"
+    >
       <div className="grid sm:grid-cols-2 gap-4">
         <div>
           <label htmlFor="firstName" className="block text-sm font-semibold text-slate-700 mb-1">
@@ -139,7 +143,10 @@ export default function RequestInfoForm({ slug, programTitle, applyHref }: Props
       </div>
 
       <div>
-        <label htmlFor="fundingQuestion" className="block text-sm font-semibold text-slate-700 mb-1">
+        <label
+          htmlFor="fundingQuestion"
+          className="block text-sm font-semibold text-slate-700 mb-1"
+        >
           How are you planning to pay? <span className="text-brand-red-600">*</span>
         </label>
         <select
@@ -149,7 +156,9 @@ export default function RequestInfoForm({ slug, programTitle, applyHref }: Props
           defaultValue=""
           className="w-full border border-slate-300 rounded-lg px-4 py-2.5 text-slate-900 focus:outline-none focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
         >
-          <option value="" disabled>Select an option</option>
+          <option value="" disabled>
+            Select an option
+          </option>
           <option value="wioa">WIOA / WorkOne funding</option>
           <option value="fssa">FSSA (Family &amp; Social Services Administration)</option>
           <option value="jri">Job Ready Indy / Reentry funding</option>
@@ -187,7 +196,9 @@ export default function RequestInfoForm({ slug, programTitle, applyHref }: Props
         className="w-full bg-brand-blue-600 text-white py-3 rounded-xl font-bold text-base hover:bg-brand-blue-700 transition disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
       >
         {status === 'submitting' ? (
-          <><Loader2 className="w-5 h-5 animate-spin" /> Sending…</>
+          <>
+            <Loader2 className="w-5 h-5 animate-spin" /> Sending…
+          </>
         ) : (
           'Send My Request'
         )}

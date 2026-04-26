@@ -1,5 +1,3 @@
-
-
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { logger } from '@/lib/logger';
@@ -30,7 +28,7 @@ async function _POST(request: NextRequest) {
           autoRefreshToken: false,
           persistSession: false,
         },
-      }
+      },
     );
 
     // Calculate current week (Monday-Sunday)
@@ -59,7 +57,7 @@ async function _POST(request: NextRequest) {
           period_start: periodStart,
           period_end: periodEnd,
         },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
@@ -87,24 +85,19 @@ async function _POST(request: NextRequest) {
       no_activity: result.no_activity,
       timestamp: new Date().toISOString(),
     });
-  } catch (error) { 
+  } catch (error) {
     return NextResponse.json(
       {
         ok: false,
-        error:
-          'Internal server error',
+        error: 'Internal server error',
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
 
 // Helper function to create alerts from verdicts
-async function createAlertsFromVerdicts(
-  supabase: any,
-  periodStart: string,
-  periodEnd: string
-) {
+async function createAlertsFromVerdicts(supabase: any, periodStart: string, periodEnd: string) {
   try {
     // Get all BEHIND and NO_ACTIVITY verdicts
     const { data: verdicts, error } = await supabase
@@ -123,7 +116,7 @@ async function createAlertsFromVerdicts(
           partner_owner_user_id,
           profiles!enrollments_student_id_fkey(full_name)
         )
-      `
+      `,
       )
       .eq('period_start', periodStart)
       .eq('period_end', periodEnd)
@@ -171,7 +164,7 @@ async function createAlertsFromVerdicts(
 
     await supabase.from('alert_notifications').insert(alerts);
   } catch (error) {
-    logger.error("Unhandled error", error instanceof Error ? error : undefined);
+    logger.error('Unhandled error', error instanceof Error ? error : undefined);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -179,10 +172,7 @@ async function createAlertsFromVerdicts(
 // Allow GET for manual testing (development only)
 async function _GET(request: NextRequest) {
   if (process.env.NODE_ENV === 'production') {
-    return NextResponse.json(
-      { error: 'Method not allowed in production' },
-      { status: 405 }
-    );
+    return NextResponse.json({ error: 'Method not allowed in production' }, { status: 405 });
   }
 
   return POST(request);

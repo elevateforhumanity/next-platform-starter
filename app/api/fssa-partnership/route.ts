@@ -112,18 +112,15 @@ async function _POST(request: NextRequest) {
         `,
       });
     } catch (emailError) {
-        logger.error("Unhandled error", emailError instanceof Error ? emailError : undefined);
-      }
+      logger.error('Unhandled error', emailError instanceof Error ? emailError : undefined);
+    }
 
     return NextResponse.json({
       success: true,
-      message: 'Partnership request received. We will contact you within 1-2 business days.'
+      message: 'Partnership request received. We will contact you within 1-2 business days.',
     });
-  } catch (error) { 
-    return NextResponse.json(
-      { error: 'Failed to process partnership request' },
-      { status: 500 }
-    );
+  } catch (error) {
+    return NextResponse.json({ error: 'Failed to process partnership request' }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/fssa-partnership', _POST);

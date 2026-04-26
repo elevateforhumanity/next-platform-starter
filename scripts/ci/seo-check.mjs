@@ -2,12 +2,12 @@
 
 /**
  * SEO Governance Check - CI Script
- * 
+ *
  * Enforces SEO indexing rules at build time.
  * Designed for Next.js App Router with metadata.ts files.
- * 
+ *
  * Usage: node scripts/ci/seo-check.mjs
- * 
+ *
  * Exit codes:
  *   0 = All checks passed
  *   1 = Validation errors found (blocks deploy)
@@ -68,10 +68,10 @@ function loadWhitelist() {
 // Recursively find all page files
 function findPageFiles(dir, files = []) {
   const items = fs.readdirSync(dir, { withFileTypes: true });
-  
+
   for (const item of items) {
     const fullPath = path.join(dir, item.name);
-    
+
     if (item.isDirectory()) {
       // Skip node_modules and hidden directories
       if (item.name.startsWith('.') || item.name === 'node_modules') continue;
@@ -80,7 +80,7 @@ function findPageFiles(dir, files = []) {
       files.push(fullPath);
     }
   }
-  
+
   return files;
 }
 
@@ -91,22 +91,20 @@ function fileToRoute(filePath) {
     .replace(/\/page\.tsx?$/, '')
     .replace(/\(.*?\)\//g, '') // Remove route groups
     .replace(/\[.*?\]/g, ':param');
-  
+
   return route || '/';
 }
 
 // Check if route is blocked
 function isBlockedRoute(route) {
-  return BLOCKED_PATTERNS.some(pattern => 
-    route.startsWith(pattern) || route === pattern
-  );
+  return BLOCKED_PATTERNS.some((pattern) => route.startsWith(pattern) || route === pattern);
 }
 
 // Extract metadata from page file
 function extractMetadata(filePath) {
   const content = fs.readFileSync(filePath, 'utf-8');
   const route = fileToRoute(filePath);
-  
+
   const metadata = {
     file: filePath.replace(ROOT_DIR, ''),
     route,
@@ -118,7 +116,10 @@ function extractMetadata(filePath) {
   };
 
   // Check for metadata export
-  if (content.includes('export const metadata') || content.includes('export function generateMetadata')) {
+  if (
+    content.includes('export const metadata') ||
+    content.includes('export function generateMetadata')
+  ) {
     metadata.hasMetadata = true;
   }
 
@@ -152,10 +153,10 @@ function extractMetadata(filePath) {
 function runValidation() {
   console.log('\n🔍 SEO Governance Check\n');
   console.log('='.repeat(60));
-  
+
   const whitelist = loadWhitelist();
   console.log(`📋 Whitelist: ${whitelist.length} approved pages`);
-  
+
   const pageFiles = findPageFiles(APP_DIR);
   console.log(`📁 Found: ${pageFiles.length} page files\n`);
 
@@ -269,12 +270,12 @@ function runValidation() {
 
   if (warnings.length > 0) {
     console.log('\n⚠️  Warnings:');
-    warnings.forEach(w => console.log(`   - ${w}`));
+    warnings.forEach((w) => console.log(`   - ${w}`));
   }
 
   if (errors.length > 0) {
     console.log('\n❌ ERRORS:\n');
-    
+
     for (const err of errors) {
       console.log(`🚫 [${err.rule}]`);
       console.log(`   Route: ${err.route}`);

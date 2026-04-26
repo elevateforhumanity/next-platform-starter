@@ -11,7 +11,9 @@
 export function fmtDate(iso: string | Date | null | undefined): string {
   if (!iso) return '—';
   return new Date(iso).toLocaleDateString('en-US', {
-    timeZone: 'UTC', month: 'short', day: 'numeric',
+    timeZone: 'UTC',
+    month: 'short',
+    day: 'numeric',
   });
 }
 
@@ -19,7 +21,10 @@ export function fmtDate(iso: string | Date | null | undefined): string {
 export function fmtDateLong(iso: string | Date | null | undefined): string {
   if (!iso) return '—';
   return new Date(iso).toLocaleDateString('en-US', {
-    timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric',
+    timeZone: 'UTC',
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
   });
 }
 
@@ -27,8 +32,12 @@ export function fmtDateLong(iso: string | Date | null | undefined): string {
 export function fmtDateTime(iso: string | Date | null | undefined): string {
   if (!iso) return '—';
   return new Date(iso).toLocaleString('en-US', {
-    timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric',
-    hour: 'numeric', minute: '2-digit',
+    timeZone: 'UTC',
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
   });
 }
 
@@ -36,7 +45,9 @@ export function fmtDateTime(iso: string | Date | null | undefined): string {
 export function fmtTime(iso: string | Date | null | undefined): string {
   if (!iso) return '—';
   return new Date(iso).toLocaleTimeString('en-US', {
-    timeZone: 'UTC', hour: 'numeric', minute: '2-digit',
+    timeZone: 'UTC',
+    hour: 'numeric',
+    minute: '2-digit',
   });
 }
 
@@ -44,7 +55,10 @@ export function fmtTime(iso: string | Date | null | undefined): string {
 export function fmtDateWeekday(iso: string | Date | null | undefined): string {
   if (!iso) return '—';
   return new Date(iso).toLocaleDateString('en-US', {
-    timeZone: 'UTC', weekday: 'short', month: 'short', day: 'numeric',
+    timeZone: 'UTC',
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric',
   });
 }
 

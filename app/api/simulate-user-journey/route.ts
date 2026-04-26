@@ -21,19 +21,19 @@ export async function POST(request: Request) {
     if (process.env.NODE_ENV === 'production' && !process.env.ALLOW_SIMULATION) {
       return NextResponse.json(
         { error: 'Simulation endpoint disabled in production' },
-        { status: 403 }
+        { status: 403 },
       );
     }
 
     // Authentication check - require super_admin
     const supabase = await createClient();
-    const { data: { user }, error: authError } = await adminSupabase.auth.getUser();
+    const {
+      data: { user },
+      error: authError,
+    } = await adminSupabase.auth.getUser();
 
     if (authError || !user) {
-      return NextResponse.json(
-        { error: 'Authentication required' },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: 'Authentication required' }, { status: 401 });
     }
 
     // Check super_admin role
@@ -44,29 +44,20 @@ export async function POST(request: Request) {
       .single();
 
     if (!profile || profile.role !== 'super_admin') {
-      return NextResponse.json(
-        { error: 'Super admin access required' },
-        { status: 403 }
-      );
+      return NextResponse.json({ error: 'Super admin access required' }, { status: 403 });
     }
 
     logger.warn('User journey simulation started', { userId: user.id });
 
     const { role } = await request.json();
 
-    if (
-      !process.env.NEXT_PUBLIC_SUPABASE_URL ||
-      !process.env.SUPABASE_SERVICE_ROLE_KEY
-    ) {
-      return NextResponse.json(
-        { error: 'Supabase not configured' },
-        { status: 500 }
-      );
+    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+      return NextResponse.json({ error: 'Supabase not configured' }, { status: 500 });
     }
 
     const adminSupabase = createAdminClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL,
-      process.env.SUPABASE_SERVICE_ROLE_KEY
+      process.env.SUPABASE_SERVICE_ROLE_KEY,
     );
 
     const results: any = {
@@ -244,7 +235,7 @@ export async function POST(request: Request) {
 
     // Calculate success
     const successfulSteps = results.journey.filter(
-      (j: any) => j.status === 'success' || j.status === 'simulated'
+      (j: any) => j.status === 'success' || j.status === 'simulated',
     ).length;
     const totalSteps = results.journey.length;
 
@@ -261,10 +252,7 @@ export async function POST(request: Request) {
     return NextResponse.json(results);
   } catch (error: any) {
     logger.error('Simulation error:', error);
-    return NextResponse.json(
-      { error: error?.message || 'Simulation failed' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: error?.message || 'Simulation failed' }, { status: 500 });
   }
 }
 

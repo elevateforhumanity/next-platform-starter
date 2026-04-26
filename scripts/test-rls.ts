@@ -1,8 +1,8 @@
 /**
  * RLS Policy Test Script
- * 
+ *
  * Run with: npx tsx scripts/test-rls.ts
- * 
+ *
  * Requires SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY environment variables
  */
 
@@ -76,11 +76,10 @@ async function runTests() {
       .from('pg_policies')
       .select('policyname')
       .eq('tablename', 'enrollments');
-    
+
     if (error) {
       // Try alternative query
-      const { count } = await supabase
-        .rpc('count_policies', { table_name: 'enrollments' });
+      const { count } = await supabase.rpc('count_policies', { table_name: 'enrollments' });
       return (count || 0) > 0;
     }
     return (data?.length || 0) > 0;
@@ -88,15 +87,17 @@ async function runTests() {
 
   // Summary
   console.log('\n=== Summary ===');
-  const passed = results.filter(r => r.passed).length;
+  const passed = results.filter((r) => r.passed).length;
   const total = results.length;
   console.log(`${passed}/${total} tests passed`);
-  
+
   if (passed < total) {
     console.log('\nFailed tests:');
-    results.filter(r => !r.passed).forEach(r => {
-      console.log(`  - ${r.name}${r.error ? `: ${r.error}` : ''}`);
-    });
+    results
+      .filter((r) => !r.passed)
+      .forEach((r) => {
+        console.log(`  - ${r.name}${r.error ? `: ${r.error}` : ''}`);
+      });
   }
 
   return passed === total;
@@ -113,7 +114,7 @@ async function runDirectTests() {
       FROM pg_tables 
       WHERE schemaname = 'public' 
       AND tablename IN ('enrollments', 'applications', 'audit_logs', 'attendance_hours', 'partner_sites')
-    `
+    `,
   });
 
   if (error) {

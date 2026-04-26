@@ -21,42 +21,53 @@ const REQUIRED_DOCUMENTS: DocRequirement[] = [
   {
     type: 'government_id',
     title: 'Government-Issued Photo ID',
-    description: 'Driver\'s license, state ID card, or passport. Must be current and not expired. Name must match your application.',
+    description:
+      "Driver's license, state ID card, or passport. Must be current and not expired. Name must match your application.",
     required: true,
     acceptedFormats: 'JPG, PNG, or PDF (max 10MB)',
   },
   {
     type: 'income_proof',
     title: 'Proof of Income (if applicable)',
-    description: 'Pay stub, W-2, tax return, or unemployment letter. Required for WIOA funding eligibility.',
+    description:
+      'Pay stub, W-2, tax return, or unemployment letter. Required for WIOA funding eligibility.',
     required: false,
     acceptedFormats: 'JPG, PNG, or PDF (max 10MB)',
   },
   {
     type: 'residency_proof',
     title: 'Proof of Indiana Residency',
-    description: 'Utility bill, lease agreement, bank statement, or government mail dated within the last 60 days showing your Indiana address.',
+    description:
+      'Utility bill, lease agreement, bank statement, or government mail dated within the last 60 days showing your Indiana address.',
     required: true,
     acceptedFormats: 'JPG, PNG, or PDF (max 10MB)',
   },
   {
     type: 'selective_service',
     title: 'Selective Service Registration (Males 18-25)',
-    description: 'Selective Service registration confirmation. Required for males ages 18-25 applying for WIOA funding. Not required for females or males over 25.',
+    description:
+      'Selective Service registration confirmation. Required for males ages 18-25 applying for WIOA funding. Not required for females or males over 25.',
     required: false,
     acceptedFormats: 'JPG, PNG, or PDF (max 10MB)',
   },
   {
     type: 'resume',
     title: 'Resume (Optional)',
-    description: 'Your current resume. If you don\'t have one, our career services team will help you create one during your program.',
+    description:
+      "Your current resume. If you don't have one, our career services team will help you create one during your program.",
     required: false,
     acceptedFormats: 'PDF, DOC, or DOCX (max 10MB)',
   },
 ];
 
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
-const ACCEPTED_TYPES = ['image/jpeg', 'image/png', 'application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+const ACCEPTED_TYPES = [
+  'image/jpeg',
+  'image/png',
+  'application/pdf',
+  'application/msword',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+];
 
 export default function DocumentsPage() {
   const router = useRouter();
@@ -74,13 +85,16 @@ export default function DocumentsPage() {
     const supabase = createClient();
 
     supabase.auth.getUser().then(({ data, error: authErr }) => {
-      if (authErr || !data?.user) { router.push('/login?redirect=' + encodeURIComponent(window.location.pathname)); return; }
+      if (authErr || !data?.user) {
+        router.push('/login?redirect=' + encodeURIComponent(window.location.pathname));
+        return;
+      }
       setUserId(data.user.id);
 
       // Fetch uploaded documents via API route (bypasses RLS)
       fetch('/api/documents/upload')
-        .then(res => res.json())
-        .then(result => {
+        .then((res) => res.json())
+        .then((result) => {
           const docs = result.documents || [];
           // Use original_type from metadata when available — document_type in DB
           // is normalized (e.g. 'other') but metadata.original_type preserves the
@@ -93,7 +107,9 @@ export default function DocumentsPage() {
     });
   }, [router]);
 
-  const requiredComplete = REQUIRED_DOCUMENTS.filter(d => d.required).every(d => uploadedTypes.has(d.type));
+  const requiredComplete = REQUIRED_DOCUMENTS.filter((d) => d.required).every((d) =>
+    uploadedTypes.has(d.type),
+  );
 
   const handleUpload = async (docType: string, file: File) => {
     if (!userId) return;
@@ -147,7 +163,10 @@ export default function DocumentsPage() {
   return (
     <div className="min-h-screen bg-white">
       {/* VIDEO HERO — full bleed, no text on top */}
-      <div className="relative w-full overflow-hidden" style={{ height: '55vh', minHeight: 280, maxHeight: 480 }}>
+      <div
+        className="relative w-full overflow-hidden"
+        style={{ height: '55vh', minHeight: 280, maxHeight: 480 }}
+      >
         <CanonicalVideo
           src="/videos/elevate-overview-with-narration.mp4"
           poster="/images/pages/docs-page-1.jpg"
@@ -156,21 +175,27 @@ export default function DocumentsPage() {
       </div>
       <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[
-            { label: 'Onboarding', href: '/onboarding/learner' },
-            { label: 'Upload Documents' },
-          ]} />
+          <Breadcrumbs
+            items={[
+              { label: 'Onboarding', href: '/onboarding/learner' },
+              { label: 'Upload Documents' },
+            ]}
+          />
         </div>
       </div>
 
       <div className="max-w-3xl mx-auto px-4 py-8">
-        <Link href="/onboarding/learner" className="text-sm text-brand-blue-600 flex items-center gap-1 mb-6">
+        <Link
+          href="/onboarding/learner"
+          className="text-sm text-brand-blue-600 flex items-center gap-1 mb-6"
+        >
           <ArrowLeft className="w-4 h-4" /> Back to Onboarding
         </Link>
 
         <h1 className="text-2xl font-bold text-slate-900 mb-2">Upload Required Documents</h1>
         <p className="text-slate-700 mb-4">
-          Upload the documents listed below. Required documents must be submitted before you can be enrolled.
+          Upload the documents listed below. Required documents must be submitted before you can be
+          enrolled.
         </p>
 
         {/* Compliance transparency statement */}
@@ -182,12 +207,17 @@ export default function DocumentsPage() {
               <p>
                 Documents and personal information you provide are required for workforce funding
                 eligibility verification under WIOA guidelines. All data is encrypted, stored in
-                private secure storage, and only accessible to authorized compliance staff. Your
-                SSN is hashed immediately upon submission and is never stored or displayed in
-                plain text. For details, see our{' '}
-                <Link href="/privacy-policy" className="underline font-medium">Privacy Policy</Link>
-                {' '}and{' '}
-                <Link href="/compliance" className="underline font-medium">Data Security</Link> pages.
+                private secure storage, and only accessible to authorized compliance staff. Your SSN
+                is hashed immediately upon submission and is never stored or displayed in plain
+                text. For details, see our{' '}
+                <Link href="/privacy-policy" className="underline font-medium">
+                  Privacy Policy
+                </Link>{' '}
+                and{' '}
+                <Link href="/compliance" className="underline font-medium">
+                  Data Security
+                </Link>{' '}
+                pages.
               </p>
             </div>
           </div>
@@ -198,13 +228,16 @@ export default function DocumentsPage() {
           <div className="flex justify-between text-sm mb-2">
             <span className="font-medium text-slate-900">Required Documents</span>
             <span className="text-slate-700">
-              {REQUIRED_DOCUMENTS.filter(d => d.required && uploadedTypes.has(d.type)).length} of {REQUIRED_DOCUMENTS.filter(d => d.required).length}
+              {REQUIRED_DOCUMENTS.filter((d) => d.required && uploadedTypes.has(d.type)).length} of{' '}
+              {REQUIRED_DOCUMENTS.filter((d) => d.required).length}
             </span>
           </div>
           <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
             <div
               className="h-full bg-brand-blue-600 rounded-full transition-all duration-500"
-              style={{ width: `${(REQUIRED_DOCUMENTS.filter(d => d.required && uploadedTypes.has(d.type)).length / REQUIRED_DOCUMENTS.filter(d => d.required).length) * 100}%` }}
+              style={{
+                width: `${(REQUIRED_DOCUMENTS.filter((d) => d.required && uploadedTypes.has(d.type)).length / REQUIRED_DOCUMENTS.filter((d) => d.required).length) * 100}%`,
+              }}
             />
           </div>
         </div>
@@ -212,10 +245,14 @@ export default function DocumentsPage() {
         {/* Social Security Number — text entry, not file upload */}
         <div className="bg-white border rounded-lg p-6 mb-6">
           <h2 className="text-lg font-semibold text-slate-900 mb-1">Social Security Number</h2>
-          <p className="text-sm text-slate-700 mb-4">Enter your SSN below. It is stored securely and never displayed after submission.</p>
+          <p className="text-sm text-slate-700 mb-4">
+            Enter your SSN below. It is stored securely and never displayed after submission.
+          </p>
           <div className="flex gap-3 items-end">
             <div className="flex-1">
-              <label htmlFor="ssn-input" className="block text-sm font-medium text-slate-900 mb-1">SSN *</label>
+              <label htmlFor="ssn-input" className="block text-sm font-medium text-slate-900 mb-1">
+                SSN *
+              </label>
               <input
                 id="ssn-input"
                 type="text"
@@ -244,9 +281,23 @@ export default function DocumentsPage() {
                 }
                 try {
                   const supabase = createClient();
-                  const { data: { user } } = await supabase.auth.getUser();
-                  if (!user) { setError('Please log in.'); return; }
-                  const { error: err } = await supabase.from('secure_identity').upsert({ user_id: user.id, ssn_last4: ssnDigits.slice(-4), updated_at: new Date().toISOString() }, { onConflict: 'user_id' });
+                  const {
+                    data: { user },
+                  } = await supabase.auth.getUser();
+                  if (!user) {
+                    setError('Please log in.');
+                    return;
+                  }
+                  const { error: err } = await supabase
+                    .from('secure_identity')
+                    .upsert(
+                      {
+                        user_id: user.id,
+                        ssn_last4: ssnDigits.slice(-4),
+                        updated_at: new Date().toISOString(),
+                      },
+                      { onConflict: 'user_id' },
+                    );
                   if (err) {
                     setError('Failed to save your SSN. Please try again or contact support.');
                     return;
@@ -258,7 +309,9 @@ export default function DocumentsPage() {
                   setError('Failed to save your SSN. Please try again or contact support.');
                 }
               }}
-            >Save</button>
+            >
+              Save
+            </button>
           </div>
         </div>
 
@@ -268,8 +321,12 @@ export default function DocumentsPage() {
               <FileText className="w-7 h-7 text-slate-500" />
             </div>
             <div className="flex-1 text-center sm:text-left">
-              <h2 className="text-lg font-bold text-slate-900 mb-1">All Required Documents Uploaded</h2>
-              <p className="text-slate-500 text-sm">Your documents are pending review. You can continue with onboarding.</p>
+              <h2 className="text-lg font-bold text-slate-900 mb-1">
+                All Required Documents Uploaded
+              </h2>
+              <p className="text-slate-500 text-sm">
+                Your documents are pending review. You can continue with onboarding.
+              </p>
             </div>
             <button
               onClick={async () => {
@@ -290,7 +347,9 @@ export default function DocumentsPage() {
         {error && (
           <div className="bg-brand-red-50 border border-brand-red-200 rounded-lg p-3 mb-4 flex items-center gap-2 text-brand-red-700 text-sm">
             <AlertCircle className="w-4 h-4 flex-shrink-0" /> {error}
-            <button onClick={() => setError('')} aria-label="Dismiss error" className="ml-auto"><X className="w-4 h-4" /></button>
+            <button onClick={() => setError('')} aria-label="Dismiss error" className="ml-auto">
+              <X className="w-4 h-4" />
+            </button>
           </div>
         )}
 
@@ -301,23 +360,50 @@ export default function DocumentsPage() {
             const isUploading = uploading === doc.type;
 
             return (
-              <div key={doc.type} className={`bg-white border rounded-xl p-5 ${isUploaded ? 'border-brand-blue-200' : 'border-gray-200'}`}>
+              <div
+                key={doc.type}
+                className={`bg-white border rounded-xl p-5 ${isUploaded ? 'border-brand-blue-200' : 'border-gray-200'}`}
+              >
                 <div className="flex items-start gap-4">
-                  <div className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center ${isUploaded ? 'bg-brand-blue-100' : 'bg-white'}`}>
-                    {isUploaded ? <CheckCircle2 className="w-5 h-5 text-brand-blue-600" /> : <FileText className="w-5 h-5 text-slate-700" />}
+                  <div
+                    className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center ${isUploaded ? 'bg-brand-blue-100' : 'bg-white'}`}
+                  >
+                    {isUploaded ? (
+                      <CheckCircle2 className="w-5 h-5 text-brand-blue-600" />
+                    ) : (
+                      <FileText className="w-5 h-5 text-slate-700" />
+                    )}
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
-                      <h3 className={`font-semibold ${isUploaded ? 'text-brand-blue-900' : 'text-slate-900'}`}>{doc.title}</h3>
-                      {doc.required && !isUploaded && <span className="text-xs bg-brand-red-100 text-brand-red-700 px-2 py-0.5 rounded">Required</span>}
-                      {!doc.required && !isUploaded && <span className="text-xs bg-white text-slate-700 px-2 py-0.5 rounded">Optional</span>}
-                      {isUploaded && <span className="text-xs bg-white text-slate-600 px-2 py-0.5 rounded font-medium">Uploaded</span>}
+                      <h3
+                        className={`font-semibold ${isUploaded ? 'text-brand-blue-900' : 'text-slate-900'}`}
+                      >
+                        {doc.title}
+                      </h3>
+                      {doc.required && !isUploaded && (
+                        <span className="text-xs bg-brand-red-100 text-brand-red-700 px-2 py-0.5 rounded">
+                          Required
+                        </span>
+                      )}
+                      {!doc.required && !isUploaded && (
+                        <span className="text-xs bg-white text-slate-700 px-2 py-0.5 rounded">
+                          Optional
+                        </span>
+                      )}
+                      {isUploaded && (
+                        <span className="text-xs bg-white text-slate-600 px-2 py-0.5 rounded font-medium">
+                          Uploaded
+                        </span>
+                      )}
                     </div>
                     <p className="text-slate-700 text-sm mb-2">{doc.description}</p>
                     <p className="text-xs text-slate-500 mb-3">Accepted: {doc.acceptedFormats}</p>
 
                     <input
-                      ref={(el) => { fileInputRefs.current[doc.type] = el; }}
+                      ref={(el) => {
+                        fileInputRefs.current[doc.type] = el;
+                      }}
                       type="file"
                       accept=".jpg,.jpeg,.png,.pdf,.doc,.docx"
                       className="hidden"
@@ -351,7 +437,11 @@ export default function DocumentsPage() {
 
         <div className="mt-8 bg-white rounded-lg p-4 text-sm text-slate-700">
           <p className="font-medium text-slate-900 mb-1">Document Security</p>
-          <p>All uploaded documents are encrypted and stored securely. Only authorized admissions staff can access your documents for verification purposes. Documents are retained per federal record-keeping requirements.</p>
+          <p>
+            All uploaded documents are encrypted and stored securely. Only authorized admissions
+            staff can access your documents for verification purposes. Documents are retained per
+            federal record-keeping requirements.
+          </p>
         </div>
       </div>
     </div>

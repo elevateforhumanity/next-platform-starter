@@ -29,10 +29,7 @@ async function _POST(req: Request) {
     const { date_worked, hours, category, notes, program_slug } = body;
 
     if (!date_worked || !hours || !category || !program_slug) {
-      return NextResponse.json(
-        { error: 'Missing required fields' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
     const { error } = await auditedMutation({
@@ -58,10 +55,7 @@ async function _POST(req: Request) {
     });
 
     if (error) {
-      return NextResponse.json(
-        { error: 'Failed to log hours' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to log hours' }, { status: 500 });
     }
 
     return NextResponse.json({ success: true });
@@ -69,7 +63,7 @@ async function _POST(req: Request) {
     // Error: $1
     return NextResponse.json(
       { err: toErrorMessage(err) || 'Failed to log hours' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -97,19 +91,16 @@ async function _GET(req: Request) {
 
     if (error) {
       // Error: $1
-      return NextResponse.json(
-        { error: 'Failed to load hours' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to load hours' }, { status: 500 });
     }
 
     // Calculate totals
-    const totalHours =
-      hours?.reduce((sum, h) => sum + (Number(h.hours_claimed) || 0), 0) || 0;
+    const totalHours = hours?.reduce((sum, h) => sum + (Number(h.hours_claimed) || 0), 0) || 0;
     const approvedHours =
       hours
         ?.filter((h) => h.status === 'approved')
-        .reduce((sum, h) => sum + (Number(h.accepted_hours) || Number(h.hours_claimed) || 0), 0) || 0;
+        .reduce((sum, h) => sum + (Number(h.accepted_hours) || Number(h.hours_claimed) || 0), 0) ||
+      0;
     const classroomHours =
       hours
         ?.filter((h) => h.source_type === 'rti')
@@ -130,10 +121,7 @@ async function _GET(req: Request) {
     });
   } catch (err: any) {
     // Error: $1
-    return NextResponse.json(
-      { error: 'Failed to load hours' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to load hours' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/apprenticeship/hours', _GET, { critical: true });

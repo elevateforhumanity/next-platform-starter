@@ -11,7 +11,7 @@ interface LoadingTimeoutProps {
 
 export function LoadingTimeout({
   timeout = 10000, // 10 seconds default
-  message = "This is taking longer than expected..."
+  message = 'This is taking longer than expected...',
 }: LoadingTimeoutProps) {
   const [showTimeout, setShowTimeout] = useState(false);
 
@@ -39,13 +39,9 @@ export function LoadingTimeout({
       <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 text-center">
         <AlertCircle className="h-16 w-16 text-yellow-600 mx-auto mb-6" />
 
-        <h2 className="text-2xl font-bold text-black mb-4">
-          Loading Timeout
-        </h2>
+        <h2 className="text-2xl font-bold text-black mb-4">Loading Timeout</h2>
 
-        <p className="text-black mb-6">
-          {message}
-        </p>
+        <p className="text-black mb-6">{message}</p>
 
         <div className="flex flex-col gap-3">
           <button
@@ -63,10 +59,7 @@ export function LoadingTimeout({
             Sign In Again
           </Link>
 
-          <Link
-            href="/"
-            className="text-brand-blue-600 hover:underline text-sm"
-          >
+          <Link href="/" className="text-brand-blue-600 hover:underline text-sm">
             Go to Homepage
           </Link>
         </div>

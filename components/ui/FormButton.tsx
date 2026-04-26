@@ -25,9 +25,10 @@ export function FormButton({
         inline-flex items-center justify-center gap-2
         px-6 py-3 rounded-lg font-semibold
         transition-all duration-200
-        ${loading || disabled
-          ? 'bg-gray-300 text-slate-700 cursor-not-allowed'
-          : 'bg-brand-orange-600 text-white hover:bg-brand-orange-700 active:scale-95'
+        ${
+          loading || disabled
+            ? 'bg-gray-300 text-slate-700 cursor-not-allowed'
+            : 'bg-brand-orange-600 text-white hover:bg-brand-orange-700 active:scale-95'
         }
         ${className}
       `}

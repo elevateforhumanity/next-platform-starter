@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -28,7 +28,8 @@ export default function FacebookPixel() {
     if (mounted && typeof window !== 'undefined') {
       try {
         setPathname(window.location.pathname);
-      } catch (error) { /* Error handled silently */ 
+      } catch (error) {
+        /* Error handled silently */
       }
     }
   }, [mounted]);
@@ -42,7 +43,8 @@ export default function FacebookPixel() {
       if (window.fbq) {
         window.fbq('track', 'PageView');
       }
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Silently fail - don't break the app
     }
   }, [mounted, pathname]);
@@ -84,16 +86,14 @@ export default function FacebookPixel() {
         </noscript>
       </>
     );
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     return null;
   }
 }
 
 // Helper functions for tracking events
-export const trackFacebookEvent = (
-  eventName: string,
-  data?: Record<string, any>
-) => {
+export const trackFacebookEvent = (eventName: string, data?: Record<string, any>) => {
   if (typeof window !== 'undefined' && window.fbq) {
     window.fbq('track', eventName, data);
   }
@@ -109,11 +109,7 @@ export const trackCourseView = (courseId: string, courseName: string) => {
   });
 };
 
-export const trackEnrollment = (
-  courseId: string,
-  courseName: string,
-  value?: number
-) => {
+export const trackEnrollment = (courseId: string, courseName: string, value?: number) => {
   trackFacebookEvent('InitiateCheckout', {
     content_name: courseName,
     content_category: 'Course',

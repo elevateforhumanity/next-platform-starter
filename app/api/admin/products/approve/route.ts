@@ -16,7 +16,9 @@ async function _POST(req: Request) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const { data: adminProfile } = await supabase
@@ -85,7 +87,14 @@ async function _POST(req: Request) {
       }
     }
 
-    await logAdminAudit({ action: AdminAction.PRODUCT_APPROVED, actorId: user.id, entityType: 'marketplace_products', entityId: productId, metadata: { title: product?.title }, req });
+    await logAdminAudit({
+      action: AdminAction.PRODUCT_APPROVED,
+      actorId: user.id,
+      entityType: 'marketplace_products',
+      entityId: productId,
+      metadata: { title: product?.title },
+      req,
+    });
 
     return NextResponse.json({ success: true });
   } catch (err: any) {

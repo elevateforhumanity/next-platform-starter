@@ -15,7 +15,9 @@ export const dynamic = 'force-dynamic';
 
 export default async function HoursHistoryPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     redirect('/login?redirect=/apprentice/hours/history');
@@ -24,13 +26,15 @@ export default async function HoursHistoryPage() {
   // Fetch apprenticeship enrollment
   const { data: enrollment } = await supabase
     .from('apprenticeship_enrollments')
-    .select(`
+    .select(
+      `
       id,
       status,
       start_date,
       target_hours,
       apprenticeship:apprenticeships(id, title, employer:employers(name))
-    `)
+    `,
+    )
     .eq('apprentice_id', user.id)
     .eq('status', 'active')
     .maybeSingle();
@@ -45,8 +49,14 @@ export default async function HoursHistoryPage() {
 
   // Calculate totals
   const totalHours = hoursLog?.reduce((sum, h) => sum + (Number(h.hours_claimed) || 0), 0) || 0;
-  const approvedHours = hoursLog?.filter(h => h.status === 'approved').reduce((sum, h) => sum + (Number(h.accepted_hours) || Number(h.hours_claimed) || 0), 0) || 0;
-  const pendingHours = hoursLog?.filter(h => h.status === 'pending').reduce((sum, h) => sum + (Number(h.hours_claimed) || 0), 0) || 0;
+  const approvedHours =
+    hoursLog
+      ?.filter((h) => h.status === 'approved')
+      .reduce((sum, h) => sum + (Number(h.accepted_hours) || Number(h.hours_claimed) || 0), 0) || 0;
+  const pendingHours =
+    hoursLog
+      ?.filter((h) => h.status === 'pending')
+      .reduce((sum, h) => sum + (Number(h.hours_claimed) || 0), 0) || 0;
   const targetHours = enrollment?.target_hours || 2000;
   const progressPercent = Math.round((approvedHours / targetHours) * 100);
 
@@ -60,7 +70,6 @@ export default async function HoursHistoryPage() {
         ]}
       />
       <div className="max-w-5xl mx-auto px-4">
-
         <div className="flex justify-between items-center mb-6">
           <div>
             <h1 className="text-3xl font-bold text-slate-900">Hours Tracking</h1>
@@ -70,8 +79,10 @@ export default async function HoursHistoryPage() {
               </p>
             )}
           </div>
-          <Link href="/apprentice/hours/log"
-            className="flex items-center gap-2 px-4 py-2 bg-brand-orange-500 text-white rounded-lg hover:bg-brand-orange-600">
+          <Link
+            href="/apprentice/hours/log"
+            className="flex items-center gap-2 px-4 py-2 bg-brand-orange-500 text-white rounded-lg hover:bg-brand-orange-600"
+          >
             <Plus className="w-4 h-4" /> Log Hours
           </Link>
         </div>
@@ -103,16 +114,18 @@ export default async function HoursHistoryPage() {
         <div className="bg-white rounded-xl border p-6 mb-6">
           <div className="flex justify-between mb-2">
             <span className="font-medium">Progress to {targetHours} hours</span>
-            <span className="text-slate-700">{approvedHours} / {targetHours}</span>
+            <span className="text-slate-700">
+              {approvedHours} / {targetHours}
+            </span>
           </div>
           <div className="w-full bg-gray-200 rounded-full h-4">
-            <div className="bg-white h-4 rounded-full transition-all" 
-              style={{ width: `${Math.min(100, progressPercent)}%` }} />
+            <div
+              className="bg-white h-4 rounded-full transition-all"
+              style={{ width: `${Math.min(100, progressPercent)}%` }}
+            />
           </div>
           {pendingHours > 0 && (
-            <p className="text-sm text-yellow-600 mt-2">
-              {pendingHours} hours pending approval
-            </p>
+            <p className="text-sm text-yellow-600 mt-2">{pendingHours} hours pending approval</p>
           )}
         </div>
 
@@ -126,7 +139,9 @@ export default async function HoursHistoryPage() {
                 <th className="px-4 py-3 text-left text-sm font-medium text-slate-700">Date</th>
                 <th className="px-4 py-3 text-left text-sm font-medium text-slate-700">Hours</th>
                 <th className="px-4 py-3 text-left text-sm font-medium text-slate-700">Type</th>
-                <th className="px-4 py-3 text-left text-sm font-medium text-slate-700">Supervisor</th>
+                <th className="px-4 py-3 text-left text-sm font-medium text-slate-700">
+                  Supervisor
+                </th>
                 <th className="px-4 py-3 text-left text-sm font-medium text-slate-700">Status</th>
               </tr>
             </thead>
@@ -138,15 +153,23 @@ export default async function HoursHistoryPage() {
                       {new Date(entry.work_date).toLocaleDateString()}
                     </td>
                     <td className="px-4 py-3 text-sm font-medium">{entry.hours_claimed}h</td>
-                    <td className="px-4 py-3 text-sm">{entry.source_type?.toUpperCase() || 'OJT'}</td>
+                    <td className="px-4 py-3 text-sm">
+                      {entry.source_type?.toUpperCase() || 'OJT'}
+                    </td>
                     <td className="px-4 py-3 text-sm">{entry.approved_by || 'N/A'}</td>
                     <td className="px-4 py-3">
-                      <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs ${
-                        entry.status === 'approved' ? 'bg-brand-green-100 text-brand-green-700' :
-                        entry.status === 'rejected' ? 'bg-brand-red-100 text-brand-red-700' :
-                        'bg-yellow-100 text-yellow-700'
-                      }`}>
-                        {entry.status === 'approved' && <span className="text-slate-400 flex-shrink-0">•</span>}
+                      <span
+                        className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs ${
+                          entry.status === 'approved'
+                            ? 'bg-brand-green-100 text-brand-green-700'
+                            : entry.status === 'rejected'
+                              ? 'bg-brand-red-100 text-brand-red-700'
+                              : 'bg-yellow-100 text-yellow-700'
+                        }`}
+                      >
+                        {entry.status === 'approved' && (
+                          <span className="text-slate-400 flex-shrink-0">•</span>
+                        )}
                         {entry.status}
                       </span>
                     </td>
@@ -157,9 +180,13 @@ export default async function HoursHistoryPage() {
                   <td colSpan={5} className="px-4 py-12 text-center">
                     <Clock className="w-12 h-12 text-slate-700 mx-auto mb-3" />
                     <p className="font-medium text-slate-900">No hours logged yet</p>
-                    <p className="text-sm text-slate-700 mb-4">Start logging your apprenticeship hours</p>
-                    <Link href="/apprentice/hours/log"
-                      className="inline-flex items-center gap-2 px-4 py-2 bg-brand-orange-500 text-white rounded-lg hover:bg-brand-orange-600">
+                    <p className="text-sm text-slate-700 mb-4">
+                      Start logging your apprenticeship hours
+                    </p>
+                    <Link
+                      href="/apprentice/hours/log"
+                      className="inline-flex items-center gap-2 px-4 py-2 bg-brand-orange-500 text-white rounded-lg hover:bg-brand-orange-600"
+                    >
                       <Plus className="w-4 h-4" /> Log Hours
                     </Link>
                   </td>

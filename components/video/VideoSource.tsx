@@ -24,15 +24,15 @@ interface VideoProps {
 
 export function getVideoUrl(src: string): string {
   if (!src) return '';
-  
+
   // Already a full URL
   if (src.startsWith('http')) return src;
-  
+
   // Use R2 if configured
   if (R2_URL && src.startsWith('/videos/')) {
     return `${R2_URL}${src}`;
   }
-  
+
   return src;
 }
 
@@ -54,10 +54,13 @@ export default function Video({
   const handlePlay = () => {
     const video = videoRef.current;
     if (!video) return;
-    
-    video.play().then(() => {
-      setIsPlaying(true);
-    }).catch(() => {});
+
+    video
+      .play()
+      .then(() => {
+        setIsPlaying(true);
+      })
+      .catch(() => {});
   };
 
   const handleEnded = () => {

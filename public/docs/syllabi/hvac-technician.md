@@ -1,4 +1,5 @@
 # HVAC Technician
+
 ## Program Syllabus
 
 **Provider:** Elevate for Humanity  
@@ -6,7 +7,7 @@
 **Program Code:** HVAC-TECH  
 **Duration:** 4-9 Months (320-720 Hours)  
 **Delivery Method:** Hybrid (Lab + Field Training)  
-**Funding:** Workforce Grants • Employer Sponsors • WIOA  
+**Funding:** Workforce Grants • Employer Sponsors • WIOA
 
 ---
 
@@ -34,6 +35,7 @@ Upon successful completion, students will be able to:
 ## Course Outline
 
 ### Module 1: HVAC Fundamentals & Safety (40 hours)
+
 - Introduction to heating, ventilation, and air conditioning
 - HVAC career pathways and industry overview
 - OSHA 10-Hour Construction Safety
@@ -43,6 +45,7 @@ Upon successful completion, students will be able to:
 - Electrical safety basics
 
 ### Module 2: Refrigeration Principles (60 hours)
+
 - Refrigeration cycle and thermodynamics
 - Pressure-temperature relationships
 - Refrigerant types and properties
@@ -52,6 +55,7 @@ Upon successful completion, students will be able to:
 - EPA Section 608 certification preparation
 
 ### Module 3: Heating Systems (60 hours)
+
 - Gas furnace operation and components
 - Electric heating systems
 - Heat pumps and dual-fuel systems
@@ -61,6 +65,7 @@ Upon successful completion, students will be able to:
 - Troubleshooting heating problems
 
 ### Module 4: Air Conditioning Systems (60 hours)
+
 - Split system components and operation
 - Package units and rooftop units
 - Ductwork design and installation
@@ -70,6 +75,7 @@ Upon successful completion, students will be able to:
 - AC troubleshooting and repair
 
 ### Module 5: Electrical for HVAC (80 hours)
+
 - AC and DC electrical theory
 - Ohm's Law and electrical calculations
 - Reading electrical schematics and wiring diagrams
@@ -79,6 +85,7 @@ Upon successful completion, students will be able to:
 - Troubleshooting electrical circuits
 
 ### Module 6: HVAC Controls & Automation (40 hours)
+
 - Thermostat types and installation
 - Digital and programmable controls
 - Building automation systems (BAS) basics
@@ -87,6 +94,7 @@ Upon successful completion, students will be able to:
 - Control troubleshooting
 
 ### Module 7: Installation & Service Procedures (80 hours)
+
 - Equipment sizing and load calculations
 - Installation best practices
 - Brazing and soldering techniques
@@ -96,6 +104,7 @@ Upon successful completion, students will be able to:
 - Service documentation and reporting
 
 ### Module 8: Customer Service & Business Operations (40 hours)
+
 - Professional communication skills
 - Customer service excellence
 - Estimating and pricing
@@ -105,6 +114,7 @@ Upon successful completion, students will be able to:
 - Ethics and professionalism
 
 ### Module 9: Hands-On Lab Training (120-240 hours)
+
 - Equipment disassembly and reassembly
 - Refrigerant recovery and charging
 - System installation projects
@@ -113,6 +123,7 @@ Upon successful completion, students will be able to:
 - Tool proficiency development
 
 ### Module 10: Field Training Externship (120-240 hours)
+
 - Supervised work with HVAC company
 - Residential service calls
 - Commercial equipment maintenance
@@ -160,6 +171,7 @@ Upon successful completion, students will be able to:
 ## Instructor Qualifications
 
 All instructors hold:
+
 - EPA Universal Certification (Section 608)
 - Minimum 5 years HVAC field experience
 - NATE certification (preferred)
@@ -190,6 +202,7 @@ All instructors hold:
 ## Career Outcomes
 
 Graduates are prepared for positions including:
+
 - HVAC Service Technician
 - HVAC Installation Technician
 - Refrigeration Technician
@@ -251,7 +264,7 @@ WorkOne Indianapolis: (317) 314-3757
 
 ---
 
-*This syllabus is subject to updates to reflect current industry standards and EPA regulations. Students will be notified of any changes.*
+_This syllabus is subject to updates to reflect current industry standards and EPA regulations. Students will be notified of any changes._
 
 **Last Updated:** November 2024  
 **ETPL Approved:** Yes  

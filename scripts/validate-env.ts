@@ -33,39 +33,46 @@ function parseEnvFile(filePath: string): Record<string, string> {
     if (!t || t.startsWith('#')) continue;
     const eq = t.indexOf('=');
     if (eq === -1) continue;
-    result[t.slice(0, eq).trim()] = t.slice(eq + 1).trim().replace(/^["']|["']$/g, '');
+    result[t.slice(0, eq).trim()] = t
+      .slice(eq + 1)
+      .trim()
+      .replace(/^["']|["']$/g, '');
   }
   return result;
 }
 
 function isSet(val: string | undefined): boolean {
-  return typeof val === 'string' && val.length > 0 &&
-    !val.includes('[password]') && !val.includes('[project-ref]');
+  return (
+    typeof val === 'string' &&
+    val.length > 0 &&
+    !val.includes('[password]') &&
+    !val.includes('[project-ref]')
+  );
 }
 
 const fileVars = parseEnvFile(envPath);
 const env = (k: string) => fileVars[k] ?? process.env[k];
 
 const missing: string[] = [];
-const empty: string[]   = [];
-const ok: string[]      = [];
+const empty: string[] = [];
+const ok: string[] = [];
 
 for (const k of CRITICAL) {
   const v = env(k);
   if (v === undefined) missing.push(k);
-  else if (!isSet(v))  empty.push(k);
-  else                 ok.push(k);
+  else if (!isSet(v)) empty.push(k);
+  else ok.push(k);
 }
 
-const warn = RECOMMENDED.filter(k => !isSet(env(k)));
+const warn = RECOMMENDED.filter((k) => !isSet(env(k)));
 
 console.log('\n── Environment validation ──────────────────────────────────\n');
-ok.forEach(k      => console.log(`  ✅  ${k}`));
-empty.forEach(k   => console.log(`  ❌  ${k}  (empty — placeholder value?)`));
-missing.forEach(k => console.log(`  ❌  ${k}  (not set)`));
+ok.forEach((k) => console.log(`  ✅  ${k}`));
+empty.forEach((k) => console.log(`  ❌  ${k}  (empty — placeholder value?)`));
+missing.forEach((k) => console.log(`  ❌  ${k}  (not set)`));
 if (warn.length) {
   console.log('\n  Recommended (degraded if absent):');
-  warn.forEach(k => console.log(`  ⚠️   ${k}`));
+  warn.forEach((k) => console.log(`  ⚠️   ${k}`));
 }
 
 const failed = missing.length + empty.length;

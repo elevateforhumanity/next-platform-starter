@@ -232,7 +232,8 @@ export const quizQuestions = [
   {
     id: 'mod4-l23-q1',
     type: 'scenario' as const,
-    question: 'A client requests a low fade but has ears that sit unusually high on the head. What adjustment must you make before establishing the fade line?',
+    question:
+      'A client requests a low fade but has ears that sit unusually high on the head. What adjustment must you make before establishing the fade line?',
     options: [
       'No adjustment — the low fade line is always 1–2 finger-widths above the natural hairline regardless of ear position',
       'Assess the ear position and adjust the fade line so it sits at the correct visual height for a low fade on this specific client',
@@ -240,12 +241,14 @@ export const quizQuestions = [
       'Establish the fade line at the ear level, which is the standard reference for a low fade',
     ],
     correctAnswer: 1,
-    explanation: 'Ear position varies between clients. A fixed measurement above the hairline may produce a fade line that is visually too high or too low depending on where the ears sit. Assess the ear position and adjust the fade line to achieve the correct visual result for a low fade on this specific client.',
+    explanation:
+      'Ear position varies between clients. A fixed measurement above the hairline may produce a fade line that is visually too high or too low depending on where the ears sit. Assess the ear position and adjust the fade line to achieve the correct visual result for a low fade on this specific client.',
   },
   {
     id: 'mod4-l23-q2',
     type: 'scenario' as const,
-    question: 'A client has razor bumps along the nape and requests a skin fade that ends at the hairline. What is the correct modification?',
+    question:
+      'A client has razor bumps along the nape and requests a skin fade that ends at the hairline. What is the correct modification?',
     options: [
       'Proceed with the skin fade — the clipper does not contact the skin the same way a razor does',
       'Use clipper only in the affected area — no razor on the nape; inform the client of the modification',
@@ -253,12 +256,14 @@ export const quizQuestions = [
       'Apply pre-shave oil to the nape before using the balding clipper',
     ],
     correctAnswer: 1,
-    explanation: 'Razor bumps (pseudofolliculitis) are worsened by close cutting in the affected area. The modification is to use the clipper only — no razor on the nape — and inform the client. A skin fade can still be executed with the balding clipper; the razor is the contraindicated tool, not the service.',
+    explanation:
+      'Razor bumps (pseudofolliculitis) are worsened by close cutting in the affected area. The modification is to use the clipper only — no razor on the nape — and inform the client. A skin fade can still be executed with the balding clipper; the razor is the contraindicated tool, not the service.',
   },
   {
     id: 'mod4-l23-q3',
     type: 'next-step' as const,
-    question: 'After completing the back of a mid fade, you notice a visible horizontal line at the occipital bone. What is the correct next step?',
+    question:
+      'After completing the back of a mid fade, you notice a visible horizontal line at the occipital bone. What is the correct next step?',
     options: [
       'Take the entire back shorter to eliminate the line',
       'Use the open-lever technique with extra blending passes specifically at the occipital ridge',
@@ -266,12 +271,14 @@ export const quizQuestions = [
       'The occipital bone always creates a line — inform the client it is unavoidable',
     ],
     correctAnswer: 1,
-    explanation: 'The occipital bone creates a ridge that interrupts the gradient if not specifically addressed. The correction is targeted: use the open-lever technique at the occipital ridge with additional blending passes. Taking the entire back shorter changes the fade height and removes the cut\'s structure.',
+    explanation:
+      "The occipital bone creates a ridge that interrupts the gradient if not specifically addressed. The correction is targeted: use the open-lever technique at the occipital ridge with additional blending passes. Taking the entire back shorter changes the fade height and removes the cut's structure.",
   },
   {
     id: 'mod4-l23-q4',
     type: 'failure-diagnosis' as const,
-    question: 'You complete a fade and step back to check. The left side fade line is visibly higher than the right. What is the root cause and correct action?',
+    question:
+      'You complete a fade and step back to check. The left side fade line is visibly higher than the right. What is the root cause and correct action?',
     options: [
       'The right side was cut correctly — raise the right side to match the left',
       'The left side was cut too high — lower the left side to match the right; always correct down, never up',
@@ -279,12 +286,14 @@ export const quizQuestions = [
       'Slight asymmetry is normal due to head shape variation — no correction needed',
     ],
     correctAnswer: 1,
-    explanation: 'When correcting an uneven fade line, always correct down — lower the higher side to match the lower one. You cannot add hair back. Raising the lower side would require removing more from the already-correct side, changing the fade type.',
+    explanation:
+      'When correcting an uneven fade line, always correct down — lower the higher side to match the lower one. You cannot add hair back. Raising the lower side would require removing more from the already-correct side, changing the fade type.',
   },
   {
     id: 'mod4-l23-q5',
     type: 'scenario' as const,
-    question: 'A client with very coarse, dense hair requests a mid fade. After completing the gradient with Guards 1, 2, and 3, you notice visible banding between every guard size despite using the open-lever technique. What is the most likely cause and correct response?',
+    question:
+      'A client with very coarse, dense hair requests a mid fade. After completing the gradient with Guards 1, 2, and 3, you notice visible banding between every guard size despite using the open-lever technique. What is the most likely cause and correct response?',
     options: [
       'The open-lever technique was applied incorrectly — switch to scissor over comb for the transition zones',
       'Coarse hair holds guard lines more visibly than fine hair; the gradient requires additional blending passes at each transition, not a technique change',
@@ -292,6 +301,7 @@ export const quizQuestions = [
       'The clipper blade is dull — replace it and repeat the entire fade from the beginning',
     ],
     correctAnswer: 1,
-    explanation: 'Coarse, dense hair holds the line between guard sizes more visibly than fine hair because each strand is thicker and the contrast between lengths is more pronounced. The open-lever technique is correct — but coarse hair requires more passes at each transition to achieve the same seamless result that fine hair produces in fewer passes. The fix is additional open-lever blending passes at each transition zone, not a technique change. Switching to half-guard increments throughout would add unnecessary time and complexity. A dull blade would produce uneven cutting across the entire fade, not banding specifically at guard transitions.',
+    explanation:
+      'Coarse, dense hair holds the line between guard sizes more visibly than fine hair because each strand is thicker and the contrast between lengths is more pronounced. The open-lever technique is correct — but coarse hair requires more passes at each transition to achieve the same seamless result that fine hair produces in fewer passes. The fix is additional open-lever blending passes at each transition zone, not a technique change. Switching to half-guard increments throughout would add unnecessary time and complexity. A dull blade would produce uneven cutting across the entire fade, not banding specifically at guard transitions.',
   },
 ];

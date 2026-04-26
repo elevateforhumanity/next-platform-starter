@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -65,7 +65,7 @@ export default function AIInstructor({
           (voice) =>
             voice.name.includes('Female') ||
             voice.name.includes('Samantha') ||
-            voice.name.includes('Victoria')
+            voice.name.includes('Victoria'),
         );
         if (femaleVoice) {
           utterance.voice = femaleVoice;
@@ -78,7 +78,8 @@ export default function AIInstructor({
 
         window.speechSynthesis.speak(utterance);
       }
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       setIsSpeaking(false);
     }
   };
@@ -102,7 +103,9 @@ export default function AIInstructor({
               isSpeaking ? 'border-brand-blue-500 animate-pulse' : 'border-gray-300'
             }`}
           >
-            <Image alt="AI instructor avatar" loading="lazy"
+            <Image
+              alt="AI instructor avatar"
+              loading="lazy"
               src={avatarUrl}
               alt={instructorName}
               fill
@@ -133,11 +136,7 @@ export default function AIInstructor({
                   className="p-2 bg-brand-blue-600 text-white rounded-full hover:bg-brand-blue-700 transition-colors"
                   title="Play audio"
                 >
-                  <svg
-                    className="w-5 h-5"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z" />
                   </svg>
                 </button>
@@ -147,11 +146,7 @@ export default function AIInstructor({
                   className="p-2 bg-brand-orange-600 text-white rounded-full hover:bg-brand-orange-700 transition-colors"
                   title="Stop audio"
                 >
-                  <svg
-                    className="w-5 h-5"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                     <path
                       fillRule="evenodd"
                       d="M10 18a8 8 0 100-16 8 8 0 000 16zM8 7a1 1 0 00-1 1v4a1 1 0 001 1h4a1 1 0 001-1V8a1 1 0 00-1-1H8z"

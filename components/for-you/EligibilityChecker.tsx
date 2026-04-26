@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -44,24 +44,19 @@ export function EligibilityChecker() {
   };
 
   const allRequiredAnswered = QUESTIONS.filter((q) => q.required).every(
-    (q) => answers[q.id] !== undefined
+    (q) => answers[q.id] !== undefined,
   );
 
-  const isEligible = QUESTIONS.filter((q) => q.required).every(
-    (q) => answers[q.id] === true
-  );
+  const isEligible = QUESTIONS.filter((q) => q.required).every((q) => answers[q.id] === true);
 
-  const hasEmploymentCriteria =
-    answers.employment === true || answers.career === true;
+  const hasEmploymentCriteria = answers.employment === true || answers.career === true;
 
   const fullyEligible = isEligible && hasEmploymentCriteria;
 
   return (
     <div className="max-w-3xl mx-auto">
       <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-8">
-        <h3 className="text-2xl font-bold text-black mb-6 text-center">
-          Check Your Eligibility
-        </h3>
+        <h3 className="text-2xl font-bold text-black mb-6 text-center">Check Your Eligibility</h3>
 
         <div className="space-y-4 mb-8">
           {QUESTIONS.map((question) => (
@@ -69,14 +64,9 @@ export function EligibilityChecker() {
               key={question.id}
               className="flex items-center justify-between p-4 bg-slate-50 rounded-lg"
             >
-              <label
-                htmlFor={question.id}
-                className="text-black font-medium flex-1"
-              >
+              <label htmlFor={question.id} className="text-black font-medium flex-1">
                 {question.text}
-                {question.required && (
-                  <span className="text-brand-red-600 ml-1">*</span>
-                )}
+                {question.required && <span className="text-brand-red-600 ml-1">*</span>}
               </label>
               <div className="flex gap-3">
                 <button
@@ -127,18 +117,14 @@ export function EligibilityChecker() {
               <>
                 <div className="flex items-center gap-3 mb-4">
                   <span className="text-slate-500 flex-shrink-0">•</span>
-                  <h4 className="text-2xl font-bold text-brand-green-900">
-                    You Qualify!
-                  </h4>
+                  <h4 className="text-2xl font-bold text-brand-green-900">You Qualify!</h4>
                 </div>
                 <p className="text-brand-green-900 mb-6">
-                  Based on your responses, you appear eligible for free training
-                  programs through workforce funding.
+                  Based on your responses, you appear eligible for free training programs through
+                  workforce funding.
                 </p>
                 <div className="bg-white rounded-lg p-6 border border-brand-green-200">
-                  <h5 className="font-bold text-brand-green-900 mb-3">
-                    What Happens Next:
-                  </h5>
+                  <h5 className="font-bold text-brand-green-900 mb-3">What Happens Next:</h5>
                   <ol className="space-y-2 text-brand-green-900">
                     <li className="flex items-start gap-2">
                       <span className="font-bold">1.</span>
@@ -168,13 +154,11 @@ export function EligibilityChecker() {
                   </h4>
                 </div>
                 <p className="text-yellow-900 mb-6">
-                  You may still qualify through alternative funding sources or
-                  employer sponsorship. Let's discuss your situation.
+                  You may still qualify through alternative funding sources or employer sponsorship.
+                  Let's discuss your situation.
                 </p>
                 <div className="bg-white rounded-lg p-6 border border-yellow-200">
-                  <h5 className="font-bold text-yellow-900 mb-3">
-                    Next Steps:
-                  </h5>
+                  <h5 className="font-bold text-yellow-900 mb-3">Next Steps:</h5>
                   <ul className="space-y-2 text-yellow-900 mb-4">
                     <li className="flex items-start gap-2">
                       <span>•</span>

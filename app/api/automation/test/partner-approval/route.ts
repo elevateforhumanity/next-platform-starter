@@ -1,4 +1,4 @@
-import { logger } from "@/lib/logger";
+import { logger } from '@/lib/logger';
 import { getAdminClient } from '@/lib/supabase/admin';
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
@@ -9,10 +9,10 @@ export const dynamic = 'force-dynamic';
 
 /**
  * POST /api/automation/test/partner-approval
- * 
+ *
  * Test endpoint for partner approval automation.
  * Simulates partner checklist completion and approval flow.
- * 
+ *
  * FOR QA/DEMO PURPOSES ONLY.
  */
 async function _POST() {
@@ -22,7 +22,9 @@ async function _POST() {
   const supabase = await createClient();
 
   // Check auth and admin role
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
@@ -88,9 +90,7 @@ async function _POST() {
           zip: '46240',
           license_number: `TEST-${Date.now()}`,
           license_state: 'IN',
-          license_expiry: testCase.licenseExpired 
-            ? '2023-01-01' 
-            : '2026-12-31',
+          license_expiry: testCase.licenseExpired ? '2023-01-01' : '2026-12-31',
           apprentice_capacity: 5,
           status: 'pending',
           account_status: 'pending',
@@ -177,9 +177,10 @@ async function _POST() {
         actor: 'system',
         ruleset_version: '1.0.0-test',
         confidence_score: outcome === 'auto_approved' ? 1.0 : 0.5,
-        reason_codes: outcome === 'auto_approved' 
-          ? ['all_requirements_met', 'mou_signed', 'documents_verified']
-          : blockers,
+        reason_codes:
+          outcome === 'auto_approved'
+            ? ['all_requirements_met', 'mou_signed', 'documents_verified']
+            : blockers,
         input_snapshot: {
           test_case: testCase.name,
           has_all_docs: testCase.hasAllDocs,
@@ -214,9 +215,9 @@ async function _POST() {
       });
     }
 
-    const passed = results.filter(r => r.passed).length;
-    const failed = results.filter(r => r.success && !r.passed).length;
-    const errors = results.filter(r => !r.success).length;
+    const passed = results.filter((r) => r.passed).length;
+    const failed = results.filter((r) => r.success && !r.passed).length;
+    const errors = results.filter((r) => !r.success).length;
 
     return NextResponse.json({
       success: true,
@@ -229,13 +230,15 @@ async function _POST() {
       results,
       timestamp: new Date().toISOString(),
     });
-
   } catch (error) {
     logger.error('[partner-approval test]', error);
-    return NextResponse.json({
-      success: false,
-      error: 'Internal server error',
-    }, { status: 500 });
+    return NextResponse.json(
+      {
+        success: false,
+        error: 'Internal server error',
+      },
+      { status: 500 },
+    );
   }
 }
 export const POST = withApiAudit('/api/automation/test/partner-approval', _POST);

@@ -6,9 +6,10 @@ import OpenAI from 'openai';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 
-const getOpenAI = () => new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+const getOpenAI = () =>
+  new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY,
+  });
 
 async function _POST(req: NextRequest) {
   try {
@@ -38,10 +39,7 @@ Be concise and direct. Provide working code.`;
 
     const response = await getOpenAI().chat.completions.create({
       model: 'gpt-4.1',
-      messages: [
-        { role: 'system', content: systemPrompt },
-        ...messages,
-      ],
+      messages: [{ role: 'system', content: systemPrompt }, ...messages],
       temperature: 0.7,
       max_tokens: 4096,
     });
@@ -51,19 +49,24 @@ Be concise and direct. Provide working code.`;
     // Log interaction to database
     try {
       const supabase = await createClient();
-  const db = (await getAdminClient()) || supabase;
-      const { data: { user } } = await supabase.auth.getUser();
+      const db = (await getAdminClient()) || supabase;
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       const userMessage = messages[messages.length - 1]?.content || '';
-      await db.from('devstudio_chat_log').insert({
-        user_id: user?.id || null,
-        user_message: userMessage,
-        assistant_response: assistantMessage,
-        file_context: fileContext || null,
-        tokens_used: response.usage?.total_tokens || 0,
-      }).catch(() => {});
+      await db
+        .from('devstudio_chat_log')
+        .insert({
+          user_id: user?.id || null,
+          user_message: userMessage,
+          assistant_response: assistantMessage,
+          file_context: fileContext || null,
+          tokens_used: response.usage?.total_tokens || 0,
+        })
+        .catch(() => {});
     } catch (err) {
-        logger.error("Unhandled error", err instanceof Error ? err : undefined);
-      }
+      logger.error('Unhandled error', err instanceof Error ? err : undefined);
+    }
 
     return NextResponse.json({
       message: assistantMessage,
@@ -71,10 +74,7 @@ Be concise and direct. Provide working code.`;
     });
   } catch (error) {
     logger.error('AI Chat error:', error);
-    return NextResponse.json(
-      { error: 'Failed to get AI response' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to get AI response' }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/devstudio/chat', _POST);

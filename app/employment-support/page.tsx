@@ -35,7 +35,9 @@ export default function EmploymentSupportPage() {
       {/* Page heading below hero */}
       <section className="py-6 sm:py-10">
         <div className="max-w-4xl mx-auto px-4">
-          <p className="text-sm font-semibold tracking-wide text-brand-blue-600 mb-1">Support Services</p>
+          <p className="text-sm font-semibold tracking-wide text-brand-blue-600 mb-1">
+            Support Services
+          </p>
           <h1 className="text-2xl sm:text-4xl font-bold text-slate-900 mb-2">
             Employment &amp; Participant Support
           </h1>
@@ -53,7 +55,8 @@ export default function EmploymentSupportPage() {
             What We Provide
           </h2>
           <p className="text-center text-slate-600 mb-6 sm:mb-8 max-w-2xl mx-auto">
-            Every participant receives individualized support from enrollment through placement and beyond.
+            Every participant receives individualized support from enrollment through placement and
+            beyond.
           </p>
           <div className="space-y-4 sm:space-y-0 sm:grid sm:grid-cols-2 lg:grid-cols-3 sm:gap-5">
             {[
@@ -88,12 +91,24 @@ export default function EmploymentSupportPage() {
                 image: '/images/pages/job-placement.jpg',
               },
             ].map((item) => (
-              <div key={item.title} className="flex gap-4 sm:flex-col rounded-xl overflow-hidden border border-slate-200 bg-white">
+              <div
+                key={item.title}
+                className="flex gap-4 sm:flex-col rounded-xl overflow-hidden border border-slate-200 bg-white"
+              >
                 <div className="relative w-28 h-28 sm:w-full sm:h-[180px] flex-shrink-0 sm:flex-shrink overflow-hidden">
-                  <Image src={item.image} alt={item.title} fill sizes="(max-width: 640px) 112px, (max-width: 1024px) 50vw, 33vw" className="object-cover" loading="lazy" />
+                  <Image
+                    src={item.image}
+                    alt={item.title}
+                    fill
+                    sizes="(max-width: 640px) 112px, (max-width: 1024px) 50vw, 33vw"
+                    className="object-cover"
+                    loading="lazy"
+                  />
                 </div>
                 <div className="py-3 pr-3 sm:p-5 flex-1">
-                  <h3 className="font-bold text-slate-900 text-sm sm:text-base mb-1">{item.title}</h3>
+                  <h3 className="font-bold text-slate-900 text-sm sm:text-base mb-1">
+                    {item.title}
+                  </h3>
                   <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">{item.desc}</p>
                 </div>
               </div>
@@ -110,14 +125,41 @@ export default function EmploymentSupportPage() {
           </h2>
           <div className="space-y-3">
             {[
-              { step: '1', title: 'Enroll in Training', desc: 'Choose a program that matches your career goals and complete your enrollment.' },
-              { step: '2', title: 'Receive One-on-One Support', desc: 'Meet with your career advisor to build a personalized employment plan.' },
-              { step: '3', title: 'Build Your Resume', desc: 'Create a professional resume and practice completing applications.' },
-              { step: '4', title: 'Prepare for Interviews', desc: 'Practice with mock interviews and get feedback from hiring professionals.' },
-              { step: '5', title: 'Connect With Employers', desc: 'We introduce you to employer partners who are hiring in your field.' },
-              { step: '6', title: 'Start Working & Get Follow-Up Support', desc: 'Begin your new role with continued support to help you stay employed and advance.' },
+              {
+                step: '1',
+                title: 'Enroll in Training',
+                desc: 'Choose a program that matches your career goals and complete your enrollment.',
+              },
+              {
+                step: '2',
+                title: 'Receive One-on-One Support',
+                desc: 'Meet with your career advisor to build a personalized employment plan.',
+              },
+              {
+                step: '3',
+                title: 'Build Your Resume',
+                desc: 'Create a professional resume and practice completing applications.',
+              },
+              {
+                step: '4',
+                title: 'Prepare for Interviews',
+                desc: 'Practice with mock interviews and get feedback from hiring professionals.',
+              },
+              {
+                step: '5',
+                title: 'Connect With Employers',
+                desc: 'We introduce you to employer partners who are hiring in your field.',
+              },
+              {
+                step: '6',
+                title: 'Start Working & Get Follow-Up Support',
+                desc: 'Begin your new role with continued support to help you stay employed and advance.',
+              },
             ].map((item) => (
-              <div key={item.step} className="flex items-start gap-4 bg-white rounded-lg border border-slate-200 p-4">
+              <div
+                key={item.step}
+                className="flex items-start gap-4 bg-white rounded-lg border border-slate-200 p-4"
+              >
                 <div className="w-8 h-8 bg-brand-blue-700 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
                   {item.step}
                 </div>
@@ -150,13 +192,14 @@ export default function EmploymentSupportPage() {
                 Serving Individuals With Barriers to Employment
               </h2>
               <p className="text-slate-700 mb-4">
-                We routinely support individuals facing employment barriers, including individuals with
-                disabilities, justice involvement, low-income status, and other factors that impact access to work.
+                We routinely support individuals facing employment barriers, including individuals
+                with disabilities, justice involvement, low-income status, and other factors that
+                impact access to work.
               </p>
               <p className="text-slate-700 mb-4">
-                Support is individualized based on participant needs and employment goals. We work with
-                each person to identify and address the specific challenges standing between them and
-                competitive community employment.
+                Support is individualized based on participant needs and employment goals. We work
+                with each person to identify and address the specific challenges standing between
+                them and competitive community employment.
               </p>
               <div className="grid grid-cols-2 gap-3 mt-2">
                 {[
@@ -194,7 +237,8 @@ export default function EmploymentSupportPage() {
               <h3 className="text-xl font-semibold text-slate-900 mb-2">Industry Training</h3>
               <p className="text-slate-700 text-sm">
                 Participants receive hands-on training in high-demand fields like HVAC, barbering,
-                healthcare, CDL, and technology. Training builds the technical skills employers need.
+                healthcare, CDL, and technology. Training builds the technical skills employers
+                need.
               </p>
               <Link
                 href="/programs"
@@ -217,8 +261,8 @@ export default function EmploymentSupportPage() {
               <h3 className="text-xl font-semibold text-slate-900 mb-2">One-on-One Support</h3>
               <p className="text-slate-700 text-sm">
                 Every participant also receives individualized employment support — career coaching,
-                resume help, interview prep, and direct employer connections. Training builds skills.
-                Support drives placement and retention.
+                resume help, interview prep, and direct employer connections. Training builds
+                skills. Support drives placement and retention.
               </p>
               <Link
                 href="/career-services"
@@ -236,9 +280,10 @@ export default function EmploymentSupportPage() {
         <div className="max-w-4xl mx-auto px-4">
           <div className="rounded-xl bg-white border border-slate-200 p-4">
             <p className="text-sm text-slate-600">
-              <strong>Disclosure:</strong> Elevate for Humanity provides employment assistance and employer connections.
-              Job placement is not guaranteed and depends on participant readiness, local hiring demand, and employer
-              selection. Support services are included with enrollment at no additional cost.
+              <strong>Disclosure:</strong> Elevate for Humanity provides employment assistance and
+              employer connections. Job placement is not guaranteed and depends on participant
+              readiness, local hiring demand, and employer selection. Support services are included
+              with enrollment at no additional cost.
             </p>
           </div>
         </div>

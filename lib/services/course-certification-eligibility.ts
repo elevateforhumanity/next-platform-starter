@@ -22,22 +22,22 @@ import { EVIDENCE_LESSON_TYPES, type LessonType } from '@/lib/curriculum/lesson-
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 export interface UnmetRequirement {
-  code:       string;
-  lessonId?:  string;
+  code: string;
+  lessonId?: string;
   lessonName?: string;
-  message:    string;
+  message: string;
 }
 
 export interface CertificationEligibility {
-  eligible:           boolean;
-  unmetRequirements:  UnmetRequirement[];
+  eligible: boolean;
+  unmetRequirements: UnmetRequirement[];
 }
 
 // ─── Eligibility check ────────────────────────────────────────────────────────
 
 export async function checkCertificationEligibility(
-  userId:   string,
-  courseId: string
+  userId: string,
+  courseId: string,
 ): Promise<CertificationEligibility> {
   const db = createAdminClient();
   const unmet: UnmetRequirement[] = [];
@@ -45,7 +45,9 @@ export async function checkCertificationEligibility(
   // ── 1. Fetch all required lessons ──────────────────────────────────────────
   const { data: lessons } = await db
     .from('course_lessons')
-    .select('id, title, lesson_type, is_required, passing_score, requires_evidence, requires_signoff')
+    .select(
+      'id, title, lesson_type, is_required, passing_score, requires_evidence, requires_signoff',
+    )
     .eq('course_id', courseId)
     .eq('is_required', true);
 
@@ -54,7 +56,7 @@ export async function checkCertificationEligibility(
     return { eligible: true, unmetRequirements: [] };
   }
 
-  const requiredIds = lessons.map(l => l.id);
+  const requiredIds = lessons.map((l) => l.id);
 
   // ── 2. Lesson completion ────────────────────────────────────────────────────
   const { data: progress } = await db
@@ -65,11 +67,11 @@ export async function checkCertificationEligibility(
     .in('lesson_id', requiredIds);
 
   const completedSet = new Set(
-    (progress ?? []).filter((p: any) => p.completed).map((p: any) => p.lesson_id)
+    (progress ?? []).filter((p: any) => p.completed).map((p: any) => p.lesson_id),
   );
 
   // Certification lesson itself doesn't need to be "completed" — it IS the completion
-  const nonCertLessons = lessons.filter(l => l.lesson_type !== 'certification');
+  const nonCertLessons = lessons.filter((l) => l.lesson_type !== 'certification');
   for (const lesson of nonCertLessons) {
     if (!completedSet.has(lesson.id)) {
       unmet.push({
@@ -82,8 +84,8 @@ export async function checkCertificationEligibility(
   }
 
   // ── 3. Checkpoint / final_exam scores ──────────────────────────────────────
-  const assessmentLessons = lessons.filter(l =>
-    ['checkpoint', 'quiz', 'final_exam'].includes(l.lesson_type)
+  const assessmentLessons = lessons.filter((l) =>
+    ['checkpoint', 'quiz', 'final_exam'].includes(l.lesson_type),
   );
 
   if (assessmentLessons.length > 0) {
@@ -92,10 +94,13 @@ export async function checkCertificationEligibility(
       .select('lesson_id, passed')
       .eq('user_id', userId)
       .eq('course_id', courseId)
-      .in('lesson_id', assessmentLessons.map(l => l.id));
+      .in(
+        'lesson_id',
+        assessmentLessons.map((l) => l.id),
+      );
 
     const passedSet = new Set(
-      (scores ?? []).filter((s: any) => s.passed).map((s: any) => s.lesson_id)
+      (scores ?? []).filter((s: any) => s.passed).map((s: any) => s.lesson_id),
     );
 
     for (const lesson of assessmentLessons) {
@@ -111,7 +116,7 @@ export async function checkCertificationEligibility(
   }
 
   // ── 4. Practical evidence approval ─────────────────────────────────────────
-  const evidenceLessons = lessons.filter(l => l.requires_evidence);
+  const evidenceLessons = lessons.filter((l) => l.requires_evidence);
 
   if (evidenceLessons.length > 0) {
     const { data: evidence } = await db
@@ -119,7 +124,10 @@ export async function checkCertificationEligibility(
       .select('lesson_id, status')
       .eq('user_id', userId)
       .eq('course_id', courseId)
-      .in('lesson_id', evidenceLessons.map(l => l.id))
+      .in(
+        'lesson_id',
+        evidenceLessons.map((l) => l.id),
+      )
       .eq('status', 'approved');
 
     const approvedEvidenceSet = new Set((evidence ?? []).map((e: any) => e.lesson_id));
@@ -137,7 +145,7 @@ export async function checkCertificationEligibility(
   }
 
   // ── 5. Skill signoffs ───────────────────────────────────────────────────────
-  const signoffLessons = lessons.filter(l => l.requires_signoff);
+  const signoffLessons = lessons.filter((l) => l.requires_signoff);
 
   if (signoffLessons.length > 0) {
     const { data: signoffs } = await db
@@ -145,7 +153,10 @@ export async function checkCertificationEligibility(
       .select('lesson_id, status')
       .eq('user_id', userId)
       .eq('course_id', courseId)
-      .in('lesson_id', signoffLessons.map(l => l.id))
+      .in(
+        'lesson_id',
+        signoffLessons.map((l) => l.id),
+      )
       .eq('status', 'approved');
 
     const approvedSignoffSet = new Set((signoffs ?? []).map((s: any) => s.lesson_id));
@@ -164,34 +175,41 @@ export async function checkCertificationEligibility(
 
   // ── 6. Practical hours/attempts ─────────────────────────────────────────────
   const practicalLessonIds = lessons
-    .filter(l => EVIDENCE_LESSON_TYPES.includes(l.lesson_type as LessonType))
-    .map(l => l.id);
+    .filter((l) => EVIDENCE_LESSON_TYPES.includes(l.lesson_type as LessonType))
+    .map((l) => l.id);
 
   if (practicalLessonIds.length > 0) {
     type PracticalReq = { lesson_id: string; required_hours: number; required_attempts: number };
-    type PracticalProg = { lesson_id: string; accumulated_hours: number; approved_attempts: number };
+    type PracticalProg = {
+      lesson_id: string;
+      accumulated_hours: number;
+      approved_attempts: number;
+    };
 
-    const { data: practicalReqs } = await db
+    const { data: practicalReqs } = (await db
       .from('practical_requirements')
       .select('lesson_id, required_hours, required_attempts')
       .in('lesson_id', practicalLessonIds)
-      .or('required_hours.gt.0,required_attempts.gt.0') as { data: PracticalReq[] | null };
+      .or('required_hours.gt.0,required_attempts.gt.0')) as { data: PracticalReq[] | null };
 
     if (practicalReqs?.length) {
-      const { data: practicalProgress } = await db
+      const { data: practicalProgress } = (await db
         .from('student_practical_progress')
         .select('lesson_id, accumulated_hours, approved_attempts')
         .eq('user_id', userId)
         .eq('course_id', courseId)
-        .in('lesson_id', practicalReqs.map(r => r.lesson_id)) as { data: PracticalProg[] | null };
+        .in(
+          'lesson_id',
+          practicalReqs.map((r) => r.lesson_id),
+        )) as { data: PracticalProg[] | null };
 
       const progressMap = new Map<string, PracticalProg>(
-        (practicalProgress ?? []).map(p => [p.lesson_id, p])
+        (practicalProgress ?? []).map((p) => [p.lesson_id, p]),
       );
 
       for (const req of practicalReqs) {
         const prog = progressMap.get(req.lesson_id);
-        const lessonName = lessons.find(l => l.id === req.lesson_id)?.title ?? req.lesson_id;
+        const lessonName = lessons.find((l) => l.id === req.lesson_id)?.title ?? req.lesson_id;
 
         if (req.required_hours > 0) {
           const accumulated = prog?.accumulated_hours ?? 0;
@@ -224,7 +242,9 @@ export async function checkCertificationEligibility(
 
   if (!eligible) {
     logger.info('[certification-eligibility] Not eligible', {
-      userId, courseId, unmetCount: unmet.length,
+      userId,
+      courseId,
+      unmetCount: unmet.length,
     });
   }
 

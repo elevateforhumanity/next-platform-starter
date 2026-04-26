@@ -6,7 +6,7 @@ import { createClient } from '@supabase/supabase-js';
 
 const sb = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
+  process.env.SUPABASE_SERVICE_ROLE_KEY!,
 );
 
 const COURSE_ID = '3fb5ce19-1cde-434c-a8c6-f138d7d7aa17';
@@ -21,12 +21,15 @@ async function main() {
     .order('lesson_order', { ascending: true })
     .limit(limit);
 
-  if (error) { console.error(error); process.exit(1); }
+  if (error) {
+    console.error(error);
+    process.exit(1);
+  }
 
   console.log(`\nFirst ${limit} lessons — Barber Course\n`);
   console.log('Mod.Les | Step Type   | Video | Title');
   console.log('--------|-------------|-------|----------------------------------------------');
-  data!.forEach(l => {
+  data!.forEach((l) => {
     const pos = `${l.module_order}.${l.lesson_order}`.padEnd(7);
     const type = (l.step_type ?? 'lesson').padEnd(11);
     const vid = l.video_file ? '✅' : '❌';
@@ -34,7 +37,7 @@ async function main() {
   });
 
   console.log('\nLesson IDs (for direct URL):');
-  data!.forEach(l => {
+  data!.forEach((l) => {
     console.log(`  ${l.module_order}.${l.lesson_order} ${l.id}  ${l.lesson_slug}`);
   });
 }

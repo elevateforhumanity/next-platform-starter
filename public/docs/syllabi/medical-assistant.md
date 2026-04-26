@@ -1,4 +1,5 @@
 # Medical Assistant
+
 ## Program Syllabus
 
 **Provider:** Elevate for Humanity  
@@ -6,7 +7,7 @@
 **Program Code:** MA-CERT  
 **Duration:** 16-24 Weeks (320-480 Hours)  
 **Delivery Method:** Hybrid (Online Theory + Clinical Practicum)  
-**Funding:** WRG • WIOA • Workforce Grants  
+**Funding:** WRG • WIOA • Workforce Grants
 
 ---
 
@@ -34,6 +35,7 @@ Upon successful completion, students will be able to:
 ## Course Outline
 
 ### Module 1: Medical Terminology & Anatomy (40 hours)
+
 - Body systems and medical terminology
 - Anatomical positions and directional terms
 - Disease processes and pathophysiology
@@ -41,6 +43,7 @@ Upon successful completion, students will be able to:
 - Pharmacology basics
 
 ### Module 2: Clinical Skills I - Vital Signs & Patient Care (60 hours)
+
 - Temperature, pulse, respiration, blood pressure
 - Height, weight, and BMI calculations
 - Patient positioning and draping
@@ -49,6 +52,7 @@ Upon successful completion, students will be able to:
 - Patient safety and fall prevention
 
 ### Module 3: Clinical Skills II - EKG & Phlebotomy (80 hours)
+
 - Cardiovascular system review
 - 12-lead EKG placement and interpretation
 - Holter monitor application
@@ -58,6 +62,7 @@ Upon successful completion, students will be able to:
 - Laboratory safety
 
 ### Module 4: Medical Office Procedures (40 hours)
+
 - Appointment scheduling systems
 - Medical records management
 - HIPAA compliance and patient privacy
@@ -67,6 +72,7 @@ Upon successful completion, students will be able to:
 - Office equipment operation
 
 ### Module 5: Electronic Health Records (EHR) (30 hours)
+
 - EHR navigation and documentation
 - Patient registration and demographics
 - Clinical documentation standards
@@ -75,6 +81,7 @@ Upon successful completion, students will be able to:
 - Meaningful Use requirements
 
 ### Module 6: Pharmacology & Medication Administration (40 hours)
+
 - Drug classifications and actions
 - Dosage calculations
 - Medication administration routes
@@ -83,6 +90,7 @@ Upon successful completion, students will be able to:
 - Controlled substances regulations
 
 ### Module 7: Clinical Practicum (120-240 hours)
+
 - Supervised clinical experience in healthcare facility
 - Patient interaction and care
 - Clinical procedures under supervision
@@ -129,6 +137,7 @@ Upon successful completion, students will be able to:
 ## Instructor Qualifications
 
 All instructors hold:
+
 - Current medical assistant certification (CMA, RMA, or CCMA)
 - Minimum 5 years clinical experience
 - Teaching credential or adult education experience
@@ -140,6 +149,7 @@ All instructors hold:
 ## Clinical Site Requirements
 
 Students complete practicum at approved healthcare facilities:
+
 - Physician offices (family practice, internal medicine, pediatrics)
 - Urgent care centers
 - Hospital outpatient clinics
@@ -161,6 +171,7 @@ Students complete practicum at approved healthcare facilities:
 ## Career Outcomes
 
 Graduates are prepared for positions including:
+
 - Medical Assistant (Clinical)
 - Medical Assistant (Administrative)
 - EKG Technician
@@ -176,6 +187,7 @@ Graduates are prepared for positions including:
 ## Certifications Earned
 
 Students are prepared to sit for:
+
 1. **Certified Clinical Medical Assistant (CCMA)** - NHA
 2. **Registered Medical Assistant (RMA)** - AMT
 3. **Certified Medical Assistant (CMA)** - AAMA (with additional requirements)
@@ -228,7 +240,7 @@ WorkOne Indianapolis: (317) 314-3757
 
 ---
 
-*This syllabus is subject to updates to reflect current healthcare standards and regulations. Students will be notified of any changes.*
+_This syllabus is subject to updates to reflect current healthcare standards and regulations. Students will be notified of any changes._
 
 **Last Updated:** November 2024  
 **ETPL Approved:** Yes  

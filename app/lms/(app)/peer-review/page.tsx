@@ -3,10 +3,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
-import { 
-  Users, FileText, Clock, Star,
-  AlertCircle, ChevronRight, Eye
-} from 'lucide-react';
+import { Users, FileText, Clock, Star, AlertCircle, ChevronRight, Eye } from 'lucide-react';
 import PeerReviewSystem from '@/components/PeerReviewSystem';
 
 export const dynamic = 'force-dynamic';
@@ -20,8 +17,9 @@ export const metadata: Metadata = {
 export default async function PeerReviewPage() {
   const supabase = await createClient();
 
-
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     redirect('/login?redirect=/lms/peer-review');
@@ -32,10 +30,9 @@ export default async function PeerReviewPage() {
       {/* Breadcrumbs */}
       <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[
-            { label: 'LMS', href: '/lms/dashboard' },
-            { label: 'Peer Review' }
-          ]} />
+          <Breadcrumbs
+            items={[{ label: 'LMS', href: '/lms/dashboard' }, { label: 'Peer Review' }]}
+          />
         </div>
       </div>
 

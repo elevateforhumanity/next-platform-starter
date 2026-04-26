@@ -38,22 +38,25 @@ const FUNDING_OPTIONS = [
 ];
 
 export default function MesmerizedApplyForm() {
-  const [program, setProgram]           = useState('');
-  const [firstName, setFirstName]       = useState('');
-  const [lastName, setLastName]         = useState('');
-  const [email, setEmail]               = useState('');
-  const [phone, setPhone]               = useState('');
-  const [city, setCity]                 = useState('');
-  const [funding, setFunding]           = useState('');
-  const [experience, setExperience]     = useState('');
-  const [notes, setNotes]               = useState('');
-  const [submitting, setSubmitting]     = useState(false);
-  const [success, setSuccess]           = useState(false);
-  const [error, setError]               = useState('');
+  const [program, setProgram] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [city, setCity] = useState('');
+  const [funding, setFunding] = useState('');
+  const [experience, setExperience] = useState('');
+  const [notes, setNotes] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState('');
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!program) { setError('Please select a program.'); return; }
+    if (!program) {
+      setError('Please select a program.');
+      return;
+    }
     setSubmitting(true);
     setError('');
 
@@ -62,7 +65,11 @@ export default function MesmerizedApplyForm() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          firstName, lastName, email, phone, city,
+          firstName,
+          lastName,
+          email,
+          phone,
+          city,
           programInterest: program,
           fundingSource: funding || null,
           priorExperience: experience || null,
@@ -93,7 +100,8 @@ export default function MesmerizedApplyForm() {
         </div>
         <h2 className="text-2xl font-black text-slate-900 mb-3">Application Submitted</h2>
         <p className="text-slate-600 mb-6 max-w-sm mx-auto">
-          Thank you! We&apos;ve sent a confirmation to <strong>{email}</strong>. Our admissions team will be in touch within 2–3 business days.
+          Thank you! We&apos;ve sent a confirmation to <strong>{email}</strong>. Our admissions team
+          will be in touch within 2–3 business days.
         </p>
         <div className="bg-slate-50 rounded-xl p-5 text-left space-y-2 max-w-xs mx-auto">
           <h3 className="font-semibold text-slate-900 text-sm mb-3">What happens next</h3>
@@ -104,7 +112,9 @@ export default function MesmerizedApplyForm() {
             'Access to Elevate LMS theory coursework',
           ].map((step, i) => (
             <div key={i} className="flex items-start gap-2.5 text-sm text-slate-600">
-              <span className="w-5 h-5 bg-purple-600 text-white rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">{i + 1}</span>
+              <span className="w-5 h-5 bg-purple-600 text-white rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">
+                {i + 1}
+              </span>
               {step}
             </div>
           ))}
@@ -114,8 +124,10 @@ export default function MesmerizedApplyForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white border border-slate-200 rounded-2xl p-8 space-y-7 shadow-sm">
-
+    <form
+      onSubmit={handleSubmit}
+      className="bg-white border border-slate-200 rounded-2xl p-8 space-y-7 shadow-sm"
+    >
       {/* Program selection */}
       <div>
         <label className="block text-sm font-bold text-slate-900 mb-3">
@@ -135,7 +147,9 @@ export default function MesmerizedApplyForm() {
               >
                 {p.icon}
                 <span className="font-bold text-sm">{p.label}</span>
-                <span className={`text-xs ${selected ? 'text-white/80' : 'opacity-70'}`}>{p.detail}</span>
+                <span className={`text-xs ${selected ? 'text-white/80' : 'opacity-70'}`}>
+                  {p.detail}
+                </span>
               </button>
             );
           })}
@@ -149,8 +163,11 @@ export default function MesmerizedApplyForm() {
             First Name <span className="text-red-500">*</span>
           </label>
           <input
-            id="firstName" type="text" required
-            value={firstName} onChange={e => setFirstName(e.target.value)}
+            id="firstName"
+            type="text"
+            required
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
             className="w-full border border-slate-300 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
             placeholder="Jane"
           />
@@ -160,8 +177,11 @@ export default function MesmerizedApplyForm() {
             Last Name <span className="text-red-500">*</span>
           </label>
           <input
-            id="lastName" type="text" required
-            value={lastName} onChange={e => setLastName(e.target.value)}
+            id="lastName"
+            type="text"
+            required
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
             className="w-full border border-slate-300 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
             placeholder="Smith"
           />
@@ -175,8 +195,11 @@ export default function MesmerizedApplyForm() {
             Email Address <span className="text-red-500">*</span>
           </label>
           <input
-            id="email" type="email" required
-            value={email} onChange={e => setEmail(e.target.value)}
+            id="email"
+            type="email"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             className="w-full border border-slate-300 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
             placeholder="jane@email.com"
           />
@@ -186,8 +209,11 @@ export default function MesmerizedApplyForm() {
             Phone Number <span className="text-red-500">*</span>
           </label>
           <input
-            id="phone" type="tel" required
-            value={phone} onChange={e => setPhone(e.target.value)}
+            id="phone"
+            type="tel"
+            required
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
             className="w-full border border-slate-300 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
             placeholder="(317) 555-0100"
           />
@@ -196,10 +222,14 @@ export default function MesmerizedApplyForm() {
 
       {/* City */}
       <div>
-        <label className="block text-xs font-bold text-slate-700 mb-1.5" htmlFor="city">City</label>
+        <label className="block text-xs font-bold text-slate-700 mb-1.5" htmlFor="city">
+          City
+        </label>
         <input
-          id="city" type="text"
-          value={city} onChange={e => setCity(e.target.value)}
+          id="city"
+          type="text"
+          value={city}
+          onChange={(e) => setCity(e.target.value)}
           className="w-full border border-slate-300 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
           placeholder="Indianapolis"
         />
@@ -212,11 +242,16 @@ export default function MesmerizedApplyForm() {
         </label>
         <select
           id="funding"
-          value={funding} onChange={e => setFunding(e.target.value)}
+          value={funding}
+          onChange={(e) => setFunding(e.target.value)}
           className="w-full border border-slate-300 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white"
         >
           <option value="">Select an option</option>
-          {FUNDING_OPTIONS.map(o => <option key={o} value={o}>{o}</option>)}
+          {FUNDING_OPTIONS.map((o) => (
+            <option key={o} value={o}>
+              {o}
+            </option>
+          ))}
         </select>
       </div>
 
@@ -226,8 +261,10 @@ export default function MesmerizedApplyForm() {
           Any prior beauty industry experience? (optional)
         </label>
         <input
-          id="experience" type="text"
-          value={experience} onChange={e => setExperience(e.target.value)}
+          id="experience"
+          type="text"
+          value={experience}
+          onChange={(e) => setExperience(e.target.value)}
           className="w-full border border-slate-300 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
           placeholder="e.g. 2 years as a salon assistant"
         />
@@ -239,8 +276,10 @@ export default function MesmerizedApplyForm() {
           Anything else you&apos;d like us to know? (optional)
         </label>
         <textarea
-          id="notes" rows={3}
-          value={notes} onChange={e => setNotes(e.target.value)}
+          id="notes"
+          rows={3}
+          value={notes}
+          onChange={(e) => setNotes(e.target.value)}
           className="w-full border border-slate-300 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none"
           placeholder="Questions, scheduling preferences, etc."
         />
@@ -258,14 +297,17 @@ export default function MesmerizedApplyForm() {
         disabled={submitting}
         className="w-full bg-purple-600 hover:bg-purple-700 disabled:opacity-60 text-white font-bold py-4 rounded-xl transition-colors flex items-center justify-center gap-2 text-base"
       >
-        {submitting
-          ? <><Loader2 className="w-5 h-5 animate-spin" /> Submitting…</>
-          : 'Submit Application — Free'}
+        {submitting ? (
+          <>
+            <Loader2 className="w-5 h-5 animate-spin" /> Submitting…
+          </>
+        ) : (
+          'Submit Application — Free'
+        )}
       </button>
 
       <p className="text-xs text-slate-500 text-center">
-        Free to apply. No commitment required.{' '}
-        Questions?{' '}
+        Free to apply. No commitment required. Questions?{' '}
         <a href="mailto:mesmerizedbybeautyl@yahoo.com" className="text-purple-600 hover:underline">
           mesmerizedbybeautyl@yahoo.com
         </a>

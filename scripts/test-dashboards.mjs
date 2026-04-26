@@ -7,7 +7,6 @@
 
 import { createClient } from '@supabase/supabase-js';
 
-
 // Check environment
 const requiredVars = [
   'NEXT_PUBLIC_SUPABASE_URL',
@@ -15,11 +14,11 @@ const requiredVars = [
   'NEXT_PUBLIC_SITE_URL',
 ];
 
-const missingVars = requiredVars.filter(v => !process.env[v]);
+const missingVars = requiredVars.filter((v) => !process.env[v]);
 
 if (missingVars.length > 0) {
   console.error('❌ Missing required environment variables:');
-  missingVars.forEach(v => console.error(`   - ${v}`));
+  missingVars.forEach((v) => console.error(`   - ${v}`));
   process.exit(1);
 }
 
@@ -47,53 +46,31 @@ const dashboards = [
     name: 'Admin Dashboard',
     path: '/admin/dashboard',
     role: 'admin',
-    features: [
-      'User management',
-      'Enrollment overview',
-      'Analytics',
-      'System health',
-    ],
+    features: ['User management', 'Enrollment overview', 'Analytics', 'System health'],
   },
   {
     name: 'Program Holder Dashboard',
     path: '/program-holder/dashboard',
     role: 'program_holder',
-    features: [
-      'Apprentice list',
-      'Progress tracking',
-      'Hour logging',
-      'MOU management',
-    ],
+    features: ['Apprentice list', 'Progress tracking', 'Hour logging', 'MOU management'],
   },
   {
     name: 'Instructor Dashboard',
     path: '/instructor/dashboard',
     role: 'instructor',
-    features: [
-      'Student list',
-      'Grade management',
-      'Course materials',
-    ],
+    features: ['Student list', 'Grade management', 'Course materials'],
   },
   {
     name: 'Employer Dashboard',
     path: '/employer/dashboard',
     role: 'employer',
-    features: [
-      'Employee training',
-      'Progress reports',
-      'Compliance tracking',
-    ],
+    features: ['Employee training', 'Progress reports', 'Compliance tracking'],
   },
   {
     name: 'Partner Dashboard',
     path: '/partner/dashboard',
     role: 'partner',
-    features: [
-      'Course catalog',
-      'Enrollment tracking',
-      'Revenue reports',
-    ],
+    features: ['Course catalog', 'Enrollment tracking', 'Revenue reports'],
   },
 ];
 
@@ -106,7 +83,6 @@ const results = {
 };
 
 async function testDashboardRoute(dashboard) {
-
   const result = {
     name: dashboard.name,
     path: dashboard.path,
@@ -141,13 +117,12 @@ async function testDashboardRoute(dashboard) {
     }
 
     // Test 2: Check for required features (basic check)
-    dashboard.features.forEach(feature => {
+    dashboard.features.forEach((feature) => {
       result.features.push({
         name: feature,
         status: 'not_tested',
       });
     });
-
   } catch (error) {
     result.errors.push(error.message);
   }
@@ -156,7 +131,6 @@ async function testDashboardRoute(dashboard) {
 }
 
 async function testDatabaseTables() {
-
   const tables = [
     'profiles',
     'enrollments',
@@ -170,10 +144,7 @@ async function testDatabaseTables() {
 
   for (const table of tables) {
     try {
-      const { error } = await supabase
-        .from(table)
-        .select('id')
-        .limit(1);
+      const { error } = await supabase.from(table).select('id').limit(1);
 
       if (error) {
         tableResults.push({ table, status: 'error', error: error.message });
@@ -189,7 +160,6 @@ async function testDatabaseTables() {
 }
 
 async function testAuthenticationFlow() {
-
   const authTests = [];
 
   // Test 1: Login page accessible
@@ -228,7 +198,6 @@ async function testAuthenticationFlow() {
 }
 
 async function testAPIEndpoints() {
-
   const endpoints = [
     { path: '/api/health', method: 'GET', expectAuth: false },
     { path: '/api/dashboard/stats', method: 'GET', expectAuth: true },
@@ -261,7 +230,6 @@ async function testAPIEndpoints() {
 }
 
 async function runTests() {
-
   // Test all dashboards
   for (const dashboard of dashboards) {
     const result = await testDashboardRoute(dashboard);
@@ -290,26 +258,27 @@ async function runTests() {
 
   // Summary
 
+  const tablesOk = tableResults.filter((t) => t.status === 'ok').length;
+  const tablesError = tableResults.filter((t) => t.status === 'error').length;
 
-  const tablesOk = tableResults.filter(t => t.status === 'ok').length;
-  const tablesError = tableResults.filter(t => t.status === 'error').length;
+  const authPass = authResults.filter((t) => t.status === 'pass').length;
+  const authFail = authResults.filter((t) => t.status === 'fail').length;
 
-  const authPass = authResults.filter(t => t.status === 'pass').length;
-  const authFail = authResults.filter(t => t.status === 'fail').length;
-
-  const apiOk = apiResults.filter(t => t.status === 'protected' || t.status === 'accessible').length;
+  const apiOk = apiResults.filter(
+    (t) => t.status === 'protected' || t.status === 'accessible',
+  ).length;
 
   // Detailed results
 
-  results.details.forEach(result => {
+  results.details.forEach((result) => {
     const status = result.errors.length === 0 ? '✅' : '❌';
 
     if (result.errors.length > 0) {
-      result.errors.forEach(err => console.log(`     - ${err}`));
+      result.errors.forEach((err) => console.log(`     - ${err}`));
     }
 
     if (result.warnings.length > 0) {
-      result.warnings.forEach(warn => console.log(`     - ${warn}`));
+      result.warnings.forEach((warn) => console.log(`     - ${warn}`));
     }
   });
 
@@ -321,7 +290,6 @@ async function runTests() {
   if (tablesError > 0) {
   }
 
-
   const allPassed = results.failed === 0 && tablesError === 0;
 
   if (allPassed) {
@@ -332,7 +300,7 @@ async function runTests() {
 }
 
 // Run tests
-runTests().catch(error => {
+runTests().catch((error) => {
   console.error('❌ Test execution failed:', error);
   process.exit(1);
 });

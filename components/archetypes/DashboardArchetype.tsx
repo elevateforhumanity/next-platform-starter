@@ -13,10 +13,7 @@ interface DashboardArchetypeProps {
  * Consolidates all dashboard pages into a single pattern.
  * Enforces: auth, role checks, quality hero, consistent structure.
  */
-export function DashboardArchetype({
-  role,
-  children,
-}: DashboardArchetypeProps) {
+export function DashboardArchetype({ role, children }: DashboardArchetypeProps) {
   const content = getDashboardContent(role);
 
   return (

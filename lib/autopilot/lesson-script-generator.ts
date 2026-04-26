@@ -43,7 +43,7 @@ interface LessonInput {
   moduleName: string;
   moduleNumber: number;
   description: string;
-  content: string;       // HTML content from DB
+  content: string; // HTML content from DB
   topics: string[];
   contentType: string;
   nextLessonTitle?: string;
@@ -52,9 +52,9 @@ interface LessonInput {
   seed?: string;
 }
 
-const TARGET_WORDS = 400;    // ~2m 45s at 144 WPM
-const MIN_WORDS    = 380;    // hard floor — below this, retry
-const MAX_WORDS    = 420;    // hard ceiling — above this, retry
+const TARGET_WORDS = 400; // ~2m 45s at 144 WPM
+const MIN_WORDS = 380; // hard floor — below this, retry
+const MAX_WORDS = 420; // hard ceiling — above this, retry
 const MIN_CONTENT_LENGTH = 500; // chars — below this, enrich with GPT-4o
 
 /**
@@ -102,12 +102,16 @@ export async function generateLessonScript(input: LessonInput): Promise<LessonSc
 
     if (attempt > 0 && parsed) {
       const direction = wordCount < MIN_WORDS ? 'too short' : 'too long';
-      const target = wordCount < MIN_WORDS
-        ? `Expand the concept section to reach 380-420 words.`
-        : `Trim the concept section to reach 380-420 words.`;
+      const target =
+        wordCount < MIN_WORDS
+          ? `Expand the concept section to reach 380-420 words.`
+          : `Trim the concept section to reach 380-420 words.`;
       messages.push(
         { role: 'assistant', content: JSON.stringify(parsed) },
-        { role: 'user', content: `The narration is ${wordCount} words — ${direction}. It MUST be 380-420 words (144 WPM TTS, ~2m 45s). ${target} Return the same JSON format.` },
+        {
+          role: 'user',
+          content: `The narration is ${wordCount} words — ${direction}. It MUST be 380-420 words (144 WPM TTS, ~2m 45s). ${target} Return the same JSON format.`,
+        },
       );
     }
 
@@ -121,12 +125,17 @@ export async function generateLessonScript(input: LessonInput): Promise<LessonSc
     const raw = res.choices[0].message.content;
     if (!raw) throw new Error('No response from GPT-4o');
 
-    const cleaned = raw.replace(/^```json?\s*/i, '').replace(/\s*```$/i, '').trim();
+    const cleaned = raw
+      .replace(/^```json?\s*/i, '')
+      .replace(/\s*```$/i, '')
+      .trim();
     parsed = JSON.parse(cleaned) as { narration: string; slides: LessonSlide[] };
     wordCount = parsed.narration.split(/\s+/).length;
 
     if (wordCount >= MIN_WORDS && wordCount <= MAX_WORDS) break;
-    console.warn(`  ⚠ Attempt ${attempt + 1}: ${wordCount} words (target ${MIN_WORDS}-${MAX_WORDS}) — retrying`);
+    console.warn(
+      `  ⚠ Attempt ${attempt + 1}: ${wordCount} words (target ${MIN_WORDS}-${MAX_WORDS}) — retrying`,
+    );
   }
 
   if (!parsed) throw new Error('Failed to generate lesson script');

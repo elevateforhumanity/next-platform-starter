@@ -26,7 +26,9 @@ export default async function Page() {
     );
   }
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     redirect('/login');
@@ -37,8 +39,6 @@ export default async function Page() {
     .select('role, full_name')
     .eq('id', user.id)
     .single();
-
-  
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">

@@ -1,4 +1,3 @@
-
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { logAuditEvent, AuditActions } from '@/lib/audit';
@@ -16,7 +15,9 @@ export async function GET(req: NextRequest) {
     const supabase = await createClient();
 
     // Check authentication
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -48,7 +49,8 @@ export async function GET(req: NextRequest) {
     // Build query for consolidated hour_entries
     let query = supabase
       .from('hour_entries')
-      .select(`
+      .select(
+        `
         id,
         user_id,
         work_date,
@@ -60,7 +62,8 @@ export async function GET(req: NextRequest) {
         approved_by,
         approved_at,
         created_at
-      `)
+      `,
+      )
       .gte('work_date', weekStart)
       .lte('work_date', weekEnd)
       .order('work_date', { ascending: true })
@@ -150,19 +153,49 @@ export async function GET(req: NextRequest) {
       ]);
 
       // Add summary row
-      const totalHours = (hours || []).reduce((sum: number, h: any) => sum + (h.hours_worked || 0), 0);
-      const approvedHours = (hours || []).filter((h: any) => h.approved).reduce((sum: number, h: any) => sum + (h.hours_worked || 0), 0);
+      const totalHours = (hours || []).reduce(
+        (sum: number, h: any) => sum + (h.hours_worked || 0),
+        0,
+      );
+      const approvedHours = (hours || [])
+        .filter((h: any) => h.approved)
+        .reduce((sum: number, h: any) => sum + (h.hours_worked || 0), 0);
 
       rows.push([]);
       rows.push(['SUMMARY', '', '', '', '', '', '', '', '', '', '', '']);
       rows.push(['Total Hours', totalHours.toString(), '', '', '', '', '', '', '', '', '', '']);
-      rows.push(['Approved Hours', approvedHours.toString(), '', '', '', '', '', '', '', '', '', '']);
-      rows.push(['Pending Hours', (totalHours - approvedHours).toString(), '', '', '', '', '', '', '', '', '', '']);
+      rows.push([
+        'Approved Hours',
+        approvedHours.toString(),
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+      ]);
+      rows.push([
+        'Pending Hours',
+        (totalHours - approvedHours).toString(),
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+      ]);
 
-      const csv = [
-        headers.join(','),
-        ...rows.map(row => row.map(escapeCsvField).join(','))
-      ].join('\n');
+      const csv = [headers.join(','), ...rows.map((row) => row.map(escapeCsvField).join(','))].join(
+        '\n',
+      );
 
       const filename = `weekly_hours_${weekStart}_to_${weekEnd}.csv`;
 
@@ -176,8 +209,13 @@ export async function GET(req: NextRequest) {
     }
 
     // Default JSON format
-    const totalHours = (hours || []).reduce((sum: number, h: any) => sum + (h.hours_worked || 0), 0);
-    const approvedHours = (hours || []).filter((h: any) => h.approved).reduce((sum: number, h: any) => sum + (h.hours_worked || 0), 0);
+    const totalHours = (hours || []).reduce(
+      (sum: number, h: any) => sum + (h.hours_worked || 0),
+      0,
+    );
+    const approvedHours = (hours || [])
+      .filter((h: any) => h.approved)
+      .reduce((sum: number, h: any) => sum + (h.hours_worked || 0), 0);
 
     return NextResponse.json({
       week_start: weekStart,
@@ -191,13 +229,9 @@ export async function GET(req: NextRequest) {
       },
       exported_at: new Date().toISOString(),
     });
-
   } catch (err: any) {
     // Error: $1
-    return NextResponse.json(
-      { error: 'Failed to export weekly hours' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to export weekly hours' }, { status: 500 });
   }
 }
 

@@ -23,7 +23,7 @@ export interface AutoEnrollmentResult {
 }
 
 export async function autoEnrollPartnerCourse(
-  payload: AutoEnrollmentRequest
+  payload: AutoEnrollmentRequest,
 ): Promise<AutoEnrollmentResult> {
   const supabase = await getAdminClient();
   await setAuditContext(supabase, { systemActor: 'partner_enrollment_automation' });
@@ -80,7 +80,7 @@ export async function autoEnrollPartnerCourse(
     // 5) Enroll in the specific course
     const enrollment = await client.enrollInCourse(
       account.externalId,
-      course.external_course_code ?? course.course_code
+      course.external_course_code ?? course.course_code,
     );
 
     // 6) Get SSO / launch URL

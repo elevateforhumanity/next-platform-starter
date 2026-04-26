@@ -1,6 +1,5 @@
 // PUBLIC ROUTE: public metrics endpoint
 
-
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
@@ -40,10 +39,7 @@ async function _GET(request: Request) {
       supabase
         .from('program_enrollments')
         .select('user_id', { count: 'exact', head: true })
-        .gte(
-          'created_at',
-          new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString()
-        )
+        .gte('created_at', new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString())
         .eq('status', 'active'),
 
       // Total enrollments
@@ -56,18 +52,13 @@ async function _GET(request: Request) {
         .eq('status', 'completed'),
 
       // Total applications
-      supabase
-        .from('applications')
-        .select('id', { count: 'exact', head: true }),
+      supabase.from('applications').select('id', { count: 'exact', head: true }),
 
       // Recent logins (last 24 hours)
       supabase
         .from('profiles')
         .select('last_sign_in_at', { count: 'exact', head: true })
-        .gte(
-          'last_sign_in_at',
-          new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString()
-        ),
+        .gte('last_sign_in_at', new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString()),
 
       // Active courses
       supabase
@@ -76,17 +67,13 @@ async function _GET(request: Request) {
         .eq('is_published', true),
 
       // Total certificates issued
-      supabase
-        .from('certificates')
-        .select('id', { count: 'exact', head: true }),
+      supabase.from('certificates').select('id', { count: 'exact', head: true }),
     ]);
 
     // Calculate completion rate
     const completionRate =
       totalEnrollments.count && totalEnrollments.count > 0
-        ? Math.round(
-            ((completedCourses.count || 0) / totalEnrollments.count) * 100
-          )
+        ? Math.round(((completedCourses.count || 0) / totalEnrollments.count) * 100)
         : 0;
 
     // Get recent activity (last 10 enrollments - public data only)
@@ -125,11 +112,8 @@ async function _GET(request: Request) {
         'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=120',
       },
     });
-  } catch (error) { 
-    return NextResponse.json(
-      { error: 'Failed to fetch metrics' },
-      { status: 500 }
-    );
+  } catch (error) {
+    return NextResponse.json({ error: 'Failed to fetch metrics' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/public/metrics', _GET);

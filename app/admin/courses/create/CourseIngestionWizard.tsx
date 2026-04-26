@@ -87,7 +87,10 @@ export default function CourseIngestionWizard({ programs }: Props) {
       try {
         const res = await fetch('/api/admin/courses/parse-file', { method: 'POST', body: fd });
         const json = await res.json();
-        if (!res.ok) { setError(json.error || 'File parsing failed.'); return; }
+        if (!res.ok) {
+          setError(json.error || 'File parsing failed.');
+          return;
+        }
         setSourceText(json.text);
         // Surface OCR warnings as non-blocking notices
         if (json.warning) setFileWarning(json.warning);
@@ -129,7 +132,11 @@ export default function CourseIngestionWizard({ programs }: Props) {
         setPhase('resumable');
         return;
       }
-      if (!res.ok) { setError(json.error || 'Generation failed.'); setPhase('input'); return; }
+      if (!res.ok) {
+        setError(json.error || 'Generation failed.');
+        setPhase('input');
+        return;
+      }
       setBlueprint(json.blueprint);
       setPhase('review');
     } catch {
@@ -158,7 +165,11 @@ export default function CourseIngestionWizard({ programs }: Props) {
         }),
       });
       const json = await res.json();
-      if (!res.ok) { setError(json.error || 'Failed to save draft.'); setPhase('review'); return; }
+      if (!res.ok) {
+        setError(json.error || 'Failed to save draft.');
+        setPhase('review');
+        return;
+      }
       router.push(`/admin/courses/${json.courseId}/content`);
     } catch {
       setError('Network error. Please try again.');
@@ -173,7 +184,11 @@ export default function CourseIngestionWizard({ programs }: Props) {
     try {
       const res = await fetch(`/api/admin/courses/ingest?job_id=${resumeJobId}`);
       const json = await res.json();
-      if (!res.ok) { setError(json.error || 'Resume failed.'); setPhase('resumable'); return; }
+      if (!res.ok) {
+        setError(json.error || 'Resume failed.');
+        setPhase('resumable');
+        return;
+      }
       setBlueprint(json.blueprint);
       setPhase('review');
     } catch {
@@ -202,7 +217,11 @@ export default function CourseIngestionWizard({ programs }: Props) {
             Resume generation
           </button>
           <button
-            onClick={() => { setPhase('input'); setResumeJobId(null); setError(null); }}
+            onClick={() => {
+              setPhase('input');
+              setResumeJobId(null);
+              setError(null);
+            }}
             className="px-6 py-2.5 border rounded-lg hover:bg-gray-50 text-slate-900 text-sm"
           >
             Start over
@@ -218,8 +237,8 @@ export default function CourseIngestionWizard({ programs }: Props) {
         <Loader2 className="w-10 h-10 text-brand-blue-600 animate-spin" />
         <h2 className="text-lg font-semibold text-slate-900">Compiling course…</h2>
         <p className="text-sm text-slate-700 max-w-sm">
-          Classifying input, extracting structure, generating modules and lessons.
-          This takes 15–45 seconds depending on document length.
+          Classifying input, extracting structure, generating modules and lessons. This takes 15–45
+          seconds depending on document length.
         </p>
       </div>
     );
@@ -230,7 +249,9 @@ export default function CourseIngestionWizard({ programs }: Props) {
       <div className="bg-white rounded-xl border shadow-sm p-12 flex flex-col items-center gap-4 text-center">
         <Loader2 className="w-10 h-10 text-brand-blue-600 animate-spin" />
         <h2 className="text-lg font-semibold text-slate-900">Saving draft…</h2>
-        <p className="text-sm text-slate-700">Creating course, modules, and lessons in the database.</p>
+        <p className="text-sm text-slate-700">
+          Creating course, modules, and lessons in the database.
+        </p>
       </div>
     );
   }
@@ -256,7 +277,12 @@ export default function CourseIngestionWizard({ programs }: Props) {
           return (
             <button
               key={m.id}
-              onClick={() => { setMode(m.id); setSourceText(''); setError(null); setFileWarning(null); }}
+              onClick={() => {
+                setMode(m.id);
+                setSourceText('');
+                setError(null);
+                setFileWarning(null);
+              }}
               className={`flex flex-col items-center gap-2 p-4 rounded-xl border-2 text-center transition-colors ${
                 active
                   ? 'border-brand-blue-600 bg-brand-blue-50 text-brand-blue-700'
@@ -278,7 +304,13 @@ export default function CourseIngestionWizard({ programs }: Props) {
             <label className="flex items-center gap-2 text-sm text-brand-blue-600 cursor-pointer hover:text-brand-blue-700">
               <Upload className="w-4 h-4" />
               Upload file
-              <input ref={fileInputRef} type="file" accept={ACCEPTED} className="hidden" onChange={handleFileUpload} />
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept={ACCEPTED}
+                className="hidden"
+                onChange={handleFileUpload}
+              />
             </label>
           )}
         </div>
@@ -293,12 +325,16 @@ export default function CourseIngestionWizard({ programs }: Props) {
 
         <div className="flex items-center justify-between text-xs text-slate-700">
           <span>{sourceText.length.toLocaleString()} / 80,000 characters</span>
-          {sourceText.length > 80000 && <span className="text-red-500">Too long — split into sections</span>}
+          {sourceText.length > 80000 && (
+            <span className="text-red-500">Too long — split into sections</span>
+          )}
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 border-t">
           <div>
-            <label className="block text-sm font-medium text-slate-900 mb-1">Link to program (optional)</label>
+            <label className="block text-sm font-medium text-slate-900 mb-1">
+              Link to program (optional)
+            </label>
             <select
               value={programId}
               onChange={(e) => setProgramId(e.target.value)}
@@ -306,7 +342,9 @@ export default function CourseIngestionWizard({ programs }: Props) {
             >
               <option value="">Stand-alone course</option>
               {programs.map((p) => (
-                <option key={p.id} value={p.id}>{p.title}</option>
+                <option key={p.id} value={p.id}>
+                  {p.title}
+                </option>
               ))}
             </select>
           </div>
@@ -331,7 +369,9 @@ export default function CourseIngestionWizard({ programs }: Props) {
         )}
 
         {error && (
-          <div className="bg-red-50 border border-red-200 rounded-lg p-3 text-sm text-red-700">{error}</div>
+          <div className="bg-red-50 border border-red-200 rounded-lg p-3 text-sm text-red-700">
+            {error}
+          </div>
         )}
 
         <button

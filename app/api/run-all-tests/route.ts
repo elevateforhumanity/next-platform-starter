@@ -43,7 +43,8 @@ export async function GET(request: Request) {
       results.overall_summary.total_tests += data.summary?.total || 0;
       results.overall_summary.passed_tests += data.summary?.passed || 0;
       results.overall_summary.failed_tests += data.summary?.failed || 0;
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       results.test_suites.push({
         name: 'Multi-Tenant Isolation',
         status: 'ERROR',
@@ -63,7 +64,8 @@ export async function GET(request: Request) {
       results.overall_summary.total_tests += data.summary?.total || 0;
       results.overall_summary.passed_tests += data.summary?.passed || 0;
       results.overall_summary.failed_tests += data.summary?.failed || 0;
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       results.test_suites.push({
         name: 'License Enforcement',
         status: 'ERROR',
@@ -83,7 +85,8 @@ export async function GET(request: Request) {
       results.overall_summary.total_tests += data.summary?.total || 0;
       results.overall_summary.passed_tests += data.summary?.passed || 0;
       results.overall_summary.failed_tests += data.summary?.failed || 0;
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       results.test_suites.push({
         name: 'Compliance Reporting',
         status: 'ERROR',
@@ -103,7 +106,8 @@ export async function GET(request: Request) {
       results.overall_summary.total_tests += data.summary?.total_steps || 0;
       results.overall_summary.passed_tests += data.summary?.passed_steps || 0;
       results.overall_summary.failed_tests += data.summary?.failed_steps || 0;
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       results.test_suites.push({
         name: 'User Flows (LMS/Enrollment/Stripe)',
         status: 'ERROR',
@@ -120,7 +124,8 @@ export async function GET(request: Request) {
         status: data.summary?.all_required_working ? 'PASSED' : 'PARTIAL',
         ...data,
       });
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       results.test_suites.push({
         name: 'Partner Integrations',
         status: 'ERROR',
@@ -131,33 +136,27 @@ export async function GET(request: Request) {
     // Calculate overall summary
     results.overall_summary.total_suites = results.test_suites.length;
     results.overall_summary.passed_suites = results.test_suites.filter(
-      (s: any) => s.status === 'PASSED'
+      (s: any) => s.status === 'PASSED',
     ).length;
     results.overall_summary.failed_suites =
-      results.overall_summary.total_suites -
-      results.overall_summary.passed_suites;
+      results.overall_summary.total_suites - results.overall_summary.passed_suites;
 
     const successRate =
       results.overall_summary.total_tests > 0
         ? (
-            (results.overall_summary.passed_tests /
-              results.overall_summary.total_tests) *
+            (results.overall_summary.passed_tests / results.overall_summary.total_tests) *
             100
           ).toFixed(1)
         : '0';
 
     results.overall_summary.success_rate = successRate + '%';
-    results.overall_summary.all_passed =
-      results.overall_summary.failed_tests === 0;
+    results.overall_summary.all_passed = results.overall_summary.failed_tests === 0;
 
     // Production readiness assessment
     results.production_readiness = {
-      multi_tenant:
-        results.test_suites[0]?.status === 'PASSED' ? '10/10' : '7/10',
-      license_enforcement:
-        results.test_suites[1]?.status === 'PASSED' ? '10/10' : '7/10',
-      compliance:
-        results.test_suites[2]?.status === 'PASSED' ? '10/10' : '7/10',
+      multi_tenant: results.test_suites[0]?.status === 'PASSED' ? '10/10' : '7/10',
+      license_enforcement: results.test_suites[1]?.status === 'PASSED' ? '10/10' : '7/10',
+      compliance: results.test_suites[2]?.status === 'PASSED' ? '10/10' : '7/10',
       overall: results.overall_summary.all_passed
         ? '10/10 - PRODUCTION READY ✅'
         : '8/10 - NEEDS FIXES ⚠️',
@@ -168,14 +167,15 @@ export async function GET(request: Request) {
         'Content-Type': 'application/json',
       },
     });
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     return NextResponse.json(
       {
         error: error.message,
         stack: error.stack,
         timestamp: new Date().toISOString(),
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

@@ -20,7 +20,7 @@ export function useScrollAnimation(threshold = 0.1) {
       {
         threshold,
         rootMargin: '50px',
-      }
+      },
     );
 
     if (ref.current) {

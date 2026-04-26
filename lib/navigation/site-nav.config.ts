@@ -5,7 +5,6 @@
  * Used by SiteHeader and SiteFooter components.
  */
 
-
 export interface NavLink {
   label: string;
   href: string;
@@ -275,10 +274,18 @@ export const headerNavigation: NavGroup[] = [
       { label: 'Site Map', href: '/site-map', description: 'All pages directory' },
       { label: 'Help Center', href: '/help', description: 'Support and documentation' },
       { label: 'Help Tutorials', href: '/help/tutorials', description: 'Video tutorials' },
-      { label: 'Certifications Guide', href: '/help/articles/certifications', description: 'Certification info' },
+      {
+        label: 'Certifications Guide',
+        href: '/help/articles/certifications',
+        description: 'Certification info',
+      },
       { label: 'Support Chat', href: '/support/chat', description: 'Live chat support' },
       { label: 'Academic Calendar', href: '/academic-calendar', description: 'Academic schedule' },
-      { label: 'Academic Integrity', href: '/academic-integrity', description: 'Academic policies' },
+      {
+        label: 'Academic Integrity',
+        href: '/academic-integrity',
+        description: 'Academic policies',
+      },
       { label: 'Consumer Education', href: '/consumer-education', description: 'Consumer info' },
     ],
   },
@@ -287,33 +294,105 @@ export const headerNavigation: NavGroup[] = [
     items: [
       { label: 'Community Hub', href: '/community/members', description: 'Join the community' },
       { label: 'Classroom', href: '/community/classroom', description: 'Virtual classroom' },
-      { label: 'Career Discussions', href: '/community/discussions/career', description: 'Career talk' },
-      { label: 'General Discussions', href: '/community/discussions/general', description: 'General forum' },
+      {
+        label: 'Career Discussions',
+        href: '/community/discussions/career',
+        description: 'Career talk',
+      },
+      {
+        label: 'General Discussions',
+        href: '/community/discussions/general',
+        description: 'General forum',
+      },
       { label: 'Leaderboard', href: '/community/leaderboard', description: 'Top contributors' },
-      { label: 'Marketplace', href: '/community/marketplace', description: 'Community marketplace' },
-      { label: 'Mentorship', href: '/mentorship/career-guidance', description: 'Career mentorship' },
+      {
+        label: 'Marketplace',
+        href: '/community/marketplace',
+        description: 'Community marketplace',
+      },
+      {
+        label: 'Mentorship',
+        href: '/mentorship/career-guidance',
+        description: 'Career mentorship',
+      },
       { label: 'Goal Setting', href: '/mentorship/goal-setting', description: 'Set career goals' },
-      { label: 'Industry Insights', href: '/mentorship/industry-insights', description: 'Industry knowledge' },
-      { label: 'Networking', href: '/mentorship/networking', description: 'Professional networking' },
-      { label: 'Skill Development', href: '/mentorship/skill-development', description: 'Build skills' },
-      { label: 'Ongoing Support', href: '/mentorship/ongoing-support', description: 'Continued mentorship' },
+      {
+        label: 'Industry Insights',
+        href: '/mentorship/industry-insights',
+        description: 'Industry knowledge',
+      },
+      {
+        label: 'Networking',
+        href: '/mentorship/networking',
+        description: 'Professional networking',
+      },
+      {
+        label: 'Skill Development',
+        href: '/mentorship/skill-development',
+        description: 'Build skills',
+      },
+      {
+        label: 'Ongoing Support',
+        href: '/mentorship/ongoing-support',
+        description: 'Continued mentorship',
+      },
     ],
   },
   {
     label: 'Services',
     items: [
       { label: 'All Services', href: '/services', description: 'Our service offerings' },
-      { label: 'Career Training IL', href: '/career-training-illinois', description: 'Illinois programs' },
-      { label: 'Career Training IN', href: '/career-training-indiana', description: 'Indiana programs' },
+      {
+        label: 'Career Training IL',
+        href: '/career-training-illinois',
+        description: 'Illinois programs',
+      },
+      {
+        label: 'Career Training IN',
+        href: '/career-training-indiana',
+        description: 'Indiana programs',
+      },
       { label: 'Career Training OH', href: '/career-training-ohio', description: 'Ohio programs' },
-      { label: 'Career Training TN', href: '/career-training-tennessee', description: 'Tennessee programs' },
-      { label: 'Career Training TX', href: '/career-training-texas', description: 'Texas programs' },
-      { label: 'Community Services IL', href: '/community-services-illinois', description: 'IL community services' },
-      { label: 'Community Services IN', href: '/community-services-indiana', description: 'IN community services' },
-      { label: 'Community Services OH', href: '/community-services-ohio', description: 'OH community services' },
-      { label: 'Community Services TN', href: '/community-services-tennessee', description: 'TN community services' },
-      { label: 'Community Services TX', href: '/community-services-texas', description: 'TX community services' },
-      { label: 'Community Services', href: '/community-services', description: 'Community services overview' },
+      {
+        label: 'Career Training TN',
+        href: '/career-training-tennessee',
+        description: 'Tennessee programs',
+      },
+      {
+        label: 'Career Training TX',
+        href: '/career-training-texas',
+        description: 'Texas programs',
+      },
+      {
+        label: 'Community Services IL',
+        href: '/community-services-illinois',
+        description: 'IL community services',
+      },
+      {
+        label: 'Community Services IN',
+        href: '/community-services-indiana',
+        description: 'IN community services',
+      },
+      {
+        label: 'Community Services OH',
+        href: '/community-services-ohio',
+        description: 'OH community services',
+      },
+      {
+        label: 'Community Services TN',
+        href: '/community-services-tennessee',
+        description: 'TN community services',
+      },
+      {
+        label: 'Community Services TX',
+        href: '/community-services-texas',
+        description: 'TX community services',
+      },
+      {
+        label: 'Community Services',
+        href: '/community-services',
+        description: 'Community services overview',
+      },
     ],
   },
 ];
@@ -487,7 +566,10 @@ export const footerNavigation = {
       { label: 'Security', href: '/supersonic-fast-cash/governance/security' },
       { label: 'Contact', href: '/supersonic-fast-cash/governance/contact' },
       { label: 'Authoritative Docs', href: '/supersonic-fast-cash/governance/authoritative-docs' },
-      { label: 'Operational Controls', href: '/supersonic-fast-cash/governance/operational-controls' },
+      {
+        label: 'Operational Controls',
+        href: '/supersonic-fast-cash/governance/operational-controls',
+      },
       { label: 'SEO Indexing', href: '/supersonic-fast-cash/governance/seo-indexing' },
     ],
   },

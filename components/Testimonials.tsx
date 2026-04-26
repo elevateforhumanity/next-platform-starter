@@ -36,12 +36,8 @@ export default function Testimonials() {
     <section className="section bg-slate-50">
       <div className="container">
         <div className="text-center">
-          <h2 className="text-2xl font-semibold">
-            Real Stories. Real Results.
-          </h2>
-          <p className="mt-2 text-black">
-            100% funded programs • $0 cost to students
-          </p>
+          <h2 className="text-2xl font-semibold">Real Stories. Real Results.</h2>
+          <p className="mt-2 text-black">100% funded programs • $0 cost to students</p>
         </div>
         <div className="mt-8 grid gap-6 md:grid-cols-3">
           {TESTIMONIALS.map((t) => (

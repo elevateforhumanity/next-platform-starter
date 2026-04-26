@@ -10,9 +10,12 @@ async function _GET(request: Request) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
-    
+
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
+
     if (authError || !user) {
       return NextResponse.json({ completed: false, error: 'Not authenticated' }, { status: 401 });
     }
@@ -25,10 +28,10 @@ async function _GET(request: Request) {
       .maybeSingle();
 
     if (partnerError || !partner) {
-      return NextResponse.json({ 
-        completed: false, 
+      return NextResponse.json({
+        completed: false,
         step: 'not_started',
-        message: 'No partner profile found'
+        message: 'No partner profile found',
       });
     }
 
@@ -41,7 +44,6 @@ async function _GET(request: Request) {
       shopName: partner.shop_name,
       status: partner.status,
     });
-
   } catch (error) {
     logger.error('Error checking onboarding status:', error);
     return NextResponse.json({ completed: false, error: 'Server error' }, { status: 500 });

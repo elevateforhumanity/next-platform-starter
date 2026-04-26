@@ -9,18 +9,20 @@ export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'Elevate for Humanity | Workforce Training — Indianapolis, Indiana',
-  description: 'DOL-registered apprenticeship sponsor and ETPL-approved training provider. Get trained, credentialed, and placed in a job — often at no cost through WIOA or state funding.',
-  keywords: 'workforce training Indianapolis, WIOA training Indiana, DOL registered apprenticeship, ETPL approved training provider, Elevate for Humanity',
+  description:
+    'DOL-registered apprenticeship sponsor and ETPL-approved training provider. Get trained, credentialed, and placed in a job — often at no cost through WIOA or state funding.',
+  keywords:
+    'workforce training Indianapolis, WIOA training Indiana, DOL registered apprenticeship, ETPL approved training provider, Elevate for Humanity',
   openGraph: {
     title: 'Elevate for Humanity | Workforce Training — Indianapolis, Indiana',
-    description: 'Get trained, credentialed, and placed in a job — often at no cost through WIOA or state funding.',
+    description:
+      'Get trained, credentialed, and placed in a job — often at no cost through WIOA or state funding.',
   },
 };
 
 export default function HomePage() {
   return (
     <main>
-
       {/* HERO */}
       <HeroVideo
         videoSrcDesktop={heroBanners.home.videoSrcDesktop}
@@ -37,14 +39,22 @@ export default function HomePage() {
       {/* PROGRAMS */}
       <section className="bg-white py-16 px-6">
         <div className="max-w-5xl mx-auto">
-          <p className="text-brand-red-600 text-xs font-bold uppercase tracking-widest text-center mb-2">Training Programs</p>
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 text-center mb-2">Pick a career. Start in weeks.</h2>
+          <p className="text-brand-red-600 text-xs font-bold uppercase tracking-widest text-center mb-2">
+            Training Programs
+          </p>
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 text-center mb-2">
+            Pick a career. Start in weeks.
+          </h2>
           <p className="text-slate-500 text-sm text-center mb-10 max-w-xl mx-auto">
-            Healthcare, skilled trades, CDL, cosmetology, and more — each with a real credential at the end.
+            Healthcare, skilled trades, CDL, cosmetology, and more — each with a real credential at
+            the end.
           </p>
           <ProgramVideoCards />
           <div className="mt-10 text-center">
-            <Link href="/programs" className="inline-block bg-brand-red-600 hover:bg-brand-red-700 text-white font-bold px-8 py-3.5 rounded-lg transition-colors text-sm">
+            <Link
+              href="/programs"
+              className="inline-block bg-brand-red-600 hover:bg-brand-red-700 text-white font-bold px-8 py-3.5 rounded-lg transition-colors text-sm"
+            >
               View All Programs →
             </Link>
           </div>
@@ -54,13 +64,31 @@ export default function HomePage() {
       {/* PHOTO STRIP */}
       <section className="grid grid-cols-3 h-56 sm:h-80 overflow-hidden">
         <div className="relative">
-          <Image src="/images/pages/comp-home-pathways-train.jpg" alt="Learner in training" fill className="object-cover" sizes="33vw" />
+          <Image
+            src="/images/pages/comp-home-pathways-train.jpg"
+            alt="Learner in training"
+            fill
+            className="object-cover"
+            sizes="33vw"
+          />
         </div>
         <div className="relative">
-          <Image src="/images/pages/comp-home-highlight-health.jpg" alt="Healthcare training" fill className="object-cover" sizes="33vw" />
+          <Image
+            src="/images/pages/comp-home-highlight-health.jpg"
+            alt="Healthcare training"
+            fill
+            className="object-cover"
+            sizes="33vw"
+          />
         </div>
         <div className="relative">
-          <Image src="/images/pages/comp-home-highlight-success.jpg" alt="Graduate success" fill className="object-cover" sizes="33vw" />
+          <Image
+            src="/images/pages/comp-home-highlight-success.jpg"
+            alt="Graduate success"
+            fill
+            className="object-cover"
+            sizes="33vw"
+          />
         </div>
       </section>
 
@@ -68,22 +96,41 @@ export default function HomePage() {
       <section className="bg-slate-50 py-16 px-6 border-t border-slate-100">
         <div className="max-w-5xl mx-auto flex flex-col lg:flex-row lg:items-center gap-12">
           <div className="flex-1">
-            <p className="text-brand-red-600 text-xs font-bold uppercase tracking-widest mb-3">Funding</p>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-4">Most students pay $0.</h2>
+            <p className="text-brand-red-600 text-xs font-bold uppercase tracking-widest mb-3">
+              Funding
+            </p>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-4">
+              Most students pay $0.
+            </h2>
             <p className="text-slate-600 text-sm leading-relaxed mb-6 max-w-lg">
-              WIOA, Workforce Ready Grant, and FSSA IMPACT funding covers tuition, books, and exam fees for eligible Indiana residents. Check in two minutes — no commitment.
+              WIOA, Workforce Ready Grant, and FSSA IMPACT funding covers tuition, books, and exam
+              fees for eligible Indiana residents. Check in two minutes — no commitment.
             </p>
             <div className="flex flex-wrap gap-2 mb-8">
               {['WIOA', 'Workforce Ready Grant', 'FSSA IMPACT', 'Job Ready Indy'].map((f) => (
-                <span key={f} className="bg-white border border-slate-200 text-slate-700 text-xs font-semibold px-3 py-1.5 rounded-full">{f}</span>
+                <span
+                  key={f}
+                  className="bg-white border border-slate-200 text-slate-700 text-xs font-semibold px-3 py-1.5 rounded-full"
+                >
+                  {f}
+                </span>
               ))}
             </div>
-            <Link href="/check-eligibility" className="inline-block bg-brand-red-600 hover:bg-brand-red-700 text-white font-bold px-7 py-3.5 rounded-lg transition-colors text-sm">
+            <Link
+              href="/check-eligibility"
+              className="inline-block bg-brand-red-600 hover:bg-brand-red-700 text-white font-bold px-7 py-3.5 rounded-lg transition-colors text-sm"
+            >
               Check My Eligibility
             </Link>
           </div>
           <div className="relative w-full lg:w-96 h-64 lg:h-72 rounded-2xl overflow-hidden shrink-0">
-            <Image src="/images/pages/comp-home-pathways-support.jpg" alt="Funding support advisor" fill className="object-cover" sizes="(max-width: 1024px) 100vw, 384px" />
+            <Image
+              src="/images/pages/comp-home-pathways-support.jpg"
+              alt="Funding support advisor"
+              fill
+              className="object-cover"
+              sizes="(max-width: 1024px) 100vw, 384px"
+            />
           </div>
         </div>
       </section>
@@ -91,22 +138,61 @@ export default function HomePage() {
       {/* WHO WE SERVE — image cards */}
       <section className="bg-white py-16 px-6">
         <div className="max-w-5xl mx-auto">
-          <p className="text-brand-red-600 text-xs font-bold uppercase tracking-widest text-center mb-2">Who We Serve</p>
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 text-center mb-10">Built for everyone in the workforce ecosystem.</h2>
+          <p className="text-brand-red-600 text-xs font-bold uppercase tracking-widest text-center mb-2">
+            Who We Serve
+          </p>
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 text-center mb-10">
+            Built for everyone in the workforce ecosystem.
+          </h2>
           <div className="grid sm:grid-cols-3 gap-6">
             {[
-              { label: 'Learners', desc: 'Get trained, credentialed, and placed — often at no cost.', href: '/apply', cta: 'Apply Now', img: '/images/pages/for-students-hero.jpg', alt: 'Student in training' },
-              { label: 'Workforce Agencies', desc: 'Refer participants, track WIOA outcomes, and document compliance.', href: '/agencies', cta: 'Agency Info', img: '/images/pages/about-career-pathways.jpg', alt: 'Workforce agency advisor' },
-              { label: 'Employers', desc: 'Hire trained graduates and access OJT wage reimbursement.', href: '/for-employers', cta: 'Employer Info', img: '/images/pages/hire-graduates-page-1.jpg', alt: 'Employer hiring graduates' },
+              {
+                label: 'Learners',
+                desc: 'Get trained, credentialed, and placed — often at no cost.',
+                href: '/apply',
+                cta: 'Apply Now',
+                img: '/images/pages/for-students-hero.jpg',
+                alt: 'Student in training',
+              },
+              {
+                label: 'Workforce Agencies',
+                desc: 'Refer participants, track WIOA outcomes, and document compliance.',
+                href: '/agencies',
+                cta: 'Agency Info',
+                img: '/images/pages/about-career-pathways.jpg',
+                alt: 'Workforce agency advisor',
+              },
+              {
+                label: 'Employers',
+                desc: 'Hire trained graduates and access OJT wage reimbursement.',
+                href: '/for-employers',
+                cta: 'Employer Info',
+                img: '/images/pages/hire-graduates-page-1.jpg',
+                alt: 'Employer hiring graduates',
+              },
             ].map((b) => (
-              <div key={b.label} className="rounded-2xl overflow-hidden border border-slate-200 flex flex-col">
+              <div
+                key={b.label}
+                className="rounded-2xl overflow-hidden border border-slate-200 flex flex-col"
+              >
                 <div className="relative h-44 w-full">
-                  <Image src={b.img} alt={b.alt} fill className="object-cover" sizes="(max-width: 640px) 100vw, 33vw" />
+                  <Image
+                    src={b.img}
+                    alt={b.alt}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 640px) 100vw, 33vw"
+                  />
                 </div>
                 <div className="p-6 flex flex-col flex-1">
                   <h3 className="text-base font-bold text-slate-900 mb-2">{b.label}</h3>
                   <p className="text-sm text-slate-600 leading-relaxed flex-1 mb-5">{b.desc}</p>
-                  <Link href={b.href} className="text-brand-red-600 hover:text-brand-red-700 text-sm font-bold transition-colors">{b.cta} →</Link>
+                  <Link
+                    href={b.href}
+                    className="text-brand-red-600 hover:text-brand-red-700 text-sm font-bold transition-colors"
+                  >
+                    {b.cta} →
+                  </Link>
                 </div>
               </div>
             ))}
@@ -119,13 +205,15 @@ export default function HomePage() {
         <div className="max-w-5xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-8 text-center">
           {[
             { stat: '2,000+', label: 'Students trained' },
-            { stat: '94%',    label: 'Credential attainment rate' },
-            { stat: '$0',     label: 'Cost for eligible students' },
-            { stat: '30+',    label: 'Programs available' },
+            { stat: '94%', label: 'Credential attainment rate' },
+            { stat: '$0', label: 'Cost for eligible students' },
+            { stat: '30+', label: 'Programs available' },
           ].map((item) => (
             <div key={item.label}>
               <p className="text-3xl sm:text-4xl font-extrabold text-white mb-1">{item.stat}</p>
-              <p className="text-slate-400 text-xs font-semibold uppercase tracking-wide">{item.label}</p>
+              <p className="text-slate-400 text-xs font-semibold uppercase tracking-wide">
+                {item.label}
+              </p>
             </div>
           ))}
         </div>
@@ -133,7 +221,13 @@ export default function HomePage() {
 
       {/* FULL-WIDTH IMAGE BREAK */}
       <div className="relative h-64 sm:h-80 w-full overflow-hidden">
-        <Image src="/images/pages/career-services-hero.jpg" alt="Elevate for Humanity career services" fill className="object-cover object-center" sizes="100vw" />
+        <Image
+          src="/images/pages/career-services-hero.jpg"
+          alt="Elevate for Humanity career services"
+          fill
+          className="object-cover object-center"
+          sizes="100vw"
+        />
         <div className="absolute inset-0 bg-slate-900/40 flex items-center justify-center">
           <p className="text-white text-xl sm:text-3xl font-extrabold text-center px-6 drop-shadow-lg">
             Real credentials. Real jobs. Real lives changed.
@@ -145,18 +239,34 @@ export default function HomePage() {
       <section className="bg-brand-red-700 py-16 px-6">
         <div className="max-w-2xl mx-auto text-center">
           <h2 className="text-2xl sm:text-3xl font-extrabold text-white mb-4">Ready to start?</h2>
-          <p className="text-red-100 text-sm mb-8">Apply online, check your funding eligibility, or call us directly.</p>
+          <p className="text-red-100 text-sm mb-8">
+            Apply online, check your funding eligibility, or call us directly.
+          </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Link href="/apply" className="bg-white text-brand-red-700 font-bold px-8 py-3.5 rounded-lg hover:bg-red-50 transition-colors text-sm text-center">Apply Now</Link>
-            <Link href="/check-eligibility" className="border-2 border-white/60 text-white font-bold px-8 py-3.5 rounded-lg hover:bg-white/10 transition-colors text-sm text-center">Check Eligibility</Link>
+            <Link
+              href="/apply"
+              className="bg-white text-brand-red-700 font-bold px-8 py-3.5 rounded-lg hover:bg-red-50 transition-colors text-sm text-center"
+            >
+              Apply Now
+            </Link>
+            <Link
+              href="/check-eligibility"
+              className="border-2 border-white/60 text-white font-bold px-8 py-3.5 rounded-lg hover:bg-white/10 transition-colors text-sm text-center"
+            >
+              Check Eligibility
+            </Link>
           </div>
           <p className="mt-6 text-red-200 text-xs">
             Or call / text{' '}
-            <a href="tel:3173143757" className="text-white font-bold underline hover:text-red-100 transition-colors">(317) 314-3757</a>
+            <a
+              href="tel:3173143757"
+              className="text-white font-bold underline hover:text-red-100 transition-colors"
+            >
+              (317) 314-3757
+            </a>
           </p>
         </div>
       </section>
-
     </main>
   );
 }

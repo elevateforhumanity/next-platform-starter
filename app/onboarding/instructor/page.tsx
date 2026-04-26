@@ -3,7 +3,16 @@ import { createClient } from '@/lib/supabase/server';
 import { getAdminClient } from '@/lib/supabase/admin';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
-import { CheckCircle, Circle, ArrowRight, BookOpen, FileText, User, Video, ClipboardCheck } from 'lucide-react';
+import {
+  CheckCircle,
+  Circle,
+  ArrowRight,
+  BookOpen,
+  FileText,
+  User,
+  Video,
+  ClipboardCheck,
+} from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const metadata: Metadata = {
@@ -15,7 +24,9 @@ export const dynamic = 'force-dynamic';
 
 export default async function InstructorOnboardingPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) redirect('/login?redirect=/onboarding/instructor');
 
@@ -42,16 +53,31 @@ export default async function InstructorOnboardingPage() {
     { data: orientations },
     { data: programInstructors },
   ] = await Promise.all([
-    supabase.from('license_agreement_acceptances').select('id, accepted_at').eq('user_id', user.id).limit(1),
+    supabase
+      .from('license_agreement_acceptances')
+      .select('id, accepted_at')
+      .eq('user_id', user.id)
+      .limit(1),
     supabase.from('documents').select('id, document_type').eq('user_id', user.id).limit(20),
-    supabase.from('orientation_completions').select('id, completed_at').eq('user_id', user.id).limit(1),
+    supabase
+      .from('orientation_completions')
+      .select('id, completed_at')
+      .eq('user_id', user.id)
+      .limit(1),
     // program_instructors uses user_id (not instructor_id) as the FK column
-    supabase.from('program_instructors').select('id, program_id, programs(title)').eq('user_id', user.id).limit(10),
+    supabase
+      .from('program_instructors')
+      .select('id, program_id, programs(title)')
+      .eq('user_id', user.id)
+      .limit(10),
   ]);
 
   const agreementDone = (agreements?.length ?? 0) > 0;
-  const idUploaded = docs?.some(d => d.document_type === 'id' || d.document_type === 'government_id') ?? false;
-  const certUploaded = docs?.some(d => d.document_type === 'certification' || d.document_type === 'credential') ?? false;
+  const idUploaded =
+    docs?.some((d) => d.document_type === 'id' || d.document_type === 'government_id') ?? false;
+  const certUploaded =
+    docs?.some((d) => d.document_type === 'certification' || d.document_type === 'credential') ??
+    false;
   const orientationDone = (orientations?.length ?? 0) > 0;
   const programAssigned = (programInstructors?.length ?? 0) > 0;
 
@@ -98,23 +124,26 @@ export default async function InstructorOnboardingPage() {
     },
   ];
 
-  const completedCount = steps.filter(s => s.done).length;
+  const completedCount = steps.filter((s) => s.done).length;
   const allDone = completedCount === steps.length;
-  const nextStep = steps.find(s => !s.done);
+  const nextStep = steps.find((s) => !s.done);
   const progressPct = Math.round((completedCount / steps.length) * 100);
 
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="bg-white border-b px-6 py-5">
-        <Breadcrumbs items={[
-          { label: 'Home', href: '/' },
-          { label: 'Instructor Onboarding', href: '/onboarding/instructor' },
-        ]} />
+        <Breadcrumbs
+          items={[
+            { label: 'Home', href: '/' },
+            { label: 'Instructor Onboarding', href: '/onboarding/instructor' },
+          ]}
+        />
         <div className="mt-3 flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold text-slate-900">Instructor Onboarding</h1>
             <p className="text-sm text-slate-500 mt-1">
-              Welcome{profile?.full_name ? `, ${profile.full_name}` : ''}. Complete the steps below to activate your instructor account.
+              Welcome{profile?.full_name ? `, ${profile.full_name}` : ''}. Complete the steps below
+              to activate your instructor account.
             </p>
           </div>
           {allDone && (
@@ -132,7 +161,9 @@ export default async function InstructorOnboardingPage() {
         {/* Progress bar */}
         <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-sm font-semibold text-slate-700">{completedCount} of {steps.length} steps complete</span>
+            <span className="text-sm font-semibold text-slate-700">
+              {completedCount} of {steps.length} steps complete
+            </span>
             <span className="text-sm font-bold text-blue-600">{progressPct}%</span>
           </div>
           <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
@@ -158,7 +189,10 @@ export default async function InstructorOnboardingPage() {
             <p className="text-sm font-semibold text-blue-800 mb-1">Programs Assigned</p>
             <div className="flex flex-wrap gap-2">
               {programInstructors?.map((pi: any) => (
-                <span key={pi.id} className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full">
+                <span
+                  key={pi.id}
+                  className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full"
+                >
                   {pi.programs?.title ?? 'Program'}
                 </span>
               ))}
@@ -178,16 +212,21 @@ export default async function InstructorOnboardingPage() {
                   step.done ? 'border-green-200' : isNext ? 'border-blue-300' : 'border-slate-200'
                 }`}
               >
-                <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${
-                  step.done ? 'bg-green-100' : isNext ? 'bg-blue-100' : 'bg-slate-100'
-                }`}>
-                  {step.done
-                    ? <CheckCircle className="w-5 h-5 text-green-600" />
-                    : <Icon className={`w-5 h-5 ${isNext ? 'text-blue-600' : 'text-slate-400'}`} />
-                  }
+                <div
+                  className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${
+                    step.done ? 'bg-green-100' : isNext ? 'bg-blue-100' : 'bg-slate-100'
+                  }`}
+                >
+                  {step.done ? (
+                    <CheckCircle className="w-5 h-5 text-green-600" />
+                  ) : (
+                    <Icon className={`w-5 h-5 ${isNext ? 'text-blue-600' : 'text-slate-400'}`} />
+                  )}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className={`font-semibold text-sm ${step.done ? 'text-slate-500 line-through' : 'text-slate-900'}`}>
+                  <p
+                    className={`font-semibold text-sm ${step.done ? 'text-slate-500 line-through' : 'text-slate-900'}`}
+                  >
                     {step.title}
                   </p>
                   <p className="text-xs text-slate-400 mt-0.5">{step.description}</p>

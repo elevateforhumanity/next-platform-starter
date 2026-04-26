@@ -4,9 +4,7 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { getAdminClient } from '@/lib/supabase/admin';
-import {
-  LayoutDashboard, BookOpen, ShieldCheck, Settings, Users, LogOut,
-} from 'lucide-react';
+import { LayoutDashboard, BookOpen, ShieldCheck, Settings, Users, LogOut } from 'lucide-react';
 
 const NAV = [
   { href: '/provider/dashboard', label: 'Dashboard', icon: LayoutDashboard },
@@ -16,13 +14,11 @@ const NAV = [
   { href: '/provider/settings', label: 'Settings', icon: Settings },
 ];
 
-export default async function ProviderLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default async function ProviderLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/provider/dashboard');
 
   const db = await getAdminClient();
@@ -52,7 +48,10 @@ export default async function ProviderLayout({
           <h1 className="text-xl font-bold text-slate-900 mb-2">Account Suspended</h1>
           <p className="text-slate-600 text-sm">
             Your provider account has been suspended. Contact{' '}
-            <a href="mailto:elevate4humanityedu@gmail.com" className="text-brand-blue-600 hover:underline">
+            <a
+              href="mailto:elevate4humanityedu@gmail.com"
+              className="text-brand-blue-600 hover:underline"
+            >
               support@elevateforhumanity.org
             </a>{' '}
             for assistance.
@@ -67,13 +66,15 @@ export default async function ProviderLayout({
       {/* Sidebar */}
       <aside className="w-56 bg-white flex-shrink-0 flex flex-col">
         <div className="px-4 py-5 border-b border-slate-700">
-          <div className="text-xs text-slate-400 uppercase tracking-wide mb-0.5">Provider Portal</div>
+          <div className="text-xs text-slate-400 uppercase tracking-wide mb-0.5">
+            Provider Portal
+          </div>
           <div className="text-white font-semibold text-sm truncate">{tenant.name}</div>
           <div className="text-slate-400 text-xs truncate mt-0.5">{profile.email}</div>
         </div>
 
         <nav className="flex-1 px-2 py-4 space-y-0.5">
-          {NAV.map(item => (
+          {NAV.map((item) => (
             <Link
               key={item.href}
               href={item.href}
@@ -98,9 +99,7 @@ export default async function ProviderLayout({
       </aside>
 
       {/* Main content */}
-      <main className="flex-1 min-w-0 overflow-auto">
-        {children}
-      </main>
+      <main className="flex-1 min-w-0 overflow-auto">{children}</main>
     </div>
   );
 }

@@ -4,9 +4,19 @@ import { useEffect, useState, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import {
-  ArrowLeft, Play, Square, AlertTriangle, CheckCircle2,
-  XCircle, Clock, User, FileText, Shield, Loader2,
-  ExternalLink, Printer,
+  ArrowLeft,
+  Play,
+  Square,
+  AlertTriangle,
+  CheckCircle2,
+  XCircle,
+  Clock,
+  User,
+  FileText,
+  Shield,
+  Loader2,
+  ExternalLink,
+  Printer,
 } from 'lucide-react';
 import type { ExamSession, ExamResult } from '@/lib/proctor/types';
 import { STATUS_CONFIG, RESULT_CONFIG, EXAM_PROVIDERS } from '@/lib/proctor/types';
@@ -38,7 +48,9 @@ export default function SessionPage() {
     }
   }, [id]);
 
-  useEffect(() => { fetchSession(); }, [fetchSession]);
+  useEffect(() => {
+    fetchSession();
+  }, [fetchSession]);
 
   async function updateSession(payload: Record<string, unknown>) {
     setUpdating(true);
@@ -98,7 +110,9 @@ export default function SessionPage() {
         <XCircle className="w-12 h-12 text-brand-red-400 mx-auto mb-4" />
         <h2 className="text-xl font-bold text-slate-900 mb-2">Session Not Found</h2>
         <p className="text-slate-500 mb-6">{error || 'This session may have been deleted.'}</p>
-        <Link href="/proctor" className="text-brand-blue-600 hover:underline font-medium">Back to Sessions</Link>
+        <Link href="/proctor" className="text-brand-blue-600 hover:underline font-medium">
+          Back to Sessions
+        </Link>
       </div>
     );
   }
@@ -112,7 +126,10 @@ export default function SessionPage() {
 
   return (
     <div className="max-w-4xl mx-auto">
-      <Link href="/proctor" className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-slate-900 mb-6">
+      <Link
+        href="/proctor"
+        className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-slate-900 mb-6"
+      >
         <ArrowLeft className="w-4 h-4" /> Back to Sessions
       </Link>
 
@@ -199,9 +216,17 @@ export default function SessionPage() {
               <dt className="text-slate-500">ID Verified</dt>
               <dd className="flex items-center gap-1.5">
                 {session.id_verified ? (
-                  <><CheckCircle2 className="w-4 h-4 text-brand-green-600" /> <span className="text-brand-green-700 font-medium">Yes — {session.id_type?.replace('_', ' ')}</span></>
+                  <>
+                    <CheckCircle2 className="w-4 h-4 text-brand-green-600" />{' '}
+                    <span className="text-brand-green-700 font-medium">
+                      Yes — {session.id_type?.replace('_', ' ')}
+                    </span>
+                  </>
                 ) : (
-                  <><XCircle className="w-4 h-4 text-brand-red-500" /> <span className="text-brand-red-600 font-medium">No</span></>
+                  <>
+                    <XCircle className="w-4 h-4 text-brand-red-500" />{' '}
+                    <span className="text-brand-red-600 font-medium">No</span>
+                  </>
                 )}
               </dd>
             </div>
@@ -217,8 +242,12 @@ export default function SessionPage() {
           <dl className="space-y-3 text-sm">
             <Row label="Proctor" value={session.proctor_name} />
             <Row label="Created" value={new Date(session.created_at).toLocaleString()} />
-            {session.started_at && <Row label="Started" value={new Date(session.started_at).toLocaleString()} />}
-            {session.completed_at && <Row label="Ended" value={new Date(session.completed_at).toLocaleString()} />}
+            {session.started_at && (
+              <Row label="Started" value={new Date(session.started_at).toLocaleString()} />
+            )}
+            {session.completed_at && (
+              <Row label="Ended" value={new Date(session.completed_at).toLocaleString()} />
+            )}
             {session.proctor_notes && <Row label="Notes" value={session.proctor_notes} />}
           </dl>
         </div>
@@ -256,7 +285,11 @@ export default function SessionPage() {
                 disabled={updating}
                 className="inline-flex items-center gap-2 bg-brand-green-600 hover:bg-brand-green-700 disabled:bg-slate-300 text-white px-6 py-3 rounded-lg font-bold transition-colors"
               >
-                {updating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Play className="w-4 h-4" />}
+                {updating ? (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                ) : (
+                  <Play className="w-4 h-4" />
+                )}
                 Start Exam Timer
               </button>
               <button
@@ -271,11 +304,33 @@ export default function SessionPage() {
 
           {isActive && (
             <div className="space-y-4">
-              <p className="text-sm text-slate-600">Record the exam result when the test taker finishes:</p>
+              <p className="text-sm text-slate-600">
+                Record the exam result when the test taker finishes:
+              </p>
               <div className="flex flex-wrap gap-3">
-                <ResultButton label="Pass" result="pass" score onClick={completeExam} updating={updating} color="bg-brand-green-600 hover:bg-brand-green-700" />
-                <ResultButton label="Fail" result="fail" score onClick={completeExam} updating={updating} color="bg-brand-red-600 hover:bg-brand-red-700" />
-                <ResultButton label="Incomplete" result="incomplete" onClick={completeExam} updating={updating} color="bg-yellow-600 hover:bg-yellow-700" />
+                <ResultButton
+                  label="Pass"
+                  result="pass"
+                  score
+                  onClick={completeExam}
+                  updating={updating}
+                  color="bg-brand-green-600 hover:bg-brand-green-700"
+                />
+                <ResultButton
+                  label="Fail"
+                  result="fail"
+                  score
+                  onClick={completeExam}
+                  updating={updating}
+                  color="bg-brand-red-600 hover:bg-brand-red-700"
+                />
+                <ResultButton
+                  label="Incomplete"
+                  result="incomplete"
+                  onClick={completeExam}
+                  updating={updating}
+                  color="bg-yellow-600 hover:bg-yellow-700"
+                />
               </div>
               <div className="pt-3 border-t border-slate-100">
                 <button
@@ -298,13 +353,20 @@ function Row({ label, value, mono }: { label: string; value: string; mono?: bool
   return (
     <div className="flex items-start justify-between gap-4 py-1">
       <dt className="text-slate-500 flex-shrink-0">{label}</dt>
-      <dd className={`text-slate-900 font-medium text-right ${mono ? 'font-mono text-xs' : ''}`}>{value}</dd>
+      <dd className={`text-slate-900 font-medium text-right ${mono ? 'font-mono text-xs' : ''}`}>
+        {value}
+      </dd>
     </div>
   );
 }
 
 function ResultButton({
-  label, result, score, onClick, updating, color,
+  label,
+  result,
+  score,
+  onClick,
+  updating,
+  color,
 }: {
   label: string;
   result: ExamResult;
@@ -356,17 +418,25 @@ function LiveTimer({ startedAt, durationMin }: { startedAt: string; durationMin:
   const isExpired = remainingMs === 0;
 
   return (
-    <div className={`rounded-xl border p-6 mb-8 ${isExpired ? 'bg-brand-red-50 border-brand-red-200' : isLow ? 'bg-yellow-50 border-yellow-200' : 'bg-brand-blue-50 border-brand-blue-200'}`}>
+    <div
+      className={`rounded-xl border p-6 mb-8 ${isExpired ? 'bg-brand-red-50 border-brand-red-200' : isLow ? 'bg-yellow-50 border-yellow-200' : 'bg-brand-blue-50 border-brand-blue-200'}`}
+    >
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
-          <Clock className={`w-5 h-5 ${isExpired ? 'text-brand-red-600' : isLow ? 'text-yellow-600' : 'text-brand-blue-600'}`} />
+          <Clock
+            className={`w-5 h-5 ${isExpired ? 'text-brand-red-600' : isLow ? 'text-yellow-600' : 'text-brand-blue-600'}`}
+          />
           <span className="font-semibold text-slate-900">
             {isExpired ? 'Time Expired' : 'Time Remaining'}
           </span>
         </div>
-        <span className="text-sm text-slate-500">{elapsedMin} of {durationMin} min elapsed</span>
+        <span className="text-sm text-slate-500">
+          {elapsedMin} of {durationMin} min elapsed
+        </span>
       </div>
-      <div className={`text-4xl font-black font-mono ${isExpired ? 'text-brand-red-700' : isLow ? 'text-yellow-700' : 'text-brand-blue-700'}`}>
+      <div
+        className={`text-4xl font-black font-mono ${isExpired ? 'text-brand-red-700' : isLow ? 'text-yellow-700' : 'text-brand-blue-700'}`}
+      >
         {String(remainMin).padStart(2, '0')}:{String(remainSec).padStart(2, '0')}
       </div>
       <div className="mt-3 h-2 bg-white/50 rounded-full overflow-hidden">

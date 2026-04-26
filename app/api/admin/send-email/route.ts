@@ -29,15 +29,13 @@ async function _POST(req: NextRequest) {
   if (!to || !subject || !html) {
     return NextResponse.json(
       { error: 'Missing required fields: to, subject, html' },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
   const displayName = fromName ? String(fromName) : 'Elevate for Humanity';
   const fromAddress =
-    process.env.EMAIL_FROM ||
-    process.env.MAIL_FROM ||
-    'info@elevateforhumanity.org';
+    process.env.EMAIL_FROM || process.env.MAIL_FROM || 'info@elevateforhumanity.org';
   const fromField = `${displayName} <${fromAddress}>`;
 
   const result = await sendEmail({

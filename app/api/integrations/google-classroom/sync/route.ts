@@ -6,11 +6,13 @@ import { withApiAudit } from '@/lib/audit/withApiAudit';
 export const dynamic = 'force-dynamic';
 
 async function _POST(request: NextRequest) {
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
 
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -20,14 +22,12 @@ async function _POST(request: NextRequest) {
     const body = await request.json();
 
     // Update sync status
-    const { error } = await supabase
-      .from('google_classroom_sync')
-      .upsert({
-        user_id: user.id,
-        last_sync_at: new Date().toISOString(),
-        settings: body.settings || {},
-        status: 'synced',
-      });
+    const { error } = await supabase.from('google_classroom_sync').upsert({
+      user_id: user.id,
+      last_sync_at: new Date().toISOString(),
+      settings: body.settings || {},
+      status: 'synced',
+    });
 
     if (error) {
       return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
@@ -40,11 +40,12 @@ async function _POST(request: NextRequest) {
 }
 
 async function _GET(request: NextRequest) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });

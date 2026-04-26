@@ -22,7 +22,10 @@ import path from 'path';
 dotenv.config({ path: path.join(process.cwd(), '.env.local') });
 
 import { runAlignmentAudit, formatAuditReport } from '../lib/services/credential-alignment-audit';
-import { runContentAlignmentAudit, formatContentAuditReport } from '../lib/curriculum/audit-alignment';
+import {
+  runContentAlignmentAudit,
+  formatContentAuditReport,
+} from '../lib/curriculum/audit-alignment';
 import { validateBatch } from '../lib/curriculum/validator';
 
 const PROGRAM_SLUG = process.argv.includes('--program')
@@ -44,7 +47,7 @@ async function main() {
   console.log(`Program: ${PROGRAM_SLUG}`);
 
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const serviceKey  = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
   const hasDb = !!(supabaseUrl && serviceKey);
 
   if (!hasDb) {
@@ -57,71 +60,80 @@ async function main() {
 
   // ── 1. Structural alignment audit ─────────────────────────────────────────
   section('1) STRUCTURAL ALIGNMENT AUDIT');
-  if (!hasDb) { warn('Skipped — no DB credentials'); }
-  if (hasDb) try {
-    const structuralAudit = await runAlignmentAudit([PROGRAM_SLUG]);
-    console.log(formatAuditReport(structuralAudit));
-
-    const prog = structuralAudit.programs.find(p => p.programSlug === PROGRAM_SLUG);
-    if (!prog) {
-      fail(`Program "${PROGRAM_SLUG}" not found or not active`);
-    } else if (prog.isAligned) {
-      pass('Structural audit: ALIGNED');
-      score++;
-    } else {
-      fail(`Structural audit: NOT ALIGNED — ${prog.gaps.length} gap(s)`);
-      prog.gaps.forEach(g => info(`Gap: ${g}`));
-    }
-  } catch (err: any) {
-    fail(`Structural audit threw: ${err.message}`);
+  if (!hasDb) {
+    warn('Skipped — no DB credentials');
   }
+  if (hasDb)
+    try {
+      const structuralAudit = await runAlignmentAudit([PROGRAM_SLUG]);
+      console.log(formatAuditReport(structuralAudit));
+
+      const prog = structuralAudit.programs.find((p) => p.programSlug === PROGRAM_SLUG);
+      if (!prog) {
+        fail(`Program "${PROGRAM_SLUG}" not found or not active`);
+      } else if (prog.isAligned) {
+        pass('Structural audit: ALIGNED');
+        score++;
+      } else {
+        fail(`Structural audit: NOT ALIGNED — ${prog.gaps.length} gap(s)`);
+        prog.gaps.forEach((g) => info(`Gap: ${g}`));
+      }
+    } catch (err: any) {
+      fail(`Structural audit threw: ${err.message}`);
+    }
 
   // ── 2. Content alignment audit ─────────────────────────────────────────────
   section('2) CONTENT ALIGNMENT AUDIT');
-  if (!hasDb) { warn('Skipped — no DB credentials'); }
-  if (hasDb) try {
-    const contentAudit = await runContentAlignmentAudit(PROGRAM_SLUG);
-    console.log(formatContentAuditReport(contentAudit));
-
-    if (contentAudit.isAligned) {
-      pass('Content audit: ALIGNED');
-      score++;
-    } else {
-      fail(
-        `Content audit: NOT ALIGNED — ` +
-        `${contentAudit.failingLessons} failing, ` +
-        `${contentAudit.stuffedLessons} stuffed, ` +
-        `${contentAudit.missingExamProfiles.length} missing profiles`
-      );
-    }
-  } catch (err: any) {
-    fail(`Content audit threw: ${err.message}`);
+  if (!hasDb) {
+    warn('Skipped — no DB credentials');
   }
+  if (hasDb)
+    try {
+      const contentAudit = await runContentAlignmentAudit(PROGRAM_SLUG);
+      console.log(formatContentAuditReport(contentAudit));
+
+      if (contentAudit.isAligned) {
+        pass('Content audit: ALIGNED');
+        score++;
+      } else {
+        fail(
+          `Content audit: NOT ALIGNED — ` +
+            `${contentAudit.failingLessons} failing, ` +
+            `${contentAudit.stuffedLessons} stuffed, ` +
+            `${contentAudit.missingExamProfiles.length} missing profiles`,
+        );
+      }
+    } catch (err: any) {
+      fail(`Content audit threw: ${err.message}`);
+    }
 
   // ── 3. Publish gate simulation ─────────────────────────────────────────────
   section('3) PUBLISH GATE SIMULATION');
-  if (!hasDb) { warn('Skipped — no DB credentials'); }
+  if (!hasDb) {
+    warn('Skipped — no DB credentials');
+  }
   info('Simulating: auto_publish=true, program_id=<PRS program id>');
   info('The gate calls runAlignmentAudit internally — result above determines outcome.');
 
-  if (hasDb) try {
-    // Re-run structural audit to simulate gate decision
-    const gateAudit = await runAlignmentAudit([PROGRAM_SLUG]);
-    const prog = gateAudit.programs.find(p => p.programSlug === PROGRAM_SLUG);
+  if (hasDb)
+    try {
+      // Re-run structural audit to simulate gate decision
+      const gateAudit = await runAlignmentAudit([PROGRAM_SLUG]);
+      const prog = gateAudit.programs.find((p) => p.programSlug === PROGRAM_SLUG);
 
-    if (!prog) {
-      fail('Gate would return 422: program not found or inactive (fail closed)');
-    } else if (prog.isAligned) {
-      pass('Gate would ALLOW publication');
-      score++;
-    } else {
-      warn('Gate would BLOCK publication with 422');
-      info(`Gaps: ${prog.gaps.slice(0, 3).join('; ')}`);
-      info('This is correct behavior — fix gaps before publishing live.');
+      if (!prog) {
+        fail('Gate would return 422: program not found or inactive (fail closed)');
+      } else if (prog.isAligned) {
+        pass('Gate would ALLOW publication');
+        score++;
+      } else {
+        warn('Gate would BLOCK publication with 422');
+        info(`Gaps: ${prog.gaps.slice(0, 3).join('; ')}`);
+        info('This is correct behavior — fix gaps before publishing live.');
+      }
+    } catch (err: any) {
+      warn(`Gate simulation threw (would fail open in production): ${err.message}`);
     }
-  } catch (err: any) {
-    warn(`Gate simulation threw (would fail open in production): ${err.message}`);
-  }
 
   // ── 4. Lesson contract validation ─────────────────────────────────────────
   section('4) LESSON CONTRACT VALIDATION');
@@ -131,12 +143,12 @@ async function main() {
     const testLesson = {
       lesson_title: 'Introduction to Peer Recovery',
       lesson_slug: 'intro-peer-recovery',
-      script_text: 'A'.repeat(350),          // >= MIN_SCRIPT_LENGTH (300)
-      summary_text: 'B'.repeat(60),           // >= MIN_SUMMARY_LENGTH (50)
-      reflection_prompt: 'C'.repeat(25),      // >= 20 chars
+      script_text: 'A'.repeat(350), // >= MIN_SCRIPT_LENGTH (300)
+      summary_text: 'B'.repeat(60), // >= MIN_SUMMARY_LENGTH (50)
+      reflection_prompt: 'C'.repeat(25), // >= 20 chars
       competency_keys: ['recovery_support'],
       key_terms: ['peer support', 'recovery'],
-      duration_minutes: 10,                   // >= 5
+      duration_minutes: 10, // >= 5
     };
 
     const result = validateBatch([testLesson as any]);
@@ -144,7 +156,7 @@ async function main() {
       pass('Lesson contract validator: valid lesson passes');
       score++;
     } else {
-      const reasons = result.results.flatMap(r => r.errors as string[]);
+      const reasons = result.results.flatMap((r) => r.errors as string[]);
       fail(`Lesson contract validator rejected valid lesson: ${reasons.join(' | ')}`);
     }
 
@@ -182,7 +194,7 @@ async function main() {
   console.log('  5. Then run runtime-proof-prs.sh for the full DB-level proof');
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.error('Dry-run failed:', err);
   process.exit(1);
 });

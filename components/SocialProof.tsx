@@ -1,18 +1,11 @@
-"use client";
+'use client';
 
 import { createClient } from '@/lib/supabase/client';
 
 import React from 'react';
 
 import { useState, useEffect } from 'react';
-import {
-  Star,
-  Quote,
-  TrendingUp,
-  Users,
-  Award,
-  CheckCircle2,
-CheckCircle, } from 'lucide-react';
+import { Star, Quote, TrendingUp, Users, Award, CheckCircle2, CheckCircle } from 'lucide-react';
 import Image from 'next/image';
 
 interface Testimonial {
@@ -106,7 +99,12 @@ export default function SocialProof() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [dbTestimonials, setDbTestimonials] = useState<Testimonial[]>([]);
-  const [stats, setStats] = useState({ successStories: 500, avgRating: 4.9, jobPlacement: 87, completionRate: 95 });
+  const [stats, setStats] = useState({
+    successStories: 500,
+    avgRating: 4.9,
+    jobPlacement: 87,
+    completionRate: 95,
+  });
   const supabase = createClient();
 
   // Load testimonials and stats from DB
@@ -119,28 +117,37 @@ export default function SocialProof() {
         .eq('is_published', true)
         .order('created_at', { ascending: false })
         .limit(10);
-      
+
       if (testimonialData && testimonialData.length > 0) {
-        setDbTestimonials(testimonialData.map((t: any) => ({
-          ...t,
-          image: t.image_url
-        })));
+        setDbTestimonials(
+          testimonialData.map((t: any) => ({
+            ...t,
+            image: t.image_url,
+          })),
+        );
       }
 
       // Load real stats from DB
       const { data: statsData } = await supabase
         .from('platform_stats')
         .select('stat_name, stat_value')
-        .in('stat_name', ['success_stories', 'avg_rating', 'job_placement_rate', 'completion_rate']);
-      
+        .in('stat_name', [
+          'success_stories',
+          'avg_rating',
+          'job_placement_rate',
+          'completion_rate',
+        ]);
+
       if (statsData) {
         const statsMap: any = {};
-        statsData.forEach((s: any) => { statsMap[s.stat_name] = s.stat_value; });
+        statsData.forEach((s: any) => {
+          statsMap[s.stat_name] = s.stat_value;
+        });
         setStats({
           successStories: statsMap.success_stories || 500,
           avgRating: statsMap.avg_rating || 4.9,
           jobPlacement: statsMap.job_placement_rate || 87,
-          completionRate: statsMap.completion_rate || 95
+          completionRate: statsMap.completion_rate || 95,
         });
       }
     }
@@ -208,20 +215,13 @@ export default function SocialProof() {
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="text-center text-white p-8">
                   <Quote className="w-16 h-16 mx-auto mb-4 opacity-50" />
-                  <div className="text-6xl font-bold mb-2">
-                    {currentTestimonial.rating}.0
-                  </div>
+                  <div className="text-6xl font-bold mb-2">{currentTestimonial.rating}.0</div>
                   <div className="flex justify-center gap-1 mb-4">
                     {[...Array(5)].map((_, i) => (
-                      <Star
-                        key={i}
-                        className="w-6 h-6 fill-yellow-400 text-yellow-400"
-                      />
+                      <Star key={i} className="w-6 h-6 fill-yellow-400 text-yellow-400" />
                     ))}
                   </div>
-                  <div className="text-xl font-semibold">
-                    {currentTestimonial.name}
-                  </div>
+                  <div className="text-xl font-semibold">{currentTestimonial.name}</div>
                   <div className="text-teal-100">{currentTestimonial.role}</div>
                 </div>
               </div>
@@ -242,9 +242,7 @@ export default function SocialProof() {
               <div className="space-y-3 mb-8">
                 <div className="flex items-center gap-3">
                   <span className="text-slate-500 flex-shrink-0">•</span>
-                  <span className="text-black font-semibold">
-                    {currentTestimonial.outcome}
-                  </span>
+                  <span className="text-black font-semibold">{currentTestimonial.outcome}</span>
                 </div>
                 {currentTestimonial.salary && (
                   <div className="flex items-center gap-3">
@@ -293,18 +291,11 @@ export default function SocialProof() {
                     .join('')}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="font-bold text-black">
-                    {testimonial.name}
-                  </div>
-                  <div className="text-sm text-black">
-                    {testimonial.role}
-                  </div>
+                  <div className="font-bold text-black">{testimonial.name}</div>
+                  <div className="text-sm text-black">{testimonial.role}</div>
                   <div className="flex gap-0.5 mt-1">
                     {[...Array(5)].map((_, i) => (
-                      <Star
-                        key={i}
-                        className="w-4 h-4 fill-yellow-400 text-yellow-400"
-                      />
+                      <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
                     ))}
                   </div>
                 </div>
@@ -315,12 +306,8 @@ export default function SocialProof() {
               </p>
 
               <div className="pt-4 border-t border-slate-200">
-                <div className="text-xs text-black mb-1">
-                  {testimonial.program}
-                </div>
-                <div className="text-sm font-semibold text-teal-600">
-                  {testimonial.outcome}
-                </div>
+                <div className="text-xs text-black mb-1">{testimonial.program}</div>
+                <div className="text-sm font-semibold text-teal-600">{testimonial.outcome}</div>
               </div>
             </div>
           ))}
@@ -329,12 +316,8 @@ export default function SocialProof() {
         {/* Trust Badges */}
         <div className="mt-16 pt-12 border-t border-slate-200">
           <div className="text-center mb-8">
-            <h3 className="text-2xl font-bold text-black mb-2">
-              Trusted By
-            </h3>
-            <p className="text-black">
-              Our graduates work at leading companies
-            </p>
+            <h3 className="text-2xl font-bold text-black mb-2">Trusted By</h3>
+            <p className="text-black">Our graduates work at leading companies</p>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8 items-center opacity-60">

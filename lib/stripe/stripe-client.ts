@@ -78,10 +78,7 @@ export async function createSubscription(params: SubscriptionParams) {
   };
 }
 // Cancel a subscription
-export async function cancelSubscription(
-  subscriptionId: string,
-  immediately: boolean = false
-) {
+export async function cancelSubscription(subscriptionId: string, immediately: boolean = false) {
   if (!stripe) {
     throw new Error('Stripe is not configured');
   }
@@ -153,7 +150,7 @@ export async function createCoupon(params: {
 // Apply coupon to checkout session
 export async function createCheckoutSessionWithCoupon(
   params: CheckoutSessionParams,
-  couponId: string
+  couponId: string,
 ) {
   if (!stripe) {
     throw new Error('Stripe is not configured');
@@ -198,7 +195,7 @@ export async function createCheckoutSessionWithCoupon(
 export function verifyWebhookSignature(
   payload: string | Buffer,
   signature: string,
-  secret: string
+  secret: string,
 ): Stripe.Event {
   if (!stripe) {
     throw new Error('Stripe is not configured');
@@ -210,8 +207,6 @@ export function verifyWebhookSignature(
  * This stub is unused — the canonical webhook handler is in the API route.
  */
 export async function handleWebhookEvent(event: Stripe.Event) {
-  throw new Error(
-    'handleWebhookEvent is deprecated. Use /api/webhooks/stripe route instead.'
-  );
+  throw new Error('handleWebhookEvent is deprecated. Use /api/webhooks/stripe route instead.');
 }
 export { stripe };

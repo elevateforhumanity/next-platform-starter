@@ -20,8 +20,9 @@ export const dynamic = 'force-dynamic';
 export default async function MyCoursesPage() {
   const supabase = await createClient();
 
-
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/lms/courses');
 
   // Canonical: published courses only
@@ -38,8 +39,8 @@ export default async function MyCoursesPage() {
     .select('course_id, status, progress_percent')
     .eq('user_id', user.id);
 
-  const enrolledCourseIds = new Set(enrollments?.map(e => e.course_id) || []);
-  const enrollmentMap = new Map(enrollments?.map(e => [e.course_id, e]) || []);
+  const enrolledCourseIds = new Set(enrollments?.map((e) => e.course_id) || []);
+  const enrollmentMap = new Map(enrollments?.map((e) => [e.course_id, e]) || []);
 
   const displayCourses = courses || [];
 
@@ -62,9 +63,13 @@ export default async function MyCoursesPage() {
 
       <section className="bg-slate-900 py-8">
         <div className="max-w-5xl mx-auto px-8">
-          <span className="inline-block text-xs font-bold uppercase tracking-wider text-brand-blue-300 mb-2">Student Portal</span>
+          <span className="inline-block text-xs font-bold uppercase tracking-wider text-brand-blue-300 mb-2">
+            Student Portal
+          </span>
           <h1 className="text-4xl font-black text-white mb-2">My Courses</h1>
-          <p className="text-slate-300 text-base">Your enrolled training programs and available courses.</p>
+          <p className="text-slate-300 text-base">
+            Your enrolled training programs and available courses.
+          </p>
         </div>
       </section>
 

@@ -60,11 +60,7 @@ export class LocalStorage {
     await fs.mkdir(path.join(this.basePath, 'thumbnails'), { recursive: true });
   }
 
-  async saveVideo(
-    videoPath: string,
-    jobId: string,
-    metadata: VideoMetadata
-  ): Promise<string> {
+  async saveVideo(videoPath: string, jobId: string, metadata: VideoMetadata): Promise<string> {
     const fileName = `${jobId}.mp4`;
     const destination = path.join(this.basePath, 'videos', fileName);
 
@@ -104,11 +100,7 @@ export class LocalStorage {
     try {
       const videoPath = path.join(this.basePath, 'videos', `${jobId}.mp4`);
       const metadataPath = path.join(this.basePath, 'videos', `${jobId}.json`);
-      const thumbnailPath = path.join(
-        this.basePath,
-        'thumbnails',
-        `${jobId}.jpg`
-      );
+      const thumbnailPath = path.join(this.basePath, 'thumbnails', `${jobId}.jpg`);
 
       await Promise.all([
         fs.unlink(videoPath).catch(() => {}),
@@ -209,7 +201,7 @@ export interface ExportOptions {
 export async function exportVideo(
   inputPath: string,
   outputPath: string,
-  options: ExportOptions
+  options: ExportOptions,
 ): Promise<string> {
   // This would use FFmpeg to convert/export video
   // For now, just copy the file
@@ -223,7 +215,7 @@ export async function exportVideo(
 export async function generateThumbnail(
   videoPath: string,
   outputPath: string,
-  timeOffset: number = 1
+  timeOffset: number = 1,
 ): Promise<string> {
   // This would use FFmpeg to extract a frame
   // For now, return a placeholder
@@ -294,7 +286,7 @@ export async function validateVideoFile(videoPath: string): Promise<{
  */
 export async function cleanupOldVideos(
   storage: LocalStorage,
-  maxAgeHours: number = 24
+  maxAgeHours: number = 24,
 ): Promise<number> {
   try {
     const videos = await storage.listVideos();
@@ -302,9 +294,7 @@ export async function cleanupOldVideos(
     let deletedCount = 0;
 
     for (const video of videos) {
-      const ageHours =
-        (now.getTime() - new Date(video.createdAt).getTime()) /
-        (1000 * 60 * 60);
+      const ageHours = (now.getTime() - new Date(video.createdAt).getTime()) / (1000 * 60 * 60);
 
       if (ageHours > maxAgeHours) {
         await storage.deleteVideo(video.jobId);
@@ -348,14 +338,9 @@ export class CloudflareR2Storage {
     });
   }
 
-  async initialize(): Promise<void> {
-  }
+  async initialize(): Promise<void> {}
 
-  async saveVideo(
-    videoPath: string,
-    jobId: string,
-    metadata: VideoMetadata
-  ): Promise<string> {
+  async saveVideo(videoPath: string, jobId: string, metadata: VideoMetadata): Promise<string> {
     try {
       const fileName = `videos/${jobId}.mp4`;
       const metadataFileName = `videos/${jobId}.json`;
@@ -377,7 +362,7 @@ export class CloudflareR2Storage {
             resolution: metadata.resolution,
             userId: metadata.userId || '',
           },
-        })
+        }),
       );
 
       // Upload metadata
@@ -387,7 +372,7 @@ export class CloudflareR2Storage {
           Key: metadataFileName,
           Body: JSON.stringify(metadata, null, 2),
           ContentType: 'application/json',
-        })
+        }),
       );
 
       const url = this.publicUrl
@@ -409,7 +394,7 @@ export class CloudflareR2Storage {
         new HeadObjectCommand({
           Bucket: this.bucket,
           Key: fileName,
-        })
+        }),
       );
 
       // Generate presigned URL (valid for 1 hour)
@@ -435,7 +420,7 @@ export class CloudflareR2Storage {
         new GetObjectCommand({
           Bucket: this.bucket,
           Key: metadataFileName,
-        })
+        }),
       );
 
       if (!response.Body) {
@@ -461,7 +446,7 @@ export class CloudflareR2Storage {
             new DeleteObjectCommand({
               Bucket: this.bucket,
               Key: fileName,
-            })
+            }),
           )
           .catch(() => {}),
         this.s3Client
@@ -469,7 +454,7 @@ export class CloudflareR2Storage {
             new DeleteObjectCommand({
               Bucket: this.bucket,
               Key: metadataFileName,
-            })
+            }),
           )
           .catch(() => {}),
         this.s3Client
@@ -477,7 +462,7 @@ export class CloudflareR2Storage {
             new DeleteObjectCommand({
               Bucket: this.bucket,
               Key: thumbnailFileName,
-            })
+            }),
           )
           .catch(() => {}),
       ]);
@@ -495,16 +480,14 @@ export class CloudflareR2Storage {
           Bucket: this.bucket,
           Prefix: 'videos/',
           MaxKeys: 1000,
-        })
+        }),
       );
 
       if (!response.Contents) {
         return [];
       }
 
-      const metadataFiles = response.Contents.filter((obj) =>
-        obj.Key?.endsWith('.json')
-      );
+      const metadataFiles = response.Contents.filter((obj) => obj.Key?.endsWith('.json'));
 
       const videos: VideoMetadata[] = [];
 
@@ -516,7 +499,7 @@ export class CloudflareR2Storage {
             new GetObjectCommand({
               Bucket: this.bucket,
               Key: file.Key,
-            })
+            }),
           );
 
           if (response.Body) {
@@ -528,15 +511,11 @@ export class CloudflareR2Storage {
               videos.push(metadata);
             }
           }
-        } catch (error) {
-        }
+        } catch (error) {}
       }
 
       // Sort by creation date (newest first)
-      videos.sort(
-        (a, b) =>
-          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-      );
+      videos.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 
       return videos;
     } catch (error) {
@@ -552,7 +531,7 @@ export class CloudflareR2Storage {
         new GetObjectCommand({
           Bucket: this.bucket,
           Key: fileName,
-        })
+        }),
       );
 
       if (!response.Body) {
@@ -577,21 +556,16 @@ export class CloudflareR2Storage {
           Bucket: this.bucket,
           Prefix: 'videos/',
           MaxKeys: 1000,
-        })
+        }),
       );
 
       if (!response.Contents) {
         return { totalVideos: 0, totalSize: 0, availableSpace: 0 };
       }
 
-      const videoFiles = response.Contents.filter((obj) =>
-        obj.Key?.endsWith('.mp4')
-      );
+      const videoFiles = response.Contents.filter((obj) => obj.Key?.endsWith('.mp4'));
 
-      const totalSize = videoFiles.reduce(
-        (sum, file) => sum + (file.Size || 0),
-        0
-      );
+      const totalSize = videoFiles.reduce((sum, file) => sum + (file.Size || 0), 0);
 
       return {
         totalVideos: videoFiles.length,
@@ -616,10 +590,7 @@ export class CloudflareR2Storage {
   /**
    * Generate presigned URL for temporary access
    */
-  async getPresignedUrl(
-    jobId: string,
-    expiresIn: number = 3600
-  ): Promise<string | null> {
+  async getPresignedUrl(jobId: string, expiresIn: number = 3600): Promise<string | null> {
     try {
       const fileName = `videos/${jobId}.mp4`;
 
@@ -658,16 +629,11 @@ export class CloudflareStreamStorage {
     await this.localCache.initialize();
   }
 
-  async saveVideo(
-    videoPath: string,
-    jobId: string,
-    metadata: VideoMetadata
-  ): Promise<string> {
+  async saveVideo(videoPath: string, jobId: string, metadata: VideoMetadata): Promise<string> {
     try {
       if (!this.streamService) {
         throw new Error('Cloudflare Stream service not initialized');
       }
-
 
       // Upload to Cloudflare Stream
       const streamVideo = await this.streamService.uploadVideo(videoPath, {
@@ -757,10 +723,7 @@ export class CloudflareStreamStorage {
     const { videos, total } = await this.streamService.listVideos({
       limit: 1000,
     });
-    const totalSize = videos.reduce(
-      (sum: number, video: any) => sum + (video.size || 0),
-      0
-    );
+    const totalSize = videos.reduce((sum: number, video: any) => sum + (video.size || 0), 0);
 
     return {
       totalVideos: total,
@@ -798,7 +761,7 @@ export class CloudflareStreamStorage {
  * Storage factory - creates appropriate storage based on config
  */
 export function createStorage(
-  config?: StorageConfig
+  config?: StorageConfig,
 ): LocalStorage | CloudflareR2Storage | CloudflareStreamStorage {
   const storageType = config?.type || process.env.STORAGE_TYPE || 'local';
 
@@ -810,9 +773,7 @@ export function createStorage(
       process.env.CLOUDFLARE_API_TOKEN;
 
     if (!accountId || !apiToken) {
-      console.warn(
-        'Cloudflare Stream credentials not configured, falling back to local storage'
-      );
+      console.warn('Cloudflare Stream credentials not configured, falling back to local storage');
       return new LocalStorage(config?.localPath);
     }
 
@@ -825,16 +786,12 @@ export function createStorage(
   if (storageType === 'cloudflare-r2') {
     const accountId = config?.accountId || process.env.CLOUDFLARE_ACCOUNT_ID;
     const bucket = config?.bucket || process.env.CLOUDFLARE_R2_BUCKET;
-    const accessKeyId =
-      config?.accessKeyId || process.env.CLOUDFLARE_R2_ACCESS_KEY_ID;
-    const secretAccessKey =
-      config?.secretAccessKey || process.env.CLOUDFLARE_R2_SECRET_ACCESS_KEY;
+    const accessKeyId = config?.accessKeyId || process.env.CLOUDFLARE_R2_ACCESS_KEY_ID;
+    const secretAccessKey = config?.secretAccessKey || process.env.CLOUDFLARE_R2_SECRET_ACCESS_KEY;
     const publicUrl = config?.publicUrl || process.env.CLOUDFLARE_R2_PUBLIC_URL;
 
     if (!accountId || !bucket || !accessKeyId || !secretAccessKey) {
-      console.warn(
-        'Cloudflare R2 credentials not configured, falling back to local storage'
-      );
+      console.warn('Cloudflare R2 credentials not configured, falling back to local storage');
       return new LocalStorage(config?.localPath);
     }
 

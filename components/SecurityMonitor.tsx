@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -63,14 +63,12 @@ export function SecurityMonitor() {
     const detectDevTools = () => {
       const threshold = 160;
       let hasLogged = false;
-      
+
       const check = () => {
         if (hasLogged) return; // Only log once per session
-        
-        const widthThreshold =
-          window.outerWidth - window.innerWidth > threshold;
-        const heightThreshold =
-          window.outerHeight - window.innerHeight > threshold;
+
+        const widthThreshold = window.outerWidth - window.innerWidth > threshold;
+        const heightThreshold = window.outerHeight - window.innerHeight > threshold;
 
         if (widthThreshold || heightThreshold) {
           hasLogged = true;
@@ -119,7 +117,7 @@ export function SecurityMonitor() {
             });
           }
         },
-        true
+        true,
       );
     };
 
@@ -136,10 +134,7 @@ export function SecurityMonitor() {
     // 8. Detect screen recording software
     const detectScreenRecording = () => {
       if (typeof navigator === 'undefined') return;
-      if (
-        'mediaDevices' in navigator &&
-        'getDisplayMedia' in navigator.mediaDevices
-      ) {
+      if ('mediaDevices' in navigator && 'getDisplayMedia' in navigator.mediaDevices) {
         // Screen recording API is available
         logSecurityEvent('SCREEN_RECORDING_API_AVAILABLE', {});
       }
@@ -195,13 +190,13 @@ function logSecurityEvent(eventType: string, data: any) {
 
   // Create unique key for this route + event (route-level guard)
   const routeKey = `${window.location.pathname}:${eventType}`;
-  
+
   // Check if already logged for this route
   if (loggedRoutes.has(routeKey)) {
     // Already logged for this route
     return;
   }
-  
+
   // Check cooldown - only log same event once per minute
   const eventKey = `${eventType}:${window.location.pathname}`;
   const lastLogged = eventCooldowns.get(eventKey);
@@ -209,10 +204,10 @@ function logSecurityEvent(eventType: string, data: any) {
   if (lastLogged && now - lastLogged < COOLDOWN_MS) {
     return; // Skip - too soon
   }
-  
+
   // Mark as logged for this route
   loggedRoutes.add(routeKey);
-  
+
   // Update cooldown
   eventCooldowns.set(eventKey, now);
 
@@ -225,7 +220,9 @@ function logSecurityEvent(eventType: string, data: any) {
   };
 
   // Fire-and-forget via server action (bypasses Netlify edge bot protection)
-  logSecurityEventAction(event).catch(() => { /* silent fail */ });
+  logSecurityEventAction(event).catch(() => {
+    /* silent fail */
+  });
 
   // Also send to Google Analytics if available
   if (typeof window !== 'undefined' && (window as any).gtag) {

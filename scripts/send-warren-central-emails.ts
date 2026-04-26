@@ -26,12 +26,12 @@ if (!SENDGRID_API_KEY) {
 
 const LETTER_PDF = path.join(
   process.cwd(),
-  'docs/grants/employindy-2026-003-pdfs/08-letter-of-recognition-warren-central.pdf'
+  'docs/grants/employindy-2026-003-pdfs/08-letter-of-recognition-warren-central.pdf',
 );
 
 const MOU_PDF = path.join(
   process.cwd(),
-  'docs/grants/employindy-2026-003-pdfs/06-mou-warren-central.pdf'
+  'docs/grants/employindy-2026-003-pdfs/06-mou-warren-central.pdf',
 );
 
 async function sendEmail(payload: object): Promise<boolean> {
@@ -81,7 +81,9 @@ async function main() {
   const mouBase64 = loadPdfBase64(MOU_PDF);
 
   // ── Email 1: Partnership outreach to Principal Taylor + CC Nicole Simpson ──
-  process.stdout.write('  [1/2] Sending partnership outreach to Principal Taylor + Nicole Simpson ... ');
+  process.stdout.write(
+    '  [1/2] Sending partnership outreach to Principal Taylor + Nicole Simpson ... ',
+  );
 
   const outreachHtml = `
 <!DOCTYPE html><html><head><meta charset="utf-8"></head>
@@ -133,13 +135,16 @@ ${SIGNATURE}
 </body></html>`;
 
   const outreachSuccess = await sendEmail({
-    personalizations: [{
-      to: [{ email: PRINCIPAL_EMAIL, name: 'Masimba Taylor' }],
-      cc: [{ email: INTERVENTION_EMAIL, name: 'Nicole Simpson' }],
-    }],
+    personalizations: [
+      {
+        to: [{ email: PRINCIPAL_EMAIL, name: 'Masimba Taylor' }],
+        cc: [{ email: INTERVENTION_EMAIL, name: 'Nicole Simpson' }],
+      },
+    ],
     from: { email: FROM_EMAIL, name: FROM_NAME },
     reply_to: { email: REPLY_TO, name: 'Elizabeth Greene' },
-    subject: 'Partnership Opportunity — WIOA Career Coaching at Warren Central | Elevate for Humanity',
+    subject:
+      'Partnership Opportunity — WIOA Career Coaching at Warren Central | Elevate for Humanity',
     content: [{ type: 'text/html', value: outreachHtml }],
     attachments: [
       {
@@ -198,9 +203,11 @@ ${SIGNATURE}
 </body></html>`;
 
   const simpsonSuccess = await sendEmail({
-    personalizations: [{
-      to: [{ email: INTERVENTION_EMAIL, name: 'Nicole Simpson' }],
-    }],
+    personalizations: [
+      {
+        to: [{ email: INTERVENTION_EMAIL, name: 'Nicole Simpson' }],
+      },
+    ],
     from: { email: FROM_EMAIL, name: FROM_NAME },
     reply_to: { email: REPLY_TO, name: 'Elizabeth Greene' },
     subject: 'WIOA Career Coaching Partnership — Warren Central | Elevate for Humanity',

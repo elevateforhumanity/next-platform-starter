@@ -21,16 +21,15 @@ if (!SUPABASE_URL || !SUPABASE_SERVICE_KEY) {
 const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY);
 
 async function applyMigration(filename: string, sql: string) {
-
   try {
     // Execute SQL using Supabase Management API
     const response = await fetch(`${SUPABASE_URL}/rest/v1/rpc/exec`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'apikey': SUPABASE_SERVICE_KEY,
-        'Authorization': `Bearer ${SUPABASE_SERVICE_KEY}`,
-        'Prefer': 'return=minimal',
+        apikey: SUPABASE_SERVICE_KEY,
+        Authorization: `Bearer ${SUPABASE_SERVICE_KEY}`,
+        Prefer: 'return=minimal',
       },
       body: JSON.stringify({ sql }),
     });
@@ -54,13 +53,15 @@ async function applyMigration(filename: string, sql: string) {
 }
 
 async function applyMigrationDirect(filename: string, sql: string) {
-
   // For tracking tables, we can create them directly
   if (filename.includes('ensure_tracking_tables')) {
     try {
       // Check if tables exist
       const { error: empError } = await supabase.from('employment_tracking').select('id').limit(1);
-      const { error: credError } = await supabase.from('credential_verification').select('id').limit(1);
+      const { error: credError } = await supabase
+        .from('credential_verification')
+        .select('id')
+        .limit(1);
 
       if (!empError && !credError) {
         return true;
@@ -76,7 +77,6 @@ async function applyMigrationDirect(filename: string, sql: string) {
 }
 
 async function main() {
-
   const migrationsDir = path.join(process.cwd(), 'supabase/migrations');
 
   // Get new migrations (the ones we just created)
@@ -105,7 +105,6 @@ async function main() {
       failedCount++;
     }
   }
-
 
   if (failedCount === 0) {
     process.exit(0);

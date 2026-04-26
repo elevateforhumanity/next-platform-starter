@@ -1,4 +1,5 @@
 # Dual-Track Growth Playbook
+
 ## Elevate for Humanity Career and Training Institute
 
 **INTERNAL DOCUMENT — LEADERSHIP EXECUTION GUIDE**
@@ -26,6 +27,7 @@ To increase enrollment through workforce referrals and employer sponsorship simu
 **1. Designate One Workforce Liaison**
 
 One person owns relationships with:
+
 - Workforce boards
 - Career navigators
 - Case managers
@@ -35,6 +37,7 @@ This is not admissions. This is not marketing. One accountable role.
 **2. Standardize the Referral Packet (One Page)**
 
 Must include:
+
 - Program name and duration
 - Credential earned
 - Tuition amount ($5,000)
@@ -49,17 +52,20 @@ Must include:
 **3. Target Referral Hubs, Not Agencies**
 
 Build trust with frontline navigators at:
+
 - American Job Center partners
 - Local workforce boards
 - Vocational Rehabilitation offices
 - Re-entry program coordinators
 
 **Your ask is simple:**
+
 > "We can take X students per cohort. We handle intake cleanly. We report outcomes."
 
 **4. Close the Loop Visibly**
 
 Every referral gets:
+
 - Confirmation of enrollment
 - Attendance status updates
 - Completion notice
@@ -85,11 +91,13 @@ You now have the structure.
 **1. Stop Selling "Training." Start Selling Risk Reduction.**
 
 Employers do not care about curriculum. They care about:
+
 - Time-to-productivity
 - Turnover reduction
 - Predictable onboarding
 
 **Your pitch:**
+
 > "We pre-train. You reimburse after hire. You reduce churn."
 
 **2. Offer One Sponsorship Model Only (At First)**
@@ -97,6 +105,7 @@ Employers do not care about curriculum. They care about:
 Do not offer menus.
 
 Use:
+
 - Post-hire reimbursement
 - $250–$400/month
 - 12–20 months
@@ -117,6 +126,7 @@ Unlimited offers get ignored.
 **4. Formalize the Employer Agreement**
 
 Simple, clear, no legal gymnastics:
+
 - Hire requirement
 - Reimbursement schedule
 - Separation clause
@@ -132,8 +142,8 @@ Employer money moves slower—but once it moves, it's sticky. One good employer 
 
 ## How the Two Levers Reinforce Each Other
 
-| Workforce Agencies | Employers |
-|--------------------|-----------|
+| Workforce Agencies                     | Employers                                       |
+| -------------------------------------- | ----------------------------------------------- |
 | Love providers with employer pipelines | Trust providers with public funding credibility |
 
 Running both simultaneously makes you look institutional, not experimental.
@@ -153,14 +163,14 @@ Running both simultaneously makes you look institutional, not experimental.
 
 ## Immediate Next Actions (This Week)
 
-| Action | Owner | Due |
-|--------|-------|-----|
-| Finalize workforce referral one-pager | _______ | Day 3 |
-| Identify 3 workforce contacts | _______ | Day 5 |
-| Schedule workforce meetings | _______ | Day 7 |
-| Identify 5 target employers | _______ | Day 7 |
-| Send employer sponsorship pitches | _______ | Day 10 |
-| Create pipeline tracking spreadsheet | _______ | Day 3 |
+| Action                                | Owner      | Due    |
+| ------------------------------------- | ---------- | ------ |
+| Finalize workforce referral one-pager | **\_\_\_** | Day 3  |
+| Identify 3 workforce contacts         | **\_\_\_** | Day 5  |
+| Schedule workforce meetings           | **\_\_\_** | Day 7  |
+| Identify 5 target employers           | **\_\_\_** | Day 7  |
+| Send employer sponsorship pitches     | **\_\_\_** | Day 10 |
+| Create pipeline tracking spreadsheet  | **\_\_\_** | Day 3  |
 
 ---
 
@@ -169,32 +179,32 @@ Running both simultaneously makes you look institutional, not experimental.
 ### Workforce Referral Pipeline
 
 | Contact | Organization | Status | Last Contact | Next Step |
-|---------|--------------|--------|--------------|-----------|
-| | | | | |
-| | | | | |
-| | | | | |
+| ------- | ------------ | ------ | ------------ | --------- |
+|         |              |        |              |           |
+|         |              |        |              |           |
+|         |              |        |              |           |
 
 ### Employer Sponsorship Pipeline
 
 | Company | Contact | Status | Last Contact | Next Step |
-|---------|---------|--------|--------------|-----------|
-| | | | | |
-| | | | | |
-| | | | | |
-| | | | | |
-| | | | | |
+| ------- | ------- | ------ | ------------ | --------- |
+|         |         |        |              |           |
+|         |         |        |              |           |
+|         |         |        |              |           |
+|         |         |        |              |           |
+|         |         |        |              |           |
 
 ---
 
 ## Success Metrics (30-Day Check)
 
-| Metric | Target |
-|--------|--------|
-| Workforce meetings scheduled | 3+ |
-| Workforce referrals received | 5+ |
-| Employer pitches sent | 5+ |
-| Employer conversations started | 2+ |
-| Lane 3 enrollment percentage | <40% |
+| Metric                         | Target |
+| ------------------------------ | ------ |
+| Workforce meetings scheduled   | 3+     |
+| Workforce referrals received   | 5+     |
+| Employer pitches sent          | 5+     |
+| Employer conversations started | 2+     |
+| Lane 3 enrollment percentage   | <40%   |
 
 ---
 
@@ -210,4 +220,4 @@ Running both simultaneously makes you look institutional, not experimental.
 
 ---
 
-*This playbook is reviewed at 30 and 60 days. Adjustments are tactical, not structural.*
+_This playbook is reviewed at 30 and 60 days. Adjustments are tactical, not structural._

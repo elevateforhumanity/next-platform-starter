@@ -1,4 +1,5 @@
 # Emergency Health & Safety Technician
+
 ## Program Syllabus
 
 **Provider:** Elevate for Humanity  
@@ -6,7 +7,7 @@
 **Program Code:** EMERG-HEALTH  
 **Duration:** 4 Weeks (80 Hours)  
 **Delivery Method:** Hybrid (Online + Hands-On Skills)  
-**Funding:** WIOA • WRG • Apprenticeship  
+**Funding:** WIOA • WRG • Apprenticeship
 
 ---
 
@@ -31,6 +32,7 @@ DOL Federally Registered Apprenticeship! Earn OSHA 10, CPR, and Emergency Medica
 ## Course Outline
 
 ### Week 1: OSHA 10 & Workplace Safety (20 hours)
+
 - OSHA standards and regulations
 - Hazard recognition and prevention
 - Personal protective equipment (PPE)
@@ -39,6 +41,7 @@ DOL Federally Registered Apprenticeship! Earn OSHA 10, CPR, and Emergency Medica
 - Emergency action plans
 
 ### Week 2: CPR/AED & Basic Life Support (20 hours)
+
 - Adult, child, and infant CPR
 - AED operation
 - Choking relief
@@ -47,6 +50,7 @@ DOL Federally Registered Apprenticeship! Earn OSHA 10, CPR, and Emergency Medica
 - Special resuscitation situations
 
 ### Week 3: Emergency Medical Responder I (20 hours)
+
 - Patient assessment
 - Airway management
 - Bleeding control and bandaging
@@ -55,6 +59,7 @@ DOL Federally Registered Apprenticeship! Earn OSHA 10, CPR, and Emergency Medica
 - Medical emergencies (heart attack, stroke, seizures)
 
 ### Week 4: Emergency Medical Responder II (20 hours)
+
 - Trauma assessment and care
 - Environmental emergencies
 - Behavioral emergencies

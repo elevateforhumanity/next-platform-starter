@@ -16,7 +16,6 @@ export const revalidate = 3600;
 export default async function ThankyouPage() {
   const supabase = await createClient();
 
-
   // Get next steps content
   const { data: nextSteps } = await supabase
     .from('content_blocks')
@@ -43,7 +42,8 @@ export default async function ThankyouPage() {
   const defaultNextSteps = [
     {
       title: 'Check Your Email',
-      description: 'We\'ve sent a confirmation email with important information about your application.',
+      description:
+        "We've sent a confirmation email with important information about your application.",
     },
     {
       title: 'Prepare Documents',
@@ -51,7 +51,8 @@ export default async function ThankyouPage() {
     },
     {
       title: 'Schedule Orientation',
-      description: 'Our team will contact you within 1-2 business days to schedule your orientation.',
+      description:
+        'Our team will contact you within 1-2 business days to schedule your orientation.',
     },
   ];
 
@@ -72,17 +73,15 @@ export default async function ThankyouPage() {
           <div className="w-20 h-20 bg-brand-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
             <span className="text-slate-500 flex-shrink-0">•</span>
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
-            Thank You!
-          </h1>
+          <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">Thank You!</h1>
           <p className="text-xl text-slate-700 mb-8">
             Your submission has been received. We're excited to help you start your career journey!
           </p>
           <div className="bg-brand-green-50 border border-brand-green-200 rounded-xl p-6 text-left">
             <h2 className="font-semibold text-brand-green-800 mb-2">What happens next?</h2>
             <p className="text-brand-green-700">
-              A member of our enrollment team will contact you within 1-2 business days 
-              to discuss your eligibility and next steps.
+              A member of our enrollment team will contact you within 1-2 business days to discuss
+              your eligibility and next steps.
             </p>
           </div>
         </div>
@@ -111,8 +110,8 @@ export default async function ThankyouPage() {
         <div className="max-w-4xl mx-auto px-4">
           <h2 className="text-2xl font-bold text-center mb-8">Questions? Contact Us</h2>
           <div className="grid md:grid-cols-3 gap-6">
-            <a 
-              href="/support" 
+            <a
+              href="/support"
               className="flex items-center gap-4 bg-white rounded-xl p-6 hover:bg-white transition"
             >
               <Phone className="w-8 h-8 text-brand-blue-600" />
@@ -121,8 +120,8 @@ export default async function ThankyouPage() {
                 <div className="text-slate-700">(317) 314-3757</div>
               </div>
             </a>
-            <a 
-              href="/contact" 
+            <a
+              href="/contact"
               className="flex items-center gap-4 bg-white rounded-xl p-6 hover:bg-white transition"
             >
               <Mail className="w-8 h-8 text-brand-blue-600" />
@@ -131,8 +130,8 @@ export default async function ThankyouPage() {
                 <div className="text-slate-700 text-sm">Contact Us</div>
               </div>
             </a>
-            <Link 
-              href="/booking" 
+            <Link
+              href="/booking"
               className="flex items-center gap-4 bg-white rounded-xl p-6 hover:bg-white transition"
             >
               <Calendar className="w-8 h-8 text-brand-blue-600" />
@@ -176,12 +175,8 @@ export default async function ThankyouPage() {
       {/* CTA */}
       <section className="py-16">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-2xl font-bold text-slate-900 mb-4">
-            Ready to Learn More?
-          </h2>
-          <p className="text-white mb-8">
-            Browse all our programs or return to the homepage.
-          </p>
+          <h2 className="text-2xl font-bold text-slate-900 mb-4">Ready to Learn More?</h2>
+          <p className="text-white mb-8">Browse all our programs or return to the homepage.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/programs"

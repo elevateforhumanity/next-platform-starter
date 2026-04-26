@@ -1,4 +1,3 @@
-
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { logger } from '@/lib/logger';
@@ -25,13 +24,7 @@ async function _POST(req: Request) {
     }
 
     const body = await req.json();
-    const {
-      program_holder_id,
-      email_enabled,
-      sms_enabled,
-      phone_e164,
-      sms_consent,
-    } = body;
+    const { program_holder_id, email_enabled, sms_enabled, phone_e164, sms_consent } = body;
 
     // Verify user owns this program holder
     const { data: programHolder } = await supabase
@@ -55,21 +48,17 @@ async function _POST(req: Request) {
           sms_enabled: sms_enabled === true,
           phone_e164: phone_e164 || null,
           sms_consent: sms_consent === true,
-          sms_consent_at:
-            sms_consent === true ? new Date().toISOString() : null,
+          sms_consent_at: sms_consent === true ? new Date().toISOString() : null,
           updated_at: new Date().toISOString(),
         },
-        { onConflict: 'program_holder_id' }
+        { onConflict: 'program_holder_id' },
       )
       .select()
       .maybeSingle();
 
     if (error) {
       logger.error('[Notification Preferences] Update failed', error);
-      return NextResponse.json(
-        { error: 'Failed to update preferences' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to update preferences' }, { status: 500 });
     }
 
     logger.info('[Notification Preferences] Updated', {
@@ -79,12 +68,9 @@ async function _POST(req: Request) {
     });
 
     return NextResponse.json({ success: true, preferences });
-  } catch (error) { 
+  } catch (error) {
     logger.error('[Notification Preferences] Error', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/program-holder/notification-preferences', _POST);

@@ -1,22 +1,22 @@
 /**
  * ProgramAvailability Component
- * 
+ *
  * Addresses soft holds #4, #9:
  * - Shows program availability status (Open/Closed/Waitlist)
  * - Displays next start date, cohort size, enrollment deadline
  * - Labels programs based on funding cycles
- * 
+ *
  * Use on program cards and program detail pages.
  */
 
-import { Calendar, Users, Clock, XCircle, AlertCircle, CheckCircle, } from 'lucide-react';
+import { Calendar, Users, Clock, XCircle, AlertCircle, CheckCircle } from 'lucide-react';
 
-export type AvailabilityStatus = 
-  | 'open'           // Accepting applications
-  | 'waitlist'       // Full, accepting waitlist
-  | 'closed'         // Not accepting applications
+export type AvailabilityStatus =
+  | 'open' // Accepting applications
+  | 'waitlist' // Full, accepting waitlist
+  | 'closed' // Not accepting applications
   | 'funding_pending' // Waiting on funding cycle
-  | 'coming_soon';   // New program, not yet available
+  | 'coming_soon'; // New program, not yet available
 
 interface ProgramAvailabilityProps {
   status: AvailabilityStatus;
@@ -29,13 +29,16 @@ interface ProgramAvailabilityProps {
   className?: string;
 }
 
-const STATUS_CONFIG: Record<AvailabilityStatus, {
-  label: string;
-  color: string;
-  bgColor: string;
-  icon: typeof CheckCircle;
-  description: string;
-}> = {
+const STATUS_CONFIG: Record<
+  AvailabilityStatus,
+  {
+    label: string;
+    color: string;
+    bgColor: string;
+    icon: typeof CheckCircle;
+    description: string;
+  }
+> = {
   open: {
     label: 'Open',
     color: 'text-brand-green-700',
@@ -88,7 +91,9 @@ export function ProgramAvailability({
 
   if (variant === 'badge') {
     return (
-      <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${config.bgColor} ${config.color} ${className}`}>
+      <span
+        className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${config.bgColor} ${config.color} ${className}`}
+      >
         <Icon className="w-3.5 h-3.5" />
         {config.label}
       </span>
@@ -98,7 +103,9 @@ export function ProgramAvailability({
   if (variant === 'inline') {
     return (
       <div className={`flex items-center gap-4 text-sm ${className}`}>
-        <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full font-medium ${config.bgColor} ${config.color}`}>
+        <span
+          className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full font-medium ${config.bgColor} ${config.color}`}
+        >
           <Icon className="w-3.5 h-3.5" />
           {config.label}
         </span>
@@ -123,13 +130,13 @@ export function ProgramAvailability({
     <div className={`bg-white border border-slate-200 rounded-lg p-4 ${className}`}>
       {/* Status Badge */}
       <div className="flex items-center justify-between mb-3">
-        <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-sm font-medium ${config.bgColor} ${config.color}`}>
+        <span
+          className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-sm font-medium ${config.bgColor} ${config.color}`}
+        >
           <Icon className="w-4 h-4" />
           {config.label}
         </span>
-        {fundingCycle && (
-          <span className="text-xs text-slate-500">{fundingCycle}</span>
-        )}
+        {fundingCycle && <span className="text-xs text-slate-500">{fundingCycle}</span>}
       </div>
 
       {/* Description */}
@@ -157,7 +164,9 @@ export function ProgramAvailability({
           <div className="flex items-center gap-2 text-sm">
             <Users className="w-4 h-4 text-slate-400" />
             <span className="text-slate-600">Seats:</span>
-            <span className={`font-medium ${seatsAvailable <= 3 ? 'text-amber-600' : 'text-slate-900'}`}>
+            <span
+              className={`font-medium ${seatsAvailable <= 3 ? 'text-amber-600' : 'text-slate-900'}`}
+            >
               {seatsAvailable} of {totalSeats} available
               {seatsAvailable <= 3 && seatsAvailable > 0 && ' (filling fast)'}
             </span>

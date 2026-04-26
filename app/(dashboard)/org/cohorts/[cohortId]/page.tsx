@@ -15,7 +15,9 @@ export default async function OrgCohortDetailPage({ params }: Props) {
   const { cohortId } = await params;
 
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/org/cohorts');
 
   let ctx;
@@ -44,7 +46,7 @@ export default async function OrgCohortDetailPage({ params }: Props) {
   ]);
 
   const enrollmentBadge = (status: string) => {
-    if (status === 'active')    return 'bg-green-100 text-green-800';
+    if (status === 'active') return 'bg-green-100 text-green-800';
     if (status === 'completed') return 'bg-blue-100 text-blue-800';
     if (status === 'withdrawn') return 'bg-red-100 text-red-800';
     return 'bg-gray-100 text-slate-900';
@@ -54,7 +56,9 @@ export default async function OrgCohortDetailPage({ params }: Props) {
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {/* Breadcrumb */}
       <nav className="flex items-center gap-2 text-sm text-slate-700 mb-4">
-        <Link href="/org/cohorts" className="hover:underline">Cohorts</Link>
+        <Link href="/org/cohorts" className="hover:underline">
+          Cohorts
+        </Link>
         <span>/</span>
         <span className="text-slate-900 font-medium">{cohort.name}</span>
       </nav>
@@ -62,25 +66,39 @@ export default async function OrgCohortDetailPage({ params }: Props) {
       <h1 className="text-2xl font-semibold text-slate-900">{cohort.name}</h1>
 
       <div className="mt-2 flex flex-wrap gap-4 text-sm text-slate-700">
-        <span>Status: <strong className="text-slate-900">{cohort.status}</strong></span>
+        <span>
+          Status: <strong className="text-slate-900">{cohort.status}</strong>
+        </span>
         {cohort.start_date && (
-          <span>Start: <strong className="text-slate-900">{new Date(cohort.start_date).toLocaleDateString()}</strong></span>
+          <span>
+            Start:{' '}
+            <strong className="text-slate-900">
+              {new Date(cohort.start_date).toLocaleDateString()}
+            </strong>
+          </span>
         )}
         {cohort.end_date && (
-          <span>End: <strong className="text-slate-900">{new Date(cohort.end_date).toLocaleDateString()}</strong></span>
+          <span>
+            End:{' '}
+            <strong className="text-slate-900">
+              {new Date(cohort.end_date).toLocaleDateString()}
+            </strong>
+          </span>
         )}
         {cohort.delivery_mode && (
-          <span>Delivery: <strong className="text-slate-900">{cohort.delivery_mode}</strong></span>
+          <span>
+            Delivery: <strong className="text-slate-900">{cohort.delivery_mode}</strong>
+          </span>
         )}
       </div>
 
       {/* Stats */}
       <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
         {[
-          { label: 'Enrolled',      value: summary.totalLearners },
-          { label: 'Completed',     value: summary.completedLearners },
-          { label: 'Avg Progress',  value: `${summary.avgProgressPercent}%` },
-          { label: 'Certificates',  value: summary.certificatesIssued },
+          { label: 'Enrolled', value: summary.totalLearners },
+          { label: 'Completed', value: summary.completedLearners },
+          { label: 'Avg Progress', value: `${summary.avgProgressPercent}%` },
+          { label: 'Certificates', value: summary.certificatesIssued },
         ].map(({ label, value }) => (
           <div key={label} className="bg-white rounded-lg border border-gray-200 p-4 shadow-sm">
             <p className="text-xs font-medium text-slate-700 uppercase tracking-wide">{label}</p>
@@ -99,19 +117,31 @@ export default async function OrgCohortDetailPage({ params }: Props) {
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
                 <tr>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-slate-700 uppercase">Name</th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-slate-700 uppercase">Email</th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-slate-700 uppercase">Status</th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-slate-700 uppercase">Enrolled</th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-slate-700 uppercase">
+                    Name
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-slate-700 uppercase">
+                    Email
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-slate-700 uppercase">
+                    Status
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-slate-700 uppercase">
+                    Enrolled
+                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
                 {learners.map((learner) => (
                   <tr key={learner.userId} className="hover:bg-gray-50">
-                    <td className="px-4 py-3 text-sm font-medium text-slate-900">{learner.fullName ?? '—'}</td>
+                    <td className="px-4 py-3 text-sm font-medium text-slate-900">
+                      {learner.fullName ?? '—'}
+                    </td>
                     <td className="px-4 py-3 text-sm text-slate-700">{learner.email}</td>
                     <td className="px-4 py-3">
-                      <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${enrollmentBadge(learner.enrollmentStatus)}`}>
+                      <span
+                        className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${enrollmentBadge(learner.enrollmentStatus)}`}
+                      >
                         {learner.enrollmentStatus}
                       </span>
                     </td>

@@ -17,10 +17,8 @@ export default async function AdminLicensesPage() {
   await requireRole(['admin', 'super_admin', 'staff']);
   const supabase = await createClient();
 
-
   return (
     <div className="min-h-screen bg-white">
-
       {/* Hero Image */}
       {/* Breadcrumbs */}
       <div className="bg-slate-50 border-b">
@@ -33,9 +31,7 @@ export default async function AdminLicensesPage() {
         <div className="flex justify-between items-center mb-8">
           <div>
             <h1 className="text-3xl font-bold mb-2">License Management</h1>
-            <p className="text-black">
-              Manage program licenses and certifications
-            </p>
+            <p className="text-black">Manage program licenses and certifications</p>
           </div>
           <Link href="/admin/licenses/create">
             <Button>Create License</Button>
@@ -46,42 +42,46 @@ export default async function AdminLicensesPage() {
           <div className="space-y-4">
             <div className="border-b pb-4">
               <h3 className="font-semibold text-lg mb-2">Active Licenses</h3>
-              <p className="text-black text-sm">
-                View and manage all active program licenses
-              </p>
+              <p className="text-black text-sm">View and manage all active program licenses</p>
             </div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
               <div className="border rounded-lg p-4">
                 <h4 className="font-semibold mb-2">CNA License</h4>
-                <p className="text-sm text-black mb-4">
-                  Certified Nursing Assistant
-                </p>
+                <p className="text-sm text-black mb-4">Certified Nursing Assistant</p>
                 <div className="flex gap-2">
-                  <Button size="sm" variant="outline">Edit</Button>
-                  <Button size="sm" variant="outline">View</Button>
+                  <Button size="sm" variant="outline">
+                    Edit
+                  </Button>
+                  <Button size="sm" variant="outline">
+                    View
+                  </Button>
                 </div>
               </div>
 
               <div className="border rounded-lg p-4">
                 <h4 className="font-semibold mb-2">Barber License</h4>
-                <p className="text-sm text-black mb-4">
-                  Professional Barber Certification
-                </p>
+                <p className="text-sm text-black mb-4">Professional Barber Certification</p>
                 <div className="flex gap-2">
-                  <Button size="sm" variant="outline">Edit</Button>
-                  <Button size="sm" variant="outline">View</Button>
+                  <Button size="sm" variant="outline">
+                    Edit
+                  </Button>
+                  <Button size="sm" variant="outline">
+                    View
+                  </Button>
                 </div>
               </div>
 
               <div className="border rounded-lg p-4">
                 <h4 className="font-semibold mb-2">HVAC License</h4>
-                <p className="text-sm text-black mb-4">
-                  HVAC Technician Certification
-                </p>
+                <p className="text-sm text-black mb-4">HVAC Technician Certification</p>
                 <div className="flex gap-2">
-                  <Button size="sm" variant="outline">Edit</Button>
-                  <Button size="sm" variant="outline">View</Button>
+                  <Button size="sm" variant="outline">
+                    Edit
+                  </Button>
+                  <Button size="sm" variant="outline">
+                    View
+                  </Button>
                 </div>
               </div>
             </div>

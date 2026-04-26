@@ -17,7 +17,7 @@ const __dirname = dirname(__filename);
 const TARGETS = {
   team: { width: 1200, height: 800 },
   portfolio: { width: 800, height: 800 },
-  hero: { width: 1920, height: 1080 }
+  hero: { width: 1920, height: 1080 },
 };
 
 // Low-res images found
@@ -28,7 +28,7 @@ const LOW_RES_IMAGES = {
     './public/images/team-new/team-6.jpg',
     './public/images/team-new/team-8.jpg',
     './public/images/team-new/team-10.jpg',
-    './public/images/team-new/team-12.jpg'
+    './public/images/team-new/team-12.jpg',
   ],
   portfolio: [
     './public/images/split/piece-1.png',
@@ -46,11 +46,9 @@ const LOW_RES_IMAGES = {
     './public/images/split/piece-15.png',
     './public/images/split/piece-16.png',
     './public/images/split/piece-17.png',
-    './public/images/split/piece-18.png'
+    './public/images/split/piece-18.png',
   ],
-  hero: [
-    './public/images/heroes/programs/healthcare/hero-program-cna.jpg'
-  ]
+  hero: ['./public/images/heroes/programs/healthcare/hero-program-cna.jpg'],
 };
 
 function checkImageMagick() {
@@ -64,7 +62,6 @@ function checkImageMagick() {
 
 function upscaleImage(inputPath, targetWidth, targetHeight) {
   try {
-
     // Create backup
     const backupPath = inputPath.replace(/\.(jpg|png)$/, '.backup.$1');
     execSync(`cp "${inputPath}" "${backupPath}"`);
@@ -72,7 +69,7 @@ function upscaleImage(inputPath, targetWidth, targetHeight) {
     // Upscale with Lanczos filter (best quality)
     execSync(
       `convert "${inputPath}" -filter Lanczos -resize ${targetWidth}x${targetHeight}^ -gravity center -extent ${targetWidth}x${targetHeight} "${inputPath}"`,
-      { stdio: 'inherit' }
+      { stdio: 'inherit' },
     );
 
     return true;
@@ -84,7 +81,6 @@ function upscaleImage(inputPath, targetWidth, targetHeight) {
 
 function generatePlaceholder(outputPath, width, height, text) {
   try {
-
     // Create directory if needed
     const dir = dirname(outputPath);
     if (!existsSync(dir)) {
@@ -94,7 +90,7 @@ function generatePlaceholder(outputPath, width, height, text) {
     // Generate professional gradient placeholder
     execSync(
       `convert -size ${width}x${height} gradient:#1e3a8a-#3b82f6 -gravity center -pointsize 48 -fill white -annotate +0+0 "${text}" "${outputPath}"`,
-      { stdio: 'inherit' }
+      { stdio: 'inherit' },
     );
 
     return true;
@@ -107,10 +103,9 @@ function generatePlaceholder(outputPath, width, height, text) {
 function optimizeImage(inputPath) {
   try {
     // Optimize without changing dimensions
-    execSync(
-      `convert "${inputPath}" -strip -quality 85 -interlace Plane "${inputPath}"`,
-      { stdio: 'inherit' }
-    );
+    execSync(`convert "${inputPath}" -strip -quality 85 -interlace Plane "${inputPath}"`, {
+      stdio: 'inherit',
+    });
     return true;
   } catch (error) {
     console.error(`❌ Failed to optimize ${inputPath}:`, error.message);
@@ -119,7 +114,6 @@ function optimizeImage(inputPath) {
 }
 
 async function main() {
-
   // Check ImageMagick
   if (!checkImageMagick()) {
     console.error('❌ ImageMagick not found. Installing...');
@@ -174,7 +168,6 @@ async function main() {
   }
 
   // Summary
-
 }
 
 main().catch(console.error);

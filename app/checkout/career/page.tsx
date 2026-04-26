@@ -7,8 +7,6 @@ import Link from 'next/link';
 
 export const dynamic = 'force-dynamic';
 
-
-
 export default function CareerCheckout() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -38,15 +36,11 @@ export default function CareerCheckout() {
     <div className="min-h-screen bg-slate-50 py-16 px-4">
       <div className="max-w-2xl mx-auto">
         <div className="bg-white rounded-2xl shadow-lg p-8">
-          <h1 className="text-3xl font-bold text-black mb-4">
-            Career Track Access
-          </h1>
-          <p className="text-lg text-black mb-2">
-            $149/month platform access
-          </p>
+          <h1 className="text-3xl font-bold text-black mb-4">Career Track Access</h1>
+          <p className="text-lg text-black mb-2">$149/month platform access</p>
           <p className="text-black mb-8">
-            Includes full LMS access, career pathway content, business modules,
-            professional tools, and priority support.
+            Includes full LMS access, career pathway content, business modules, professional tools,
+            and priority support.
           </p>
 
           {error && (
@@ -60,9 +54,7 @@ export default function CareerCheckout() {
             disabled={loading}
             className="w-full rounded-xl bg-brand-orange-600 text-white px-6 py-4 font-bold hover:bg-brand-orange-600 transition disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {loading
-              ? 'Redirecting to secure checkout...'
-              : 'Continue to secure checkout'}
+            {loading ? 'Redirecting to secure checkout...' : 'Continue to secure checkout'}
           </button>
 
           <p className="text-sm text-slate-500 mt-4 text-center">
@@ -70,10 +62,7 @@ export default function CareerCheckout() {
           </p>
 
           <div className="mt-6 text-center">
-            <Link
-              href="/pricing"
-              className="text-black hover:text-black underline"
-            >
+            <Link href="/pricing" className="text-black hover:text-black underline">
               ← Back to pricing
             </Link>
           </div>

@@ -55,12 +55,8 @@ export default function HomeProgramsSection() {
 
               {/* Content */}
               <div className="flex flex-1 flex-col p-6">
-                <h3 className="text-lg font-semibold text-black">
-                  {program.name}
-                </h3>
-                <p className="mt-2 line-clamp-3 text-sm text-black">
-                  {program.shortDescription}
-                </p>
+                <h3 className="text-lg font-semibold text-black">{program.name}</h3>
+                <p className="mt-2 line-clamp-3 text-sm text-black">{program.shortDescription}</p>
 
                 <div className="mt-4 flex items-center justify-between text-xs text-slate-500">
                   <span>Workforce-ready training</span>

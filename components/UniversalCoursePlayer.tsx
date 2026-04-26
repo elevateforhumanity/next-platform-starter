@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -57,7 +57,8 @@ export function UniversalCoursePlayer({
       } else {
         alert('Failed to mark course as complete. Please try again.');
       }
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
       alert('Error marking course as complete. Please try again.');
     } finally {
@@ -123,7 +124,8 @@ export function UniversalCoursePlayer({
                   <div className="flex-1">
                     <h3 className="font-semibold text-black mb-1">Course Instructions</h3>
                     <p className="text-sm text-black mb-3">
-                      Complete the course in the {partnerName} system below. When finished, click "Mark as Complete" to generate your Elevate For Humanity certificate.
+                      Complete the course in the {partnerName} system below. When finished, click
+                      "Mark as Complete" to generate your Elevate For Humanity certificate.
                     </p>
                     <button
                       onClick={handleCompletion}
@@ -144,11 +146,11 @@ export function UniversalCoursePlayer({
               <div className="w-20 h-20 bg-brand-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
                 <ExternalLink className="w-10 h-10 text-brand-blue-600" />
               </div>
-              <h2 className="text-2xl font-bold text-black mb-4">
-                Continue to {partnerName}
-              </h2>
+              <h2 className="text-2xl font-bold text-black mb-4">Continue to {partnerName}</h2>
               <p className="text-black mb-8">
-                Click the button below to access your course in a new window. Complete the training, then return here to mark it as complete and receive your Elevate For Humanity certificate.
+                Click the button below to access your course in a new window. Complete the training,
+                then return here to mark it as complete and receive your Elevate For Humanity
+                certificate.
               </p>
               <div className="space-y-4">
                 <a
@@ -166,7 +168,7 @@ export function UniversalCoursePlayer({
                     disabled={loading}
                     className="px-6 py-3 bg-brand-green-600 text-white font-semibold rounded-lg hover:bg-brand-green-700 transition-colors disabled:opacity-50"
                   >
-                    {loading ? 'Processing...' : '• I\'ve Completed the Course'}
+                    {loading ? 'Processing...' : "• I've Completed the Course"}
                   </button>
                 </div>
               </div>
@@ -195,7 +197,8 @@ export function UniversalCoursePlayer({
               <div>
                 <div className="font-semibold">Course Complete!</div>
                 <div className="text-sm text-white">
-                  Your Elevate For Humanity certificate is being generated and will be emailed to you shortly
+                  Your Elevate For Humanity certificate is being generated and will be emailed to
+                  you shortly
                 </div>
               </div>
             </div>

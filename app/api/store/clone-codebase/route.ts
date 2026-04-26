@@ -17,7 +17,9 @@ async function _POST(req: NextRequest) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const { productId } = await req.json();
@@ -57,17 +59,17 @@ async function _POST(req: NextRequest) {
       repo: clonedRepo,
       url: `https://github.com/${clonedRepo}`,
     });
-  } catch (error) { 
+  } catch (error) {
     logger.error(
       'Clone codebase error:',
-      error instanceof Error ? error : new Error(String(error))
+      error instanceof Error ? error : new Error(String(error)),
     );
     return NextResponse.json(
       {
         error: 'Failed to clone repository',
         message: toErrorMessage(error),
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

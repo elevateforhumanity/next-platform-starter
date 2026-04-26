@@ -22,7 +22,7 @@ export default function DirectoryInfoClient({
 
   function handleToggle(key: string) {
     const newVal = !settings[key];
-    setSettings(prev => ({ ...prev, [key]: newVal }));
+    setSettings((prev) => ({ ...prev, [key]: newVal }));
     startTransition(async () => {
       await toggleDirectoryField(key, newVal);
       setSaved(key);
@@ -32,7 +32,7 @@ export default function DirectoryInfoClient({
 
   return (
     <div className="bg-white rounded-xl border border-slate-200 divide-y divide-slate-100">
-      {fields.map(field => (
+      {fields.map((field) => (
         <div key={field.key} className="flex items-center justify-between px-6 py-4">
           <div>
             <p className="font-medium text-slate-900">{field.label}</p>

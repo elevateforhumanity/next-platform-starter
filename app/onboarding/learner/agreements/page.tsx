@@ -36,7 +36,8 @@ const AGREEMENT = {
   title: 'Enrollment Agreement',
   version: '2025.1',
   documentUrl: '/legal/enrollment-agreement',
-  description: 'One signature covers program terms, attendance policy, student conduct, and FERPA consent.',
+  description:
+    'One signature covers program terms, attendance policy, student conduct, and FERPA consent.',
 };
 
 const AGREEMENT_POINTS = [
@@ -77,10 +78,13 @@ export default function AgreementsPage() {
   useEffect(() => {
     const supabase = createClient();
     supabase.auth.getUser().then(({ data, error }) => {
-      if (error || !data?.user) { router.push('/login?redirect=' + encodeURIComponent(window.location.pathname)); return; }
+      if (error || !data?.user) {
+        router.push('/login?redirect=' + encodeURIComponent(window.location.pathname));
+        return;
+      }
       fetch('/api/compliance/record?type=agreements')
-        .then(r => r.json())
-        .then(result => {
+        .then((r) => r.json())
+        .then((result) => {
           const types = new Set((result.data || []).map((a: any) => a.agreement_type));
           setSigned(types.has('enrollment'));
           setLoading(false);
@@ -99,9 +103,11 @@ export default function AgreementsPage() {
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* VIDEO HERO — Elevate overview, full bleed, no overlay text */}
-      <div className="relative w-full overflow-hidden" style={{ height: '60vh', minHeight: 320, maxHeight: 560 }}>
+      <div
+        className="relative w-full overflow-hidden"
+        style={{ height: '60vh', minHeight: 320, maxHeight: 560 }}
+      >
         <CanonicalVideo
           src="/videos/elevate-overview-with-narration.mp4"
           poster="/images/pages/enrollment-agreement-page-1.jpg"
@@ -111,15 +117,19 @@ export default function AgreementsPage() {
 
       {/* Back link below the video */}
       <div className="max-w-4xl mx-auto px-4 pt-6">
-        <Link href="/onboarding/learner" className="inline-flex items-center gap-1 text-brand-blue-600 hover:text-brand-blue-800 text-sm transition">
+        <Link
+          href="/onboarding/learner"
+          className="inline-flex items-center gap-1 text-brand-blue-600 hover:text-brand-blue-800 text-sm transition"
+        >
           <ArrowLeft className="w-4 h-4" /> Back to Onboarding
         </Link>
       </div>
 
       <div className="max-w-4xl mx-auto px-4 py-8">
-
         <h1 className="text-2xl font-black text-slate-900 mb-1">Sign Your Enrollment Agreement</h1>
-        <p className="text-slate-500 text-sm mb-8">One signature covers everything. Takes less than 60 seconds.</p>
+        <p className="text-slate-500 text-sm mb-8">
+          One signature covers everything. Takes less than 60 seconds.
+        </p>
 
         {/* WHAT YOU'RE AGREEING TO — picture cards */}
         <h2 className="text-lg font-bold text-slate-900 mb-4">What you&apos;re agreeing to</h2>
@@ -150,19 +160,29 @@ export default function AgreementsPage() {
         {/* REQUIRED READINGS — must acknowledge before signature form unlocks */}
         <div className="mb-8">
           <h2 className="text-lg font-bold text-slate-900 mb-1">Read before you sign</h2>
-          <p className="text-sm text-slate-500 mb-4">Open each document, then check the box to confirm you&apos;ve read it. The signature form unlocks when all three are acknowledged.</p>
+          <p className="text-sm text-slate-500 mb-4">
+            Open each document, then check the box to confirm you&apos;ve read it. The signature
+            form unlocks when all three are acknowledged.
+          </p>
           <div className="space-y-3">
             {REQUIRED_READINGS.map((doc) => {
               const checked = !!readAcks[doc.id];
               return (
-                <div key={doc.id} className={`flex items-start gap-4 rounded-xl border p-4 transition ${checked ? 'border-emerald-300 bg-emerald-50' : 'border-slate-200 bg-white'}`}>
+                <div
+                  key={doc.id}
+                  className={`flex items-start gap-4 rounded-xl border p-4 transition ${checked ? 'border-emerald-300 bg-emerald-50' : 'border-slate-200 bg-white'}`}
+                >
                   <button
                     type="button"
                     onClick={() => toggleAck(doc.id)}
                     className="mt-0.5 flex-shrink-0 text-emerald-600"
                     aria-label={checked ? `Uncheck ${doc.label}` : `Check ${doc.label}`}
                   >
-                    {checked ? <CheckSquare className="w-5 h-5" /> : <Square className="w-5 h-5 text-slate-400" />}
+                    {checked ? (
+                      <CheckSquare className="w-5 h-5" />
+                    ) : (
+                      <Square className="w-5 h-5 text-slate-400" />
+                    )}
                   </button>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
@@ -190,10 +210,16 @@ export default function AgreementsPage() {
             <h2 className="text-2xl font-black text-slate-900 mb-2">Agreement Signed</h2>
             <p className="text-slate-500 mb-6">Your enrollment agreement is on file.</p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <Link href="/onboarding/learner" className="inline-flex items-center gap-2 px-6 py-3 bg-slate-900 text-white rounded-xl font-semibold hover:bg-slate-700 transition">
+              <Link
+                href="/onboarding/learner"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-slate-900 text-white rounded-xl font-semibold hover:bg-slate-700 transition"
+              >
                 Continue Onboarding <ArrowRight className="w-4 h-4" />
               </Link>
-              <Link href="/lms/courses" className="inline-flex items-center gap-2 px-6 py-3 bg-brand-blue-600 text-white rounded-xl font-semibold hover:bg-brand-blue-700 transition">
+              <Link
+                href="/lms/courses"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-brand-blue-600 text-white rounded-xl font-semibold hover:bg-brand-blue-700 transition"
+              >
                 Go to My Courses <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
@@ -207,7 +233,13 @@ export default function AgreementsPage() {
           <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
             <div className="px-6 py-4 border-b border-slate-100 flex items-center gap-3">
               <div className="relative w-12 h-12 rounded-xl overflow-hidden flex-shrink-0">
-                <Image src="/images/pages/career-services-page-2.jpg" alt="Enrollment Agreement" fill className="object-cover"  sizes="100vw" />
+                <Image
+                  src="/images/pages/career-services-page-2.jpg"
+                  alt="Enrollment Agreement"
+                  fill
+                  className="object-cover"
+                  sizes="100vw"
+                />
               </div>
               <div>
                 <h3 className="font-bold text-slate-900">{AGREEMENT.title}</h3>

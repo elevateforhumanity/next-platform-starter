@@ -4,15 +4,18 @@ const fs = require('fs');
 const path = require('path');
 
 const API_KEY = process.env.SENDGRID_API_KEY;
-if (!API_KEY) { console.error('SENDGRID_API_KEY not set'); process.exit(1); }
+if (!API_KEY) {
+  console.error('SENDGRID_API_KEY not set');
+  process.exit(1);
+}
 
-const SIGNUP_URL   = 'https://www.elevateforhumanity.org/signup';
+const SIGNUP_URL = 'https://www.elevateforhumanity.org/signup';
 const EMPLOYER_URL = 'https://www.elevateforhumanity.org/employer-portal';
-const VERIFY_URL   = 'https://www.elevateforhumanity.org/employer/verification';
+const VERIFY_URL = 'https://www.elevateforhumanity.org/employer/verification';
 
-const logoBase64 = fs.readFileSync(
-  path.join(__dirname, '../public/images/Elevate_for_Humanity_logo_81bf0fab.jpg')
-).toString('base64');
+const logoBase64 = fs
+  .readFileSync(path.join(__dirname, '../public/images/Elevate_for_Humanity_logo_81bf0fab.jpg'))
+  .toString('base64');
 
 function buildPayload(firstName, toEmail, toName) {
   const plain = [
@@ -207,53 +210,64 @@ function buildPayload(firstName, toEmail, toName) {
 </body></html>`;
 
   return JSON.stringify({
-    personalizations: [{
-      to: [{ email: toEmail, name: toName }],
-      cc: [{ email: 'elevate4humanityedu@gmail.com', name: 'Elizabeth Greene' }],
-    }],
-    from: { email: 'noreply@elevateforhumanity.org', name: 'Elizabeth Greene | Elevate for Humanity' },
+    personalizations: [
+      {
+        to: [{ email: toEmail, name: toName }],
+        cc: [{ email: 'elevate4humanityedu@gmail.com', name: 'Elizabeth Greene' }],
+      },
+    ],
+    from: {
+      email: 'noreply@elevateforhumanity.org',
+      name: 'Elizabeth Greene | Elevate for Humanity',
+    },
     reply_to: { email: 'elevate4humanityedu@gmail.com', name: 'Elizabeth Greene' },
     subject: 'Action Required: Register Each Business as an Employer — Elevate for Humanity',
     content: [
       { type: 'text/plain', value: plain },
-      { type: 'text/html',  value: html },
+      { type: 'text/html', value: html },
     ],
-    attachments: [{
-      content: logoBase64,
-      filename: 'Elevate_for_Humanity_logo.jpg',
-      type: 'image/jpeg',
-      disposition: 'inline',
-      content_id: 'elevate_logo',
-    }],
+    attachments: [
+      {
+        content: logoBase64,
+        filename: 'Elevate_for_Humanity_logo.jpg',
+        type: 'image/jpeg',
+        disposition: 'inline',
+        content_id: 'elevate_logo',
+      },
+    ],
   });
 }
 
 function send(firstName, toEmail, toName) {
   return new Promise((resolve, reject) => {
     const payload = buildPayload(firstName, toEmail, toName);
-    const req = https.request({
-      hostname: 'api.sendgrid.com',
-      path: '/v3/mail/send',
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${API_KEY}`,
-        'Content-Type': 'application/json',
-        'Content-Length': Buffer.byteLength(payload),
+    const req = https.request(
+      {
+        hostname: 'api.sendgrid.com',
+        path: '/v3/mail/send',
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${API_KEY}`,
+          'Content-Type': 'application/json',
+          'Content-Length': Buffer.byteLength(payload),
+        },
       },
-    }, res => {
-      let d = ''; res.on('data', c => d += c);
-      res.on('end', () => {
-        if (res.statusCode === 202) {
-          console.log(`✅ Delivered to ${toEmail} (${toName})`);
-          console.log(`   CC: elevate4humanityedu@gmail.com`);
-          console.log(`   Timestamp: ${new Date().toISOString()}`);
-          resolve();
-        } else {
-          console.error(`❌ Failed for ${toEmail} (${res.statusCode}):`, d);
-          reject(new Error(d));
-        }
-      });
-    });
+      (res) => {
+        let d = '';
+        res.on('data', (c) => (d += c));
+        res.on('end', () => {
+          if (res.statusCode === 202) {
+            console.log(`✅ Delivered to ${toEmail} (${toName})`);
+            console.log(`   CC: elevate4humanityedu@gmail.com`);
+            console.log(`   Timestamp: ${new Date().toISOString()}`);
+            resolve();
+          } else {
+            console.error(`❌ Failed for ${toEmail} (${res.statusCode}):`, d);
+            reject(new Error(d));
+          }
+        });
+      },
+    );
     req.on('error', reject);
     req.write(payload);
     req.end();

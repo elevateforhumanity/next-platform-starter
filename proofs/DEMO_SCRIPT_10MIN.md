@@ -21,10 +21,12 @@ Open with this, calmly:
 **Show:** Programs → Enrollment start (any program)
 
 **Say:**
+
 > "Students don't just sign up. They enter a governed lifecycle."
 > Enrollment here is tied to funding paths, approvals, documentation, and outcomes—not just access to content.
 
 **Do NOT explain:**
+
 - No stack
 - No schema
 - No feature list
@@ -38,9 +40,11 @@ Open with this, calmly:
 **Navigate to:** `/lms/dashboard`
 
 **Say (slowly):**
+
 > "This dashboard isn't content-driven. It's state-driven."
 
 **Point out:**
+
 - Dominant action
 - Locked sections with reasons
 - Progress tied to lifecycle state
@@ -49,7 +53,7 @@ Open with this, calmly:
 
 > "The system decides what the student should do next."
 
-*Pause.*
+_Pause._
 
 **Why this matters:** This reframes the platform as an operational system, not a teaching tool.
 
@@ -60,12 +64,14 @@ Open with this, calmly:
 **Navigate to:** `/apprentice/documents`
 
 **Say:**
+
 > "Students upload required documents directly."
 > "The moment they do, staff are notified automatically."
 
 **Do NOT show the email unless asked.**
 
 **Add:**
+
 > "There are no silent queues. Uploads create operational signals."
 
 **Why this matters:** This kills the "our staff will manage it" illusion buyers often have.
@@ -77,20 +83,24 @@ Open with this, calmly:
 **Slow down here.**
 
 **Say:**
+
 > "This is where most systems break."
 
 **Then explain clearly:**
+
 - Enrollment ≠ training ≠ credential
 - Completion is a governed event
 - Certificates are issued automatically on completion
 
 **Key line (do not skip):**
+
 > "No one issues certificates by hand unless something goes wrong."
 
 **If you show or reference the completion flow:**
+
 > "Completion triggers credential issuance and delivery immediately. It's idempotent—retries don't create duplicates."
 
-*Pause again.*
+_Pause again._
 
 **Why this matters:** This addresses compliance, audits, and credibility in one stroke.
 
@@ -101,10 +111,12 @@ Open with this, calmly:
 **Show:** Admin area briefly
 
 **Say:**
+
 > "Admins approve, review, or intervene by exception."
 > "Partners are notified automatically when they need to act."
 
 **Then this line:**
+
 > "No one needs to 'check on things' for the system to move forward."
 
 **That sentence lands hard.**
@@ -123,18 +135,20 @@ Open with this, calmly:
 > "The question isn't whether this can be built."
 > "It's whether you want to own this complexity—or operate on top of it."
 
-*Stop talking.*
+_Stop talking._
 
 ---
 
 ## If They Ask Questions During the Demo
 
 **Rules:**
+
 - One answer, then stop
 - Never pivot screens reactively
 - Never open code
 
 **If they interrupt:**
+
 > "I'll answer that in one sentence, then keep moving."
 
 **That keeps control.**

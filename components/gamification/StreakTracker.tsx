@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { Flame, Calendar } from "lucide-react";
-import { useEffect, useState } from "react";
-import { createClient } from "@/lib/supabase/client";
+import { Flame, Calendar } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { createClient } from '@/lib/supabase/client';
 
 interface StreakTrackerProps {
   userId?: string;
@@ -27,7 +27,9 @@ export function StreakTracker({
   const [currentStreak, setCurrentStreak] = useState(initialStreak || 0);
   const [longestStreak, setLongestStreak] = useState(initialLongest || 0);
   const [totalActiveDays, setTotalActiveDays] = useState(initialDays || 0);
-  const [lastActivityDate, setLastActivityDate] = useState(initialLastActivity || new Date().toISOString());
+  const [lastActivityDate, setLastActivityDate] = useState(
+    initialLastActivity || new Date().toISOString(),
+  );
   const [recentDays, setRecentDays] = useState(initialRecentDays);
   const [loading, setLoading] = useState(!initialStreak && initialStreak !== 0);
 
@@ -69,9 +71,7 @@ export function StreakTracker({
   const isStreakActive = () => {
     const lastActivity = new Date(lastActivityDate);
     const today = new Date();
-    const diffDays = Math.floor(
-      (today.getTime() - lastActivity.getTime()) / (1000 * 60 * 60 * 24)
-    );
+    const diffDays = Math.floor((today.getTime() - lastActivity.getTime()) / (1000 * 60 * 60 * 24));
     return diffDays <= 1;
   };
 
@@ -80,8 +80,10 @@ export function StreakTracker({
   return (
     <div className="bg-white rounded-lg p-6">
       <div className="flex items-center gap-3 mb-6">
-        <div className={`p-3 rounded-full ${streakActive ? "bg-brand-orange-500" : "bg-slate-700"}`}>
-          <Flame className={`w-6 h-6 ${streakActive ? "text-white" : "text-slate-500"}`} />
+        <div
+          className={`p-3 rounded-full ${streakActive ? 'bg-brand-orange-500' : 'bg-slate-700'}`}
+        >
+          <Flame className={`w-6 h-6 ${streakActive ? 'text-white' : 'text-slate-500'}`} />
         </div>
         <div>
           <h3 className="text-2xl font-bold text-slate-900">{currentStreak} Days</h3>
@@ -113,13 +115,11 @@ export function StreakTracker({
               <div
                 key={index}
                 className={`flex-1 h-12 rounded-lg flex items-center justify-center ${
-                  day.active
-                    ? "bg-brand-orange-500 text-white"
-                    : "bg-slate-900 text-black"
+                  day.active ? 'bg-brand-orange-500 text-white' : 'bg-slate-900 text-black'
                 }`}
               >
                 <span className="text-xs font-semibold">
-                  {new Date(day.date).toLocaleDateString("en-US", { weekday: "short" })}
+                  {new Date(day.date).toLocaleDateString('en-US', { weekday: 'short' })}
                 </span>
               </div>
             ))}
@@ -132,9 +132,9 @@ export function StreakTracker({
         <p className="text-sm text-brand-orange-400">
           {streakActive
             ? currentStreak >= 7
-              ? "🔥 Amazing! Keep the momentum going!"
-              : "Great start! Keep learning daily to build your streak."
-            : "Your streak ended. Start learning today to begin a new one!"}
+              ? '🔥 Amazing! Keep the momentum going!'
+              : 'Great start! Keep learning daily to build your streak.'
+            : 'Your streak ended. Start learning today to begin a new one!'}
         </p>
       </div>
     </div>

@@ -27,48 +27,47 @@ export const runtime = 'nodejs';
 export const GET = withRuntime(
   { secrets: ['STRIPE_SECRET_KEY'], rateLimit: 'public' },
   async (req, ctx) => {
+    const sessionId = req.nextUrl.searchParams.get('session_id');
+    if (!sessionId) return safeError('session_id is required', 400);
 
-  const sessionId = req.nextUrl.searchParams.get('session_id');
-  if (!sessionId) return safeError('session_id is required', 400);
+    // Resolve the Stripe session to a payment_intent_id, then look up the booking.
+    // We never store the raw session_id — only the payment_intent_id — so we need
+    // to call Stripe to get the mapping.
+    const stripeKey = ctx.env.STRIPE_SECRET_KEY;
 
-  // Resolve the Stripe session to a payment_intent_id, then look up the booking.
-  // We never store the raw session_id — only the payment_intent_id — so we need
-  // to call Stripe to get the mapping.
-  const stripeKey = ctx.env.STRIPE_SECRET_KEY;
+    let paymentIntentId: string | null = null;
+    try {
+      const stripe = await getStripeServer();
+      const session = await stripe.checkout.sessions.retrieve(sessionId, {
+        expand: [],
+      });
+      paymentIntentId = (session.payment_intent as string) ?? null;
+    } catch {
+      // Session not found or Stripe error — return not-found gracefully
+      return NextResponse.json({ found: false });
+    }
 
-  let paymentIntentId: string | null = null;
-  try {
-    const stripe = await getStripeServer();
-    const session = await stripe.checkout.sessions.retrieve(sessionId, {
-      expand: [],
+    if (!paymentIntentId) {
+      return NextResponse.json({ found: false });
+    }
+
+    const db = await getAdminClient();
+    const { data: booking } = await db
+      .from('exam_bookings')
+      .select('confirmation_code, exam_name, calendly_scheduling_url')
+      .eq('payment_intent_id', paymentIntentId)
+      .maybeSingle();
+
+    if (!booking) {
+      // Webhook may not have fired yet — return not-found; client will retry
+      return NextResponse.json({ found: false });
+    }
+
+    return NextResponse.json({
+      found: true,
+      confirmationCode: booking.confirmation_code,
+      examName: booking.exam_name,
+      calendlySchedulingUrl: booking.calendly_scheduling_url ?? CALENDLY_CONFIG.testingUrl,
     });
-    paymentIntentId = session.payment_intent as string ?? null;
-  } catch {
-    // Session not found or Stripe error — return not-found gracefully
-    return NextResponse.json({ found: false });
-  }
-
-  if (!paymentIntentId) {
-    return NextResponse.json({ found: false });
-  }
-
-  const db = await getAdminClient();
-  const { data: booking } = await db
-    .from('exam_bookings')
-    .select('confirmation_code, exam_name, calendly_scheduling_url')
-    .eq('payment_intent_id', paymentIntentId)
-    .maybeSingle();
-
-  if (!booking) {
-    // Webhook may not have fired yet — return not-found; client will retry
-    return NextResponse.json({ found: false });
-  }
-
-  return NextResponse.json({
-    found:                  true,
-    confirmationCode:       booking.confirmation_code,
-    examName:               booking.exam_name,
-    calendlySchedulingUrl:  booking.calendly_scheduling_url ?? CALENDLY_CONFIG.testingUrl,
-  });
-  }
+  },
 );

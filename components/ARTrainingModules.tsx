@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -120,13 +120,15 @@ export function ARTrainingModules() {
     },
   ];
 
-  const selectedModuleData = modules.find(m => m.id === selectedModule);
+  const selectedModuleData = modules.find((m) => m.id === selectedModule);
 
   return (
     <div className="min-h-screen bg-white">
       <div className="   text-white py-12">
         <div className="max-w-7xl mx-auto px-4">
-          <h1 className="text-4xl font-bold mb-2 text-2xl md:text-3xl lg:text-4xl">AR Training Modules</h1>
+          <h1 className="text-4xl font-bold mb-2 text-2xl md:text-3xl lg:text-4xl">
+            AR Training Modules
+          </h1>
           <p className="text-white">Immersive hands-on learning with augmented reality</p>
         </div>
       </div>
@@ -138,8 +140,8 @@ export function ARTrainingModules() {
             <div>
               <h3 className="text-xl font-bold mb-2">Experience Learning in 3D</h3>
               <p className="text-black mb-3">
-                Our AR training modules use your device's camera to overlay interactive 3D models in your real environment.
-                Practice skills safely before working with actual equipment.
+                Our AR training modules use your device's camera to overlay interactive 3D models in
+                your real environment. Practice skills safely before working with actual equipment.
               </p>
               <div className="flex gap-4 text-sm">
                 <div className="flex items-center gap-2">
@@ -166,7 +168,9 @@ export function ARTrainingModules() {
               {modules.map((module) => (
                 <Card key={module.id} className="p-6 hover:shadow-lg transition-shadow">
                   <div className="text-center mb-4">
-                    <div className="text-6xl mb-3 text-4xl md:text-5xl lg:text-6xl">{module.thumbnail}</div>
+                    <div className="text-6xl mb-3 text-4xl md:text-5xl lg:text-6xl">
+                      {module.thumbnail}
+                    </div>
                     <h3 className="text-xl font-bold mb-2">{module.title}</h3>
                     <span className="px-3 py-2 bg-brand-orange-100 text-brand-orange-700 text-xs rounded">
                       {module.category}
@@ -177,11 +181,15 @@ export function ARTrainingModules() {
 
                   <div className="flex justify-between text-sm text-black mb-4">
                     <span>⏱️ {module.duration}</span>
-                    <span className={`px-2 py-0.5 rounded text-xs ${
-                      module.difficulty === 'beginner' ? 'bg-brand-blue-100 text-brand-blue-700' :
-                      module.difficulty === 'intermediate' ? 'bg-purple-100 text-purple-700' :
-                      'bg-brand-red-100 text-brand-red-700'
-                    }`}>
+                    <span
+                      className={`px-2 py-0.5 rounded text-xs ${
+                        module.difficulty === 'beginner'
+                          ? 'bg-brand-blue-100 text-brand-blue-700'
+                          : module.difficulty === 'intermediate'
+                            ? 'bg-purple-100 text-purple-700'
+                            : 'bg-brand-red-100 text-brand-red-700'
+                      }`}
+                    >
                       {module.difficulty}
                     </span>
                   </div>
@@ -198,10 +206,7 @@ export function ARTrainingModules() {
                     </ul>
                   </div>
 
-                  <Button
-                    className="w-full"
-                    onClick={() => setSelectedModule(module.id)}
-                  >
+                  <Button className="w-full" onClick={() => setSelectedModule(module.id)}>
                     Start Module
                   </Button>
                 </Card>
@@ -210,11 +215,7 @@ export function ARTrainingModules() {
           </div>
         ) : (
           <div>
-            <Button
-              variant="secondary"
-              onClick={() => setSelectedModule(null)}
-              className="mb-6"
-            >
+            <Button variant="secondary" onClick={() => setSelectedModule(null)} className="mb-6">
               ← Back to Modules
             </Button>
 
@@ -226,7 +227,9 @@ export function ARTrainingModules() {
                       <div className="text-center">
                         <div className="text-8xl mb-4">🥽</div>
                         <p className="text-2xl font-bold mb-2">AR Experience Active</p>
-                        <p className="text-purple-200">Point your camera at a flat surface to begin</p>
+                        <p className="text-purple-200">
+                          Point your camera at a flat surface to begin
+                        </p>
                       </div>
                     </div>
 
@@ -248,14 +251,16 @@ export function ARTrainingModules() {
                         'Final assessment',
                       ].map((step, idx) => (
                         <div key={idx} className="flex items-center gap-3 p-3 bg-gray-50 rounded">
-                          <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold ${
-                            idx === 0 ? 'bg-brand-orange-600 text-white' : 'bg-gray-300 text-black'
-                          }`}>
+                          <div
+                            className={`w-8 h-8 rounded-full flex items-center justify-center font-bold ${
+                              idx === 0
+                                ? 'bg-brand-orange-600 text-white'
+                                : 'bg-gray-300 text-black'
+                            }`}
+                          >
                             {idx + 1}
                           </div>
-                          <span className={idx === 0 ? 'font-semibold' : 'text-black'}>
-                            {step}
-                          </span>
+                          <span className={idx === 0 ? 'font-semibold' : 'text-black'}>{step}</span>
                         </div>
                       ))}
                     </div>
@@ -274,7 +279,9 @@ export function ARTrainingModules() {
                       </div>
                       <div className="flex justify-between">
                         <span className="text-black">Difficulty:</span>
-                        <span className="font-semibold capitalize">{selectedModuleData.difficulty}</span>
+                        <span className="font-semibold capitalize">
+                          {selectedModuleData.difficulty}
+                        </span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-black">Category:</span>
@@ -314,7 +321,8 @@ export function ARTrainingModules() {
                   <Card className="p-6   ">
                     <h3 className="font-bold mb-2">💡 Pro Tip</h3>
                     <p className="text-sm text-black">
-                      Use headphones for the best experience. Audio cues will guide you through each step.
+                      Use headphones for the best experience. Audio cues will guide you through each
+                      step.
                     </p>
                   </Card>
                 </div>

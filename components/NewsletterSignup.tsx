@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -8,9 +8,7 @@ import { Mail, AlertCircle } from 'lucide-react';
 export default function NewsletterSignup() {
   const [email, setEmail] = useState('');
   const [website, setWebsite] = useState(''); // honeypot
-  const [status, setStatus] = useState<
-    'idle' | 'loading' | 'success' | 'error'
-  >('idle');
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [message, setMessage] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -21,7 +19,10 @@ export default function NewsletterSignup() {
       setStatus('success');
       setMessage('Thanks for subscribing! Check your email to confirm.');
       setEmail('');
-      setTimeout(() => { setStatus('idle'); setMessage(''); }, 5000);
+      setTimeout(() => {
+        setStatus('idle');
+        setMessage('');
+      }, 5000);
       return;
     }
 
@@ -44,7 +45,7 @@ export default function NewsletterSignup() {
       setMessage(
         data.duplicate
           ? "You're already subscribed!"
-          : 'Thanks for subscribing! Check your email to confirm.'
+          : 'Thanks for subscribing! Check your email to confirm.',
       );
       setEmail('');
 
@@ -70,13 +71,11 @@ export default function NewsletterSignup() {
         <div className="max-w-2xl mx-auto text-center">
           <div className="flex items-center justify-center gap-2 mb-4">
             <Mail className="w-8 h-8 text-white" />
-            <h3 className="text-2xl md:text-3xl font-bold text-white">
-              Stay Connected
-            </h3>
+            <h3 className="text-2xl md:text-3xl font-bold text-white">Stay Connected</h3>
           </div>
           <p className="text-lg text-white mb-6">
-            Get updates on new programs, success stories, hiring events, and
-            opportunities delivered to your inbox.
+            Get updates on new programs, success stories, hiring events, and opportunities delivered
+            to your inbox.
           </p>
 
           <form

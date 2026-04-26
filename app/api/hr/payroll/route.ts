@@ -1,5 +1,3 @@
-
-
 import { createClient } from '@/lib/supabase/server';
 import { NextRequest, NextResponse } from 'next/server';
 import { parseBody } from '@/lib/api-helpers';
@@ -20,8 +18,7 @@ function calculateTaxes(grossPay: number) {
   const socialSecurity = grossPay * 0.062;
   const medicare = grossPay * 0.0145;
 
-  const totalTaxes =
-    federalTax + stateTax + localTax + socialSecurity + medicare;
+  const totalTaxes = federalTax + stateTax + localTax + socialSecurity + medicare;
 
   return {
     federalTax,
@@ -42,7 +39,9 @@ export async function GET(request: NextRequest) {
     const supabase = await createClient();
 
     // FERPA audit: log payroll PII access
-    const { data: { user: payrollUser } } = await supabase.auth.getUser();
+    const {
+      data: { user: payrollUser },
+    } = await supabase.auth.getUser();
     await auditPiiAccess({
       actor_user_id: payrollUser?.id,
       action: 'PII_ACCESS',
@@ -64,14 +63,12 @@ export async function GET(request: NextRequest) {
         processed_by_profile:profiles!processed_by(full_name, email),
         approved_by_profile:profiles!approved_by(full_name, email),
         pay_stubs(count)
-      `
+      `,
       )
       .order('pay_date', { ascending: false });
 
     if (year) {
-      query = query
-        .gte('pay_date', `${year}-01-01`)
-        .lte('pay_date', `${year}-12-31`);
+      query = query.gte('pay_date', `${year}-01-01`).lte('pay_date', `${year}-12-31`);
     }
 
     if (status) {
@@ -83,14 +80,14 @@ export async function GET(request: NextRequest) {
     if (error) throw error;
 
     return NextResponse.json({ payrollRuns });
-  } catch (error) { 
+  } catch (error) {
     logger.error(
       'Error fetching payroll runs:',
-      error instanceof Error ? error : new Error(String(error))
+      error instanceof Error ? error : new Error(String(error)),
     );
     return NextResponse.json(
       { error: toErrorMessage(error) || 'Failed to fetch payroll runs' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -109,10 +106,9 @@ export async function POST(request: NextRequest) {
     if (!pay_period_start || !pay_period_end || !pay_date) {
       return NextResponse.json(
         {
-          error:
-            'Missing required fields: pay_period_start, pay_period_end, pay_date',
+          error: 'Missing required fields: pay_period_start, pay_period_end, pay_date',
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -124,9 +120,7 @@ export async function POST(request: NextRequest) {
     if (userError) throw userError;
 
     // Generate run number
-    const runNumber = `PR-${new Date().getFullYear()}-${String(
-      Date.now()
-    ).slice(-6)}`;
+    const runNumber = `PR-${new Date().getFullYear()}-${String(Date.now()).slice(-6)}`;
 
     // Create payroll run (draft)
     const { data: payrollRun, error: runError } = await supabase
@@ -154,7 +148,7 @@ export async function POST(request: NextRequest) {
         hourly_rate,
         pay_type,
         pay_frequency
-      `
+      `,
       )
       .eq('employment_status', 'active');
 
@@ -178,7 +172,9 @@ export async function POST(request: NextRequest) {
 
     const { data: priorStubs } = await supabase
       .from('pay_stubs')
-      .select('employee_id, gross_pay, total_taxes, total_deductions, net_pay, payroll_runs!inner(pay_date)')
+      .select(
+        'employee_id, gross_pay, total_taxes, total_deductions, net_pay, payroll_runs!inner(pay_date)',
+      )
       .gte('payroll_runs.pay_date', ytdStart)
       .lt('payroll_runs.pay_date', ytdEnd);
 
@@ -186,12 +182,17 @@ export async function POST(request: NextRequest) {
     type YtdTotals = { gross: number; taxes: number; deductions: number; net: number };
     const ytdByEmployee = new Map<string, YtdTotals>();
     for (const stub of priorStubs ?? []) {
-      const prev = ytdByEmployee.get(stub.employee_id) ?? { gross: 0, taxes: 0, deductions: 0, net: 0 };
+      const prev = ytdByEmployee.get(stub.employee_id) ?? {
+        gross: 0,
+        taxes: 0,
+        deductions: 0,
+        net: 0,
+      };
       ytdByEmployee.set(stub.employee_id, {
-        gross:      prev.gross      + Number(stub.gross_pay       ?? 0),
-        taxes:      prev.taxes      + Number(stub.total_taxes     ?? 0),
+        gross: prev.gross + Number(stub.gross_pay ?? 0),
+        taxes: prev.taxes + Number(stub.total_taxes ?? 0),
         deductions: prev.deductions + Number(stub.total_deductions ?? 0),
-        net:        prev.net        + Number(stub.net_pay         ?? 0),
+        net: prev.net + Number(stub.net_pay ?? 0),
       });
     }
 
@@ -203,17 +204,15 @@ export async function POST(request: NextRequest) {
 
     // 3) Build pay stubs
     for (const employee of employees || []) {
-      const empTime = (timeEntries || []).filter(
-        (te) => te.employee_id === employee.id
-      );
+      const empTime = (timeEntries || []).filter((te) => te.employee_id === employee.id);
 
       const regularHours = empTime.reduce(
         (sum: number, te: any) => sum + (te.regular_hours || 0),
-        0
+        0,
       );
       const overtimeHours = empTime.reduce(
         (sum: number, te: any) => sum + (te.overtime_hours || 0),
-        0
+        0,
       );
 
       let regularPay = 0;
@@ -248,10 +247,7 @@ export async function POST(request: NextRequest) {
       const otherDeductions = 0;
 
       const totalStubDeductions =
-        taxes.totalTaxes +
-        totalBenefitsDeductions +
-        garnishments +
-        otherDeductions;
+        taxes.totalTaxes + totalBenefitsDeductions + garnishments + otherDeductions;
 
       const netPay = grossPay - totalStubDeductions;
 
@@ -290,10 +286,10 @@ export async function POST(request: NextRequest) {
         other_deductions: otherDeductions,
         total_deductions: totalStubDeductions,
         net_pay: netPay,
-        ytd_gross:      (ytdByEmployee.get(employee.id)?.gross      ?? 0) + grossPay,
-        ytd_taxes:      (ytdByEmployee.get(employee.id)?.taxes      ?? 0) + taxes.totalTaxes,
+        ytd_gross: (ytdByEmployee.get(employee.id)?.gross ?? 0) + grossPay,
+        ytd_taxes: (ytdByEmployee.get(employee.id)?.taxes ?? 0) + taxes.totalTaxes,
         ytd_deductions: (ytdByEmployee.get(employee.id)?.deductions ?? 0) + totalStubDeductions,
-        ytd_net:        (ytdByEmployee.get(employee.id)?.net        ?? 0) + netPay,
+        ytd_net: (ytdByEmployee.get(employee.id)?.net ?? 0) + netPay,
         payment_method: 'direct_deposit',
         status: 'pending',
       });
@@ -301,9 +297,7 @@ export async function POST(request: NextRequest) {
 
     // 4) Insert pay stubs
     if (payStubsToInsert.length > 0) {
-      const { error: stubError } = await supabase
-        .from('pay_stubs')
-        .insert(payStubsToInsert);
+      const { error: stubError } = await supabase.from('pay_stubs').insert(payStubsToInsert);
 
       if (stubError) throw stubError;
     }
@@ -336,16 +330,16 @@ export async function POST(request: NextRequest) {
           employeeCount: payStubsToInsert.length,
         },
       },
-      { status: 201 }
+      { status: 201 },
     );
-  } catch (error) { 
+  } catch (error) {
     logger.error(
       'Error creating payroll run:',
-      error instanceof Error ? error : new Error(String(error))
+      error instanceof Error ? error : new Error(String(error)),
     );
     return NextResponse.json(
       { error: toErrorMessage(error) || 'Failed to create payroll run' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

@@ -5,10 +5,6 @@ export const metadata: Metadata = {
   description: 'Sign the Memorandum of Understanding for the barbershop apprenticeship.',
 };
 
-export default function SignMOULayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function SignMOULayout({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }

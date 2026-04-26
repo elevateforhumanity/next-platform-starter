@@ -27,13 +27,15 @@ export default async function LiveCourseBuilderPage({
   // Load modules with lessons
   const { data: modulesRaw } = await db
     .from('course_modules')
-    .select(`
+    .select(
+      `
       id, title, slug, module_order,
       course_lessons (
         id, title, slug, lesson_order, lesson_type, content,
         video_url, duration_minutes, passing_score, status
       )
-    `)
+    `,
+    )
     .eq('course_id', courseId)
     .order('module_order', { ascending: true });
 

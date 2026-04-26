@@ -16,7 +16,7 @@ import { withApiAudit } from '@/lib/audit/withApiAudit';
 
 /**
  * POST /api/barber/checkout/full
- * 
+ *
  * Pay in full checkout for Barber Apprenticeship.
  * Full payment — no discount.
  */
@@ -75,8 +75,11 @@ async function _POST(request: NextRequest) {
     // ─────────────────────────────────────────────────────────────────────────
 
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
-    const finalSuccessUrl = success_url || `${baseUrl}/programs/barber-apprenticeship/enrollment-success?session_id={CHECKOUT_SESSION_ID}`;
-    const finalCancelUrl = cancel_url || `${baseUrl}/programs/barber-apprenticeship/apply?canceled=true`;
+    const finalSuccessUrl =
+      success_url ||
+      `${baseUrl}/programs/barber-apprenticeship/enrollment-success?session_id={CHECKOUT_SESSION_ID}`;
+    const finalCancelUrl =
+      cancel_url || `${baseUrl}/programs/barber-apprenticeship/apply?canceled=true`;
 
     const session = await stripe.checkout.sessions.create({
       customer: customerId,
@@ -144,7 +147,7 @@ async function _POST(request: NextRequest) {
     logger.error('Barber full checkout error:', error);
     return NextResponse.json(
       { error: 'Failed to create checkout session', details: 'Internal server error' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

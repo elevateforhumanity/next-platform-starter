@@ -42,25 +42,22 @@ async function _POST(request: NextRequest) {
 
     // Use admin client to revoke all sessions
     const adminSupabase = await createClient();
-    
+
     // Sign out user from all devices
     const { error: signOutError } = await adminSupabase.auth.admin.signOut(userId);
 
     if (signOutError) {
-      return NextResponse.json(
-        { error: 'Failed to revoke sessions' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to revoke sessions' }, { status: 500 });
     }
 
     return NextResponse.json({
       success: true,
       message: `All sessions revoked for user ${userId}`,
     });
-  } catch (error) { 
+  } catch (error) {
     return NextResponse.json(
       { error: 'Internal server error', details: 'Internal server error' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

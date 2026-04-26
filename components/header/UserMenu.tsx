@@ -84,10 +84,7 @@ export function UserMenu({ user, isLoading }: UserMenuProps) {
   if (!user) {
     return (
       <div className="hidden lg:flex items-center gap-4">
-        <Link
-          href="/login"
-          className="text-black hover:text-brand-blue-600 font-medium transition"
-        >
+        <Link href="/login" className="text-black hover:text-brand-blue-600 font-medium transition">
           Sign In
         </Link>
         <Link
@@ -100,10 +97,10 @@ export function UserMenu({ user, isLoading }: UserMenuProps) {
     );
   }
 
-  const displayName = user.firstName 
-    ? sanitizeText(user.firstName) 
+  const displayName = user.firstName
+    ? sanitizeText(user.firstName)
     : user.email?.split('@')[0] || 'User';
-  
+
   const initials = user.firstName?.[0] || user.email?.[0] || 'U';
 
   return (

@@ -1,4 +1,3 @@
-
 /**
  * Autopilot API - Next.js Route Handler
  * Converted from legacy autopilot system
@@ -101,14 +100,10 @@ async function _GET(request: NextRequest) {
     const auth = await requireAuth(request);
     if (auth.error) return auth.error;
 
-
     const state = loadState();
     return NextResponse.json(state);
-  } catch (error) { 
-    return NextResponse.json(
-      { error: 'Failed to load autopilot state' },
-      { status: 500 }
-    );
+  } catch (error) {
+    return NextResponse.json({ error: 'Failed to load autopilot state' }, { status: 500 });
   }
 }
 
@@ -119,8 +114,6 @@ async function _POST(request: NextRequest) {
     if (rateLimited) return rateLimited;
     const auth = await requireAuth(request);
     if (auth.error) return auth.error;
-
-
 
     const body = await parseBody<Record<string, any>>(request);
     const state = loadState();
@@ -161,11 +154,12 @@ async function _POST(request: NextRequest) {
     }
 
     return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
-  } catch (error) { 
+  } catch (error) {
     return NextResponse.json(
       { error: 'Failed to process request' },
       {
- status: 500 }
+        status: 500,
+      },
     );
   }
 }
@@ -177,7 +171,6 @@ async function _DELETE(request: NextRequest) {
     if (rateLimited) return rateLimited;
     const auth = await requireAuth(request);
     if (auth.error) return auth.error;
-
 
     const { searchParams } = new URL(request.url);
     const taskId = searchParams.get('taskId');
@@ -191,11 +184,8 @@ async function _DELETE(request: NextRequest) {
     saveState(state);
 
     return NextResponse.json({ success: true });
-  } catch (error) { 
-    return NextResponse.json(
-      { error: 'Failed to delete task' },
-      { status: 500 }
-    );
+  } catch (error) {
+    return NextResponse.json({ error: 'Failed to delete task' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/autopilot', _GET);

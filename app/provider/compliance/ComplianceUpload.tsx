@@ -51,9 +51,23 @@ export default function ComplianceUpload({ tenantId }: { tenantId: string }) {
         }),
       });
       const data = await res.json();
-      if (!res.ok) { setError(data.error ?? 'Upload failed'); return; }
+      if (!res.ok) {
+        setError(data.error ?? 'Upload failed');
+        return;
+      }
       setDone(true);
-      setTimeout(() => { setDone(false); setForm({ artifactType: '', label: '', issuer: '', issuedAt: '', expiresAt: '', externalUrl: '' }); router.refresh(); }, 1500);
+      setTimeout(() => {
+        setDone(false);
+        setForm({
+          artifactType: '',
+          label: '',
+          issuer: '',
+          issuedAt: '',
+          expiresAt: '',
+          externalUrl: '',
+        });
+        router.refresh();
+      }, 1500);
     } catch {
       setError('Network error. Please try again.');
     } finally {
@@ -73,21 +87,29 @@ export default function ComplianceUpload({ tenantId }: { tenantId: string }) {
     <form onSubmit={submit} className="space-y-4">
       <div className="grid sm:grid-cols-2 gap-4">
         <div>
-          <label className="block text-xs font-medium text-slate-600 mb-1">Document Type <span className="text-red-500">*</span></label>
+          <label className="block text-xs font-medium text-slate-600 mb-1">
+            Document Type <span className="text-red-500">*</span>
+          </label>
           <select
             value={form.artifactType}
-            onChange={e => setForm(f => ({ ...f, artifactType: e.target.value }))}
+            onChange={(e) => setForm((f) => ({ ...f, artifactType: e.target.value }))}
             className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500 bg-white"
           >
             <option value="">Select type…</option>
-            {ARTIFACT_TYPES.map(t => <option key={t.value} value={t.value}>{t.label}</option>)}
+            {ARTIFACT_TYPES.map((t) => (
+              <option key={t.value} value={t.value}>
+                {t.label}
+              </option>
+            ))}
           </select>
         </div>
         <div>
-          <label className="block text-xs font-medium text-slate-600 mb-1">Label <span className="text-red-500">*</span></label>
+          <label className="block text-xs font-medium text-slate-600 mb-1">
+            Label <span className="text-red-500">*</span>
+          </label>
           <input
             value={form.label}
-            onChange={e => setForm(f => ({ ...f, label: e.target.value }))}
+            onChange={(e) => setForm((f) => ({ ...f, label: e.target.value }))}
             placeholder="e.g. Certificate of Insurance 2025"
             className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
           />
@@ -96,7 +118,7 @@ export default function ComplianceUpload({ tenantId }: { tenantId: string }) {
           <label className="block text-xs font-medium text-slate-600 mb-1">Issuer</label>
           <input
             value={form.issuer}
-            onChange={e => setForm(f => ({ ...f, issuer: e.target.value }))}
+            onChange={(e) => setForm((f) => ({ ...f, issuer: e.target.value }))}
             placeholder="e.g. Indiana DWD"
             className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
           />
@@ -105,7 +127,7 @@ export default function ComplianceUpload({ tenantId }: { tenantId: string }) {
           <label className="block text-xs font-medium text-slate-600 mb-1">Document URL</label>
           <input
             value={form.externalUrl}
-            onChange={e => setForm(f => ({ ...f, externalUrl: e.target.value }))}
+            onChange={(e) => setForm((f) => ({ ...f, externalUrl: e.target.value }))}
             placeholder="https://…"
             type="url"
             className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
@@ -115,7 +137,7 @@ export default function ComplianceUpload({ tenantId }: { tenantId: string }) {
           <label className="block text-xs font-medium text-slate-600 mb-1">Issue Date</label>
           <input
             value={form.issuedAt}
-            onChange={e => setForm(f => ({ ...f, issuedAt: e.target.value }))}
+            onChange={(e) => setForm((f) => ({ ...f, issuedAt: e.target.value }))}
             type="date"
             className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
           />
@@ -124,7 +146,7 @@ export default function ComplianceUpload({ tenantId }: { tenantId: string }) {
           <label className="block text-xs font-medium text-slate-600 mb-1">Expiration Date</label>
           <input
             value={form.expiresAt}
-            onChange={e => setForm(f => ({ ...f, expiresAt: e.target.value }))}
+            onChange={(e) => setForm((f) => ({ ...f, expiresAt: e.target.value }))}
             type="date"
             className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
           />
@@ -142,7 +164,8 @@ export default function ComplianceUpload({ tenantId }: { tenantId: string }) {
         Submit Document
       </button>
       <p className="text-xs text-slate-500">
-        To attach a file, upload it to your organization's document storage and paste the link above.
+        To attach a file, upload it to your organization's document storage and paste the link
+        above.
       </p>
     </form>
   );

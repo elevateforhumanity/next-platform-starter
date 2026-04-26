@@ -1,37 +1,37 @@
 // components/marketing/ProgramCatalog.tsx
-import Link from "next/link";
+import Link from 'next/link';
 
-const paths = ["Healthcare", "Skilled Trades", "CDL", "Barber", "Re-entry"];
+const paths = ['Healthcare', 'Skilled Trades', 'CDL', 'Barber', 'Re-entry'];
 
 const programs = [
   {
-    name: "Medical Assistant",
+    name: 'Medical Assistant',
     summary:
-      "Clinical skills, patient interaction, and hands-on training for clinics, hospitals, and specialty practices.",
-    meta: "~5 months · Healthcare",
-    href: "/programs/medical-assistant",
-    applyHref: "/programs/medical-assistant/apply",
-    funding: "WIOA / WRG Eligible",
+      'Clinical skills, patient interaction, and hands-on training for clinics, hospitals, and specialty practices.',
+    meta: '~5 months · Healthcare',
+    href: '/programs/medical-assistant',
+    applyHref: '/programs/medical-assistant/apply',
+    funding: 'WIOA / WRG Eligible',
     price: null,
   },
   {
-    name: "Barber Apprenticeship",
+    name: 'Barber Apprenticeship',
     summary:
-      "Earn while you learn in real barbershops while stacking hours toward licensure and long-term income.",
-    meta: "Hours-based · Barber",
-    href: "/programs/barber-apprenticeship",
-    applyHref: "/programs/barber-apprenticeship/apply",
-    funding: "Fee-Based · $4,980",
-    price: "$4,980",
+      'Earn while you learn in real barbershops while stacking hours toward licensure and long-term income.',
+    meta: 'Hours-based · Barber',
+    href: '/programs/barber-apprenticeship',
+    applyHref: '/programs/barber-apprenticeship/apply',
+    funding: 'Fee-Based · $4,980',
+    price: '$4,980',
   },
   {
-    name: "HVAC Technician",
+    name: 'HVAC Technician',
     summary:
-      "Heating, cooling, and refrigeration training to step into in-demand skilled trades roles.",
-    meta: "12 weeks · Skilled Trades",
-    href: "/programs/hvac-technician",
-    applyHref: "/programs/hvac-technician/apply",
-    funding: "WIOA / WRG Eligible",
+      'Heating, cooling, and refrigeration training to step into in-demand skilled trades roles.',
+    meta: '12 weeks · Skilled Trades',
+    href: '/programs/hvac-technician',
+    applyHref: '/programs/hvac-technician/apply',
+    funding: 'WIOA / WRG Eligible',
     price: null,
   },
 ];
@@ -49,9 +49,8 @@ export function ProgramCatalog() {
               Training that leads to real employment.
             </p>
             <p className="mt-3 text-sm text-slate-600">
-              Every pathway is built with an employer or workforce need behind
-              it. No random classes — just programs that connect to real roles,
-              apprenticeships, and income.
+              Every pathway is built with an employer or workforce need behind it. No random classes
+              — just programs that connect to real roles, apprenticeships, and income.
             </p>
           </div>
           <Link
@@ -81,18 +80,12 @@ export function ProgramCatalog() {
               key={program.name}
               className="flex flex-col rounded-3xl bg-slate-900/80 p-5 ring-1 ring-slate-800"
             >
-              <h3 className="text-base font-semibold text-white">
-                {program.name}
-              </h3>
+              <h3 className="text-base font-semibold text-white">{program.name}</h3>
               <p className="mt-2 text-xs font-medium uppercase tracking-[0.2em] text-slate-400">
                 {program.meta}
               </p>
-              <p className="mt-1 text-xs font-semibold text-green-400">
-                {program.funding}
-              </p>
-              <p className="mt-3 text-sm text-slate-400 flex-1">
-                {program.summary}
-              </p>
+              <p className="mt-1 text-xs font-semibold text-green-400">{program.funding}</p>
+              <p className="mt-3 text-sm text-slate-400 flex-1">{program.summary}</p>
               <div className="mt-4 flex flex-col gap-2">
                 <Link
                   href={program.applyHref}

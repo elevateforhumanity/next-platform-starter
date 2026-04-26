@@ -6,7 +6,9 @@ export function getOpenAIClient(): OpenAI {
   const apiKey = process.env.OPENAI_API_KEY;
 
   if (!apiKey || apiKey === 'sk-Content-key' || apiKey === 'placeholder-build-key') {
-    throw new Error('OpenAI API key not configured. Please add OPENAI_API_KEY to your environment variables.');
+    throw new Error(
+      'OpenAI API key not configured. Please add OPENAI_API_KEY to your environment variables.',
+    );
   }
 
   if (!client) {

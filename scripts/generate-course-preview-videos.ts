@@ -24,25 +24,25 @@ import { HVAC_LESSON_UUID } from '../lib/courses/hvac-legacy-maps';
 
 ffmpeg.setFfmpegPath(ffmpegInstaller.path);
 
-const OUT_DIR   = path.join(process.cwd(), 'public', 'videos', 'previews');
+const OUT_DIR = path.join(process.cwd(), 'public', 'videos', 'previews');
 const AUDIO_DIR = path.join(process.cwd(), 'public', 'generated', 'lessons');
-const IMG_DIR   = path.join(process.cwd(), 'public', 'images');
+const IMG_DIR = path.join(process.cwd(), 'public', 'images');
 
 // Brand colors
-const BLUE   = '#2563eb';
-const RED    = '#dc2626';
+const BLUE = '#2563eb';
+const RED = '#dc2626';
 const ORANGE = '#f97316';
-const WHITE  = '#ffffff';
+const WHITE = '#ffffff';
 
 interface CoursePreview {
   id: string;
   title: string;
   tagline: string;
   salary: string;
-  photo: string;         // relative to public/
+  photo: string; // relative to public/
   accentColor: string;
-  lessonDefId?: string;  // first HVAC lesson to pull audio from
-  audioFile?: string;    // explicit audio path relative to public/
+  lessonDefId?: string; // first HVAC lesson to pull audio from
+  audioFile?: string; // explicit audio path relative to public/
 }
 
 const COURSES: CoursePreview[] = [
@@ -131,7 +131,8 @@ const COURSES: CoursePreview[] = [
 
 /** Render a 1280×720 branded frame as PNG buffer */
 async function renderFrame(course: CoursePreview): Promise<Buffer> {
-  const W = 1280, H = 720;
+  const W = 1280,
+    H = 720;
 
   // Load and resize the course photo
   const photoPath = path.join(process.cwd(), 'public', course.photo);
@@ -145,7 +146,9 @@ async function renderFrame(course: CoursePreview): Promise<Buffer> {
     // Fallback: solid color if photo missing
     photoBuf = await sharp({
       create: { width: W, height: H, channels: 3, background: { r: 30, g: 58, b: 138 } },
-    }).jpeg().toBuffer();
+    })
+      .jpeg()
+      .toBuffer();
   }
 
   // Draw overlay + text on canvas
@@ -207,7 +210,11 @@ async function renderFrame(course: CoursePreview): Promise<Buffer> {
 
   // Salary pill
   ctx.fillStyle = course.accentColor;
-  const pillX = 48, pillY = H - 80, pillW = 380, pillH = 48, pillR = 24;
+  const pillX = 48,
+    pillY = H - 80,
+    pillW = 380,
+    pillH = 48,
+    pillR = 24;
   ctx.beginPath();
   ctx.moveTo(pillX + pillR, pillY);
   ctx.lineTo(pillX + pillW - pillR, pillY);
@@ -278,7 +285,10 @@ async function makeVideo(framePng: string, audioMp3: string, outMp4: string): Pr
   });
 }
 
-async function processOne(course: CoursePreview, tmpDir: string): Promise<'done' | 'skipped' | 'failed'> {
+async function processOne(
+  course: CoursePreview,
+  tmpDir: string,
+): Promise<'done' | 'skipped' | 'failed'> {
   const outPath = path.join(OUT_DIR, `course-${course.id}.mp4`);
   if (fs.existsSync(outPath)) {
     console.log(`  skip ${course.id} (already exists)`);
@@ -328,14 +338,18 @@ async function main() {
   fs.mkdirSync(OUT_DIR, { recursive: true });
   const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'elevate-previews-'));
 
-  const pending = COURSES.filter(c => !fs.existsSync(path.join(OUT_DIR, `course-${c.id}.mp4`)));
-  console.log(`Generating ${pending.length} course preview videos (${COURSES.length - pending.length} already done)...\n`);
+  const pending = COURSES.filter((c) => !fs.existsSync(path.join(OUT_DIR, `course-${c.id}.mp4`)));
+  console.log(
+    `Generating ${pending.length} course preview videos (${COURSES.length - pending.length} already done)...\n`,
+  );
 
-  let done = 0, failed = 0, skipped = 0;
+  let done = 0,
+    failed = 0,
+    skipped = 0;
   for (const course of COURSES) {
     const r = await processOne(course, tmpDir);
-    if (r === 'done')    done++;
-    if (r === 'failed')  failed++;
+    if (r === 'done') done++;
+    if (r === 'failed') failed++;
     if (r === 'skipped') skipped++;
   }
 
@@ -346,4 +360,7 @@ async function main() {
   if (failed > 0) process.exit(1);
 }
 
-main().catch(e => { console.error('Fatal:', e.message); process.exit(1); });
+main().catch((e) => {
+  console.error('Fatal:', e.message);
+  process.exit(1);
+});

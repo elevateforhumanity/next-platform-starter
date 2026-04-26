@@ -66,14 +66,15 @@ async function sendTrialWelcomeEmail(
   orgName: string,
   subdomain: string,
   dashboardUrl: string,
-  correlationId: string
+  correlationId: string,
 ) {
   const sendgridKey = process.env.SENDGRID_API_KEY;
   if (!sendgridKey) {
-    logger.warn(`[trial] ${correlationId} — SENDGRID_API_KEY not configured, skipping welcome email`);
+    logger.warn(
+      `[trial] ${correlationId} — SENDGRID_API_KEY not configured, skipping welcome email`,
+    );
     return;
   }
-
 
   await resend.emails.send({
     from: 'Elevate LMS <noreply@elevateforhumanity.org>',
@@ -109,8 +110,8 @@ async function sendTrialWelcomeEmail(
  */
 async function _POST(request: NextRequest) {
   await hydrateProcessEnv();
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
 
   // Correlation ID for tracing failures across client ↔ server
   const correlationId = `trial_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`;
@@ -123,16 +124,22 @@ async function _POST(request: NextRequest) {
     if (!orgName || !adminName || !adminEmail) {
       return NextResponse.json(
         { error: 'orgName, adminName, and adminEmail are required', correlationId },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     if (typeof orgName !== 'string' || orgName.trim().length < 2 || orgName.trim().length > 100) {
-      return NextResponse.json({ error: 'orgName must be 2-100 characters', correlationId }, { status: 400 });
+      return NextResponse.json(
+        { error: 'orgName must be 2-100 characters', correlationId },
+        { status: 400 },
+      );
     }
 
     if (typeof adminName !== 'string' || adminName.trim().length < 2) {
-      return NextResponse.json({ error: 'adminName must be at least 2 characters', correlationId }, { status: 400 });
+      return NextResponse.json(
+        { error: 'adminName must be at least 2 characters', correlationId },
+        { status: 400 },
+      );
     }
 
     const email = adminEmail.trim().toLowerCase();
@@ -144,7 +151,7 @@ async function _POST(request: NextRequest) {
     if (!(await checkTrialRateLimit(email))) {
       return NextResponse.json(
         { error: 'Too many trial requests. Please try again later.', correlationId },
-        { status: 429 }
+        { status: 429 },
       );
     }
 
@@ -168,7 +175,7 @@ async function _POST(request: NextRequest) {
           tenantUrl: `https://${existingOrg.slug}.elevatelms.com/admin`,
           subdomain: existingOrg.slug,
         },
-        { status: 409 }
+        { status: 409 },
       );
     }
 
@@ -185,7 +192,18 @@ async function _POST(request: NextRequest) {
     }
 
     // Reserved subdomains
-    const reserved = ['www', 'app', 'api', 'admin', 'dashboard', 'mail', 'support', 'help', 'docs', 'demo'];
+    const reserved = [
+      'www',
+      'app',
+      'api',
+      'admin',
+      'dashboard',
+      'mail',
+      'support',
+      'help',
+      'docs',
+      'demo',
+    ];
     if (reserved.includes(subdomain)) {
       subdomain = `${subdomain}-org`;
     }
@@ -207,7 +225,10 @@ async function _POST(request: NextRequest) {
 
     if (orgError) {
       logger.error(`[trial] ${correlationId} — Org creation error:`, orgError);
-      return NextResponse.json({ error: 'Failed to create organization', correlationId }, { status: 500 });
+      return NextResponse.json(
+        { error: 'Failed to create organization', correlationId },
+        { status: 500 },
+      );
     }
 
     // Create trial license (managed_licenses table, separate from white-label licenses)
@@ -232,22 +253,28 @@ async function _POST(request: NextRequest) {
       logger.error(`[trial] ${correlationId} — License creation error:`, licenseError);
       // Rollback org
       await supabase.from('organizations').delete().eq('id', org.id);
-      return NextResponse.json({ error: 'Failed to create trial license', correlationId }, { status: 500 });
+      return NextResponse.json(
+        { error: 'Failed to create trial license', correlationId },
+        { status: 500 },
+      );
     }
 
     // Log provisioning event
-    await supabase.from('license_events').insert({
-      license_id: license.id,
-      organization_id: org.id,
-      event_type: 'trial_self_service_start',
-      event_data: {
-        correlation_id: correlationId,
-        plan_id: 'managed-trial',
-        subdomain,
-        admin_email: email,
-        source: 'public_trial_form',
-      },
-    }).catch(() => {}); // Non-critical
+    await supabase
+      .from('license_events')
+      .insert({
+        license_id: license.id,
+        organization_id: org.id,
+        event_type: 'trial_self_service_start',
+        event_data: {
+          correlation_id: correlationId,
+          plan_id: 'managed-trial',
+          subdomain,
+          admin_email: email,
+          source: 'public_trial_form',
+        },
+      })
+      .catch(() => {}); // Non-critical
 
     // Send welcome email
     const dashboardUrl = `https://${subdomain}.elevatelms.com/admin`;

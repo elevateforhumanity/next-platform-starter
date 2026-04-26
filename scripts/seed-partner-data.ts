@@ -19,7 +19,7 @@ const APPLY = process.argv.includes('--apply');
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!,
-  { auth: { persistSession: false } }
+  { auth: { persistSession: false } },
 );
 
 async function main() {
@@ -33,14 +33,14 @@ async function main() {
     console.log(`Courses upserted:   ${result.coursesUpserted}`);
     if (result.errors.length > 0) {
       console.error(`\nErrors (${result.errors.length}):`);
-      result.errors.forEach(e => console.error('  ' + e));
+      result.errors.forEach((e) => console.error('  ' + e));
       process.exit(1);
     }
     console.log('\nDone.');
   }
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.error('\nFatal:', err.message);
   process.exit(1);
 });

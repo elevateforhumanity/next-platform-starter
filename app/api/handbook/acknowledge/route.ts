@@ -10,15 +10,17 @@ async function _POST(request: NextRequest) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    
-    const { data: { user } } = await supabase.auth.getUser();
-    
+
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
     if (!user) {
       return NextResponse.redirect(new URL('/login', request.url));
     }
 
     const formData = await request.formData();
-    const type = formData.get('type') as string || 'student';
+    const type = (formData.get('type') as string) || 'student';
     const confirm = formData.get('confirm');
 
     if (!confirm) {
@@ -26,15 +28,16 @@ async function _POST(request: NextRequest) {
     }
 
     // Record the acknowledgment
-    const { error } = await supabase
-      .from('handbook_acknowledgments')
-      .upsert({
+    const { error } = await supabase.from('handbook_acknowledgments').upsert(
+      {
         user_id: user.id,
         handbook_type: type,
         acknowledged_at: new Date().toISOString(),
-      }, {
+      },
+      {
         onConflict: 'user_id,handbook_type',
-      });
+      },
+    );
 
     if (error) {
       logger.error('Error recording acknowledgment:', error);

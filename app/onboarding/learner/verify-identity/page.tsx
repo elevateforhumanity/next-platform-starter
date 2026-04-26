@@ -16,7 +16,9 @@ export const dynamic = 'force-dynamic';
 
 export default async function VerifyIdentityPage() {
   const sessionClient = await createClient();
-  const { data: { user } } = await sessionClient.auth.getUser();
+  const {
+    data: { user },
+  } = await sessionClient.auth.getUser();
   if (!user) redirect('/login?redirect=/onboarding/learner/verify-identity');
 
   const supabase = await getAdminClient();
@@ -38,30 +40,40 @@ export default async function VerifyIdentityPage() {
     <div className="min-h-screen bg-white">
       <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[
-            { label: 'Onboarding', href: '/onboarding/learner' },
-            { label: 'Verify Identity' },
-          ]} />
+          <Breadcrumbs
+            items={[
+              { label: 'Onboarding', href: '/onboarding/learner' },
+              { label: 'Verify Identity' },
+            ]}
+          />
         </div>
       </div>
 
       <div className="max-w-3xl mx-auto px-4 py-8">
-        <Link href="/onboarding/learner" className="text-sm text-brand-blue-600 flex items-center gap-1 mb-6">
+        <Link
+          href="/onboarding/learner"
+          className="text-sm text-brand-blue-600 flex items-center gap-1 mb-6"
+        >
           <ArrowLeft className="w-4 h-4" /> Back to Onboarding
         </Link>
 
         <h1 className="text-2xl font-bold text-slate-900 mb-2">Verify Your Identity</h1>
         <p className="text-slate-700 mb-6">
-          Federal and state workforce regulations require identity verification for all enrolled students.
-          Upload a clear photo of your government-issued ID (front and back) and a selfie.
+          Federal and state workforce regulations require identity verification for all enrolled
+          students. Upload a clear photo of your government-issued ID (front and back) and a selfie.
         </p>
 
         {isVerified ? (
           <div className="bg-brand-green-50 border border-brand-green-200 rounded-xl p-6 text-center">
             <CheckCircle2 className="w-12 h-12 text-brand-green-600 mx-auto mb-3" />
             <h2 className="text-xl font-bold text-brand-green-900 mb-2">Identity Verified</h2>
-            <p className="text-brand-green-700 mb-4">Your identity has been verified. You can proceed to the next onboarding step.</p>
-            <Link href="/onboarding/learner" className="inline-flex items-center gap-2 px-5 py-2.5 bg-brand-green-600 text-white rounded-lg font-medium hover:bg-brand-green-700">
+            <p className="text-brand-green-700 mb-4">
+              Your identity has been verified. You can proceed to the next onboarding step.
+            </p>
+            <Link
+              href="/onboarding/learner"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-brand-green-600 text-white rounded-lg font-medium hover:bg-brand-green-700"
+            >
               Continue Onboarding <ArrowLeft className="w-4 h-4 rotate-180" />
             </Link>
           </div>
@@ -72,10 +84,13 @@ export default async function VerifyIdentityPage() {
             </div>
             <h2 className="text-xl font-bold text-amber-900 mb-2">Verification Pending</h2>
             <p className="text-amber-700 mb-4">
-              Your identity documents have been submitted and are under review. This typically takes 1–2 business days.
-              You can continue with other onboarding steps while you wait.
+              Your identity documents have been submitted and are under review. This typically takes
+              1–2 business days. You can continue with other onboarding steps while you wait.
             </p>
-            <Link href="/onboarding/learner" className="inline-flex items-center gap-2 px-5 py-2.5 bg-brand-blue-600 text-white rounded-lg font-medium hover:bg-brand-blue-700">
+            <Link
+              href="/onboarding/learner"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-brand-blue-600 text-white rounded-lg font-medium hover:bg-brand-blue-700"
+            >
               Continue Onboarding <ArrowLeft className="w-4 h-4 rotate-180" />
             </Link>
           </div>

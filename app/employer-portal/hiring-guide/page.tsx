@@ -1,9 +1,18 @@
-
 import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Image from 'next/image';
 import Link from 'next/link';
-import { BookOpen, Circle, ArrowRight, FileText, Users, DollarSign, Clock, Award, Download } from 'lucide-react';
+import {
+  BookOpen,
+  Circle,
+  ArrowRight,
+  FileText,
+  Users,
+  DollarSign,
+  Clock,
+  Award,
+  Download,
+} from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Hiring Guide | Employer Portal',
@@ -15,42 +24,56 @@ const steps = [
   {
     number: 1,
     title: 'Post Your Job',
-    description: 'Create a job listing with requirements, pay rate, and benefits. Our team reviews and optimizes for WOTC-eligible candidates.',
+    description:
+      'Create a job listing with requirements, pay rate, and benefits. Our team reviews and optimizes for WOTC-eligible candidates.',
     image: '/images/pages/apply-employer-hero.jpg',
-    tips: ['Include clear job requirements', 'Specify training provided', 'Highlight growth opportunities'],
+    tips: [
+      'Include clear job requirements',
+      'Specify training provided',
+      'Highlight growth opportunities',
+    ],
   },
   {
     number: 2,
     title: 'Review Candidates',
-    description: 'Browse pre-screened candidates with verified WOTC eligibility. Each profile shows certifications, skills, and potential tax credits.',
+    description:
+      'Browse pre-screened candidates with verified WOTC eligibility. Each profile shows certifications, skills, and potential tax credits.',
     image: '/images/pages/for-employers-page-1.jpg',
-    tips: ['Check WOTC eligibility status', 'Review completed certifications', 'Look at work history'],
+    tips: [
+      'Check WOTC eligibility status',
+      'Review completed certifications',
+      'Look at work history',
+    ],
   },
   {
     number: 3,
     title: 'Interview & Select',
-    description: 'Schedule interviews through our platform. We provide interview guides and help coordinate schedules.',
+    description:
+      'Schedule interviews through our platform. We provide interview guides and help coordinate schedules.',
     image: '/images/pages/apply-employer-hero.jpg',
     tips: ['Use structured interviews', 'Assess cultural fit', 'Discuss growth path'],
   },
   {
     number: 4,
     title: 'Complete WOTC Forms',
-    description: 'We handle IRS Form 8850 and state forms. Just verify hire date and we submit within the 28-day deadline.',
+    description:
+      'We handle IRS Form 8850 and state forms. Just verify hire date and we submit within the 28-day deadline.',
     image: '/images/pages/employer-handshake.jpg',
     tips: ['Sign forms within 28 days', 'Verify start date accuracy', 'Keep copies for records'],
   },
   {
     number: 5,
     title: 'Onboard & Train',
-    description: 'Use our onboarding checklists and training resources. Track progress and certifications in one place.',
+    description:
+      'Use our onboarding checklists and training resources. Track progress and certifications in one place.',
     image: '/images/pages/for-employers-page-1.jpg',
     tips: ['Complete I-9 and W-4', 'Assign training modules', 'Set 90-day goals'],
   },
   {
     number: 6,
     title: 'Claim Tax Credits',
-    description: 'After 120+ hours worked, we process your WOTC certification. Credits appear on your next tax filing.',
+    description:
+      'After 120+ hours worked, we process your WOTC certification. Credits appear on your next tax filing.',
     image: '/images/pages/for-employers-page-1.jpg',
     tips: ['Track hours worked', 'Maintain employment records', 'File with annual taxes'],
   },
@@ -64,18 +87,19 @@ const resources = [
 ];
 
 export default function HiringGuidePage() {
-
   return (
     <div className="min-h-screen bg-white">
-            <Breadcrumbs items={[{ label: "Employer Portal", href: "/employer-portal" }, { label: "Hiring Guide" }]} />
-<div className="relative h-80 bg-white overflow-hidden">
+      <Breadcrumbs
+        items={[{ label: 'Employer Portal', href: '/employer-portal' }, { label: 'Hiring Guide' }]}
+      />
+      <div className="relative h-80 bg-white overflow-hidden">
         <Image
           src="/images/pages/employer-portal-page-2.jpg"
           alt="Hiring guide"
           fill
           className="object-cover"
-         sizes="100vw" />
-        
+          sizes="100vw"
+        />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -94,11 +118,16 @@ export default function HiringGuidePage() {
           ))}
         </div>
 
-        <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">6 Steps to Successful Hiring</h2>
+        <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
+          6 Steps to Successful Hiring
+        </h2>
 
         <div className="space-y-12 mb-16">
           {steps.map((step, index) => (
-            <div key={step.number} className={`flex flex-col ${index % 2 === 1 ? 'md:flex-row-reverse' : 'md:flex-row'} gap-8 items-center`}>
+            <div
+              key={step.number}
+              className={`flex flex-col ${index % 2 === 1 ? 'md:flex-row-reverse' : 'md:flex-row'} gap-8 items-center`}
+            >
               <div className="md:w-1/2">
                 <div className="relative h-64 rounded-2xl overflow-hidden">
                   <Image
@@ -106,7 +135,8 @@ export default function HiringGuidePage() {
                     alt={step.title}
                     fill
                     className="object-cover"
-                   sizes="100vw" />
+                    sizes="100vw"
+                  />
                   <div className="absolute top-4 left-4 w-12 h-12 bg-brand-blue-600 text-white rounded-full flex items-center justify-center text-xl font-bold">
                     {step.number}
                   </div>
@@ -135,14 +165,19 @@ export default function HiringGuidePage() {
           <h3 className="text-2xl font-bold text-gray-900 mb-6">Downloadable Resources</h3>
           <div className="grid md:grid-cols-2 gap-4">
             {resources.map((resource, index) => (
-              <div key={index} className="flex items-center justify-between p-4 border rounded-xl hover:border-brand-blue-300 transition">
+              <div
+                key={index}
+                className="flex items-center justify-between p-4 border rounded-xl hover:border-brand-blue-300 transition"
+              >
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 bg-brand-blue-100 rounded-lg flex items-center justify-center">
                     <FileText className="w-6 h-6 text-brand-blue-600" />
                   </div>
                   <div>
                     <p className="font-medium text-gray-900">{resource.title}</p>
-                    <p className="text-sm text-gray-500">{resource.type} - {resource.size}</p>
+                    <p className="text-sm text-gray-500">
+                      {resource.type} - {resource.size}
+                    </p>
                   </div>
                 </div>
                 <button className="p-2 hover:bg-white rounded-lg transition">

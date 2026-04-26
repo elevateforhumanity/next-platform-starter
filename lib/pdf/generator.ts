@@ -81,7 +81,7 @@ export function generateComplianceReportPDF(opts: ComplianceReportOptions): PDFD
     `Active: ${opts.activeStudents}`,
     `Completed: ${opts.completedStudents}`,
     `Compliance Rate: ${opts.complianceRate}%`,
-    ...opts.details.map(d => `${d.metric}: ${d.value} (${d.status})`),
+    ...opts.details.map((d) => `${d.metric}: ${d.value} (${d.status})`),
   ];
   return buildPDF(lines);
 }

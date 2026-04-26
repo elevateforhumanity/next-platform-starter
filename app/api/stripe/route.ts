@@ -6,11 +6,11 @@ export const runtime = 'nodejs';
 export const maxDuration = 60;
 
 async function _POST(req: Request) {
-    const rateLimited = await applyRateLimit(req, 'contact');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(req, 'contact');
+  if (rateLimited) return rateLimited;
 
-    const auth = await requireAuth(req);
-    if (auth.error) return auth.error;
+  const auth = await requireAuth(req);
+  if (auth.error) return auth.error;
 
   const stripe = getStripe();
   const body = await req.json();

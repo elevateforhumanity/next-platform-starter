@@ -13,10 +13,7 @@ import { verifyUploadAndIssueCertificate } from '@/lib/services/exam-authorizati
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
-export async function POST(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function POST(request: NextRequest, { params }: { params: { id: string } }) {
   const rateLimited = await applyRateLimit(request, 'strict');
   if (rateLimited) return rateLimited;
 
@@ -25,13 +22,14 @@ export async function POST(
   try {
     const { approved, rejection_reason } = await request.json();
     if (typeof approved !== 'boolean') return safeError('approved (boolean) required', 400);
-    if (!approved && !rejection_reason) return safeError('rejection_reason required when rejecting', 400);
+    if (!approved && !rejection_reason)
+      return safeError('rejection_reason required when rejecting', 400);
 
     const result = await verifyUploadAndIssueCertificate(
       params.id,
       auth.id,
       approved,
-      rejection_reason
+      rejection_reason,
     );
 
     if (!result.ok) return safeError(result.error ?? 'Verification failed', 400);

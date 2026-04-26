@@ -15,11 +15,12 @@ import {
   Shield,
   ArrowRight,
   Sparkles,
-CheckCircle, } from 'lucide-react';
+  CheckCircle,
+} from 'lucide-react';
 
 /**
  * Trial Checklist for Organizations (Managed License Buyers)
- * 
+ *
  * Focus: Prove control + governance
  * - Domain/tenant isolation works
  * - User limits & roles work
@@ -200,7 +201,7 @@ const TRIAL_STEPS: TrialStep[] = [
 const PHASE_LABELS = {
   1: { title: 'Foundation', subtitle: 'Day 1: Make it yours' },
   2: { title: 'Core Workflow', subtitle: 'Days 2-4: Prove the value' },
-  3: { title: 'Ready to Commit', subtitle: 'Day 5+: Know what you\'re paying for' },
+  3: { title: 'Ready to Commit', subtitle: "Day 5+: Know what you're paying for" },
 };
 
 interface TrialChecklistProps {
@@ -221,7 +222,7 @@ export function TrialChecklist({
 
   // Filter steps by org type
   const relevantSteps = TRIAL_STEPS.filter((step) =>
-    orgType === 'school' ? step.forSchools : step.forOrgs
+    orgType === 'school' ? step.forSchools : step.forOrgs,
   );
 
   const completedCount = relevantSteps.filter((s) => completedSteps.includes(s.id)).length;
@@ -229,11 +230,14 @@ export function TrialChecklist({
   const progressPercent = Math.round((completedCount / totalSteps) * 100);
 
   // Group by phase
-  const stepsByPhase = relevantSteps.reduce((acc, step) => {
-    if (!acc[step.phase]) acc[step.phase] = [];
-    acc[step.phase].push(step);
-    return acc;
-  }, {} as Record<number, TrialStep[]>);
+  const stepsByPhase = relevantSteps.reduce(
+    (acc, step) => {
+      if (!acc[step.phase]) acc[step.phase] = [];
+      acc[step.phase].push(step);
+      return acc;
+    },
+    {} as Record<number, TrialStep[]>,
+  );
 
   if (collapsed) {
     return (
@@ -281,10 +285,7 @@ export function TrialChecklist({
               Complete these steps to get the most from your trial
             </p>
           </div>
-          <button
-            onClick={() => setCollapsed(true)}
-            className="text-white hover:text-white"
-          >
+          <button onClick={() => setCollapsed(true)} className="text-white hover:text-white">
             <ChevronUp className="w-5 h-5" />
           </button>
         </div>

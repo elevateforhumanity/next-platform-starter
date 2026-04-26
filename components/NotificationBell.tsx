@@ -35,7 +35,7 @@ export default function NotificationBell() {
         },
         () => {
           loadNotifications();
-        }
+        },
       )
       .subscribe();
 
@@ -101,10 +101,7 @@ export default function NotificationBell() {
 
       {isOpen && (
         <>
-          <div
-            className="fixed inset-0 z-40"
-            onClick={() => setIsOpen(false)}
-          />
+          <div className="fixed inset-0 z-40" onClick={() => setIsOpen(false)} />
           <div className="absolute right-0 mt-2 w-80 sm:w-96 bg-white border border-slate-200 rounded-lg shadow-xl z-50 max-h-[80vh] overflow-hidden flex flex-col">
             <div className="flex items-center justify-between p-4 border-b border-slate-200">
               <h3 className="font-bold text-black">Notifications</h3>
@@ -117,10 +114,7 @@ export default function NotificationBell() {
                     Mark all read
                   </button>
                 )}
-                <button
-                  onClick={() => setIsOpen(false)}
-                  className="p-1 hover:bg-slate-100 rounded"
-                >
+                <button onClick={() => setIsOpen(false)} className="p-1 hover:bg-slate-100 rounded">
                   <X className="w-4 h-4" />
                 </button>
               </div>
@@ -146,13 +140,14 @@ export default function NotificationBell() {
                           <p className="font-semibold text-black text-sm mb-1">
                             {notification.title}
                           </p>
-                          <p className="text-sm text-black mb-2">
-                            {notification.message}
-                          </p>
+                          <p className="text-sm text-black mb-2">{notification.message}</p>
                           <p className="text-xs text-slate-500">
-                            {new Date(
-                              notification.created_at
-                            ).toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' })}
+                            {new Date(notification.created_at).toLocaleDateString('en-US', {
+                              timeZone: 'UTC',
+                              month: 'short',
+                              day: 'numeric',
+                              year: 'numeric',
+                            })}
                           </p>
                         </div>
                         {!notification.read && (

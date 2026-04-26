@@ -8,7 +8,7 @@ const broken = audit.details.links.broken.filter(
     !l.href.includes('#') &&
     !l.href.startsWith('http') &&
     !l.href.includes('{{') &&
-    !l.href.includes('${')
+    !l.href.includes('${'),
 );
 
 console.log(`Remaining ${broken.length} internal broken links:\n`);

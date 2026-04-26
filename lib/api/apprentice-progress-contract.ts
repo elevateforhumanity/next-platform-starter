@@ -7,18 +7,18 @@
  */
 
 export interface ApprenticeProgressResponse {
-  totalHoursApproved:      number;
-  totalHoursPending:       number;
-  requiredHours:           number;
-  transferHours:           number;
-  lmsCompleted:            boolean;
-  lmsProgressPct:          number;   // 0–100
+  totalHoursApproved: number;
+  totalHoursPending: number;
+  requiredHours: number;
+  transferHours: number;
+  lmsCompleted: boolean;
+  lmsProgressPct: number; // 0–100
   practicalSkillsVerified: boolean;
-  checkpointsPassed:       number;
-  checkpointsTotal:        number;
-  programLabel:            string;
-  partnerShopName:         string | null;
-  weeklyAvgHours:          number | null;
+  checkpointsPassed: number;
+  checkpointsTotal: number;
+  programLabel: string;
+  partnerShopName: string | null;
+  weeklyAvgHours: number | null;
   projectedCompletionDate: string | null; // ISO date string or null
 }
 
@@ -52,16 +52,17 @@ export function validateProgressShape(data: unknown): string | null {
     if (!(key in obj)) return `Missing required field: ${key}`;
   }
 
-  if (typeof obj.totalHoursApproved !== 'number')       return 'totalHoursApproved must be a number';
-  if (typeof obj.totalHoursPending !== 'number')         return 'totalHoursPending must be a number';
-  if (typeof obj.requiredHours !== 'number')             return 'requiredHours must be a number';
-  if (typeof obj.transferHours !== 'number')             return 'transferHours must be a number';
-  if (typeof obj.lmsCompleted !== 'boolean')             return 'lmsCompleted must be a boolean';
-  if (typeof obj.lmsProgressPct !== 'number')            return 'lmsProgressPct must be a number';
-  if (typeof obj.practicalSkillsVerified !== 'boolean')  return 'practicalSkillsVerified must be a boolean';
-  if (typeof obj.checkpointsPassed !== 'number')         return 'checkpointsPassed must be a number';
-  if (typeof obj.checkpointsTotal !== 'number')          return 'checkpointsTotal must be a number';
-  if (typeof obj.programLabel !== 'string')              return 'programLabel must be a string';
+  if (typeof obj.totalHoursApproved !== 'number') return 'totalHoursApproved must be a number';
+  if (typeof obj.totalHoursPending !== 'number') return 'totalHoursPending must be a number';
+  if (typeof obj.requiredHours !== 'number') return 'requiredHours must be a number';
+  if (typeof obj.transferHours !== 'number') return 'transferHours must be a number';
+  if (typeof obj.lmsCompleted !== 'boolean') return 'lmsCompleted must be a boolean';
+  if (typeof obj.lmsProgressPct !== 'number') return 'lmsProgressPct must be a number';
+  if (typeof obj.practicalSkillsVerified !== 'boolean')
+    return 'practicalSkillsVerified must be a boolean';
+  if (typeof obj.checkpointsPassed !== 'number') return 'checkpointsPassed must be a number';
+  if (typeof obj.checkpointsTotal !== 'number') return 'checkpointsTotal must be a number';
+  if (typeof obj.programLabel !== 'string') return 'programLabel must be a string';
 
   return null;
 }
@@ -86,10 +87,10 @@ export function validateProgressInvariants(data: ApprenticeProgressResponse): st
   } = data;
 
   // Hours must be non-negative
-  if (totalHoursApproved < 0)  return `totalHoursApproved is negative: ${totalHoursApproved}`;
-  if (totalHoursPending < 0)   return `totalHoursPending is negative: ${totalHoursPending}`;
-  if (transferHours < 0)       return `transferHours is negative: ${transferHours}`;
-  if (requiredHours <= 0)      return `requiredHours must be positive: ${requiredHours}`;
+  if (totalHoursApproved < 0) return `totalHoursApproved is negative: ${totalHoursApproved}`;
+  if (totalHoursPending < 0) return `totalHoursPending is negative: ${totalHoursPending}`;
+  if (transferHours < 0) return `transferHours is negative: ${transferHours}`;
+  if (requiredHours <= 0) return `requiredHours must be positive: ${requiredHours}`;
 
   // Total hours cannot exceed required by more than 10% (data aggregation sanity check)
   const totalHours = totalHoursApproved + transferHours;

@@ -80,9 +80,7 @@ export default function UpdatePasswordPage() {
       <div className="max-w-md w-full">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-black mb-2">Set New Password</h1>
-          <p className="text-gray-600">
-            Enter your new password below.
-          </p>
+          <p className="text-gray-600">Enter your new password below.</p>
         </div>
 
         <div className="bg-white rounded-2xl shadow-lg p-8">
@@ -95,9 +93,7 @@ export default function UpdatePasswordPage() {
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label className="block text-sm font-medium text-black mb-2">
-                New Password
-              </label>
+              <label className="block text-sm font-medium text-black mb-2">New Password</label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                 <input
@@ -120,9 +116,7 @@ export default function UpdatePasswordPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-black mb-2">
-                Confirm Password
-              </label>
+              <label className="block text-sm font-medium text-black mb-2">Confirm Password</label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                 <input

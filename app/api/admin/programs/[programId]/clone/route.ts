@@ -82,18 +82,26 @@ export async function POST(
 
   // ── 3. Clone programs row ─────────────────────────────────────────────────
 
-  const { id: _id, created_at: _ca, updated_at: _ua, slug: _slug, title: _title,
-          status: _status, published: _pub, ...rest } = src;
+  const {
+    id: _id,
+    created_at: _ca,
+    updated_at: _ua,
+    slug: _slug,
+    title: _title,
+    status: _status,
+    published: _pub,
+    ...rest
+  } = src;
 
   const { data: newProgram, error: progErr } = await db
     .from('programs')
     .insert({
       ...rest,
-      title:      newTitle,
-      slug:       newSlug,
-      status:     'draft',
-      published:  false,
-      is_active:  false,
+      title: newTitle,
+      slug: newSlug,
+      status: 'draft',
+      published: false,
+      is_active: false,
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
     })
@@ -114,9 +122,11 @@ export async function POST(
     .order('outcome_order');
 
   if (outcomes?.length) {
-    const { error } = await db.from('program_outcomes').insert(
-      outcomes.map(({ id: _, program_id: __, ...o }) => ({ ...o, program_id: newProgramId })),
-    );
+    const { error } = await db
+      .from('program_outcomes')
+      .insert(
+        outcomes.map(({ id: _, program_id: __, ...o }) => ({ ...o, program_id: newProgramId })),
+      );
     if (error) errors.push(`outcomes: ${error.message}`);
   }
 
@@ -129,9 +139,9 @@ export async function POST(
     .order('sort_order');
 
   if (creds?.length) {
-    const { error } = await db.from('program_credentials').insert(
-      creds.map(({ id: _, program_id: __, ...c }) => ({ ...c, program_id: newProgramId })),
-    );
+    const { error } = await db
+      .from('program_credentials')
+      .insert(creds.map(({ id: _, program_id: __, ...c }) => ({ ...c, program_id: newProgramId })));
     if (error) errors.push(`credentials: ${error.message}`);
   }
 
@@ -144,9 +154,9 @@ export async function POST(
     .order('sort_order');
 
   if (ctas?.length) {
-    const { error } = await db.from('program_ctas').insert(
-      ctas.map(({ id: _, program_id: __, ...c }) => ({ ...c, program_id: newProgramId })),
-    );
+    const { error } = await db
+      .from('program_ctas')
+      .insert(ctas.map(({ id: _, program_id: __, ...c }) => ({ ...c, program_id: newProgramId })));
     if (error) errors.push(`ctas: ${error.message}`);
   }
 
@@ -159,9 +169,11 @@ export async function POST(
     .order('sort_order');
 
   if (tracks?.length) {
-    const { error } = await db.from('program_tracks').insert(
-      tracks.map(({ id: _, program_id: __, ...t }) => ({ ...t, program_id: newProgramId })),
-    );
+    const { error } = await db
+      .from('program_tracks')
+      .insert(
+        tracks.map(({ id: _, program_id: __, ...t }) => ({ ...t, program_id: newProgramId })),
+      );
     if (error) errors.push(`tracks: ${error.message}`);
   }
 
@@ -188,9 +200,11 @@ export async function POST(
     }
 
     if (lessons?.length) {
-      const { error: lessonErr } = await db.from('program_lessons').insert(
-        lessons.map(({ id: _, module_id: __, ...l }: any) => ({ ...l, module_id: newMod.id })),
-      );
+      const { error: lessonErr } = await db
+        .from('program_lessons')
+        .insert(
+          lessons.map(({ id: _, module_id: __, ...l }: any) => ({ ...l, module_id: newMod.id })),
+        );
       if (lessonErr) errors.push(`lessons in '${mod.title}': ${lessonErr.message}`);
     }
   }
@@ -215,14 +229,20 @@ export async function POST(
       .maybeSingle();
 
     if (srcCourse) {
-      const { id: _cid, created_at: _cca, updated_at: _cua, slug: _cslug, ...courseRest } = srcCourse;
+      const {
+        id: _cid,
+        created_at: _cca,
+        updated_at: _cua,
+        slug: _cslug,
+        ...courseRest
+      } = srcCourse;
 
       const { data: newCourse, error: courseErr } = await db
         .from('courses')
         .insert({
           ...courseRest,
-          slug:       newSlug,
-          status:     'draft',
+          slug: newSlug,
+          status: 'draft',
           updated_at: new Date().toISOString(),
         })
         .select('id')
@@ -241,7 +261,12 @@ export async function POST(
           .order('order_index');
 
         for (const cmod of courseMods ?? []) {
-          const { course_lessons: clessons, id: _cmid, course_id: _ccid, ...cmodRest } = cmod as any;
+          const {
+            course_lessons: clessons,
+            id: _cmid,
+            course_id: _ccid,
+            ...cmodRest
+          } = cmod as any;
 
           const { data: newCmod, error: cmodErr } = await db
             .from('course_modules')
@@ -258,7 +283,7 @@ export async function POST(
             const { error: clessonErr } = await db.from('course_lessons').insert(
               clessons.map(({ id: _, course_id: __, course_module_id: ___, ...cl }: any) => ({
                 ...cl,
-                course_id:        newCourseId,
+                course_id: newCourseId,
                 course_module_id: newCmod.id,
               })),
             );

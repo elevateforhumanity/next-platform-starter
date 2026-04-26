@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -41,9 +41,12 @@ export function AIInstructorWidget({
       if (data.audioUrl && !muted) {
         playAudio(data.audioUrl);
       }
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
-      setMessage('Hi! I\'m here to help you succeed in your training. Feel free to ask me anything!');
+      setMessage(
+        "Hi! I'm here to help you succeed in your training. Feel free to ask me anything!",
+      );
     }
   };
 
@@ -55,10 +58,14 @@ export function AIInstructorWidget({
   };
 
   const contextMessages = {
-    welcome: 'Welcome! I\'m your AI instructor. I\'m here to guide you through your training journey and answer any questions you have.',
-    lesson: 'Let\'s dive into this lesson! Take your time, and remember - I\'m here if you need help understanding anything.',
-    encouragement: 'You\'re doing great! Keep up the excellent work. Remember, every step forward is progress.',
-    completion: 'Congratulations on completing this module! You\'ve worked hard and it shows. Ready for the next challenge?',
+    welcome:
+      "Welcome! I'm your AI instructor. I'm here to guide you through your training journey and answer any questions you have.",
+    lesson:
+      "Let's dive into this lesson! Take your time, and remember - I'm here if you need help understanding anything.",
+    encouragement:
+      "You're doing great! Keep up the excellent work. Remember, every step forward is progress.",
+    completion:
+      "Congratulations on completing this module! You've worked hard and it shows. Ready for the next challenge?",
   };
 
   return (
@@ -122,9 +129,7 @@ export function AIInstructorWidget({
           <div className="p-6 max-h-96 overflow-y-auto">
             <div className="bg-brand-blue-50 rounded-2xl p-4 relative">
               <div className="absolute -top-2 left-6 w-4 h-4 bg-brand-blue-50 transform rotate-45" />
-              <p className="text-black leading-relaxed">
-                {message || contextMessages[context]}
-              </p>
+              <p className="text-black leading-relaxed">{message || contextMessages[context]}</p>
             </div>
 
             {/* Quick Actions */}
@@ -136,13 +141,21 @@ export function AIInstructorWidget({
                 💡 Give me a tip
               </button>
               <button
-                onClick={() => setMessage('Remember: Learning takes time. Don\'t rush through the material. Take breaks when needed, and review concepts until they click. You\'ve got this!')}
+                onClick={() =>
+                  setMessage(
+                    "Remember: Learning takes time. Don't rush through the material. Take breaks when needed, and review concepts until they click. You've got this!",
+                  )
+                }
                 className="w-full text-left px-4 py-3 bg-gray-50 hover:bg-gray-100 rounded-lg text-sm font-medium text-black transition-colors"
               >
                 🎯 Study tips
               </button>
               <button
-                onClick={() => setMessage('If you\'re stuck, try: 1) Re-read the material slowly, 2) Take notes in your own words, 3) Ask for help from your instructor, 4) Practice with real examples. Every expert was once a beginner!')}
+                onClick={() =>
+                  setMessage(
+                    "If you're stuck, try: 1) Re-read the material slowly, 2) Take notes in your own words, 3) Ask for help from your instructor, 4) Practice with real examples. Every expert was once a beginner!",
+                  )
+                }
                 className="w-full text-left px-4 py-3 bg-gray-50 hover:bg-gray-100 rounded-lg text-sm font-medium text-black transition-colors"
               >
                 ❓ I need help
@@ -152,9 +165,7 @@ export function AIInstructorWidget({
 
           {/* Footer */}
           <div className="p-4 bg-gray-50 border-t text-center">
-            <p className="text-xs text-slate-700">
-              Automated learning support • Available 24/7
-            </p>
+            <p className="text-xs text-slate-700">Automated learning support • Available 24/7</p>
           </div>
         </div>
       )}

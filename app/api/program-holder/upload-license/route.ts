@@ -14,7 +14,9 @@ async function _POST(req: NextRequest) {
   if (rateLimited) return rateLimited;
 
   const supabase = await createRouteHandlerClient({ cookies });
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   const adminClient = await getAdminClient();
@@ -89,14 +91,17 @@ async function _POST(req: NextRequest) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        personalizations: [{
-          to: [{ email: 'info@elevateforhumanity.org', name: 'Elevate for Humanity' }],
-          subject: `HVAC License Uploaded — ${holder?.organization_name || 'Program Holder'}`,
-        }],
+        personalizations: [
+          {
+            to: [{ email: 'info@elevateforhumanity.org', name: 'Elevate for Humanity' }],
+            subject: `HVAC License Uploaded — ${holder?.organization_name || 'Program Holder'}`,
+          },
+        ],
         from: { email: 'info@elevateforhumanity.org', name: 'Elevate for Humanity' },
-        content: [{
-          type: 'text/html',
-          value: `<!DOCTYPE html><html><body style="font-family: Arial, sans-serif; color: #1e293b; max-width: 600px; margin: 0 auto; padding: 20px;">
+        content: [
+          {
+            type: 'text/html',
+            value: `<!DOCTYPE html><html><body style="font-family: Arial, sans-serif; color: #1e293b; max-width: 600px; margin: 0 auto; padding: 20px;">
             <h2 style="color: #1e293b;">📄 HVAC License Uploaded</h2>
             <p><strong>${holder?.organization_name}</strong> has uploaded their HVAC contractor license.</p>
             <table style="width:100%; border-collapse:collapse; margin:16px 0;">
@@ -110,7 +115,8 @@ async function _POST(req: NextRequest) {
               <a href="https://elevateforhumanity.org/admin/program-holders/${phId}" style="background-color:#2563eb; color:white; padding:12px 24px; border-radius:8px; text-decoration:none; font-weight:bold;">Review in Admin Dashboard</a>
             </div>
           </body></html>`,
-        }],
+          },
+        ],
       }),
     });
   } catch (emailErr) {

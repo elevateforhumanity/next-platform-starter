@@ -45,7 +45,7 @@ export interface SCORMSession {
 export async function initializeSCORMSession(
   userId: string,
   packageId: string,
-  enrollmentId: string
+  enrollmentId: string,
 ): Promise<SCORMSession> {
   const supabase = await createClient();
 
@@ -95,7 +95,7 @@ export async function updateSCORMSession(
     successStatus?: SCORMSession['successStatus'];
     sessionTime?: string;
     suspendData?: string;
-  }
+  },
 ): Promise<void> {
   const supabase = await createClient();
 
@@ -105,10 +105,7 @@ export async function updateSCORMSession(
     updateData.completed_at = new Date().toISOString();
   }
 
-  const { error } = await supabase
-    .from('scorm_sessions')
-    .update(updateData)
-    .eq('id', sessionId);
+  const { error } = await supabase.from('scorm_sessions').update(updateData).eq('id', sessionId);
 
   if (error) {
     logger.error('Failed to update SCORM session', error);

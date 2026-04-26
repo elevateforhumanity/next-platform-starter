@@ -40,21 +40,19 @@ export async function POST(request: NextRequest) {
   try {
     const supabase = await createClient();
 
-    const { error } = await supabase
-      .from('interactive_video_quiz_answers')
-      .upsert(
-        {
-          user_id: user.id,
-          lesson_id: lessonId ?? null,
-          question,
-          selected_answer: selectedAnswer,
-          correct_answer: correctAnswer ?? null,
-          is_correct: isCorrect,
-          timestamp_sec: timestamp ?? null,
-          answered_at: new Date().toISOString(),
-        },
-        { onConflict: 'user_id,lesson_id,question' }
-      );
+    const { error } = await supabase.from('interactive_video_quiz_answers').upsert(
+      {
+        user_id: user.id,
+        lesson_id: lessonId ?? null,
+        question,
+        selected_answer: selectedAnswer,
+        correct_answer: correctAnswer ?? null,
+        is_correct: isCorrect,
+        timestamp_sec: timestamp ?? null,
+        answered_at: new Date().toISOString(),
+      },
+      { onConflict: 'user_id,lesson_id,question' },
+    );
 
     if (error) {
       logger.error('video-quiz-results upsert error', error);

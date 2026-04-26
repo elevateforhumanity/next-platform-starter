@@ -16,8 +16,9 @@ export const dynamic = 'force-dynamic';
 export default async function ShoppingCartPage() {
   const supabase = await createClient();
 
-
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     redirect('/login?redirect=/shop/cart');
@@ -54,7 +55,9 @@ export default async function ShoppingCartPage() {
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <h1 className="text-2xl font-bold text-gray-900">Shopping Cart</h1>
-          <p className="text-gray-600 mt-1">{items.length} {items.length === 1 ? 'item' : 'items'} in your cart</p>
+          <p className="text-gray-600 mt-1">
+            {items.length} {items.length === 1 ? 'item' : 'items'} in your cart
+          </p>
         </div>
       </div>
 
@@ -63,7 +66,10 @@ export default async function ShoppingCartPage() {
           <div className="grid lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2">
               <CartItems items={items} />
-              <Link href="/shop/products" className="inline-flex items-center gap-2 mt-4 text-brand-blue-600 hover:text-brand-blue-700">
+              <Link
+                href="/shop/products"
+                className="inline-flex items-center gap-2 mt-4 text-brand-blue-600 hover:text-brand-blue-700"
+              >
                 <ShoppingCart className="w-4 h-4" /> Continue Shopping
               </Link>
             </div>
@@ -87,7 +93,10 @@ export default async function ShoppingCartPage() {
                     </div>
                   </div>
                 </div>
-                <Link href="/store" className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700 font-medium">
+                <Link
+                  href="/store"
+                  className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700 font-medium"
+                >
                   <CreditCard className="w-5 h-5" /> Proceed to Checkout
                 </Link>
                 <div className="flex items-center justify-center gap-2 mt-4 text-sm text-gray-500">
@@ -101,7 +110,10 @@ export default async function ShoppingCartPage() {
             <ShoppingCart className="w-16 h-16 text-gray-300 mx-auto mb-4" />
             <h2 className="text-xl font-semibold text-gray-900 mb-2">Your cart is empty</h2>
             <p className="text-gray-600 mb-6">Browse our products and add items to your cart.</p>
-            <Link href="/shop/products" className="inline-flex items-center gap-2 px-6 py-3 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700">
+            <Link
+              href="/shop/products"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700"
+            >
               Browse Products
             </Link>
           </div>

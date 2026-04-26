@@ -38,10 +38,7 @@ function verifyCalendlySignature(payload: string, signature: string | null): boo
     return true; // allow in dev; enforce in prod by setting the secret
   }
   if (!signature) return false;
-  const expected = crypto
-    .createHmac('sha256', secret)
-    .update(payload)
-    .digest('hex');
+  const expected = crypto.createHmac('sha256', secret).update(payload).digest('hex');
   return crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(expected));
 }
 
@@ -50,9 +47,16 @@ function verifyCalendlySignature(payload: string, signature: string | null): boo
 function confirmationEmailHtml(name: string, startTime: string, examQuestion: string): string {
   const date = new Date(startTime);
   const formatted = date.toLocaleDateString('en-US', {
-    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
   });
-  const time = date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', timeZone: 'America/Indiana/Indianapolis' });
+  const time = date.toLocaleTimeString('en-US', {
+    hour: 'numeric',
+    minute: '2-digit',
+    timeZone: 'America/Indiana/Indianapolis',
+  });
 
   return `
 <!DOCTYPE html>
@@ -105,7 +109,10 @@ function confirmationEmailHtml(name: string, startTime: string, examQuestion: st
 function cancellationEmailHtml(name: string, startTime: string): string {
   const date = new Date(startTime);
   const formatted = date.toLocaleDateString('en-US', {
-    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
   });
   return `
 <!DOCTYPE html>
@@ -127,22 +134,25 @@ function cancellationEmailHtml(name: string, startTime: string): string {
 
 // ─── Handler ──────────────────────────────────────────────────────────────────
 
-export const POST = withRuntime(
-  { secrets: [...ENV.CALENDLY], rateLimit: 'api' },
-  async (req) => {
-
+export const POST = withRuntime({ secrets: [...ENV.CALENDLY], rateLimit: 'api' }, async (req) => {
   const rawBody = await req.text();
   const signature = req.headers.get('calendly-webhook-signature');
 
   if (!verifyCalendlySignature(rawBody, signature)) {
     // Log enough to detect probing — timestamp is implicit in the log entry
     logger.warn('[calendly-webhook] Signature rejected', {
-      ip:             req.headers.get('x-forwarded-for') ?? req.headers.get('x-real-ip') ?? 'unknown',
+      ip: req.headers.get('x-forwarded-for') ?? req.headers.get('x-real-ip') ?? 'unknown',
       signaturePresent: signature !== null,
       secretConfigured: !!process.env.CALENDLY_WEBHOOK_SECRET,
-      payloadBytes:   rawBody.length,
+      payloadBytes: rawBody.length,
       // Parse event type without trusting the payload — best-effort only
-      eventType:      (() => { try { return JSON.parse(rawBody)?.event ?? 'unknown'; } catch { return 'unparseable'; } })(),
+      eventType: (() => {
+        try {
+          return JSON.parse(rawBody)?.event ?? 'unknown';
+        } catch {
+          return 'unparseable';
+        }
+      })(),
     });
     return NextResponse.json({ error: 'Invalid signature' }, { status: 401 });
   }
@@ -165,39 +175,46 @@ export const POST = withRuntime(
 
   const db = await getAdminClient();
 
-  const inviteeName: string  = payload?.invitee?.name ?? 'Test-taker';
+  const inviteeName: string = payload?.invitee?.name ?? 'Test-taker';
   const inviteeEmail: string = payload?.invitee?.email ?? '';
-  const inviteePhone: string = payload?.invitee?.questions_and_answers
-    ?.find((q: any) => q.question?.toLowerCase().includes('phone'))?.answer ?? '';
-  const examAnswer: string   = payload?.invitee?.questions_and_answers
-    ?.find((q: any) => q.question?.toLowerCase().includes('exam'))?.answer ?? '';
-  const startTime: string    = payload?.event?.start_time ?? payload?.scheduled_event?.start_time ?? '';
-  const endTime: string      = payload?.event?.end_time   ?? payload?.scheduled_event?.end_time   ?? '';
-  const eventUri: string     = payload?.event?.uri        ?? payload?.scheduled_event?.uri        ?? '';
-  const inviteeUri: string   = payload?.invitee?.uri      ?? '';
-  const cancelUrl: string    = payload?.invitee?.cancel_url ?? '';
+  const inviteePhone: string =
+    payload?.invitee?.questions_and_answers?.find((q: any) =>
+      q.question?.toLowerCase().includes('phone'),
+    )?.answer ?? '';
+  const examAnswer: string =
+    payload?.invitee?.questions_and_answers?.find((q: any) =>
+      q.question?.toLowerCase().includes('exam'),
+    )?.answer ?? '';
+  const startTime: string =
+    payload?.event?.start_time ?? payload?.scheduled_event?.start_time ?? '';
+  const endTime: string = payload?.event?.end_time ?? payload?.scheduled_event?.end_time ?? '';
+  const eventUri: string = payload?.event?.uri ?? payload?.scheduled_event?.uri ?? '';
+  const inviteeUri: string = payload?.invitee?.uri ?? '';
+  const cancelUrl: string = payload?.invitee?.cancel_url ?? '';
   const rescheduleUrl: string = payload?.invitee?.reschedule_url ?? '';
 
   // ── invitee.created ────────────────────────────────────────────────────────
   if (eventType === 'invitee.created') {
-
     // 1. Store appointment
     const { data: appt, error: apptError } = await db
       .from('testing_appointments')
-      .upsert({
-        calendly_event_uri:    eventUri,
-        calendly_invitee_uri:  inviteeUri,
-        invitee_name:          inviteeName,
-        invitee_email:         inviteeEmail,
-        invitee_phone:         inviteePhone,
-        exam_type:             examAnswer,
-        start_time:            startTime,
-        end_time:              endTime,
-        status:                'confirmed',
-        cancel_url:            cancelUrl,
-        reschedule_url:        rescheduleUrl,
-        created_at:            new Date().toISOString(),
-      }, { onConflict: 'calendly_invitee_uri' })
+      .upsert(
+        {
+          calendly_event_uri: eventUri,
+          calendly_invitee_uri: inviteeUri,
+          invitee_name: inviteeName,
+          invitee_email: inviteeEmail,
+          invitee_phone: inviteePhone,
+          exam_type: examAnswer,
+          start_time: startTime,
+          end_time: endTime,
+          status: 'confirmed',
+          cancel_url: cancelUrl,
+          reschedule_url: rescheduleUrl,
+          created_at: new Date().toISOString(),
+        },
+        { onConflict: 'calendly_invitee_uri' },
+      )
       .select('id')
       .maybeSingle();
 
@@ -210,41 +227,53 @@ export const POST = withRuntime(
     if (appt?.id && startTime) {
       const start = new Date(startTime);
       const reminder24h = new Date(start.getTime() - 24 * 60 * 60 * 1000);
-      const reminder1h  = new Date(start.getTime() -      60 * 60 * 1000);
+      const reminder1h = new Date(start.getTime() - 60 * 60 * 1000);
 
       await db.from('testing_appointment_reminders').insert([
         { appointment_id: appt.id, send_at: reminder24h.toISOString(), type: '24h', sent: false },
-        { appointment_id: appt.id, send_at: reminder1h.toISOString(),  type: '1h',  sent: false },
+        { appointment_id: appt.id, send_at: reminder1h.toISOString(), type: '1h', sent: false },
       ]);
     }
 
     // 3. Confirmation email to invitee
     if (inviteeEmail) {
-      await resend.emails.send({
-        from: `Elevate Testing Center <${TESTING_CENTER.email}>`,
-        to:   inviteeEmail,
-        subject: 'Your Testing Appointment is Confirmed — Elevate for Humanity',
-        html: confirmationEmailHtml(inviteeName, startTime, examAnswer),
-      }).catch(err => logger.error('Confirmation email failed', err));
+      await resend.emails
+        .send({
+          from: `Elevate Testing Center <${TESTING_CENTER.email}>`,
+          to: inviteeEmail,
+          subject: 'Your Testing Appointment is Confirmed — Elevate for Humanity',
+          html: confirmationEmailHtml(inviteeName, startTime, examAnswer),
+        })
+        .catch((err) => logger.error('Confirmation email failed', err));
     }
 
     // 4. Confirmation SMS to invitee
     if (inviteePhone) {
       const date = new Date(startTime);
-      const formatted = date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
-      const time = date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', timeZone: 'America/Indiana/Indianapolis' });
-      await sendSMS(inviteePhone,
+      const formatted = date.toLocaleDateString('en-US', {
+        weekday: 'short',
+        month: 'short',
+        day: 'numeric',
+      });
+      const time = date.toLocaleTimeString('en-US', {
+        hour: 'numeric',
+        minute: '2-digit',
+        timeZone: 'America/Indiana/Indianapolis',
+      });
+      await sendSMS(
+        inviteePhone,
         `Elevate Testing: Your ${examAnswer || 'exam'} appointment is confirmed for ${formatted} at ${time} ET. ` +
-        `Bring photo ID. Arrive 10 min early. No walk-ins. Questions: ${TESTING_CENTER.phone}`
-      ).catch(err => logger.error('Confirmation SMS failed', err));
+          `Bring photo ID. Arrive 10 min early. No walk-ins. Questions: ${TESTING_CENTER.phone}`,
+      ).catch((err) => logger.error('Confirmation SMS failed', err));
     }
 
     // 5. Internal staff alert
-    await resend.emails.send({
-      from: `Elevate Testing Center <${TESTING_CENTER.email}>`,
-      to:   TESTING_CENTER.email,
-      subject: `New Testing Appointment: ${inviteeName} — ${examAnswer || 'Exam TBD'}`,
-      html: `
+    await resend.emails
+      .send({
+        from: `Elevate Testing Center <${TESTING_CENTER.email}>`,
+        to: TESTING_CENTER.email,
+        subject: `New Testing Appointment: ${inviteeName} — ${examAnswer || 'Exam TBD'}`,
+        html: `
         <p><strong>New booking received.</strong></p>
         <ul>
           <li><strong>Name:</strong> ${inviteeName}</li>
@@ -255,7 +284,8 @@ export const POST = withRuntime(
           <li><strong>Cancel URL:</strong> <a href="${cancelUrl}">${cancelUrl}</a></li>
         </ul>
       `,
-    }).catch(err => logger.error('Staff alert email failed', err));
+      })
+      .catch((err) => logger.error('Staff alert email failed', err));
 
     logger.info('Testing appointment confirmed', { inviteeEmail, examAnswer, startTime });
     return NextResponse.json({ ok: true, event: 'invitee.created' });
@@ -263,7 +293,6 @@ export const POST = withRuntime(
 
   // ── invitee.canceled ───────────────────────────────────────────────────────
   if (eventType === 'invitee.canceled') {
-
     // Update appointment status
     await db
       .from('testing_appointments')
@@ -287,19 +316,22 @@ export const POST = withRuntime(
 
     // Cancellation email
     if (inviteeEmail) {
-      await resend.emails.send({
-        from: `Elevate Testing Center <${TESTING_CENTER.email}>`,
-        to:   inviteeEmail,
-        subject: 'Testing Appointment Canceled — Elevate for Humanity',
-        html: cancellationEmailHtml(inviteeName, startTime),
-      }).catch(err => logger.error('Cancellation email failed', err));
+      await resend.emails
+        .send({
+          from: `Elevate Testing Center <${TESTING_CENTER.email}>`,
+          to: inviteeEmail,
+          subject: 'Testing Appointment Canceled — Elevate for Humanity',
+          html: cancellationEmailHtml(inviteeName, startTime),
+        })
+        .catch((err) => logger.error('Cancellation email failed', err));
     }
 
     // Cancellation SMS
     if (inviteePhone) {
-      await sendSMS(inviteePhone,
-        `Elevate Testing: Your appointment has been canceled. To reschedule: calendly.com/elevate4humanityedu/60min or call ${TESTING_CENTER.phone}`
-      ).catch(err => logger.error('Cancellation SMS failed', err));
+      await sendSMS(
+        inviteePhone,
+        `Elevate Testing: Your appointment has been canceled. To reschedule: calendly.com/elevate4humanityedu/60min or call ${TESTING_CENTER.phone}`,
+      ).catch((err) => logger.error('Cancellation SMS failed', err));
     }
 
     logger.info('Testing appointment canceled', { inviteeEmail, startTime });
@@ -307,5 +339,4 @@ export const POST = withRuntime(
   }
 
   return NextResponse.json({ ok: true, skipped: `unhandled event: ${eventType}` });
-  }
-);
+});

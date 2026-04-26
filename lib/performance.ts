@@ -15,7 +15,6 @@ export function measurePageLoad() {
         event_category: 'Performance',
       });
     }
-
   });
 }
 export function measureWebVitals() {
@@ -101,9 +100,7 @@ export function trackComponentRender(componentName: string, duration: number) {
 // Resource timing
 export function analyzeResourceTiming() {
   if (typeof window === 'undefined') return;
-  const resources = performance.getEntriesByType(
-    'resource'
-  ) as PerformanceResourceTiming[];
+  const resources = performance.getEntriesByType('resource') as PerformanceResourceTiming[];
   const slowResources = resources.filter((r) => r.duration > 1000);
   if (slowResources.length > 0 && process.env.NODE_ENV === 'development') {
     logger.info(
@@ -112,15 +109,12 @@ export function analyzeResourceTiming() {
         name: r.name,
         duration: `${Math.round(r.duration)}ms`,
         size: r.transferSize,
-      }))
+      })),
     );
   }
   // Track to analytics
   if (window.gtag) {
-    const totalSize = resources.reduce(
-      (sum, r) => sum + (r.transferSize || 0),
-      0
-    );
+    const totalSize = resources.reduce((sum, r) => sum + (r.transferSize || 0), 0);
     window.gtag('event', 'resource_timing', {
       event_category: 'Performance',
       event_label: 'total_resources',

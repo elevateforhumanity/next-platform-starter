@@ -64,12 +64,7 @@
       },
       {
         "prompt": "Which form must a booth renter file to report their earnings and expenses?",
-        "choices": [
-          "W-2",
-          "1099-MISC",
-          "Schedule C",
-          "Form 940"
-        ],
+        "choices": ["W-2", "1099-MISC", "Schedule C", "Form 940"],
         "answerIndex": 2,
         "rationale": "Booth renters must file a Schedule C form to report their earnings and expenses as independent contractors.",
         "type": "recall"

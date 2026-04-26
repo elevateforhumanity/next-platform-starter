@@ -13,14 +13,17 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: 'Barbershop Partner Program | Indiana Barber Apprenticeship',
-    description: 'Host apprentices and develop talent for your barbershop with structured training support.',
+    description:
+      'Host apprentices and develop talent for your barbershop with structured training support.',
     url: 'https://www.elevateforhumanity.org/partners/barbershop-apprenticeship',
   },
 };
 
 export default async function BarbershopPartnerPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   let isApproved = false;
   if (user?.email) {

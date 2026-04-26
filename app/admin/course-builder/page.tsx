@@ -21,7 +21,9 @@ export default async function CourseBuilderPage() {
     <div>
       {/* Quick-access bar */}
       <div className="bg-white border-b border-slate-200 px-6 py-4 flex flex-wrap items-center gap-3">
-        <span className="text-xs font-bold uppercase tracking-widest text-slate-400 mr-2">Quick Access</span>
+        <span className="text-xs font-bold uppercase tracking-widest text-slate-400 mr-2">
+          Quick Access
+        </span>
 
         <Link
           href="/admin/course-builder/templates"
@@ -38,7 +40,7 @@ export default async function CourseBuilderPage() {
         </Link>
 
         {/* Recent courses — Live Builder shortcuts */}
-        {(courses ?? []).slice(0, 5).map(c => (
+        {(courses ?? []).slice(0, 5).map((c) => (
           <Link
             key={c.id}
             href={'/admin/course-builder/' + c.id}

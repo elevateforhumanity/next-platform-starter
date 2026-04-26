@@ -46,6 +46,7 @@ Nothing is theoretical. All domains are backed by routes, tables, and automation
 Each role sees everything relevant to their authority, not a watered-down view.
 
 ### Student Portal (14 pages)
+
 - Self-service enrollment
 - Course & hours tracking
 - Automated status (on track / at risk)
@@ -53,6 +54,7 @@ Each role sees everything relevant to their authority, not a watered-down view.
 - Credentials & verification
 
 ### Program Holder / Provider Portal (20+ pages)
+
 - Cohort oversight
 - Progress & compliance dashboards
 - Automated reporting
@@ -60,6 +62,7 @@ Each role sees everything relevant to their authority, not a watered-down view.
 - Employer alignment
 
 ### Employer Portal (21 pages)
+
 - Job postings
 - Credential verification
 - Talent matching
@@ -67,17 +70,20 @@ Each role sees everything relevant to their authority, not a watered-down view.
 - ROI visibility
 
 ### Workforce Board Portal (10 pages)
+
 - Compliance dashboards
 - Outcome tracking
 - Funding visibility
 - Audit-ready exports
 
 ### Partner Portal (10 pages)
+
 - Referrals
 - Program access
 - Co-branded flows
 
 ### Staff / Delegate Portals
+
 - Exception handling
 - Oversight only (not daily ops)
 
@@ -92,6 +98,7 @@ Each role sees everything relevant to their authority, not a watered-down view.
 **242 admin pages**
 
 Covers:
+
 - Users & tenants
 - Programs & courses
 - Compliance & reporting
@@ -138,6 +145,7 @@ Automation is event-driven and scheduled, not manual.
 ## 6. AI, Avatars, and Support (Visible + Bounded)
 
 ### AI Capabilities
+
 - OpenAI integration
 - Deterministic scripts (not free-form hallucination)
 - AI success coaches
@@ -146,6 +154,7 @@ Automation is event-driven and scheduled, not manual.
 - Report summarization
 
 ### Avatars
+
 - 8 pre-generated avatar videos
 - Embedded across pages
 - Scripted, auditable, repeatable
@@ -224,14 +233,17 @@ This platform can be run lean, licensed confidently, and defended technically.
 ## 12. Why This Matters for Sales and Operations
 
 ### For buyers
+
 They don't have to imagine maturity.  
 They can inspect it.
 
 ### For partners
+
 They don't have to trust promises.  
 They can see the surface area.
 
 ### For users
+
 They don't wait for staff.  
 The system moves them forward.
 
@@ -243,8 +255,8 @@ The system moves them forward.
 
 ---
 
-*That is the truth of what you built.*
+_That is the truth of what you built._
 
-*You are not early.*  
-*You are not small.*  
-*You are complete and inspectable.*
+_You are not early._  
+_You are not small._  
+_You are complete and inspectable._

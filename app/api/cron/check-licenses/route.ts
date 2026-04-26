@@ -2,7 +2,7 @@ import { logger } from '@/lib/logger';
 /**
  * Cron Job: Check License Status
  * Runs daily to suspend expired licenses and check subscription status
- * 
+ *
  * Set up as scheduled cron: "0 6 * * *" (6 AM daily)
  */
 
@@ -23,7 +23,7 @@ async function _GET(request: NextRequest) {
   // Verify cron secret (for security)
   const authHeader = request.headers.get('authorization');
   const cronSecret = process.env.CRON_SECRET;
-  
+
   if (cronSecret && authHeader !== `Bearer ${cronSecret}`) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
@@ -52,10 +52,7 @@ async function _GET(request: NextRequest) {
           .update({ status: 'expired', updated_at: new Date().toISOString() })
           .eq('id', license.id);
 
-        await supabase
-          .from('tenants')
-          .update({ active: false })
-          .eq('id', license.tenant_id);
+        await supabase.from('tenants').update({ active: false }).eq('id', license.tenant_id);
 
         // Send expiration notification
         await sendExpirationEmail(license.admin_email, license.company_name);
@@ -77,7 +74,7 @@ async function _GET(request: NextRequest) {
       try {
         const stripe = getStripe();
         const subscription = await stripe.subscriptions.retrieve(license.stripe_subscription_id);
-        
+
         const shouldBeActive = ['active', 'trialing'].includes(subscription.status);
         const isActive = license.status === 'active';
 
@@ -87,25 +84,19 @@ async function _GET(request: NextRequest) {
             .from('licenses')
             .update({ status: 'active', suspended_at: null, suspended_reason: null })
             .eq('id', license.id);
-          await supabase
-            .from('tenants')
-            .update({ active: true })
-            .eq('id', license.tenant_id);
+          await supabase.from('tenants').update({ active: true }).eq('id', license.tenant_id);
           results.reactivated++;
         } else if (!shouldBeActive && isActive) {
           // Suspend
           await supabase
             .from('licenses')
-            .update({ 
-              status: 'suspended', 
+            .update({
+              status: 'suspended',
               suspended_at: new Date().toISOString(),
               suspended_reason: `Subscription ${subscription.status}`,
             })
             .eq('id', license.id);
-          await supabase
-            .from('tenants')
-            .update({ active: false })
-            .eq('id', license.tenant_id);
+          await supabase.from('tenants').update({ active: false }).eq('id', license.tenant_id);
           results.suspended++;
         }
 
@@ -128,10 +119,7 @@ async function _GET(request: NextRequest) {
     for (const license of expiringLicenses || []) {
       try {
         await sendExpiryWarningEmail(license.admin_email, license.company_name, license.expires_at);
-        await supabase
-          .from('licenses')
-          .update({ expiry_warning_sent: true })
-          .eq('id', license.id);
+        await supabase.from('licenses').update({ expiry_warning_sent: true }).eq('id', license.id);
       } catch (error) {
         results.errors.push(`Failed to send warning for license ${license.id}: ${error}`);
       }
@@ -142,14 +130,16 @@ async function _GET(request: NextRequest) {
       ...results,
       timestamp: new Date().toISOString(),
     });
-
   } catch (error) {
     logger.error('License check cron failed:', error);
-    return NextResponse.json({
-      success: false,
-      error: 'Internal server error',
-      ...results,
-    }, { status: 500 });
+    return NextResponse.json(
+      {
+        success: false,
+        error: 'Internal server error',
+        ...results,
+      },
+      { status: 500 },
+    );
   }
 }
 
@@ -172,7 +162,11 @@ async function sendExpirationEmail(email: string, companyName: string): Promise<
   }
 }
 
-async function sendExpiryWarningEmail(email: string, companyName: string, expiresAt: string): Promise<void> {
+async function sendExpiryWarningEmail(
+  email: string,
+  companyName: string,
+  expiresAt: string,
+): Promise<void> {
   try {
     const { sendEmail } = await import('@/lib/email/sendgrid');
     const expiryDate = new Date(expiresAt).toLocaleDateString();

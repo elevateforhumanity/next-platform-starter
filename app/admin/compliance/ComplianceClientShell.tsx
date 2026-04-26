@@ -7,7 +7,7 @@ const BlockchainCredentialVerification = dynamicImport(
     import('@/components/BlockchainCredentialVerification').then((m) => ({
       default: m.BlockchainCredentialVerification,
     })),
-  { ssr: false }
+  { ssr: false },
 );
 
 export default function ComplianceClientShell() {

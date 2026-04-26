@@ -3,22 +3,34 @@ import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { getAdminClient } from '@/lib/supabase/admin';
 import {
-  Heart, Users, Award, CheckCircle, ArrowRight,
-  Briefcase, Phone, Mail, Building2,
+  Heart,
+  Users,
+  Award,
+  CheckCircle,
+  ArrowRight,
+  Briefcase,
+  Phone,
+  Mail,
+  Building2,
 } from 'lucide-react';
 
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: 'Serene Comfort Care | Healthcare Partner | Elevate for Humanity',
-  description: 'Serene Comfort Care partners with Elevate for Humanity to provide healthcare career training and job placement for CNA and home health aide graduates.',
+  description:
+    'Serene Comfort Care partners with Elevate for Humanity to provide healthcare career training and job placement for CNA and home health aide graduates.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/serene-comfort-care' },
 };
 
 const PROGRAMS = [
   { title: 'Certified Nursing Assistant (CNA)', slug: 'cna', credential: 'State CNA License' },
   { title: 'Healthcare Fundamentals', slug: 'healthcare', credential: 'Industry Certificate' },
-  { title: 'Peer Recovery Specialist', slug: 'peer-recovery-specialist', credential: 'CPRS Certification' },
+  {
+    title: 'Peer Recovery Specialist',
+    slug: 'peer-recovery-specialist',
+    credential: 'CPRS Certification',
+  },
 ];
 
 export default async function SereneComfortCarePage() {
@@ -54,17 +66,22 @@ export default async function SereneComfortCarePage() {
     <div className="min-h-screen bg-white">
       <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[{ label: 'Partners', href: '/partnerships' }, { label: 'Serene Comfort Care' }]} />
+          <Breadcrumbs
+            items={[{ label: 'Partners', href: '/partnerships' }, { label: 'Serene Comfort Care' }]}
+          />
         </div>
       </div>
 
       {/* Hero */}
       <section className="bg-slate-900 py-16 px-4">
         <div className="max-w-4xl mx-auto">
-          <p className="text-xs font-bold uppercase tracking-widest text-brand-red-400 mb-3">Healthcare Employer Partner</p>
+          <p className="text-xs font-bold uppercase tracking-widest text-brand-red-400 mb-3">
+            Healthcare Employer Partner
+          </p>
           <h1 className="text-4xl font-extrabold text-white mb-4">Serene Comfort Care</h1>
           <p className="text-slate-300 text-lg max-w-2xl mb-4">
-            Serene Comfort Care partners with Elevate for Humanity to connect trained healthcare workers with meaningful employment in home health and personal care services.
+            Serene Comfort Care partners with Elevate for Humanity to connect trained healthcare
+            workers with meaningful employment in home health and personal care services.
           </p>
           {partner?.city && (
             <p className="text-slate-400 text-sm flex items-center gap-2">
@@ -106,7 +123,10 @@ export default async function SereneComfortCarePage() {
               <p className="text-slate-600 mb-4">{partner.description}</p>
             ) : (
               <p className="text-slate-600 mb-4">
-                Serene Comfort Care is a healthcare employer committed to providing compassionate home health and personal care services in Indiana. Through their partnership with Elevate for Humanity, they hire CNA graduates and support workforce development in the healthcare sector.
+                Serene Comfort Care is a healthcare employer committed to providing compassionate
+                home health and personal care services in Indiana. Through their partnership with
+                Elevate for Humanity, they hire CNA graduates and support workforce development in
+                the healthcare sector.
               </p>
             )}
             <ul className="space-y-3">
@@ -128,7 +148,10 @@ export default async function SereneComfortCarePage() {
               <ul className="space-y-3">
                 {PROGRAMS.map((p) => (
                   <li key={p.slug}>
-                    <Link href={`/programs/${p.slug}`} className="block hover:bg-slate-50 rounded-lg p-2 -mx-2 transition">
+                    <Link
+                      href={`/programs/${p.slug}`}
+                      className="block hover:bg-slate-50 rounded-lg p-2 -mx-2 transition"
+                    >
                       <p className="font-semibold text-slate-900 text-sm">{p.title}</p>
                       <p className="text-xs text-slate-500">{p.credential}</p>
                     </Link>
@@ -155,7 +178,8 @@ export default async function SereneComfortCarePage() {
         <div className="max-w-5xl mx-auto">
           <h2 className="text-2xl font-bold text-slate-900 mb-2">Start a Healthcare Career</h2>
           <p className="text-slate-600 mb-8">
-            Enroll in our CNA or healthcare programs and connect with employer partners like Serene Comfort Care upon graduation.
+            Enroll in our CNA or healthcare programs and connect with employer partners like Serene
+            Comfort Care upon graduation.
           </p>
           <div className="grid sm:grid-cols-3 gap-4">
             {PROGRAMS.map((p) => (
@@ -183,7 +207,8 @@ export default async function SereneComfortCarePage() {
             <Briefcase className="w-8 h-8 text-brand-red-400 mb-3" />
             <h2 className="text-2xl font-bold mb-2">Become a Healthcare Partner</h2>
             <p className="text-slate-300 max-w-lg">
-              Healthcare employers can partner with Elevate to hire trained graduates, host apprentices, or co-develop training programs.
+              Healthcare employers can partner with Elevate to hire trained graduates, host
+              apprentices, or co-develop training programs.
             </p>
           </div>
           <div className="flex flex-col gap-3 shrink-0">

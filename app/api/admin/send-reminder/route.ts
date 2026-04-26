@@ -12,18 +12,14 @@ export const maxDuration = 60;
 export const dynamic = 'force-dynamic';
 
 async function sendSMS(phone: string, message: string): Promise<boolean> {
-  if (
-    !process.env.TWILIO_SID ||
-    !process.env.TWILIO_AUTH_TOKEN ||
-    !process.env.TWILIO_PHONE
-  ) {
+  if (!process.env.TWILIO_SID || !process.env.TWILIO_AUTH_TOKEN || !process.env.TWILIO_PHONE) {
     return false;
   }
 
   try {
-    const auth = Buffer.from(
-      `${process.env.TWILIO_SID}:${process.env.TWILIO_AUTH_TOKEN}`
-    ).toString('base64');
+    const auth = Buffer.from(`${process.env.TWILIO_SID}:${process.env.TWILIO_AUTH_TOKEN}`).toString(
+      'base64',
+    );
 
     const response = await fetch(
       `https://api.twilio.com/2010-04-01/Accounts/${process.env.TWILIO_SID}/Messages.json`,
@@ -38,7 +34,7 @@ async function sendSMS(phone: string, message: string): Promise<boolean> {
           To: phone,
           Body: message,
         }),
-      }
+      },
     );
 
     return response.ok;
@@ -56,7 +52,9 @@ async function _POST(req: Request) {
     try {
       await requireApiAuth();
       const supabase = await createClient();
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       if (!user) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
       }
@@ -76,19 +74,13 @@ async function _POST(req: Request) {
     const { application_id, reminder_type } = body;
 
     if (!application_id || !reminder_type) {
-      return NextResponse.json(
-        { error: 'Missing required fields' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
     const supabase = await getAdminClient();
 
     if (!supabase) {
-      return NextResponse.json(
-        { error: 'Service temporarily unavailable.' },
-        { status: 503 }
-      );
+      return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });
     }
 
     // Get application details
@@ -104,24 +96,18 @@ async function _POST(req: Request) {
           workone_appointment_date,
           workone_location
         )
-      `
+      `,
       )
       .eq('id', application_id)
       .maybeSingle();
 
     if (appError || !app) {
-      return NextResponse.json(
-        { error: 'Application not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: 'Application not found' }, { status: 404 });
     }
 
     // Only send SMS if contact preference is text
     if (app.contact_preference !== 'Text Message') {
-      return NextResponse.json(
-        { message: 'Contact preference is not SMS' },
-        { status: 200 }
-      );
+      return NextResponse.json({ message: 'Contact preference is not SMS' }, { status: 200 });
     }
 
     // Build message based on reminder type
@@ -131,9 +117,7 @@ async function _POST(req: Request) {
     switch (reminder_type) {
       case 'workone_24hr':
         message = `Reminder: You have a WorkOne appointment tomorrow${
-          checklist?.workone_appointment_date
-            ? ` at ${checklist.workone_appointment_date}`
-            : ''
+          checklist?.workone_appointment_date ? ` at ${checklist.workone_appointment_date}` : ''
         }. Please attend and tell them you are enrolling with Elevate for Humanity. Call 317-314-3757 if you need help.`;
         break;
       case 'workone_2hr':
@@ -148,10 +132,7 @@ async function _POST(req: Request) {
         message = `Hi ${app.first_name}, please create your account at IndianaCareerConnect.com and schedule your WorkOne appointment. Call 317-314-3757 if you need help.`;
         break;
       default:
-        return NextResponse.json(
-          { error: 'Invalid reminder type' },
-          { status: 400 }
-        );
+        return NextResponse.json({ error: 'Invalid reminder type' }, { status: 400 });
     }
 
     // Send SMS
@@ -164,17 +145,22 @@ async function _POST(req: Request) {
       status: sent ? 'sent' : 'failed',
     });
 
-    if (sent) await logAdminAudit({ action: AdminAction.REMINDER_SENT, actorId: user.id, entityType: 'sms_reminders', entityId: app.id, metadata: { reminder_type, phone_last4: app.phone?.slice(-4) }, req: request });
+    if (sent)
+      await logAdminAudit({
+        action: AdminAction.REMINDER_SENT,
+        actorId: user.id,
+        entityType: 'sms_reminders',
+        entityId: app.id,
+        metadata: { reminder_type, phone_last4: app.phone?.slice(-4) },
+        req: request,
+      });
 
     return NextResponse.json({
       success: sent,
       message: sent ? 'Reminder sent' : 'Failed to send reminder',
     });
   } catch (err: any) {
-    return NextResponse.json(
-      { error: 'Failed to send reminder' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to send reminder' }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/admin/send-reminder', _POST);

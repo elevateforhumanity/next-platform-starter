@@ -7,11 +7,17 @@ export const dynamic = 'force-dynamic';
 
 export default async function ProviderSettingsPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/provider/settings');
 
   const db = await getAdminClient();
-  const { data: profile } = await supabase.from('profiles').select('tenant_id, full_name, email').eq('id', user.id).maybeSingle();
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('tenant_id, full_name, email')
+    .eq('id', user.id)
+    .maybeSingle();
   if (!profile?.tenant_id) redirect('/unauthorized');
 
   const { data: tenant } = await supabase
@@ -23,7 +29,9 @@ export default async function ProviderSettingsPage() {
   // Fetch organization record linked to this tenant
   const { data: org } = await supabase
     .from('organizations')
-    .select('id, name, slug, logo_url, tagline, support_email, website, phone, address_line1, city, state, zip')
+    .select(
+      'id, name, slug, logo_url, tagline, support_email, website, phone, address_line1, city, state, zip',
+    )
     .eq('tenant_id', profile.tenant_id)
     .maybeSingle();
 

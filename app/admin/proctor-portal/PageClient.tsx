@@ -4,7 +4,17 @@ import { useRouter } from 'next/navigation';
 import { useState, useEffect, useCallback } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-import { Shield, Plus, Search, Filter, Download, FileText, ChevronDown, ChevronUp, AlertTriangle } from 'lucide-react';
+import {
+  Shield,
+  Plus,
+  Search,
+  Filter,
+  Download,
+  FileText,
+  ChevronDown,
+  ChevronUp,
+  AlertTriangle,
+} from 'lucide-react';
 import NewSessionForm from './NewSessionForm';
 import SessionRow from './SessionRow';
 import type { ExamSession, ExamProvider, ExamResult } from './types';
@@ -20,7 +30,9 @@ export default function ProctorPortalPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [providerFilter, setProviderFilter] = useState<ExamProvider | ''>('');
   const [resultFilter, setResultFilter] = useState<ExamResult | ''>('');
-  const [reviewFilter, setReviewFilter] = useState<'all' | 'flagged' | 'under_review' | 'invalidated'>('all');
+  const [reviewFilter, setReviewFilter] = useState<
+    'all' | 'flagged' | 'under_review' | 'invalidated'
+  >('all');
   const [sortField, setSortField] = useState<'created_at' | 'student_name'>('created_at');
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('desc');
 
@@ -35,7 +47,8 @@ export default function ProctorPortalPage() {
     if (providerFilter) query = query.eq('provider', providerFilter);
     if (resultFilter) query = query.eq('result', resultFilter);
     if (reviewFilter !== 'all') query = query.eq('review_status', reviewFilter);
-    if (searchTerm) query = query.or(`student_name.ilike.%${searchTerm}%,student_email.ilike.%${searchTerm}%`);
+    if (searchTerm)
+      query = query.or(`student_name.ilike.%${searchTerm}%,student_email.ilike.%${searchTerm}%`);
 
     const { data, error } = await query;
     if (!error && data) setSessions(data as ExamSession[]);
@@ -44,7 +57,10 @@ export default function ProctorPortalPage() {
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
-      if (!session) { router.replace('/login?redirect=/admin/proctor-portal'); return; }
+      if (!session) {
+        router.replace('/login?redirect=/admin/proctor-portal');
+        return;
+      }
       fetchSessions();
     });
   }, [fetchSessions, router, supabase]);
@@ -62,7 +78,7 @@ export default function ProctorPortalPage() {
 
   const toggleSort = (field: 'created_at' | 'student_name') => {
     if (sortField === field) {
-      setSortDir(d => d === 'asc' ? 'desc' : 'asc');
+      setSortDir((d) => (d === 'asc' ? 'desc' : 'asc'));
     } else {
       setSortField(field);
       setSortDir('desc');
@@ -71,12 +87,30 @@ export default function ProctorPortalPage() {
 
   const renderSortIcon = (field: string) => {
     if (sortField !== field) return null;
-    return sortDir === 'asc' ? <ChevronUp className="w-3 h-3 inline ml-1" /> : <ChevronDown className="w-3 h-3 inline ml-1" />;
+    return sortDir === 'asc' ? (
+      <ChevronUp className="w-3 h-3 inline ml-1" />
+    ) : (
+      <ChevronDown className="w-3 h-3 inline ml-1" />
+    );
   };
 
   const exportCSV = () => {
-    const headers = ['Date', 'Student', 'Email', 'Provider', 'Exam', 'Delivery', 'ID Verified', 'Status', 'Result', 'Score', 'Proctor', 'Retest', 'Notes'];
-    const rows = sessions.map(s => [
+    const headers = [
+      'Date',
+      'Student',
+      'Email',
+      'Provider',
+      'Exam',
+      'Delivery',
+      'ID Verified',
+      'Status',
+      'Result',
+      'Score',
+      'Proctor',
+      'Retest',
+      'Notes',
+    ];
+    const rows = sessions.map((s) => [
       s.created_at?.slice(0, 10) || '',
       s.student_name,
       s.student_email || '',
@@ -91,7 +125,7 @@ export default function ProctorPortalPage() {
       s.is_retest ? 'Yes' : 'No',
       (s.proctor_notes || '').replace(/,/g, ';'),
     ]);
-    const csv = [headers, ...rows].map(r => r.join(',')).join('\n');
+    const csv = [headers, ...rows].map((r) => r.join(',')).join('\n');
     const blob = new Blob([csv], { type: 'text/csv' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -103,18 +137,15 @@ export default function ProctorPortalPage() {
 
   const stats = {
     total: sessions.length,
-    pass: sessions.filter(s => s.result === 'pass').length,
-    fail: sessions.filter(s => s.result === 'fail').length,
-    pending: sessions.filter(s => s.result === 'pending').length,
-    flagged: sessions.filter(s => s.review_status === 'flagged').length,
+    pass: sessions.filter((s) => s.result === 'pass').length,
+    fail: sessions.filter((s) => s.result === 'fail').length,
+    pending: sessions.filter((s) => s.result === 'pending').length,
+    flagged: sessions.filter((s) => s.review_status === 'flagged').length,
   };
 
   return (
     <div className="min-h-screen bg-white">
-      <Breadcrumbs items={[
-        { label: 'Admin', href: '/admin' },
-        { label: 'Proctor Portal' },
-      ]} />
+      <Breadcrumbs items={[{ label: 'Admin', href: '/admin' }, { label: 'Proctor Portal' }]} />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
         {/* Header */}
@@ -125,14 +156,25 @@ export default function ProctorPortalPage() {
             </div>
             <div>
               <h1 className="text-2xl font-bold text-slate-900">Proctor Portal</h1>
-              <p className="text-sm text-slate-500">EPA 608, Certiport, OSHA — exam session tracking and audit trail</p>
+              <p className="text-sm text-slate-500">
+                EPA 608, Certiport, OSHA — exam session tracking and audit trail
+              </p>
             </div>
           </div>
           <div className="flex gap-2">
-            <button onClick={exportCSV} className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50">
+            <button
+              onClick={exportCSV}
+              className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50"
+            >
               <Download className="w-4 h-4" /> Export CSV
             </button>
-            <button onClick={() => { setEditSession(null); setShowForm(true); }} className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-brand-blue-600 rounded-lg hover:bg-brand-blue-700">
+            <button
+              onClick={() => {
+                setEditSession(null);
+                setShowForm(true);
+              }}
+              className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-brand-blue-600 rounded-lg hover:bg-brand-blue-700"
+            >
               <Plus className="w-4 h-4" /> Log Exam Session
             </button>
           </div>
@@ -146,7 +188,7 @@ export default function ProctorPortalPage() {
             { label: 'Failed', value: stats.fail, color: 'text-brand-red-600' },
             { label: 'Pending', value: stats.pending, color: 'text-amber-600' },
             { label: 'Flagged', value: stats.flagged, color: 'text-orange-600' },
-          ].map(s => (
+          ].map((s) => (
             <div key={s.label} className="bg-white rounded-lg border border-slate-200 p-4">
               <p className="text-xs text-slate-500 uppercase tracking-wider">{s.label}</p>
               <p className={`text-2xl font-bold ${s.color}`}>{s.value}</p>
@@ -163,33 +205,37 @@ export default function ProctorPortalPage() {
                 type="text"
                 placeholder="Search by student name or email..."
                 value={searchTerm}
-                onChange={e => setSearchTerm(e.target.value)}
+                onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-full pl-10 pr-4 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
               />
             </div>
             <select
               value={providerFilter}
-              onChange={e => setProviderFilter(e.target.value as ExamProvider | '')}
+              onChange={(e) => setProviderFilter(e.target.value as ExamProvider | '')}
               className="px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500"
             >
               <option value="">All Providers</option>
               {Object.entries(PROVIDER_LABELS).map(([k, v]) => (
-                <option key={k} value={k}>{v}</option>
+                <option key={k} value={k}>
+                  {v}
+                </option>
               ))}
             </select>
             <select
               value={resultFilter}
-              onChange={e => setResultFilter(e.target.value as ExamResult | '')}
+              onChange={(e) => setResultFilter(e.target.value as ExamResult | '')}
               className="px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500"
             >
               <option value="">All Results</option>
               {Object.entries(RESULT_LABELS).map(([k, v]) => (
-                <option key={k} value={k}>{v}</option>
+                <option key={k} value={k}>
+                  {v}
+                </option>
               ))}
             </select>
             <select
               value={reviewFilter}
-              onChange={e => setReviewFilter(e.target.value as typeof reviewFilter)}
+              onChange={(e) => setReviewFilter(e.target.value as typeof reviewFilter)}
               className={`px-3 py-2 text-sm border rounded-lg focus:ring-2 focus:ring-brand-blue-500 ${
                 reviewFilter !== 'all'
                   ? 'bg-orange-50 border-orange-300 text-orange-700'
@@ -210,7 +256,10 @@ export default function ProctorPortalPage() {
             <NewSessionForm
               session={editSession}
               onSaved={handleSaved}
-              onCancel={() => { setShowForm(false); setEditSession(null); }}
+              onCancel={() => {
+                setShowForm(false);
+                setEditSession(null);
+              }}
             />
           </div>
         )}
@@ -221,10 +270,16 @@ export default function ProctorPortalPage() {
             <table className="w-full text-sm">
               <thead className="bg-slate-50 border-b border-slate-200">
                 <tr>
-                  <th className="px-4 py-3 text-left font-semibold text-slate-600 cursor-pointer" onClick={() => toggleSort('created_at')}>
+                  <th
+                    className="px-4 py-3 text-left font-semibold text-slate-600 cursor-pointer"
+                    onClick={() => toggleSort('created_at')}
+                  >
                     Date {renderSortIcon('created_at')}
                   </th>
-                  <th className="px-4 py-3 text-left font-semibold text-slate-600 cursor-pointer" onClick={() => toggleSort('student_name')}>
+                  <th
+                    className="px-4 py-3 text-left font-semibold text-slate-600 cursor-pointer"
+                    onClick={() => toggleSort('student_name')}
+                  >
                     Student {renderSortIcon('student_name')}
                   </th>
                   <th className="px-4 py-3 text-left font-semibold text-slate-600">Provider</th>
@@ -239,14 +294,21 @@ export default function ProctorPortalPage() {
               </thead>
               <tbody className="divide-y divide-slate-100">
                 {loading ? (
-                  <tr><td colSpan={10} className="px-4 py-12 text-center text-slate-400">Loading sessions...</td></tr>
+                  <tr>
+                    <td colSpan={10} className="px-4 py-12 text-center text-slate-400">
+                      Loading sessions...
+                    </td>
+                  </tr>
                 ) : sessions.length === 0 ? (
-                  <tr><td colSpan={10} className="px-4 py-12 text-center text-slate-400">
-                    <FileText className="w-8 h-8 mx-auto mb-2 text-slate-300" />
-                    No exam sessions recorded yet. Click &quot;Log Exam Session&quot; to create the first record.
-                  </td></tr>
+                  <tr>
+                    <td colSpan={10} className="px-4 py-12 text-center text-slate-400">
+                      <FileText className="w-8 h-8 mx-auto mb-2 text-slate-300" />
+                      No exam sessions recorded yet. Click &quot;Log Exam Session&quot; to create
+                      the first record.
+                    </td>
+                  </tr>
                 ) : (
-                  sessions.map(s => <SessionRow key={s.id} session={s} onEdit={handleEdit} />)
+                  sessions.map((s) => <SessionRow key={s.id} session={s} onEdit={handleEdit} />)
                 )}
               </tbody>
             </table>

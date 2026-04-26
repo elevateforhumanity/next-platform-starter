@@ -1,12 +1,12 @@
 import { logger } from '@/lib/logger';
 /**
  * Token Link System
- * 
+ *
  * Provides controlled access without login for:
  * - Host shop hour submissions
  * - School transfer submissions
  * - CE submissions
- * 
+ *
  * Tokens are:
  * - Single-purpose
  * - Expirable
@@ -86,7 +86,7 @@ export async function createAccessToken(params: {
  */
 export async function validateToken(
   token: string,
-  expectedPurpose: TokenPurpose
+  expectedPurpose: TokenPurpose,
 ): Promise<AccessToken | null> {
   const supabase = await getAdminClient();
   if (!supabase) return null;
@@ -131,7 +131,7 @@ export async function validateToken(
  */
 export function getTokenUrl(token: string, purpose: TokenPurpose): string {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
-  
+
   switch (purpose) {
     case 'host_shop_hours':
       return `${baseUrl}/portal/hours/submit?token=${token}`;

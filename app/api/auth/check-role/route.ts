@@ -6,10 +6,9 @@ import { withApiAudit } from '@/lib/audit/withApiAudit';
 export const dynamic = 'force-dynamic';
 
 async function _GET(request: NextRequest) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const searchParams = request.nextUrl.searchParams;
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const searchParams = request.nextUrl.searchParams;
   const requiredRole = searchParams.get('role');
 
   if (!requiredRole) {

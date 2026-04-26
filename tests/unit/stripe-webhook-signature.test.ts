@@ -3,7 +3,7 @@ import Stripe from 'stripe';
 
 /**
  * Stripe Webhook Signature Verification Tests
- * 
+ *
  * These tests use Stripe's actual constructEvent method to verify
  * signature validation works correctly. No mocking of the signature
  * verification itself.
@@ -26,10 +26,7 @@ import crypto from 'crypto';
 function generateSignature(payload: string, secret: string, timestamp?: number): string {
   const ts = timestamp || Math.floor(Date.now() / 1000);
   const signedPayload = `${ts}.${payload}`;
-  const signature = crypto
-    .createHmac('sha256', secret)
-    .update(signedPayload)
-    .digest('hex');
+  const signature = crypto.createHmac('sha256', secret).update(signedPayload).digest('hex');
   return `t=${ts},v1=${signature}`;
 }
 
@@ -50,11 +47,7 @@ describe('Stripe Webhook Signature Verification', () => {
       const signature = generateSignature(payload, TEST_WEBHOOK_SECRET);
 
       // This should NOT throw
-      const event = stripe.webhooks.constructEvent(
-        payload,
-        signature,
-        TEST_WEBHOOK_SECRET
-      );
+      const event = stripe.webhooks.constructEvent(payload, signature, TEST_WEBHOOK_SECRET);
 
       expect(event.id).toBe('evt_test_valid');
       expect(event.type).toBe('checkout.session.completed');
@@ -78,11 +71,7 @@ describe('Stripe Webhook Signature Verification', () => {
       });
 
       const signature = generateSignature(payload, TEST_WEBHOOK_SECRET);
-      const event = stripe.webhooks.constructEvent(
-        payload,
-        signature,
-        TEST_WEBHOOK_SECRET
-      );
+      const event = stripe.webhooks.constructEvent(payload, signature, TEST_WEBHOOK_SECRET);
 
       const paymentIntent = event.data.object as Stripe.PaymentIntent;
       expect(paymentIntent.id).toBe('pi_test_123');
@@ -101,11 +90,7 @@ describe('Stripe Webhook Signature Verification', () => {
       const wrongSignature = generateSignature(payload, 'wrong_secret');
 
       expect(() => {
-        stripe.webhooks.constructEvent(
-          payload,
-          wrongSignature,
-          TEST_WEBHOOK_SECRET
-        );
+        stripe.webhooks.constructEvent(payload, wrongSignature, TEST_WEBHOOK_SECRET);
       }).toThrow();
     });
 
@@ -126,11 +111,7 @@ describe('Stripe Webhook Signature Verification', () => {
       });
 
       expect(() => {
-        stripe.webhooks.constructEvent(
-          tamperedPayload,
-          signature,
-          TEST_WEBHOOK_SECRET
-        );
+        stripe.webhooks.constructEvent(tamperedPayload, signature, TEST_WEBHOOK_SECRET);
       }).toThrow();
     });
 
@@ -145,11 +126,7 @@ describe('Stripe Webhook Signature Verification', () => {
       const expiredSignature = generateSignature(payload, TEST_WEBHOOK_SECRET, oldTimestamp);
 
       expect(() => {
-        stripe.webhooks.constructEvent(
-          payload,
-          expiredSignature,
-          TEST_WEBHOOK_SECRET
-        );
+        stripe.webhooks.constructEvent(payload, expiredSignature, TEST_WEBHOOK_SECRET);
       }).toThrow(/timestamp/i);
     });
 
@@ -174,7 +151,7 @@ describe('Stripe Webhook Signature Verification', () => {
         stripe.webhooks.constructEvent(
           payload,
           'not_a_valid_signature_format',
-          TEST_WEBHOOK_SECRET
+          TEST_WEBHOOK_SECRET,
         );
       }).toThrow();
     });
@@ -183,7 +160,7 @@ describe('Stripe Webhook Signature Verification', () => {
   describe('Idempotency', () => {
     it('should allow tracking of processed event IDs', () => {
       const processedEvents = new Set<string>();
-      
+
       const processEvent = (eventId: string): boolean => {
         if (processedEvents.has(eventId)) {
           return false; // Already processed
@@ -193,13 +170,13 @@ describe('Stripe Webhook Signature Verification', () => {
       };
 
       const eventId = 'evt_test_idempotent';
-      
+
       // First processing should succeed
       expect(processEvent(eventId)).toBe(true);
-      
+
       // Second processing should be detected as duplicate
       expect(processEvent(eventId)).toBe(false);
-      
+
       // Different event should succeed
       expect(processEvent('evt_test_different')).toBe(true);
     });
@@ -207,45 +184,49 @@ describe('Stripe Webhook Signature Verification', () => {
     it('should handle concurrent duplicate events', async () => {
       const processedEvents = new Set<string>();
       const processingLocks = new Map<string, Promise<void>>();
-      
-      const processEventWithLock = async (eventId: string): Promise<'processed' | 'duplicate' | 'skipped'> => {
+
+      const processEventWithLock = async (
+        eventId: string,
+      ): Promise<'processed' | 'duplicate' | 'skipped'> => {
         // Check if already processed
         if (processedEvents.has(eventId)) {
           return 'duplicate';
         }
-        
+
         // Check if currently being processed
         if (processingLocks.has(eventId)) {
           await processingLocks.get(eventId);
           return 'skipped';
         }
-        
+
         // Start processing
         let resolve: () => void;
-        const lock = new Promise<void>((r) => { resolve = r; });
+        const lock = new Promise<void>((r) => {
+          resolve = r;
+        });
         processingLocks.set(eventId, lock);
-        
+
         // Simulate async processing
         await new Promise((r) => setTimeout(r, 10));
-        
+
         processedEvents.add(eventId);
         processingLocks.delete(eventId);
         resolve!();
-        
+
         return 'processed';
       };
 
       const eventId = 'evt_concurrent_test';
-      
+
       // Simulate concurrent requests
       const results = await Promise.all([
         processEventWithLock(eventId),
         processEventWithLock(eventId),
         processEventWithLock(eventId),
       ]);
-      
+
       // Only one should be 'processed', others should be 'skipped' or 'duplicate'
-      const processedCount = results.filter(r => r === 'processed').length;
+      const processedCount = results.filter((r) => r === 'processed').length;
       expect(processedCount).toBe(1);
     });
   });
@@ -275,11 +256,7 @@ describe('Stripe Webhook Signature Verification', () => {
         });
 
         const signature = generateSignature(payload, TEST_WEBHOOK_SECRET);
-        const event = stripe.webhooks.constructEvent(
-          payload,
-          signature,
-          TEST_WEBHOOK_SECRET
-        );
+        const event = stripe.webhooks.constructEvent(payload, signature, TEST_WEBHOOK_SECRET);
 
         expect(event.type).toBe(eventType);
       });
@@ -311,11 +288,7 @@ describe('Webhook Handler Response Codes', () => {
       }
     };
 
-    const result = handleWebhook(
-      '{"id":"test"}',
-      'invalid_sig',
-      TEST_WEBHOOK_SECRET
-    );
+    const result = handleWebhook('{"id":"test"}', 'invalid_sig', TEST_WEBHOOK_SECRET);
     expect(result.status).toBe(400);
   });
 

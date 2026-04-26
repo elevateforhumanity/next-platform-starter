@@ -58,7 +58,10 @@ export const SEO_KEYWORDS = {
 };
 
 // Generate meta description with keywords
-export function generateMetaDescription(pageType: keyof typeof SEO_KEYWORDS, customText?: string): string {
+export function generateMetaDescription(
+  pageType: keyof typeof SEO_KEYWORDS,
+  customText?: string,
+): string {
   const keywords = SEO_KEYWORDS[pageType] || SEO_KEYWORDS.homepage;
   const baseText = customText || 'Free workforce training and apprenticeships in Indianapolis.';
   return `${baseText} ${keywords.slice(0, 3).join(', ')}.`;

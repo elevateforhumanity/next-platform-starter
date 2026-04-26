@@ -9,7 +9,9 @@ import { logAdminAudit, AdminAction, BULK_ENTITY_ID } from '@/lib/admin/audit-lo
 export async function createProgram(formData: FormData) {
   const supabase = await createClient();
   const db = await getAdminClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     redirect('/login');
@@ -36,26 +38,30 @@ export async function createProgram(formData: FormData) {
   const is_active = formData.get('is_active') === 'on';
   const featured = formData.get('featured') === 'on';
 
-  const { error } = await db
-    .from('programs')
-    .insert({
-      name,
-      slug,
-      description,
-      category,
-      duration_hours: duration_hours ? parseInt(duration_hours) : null,
-      price: price ? parseFloat(price) : null,
-      requirements,
-      outcomes,
-      is_active,
-      featured,
-    });
+  const { error } = await db.from('programs').insert({
+    name,
+    slug,
+    description,
+    category,
+    duration_hours: duration_hours ? parseInt(duration_hours) : null,
+    price: price ? parseFloat(price) : null,
+    requirements,
+    outcomes,
+    is_active,
+    featured,
+  });
 
   if (error) {
     throw new Error('Operation failed');
   }
 
-  await logAdminAudit({ action: AdminAction.PROGRAM_CREATED, actorId: user.id, entityType: 'programs', entityId: BULK_ENTITY_ID, metadata: { name, slug } });
+  await logAdminAudit({
+    action: AdminAction.PROGRAM_CREATED,
+    actorId: user.id,
+    entityType: 'programs',
+    entityId: BULK_ENTITY_ID,
+    metadata: { name, slug },
+  });
 
   revalidatePath('/admin/programs');
   redirect('/admin/programs');
@@ -64,11 +70,17 @@ export async function createProgram(formData: FormData) {
 export async function updateProgram(id: string, formData: FormData) {
   const supabase = await createClient();
   const db = await getAdminClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) redirect('/login');
 
-  const { data: profile } = await db.from('profiles').select('role').eq('id', user.id).maybeSingle();
+  const { data: profile } = await db
+    .from('profiles')
+    .select('role')
+    .eq('id', user.id)
+    .maybeSingle();
   if (profile?.role !== 'admin' && profile?.role !== 'super_admin') redirect('/unauthorized');
 
   const { data: existing } = await db.from('programs').select('id').eq('id', id).maybeSingle();
@@ -106,7 +118,13 @@ export async function updateProgram(id: string, formData: FormData) {
     throw new Error('Operation failed');
   }
 
-  await logAdminAudit({ action: AdminAction.PROGRAM_UPDATED, actorId: user.id, entityType: 'programs', entityId: id, metadata: { name } });
+  await logAdminAudit({
+    action: AdminAction.PROGRAM_UPDATED,
+    actorId: user.id,
+    entityType: 'programs',
+    entityId: id,
+    metadata: { name },
+  });
 
   revalidatePath('/admin/programs');
   redirect('/admin/programs');
@@ -115,26 +133,35 @@ export async function updateProgram(id: string, formData: FormData) {
 export async function deleteProgram(id: string) {
   const supabase = await createClient();
   const db = await getAdminClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) throw new Error('Unauthorized');
 
-  const { data: profile } = await db.from('profiles').select('role').eq('id', user.id).maybeSingle();
+  const { data: profile } = await db
+    .from('profiles')
+    .select('role')
+    .eq('id', user.id)
+    .maybeSingle();
   if (profile?.role !== 'admin' && profile?.role !== 'super_admin') throw new Error('Unauthorized');
 
   const { data: existing } = await db.from('programs').select('id').eq('id', id).maybeSingle();
   if (!existing) throw new Error('Program not found');
 
-  const { error } = await db
-    .from('programs')
-    .delete()
-    .eq('id', id);
+  const { error } = await db.from('programs').delete().eq('id', id);
 
   if (error) {
     throw new Error('Operation failed');
   }
 
-  await logAdminAudit({ action: AdminAction.PROGRAM_DELETED, actorId: user.id, entityType: 'programs', entityId: id, metadata: {} });
+  await logAdminAudit({
+    action: AdminAction.PROGRAM_DELETED,
+    actorId: user.id,
+    entityType: 'programs',
+    entityId: id,
+    metadata: {},
+  });
 
   revalidatePath('/admin/programs');
 }

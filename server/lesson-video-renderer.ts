@@ -30,7 +30,7 @@ async function fetchSlideImage(prompt: string | undefined): Promise<string | nul
         { headers: { Authorization: pexelsKey } },
       );
       if (res.ok) {
-        const data = await res.json() as { photos: { src: { large: string } }[] };
+        const data = (await res.json()) as { photos: { src: { large: string } }[] };
         const url = data.photos?.[0]?.src?.large;
         if (url) {
           const img = await fetch(url);
@@ -40,7 +40,9 @@ async function fetchSlideImage(prompt: string | undefined): Promise<string | nul
           }
         }
       }
-    } catch { /* fall through */ }
+    } catch {
+      /* fall through */
+    }
   }
 
   const openaiKey = process.env.OPENAI_API_KEY;
@@ -52,11 +54,14 @@ async function fetchSlideImage(prompt: string | undefined): Promise<string | nul
         body: JSON.stringify({
           model: 'dall-e-3',
           prompt: `Photorealistic professional training photo: ${prompt}. Clean, well-lit, no text overlays.`,
-          n: 1, size: '1792x1024', quality: 'standard', style: 'natural',
+          n: 1,
+          size: '1792x1024',
+          quality: 'standard',
+          style: 'natural',
         }),
       });
       if (res.ok) {
-        const data = await res.json() as { data: { url: string }[] };
+        const data = (await res.json()) as { data: { url: string }[] };
         const url = data.data?.[0]?.url;
         if (url) {
           const img = await fetch(url);
@@ -66,7 +71,9 @@ async function fetchSlideImage(prompt: string | undefined): Promise<string | nul
           }
         }
       }
-    } catch { /* fall through */ }
+    } catch {
+      /* fall through */
+    }
   }
   return null;
 }
@@ -81,16 +88,19 @@ async function ensureDeps() {
   _loadImage = canvas.loadImage;
 }
 
-const WIDTH  = 1920;
+const WIDTH = 1920;
 const HEIGHT = 1080;
-const VIS_W  = Math.round(WIDTH * 0.58);
-const TXT_X  = VIS_W;
-const TXT_W  = WIDTH - VIS_W;
+const VIS_W = Math.round(WIDTH * 0.58);
+const TXT_X = VIS_W;
+const TXT_W = WIDTH - VIS_W;
 const TXT_PAD = 48;
 
 const SEGMENT_COLORS: Record<string, string> = {
-  intro: '#f59e0b', concept: '#3b82f6', technique: '#10b981',
-  application: '#8b5cf6', wrapup: '#f59e0b',
+  intro: '#f59e0b',
+  concept: '#3b82f6',
+  technique: '#10b981',
+  application: '#8b5cf6',
+  wrapup: '#f59e0b',
 };
 const CONCEPT_ACCENTS = ['#3b82f6', '#06b6d4', '#8b5cf6', '#10b981', '#f59e0b'];
 
@@ -136,12 +146,7 @@ function roundRect(ctx: any, x: number, y: number, w: number, h: number, r: numb
 }
 
 // Pointer line from text panel edge into the visual panel
-function drawPointerLine(
-  ctx: any,
-  fromY: number,
-  toRelX: number, toRelY: number,
-  accent: string,
-) {
+function drawPointerLine(ctx: any, fromY: number, toRelX: number, toRelY: number, accent: string) {
   const fromX = TXT_X + 4;
   const toX = toRelX * VIS_W;
   const toY = toRelY * HEIGHT;
@@ -192,9 +197,10 @@ async function renderSlideFrame(
   const canvas = _createCanvas(WIDTH, HEIGHT);
   const ctx = canvas.getContext('2d');
 
-  const accent = slide.segment === 'concept'
-    ? CONCEPT_ACCENTS[slideIndex % CONCEPT_ACCENTS.length]
-    : (SEGMENT_COLORS[slide.segment] || '#f59e0b');
+  const accent =
+    slide.segment === 'concept'
+      ? CONCEPT_ACCENTS[slideIndex % CONCEPT_ACCENTS.length]
+      : SEGMENT_COLORS[slide.segment] || '#f59e0b';
 
   // ── LEFT — visual panel ───────────────────────────────────────────────────
   ctx.fillStyle = '#0a0f1e';
@@ -207,11 +213,15 @@ async function renderSlideFrame(
       const panelAspect = VIS_W / HEIGHT;
       let dw: number, dh: number, dx: number, dy: number;
       if (imgAspect > panelAspect) {
-        dh = HEIGHT; dw = HEIGHT * imgAspect;
-        dx = -(dw - VIS_W) / 2; dy = 0;
+        dh = HEIGHT;
+        dw = HEIGHT * imgAspect;
+        dx = -(dw - VIS_W) / 2;
+        dy = 0;
       } else {
-        dw = VIS_W; dh = VIS_W / imgAspect;
-        dx = 0; dy = -(dh - HEIGHT) / 2;
+        dw = VIS_W;
+        dh = VIS_W / imgAspect;
+        dx = 0;
+        dy = -(dh - HEIGHT) / 2;
       }
       ctx.drawImage(img, dx, dy, dw, dh);
 
@@ -228,7 +238,9 @@ async function renderSlideFrame(
       bot.addColorStop(1, 'rgba(0,0,0,0.7)');
       ctx.fillStyle = bot;
       ctx.fillRect(0, HEIGHT - 140, VIS_W, 140);
-    } catch { /* keep dark bg */ }
+    } catch {
+      /* keep dark bg */
+    }
   } else {
     // Instructor photo centered
     try {
@@ -316,7 +328,10 @@ async function renderSlideFrame(
   // Bullets with progressive highlight
   const bullets = slide.bullets.slice(0, 4);
   const pointerTargets: [number, number][] = [
-    [0.22, 0.28], [0.55, 0.5], [0.72, 0.38], [0.38, 0.72],
+    [0.22, 0.28],
+    [0.55, 0.5],
+    [0.72, 0.38],
+    [0.38, 0.72],
   ];
 
   let bulletY = divY + 30;
@@ -324,9 +339,9 @@ async function renderSlideFrame(
 
   for (let bi = 0; bi < bullets.length; bi++) {
     const isActive = bi === activeBulletIndex;
-    const isDone   = bi < activeBulletIndex;
-    const bLines   = wrapText(ctx, bullets[bi], maxBulletW);
-    const rowH     = bLines.length * 46 + 20;
+    const isDone = bi < activeBulletIndex;
+    const bLines = wrapText(ctx, bullets[bi], maxBulletW);
+    const rowH = bLines.length * 46 + 20;
 
     // Active row highlight
     if (isActive) {
@@ -340,11 +355,15 @@ async function renderSlideFrame(
     const dotY = bulletY + 18;
     ctx.beginPath();
     ctx.arc(dotX, dotY, isActive ? 9 : 5, 0, Math.PI * 2);
-    ctx.fillStyle = isActive ? accent : (isDone ? accent + '80' : 'rgba(255,255,255,0.25)');
+    ctx.fillStyle = isActive ? accent : isDone ? accent + '80' : 'rgba(255,255,255,0.25)';
     ctx.fill();
 
     // Text
-    ctx.fillStyle = isActive ? '#ffffff' : (isDone ? 'rgba(255,255,255,0.55)' : 'rgba(255,255,255,0.45)');
+    ctx.fillStyle = isActive
+      ? '#ffffff'
+      : isDone
+        ? 'rgba(255,255,255,0.55)'
+        : 'rgba(255,255,255,0.45)';
     ctx.font = isActive ? 'bold 35px Arial' : '35px Arial';
     ctx.textAlign = 'left';
     ctx.textBaseline = 'top';
@@ -396,7 +415,9 @@ async function getFFmpeg() {
   try {
     const ffmpegPath = (await import(/* webpackIgnore: true */ '@ffmpeg-installer/ffmpeg')).path;
     ffmpeg.setFfmpegPath(ffmpegPath);
-  } catch { /* use system ffmpeg */ }
+  } catch {
+    /* use system ffmpeg */
+  }
   return ffmpeg;
 }
 
@@ -414,10 +435,14 @@ export async function renderLessonVideo(
     ffmpeg.ffprobe(audioPath, (err: any, meta: any) => {
       if (err) {
         try {
-          const out = execSync(`ffprobe -v quiet -print_format json -show_format "${audioPath}"`, { encoding: 'utf-8' });
+          const out = execSync(`ffprobe -v quiet -print_format json -show_format "${audioPath}"`, {
+            encoding: 'utf-8',
+          });
           const dur = JSON.parse(out)?.format?.duration;
           if (dur) return resolve(Math.ceil(parseFloat(dur)));
-        } catch { /* fall through */ }
+        } catch {
+          /* fall through */
+        }
         return reject(new Error(`ffprobe failed: ${audioPath}`));
       }
       resolve(Math.ceil(meta.format.duration));
@@ -425,18 +450,22 @@ export async function renderLessonVideo(
   });
 
   const weights: Record<string, number> = {
-    intro: 20, concept: 60, technique: 50, application: 45, wrapup: 20,
+    intro: 20,
+    concept: 60,
+    technique: 50,
+    application: 45,
+    wrapup: 20,
   };
   const totalWeight = slides.reduce((s, sl) => s + (weights[sl.segment] || 40), 0);
-  const slideDurations = slides.map(sl =>
-    Math.max(5, Math.round(((weights[sl.segment] || 40) / totalWeight) * audioDuration))
+  const slideDurations = slides.map((sl) =>
+    Math.max(5, Math.round(((weights[sl.segment] || 40) / totalWeight) * audioDuration)),
   );
   const totalAssigned = slideDurations.reduce((s, d) => s + d, 0);
   const diff = audioDuration - totalAssigned;
   if (diff !== 0) slideDurations[slideDurations.indexOf(Math.max(...slideDurations))] += diff;
 
   const slideImages = await Promise.all(
-    slides.map(slide => fetchSlideImage(slide.imagePrompt).catch(() => null))
+    slides.map((slide) => fetchSlideImage(slide.imagePrompt).catch(() => null)),
   );
 
   // Build frames: intro frame + one frame per bullet per slide
@@ -464,9 +493,8 @@ export async function renderLessonVideo(
       await fs.writeFile(fp, buf);
       framePaths.push(fp);
       const isLast = bi === bulletCount - 1;
-      frameDurations.push(isLast
-        ? Math.max(1, totalDur - introTime - perBullet * (bulletCount - 1))
-        : perBullet
+      frameDurations.push(
+        isLast ? Math.max(1, totalDur - introTime - perBullet * (bulletCount - 1)) : perBullet,
       );
     }
   }
@@ -477,12 +505,27 @@ export async function renderLessonVideo(
     const sv = path.join(tempDir, `clip-${i}.mp4`);
     await new Promise<void>((resolve, reject) => {
       ffmpeg()
-        .input(framePaths[i]).inputOptions(['-loop', '1'])
-        .outputOptions(['-c:v', 'libx264', '-crf', '22', '-preset', 'fast',
-          '-r', '30', '-t', Math.max(1, frameDurations[i]).toString(),
-          '-pix_fmt', 'yuv420p', '-an'])
+        .input(framePaths[i])
+        .inputOptions(['-loop', '1'])
+        .outputOptions([
+          '-c:v',
+          'libx264',
+          '-crf',
+          '22',
+          '-preset',
+          'fast',
+          '-r',
+          '30',
+          '-t',
+          Math.max(1, frameDurations[i]).toString(),
+          '-pix_fmt',
+          'yuv420p',
+          '-an',
+        ])
         .output(sv)
-        .on('end', () => resolve()).on('error', (e: Error) => reject(e)).run();
+        .on('end', () => resolve())
+        .on('error', (e: Error) => reject(e))
+        .run();
     });
     slideVideos.push(sv);
   }
@@ -492,18 +535,26 @@ export async function renderLessonVideo(
   for (let i = 0; i < slideVideos.length; i++) {
     const ts = path.join(tempDir, `clip-${i}.ts`);
     await new Promise<void>((resolve, reject) => {
-      ffmpeg().input(slideVideos[i])
+      ffmpeg()
+        .input(slideVideos[i])
         .outputOptions(['-c', 'copy', '-bsf:v', 'h264_mp4toannexb', '-f', 'mpegts'])
-        .output(ts).on('end', () => resolve()).on('error', (e: Error) => reject(e)).run();
+        .output(ts)
+        .on('end', () => resolve())
+        .on('error', (e: Error) => reject(e))
+        .run();
     });
     tsPaths.push(ts);
   }
 
   const silentVideo = path.join(tempDir, 'silent.mp4');
   await new Promise<void>((resolve, reject) => {
-    ffmpeg().input('concat:' + tsPaths.join('|'))
-      .outputOptions(['-c', 'copy']).output(silentVideo)
-      .on('end', () => resolve()).on('error', (e: Error) => reject(e)).run();
+    ffmpeg()
+      .input('concat:' + tsPaths.join('|'))
+      .outputOptions(['-c', 'copy'])
+      .output(silentVideo)
+      .on('end', () => resolve())
+      .on('error', (e: Error) => reject(e))
+      .run();
   });
 
   // Re-encode video so the muxer can write moov at the front (+faststart).
@@ -512,18 +563,20 @@ export async function renderLessonVideo(
   const tmpOut = outputPath + '.tmp.mp4';
   execSync(
     `ffmpeg -y -i "${silentVideo}" -i "${audioPath}" ` +
-    `-c:v libx264 -crf 22 -preset fast -pix_fmt yuv420p ` +
-    `-c:a aac -b:a 128k -ar 48000 ` +
-    `-shortest -movflags +faststart ` +
-    `"${tmpOut}"`,
+      `-c:v libx264 -crf 22 -preset fast -pix_fmt yuv420p ` +
+      `-c:a aac -b:a 128k -ar 48000 ` +
+      `-shortest -movflags +faststart ` +
+      `"${tmpOut}"`,
     { stdio: 'pipe' },
   );
   // Atomic rename so a partial encode never overwrites a good file
   await fs.rename(tmpOut, outputPath);
 
   const fileStat = await fs.stat(outputPath);
-  const finalDuration = await new Promise<number>(resolve => {
-    ffmpeg.ffprobe(outputPath, (err: any, meta: any) => resolve(err ? audioDuration : Math.round(meta.format.duration)));
+  const finalDuration = await new Promise<number>((resolve) => {
+    ffmpeg.ffprobe(outputPath, (err: any, meta: any) =>
+      resolve(err ? audioDuration : Math.round(meta.format.duration)),
+    );
   });
 
   await fs.rm(tempDir, { recursive: true, force: true });

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -15,7 +15,8 @@ import {
   Type,
   Image as ImageIcon,
   Code,
-CheckCircle, } from 'lucide-react';
+  CheckCircle,
+} from 'lucide-react';
 
 type QuestionType =
   | 'multiple_choice'
@@ -104,9 +105,7 @@ export default function AdvancedQuizBuilder() {
   const updateQuestion = (id: string, updates: Partial<Question>) => {
     setQuiz({
       ...quiz,
-      questions: quiz.questions.map((q) =>
-        q.id === id ? { ...q, ...updates } : q
-      ),
+      questions: quiz.questions.map((q) => (q.id === id ? { ...q, ...updates } : q)),
     });
   };
 
@@ -139,7 +138,8 @@ export default function AdvancedQuizBuilder() {
       if (response.ok) {
         alert('Quiz saved successfully!');
       }
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
       alert('Failed to save quiz');
     }
@@ -157,9 +157,7 @@ export default function AdvancedQuizBuilder() {
               type="text"
               value={quiz.title}
               onChange={(
-                e: React.ChangeEvent<
-                  HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-                >
+                e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
               ) => setQuiz({ ...quiz, title: e.target.value })}
               className="text-2xl font-bold border-none focus:outline-none w-full"
               placeholder="Quiz Title"
@@ -167,9 +165,7 @@ export default function AdvancedQuizBuilder() {
             <input
               type="text"
               value={quiz.description}
-              onChange={(e) =>
-                setQuiz({ ...quiz, description: e.target.value })
-              }
+              onChange={(e) => setQuiz({ ...quiz, description: e.target.value })}
               className="text-sm text-black border-none focus:outline-none w-full mt-1"
               placeholder="Quiz description..."
             />
@@ -215,9 +211,7 @@ export default function AdvancedQuizBuilder() {
             <input
               type="number"
               value={quiz.passingScore}
-              onChange={(e) =>
-                setQuiz({ ...quiz, passingScore: parseInt(e.target.value) })
-              }
+              onChange={(e) => setQuiz({ ...quiz, passingScore: parseInt(e.target.value) })}
               className="w-20 px-2 py-2 border rounded"
               min="0"
               max="100"
@@ -235,9 +229,7 @@ export default function AdvancedQuizBuilder() {
             <input
               type="checkbox"
               checked={quiz.shuffleQuestions}
-              onChange={(e) =>
-                setQuiz({ ...quiz, shuffleQuestions: e.target.checked })
-              }
+              onChange={(e) => setQuiz({ ...quiz, shuffleQuestions: e.target.checked })}
               className="rounded"
             />
             Shuffle Questions
@@ -246,9 +238,7 @@ export default function AdvancedQuizBuilder() {
             <input
               type="checkbox"
               checked={quiz.shuffleAnswers}
-              onChange={(e) =>
-                setQuiz({ ...quiz, shuffleAnswers: e.target.checked })
-              }
+              onChange={(e) => setQuiz({ ...quiz, shuffleAnswers: e.target.checked })}
               className="rounded"
             />
             Shuffle Answers
@@ -257,9 +247,7 @@ export default function AdvancedQuizBuilder() {
             <input
               type="checkbox"
               checked={quiz.showCorrectAnswers}
-              onChange={(e) =>
-                setQuiz({ ...quiz, showCorrectAnswers: e.target.checked })
-              }
+              onChange={(e) => setQuiz({ ...quiz, showCorrectAnswers: e.target.checked })}
               className="rounded"
             />
             Show Correct Answers
@@ -268,9 +256,7 @@ export default function AdvancedQuizBuilder() {
             <input
               type="checkbox"
               checked={quiz.allowRetakes}
-              onChange={(e) =>
-                setQuiz({ ...quiz, allowRetakes: e.target.checked })
-              }
+              onChange={(e) => setQuiz({ ...quiz, allowRetakes: e.target.checked })}
               className="rounded"
             />
             Allow Retakes
@@ -298,9 +284,7 @@ export default function AdvancedQuizBuilder() {
           </div>
 
           <div className="border-t p-4">
-            <h3 className="font-semibold mb-3">
-              Questions ({quiz.questions.length})
-            </h3>
+            <h3 className="font-semibold mb-3">Questions ({quiz.questions.length})</h3>
             <div className="space-y-2">
               {quiz.questions.map((question, index) => (
                 <div
@@ -316,19 +300,13 @@ export default function AdvancedQuizBuilder() {
                     <GripVertical className="w-4 h-4 text-slate-700 mt-1" />
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1">
-                        <span className="text-xs font-semibold text-slate-700">
-                          Q{index + 1}
-                        </span>
+                        <span className="text-xs font-semibold text-slate-700">Q{index + 1}</span>
                         <span className="text-xs px-2 py-0.5 bg-gray-100 rounded">
                           {question.type.replace('_', ' ')}
                         </span>
-                        <span className="text-xs text-slate-700">
-                          {question.points}pts
-                        </span>
+                        <span className="text-xs text-slate-700">{question.points}pts</span>
                       </div>
-                      <p className="text-sm truncate">
-                        {question.question || 'Untitled question'}
-                      </p>
+                      <p className="text-sm truncate">{question.question || 'Untitled question'}</p>
                     </div>
                     <div className="flex gap-1">
                       <button
@@ -396,9 +374,7 @@ function QuestionEditor({
           <textarea
             value={question.question}
             onChange={(
-              e: React.ChangeEvent<
-                HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-              >
+              e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
             ) => onUpdate({ question: e.target.value })}
             className="w-full p-3 border rounded-lg resize-none"
             rows={3}
@@ -413,24 +389,18 @@ function QuestionEditor({
             <input
               type="number"
               value={question.points}
-              onChange={(e) =>
-                onUpdate({ points: parseInt(e.target.value) || 1 })
-              }
+              onChange={(e) => onUpdate({ points: parseInt(e.target.value) || 1 })}
               className="w-full p-2 border rounded"
               min="1"
             />
           </div>
           <div className="flex-1">
-            <label className="block text-sm font-medium mb-2">
-              Image URL (optional)
-            </label>
+            <label className="block text-sm font-medium mb-2">Image URL (optional)</label>
             <input
               type="text"
               value={question.imageUrl || ''}
               onChange={(
-                e: React.ChangeEvent<
-                  HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-                >
+                e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
               ) => onUpdate({ imageUrl: e.target.value })}
               className="w-full p-2 border rounded"
               placeholder="https://..."
@@ -441,9 +411,7 @@ function QuestionEditor({
         {/* Question Type Specific Fields */}
         {question.type === 'multiple_choice' && (
           <div>
-            <label className="block text-sm font-medium mb-2">
-              Answer Options
-            </label>
+            <label className="block text-sm font-medium mb-2">Answer Options</label>
             <div className="space-y-2">
               {question.options?.map((option, index) => (
                 <div key={index} className="flex gap-2">
@@ -458,10 +426,8 @@ function QuestionEditor({
                     value={option}
                     onChange={(
                       e: React.ChangeEvent<
-                        | HTMLInputElement
-                        | HTMLSelectElement
-                        | HTMLTextAreaElement
-                      >
+                        HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+                      >,
                     ) => {
                       const newOptions = [...(question.options || [])];
                       newOptions[index] = e.target.value;
@@ -472,9 +438,7 @@ function QuestionEditor({
                   />
                   <button
                     onClick={() => {
-                      const newOptions = question.options?.filter(
-                        (_, i) => i !== index
-                      );
+                      const newOptions = question.options?.filter((_, i) => i !== index);
                       onUpdate({ options: newOptions });
                     }}
                     className="p-2 text-brand-orange-600 hover:bg-brand-red-50 rounded"
@@ -503,9 +467,7 @@ function QuestionEditor({
 
         {question.type === 'true_false' && (
           <div>
-            <label className="block text-sm font-medium mb-2">
-              Correct Answer
-            </label>
+            <label className="block text-sm font-medium mb-2">Correct Answer</label>
             <div className="flex gap-4">
               <label className="flex items-center gap-2">
                 <input
@@ -529,16 +491,12 @@ function QuestionEditor({
 
         {question.type === 'short_answer' && (
           <div>
-            <label className="block text-sm font-medium mb-2">
-              Correct Answer(s)
-            </label>
+            <label className="block text-sm font-medium mb-2">Correct Answer(s)</label>
             <input
               type="text"
               value={question.correctAnswer || ''}
               onChange={(
-                e: React.ChangeEvent<
-                  HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-                >
+                e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
               ) => onUpdate({ correctAnswer: e.target.value })}
               className="w-full p-2 border rounded"
               placeholder="Enter correct answer (case-insensitive)"
@@ -551,9 +509,7 @@ function QuestionEditor({
 
         {question.type === 'matching' && (
           <div>
-            <label className="block text-sm font-medium mb-2">
-              Matching Pairs
-            </label>
+            <label className="block text-sm font-medium mb-2">Matching Pairs</label>
             <div className="space-y-2">
               {question.matchingPairs?.map((pair, index) => (
                 <div key={index} className="flex gap-2">
@@ -562,10 +518,8 @@ function QuestionEditor({
                     value={pair.left}
                     onChange={(
                       e: React.ChangeEvent<
-                        | HTMLInputElement
-                        | HTMLSelectElement
-                        | HTMLTextAreaElement
-                      >
+                        HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+                      >,
                     ) => {
                       const newPairs = [...(question.matchingPairs || [])];
                       newPairs[index].left = e.target.value;
@@ -580,10 +534,8 @@ function QuestionEditor({
                     value={pair.right}
                     onChange={(
                       e: React.ChangeEvent<
-                        | HTMLInputElement
-                        | HTMLSelectElement
-                        | HTMLTextAreaElement
-                      >
+                        HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+                      >,
                     ) => {
                       const newPairs = [...(question.matchingPairs || [])];
                       newPairs[index].right = e.target.value;
@@ -594,9 +546,7 @@ function QuestionEditor({
                   />
                   <button
                     onClick={() => {
-                      const newPairs = question.matchingPairs?.filter(
-                        (_, i) => i !== index
-                      );
+                      const newPairs = question.matchingPairs?.filter((_, i) => i !== index);
                       onUpdate({ matchingPairs: newPairs });
                     }}
                     className="p-2 text-brand-orange-600 hover:bg-brand-red-50 rounded"
@@ -609,10 +559,7 @@ function QuestionEditor({
             <button
               onClick={() =>
                 onUpdate({
-                  matchingPairs: [
-                    ...(question.matchingPairs || []),
-                    { left: '', right: '' },
-                  ],
+                  matchingPairs: [...(question.matchingPairs || []), { left: '', right: '' }],
                 })
               }
               className="mt-2 flex items-center gap-2 px-3 py-2 text-sm border rounded hover:bg-gray-50"
@@ -625,15 +572,11 @@ function QuestionEditor({
 
         {question.type === 'code' && (
           <div>
-            <label className="block text-sm font-medium mb-2">
-              Programming Language
-            </label>
+            <label className="block text-sm font-medium mb-2">Programming Language</label>
             <select
               value={question.codeLanguage}
               onChange={(
-                e: React.ChangeEvent<
-                  HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-                >
+                e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
               ) => onUpdate({ codeLanguage: e.target.value })}
               className="w-full p-2 border rounded mb-3"
             >
@@ -643,15 +586,11 @@ function QuestionEditor({
               <option value="cpp">C++</option>
               <option value="csharp">C#</option>
             </select>
-            <label className="block text-sm font-medium mb-2">
-              Expected Output/Solution
-            </label>
+            <label className="block text-sm font-medium mb-2">Expected Output/Solution</label>
             <textarea
               value={question.correctAnswer || ''}
               onChange={(
-                e: React.ChangeEvent<
-                  HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-                >
+                e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
               ) => onUpdate({ correctAnswer: e.target.value })}
               className="w-full p-3 border rounded font-mono text-sm resize-none"
               rows={6}
@@ -662,15 +601,11 @@ function QuestionEditor({
 
         {/* Explanation */}
         <div>
-          <label className="block text-sm font-medium mb-2">
-            Explanation (shown after answer)
-          </label>
+          <label className="block text-sm font-medium mb-2">Explanation (shown after answer)</label>
           <textarea
             value={question.explanation || ''}
             onChange={(
-              e: React.ChangeEvent<
-                HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-              >
+              e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
             ) => onUpdate({ explanation: e.target.value })}
             className="w-full p-3 border rounded resize-none"
             rows={3}

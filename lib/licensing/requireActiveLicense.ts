@@ -55,10 +55,7 @@ export async function requireActiveLicense(tenantId: string): Promise<void> {
  * await requireFeatureAccess(tenantId, 'advanced_analytics');
  * ```
  */
-export async function requireFeatureAccess(
-  tenantId: string,
-  feature: string
-): Promise<void> {
+export async function requireFeatureAccess(tenantId: string, feature: string): Promise<void> {
   const supabase = await createClient();
 
   const { data: license, error } = await supabase
@@ -93,10 +90,8 @@ export async function requireFeatureAccess(
  * ```
  */
 export async function checkLicenseStatus(
-  tenantId: string
-): Promise<
-  'active' | 'trial' | 'suspended' | 'cancelled' | 'expired' | 'none'
-> {
+  tenantId: string,
+): Promise<'active' | 'trial' | 'suspended' | 'cancelled' | 'expired' | 'none'> {
   const supabase = await createClient();
 
   const { data: license, error } = await supabase
@@ -128,10 +123,7 @@ export async function checkLicenseStatus(
  * const hasAnalytics = await checkFeatureAccess(tenantId, 'advanced_analytics');
  * ```
  */
-export async function checkFeatureAccess(
-  tenantId: string,
-  feature: string
-): Promise<boolean> {
+export async function checkFeatureAccess(tenantId: string, feature: string): Promise<boolean> {
   const supabase = await createClient();
 
   const { data: license, error } = await supabase

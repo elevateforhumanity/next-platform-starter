@@ -1,5 +1,4 @@
-"use client";
-
+'use client';
 
 /**
  * Discussion Forums Component
@@ -22,7 +21,8 @@ import {
   Plus,
   Send,
   ArrowLeft,
-CheckCircle, } from 'lucide-react';
+  CheckCircle,
+} from 'lucide-react';
 import Link from 'next/link';
 import { PolicyReference } from '@/components/compliance/PolicyReference';
 import { POLICIES } from '@/lib/policies';
@@ -63,17 +63,12 @@ interface ForumPost {
 
 export default function DiscussionForums() {
   const supabase = createBrowserClient();
-  const [activeView, setActiveView] = useState<
-    'categories' | 'threads' | 'thread'
-  >('categories');
+  const [activeView, setActiveView] = useState<'categories' | 'threads' | 'thread'>('categories');
   const [categories, setCategories] = useState<ForumCategory[]>([]);
   const [threads, setThreads] = useState<ForumThread[]>([]);
   const [posts, setPosts] = useState<ForumPost[]>([]);
-  const [selectedCategory, setSelectedCategory] =
-    useState<ForumCategory | null>(null);
-  const [selectedThread, setSelectedThread] = useState<ForumThread | null>(
-    null
-  );
+  const [selectedCategory, setSelectedCategory] = useState<ForumCategory | null>(null);
+  const [selectedThread, setSelectedThread] = useState<ForumThread | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState<'recent' | 'popular'>('recent');
   const [newThreadTitle, setNewThreadTitle] = useState('');
@@ -150,7 +145,7 @@ export default function DiscussionForums() {
             ...cat,
             thread_count: threadsByCategory[cat.id] ?? 0,
             post_count: postsByCategory[cat.id] ?? 0,
-          }))
+          })),
         );
       }
     } catch (data: any) {
@@ -181,7 +176,7 @@ export default function DiscussionForums() {
             ...thread,
             author_name: 'Student',
             reply_count: staticReplies[i % staticReplies.length],
-          }))
+          })),
         );
       }
     } catch (data: any) {
@@ -207,7 +202,7 @@ export default function DiscussionForums() {
           data.map((post) => ({
             ...post,
             author_name: 'Student',
-          }))
+          })),
         );
       }
     } catch (data: any) {
@@ -216,13 +211,7 @@ export default function DiscussionForums() {
   };
 
   const createThread = async () => {
-    if (
-      !currentUser ||
-      !selectedCategory ||
-      !newThreadTitle ||
-      !newThreadContent
-    )
-      return;
+    if (!currentUser || !selectedCategory || !newThreadTitle || !newThreadContent) return;
 
     try {
       setError(null);
@@ -281,15 +270,18 @@ export default function DiscussionForums() {
   };
 
   const formatTimeAgo = (date: string) => {
-    const seconds = Math.floor(
-      (new Date().getTime() - new Date(date).getTime()) / 1000
-    );
+    const seconds = Math.floor((new Date().getTime() - new Date(date).getTime()) / 1000);
 
     if (seconds < 60) return 'just now';
     if (seconds < 3600) return `${Math.floor(seconds / 60)}m ago`;
     if (seconds < 86400) return `${Math.floor(seconds / 3600)}h ago`;
     if (seconds < 604800) return `${Math.floor(seconds / 86400)}d ago`;
-    return new Date(date).toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' });
+    return new Date(date).toLocaleDateString('en-US', {
+      timeZone: 'UTC',
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+    });
   };
 
   // Categories View
@@ -401,12 +393,8 @@ export default function DiscussionForums() {
                       <MessageSquare className="w-6 h-6 text-brand-blue-600" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h3 className="text-lg font-semibold text-black mb-1">
-                        {category.name}
-                      </h3>
-                      <p className="text-sm text-black mb-3 line-clamp-2">
-                        {category.description}
-                      </p>
+                      <h3 className="text-lg font-semibold text-black mb-1">{category.name}</h3>
+                      <p className="text-sm text-black mb-3 line-clamp-2">{category.description}</p>
                       <div className="flex items-center gap-4 text-sm text-slate-700">
                         <span className="flex items-center gap-1">
                           <MessageSquare className="w-4 h-4" />
@@ -448,9 +436,7 @@ export default function DiscussionForums() {
             <h1 className="text-4xl font-bold text-black text-2xl md:text-3xl lg:text-4xl">
               {selectedCategory?.name}
             </h1>
-            <p className="text-black mt-2">
-              {selectedCategory?.description}
-            </p>
+            <p className="text-black mt-2">{selectedCategory?.description}</p>
           </div>
 
           {/* Filters */}
@@ -498,12 +484,8 @@ export default function DiscussionForums() {
           ) : threads.length === 0 ? (
             <div className="bg-white rounded-lg shadow-sm p-12 text-center">
               <MessageSquare className="w-16 h-16 text-slate-700 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-black mb-2">
-                No threads yet
-              </h3>
-              <p className="text-black mb-6">
-                Be the first to start a discussion!
-              </p>
+              <h3 className="text-xl font-semibold text-black mb-2">No threads yet</h3>
+              <p className="text-black mb-6">Be the first to start a discussion!</p>
               {currentUser && (
                 <button
                   onClick={() => setShowNewThreadModal(true)}
@@ -529,19 +511,13 @@ export default function DiscussionForums() {
                       <div className="flex items-start justify-between mb-2">
                         <div className="flex-1">
                           <div className="flex items-center gap-2 mb-1">
-                            {thread.is_pinned && (
-                              <Pin className="w-4 h-4 text-brand-blue-600" />
-                            )}
-                            {thread.is_locked && (
-                              <Lock className="w-4 h-4 text-slate-700" />
-                            )}
+                            {thread.is_pinned && <Pin className="w-4 h-4 text-brand-blue-600" />}
+                            {thread.is_locked && <Lock className="w-4 h-4 text-slate-700" />}
                             <h3 className="text-lg font-semibold text-black hover:text-brand-blue-600">
                               {thread.title}
                             </h3>
                           </div>
-                          <p className="text-sm text-black line-clamp-2">
-                            {thread.content}
-                          </p>
+                          <p className="text-sm text-black line-clamp-2">{thread.content}</p>
                         </div>
                       </div>
                       <div className="flex items-center gap-4 text-sm text-slate-700">
@@ -569,14 +545,10 @@ export default function DiscussionForums() {
           {showNewThreadModal && (
             <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
               <div className="bg-white rounded-lg max-w-2xl w-full p-6">
-                <h2 className="text-2xl font-bold text-black mb-4">
-                  Create New Thread
-                </h2>
+                <h2 className="text-2xl font-bold text-black mb-4">Create New Thread</h2>
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium text-black mb-2">
-                      Title
-                    </label>
+                    <label className="block text-sm font-medium text-black mb-2">Title</label>
                     <input
                       type="text"
                       value={newThreadTitle}
@@ -586,9 +558,7 @@ export default function DiscussionForums() {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-black mb-2">
-                      Content
-                    </label>
+                    <label className="block text-sm font-medium text-black mb-2">Content</label>
                     <textarea
                       value={newThreadContent}
                       onChange={(e) => setNewThreadContent(e.target.value)}
@@ -606,9 +576,7 @@ export default function DiscussionForums() {
                     </button>
                     <button
                       onClick={createThread}
-                      disabled={
-                        !newThreadTitle.trim() || !newThreadContent.trim()
-                      }
+                      disabled={!newThreadTitle.trim() || !newThreadContent.trim()}
                       className="px-6 py-2 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700 disabled:opacity-50 disabled:cursor-not-allowed font-medium"
                     >
                       Create Thread
@@ -642,9 +610,7 @@ export default function DiscussionForums() {
         {/* Thread */}
         {selectedThread && (
           <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
-            <h1 className="text-3xl font-bold text-black mb-4">
-              {selectedThread.title}
-            </h1>
+            <h1 className="text-3xl font-bold text-black mb-4">{selectedThread.title}</h1>
             <div className="flex items-center gap-2 text-sm text-slate-700 mb-4">
               <span className="font-medium">{selectedThread.author_name}</span>
               <span>•</span>
@@ -655,9 +621,7 @@ export default function DiscussionForums() {
                 {selectedThread.view_count} views
               </span>
             </div>
-            <div className="prose max-w-none text-black">
-              {selectedThread.content}
-            </div>
+            <div className="prose max-w-none text-black">{selectedThread.content}</div>
           </div>
         )}
 
@@ -668,16 +632,10 @@ export default function DiscussionForums() {
               <div className="flex items-start gap-4">
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-2">
-                    <span className="font-semibold text-black">
-                      {post.author_name}
-                    </span>
-                    <span className="text-sm text-slate-700">
-                      {formatTimeAgo(post.created_at)}
-                    </span>
+                    <span className="font-semibold text-black">{post.author_name}</span>
+                    <span className="text-sm text-slate-700">{formatTimeAgo(post.created_at)}</span>
                   </div>
-                  <div className="prose max-w-none text-black">
-                    {post.content}
-                  </div>
+                  <div className="prose max-w-none text-black">{post.content}</div>
                 </div>
               </div>
             </div>
@@ -687,9 +645,7 @@ export default function DiscussionForums() {
         {/* Reply Box */}
         {currentUser && !selectedThread?.is_locked && (
           <div className="bg-white rounded-lg shadow-sm p-6">
-            <h3 className="text-lg font-semibold text-black mb-4">
-              Post a Reply
-            </h3>
+            <h3 className="text-lg font-semibold text-black mb-4">Post a Reply</h3>
             <textarea
               value={newPostContent}
               onChange={(e) => setNewPostContent(e.target.value)}
@@ -712,9 +668,7 @@ export default function DiscussionForums() {
 
         {!currentUser && (
           <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-lg p-6 text-center">
-            <p className="text-black mb-4">
-              Please log in to reply to this thread
-            </p>
+            <p className="text-black mb-4">Please log in to reply to this thread</p>
             <Link
               href="/login"
               className="inline-block px-6 py-2 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700 font-medium"

@@ -14,7 +14,12 @@ export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 export async function GET(request: NextRequest) {
-  try { const rl = await applyRateLimit(request, 'api'); if (rl) return rl; } catch { /* continue on rate-limit backend failure */ }
+  try {
+    const rl = await applyRateLimit(request, 'api');
+    if (rl) return rl;
+  } catch {
+    /* continue on rate-limit backend failure */
+  }
 
   const auth = await apiAuthGuard(request);
 
@@ -27,7 +32,8 @@ export async function GET(request: NextRequest) {
 
     const { data: pathways, error } = await db
       .from('program_certification_pathways')
-      .select(`
+      .select(
+        `
         id,
         credential_name,
         credential_abbreviation,
@@ -54,7 +60,8 @@ export async function GET(request: NextRequest) {
           description,
           renewal_period_months
         )
-      `)
+      `,
+      )
       .eq('program_id', programId)
       .eq('is_active', true)
       .order('sort_order', { ascending: true });

@@ -18,13 +18,13 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhuma
 
 /**
  * CANONICAL LEARNER CHECKOUT
- * 
+ *
  * Single entry point for all individual learner payments:
  * - Student subscription ($39/mo)
  * - Career track subscription ($149/mo)
  * - Program enrollment (one-time)
  * - Course purchase (one-time)
- * 
+ *
  * All other checkout handlers should redirect here.
  */
 
@@ -41,24 +41,20 @@ interface CheckoutRequest {
 }
 
 async function _POST(request: NextRequest) {
-    const rateLimited = await applyRateLimit(request, 'contact');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(request, 'contact');
+  if (rateLimited) return rateLimited;
 
   if (!process.env.STRIPE_SECRET_KEY) {
-    return NextResponse.json(
-      { error: 'Payment system not configured' },
-      { status: 503 }
-    );
+    return NextResponse.json({ error: 'Payment system not configured' }, { status: 503 });
   }
 
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
-    return NextResponse.json(
-      { error: 'Authentication required' },
-      { status: 401 }
-    );
+    return NextResponse.json({ error: 'Authentication required' }, { status: 401 });
   }
 
   try {
@@ -70,16 +66,23 @@ async function _POST(request: NextRequest) {
     switch (type) {
       case 'subscription': {
         // Subscription checkout (student or career tier)
-        const tierConfig = tier === 'career' 
-          ? { priceEnv: 'STRIPE_PRICE_CAREER', product: APP_STORE_PRODUCTS.find(p => p.tier === 'career') }
-          : { priceEnv: 'STRIPE_PRICE_STUDENT', product: APP_STORE_PRODUCTS.find(p => p.tier === 'student') };
+        const tierConfig =
+          tier === 'career'
+            ? {
+                priceEnv: 'STRIPE_PRICE_CAREER',
+                product: APP_STORE_PRODUCTS.find((p) => p.tier === 'career'),
+              }
+            : {
+                priceEnv: 'STRIPE_PRICE_STUDENT',
+                product: APP_STORE_PRODUCTS.find((p) => p.tier === 'student'),
+              };
 
         const stripePriceId = process.env[tierConfig.priceEnv] || tierConfig.product?.stripePriceId;
 
         if (!stripePriceId) {
           return NextResponse.json(
             { error: `${tier || 'student'} pricing not configured` },
-            { status: 500 }
+            { status: 500 },
           );
         }
 
@@ -108,10 +111,7 @@ async function _POST(request: NextRequest) {
       case 'program': {
         // Program enrollment (one-time payment)
         if (!programId) {
-          return NextResponse.json(
-            { error: 'Program ID required' },
-            { status: 400 }
-          );
+          return NextResponse.json({ error: 'Program ID required' }, { status: 400 });
         }
 
         // Get program details
@@ -122,35 +122,31 @@ async function _POST(request: NextRequest) {
           .maybeSingle();
 
         if (!program) {
-          return NextResponse.json(
-            { error: 'Program not found' },
-            { status: 404 }
-          );
+          return NextResponse.json({ error: 'Program not found' }, { status: 404 });
         }
 
         // Price must come from DB — never trust client-supplied amount
         const programAmount = program.total_cost ? Math.round(Number(program.total_cost) * 100) : 0;
 
         if (programAmount <= 0) {
-          return NextResponse.json(
-            { error: 'Invalid program price' },
-            { status: 400 }
-          );
+          return NextResponse.json({ error: 'Invalid program price' }, { status: 400 });
         }
 
         sessionConfig = {
           mode: 'payment',
-          line_items: [{
-            price_data: {
-              currency: 'usd',
-              product_data: {
-                name: program.title || program?.title || program?.name,
-                description: `Enrollment in ${program.title || program?.title || program?.name}`,
+          line_items: [
+            {
+              price_data: {
+                currency: 'usd',
+                product_data: {
+                  name: program.title || program?.title || program?.name,
+                  description: `Enrollment in ${program.title || program?.title || program?.name}`,
+                },
+                unit_amount: programAmount,
               },
-              unit_amount: programAmount,
+              quantity: 1,
             },
-            quantity: 1,
-          }],
+          ],
           success_url: `${SITE_URL}/onboarding/learner?checkout=success&program=${program.slug}&session_id={CHECKOUT_SESSION_ID}`,
           cancel_url: `${SITE_URL}/programs/${program.slug}?checkout=cancelled`,
           customer_email: user.email || undefined,
@@ -168,10 +164,7 @@ async function _POST(request: NextRequest) {
       case 'course': {
         // Course purchase (one-time payment)
         if (!courseId) {
-          return NextResponse.json(
-            { error: 'Course ID required' },
-            { status: 400 }
-          );
+          return NextResponse.json({ error: 'Course ID required' }, { status: 400 });
         }
 
         const { data: course } = await supabase
@@ -181,35 +174,31 @@ async function _POST(request: NextRequest) {
           .maybeSingle();
 
         if (!course) {
-          return NextResponse.json(
-            { error: 'Course not found' },
-            { status: 404 }
-          );
+          return NextResponse.json({ error: 'Course not found' }, { status: 404 });
         }
 
         // Price must come from DB — never trust client-supplied amount
         const courseAmount = course.price ? Math.round(Number(course.price) * 100) : 0;
 
         if (courseAmount <= 0) {
-          return NextResponse.json(
-            { error: 'Invalid course price' },
-            { status: 400 }
-          );
+          return NextResponse.json({ error: 'Invalid course price' }, { status: 400 });
         }
 
         sessionConfig = {
           mode: 'payment',
-          line_items: [{
-            price_data: {
-              currency: 'usd',
-              product_data: {
-                name: course.title,
-                description: `Access to ${course.title}`,
+          line_items: [
+            {
+              price_data: {
+                currency: 'usd',
+                product_data: {
+                  name: course.title,
+                  description: `Access to ${course.title}`,
+                },
+                unit_amount: courseAmount,
               },
-              unit_amount: courseAmount,
+              quantity: 1,
             },
-            quantity: 1,
-          }],
+          ],
           success_url: `${SITE_URL}/courses/${course.slug}?checkout=success&session_id={CHECKOUT_SESSION_ID}`,
           cancel_url: `${SITE_URL}/courses/${course.slug}?checkout=cancelled`,
           customer_email: user.email || undefined,
@@ -227,7 +216,7 @@ async function _POST(request: NextRequest) {
       default:
         return NextResponse.json(
           { error: 'Invalid checkout type. Use: subscription, program, or course' },
-          { status: 400 }
+          { status: 400 },
         );
     }
 
@@ -240,17 +229,16 @@ async function _POST(request: NextRequest) {
       userId: user.id,
     });
 
-    return NextResponse.json({ 
+    return NextResponse.json({
       sessionId: session.id,
       url: session.url,
     });
-
   } catch (error) {
-    logger.error('Learner checkout error', error instanceof Error ? error : new Error(String(error)));
-    return NextResponse.json(
-      { error: 'Failed to create checkout session' },
-      { status: 500 }
+    logger.error(
+      'Learner checkout error',
+      error instanceof Error ? error : new Error(String(error)),
     );
+    return NextResponse.json({ error: 'Failed to create checkout session' }, { status: 500 });
   }
 }
 export const POST = withRuntime(withApiAudit('/api/checkout/learner', _POST));

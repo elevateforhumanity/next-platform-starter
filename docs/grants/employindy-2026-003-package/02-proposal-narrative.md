@@ -8,34 +8,36 @@ Indianapolis, Indiana
 ---
 
 # RFP 2026-003 — WIOA In-School Youth Service Provision
+
 # Proposal Narrative
 
 ---
 
 ## SECTION 1: COVER SHEET
 
-| Field | Information |
-|---|---|
-| Organization Name | Elevate for Humanity |
-| Organization Type | Nonprofit 501(c)(3) |
-| Primary Contact | Elizabeth Greene, Founder & Chief Executive Officer |
-| Email | elevate4humanityedu@gmail.com |
-| Website | www.elevateforhumanity.org |
-| Address | Indianapolis, Indiana |
-| Proposed School Partner | Warren Central High School, MSD Warren Township |
-| School Contact | Masimba Taylor, Principal — mtaylor4@warren.k12.in.us |
-| School Co-Contact | Nicole Simpson, Intervention Specialist — nsimpson@warren.k12.in.us |
-| Career Coach | Ameco Martin |
-| Requested Award Amount | $400,000 |
-| Contract Term | July 1, 2026 – June 30, 2027 |
-| XBE Status | IMM Certified | Woman-Owned | Black-Led |
-| SAM.gov CAGE | 0Q856 |
-| DOL RAP Provider ID | 206251 |
+| Field                   | Information                                                         |
+| ----------------------- | ------------------------------------------------------------------- | ----------- | --------- |
+| Organization Name       | Elevate for Humanity                                                |
+| Organization Type       | Nonprofit 501(c)(3)                                                 |
+| Primary Contact         | Elizabeth Greene, Founder & Chief Executive Officer                 |
+| Email                   | elevate4humanityedu@gmail.com                                       |
+| Website                 | www.elevateforhumanity.org                                          |
+| Address                 | Indianapolis, Indiana                                               |
+| Proposed School Partner | Warren Central High School, MSD Warren Township                     |
+| School Contact          | Masimba Taylor, Principal — mtaylor4@warren.k12.in.us               |
+| School Co-Contact       | Nicole Simpson, Intervention Specialist — nsimpson@warren.k12.in.us |
+| Career Coach            | Ameco Martin                                                        |
+| Requested Award Amount  | $400,000                                                            |
+| Contract Term           | July 1, 2026 – June 30, 2027                                        |
+| XBE Status              | IMM Certified                                                       | Woman-Owned | Black-Led |
+| SAM.gov CAGE            | 0Q856                                                               |
+| DOL RAP Provider ID     | 206251                                                              |
 
 ---
 
 ## SECTION 2: ORGANIZATIONAL OVERVIEW & CAPACITY
-*(15 points)*
+
+_(15 points)_
 
 Elevate for Humanity is a Marion County nonprofit workforce development organization founded to expand access to high-demand career pathways for underserved adults and youth in Indianapolis. Our mission is to eliminate barriers between Marion County residents and living-wage employment through technology-enabled training, registered apprenticeship, and wraparound case management.
 
@@ -46,6 +48,7 @@ Elevate for Humanity is an existing EmployIndy partner and WorkOne partner. This
 Elevate holds active DOL Registered Apprenticeship Program (RAP) status as a Training Agent under Provider ID 206251 for the Building Services Technician occupation, which includes HVAC systems, refrigeration, and EPA 608 certification. This is a federally registered, DOL-compliant credential pathway — operational, not proposed.
 
 **Credentials & Certifications**
+
 - ETPL Provider (Indiana Eligible Training Provider List)
 - WIOA / WRG / JRI Approved
 - CareerSafe OSHA Provider
@@ -78,7 +81,8 @@ Elevate maintains financial controls, program documentation systems, and reporti
 ---
 
 ## SECTION 3: PROGRAM DESIGN & INTEGRATED SERVICE DELIVERY
-*(15 points)*
+
+_(15 points)_
 
 Elevate's service model moves participants through a clear, technology-enabled journey from first contact to credential attainment and employment. Every step is documented in Indiana Career Connect and tracked in Elevate's LMS.
 
@@ -100,6 +104,7 @@ Each participant receives a comprehensive objective assessment covering academic
 
 **Step 4 — Integrated Service Delivery**
 Participants access all 14 WIOA Youth Service Elements through Elevate's integrated model. Core delivery includes:
+
 - In-person career coaching at Warren Central with Career Coach Ameco Martin
 - Asynchronous online instruction via Elevate's LMS (accessible on any device)
 - HVAC pre-apprenticeship pathway with EPA 608 exam preparation
@@ -123,7 +128,8 @@ Elevate's LMS uses AI-assisted content delivery, automated progress tracking, an
 ---
 
 ## SECTION 4: EMPLOYER ENGAGEMENT, TRAINING & CAREER PATHWAYS
-*(15 points)*
+
+_(15 points)_
 
 **Primary Employer Partner: 2Exclusive Platinum Cleaning**
 2Exclusive Platinum Cleaning is Elevate's OJT employer partner for the Building Services Technician RAP. They provide paid work-based learning placements, on-site mentorship, and a direct hiring pipeline for program completers. This is an existing, operational partnership.
@@ -132,6 +138,7 @@ Elevate's LMS uses AI-assisted content delivery, automated progress tracking, an
 HVAC is consistently identified on Indiana's Demand Occupation List. The U.S. Bureau of Labor Statistics projects 6% national growth for HVAC mechanics through 2032. In Marion County, aging commercial infrastructure and rapid construction growth drive sustained employer demand. EPA 608 certification is a federal legal requirement for any technician handling refrigerants — creating a hard credential barrier that limits supply and elevates wages above the WIOA median earnings target of $4,300 in Q2.
 
 **Pathway Structure**
+
 - Warren Central enrollment → WIOA eligibility → ISS development
 - HVAC pre-apprenticeship: online RTI via Elevate LMS + OJT at 2Exclusive
 - EPA 608 Universal Certification exam (fees covered)
@@ -140,6 +147,7 @@ HVAC is consistently identified on Indiana's Demand Occupation List. The U.S. Bu
 - Stackable credentials toward BOMA, IFMA, and Indiana occupational certifications
 
 **Employer Engagement Activities**
+
 - Employer panels and industry tours for participants at Warren Central
 - Job shadowing placements at 2Exclusive Platinum Cleaning
 - Employer-led professionalism and workplace readiness sessions
@@ -151,7 +159,8 @@ Career Coach delivers sector-based career exploration sessions at Warren Central
 ---
 
 ## SECTION 5: PARTICIPANT SUPPORT, RETENTION & BARRIER REMOVAL
-*(5 points)*
+
+_(5 points)_
 
 **Asynchronous Online Delivery**
 All RTI is delivered via Elevate's LMS on any device, eliminating transportation barriers to instruction. Participants complete coursework on their own schedule around school and work hours.
@@ -160,6 +169,7 @@ All RTI is delivered via Elevate's LMS on any device, eliminating transportation
 Monthly check-ins for every participant. At-risk flags triggered automatically by LMS inactivity alerts. Structured re-engagement plan before any disenrollment action.
 
 **Supportive Services (WIOA allowable)**
+
 - Transportation stipends for work-based learning participation
 - Work attire and tools for OJT placements
 - EPA 608 exam fees covered
@@ -175,7 +185,8 @@ Each participant on the HVAC pathway is assigned a qualified mentor at 2Exclusiv
 ---
 
 ## SECTION 6: EQUITY, TRAUMA-INFORMED & CULTURALLY RESPONSIVE PRACTICE
-*(10 points)*
+
+_(10 points)_
 
 **Organizational Identity**
 Elevate for Humanity is a woman-owned, Black-led nonprofit organization, IMM certified. Our leadership reflects the communities we serve. Equity is the founding premise of the organization, not a program add-on.
@@ -190,6 +201,7 @@ Elevate's Career Coach and case manager are trained in trauma-informed engagemen
 Our partnership with Warren Central includes coordination with Intervention Specialist Nicole Simpson, ensuring participants with mental health, behavioral, or trauma-related barriers receive coordinated school-based support alongside Elevate's workforce services.
 
 **Culturally Responsive Service Delivery**
+
 - All program materials available in plain language
 - Career Coach Ameco Martin reflects the cultural background of the target population
 - Recruitment and outreach conducted through trusted community channels
@@ -204,19 +216,23 @@ Elevate prioritizes recruitment of youth from high-need Marion County ZIP codes 
 ---
 
 ## SECTION 7: PERFORMANCE MEASUREMENT, DATA & CONTINUOUS IMPROVEMENT
-*(10 points)*
+
+_(10 points)_
 
 **Data Systems**
+
 - **Indiana Career Connect:** All participants enrolled and tracked. ISS documented, updated, and linked to performance measures. Career Coach enters all required data in compliance with EmployIndy and DWD policy.
 - **Elevate LMS:** Real-time tracking of lesson completion, checkpoint scores, measurable skills gain, and time-on-task. Automated alerts for at-risk participants. Data exportable in CSV for WIOA reporting.
 - **Program Dashboard:** Monthly aggregate metrics reviewed by program director — retention rates, credential attainment, employment placement, LMS completion percentages.
 
 **Continuous Improvement Cycle**
+
 - **Monthly:** Career Coach reviews individual participant progress in ICC and LMS. At-risk participants receive intervention within 48 hours of flag.
 - **Quarterly:** Program director reviews aggregate performance against WIOA targets. Findings documented in quarterly report. Corrective actions triggered for any metric below threshold.
 - **Annually:** Full program review incorporating all four quarters. Curriculum updates, recruitment adjustments, and staffing changes informed by data.
 
 **EmployIndy Coordination**
+
 - Monthly meetings with EmployIndy point of contact attended by Career Coach and program director
 - Quarterly performance reports submitted on schedule
 - All ICC data entries completed within required timeframes
@@ -227,21 +243,22 @@ Elevate's LMS generates automated participant risk scores based on login frequen
 ---
 
 ## SECTION 8: BUDGET & BUDGET NARRATIVE
-*(5 points)*
+
+_(5 points)_
 
 **Total Request: $400,000 | Contract Term: July 1, 2026 – June 30, 2027**
 
-| Line Item | Amount | Justification |
-|---|---|---|
-| Career Coach — Ameco Martin (1.0 FTE) | $52,000 | Salary + benefits. Embedded at Warren Central, delivers all career coaching, ISS development, ICC data entry, and employer coordination |
-| Elizabeth Greene — CEO & Case Manager (0.5 FTE) | $48,000 | Salary + benefits. WIOA enrollment, ICC management, follow-up, barrier coordination, monthly check-ins |
-| Program Director — Elizabeth Greene (0.25 FTE) | $20,000 | Oversight, EmployIndy coordination, quarterly reporting, continuous improvement |
-| LMS Platform & Technology | $24,000 | Hosting, maintenance, AI-assisted content delivery, dashboard reporting, participant tracking |
-| Participant Supportive Services | $144,000 | Transportation stipends, work attire/tools, EPA 608 exam fees, participant incentives, accessibility supports. Estimated 80 participants × $1,800 average |
-| Work-Based Learning Coordination | $30,000 | Employer engagement, job shadowing coordination, OJT placement support, employer panel events |
-| Training & Curriculum | $24,000 | HVAC curriculum delivery, employability bootcamp, financial literacy, LMI sessions |
-| Administrative Costs | $22,000 | Financial management, compliance, audit preparation, insurance, office expenses |
-| **Total** | **$400,000** | |
+| Line Item                                       | Amount       | Justification                                                                                                                                             |
+| ----------------------------------------------- | ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Career Coach — Ameco Martin (1.0 FTE)           | $52,000      | Salary + benefits. Embedded at Warren Central, delivers all career coaching, ISS development, ICC data entry, and employer coordination                   |
+| Elizabeth Greene — CEO & Case Manager (0.5 FTE) | $48,000      | Salary + benefits. WIOA enrollment, ICC management, follow-up, barrier coordination, monthly check-ins                                                    |
+| Program Director — Elizabeth Greene (0.25 FTE)  | $20,000      | Oversight, EmployIndy coordination, quarterly reporting, continuous improvement                                                                           |
+| LMS Platform & Technology                       | $24,000      | Hosting, maintenance, AI-assisted content delivery, dashboard reporting, participant tracking                                                             |
+| Participant Supportive Services                 | $144,000     | Transportation stipends, work attire/tools, EPA 608 exam fees, participant incentives, accessibility supports. Estimated 80 participants × $1,800 average |
+| Work-Based Learning Coordination                | $30,000      | Employer engagement, job shadowing coordination, OJT placement support, employer panel events                                                             |
+| Training & Curriculum                           | $24,000      | HVAC curriculum delivery, employability bootcamp, financial literacy, LMI sessions                                                                        |
+| Administrative Costs                            | $22,000      | Financial management, compliance, audit preparation, insurance, office expenses                                                                           |
+| **Total**                                       | **$400,000** |                                                                                                                                                           |
 
 **Cost per Participant (80 participants):** $4,000 — below the $4,300 median earnings target.
 **Administrative costs:** 5.5% of total budget — within federal reasonableness standards.

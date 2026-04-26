@@ -64,7 +64,17 @@ export async function POST(req: NextRequest) {
     return safeError('Invalid JSON', 400);
   }
 
-  const { examType, examName, bookingType, participantCount, email, name, pendingBookingId, addOn, slotId } = body;
+  const {
+    examType,
+    examName,
+    bookingType,
+    participantCount,
+    email,
+    name,
+    pendingBookingId,
+    addOn,
+    slotId,
+  } = body;
 
   if (!examType) {
     return safeError('examType is required', 400);
@@ -75,9 +85,10 @@ export async function POST(req: NextRequest) {
   if (!provider) return safeError('Unknown exam type', 400);
 
   // Use the lowest published fee as the canonical amount
-  const feeCents = provider.fees && provider.fees.length > 0
-    ? Math.min(...provider.fees.map(f => f.amount * 100))
-    : 0;
+  const feeCents =
+    provider.fees && provider.fees.length > 0
+      ? Math.min(...provider.fees.map((f) => f.amount * 100))
+      : 0;
 
   if (feeCents <= 0) {
     return safeError('No fee configured for this exam type', 400);

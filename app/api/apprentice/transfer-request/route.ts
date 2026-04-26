@@ -2,10 +2,10 @@ import { createClient } from '@/lib/supabase/server';
 import { withErrorHandling, APIErrors } from '@/lib/api';
 import { NextRequest, NextResponse } from 'next/server';
 import { auditLog, AuditAction, AuditEntity } from '@/lib/logging/auditLog';
-import { 
-  canEvaluateTransfer, 
+import {
+  canEvaluateTransfer,
   type TransferSourceType,
-  TRANSFER_DOCS_BY_SOURCE 
+  TRANSFER_DOCS_BY_SOURCE,
 } from '@/lib/documents';
 
 export const runtime = 'nodejs';
@@ -45,10 +45,7 @@ export const POST = withErrorHandling(async (request: NextRequest) => {
 
   // Validate required fields
   if (!apprenticeId || !source || !hoursRequested) {
-    throw APIErrors.validation(
-      'apprenticeId, source, hoursRequested',
-      'Missing required fields'
-    );
+    throw APIErrors.validation('apprenticeId, source, hoursRequested', 'Missing required fields');
   }
 
   // Validate hours
@@ -77,16 +74,13 @@ export const POST = withErrorHandling(async (request: NextRequest) => {
   if (hours > maxHours) {
     throw APIErrors.validation(
       'hoursRequested',
-      `Hours cannot exceed ${maxHours} (50% of program total)`
+      `Hours cannot exceed ${maxHours} (50% of program total)`,
     );
   }
 
   // Validate at least one document provided
   if (!documentIds || documentIds.length === 0) {
-    throw APIErrors.validation(
-      'documentIds',
-      'At least one supporting document is required'
-    );
+    throw APIErrors.validation('documentIds', 'At least one supporting document is required');
   }
 
   // Map source to TransferSourceType
@@ -96,13 +90,11 @@ export const POST = withErrorHandling(async (request: NextRequest) => {
   // Transfer requests can be SUBMITTED without verification,
   // but evaluation/crediting requires verification
   const verificationCheck = await canEvaluateTransfer(user.id, sourceType);
-  
+
   // Determine initial status based on verification
   // If docs are verified, can proceed to evaluation
   // If not verified, status is 'requires_manual_review'
-  const initialStatus = verificationCheck.allowed 
-    ? 'pending' 
-    : 'requires_manual_review';
+  const initialStatus = verificationCheck.allowed ? 'pending' : 'requires_manual_review';
 
   // Create transfer request
   const { data: transferRequest, error: insertError } = await supabase

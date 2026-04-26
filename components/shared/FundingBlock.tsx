@@ -17,7 +17,6 @@ export default function FundingBlock({ showBNPL = true, outOfState = true }: Fun
     <section className="py-12 sm:py-16 bg-slate-50 border-t border-slate-100">
       <div className="max-w-5xl mx-auto px-4">
         <div className="grid sm:grid-cols-2 gap-6">
-
           {/* Funding explanation */}
           <div className="bg-white rounded-xl border border-slate-200 p-6">
             <p className="text-brand-red-600 font-bold text-xs uppercase tracking-widest mb-2">
@@ -51,12 +50,8 @@ export default function FundingBlock({ showBNPL = true, outOfState = true }: Fun
 
           {/* Indiana Career Connect */}
           <div className="bg-brand-blue-50 rounded-xl border border-brand-blue-200 p-6">
-            <p className="text-brand-blue-900 font-semibold text-sm mb-1">
-              Indiana Career Connect
-            </p>
-            <p className="text-brand-blue-800 text-sm leading-relaxed mb-4">
-              {ICC_INSTRUCTION}
-            </p>
+            <p className="text-brand-blue-900 font-semibold text-sm mb-1">Indiana Career Connect</p>
+            <p className="text-brand-blue-800 text-sm leading-relaxed mb-4">{ICC_INSTRUCTION}</p>
             <a
               href={ICC_URL}
               target="_blank"
@@ -66,7 +61,6 @@ export default function FundingBlock({ showBNPL = true, outOfState = true }: Fun
               Go to Indiana Career Connect
             </a>
           </div>
-
         </div>
       </div>
     </section>

@@ -38,9 +38,16 @@ export async function PATCH(req: NextRequest) {
   if (auth.error) return auth.error;
 
   const body = await req.json();
-  const { application_id, reviewer_decision, reviewer_notes, enrollment_conditions, condition_deadline } = body;
+  const {
+    application_id,
+    reviewer_decision,
+    reviewer_notes,
+    enrollment_conditions,
+    condition_deadline,
+  } = body;
 
-  if (!application_id || !reviewer_decision) return safeError('application_id and reviewer_decision required', 400);
+  if (!application_id || !reviewer_decision)
+    return safeError('application_id and reviewer_decision required', 400);
   if (!['enroll', 'hold', 'do_not_enroll'].includes(reviewer_decision)) {
     return safeError('reviewer_decision must be enroll, hold, or do_not_enroll', 400);
   }
@@ -77,8 +84,12 @@ export async function PATCH(req: NextRequest) {
     .from('applications')
     .update({
       status: statusMap[reviewer_decision],
-      eligibility_status: reviewer_decision === 'enroll' ? 'eligible'
-        : reviewer_decision === 'hold' ? 'conditional_review' : 'ineligible',
+      eligibility_status:
+        reviewer_decision === 'enroll'
+          ? 'eligible'
+          : reviewer_decision === 'hold'
+            ? 'conditional_review'
+            : 'ineligible',
     })
     .eq('id', application_id);
 
@@ -116,12 +127,19 @@ export async function PATCH(req: NextRequest) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          personalizations: [{ to: [{ email: app.email, name: `${app.first_name} ${app.last_name}` }], subject: msg.subject }],
+          personalizations: [
+            {
+              to: [{ email: app.email, name: `${app.first_name} ${app.last_name}` }],
+              subject: msg.subject,
+            },
+          ],
           from: { email: 'info@elevateforhumanity.org', name: 'Elevate for Humanity' },
-          content: [{
-            type: 'text/html',
-            value: `<!DOCTYPE html><html><body style="font-family:Arial,sans-serif;color:#1e293b;max-width:600px;margin:0 auto;padding:20px;">${msg.body}<p>Thank you,<br/><strong>Elevate for Humanity Career &amp; Technical Institute</strong><br/>(317) 314-3757 | info@elevateforhumanity.org</p></body></html>`,
-          }],
+          content: [
+            {
+              type: 'text/html',
+              value: `<!DOCTYPE html><html><body style="font-family:Arial,sans-serif;color:#1e293b;max-width:600px;margin:0 auto;padding:20px;">${msg.body}<p>Thank you,<br/><strong>Elevate for Humanity Career &amp; Technical Institute</strong><br/>(317) 314-3757 | info@elevateforhumanity.org</p></body></html>`,
+            },
+          ],
         }),
       });
     }

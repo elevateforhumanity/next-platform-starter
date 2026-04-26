@@ -28,6 +28,7 @@ Supabase does not support restoring a backup into a different project via
 the free/Pro plan. Instead:
 
 **Option A — Supabase Support (recommended)**
+
 - Open a support ticket at https://supabase.com/dashboard/support
 - Request: "Restore the 2026-02-26T04:09:35.891Z backup of project
   `cuxzzpsyufcewtmicszk` to a temporary project, or provide a SQL dump
@@ -36,6 +37,7 @@ the free/Pro plan. Instead:
   hardening
 
 **Option B — Self-service (if available on your plan)**
+
 - Go to Project Settings → Database → Backups
 - Select the 2026-02-26 04:09 backup
 - Click "Restore" (this overwrites the current database — **do NOT do

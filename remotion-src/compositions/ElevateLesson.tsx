@@ -28,19 +28,19 @@ export interface ElevateLessonProps {
   title: string;
   moduleTitle: string;
   objective: string;
-  keyPoints: string[];          // 3–5 bullet points
-  example: string;              // real-world example text
-  summary: string;              // 1-2 sentence wrap-up
-  quizTeaser?: string;          // "Test your knowledge: ..." optional
-  audioSrc: string;             // absolute path or data URI to MP3
-  backgroundImageSrc?: string;  // Pexels image URL or local path
+  keyPoints: string[]; // 3–5 bullet points
+  example: string; // real-world example text
+  summary: string; // 1-2 sentence wrap-up
+  quizTeaser?: string; // "Test your knowledge: ..." optional
+  audioSrc: string; // absolute path or data URI to MP3
+  backgroundImageSrc?: string; // Pexels image URL or local path
   instructorName: string;
   instructorTitle: string;
   instructorImageSrc?: string;
   // Brand
-  topBarColor: string;          // e.g. '#f97316'
-  accentColor: string;          // e.g. '#3b82f6'
-  backgroundColor: string;      // e.g. '#0f172a'
+  topBarColor: string; // e.g. '#f97316'
+  accentColor: string; // e.g. '#3b82f6'
+  backgroundColor: string; // e.g. '#0f172a'
   // Segment durations in frames (30fps)
   segmentFrames: [number, number, number, number, number];
 }
@@ -63,26 +63,57 @@ function slideUp(frame: number, fps: number, delay = 0) {
 
 function TopBar({ color, title }: { color: string; title: string }) {
   return (
-    <div style={{
-      position: 'absolute', top: 0, left: 0, right: 0,
-      height: 8, background: color,
-    }} />
+    <div
+      style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        height: 8,
+        background: color,
+      }}
+    />
   );
 }
 
 function Logo({ accentColor }: { accentColor: string }) {
   return (
-    <div style={{
-      position: 'absolute', top: 24, left: 48,
-      display: 'flex', alignItems: 'center', gap: 10,
-    }}>
-      <div style={{
-        width: 36, height: 36, borderRadius: 8,
-        background: accentColor,
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        fontWeight: 900, fontSize: 18, color: '#fff', fontFamily: 'sans-serif',
-      }}>E</div>
-      <span style={{ color: '#fff', fontWeight: 700, fontSize: 18, fontFamily: 'sans-serif', opacity: 0.9 }}>
+    <div
+      style={{
+        position: 'absolute',
+        top: 24,
+        left: 48,
+        display: 'flex',
+        alignItems: 'center',
+        gap: 10,
+      }}
+    >
+      <div
+        style={{
+          width: 36,
+          height: 36,
+          borderRadius: 8,
+          background: accentColor,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          fontWeight: 900,
+          fontSize: 18,
+          color: '#fff',
+          fontFamily: 'sans-serif',
+        }}
+      >
+        E
+      </div>
+      <span
+        style={{
+          color: '#fff',
+          fontWeight: 700,
+          fontSize: 18,
+          fontFamily: 'sans-serif',
+          opacity: 0.9,
+        }}
+      >
         Elevate LMS
       </span>
     </div>
@@ -91,13 +122,21 @@ function Logo({ accentColor }: { accentColor: string }) {
 
 function ModuleTag({ text, accentColor }: { text: string; accentColor: string }) {
   return (
-    <div style={{
-      position: 'absolute', top: 24, right: 48,
-      background: accentColor + '33',
-      border: `1px solid ${accentColor}66`,
-      borderRadius: 20, padding: '6px 16px',
-      color: accentColor, fontSize: 14, fontFamily: 'sans-serif', fontWeight: 600,
-    }}>
+    <div
+      style={{
+        position: 'absolute',
+        top: 24,
+        right: 48,
+        background: accentColor + '33',
+        border: `1px solid ${accentColor}66`,
+        borderRadius: 20,
+        padding: '6px 16px',
+        color: accentColor,
+        fontSize: 14,
+        fontFamily: 'sans-serif',
+        fontWeight: 600,
+      }}
+    >
       {text}
     </div>
   );
@@ -105,49 +144,80 @@ function ModuleTag({ text, accentColor }: { text: string; accentColor: string })
 
 // ── Segment 0: Intro ──────────────────────────────────────────────────────────
 
-function IntroSegment({ props, frame, fps }: { props: ElevateLessonProps; frame: number; fps: number }) {
+function IntroSegment({
+  props,
+  frame,
+  fps,
+}: {
+  props: ElevateLessonProps;
+  frame: number;
+  fps: number;
+}) {
   const titleOpacity = fadeIn(frame, fps, 10, 25);
   const titleY = slideUp(frame, fps, 10);
   const subOpacity = fadeIn(frame, fps, 25, 20);
   const instructorOpacity = fadeIn(frame, fps, 40, 20);
 
   return (
-    <AbsoluteFill style={{ background: props.backgroundColor, justifyContent: 'center', alignItems: 'center' }}>
+    <AbsoluteFill
+      style={{ background: props.backgroundColor, justifyContent: 'center', alignItems: 'center' }}
+    >
       <TopBar color={props.topBarColor} title={props.title} />
       <Logo accentColor={props.accentColor} />
       <ModuleTag text={props.moduleTitle} accentColor={props.accentColor} />
 
       {/* Center content */}
       <div style={{ textAlign: 'center', padding: '0 120px', maxWidth: 1200 }}>
-        <div style={{
-          opacity: titleOpacity,
-          transform: `translateY(${titleY}px)`,
-          fontSize: 64, fontWeight: 900, color: '#fff',
-          fontFamily: 'sans-serif', lineHeight: 1.15, marginBottom: 24,
-        }}>
+        <div
+          style={{
+            opacity: titleOpacity,
+            transform: `translateY(${titleY}px)`,
+            fontSize: 64,
+            fontWeight: 900,
+            color: '#fff',
+            fontFamily: 'sans-serif',
+            lineHeight: 1.15,
+            marginBottom: 24,
+          }}
+        >
           {props.title}
         </div>
-        <div style={{
-          opacity: subOpacity,
-          fontSize: 26, color: props.accentColor,
-          fontFamily: 'sans-serif', fontWeight: 500, marginBottom: 48,
-        }}>
+        <div
+          style={{
+            opacity: subOpacity,
+            fontSize: 26,
+            color: props.accentColor,
+            fontFamily: 'sans-serif',
+            fontWeight: 500,
+            marginBottom: 48,
+          }}
+        >
           {props.objective}
         </div>
       </div>
 
       {/* Instructor strip */}
-      <div style={{
-        position: 'absolute', bottom: 60,
-        display: 'flex', alignItems: 'center', gap: 16,
-        opacity: instructorOpacity,
-      }}>
+      <div
+        style={{
+          position: 'absolute',
+          bottom: 60,
+          display: 'flex',
+          alignItems: 'center',
+          gap: 16,
+          opacity: instructorOpacity,
+        }}
+      >
         {props.instructorImageSrc && (
-          <Img src={props.instructorImageSrc} style={{
-            width: 56, height: 56, borderRadius: '50%',
-            border: `3px solid ${props.topBarColor}`,
-            objectFit: 'cover',
-          }} />
+          <Img
+            src={props.instructorImageSrc}
+            style={{
+              width: 56,
+              height: 56,
+              borderRadius: '50%',
+              border: `3px solid ${props.topBarColor}`,
+              objectFit: 'cover',
+            }}
+          />
         )}
         <div>
           <div style={{ color: '#fff', fontWeight: 700, fontSize: 18, fontFamily: 'sans-serif' }}>
@@ -160,50 +230,92 @@ function IntroSegment({ props, frame, fps }: { props: ElevateLessonProps; frame:
       </div>
 
       {/* Decorative gradient orb */}
-      <div style={{
-        position: 'absolute', top: '20%', right: '10%',
-        width: 400, height: 400, borderRadius: '50%',
-        background: `radial-gradient(circle, ${props.accentColor}22 0%, transparent 70%)`,
-        pointerEvents: 'none',
-      }} />
+      <div
+        style={{
+          position: 'absolute',
+          top: '20%',
+          right: '10%',
+          width: 400,
+          height: 400,
+          borderRadius: '50%',
+          background: `radial-gradient(circle, ${props.accentColor}22 0%, transparent 70%)`,
+          pointerEvents: 'none',
+        }}
+      />
     </AbsoluteFill>
   );
 }
 
 // ── Segment 1: Concept ────────────────────────────────────────────────────────
 
-function ConceptSegment({ props, frame, fps }: { props: ElevateLessonProps; frame: number; fps: number }) {
+function ConceptSegment({
+  props,
+  frame,
+  fps,
+}: {
+  props: ElevateLessonProps;
+  frame: number;
+  fps: number;
+}) {
   const points = props.keyPoints.slice(0, 2);
   return (
     <AbsoluteFill style={{ background: props.backgroundColor }}>
       <TopBar color={props.topBarColor} title={props.title} />
       <Logo accentColor={props.accentColor} />
 
-      <div style={{ padding: '100px 80px 60px', display: 'flex', flexDirection: 'column', gap: 32 }}>
-        <div style={{
-          opacity: fadeIn(frame, fps, 5, 20),
-          fontSize: 20, color: props.accentColor, fontFamily: 'sans-serif',
-          fontWeight: 700, textTransform: 'uppercase', letterSpacing: 3,
-        }}>
+      <div
+        style={{ padding: '100px 80px 60px', display: 'flex', flexDirection: 'column', gap: 32 }}
+      >
+        <div
+          style={{
+            opacity: fadeIn(frame, fps, 5, 20),
+            fontSize: 20,
+            color: props.accentColor,
+            fontFamily: 'sans-serif',
+            fontWeight: 700,
+            textTransform: 'uppercase',
+            letterSpacing: 3,
+          }}
+        >
           Key Concepts
         </div>
 
         {points.map((point, i) => (
-          <div key={i} style={{
-            opacity: fadeIn(frame, fps, 15 + i * 20, 20),
-            transform: `translateY(${slideUp(frame, fps, 15 + i * 20)}px)`,
-            display: 'flex', alignItems: 'flex-start', gap: 24,
-            background: '#1e293b', borderRadius: 16, padding: '28px 32px',
-            borderLeft: `4px solid ${props.topBarColor}`,
-          }}>
-            <div style={{
-              width: 40, height: 40, borderRadius: '50%',
-              background: props.topBarColor,
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              color: '#fff', fontWeight: 900, fontSize: 18, fontFamily: 'sans-serif',
-              flexShrink: 0,
-            }}>{i + 1}</div>
-            <div style={{ color: '#e2e8f0', fontSize: 26, fontFamily: 'sans-serif', lineHeight: 1.5 }}>
+          <div
+            key={i}
+            style={{
+              opacity: fadeIn(frame, fps, 15 + i * 20, 20),
+              transform: `translateY(${slideUp(frame, fps, 15 + i * 20)}px)`,
+              display: 'flex',
+              alignItems: 'flex-start',
+              gap: 24,
+              background: '#1e293b',
+              borderRadius: 16,
+              padding: '28px 32px',
+              borderLeft: `4px solid ${props.topBarColor}`,
+            }}
+          >
+            <div
+              style={{
+                width: 40,
+                height: 40,
+                borderRadius: '50%',
+                background: props.topBarColor,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: '#fff',
+                fontWeight: 900,
+                fontSize: 18,
+                fontFamily: 'sans-serif',
+                flexShrink: 0,
+              }}
+            >
+              {i + 1}
+            </div>
+            <div
+              style={{ color: '#e2e8f0', fontSize: 26, fontFamily: 'sans-serif', lineHeight: 1.5 }}
+            >
               {point}
             </div>
           </div>
@@ -215,53 +327,105 @@ function ConceptSegment({ props, frame, fps }: { props: ElevateLessonProps; fram
 
 // ── Segment 2: Visual ─────────────────────────────────────────────────────────
 
-function VisualSegment({ props, frame, fps }: { props: ElevateLessonProps; frame: number; fps: number }) {
+function VisualSegment({
+  props,
+  frame,
+  fps,
+}: {
+  props: ElevateLessonProps;
+  frame: number;
+  fps: number;
+}) {
   const points = props.keyPoints.slice(2);
   return (
     <AbsoluteFill style={{ background: props.backgroundColor }}>
       {/* Background image with overlay */}
       {props.backgroundImageSrc && (
         <>
-          <Img src={props.backgroundImageSrc} style={{
-            position: 'absolute', inset: 0, width: '100%', height: '100%',
-            objectFit: 'cover', opacity: 0.15,
-          }} />
-          <div style={{
-            position: 'absolute', inset: 0,
-            background: `linear-gradient(135deg, ${props.backgroundColor}ee 0%, ${props.backgroundColor}99 100%)`,
-          }} />
+          <Img
+            src={props.backgroundImageSrc}
+            style={{
+              position: 'absolute',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              opacity: 0.15,
+            }}
+          />
+          <div
+            style={{
+              position: 'absolute',
+              inset: 0,
+              background: `linear-gradient(135deg, ${props.backgroundColor}ee 0%, ${props.backgroundColor}99 100%)`,
+            }}
+          />
         </>
       )}
 
       <TopBar color={props.topBarColor} title={props.title} />
       <Logo accentColor={props.accentColor} />
 
-      <div style={{ position: 'relative', padding: '100px 80px 60px', display: 'flex', flexDirection: 'column', gap: 28 }}>
-        <div style={{
-          opacity: fadeIn(frame, fps, 5, 20),
-          fontSize: 20, color: props.accentColor, fontFamily: 'sans-serif',
-          fontWeight: 700, textTransform: 'uppercase', letterSpacing: 3,
-        }}>
+      <div
+        style={{
+          position: 'relative',
+          padding: '100px 80px 60px',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 28,
+        }}
+      >
+        <div
+          style={{
+            opacity: fadeIn(frame, fps, 5, 20),
+            fontSize: 20,
+            color: props.accentColor,
+            fontFamily: 'sans-serif',
+            fontWeight: 700,
+            textTransform: 'uppercase',
+            letterSpacing: 3,
+          }}
+        >
           Continued
         </div>
 
         {points.map((point, i) => (
-          <div key={i} style={{
-            opacity: fadeIn(frame, fps, 15 + i * 20, 20),
-            transform: `translateY(${slideUp(frame, fps, 15 + i * 20)}px)`,
-            display: 'flex', alignItems: 'flex-start', gap: 24,
-            background: '#1e293bcc', borderRadius: 16, padding: '28px 32px',
-            borderLeft: `4px solid ${props.accentColor}`,
-            backdropFilter: 'blur(8px)',
-          }}>
-            <div style={{
-              width: 40, height: 40, borderRadius: '50%',
-              background: props.accentColor,
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              color: '#fff', fontWeight: 900, fontSize: 18, fontFamily: 'sans-serif',
-              flexShrink: 0,
-            }}>{i + 3}</div>
-            <div style={{ color: '#e2e8f0', fontSize: 26, fontFamily: 'sans-serif', lineHeight: 1.5 }}>
+          <div
+            key={i}
+            style={{
+              opacity: fadeIn(frame, fps, 15 + i * 20, 20),
+              transform: `translateY(${slideUp(frame, fps, 15 + i * 20)}px)`,
+              display: 'flex',
+              alignItems: 'flex-start',
+              gap: 24,
+              background: '#1e293bcc',
+              borderRadius: 16,
+              padding: '28px 32px',
+              borderLeft: `4px solid ${props.accentColor}`,
+              backdropFilter: 'blur(8px)',
+            }}
+          >
+            <div
+              style={{
+                width: 40,
+                height: 40,
+                borderRadius: '50%',
+                background: props.accentColor,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: '#fff',
+                fontWeight: 900,
+                fontSize: 18,
+                fontFamily: 'sans-serif',
+                flexShrink: 0,
+              }}
+            >
+              {i + 3}
+            </div>
+            <div
+              style={{ color: '#e2e8f0', fontSize: 26, fontFamily: 'sans-serif', lineHeight: 1.5 }}
+            >
               {point}
             </div>
           </div>
@@ -273,37 +437,70 @@ function VisualSegment({ props, frame, fps }: { props: ElevateLessonProps; frame
 
 // ── Segment 3: Application ────────────────────────────────────────────────────
 
-function ApplicationSegment({ props, frame, fps }: { props: ElevateLessonProps; frame: number; fps: number }) {
+function ApplicationSegment({
+  props,
+  frame,
+  fps,
+}: {
+  props: ElevateLessonProps;
+  frame: number;
+  fps: number;
+}) {
   return (
-    <AbsoluteFill style={{ background: props.backgroundColor, justifyContent: 'center', alignItems: 'center' }}>
+    <AbsoluteFill
+      style={{ background: props.backgroundColor, justifyContent: 'center', alignItems: 'center' }}
+    >
       <TopBar color={props.topBarColor} title={props.title} />
       <Logo accentColor={props.accentColor} />
 
       <div style={{ padding: '0 100px', maxWidth: 1400, textAlign: 'center' }}>
-        <div style={{
-          opacity: fadeIn(frame, fps, 5, 20),
-          fontSize: 20, color: props.topBarColor, fontFamily: 'sans-serif',
-          fontWeight: 700, textTransform: 'uppercase', letterSpacing: 3, marginBottom: 32,
-        }}>
+        <div
+          style={{
+            opacity: fadeIn(frame, fps, 5, 20),
+            fontSize: 20,
+            color: props.topBarColor,
+            fontFamily: 'sans-serif',
+            fontWeight: 700,
+            textTransform: 'uppercase',
+            letterSpacing: 3,
+            marginBottom: 32,
+          }}
+        >
           Real-World Application
         </div>
 
-        <div style={{
-          opacity: fadeIn(frame, fps, 15, 25),
-          transform: `translateY(${slideUp(frame, fps, 15)}px)`,
-          background: '#1e293b',
-          borderRadius: 24, padding: '48px 56px',
-          borderTop: `4px solid ${props.topBarColor}`,
-        }}>
+        <div
+          style={{
+            opacity: fadeIn(frame, fps, 15, 25),
+            transform: `translateY(${slideUp(frame, fps, 15)}px)`,
+            background: '#1e293b',
+            borderRadius: 24,
+            padding: '48px 56px',
+            borderTop: `4px solid ${props.topBarColor}`,
+          }}
+        >
           {/* Quote mark */}
-          <div style={{
-            fontSize: 80, color: props.topBarColor, fontFamily: 'Georgia, serif',
-            lineHeight: 0.5, marginBottom: 24, opacity: 0.6,
-          }}>"</div>
-          <div style={{
-            color: '#e2e8f0', fontSize: 28, fontFamily: 'sans-serif',
-            lineHeight: 1.6, fontStyle: 'italic',
-          }}>
+          <div
+            style={{
+              fontSize: 80,
+              color: props.topBarColor,
+              fontFamily: 'Georgia, serif',
+              lineHeight: 0.5,
+              marginBottom: 24,
+              opacity: 0.6,
+            }}
+          >
+            "
+          </div>
+          <div
+            style={{
+              color: '#e2e8f0',
+              fontSize: 28,
+              fontFamily: 'sans-serif',
+              lineHeight: 1.6,
+              fontStyle: 'italic',
+            }}
+          >
             {props.example}
           </div>
         </div>
@@ -314,48 +511,82 @@ function ApplicationSegment({ props, frame, fps }: { props: ElevateLessonProps; 
 
 // ── Segment 4: Wrap-up ────────────────────────────────────────────────────────
 
-function WrapupSegment({ props, frame, fps }: { props: ElevateLessonProps; frame: number; fps: number }) {
+function WrapupSegment({
+  props,
+  frame,
+  fps,
+}: {
+  props: ElevateLessonProps;
+  frame: number;
+  fps: number;
+}) {
   return (
-    <AbsoluteFill style={{ background: props.backgroundColor, justifyContent: 'center', alignItems: 'center' }}>
+    <AbsoluteFill
+      style={{ background: props.backgroundColor, justifyContent: 'center', alignItems: 'center' }}
+    >
       <TopBar color={props.topBarColor} title={props.title} />
       <Logo accentColor={props.accentColor} />
 
       <div style={{ padding: '0 100px', maxWidth: 1200, textAlign: 'center' }}>
-        <div style={{
-          opacity: fadeIn(frame, fps, 5, 20),
-          fontSize: 20, color: props.accentColor, fontFamily: 'sans-serif',
-          fontWeight: 700, textTransform: 'uppercase', letterSpacing: 3, marginBottom: 32,
-        }}>
+        <div
+          style={{
+            opacity: fadeIn(frame, fps, 5, 20),
+            fontSize: 20,
+            color: props.accentColor,
+            fontFamily: 'sans-serif',
+            fontWeight: 700,
+            textTransform: 'uppercase',
+            letterSpacing: 3,
+            marginBottom: 32,
+          }}
+        >
           Summary
         </div>
 
-        <div style={{
-          opacity: fadeIn(frame, fps, 15, 25),
-          transform: `translateY(${slideUp(frame, fps, 15)}px)`,
-          color: '#fff', fontSize: 36, fontFamily: 'sans-serif',
-          lineHeight: 1.5, fontWeight: 500, marginBottom: 48,
-        }}>
+        <div
+          style={{
+            opacity: fadeIn(frame, fps, 15, 25),
+            transform: `translateY(${slideUp(frame, fps, 15)}px)`,
+            color: '#fff',
+            fontSize: 36,
+            fontFamily: 'sans-serif',
+            lineHeight: 1.5,
+            fontWeight: 500,
+            marginBottom: 48,
+          }}
+        >
           {props.summary}
         </div>
 
         {props.quizTeaser && (
-          <div style={{
-            opacity: fadeIn(frame, fps, 40, 20),
-            background: props.accentColor + '22',
-            border: `1px solid ${props.accentColor}55`,
-            borderRadius: 16, padding: '20px 32px',
-            color: props.accentColor, fontSize: 22, fontFamily: 'sans-serif',
-          }}>
+          <div
+            style={{
+              opacity: fadeIn(frame, fps, 40, 20),
+              background: props.accentColor + '22',
+              border: `1px solid ${props.accentColor}55`,
+              borderRadius: 16,
+              padding: '20px 32px',
+              color: props.accentColor,
+              fontSize: 22,
+              fontFamily: 'sans-serif',
+            }}
+          >
             🎯 {props.quizTeaser}
           </div>
         )}
       </div>
 
       {/* Bottom bar */}
-      <div style={{
-        position: 'absolute', bottom: 0, left: 0, right: 0,
-        height: 4, background: `linear-gradient(90deg, ${props.topBarColor}, ${props.accentColor})`,
-      }} />
+      <div
+        style={{
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          height: 4,
+          background: `linear-gradient(90deg, ${props.topBarColor}, ${props.accentColor})`,
+        }}
+      />
     </AbsoluteFill>
   );
 }

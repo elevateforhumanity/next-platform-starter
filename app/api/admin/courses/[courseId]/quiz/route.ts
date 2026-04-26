@@ -16,7 +16,6 @@ import { z } from 'zod';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
-
 const QuestionSchema = z.object({
   question_text: z.string().min(1, 'Question text is required'),
   question_type: z.enum(['multiple_choice', 'true_false']).default('multiple_choice'),
@@ -33,7 +32,7 @@ const QuizSaveSchema = z.object({
 
 export async function GET(
   _request: Request,
-  { params }: { params: Promise<{ courseId: string }> }
+  { params }: { params: Promise<{ courseId: string }> },
 ) {
   const { courseId } = await params;
   const auth = await apiRequireAdmin(request);
@@ -45,7 +44,8 @@ export async function GET(
     .eq('id', id)
     .maybeSingle();
 
-  if (error?.code === 'PGRST116') return NextResponse.json({ error: 'Course not found' }, { status: 404 });
+  if (error?.code === 'PGRST116')
+    return NextResponse.json({ error: 'Course not found' }, { status: 404 });
   if (error) return NextResponse.json({ error: 'Database error' }, { status: 500 });
 
   const meta = (course?.metadata || {}) as Record<string, any>;
@@ -56,10 +56,7 @@ export async function GET(
   });
 }
 
-export async function PUT(
-  request: Request,
-  { params }: { params: Promise<{ courseId: string }> }
-) {
+export async function PUT(request: Request, { params }: { params: Promise<{ courseId: string }> }) {
   const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;
 
@@ -74,7 +71,7 @@ export async function PUT(
   if (!parsed.success) {
     return NextResponse.json(
       { error: 'Validation failed', details: parsed.error.flatten() },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -82,8 +79,10 @@ export async function PUT(
   for (const [qi, q] of parsed.data.quiz_questions.entries()) {
     if (!q.options.includes(q.correct_answer)) {
       return NextResponse.json(
-        { error: `Question ${qi + 1}: correct answer "${q.correct_answer}" is not in the options list.` },
-        { status: 400 }
+        {
+          error: `Question ${qi + 1}: correct answer "${q.correct_answer}" is not in the options list.`,
+        },
+        { status: 400 },
       );
     }
   }
@@ -92,8 +91,11 @@ export async function PUT(
   // Course-level quiz metadata is no longer supported.
   // Use PATCH /api/admin/lms/courses/[courseId]/lessons/[lessonId] to update quiz questions.
   return NextResponse.json(
-    { error: 'LEGACY_SYSTEM_DISABLED: quiz data is stored in course_lessons.quiz_questions — update via lesson API' },
-    { status: 410 }
+    {
+      error:
+        'LEGACY_SYSTEM_DISABLED: quiz data is stored in course_lessons.quiz_questions — update via lesson API',
+    },
+    { status: 410 },
   );
 
   // Load existing metadata to merge (preserve non-quiz keys)

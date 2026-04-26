@@ -13,10 +13,8 @@ import OnboardingFlow from './OnboardingFlow';
 
 export const dynamic = 'force-dynamic';
 
-
 export default async function OnboardingStartPage() {
   const supabase = await createClient();
-
 
   const {
     data: { user },
@@ -37,12 +35,10 @@ export default async function OnboardingStartPage() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white">
         <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8 text-center">
-          <h1 className="text-2xl font-bold text-black mb-4">
-            Role Not Assigned
-          </h1>
+          <h1 className="text-2xl font-bold text-black mb-4">Role Not Assigned</h1>
           <p className="text-black mb-6">
-            Your account does not have a role assigned yet. Please contact
-            Elevate for Humanity to complete your account setup.
+            Your account does not have a role assigned yet. Please contact Elevate for Humanity to
+            complete your account setup.
           </p>
           <a
             href="/contact"
@@ -86,11 +82,10 @@ export default async function OnboardingStartPage() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white">
         <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8 text-center">
-          <h1 className="text-2xl font-bold text-black mb-4">
-            Complete Your Profile
-          </h1>
+          <h1 className="text-2xl font-bold text-black mb-4">Complete Your Profile</h1>
           <p className="text-black mb-6">
-            To begin onboarding, please complete your profile information first. Contact support if you need assistance.
+            To begin onboarding, please complete your profile information first. Contact support if
+            you need assistance.
           </p>
           <a
             href="/contact"
@@ -116,9 +111,7 @@ export default async function OnboardingStartPage() {
     .select('document_id')
     .eq('user_id', user.id);
 
-  const signedDocumentIds = new Set(
-    signatures?.map((s) => s.document_id) || []
-  );
+  const signedDocumentIds = new Set(signatures?.map((s) => s.document_id) || []);
 
   // Get payroll profile status
   const { data: payrollProfile } = await supabase

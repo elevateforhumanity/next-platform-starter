@@ -40,43 +40,43 @@ async function _POST(request: NextRequest) {
 
     // Validate required fields
     if (!firstName || !lastName || !email || !phone) {
-      return NextResponse.json(
-        { error: 'Missing required fields' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
     const supabase = await createClient();
 
     // DB write is required — no fallthrough on failure
     const enrollment = await requireDbWrite(
-      supabase.from('program_enrollments').insert({
-        first_name: firstName,
-        last_name: lastName,
-        email,
-        phone,
-        address,
-        city,
-        state,
-        zip,
-        date_of_birth: dateOfBirth,
-        emergency_contact: emergencyContact,
-        emergency_phone: emergencyPhone,
-        program_slug: program,
-        program_name: 'Certified Nursing Assistant (CNA)',
-        total_price: price,
-        payment_type: paymentOption,
-        down_payment: paymentPlan?.downPayment || null,
-        weekly_payment: paymentPlan?.weeklyPayment || null,
-        payment_weeks: paymentPlan?.weeks || null,
-        status: 'pending_payment',
-        created_at: new Date().toISOString(),
-      }).select().maybeSingle(),
-      'Failed to create enrollment record. Please try again or call (317) 314-3757.'
+      supabase
+        .from('program_enrollments')
+        .insert({
+          first_name: firstName,
+          last_name: lastName,
+          email,
+          phone,
+          address,
+          city,
+          state,
+          zip,
+          date_of_birth: dateOfBirth,
+          emergency_contact: emergencyContact,
+          emergency_phone: emergencyPhone,
+          program_slug: program,
+          program_name: 'Certified Nursing Assistant (CNA)',
+          total_price: price,
+          payment_type: paymentOption,
+          down_payment: paymentPlan?.downPayment || null,
+          weekly_payment: paymentPlan?.weeklyPayment || null,
+          payment_weeks: paymentPlan?.weeks || null,
+          status: 'pending_payment',
+          created_at: new Date().toISOString(),
+        })
+        .select()
+        .maybeSingle(),
+      'Failed to create enrollment record. Please try again or call (317) 314-3757.',
     );
 
     return success({ enrollmentId: enrollment.id });
-
   } catch (err: unknown) {
     const message = 'Failed to process enrollment';
     logger.error('CNA enrollment error:', err);

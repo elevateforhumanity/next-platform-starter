@@ -22,7 +22,7 @@ export const mainNavigation: NavItem[] = [
       {
         label: 'All Programs',
         href: '/programs',
-        description: 'Browse all available programs'
+        description: 'Browse all available programs',
       },
       {
         label: 'Apprenticeships',
@@ -33,7 +33,7 @@ export const mainNavigation: NavItem[] = [
           { label: 'HVAC Technician', href: '/programs/hvac-technician' },
           { label: 'Building Maintenance', href: '/programs/building-maintenance' },
           { label: 'HVAC Technician', href: '/programs/hvac-technician' },
-        ]
+        ],
       },
       {
         label: 'WIOA Programs',
@@ -46,7 +46,7 @@ export const mainNavigation: NavItem[] = [
           { label: 'Direct Support Professional', href: '/programs/direct-support-professional' },
           { label: 'CDL', href: '/programs/cdl' },
           { label: 'CPR & First Aid', href: '/programs/cpr-first-aid' },
-        ]
+        ],
       },
       {
         label: 'JRI Programs',
@@ -57,9 +57,9 @@ export const mainNavigation: NavItem[] = [
           { label: 'Phlebotomy Technician', href: '/programs/healthcare' },
           { label: 'CDL', href: '/programs/cdl' },
           { label: 'Workforce Readiness', href: '/programs/workforce-readiness' },
-        ]
+        ],
       },
-    ]
+    ],
   },
   {
     label: 'Resources',
@@ -74,19 +74,19 @@ export const mainNavigation: NavItem[] = [
       {
         label: 'Free Tax Prep (VITA)',
         href: '/tax/vita',
-        description: 'IRS-certified free tax preparation'
+        description: 'IRS-certified free tax preparation',
       },
       {
         label: 'Paid Tax Services',
         href: '/tax/supersonicfastcash',
-        description: 'Professional tax services'
+        description: 'Professional tax services',
       },
       {
         label: 'Volunteer',
         href: '/volunteer',
-        description: 'Become a VITA volunteer'
+        description: 'Become a VITA volunteer',
       },
-    ]
+    ],
   },
   {
     label: 'About',
@@ -98,7 +98,7 @@ export const mainNavigation: NavItem[] = [
       { label: 'Founder', href: '/founder' },
       { label: 'How It Works', href: '/how-it-works' },
       { label: 'Success Stories', href: '/success-stories' },
-    ]
+    ],
   },
   {
     label: 'Partner With Us',
@@ -109,7 +109,7 @@ export const mainNavigation: NavItem[] = [
       { label: 'Apply as Host Shop', href: '/partners/barbershop-apprenticeship/apply' },
       { label: 'Partner Login', href: '/partner/login' },
       { label: 'Platform Licensing', href: '/partners/licensing' },
-    ]
+    ],
   },
 ];
 
@@ -124,7 +124,7 @@ export const footerNavigation = {
       { label: 'Apprenticeships', href: '/programs/apprenticeships' },
       { label: 'WIOA Programs', href: '/programs/federal-funded' },
       { label: 'JRI Programs', href: '/programs/jri' },
-    ]
+    ],
   },
   services: {
     title: 'Services',
@@ -133,7 +133,7 @@ export const footerNavigation = {
       { label: 'Paid Tax Services', href: '/tax/supersonicfastcash' },
       { label: 'Case Management', href: '/resources#students' },
       { label: 'Career Counseling', href: '/resources#students' },
-    ]
+    ],
   },
   partners: {
     title: 'Partners',
@@ -142,7 +142,7 @@ export const footerNavigation = {
       { label: 'Workforce Boards', href: '/resources#workforce' },
       { label: 'Training Providers', href: '/resources#partners' },
       { label: 'Become a Partner', href: '/partners/apply' },
-    ]
+    ],
   },
   company: {
     title: 'Company',
@@ -152,7 +152,7 @@ export const footerNavigation = {
       { label: 'Founder', href: '/founder' },
       { label: 'Careers', href: '/careers' },
       { label: 'Contact', href: '/contact' },
-    ]
+    ],
   },
   legal: {
     title: 'Legal',
@@ -163,8 +163,8 @@ export const footerNavigation = {
       { label: 'Accessibility', href: '/accessibility' },
       { label: 'Security', href: '/security' },
       { label: 'Copyright', href: '/copyright' },
-    ]
-  }
+    ],
+  },
 };
 
 /**

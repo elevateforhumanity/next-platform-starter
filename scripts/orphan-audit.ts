@@ -12,7 +12,7 @@ function getRoutes(dir: string, base = ''): string[] {
       const stat = statSync(full);
       if (stat.isDirectory()) {
         // Skip special dirs
-        if (['node_modules','.next','(app)','(dashboard)'].includes(entry)) {
+        if (['node_modules', '.next', '(app)', '(dashboard)'].includes(entry)) {
           const sub = getRoutes(full, base + '/' + entry.replace(/[()]/g, ''));
           routes.push(...sub);
         } else if (entry.startsWith('(') && entry.endsWith(')')) {
@@ -37,7 +37,7 @@ const allRoutes = getRoutes(appDir);
 // Get all hrefs referenced anywhere in the codebase
 const hrefOutput = execSync(
   `grep -roh 'href="[^"]*"\\|href={[^}]*}\\|href=\`[^\`]*\`\\|redirect("[^"]*")\\|redirect(\`[^\`]*\`)\\|push("[^"]*")' /workspaces/Elevate-lms/app /workspaces/Elevate-lms/components /workspaces/Elevate-lms/lib --include="*.tsx" --include="*.ts" 2>/dev/null`,
-  { maxBuffer: 10 * 1024 * 1024 }
+  { maxBuffer: 10 * 1024 * 1024 },
 ).toString();
 
 const linkedPaths = new Set<string>();
@@ -75,4 +75,4 @@ console.log(`\nTOTAL PAGES: ${allRoutes.length}`);
 console.log(`LINKED: ${linked.length}`);
 console.log(`ORPHANED (never linked to): ${orphaned.length}`);
 console.log('\n=== ORPHANED PAGES ===');
-orphaned.sort().forEach(r => console.log('  ' + r));
+orphaned.sort().forEach((r) => console.log('  ' + r));

@@ -1,4 +1,3 @@
-
 /**
  * Discussion Forums System
  * Threaded discussions with moderation tools
@@ -171,7 +170,7 @@ export async function getCategoryThreads(
     pinned_only?: boolean;
     limit?: number;
     offset?: number;
-  }
+  },
 ): Promise<ForumThread[]> {
   const supabase = await createClient();
 
@@ -191,10 +190,7 @@ export async function getCategoryThreads(
   }
 
   if (options?.offset) {
-    query = query.range(
-      options.offset,
-      options.offset + (options.limit || 10) - 1
-    );
+    query = query.range(options.offset, options.offset + (options.limit || 10) - 1);
   }
 
   const { data } = await query;
@@ -298,7 +294,7 @@ export async function createForumPost(data: {
 export async function editForumPost(
   post_id: string,
   author_id: string,
-  content: string
+  content: string,
 ): Promise<ForumPost> {
   const supabase = await createClient();
 
@@ -321,10 +317,7 @@ export async function editForumPost(
 /**
  * Delete forum post
  */
-export async function deleteForumPost(
-  post_id: string,
-  author_id: string
-): Promise<void> {
+export async function deleteForumPost(post_id: string, author_id: string): Promise<void> {
   const supabase = await createClient();
 
   const { error } = await supabase
@@ -339,11 +332,7 @@ export async function deleteForumPost(
 /**
  * Flag post for moderation
  */
-export async function flagPost(
-  post_id: string,
-  user_id: string,
-  reason: string
-): Promise<void> {
+export async function flagPost(post_id: string, user_id: string, reason: string): Promise<void> {
   const supabase = await createClient();
 
   await supabase
@@ -370,7 +359,7 @@ export async function moderatePost(
   post_id: string,
   moderator_id: string,
   action: 'approved' | 'hidden' | 'deleted',
-  notes?: string
+  notes?: string,
 ): Promise<ForumPost> {
   const supabase = await createClient();
 
@@ -407,7 +396,7 @@ export async function moderatePost(
  */
 export async function toggleThreadPin(
   thread_id: string,
-  moderator_id: string
+  moderator_id: string,
 ): Promise<ForumThread> {
   const supabase = await createClient();
 
@@ -433,7 +422,7 @@ export async function toggleThreadPin(
  */
 export async function toggleThreadLock(
   thread_id: string,
-  moderator_id: string
+  moderator_id: string,
 ): Promise<ForumThread> {
   const supabase = await createClient();
 
@@ -461,7 +450,7 @@ export async function subscribeToThread(
   thread_id: string,
   user_id: string,
   notify_email: boolean = true,
-  notify_sms: boolean = false
+  notify_sms: boolean = false,
 ): Promise<ForumSubscription> {
   const supabase = await createClient();
 
@@ -495,10 +484,7 @@ export async function subscribeToThread(
 /**
  * Unsubscribe from thread
  */
-export async function unsubscribeFromThread(
-  thread_id: string,
-  user_id: string
-): Promise<void> {
+export async function unsubscribeFromThread(thread_id: string, user_id: string): Promise<void> {
   const supabase = await createClient();
 
   const { error } = await supabase
@@ -513,9 +499,7 @@ export async function unsubscribeFromThread(
 /**
  * Get user's subscribed threads
  */
-export async function getUserSubscriptions(
-  user_id: string
-): Promise<ForumThread[]> {
+export async function getUserSubscriptions(user_id: string): Promise<ForumThread[]> {
   const supabase = await createClient();
 
   const { data }: any = await supabase
@@ -530,10 +514,7 @@ export async function getUserSubscriptions(
 /**
  * Notify thread subscribers of new post
  */
-async function notifyThreadSubscribers(
-  thread_id: string,
-  post: ForumPost
-): Promise<void> {
+async function notifyThreadSubscribers(thread_id: string, post: ForumPost): Promise<void> {
   const supabase = await createClient();
 
   const { data: subscriptions } = await supabase
@@ -560,15 +541,12 @@ export async function searchForums(
   filters?: {
     category_id?: string;
     author_id?: string;
-  }
+  },
 ): Promise<{ threads: ForumThread[]; posts: ForumPost[] }> {
   const supabase = await createClient();
 
   // Search threads
-  let threadQuery = supabase
-    .from('forum_threads')
-    .select('*')
-    .ilike('title', `%${query}%`);
+  let threadQuery = supabase.from('forum_threads').select('*').ilike('title', `%${query}%`);
 
   if (filters?.category_id) {
     threadQuery = threadQuery.eq('category_id', filters.category_id);
@@ -612,7 +590,7 @@ export async function getModerationQueue(): Promise<any[]> {
       *,
       forum_posts(*),
       profiles!flagged_by(full_name)
-    `
+    `,
     )
     .eq('status', 'pending')
     .order('created_at', { ascending: true });

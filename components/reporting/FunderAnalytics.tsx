@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -7,7 +7,16 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
-import { Download, DollarSign, Users, GraduationCap, Briefcase, TrendingUp, TrendingDown, FileText } from 'lucide-react';
+import {
+  Download,
+  DollarSign,
+  Users,
+  GraduationCap,
+  Briefcase,
+  TrendingUp,
+  TrendingDown,
+  FileText,
+} from 'lucide-react';
 
 interface FunderMetrics {
   funderType: 'WIOA' | 'WRG' | 'JRI' | 'SEAL' | 'Apprenticeship' | 'Other';
@@ -62,7 +71,8 @@ export default function FunderAnalytics() {
       if (data.length > 0) {
         setSelectedFunder(data[0].funderType);
       }
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
     } finally {
       setLoading(false);
@@ -85,10 +95,10 @@ export default function FunderAnalytics() {
       'Avg Completion Time (days)',
       'Total Funding Used',
       'Cost per Completion',
-      'ROI Multiple'
+      'ROI Multiple',
     ];
 
-    const rows = metrics.map(m => [
+    const rows = metrics.map((m) => [
       m.funderType,
       m.totalEnrollments,
       m.activeStudents,
@@ -105,10 +115,10 @@ export default function FunderAnalytics() {
       `$${m.costPerCompletion.toFixed(2)}`,
       m.costPerCompletion > 0 && m.averageWage > 0
         ? ((m.averageWage * 2080) / m.costPerCompletion).toFixed(2)
-        : 'N/A'
+        : 'N/A',
     ]);
 
-    const csv = [headers, ...rows].map(row => row.join(',')).join('\n');
+    const csv = [headers, ...rows].map((row) => row.join(',')).join('\n');
     const blob = new Blob([csv], { type: 'text/csv' });
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -127,7 +137,8 @@ export default function FunderAnalytics() {
       a.href = url;
       a.download = `wioa-pirl-report-${new Date().toISOString().split('T')[0]}.csv`;
       a.click();
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
     }
   };
@@ -199,7 +210,8 @@ export default function FunderAnalytics() {
           <CardContent>
             <div className="text-2xl font-bold">{totalCompletions}</div>
             <p className="text-xs text-muted-foreground">
-              {totalEnrollments > 0 ? ((totalCompletions / totalEnrollments) * 100).toFixed(1) : 0}% completion rate
+              {totalEnrollments > 0 ? ((totalCompletions / totalEnrollments) * 100).toFixed(1) : 0}%
+              completion rate
             </p>
           </CardContent>
         </Card>
@@ -212,7 +224,8 @@ export default function FunderAnalytics() {
           <CardContent>
             <div className="text-2xl font-bold">{totalPlaced}</div>
             <p className="text-xs text-muted-foreground">
-              {totalCompletions > 0 ? ((totalPlaced / totalCompletions) * 100).toFixed(1) : 0}% placement rate
+              {totalCompletions > 0 ? ((totalPlaced / totalCompletions) * 100).toFixed(1) : 0}%
+              placement rate
             </p>
           </CardContent>
         </Card>
@@ -221,14 +234,14 @@ export default function FunderAnalytics() {
       {/* Funder Tabs */}
       <Tabs value={selectedFunder || ''} onValueChange={setSelectedFunder}>
         <TabsList className="grid grid-cols-3 lg:grid-cols-6 gap-2">
-          {metrics.map(m => (
+          {metrics.map((m) => (
             <TabsTrigger key={m.funderType} value={m.funderType}>
               {m.funderType}
             </TabsTrigger>
           ))}
         </TabsList>
 
-        {metrics.map(funder => (
+        {metrics.map((funder) => (
           <TabsContent key={funder.funderType} value={funder.funderType} className="space-y-4">
             {/* Funder Info Card */}
             <Card className={`border-2 ${funderColors[funder.funderType]}`}>
@@ -269,9 +282,7 @@ export default function FunderAnalytics() {
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">{funder.completionRate.toFixed(1)}%</div>
-                  <p className="text-xs text-muted-foreground">
-                    {funder.completions} completions
-                  </p>
+                  <p className="text-xs text-muted-foreground">{funder.completions} completions</p>
                   {funder.completionRate >= 70 ? (
                     <Badge variant="default" className="mt-2">
                       <TrendingUp className="mr-1 h-3 w-3" />
@@ -338,11 +349,15 @@ export default function FunderAnalytics() {
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-sm font-medium">Dropout Rate</span>
-                    <span className="text-2xl font-bold text-brand-orange-600">{funder.dropoutRate.toFixed(1)}%</span>
+                    <span className="text-2xl font-bold text-brand-orange-600">
+                      {funder.dropoutRate.toFixed(1)}%
+                    </span>
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-sm font-medium">Avg Completion Time</span>
-                    <span className="text-2xl font-bold">{funder.averageCompletionTime.toFixed(0)} days</span>
+                    <span className="text-2xl font-bold">
+                      {funder.averageCompletionTime.toFixed(0)} days
+                    </span>
                   </div>
                 </CardContent>
               </Card>
@@ -355,20 +370,27 @@ export default function FunderAnalytics() {
                 <CardContent className="space-y-4">
                   <div className="flex justify-between items-center">
                     <span className="text-sm font-medium">Total Funding Used</span>
-                    <span className="text-2xl font-bold">${funder.totalFundingUsed.toLocaleString('en-US')}</span>
+                    <span className="text-2xl font-bold">
+                      ${funder.totalFundingUsed.toLocaleString('en-US')}
+                    </span>
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-sm font-medium">Cost per Completion</span>
-                    <span className="text-2xl font-bold">${funder.costPerCompletion.toLocaleString('en-US')}</span>
+                    <span className="text-2xl font-bold">
+                      ${funder.costPerCompletion.toLocaleString('en-US')}
+                    </span>
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-sm font-medium">ROI Multiple</span>
                     {funder.costPerCompletion > 0 && funder.averageWage > 0 ? (
-                      <Badge variant={
-                        (funder.averageWage * 2080) / funder.costPerCompletion > 3
-                          ? 'default'
-                          : 'secondary'
-                      } className="text-lg">
+                      <Badge
+                        variant={
+                          (funder.averageWage * 2080) / funder.costPerCompletion > 3
+                            ? 'default'
+                            : 'secondary'
+                        }
+                        className="text-lg"
+                      >
                         {((funder.averageWage * 2080) / funder.costPerCompletion).toFixed(1)}x
                       </Badge>
                     ) : (
@@ -419,19 +441,23 @@ export default function FunderAnalytics() {
                 </tr>
               </thead>
               <tbody>
-                {metrics.map(m => (
+                {metrics.map((m) => (
                   <tr key={m.funderType} className="border-b hover:bg-muted/50">
                     <td className="py-2">
                       <Badge variant="outline" className={funderColors[m.funderType]}>
                         {m.funderType}
                       </Badge>
                     </td>
-                    <td className="text-right py-2">${m.totalFundingUsed.toLocaleString('en-US')}</td>
+                    <td className="text-right py-2">
+                      ${m.totalFundingUsed.toLocaleString('en-US')}
+                    </td>
                     <td className="text-right py-2">{m.totalEnrollments}</td>
                     <td className="text-right py-2">{m.completionRate.toFixed(1)}%</td>
                     <td className="text-right py-2">{m.placementRate.toFixed(1)}%</td>
                     <td className="text-right py-2">${m.averageWage.toFixed(2)}</td>
-                    <td className="text-right py-2">${m.costPerCompletion.toLocaleString('en-US')}</td>
+                    <td className="text-right py-2">
+                      ${m.costPerCompletion.toLocaleString('en-US')}
+                    </td>
                     <td className="text-right py-2">
                       {m.costPerCompletion > 0 && m.averageWage > 0
                         ? `${((m.averageWage * 2080) / m.costPerCompletion).toFixed(1)}x`

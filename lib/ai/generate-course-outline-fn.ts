@@ -39,9 +39,7 @@ function buildSystemPrompt(prompt: string): string {
     (lower.includes('cna') || lower.includes('nursing assistant')) &&
     (lower.includes('indiana') || lower.includes('natcep'));
 
-  const complianceFragment = isIndianaCNA
-    ? `\n\n${buildIndianaCompliancePromptFragment()}`
-    : '';
+  const complianceFragment = isIndianaCNA ? `\n\n${buildIndianaCompliancePromptFragment()}` : '';
 
   return `You are a curriculum architect for a workforce training LMS. Output ONLY valid JSON — no markdown, no prose, no code fences.
 
@@ -116,13 +114,17 @@ export async function generateCourseOutlineFn(prompt: string): Promise<GenerateR
       });
       raw = completion.choices[0]?.message?.content ?? '';
     } catch (err) {
-      errorsPerAttempt.push([`OpenAI call failed: ${err instanceof Error ? err.message : String(err)}`]);
+      errorsPerAttempt.push([
+        `OpenAI call failed: ${err instanceof Error ? err.message : String(err)}`,
+      ]);
       continue;
     }
 
     // Parse
     let parsed: unknown = null;
-    try { parsed = JSON.parse(raw); } catch {
+    try {
+      parsed = JSON.parse(raw);
+    } catch {
       errorsPerAttempt.push(['Model returned malformed JSON']);
       continue;
     }

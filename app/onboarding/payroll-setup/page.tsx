@@ -13,7 +13,6 @@ import PayrollSetupForm from './PayrollSetupForm';
 
 export const dynamic = 'force-dynamic';
 
-
 export default async function PayrollSetupPage() {
   const supabase = await createClient();
 
@@ -35,12 +34,5 @@ export default async function PayrollSetupPage() {
     redirect('/onboarding/start');
   }
 
-  return (
-    <PayrollSetupForm
-      user={user}
-      profile={profile}
-      rateConfigs={[]}
-      existingProfile={null}
-    />
-  );
+  return <PayrollSetupForm user={user} profile={profile} rateConfigs={[]} existingProfile={null} />;
 }

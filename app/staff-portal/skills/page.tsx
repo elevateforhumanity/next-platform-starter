@@ -72,7 +72,9 @@ const SKILL_CATEGORIES = [
 export default async function StaffSkillsPage() {
   const supabase = await createClient();
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/staff-portal/skills');
 
   // Fetch completed skills for this user
@@ -82,18 +84,24 @@ export default async function StaffSkillsPage() {
     .eq('user_id', user.id);
 
   const completedIds = new Set((userSkills ?? []).map((s: any) => s.skill_name));
-  const verifiedIds = new Set((userSkills ?? []).filter((s: any) => s.verified).map((s: any) => s.skill_name));
+  const verifiedIds = new Set(
+    (userSkills ?? []).filter((s: any) => s.verified).map((s: any) => s.skill_name),
+  );
 
   const totalSkills = SKILL_CATEGORIES.reduce((s, c) => s + c.skills.length, 0);
-  const completedCount = SKILL_CATEGORIES.reduce((s, c) =>
-    s + c.skills.filter(sk => completedIds.has(sk.id)).length, 0);
+  const completedCount = SKILL_CATEGORIES.reduce(
+    (s, c) => s + c.skills.filter((sk) => completedIds.has(sk.id)).length,
+    0,
+  );
   const pct = totalSkills > 0 ? Math.round((completedCount / totalSkills) * 100) : 0;
 
   return (
     <div className="min-h-screen bg-white">
       <div className="bg-white border-b">
         <div className="max-w-4xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[{ label: 'Staff Portal', href: '/staff-portal' }, { label: 'Skills' }]} />
+          <Breadcrumbs
+            items={[{ label: 'Staff Portal', href: '/staff-portal' }, { label: 'Skills' }]}
+          />
         </div>
       </div>
 
@@ -101,49 +109,70 @@ export default async function StaffSkillsPage() {
       <div className="bg-brand-blue-700 text-white py-10">
         <div className="max-w-4xl mx-auto px-4">
           <h1 className="text-2xl font-bold mb-1">Staff Skills Checklist</h1>
-          <p className="text-slate-500 text-sm mb-6">Track your professional development and competencies</p>
+          <p className="text-slate-500 text-sm mb-6">
+            Track your professional development and competencies
+          </p>
           <div className="flex items-center gap-4">
             <div className="flex-1 bg-white rounded-full h-3">
-              <div className="bg-white h-3 rounded-full transition-all" style={{ width: `${pct}%` }} />
+              <div
+                className="bg-white h-3 rounded-full transition-all"
+                style={{ width: `${pct}%` }}
+              />
             </div>
-            <span className="text-sm font-bold text-brand-green-400 w-16 text-right">{completedCount}/{totalSkills}</span>
+            <span className="text-sm font-bold text-brand-green-400 w-16 text-right">
+              {completedCount}/{totalSkills}
+            </span>
           </div>
           <p className="text-xs text-slate-400 mt-2">{pct}% complete</p>
         </div>
       </div>
 
       <div className="max-w-4xl mx-auto px-4 py-8 space-y-6">
-        {SKILL_CATEGORIES.map(cat => {
-          const catCompleted = cat.skills.filter(s => completedIds.has(s.id)).length;
+        {SKILL_CATEGORIES.map((cat) => {
+          const catCompleted = cat.skills.filter((s) => completedIds.has(s.id)).length;
           return (
             <div key={cat.id} className="bg-white rounded-xl border overflow-hidden">
               <div className="px-6 py-4 border-b bg-white flex items-center gap-4">
-                <div className={`w-10 h-10 rounded-lg bg-${cat.color}-100 flex items-center justify-center`}>
+                <div
+                  className={`w-10 h-10 rounded-lg bg-${cat.color}-100 flex items-center justify-center`}
+                >
                   <cat.icon className={`w-5 h-5 text-${cat.color}-600`} />
                 </div>
                 <div className="flex-1">
                   <h2 className="font-bold text-slate-900">{cat.title}</h2>
-                  <p className="text-xs text-slate-400">{catCompleted}/{cat.skills.length} completed</p>
+                  <p className="text-xs text-slate-400">
+                    {catCompleted}/{cat.skills.length} completed
+                  </p>
                 </div>
                 <div className="w-24 bg-slate-200 rounded-full h-1.5">
-                  <div className={`bg-${cat.color}-500 h-1.5 rounded-full`}
-                    style={{ width: `${cat.skills.length > 0 ? (catCompleted / cat.skills.length) * 100 : 0}%` }} />
+                  <div
+                    className={`bg-${cat.color}-500 h-1.5 rounded-full`}
+                    style={{
+                      width: `${cat.skills.length > 0 ? (catCompleted / cat.skills.length) * 100 : 0}%`,
+                    }}
+                  />
                 </div>
               </div>
               <div className="divide-y">
-                {cat.skills.map(skill => {
+                {cat.skills.map((skill) => {
                   const done = completedIds.has(skill.id);
                   const verified = verifiedIds.has(skill.id);
                   return (
                     <div key={skill.id} className="px-6 py-3.5 flex items-center gap-4">
-                      <div className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 ${
-                        done ? 'bg-brand-green-100' : 'bg-white'
-                      }`}>
-                        {done
-                          ? <CheckCircle className="w-4 h-4 text-brand-green-600" />
-                          : <Circle className="w-4 h-4 text-slate-300" />}
+                      <div
+                        className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 ${
+                          done ? 'bg-brand-green-100' : 'bg-white'
+                        }`}
+                      >
+                        {done ? (
+                          <CheckCircle className="w-4 h-4 text-brand-green-600" />
+                        ) : (
+                          <Circle className="w-4 h-4 text-slate-300" />
+                        )}
                       </div>
-                      <span className={`flex-1 text-sm ${done ? 'text-slate-500 line-through' : 'text-slate-800'}`}>
+                      <span
+                        className={`flex-1 text-sm ${done ? 'text-slate-500 line-through' : 'text-slate-800'}`}
+                      >
                         {skill.label}
                       </span>
                       {verified && (
@@ -151,9 +180,7 @@ export default async function StaffSkillsPage() {
                           Verified
                         </span>
                       )}
-                      {!done && (
-                        <MarkSkillButton skillId={skill.id} userId={user.id} />
-                      )}
+                      {!done && <MarkSkillButton skillId={skill.id} userId={user.id} />}
                     </div>
                   );
                 })}
@@ -166,9 +193,13 @@ export default async function StaffSkillsPage() {
         <div className="bg-brand-blue-700 rounded-xl p-6 text-white text-center">
           <Award className="w-10 h-10 mx-auto mb-3 opacity-80" />
           <h3 className="font-bold text-lg mb-1">Skills Verified by Supervisor?</h3>
-          <p className="text-white text-sm mb-4">Ask your manager to verify your completed skills in the admin portal.</p>
-          <Link href="/staff-portal/training"
-            className="inline-flex items-center gap-2 bg-white text-brand-blue-700 px-5 py-2.5 rounded-lg font-semibold text-sm hover:bg-brand-blue-50">
+          <p className="text-white text-sm mb-4">
+            Ask your manager to verify your completed skills in the admin portal.
+          </p>
+          <Link
+            href="/staff-portal/training"
+            className="inline-flex items-center gap-2 bg-white text-brand-blue-700 px-5 py-2.5 rounded-lg font-semibold text-sm hover:bg-brand-blue-50"
+          >
             View Training Resources <ChevronRight className="w-4 h-4" />
           </Link>
         </div>
@@ -182,8 +213,10 @@ function MarkSkillButton({ skillId, userId }: { skillId: string; userId: string 
   return (
     <form action={`/api/staff/skills/${skillId}/complete`} method="POST">
       <input type="hidden" name="userId" value={userId} />
-      <button type="submit"
-        className="text-xs text-brand-blue-600 hover:text-brand-blue-800 font-medium border border-brand-blue-200 px-2.5 py-1 rounded-lg hover:bg-brand-blue-50 transition">
+      <button
+        type="submit"
+        className="text-xs text-brand-blue-600 hover:text-brand-blue-800 font-medium border border-brand-blue-200 px-2.5 py-1 rounded-lg hover:bg-brand-blue-50 transition"
+      >
         Mark Done
       </button>
     </form>

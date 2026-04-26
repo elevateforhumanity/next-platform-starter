@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { useState, useEffect } from 'react';
 import { Info, Building2, Users, DollarSign, FileCheck, Loader2 } from 'lucide-react';
@@ -41,9 +41,7 @@ export function SponsorshipInfoPanel({ programId, partnerId, variant = 'full' }:
       const supabase = createClient();
 
       try {
-        let query = supabase
-          .from('program_sponsorships')
-          .select(`
+        let query = supabase.from('program_sponsorships').select(`
             sponsor_name,
             sponsor_logo,
             curriculum_type,
@@ -88,7 +86,9 @@ export function SponsorshipInfoPanel({ programId, partnerId, variant = 'full' }:
       <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-lg p-4">
         <div className="flex items-center gap-2 text-sm text-brand-blue-800">
           <Info className="w-4 h-4 text-brand-blue-600" />
-          <span>Sponsored by <strong>{info.sponsor_name}</strong></span>
+          <span>
+            Sponsored by <strong>{info.sponsor_name}</strong>
+          </span>
         </div>
       </div>
     );
@@ -103,9 +103,7 @@ export function SponsorshipInfoPanel({ programId, partnerId, variant = 'full' }:
       <div className="flex items-start gap-3">
         <Info className="w-5 h-5 text-brand-blue-600 flex-shrink-0 mt-0.5" />
         <div className="flex-1">
-          <h3 className="text-lg font-semibold text-brand-blue-900 mb-3">
-            Program Sponsorship
-          </h3>
+          <h3 className="text-lg font-semibold text-brand-blue-900 mb-3">Program Sponsorship</h3>
           <div className="space-y-3 text-sm text-brand-blue-800">
             <div className="grid grid-cols-2 gap-4">
               <div className="flex items-start gap-2">
@@ -138,19 +136,23 @@ export function SponsorshipInfoPanel({ programId, partnerId, variant = 'full' }:
               </div>
             </div>
             <div className="pt-3 border-t border-brand-blue-200">
-              <p className="text-xs text-brand-blue-700">
-                {info.compliance_notes}
-              </p>
+              <p className="text-xs text-brand-blue-700">{info.compliance_notes}</p>
             </div>
             {(info.contact_email || info.contact_phone) && (
               <div className="pt-3 border-t border-brand-blue-200 flex gap-4 text-xs">
                 {info.contact_email && (
-                  <a href={`mailto:${info.contact_email}`} className="text-brand-blue-600 hover:underline">
+                  <a
+                    href={`mailto:${info.contact_email}`}
+                    className="text-brand-blue-600 hover:underline"
+                  >
                     {info.contact_email}
                   </a>
                 )}
                 {info.contact_phone && (
-                  <a href={`tel:${info.contact_phone}`} className="text-brand-blue-600 hover:underline">
+                  <a
+                    href={`tel:${info.contact_phone}`}
+                    className="text-brand-blue-600 hover:underline"
+                  >
                     {info.contact_phone}
                   </a>
                 )}
@@ -164,15 +166,15 @@ export function SponsorshipInfoPanel({ programId, partnerId, variant = 'full' }:
 }
 
 export function SponsorshipTooltip({ info }: { info?: SponsorshipInfo }) {
-  const sponsorName = info?.sponsor_name || '2Exclusive LLC-S (DBA Elevate for Humanity Career & Technical Institute)';
-  
+  const sponsorName =
+    info?.sponsor_name ||
+    '2Exclusive LLC-S (DBA Elevate for Humanity Career & Technical Institute)';
+
   return (
     <div className="max-w-sm">
       <div className="text-sm space-y-2">
         <p className="font-semibold">What does "Sponsored by {sponsorName}" mean?</p>
-        <p>
-          {sponsorName} is the official Program Sponsor responsible for:
-        </p>
+        <p>{sponsorName} is the official Program Sponsor responsible for:</p>
         <ul className="list-disc list-inside space-y-1 text-xs">
           <li>Workforce system alignment (WIOA, WRG, JRI)</li>
           <li>Enrollment processing and eligibility</li>
@@ -180,8 +182,8 @@ export function SponsorshipTooltip({ info }: { info?: SponsorshipInfo }) {
           <li>Payment coordination</li>
         </ul>
         <p className="text-xs text-slate-700 pt-2 border-t">
-          Partners retain their program name and curriculum. {sponsorName} handles the funding
-          and compliance.
+          Partners retain their program name and curriculum. {sponsorName} handles the funding and
+          compliance.
         </p>
       </div>
     </div>

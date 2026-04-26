@@ -7,12 +7,14 @@ This Cloudflare Worker serves SCORM training courses from Cloudflare R2 storage 
 ## Services Used
 
 ### 1. Cloudflare Stream (Already Integrated ✅)
+
 - **Purpose:** Video hosting and CDN
 - **Used for:** AI-generated videos, course videos
 - **Integration:** `server/cloudflare-stream.ts`
 - **Status:** Active and working
 
 ### 2. Cloudflare R2 + Worker (Optional)
+
 - **Purpose:** SCORM course delivery
 - **Used for:** JRI training modules
 - **Domain:** `scorm.www.elevateforhumanity.org`
@@ -74,6 +76,7 @@ wrangler deploy
 ### Step 5: Configure DNS
 
 In Cloudflare Dashboard:
+
 1. Go to DNS settings for `www.elevateforhumanity.org`
 2. Add CNAME record:
    - **Name:** `scorm`
@@ -83,6 +86,7 @@ In Cloudflare Dashboard:
 ### Step 6: Set Environment Variable
 
 In Netlify (or your deployment platform):
+
 ```bash
 NEXT_PUBLIC_SCORM_CDN_URL=https://scorm.www.elevateforhumanity.org
 ```
@@ -90,11 +94,13 @@ NEXT_PUBLIC_SCORM_CDN_URL=https://scorm.www.elevateforhumanity.org
 ## How It Works
 
 ### With Cloudflare Worker (Deployed):
+
 ```
 Student → scorm.www.elevateforhumanity.org → Cloudflare Worker → R2 Storage
 ```
 
 ### Without Worker (Fallback):
+
 ```
 Student → /scorm/jri-core/index.html → Next.js public folder
 ```
@@ -102,6 +108,7 @@ Student → /scorm/jri-core/index.html → Next.js public folder
 ## SCORM Courses
 
 Current SCORM packages in `lms-content/jri/`:
+
 1. JRI Introduction
 2. JRI Badge 1 - Mindsets
 3. JRI Badge 2 - Professionalism
@@ -113,12 +120,14 @@ Current SCORM packages in `lms-content/jri/`:
 ## Testing
 
 ### Test Worker Locally:
+
 ```bash
 cd cloudflare-workers
 wrangler dev
 ```
 
 ### Test SCORM Delivery:
+
 ```bash
 curl https://scorm.www.elevateforhumanity.org/jri-badge-1/index.html
 ```
@@ -126,11 +135,13 @@ curl https://scorm.www.elevateforhumanity.org/jri-badge-1/index.html
 ## Monitoring
 
 View worker logs:
+
 ```bash
 wrangler tail
 ```
 
 View R2 storage usage:
+
 ```bash
 wrangler r2 bucket list
 ```
@@ -145,6 +156,7 @@ wrangler r2 bucket list
 ## Alternative: Keep Using Next.js
 
 If you don't want to deploy the worker:
+
 1. Keep SCORM files in `public/scorm/`
 2. Don't set `NEXT_PUBLIC_SCORM_CDN_URL`
 3. Files served directly from Netlify/Next.js
@@ -157,6 +169,7 @@ If you don't want to deploy the worker:
 ✅ **Fallback** - Working (local SCORM files)
 
 **Recommendation:** Deploy worker only if you need:
+
 - Global CDN for SCORM files
 - Separate storage from Next.js
 - Advanced SCORM tracking

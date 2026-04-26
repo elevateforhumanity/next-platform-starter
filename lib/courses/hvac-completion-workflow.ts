@@ -316,14 +316,17 @@ export async function advanceHvacWorkflow(userId: string): Promise<{
 
   // Log email send to prevent duplicates
   async function logEmailSent(templateId: string) {
-    await db.from('email_logs').insert({
-      user_id: userId,
-      type: templateId,
-      recipient_email: student.email,
-      subject: `HVAC workflow: ${templateId}`,
-      status: 'sent',
-      sent_at: new Date().toISOString(),
-    }).then(() => {});
+    await db
+      .from('email_logs')
+      .insert({
+        user_id: userId,
+        type: templateId,
+        recipient_email: student.email,
+        subject: `HVAC workflow: ${templateId}`,
+        status: 'sent',
+        sent_at: new Date().toISOString(),
+      })
+      .then(() => {});
   }
 
   // Determine next action
@@ -339,7 +342,13 @@ export async function advanceHvacWorkflow(userId: string): Promise<{
           issued_at: new Date().toISOString(),
           metadata: JSON.stringify({
             program: 'HVAC Technician',
-            credentials: ['EPA 608 Universal', 'OSHA 10', 'CPR/AED', 'Residential HVAC 1', 'Residential HVAC 2'],
+            credentials: [
+              'EPA 608 Universal',
+              'OSHA 10',
+              'CPR/AED',
+              'Residential HVAC 1',
+              'Residential HVAC 2',
+            ],
             completedLessons,
             totalLessons,
           }),

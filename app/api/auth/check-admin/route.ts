@@ -12,7 +12,9 @@ async function _GET(request: Request) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       return NextResponse.json({ isAdmin: false, error: 'Not authenticated' });
@@ -26,7 +28,7 @@ async function _GET(request: Request) {
 
     const isAdmin = profile?.role === 'admin' || profile?.role === 'super_admin';
 
-    return NextResponse.json({ 
+    return NextResponse.json({
       isAdmin,
       role: profile?.role || 'user',
       userId: user.id,

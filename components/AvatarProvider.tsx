@@ -6,14 +6,14 @@ import { getPageLoadMessage } from '@/lib/avatar-config';
 
 /**
  * AvatarProvider
- * 
+ *
  * Wrap your app with this to enable automatic avatar speech on page load.
- * 
+ *
  * Rules:
  * - Speaks ONCE per page per session
  * - No speech on silent pages (policies, tests, etc.)
  * - Dispatches 'avatar-speak' event for UI components to handle
- * 
+ *
  * Usage in layout.tsx:
  * ```tsx
  * <AvatarProvider>
@@ -36,17 +36,19 @@ export function AvatarProvider({ children }: { children: React.ReactNode }) {
 
     // Get message for this page
     const message = getPageLoadMessage(pathname);
-    
+
     if (message) {
       // Mark as spoken
       spokenPaths.current.add(pathname);
-      
+
       // Small delay to ensure page is rendered
       const timer = setTimeout(() => {
         // Dispatch event for avatar UI to handle
-        window.dispatchEvent(new CustomEvent('avatar-speak', {
-          detail: { message, pathname }
-        }));
+        window.dispatchEvent(
+          new CustomEvent('avatar-speak', {
+            detail: { message, pathname },
+          }),
+        );
       }, 500);
 
       return () => clearTimeout(timer);
@@ -58,24 +60,26 @@ export function AvatarProvider({ children }: { children: React.ReactNode }) {
 
 /**
  * useAvatarSpeech Hook
- * 
+ *
  * Use this in your avatar UI component to listen for speech events.
- * 
+ *
  * Usage:
  * ```tsx
  * function AvatarUI() {
  *   const { message, isVisible } = useAvatarSpeech();
- *   
+ *
  *   if (!isVisible) return null;
- *   
+ *
  *   return <div>{message}</div>;
  * }
  * ```
  */
 export function useAvatarSpeech() {
   const [state, setState] = useReducer(
-    (prev: { message: string | null; isVisible: boolean; pathname: string | null }, 
-     action: { type: 'speak'; message: string; pathname: string } | { type: 'dismiss' }) => {
+    (
+      prev: { message: string | null; isVisible: boolean; pathname: string | null },
+      action: { type: 'speak'; message: string; pathname: string } | { type: 'dismiss' },
+    ) => {
       if (action.type === 'speak') {
         return { message: action.message, isVisible: true, pathname: action.pathname };
       }
@@ -84,13 +88,13 @@ export function useAvatarSpeech() {
       }
       return prev;
     },
-    { message: null, isVisible: false, pathname: null }
+    { message: null, isVisible: false, pathname: null },
   );
 
   useEffect(() => {
     const handler = (event: CustomEvent<{ message: string; pathname: string }>) => {
       setState({ type: 'speak', message: event.detail.message, pathname: event.detail.pathname });
-      
+
       // Auto-dismiss after 10 seconds
       setTimeout(() => {
         setState({ type: 'dismiss' });

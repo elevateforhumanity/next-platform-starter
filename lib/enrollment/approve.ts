@@ -68,7 +68,8 @@ export async function approveApplication(
   if (app.status === 'pending_workone' && !app.has_workone_approval) {
     return {
       success: false,
-      error: 'This application is pending WorkOne eligibility confirmation. Update has_workone_approval before approving.',
+      error:
+        'This application is pending WorkOne eligibility confirmation. Update has_workone_approval before approving.',
     };
   }
 
@@ -83,9 +84,19 @@ export async function approveApplication(
 
   // Non-self-pay funding types bypass the payment gate — they go through
   // WIOA, Workforce Ready Grant, employer sponsorship, or are pending review.
-  const NON_SELF_PAY = ['wioa', 'wrg', 'employer', 'unsure', 'workforce', 'grant', 'scholarship', 'dol', 'apprenticeship'];
+  const NON_SELF_PAY = [
+    'wioa',
+    'wrg',
+    'employer',
+    'unsure',
+    'workforce',
+    'grant',
+    'scholarship',
+    'dol',
+    'apprenticeship',
+  ];
   const appFundingType = (app.funding_type || app.funding_source || '').toLowerCase();
-  const isFundedPath = NON_SELF_PAY.some(f => appFundingType.includes(f));
+  const isFundedPath = NON_SELF_PAY.some((f) => appFundingType.includes(f));
 
   const skipGate = isRepair || input.bypassPaymentGate === true || isFundedPath;
 
@@ -105,7 +116,8 @@ export async function approveApplication(
       if (!stripeSession) {
         return {
           success: false,
-          error: 'PAYMENT_NOT_VERIFIED: No paid Stripe session and no verified funding on file. Enrollment requires payment or approved funding before access is granted.',
+          error:
+            'PAYMENT_NOT_VERIFIED: No paid Stripe session and no verified funding on file. Enrollment requires payment or approved funding before access is granted.',
         };
       }
     }
@@ -132,9 +144,7 @@ export async function approveApplication(
   } else {
     // Check auth users
     const { data: listUsers } = await db.auth.admin.listUsers({ page: 1, perPage: 100 });
-    const existingUser = listUsers?.users?.find(
-      (u) => u.email?.toLowerCase() === email,
-    );
+    const existingUser = listUsers?.users?.find((u) => u.email?.toLowerCase() === email);
 
     if (existingUser) {
       userId = existingUser.id;
@@ -161,15 +171,18 @@ export async function approveApplication(
     }
 
     // Ensure profile exists for newly created user
-    await db.from('profiles').upsert({
-      id: userId,
-      email,
-      first_name: app.first_name,
-      last_name: app.last_name,
-      full_name: `${app.first_name || ''} ${app.last_name || ''}`.trim(),
-      phone: app.phone,
-      role: assignedRole,
-    }, { onConflict: 'id' });
+    await db.from('profiles').upsert(
+      {
+        id: userId,
+        email,
+        first_name: app.first_name,
+        last_name: app.last_name,
+        full_name: `${app.first_name || ''} ${app.last_name || ''}`.trim(),
+        phone: app.phone,
+        role: assignedRole,
+      },
+      { onConflict: 'id' },
+    );
   }
 
   // Profile already existed — update role if a non-default role was assigned
@@ -194,26 +207,33 @@ export async function approveApplication(
 
     const { data: pe, error: peErr } = await db
       .from('program_enrollments')
-      .upsert({
-        user_id: userId,
-        program_id: resolvedProgramId,
-        program_slug: programSlug,
-        email,
-        full_name: `${app.first_name || ''} ${app.last_name || ''}`.trim(),
-        amount_paid_cents: 0,
-        funding_source: fundingType || 'pending',
-        status: 'active',
-        enrollment_state: 'active',
-        funding_verified: false,   // NOT NULL
-        payout_status: 'pending',  // NOT NULL
-        at_risk: false,            // NOT NULL
-        ...(resolvedCourseId ? { course_id: resolvedCourseId } : {}),
-      }, { onConflict: 'user_id,program_slug', ignoreDuplicates: false })
+      .upsert(
+        {
+          user_id: userId,
+          program_id: resolvedProgramId,
+          program_slug: programSlug,
+          email,
+          full_name: `${app.first_name || ''} ${app.last_name || ''}`.trim(),
+          amount_paid_cents: 0,
+          funding_source: fundingType || 'pending',
+          status: 'active',
+          enrollment_state: 'active',
+          funding_verified: false, // NOT NULL
+          payout_status: 'pending', // NOT NULL
+          at_risk: false, // NOT NULL
+          ...(resolvedCourseId ? { course_id: resolvedCourseId } : {}),
+        },
+        { onConflict: 'user_id,program_slug', ignoreDuplicates: false },
+      )
       .select('id')
       .maybeSingle();
 
     if (peErr) {
-      logger.error('[approve] program_enrollments upsert failed', { error: peErr.message, userId, resolvedProgramId });
+      logger.error('[approve] program_enrollments upsert failed', {
+        error: peErr.message,
+        userId,
+        resolvedProgramId,
+      });
     }
 
     enrollmentId = pe?.id || null;
@@ -253,10 +273,7 @@ export async function approveApplication(
 
   // Step 5: Update profile enrollment_status (students only)
   if (assignedRole === 'student') {
-    await db
-      .from('profiles')
-      .update({ enrollment_status: 'active' })
-      .eq('id', userId);
+    await db.from('profiles').update({ enrollment_status: 'active' }).eq('id', userId);
   }
 
   // ── Partner routing ──────────────────────────────────────────────────────
@@ -310,7 +327,10 @@ export async function approveApplication(
       });
       passwordSetupLink = linkData?.properties?.action_link || null;
     } catch (linkErr) {
-      logger.warn('[approve] Failed to generate password setup link (non-fatal)', { email, error: linkErr });
+      logger.warn('[approve] Failed to generate password setup link (non-fatal)', {
+        email,
+        error: linkErr,
+      });
     }
   }
 
@@ -319,11 +339,11 @@ export async function approveApplication(
     await db
       .from('crm_leads')
       .update({
-        stage:         'converted',
-        status:        'won',
-        profile_id:    userId ?? null,
+        stage: 'converted',
+        status: 'won',
+        profile_id: userId ?? null,
         enrollment_id: enrollmentId ?? null,
-        updated_at:    new Date().toISOString(),
+        updated_at: new Date().toISOString(),
       })
       .eq('application_id', applicationId);
 

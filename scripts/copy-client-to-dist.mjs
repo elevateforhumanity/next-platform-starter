@@ -13,4 +13,3 @@ filesToRemove.forEach((file) => {
 
 // Copy all files from dist/client to dist root
 cpSync('dist/client', 'dist', { recursive: true, force: true });
-

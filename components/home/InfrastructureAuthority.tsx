@@ -1,9 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
-import {
-  Shield, BarChart3, Lock, FileCheck, Users, Globe,
-} from 'lucide-react';
+import { Shield, BarChart3, Lock, FileCheck, Users, Globe } from 'lucide-react';
 
 const CAPABILITIES = [
   {
@@ -34,7 +32,7 @@ const CAPABILITIES = [
   {
     icon: Globe,
     title: 'ETPL-Approved Provider',
-    desc: 'Listed on Indiana\'s Eligible Training Provider List. Programs aligned with state demand occupations.',
+    desc: "Listed on Indiana's Eligible Training Provider List. Programs aligned with state demand occupations.",
   },
 ];
 
@@ -50,13 +48,16 @@ export default function InfrastructureAuthority() {
                 Workforce Infrastructure
               </p>
               <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 mb-6 leading-tight">
-                Not a training center.<br />
+                Not a training center.
+                <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-blue-600 to-brand-blue-800">
                   A workforce delivery system.
                 </span>
               </h2>
               <p className="text-lg text-slate-600 mb-8">
-                Secure, trackable, compliant workforce training infrastructure. Multi-tenant portals for students, employers, and government partners — each with role-based access and real-time reporting.
+                Secure, trackable, compliant workforce training infrastructure. Multi-tenant portals
+                for students, employers, and government partners — each with role-based access and
+                real-time reporting.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4">

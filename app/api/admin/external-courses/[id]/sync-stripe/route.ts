@@ -24,10 +24,7 @@ const BodySchema = z.object({
   payer_rule: z.enum(['sponsored', 'always_student', 'always_elevate']),
 });
 
-export async function POST(
-  req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
 
   const auth = await apiRequireAdmin(req);
@@ -37,7 +34,7 @@ export async function POST(
 
   const parsed = BodySchema.safeParse(body);
   if (!parsed.success) {
-    const msg = parsed.error.issues.map(i => `${i.path.join('.')}: ${i.message}`).join('; ');
+    const msg = parsed.error.issues.map((i) => `${i.path.join('.')}: ${i.message}`).join('; ');
     return safeError(msg, 422);
   }
 
@@ -58,10 +55,10 @@ export async function POST(
   if (!stripe) return safeError('Stripe is not configured', 503);
 
   const productName = `${row.partner_name} — ${row.title}`;
-  const description  = row.description ?? undefined;
+  const description = row.description ?? undefined;
 
   let stripeProductId: string = row.stripe_product_id ?? '';
-  let stripePriceId:   string = row.stripe_price_id   ?? '';
+  let stripePriceId: string = row.stripe_price_id ?? '';
 
   try {
     if (stripeProductId) {
@@ -108,7 +105,7 @@ export async function POST(
       cost_cents,
       payer_rule,
       stripe_product_id: stripeProductId || null,
-      stripe_price_id:   stripePriceId   || null,
+      stripe_price_id: stripePriceId || null,
       updated_at: new Date().toISOString(),
     })
     .eq('id', id)

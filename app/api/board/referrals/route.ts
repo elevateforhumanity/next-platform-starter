@@ -1,6 +1,6 @@
-import { NextResponse } from "next/server";
+import { NextResponse } from 'next/server';
 
-import { createClient } from "@/lib/supabase/server";
+import { createClient } from '@/lib/supabase/server';
 import { toErrorMessage } from '@/lib/safe';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
@@ -10,34 +10,33 @@ export const maxDuration = 60;
 export const dynamic = 'force-dynamic';
 
 async function _GET(request: Request) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const supabase = await createClient();
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
   if (!user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   // Check if user is board member
   const { data: profile } = await supabase
-    .from("profiles")
-    .select("role, organization")
-    .eq("id", user.id)
+    .from('profiles')
+    .select('role, organization')
+    .eq('id', user.id)
     .maybeSingle();
 
-  if (profile?.role !== "board") {
-    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  if (profile?.role !== 'board') {
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
 
   const { data: referrals, error } = await supabase
-    .from("referrals")
-    .select("*")
-    .eq("board_org", profile.organization || "")
-    .order("created_at", { ascending: false });
+    .from('referrals')
+    .select('*')
+    .eq('board_org', profile.organization || '')
+    .order('created_at', { ascending: false });
 
   if (error) {
     return NextResponse.json({ error: toErrorMessage(error) }, { status: 500 });
@@ -47,8 +46,8 @@ const supabase = await createClient();
 }
 
 async function _POST(request: Request) {
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
 
   const supabase = await createClient();
   const {
@@ -56,40 +55,31 @@ async function _POST(request: Request) {
   } = await supabase.auth.getUser();
 
   if (!user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   // Check if user is board member
   const { data: profile } = await supabase
-    .from("profiles")
-    .select("role, organization")
-    .eq("id", user.id)
+    .from('profiles')
+    .select('role, organization')
+    .eq('id', user.id)
     .maybeSingle();
 
-  if (profile?.role !== "board") {
-    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  if (profile?.role !== 'board') {
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
 
-  const {
-    participantName,
-    participantEmail,
-    participantPhone,
-    programName,
-    courseId,
-    notes,
-  } = await request.json();
+  const { participantName, participantEmail, participantPhone, programName, courseId, notes } =
+    await request.json();
 
   if (!participantName) {
-    return NextResponse.json(
-      { error: "participantName is required" },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: 'participantName is required' }, { status: 400 });
   }
 
   const { data: referral, error } = await supabase
-    .from("referrals")
+    .from('referrals')
     .insert({
-      board_org: profile.organization || "Unknown Board",
+      board_org: profile.organization || 'Unknown Board',
       board_user_id: user.id,
       participant_name: participantName,
       participant_email: participantEmail || null,
@@ -97,7 +87,7 @@ async function _POST(request: Request) {
       program_name: programName || null,
       course_id: courseId || null,
       notes: notes || null,
-      status: "referred",
+      status: 'referred',
     })
     .select()
     .maybeSingle();
@@ -107,11 +97,11 @@ async function _POST(request: Request) {
   }
 
   // Log the referral creation
-  await supabase.from("audit_logs").insert({
+  await supabase.from('audit_logs').insert({
     actor_id: user.id,
     actor_email: user.email,
-    action: "board_created_referral",
-    resource_type: "referral",
+    action: 'board_created_referral',
+    resource_type: 'referral',
     resource_id: referral.id,
     metadata: {
       participantName,

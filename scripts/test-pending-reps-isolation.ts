@@ -22,7 +22,7 @@ config({ path: resolve(process.cwd(), '.env.local') });
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const SERVICE_KEY  = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+const SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 
 if (!SUPABASE_URL || !SERVICE_KEY) {
   console.error('Missing NEXT_PUBLIC_SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY');
@@ -54,7 +54,7 @@ async function getPendingRepsForUser(
       .select('student_id')
       .eq('shop_id', supervisorRow.shop_id)
       .eq('status', 'active');
-    apprenticeIds = (placements ?? []).map(p => p.student_id);
+    apprenticeIds = (placements ?? []).map((p) => p.student_id);
   }
 
   // Path 2: email fallback (gated)
@@ -64,7 +64,7 @@ async function getPendingRepsForUser(
       .select('student_id')
       .eq('supervisor_email', userEmail)
       .eq('status', 'active');
-    apprenticeIds = (textPlacements ?? []).map(p => p.student_id);
+    apprenticeIds = (textPlacements ?? []).map((p) => p.student_id);
   }
 
   if (apprenticeIds.length === 0) return [];
@@ -75,10 +75,17 @@ async function getPendingRepsForUser(
     .in('apprentice_id', apprenticeIds)
     .eq('supervisor_verified', false);
 
-  return (logs ?? []).map(l => l.apprentice_id);
+  return (logs ?? []).map((l) => l.apprentice_id);
 }
 
-async function cleanup(shopAId: string, shopBId: string, apprenticeAId: string, apprenticeBId: string, supervisorAUserId: string, supervisorBUserId: string) {
+async function cleanup(
+  shopAId: string,
+  shopBId: string,
+  apprenticeAId: string,
+  apprenticeBId: string,
+  supervisorAUserId: string,
+  supervisorBUserId: string,
+) {
   await db.from('competency_log').delete().in('apprentice_id', [apprenticeAId, apprenticeBId]);
   await db.from('apprentice_placements').delete().in('student_id', [apprenticeAId, apprenticeBId]);
   await db.from('shop_supervisors').delete().in('user_id', [supervisorAUserId, supervisorBUserId]);
@@ -99,14 +106,14 @@ async function main() {
     process.exit(1);
   }
 
-  const shopAId         = shops[0].id;
-  const shopBId         = shops[1].id;
-  const apprenticeAId   = profiles[0].id;   // placed at shop A
-  const apprenticeBId   = profiles[1].id;   // placed at shop B
-  const supervisorAId   = profiles[2].id;   // supervisor at shop A
-  const supervisorBId   = profiles[3].id;   // supervisor at shop B
+  const shopAId = shops[0].id;
+  const shopBId = shops[1].id;
+  const apprenticeAId = profiles[0].id; // placed at shop A
+  const apprenticeBId = profiles[1].id; // placed at shop B
+  const supervisorAId = profiles[2].id; // supervisor at shop A
+  const supervisorBId = profiles[3].id; // supervisor at shop B
   const supervisorAEmail = profiles[2].email ?? 'supervisor-a@test.invalid';
-  const noShopUserId    = profiles[0].id;   // reuse — no supervisor row
+  const noShopUserId = profiles[0].id; // reuse — no supervisor row
 
   console.log(`\nCross-shop isolation test`);
   console.log(`  Shop A: ${shopAId}`);
@@ -119,35 +126,84 @@ async function main() {
   // Setup: placements
   await db.from('apprentice_placements').delete().in('student_id', [apprenticeAId, apprenticeBId]);
   await db.from('apprentice_placements').insert([
-    { student_id: apprenticeAId, shop_id: shopAId, program_slug: 'barber-apprenticeship', status: 'active', start_date: new Date().toISOString().split('T')[0] },
-    { student_id: apprenticeBId, shop_id: shopBId, program_slug: 'barber-apprenticeship', status: 'active', start_date: new Date().toISOString().split('T')[0] },
+    {
+      student_id: apprenticeAId,
+      shop_id: shopAId,
+      program_slug: 'barber-apprenticeship',
+      status: 'active',
+      start_date: new Date().toISOString().split('T')[0],
+    },
+    {
+      student_id: apprenticeBId,
+      shop_id: shopBId,
+      program_slug: 'barber-apprenticeship',
+      status: 'active',
+      start_date: new Date().toISOString().split('T')[0],
+    },
   ]);
 
   // Setup: supervisor rows
   await db.from('shop_supervisors').delete().in('user_id', [supervisorAId, supervisorBId]);
   await db.from('shop_supervisors').insert([
-    { shop_id: shopAId, user_id: supervisorAId, name: 'Test Supervisor A', email: supervisorAEmail, is_active: true, license_type: 'barber' },
-    { shop_id: shopBId, user_id: supervisorBId, name: 'Test Supervisor B', email: 'supervisor-b@test.invalid', is_active: true, license_type: 'barber' },
+    {
+      shop_id: shopAId,
+      user_id: supervisorAId,
+      name: 'Test Supervisor A',
+      email: supervisorAEmail,
+      is_active: true,
+      license_type: 'barber',
+    },
+    {
+      shop_id: shopBId,
+      user_id: supervisorBId,
+      name: 'Test Supervisor B',
+      email: 'supervisor-b@test.invalid',
+      is_active: true,
+      license_type: 'barber',
+    },
   ]);
 
   // Setup: pending competency_log entries for both apprentices
   await db.from('competency_log').delete().in('apprentice_id', [apprenticeAId, apprenticeBId]);
   const skillRes = await db.from('apprentice_skills').select('id').limit(1).single();
   const skillId = skillRes.data?.id;
-  if (!skillId) { console.error('No apprentice_skills rows'); process.exit(1); }
+  if (!skillId) {
+    console.error('No apprentice_skills rows');
+    process.exit(1);
+  }
 
   await db.from('competency_log').insert([
-    { apprentice_id: apprenticeAId, skill_id: skillId, work_date: new Date().toISOString().split('T')[0], service_count: 1, supervisor_verified: false, status: 'pending' },
-    { apprentice_id: apprenticeBId, skill_id: skillId, work_date: new Date().toISOString().split('T')[0], service_count: 1, supervisor_verified: false, status: 'pending' },
+    {
+      apprentice_id: apprenticeAId,
+      skill_id: skillId,
+      work_date: new Date().toISOString().split('T')[0],
+      service_count: 1,
+      supervisor_verified: false,
+      status: 'pending',
+    },
+    {
+      apprentice_id: apprenticeBId,
+      skill_id: skillId,
+      work_date: new Date().toISOString().split('T')[0],
+      service_count: 1,
+      supervisor_verified: false,
+      status: 'pending',
+    },
   ]);
 
   const results: { scenario: string; expected: string; actual: string; pass: boolean }[] = [];
 
   const check = (scenario: string, expected: string[], actual: string[]) => {
     const expectedSet = new Set(expected);
-    const actualSet   = new Set(actual);
-    const pass = expected.every(id => actualSet.has(id)) && actual.every(id => expectedSet.has(id));
-    results.push({ scenario, expected: expected.join(',') || '(none)', actual: actual.join(',') || '(none)', pass });
+    const actualSet = new Set(actual);
+    const pass =
+      expected.every((id) => actualSet.has(id)) && actual.every((id) => expectedSet.has(id));
+    results.push({
+      scenario,
+      expected: expected.join(',') || '(none)',
+      actual: actual.join(',') || '(none)',
+      pass,
+    });
   };
 
   // Scenario 1: Supervisor A sees only apprentice A
@@ -157,7 +213,12 @@ async function main() {
   // Scenario 2: Supervisor A cannot see apprentice B (shop B)
   const s2 = await getPendingRepsForUser(supervisorAId, supervisorAEmail, false);
   const s2CrossShop = s2.includes(apprenticeBId);
-  results.push({ scenario: 'Supervisor A cannot see shop B apprentice', expected: 'false', actual: String(s2CrossShop), pass: !s2CrossShop });
+  results.push({
+    scenario: 'Supervisor A cannot see shop B apprentice',
+    expected: 'false',
+    actual: String(s2CrossShop),
+    pass: !s2CrossShop,
+  });
 
   // Scenario 3: User with no shop_supervisors row sees nothing (fallback disabled)
   // Use a profile that has no supervisor row — temporarily remove supervisorA row
@@ -165,7 +226,16 @@ async function main() {
   const s3 = await getPendingRepsForUser(supervisorAId, supervisorAEmail, false);
   check('No supervisor row, fallback disabled → sees nothing', [], s3);
   // Restore
-  await db.from('shop_supervisors').insert({ shop_id: shopAId, user_id: supervisorAId, name: 'Test Supervisor A', email: supervisorAEmail, is_active: true, license_type: 'barber' });
+  await db
+    .from('shop_supervisors')
+    .insert({
+      shop_id: shopAId,
+      user_id: supervisorAId,
+      name: 'Test Supervisor A',
+      email: supervisorAEmail,
+      is_active: true,
+      license_type: 'barber',
+    });
 
   // Scenario 4: Fallback enabled — email match works for shop A supervisor
   const s4 = await getPendingRepsForUser(supervisorAId, supervisorAEmail, true);
@@ -205,7 +275,7 @@ async function main() {
   }
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.error('Test runner error:', err);
   process.exit(1);
 });

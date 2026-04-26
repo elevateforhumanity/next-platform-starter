@@ -1,9 +1,7 @@
-
 /**
  * Grants Sync API Route
  * Syncs grant opportunities from Grants.gov to local database
  */
-
 
 import { NextResponse } from 'next/server';
 import { getAdminClient } from '@/lib/supabase/admin';
@@ -33,8 +31,8 @@ async function _POST(request: Request) {
   try {
     const rateLimited = await applyRateLimit(request, 'api');
     if (rateLimited) return rateLimited;
-  const auth = await apiRequireAdmin(request);
-  const supabaseAdmin = await getAdminClient();
+    const auth = await apiRequireAdmin(request);
+    const supabaseAdmin = await getAdminClient();
 
     // Ensure grant source exists
     const { data: source, error: sourceError } = await supabaseAdmin
@@ -45,17 +43,14 @@ async function _POST(request: Request) {
           code: 'grants_gov',
           base_url: 'https://www.grants.gov',
         },
-        { onConflict: 'code' }
+        { onConflict: 'code' },
       )
       .select()
       .maybeSingle();
 
     if (sourceError || !source) {
       logger.error('Failed to ensure grant source:', sourceError);
-      return NextResponse.json(
-        { error: 'Failed to ensure grant source' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to ensure grant source' }, { status: 500 });
     }
 
     // Fetch grants from multiple relevant categories
@@ -75,7 +70,7 @@ async function _POST(request: Request) {
     ];
 
     const uniqueOpportunities = Array.from(
-      new Map(allOpportunities.map(o => [o.id, o])).values()
+      new Map(allOpportunities.map((o) => [o.id, o])).values(),
     );
 
     logger.info(`Found ${uniqueOpportunities.length} unique grant opportunities`);
@@ -101,7 +96,7 @@ async function _POST(request: Request) {
           url: grant.opportunityUrl,
           raw_json: grant,
         },
-        { onConflict: 'source_id,external_id' }
+        { onConflict: 'source_id,external_id' },
       );
 
       if (error) {
@@ -127,10 +122,7 @@ async function _POST(request: Request) {
     });
   } catch (err) {
     logger.error('Unexpected error during grant sync:', err);
-    return NextResponse.json(
-      { error: 'Unexpected error during grant sync' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Unexpected error during grant sync' }, { status: 500 });
   }
 }
 
@@ -163,10 +155,7 @@ async function _GET(request: Request) {
     });
   } catch (err) {
     logger.error('Error getting sync status:', err);
-    return NextResponse.json(
-      { error: 'Failed to get sync status' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to get sync status' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/grants/sync', _GET);

@@ -10,8 +10,9 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 const blogPosts = [
   {
     title: "From Unemployed to HVAC Technician: Marcus's Success Story",
-    slug: "marcus-hvac-success-story",
-    excerpt: "After losing his retail job during the pandemic, Marcus Thompson enrolled in our HVAC program. Within 6 months, he landed a $55,000/year position with full benefits.",
+    slug: 'marcus-hvac-success-story',
+    excerpt:
+      'After losing his retail job during the pandemic, Marcus Thompson enrolled in our HVAC program. Within 6 months, he landed a $55,000/year position with full benefits.',
     content: `## The Challenge
 
 Marcus Thompson, 34, had spent 8 years climbing the ladder in retail management. When COVID-19 hit Indianapolis in March 2020, his store closed permanently.
@@ -52,15 +53,16 @@ Today, Marcus has been promoted to Lead Technician earning $58,000 annually.
 "I went from unemployed and hopeless to having a real career with a future. Elevate for Humanity changed my life."
 
 Ready to start your own success story? Apply now at /apply or call (317) 314-3757.`,
-    featured_image_url: "/images/blog/hvac-success.jpg",
-    tags: ["HVAC", "success story", "career change", "WIOA"],
+    featured_image_url: '/images/blog/hvac-success.jpg',
+    tags: ['HVAC', 'success story', 'career change', 'WIOA'],
     published: true,
-    author_name: "Elevate for Humanity",
+    author_name: 'Elevate for Humanity',
   },
   {
-    title: "Understanding WIOA Funding: Your Complete Guide to Free Career Training",
-    slug: "wioa-funding-complete-guide",
-    excerpt: "WIOA funding can cover 100% of your training costs—tuition, books, certifications, even transportation. Learn who qualifies and how to apply.",
+    title: 'Understanding WIOA Funding: Your Complete Guide to Free Career Training',
+    slug: 'wioa-funding-complete-guide',
+    excerpt:
+      'WIOA funding can cover 100% of your training costs—tuition, books, certifications, even transportation. Learn who qualifies and how to apply.',
     content: `## What is WIOA?
 
 The Workforce Innovation and Opportunity Act (WIOA) is the largest federal investment in workforce development. In Indiana alone, WIOA helps over 50,000 people each year access free job training.
@@ -107,15 +109,16 @@ You may qualify if you meet ANY of these criteria:
 **Timeline: 2-4 weeks from application to training start**
 
 Check your eligibility at /wioa-eligibility or call (317) 314-3757.`,
-    featured_image_url: "/images/blog/wioa-guide.jpg",
-    tags: ["WIOA", "funding", "financial aid", "free training"],
+    featured_image_url: '/images/blog/wioa-guide.jpg',
+    tags: ['WIOA', 'funding', 'financial aid', 'free training'],
     published: true,
-    author_name: "Elevate for Humanity",
+    author_name: 'Elevate for Humanity',
   },
   {
-    title: "5 Highest-Paying Careers You Can Start in 6 Months or Less",
-    slug: "highest-paying-careers-6-months",
-    excerpt: "You don't need a 4-year degree to earn $50,000+. These five careers offer excellent salaries and can be started in weeks—not years.",
+    title: '5 Highest-Paying Careers You Can Start in 6 Months or Less',
+    slug: 'highest-paying-careers-6-months',
+    excerpt:
+      "You don't need a 4-year degree to earn $50,000+. These five careers offer excellent salaries and can be started in weeks—not years.",
     content: `## The Myth of the 4-Year Degree
 
 - 40% of college graduates are underemployed
@@ -160,15 +163,16 @@ The truth? Some of the best-paying careers require months of training—not year
 | Phlebotomist | 8-10 weeks | $35,000 |
 
 All five are available at Elevate for Humanity with WIOA funding. Apply at /apply.`,
-    featured_image_url: "/images/blog/careers.jpg",
-    tags: ["careers", "salary", "training"],
+    featured_image_url: '/images/blog/careers.jpg',
+    tags: ['careers', 'salary', 'training'],
     published: true,
-    author_name: "Elevate for Humanity",
+    author_name: 'Elevate for Humanity',
   },
   {
-    title: "CNA vs. Medical Assistant: Which Healthcare Career is Right for You?",
-    slug: "cna-vs-medical-assistant",
-    excerpt: "Both CNAs and Medical Assistants are in high demand, but they're very different roles. Here's an honest comparison.",
+    title: 'CNA vs. Medical Assistant: Which Healthcare Career is Right for You?',
+    slug: 'cna-vs-medical-assistant',
+    excerpt:
+      "Both CNAs and Medical Assistants are in high demand, but they're very different roles. Here's an honest comparison.",
     content: `## CNA (Certified Nursing Assistant)
 
 **What CNAs Do:**
@@ -214,15 +218,16 @@ All five are available at Elevate for Humanity with WIOA funding. Apply at /appl
 **Choose MA if:** You prefer daytime hours, like variety, want higher starting pay.
 
 Both programs available at Elevate for Humanity with WIOA funding.`,
-    featured_image_url: "/images/blog/healthcare-comparison.jpg",
-    tags: ["CNA", "medical assistant", "healthcare"],
+    featured_image_url: '/images/blog/healthcare-comparison.jpg',
+    tags: ['CNA', 'medical assistant', 'healthcare'],
     published: true,
-    author_name: "Elevate for Humanity",
+    author_name: 'Elevate for Humanity',
   },
   {
-    title: "Elevate Partners with Indiana Career Connect for Faster Enrollment",
-    slug: "indiana-career-connect-partnership",
-    excerpt: "Our expanded partnership means faster WIOA approvals and a smoother path from application to training.",
+    title: 'Elevate Partners with Indiana Career Connect for Faster Enrollment',
+    slug: 'indiana-career-connect-partnership',
+    excerpt:
+      'Our expanded partnership means faster WIOA approvals and a smoother path from application to training.',
     content: `## What This Partnership Means
 
 ### Faster WIOA Approvals
@@ -252,33 +257,34 @@ Visit us at 8888 Keystone Crossing, Suite 1300, Indianapolis
 (317) 314-3757
 
 Don't let paperwork stand between you and your new career.`,
-    featured_image_url: "/images/blog/partnership.jpg",
-    tags: ["partnership", "Indiana Career Connect", "WorkOne"],
+    featured_image_url: '/images/blog/partnership.jpg',
+    tags: ['partnership', 'Indiana Career Connect', 'WorkOne'],
     published: true,
-    author_name: "Elevate for Humanity",
+    author_name: 'Elevate for Humanity',
   },
 ];
 
 async function seedBlogPosts() {
   console.log('Seeding blog posts...');
-  
+
   for (const post of blogPosts) {
-    const { data, error } = await supabase
-      .from('blog_posts')
-      .upsert({
+    const { data, error } = await supabase.from('blog_posts').upsert(
+      {
         ...post,
         published_at: new Date().toISOString(),
-      }, {
+      },
+      {
         onConflict: 'slug',
-      });
-    
+      },
+    );
+
     if (error) {
       console.error(`Error inserting ${post.slug}:`, error.message);
     } else {
       console.log(`✅ Inserted: ${post.title}`);
     }
   }
-  
+
   console.log('Done seeding blog posts.');
 }
 

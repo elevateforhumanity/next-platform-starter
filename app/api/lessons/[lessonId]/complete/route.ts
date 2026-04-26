@@ -20,10 +20,7 @@ export const maxDuration = 60;
 
 export const dynamic = 'force-dynamic';
 
-async function _POST(
-  request: NextRequest,
-  { params }: { params: Promise<{ lessonId: string }> }
-) {
+async function _POST(request: NextRequest, { params }: { params: Promise<{ lessonId: string }> }) {
   try {
     const rateLimited = await applyRateLimit(request, 'api');
     if (rateLimited) return rateLimited;
@@ -47,7 +44,7 @@ async function _POST(
     const MAX_LESSON_SECONDS = 4 * 60 * 60;
     const timeSpentSeconds = Math.min(
       Math.max(1, Number(body.timeSpentSeconds) || 1),
-      MAX_LESSON_SECONDS
+      MAX_LESSON_SECONDS,
     );
 
     // Admin client required — bypasses RLS recursion in lms_lessons view.
@@ -105,24 +102,21 @@ async function _POST(
     }
 
     if (!enrollment) {
-      return NextResponse.json(
-        { error: 'Not enrolled in this course' },
-        { status: 403 }
-      );
+      return NextResponse.json({ error: 'Not enrolled in this course' }, { status: 403 });
     }
 
     if (enrollment.status === 'pending_funding_verification') {
       return NextResponse.json(
-        { error: 'Enrollment pending funding verification. Complete your payment or funding approval to continue.' },
-        { status: 403 }
+        {
+          error:
+            'Enrollment pending funding verification. Complete your payment or funding approval to continue.',
+        },
+        { status: 403 },
       );
     }
 
     if (enrollment.status === 'pending_approval') {
-      return NextResponse.json(
-        { error: 'Enrollment pending approval' },
-        { status: 403 }
-      );
+      return NextResponse.json({ error: 'Enrollment pending approval' }, { status: 403 });
     }
 
     // Checkpoint gate: block completion if the prior module's checkpoint
@@ -140,7 +134,7 @@ async function _POST(
             checkpointLessonId: e.checkpointLessonId,
             requiredScore: e.requiredScore,
           },
-          { status: 403 }
+          { status: 403 },
         );
       }
       throw gateErr; // unexpected — re-throw to 500 handler
@@ -151,7 +145,10 @@ async function _POST(
     const ojtAllowed = await canCompleteLesson(user.id, lessonId);
     if (!ojtAllowed) {
       return NextResponse.json(
-        { error: 'Complete required shop work before finishing this lesson', code: 'OJT_INCOMPLETE' },
+        {
+          error: 'Complete required shop work before finishing this lesson',
+          code: 'OJT_INCOMPLETE',
+        },
         { status: 403 },
       );
     }
@@ -212,7 +209,7 @@ async function _POST(
         if (lesson.course_id !== hvacCourseId) {
           return NextResponse.json(
             { error: 'Quiz must be passed before marking complete' },
-            { status: 403 }
+            { status: 403 },
           );
         }
       }
@@ -221,10 +218,10 @@ async function _POST(
     // Per-lesson-type minimum seat time (seconds)
     // Prevents instant click-through completion
     const MINIMUM_SEAT_TIME: Record<string, number> = {
-      reading: 90,    // 1.5 min minimum for reading lessons
-      video: 120,     // 2 min minimum for video lessons (real enforcement is 90% watched client-side)
-      quiz: 30,       // 30s minimum for quiz lessons (real enforcement is pass score)
-      lab: 60,        // 1 min minimum for lab/assignment lessons
+      reading: 90, // 1.5 min minimum for reading lessons
+      video: 120, // 2 min minimum for video lessons (real enforcement is 90% watched client-side)
+      quiz: 30, // 30s minimum for quiz lessons (real enforcement is pass score)
+      lab: 60, // 1 min minimum for lab/assignment lessons
       assignment: 60,
     };
 
@@ -237,7 +234,7 @@ async function _POST(
           actual: timeSpentSeconds,
           message: `This lesson requires at least ${Math.ceil(minTime / 60)} minute(s) of engagement before it can be marked complete.`,
         },
-        { status: 403 }
+        { status: 403 },
       );
     }
 
@@ -285,19 +282,19 @@ async function _POST(
             .maybeSingle();
 
           const newTouchpoints = (existing?.touchpoints ?? 0) + 1;
-          const isMastered     = newTouchpoints >= minTouchpoints;
+          const isMastered = newTouchpoints >= minTouchpoints;
 
           await db.from('student_competency_progress').upsert(
             {
-              user_id:        user.id,
+              user_id: user.id,
               competency_id,
-              program_id:     programId,
-              touchpoints:    newTouchpoints,
-              is_mastered:    isMastered,
-              mastered_at:    isMastered && !existing ? new Date().toISOString() : undefined,
-              updated_at:     new Date().toISOString(),
+              program_id: programId,
+              touchpoints: newTouchpoints,
+              is_mastered: isMastered,
+              mastered_at: isMastered && !existing ? new Date().toISOString() : undefined,
+              updated_at: new Date().toISOString(),
             },
-            { onConflict: 'user_id,competency_id' }
+            { onConflict: 'user_id,competency_id' },
           );
         }
       }
@@ -313,7 +310,7 @@ async function _POST(
       lessonId,
       lesson.course_id,
       enrollment.id,
-      timeSpentSeconds
+      timeSpentSeconds,
     );
 
     const { progressPercent, courseCompleted, certificateNumber } = completionResult;
@@ -329,17 +326,20 @@ async function _POST(
           await completeProgramEnrollment(
             prog.program_enrollment_id,
             prog.user_id,
-            prog.program_id
+            prog.program_id,
           );
           logger.info('[program-completion] Program completed via course', {
-            userId:              user.id,
-            courseId:            lesson.course_id,
-            programId:           prog.program_id,
+            userId: user.id,
+            courseId: lesson.course_id,
+            programId: prog.program_id,
             programEnrollmentId: prog.program_enrollment_id,
           });
         }
       } catch (progErr) {
-        logger.error('[program-completion] Check failed (non-fatal):', progErr instanceof Error ? progErr : new Error(String(progErr)));
+        logger.error(
+          '[program-completion] Check failed (non-fatal):',
+          progErr instanceof Error ? progErr : new Error(String(progErr)),
+        );
       }
     }
 
@@ -349,9 +349,15 @@ async function _POST(
       try {
         const { advanceHvacWorkflow } = await import('@/lib/courses/hvac-completion-workflow');
         const wfResult = await advanceHvacWorkflow(user.id);
-        logger.info('[hvac-workflow] Auto-advanced on course completion', { userId: user.id, ...wfResult });
+        logger.info('[hvac-workflow] Auto-advanced on course completion', {
+          userId: user.id,
+          ...wfResult,
+        });
       } catch (wfErr) {
-        logger.error('[hvac-workflow] Auto-advance failed (non-fatal):', wfErr instanceof Error ? wfErr : new Error(String(wfErr)));
+        logger.error(
+          '[hvac-workflow] Auto-advance failed (non-fatal):',
+          wfErr instanceof Error ? wfErr : new Error(String(wfErr)),
+        );
       }
     }
 
@@ -380,16 +386,22 @@ async function _POST(
           );
 
           if (eligibilityResult.authorizationCreated) {
-            logger.info('[credential-pipeline] Exam funding authorization created on lesson completion', {
-              userId: user.id,
-              lessonId,
-              programId: enrollment.program_id,
-              credentialId: primaryCredential.credential_id,
-            });
+            logger.info(
+              '[credential-pipeline] Exam funding authorization created on lesson completion',
+              {
+                userId: user.id,
+                lessonId,
+                programId: enrollment.program_id,
+                credentialId: primaryCredential.credential_id,
+              },
+            );
           }
         }
       } catch (eligErr) {
-        logger.error('[credential-pipeline] Eligibility check failed (non-fatal):', eligErr instanceof Error ? eligErr : new Error(String(eligErr)));
+        logger.error(
+          '[credential-pipeline] Eligibility check failed (non-fatal):',
+          eligErr instanceof Error ? eligErr : new Error(String(eligErr)),
+        );
       }
     }
 
@@ -406,24 +418,24 @@ async function _POST(
       },
       credentialEligibility: eligibilityResult
         ? {
-            isEligible:           eligibilityResult.isEligible,
-            blockingReason:       eligibilityResult.blockingReason,
+            isEligible: eligibilityResult.isEligible,
+            blockingReason: eligibilityResult.blockingReason,
             authorizationCreated: eligibilityResult.authorizationCreated,
           }
         : null,
     });
   } catch (error) {
-    logger.error('Lesson complete API error:', error instanceof Error ? error : new Error(String(error)));
-    return NextResponse.json(
-      { error: 'Failed to complete lesson' },
-      { status: 500 }
+    logger.error(
+      'Lesson complete API error:',
+      error instanceof Error ? error : new Error(String(error)),
     );
+    return NextResponse.json({ error: 'Failed to complete lesson' }, { status: 500 });
   }
 }
 
 async function _DELETE(
   request: NextRequest,
-  { params }: { params: Promise<{ lessonId: string }> }
+  { params }: { params: Promise<{ lessonId: string }> },
 ) {
   try {
     const rateLimited = await applyRateLimit(request, 'api');
@@ -452,7 +464,10 @@ async function _DELETE(
     try {
       await recordStepUncompletion(user.id, lessonId, lessonRow.course_id);
     } catch (err) {
-      logger.error('recordStepUncompletion failed:', err instanceof Error ? err : new Error(String(err)));
+      logger.error(
+        'recordStepUncompletion failed:',
+        err instanceof Error ? err : new Error(String(err)),
+      );
       return NextResponse.json({ error: 'Failed to mark lesson incomplete' }, { status: 500 });
     }
 
@@ -462,12 +477,18 @@ async function _DELETE(
       completed: false,
     });
   } catch (error) {
-    logger.error('Lesson uncomplete API error:', error instanceof Error ? error : new Error(String(error)));
-    return NextResponse.json(
-      { error: 'Failed to uncomplete lesson' },
-      { status: 500 }
+    logger.error(
+      'Lesson uncomplete API error:',
+      error instanceof Error ? error : new Error(String(error)),
     );
+    return NextResponse.json({ error: 'Failed to uncomplete lesson' }, { status: 500 });
   }
 }
-export const POST   = withApiAudit('/api/lessons/[lessonId]/complete', _POST   as unknown as (req: Request, ...args: any[]) => Promise<Response>);
-export const DELETE = withApiAudit('/api/lessons/[lessonId]/complete', _DELETE as unknown as (req: Request, ...args: any[]) => Promise<Response>);
+export const POST = withApiAudit(
+  '/api/lessons/[lessonId]/complete',
+  _POST as unknown as (req: Request, ...args: any[]) => Promise<Response>,
+);
+export const DELETE = withApiAudit(
+  '/api/lessons/[lessonId]/complete',
+  _DELETE as unknown as (req: Request, ...args: any[]) => Promise<Response>,
+);

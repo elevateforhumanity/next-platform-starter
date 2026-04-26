@@ -23,11 +23,7 @@ export function getLicenseStatus(sub: Subscription | null): LicenseStatus {
   }
 
   // Check grace period for past_due subscriptions
-  if (
-    sub.status === 'past_due' &&
-    sub.grace_until &&
-    new Date(sub.grace_until) > new Date()
-  ) {
+  if (sub.status === 'past_due' && sub.grace_until && new Date(sub.grace_until) > new Date()) {
     return 'grace';
   }
 

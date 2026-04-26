@@ -13,7 +13,7 @@ function getOAuth2Client() {
   return new google.auth.OAuth2(
     process.env.GOOGLE_CLIENT_ID,
     process.env.GOOGLE_CLIENT_SECRET,
-    process.env.GOOGLE_REDIRECT_URI
+    process.env.GOOGLE_REDIRECT_URI,
   );
 }
 
@@ -28,7 +28,7 @@ export async function addCourseToCalendar(
     startDate: Date;
     endDate: Date;
     location?: string;
-  }
+  },
 ) {
   const auth = getOAuth2Client();
   auth.setCredentials({ access_token: accessToken });
@@ -66,7 +66,8 @@ export async function addCourseToCalendar(
       eventId: response.data.id,
       eventLink: response.data.htmlLink,
     };
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     // Error: $1
     return {
       success: false,
@@ -88,7 +89,7 @@ export async function createRecurringClassSchedule(
     duration: number; // minutes
     recurrence: string; // RRULE format
     location?: string;
-  }
+  },
 ) {
   const auth = getOAuth2Client();
   auth.setCredentials({ access_token: accessToken });
@@ -134,7 +135,8 @@ export async function createRecurringClassSchedule(
       eventId: response.data.id,
       eventLink: response.data.htmlLink,
     };
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     // Error: $1
     return {
       success: false,
@@ -168,7 +170,8 @@ export async function getCalendarTokens(code: string) {
       success: true,
       tokens,
     };
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     // Error: $1
     return {
       success: false,

@@ -39,7 +39,6 @@ app.get('/ecosystem-status', (req, res) => {
 });
 
 // Start server
-app.listen(PORT, () => {
-});
+app.listen(PORT, () => {});
 
 module.exports = app;

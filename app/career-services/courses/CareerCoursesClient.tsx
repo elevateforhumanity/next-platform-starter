@@ -3,13 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { 
-  
-  Play, 
-  Clock, 
-  ShoppingCart,
-  Star,
-} from 'lucide-react';
+import { Play, Clock, ShoppingCart, Star } from 'lucide-react';
 
 interface CourseFeature {
   feature: string;
@@ -77,11 +71,11 @@ export function CareerCoursesClient({ courses, bundle }: CareerCoursesClientProp
 
   const getCartTotal = () => {
     let total = 0;
-    cart.forEach(id => {
+    cart.forEach((id) => {
       if (bundle && id === bundle.id) {
         total += Number(bundle.price);
       } else {
-        const course = courses.find(c => c.id === id);
+        const course = courses.find((c) => c.id === id);
         if (course) total += Number(course.price);
       }
     });
@@ -124,11 +118,12 @@ export function CareerCoursesClient({ courses, bundle }: CareerCoursesClientProp
               <div className="grid lg:grid-cols-2">
                 <div className="p-8 lg:p-12 text-white">
                   <span className="inline-block bg-yellow-400 text-yellow-900 text-xs font-bold px-3 py-1 rounded-full mb-4">
-                    BEST VALUE - SAVE ${(Number(bundle.original_price) - Number(bundle.price)).toFixed(0)}
+                    BEST VALUE - SAVE $
+                    {(Number(bundle.original_price) - Number(bundle.price)).toFixed(0)}
                   </span>
                   <h2 className="text-3xl font-bold mb-2">{bundle.title}</h2>
                   <p className="text-white mb-6">{bundle.description}</p>
-                  
+
                   <div className="mb-6">
                     <p className="text-sm text-white mb-2">What&apos;s Included:</p>
                     <ul className="space-y-2">
@@ -143,7 +138,9 @@ export function CareerCoursesClient({ courses, bundle }: CareerCoursesClientProp
 
                   <div className="flex items-center gap-4 mb-6">
                     <span className="text-4xl font-bold">${Number(bundle.price).toFixed(0)}</span>
-                    <span className="text-xl text-brand-blue-300 line-through">${Number(bundle.original_price).toFixed(0)}</span>
+                    <span className="text-xl text-brand-blue-300 line-through">
+                      ${Number(bundle.original_price).toFixed(0)}
+                    </span>
                   </div>
 
                   <button
@@ -170,7 +167,8 @@ export function CareerCoursesClient({ courses, bundle }: CareerCoursesClientProp
                     alt={bundle.title}
                     fill
                     className="object-cover"
-                   sizes="100vw" />
+                    sizes="100vw"
+                  />
                 </div>
               </div>
             </div>
@@ -180,22 +178,28 @@ export function CareerCoursesClient({ courses, bundle }: CareerCoursesClientProp
         {/* Individual Courses */}
         <section>
           <h2 className="text-3xl font-bold text-slate-900 mb-8">Individual Courses</h2>
-          
+
           {courses.length === 0 ? (
             <div className="bg-white rounded-xl p-12 text-center">
-              <p className="text-black">No courses available at this time. Contact us for more information.</p>
+              <p className="text-black">
+                No courses available at this time. Contact us for more information.
+              </p>
             </div>
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {courses.map((course) => (
-                <div key={course.id} className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 flex flex-col">
+                <div
+                  key={course.id}
+                  className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 flex flex-col"
+                >
                   <div className="relative h-48 overflow-hidden">
                     <Image
                       src={course.image_url || '/images/pages/apply-employer-hero.jpg'}
                       alt={course.title}
                       fill
                       className="object-cover"
-                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" />
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    />
                     {course.is_bestseller && (
                       <span className="absolute top-4 left-4 bg-yellow-400 text-yellow-900 text-xs font-bold px-3 py-1 rounded-full">
                         BESTSELLER
@@ -209,7 +213,9 @@ export function CareerCoursesClient({ courses, bundle }: CareerCoursesClientProp
 
                   <div className="p-6 flex-1 flex flex-col">
                     <h3 className="text-xl font-bold text-slate-900 mb-1">{course.title}</h3>
-                    <p className="text-sm text-brand-blue-600 font-medium mb-3">{course.subtitle}</p>
+                    <p className="text-sm text-brand-blue-600 font-medium mb-3">
+                      {course.subtitle}
+                    </p>
                     <p className="text-black text-sm mb-4 flex-1">{course.description}</p>
 
                     <div className="flex items-center gap-4 text-sm text-black mb-4">
@@ -226,9 +232,13 @@ export function CareerCoursesClient({ courses, bundle }: CareerCoursesClientProp
                     <div className="border-t pt-4">
                       <div className="flex items-center justify-between mb-4">
                         <div className="flex items-center gap-2">
-                          <span className="text-2xl font-bold text-slate-900">${Number(course.price).toFixed(0)}</span>
+                          <span className="text-2xl font-bold text-slate-900">
+                            ${Number(course.price).toFixed(0)}
+                          </span>
                           {course.original_price && (
-                            <span className="text-black line-through">${Number(course.original_price).toFixed(0)}</span>
+                            <span className="text-black line-through">
+                              ${Number(course.original_price).toFixed(0)}
+                            </span>
                           )}
                         </div>
                       </div>

@@ -13,20 +13,22 @@ async function _POST(request: NextRequest) {
 
     const supabase = await createClient();
 
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const body = await request.json();
-    const { 
-      date, 
-      hours, 
+    const {
+      date,
+      hours,
       minutes = 0,
-      description, 
+      description,
       supervisor_id,
       enrollment_id,
-      activity_type = 'on_the_job_training'
+      activity_type = 'on_the_job_training',
     } = body;
 
     // Validate required fields
@@ -72,19 +74,18 @@ async function _POST(request: NextRequest) {
     // Award points for logging hours (10 points per hour)
     const pointsToAward = Math.floor(totalMinutes / 60) * 10;
     if (pointsToAward > 0) {
-      await supabase.rpc('increment_points', { 
-        user_id: user.id, 
-        points_to_add: pointsToAward 
+      await supabase.rpc('increment_points', {
+        user_id: user.id,
+        points_to_add: pointsToAward,
       });
     }
 
-    return NextResponse.json({ 
-      success: true, 
+    return NextResponse.json({
+      success: true,
       log,
       points_awarded: pointsToAward,
-      message: `Logged ${hours || Math.floor(totalMinutes / 60)} hours ${minutes || totalMinutes % 60} minutes`
+      message: `Logged ${hours || Math.floor(totalMinutes / 60)} hours ${minutes || totalMinutes % 60} minutes`,
     });
-
   } catch (error) {
     logger.error('OJT hours logging error:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
@@ -99,7 +100,9 @@ async function _GET(request: NextRequest) {
 
     const supabase = await createClient();
 
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -134,7 +137,10 @@ async function _GET(request: NextRequest) {
 
     // Calculate totals
     const totalMinutes = logs?.reduce((sum, log) => sum + (log.total_minutes || 0), 0) || 0;
-    const verifiedMinutes = logs?.filter(l => l.status === 'verified').reduce((sum, log) => sum + (log.total_minutes || 0), 0) || 0;
+    const verifiedMinutes =
+      logs
+        ?.filter((l) => l.status === 'verified')
+        .reduce((sum, log) => sum + (log.total_minutes || 0), 0) || 0;
 
     return NextResponse.json({
       logs,
@@ -143,10 +149,9 @@ async function _GET(request: NextRequest) {
         total_minutes: totalMinutes % 60,
         verified_hours: Math.floor(verifiedMinutes / 60),
         verified_minutes: verifiedMinutes % 60,
-        pending_count: logs?.filter(l => l.status === 'pending').length || 0,
-      }
+        pending_count: logs?.filter((l) => l.status === 'pending').length || 0,
+      },
     });
-
   } catch (error) {
     logger.error('OJT hours fetch error:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });

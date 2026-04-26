@@ -34,7 +34,7 @@ interface EnrollmentResult {
 }
 
 export async function createEnrollmentFromPayment(
-  params: EnrollmentParams
+  params: EnrollmentParams,
 ): Promise<EnrollmentResult> {
   const {
     studentId: initialStudentId,
@@ -72,7 +72,7 @@ export async function createEnrollmentFromPayment(
     if (!finalStudentId && email) {
       const { data: existingUsers } = await supabaseAdmin.auth.admin.listUsers();
       const userExists = existingUsers?.users?.find(
-        (u) => u.email?.toLowerCase() === email.toLowerCase()
+        (u) => u.email?.toLowerCase() === email.toLowerCase(),
       );
 
       if (userExists) {
@@ -83,16 +83,15 @@ export async function createEnrollmentFromPayment(
         tempPassword = `Elevate${Math.random().toString(36).slice(-8)}!`;
 
         // Create new user account
-        const { data: newUser, error: createError } =
-          await supabaseAdmin.auth.admin.createUser({
-            email: email.toLowerCase(),
-            password: tempPassword,
-            email_confirm: true,
-            user_metadata: {
-              first_name: firstName || '',
-              last_name: lastName || '',
-            },
-          });
+        const { data: newUser, error: createError } = await supabaseAdmin.auth.admin.createUser({
+          email: email.toLowerCase(),
+          password: tempPassword,
+          email_confirm: true,
+          user_metadata: {
+            first_name: firstName || '',
+            last_name: lastName || '',
+          },
+        });
 
         if (createError) {
           logger.error('[Enrollment] Failed to create user account', createError);
@@ -163,7 +162,7 @@ export async function createEnrollmentFromPayment(
           student_id: finalStudentId,
           program_id: programId,
           ...(programSlug ? { program_slug: programSlug } : {}),
-          ...(courseId    ? { course_id:    courseId    } : {}),
+          ...(courseId ? { course_id: courseId } : {}),
           status: 'pending_review',
           payment_status: 'paid',
           payment_provider: paymentProvider,
@@ -248,7 +247,9 @@ export async function createEnrollmentFromPayment(
           is_new_enrollment: isNewEnrollment,
         },
       });
-    } catch { /* audit best-effort */ }
+    } catch {
+      /* audit best-effort */
+    }
 
     return {
       success: true,
@@ -283,8 +284,7 @@ async function sendEnrollmentWelcomeEmail(params: {
       .eq('id', programId)
       .maybeSingle();
 
-    const siteUrl =
-      process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
 
     const loginSection =
       isNewUser && tempPassword

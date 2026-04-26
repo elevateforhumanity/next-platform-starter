@@ -32,8 +32,7 @@ const colors = {
   cyan: '\x1b[36m',
 };
 
-function log(msg, color = 'reset') {
-}
+function log(msg, color = 'reset') {}
 
 function section(title) {
   log(`\n${'='.repeat(70)}`, 'cyan');
@@ -50,8 +49,7 @@ const results = {
 
 function check(name, status, message, severity = 'info') {
   const icon = status === 'pass' ? '✅' : status === 'fail' ? '❌' : '⚠️';
-  const color =
-    status === 'pass' ? 'green' : status === 'fail' ? 'red' : 'yellow';
+  const color = status === 'pass' ? 'green' : status === 'fail' ? 'red' : 'yellow';
 
   log(`${icon} ${name}: ${message}`, color);
 
@@ -70,11 +68,7 @@ async function checkDatabase() {
     const files = await fs.readdir(migrationsDir);
     const sqlFiles = files.filter((f) => f.endsWith('.sql'));
 
-    check(
-      'Database Migrations',
-      'pass',
-      `${sqlFiles.length} migration files found`
-    );
+    check('Database Migrations', 'pass', `${sqlFiles.length} migration files found`);
 
     // Check for required migrations
     const required = [
@@ -99,10 +93,7 @@ async function checkDatabase() {
     // Count tables in migrations
     let totalTables = 0;
     for (const file of sqlFiles) {
-      const content = await fs.readFile(
-        path.join(migrationsDir, file),
-        'utf-8'
-      );
+      const content = await fs.readFile(path.join(migrationsDir, file), 'utf-8');
       const matches = content.match(/CREATE TABLE/gi);
       if (matches) totalTables += matches.length;
     }
@@ -110,11 +101,7 @@ async function checkDatabase() {
     if (totalTables >= 60) {
       check('Database Tables', 'pass', `${totalTables} tables defined`);
     } else {
-      check(
-        'Database Tables',
-        'warn',
-        `Only ${totalTables} tables (expected 60+)`
-      );
+      check('Database Tables', 'warn', `Only ${totalTables} tables (expected 60+)`);
     }
   } catch (err) {
     check('Database Check', 'fail', err.message, 'critical');
@@ -294,12 +281,7 @@ async function checkFileStructure() {
     }
 
     // Check for required files
-    const requiredFiles = [
-      'package.json',
-      'vite.config.js',
-      'index.html',
-      'README.md',
-    ];
+    const requiredFiles = ['package.json', 'vite.config.js', 'index.html', 'README.md'];
 
     for (const file of requiredFiles) {
       const exists = await fs
@@ -323,9 +305,7 @@ async function checkGit() {
 
   try {
     // Check if git repo
-    const { stdout: isRepo } = await exec(
-      'git rev-parse --is-inside-work-tree'
-    );
+    const { stdout: isRepo } = await exec('git rev-parse --is-inside-work-tree');
     check('Git Repository', 'pass', 'Initialized');
 
     // Check current branch
@@ -398,14 +378,8 @@ async function generateReport() {
   log(`\nTotal Checks: ${total}`);
   log(`✅ Passed: ${results.passed}`, 'green');
   log(`❌ Failed: ${results.failed}`, results.failed > 0 ? 'red' : 'reset');
-  log(
-    `⚠️  Warnings: ${results.warnings}`,
-    results.warnings > 0 ? 'yellow' : 'reset'
-  );
-  log(
-    `\nHealth Score: ${score}%`,
-    score >= 90 ? 'green' : score >= 70 ? 'yellow' : 'red'
-  );
+  log(`⚠️  Warnings: ${results.warnings}`, results.warnings > 0 ? 'yellow' : 'reset');
+  log(`\nHealth Score: ${score}%`, score >= 90 ? 'green' : score >= 70 ? 'yellow' : 'red');
 
   // Determine overall status
   let status, statusColor, statusIcon;
@@ -430,18 +404,14 @@ async function generateReport() {
   log(`\nOverall Status: ${statusIcon} ${status}`, statusColor);
 
   // Critical issues
-  const critical = results.checks.filter(
-    (c) => c.status === 'fail' && c.severity === 'critical'
-  );
+  const critical = results.checks.filter((c) => c.status === 'fail' && c.severity === 'critical');
   if (critical.length > 0) {
     log('\n🚨 Critical Issues:', 'red');
     critical.forEach((c) => log(`   - ${c.name}: ${c.message}`, 'red'));
   }
 
   // High priority issues
-  const high = results.checks.filter(
-    (c) => c.status === 'fail' && c.severity === 'high'
-  );
+  const high = results.checks.filter((c) => c.status === 'fail' && c.severity === 'high');
   if (high.length > 0) {
     log('\n⚠️  High Priority Issues:', 'yellow');
     high.forEach((c) => log(`   - ${c.name}: ${c.message}`, 'yellow'));
@@ -543,10 +513,7 @@ async function main() {
       log('\n✅ All checks passed! System is healthy.', 'green');
       process.exit(0);
     } else {
-      log(
-        `\n⚠️  ${summary.failed} checks failed. Review HEALTH_CHECK_REPORT.md`,
-        'yellow'
-      );
+      log(`\n⚠️  ${summary.failed} checks failed. Review HEALTH_CHECK_REPORT.md`, 'yellow');
       process.exit(1);
     }
   } catch (error) {

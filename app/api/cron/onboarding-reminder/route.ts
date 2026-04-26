@@ -1,4 +1,3 @@
-
 // GET /api/cron/onboarding-reminder
 // Runs weekly. Finds providers with incomplete onboarding steps
 // who have been inactive for 7+ days. Queues a reminder email.
@@ -42,7 +41,7 @@ export async function GET(request: Request) {
     return NextResponse.json({ queued: 0, message: 'All providers fully onboarded' });
   }
 
-  const tenantIds = [...new Set(incomplete.map(r => r.tenant_id))];
+  const tenantIds = [...new Set(incomplete.map((r) => r.tenant_id))];
   let queued = 0;
 
   for (const tenantId of tenantIds) {
@@ -77,24 +76,31 @@ export async function GET(request: Request) {
       .maybeSingle();
 
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org';
-    const nextStepHref = nextStep?.step === 'profile_complete' ? `${siteUrl}/provider/settings`
-      : nextStep?.step === 'mou_signed' ? `${siteUrl}/provider/compliance`
-      : nextStep?.step?.includes('program') ? `${siteUrl}/provider/programs`
-      : `${siteUrl}/provider/dashboard`;
+    const nextStepHref =
+      nextStep?.step === 'profile_complete'
+        ? `${siteUrl}/provider/settings`
+        : nextStep?.step === 'mou_signed'
+          ? `${siteUrl}/provider/compliance`
+          : nextStep?.step?.includes('program')
+            ? `${siteUrl}/provider/programs`
+            : `${siteUrl}/provider/dashboard`;
 
-    await db.from('notification_outbox').insert({
-      to_email: contact.email,
-      template_key: 'inquiry_received', // reuse generic until onboarding_reminder template exists
-      template_data: {
-        name: contact.full_name ?? contact.email,
-        inquiry_type: 'onboarding reminder',
-        site_url: nextStepHref,
-        org_name: tenant?.name ?? tenantId,
-        next_step: nextStep?.step?.replace(/_/g, ' ') ?? 'complete onboarding',
-      },
-      status: 'queued',
-      scheduled_for: new Date().toISOString(),
-    }).catch(err => logger.warn('Failed to queue onboarding reminder', err));
+    await db
+      .from('notification_outbox')
+      .insert({
+        to_email: contact.email,
+        template_key: 'inquiry_received', // reuse generic until onboarding_reminder template exists
+        template_data: {
+          name: contact.full_name ?? contact.email,
+          inquiry_type: 'onboarding reminder',
+          site_url: nextStepHref,
+          org_name: tenant?.name ?? tenantId,
+          next_step: nextStep?.step?.replace(/_/g, ' ') ?? 'complete onboarding',
+        },
+        status: 'queued',
+        scheduled_for: new Date().toISOString(),
+      })
+      .catch((err) => logger.warn('Failed to queue onboarding reminder', err));
 
     queued++;
   }

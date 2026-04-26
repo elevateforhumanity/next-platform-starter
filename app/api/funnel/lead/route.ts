@@ -53,7 +53,9 @@ export async function POST(req: NextRequest) {
     qualifierAnswers
       ? `Qualifier: unemployed=${qualifierAnswers.unemployedOrUnder}, indiana=${qualifierAnswers.indianaResident}, wantsCert=${qualifierAnswers.wantsCert}`
       : '',
-  ].filter(Boolean).join(' | ');
+  ]
+    .filter(Boolean)
+    .join(' | ');
 
   const db = await getAdminClient();
 
@@ -76,7 +78,10 @@ export async function POST(req: NextRequest) {
         .maybeSingle();
 
       if (error) {
-        logger.error('[funnel/lead] DB insert failed', new Error(`${error.code}: ${error.message}`));
+        logger.error(
+          '[funnel/lead] DB insert failed',
+          new Error(`${error.code}: ${error.message}`),
+        );
       } else {
         applicationId = data?.id || null;
         logger.info('[funnel/lead] Lead stored', { applicationId, email: normalizedEmail, source });
@@ -91,9 +96,11 @@ export async function POST(req: NextRequest) {
   if (sgKey) {
     const logoUrl = `${SITE_URL}/images/Elevate_for_Humanity_logo_81bf0fab.jpg`;
     const sourceLabel =
-      source === 'check-eligibility' ? 'Eligibility Check' :
-      source === 'workforce-partners' ? 'Agency Partner Inquiry' :
-      'Direct Application';
+      source === 'check-eligibility'
+        ? 'Eligibility Check'
+        : source === 'workforce-partners'
+          ? 'Agency Partner Inquiry'
+          : 'Direct Application';
     const html = `
 <div style="max-width:600px;margin:0 auto;font-family:Arial,sans-serif;color:#1a1a1a">
   <div style="text-align:center;padding:24px">

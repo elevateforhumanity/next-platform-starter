@@ -32,7 +32,7 @@ interface LicenseRecord {
  * SECTION 6: License enforcement middleware
  * Validates license exists, is active, and not expired
  * Checks feature entitlements
- * 
+ *
  * Uses billing authority rules:
  * - DB-Authoritative tiers (trial, lifetime): Access via expires_at
  * - Stripe-Authoritative tiers (*_monthly, *_annual): Access via current_period_end
@@ -40,7 +40,7 @@ interface LicenseRecord {
 export async function withLicense(
   request: NextRequest,
   tenant: TenantContext,
-  requiredFeature?: string
+  requiredFeature?: string,
 ): Promise<{ valid: boolean; license?: LicenseContext; error?: string }> {
   try {
     const adminSupabase = await getAdminClient();
@@ -49,7 +49,9 @@ export async function withLicense(
     // Get license for tenant - include all fields needed for billing authority check
     const { data: license, error } = await adminSupabase
       .from('licenses')
-      .select('id, tier, features, max_users, max_deployments, expires_at, current_period_end, stripe_subscription_id, stripe_customer_id, status')
+      .select(
+        'id, tier, features, max_users, max_deployments, expires_at, current_period_end, stripe_subscription_id, stripe_customer_id, status',
+      )
       .eq('tenant_id', tenant.tenantId)
       .maybeSingle();
 
@@ -72,13 +74,23 @@ export async function withLicense(
     });
 
     if (!accessResult.hasAccess) {
-      await logLicenseViolation(adminSupabase, tenant.tenantId, 'license_invalid', accessResult.reason);
+      await logLicenseViolation(
+        adminSupabase,
+        tenant.tenantId,
+        'license_invalid',
+        accessResult.reason,
+      );
       return { valid: false, error: accessResult.reason };
     }
 
     // Check feature entitlement
     if (requiredFeature && !typedLicense.features?.includes(requiredFeature)) {
-      await logLicenseViolation(adminSupabase, tenant.tenantId, 'feature_not_entitled', requiredFeature);
+      await logLicenseViolation(
+        adminSupabase,
+        tenant.tenantId,
+        'feature_not_entitled',
+        requiredFeature,
+      );
       return { valid: false, error: `Feature not included in license: ${requiredFeature}` };
     }
 
@@ -108,7 +120,7 @@ async function logLicenseViolation(
   supabase: ReturnType<typeof createAdminClient>,
   tenantId: string,
   violationType: string,
-  feature?: string
+  feature?: string,
 ): Promise<void> {
   try {
     await supabase.from('license_violations').insert({
@@ -125,10 +137,7 @@ async function logLicenseViolation(
 /**
  * Check if a specific feature is available
  */
-export async function hasFeature(
-  tenantId: string,
-  feature: string
-): Promise<boolean> {
+export async function hasFeature(tenantId: string, feature: string): Promise<boolean> {
   const adminSupabase = await getAdminClient();
 
   const { data: license } = await adminSupabase
@@ -147,7 +156,7 @@ export async function hasFeature(
  * Check user count against license limit
  */
 export async function checkUserLimit(
-  tenantId: string
+  tenantId: string,
 ): Promise<{ allowed: boolean; current: number; max: number }> {
   const adminSupabase = await getAdminClient();
 
@@ -158,10 +167,7 @@ export async function checkUserLimit(
       .eq('tenant_id', tenantId)
       .eq('status', 'active')
       .maybeSingle(),
-    adminSupabase
-      .from('profiles')
-      .select('id', { count: 'exact' })
-      .eq('tenant_id', tenantId),
+    adminSupabase.from('profiles').select('id', { count: 'exact' }).eq('tenant_id', tenantId),
   ]);
 
   const maxUsers = licenseResult.data?.max_users || 0;

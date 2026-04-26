@@ -4,12 +4,7 @@
     "questions": [
       {
         "prompt": "What is the typical pH range of healthy hair?",
-        "choices": [
-          "A. 2.5 to 3.5",
-          "B. 4.5 to 5.5",
-          "C. 6.5 to 7.5",
-          "D. 8.5 to 9.5"
-        ],
+        "choices": ["A. 2.5 to 3.5", "B. 4.5 to 5.5", "C. 6.5 to 7.5", "D. 8.5 to 9.5"],
         "answerIndex": 1,
         "rationale": "Healthy hair has a slightly acidic pH, typically ranging from 4.5 to 5.5.",
         "type": "recall"
@@ -52,12 +47,7 @@
       },
       {
         "prompt": "Which PPE is essential when applying hair relaxers?",
-        "choices": [
-          "A. Goggles",
-          "B. Gloves",
-          "C. Apron",
-          "D. Mask"
-        ],
+        "choices": ["A. Goggles", "B. Gloves", "C. Apron", "D. Mask"],
         "answerIndex": 1,
         "rationale": "Gloves are essential to prevent skin irritation from chemicals in hair relaxers.",
         "type": "recall"

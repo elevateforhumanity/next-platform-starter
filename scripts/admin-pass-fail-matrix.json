@@ -26,9 +26,7 @@
     ],
     "audit_gap": false,
     "audit_gap_tables": [],
-    "issues": [
-      "COLUMN_MISMATCH: program_enrollments.program"
-    ],
+    "issues": ["COLUMN_MISMATCH: program_enrollments.program"],
     "writes": []
   },
   {
@@ -252,12 +250,8 @@
     "smoke": "COMPILES_OK",
     "column_mismatches": [],
     "audit_gap": true,
-    "audit_gap_tables": [
-      "ojt_hours_log"
-    ],
-    "issues": [
-      "AUDIT_GAP: ojt_hours_log"
-    ],
+    "audit_gap_tables": ["ojt_hours_log"],
+    "issues": ["AUDIT_GAP: ojt_hours_log"],
     "writes": [
       {
         "table": "ojt_hours_log",
@@ -658,13 +652,8 @@
     "smoke": "COMPILES_OK",
     "column_mismatches": [],
     "audit_gap": true,
-    "audit_gap_tables": [
-      "training_courses",
-      "training_courses"
-    ],
-    "issues": [
-      "AUDIT_GAP: training_courses"
-    ],
+    "audit_gap_tables": ["training_courses", "training_courses"],
+    "issues": ["AUDIT_GAP: training_courses"],
     "writes": [
       {
         "table": "training_courses",
@@ -775,9 +764,7 @@
       "training_lessons",
       "training_lessons"
     ],
-    "issues": [
-      "AUDIT_GAP: training_lessons"
-    ],
+    "issues": ["AUDIT_GAP: training_lessons"],
     "writes": [
       {
         "table": "training_lessons",
@@ -821,14 +808,8 @@
     "smoke": "DYNAMIC_ROUTE",
     "column_mismatches": [],
     "audit_gap": true,
-    "audit_gap_tables": [
-      "quizzes",
-      "quizzes",
-      "quizzes"
-    ],
-    "issues": [
-      "AUDIT_GAP: quizzes"
-    ],
+    "audit_gap_tables": ["quizzes", "quizzes", "quizzes"],
+    "issues": ["AUDIT_GAP: quizzes"],
     "writes": [
       {
         "table": "quizzes",
@@ -852,14 +833,8 @@
     "smoke": "DYNAMIC_ROUTE",
     "column_mismatches": [],
     "audit_gap": true,
-    "audit_gap_tables": [
-      "quiz_questions",
-      "quiz_questions",
-      "quiz_questions"
-    ],
-    "issues": [
-      "AUDIT_GAP: quiz_questions"
-    ],
+    "audit_gap_tables": ["quiz_questions", "quiz_questions", "quiz_questions"],
+    "issues": ["AUDIT_GAP: quiz_questions"],
     "writes": [
       {
         "table": "quiz_questions",
@@ -1058,9 +1033,7 @@
     ],
     "audit_gap": false,
     "audit_gap_tables": [],
-    "issues": [
-      "COLUMN_MISMATCH: crm_follow_ups.contact"
-    ],
+    "issues": ["COLUMN_MISMATCH: crm_follow_ups.contact"],
     "writes": []
   },
   {
@@ -1419,9 +1392,7 @@
     ],
     "audit_gap": false,
     "audit_gap_tables": [],
-    "issues": [
-      "COLUMN_MISMATCH: training_enrollments.course, training_enrollments.student"
-    ],
+    "issues": ["COLUMN_MISMATCH: training_enrollments.course, training_enrollments.student"],
     "writes": [
       {
         "table": "training_enrollments",
@@ -1481,13 +1452,8 @@
     "smoke": "COMPILES_OK",
     "column_mismatches": [],
     "audit_gap": true,
-    "audit_gap_tables": [
-      "external_modules",
-      "external_modules"
-    ],
-    "issues": [
-      "AUDIT_GAP: external_modules"
-    ],
+    "audit_gap_tables": ["external_modules", "external_modules"],
+    "issues": ["AUDIT_GAP: external_modules"],
     "writes": [
       {
         "table": "external_modules",
@@ -1513,14 +1479,8 @@
       }
     ],
     "audit_gap": true,
-    "audit_gap_tables": [
-      "external_partner_progress",
-      "external_partner_progress"
-    ],
-    "issues": [
-      "COLUMN_MISMATCH: external_modules.status",
-      "AUDIT_GAP: external_partner_progress"
-    ],
+    "audit_gap_tables": ["external_partner_progress", "external_partner_progress"],
+    "issues": ["COLUMN_MISMATCH: external_modules.status", "AUDIT_GAP: external_partner_progress"],
     "writes": [
       {
         "table": "external_partner_progress",
@@ -1571,9 +1531,7 @@
     ],
     "audit_gap": false,
     "audit_gap_tables": [],
-    "issues": [
-      "COLUMN_MISMATCH: ferpa_training_records.profiles"
-    ],
+    "issues": ["COLUMN_MISMATCH: ferpa_training_records.profiles"],
     "writes": []
   },
   {
@@ -1751,9 +1709,7 @@
       }
     ],
     "audit_gap": true,
-    "audit_gap_tables": [
-      "assignment_submissions"
-    ],
+    "audit_gap_tables": ["assignment_submissions"],
     "issues": [
       "COLUMN_MISMATCH: assignment_submissions.course_id, quiz_attempts.course_id",
       "AUDIT_GAP: assignment_submissions"
@@ -1909,9 +1865,7 @@
     ],
     "audit_gap": false,
     "audit_gap_tables": [],
-    "issues": [
-      "COLUMN_MISMATCH: employees.managers"
-    ],
+    "issues": ["COLUMN_MISMATCH: employees.managers"],
     "writes": []
   },
   {
@@ -2039,12 +1993,8 @@
     "smoke": "COMPILES_OK",
     "column_mismatches": [],
     "audit_gap": true,
-    "audit_gap_tables": [
-      "incentives"
-    ],
-    "issues": [
-      "AUDIT_GAP: incentives"
-    ],
+    "audit_gap_tables": ["incentives"],
+    "issues": ["AUDIT_GAP: incentives"],
     "writes": [
       {
         "table": "incentives",
@@ -2108,12 +2058,8 @@
     "smoke": "COMPILES_OK",
     "column_mismatches": [],
     "audit_gap": true,
-    "audit_gap_tables": [
-      "integrations"
-    ],
-    "issues": [
-      "AUDIT_GAP: integrations"
-    ],
+    "audit_gap_tables": ["integrations"],
+    "issues": ["AUDIT_GAP: integrations"],
     "writes": [
       {
         "table": "integrations",
@@ -2165,12 +2111,8 @@
     "smoke": "COMPILES_OK",
     "column_mismatches": [],
     "audit_gap": true,
-    "audit_gap_tables": [
-      "jobs"
-    ],
-    "issues": [
-      "AUDIT_GAP: jobs"
-    ],
+    "audit_gap_tables": ["jobs"],
+    "issues": ["AUDIT_GAP: jobs"],
     "writes": [
       {
         "table": "jobs",
@@ -2205,9 +2147,7 @@
     ],
     "audit_gap": false,
     "audit_gap_tables": [],
-    "issues": [
-      "COLUMN_MISMATCH: jri_participants.status"
-    ],
+    "issues": ["COLUMN_MISMATCH: jri_participants.status"],
     "writes": []
   },
   {
@@ -2479,15 +2419,8 @@
       }
     ],
     "audit_gap": true,
-    "audit_gap_tables": [
-      "modules",
-      "modules",
-      "modules"
-    ],
-    "issues": [
-      "COLUMN_MISMATCH: modules.module_type",
-      "AUDIT_GAP: modules"
-    ],
+    "audit_gap_tables": ["modules", "modules", "modules"],
+    "issues": ["COLUMN_MISMATCH: modules.module_type", "AUDIT_GAP: modules"],
     "writes": [
       {
         "table": "modules",
@@ -2667,9 +2600,7 @@
     ],
     "audit_gap": false,
     "audit_gap_tables": [],
-    "issues": [
-      "COLUMN_MISMATCH: partner_lms_sync_logs.provider_id"
-    ],
+    "issues": ["COLUMN_MISMATCH: partner_lms_sync_logs.provider_id"],
     "writes": []
   },
   {
@@ -2890,14 +2821,8 @@
     "smoke": "COMPILES_OK",
     "column_mismatches": [],
     "audit_gap": true,
-    "audit_gap_tables": [
-      "programs",
-      "programs",
-      "programs"
-    ],
-    "issues": [
-      "AUDIT_GAP: programs"
-    ],
+    "audit_gap_tables": ["programs", "programs", "programs"],
+    "issues": ["AUDIT_GAP: programs"],
     "writes": [
       {
         "table": "programs",
@@ -3209,9 +3134,7 @@
     ],
     "audit_gap": false,
     "audit_gap_tables": [],
-    "issues": [
-      "COLUMN_MISMATCH: grades.enrollment_id, attendance_records.enrollment_id"
-    ],
+    "issues": ["COLUMN_MISMATCH: grades.enrollment_id, attendance_records.enrollment_id"],
     "writes": []
   },
   {
@@ -3277,9 +3200,7 @@
     ],
     "audit_gap": false,
     "audit_gap_tables": [],
-    "issues": [
-      "COLUMN_MISMATCH: signatures.status"
-    ],
+    "issues": ["COLUMN_MISMATCH: signatures.status"],
     "writes": []
   },
   {
@@ -3590,9 +3511,7 @@
     ],
     "audit_gap": false,
     "audit_gap_tables": [],
-    "issues": [
-      "COLUMN_MISMATCH: transfer_hours.status"
-    ],
+    "issues": ["COLUMN_MISMATCH: transfer_hours.status"],
     "writes": [
       {
         "table": "transfer_hours",
@@ -3708,9 +3627,7 @@
     ],
     "audit_gap": false,
     "audit_gap_tables": [],
-    "issues": [
-      "COLUMN_MISMATCH: media.published"
-    ],
+    "issues": ["COLUMN_MISMATCH: media.published"],
     "writes": []
   },
   {

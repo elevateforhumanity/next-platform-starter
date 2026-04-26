@@ -3,18 +3,14 @@ export const revalidate = 86400;
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import {
-  getChapterById,
-  getAdjacentChapters,
-  EBOOK_CHAPTERS,
-} from '@/lib/ebook/barber-chapters';
+import { getChapterById, getAdjacentChapters, EBOOK_CHAPTERS } from '@/lib/ebook/barber-chapters';
 import type { EbookLesson } from '@/lib/ebook/barber-chapters';
 import type { BlueprintQuizQuestion } from '@/lib/curriculum/blueprints/types';
 
 // ── Static params ─────────────────────────────────────────────────────────────
 
 export function generateStaticParams() {
-  return EBOOK_CHAPTERS.map(c => ({ chapter: c.id }));
+  return EBOOK_CHAPTERS.map((c) => ({ chapter: c.id }));
 }
 
 // ── Metadata ──────────────────────────────────────────────────────────────────
@@ -53,11 +49,9 @@ function KeyTermsBox({ terms }: { terms: string[] }) {
   if (!terms.length) return null;
   return (
     <div className="my-6 rounded-xl border border-slate-200 bg-slate-50 p-5 print:border-slate-300">
-      <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3">
-        Key Terms
-      </h4>
+      <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3">Key Terms</h4>
       <div className="flex flex-wrap gap-2">
-        {terms.map(t => (
+        {terms.map((t) => (
           <span
             key={t}
             className="rounded-full border border-slate-300 bg-white px-3 py-1 text-xs font-medium text-slate-700"
@@ -146,10 +140,7 @@ function QuizQuestion({
       </p>
       <div className="space-y-2 ml-7">
         {q.options.map((opt, i) => (
-          <div
-            key={i}
-            className="flex items-start gap-2 text-sm text-slate-700"
-          >
+          <div key={i} className="flex items-start gap-2 text-sm text-slate-700">
             <span className="flex-shrink-0 w-5 h-5 rounded border border-slate-300 bg-white flex items-center justify-center text-xs font-bold text-slate-500 print:border-slate-400">
               {String.fromCharCode(65 + i)}
             </span>
@@ -179,13 +170,12 @@ export default async function BarberEbookChapterPage({
 
   const { prev, next } = getAdjacentChapters(chapterId);
   const contentQuestions = chapter.allQuizQuestions.filter(
-    q => !chapter.checkpoint?.quizQuestions?.some(cq => cq.id === q.id),
+    (q) => !chapter.checkpoint?.quizQuestions?.some((cq) => cq.id === q.id),
   );
   const checkpointQuestions = chapter.checkpoint?.quizQuestions ?? [];
 
   return (
     <div className="min-h-screen bg-slate-50 print:bg-white">
-
       {/* Top nav — screen only */}
       <div className="print:hidden sticky top-0 z-10 bg-white border-b border-slate-200 px-4 py-3 flex items-center justify-between gap-4">
         <Link
@@ -222,7 +212,6 @@ export default async function BarberEbookChapterPage({
       </div>
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8 print:px-0 print:py-0">
-
         {/* Chapter header */}
         <div
           className="rounded-2xl overflow-hidden mb-10 print:rounded-none print:break-before-page"
@@ -256,31 +245,20 @@ export default async function BarberEbookChapterPage({
           <h2 className="text-xl font-black text-slate-900 mb-8 pb-4 border-b border-slate-100">
             Lessons
           </h2>
-          {chapter.lessons.map(lesson => (
-            <LessonContent
-              key={lesson.slug}
-              lesson={lesson}
-              accentColor={chapter.color}
-            />
+          {chapter.lessons.map((lesson) => (
+            <LessonContent key={lesson.slug} lesson={lesson} accentColor={chapter.color} />
           ))}
         </div>
 
         {/* Practice questions (from lesson quizzes) */}
         {contentQuestions.length > 0 && (
           <div className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 mb-8 print:rounded-none print:border-0 print:p-0 print:break-before-page">
-            <h2 className="text-xl font-black text-slate-900 mb-2">
-              Practice Questions
-            </h2>
+            <h2 className="text-xl font-black text-slate-900 mb-2">Practice Questions</h2>
             <p className="text-sm text-slate-500 mb-8">
               {contentQuestions.length} questions · Circle the best answer
             </p>
             {contentQuestions.map((q, i) => (
-              <QuizQuestion
-                key={q.id}
-                q={q}
-                index={i}
-                accentColor={chapter.color}
-              />
+              <QuizQuestion key={q.id} q={q} index={i} accentColor={chapter.color} />
             ))}
           </div>
         )}
@@ -298,9 +276,7 @@ export default async function BarberEbookChapterPage({
               >
                 <span className="text-white text-xs font-black">✓</span>
               </div>
-              <h2 className="text-xl font-black text-slate-900">
-                {chapter.checkpoint.title}
-              </h2>
+              <h2 className="text-xl font-black text-slate-900">{chapter.checkpoint.title}</h2>
             </div>
             <p className="text-sm text-slate-600 mb-2 ml-11">
               {checkpointQuestions.length} questions · Passing score:{' '}
@@ -313,12 +289,7 @@ export default async function BarberEbookChapterPage({
             )}
             <div className="ml-0 mt-6">
               {checkpointQuestions.map((q, i) => (
-                <QuizQuestion
-                  key={q.id}
-                  q={q}
-                  index={i}
-                  accentColor={chapter.color}
-                />
+                <QuizQuestion key={q.id} q={q} index={i} accentColor={chapter.color} />
               ))}
             </div>
           </div>

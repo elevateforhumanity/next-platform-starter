@@ -257,59 +257,68 @@ export const quizQuestions = [
   {
     id: 'mod4-l26-q1',
     type: 'scenario' as const,
-    question: 'A client with a receding hairline requests a sharp, straight lineup at the front. The natural hairline has visible recession at both temples. What is the correct response?',
+    question:
+      'A client with a receding hairline requests a sharp, straight lineup at the front. The natural hairline has visible recession at both temples. What is the correct response?',
     options: [
-      'Execute the straight lineup as requested — the client\'s preference is the deciding factor',
+      "Execute the straight lineup as requested — the client's preference is the deciding factor",
       'Explain that placing a straight line across the recession zones requires cutting inside the natural hairline, which permanently removes density, then offer to follow the natural hairline instead',
       'Decline the service — a receding hairline cannot be lined up cleanly',
       'Cut the straight line but stay above the recession zones, leaving the temples unedged',
     ],
     correctAnswer: 1,
-    explanation: 'A straight lineup across recession zones requires cutting inside the natural hairline — removing density that will not grow back. The barber\'s obligation is to explain this before cutting, not after. The correct approach is to inform the client of the permanent consequence, then offer the alternative of following the natural hairline. Proceeding without this conversation and delivering an irreversible result is a service failure. Option D (leaving temples unedged) produces an incomplete, asymmetrical result.',
+    explanation:
+      "A straight lineup across recession zones requires cutting inside the natural hairline — removing density that will not grow back. The barber's obligation is to explain this before cutting, not after. The correct approach is to inform the client of the permanent consequence, then offer the alternative of following the natural hairline. Proceeding without this conversation and delivering an irreversible result is a service failure. Option D (leaving temples unedged) produces an incomplete, asymmetrical result.",
   },
   {
     id: 'mod4-l26-q2',
     type: 'scenario' as const,
-    question: 'A client has a natural widow\'s peak at the front hairline. They request a straight, clean lineup. What is the correct approach?',
+    question:
+      "A client has a natural widow's peak at the front hairline. They request a straight, clean lineup. What is the correct approach?",
     options: [
-      'Cut through the widow\'s peak to create the straight line the client requested',
-      'Work around the widow\'s peak — cutting through it removes density permanently and cannot be reversed',
-      'Use a straight razor to shave the widow\'s peak flush with the surrounding hairline',
-      'Decline to perform the lineup — a widow\'s peak makes a straight lineup impossible',
+      "Cut through the widow's peak to create the straight line the client requested",
+      "Work around the widow's peak — cutting through it removes density permanently and cannot be reversed",
+      "Use a straight razor to shave the widow's peak flush with the surrounding hairline",
+      "Decline to perform the lineup — a widow's peak makes a straight lineup impossible",
     ],
     correctAnswer: 1,
-    explanation: 'Cutting through a widow\'s peak removes hair density permanently — it cannot grow back in the same pattern. The correct approach is to work around it and explain to the client that cutting inside the natural hairline is a permanent change. A straight lineup can often be achieved by following the natural hairline closely without cutting into the widow\'s peak.',
+    explanation:
+      "Cutting through a widow's peak removes hair density permanently — it cannot grow back in the same pattern. The correct approach is to work around it and explain to the client that cutting inside the natural hairline is a permanent change. A straight lineup can often be achieved by following the natural hairline closely without cutting into the widow's peak.",
   },
   {
     id: 'mod4-l26-q3',
     type: 'failure-diagnosis' as const,
-    question: 'After completing the lineup, the client\'s sideburns are visibly uneven — the left is 1/4 inch longer than the right. What is the most likely root cause?',
+    question:
+      "After completing the lineup, the client's sideburns are visibly uneven — the left is 1/4 inch longer than the right. What is the most likely root cause?",
     options: [
       'The outliner blade was dull and pulled the hair on one side',
-      'One side was completed before checking the other; the client\'s head may have been tilted',
+      "One side was completed before checking the other; the client's head may have been tilted",
       'The natural hairline is asymmetrical — this cannot be corrected',
       'The center point was established incorrectly, causing the entire line to shift',
     ],
     correctAnswer: 1,
-    explanation: 'Uneven sideburns are almost always caused by completing one side before checking the other, or by the client\'s head being tilted during edging. The correct technique is to work both sides simultaneously, checking symmetry in the mirror after each pass. A tilted head creates the illusion of symmetry during cutting that disappears when the head is level.',
+    explanation:
+      "Uneven sideburns are almost always caused by completing one side before checking the other, or by the client's head being tilted during edging. The correct technique is to work both sides simultaneously, checking symmetry in the mirror after each pass. A tilted head creates the illusion of symmetry during cutting that disappears when the head is level.",
   },
   {
     id: 'mod4-l26-q4',
     type: 'next-step' as const,
-    question: 'You have completed the haircut and are ready to begin edging. What is the correct first step before touching the outliner?',
+    question:
+      'You have completed the haircut and are ready to begin edging. What is the correct first step before touching the outliner?',
     options: [
       'Begin at the front hairline — it is the most visible zone and should be done first',
       'Assess the natural hairline at the front, sides, and nape — identify irregularities before placing the edge',
       'Apply shaving gel to the hairline to prepare for the outliner',
-      'Confirm the client\'s desired sideburn length — this determines the starting point for all edging',
+      "Confirm the client's desired sideburn length — this determines the starting point for all edging",
     ],
     correctAnswer: 1,
-    explanation: 'Before touching the outliner, the natural hairline must be assessed at all three zones — front, sides, and nape. Irregularities like cowlicks, widow\'s peaks, and uneven growth patterns must be identified before placing the edge. Cutting without this assessment risks placing the edge inside the natural hairline, which removes density permanently.',
+    explanation:
+      "Before touching the outliner, the natural hairline must be assessed at all three zones — front, sides, and nape. Irregularities like cowlicks, widow's peaks, and uneven growth patterns must be identified before placing the edge. Cutting without this assessment risks placing the edge inside the natural hairline, which removes density permanently.",
   },
   {
     id: 'mod4-l26-q5',
     type: 'scenario' as const,
-    question: 'A client requests a blocked nape. After cutting, you notice the blocked line is slightly curved rather than straight. What is the correct response?',
+    question:
+      'A client requests a blocked nape. After cutting, you notice the blocked line is slightly curved rather than straight. What is the correct response?',
     options: [
       'The slight curve is acceptable — a perfectly straight line is impossible on a curved nape',
       'Take the nape shorter to straighten the line — remove the curved section',
@@ -317,6 +326,7 @@ export const quizQuestions = [
       'Diagnose the cause before correcting — technique error vs. natural nape shape require different responses',
     ],
     correctAnswer: 3,
-    explanation: 'A curved blocked nape has two distinct causes that require different responses. To diagnose: check whether the curve mirrors the client\'s natural nape growth pattern (natural cause) or whether it is inconsistent across the line (technique error). Visual cue — a natural curve follows the hairline symmetrically; a technique error produces an irregular, uneven curve. Symmetry check — compare the curve against the opposite side. If technique: a second pass with a consistent horizontal outliner angle and proper skin tension will correct it. If natural nape shape: inform the client that a geometrically straight blocked line requires cutting into the natural hairline, which is permanent — offer a rounded nape as an alternative that works with the natural shape. Taking the nape shorter (option B) without diagnosing the cause risks removing too much and still not producing a straight line.',
+    explanation:
+      "A curved blocked nape has two distinct causes that require different responses. To diagnose: check whether the curve mirrors the client's natural nape growth pattern (natural cause) or whether it is inconsistent across the line (technique error). Visual cue — a natural curve follows the hairline symmetrically; a technique error produces an irregular, uneven curve. Symmetry check — compare the curve against the opposite side. If technique: a second pass with a consistent horizontal outliner angle and proper skin tension will correct it. If natural nape shape: inform the client that a geometrically straight blocked line requires cutting into the natural hairline, which is permanent — offer a rounded nape as an alternative that works with the natural shape. Taking the nape shorter (option B) without diagnosing the cause risks removing too much and still not producing a straight line.",
   },
 ];

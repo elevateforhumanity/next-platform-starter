@@ -1,4 +1,3 @@
-
 export const runtime = 'nodejs';
 export const maxDuration = 60;
 
@@ -67,12 +66,10 @@ export async function POST(request: Request) {
     }));
 
     // Use service role for insert
-    const { data, error }: any = await supabase
-      .from('sam_opportunities')
-      .upsert(records, {
-        onConflict: 'sam_id',
-        ignoreDuplicates: false,
-      });
+    const { data, error }: any = await supabase.from('sam_opportunities').upsert(records, {
+      onConflict: 'sam_id',
+      ignoreDuplicates: false,
+    });
 
     if (error) {
       logger.error('SAM.gov sync error:', error);
@@ -81,7 +78,7 @@ export async function POST(request: Request) {
           success: false,
           error: error instanceof Error ? error.message : String(error),
         },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
@@ -104,7 +101,7 @@ export async function POST(request: Request) {
         success: false,
         error: error instanceof Error ? error.message : String(error),
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

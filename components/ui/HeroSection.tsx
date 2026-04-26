@@ -4,18 +4,18 @@ import CanonicalVideo from '@/components/video/CanonicalVideo';
 
 /**
  * Hero Section Component
- * 
+ *
  * Three variants, zero gradients:
  * - full: Full-bleed image, text on solid panel
  * - split: Left content, right image (default)
  * - illustration: Vector/diagram hero for system pages
- * 
+ *
  * Rules:
  * 1. NO gradient overlays - ever
  * 2. Text always on solid panel, never floating on image
  * 3. Every page must have a hero
  * 4. data-hero attribute for audit/scan tooling
- * 
+ *
  * Usage:
  * <HeroSection
  *   title="Program Title"
@@ -89,17 +89,23 @@ export function HeroSection({
   // Rules: No gradient overlays, text in solid container, calm motion only
   if (variant === 'video') {
     return (
-      <section data-hero="true" data-hero-variant="video" className={`relative ${heightClasses[height]} flex items-end overflow-hidden`}>
+      <section
+        data-hero="true"
+        data-hero-variant="video"
+        className={`relative ${heightClasses[height]} flex items-end overflow-hidden`}
+      >
         {/* Video background - NO overlay, NO gradient */}
         <CanonicalVideo
           src={videoSrc ?? ''}
           poster={videoPoster ?? '/images/og-default.jpg'}
           className="absolute inset-0 w-full h-full object-cover"
         />
-        
+
         {/* Content panel - solid background, positioned bottom-left */}
         <div className="relative z-10 w-full">
-          <div className={`${colors.bg} max-w-2xl mx-4 md:mx-8 lg:mx-16 mb-8 p-8 rounded-t-2xl shadow-lg`}>
+          <div
+            className={`${colors.bg} max-w-2xl mx-4 md:mx-8 lg:mx-16 mb-8 p-8 rounded-t-2xl shadow-lg`}
+          >
             {badge && (
               <span className="inline-block px-3 py-1 bg-brand-blue-600 text-white text-sm font-medium rounded-full mb-4">
                 {badge}
@@ -108,11 +114,7 @@ export function HeroSection({
             <h1 className={`text-3xl md:text-4xl lg:text-5xl font-bold ${colors.text} mb-4`}>
               {title}
             </h1>
-            {subtitle && (
-              <p className={`text-lg ${colors.muted} mb-6`}>
-                {subtitle}
-              </p>
-            )}
+            {subtitle && <p className={`text-lg ${colors.muted} mb-6`}>{subtitle}</p>}
             {(ctaPrimary || ctaSecondary) && (
               <div className="flex flex-wrap gap-4">
                 {ctaPrimary && (
@@ -142,7 +144,11 @@ export function HeroSection({
   // VARIANT: FULL - Full-bleed image with solid content panel
   if (variant === 'full') {
     return (
-      <section data-hero="true" data-hero-variant="full" className={`relative ${heightClasses[height]} flex items-end`}>
+      <section
+        data-hero="true"
+        data-hero-variant="full"
+        className={`relative ${heightClasses[height]} flex items-end`}
+      >
         {/* Full-bleed image - NO overlay */}
         <Image
           src={image}
@@ -150,8 +156,9 @@ export function HeroSection({
           fill
           className="object-cover"
           priority
-         sizes="100vw" />
-        
+          sizes="100vw"
+        />
+
         {/* Content panel - solid background, no gradient */}
         <div className="relative z-10 w-full">
           <div className={`${colors.bg} max-w-3xl mx-4 md:mx-8 lg:mx-16 mb-8 p-8 rounded-t-2xl`}>
@@ -163,11 +170,7 @@ export function HeroSection({
             <h1 className={`text-3xl md:text-4xl lg:text-5xl font-bold ${colors.text} mb-4`}>
               {title}
             </h1>
-            {subtitle && (
-              <p className={`text-lg ${colors.muted} mb-6`}>
-                {subtitle}
-              </p>
-            )}
+            {subtitle && <p className={`text-lg ${colors.muted} mb-6`}>{subtitle}</p>}
             {(ctaPrimary || ctaSecondary) && (
               <div className="flex flex-wrap gap-4">
                 {ctaPrimary && (
@@ -197,7 +200,11 @@ export function HeroSection({
   // VARIANT: ILLUSTRATION - For system/process pages
   if (variant === 'illustration') {
     return (
-      <section data-hero="true" data-hero-variant="illustration" className={`${colors.bg} ${heightClasses[height]} flex items-center`}>
+      <section
+        data-hero="true"
+        data-hero-variant="illustration"
+        className={`${colors.bg} ${heightClasses[height]} flex items-center`}
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             {/* Content */}
@@ -210,11 +217,7 @@ export function HeroSection({
               <h1 className={`text-3xl md:text-4xl lg:text-5xl font-bold ${colors.text} mb-4`}>
                 {title}
               </h1>
-              {subtitle && (
-                <p className={`text-lg ${colors.muted} mb-6`}>
-                  {subtitle}
-                </p>
-              )}
+              {subtitle && <p className={`text-lg ${colors.muted} mb-6`}>{subtitle}</p>}
               {metadata && metadata.length > 0 && (
                 <div className="flex flex-wrap gap-6 mb-6">
                   {metadata.map((item, idx) => (
@@ -246,7 +249,7 @@ export function HeroSection({
                 </div>
               )}
             </div>
-            
+
             {/* Illustration/Diagram - NO overlay */}
             <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-slate-100">
               <Image
@@ -254,7 +257,8 @@ export function HeroSection({
                 alt={imageAlt || title}
                 fill
                 className="object-contain p-4"
-               sizes="100vw" />
+                sizes="100vw"
+              />
             </div>
           </div>
         </div>
@@ -264,7 +268,11 @@ export function HeroSection({
 
   // VARIANT: SPLIT (default) - Left content, right image
   return (
-    <section data-hero="true" data-hero-variant="split" className={`${heightClasses[height]} flex items-stretch`}>
+    <section
+      data-hero="true"
+      data-hero-variant="split"
+      className={`${heightClasses[height]} flex items-stretch`}
+    >
       <div className="grid lg:grid-cols-2 w-full">
         {/* Content panel - solid background */}
         <div className={`${colors.bg} flex items-center`}>
@@ -277,11 +285,7 @@ export function HeroSection({
             <h1 className={`text-3xl md:text-4xl lg:text-5xl font-bold ${colors.text} mb-4`}>
               {title}
             </h1>
-            {subtitle && (
-              <p className={`text-lg ${colors.muted} mb-6`}>
-                {subtitle}
-              </p>
-            )}
+            {subtitle && <p className={`text-lg ${colors.muted} mb-6`}>{subtitle}</p>}
             {metadata && metadata.length > 0 && (
               <div className="grid grid-cols-2 gap-4 mb-6 p-4 bg-slate-50 rounded-lg">
                 {metadata.map((item, idx) => (
@@ -314,7 +318,7 @@ export function HeroSection({
             )}
           </div>
         </div>
-        
+
         {/* Image panel - NO overlay, clean edge */}
         <div className="relative hidden lg:block aspect-[4/3]">
           <Image
@@ -323,18 +327,14 @@ export function HeroSection({
             fill
             className="object-cover"
             priority
-           sizes="100vw" />
+            sizes="100vw"
+          />
         </div>
       </div>
-      
+
       {/* Mobile image - shown below content on small screens */}
       <div className="relative aspect-video lg:hidden">
-        <Image
-          src={image}
-          alt={imageAlt || title}
-          fill
-          className="object-cover"
-         sizes="100vw" />
+        <Image src={image} alt={imageAlt || title} fill className="object-cover" sizes="100vw" />
       </div>
     </section>
   );

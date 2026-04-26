@@ -22,7 +22,7 @@ async function grantLmsAccess(
   userId: string,
   courseSlugOrId: string,
   stripeSessionId?: string,
-  amountPaidCents?: number
+  amountPaidCents?: number,
 ): Promise<boolean> {
   const adminDb = await getAdminClient();
   if (!adminDb) {
@@ -31,7 +31,9 @@ async function grantLmsAccess(
   }
 
   // Resolve course by slug or UUID
-  const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(courseSlugOrId);
+  const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(
+    courseSlugOrId,
+  );
   const { data: course } = await adminDb
     .from('training_courses')
     .select('id, course_name, slug')
@@ -44,9 +46,8 @@ async function grantLmsAccess(
   }
 
   // Upsert into training_enrollments — the correct table for self-serve course purchases
-  const { error } = await adminDb
-    .from('training_enrollments')
-    .upsert({
+  const { error } = await adminDb.from('training_enrollments').upsert(
+    {
       user_id: userId,
       course_id: course.id,
       status: 'active',
@@ -57,17 +58,23 @@ async function grantLmsAccess(
       stripe_checkout_session_id: stripeSessionId || null,
       amount_paid: amountPaidCents ? amountPaidCents / 100 : null,
       program_slug: course.slug || null,
-    }, {
+    },
+    {
       onConflict: 'user_id,course_id',
       ignoreDuplicates: false,
-    });
+    },
+  );
 
   if (error) {
     logger.error('grantLmsAccess: enrollment upsert failed', { error, userId, courseSlugOrId });
     return false;
   }
 
-  logger.info('grantLmsAccess: enrollment created', { userId, courseId: course.id, courseName: course.course_name });
+  logger.info('grantLmsAccess: enrollment created', {
+    userId,
+    courseId: course.id,
+    courseName: course.course_name,
+  });
   return true;
 }
 
@@ -77,16 +84,19 @@ async function grantLmsAccess(
 async function unlockDownload(userId: string, productId: string, stripePaymentId?: string) {
   const supabase = await createClient();
 
-  const { error } = await supabase.from('user_entitlements').upsert({
-    user_id: userId,
-    entitlement_type: 'digital_download',
-    product_id: productId,
-    granted_at: new Date().toISOString(),
-    status: 'active',
-    stripe_payment_id: stripePaymentId || null,
-  }, {
-    onConflict: 'user_id,product_id',
-  });
+  const { error } = await supabase.from('user_entitlements').upsert(
+    {
+      user_id: userId,
+      entitlement_type: 'digital_download',
+      product_id: productId,
+      granted_at: new Date().toISOString(),
+      status: 'active',
+      stripe_payment_id: stripePaymentId || null,
+    },
+    {
+      onConflict: 'user_id,product_id',
+    },
+  );
 
   if (error) {
     logger.error('Failed to grant download entitlement', { error, userId, productId });
@@ -104,7 +114,7 @@ async function recordPurchase(
   sessionId: string,
   productId: string,
   amount: number,
-  metadata: Record<string, string>
+  metadata: Record<string, string>,
 ) {
   const supabase = await createClient();
 
@@ -167,8 +177,13 @@ async function _POST(req: NextRequest) {
     // Support singular (legacy direct checkout) and plural (cart checkout) course slug fields
     const courseSlug = metadata.course_slug;
     const courseSlugs: string[] = metadata.course_slugs
-      ? metadata.course_slugs.split(',').map((s: string) => s.trim()).filter(Boolean)
-      : courseSlug ? [courseSlug] : [];
+      ? metadata.course_slugs
+          .split(',')
+          .map((s: string) => s.trim())
+          .filter(Boolean)
+      : courseSlug
+        ? [courseSlug]
+        : [];
 
     logger.info('Processing store purchase', {
       sessionId: session.id,
@@ -209,14 +224,14 @@ async function _POST(req: NextRequest) {
   if (event.type === 'invoice.payment_succeeded') {
     const invoice = event.data.object as Stripe.Invoice;
     const metadata = invoice.metadata || {};
-    
+
     if (metadata.license_level === 'enterprise') {
       logger.info('Enterprise invoice paid', {
         invoiceId: invoice.id,
         customerId: invoice.customer,
         amount: invoice.amount_paid,
       });
-      
+
       // Enterprise provisioning handled separately via admin workflow
     }
   }
@@ -231,7 +246,8 @@ async function _POST(req: NextRequest) {
     // Fail-closed idempotency: record in webhook_events_processed before mutating state
     const supabaseForIdem = await createClient();
     const dbIdem = await getAdminClient();
-    if (!dbIdem) return NextResponse.json({ error: 'Admin client failed to initialize' }, { status: 500 });
+    if (!dbIdem)
+      return NextResponse.json({ error: 'Admin client failed to initialize' }, { status: 500 });
     try {
       const { error: idemErr } = await dbIdem.from('webhook_events_processed').insert({
         provider: 'stripe',
@@ -244,18 +260,56 @@ async function _POST(req: NextRequest) {
       if (idemErr) {
         if (idemErr.code === '23505') {
           logger.info('Store refund already processed, skipping', { eventId: event.id });
-          try { await dbIdem.from('webhook_retry_log').insert({ provider: 'stripe', event_id: event.id, event_type: event.type, outcome: 'duplicate_skipped', metadata: { source: 'store_webhook' } }); } catch (_) {}
+          try {
+            await dbIdem
+              .from('webhook_retry_log')
+              .insert({
+                provider: 'stripe',
+                event_id: event.id,
+                event_type: event.type,
+                outcome: 'duplicate_skipped',
+                metadata: { source: 'store_webhook' },
+              });
+          } catch (_) {}
           return NextResponse.json({ received: true, duplicate: true });
         }
-        logger.error('FAIL-CLOSED: Cannot record store refund event, skipping mutations', { error: idemErr });
-        try { await dbIdem.from('webhook_retry_log').insert({ provider: 'stripe', event_id: event.id, event_type: event.type, outcome: 'record_failed', metadata: { source: 'store_webhook' } }); } catch (_) {}
+        logger.error('FAIL-CLOSED: Cannot record store refund event, skipping mutations', {
+          error: idemErr,
+        });
+        try {
+          await dbIdem
+            .from('webhook_retry_log')
+            .insert({
+              provider: 'stripe',
+              event_id: event.id,
+              event_type: event.type,
+              outcome: 'record_failed',
+              metadata: { source: 'store_webhook' },
+            });
+        } catch (_) {}
         return NextResponse.json({ received: true, skipped: true, reason: 'event_record_failed' });
       }
     } catch (idemCatchErr) {
       logger.error('FAIL-CLOSED: Idempotency insert threw, skipping store refund', idemCatchErr);
       // Best-effort retry log — dbIdem may not be available if this threw
-      try { const fallbackDb = await getAdminClient(); if (fallbackDb) await fallbackDb.from('webhook_retry_log').insert({ provider: 'stripe', event_id: event.id, event_type: event.type, outcome: 'idempotency_failed', metadata: { source: 'store_webhook' } }); } catch (_) {}
-      return NextResponse.json({ received: true, skipped: true, reason: 'idempotency_unavailable' });
+      try {
+        const fallbackDb = await getAdminClient();
+        if (fallbackDb)
+          await fallbackDb
+            .from('webhook_retry_log')
+            .insert({
+              provider: 'stripe',
+              event_id: event.id,
+              event_type: event.type,
+              outcome: 'idempotency_failed',
+              metadata: { source: 'store_webhook' },
+            });
+      } catch (_) {}
+      return NextResponse.json({
+        received: true,
+        skipped: true,
+        reason: 'idempotency_unavailable',
+      });
     }
 
     if (paymentIntentId) {
@@ -300,7 +354,9 @@ async function _POST(req: NextRequest) {
         .eq('payment_id', paymentIntentId);
 
       if (enrollmentError) {
-        logger.error('Error updating enrollment funding_status on refund', { error: enrollmentError });
+        logger.error('Error updating enrollment funding_status on refund', {
+          error: enrollmentError,
+        });
       }
 
       // Flag certificates as funding-invalid (credential was earned, but payment reversed)
@@ -352,4 +408,7 @@ async function _POST(req: NextRequest) {
 
   return NextResponse.json({ received: true });
 }
-export const POST = withApiAudit('/api/webhooks/store', _POST, { actor_type: 'webhook', skip_body: true });
+export const POST = withApiAudit('/api/webhooks/store', _POST, {
+  actor_type: 'webhook',
+  skip_body: true,
+});

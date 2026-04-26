@@ -34,9 +34,7 @@ export default async function PartnerDashboardPage() {
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-2xl font-bold text-gray-900">Partner Dashboard</h1>
-          <p className="text-gray-600 mt-1">
-            Training metrics for your organization
-          </p>
+          <p className="text-gray-600 mt-1">Training metrics for your organization</p>
         </div>
 
         {/* Stats Grid */}
@@ -130,9 +128,7 @@ export default async function PartnerDashboardPage() {
                 <h3 className="font-semibold text-gray-900 group-hover:text-brand-blue-600">
                   Attendance
                 </h3>
-                <p className="text-sm text-gray-500 mt-1">
-                  Track student attendance and hours
-                </p>
+                <p className="text-sm text-gray-500 mt-1">Track student attendance and hours</p>
               </div>
               <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-brand-blue-600" />
             </div>
@@ -147,9 +143,7 @@ export default async function PartnerDashboardPage() {
                 <h3 className="font-semibold text-gray-900 group-hover:text-brand-blue-600">
                   Export Data
                 </h3>
-                <p className="text-sm text-gray-500 mt-1">
-                  Download completion report as CSV
-                </p>
+                <p className="text-sm text-gray-500 mt-1">Download completion report as CSV</p>
               </div>
               <Download className="w-5 h-5 text-gray-400 group-hover:text-brand-blue-600" />
             </div>

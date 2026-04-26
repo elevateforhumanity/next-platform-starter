@@ -42,13 +42,13 @@ export interface AlertConfig {
     smtpUser?: string;
     smtpPass?: string;
   };
-  
+
   webhook?: {
     enabled: boolean;
     url: string;
     type: 'slack' | 'discord' | 'generic';
   };
-  
+
   sms?: {
     enabled: boolean;
     phoneNumbers: string[];
@@ -56,7 +56,7 @@ export interface AlertConfig {
     twilioToken?: string;
     twilioFrom?: string;
   };
-  
+
   inApp?: {
     enabled: boolean;
     supabaseUrl?: string;

@@ -1,7 +1,7 @@
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 
-export type EnrollmentState = 
+export type EnrollmentState =
   | 'applied'
   | 'approved'
   | 'paid'
@@ -30,7 +30,7 @@ export function getNextRequiredAction(enrollment: {
   program_slug?: string;
 }): { label: string; href: string; description: string } {
   const programSlug = enrollment.program_slug || 'barber-apprenticeship';
-  
+
   // 1. Orientation not complete
   if (!enrollment.orientation_completed_at) {
     return {
@@ -39,7 +39,7 @@ export function getNextRequiredAction(enrollment: {
       description: 'Complete your mandatory orientation to continue',
     };
   }
-  
+
   // 2. Documents not submitted
   if (!enrollment.documents_submitted_at) {
     return {
@@ -48,7 +48,7 @@ export function getNextRequiredAction(enrollment: {
       description: 'Upload your required documents to access your program',
     };
   }
-  
+
   // 3. Start first course
   return {
     label: 'Begin Course 1',
@@ -67,13 +67,15 @@ export async function gateApprenticeDashboard(): Promise<{
   nextAction: { label: string; href: string; description: string } | null;
 }> {
   const supabase = await createClient();
-  
+
   if (!supabase) {
     redirect('/login?redirect=/apprentice');
   }
 
-  const { data: { user } } = await supabase.auth.getUser();
-  
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   if (!user) {
     redirect('/login?redirect=/apprentice');
   }
@@ -118,10 +120,13 @@ export async function gateApprenticeDashboard(): Promise<{
 /**
  * Enrollment state machine transitions
  */
-export const ENROLLMENT_STATES: Record<EnrollmentState, {
-  next: EnrollmentState | null;
-  canAccess: string[];
-}> = {
+export const ENROLLMENT_STATES: Record<
+  EnrollmentState,
+  {
+    next: EnrollmentState | null;
+    canAccess: string[];
+  }
+> = {
   applied: {
     next: 'approved',
     canAccess: [],

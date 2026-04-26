@@ -18,16 +18,16 @@ const MAX_REQUESTS_PER_WINDOW = 10; // Max 10 logs per minute per IP
 function checkRateLimit(ip: string): boolean {
   const now = Date.now();
   const record = rateLimitMap.get(ip);
-  
+
   if (!record || now > record.resetAt) {
     rateLimitMap.set(ip, { count: 1, resetAt: now + RATE_LIMIT_WINDOW });
     return true;
   }
-  
+
   if (record.count >= MAX_REQUESTS_PER_WINDOW) {
     return false; // Rate limited
   }
-  
+
   record.count++;
   return true;
 }
@@ -35,27 +35,27 @@ function checkRateLimit(ip: string): boolean {
 async function _POST(request: NextRequest) {
   try {
     const ip = request.ip || request.headers.get('x-forwarded-for') || 'unknown';
-    
+
     // In-memory rate limit (no external dependency)
     if (!checkRateLimit(ip)) {
       return NextResponse.json({ success: true }, { status: 200 }); // Fail-open
     }
-    
+
     const body = await parseBody<Record<string, any>>(request);
-    
+
     // Validate required fields
     if (!body.type || !body.timestamp) {
       return NextResponse.json({ success: true }, { status: 200 }); // Fail-open
     }
-    
+
     // Fast response - don't wait for DB
     const responsePromise = NextResponse.json({ success: true });
-    
+
     // Background logging (fire-and-forget)
     Promise.resolve().then(async () => {
       try {
         const supabase = await createClient();
-  const db = await getAdminClient();
+        const db = await getAdminClient();
         await db.from('audit_logs').insert({
           action: body.type,
           event_type: 'security',
@@ -80,7 +80,7 @@ async function _POST(request: NextRequest) {
     });
 
     return responsePromise;
-  } catch (error) { 
+  } catch (error) {
     // Fail-open - always return 200 so client doesn't retry
     logger.error('[Security Log] Request error:', error);
     return NextResponse.json({ success: true }, { status: 200 });
@@ -88,11 +88,7 @@ async function _POST(request: NextRequest) {
 }
 
 function getSeverity(eventType: string): string {
-  const criticalEvents = [
-    'AUTOMATION_DETECTED',
-    'IFRAME_EMBEDDING_DETECTED',
-    'DEVTOOLS_OPENED',
-  ];
+  const criticalEvents = ['AUTOMATION_DETECTED', 'IFRAME_EMBEDDING_DETECTED', 'DEVTOOLS_OPENED'];
   const highEvents = ['RAPID_NAVIGATION', 'CONSOLE_ACCESS'];
 
   if (criticalEvents.includes(eventType)) return 'critical';
@@ -101,9 +97,7 @@ function getSeverity(eventType: string): string {
 }
 
 function isCriticalEvent(eventType: string): boolean {
-  return ['AUTOMATION_DETECTED', 'IFRAME_EMBEDDING_DETECTED'].includes(
-    eventType
-  );
+  return ['AUTOMATION_DETECTED', 'IFRAME_EMBEDDING_DETECTED'].includes(eventType);
 }
 
 async function sendSecurityAlert(data: Record<string, any>) {

@@ -17,7 +17,7 @@ export function CredentialsOutcomes({
         <Award className="w-7 h-7 text-brand-blue-600" />
         Credentials & Outcomes
       </h3>
-      
+
       <div className="space-y-4">
         {/* Institutional Certificate */}
         <div className="flex items-start gap-3">
@@ -73,8 +73,8 @@ export function CredentialsOutcomes({
       {/* Disclaimer */}
       <div className="mt-6 pt-4 border-t border-brand-blue-200">
         <p className="text-xs text-slate-500">
-          Note: Third-party certifications and state licenses are issued by external credentialing bodies, 
-          not by Elevate for Humanity. Exam fees may apply separately.
+          Note: Third-party certifications and state licenses are issued by external credentialing
+          bodies, not by Elevate for Humanity. Exam fees may apply separately.
         </p>
       </div>
     </div>

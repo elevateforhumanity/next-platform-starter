@@ -13,7 +13,7 @@ const APP_PRICES: Record<string, Record<string, number>> = {
     professional: 14900,
     enterprise: 39900,
   },
-  'grants': {
+  grants: {
     starter: 7900,
     professional: 19900,
     enterprise: 49900,
@@ -32,7 +32,9 @@ async function _POST(request: NextRequest) {
 
     const supabase = await createClient();
 
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -52,7 +54,7 @@ async function _POST(request: NextRequest) {
 
     // Get or create Stripe customer
     let customerId: string;
-    
+
     const { data: profile } = await supabase
       .from('profiles')
       .select('stripe_customer_id')
@@ -60,7 +62,7 @@ async function _POST(request: NextRequest) {
       .maybeSingle();
 
     const stripe = getStripe();
-    
+
     if (profile?.stripe_customer_id) {
       customerId = profile.stripe_customer_id;
     } else {
@@ -70,10 +72,7 @@ async function _POST(request: NextRequest) {
       });
       customerId = customer.id;
 
-      await supabase
-        .from('profiles')
-        .update({ stripe_customer_id: customerId })
-        .eq('id', user.id);
+      await supabase.from('profiles').update({ stripe_customer_id: customerId }).eq('id', user.id);
     }
 
     // Create Stripe checkout session
@@ -85,7 +84,7 @@ async function _POST(request: NextRequest) {
           price_data: {
             currency: 'usd',
             product_data: {
-              name: `${appSlug.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())} - ${plan.charAt(0).toUpperCase() + plan.slice(1)}`,
+              name: `${appSlug.replace('-', ' ').replace(/\b\w/g, (l) => l.toUpperCase())} - ${plan.charAt(0).toUpperCase() + plan.slice(1)}`,
               description: `Monthly subscription to ${appSlug} app`,
             },
             unit_amount: priceInCents,
@@ -106,11 +105,10 @@ async function _POST(request: NextRequest) {
       },
     });
 
-    return NextResponse.json({ 
+    return NextResponse.json({
       checkoutUrl: session.url,
-      sessionId: session.id
+      sessionId: session.id,
     });
-
   } catch (error) {
     logger.error('Upgrade error:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });

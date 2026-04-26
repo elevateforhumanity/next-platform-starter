@@ -1,4 +1,3 @@
-
 export const revalidate = 3600;
 
 import { Metadata } from 'next';
@@ -23,14 +22,12 @@ export default function LicenseSuspendedPage() {
         </div>
 
         {/* Title */}
-        <h1 className="text-2xl font-bold text-slate-900 mb-2">
-          License Suspended
-        </h1>
+        <h1 className="text-2xl font-bold text-slate-900 mb-2">License Suspended</h1>
 
         {/* Message */}
         <p className="text-slate-600 mb-8">
-          Your platform license has been suspended due to a billing issue. 
-          Please update your payment method to restore access to your account.
+          Your platform license has been suspended due to a billing issue. Please update your
+          payment method to restore access to your account.
         </p>
 
         {/* Actions */}
@@ -46,10 +43,8 @@ export default function LicenseSuspendedPage() {
 
           {/* Contact Support */}
           <div className="pt-4 border-t border-slate-200">
-            <p className="text-sm text-slate-500 mb-4">
-              Need help? Contact our support team:
-            </p>
-            
+            <p className="text-sm text-slate-500 mb-4">Need help? Contact our support team:</p>
+
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <a
                 href="/contact"
@@ -58,7 +53,7 @@ export default function LicenseSuspendedPage() {
                 <Mail className="w-4 h-4" />
                 <span className="text-sm">Email Support</span>
               </a>
-              
+
               <a
                 href="tel:+13173143757"
                 className="flex items-center justify-center gap-2 text-slate-700 hover:text-brand-orange-600 transition"
@@ -72,8 +67,8 @@ export default function LicenseSuspendedPage() {
 
         {/* Footer Note */}
         <p className="text-xs text-slate-400 mt-8">
-          If you believe this is an error, please contact support immediately.
-          Your data is safe and will be restored once billing is resolved.
+          If you believe this is an error, please contact support immediately. Your data is safe and
+          will be restored once billing is resolved.
         </p>
       </div>
     </div>

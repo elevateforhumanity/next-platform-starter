@@ -12,11 +12,11 @@ interface QuickSummaryProps {
 
 const ELEVATE_BASE = 'https://www.elevateforhumanity.org';
 
-export function QuickSummary({ 
-  title, 
-  bullets, 
+export function QuickSummary({
+  title,
+  bullets,
   showSupersonicScope = false,
-  elevateCanonicalPath 
+  elevateCanonicalPath,
 }: QuickSummaryProps) {
   return (
     <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-6 mb-8">
@@ -26,7 +26,7 @@ export function QuickSummary({
         </span>
         <h2 className="text-lg font-bold text-slate-900">{title}</h2>
       </div>
-      
+
       <ul className="space-y-2 mb-4">
         {bullets.map((bullet, index) => (
           <li key={index} className="flex items-start gap-2 text-slate-700">
@@ -37,7 +37,8 @@ export function QuickSummary({
       </ul>
 
       <p className="text-sm text-slate-600 mb-4 italic">
-        Supersonic Fast Cash governance is defined by the canonical Elevate for Humanity governance documents.
+        Supersonic Fast Cash governance is defined by the canonical Elevate for Humanity governance
+        documents.
       </p>
 
       <div className="flex flex-wrap gap-2">
@@ -81,7 +82,8 @@ export function QuickSummary({
       {showSupersonicScope && (
         <div className="mt-4 pt-4 border-t border-emerald-200">
           <p className="text-xs text-slate-500">
-            This page applies to Supersonic Fast Cash tax preparation and optional refund-based advance services.
+            This page applies to Supersonic Fast Cash tax preparation and optional refund-based
+            advance services.
           </p>
         </div>
       )}

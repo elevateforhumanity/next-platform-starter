@@ -2,7 +2,7 @@
 
 /**
  * CI gate: Detect test/debug/seed API endpoints that should not ship to production.
- * 
+ *
  * These endpoints expose internal state, allow data mutation, or bypass auth.
  * They must be removed or gated behind NODE_ENV checks before production deploy.
  */
@@ -24,12 +24,12 @@ const TEST_PATTERNS = [
 // Endpoints that are intentionally test-like but serve production purposes
 const ALLOWLIST = [
   'supersonic-fast-cash/competency-test', // actual user-facing competency test
-  'studio/generate-tests',                // studio feature
-  'content/testimonials',                 // actual testimonials endpoint
-  'testimonials',                         // actual testimonials endpoint
-  'drug-testing/checkout',               // actual drug testing checkout
-  'admin/test-email',                    // token-gated admin utility
-  'workone/seed',                        // gated behind NODE_ENV !== production
+  'studio/generate-tests', // studio feature
+  'content/testimonials', // actual testimonials endpoint
+  'testimonials', // actual testimonials endpoint
+  'drug-testing/checkout', // actual drug testing checkout
+  'admin/test-email', // token-gated admin utility
+  'workone/seed', // gated behind NODE_ENV !== production
 ];
 
 function walkDir(dir) {
@@ -57,11 +57,14 @@ const routes = walkDir(apiDir);
 const violations = [];
 
 for (const route of routes) {
-  const relative = route.replace(join(process.cwd(), 'app', 'api') + '/', '').replace('/route.ts', '').replace('/route.tsx', '');
-  
+  const relative = route
+    .replace(join(process.cwd(), 'app', 'api') + '/', '')
+    .replace('/route.ts', '')
+    .replace('/route.tsx', '');
+
   // Check allowlist
-  if (ALLOWLIST.some(a => relative.includes(a))) continue;
-  
+  if (ALLOWLIST.some((a) => relative.includes(a))) continue;
+
   // Check patterns
   for (const pattern of TEST_PATTERNS) {
     if (relative.includes(pattern)) {
@@ -73,8 +76,11 @@ for (const route of routes) {
 
 // Also check for seed endpoints
 for (const route of routes) {
-  const relative = route.replace(join(process.cwd(), 'app', 'api') + '/', '').replace('/route.ts', '').replace('/route.tsx', '');
-  if (ALLOWLIST.some(a => relative.includes(a))) continue;
+  const relative = route
+    .replace(join(process.cwd(), 'app', 'api') + '/', '')
+    .replace('/route.ts', '')
+    .replace('/route.tsx', '');
+  if (ALLOWLIST.some((a) => relative.includes(a))) continue;
   if (relative.includes('/seed') && !violations.includes(relative)) {
     violations.push(relative);
   }

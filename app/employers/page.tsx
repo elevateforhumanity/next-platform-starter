@@ -1,4 +1,3 @@
-
 import { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -19,7 +18,6 @@ import WOTCSection from '@/components/employers/WOTCSection';
 import GrantsSection from '@/components/employers/GrantsSection';
 import HeroVideo from '@/components/marketing/HeroVideo';
 
-
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
@@ -31,10 +29,18 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: 'For Employers | Elevate for Humanity',
-    description: 'OJT wage reimbursement, WOTC tax credits, and pre-trained talent at no recruiting cost.',
+    description:
+      'OJT wage reimbursement, WOTC tax credits, and pre-trained talent at no recruiting cost.',
     url: 'https://www.elevateforhumanity.org/employers',
     siteName: 'Elevate for Humanity',
-    images: [{ url: '/images/pages/for-employers-page-1.jpg', width: 1200, height: 630, alt: 'Employer partnerships' }],
+    images: [
+      {
+        url: '/images/pages/for-employers-page-1.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Employer partnerships',
+      },
+    ],
     type: 'website',
   },
 };
@@ -42,7 +48,6 @@ export const metadata: Metadata = {
 export default function EmployersPage() {
   return (
     <div className="min-h-screen bg-white">
-
       {/* Single hero — video frame + below-hero copy. Duplicate static image hero removed. */}
       <HeroVideo
         videoSrcDesktop="/videos/employer-hero.mp4"
@@ -51,24 +56,38 @@ export default function EmployersPage() {
         microLabel="For Employers"
         analyticsName="employers"
       >
-        <p className="text-brand-red-600 font-bold text-xs uppercase tracking-widest mb-3">For Employers</p>
+        <p className="text-brand-red-600 font-bold text-xs uppercase tracking-widest mb-3">
+          For Employers
+        </p>
         <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 leading-tight mb-4">
           The Government Will Pay You to Train Your Next Hire
         </h1>
         <p className="text-slate-600 text-lg leading-relaxed mb-2 max-w-2xl">
-          On-the-Job Training (OJT) reimburses employers up to 75% of a new hire&apos;s wages during their training period. The Work Opportunity Tax Credit (WOTC) gives you up to $9,600 in federal tax credits per qualifying hire.
+          On-the-Job Training (OJT) reimburses employers up to 75% of a new hire&apos;s wages during
+          their training period. The Work Opportunity Tax Credit (WOTC) gives you up to $9,600 in
+          federal tax credits per qualifying hire.
         </p>
         <p className="text-slate-500 text-base leading-relaxed mb-6 max-w-2xl">
-          Elevate provides pre-trained, certified candidates and handles all the workforce funding paperwork. You interview, you hire, you get reimbursed.
+          Elevate provides pre-trained, certified candidates and handles all the workforce funding
+          paperwork. You interview, you hire, you get reimbursed.
         </p>
         <div className="flex flex-wrap gap-3">
-          <Link href="/contact?type=employer" className="px-6 py-3 bg-brand-red-600 hover:bg-brand-red-700 text-white font-bold rounded-lg transition text-sm">
+          <Link
+            href="/contact?type=employer"
+            className="px-6 py-3 bg-brand-red-600 hover:bg-brand-red-700 text-white font-bold rounded-lg transition text-sm"
+          >
             Talk to Our Employer Team
           </Link>
-          <a href="#ojt" className="px-6 py-3 border border-slate-300 text-slate-700 font-bold rounded-lg hover:bg-slate-50 transition text-sm">
+          <a
+            href="#ojt"
+            className="px-6 py-3 border border-slate-300 text-slate-700 font-bold rounded-lg hover:bg-slate-50 transition text-sm"
+          >
             How OJT Works
           </a>
-          <a href="#wotc" className="px-6 py-3 border border-slate-300 text-slate-700 font-bold rounded-lg hover:bg-slate-50 transition text-sm">
+          <a
+            href="#wotc"
+            className="px-6 py-3 border border-slate-300 text-slate-700 font-bold rounded-lg hover:bg-slate-50 transition text-sm"
+          >
             WOTC Tax Credits
           </a>
         </div>
@@ -115,25 +134,26 @@ export default function EmployersPage() {
             <div className="text-slate-600 space-y-4">
               <p>
                 Every time you hire someone, you invest weeks or months getting them up to speed.
-                You pay their wages while they learn. You assign senior staff to supervise them.
-                You absorb the productivity gap. That is a real cost — and for most employers,
-                it comes straight out of the bottom line.
+                You pay their wages while they learn. You assign senior staff to supervise them. You
+                absorb the productivity gap. That is a real cost — and for most employers, it comes
+                straight out of the bottom line.
               </p>
               <p>
                 What most employers do not know is that the federal government has programs
-                specifically designed to offset this cost. Not loans. Not grants you have to
-                apply for months in advance. Programs that reimburse you <em>after</em> you hire
-                someone, based on the wages you already paid.
+                specifically designed to offset this cost. Not loans. Not grants you have to apply
+                for months in advance. Programs that reimburse you <em>after</em> you hire someone,
+                based on the wages you already paid.
               </p>
               <p>
                 The two biggest programs are <strong>On-the-Job Training (OJT)</strong> and the
                 <strong> Work Opportunity Tax Credit (WOTC)</strong>. Together, they can save you
-                $10,000 to $25,000 per hire depending on the role and the candidate&apos;s background.
+                $10,000 to $25,000 per hire depending on the role and the candidate&apos;s
+                background.
               </p>
               <p>
-                The catch? Most employers never use them because the paperwork is confusing and
-                the deadlines are tight. That is where Elevate comes in. We provide the candidates,
-                set up the contracts, track the training, and make sure you get paid.
+                The catch? Most employers never use them because the paperwork is confusing and the
+                deadlines are tight. That is where Elevate comes in. We provide the candidates, set
+                up the contracts, track the training, and make sure you get paid.
               </p>
             </div>
           </div>
@@ -210,15 +230,27 @@ export default function EmployersPage() {
                 cta: 'See Funding Options',
               },
             ].map((item) => (
-              <div key={item.title} className="bg-white rounded-xl border border-slate-200 overflow-hidden flex flex-col">
+              <div
+                key={item.title}
+                className="bg-white rounded-xl border border-slate-200 overflow-hidden flex flex-col"
+              >
                 <div className="relative w-full aspect-[4/3]" style={{ aspectRatio: '16/10' }}>
-                  <Image src={item.image} alt={item.alt} fill className="object-cover" sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" />
+                  <Image
+                    src={item.image}
+                    alt={item.alt}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  />
                 </div>
                 <div className="p-5 flex flex-col flex-1">
                   <h3 className="font-bold text-slate-900 mb-2">{item.title}</h3>
                   <p className="text-sm text-slate-600 leading-relaxed flex-1">{item.desc}</p>
                   <div className="mt-4">
-                    <Link href={item.href} className="inline-block bg-brand-red-600 hover:bg-brand-red-700 text-white text-sm font-bold px-5 py-2.5 rounded-lg transition-colors">
+                    <Link
+                      href={item.href}
+                      className="inline-block bg-brand-red-600 hover:bg-brand-red-700 text-white text-sm font-bold px-5 py-2.5 rounded-lg transition-colors"
+                    >
                       {item.cta}
                     </Link>
                   </div>
@@ -239,8 +271,8 @@ export default function EmployersPage() {
                 <h2 className="text-3xl font-bold mb-4">Host an Apprentice at Your Business</h2>
                 <p className="text-slate-300 mb-4">
                   Registered Apprenticeship is the gold standard of workforce training. It combines
-                  structured on-the-job learning with classroom instruction, and it produces employees
-                  who are trained to <em>your</em> standards — not a generic curriculum.
+                  structured on-the-job learning with classroom instruction, and it produces
+                  employees who are trained to <em>your</em> standards — not a generic curriculum.
                 </p>
                 <p className="text-slate-300 mb-6">
                   As a DOL Registered Apprenticeship Sponsor, Elevate handles everything except the
@@ -272,14 +304,46 @@ export default function EmployersPage() {
               </div>
               <div>
                 <div className="bg-white/10 rounded-xl p-6 space-y-4 mb-6">
-                  <h3 className="font-semibold text-white mb-3">Available Apprenticeship Programs</h3>
+                  <h3 className="font-semibold text-white mb-3">
+                    Available Apprenticeship Programs
+                  </h3>
                   {[
-                    { program: 'Barber Apprenticeship', hours: '2,000 OJT hours', credential: 'Indiana Barber License (PLA)', duration: '12 months' },
-                    { program: 'Cosmetology Apprenticeship', hours: '2,000 OJT hours', credential: 'Indiana Cosmetology License', duration: '12 months' },
-                    { program: 'HVAC Technician', hours: '2,000 OJT hours', credential: 'EPA 608 + OSHA 10', duration: '12 months' },
-                    { program: 'Electrical Apprenticeship', hours: '2,000 OJT hours', credential: 'NCCER Level 1', duration: '12 months' },
-                    { program: 'Welding', hours: '2,000 OJT hours', credential: 'AWS D1.1', duration: '12 months' },
-                    { program: 'Plumbing', hours: '2,000 OJT hours', credential: 'NCCER Level 1', duration: '12 months' },
+                    {
+                      program: 'Barber Apprenticeship',
+                      hours: '2,000 OJT hours',
+                      credential: 'Indiana Barber License (PLA)',
+                      duration: '12 months',
+                    },
+                    {
+                      program: 'Cosmetology Apprenticeship',
+                      hours: '2,000 OJT hours',
+                      credential: 'Indiana Cosmetology License',
+                      duration: '12 months',
+                    },
+                    {
+                      program: 'HVAC Technician',
+                      hours: '2,000 OJT hours',
+                      credential: 'EPA 608 + OSHA 10',
+                      duration: '12 months',
+                    },
+                    {
+                      program: 'Electrical Apprenticeship',
+                      hours: '2,000 OJT hours',
+                      credential: 'NCCER Level 1',
+                      duration: '12 months',
+                    },
+                    {
+                      program: 'Welding',
+                      hours: '2,000 OJT hours',
+                      credential: 'AWS D1.1',
+                      duration: '12 months',
+                    },
+                    {
+                      program: 'Plumbing',
+                      hours: '2,000 OJT hours',
+                      credential: 'NCCER Level 1',
+                      duration: '12 months',
+                    },
                   ].map((item) => (
                     <div key={item.program} className="bg-white/5 rounded-lg p-3 text-sm">
                       <div className="font-semibold text-white">{item.program}</div>
@@ -302,7 +366,8 @@ export default function EmployersPage() {
                     href="/programs/barber-apprenticeship/host-shops"
                     className="text-brand-orange-300 text-sm font-semibold mt-2 inline-flex items-center hover:text-white"
                   >
-                    Learn about hosting a barber apprentice <ArrowRight className="w-3.5 h-3.5 ml-1" />
+                    Learn about hosting a barber apprentice{' '}
+                    <ArrowRight className="w-3.5 h-3.5 ml-1" />
                   </Link>
                 </div>
               </div>
@@ -317,16 +382,14 @@ export default function EmployersPage() {
       {/* CTA */}
       <section className="py-16 bg-slate-900">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-            Ready to Hire Smarter?
-          </h2>
+          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">Ready to Hire Smarter?</h2>
           <p className="text-lg text-slate-300 mb-4 max-w-2xl mx-auto">
-            Whether you need one hire or twenty, Elevate can connect you with trained candidates
-            and help you access every dollar of workforce funding you are entitled to.
+            Whether you need one hire or twenty, Elevate can connect you with trained candidates and
+            help you access every dollar of workforce funding you are entitled to.
           </p>
           <p className="text-sm text-slate-500 mb-8 max-w-xl mx-auto">
-            No contracts. No fees. No obligation. Just a conversation about what you need
-            and what programs are available for your business.
+            No contracts. No fees. No obligation. Just a conversation about what you need and what
+            programs are available for your business.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link

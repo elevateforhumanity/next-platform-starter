@@ -7,11 +7,7 @@
     "partner": "Choice Medical Institute",
     "estimatedDurationWeeks": 24,
     "modality": "In-Person",
-    "workforceTags": [
-      "WIOA",
-      "Workforce Ready Grant",
-      "OJT Eligible"
-    ],
+    "workforceTags": ["WIOA", "Workforce Ready Grant", "OJT Eligible"],
     "secondChanceFriendly": true,
     "outcomes": [
       "Prepare for entry-level Medical Assistant roles",
@@ -137,11 +133,7 @@
     "partner": "Elevate LMS",
     "estimatedDurationWeeks": 52,
     "modality": "In-Person",
-    "workforceTags": [
-      "Apprenticeship",
-      "WIOA",
-      "Re-Entry Friendly"
-    ],
+    "workforceTags": ["Apprenticeship", "WIOA", "Re-Entry Friendly"],
     "secondChanceFriendly": true,
     "outcomes": [
       "Complete required apprenticeship hours toward barber license",
@@ -260,42 +252,25 @@
       {
         "level": "1",
         "title": "HVAC Apprentice",
-        "requirements": [
-          "EPA 608 Universal",
-          "OSHA 10",
-          "CPR/AED",
-          "480+ training hours"
-        ],
+        "requirements": ["EPA 608 Universal", "OSHA 10", "CPR/AED", "480+ training hours"],
         "typicalTimeline": "12 weeks (this program)"
       },
       {
         "level": "2",
         "title": "HVAC Journeyman",
-        "requirements": [
-          "2,000+ OJT hours",
-          "State journeyman exam",
-          "Employer sponsorship"
-        ],
+        "requirements": ["2,000+ OJT hours", "State journeyman exam", "Employer sponsorship"],
         "typicalTimeline": "1–2 years post-program"
       },
       {
         "level": "3",
         "title": "HVAC Master Technician",
-        "requirements": [
-          "4,000+ OJT hours",
-          "NATE certification",
-          "Advanced diagnostics"
-        ],
+        "requirements": ["4,000+ OJT hours", "NATE certification", "Advanced diagnostics"],
         "typicalTimeline": "3–5 years"
       },
       {
         "level": "4",
         "title": "HVAC Contractor",
-        "requirements": [
-          "Master license",
-          "Business license",
-          "Insurance/bonding"
-        ],
+        "requirements": ["Master license", "Business license", "Insurance/bonding"],
         "typicalTimeline": "5+ years"
       }
     ],
@@ -370,11 +345,7 @@
             "durationMinutes": 10,
             "description": "Confirm understanding of program requirements and expectations",
             "passThreshold": 80,
-            "assessesObjectives": [
-              "hvac-01-co1",
-              "hvac-01-co2",
-              "hvac-01-co3"
-            ]
+            "assessesObjectives": ["hvac-01-co1", "hvac-01-co2", "hvac-01-co3"]
           }
         ]
       },
@@ -440,9 +411,7 @@
             "type": "lab",
             "durationMinutes": 60,
             "description": "Identify compressor, condenser, evaporator, metering device, and airflow components",
-            "assessesObjectives": [
-              "hvac-02-co4"
-            ]
+            "assessesObjectives": ["hvac-02-co4"]
           },
           {
             "id": "hvac-02-05",
@@ -451,11 +420,7 @@
             "durationMinutes": 15,
             "description": "Test knowledge of HVAC principles, components, and safety",
             "passThreshold": 80,
-            "assessesObjectives": [
-              "hvac-02-co1",
-              "hvac-02-co2",
-              "hvac-02-co3"
-            ]
+            "assessesObjectives": ["hvac-02-co1", "hvac-02-co2", "hvac-02-co3"]
           }
         ]
       },
@@ -516,10 +481,7 @@
             "type": "lab",
             "durationMinutes": 90,
             "description": "Hands-on practice measuring voltage, amperage, resistance, and capacitance",
-            "assessesObjectives": [
-              "hvac-03-co3",
-              "hvac-03-co4"
-            ]
+            "assessesObjectives": ["hvac-03-co3", "hvac-03-co4"]
           },
           {
             "id": "hvac-03-04",
@@ -535,10 +497,7 @@
             "durationMinutes": 15,
             "description": "Assessment of electrical fundamentals for HVAC",
             "passThreshold": 80,
-            "assessesObjectives": [
-              "hvac-03-co1",
-              "hvac-03-co2"
-            ]
+            "assessesObjectives": ["hvac-03-co1", "hvac-03-co2"]
           }
         ]
       },
@@ -605,10 +564,7 @@
             "type": "lab",
             "durationMinutes": 60,
             "description": "CO testing, draft measurement, gas pressure checks, and temperature rise",
-            "assessesObjectives": [
-              "hvac-04-co2",
-              "hvac-04-co3"
-            ]
+            "assessesObjectives": ["hvac-04-co2", "hvac-04-co3"]
           },
           {
             "id": "hvac-04-05",
@@ -616,10 +572,7 @@
             "type": "lab",
             "durationMinutes": 90,
             "description": "Complete furnace inspection, tune-up, and safety check procedure",
-            "assessesObjectives": [
-              "hvac-04-co1",
-              "hvac-04-co4"
-            ]
+            "assessesObjectives": ["hvac-04-co1", "hvac-04-co4"]
           },
           {
             "id": "hvac-04-06",
@@ -628,10 +581,7 @@
             "durationMinutes": 15,
             "description": "Test knowledge of heating system operation and maintenance",
             "passThreshold": 80,
-            "assessesObjectives": [
-              "hvac-04-co1",
-              "hvac-04-co2"
-            ]
+            "assessesObjectives": ["hvac-04-co1", "hvac-04-co2"]
           }
         ]
       },
@@ -708,11 +658,7 @@
             "type": "lab",
             "durationMinutes": 90,
             "description": "Measure and calculate superheat and subcooling on a live system using gauge manifold and thermometer",
-            "assessesObjectives": [
-              "hvac-05-co2",
-              "hvac-05-co3",
-              "hvac-05-co4"
-            ]
+            "assessesObjectives": ["hvac-05-co2", "hvac-05-co3", "hvac-05-co4"]
           },
           {
             "id": "hvac-05-06",
@@ -721,10 +667,7 @@
             "durationMinutes": 15,
             "description": "Test knowledge of refrigeration cycle and AC system operation",
             "passThreshold": 85,
-            "assessesObjectives": [
-              "hvac-05-co1",
-              "hvac-05-co4"
-            ]
+            "assessesObjectives": ["hvac-05-co1", "hvac-05-co4"]
           }
         ]
       },
@@ -820,12 +763,7 @@
             "durationMinutes": 30,
             "description": "25-question practice test matching EPA 608 Core exam format and difficulty",
             "passThreshold": 85,
-            "assessesObjectives": [
-              "hvac-06-co1",
-              "hvac-06-co2",
-              "hvac-06-co3",
-              "hvac-06-co4"
-            ]
+            "assessesObjectives": ["hvac-06-co1", "hvac-06-co2", "hvac-06-co3", "hvac-06-co4"]
           }
         ]
       },
@@ -895,10 +833,7 @@
             "durationMinutes": 25,
             "description": "25-question practice test matching EPA 608 Type I exam format",
             "passThreshold": 85,
-            "assessesObjectives": [
-              "hvac-07-co1",
-              "hvac-07-co3"
-            ]
+            "assessesObjectives": ["hvac-07-co1", "hvac-07-co3"]
           }
         ]
       },
@@ -983,10 +918,7 @@
             "type": "lab",
             "durationMinutes": 90,
             "description": "Hands-on refrigerant recovery from a high-pressure system using certified equipment",
-            "assessesObjectives": [
-              "hvac-08-co2",
-              "hvac-08-co3"
-            ]
+            "assessesObjectives": ["hvac-08-co2", "hvac-08-co3"]
           },
           {
             "id": "hvac-08-07",
@@ -995,10 +927,7 @@
             "durationMinutes": 25,
             "description": "25-question practice test matching EPA 608 Type II exam format",
             "passThreshold": 85,
-            "assessesObjectives": [
-              "hvac-08-co1",
-              "hvac-08-co4"
-            ]
+            "assessesObjectives": ["hvac-08-co1", "hvac-08-co4"]
           }
         ]
       },
@@ -1075,11 +1004,7 @@
             "durationMinutes": 25,
             "description": "25-question practice test matching EPA 608 Type III exam format",
             "passThreshold": 85,
-            "assessesObjectives": [
-              "hvac-09-co1",
-              "hvac-09-co2",
-              "hvac-09-co3"
-            ]
+            "assessesObjectives": ["hvac-09-co1", "hvac-09-co2", "hvac-09-co3"]
           }
         ]
       },
@@ -1145,9 +1070,7 @@
             "durationMinutes": 30,
             "description": "Timed 25-question Core practice exam under test conditions",
             "passThreshold": 70,
-            "assessesObjectives": [
-              "hvac-10-co1"
-            ]
+            "assessesObjectives": ["hvac-10-co1"]
           },
           {
             "id": "hvac-10-04",
@@ -1156,9 +1079,7 @@
             "durationMinutes": 25,
             "description": "Timed 25-question Type I practice exam under test conditions",
             "passThreshold": 70,
-            "assessesObjectives": [
-              "hvac-10-co2"
-            ]
+            "assessesObjectives": ["hvac-10-co2"]
           },
           {
             "id": "hvac-10-05",
@@ -1167,9 +1088,7 @@
             "durationMinutes": 25,
             "description": "Timed 25-question Type II practice exam under test conditions",
             "passThreshold": 70,
-            "assessesObjectives": [
-              "hvac-10-co3"
-            ]
+            "assessesObjectives": ["hvac-10-co3"]
           },
           {
             "id": "hvac-10-06",
@@ -1178,9 +1097,7 @@
             "durationMinutes": 25,
             "description": "Timed 25-question Type III practice exam under test conditions",
             "passThreshold": 70,
-            "assessesObjectives": [
-              "hvac-10-co4"
-            ]
+            "assessesObjectives": ["hvac-10-co4"]
           },
           {
             "id": "hvac-10-07",
@@ -1189,12 +1106,7 @@
             "durationMinutes": 60,
             "description": "Complete 100-question timed practice exam — all 4 sections combined. Pass = 70% per section.",
             "passThreshold": 70,
-            "assessesObjectives": [
-              "hvac-10-co1",
-              "hvac-10-co2",
-              "hvac-10-co3",
-              "hvac-10-co4"
-            ]
+            "assessesObjectives": ["hvac-10-co1", "hvac-10-co2", "hvac-10-co3", "hvac-10-co4"]
           }
         ]
       },
@@ -1257,9 +1169,7 @@
             "type": "lab",
             "durationMinutes": 60,
             "description": "Practice electronic leak detection, nitrogen pressure test, and standing vacuum test",
-            "assessesObjectives": [
-              "hvac-11-co4"
-            ]
+            "assessesObjectives": ["hvac-11-co4"]
           },
           {
             "id": "hvac-11-04",
@@ -1267,10 +1177,7 @@
             "type": "lab",
             "durationMinutes": 90,
             "description": "Recover refrigerant, pull vacuum to 500 microns, and charge system to spec",
-            "assessesObjectives": [
-              "hvac-11-co1",
-              "hvac-11-co3"
-            ]
+            "assessesObjectives": ["hvac-11-co1", "hvac-11-co3"]
           },
           {
             "id": "hvac-11-05",
@@ -1279,9 +1186,7 @@
             "durationMinutes": 20,
             "description": "Diagnose system problems from gauge readings and symptoms",
             "passThreshold": 80,
-            "assessesObjectives": [
-              "hvac-11-co2"
-            ]
+            "assessesObjectives": ["hvac-11-co2"]
           }
         ]
       },
@@ -1344,9 +1249,7 @@
             "type": "lab",
             "durationMinutes": 90,
             "description": "Hands-on brazing copper tubing with nitrogen purge, pressure testing joints",
-            "assessesObjectives": [
-              "hvac-12-co2"
-            ]
+            "assessesObjectives": ["hvac-12-co2"]
           },
           {
             "id": "hvac-12-04",
@@ -1361,11 +1264,7 @@
             "type": "lab",
             "durationMinutes": 90,
             "description": "Complete startup: vacuum, charge, airflow verification, temperature split, and commissioning checklist",
-            "assessesObjectives": [
-              "hvac-12-co1",
-              "hvac-12-co3",
-              "hvac-12-co4"
-            ]
+            "assessesObjectives": ["hvac-12-co1", "hvac-12-co3", "hvac-12-co4"]
           },
           {
             "id": "hvac-12-06",
@@ -1374,9 +1273,7 @@
             "durationMinutes": 15,
             "description": "Test knowledge of installation procedures and best practices",
             "passThreshold": 80,
-            "assessesObjectives": [
-              "hvac-12-co1"
-            ]
+            "assessesObjectives": ["hvac-12-co1"]
           }
         ]
       },
@@ -1441,10 +1338,7 @@
             "type": "lab",
             "durationMinutes": 120,
             "description": "Diagnose and repair multiple system faults on training equipment",
-            "assessesObjectives": [
-              "hvac-13-co1",
-              "hvac-13-co2"
-            ]
+            "assessesObjectives": ["hvac-13-co1", "hvac-13-co2"]
           },
           {
             "id": "hvac-13-05",
@@ -1452,9 +1346,7 @@
             "type": "lab",
             "durationMinutes": 30,
             "description": "Role-play service call: explain findings, present estimate, handle objections",
-            "assessesObjectives": [
-              "hvac-13-co3"
-            ]
+            "assessesObjectives": ["hvac-13-co3"]
           },
           {
             "id": "hvac-13-06",
@@ -1463,10 +1355,7 @@
             "durationMinutes": 20,
             "description": "Diagnose system problems from described symptoms and readings",
             "passThreshold": 80,
-            "assessesObjectives": [
-              "hvac-13-co1",
-              "hvac-13-co2"
-            ]
+            "assessesObjectives": ["hvac-13-co1", "hvac-13-co2"]
           }
         ]
       },
@@ -1564,12 +1453,7 @@
             "durationMinutes": 45,
             "description": "CareerSafe proctored OSHA 10 assessment — DOL card issued upon passing",
             "passThreshold": 70,
-            "assessesObjectives": [
-              "hvac-14-co1",
-              "hvac-14-co2",
-              "hvac-14-co3",
-              "hvac-14-co4"
-            ]
+            "assessesObjectives": ["hvac-14-co1", "hvac-14-co2", "hvac-14-co3", "hvac-14-co4"]
           }
         ]
       },
@@ -1627,10 +1511,7 @@
             "type": "lab",
             "durationMinutes": 45,
             "description": "Hands-on CPR and AED practice on manikins — must demonstrate competency",
-            "assessesObjectives": [
-              "hvac-15-co1",
-              "hvac-15-co2"
-            ]
+            "assessesObjectives": ["hvac-15-co1", "hvac-15-co2"]
           },
           {
             "id": "hvac-15-04",
@@ -1645,9 +1526,7 @@
             "durationMinutes": 30,
             "description": "NRF Rise Up certification exam",
             "passThreshold": 70,
-            "assessesObjectives": [
-              "hvac-15-co3"
-            ]
+            "assessesObjectives": ["hvac-15-co3"]
           }
         ]
       },
@@ -1697,18 +1576,14 @@
             "durationMinutes": 120,
             "description": "Official EPA 608 Universal certification exam — 100 questions, 4 sections, proctored",
             "passThreshold": 70,
-            "assessesObjectives": [
-              "hvac-16-co1"
-            ]
+            "assessesObjectives": ["hvac-16-co1"]
           },
           {
             "id": "hvac-16-02",
             "title": "HVAC Resume Workshop",
             "type": "assignment",
             "description": "Build a trade-specific resume highlighting certifications, skills, and training hours",
-            "assessesObjectives": [
-              "hvac-16-co2"
-            ]
+            "assessesObjectives": ["hvac-16-co2"]
           },
           {
             "id": "hvac-16-03",
@@ -1723,18 +1598,14 @@
             "type": "lab",
             "durationMinutes": 30,
             "description": "15-minute mock interview evaluated on professionalism, technical knowledge, and communication",
-            "assessesObjectives": [
-              "hvac-16-co3"
-            ]
+            "assessesObjectives": ["hvac-16-co3"]
           },
           {
             "id": "hvac-16-05",
             "title": "Program Completion Checklist",
             "type": "assignment",
             "description": "Verify all certifications earned, hours logged, and placement readiness",
-            "assessesObjectives": [
-              "hvac-16-co4"
-            ]
+            "assessesObjectives": ["hvac-16-co4"]
           }
         ]
       }
@@ -1748,11 +1619,7 @@
     "partner": "CDL Partner",
     "estimatedDurationWeeks": 6,
     "modality": "In-Person",
-    "workforceTags": [
-      "WIOA",
-      "Workforce Ready Grant",
-      "OJT Eligible"
-    ],
+    "workforceTags": ["WIOA", "Workforce Ready Grant", "OJT Eligible"],
     "secondChanceFriendly": true,
     "outcomes": [
       "Prepare to pass the CDL knowledge and skills exams",
@@ -1811,10 +1678,7 @@
     "partner": "Elevate For Humanity (Workforce)",
     "estimatedDurationWeeks": 8,
     "modality": "Hybrid",
-    "workforceTags": [
-      "Re-Entry",
-      "WIOA"
-    ],
+    "workforceTags": ["Re-Entry", "WIOA"],
     "secondChanceFriendly": true,
     "outcomes": [
       "Build a job-ready resume and practice interviewing",

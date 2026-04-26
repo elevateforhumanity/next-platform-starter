@@ -1,5 +1,3 @@
-
-
 /**
  * Grant Package Builder API
  * Generate submission-ready grant packages
@@ -23,8 +21,7 @@ async function _POST(req: NextRequest) {
   try {
     const rateLimited = await applyRateLimit(req, 'api');
     if (rateLimited) return rateLimited;
-  const auth = await apiRequireAdmin(req);
-
+    const auth = await apiRequireAdmin(req);
 
     const body = await req.json();
     const { action, applicationId, entityId, format } = body;
@@ -32,10 +29,7 @@ async function _POST(req: NextRequest) {
     switch (action) {
       case 'build_complete':
         if (!applicationId) {
-          return NextResponse.json(
-            { error: 'applicationId required' },
-            { status: 400 }
-          );
+          return NextResponse.json({ error: 'applicationId required' }, { status: 400 });
         }
         const pkg = await buildGrantPackage(applicationId);
 
@@ -48,10 +42,7 @@ async function _POST(req: NextRequest) {
 
       case 'generate_narrative':
         if (!applicationId) {
-          return NextResponse.json(
-            { error: 'applicationId required' },
-            { status: 400 }
-          );
+          return NextResponse.json({ error: 'applicationId required' }, { status: 400 });
         }
 
         if (format === 'pdf') {
@@ -75,10 +66,7 @@ async function _POST(req: NextRequest) {
 
       case 'generate_capability':
         if (!entityId) {
-          return NextResponse.json(
-            { error: 'entityId required' },
-            { status: 400 }
-          );
+          return NextResponse.json({ error: 'entityId required' }, { status: 400 });
         }
         const capability = await generateCapabilityStatement(entityId);
         return new NextResponse(capability as any as BodyInit, {
@@ -90,10 +78,7 @@ async function _POST(req: NextRequest) {
 
       case 'generate_budget':
         if (!applicationId) {
-          return NextResponse.json(
-            { error: 'applicationId required' },
-            { status: 400 }
-          );
+          return NextResponse.json({ error: 'applicationId required' }, { status: 400 });
         }
         const budget = await generateBudgetSpreadsheet(applicationId);
         return new NextResponse(budget as any as BodyInit, {
@@ -109,15 +94,12 @@ async function _POST(req: NextRequest) {
             error:
               'Invalid action. Use: build_complete, generate_narrative, generate_capability, or generate_budget',
           },
-          { status: 400 }
+          { status: 400 },
         );
     }
-  } catch (error) { 
+  } catch (error) {
     logger.error('Package builder error:', error);
-    return NextResponse.json(
-      { error: 'Operation failed' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Operation failed' }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/grants/package', _POST);

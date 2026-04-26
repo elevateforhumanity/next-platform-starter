@@ -19,7 +19,10 @@ export async function POST(request: NextRequest) {
     await hydrateProcessEnv();
 
     const supabase = await createClient();
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
     if (authError || !user) return safeError('Unauthorized', 401);
 
     const db = await getAdminClient();
@@ -32,9 +35,10 @@ export async function POST(request: NextRequest) {
       .maybeSingle();
 
     const email = profile?.email ?? user.email ?? '';
-    const name = profile?.full_name
-      || `${profile?.first_name ?? ''} ${profile?.last_name ?? ''}`.trim()
-      || email;
+    const name =
+      profile?.full_name ||
+      `${profile?.first_name ?? ''} ${profile?.last_name ?? ''}`.trim() ||
+      email;
 
     // Check if a barber_subscription already exists with a Stripe customer
     const { data: existingSub } = await db
@@ -103,7 +107,8 @@ export async function POST(request: NextRequest) {
         weeks_remaining: weeksRemaining,
       });
     } else if (!existingSub.stripe_customer_id) {
-      await db.from('barber_subscriptions')
+      await db
+        .from('barber_subscriptions')
         .update({ stripe_customer_id: customerId })
         .eq('id', existingSub.id);
     }

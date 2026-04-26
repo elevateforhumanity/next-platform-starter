@@ -13,9 +13,9 @@ export default function OJTSection() {
             On-the-Job Training (OJT): Get Paid to Train Your New Hires
           </h2>
           <p className="text-lg text-slate-600">
-            Every employer trains new hires. The difference is whether you pay for it yourself
-            or let the government reimburse you. OJT is a federal program that pays you back
-            for doing what you already do — training people to work at your business.
+            Every employer trains new hires. The difference is whether you pay for it yourself or
+            let the government reimburse you. OJT is a federal program that pays you back for doing
+            what you already do — training people to work at your business.
           </p>
         </div>
 
@@ -24,17 +24,17 @@ export default function OJTSection() {
           <div>
             <h3 className="text-2xl font-bold text-slate-900 mb-4">What OJT Actually Is</h3>
             <p className="text-slate-600 mb-4">
-              On-the-Job Training is a program under the <strong>Workforce Innovation and Opportunity
-              Act (WIOA)</strong> that reimburses employers for the cost of training a new employee.
-              The logic is simple: when you hire someone who needs skills development, the government
-              recognizes that your time and resources have value. OJT compensates you for that
-              investment.
+              On-the-Job Training is a program under the{' '}
+              <strong>Workforce Innovation and Opportunity Act (WIOA)</strong> that reimburses
+              employers for the cost of training a new employee. The logic is simple: when you hire
+              someone who needs skills development, the government recognizes that your time and
+              resources have value. OJT compensates you for that investment.
             </p>
             <p className="text-slate-600 mb-4">
-              You are not hiring a &quot;trainee&quot; or an intern. You are hiring a <strong>real employee
-              at a real wage</strong>. They are on your payroll from day one. They show up, they work,
-              they learn your systems. The only difference is that WorkOne sends you a check for
-              up to 75% of their wages during the training period.
+              You are not hiring a &quot;trainee&quot; or an intern. You are hiring a{' '}
+              <strong>real employee at a real wage</strong>. They are on your payroll from day one.
+              They show up, they work, they learn your systems. The only difference is that WorkOne
+              sends you a check for up to 75% of their wages during the training period.
             </p>
             <p className="text-slate-600">
               The training period is typically <strong>3 to 6 months</strong>, depending on the
@@ -46,18 +46,20 @@ export default function OJTSection() {
           <div>
             <h3 className="text-2xl font-bold text-slate-900 mb-4">Why It Exists</h3>
             <p className="text-slate-600 mb-4">
-              The federal government spends billions on workforce development every year. The problem
-              they are trying to solve: people who want to work but lack the specific skills employers
-              need. OJT bridges that gap by making it financially painless for you to take a chance
-              on someone who is trained but not yet experienced in your exact environment.
+              The federal government spends billions on workforce development every year. The
+              problem they are trying to solve: people who want to work but lack the specific skills
+              employers need. OJT bridges that gap by making it financially painless for you to take
+              a chance on someone who is trained but not yet experienced in your exact environment.
             </p>
             <p className="text-slate-600 mb-4">
               This is not charity. This is an economic development tool. The government gets a
-              taxpayer off unemployment. You get a trained employee at a fraction of the cost.
-              The employee gets a career. Everyone wins.
+              taxpayer off unemployment. You get a trained employee at a fraction of the cost. The
+              employee gets a career. Everyone wins.
             </p>
             <div className="bg-brand-green-50 border border-brand-green-200 rounded-lg p-4 mt-6">
-              <h4 className="font-bold text-brand-green-900 text-sm mb-2">Who qualifies as an OJT candidate?</h4>
+              <h4 className="font-bold text-brand-green-900 text-sm mb-2">
+                Who qualifies as an OJT candidate?
+              </h4>
               <ul className="text-sm text-brand-green-800 space-y-1">
                 <li>• WIOA-eligible job seekers (unemployed, underemployed, low-income)</li>
                 <li>• Veterans transitioning to civilian careers</li>
@@ -66,7 +68,8 @@ export default function OJTSection() {
                 <li>• Young adults (18-24) with barriers to employment</li>
               </ul>
               <p className="text-xs text-brand-green-700 mt-2 italic">
-                Elevate pre-screens all candidates for WIOA eligibility before referring them to you.
+                Elevate pre-screens all candidates for WIOA eligibility before referring them to
+                you.
               </p>
             </div>
           </div>
@@ -100,7 +103,7 @@ export default function OJTSection() {
               {
                 step: '5',
                 title: 'You get reimbursed',
-                desc: 'WorkOne reimburses you up to 75% of the employee\'s wages for the entire training period. Payments are made directly to your business, typically monthly or at contract milestones.',
+                desc: "WorkOne reimburses you up to 75% of the employee's wages for the entire training period. Payments are made directly to your business, typically monthly or at contract milestones.",
               },
               {
                 step: '6',
@@ -138,7 +141,9 @@ export default function OJTSection() {
                 <div className="text-lg font-bold text-slate-900">960 hours (6 months)</div>
               </div>
               <div className="bg-white rounded-lg p-4 border border-brand-green-100">
-                <div className="text-slate-500 text-xs mb-1">Total wages you pay during training</div>
+                <div className="text-slate-500 text-xs mb-1">
+                  Total wages you pay during training
+                </div>
                 <div className="text-lg font-bold text-slate-900">$19,200</div>
               </div>
               <div className="bg-brand-green-600 text-white rounded-lg p-4">
@@ -163,7 +168,9 @@ export default function OJTSection() {
                 <div className="text-lg font-bold text-slate-900">480 hours (3 months)</div>
               </div>
               <div className="bg-white rounded-lg p-4 border border-brand-green-100">
-                <div className="text-slate-500 text-xs mb-1">Total wages you pay during training</div>
+                <div className="text-slate-500 text-xs mb-1">
+                  Total wages you pay during training
+                </div>
                 <div className="text-lg font-bold text-slate-900">$7,200</div>
               </div>
               <div className="bg-brand-green-600 text-white rounded-lg p-4">
@@ -183,12 +190,14 @@ export default function OJTSection() {
           <div className="grid md:grid-cols-2 gap-6 text-sm">
             <div>
               <p className="text-amber-800 mb-3">
-                <strong>It is not an internship.</strong> The person is your employee. They are on your
-                payroll, covered by your insurance, and subject to your policies. This is a real job.
+                <strong>It is not an internship.</strong> The person is your employee. They are on
+                your payroll, covered by your insurance, and subject to your policies. This is a
+                real job.
               </p>
               <p className="text-amber-800 mb-3">
                 <strong>It is not a temp placement.</strong> There is no staffing agency. You hire
-                directly. If it does not work out, you handle it like any other employment situation.
+                directly. If it does not work out, you handle it like any other employment
+                situation.
               </p>
               <p className="text-amber-800">
                 <strong>It is not free labor.</strong> You pay the employee their full wage. The
@@ -202,9 +211,10 @@ export default function OJTSection() {
                 tracking, and reporting. Your job is to train the employee and submit timesheets.
               </p>
               <p className="text-amber-800 mb-3">
-                <strong>It is not limited to large companies.</strong> Small businesses, barbershops,
-                medical offices, HVAC companies, trucking firms — any employer can participate.
-                In fact, small employers often get the highest reimbursement rates (75%).
+                <strong>It is not limited to large companies.</strong> Small businesses,
+                barbershops, medical offices, HVAC companies, trucking firms — any employer can
+                participate. In fact, small employers often get the highest reimbursement rates
+                (75%).
               </p>
               <p className="text-amber-800">
                 <strong>It is not a one-time thing.</strong> You can use OJT for every qualifying

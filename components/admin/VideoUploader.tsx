@@ -74,9 +74,7 @@ export default function VideoUploader({
   return (
     <div className="w-full max-w-2xl mx-auto">
       <div className="bg-white rounded-lg shadow-lg p-6">
-        <h3 className="text-xl font-bold text-black mb-4">
-          Video Upload & Enhancement
-        </h3>
+        <h3 className="text-xl font-bold text-black mb-4">Video Upload & Enhancement</h3>
 
         <div className="space-y-4">
           {/* Upload Area */}
@@ -102,9 +100,7 @@ export default function VideoUploader({
                 <p className="text-lg font-semibold text-black">
                   {uploading ? 'Processing...' : 'Click to upload video'}
                 </p>
-                <p className="text-sm text-slate-500 mt-1">
-                  MP4, WebM, MOV, or AVI (max 500MB)
-                </p>
+                <p className="text-sm text-slate-500 mt-1">MP4, WebM, MOV, or AVI (max 500MB)</p>
               </div>
             </label>
           </div>
@@ -125,8 +121,7 @@ export default function VideoUploader({
                 />
               </div>
               <p className="text-xs text-slate-500">
-                ✨ AI-powered enhancement: Upscaling, denoising, color
-                correction, and stabilization
+                ✨ AI-powered enhancement: Upscaling, denoising, color correction, and stabilization
               </p>
             </div>
           )}
@@ -140,9 +135,7 @@ export default function VideoUploader({
                   <h4 className="font-semibold text-brand-green-900 mb-1">
                     Video Enhanced Successfully!
                   </h4>
-                  <p className="text-sm text-brand-green-700 mb-3">
-                    {result.message}
-                  </p>
+                  <p className="text-sm text-brand-green-700 mb-3">{result.message}</p>
                   <div className="space-y-2">
                     <div className="flex items-center justify-between text-sm">
                       <span className="text-brand-green-700">Original:</span>
@@ -156,9 +149,7 @@ export default function VideoUploader({
                       </a>
                     </div>
                     <div className="flex items-center justify-between text-sm">
-                      <span className="text-brand-green-700 font-semibold">
-                        Enhanced:
-                      </span>
+                      <span className="text-brand-green-700 font-semibold">Enhanced:</span>
                       <a
                         href={result.enhancedUrl}
                         target="_blank"
@@ -170,9 +161,7 @@ export default function VideoUploader({
                     </div>
                   </div>
                   {result.warning && (
-                    <p className="text-xs text-amber-600 mt-2">
-                      ⚠️ {result.warning}
-                    </p>
+                    <p className="text-xs text-amber-600 mt-2">⚠️ {result.warning}</p>
                   )}
                 </div>
               </div>
@@ -185,9 +174,7 @@ export default function VideoUploader({
               <div className="flex items-start gap-3">
                 <AlertCircle className="h-10 w-10 text-brand-orange-600 flex-shrink-0 mt-0.5" />
                 <div>
-                  <h4 className="font-semibold text-brand-red-900 mb-1">
-                    Upload Failed
-                  </h4>
+                  <h4 className="font-semibold text-brand-red-900 mb-1">Upload Failed</h4>
                   <p className="text-sm text-brand-red-700">{error}</p>
                 </div>
               </div>
@@ -196,9 +183,7 @@ export default function VideoUploader({
 
           {/* Enhancement Info */}
           <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-lg p-4">
-            <h4 className="font-semibold text-brand-blue-900 mb-2">
-              ✨ AI Enhancement Features:
-            </h4>
+            <h4 className="font-semibold text-brand-blue-900 mb-2">✨ AI Enhancement Features:</h4>
             <ul className="text-sm text-brand-blue-700 space-y-1">
               <li>• Upscale to 1080p HD quality</li>
               <li>• Remove noise and grain</li>

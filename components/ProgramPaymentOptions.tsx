@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 import { useState } from 'react';
@@ -40,7 +40,7 @@ export default function ProgramPaymentOptions({
 
       if (sessionId) {
         const stripe = await import('@stripe/stripe-js').then((m) =>
-          m.loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '')
+          m.loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || ''),
         );
         const stripeInstance = await stripe;
         if (stripeInstance) {
@@ -55,12 +55,8 @@ export default function ProgramPaymentOptions({
   return (
     <div className="bg-white border-2 border-brand-orange-600 rounded-xl p-8 shadow-xl">
       <div className="text-center mb-6">
-        <h3 className="text-2xl font-bold mb-2">
-          Don&apos;t Qualify for Free Funding?
-        </h3>
-        <p className="text-black">
-          Self-pay options available with flexible payment plans
-        </p>
+        <h3 className="text-2xl font-bold mb-2">Don&apos;t Qualify for Free Funding?</h3>
+        <p className="text-black">Self-pay options available with flexible payment plans</p>
       </div>
 
       {/* Funding Priority Message */}
@@ -69,8 +65,7 @@ export default function ProgramPaymentOptions({
           • Check Free Funding First!
         </p>
         <p className="text-sm text-black">
-          Many students qualify for no-cost training through WIOA, WRG, or
-          JRI.
+          Many students qualify for no-cost training through WIOA, WRG, or JRI.
           <a href="/apply" className="text-brand-blue-600 underline font-bold ml-1">
             Apply here to check eligibility
           </a>
@@ -101,17 +96,13 @@ export default function ProgramPaymentOptions({
               <DollarSign className="w-6 h-6 text-brand-green-600 flex-shrink-0 mt-1" />
               <div>
                 <h4 className="font-bold text-lg mb-1">Pay in Full</h4>
-                <p className="text-sm text-black mb-2">
-                  One-time payment - Start immediately
-                </p>
+                <p className="text-sm text-black mb-2">One-time payment - Start immediately</p>
                 <p className="text-2xl font-bold text-brand-green-600">
                   ${price.toLocaleString('en-US')}
                 </p>
               </div>
             </div>
-            {paymentMethod === 'full' && (
-              <span className="text-slate-400 flex-shrink-0">•</span>
-            )}
+            {paymentMethod === 'full' && <span className="text-slate-400 flex-shrink-0">•</span>}
           </div>
         </button>
 
@@ -129,20 +120,14 @@ export default function ProgramPaymentOptions({
               <CreditCard className="w-6 h-6 text-brand-blue-600 flex-shrink-0 mt-1" />
               <div>
                 <h4 className="font-bold text-lg mb-1">Stripe Payment Plan</h4>
-                <p className="text-sm text-black mb-2">
-                  Break up payments over 12 months
-                </p>
-                <p className="text-2xl font-bold text-brand-blue-600">
-                  ${stripeMonthly}/month
-                </p>
+                <p className="text-sm text-black mb-2">Break up payments over 12 months</p>
+                <p className="text-2xl font-bold text-brand-blue-600">${stripeMonthly}/month</p>
                 <p className="text-xs text-slate-700 mt-1">
                   12 monthly payments • Low interest rates
                 </p>
               </div>
             </div>
-            {paymentMethod === 'stripe' && (
-              <span className="text-slate-400 flex-shrink-0">•</span>
-            )}
+            {paymentMethod === 'stripe' && <span className="text-slate-400 flex-shrink-0">•</span>}
           </div>
         </button>
 
@@ -163,17 +148,13 @@ export default function ProgramPaymentOptions({
                 <p className="text-sm text-black mb-2">
                   Split into 4 interest-free payments with Klarna, Afterpay, or Zip
                 </p>
-                <p className="text-2xl font-bold text-purple-600">
-                  ${bnplPayment}/payment
-                </p>
+                <p className="text-2xl font-bold text-purple-600">${bnplPayment}/payment</p>
                 <p className="text-xs text-slate-700 mt-1">
                   4 payments • 0% interest • Instant approval
                 </p>
               </div>
             </div>
-            {paymentMethod === 'bnpl' && (
-              <span className="text-slate-400 flex-shrink-0">•</span>
-            )}
+            {paymentMethod === 'bnpl' && <span className="text-slate-400 flex-shrink-0">•</span>}
           </div>
         </button>
       </div>
@@ -184,10 +165,8 @@ export default function ProgramPaymentOptions({
         className="w-full bg-brand-orange-600 text-white py-4 rounded-lg font-bold text-lg hover:bg-brand-orange-700 transition"
       >
         {paymentMethod === 'full' && `Pay $${price.toLocaleString('en-US')} Now`}
-        {paymentMethod === 'stripe' &&
-          `Set Up Payment Plan - $${stripeMonthly}/mo`}
-        {paymentMethod === 'bnpl' &&
-          `Pay in 4 - $${bnplPayment}/payment`}
+        {paymentMethod === 'stripe' && `Set Up Payment Plan - $${stripeMonthly}/mo`}
+        {paymentMethod === 'bnpl' && `Pay in 4 - $${bnplPayment}/payment`}
       </button>
 
       {/* Additional Info */}
@@ -212,13 +191,8 @@ export default function ProgramPaymentOptions({
 
       {/* Contact */}
       <div className="mt-6 pt-6 border-t text-center">
-        <p className="text-sm text-black mb-2">
-          Questions about payment options?
-        </p>
-        <a
-          href="/support"
-          className="text-brand-orange-600 font-bold underline"
-        >
+        <p className="text-sm text-black mb-2">Questions about payment options?</p>
+        <a href="/support" className="text-brand-orange-600 font-bold underline">
           Call support center
         </a>
       </div>

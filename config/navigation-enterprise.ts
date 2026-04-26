@@ -104,17 +104,13 @@ export function getDashboardUrl(user: { role?: string } | null): string {
 /**
  * Get navigation based on authentication state
  */
-export function getEnterpriseNavigation(
-  user?: { role?: string } | null
-): NavSection[] {
+export function getEnterpriseNavigation(user?: { role?: string } | null): NavSection[] {
   if (user) {
     // Logged in: Use post-intent navigation
     const nav = [...postIntentNav];
 
     // Update dashboard URL based on role
-    const dashboardIndex = nav.findIndex(
-      (section) => section.label === 'My Dashboard'
-    );
+    const dashboardIndex = nav.findIndex((section) => section.label === 'My Dashboard');
     if (dashboardIndex !== -1) {
       nav[dashboardIndex] = {
         ...nav[dashboardIndex],

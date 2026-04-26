@@ -24,7 +24,9 @@ export const dynamic = 'force-dynamic';
 export default async function AlumniPage() {
   const supabase = await createClient();
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/lms/alumni');
 
   // Get alumni members
@@ -116,7 +118,10 @@ export default async function AlumniPage() {
           <div className="bg-white rounded-xl shadow-sm border p-6">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-xl font-semibold">Alumni Directory</h2>
-              <Link href="/lms/alumni/directory" className="text-amber-600 text-sm font-medium hover:underline">
+              <Link
+                href="/lms/alumni/directory"
+                className="text-amber-600 text-sm font-medium hover:underline"
+              >
                 View All
               </Link>
             </div>
@@ -126,7 +131,13 @@ export default async function AlumniPage() {
                   <div key={member.id} className="flex items-center gap-3 p-3 bg-white rounded-lg">
                     <div className="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center flex-shrink-0 relative overflow-hidden">
                       {member.avatar_url ? (
-                        <Image src={member.avatar_url} alt={member.full_name || 'Alumni member'} fill className="rounded-full object-cover" sizes="48px" />
+                        <Image
+                          src={member.avatar_url}
+                          alt={member.full_name || 'Alumni member'}
+                          fill
+                          className="rounded-full object-cover"
+                          sizes="48px"
+                        />
                       ) : (
                         <GraduationCap className="w-6 h-6 text-amber-600" />
                       )}
@@ -165,7 +176,10 @@ export default async function AlumniPage() {
                   <div key={story.id} className="border-l-4 border-amber-500 pl-4">
                     <h3 className="font-medium">{story.title}</h3>
                     <p className="text-sm text-slate-700 mt-1">{story.excerpt}</p>
-                    <Link href={`/success-stories/${story.slug}`} className="text-amber-600 text-sm hover:underline">
+                    <Link
+                      href={`/success-stories/${story.slug}`}
+                      className="text-amber-600 text-sm hover:underline"
+                    >
                       Read More
                     </Link>
                   </div>
@@ -174,12 +188,18 @@ export default async function AlumniPage() {
             ) : (
               <div className="grid md:grid-cols-2 gap-6">
                 <div className="bg-white rounded-lg p-6">
-                  <p className="text-slate-900 italic mb-4">&quot;The program changed my life. I went from unemployed to earning $55K in just 6 months.&quot;</p>
+                  <p className="text-slate-900 italic mb-4">
+                    &quot;The program changed my life. I went from unemployed to earning $55K in
+                    just 6 months.&quot;
+                  </p>
                   <p className="font-semibold text-slate-900">Graduate</p>
                   <p className="text-sm text-slate-700">HVAC Graduate, 2025</p>
                 </div>
                 <div className="bg-white rounded-lg p-6">
-                  <p className="text-slate-900 italic mb-4">&quot;The career services team helped me land my dream job. I am so grateful for this opportunity.&quot;</p>
+                  <p className="text-slate-900 italic mb-4">
+                    &quot;The career services team helped me land my dream job. I am so grateful for
+                    this opportunity.&quot;
+                  </p>
                   <p className="font-semibold text-slate-900">Sarah M.</p>
                   <p className="text-sm text-slate-700">Medical Assistant Graduate, 2025</p>
                 </div>
@@ -202,7 +222,10 @@ export default async function AlumniPage() {
                       {new Date(event.start_date).toLocaleDateString()}
                     </div>
                     <h3 className="font-medium">{event.title}</h3>
-                    <Link href={`/events/${event.id}`} className="text-amber-600 text-sm hover:underline">
+                    <Link
+                      href={`/events/${event.id}`}
+                      className="text-amber-600 text-sm hover:underline"
+                    >
                       Details
                     </Link>
                   </div>
@@ -220,16 +243,28 @@ export default async function AlumniPage() {
           <div className="bg-amber-50 border border-amber-200 rounded-xl p-6">
             <h3 className="font-semibold mb-3">Alumni Resources</h3>
             <div className="space-y-2 text-sm">
-              <Link href="/lms/alumni/directory" className="flex items-center gap-2 text-amber-700 hover:underline">
+              <Link
+                href="/lms/alumni/directory"
+                className="flex items-center gap-2 text-amber-700 hover:underline"
+              >
                 <Users className="w-4 h-4" /> Full Directory
               </Link>
-              <Link href="/lms/alumni/mentorship" className="flex items-center gap-2 text-amber-700 hover:underline">
+              <Link
+                href="/lms/alumni/mentorship"
+                className="flex items-center gap-2 text-amber-700 hover:underline"
+              >
                 <MessageSquare className="w-4 h-4" /> Mentorship Program
               </Link>
-              <Link href="/lms/alumni/jobs" className="flex items-center gap-2 text-amber-700 hover:underline">
+              <Link
+                href="/lms/alumni/jobs"
+                className="flex items-center gap-2 text-amber-700 hover:underline"
+              >
                 <Briefcase className="w-4 h-4" /> Job Board
               </Link>
-              <Link href="/lms/certificates" className="flex items-center gap-2 text-amber-700 hover:underline">
+              <Link
+                href="/lms/certificates"
+                className="flex items-center gap-2 text-amber-700 hover:underline"
+              >
                 <Award className="w-4 h-4" /> Certificates
               </Link>
             </div>

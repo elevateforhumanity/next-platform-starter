@@ -1,5 +1,3 @@
-
-
 /**
  * Grant Eligibility API
  * Check entity eligibility for grants
@@ -21,8 +19,7 @@ async function _POST(req: NextRequest) {
   try {
     const rateLimited = await applyRateLimit(req, 'api');
     if (rateLimited) return rateLimited;
-  const auth = await apiRequireAdmin(req);
-
+    const auth = await apiRequireAdmin(req);
 
     const body = await req.json();
     const { action, entityId, grantId } = body;
@@ -30,20 +27,14 @@ async function _POST(req: NextRequest) {
     switch (action) {
       case 'check_entity':
         if (!entityId) {
-          return NextResponse.json(
-            { error: 'entityId required' },
-            { status: 400 }
-          );
+          return NextResponse.json({ error: 'entityId required' }, { status: 400 });
         }
         const entityResult = await checkEntityEligibility(entityId);
         return NextResponse.json(entityResult);
 
       case 'check_grant':
         if (!entityId || !grantId) {
-          return NextResponse.json(
-            { error: 'entityId and grantId required' },
-            { status: 400 }
-          );
+          return NextResponse.json({ error: 'entityId and grantId required' }, { status: 400 });
         }
         const grantResult = await checkGrantEligibility(grantId, entityId);
         return NextResponse.json(grantResult);
@@ -55,15 +46,12 @@ async function _POST(req: NextRequest) {
       default:
         return NextResponse.json(
           { error: 'Invalid action. Use: check_entity, check_grant, or batch_check' },
-          { status: 400 }
+          { status: 400 },
         );
     }
-  } catch (error) { 
+  } catch (error) {
     logger.error('Eligibility check error:', error);
-    return NextResponse.json(
-      { error: 'Operation failed' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Operation failed' }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/grants/eligibility', _POST);

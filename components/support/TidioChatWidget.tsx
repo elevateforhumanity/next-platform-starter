@@ -11,11 +11,11 @@ interface TidioChatWidgetProps {
 
 /**
  * Tidio Chat Widget Integration
- * 
+ *
  * This component loads the Tidio chat widget with the Program Fit Assistant
  * AI configuration. The AI system prompt and conversation flows are configured
  * in the Tidio dashboard.
- * 
+ *
  * Setup Instructions:
  * 1. Create a Tidio account at tidio.com
  * 2. Set up Lyro AI Assistant with the system prompt from lib/chatbot/config.ts
@@ -50,8 +50,7 @@ export function TidioChatWidget({
         });
 
         // Track when chat is closed
-        window.tidioChatApi.on('close', () => {
-        });
+        window.tidioChatApi.on('close', () => {});
       }
     };
 
@@ -70,7 +69,9 @@ export function TidioChatWidget({
 
   // Don't render if no key is configured
   if (!tidioKey) {
-    console.warn('[Tidio] No public key configured. Set NEXT_PUBLIC_TIDIO_KEY environment variable.');
+    console.warn(
+      '[Tidio] No public key configured. Set NEXT_PUBLIC_TIDIO_KEY environment variable.',
+    );
     return null;
   }
 
@@ -78,8 +79,7 @@ export function TidioChatWidget({
     <Script
       src={`//code.tidio.co/${tidioKey}.js`}
       strategy="lazyOnload"
-      onLoad={() => {
-      }}
+      onLoad={() => {}}
       onError={() => {
         console.error('[Tidio] Failed to load script');
       }}
@@ -95,6 +95,5 @@ export const tidioChat = {
   close: () => window.tidioChatApi?.close(),
   show: () => window.tidioChatApi?.show(),
   hide: () => window.tidioChatApi?.hide(),
-  setVisitorData: (data: Record<string, unknown>) => 
-    window.tidioChatApi?.setVisitorData(data),
+  setVisitorData: (data: Record<string, unknown>) => window.tidioChatApi?.setVisitorData(data),
 };

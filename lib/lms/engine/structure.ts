@@ -11,7 +11,7 @@ import type { EngineLesson, EngineModule, ProgramStructure, StepType } from './t
 
 export async function getProgramStructure(
   courseId: string,
-  options: { includeUnpublished?: boolean } = {}
+  options: { includeUnpublished?: boolean } = {},
 ): Promise<ProgramStructure> {
   const db = await getAdminClient();
 
@@ -29,7 +29,7 @@ export async function getProgramStructure(
     .from('course_lessons')
     .select(
       'id, slug, title, lesson_type, passing_score, order_index, ' +
-      'module_id, course_modules(id, title, order_index)'
+        'module_id, course_modules(id, title, order_index)',
     )
     .eq('course_id', courseId)
     .order('order_index');
@@ -42,23 +42,23 @@ export async function getProgramStructure(
 
   for (const row of rows ?? []) {
     const mod = (row as any).course_modules;
-    const moduleId    = row.module_id ?? '__none__';
+    const moduleId = row.module_id ?? '__none__';
     const moduleOrder = mod?.order_index ?? 0;
     const moduleTitle = mod?.title ?? `Module ${moduleOrder + 1}`;
 
     const lesson: EngineLesson = {
-      id:              row.id,
-      lessonSlug:      row.slug,
-      lessonTitle:     row.title,
-      stepType:        (row.lesson_type ?? 'lesson') as StepType,
-      passingScore:    row.passing_score ?? 70,
+      id: row.id,
+      lessonSlug: row.slug,
+      lessonTitle: row.title,
+      stepType: (row.lesson_type ?? 'lesson') as StepType,
+      passingScore: row.passing_score ?? 70,
       moduleOrder,
-      lessonOrder:     row.order_index,
+      lessonOrder: row.order_index,
       durationMinutes: null,
-      status:          'published',
+      status: 'published',
       moduleTitle,
-      videoFile:       null,
-      scriptText:      null,
+      videoFile: null,
+      scriptText: null,
     };
 
     const existing = moduleMap.get(moduleId);
@@ -69,7 +69,7 @@ export async function getProgramStructure(
         moduleOrder,
         moduleTitle,
         lessons: [lesson],
-        _order:  moduleOrder,
+        _order: moduleOrder,
       });
     }
   }
@@ -78,13 +78,13 @@ export async function getProgramStructure(
     .sort((a, b) => a._order - b._order)
     .map(({ _order: _, ...m }) => m);
 
-  const allLessons = modules.flatMap(m => m.lessons);
+  const allLessons = modules.flatMap((m) => m.lessons);
 
   return {
     courseId,
     courseName,
     modules,
-    totalLessons:     allLessons.length,
+    totalLessons: allLessons.length,
     publishedLessons: allLessons.length,
   };
 }

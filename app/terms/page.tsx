@@ -1,6 +1,4 @@
-
 export const revalidate = 3600;
-
 
 import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
@@ -50,9 +48,9 @@ export default function TermsPage() {
 
             <h2 className="text-xl font-bold text-slate-900 mt-8 mb-4">4. Intellectual Property</h2>
             <p className="text-slate-900 mb-4">
-              Site content, branding, curriculum, graphics, and materials are protected by applicable
-              law and may not be copied, reproduced, or reused without written permission from
-              Elevate for Humanity.
+              Site content, branding, curriculum, graphics, and materials are protected by
+              applicable law and may not be copied, reproduced, or reused without written permission
+              from Elevate for Humanity.
             </p>
 
             <h2 className="text-xl font-bold text-slate-900 mt-8 mb-4">5. Disclaimer</h2>
@@ -62,7 +60,9 @@ export default function TermsPage() {
               the site will be uninterrupted, error-free, or free of harmful components.
             </p>
 
-            <h2 className="text-xl font-bold text-slate-900 mt-8 mb-4">6. Limitation of Liability</h2>
+            <h2 className="text-xl font-bold text-slate-900 mt-8 mb-4">
+              6. Limitation of Liability
+            </h2>
             <p className="text-slate-900 mb-4">
               To the extent permitted by law, Elevate for Humanity shall not be liable for any
               indirect, incidental, special, or consequential damages arising from your use of this
@@ -78,7 +78,10 @@ export default function TermsPage() {
             <h2 className="text-xl font-bold text-slate-900 mt-8 mb-4">8. Contact</h2>
             <p className="text-slate-900 mb-4">
               Questions regarding these terms may be sent to{' '}
-              <a href="mailto:info@elevateforhumanity.org" className="text-brand-green-600 hover:underline">
+              <a
+                href="mailto:info@elevateforhumanity.org"
+                className="text-brand-green-600 hover:underline"
+              >
                 info@elevateforhumanity.org
               </a>
               .

@@ -20,9 +20,8 @@ export interface EmployerMOUData {
 }
 
 export function generateEmployerMOUText(data: EmployerMOUData): string {
-  const programs = data.programTypes.length > 0
-    ? data.programTypes.join(', ')
-    : 'workforce training programs';
+  const programs =
+    data.programTypes.length > 0 ? data.programTypes.join(', ') : 'workforce training programs';
 
   return `ELEVATE FOR HUMANITY CAREER & TRAINING INSTITUTE
 EMPLOYER PARTNERSHIP

@@ -1,4 +1,3 @@
-
 import { NextRequest } from 'next/server';
 import { cookies } from 'next/headers';
 import { createRouteHandlerClient } from '@/lib/auth';
@@ -27,8 +26,8 @@ function serial() {
 }
 
 async function _POST(req: NextRequest) {
-    const rateLimited = await applyRateLimit(req, 'api');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(req, 'api');
+  if (rateLimited) return rateLimited;
 
   const supabase = await createRouteHandlerClient({ cookies });
   const {
@@ -40,18 +39,14 @@ async function _POST(req: NextRequest) {
     .select('role')
     .eq('user_id', user.id)
     .maybeSingle();
-  if (!['admin', 'partner'].includes(prof?.role))
-    return new Response('Forbidden', { status: 403 });
+  if (!['admin', 'partner'].includes(prof?.role)) return new Response('Forbidden', { status: 403 });
 
   // Use service role for certificate/enrollment writes (RLS restricts inserts to admin)
   const adminDb = await getAdminClient();
 
-    if (!adminDb) {
-      return NextResponse.json(
-        { error: 'Service temporarily unavailable.' },
-        { status: 503 }
-      );
-    }
+  if (!adminDb) {
+    return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });
+  }
   if (!adminDb) {
     return new Response('Server configuration error', { status: 500 });
   }

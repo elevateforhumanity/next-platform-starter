@@ -1,6 +1,6 @@
 /**
  * Download Artlist Images with Puppeteer
- * 
+ *
  * This script uses Puppeteer to bypass Cloudflare protection.
  * Requires: npm install puppeteer
  */
@@ -48,42 +48,42 @@ const images = [
 
 async function downloadImageFromUrl(imageUrl, savePath) {
   return new Promise((resolve, reject) => {
-    https.get(imageUrl, (response) => {
-      if (response.statusCode === 301 || response.statusCode === 302) {
-        downloadImageFromUrl(response.headers.location, savePath)
-          .then(resolve)
-          .catch(reject);
-        return;
-      }
+    https
+      .get(imageUrl, (response) => {
+        if (response.statusCode === 301 || response.statusCode === 302) {
+          downloadImageFromUrl(response.headers.location, savePath).then(resolve).catch(reject);
+          return;
+        }
 
-      if (response.statusCode !== 200) {
-        reject(new Error(`HTTP ${response.statusCode}`));
-        return;
-      }
+        if (response.statusCode !== 200) {
+          reject(new Error(`HTTP ${response.statusCode}`));
+          return;
+        }
 
-      const dir = path.dirname(savePath);
-      if (!fs.existsSync(dir)) {
-        fs.mkdirSync(dir, { recursive: true });
-      }
+        const dir = path.dirname(savePath);
+        if (!fs.existsSync(dir)) {
+          fs.mkdirSync(dir, { recursive: true });
+        }
 
-      const fileStream = fs.createWriteStream(savePath);
-      response.pipe(fileStream);
+        const fileStream = fs.createWriteStream(savePath);
+        response.pipe(fileStream);
 
-      fileStream.on('finish', () => {
-        fileStream.close();
-        resolve();
-      });
+        fileStream.on('finish', () => {
+          fileStream.close();
+          resolve();
+        });
 
-      fileStream.on('error', reject);
-    }).on('error', reject);
+        fileStream.on('error', reject);
+      })
+      .on('error', reject);
   });
 }
 
 async function extractImageUrl(page, pageUrl) {
   console.log('   Loading page...');
-  await page.goto(pageUrl, { 
+  await page.goto(pageUrl, {
     waitUntil: 'networkidle2',
-    timeout: 60000 
+    timeout: 60000,
   });
 
   // Wait for Cloudflare challenge to complete
@@ -92,7 +92,7 @@ async function extractImageUrl(page, pageUrl) {
 
   // Try to find the main image
   console.log('   Extracting image URL...');
-  
+
   const imageUrl = await page.evaluate(() => {
     // Try multiple selectors
     const selectors = [
@@ -114,16 +114,19 @@ async function extractImageUrl(page, pageUrl) {
 
     // Fallback: get the largest image
     const allImages = Array.from(document.querySelectorAll('img'));
-    const validImages = allImages.filter(img => 
-      img.src && 
-      img.src.startsWith('http') && 
-      !img.src.includes('icon') &&
-      !img.src.includes('logo')
+    const validImages = allImages.filter(
+      (img) =>
+        img.src &&
+        img.src.startsWith('http') &&
+        !img.src.includes('icon') &&
+        !img.src.includes('logo'),
     );
 
     if (validImages.length > 0) {
       // Sort by size and return largest
-      validImages.sort((a, b) => (b.naturalWidth * b.naturalHeight) - (a.naturalWidth * a.naturalHeight));
+      validImages.sort(
+        (a, b) => b.naturalWidth * b.naturalHeight - a.naturalWidth * a.naturalHeight,
+      );
       return validImages[0].src;
     }
 
@@ -142,15 +145,17 @@ async function downloadWithPuppeteer(image) {
       '--disable-dev-shm-usage',
       '--disable-accelerated-2d-canvas',
       '--disable-gpu',
-    ]
+    ],
   });
 
   try {
     const page = await browser.newPage();
-    
+
     // Set realistic viewport and user agent
     await page.setViewport({ width: 1920, height: 1080 });
-    await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
+    await page.setUserAgent(
+      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    );
 
     const imageUrl = await extractImageUrl(page, image.pageUrl);
 
@@ -180,7 +185,7 @@ async function main() {
     try {
       console.log(`📥 Downloading: ${image.name}`);
       console.log(`   URL: ${image.pageUrl}`);
-      
+
       await downloadWithPuppeteer(image);
       successCount++;
     } catch (error) {
@@ -192,7 +197,7 @@ async function main() {
   console.log('\n📊 Results:');
   console.log(`   ✅ Success: ${successCount}`);
   console.log(`   ❌ Failed: ${failCount}`);
-  
+
   if (failCount > 0) {
     console.log('\n💡 For failed downloads, try:');
     console.log('   1. Manually download from browser');

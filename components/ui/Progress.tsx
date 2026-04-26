@@ -40,9 +40,7 @@ export const Progress: React.FC<ProgressProps> = ({
         <div className="flex justify-between items-center mb-2">
           {label && <span className="text-sm font-medium text-black">{label}</span>}
           {showLabel && (
-            <span className="text-sm font-medium text-black">
-              {Math.round(percentage)}%
-            </span>
+            <span className="text-sm font-medium text-black">{Math.round(percentage)}%</span>
           )}
         </div>
       )}

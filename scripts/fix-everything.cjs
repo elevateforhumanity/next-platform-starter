@@ -121,11 +121,7 @@ VITE_APP_VERSION=2.0.0
 
   // Validate required variables
   const env = fs.readFileSync(envPath, 'utf8');
-  const required = [
-    'VITE_SUPABASE_URL',
-    'VITE_SUPABASE_ANON_KEY',
-    'VITE_STRIPE_PUBLISHABLE_KEY',
-  ];
+  const required = ['VITE_SUPABASE_URL', 'VITE_SUPABASE_ANON_KEY', 'VITE_STRIPE_PUBLISHABLE_KEY'];
 
   const missing = required.filter((key) => !env.includes(key));
   if (missing.length > 0) {
@@ -440,10 +436,7 @@ function checkDeploymentReadiness() {
   }
 
   const readiness = (ready / checks.length) * 100;
-  log(
-    `Deployment readiness: ${readiness}%`,
-    readiness >= 75 ? 'success' : 'warning'
-  );
+  log(`Deployment readiness: ${readiness}%`, readiness >= 75 ? 'success' : 'warning');
 
   return readiness >= 75;
 }

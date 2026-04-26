@@ -75,7 +75,14 @@ async function _POST(req: Request) {
       return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
     }
 
-    await logAdminAudit({ action: AdminAction.PROMO_CODE_CREATED, actorId: auth.id, entityType: 'promo_codes', entityId: data.id, metadata: { code: data.code }, req });
+    await logAdminAudit({
+      action: AdminAction.PROMO_CODE_CREATED,
+      actorId: auth.id,
+      entityType: 'promo_codes',
+      entityId: data.id,
+      metadata: { code: data.code },
+      req,
+    });
 
     return NextResponse.json({ promoCode: data });
   } catch {
@@ -121,7 +128,14 @@ async function _PUT(req: Request) {
       return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
     }
 
-    await logAdminAudit({ action: AdminAction.PROMO_CODE_UPDATED, actorId: auth.id, entityType: 'promo_codes', entityId: body.id, metadata: { fields_updated: Object.keys(updateData) }, req });
+    await logAdminAudit({
+      action: AdminAction.PROMO_CODE_UPDATED,
+      actorId: auth.id,
+      entityType: 'promo_codes',
+      entityId: body.id,
+      metadata: { fields_updated: Object.keys(updateData) },
+      req,
+    });
 
     return NextResponse.json({ promoCode: data });
   } catch {
@@ -149,16 +163,20 @@ async function _DELETE(req: Request) {
       return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });
     }
 
-    const { error } = await supabase
-      .from('promo_codes')
-      .delete()
-      .eq('id', id);
+    const { error } = await supabase.from('promo_codes').delete().eq('id', id);
 
     if (error) {
       return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
     }
 
-    await logAdminAudit({ action: AdminAction.PROMO_CODE_DELETED, actorId: auth.id, entityType: 'promo_codes', entityId: id, metadata: {}, req });
+    await logAdminAudit({
+      action: AdminAction.PROMO_CODE_DELETED,
+      actorId: auth.id,
+      entityType: 'promo_codes',
+      entityId: id,
+      metadata: {},
+      req,
+    });
 
     return NextResponse.json({ success: true });
   } catch {

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { createClient } from '@/lib/supabase/client';
 
@@ -36,7 +36,9 @@ export function SubscriptionManager() {
   React.useEffect(() => {
     const loadSubscription = async () => {
       const supabase = createClient();
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       if (!user) {
         setLoading(false);
         return;
@@ -172,7 +174,12 @@ export function SubscriptionManager() {
                   <span>Renews on</span>
                 </div>
                 <div className="font-semibold">
-                  {currentSubscription.currentPeriodEnd.toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' })}
+                  {currentSubscription.currentPeriodEnd.toLocaleDateString('en-US', {
+                    timeZone: 'UTC',
+                    month: 'short',
+                    day: 'numeric',
+                    year: 'numeric',
+                  })}
                 </div>
               </div>
             </div>
@@ -186,8 +193,13 @@ export function SubscriptionManager() {
                   </div>
                   <div className="text-sm text-brand-orange-800">
                     Your subscription will end on{' '}
-                    {currentSubscription.currentPeriodEnd.toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' })}. You&apos;ll
-                    still have access until then.
+                    {currentSubscription.currentPeriodEnd.toLocaleDateString('en-US', {
+                      timeZone: 'UTC',
+                      month: 'short',
+                      day: 'numeric',
+                      year: 'numeric',
+                    })}
+                    . You&apos;ll still have access until then.
                   </div>
                 </div>
               </div>
@@ -291,11 +303,14 @@ export function SubscriptionManager() {
                     <span className="text-slate-500 flex-shrink-0">•</span>
                   </div>
                   <div>
-                    <div className="font-semibold">
-                      ${(invoice.amount / 100).toFixed(2)}
-                    </div>
+                    <div className="font-semibold">${(invoice.amount / 100).toFixed(2)}</div>
                     <div className="text-sm text-black">
-                      {new Date(invoice.date).toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' })}
+                      {new Date(invoice.date).toLocaleDateString('en-US', {
+                        timeZone: 'UTC',
+                        month: 'short',
+                        day: 'numeric',
+                        year: 'numeric',
+                      })}
                     </div>
                   </div>
                 </div>

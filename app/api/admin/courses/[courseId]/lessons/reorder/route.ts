@@ -20,10 +20,7 @@ interface ReorderItem {
   order_index: number;
 }
 
-export async function PATCH(
-  request: NextRequest,
-  { params }: { params: { courseId: string } }
-) {
+export async function PATCH(request: NextRequest, { params }: { params: { courseId: string } }) {
   const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;
 
@@ -74,16 +71,13 @@ export async function PATCH(
         .from('course_lessons')
         .update({ order_index, updated_at: new Date().toISOString() })
         .eq('id', id)
-        .eq('course_id', courseId)
-    )
+        .eq('course_id', courseId),
+    ),
   );
 
   const failed = updates.filter((r) => r.error);
   if (failed.length > 0) {
-    return safeInternalError(
-      failed[0].error,
-      `${failed.length} of ${items.length} updates failed`
-    );
+    return safeInternalError(failed[0].error, `${failed.length} of ${items.length} updates failed`);
   }
 
   return NextResponse.json({ updated: items.length });

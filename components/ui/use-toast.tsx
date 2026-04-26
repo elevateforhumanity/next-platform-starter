@@ -19,7 +19,7 @@ export function useToast() {
   const toast = useCallback((options: ToastOptions) => {
     const id = Math.random().toString(36).substring(2, 9);
     const newToast: Toast = { id, ...options };
-    
+
     setToasts((prev) => [...prev, newToast]);
 
     // Auto-dismiss after duration (default 5 seconds)

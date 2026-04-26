@@ -56,7 +56,7 @@ export async function createInvoice(
     dueDate?: string;
     notes?: string;
     taxRate?: number;
-  }
+  },
 ): Promise<Invoice> {
   const supabase = await createClient();
 
@@ -66,9 +66,7 @@ export async function createInvoice(
   const total = amount + tax;
 
   // Set due date (default: 30 days from now)
-  const dueDate =
-    options?.dueDate ||
-    new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
+  const dueDate = options?.dueDate || new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
 
   const { data, error }: any = await supabase
     .from('invoices')
@@ -114,7 +112,7 @@ export async function getInvoice(invoiceId: string): Promise<Invoice | null> {
  */
 export async function getUserInvoices(
   userId: string,
-  status?: Invoice['status']
+  status?: Invoice['status'],
 ): Promise<Invoice[]> {
   const supabase = await createClient();
 
@@ -141,7 +139,7 @@ export async function getUserInvoices(
 export async function updateInvoiceStatus(
   invoiceId: string,
   status: Invoice['status'],
-  paymentId?: string
+  paymentId?: string,
 ): Promise<void> {
   const supabase = await createClient();
 
@@ -157,10 +155,7 @@ export async function updateInvoiceStatus(
     }
   }
 
-  const { error } = await supabase
-    .from('invoices')
-    .update(updates)
-    .eq('id', invoiceId);
+  const { error } = await supabase.from('invoices').update(updates).eq('id', invoiceId);
 
   if (error) throw error;
 }
@@ -207,7 +202,7 @@ export async function createBillingCycle(
   userId: string,
   amount: number,
   frequency: 'monthly' | 'quarterly' | 'yearly',
-  startDate?: string
+  startDate?: string,
 ): Promise<void> {
   const supabase = await createClient();
 
@@ -262,7 +257,7 @@ export async function processDueInvoices(): Promise<void> {
  */
 export async function getBillingSummary(
   startDate: string,
-  endDate: string
+  endDate: string,
 ): Promise<{
   totalInvoiced: number;
   totalPaid: number;

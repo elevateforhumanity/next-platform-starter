@@ -1,4 +1,5 @@
 # CDL / Truck Driving
+
 ## Program Syllabus
 
 **Provider:** Elevate for Humanity  
@@ -6,7 +7,7 @@
 **Program Code:** CDL-TRUCK  
 **Duration:** 4-6 Weeks (160 Hours)  
 **Delivery Method:** Classroom + Range + Road Training  
-**Funding:** Workforce Grants • Employer Sponsors • WIOA  
+**Funding:** Workforce Grants • Employer Sponsors • WIOA
 
 ---
 
@@ -32,6 +33,7 @@ Get your Commercial Driver's License in just 4-6 weeks! 160-hour program include
 ## Course Outline
 
 ### Week 1: Classroom Instruction (40 hours)
+
 - Commercial motor vehicle overview
 - Federal Motor Carrier Safety Regulations (FMCSR)
 - Hours of service and logbook requirements
@@ -42,6 +44,7 @@ Get your Commercial Driver's License in just 4-6 weeks! 160-hour program include
 - Map reading and trip planning
 
 ### Week 2: Range Training - Backing & Maneuvers (40 hours)
+
 - Straight line backing
 - Offset backing (left and right)
 - Alley dock backing
@@ -51,6 +54,7 @@ Get your Commercial Driver's License in just 4-6 weeks! 160-hour program include
 - Brake checks and adjustments
 
 ### Week 3: Road Training - Basic Skills (40 hours)
+
 - Starting and stopping
 - Shifting techniques (manual transmission)
 - Turning and lane changes
@@ -60,6 +64,7 @@ Get your Commercial Driver's License in just 4-6 weeks! 160-hour program include
 - Urban driving
 
 ### Week 4: Road Training - Advanced Skills (40 hours)
+
 - Highway driving
 - Mountain and grade driving
 - Adverse weather conditions
@@ -83,6 +88,7 @@ Get your Commercial Driver's License in just 4-6 weeks! 160-hour program include
 ## Indiana CDL Requirements
 
 To obtain CDL Class A, students must:
+
 1. Be at least 21 years old (18 for intrastate)
 2. Hold valid Indiana driver's license
 3. Pass DOT physical examination
@@ -144,6 +150,7 @@ To obtain CDL Class A, students must:
 ## Employer Partnerships
 
 Program partners with major carriers:
+
 - Schneider National
 - Werner Enterprises
 - Swift Transportation

@@ -58,12 +58,14 @@ export const NHA_MEDICAL_ASSISTANT: NhaProposal = {
     },
     {
       name: 'Core Learning — Medical Terminology',
-      description: '25 modules with end-of-module quizzes, implementation guides, and facilitator tool kit.',
+      description:
+        '25 modules with end-of-module quizzes, implementation guides, and facilitator tool kit.',
       listPrice: 75,
     },
     {
       name: 'Core Learning — Anatomy & Physiology',
-      description: '16 modules with end-of-module quizzes, implementation guides, and facilitator tool kit.',
+      description:
+        '16 modules with end-of-module quizzes, implementation guides, and facilitator tool kit.',
       listPrice: 75,
     },
     {
@@ -92,8 +94,8 @@ export const NHA_MEDICAL_ASSISTANT: NhaProposal = {
     },
   ],
   totalListPrice: 897,
-  discountAmount: 192.20,
-  totalDiscountedPrice: 704.80,
+  discountAmount: 192.2,
+  totalDiscountedPrice: 704.8,
 };
 
 // ── Pharmacy Technician (ExCPT) ───────────────────────────────────────────────
@@ -178,16 +180,15 @@ export const NHA_PHLEBOTOMY_PRODUCTS: NhaAlaCarteProduct[] = [
   {
     key: 'cpt-certification-exam',
     name: 'CPT Certification Exam',
-    description:
-      'Online CPT certification exam with test plan and exam results reporting.',
+    description: 'Online CPT certification exam with test plan and exam results reporting.',
     listPrice: 129,
   },
 ];
 
 /** Most cost-effective path: Exam Prep Package + Exam = $213 per learner. */
 export const NHA_PHLEBOTOMY_RECOMMENDED_COST =
-  NHA_PHLEBOTOMY_PRODUCTS.find(p => p.key === 'cpt-exam-prep-package')!.listPrice +
-  NHA_PHLEBOTOMY_PRODUCTS.find(p => p.key === 'cpt-certification-exam')!.listPrice; // $213
+  NHA_PHLEBOTOMY_PRODUCTS.find((p) => p.key === 'cpt-exam-prep-package')!.listPrice +
+  NHA_PHLEBOTOMY_PRODUCTS.find((p) => p.key === 'cpt-certification-exam')!.listPrice; // $213
 
 // ── Medical Administrative Assistant (CMAA) ──────────────────────────────────
 
@@ -215,7 +216,8 @@ export const NHA_MEDICAL_ADMIN_ASSISTANT: NhaProposal = {
     },
     {
       name: 'Core Learning — Medical Terminology',
-      description: '25 modules with end-of-module quizzes, implementation guides, and facilitator tool kit.',
+      description:
+        '25 modules with end-of-module quizzes, implementation guides, and facilitator tool kit.',
       listPrice: 75,
     },
     {
@@ -264,8 +266,8 @@ export const NHA_EKG_PRODUCTS: NhaAlaCarteProduct[] = [
 
 /** Most cost-effective path: Exam Prep Package + Exam = $213 per learner. */
 export const NHA_EKG_RECOMMENDED_COST =
-  NHA_EKG_PRODUCTS.find(p => p.key === 'cet-exam-prep-package')!.listPrice +
-  NHA_EKG_PRODUCTS.find(p => p.key === 'cet-certification-exam')!.listPrice; // $213
+  NHA_EKG_PRODUCTS.find((p) => p.key === 'cet-exam-prep-package')!.listPrice +
+  NHA_EKG_PRODUCTS.find((p) => p.key === 'cet-certification-exam')!.listPrice; // $213
 
 // ── Electronic Health Records (CEHRS) ────────────────────────────────────────
 // Available à la carte.
@@ -301,29 +303,29 @@ export const NHA_EHR_PRODUCTS: NhaAlaCarteProduct[] = [
 
 /** Most cost-effective path: Exam Prep Package + Exam = $204 per learner. */
 export const NHA_EHR_RECOMMENDED_COST =
-  NHA_EHR_PRODUCTS.find(p => p.key === 'cehrs-exam-prep-package')!.listPrice +
-  NHA_EHR_PRODUCTS.find(p => p.key === 'cehrs-certification-exam')!.listPrice; // $204
+  NHA_EHR_PRODUCTS.find((p) => p.key === 'cehrs-exam-prep-package')!.listPrice +
+  NHA_EHR_PRODUCTS.find((p) => p.key === 'cehrs-certification-exam')!.listPrice; // $204
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
 /** All NHA proposals indexed by program slug. */
 export const NHA_PROPOSALS: Record<string, NhaProposal> = {
-  'medical-assistant':           NHA_MEDICAL_ASSISTANT,
-  'pharmacy-technician':         NHA_PHARMACY_TECHNICIAN,
-  'medical-admin-assistant':     NHA_MEDICAL_ADMIN_ASSISTANT,
+  'medical-assistant': NHA_MEDICAL_ASSISTANT,
+  'pharmacy-technician': NHA_PHARMACY_TECHNICIAN,
+  'medical-admin-assistant': NHA_MEDICAL_ADMIN_ASSISTANT,
   'medical-administrative-assistant': NHA_MEDICAL_ADMIN_ASSISTANT,
 };
 
 /** Exam-only cost for a given program slug (used in proctoring fee calculations). */
 export const NHA_EXAM_FEE: Record<string, number> = {
-  'medical-assistant':                165, // CCMA exam
-  'pharmacy-technician':              129, // ExCPT exam (includes free retake)
-  'phlebotomy-technician':            129, // CPT exam
-  'ekg-technician':                   129, // CET exam
-  'medical-admin-assistant':          129, // CMAA exam
+  'medical-assistant': 165, // CCMA exam
+  'pharmacy-technician': 129, // ExCPT exam (includes free retake)
+  'phlebotomy-technician': 129, // CPT exam
+  'ekg-technician': 129, // CET exam
+  'medical-admin-assistant': 129, // CMAA exam
   'medical-administrative-assistant': 129, // CMAA exam (alternate slug)
-  'electronic-health-records':        129, // CEHRS exam
-  'ehr-specialist':                   129, // CEHRS exam (alternate slug)
+  'electronic-health-records': 129, // CEHRS exam
+  'ehr-specialist': 129, // CEHRS exam (alternate slug)
 };
 
 /** Full per-learner discounted cost including all prep materials + exam. */

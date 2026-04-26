@@ -308,22 +308,70 @@
       "footerNote": "Esta guía cubre el contenido evaluado en el examen ESCO EPA 608. Visita elearning.escogroup.org para exámenes de práctica oficiales."
     },
     "modules": {
-      "hvac-01": { "title": "Orientación del programa", "teaches": "Estructura del programa, credenciales, perspectivas de carrera" },
-      "hvac-02": { "title": "Fundamentos de HVAC y seguridad", "teaches": "Transferencia de calor, ciclo de refrigeración, EPP, LOTO" },
-      "hvac-03": { "title": "Fundamentos eléctricos", "teaches": "Ley de Ohm, circuitos, capacitores, contactores, multímetro" },
-      "hvac-04": { "title": "Sistemas de calefacción", "teaches": "Hornos de gas, calefacción eléctrica, bombas de calor, secuencia de operación" },
-      "hvac-05": { "title": "Refrigeración y enfriamiento", "teaches": "Ciclo de refrigeración, refrigerantes, manómetros, sobrecalentamiento, subenfriamiento" },
-      "hvac-06": { "title": "Certificación EPA 608 — Sección Core", "teaches": "Agotamiento del ozono, Ley de Aire Limpio, seguridad de refrigerantes, recuperación" },
-      "hvac-07": { "title": "EPA 608 Tipo I — Electrodomésticos pequeños", "teaches": "Sistemas cargados en fábrica, ≤5 lbs, recuperación dependiente del sistema" },
-      "hvac-08": { "title": "EPA 608 Tipo II — Alta presión", "teaches": "R-410A, R-22, R-134a, niveles de recuperación, detección de fugas, vacío" },
-      "hvac-09": { "title": "EPA 608 Tipo III — Baja presión", "teaches": "Enfriadores centrífugos, R-11, R-123, unidades de purga, refrigerantes A2L" },
-      "hvac-10": { "title": "Flujo de aire y sistemas de ductos", "teaches": "Diseño de ductos, equilibrio, CFM, calidad del aire interior" },
-      "hvac-11": { "title": "Instalación del sistema", "teaches": "Instalación de equipos, cableado del termostato, carga de refrigerante" },
-      "hvac-12": { "title": "Mantenimiento preventivo", "teaches": "Lista de verificación de mantenimiento, limpieza de bobinas, filtros, lubricación" },
-      "hvac-13": { "title": "Resolución de problemas y diagnóstico", "teaches": "Diagnóstico sistemático, lectura de manómetros, diagnóstico eléctrico" },
-      "hvac-14": { "title": "Sistemas avanzados", "teaches": "Bombas de calor, VRF, sistemas de zona, controles de edificios" },
-      "hvac-15": { "title": "Preparación para la carrera y empleo", "teaches": "Currículum, entrevistas, licencias, herramientas del oficio" },
-      "hvac-16": { "title": "Proyecto final y preparación para certificación", "teaches": "Repaso completo, examen de práctica, proyecto de instalación" }
+      "hvac-01": {
+        "title": "Orientación del programa",
+        "teaches": "Estructura del programa, credenciales, perspectivas de carrera"
+      },
+      "hvac-02": {
+        "title": "Fundamentos de HVAC y seguridad",
+        "teaches": "Transferencia de calor, ciclo de refrigeración, EPP, LOTO"
+      },
+      "hvac-03": {
+        "title": "Fundamentos eléctricos",
+        "teaches": "Ley de Ohm, circuitos, capacitores, contactores, multímetro"
+      },
+      "hvac-04": {
+        "title": "Sistemas de calefacción",
+        "teaches": "Hornos de gas, calefacción eléctrica, bombas de calor, secuencia de operación"
+      },
+      "hvac-05": {
+        "title": "Refrigeración y enfriamiento",
+        "teaches": "Ciclo de refrigeración, refrigerantes, manómetros, sobrecalentamiento, subenfriamiento"
+      },
+      "hvac-06": {
+        "title": "Certificación EPA 608 — Sección Core",
+        "teaches": "Agotamiento del ozono, Ley de Aire Limpio, seguridad de refrigerantes, recuperación"
+      },
+      "hvac-07": {
+        "title": "EPA 608 Tipo I — Electrodomésticos pequeños",
+        "teaches": "Sistemas cargados en fábrica, ≤5 lbs, recuperación dependiente del sistema"
+      },
+      "hvac-08": {
+        "title": "EPA 608 Tipo II — Alta presión",
+        "teaches": "R-410A, R-22, R-134a, niveles de recuperación, detección de fugas, vacío"
+      },
+      "hvac-09": {
+        "title": "EPA 608 Tipo III — Baja presión",
+        "teaches": "Enfriadores centrífugos, R-11, R-123, unidades de purga, refrigerantes A2L"
+      },
+      "hvac-10": {
+        "title": "Flujo de aire y sistemas de ductos",
+        "teaches": "Diseño de ductos, equilibrio, CFM, calidad del aire interior"
+      },
+      "hvac-11": {
+        "title": "Instalación del sistema",
+        "teaches": "Instalación de equipos, cableado del termostato, carga de refrigerante"
+      },
+      "hvac-12": {
+        "title": "Mantenimiento preventivo",
+        "teaches": "Lista de verificación de mantenimiento, limpieza de bobinas, filtros, lubricación"
+      },
+      "hvac-13": {
+        "title": "Resolución de problemas y diagnóstico",
+        "teaches": "Diagnóstico sistemático, lectura de manómetros, diagnóstico eléctrico"
+      },
+      "hvac-14": {
+        "title": "Sistemas avanzados",
+        "teaches": "Bombas de calor, VRF, sistemas de zona, controles de edificios"
+      },
+      "hvac-15": {
+        "title": "Preparación para la carrera y empleo",
+        "teaches": "Currículum, entrevistas, licencias, herramientas del oficio"
+      },
+      "hvac-16": {
+        "title": "Proyecto final y preparación para certificación",
+        "teaches": "Repaso completo, examen de práctica, proyecto de instalación"
+      }
     },
     "keyTerms": {
       "compressor": "Compresor",

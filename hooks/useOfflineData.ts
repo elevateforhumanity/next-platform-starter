@@ -9,7 +9,7 @@ export function useOfflineData<T>(
   options: {
     cacheFirst?: boolean;
     maxAge?: number; // milliseconds
-  } = {}
+  } = {},
 ) {
   const [data, setData] = useState<T | null>(null);
   const [loading, setLoading] = useState(true);
@@ -45,7 +45,9 @@ export function useOfflineData<T>(
                 return;
               }
             }
-          } catch (error) { /* Error handled silently */ }
+          } catch (error) {
+            /* Error handled silently */
+          }
         }
 
         // Fetch fresh data
@@ -79,7 +81,9 @@ export function useOfflineData<T>(
             cachedAt: Date.now(),
             ...(freshData as any),
           });
-        } catch (error) { /* Error handled silently */ }
+        } catch (error) {
+          /* Error handled silently */
+        }
       } catch (err) {
         if (mounted) {
           setError(err as Error);
@@ -93,7 +97,7 @@ export function useOfflineData<T>(
     return () => {
       mounted = false;
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cacheKey, options.cacheFirst, options.maxAge]);
 
   const refresh = async () => {

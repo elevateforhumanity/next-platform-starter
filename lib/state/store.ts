@@ -26,8 +26,8 @@ export const useUserStore = create<UserState>()(
     }),
     {
       name: 'user-storage',
-    }
-  )
+    },
+  ),
 );
 
 // UI state
@@ -50,20 +50,26 @@ export const useUIStore = create<UIState>()(
     }),
     {
       name: 'ui-storage',
-    }
-  )
+    },
+  ),
 );
 
 // Course progress state
 interface CourseProgressState {
-  progress: Record<string, {
-    courseId: string;
-    completedLessons: string[];
-    currentLesson: string | null;
-    lastAccessed: string;
-    percentComplete: number;
-  }>;
-  updateProgress: (courseId: string, data: Partial<CourseProgressState['progress'][string]>) => void;
+  progress: Record<
+    string,
+    {
+      courseId: string;
+      completedLessons: string[];
+      currentLesson: string | null;
+      lastAccessed: string;
+      percentComplete: number;
+    }
+  >;
+  updateProgress: (
+    courseId: string,
+    data: Partial<CourseProgressState['progress'][string]>,
+  ) => void;
   clearProgress: (courseId: string) => void;
 }
 
@@ -90,8 +96,8 @@ export const useCourseProgressStore = create<CourseProgressState>()(
     }),
     {
       name: 'course-progress-storage',
-    }
-  )
+    },
+  ),
 );
 
 // Notification state
@@ -102,7 +108,9 @@ interface NotificationState {
     message: string;
     timestamp: number;
   }>;
-  addNotification: (notification: Omit<NotificationState['notifications'][0], 'id' | 'timestamp'>) => void;
+  addNotification: (
+    notification: Omit<NotificationState['notifications'][0], 'id' | 'timestamp'>,
+  ) => void;
   removeNotification: (id: string) => void;
   clearNotifications: () => void;
 }
@@ -161,6 +169,6 @@ export const useCartStore = create<CartState>()(
     }),
     {
       name: 'cart-storage',
-    }
-  )
+    },
+  ),
 );

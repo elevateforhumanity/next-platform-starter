@@ -67,10 +67,13 @@ export default function QuestionManagerClient({ quiz, initialQuestions, quizId, 
     let options = ['', '', '', ''];
     try {
       if (question.options) {
-        const parsed = typeof question.options === 'string' ? JSON.parse(question.options) : question.options;
+        const parsed =
+          typeof question.options === 'string' ? JSON.parse(question.options) : question.options;
         options = Array.isArray(parsed) ? parsed : ['', '', '', ''];
       }
-    } catch { /* ignore */ }
+    } catch {
+      /* ignore */
+    }
 
     setFormData({
       question_text: question.question_text,
@@ -88,11 +91,12 @@ export default function QuestionManagerClient({ quiz, initialQuestions, quizId, 
     setLoading(true);
     setError(null);
 
-    const filteredOptions = formData.question_type === 'true_false' 
-      ? ['True', 'False']
-      : formData.question_type === 'multiple_choice'
-        ? formData.options.filter(o => o.trim())
-        : null;
+    const filteredOptions =
+      formData.question_type === 'true_false'
+        ? ['True', 'False']
+        : formData.question_type === 'multiple_choice'
+          ? formData.options.filter((o) => o.trim())
+          : null;
 
     const questionData = {
       quiz_id: quizId,
@@ -114,7 +118,7 @@ export default function QuestionManagerClient({ quiz, initialQuestions, quizId, 
           .single();
 
         if (updateError) throw updateError;
-        setQuestions(questions.map(q => q.id === editingQuestion.id ? data : q));
+        setQuestions(questions.map((q) => (q.id === editingQuestion.id ? data : q)));
       } else {
         const { data, error: insertError } = await supabase
           .from('quiz_questions')
@@ -140,9 +144,12 @@ export default function QuestionManagerClient({ quiz, initialQuestions, quizId, 
 
     setLoading(true);
     try {
-      const { error: deleteError } = await supabase.from('quiz_questions').delete().eq('id', questionId);
+      const { error: deleteError } = await supabase
+        .from('quiz_questions')
+        .delete()
+        .eq('id', questionId);
       if (deleteError) throw deleteError;
-      setQuestions(questions.filter(q => q.id !== questionId));
+      setQuestions(questions.filter((q) => q.id !== questionId));
     } catch (err: any) {
       setError('An error occurred');
     } finally {
@@ -175,9 +182,24 @@ export default function QuestionManagerClient({ quiz, initialQuestions, quizId, 
           <p className="text-slate-700 mt-2">Manage questions and answers for this quiz</p>
         </div>
         <div className="flex gap-3">
-          <Link href={`/admin/courses/${courseId}/quizzes`} className="px-4 py-2 border rounded-lg hover:bg-gray-50">Back to Quizzes</Link>
-          <button onClick={openCreateModal} className="bg-brand-blue-600 text-white px-4 py-2 rounded-lg hover:bg-brand-blue-700 flex items-center gap-2">
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
+          <Link
+            href={`/admin/courses/${courseId}/quizzes`}
+            className="px-4 py-2 border rounded-lg hover:bg-gray-50"
+          >
+            Back to Quizzes
+          </Link>
+          <button
+            onClick={openCreateModal}
+            className="bg-brand-blue-600 text-white px-4 py-2 rounded-lg hover:bg-brand-blue-700 flex items-center gap-2"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 4v16m8-8H4"
+              />
+            </svg>
             Add Question
           </button>
         </div>
@@ -187,7 +209,12 @@ export default function QuestionManagerClient({ quiz, initialQuestions, quizId, 
       {error && (
         <div className="mb-6 p-4 bg-brand-red-50 border border-brand-red-200 rounded-lg text-brand-red-700">
           {error}
-          <button onClick={() => setError(null)} className="ml-4 text-brand-red-500 hover:text-brand-red-700">Dismiss</button>
+          <button
+            onClick={() => setError(null)}
+            className="ml-4 text-brand-red-500 hover:text-brand-red-700"
+          >
+            Dismiss
+          </button>
         </div>
       )}
 
@@ -202,7 +229,9 @@ export default function QuestionManagerClient({ quiz, initialQuestions, quizId, 
           <p className="text-sm text-slate-700">Passing Score</p>
         </div>
         <div className="bg-white rounded-lg shadow-sm border p-4 text-center">
-          <p className="text-2xl font-bold text-brand-blue-600">{quiz?.time_limit_minutes || 'No'}</p>
+          <p className="text-2xl font-bold text-brand-blue-600">
+            {quiz?.time_limit_minutes || 'No'}
+          </p>
           <p className="text-sm text-slate-700">Time Limit (min)</p>
         </div>
       </div>
@@ -220,26 +249,40 @@ export default function QuestionManagerClient({ quiz, initialQuestions, quizId, 
                   <div>
                     <p className="font-medium text-slate-900">{question.question_text}</p>
                     <p className="text-sm text-slate-700 mt-1">
-                      {question.question_type === 'multiple_choice' ? 'Multiple Choice' : 
-                       question.question_type === 'true_false' ? 'True/False' : 'Short Answer'}
-                      {question.points && ` • ${question.points} point${question.points > 1 ? 's' : ''}`}
+                      {question.question_type === 'multiple_choice'
+                        ? 'Multiple Choice'
+                        : question.question_type === 'true_false'
+                          ? 'True/False'
+                          : 'Short Answer'}
+                      {question.points &&
+                        ` • ${question.points} point${question.points > 1 ? 's' : ''}`}
                     </p>
                   </div>
                 </div>
                 <div className="flex gap-2">
-                  <button onClick={() => openEditModal(question)} className="text-brand-blue-600 hover:text-brand-blue-800 text-sm">Edit</button>
-                  <button onClick={() => handleDelete(question.id)} className="text-brand-red-600 hover:text-brand-red-800 text-sm">Delete</button>
+                  <button
+                    onClick={() => openEditModal(question)}
+                    className="text-brand-blue-600 hover:text-brand-blue-800 text-sm"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleDelete(question.id)}
+                    className="text-brand-red-600 hover:text-brand-red-800 text-sm"
+                  >
+                    Delete
+                  </button>
                 </div>
               </div>
-              
+
               {question.options && (
                 <div className="ml-11 space-y-2">
                   {parseOptions(question.options).map((option: string, optIndex: number) => (
-                    <div 
-                      key={optIndex} 
+                    <div
+                      key={optIndex}
                       className={`p-2 rounded border text-sm ${
-                        option === question.correct_answer 
-                          ? 'bg-brand-green-50 border-brand-green-200 text-brand-green-800' 
+                        option === question.correct_answer
+                          ? 'bg-brand-green-50 border-brand-green-200 text-brand-green-800'
                           : 'bg-gray-50 border-gray-200'
                       }`}
                     >
@@ -262,12 +305,25 @@ export default function QuestionManagerClient({ quiz, initialQuestions, quizId, 
         ) : (
           <div className="bg-white rounded-lg shadow-sm border p-8 text-center">
             <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg className="w-8 h-8 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              <svg
+                className="w-8 h-8 text-slate-700"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
               </svg>
             </div>
             <p className="text-slate-700 mb-4">No questions added yet</p>
-            <button onClick={openCreateModal} className="bg-brand-blue-600 text-white px-4 py-2 rounded-lg hover:bg-brand-blue-700">
+            <button
+              onClick={openCreateModal}
+              className="bg-brand-blue-600 text-white px-4 py-2 rounded-lg hover:bg-brand-blue-700"
+            >
               Add First Question
             </button>
           </div>
@@ -279,23 +335,43 @@ export default function QuestionManagerClient({ quiz, initialQuestions, quizId, 
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-xl shadow-xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
             <div className="px-6 py-4 border-b flex items-center justify-between">
-              <h2 className="text-xl font-semibold">{editingQuestion ? 'Edit Question' : 'Add New Question'}</h2>
-              <button onClick={() => { setShowModal(false); resetForm(); }} className="text-slate-700 hover:text-slate-700">
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+              <h2 className="text-xl font-semibold">
+                {editingQuestion ? 'Edit Question' : 'Add New Question'}
+              </h2>
+              <button
+                onClick={() => {
+                  setShowModal(false);
+                  resetForm();
+                }}
+                className="text-slate-700 hover:text-slate-700"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
               </button>
             </div>
             <form onSubmit={handleSubmit} className="p-6 space-y-4">
               <div>
-                <label className="block text-sm font-medium text-slate-900 mb-1">Question Type</label>
+                <label className="block text-sm font-medium text-slate-900 mb-1">
+                  Question Type
+                </label>
                 <select
                   value={formData.question_type}
                   onChange={(e) => {
-                    const type = e.target.value as 'multiple_choice' | 'true_false' | 'short_answer';
-                    setFormData({ 
-                      ...formData, 
+                    const type = e.target.value as
+                      | 'multiple_choice'
+                      | 'true_false'
+                      | 'short_answer';
+                    setFormData({
+                      ...formData,
                       question_type: type,
                       options: type === 'true_false' ? ['True', 'False'] : ['', '', '', ''],
-                      correct_answer: ''
+                      correct_answer: '',
                     });
                   }}
                   className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
@@ -319,7 +395,9 @@ export default function QuestionManagerClient({ quiz, initialQuestions, quizId, 
 
               {formData.question_type === 'multiple_choice' && (
                 <div>
-                  <label className="block text-sm font-medium text-slate-900 mb-2">Answer Options</label>
+                  <label className="block text-sm font-medium text-slate-900 mb-2">
+                    Answer Options
+                  </label>
                   <div className="space-y-2">
                     {formData.options.map((option, index) => (
                       <div key={index} className="flex items-center gap-2">
@@ -340,13 +418,17 @@ export default function QuestionManagerClient({ quiz, initialQuestions, quizId, 
                       </div>
                     ))}
                   </div>
-                  <p className="text-xs text-slate-700 mt-2">Select the radio button next to the correct answer</p>
+                  <p className="text-xs text-slate-700 mt-2">
+                    Select the radio button next to the correct answer
+                  </p>
                 </div>
               )}
 
               {formData.question_type === 'true_false' && (
                 <div>
-                  <label className="block text-sm font-medium text-slate-900 mb-2">Correct Answer</label>
+                  <label className="block text-sm font-medium text-slate-900 mb-2">
+                    Correct Answer
+                  </label>
                   <div className="flex gap-4">
                     <label className="flex items-center gap-2">
                       <input
@@ -374,7 +456,9 @@ export default function QuestionManagerClient({ quiz, initialQuestions, quizId, 
 
               {formData.question_type === 'short_answer' && (
                 <div>
-                  <label className="block text-sm font-medium text-slate-900 mb-1">Correct Answer *</label>
+                  <label className="block text-sm font-medium text-slate-900 mb-1">
+                    Correct Answer *
+                  </label>
                   <input
                     type="text"
                     required
@@ -398,11 +482,22 @@ export default function QuestionManagerClient({ quiz, initialQuestions, quizId, 
               </div>
 
               <div className="flex gap-3 pt-4">
-                <button type="button" onClick={() => { setShowModal(false); resetForm(); }} className="flex-1 px-4 py-2 border rounded-lg hover:bg-gray-50">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowModal(false);
+                    resetForm();
+                  }}
+                  className="flex-1 px-4 py-2 border rounded-lg hover:bg-gray-50"
+                >
                   Cancel
                 </button>
-                <button type="submit" disabled={loading} className="flex-1 px-4 py-2 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700 disabled:opacity-50">
-                  {loading ? 'Saving...' : (editingQuestion ? 'Update Question' : 'Add Question')}
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="flex-1 px-4 py-2 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700 disabled:opacity-50"
+                >
+                  {loading ? 'Saving...' : editingQuestion ? 'Update Question' : 'Add Question'}
                 </button>
               </div>
             </form>

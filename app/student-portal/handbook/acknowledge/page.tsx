@@ -5,7 +5,10 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
-import { recordHandbookAcknowledgment, updateOnboardingProgress } from '@/lib/compliance/enforcement';
+import {
+  recordHandbookAcknowledgment,
+  updateOnboardingProgress,
+} from '@/lib/compliance/enforcement';
 import {
   BookOpen,
   Check,
@@ -49,7 +52,7 @@ const defaultAcknowledgments = {
 // Slug → acknowledgmentField mapping (kept for backward compat with existing DB records)
 const SLUG_TO_FIELD: Record<string, string> = {
   attendance: 'attendancePolicy',
-  'academic-integrity': 'dressCode',   // reuses dressCode slot
+  'academic-integrity': 'dressCode', // reuses dressCode slot
   conduct: 'conductPolicy',
   safety: 'safetyPolicy',
   grievance: 'grievancePolicy',
@@ -135,7 +138,7 @@ const HANDBOOK_VERSION = '1.0';
 
 // Build dynamic acknowledgments object from policy sections
 function buildAcknowledgments(sections: PolicySection[]) {
-  return Object.fromEntries(sections.map(s => [s.acknowledgmentField, false]));
+  return Object.fromEntries(sections.map((s) => [s.acknowledgmentField, false]));
 }
 
 export default function HandbookAcknowledgePage() {
@@ -148,7 +151,8 @@ export default function HandbookAcknowledgePage() {
   const [alreadyAcknowledged, setAlreadyAcknowledged] = useState(false);
 
   const [policySections, setPolicySections] = useState<PolicySection[]>(FALLBACK_POLICY_SECTIONS);
-  const [acknowledgments, setAcknowledgments] = useState<Record<string, boolean>>(defaultAcknowledgments);
+  const [acknowledgments, setAcknowledgments] =
+    useState<Record<string, boolean>>(defaultAcknowledgments);
   const [expandedSection, setExpandedSection] = useState<string | null>('attendance');
 
   useEffect(() => {
@@ -245,11 +249,17 @@ export default function HandbookAcknowledgePage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
-
-      {/* Hero Image */}
-      <section className="relative h-[160px] sm:h-[220px] md:h-[280px] overflow-hidden">
-        <Image src="/images/pages/student-portal-page-4.jpg" alt="Student portal" fill sizes="100vw" className="object-cover" priority />
-      </section>
+        {/* Hero Image */}
+        <section className="relative h-[160px] sm:h-[220px] md:h-[280px] overflow-hidden">
+          <Image
+            src="/images/pages/student-portal-page-4.jpg"
+            alt="Student portal"
+            fill
+            sizes="100vw"
+            className="object-cover"
+            priority
+          />
+        </section>
         <div className="text-center">
           <div className="w-8 h-8 border-4 border-brand-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-slate-600">Loading handbook...</p>
@@ -301,9 +311,7 @@ export default function HandbookAcknowledgePage() {
             <div className="w-16 h-16 bg-brand-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <Check className="w-8 h-8 text-brand-green-600" />
             </div>
-            <h1 className="text-2xl font-bold text-slate-900 mb-2">
-              Handbook Acknowledged
-            </h1>
+            <h1 className="text-2xl font-bold text-slate-900 mb-2">Handbook Acknowledged</h1>
             <p className="text-slate-600 mb-4">
               Thank you for acknowledging the student handbook policies.
             </p>
@@ -333,9 +341,7 @@ export default function HandbookAcknowledgePage() {
               <BookOpen className="w-6 h-6 text-brand-blue-600" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-slate-900">
-                Student Handbook Acknowledgment
-              </h1>
+              <h1 className="text-2xl font-bold text-slate-900">Student Handbook Acknowledgment</h1>
               <p className="text-slate-600 mt-1">
                 Please review each policy section and confirm your understanding.
               </p>
@@ -349,12 +355,10 @@ export default function HandbookAcknowledgePage() {
         {/* Progress */}
         <div className="bg-white rounded-xl shadow-sm p-4 mb-6">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-sm font-medium text-slate-700">
-              Acknowledgment Progress
-            </span>
+            <span className="text-sm font-medium text-slate-700">Acknowledgment Progress</span>
             <span className="text-sm text-slate-500">
-              {Object.values(acknowledgments).filter(Boolean).length} of{' '}
-              {policySections.length} sections
+              {Object.values(acknowledgments).filter(Boolean).length} of {policySections.length}{' '}
+              sections
             </span>
           </div>
           <div className="flex gap-2">
@@ -398,9 +402,7 @@ export default function HandbookAcknowledgePage() {
               >
                 {/* Section Header */}
                 <button
-                  onClick={() =>
-                    setExpandedSection(isExpanded ? null : section.id)
-                  }
+                  onClick={() => setExpandedSection(isExpanded ? null : section.id)}
                   className="w-full p-4 flex items-center gap-4 text-left hover:bg-white transition-colors"
                 >
                   <div
@@ -415,9 +417,7 @@ export default function HandbookAcknowledgePage() {
                     )}
                   </div>
                   <div className="flex-1">
-                    <h3 className="font-semibold text-slate-900">
-                      {section.title}
-                    </h3>
+                    <h3 className="font-semibold text-slate-900">{section.title}</h3>
                     <p className="text-sm text-slate-500">{section.description}</p>
                   </div>
                   <ChevronRight
@@ -431,15 +431,10 @@ export default function HandbookAcknowledgePage() {
                 {isExpanded && (
                   <div className="px-4 pb-4 border-t border-slate-100">
                     <div className="pt-4">
-                      <h4 className="text-sm font-medium text-slate-700 mb-3">
-                        Key Points:
-                      </h4>
+                      <h4 className="text-sm font-medium text-slate-700 mb-3">Key Points:</h4>
                       <ul className="space-y-2 mb-4">
                         {section.keyPoints.map((point, index) => (
-                          <li
-                            key={index}
-                            className="flex items-start gap-2 text-sm text-slate-600"
-                          >
+                          <li key={index} className="flex items-start gap-2 text-sm text-slate-600">
                             <span className="w-1.5 h-1.5 bg-slate-400 rounded-full mt-2 flex-shrink-0" />
                             {point}
                           </li>
@@ -451,15 +446,12 @@ export default function HandbookAcknowledgePage() {
                         <input
                           type="checkbox"
                           checked={isAcknowledged}
-                          onChange={() =>
-                            handleAcknowledge(section.acknowledgmentField)
-                          }
+                          onChange={() => handleAcknowledge(section.acknowledgmentField)}
                           className="mt-1 w-5 h-5 text-brand-green-600 border-slate-300 rounded focus:ring-brand-green-500"
                         />
                         <span className="text-sm text-slate-700">
-                          I have read and understand the{' '}
-                          <strong>{section.title}</strong>. I agree to comply with
-                          these requirements.
+                          I have read and understand the <strong>{section.title}</strong>. I agree
+                          to comply with these requirements.
                         </span>
                       </label>
                     </div>
@@ -472,19 +464,16 @@ export default function HandbookAcknowledgePage() {
 
         {/* Final Acknowledgment */}
         <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
-          <h3 className="font-semibold text-slate-900 mb-4">
-            Final Acknowledgment
-          </h3>
+          <h3 className="font-semibold text-slate-900 mb-4">Final Acknowledgment</h3>
           <p className="text-sm text-slate-600 mb-4">
-            By submitting this acknowledgment, I confirm that I have read and
-            understand all sections of the Student Handbook. I agree to abide by
-            all policies and procedures outlined therein. I understand that
-            violation of these policies may result in disciplinary action, up to
-            and including dismissal from the program.
+            By submitting this acknowledgment, I confirm that I have read and understand all
+            sections of the Student Handbook. I agree to abide by all policies and procedures
+            outlined therein. I understand that violation of these policies may result in
+            disciplinary action, up to and including dismissal from the program.
           </p>
           <p className="text-xs text-slate-500">
-            This acknowledgment will be recorded with your user ID, timestamp, and
-            IP address for compliance purposes.
+            This acknowledgment will be recorded with your user ID, timestamp, and IP address for
+            compliance purposes.
           </p>
         </div>
 

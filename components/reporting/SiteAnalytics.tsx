@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -6,7 +6,15 @@ import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
-import { Download, MapPin, Users, GraduationCap, Briefcase, TrendingUp, TrendingDown } from 'lucide-react';
+import {
+  Download,
+  MapPin,
+  Users,
+  GraduationCap,
+  Briefcase,
+  TrendingUp,
+  TrendingDown,
+} from 'lucide-react';
 
 interface SiteMetrics {
   siteId: string;
@@ -42,7 +50,8 @@ export default function SiteAnalytics() {
       const response = await fetch('/api/reporting/site-metrics');
       const data = await response.json();
       setMetrics(data);
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
     } finally {
       setLoading(false);
@@ -65,10 +74,10 @@ export default function SiteAnalytics() {
       'Dropout Rate',
       'Avg Completion Time (days)',
       'Total Funding Used',
-      'Cost per Completion'
+      'Cost per Completion',
     ];
 
-    const rows = metrics.map(m => [
+    const rows = metrics.map((m) => [
       m.siteName,
       m.location,
       m.totalEnrollments,
@@ -83,10 +92,10 @@ export default function SiteAnalytics() {
       `${m.dropoutRate.toFixed(1)}%`,
       m.averageCompletionTime.toFixed(0),
       `$${m.totalFundingUsed.toFixed(2)}`,
-      `$${m.costPerCompletion.toFixed(2)}`
+      `$${m.costPerCompletion.toFixed(2)}`,
     ]);
 
-    const csv = [headers, ...rows].map(row => row.join(',')).join('\n');
+    const csv = [headers, ...rows].map((row) => row.join(',')).join('\n');
     const blob = new Blob([csv], { type: 'text/csv' });
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -119,12 +128,10 @@ export default function SiteAnalytics() {
   const totalEnrollments = metrics.reduce((sum, m) => sum + m.totalEnrollments, 0);
   const totalCompletions = metrics.reduce((sum, m) => sum + m.completions, 0);
   const totalPlaced = metrics.reduce((sum, m) => sum + m.placedInEmployment, 0);
-  const avgCompletionRate = metrics.length > 0
-    ? metrics.reduce((sum, m) => sum + m.completionRate, 0) / metrics.length
-    : 0;
-  const avgPlacementRate = metrics.length > 0
-    ? metrics.reduce((sum, m) => sum + m.placementRate, 0) / metrics.length
-    : 0;
+  const avgCompletionRate =
+    metrics.length > 0 ? metrics.reduce((sum, m) => sum + m.completionRate, 0) / metrics.length : 0;
+  const avgPlacementRate =
+    metrics.length > 0 ? metrics.reduce((sum, m) => sum + m.placementRate, 0) / metrics.length : 0;
 
   if (loading) {
     return (
@@ -213,7 +220,7 @@ export default function SiteAnalytics() {
 
       {/* Site Cards */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {sortedMetrics.map(site => (
+        {sortedMetrics.map((site) => (
           <Card key={site.siteId}>
             <CardHeader>
               <div className="flex items-start justify-between">
@@ -278,7 +285,9 @@ export default function SiteAnalytics() {
 
                 <div className="flex justify-between items-center">
                   <span className="text-sm text-muted-foreground">Cost/Completion</span>
-                  <span className="font-bold">${site.costPerCompletion.toLocaleString('en-US')}</span>
+                  <span className="font-bold">
+                    ${site.costPerCompletion.toLocaleString('en-US')}
+                  </span>
                 </div>
               </div>
             </CardContent>
@@ -297,31 +306,52 @@ export default function SiteAnalytics() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b">
-                  <th className="text-left py-2 cursor-pointer" onClick={() => handleSort('siteName')}>
+                  <th
+                    className="text-left py-2 cursor-pointer"
+                    onClick={() => handleSort('siteName')}
+                  >
                     Site {sortBy === 'siteName' && (sortOrder === 'asc' ? '↑' : '↓')}
                   </th>
-                  <th className="text-left py-2 cursor-pointer" onClick={() => handleSort('location')}>
+                  <th
+                    className="text-left py-2 cursor-pointer"
+                    onClick={() => handleSort('location')}
+                  >
                     Location {sortBy === 'location' && (sortOrder === 'asc' ? '↑' : '↓')}
                   </th>
-                  <th className="text-right py-2 cursor-pointer" onClick={() => handleSort('totalEnrollments')}>
+                  <th
+                    className="text-right py-2 cursor-pointer"
+                    onClick={() => handleSort('totalEnrollments')}
+                  >
                     Enrollments {sortBy === 'totalEnrollments' && (sortOrder === 'asc' ? '↑' : '↓')}
                   </th>
-                  <th className="text-right py-2 cursor-pointer" onClick={() => handleSort('completionRate')}>
+                  <th
+                    className="text-right py-2 cursor-pointer"
+                    onClick={() => handleSort('completionRate')}
+                  >
                     Completion {sortBy === 'completionRate' && (sortOrder === 'asc' ? '↑' : '↓')}
                   </th>
-                  <th className="text-right py-2 cursor-pointer" onClick={() => handleSort('placementRate')}>
+                  <th
+                    className="text-right py-2 cursor-pointer"
+                    onClick={() => handleSort('placementRate')}
+                  >
                     Placement {sortBy === 'placementRate' && (sortOrder === 'asc' ? '↑' : '↓')}
                   </th>
-                  <th className="text-right py-2 cursor-pointer" onClick={() => handleSort('averageWage')}>
+                  <th
+                    className="text-right py-2 cursor-pointer"
+                    onClick={() => handleSort('averageWage')}
+                  >
                     Avg Wage {sortBy === 'averageWage' && (sortOrder === 'asc' ? '↑' : '↓')}
                   </th>
-                  <th className="text-right py-2 cursor-pointer" onClick={() => handleSort('retentionRate')}>
+                  <th
+                    className="text-right py-2 cursor-pointer"
+                    onClick={() => handleSort('retentionRate')}
+                  >
                     Retention {sortBy === 'retentionRate' && (sortOrder === 'asc' ? '↑' : '↓')}
                   </th>
                 </tr>
               </thead>
               <tbody>
-                {sortedMetrics.map(site => (
+                {sortedMetrics.map((site) => (
                   <tr key={site.siteId} className="border-b hover:bg-muted/50">
                     <td className="py-2 font-medium">{site.siteName}</td>
                     <td className="py-2 text-muted-foreground">{site.location}</td>

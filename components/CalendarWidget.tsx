@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -37,7 +37,8 @@ export function CalendarWidget({ userId }: CalendarWidgetProps) {
         const data = await res.json();
         setEvents(data.events || []);
       }
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
     } finally {
       setLoading(false);
@@ -57,7 +58,7 @@ export function CalendarWidget({ userId }: CalendarWidgetProps) {
 
   const getEventsForDate = (date: Date) => {
     const dateStr = date.toISOString().split('T')[0];
-    return events.filter(event => event.date === dateStr);
+    return events.filter((event) => event.date === dateStr);
   };
 
   const previousMonth = () => {
@@ -136,10 +137,8 @@ export function CalendarWidget({ userId }: CalendarWidgetProps) {
             const day = i + 1;
             const date = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
             const dateEvents = getEventsForDate(date);
-            const isToday =
-              date.toDateString() === new Date().toDateString();
-            const isSelected =
-              selectedDate?.toDateString() === date.toDateString();
+            const isToday = date.toDateString() === new Date().toDateString();
+            const isSelected = selectedDate?.toDateString() === date.toDateString();
 
             return (
               <button
@@ -149,8 +148,8 @@ export function CalendarWidget({ userId }: CalendarWidgetProps) {
                   isSelected
                     ? 'border-emerald-500 bg-brand-red-50'
                     : isToday
-                    ? 'border-brand-red-300 bg-brand-red-50/50'
-                    : 'border-slate-200 hover:border-slate-300 hover:bg-slate-50'
+                      ? 'border-brand-red-300 bg-brand-red-50/50'
+                      : 'border-slate-200 hover:border-slate-300 hover:bg-slate-50'
                 }`}
               >
                 <div className="text-sm font-medium text-black">{day}</div>
@@ -177,22 +176,17 @@ export function CalendarWidget({ userId }: CalendarWidgetProps) {
             {selectedDate.toLocaleDateString('default', {
               weekday: 'long',
               month: 'long',
-              day: 'numeric'
+              day: 'numeric',
             })}
           </h4>
           {selectedDateEvents.length > 0 ? (
             <div className="space-y-2">
               {selectedDateEvents.map((event) => (
-                <div
-                  key={event.id}
-                  className="flex items-start gap-3 p-3 bg-slate-50 rounded-lg"
-                >
+                <div key={event.id} className="flex items-start gap-3 p-3 bg-slate-50 rounded-lg">
                   <div className={`w-2 h-2 rounded-full mt-1.5 ${getEventColor(event.type)}`} />
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium text-black">{event.title}</p>
-                    {event.course && (
-                      <p className="text-xs text-black mt-0.5">{event.course}</p>
-                    )}
+                    {event.course && <p className="text-xs text-black mt-0.5">{event.course}</p>}
                     {event.time && (
                       <div className="flex items-center gap-1 mt-1 text-xs text-slate-500">
                         <Clock className="w-3 h-3" />
@@ -207,9 +201,7 @@ export function CalendarWidget({ userId }: CalendarWidgetProps) {
               ))}
             </div>
           ) : (
-            <p className="text-sm text-slate-500 text-center py-4">
-              No events scheduled
-            </p>
+            <p className="text-sm text-slate-500 text-center py-4">No events scheduled</p>
           )}
         </div>
       )}
@@ -219,18 +211,20 @@ export function CalendarWidget({ userId }: CalendarWidgetProps) {
         <h4 className="text-sm font-semibold text-black mb-3">Upcoming</h4>
         <div className="space-y-2">
           {events
-            .filter(event => new Date(event.date) >= new Date())
+            .filter((event) => new Date(event.date) >= new Date())
             .slice(0, 5)
             .map((event) => (
-              <div
-                key={event.id}
-                className="flex items-center gap-3 text-sm"
-              >
+              <div key={event.id} className="flex items-center gap-3 text-sm">
                 <div className={`w-2 h-2 rounded-full ${getEventColor(event.type)}`} />
                 <div className="flex-1 min-w-0">
                   <p className="font-medium text-black truncate">{event.title}</p>
                   <p className="text-xs text-black">
-                    {new Date(event.date).toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' })}
+                    {new Date(event.date).toLocaleDateString('en-US', {
+                      timeZone: 'UTC',
+                      month: 'short',
+                      day: 'numeric',
+                      year: 'numeric',
+                    })}
                   </p>
                 </div>
               </div>

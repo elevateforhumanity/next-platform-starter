@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from 'next/server';
 
-import { createClient } from "@/lib/supabase/server";
-import { getCurrentUser } from "@/lib/auth";
+import { createClient } from '@/lib/supabase/server';
+import { getCurrentUser } from '@/lib/auth';
 import { logger } from '@/lib/logger';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
@@ -11,63 +11,60 @@ export const maxDuration = 60;
 export const dynamic = 'force-dynamic';
 
 async function _GET(req: NextRequest) {
-  
-    const rateLimited = await applyRateLimit(req, 'api');
-    if (rateLimited) return rateLimited;
-const supabase = await createClient();
+  const rateLimited = await applyRateLimit(req, 'api');
+  if (rateLimited) return rateLimited;
+  const supabase = await createClient();
   const user = await getCurrentUser();
 
   if (!user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   const { searchParams } = new URL(req.url);
-  const lessonId = searchParams.get("lessonId");
+  const lessonId = searchParams.get('lessonId');
 
   if (!lessonId) {
-    return NextResponse.json({ error: "lessonId required" }, { status: 400 });
+    return NextResponse.json({ error: 'lessonId required' }, { status: 400 });
   }
 
   const { data, error }: any = await supabase
-    .from("video_progress")
-    .select("*")
-    .eq("user_id", user.id)
-    .eq("lesson_id", lessonId)
+    .from('video_progress')
+    .select('*')
+    .eq('user_id', user.id)
+    .eq('lesson_id', lessonId)
     .maybeSingle();
 
   if (error) {
-    logger.error("video_progress GET error", error);
-    return NextResponse.json({ error: "DB error" }, { status: 500 });
+    logger.error('video_progress GET error', error);
+    return NextResponse.json({ error: 'DB error' }, { status: 500 });
   }
 
   return NextResponse.json({ progress: data || null });
 }
 
 async function _POST(req: NextRequest) {
-    const rateLimited = await applyRateLimit(req, 'api');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(req, 'api');
+  if (rateLimited) return rateLimited;
 
   const supabase = await createClient();
   const user = await getCurrentUser();
 
   if (!user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   const body = await req.json();
   const { lessonId, lastPositionSeconds, durationSeconds } = body;
 
   if (!lessonId) {
-    return NextResponse.json({ error: "lessonId required" }, { status: 400 });
+    return NextResponse.json({ error: 'lessonId required' }, { status: 400 });
   }
 
   const completed =
-    durationSeconds && lastPositionSeconds
-      ? lastPositionSeconds >= durationSeconds - 5
-      : false;
+    durationSeconds && lastPositionSeconds ? lastPositionSeconds >= durationSeconds - 5 : false;
 
   const { data, error }: any = await supabase
-    .from("video_progress")
+    .from('video_progress')
     .upsert(
       {
         user_id: user.id,
@@ -76,14 +73,14 @@ async function _POST(req: NextRequest) {
         duration_seconds: Math.floor(durationSeconds || 0),
         completed,
       },
-      { onConflict: "user_id,lesson_id" }
+      { onConflict: 'user_id,lesson_id' },
     )
     .select()
     .maybeSingle();
 
   if (error) {
-    logger.error("video_progress POST error", error);
-    return NextResponse.json({ error: "DB error" }, { status: 500 });
+    logger.error('video_progress POST error', error);
+    return NextResponse.json({ error: 'DB error' }, { status: 500 });
   }
 
   return NextResponse.json({ success: true, progress: data });

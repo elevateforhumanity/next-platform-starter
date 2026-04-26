@@ -41,7 +41,7 @@ export default function AvatarGuide({
   // Typing effect
   useEffect(() => {
     if (!isVisible) return;
-    
+
     setDisplayedText('');
     setIsTyping(true);
     let index = 0;
@@ -76,9 +76,14 @@ export default function AvatarGuide({
       if (element) {
         element.scrollIntoView({ behavior: 'smooth', block: 'center' });
         element.classList.add('ring-4', 'ring-brand-orange-500', 'ring-offset-2', 'transition-all');
-        
+
         return () => {
-          element.classList.remove('ring-4', 'ring-brand-orange-500', 'ring-offset-2', 'transition-all');
+          element.classList.remove(
+            'ring-4',
+            'ring-brand-orange-500',
+            'ring-offset-2',
+            'transition-all',
+          );
         };
       }
     }
@@ -125,7 +130,13 @@ export default function AvatarGuide({
         className="fixed top-20 right-4 z-50 flex items-center gap-2 bg-brand-orange-600 hover:bg-brand-orange-700 text-white px-4 py-2 rounded-full shadow-lg transition-all hover:scale-105"
       >
         <div className="w-8 h-8 rounded-full overflow-hidden border-2 border-white">
-          <Image src={avatarImage} alt={avatarName} width={32} height={32} className="object-cover" />
+          <Image
+            src={avatarImage}
+            alt={avatarName}
+            width={32}
+            height={32}
+            className="object-cover"
+          />
         </div>
         <span className="text-sm font-medium">Need Help?</span>
       </button>
@@ -152,9 +163,18 @@ export default function AvatarGuide({
               {isTyping && (
                 <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-brand-green-500 rounded-full border-2 border-white flex items-center justify-center">
                   <div className="flex gap-0.5">
-                    <span className="w-1 h-1 bg-white rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                    <span className="w-1 h-1 bg-white rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                    <span className="w-1 h-1 bg-white rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                    <span
+                      className="w-1 h-1 bg-white rounded-full animate-bounce"
+                      style={{ animationDelay: '0ms' }}
+                    />
+                    <span
+                      className="w-1 h-1 bg-white rounded-full animate-bounce"
+                      style={{ animationDelay: '150ms' }}
+                    />
+                    <span
+                      className="w-1 h-1 bg-white rounded-full animate-bounce"
+                      style={{ animationDelay: '300ms' }}
+                    />
                   </div>
                 </div>
               )}
@@ -188,7 +208,9 @@ export default function AvatarGuide({
             <div className="bg-white rounded-2xl rounded-tl-none p-4 shadow-lg mb-4 relative">
               <p className="text-slate-900 text-base sm:text-lg leading-relaxed min-h-[60px]">
                 {displayedText}
-                {isTyping && <span className="inline-block w-2 h-5 bg-brand-orange-500 ml-1 animate-pulse" />}
+                {isTyping && (
+                  <span className="inline-block w-2 h-5 bg-brand-orange-500 ml-1 animate-pulse" />
+                )}
               </p>
             </div>
 
@@ -218,7 +240,7 @@ export default function AvatarGuide({
                     Back
                   </button>
                 )}
-                
+
                 {currentStep === totalSteps - 1 ? (
                   <div className="flex gap-2">
                     <button

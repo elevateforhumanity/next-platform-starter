@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -19,9 +19,7 @@ export function AcknowledgeHandbookForm() {
     e.preventDefault();
 
     if (!agreed) {
-      setError(
-        'You must acknowledge that you have read and understood the handbook'
-      );
+      setError('You must acknowledge that you have read and understood the handbook');
       return;
     }
 
@@ -85,10 +83,7 @@ export function AcknowledgeHandbookForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div>
-        <label
-          htmlFor="fullName"
-          className="block text-sm font-medium text-black mb-2"
-        >
+        <label htmlFor="fullName" className="block text-sm font-medium text-black mb-2">
           Full Name *
         </label>
         <input
@@ -103,10 +98,7 @@ export function AcknowledgeHandbookForm() {
       </div>
 
       <div>
-        <label
-          htmlFor="title"
-          className="block text-sm font-medium text-black mb-2"
-        >
+        <label htmlFor="title" className="block text-sm font-medium text-black mb-2">
           Title/Position *
         </label>
         <input
@@ -129,10 +121,9 @@ export function AcknowledgeHandbookForm() {
             className="mt-1 w-5 h-5 text-brand-blue-600 border-slate-300 rounded focus:ring-2 focus:ring-brand-blue-500"
           />
           <span className="text-black font-medium">
-            I acknowledge that I have read, understood, and agree to comply with
-            all policies and procedures outlined in the Program Holder Employee
-            Handbook. I understand that failure to comply may result in
-            termination of my Program Holder agreement.
+            I acknowledge that I have read, understood, and agree to comply with all policies and
+            procedures outlined in the Program Holder Employee Handbook. I understand that failure
+            to comply may result in termination of my Program Holder agreement.
           </span>
         </label>
       </div>

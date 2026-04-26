@@ -1,5 +1,4 @@
-
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from 'next/server';
 import { getAdminClient } from '@/lib/supabase/admin';
 import { toErrorMessage } from '@/lib/safe';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
@@ -15,15 +14,15 @@ async function parseBody<T>(request: NextRequest): Promise<T> {
 
 async function _GET(request: NextRequest) {
   const supabase = await getAdminClient();
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
+
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
 
   const { data, error }: any = await supabase
-    .from("learning_paths")
-    .select("*")
-    .order("is_featured", { ascending: false })
-    .order("created_at", { ascending: false });
+    .from('learning_paths')
+    .select('*')
+    .order('is_featured', { ascending: false })
+    .order('created_at', { ascending: false });
 
   if (error) {
     return NextResponse.json({ error: toErrorMessage(error) }, { status: 500 });
@@ -34,20 +33,22 @@ async function _GET(request: NextRequest) {
 
 async function _POST(request: NextRequest) {
   const supabase = await getAdminClient();
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   const body = await parseBody<Record<string, any>>(request);
   const { path_id } = body;
 
   const { data, error }: any = await supabase
-    .from("user_learning_paths")
+    .from('user_learning_paths')
     .insert({
       user_id: user.id,
       path_id,

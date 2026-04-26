@@ -132,7 +132,9 @@ export default function DevContainerPanel() {
       {status && (
         <div
           className={`flex items-center gap-2 px-4 py-2 text-sm flex-shrink-0 ${
-            status.type === 'success' ? 'bg-green-900/50 text-green-300' : 'bg-red-900/50 text-red-300'
+            status.type === 'success'
+              ? 'bg-green-900/50 text-green-300'
+              : 'bg-red-900/50 text-red-300'
           }`}
         >
           {status.type === 'success' ? (
@@ -183,7 +185,10 @@ export default function DevContainerPanel() {
               <Section title="Forwarded Ports">
                 <div className="flex flex-wrap gap-2">
                   {parsed.forwardPorts.map((p) => (
-                    <span key={p} className="bg-blue-900/50 text-blue-300 px-3 py-1 rounded font-mono text-sm">
+                    <span
+                      key={p}
+                      className="bg-blue-900/50 text-blue-300 px-3 py-1 rounded font-mono text-sm"
+                    >
                       :{p}
                     </span>
                   ))}
@@ -196,7 +201,10 @@ export default function DevContainerPanel() {
               <Section title="Features">
                 <div className="space-y-1">
                   {Object.keys(parsed.features).map((f) => (
-                    <div key={f} className="font-mono text-xs text-slate-300 bg-slate-800 px-3 py-1.5 rounded">
+                    <div
+                      key={f}
+                      className="font-mono text-xs text-slate-300 bg-slate-800 px-3 py-1.5 rounded"
+                    >
                       {f}
                     </div>
                   ))}
@@ -218,7 +226,10 @@ export default function DevContainerPanel() {
               <Section title="VS Code Extensions">
                 <div className="grid grid-cols-2 gap-1">
                   {parsed.customizations.vscode.extensions.map((ext) => (
-                    <div key={ext} className="text-xs text-slate-300 bg-slate-800 px-2 py-1 rounded font-mono truncate">
+                    <div
+                      key={ext}
+                      className="text-xs text-slate-300 bg-slate-800 px-2 py-1 rounded font-mono truncate"
+                    >
                       {ext}
                     </div>
                   ))}
@@ -260,7 +271,9 @@ export default function DevContainerPanel() {
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div>
-      <h3 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">{title}</h3>
+      <h3 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
+        {title}
+      </h3>
       {children}
     </div>
   );

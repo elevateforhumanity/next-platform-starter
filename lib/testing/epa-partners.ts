@@ -13,14 +13,14 @@ import type { EpaPartner } from '@/types/epa';
 
 export const EPA_PARTNERS: EpaPartner[] = [
   {
-    key:         'mainstream_epatest',
-    company:     'Mainstream Engineering Corporation (EPATest)',
+    key: 'mainstream_epatest',
+    company: 'Mainstream Engineering Corporation (EPATest)',
     contactName: 'Missy Tucker-Simmen',
-    email:       'info@epatest.com',
-    phone:       '321-631-3550 ext. 5404',
-    status:      'active',
+    email: 'info@epatest.com',
+    phone: '321-631-3550 ext. 5404',
+    status: 'active',
     // ADMIN ONLY — NEVER share or display this ID publicly.
-    proctorId:   'SYZXYXSE',
+    proctorId: 'SYZXYXSE',
     notes: [
       'Proctor ID issued — active authorized site. Account holder: Elizabeth Greene.',
       'Login: www.epatest.com → PROCTOR ACCESS tab → Proctor ID + last name (Greene).',
@@ -41,7 +41,7 @@ export const EPA_PARTNERS: EpaPartner[] = [
  * the online enrollment flow until the partner status is 'active'.
  */
 export function getActiveEpaPartner(): EpaPartner | null {
-  return EPA_PARTNERS.find(p => p.status === 'active') ?? null;
+  return EPA_PARTNERS.find((p) => p.status === 'active') ?? null;
 }
 
 /**
@@ -50,11 +50,10 @@ export function getActiveEpaPartner(): EpaPartner | null {
  */
 export function getMargin(
   vendorBase: number,
-  retailPrice: number
+  retailPrice: number,
 ): { dollars: number; percent: number } {
-  const dollars  = Number((retailPrice - vendorBase).toFixed(2));
-  const percent  = vendorBase > 0
-    ? Number((((retailPrice - vendorBase) / retailPrice) * 100).toFixed(1))
-    : 0;
+  const dollars = Number((retailPrice - vendorBase).toFixed(2));
+  const percent =
+    vendorBase > 0 ? Number((((retailPrice - vendorBase) / retailPrice) * 100).toFixed(1)) : 0;
   return { dollars, percent };
 }

@@ -1,4 +1,5 @@
 # Certified Peer Recovery Coach (CPRC)
+
 ## Program Syllabus
 
 **Provider:** Elevate for Humanity  
@@ -6,7 +7,7 @@
 **Program Code:** CPRC-CERT  
 **Duration:** 45 Days (180 Hours)  
 **Delivery Method:** Hybrid (Classroom + Practicum)  
-**Funding:** WIOA • JRI  
+**Funding:** WIOA • JRI
 
 ---
 
@@ -32,6 +33,7 @@ Support individuals in addiction recovery! Become a Certified Peer Recovery Coac
 ## Course Outline
 
 ### Module 1: Foundations of Peer Support (30 hours)
+
 - History and philosophy of peer support
 - Recovery-oriented systems of care
 - Peer support core competencies
@@ -40,6 +42,7 @@ Support individuals in addiction recovery! Become a Certified Peer Recovery Coac
 - Cultural competency and diversity
 
 ### Module 2: Addiction & Recovery (30 hours)
+
 - Substance use disorders overview
 - Brain science of addiction
 - Stages of change model
@@ -48,6 +51,7 @@ Support individuals in addiction recovery! Become a Certified Peer Recovery Coac
 - Trauma-informed care
 
 ### Module 3: Peer Support Skills (40 hours)
+
 - Active listening and empathy
 - Motivational interviewing basics
 - Goal setting and action planning
@@ -56,6 +60,7 @@ Support individuals in addiction recovery! Become a Certified Peer Recovery Coac
 - Conflict resolution
 
 ### Module 4: Relapse Prevention (20 hours)
+
 - Relapse warning signs
 - Triggers and coping strategies
 - Developing relapse prevention plans
@@ -64,6 +69,7 @@ Support individuals in addiction recovery! Become a Certified Peer Recovery Coac
 - Long-term recovery maintenance
 
 ### Module 5: Community Resources & Navigation (20 hours)
+
 - Treatment and recovery services
 - Housing and employment resources
 - Healthcare and benefits navigation
@@ -72,6 +78,7 @@ Support individuals in addiction recovery! Become a Certified Peer Recovery Coac
 - Recovery community organizations
 
 ### Module 6: Documentation & Professional Practice (20 hours)
+
 - HIPAA and confidentiality
 - Progress notes and documentation
 - Supervision and consultation
@@ -80,6 +87,7 @@ Support individuals in addiction recovery! Become a Certified Peer Recovery Coac
 - Certification requirements
 
 ### Module 7: Supervised Practicum (20 hours)
+
 - Observation of peer support services
 - Supervised client interactions
 - Case study discussions
@@ -102,6 +110,7 @@ Support individuals in addiction recovery! Become a Certified Peer Recovery Coac
 ## Certification Preparation
 
 Program prepares students for:
+
 - **Indiana Certified Peer Recovery Coach (CPRC)** - Indiana Division of Mental Health and Addiction
 - **National Certified Peer Recovery Support Specialist (NCPRSS)** - IC&RC
 
@@ -163,6 +172,7 @@ Program prepares students for:
 ## Indiana CPRC Certification Requirements
 
 To apply for state certification, candidates must:
+
 1. Be at least 18 years old
 2. Have high school diploma or equivalent
 3. Have personal recovery experience (1+ year)

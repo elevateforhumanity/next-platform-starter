@@ -1,12 +1,12 @@
 /**
  * Copycat Detection Script
- * 
+ *
  * Run periodically to check for unauthorized copies of the site.
  * Can be run manually or scheduled via cron/GitHub Actions.
- * 
+ *
  * Usage:
  *   npx ts-node scripts/monitor-copycats.ts
- *   
+ *
  * Or add to package.json:
  *   "scripts": { "monitor": "ts-node scripts/monitor-copycats.ts" }
  */
@@ -55,7 +55,7 @@ const SEARCH_QUERIES = [
  * Check if a URL is from our official domains
  */
 function isOfficialDomain(url: string): boolean {
-  return OFFICIAL_DOMAINS.some(domain => url.includes(domain));
+  return OFFICIAL_DOMAINS.some((domain) => url.includes(domain));
 }
 
 /**
@@ -66,36 +66,36 @@ async function analyzeSite(url: string): Promise<{
   evidence: string[];
 }> {
   const evidence: string[] = [];
-  
+
   try {
     const response = await fetch(url, {
       headers: {
         'User-Agent': 'Mozilla/5.0 (compatible; CopyrightMonitor/1.0)',
       },
     });
-    
+
     if (!response.ok) {
       return { hasCopiedContent: false, evidence: ['Could not fetch page'] };
     }
-    
+
     const html = await response.text();
-    
+
     // Check for our watermarks
     for (const identifier of UNIQUE_IDENTIFIERS) {
       if (html.includes(identifier)) {
         evidence.push(`Found watermark: "${identifier}"`);
       }
     }
-    
+
     // Check for specific code patterns
     if (html.includes('data-site-owner') && html.includes('Elevate')) {
       evidence.push('Found data-site-owner attribute');
     }
-    
+
     if (html.includes('site_original_owner')) {
       evidence.push('Found localStorage watermark reference');
     }
-    
+
     return {
       hasCopiedContent: evidence.length > 0,
       evidence,
@@ -109,8 +109,8 @@ async function analyzeSite(url: string): Promise<{
  * Generate monitoring report
  */
 function generateReport(results: SearchResult[]): MonitoringReport {
-  const suspicious = results.filter(r => r.suspicious);
-  
+  const suspicious = results.filter((r) => r.suspicious);
+
   return {
     timestamp: new Date().toISOString(),
     searchTerms: SEARCH_QUERIES,
@@ -128,8 +128,8 @@ export async function slackAlert(report: MonitoringReport): Promise<void> {
   if (!webhookUrl) return;
 
   const lines = report.results
-    .filter(r => r.suspicious)
-    .map(r => `• <${r.url}|${r.title || r.url}> — ${r.reason ?? 'suspicious match'}`);
+    .filter((r) => r.suspicious)
+    .map((r) => `• <${r.url}|${r.title || r.url}> — ${r.reason ?? 'suspicious match'}`);
 
   const payload = {
     blocks: [
@@ -163,7 +163,7 @@ export async function slackAlert(report: MonitoringReport): Promise<void> {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
-  }).catch(err => console.error('[monitor-copycats] Slack notification failed:', err));
+  }).catch((err) => console.error('[monitor-copycats] Slack notification failed:', err));
 }
 
 /**
@@ -176,9 +176,9 @@ export async function emailAlert(report: MonitoringReport): Promise<void> {
   if (!apiKey) return;
 
   const rows = report.results
-    .filter(r => r.suspicious)
+    .filter((r) => r.suspicious)
     .map(
-      r =>
+      (r) =>
         `<tr><td style="padding:4px 8px"><a href="${r.url}">${r.url}</a></td>` +
         `<td style="padding:4px 8px">${r.reason ?? ''}</td></tr>`,
     )
@@ -216,7 +216,7 @@ export async function emailAlert(report: MonitoringReport): Promise<void> {
       subject: `Copyright Alert: ${report.suspiciousCount} potential infringement(s)`,
       content: [{ type: 'text/html', value: html }],
     }),
-  }).catch(err => console.error('[monitor-copycats] Email notification failed:', err));
+  }).catch((err) => console.error('[monitor-copycats] Email notification failed:', err));
 }
 
 /**
@@ -233,8 +233,8 @@ export async function sendAlert(report: MonitoringReport): Promise<void> {
   console.log('\nSuspicious URLs:');
 
   report.results
-    .filter(r => r.suspicious)
-    .forEach(r => {
+    .filter((r) => r.suspicious)
+    .forEach((r) => {
       console.log(`\n  URL: ${r.url}`);
       console.log(`  Reason: ${r.reason}`);
     });
@@ -247,18 +247,18 @@ export async function sendAlert(report: MonitoringReport): Promise<void> {
  */
 export async function checkUrl(url: string): Promise<void> {
   console.log(`\nAnalyzing: ${url}`);
-  
+
   if (isOfficialDomain(url)) {
     console.log('✅ This is an official domain');
     return;
   }
-  
+
   const analysis = await analyzeSite(url);
-  
+
   if (analysis.hasCopiedContent) {
     console.log('🚨 POTENTIAL INFRINGEMENT DETECTED');
     console.log('Evidence:');
-    analysis.evidence.forEach(e => console.log(`  - ${e}`));
+    analysis.evidence.forEach((e) => console.log(`  - ${e}`));
     console.log('\nNext steps:');
     console.log('  1. Screenshot the site');
     console.log('  2. Save page source');
@@ -276,24 +276,24 @@ async function main(): Promise<void> {
   console.log('Elevate for Humanity - Copyright Monitoring');
   console.log('='.repeat(60));
   console.log(`\nTimestamp: ${new Date().toISOString()}`);
-  
+
   // Check if a specific URL was provided
   const targetUrl = process.argv[2];
   if (targetUrl) {
     await checkUrl(targetUrl);
     return;
   }
-  
+
   console.log('\nMonitoring for unauthorized copies...');
   console.log('\nSearch queries:');
-  SEARCH_QUERIES.forEach(q => console.log(`  - ${q}`));
-  
+  SEARCH_QUERIES.forEach((q) => console.log(`  - ${q}`));
+
   console.log('\n' + '-'.repeat(60));
   console.log('MANUAL MONITORING STEPS:');
   console.log('-'.repeat(60));
   console.log(`
 1. Google Search (do these searches manually):
-   ${SEARCH_QUERIES.map(q => `\n   https://www.google.com/search?q=${encodeURIComponent(q)}`).join('')}
+   ${SEARCH_QUERIES.map((q) => `\n   https://www.google.com/search?q=${encodeURIComponent(q)}`).join('')}
 
 2. Image Search:
    - Go to https://images.google.com

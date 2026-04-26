@@ -72,8 +72,8 @@ export default function StartPage() {
               Start here. We&apos;ll guide you through funding and enrollment.
             </h1>
             <p className="mt-5 text-lg text-blue-100">
-              One intake form. We figure out your eligibility, connect you with
-              the right program, and move you toward enrollment — no runaround.
+              One intake form. We figure out your eligibility, connect you with the right program,
+              and move you toward enrollment — no runaround.
             </p>
           </div>
         </div>
@@ -126,15 +126,31 @@ export default function StartPage() {
             <div className="mt-10 rounded-2xl border border-gray-200 bg-white p-5">
               <p className="font-medium text-gray-900">Prefer to talk to someone?</p>
               <p className="mt-1 text-sm text-gray-600">
-                Call <a href="tel:+13173143757" className="font-medium text-brand-blue-600 hover:underline">(317) 314-3757</a> or
-                email <a href="mailto:info@elevateforhumanity.org" className="font-medium text-brand-blue-600 hover:underline">info@elevateforhumanity.org</a>
+                Call{' '}
+                <a
+                  href="tel:+13173143757"
+                  className="font-medium text-brand-blue-600 hover:underline"
+                >
+                  (317) 314-3757
+                </a>{' '}
+                or email{' '}
+                <a
+                  href="mailto:info@elevateforhumanity.org"
+                  className="font-medium text-brand-blue-600 hover:underline"
+                >
+                  info@elevateforhumanity.org
+                </a>
               </p>
             </div>
           </div>
 
           {/* Right: form */}
           <div>
-            <Suspense fallback={<div className="h-[600px] animate-pulse rounded-3xl border border-gray-200 bg-white p-8 shadow-sm" />}>
+            <Suspense
+              fallback={
+                <div className="h-[600px] animate-pulse rounded-3xl border border-gray-200 bg-white p-8 shadow-sm" />
+              }
+            >
               <StartForm />
             </Suspense>
           </div>
@@ -173,9 +189,7 @@ export default function StartPage() {
           <h2 className="text-2xl font-bold text-white md:text-3xl">
             Ready to change your career?
           </h2>
-          <p className="mt-3 text-blue-100">
-            Fill out the form above or call us directly.
-          </p>
+          <p className="mt-3 text-blue-100">Fill out the form above or call us directly.</p>
           <div className="mt-6 flex flex-col justify-center gap-4 sm:flex-row">
             <Link
               href="/apply"

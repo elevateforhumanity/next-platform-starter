@@ -12,8 +12,12 @@ export const dynamic = 'force-dynamic';
 
 export default async function StudentHoursPage() {
   const supabase = await createClient();
-  if (!supabase) { redirect("/login"); }
-  const { data: { user } } = await supabase.auth.getUser();
+  if (!supabase) {
+    redirect('/login');
+  }
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   let hoursData: any[] = [];
   let totalHours = 0;
@@ -32,7 +36,7 @@ export default async function StudentHoursPage() {
 
       if (!error && data) {
         hoursData = data;
-        
+
         const now = new Date();
         const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
         const monthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
@@ -40,7 +44,7 @@ export default async function StudentHoursPage() {
         data.forEach((log: any) => {
           const logDate = new Date(log.date);
           const hours = parseFloat(log.hours) || 0;
-          
+
           if (log.status === 'approved') {
             totalHours += hours;
             if (logDate >= weekAgo) thisWeekHours += hours;
@@ -54,22 +58,49 @@ export default async function StudentHoursPage() {
   }
 
   // Sample data for demo/unauthenticated users
-  const sampleLogs = hoursData.length > 0 ? hoursData : [
-    { id: '1', date: '2026-01-17', hours: 4, activity_type: 'Classroom Training', status: 'approved' },
-    { id: '2', date: '2026-01-16', hours: 4, activity_type: 'Lab Practice', status: 'approved' },
-    { id: '3', date: '2026-01-15', hours: 4, activity_type: 'Classroom Training', status: 'approved' },
-    { id: '4', date: '2026-01-14', hours: 4, activity_type: 'Online Coursework', status: 'pending' },
-  ];
+  const sampleLogs =
+    hoursData.length > 0
+      ? hoursData
+      : [
+          {
+            id: '1',
+            date: '2026-01-17',
+            hours: 4,
+            activity_type: 'Classroom Training',
+            status: 'approved',
+          },
+          {
+            id: '2',
+            date: '2026-01-16',
+            hours: 4,
+            activity_type: 'Lab Practice',
+            status: 'approved',
+          },
+          {
+            id: '3',
+            date: '2026-01-15',
+            hours: 4,
+            activity_type: 'Classroom Training',
+            status: 'approved',
+          },
+          {
+            id: '4',
+            date: '2026-01-14',
+            hours: 4,
+            activity_type: 'Online Coursework',
+            status: 'pending',
+          },
+        ];
 
   const displayTotal = totalHours || 240;
   const displayWeek = thisWeekHours || 20;
   const displayMonth = thisMonthHours || 80;
 
   const formatDate = (dateStr: string) => {
-    return new Date(dateStr).toLocaleDateString('en-US', { 
-      month: 'short', 
-      day: 'numeric', 
-      year: 'numeric' 
+    return new Date(dateStr).toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
     });
   };
 
@@ -78,9 +109,13 @@ export default async function StudentHoursPage() {
       <div className="bg-white border-b">
         <div className="max-w-7xl mx-auto px-4 py-3">
           <nav className="flex items-center text-sm text-gray-600">
-            <Link href="/" className="hover:text-blue-600">Home</Link>
+            <Link href="/" className="hover:text-blue-600">
+              Home
+            </Link>
             <span className="mx-2">/</span>
-            <Link href="/student" className="hover:text-blue-600">Student Portal</Link>
+            <Link href="/student" className="hover:text-blue-600">
+              Student Portal
+            </Link>
             <span className="mx-2">/</span>
             <span className="text-gray-900 font-medium">Hours</span>
           </nav>
@@ -93,8 +128,8 @@ export default async function StudentHoursPage() {
             <h1 className="text-3xl font-bold text-gray-900">Training Hours</h1>
             <p className="text-gray-600">Track your program hours and progress</p>
           </div>
-          <Link 
-            href="/student/hours/log" 
+          <Link
+            href="/student/hours/log"
             className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition flex items-center"
           >
             <Plus className="w-4 h-4 mr-2" />
@@ -108,19 +143,22 @@ export default async function StudentHoursPage() {
           <div className="mb-4">
             <div className="flex justify-between mb-2">
               <span className="text-gray-600">Total Hours Completed</span>
-              <span className="font-bold text-gray-900">{displayTotal} / {requiredHours} hours</span>
+              <span className="font-bold text-gray-900">
+                {displayTotal} / {requiredHours} hours
+              </span>
             </div>
             <div className="w-full bg-gray-200 rounded-full h-4">
-              <div 
-                className="bg-blue-600 h-4 rounded-full transition-all duration-500" 
-                style={{ width: `${Math.min((displayTotal / requiredHours) * 100, 100)}%` }} 
+              <div
+                className="bg-blue-600 h-4 rounded-full transition-all duration-500"
+                style={{ width: `${Math.min((displayTotal / requiredHours) * 100, 100)}%` }}
               />
             </div>
             <p className="text-sm text-gray-500 mt-2">
-              {Math.round((displayTotal / requiredHours) * 100)}% complete • {requiredHours - displayTotal} hours remaining
+              {Math.round((displayTotal / requiredHours) * 100)}% complete •{' '}
+              {requiredHours - displayTotal} hours remaining
             </p>
           </div>
-          
+
           <div className="grid md:grid-cols-3 gap-4 mt-6">
             <div className="bg-blue-50 rounded-lg p-4 text-center">
               <Clock className="w-8 h-8 text-blue-600 mx-auto mb-2" />
@@ -144,15 +182,21 @@ export default async function StudentHoursPage() {
         <div className="bg-white rounded-xl shadow-sm overflow-hidden">
           <div className="p-6 border-b flex items-center justify-between">
             <h2 className="text-lg font-bold text-gray-900">Recent Hour Logs</h2>
-            <Link href="/student/hours/history" className="text-blue-600 hover:text-blue-700 text-sm font-medium">
+            <Link
+              href="/student/hours/history"
+              className="text-blue-600 hover:text-blue-700 text-sm font-medium"
+            >
               View All
             </Link>
           </div>
-          
+
           {sampleLogs.length > 0 ? (
             <div className="divide-y divide-gray-200">
               {sampleLogs.map((log: any) => (
-                <div key={log.id} className="p-4 flex items-center justify-between hover:bg-gray-50">
+                <div
+                  key={log.id}
+                  className="p-4 flex items-center justify-between hover:bg-gray-50"
+                >
                   <div className="flex items-center">
                     <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
                       <Clock className="w-5 h-5 text-blue-600" />
@@ -164,13 +208,15 @@ export default async function StudentHoursPage() {
                   </div>
                   <div className="flex items-center gap-4">
                     <span className="font-bold text-gray-900">{log.hours} hrs</span>
-                    <span className={`text-xs font-medium px-2 py-1 rounded flex items-center ${
-                      log.status === 'approved' 
-                        ? 'bg-green-100 text-green-700' 
-                        : log.status === 'rejected'
-                        ? 'bg-red-100 text-red-700'
-                        : 'bg-yellow-100 text-yellow-700'
-                    }`}>
+                    <span
+                      className={`text-xs font-medium px-2 py-1 rounded flex items-center ${
+                        log.status === 'approved'
+                          ? 'bg-green-100 text-green-700'
+                          : log.status === 'rejected'
+                            ? 'bg-red-100 text-red-700'
+                            : 'bg-yellow-100 text-yellow-700'
+                      }`}
+                    >
                       {log.status === 'approved' && <CheckCircle className="w-3 h-3 mr-1" />}
                       {log.status === 'pending' && <AlertCircle className="w-3 h-3 mr-1" />}
                       {log.status.charAt(0).toUpperCase() + log.status.slice(1)}
@@ -183,7 +229,7 @@ export default async function StudentHoursPage() {
             <div className="p-12 text-center">
               <Clock className="w-12 h-12 text-gray-300 mx-auto mb-4" />
               <p className="text-gray-600 mb-4">No hours logged yet</p>
-              <Link 
+              <Link
                 href="/student/hours/log"
                 className="text-blue-600 font-medium hover:text-blue-700"
               >

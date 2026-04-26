@@ -1,13 +1,13 @@
-import fs from "node:fs";
-import path from "node:path";
-import { execSync } from "node:child_process";
+import fs from 'node:fs';
+import path from 'node:path';
+import { execSync } from 'node:child_process';
 
-const outPath = path.join(process.cwd(), "public", "build.json");
+const outPath = path.join(process.cwd(), 'public', 'build.json');
 
 // Get full git SHA
 let gitCommitFull = process.env.COMMIT_REF ?? null;
 try {
-  gitCommitFull = execSync("git rev-parse HEAD", { encoding: "utf-8" }).trim();
+  gitCommitFull = execSync('git rev-parse HEAD', { encoding: 'utf-8' }).trim();
 } catch (e) {
   // Fall back to COMMIT_REF if git command fails
 }
@@ -21,4 +21,4 @@ const payload = {
 
 fs.mkdirSync(path.dirname(outPath), { recursive: true });
 fs.writeFileSync(outPath, JSON.stringify(payload, null, 2));
-console.log("Wrote", outPath, payload);
+console.log('Wrote', outPath, payload);

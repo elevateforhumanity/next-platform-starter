@@ -11,10 +11,18 @@ export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/pathways' },
   openGraph: {
     title: 'Career Pathways & Workforce Infrastructure | Elevate for Humanity',
-    description: 'Structured workforce pathways: screening, training, credentialing, apprenticeship, placement, and advancement.',
+    description:
+      'Structured workforce pathways: screening, training, credentialing, apprenticeship, placement, and advancement.',
     url: 'https://www.elevateforhumanity.org/pathways',
     siteName: 'Elevate for Humanity',
-    images: [{ url: '/images/pages/career-counseling.jpg', width: 1200, height: 630, alt: 'Elevate career pathways' }],
+    images: [
+      {
+        url: '/images/pages/career-counseling.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Elevate career pathways',
+      },
+    ],
     type: 'website',
   },
 };
@@ -28,7 +36,8 @@ const STAGES = [
     href: '/how-it-works',
     what: 'You register at Indiana Career Connect, schedule a WorkOne appointment, and meet with a case manager. They review your situation — income, employment history, barriers — and determine which funding you qualify for.',
     who: 'Anyone in Indiana looking for career training. Priority for unemployed, underemployed, veterans, justice-impacted individuals, and youth ages 16–24.',
-    funding: 'WIOA (Workforce Innovation and Opportunity Act), WRG (Workforce Ready Grant), Job Ready Indy. Eligibility is determined through WorkOne. Qualifying participants pay nothing.',
+    funding:
+      'WIOA (Workforce Innovation and Opportunity Act), WRG (Workforce Ready Grant), Job Ready Indy. Eligibility is determined through WorkOne. Qualifying participants pay nothing.',
     timeline: '1–2 weeks from first contact to enrollment.',
   },
   {
@@ -38,8 +47,10 @@ const STAGES = [
     href: '/pathways/training-model',
     what: 'You join a training cohort — a group of students who start and finish together. Training combines classroom instruction, hands-on lab work, and online coursework. Trades students work with real tools and equipment. Healthcare students do clinical rotations. CDL students get 160+ hours behind the wheel.',
     who: 'Enrolled participants who have completed eligibility screening and funding confirmation.',
-    funding: 'Tuition covered by your funding source. Materials, tools, uniforms, and certification exam fees are typically included.',
-    timeline: '4–16 weeks depending on your program. Barber apprenticeship runs approximately 18 months.',
+    funding:
+      'Tuition covered by your funding source. Materials, tools, uniforms, and certification exam fees are typically included.',
+    timeline:
+      '4–16 weeks depending on your program. Barber apprenticeship runs approximately 18 months.',
   },
   {
     num: 3,
@@ -48,8 +59,10 @@ const STAGES = [
     href: '/credentials',
     what: 'At the end of training, you sit for a certification exam issued by a recognized third-party organization — not by Elevate. You earn a credential that employers across the country recognize and require for hiring.',
     who: 'Students who have completed their training program and met all requirements.',
-    funding: 'Exam fees are typically covered by your funding source or included in program tuition.',
-    timeline: 'Exam day is scheduled at the end of your program. Results are usually available within days.',
+    funding:
+      'Exam fees are typically covered by your funding source or included in program tuition.',
+    timeline:
+      'Exam day is scheduled at the end of your program. Results are usually available within days.',
   },
   {
     num: 4,
@@ -58,8 +71,10 @@ const STAGES = [
     href: '/career-services/job-placement',
     what: 'Our career services team helps you build your resume, practice interviews, and connects you directly with employers who are hiring. For apprenticeship tracks (barber, building trades), you are placed with a host employer and earn wages while completing on-the-job training hours.',
     who: 'Graduates who have earned their credential. Apprentices who are completing on-the-job training hours.',
-    funding: 'Career services are free. Apprentices are paid by their host employer during training.',
-    timeline: 'Career services begin before you graduate. Many students have job offers before their last day of class.',
+    funding:
+      'Career services are free. Apprentices are paid by their host employer during training.',
+    timeline:
+      'Career services begin before you graduate. Many students have job offers before their last day of class.',
   },
   {
     num: 5,
@@ -68,7 +83,8 @@ const STAGES = [
     href: '/career-services',
     what: 'After placement, you are not on your own. We track your employment at 6 months and 12 months. You keep access to the learning platform for continued education. Many graduates come back to stack additional credentials — for example, CNA to Medical Assistant to LPN to RN.',
     who: 'All program graduates. Ongoing support is included at no additional cost.',
-    funding: 'Additional credentials may qualify for new rounds of WIOA or employer-sponsored funding.',
+    funding:
+      'Additional credentials may qualify for new rounds of WIOA or employer-sponsored funding.',
     timeline: 'Ongoing. There is no expiration on career services support.',
   },
 ];
@@ -96,7 +112,8 @@ const PROGRAMS = [
     issuer: 'Indiana Bureau of Motor Vehicles',
     salary: '$50K+ first year (OTR)',
     jobs: 'Schneider National, Werner, Swift, J.B. Hunt, FedEx Freight, UPS Freight, XPO Logistics',
-    funding: 'No cost for eligible WIOA participants (includes DOT physical, drug screen, permit fees, BMV test)',
+    funding:
+      'No cost for eligible WIOA participants (includes DOT physical, drug screen, permit fees, BMV test)',
     desc: 'Classroom instruction plus behind-the-wheel training on automatic and manual transmission trucks. You learn pre-trip inspections, backing maneuvers, road driving, and BMV test prep. Many employers offer $5K–$15K sign-on bonuses.',
   },
   {
@@ -175,12 +192,13 @@ const PROGRAMS = [
 
 export default function PathwaysPage() {
   return (
-    <div className="bg-white">      <div className="bg-white border-b">
+    <div className="bg-white">
+      {' '}
+      <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
           <Breadcrumbs items={[{ label: 'Career Pathways' }]} />
         </div>
       </div>
-
       {/* ── Visual Hero (no text overlay) ── */}
       <section className="relative h-[50vh] sm:h-[55vh] md:h-[60vh] lg:h-[65vh] min-h-[320px] overflow-hidden">
         <Image
@@ -192,7 +210,6 @@ export default function PathwaysPage() {
           priority
         />
       </section>
-
       {/* ── Who We Are / What This Is ── */}
       <section className="py-14">
         <div className="max-w-4xl mx-auto px-4">
@@ -201,55 +218,74 @@ export default function PathwaysPage() {
           </h1>
           <div className="prose prose-lg max-w-none text-gray-700 space-y-4">
             <p>
-              Elevate for Humanity Career &amp; Technical Institute is a centralized apprenticeship sponsor and workforce training provider based in Indianapolis, Indiana, operating under 2Exclusive LLC-S.
-              The institute coordinates related technical instruction, apprenticeship sponsorship, and licensed employer training sites under a unified governance structure.
+              Elevate for Humanity Career &amp; Technical Institute is a centralized apprenticeship
+              sponsor and workforce training provider based in Indianapolis, Indiana, operating
+              under 2Exclusive LLC-S. The institute coordinates related technical instruction,
+              apprenticeship sponsorship, and licensed employer training sites under a unified
+              governance structure.
             </p>
             <p>
-              Programs follow a five-stage pathway: eligibility screening, cohort-based training, industry
-              credentialing, apprenticeship or job placement, and ongoing advancement support. Whether you are training to become a CNA, a
-              CDL driver, a licensed barber, an HVAC technician, or a cybersecurity analyst — the
-              pathway structure is the same.
+              Programs follow a five-stage pathway: eligibility screening, cohort-based training,
+              industry credentialing, apprenticeship or job placement, and ongoing advancement
+              support. Whether you are training to become a CNA, a CDL driver, a licensed barber, an
+              HVAC technician, or a cybersecurity analyst — the pathway structure is the same.
             </p>
             <p>
-              Many of our programs are available through WIOA and state funding for eligible Indiana residents.
-              WIOA (Workforce Innovation and Opportunity Act) funding administered by Indiana&apos;s
-              Department of Workforce Development. Eligibility is determined through WorkOne
-              career centers. For those who qualify, tuition, materials, certification exams,
-              and career services may be covered.
+              Many of our programs are available through WIOA and state funding for eligible Indiana
+              residents. WIOA (Workforce Innovation and Opportunity Act) funding administered by
+              Indiana&apos;s Department of Workforce Development. Eligibility is determined through
+              WorkOne career centers. For those who qualify, tuition, materials, certification
+              exams, and career services may be covered.
             </p>
           </div>
           <div className="mt-8 flex flex-wrap gap-4">
-            <Link href="/start" className="bg-brand-orange-500 hover:bg-brand-orange-600 text-white px-7 py-3.5 rounded-lg font-bold transition inline-flex items-center">
+            <Link
+              href="/start"
+              className="bg-brand-orange-500 hover:bg-brand-orange-600 text-white px-7 py-3.5 rounded-lg font-bold transition inline-flex items-center"
+            >
               Check Your Eligibility <ArrowRight className="ml-2 w-5 h-5" />
             </Link>
-            <Link href="/how-it-works" className="bg-white hover:bg-white text-brand-blue-700 border-2 border-brand-blue-200 px-7 py-3.5 rounded-lg font-bold transition">
+            <Link
+              href="/how-it-works"
+              className="bg-white hover:bg-white text-brand-blue-700 border-2 border-brand-blue-200 px-7 py-3.5 rounded-lg font-bold transition"
+            >
               See How It Works Step by Step
             </Link>
           </div>
         </div>
       </section>
-
       {/* ── The 5 Stages (photo + deep description each) ── */}
       <section className="py-14">
         <div className="max-w-6xl mx-auto px-4">
           <h2 className="text-3xl font-bold text-gray-900 mb-3">How the Pathway Works</h2>
           <p className="text-black mb-10 max-w-3xl">
-            Every participant moves through these five stages in order. You do not skip stages.
-            Each stage has a clear purpose, a defined timeline, and a specific outcome.
+            Every participant moves through these five stages in order. You do not skip stages. Each
+            stage has a clear purpose, a defined timeline, and a specific outcome.
           </p>
 
           <div className="space-y-10">
             {STAGES.map((s) => (
-              <div key={s.num} className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+              <div
+                key={s.num}
+                className="bg-white rounded-xl border border-gray-200 overflow-hidden"
+              >
                 <div className="flex flex-col lg:flex-row">
                   <div className="relative h-64 lg:h-auto lg:w-96 flex-shrink-0 overflow-hidden">
-                    <Image src={s.image} alt={s.title} fill sizes="(max-width: 1024px) 100vw, 384px" className="object-cover" />
+                    <Image
+                      src={s.image}
+                      alt={s.title}
+                      fill
+                      sizes="(max-width: 1024px) 100vw, 384px"
+                      className="object-cover"
+                    />
                     <div className="absolute top-4 left-4 w-10 h-10 bg-brand-blue-700 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg">
                       {s.num}
                     </div>
                   </div>
                   <div className="p-6 lg:p-8 flex-1">
-                    <h3 className="text-xl font-bold text-gray-900 mb-4">Stage {s.num}: {s.title}</h3>
+                    <h3 className="text-xl font-bold text-gray-900 mb-4">
+                      Stage {s.num}: {s.title}
+                    </h3>
                     <div className="space-y-4 text-sm text-gray-700">
                       <div>
                         <span className="font-bold text-gray-900 block mb-1">What happens:</span>
@@ -268,7 +304,10 @@ export default function PathwaysPage() {
                         {s.timeline}
                       </div>
                     </div>
-                    <Link href={s.href} className="mt-4 text-brand-blue-600 font-semibold text-sm inline-flex items-center hover:text-brand-blue-700">
+                    <Link
+                      href={s.href}
+                      className="mt-4 text-brand-blue-600 font-semibold text-sm inline-flex items-center hover:text-brand-blue-700"
+                    >
                       Learn more about this stage <ArrowRight className="ml-1 w-4 h-4" />
                     </Link>
                   </div>
@@ -278,7 +317,6 @@ export default function PathwaysPage() {
           </div>
         </div>
       </section>
-
       {/* ── Every Program (individual cards with full detail) ── */}
       <section className="py-14">
         <div className="max-w-6xl mx-auto px-4">
@@ -290,31 +328,63 @@ export default function PathwaysPage() {
 
           <div className="space-y-8">
             {PROGRAMS.map((p) => (
-              <div key={p.name} className="bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-lg transition">
+              <div
+                key={p.name}
+                className="bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-lg transition"
+              >
                 <div className="flex flex-col lg:flex-row">
                   <div className="relative h-56 lg:h-auto lg:w-80 flex-shrink-0 overflow-hidden">
-                    <Image src={p.image} alt={`${p.name} training`} fill sizes="(max-width: 1024px) 100vw, 320px" className="object-cover" />
+                    <Image
+                      src={p.image}
+                      alt={`${p.name} training`}
+                      fill
+                      sizes="(max-width: 1024px) 100vw, 320px"
+                      className="object-cover"
+                    />
                   </div>
                   <div className="p-6 flex-1">
                     <div className="flex items-start justify-between mb-2">
                       <h3 className="text-xl font-bold text-gray-900">{p.name}</h3>
-                      <span className="text-sm bg-brand-green-50 text-brand-green-700 px-3 py-1 rounded-full font-semibold whitespace-nowrap ml-3">{p.funding}</span>
+                      <span className="text-sm bg-brand-green-50 text-brand-green-700 px-3 py-1 rounded-full font-semibold whitespace-nowrap ml-3">
+                        {p.funding}
+                      </span>
                     </div>
                     <p className="text-sm text-gray-700 mb-4">{p.desc}</p>
 
                     <div className="grid sm:grid-cols-2 gap-x-6 gap-y-2 text-sm mb-4">
-                      <div><span className="font-bold text-gray-900">Duration:</span> <span className="text-black">{p.duration}</span></div>
-                      <div><span className="font-bold text-gray-900">Credential:</span> <span className="text-black">{p.credential}</span></div>
-                      <div><span className="font-bold text-gray-900">Issued by:</span> <span className="text-black">{p.issuer}</span></div>
-                      <div><span className="font-bold text-gray-900">Salary range:</span> <span className="text-black">{p.salary}</span></div>
-                      <div className="sm:col-span-2"><span className="font-bold text-gray-900">Who hires you:</span> <span className="text-black">{p.jobs}</span></div>
+                      <div>
+                        <span className="font-bold text-gray-900">Duration:</span>{' '}
+                        <span className="text-black">{p.duration}</span>
+                      </div>
+                      <div>
+                        <span className="font-bold text-gray-900">Credential:</span>{' '}
+                        <span className="text-black">{p.credential}</span>
+                      </div>
+                      <div>
+                        <span className="font-bold text-gray-900">Issued by:</span>{' '}
+                        <span className="text-black">{p.issuer}</span>
+                      </div>
+                      <div>
+                        <span className="font-bold text-gray-900">Salary range:</span>{' '}
+                        <span className="text-black">{p.salary}</span>
+                      </div>
+                      <div className="sm:col-span-2">
+                        <span className="font-bold text-gray-900">Who hires you:</span>{' '}
+                        <span className="text-black">{p.jobs}</span>
+                      </div>
                     </div>
 
                     <div className="flex flex-wrap gap-3">
-                      <Link href={p.href} className="bg-brand-blue-600 hover:bg-brand-blue-700 text-white px-5 py-2.5 rounded-lg font-bold text-sm transition inline-flex items-center">
+                      <Link
+                        href={p.href}
+                        className="bg-brand-blue-600 hover:bg-brand-blue-700 text-white px-5 py-2.5 rounded-lg font-bold text-sm transition inline-flex items-center"
+                      >
                         Full Program Details <ArrowRight className="ml-2 w-4 h-4" />
                       </Link>
-                      <Link href="/start" className="bg-brand-orange-500 hover:bg-brand-orange-600 text-white px-5 py-2.5 rounded-lg font-bold text-sm transition">
+                      <Link
+                        href="/start"
+                        className="bg-brand-orange-500 hover:bg-brand-orange-600 text-white px-5 py-2.5 rounded-lg font-bold text-sm transition"
+                      >
                         Apply Now
                       </Link>
                     </div>
@@ -325,17 +395,16 @@ export default function PathwaysPage() {
           </div>
         </div>
       </section>
-
       {/* ── How Programs Are Delivered ── */}
       <section className="py-10 border-t border-gray-200">
         <div className="max-w-4xl mx-auto px-4">
           <h2 className="text-2xl font-bold text-gray-900 mb-4">How Programs Are Delivered</h2>
           <div className="text-sm text-gray-700 space-y-3">
             <p>
-              Elevate for Humanity operates as a Hybrid Workforce Training Provider and
-              Registered Apprenticeship Sponsor. Training is delivered through licensed credential
-              partners and approved program holders under centralized institutional oversight,
-              with employer partners providing structured on-the-job training. Elevate manages enrollment, funding
+              Elevate for Humanity operates as a Hybrid Workforce Training Provider and Registered
+              Apprenticeship Sponsor. Training is delivered through licensed credential partners and
+              approved program holders under centralized institutional oversight, with employer
+              partners providing structured on-the-job training. Elevate manages enrollment, funding
               navigation, progress tracking, and career services.
             </p>
             <p>
@@ -346,28 +415,48 @@ export default function PathwaysPage() {
             </p>
             <p>
               Apprenticeship programs (Barber, Building Technician) are DOL Registered
-              Apprenticeships with Elevate as the registered sponsor. Apprentices train at
-              approved host employer sites under licensed instructors.
+              Apprenticeships with Elevate as the registered sponsor. Apprentices train at approved
+              host employer sites under licensed instructors.
             </p>
           </div>
-          <Link href="/pathways/training-model" className="mt-3 text-brand-blue-600 font-semibold text-sm inline-flex items-center hover:text-brand-blue-700">
+          <Link
+            href="/pathways/training-model"
+            className="mt-3 text-brand-blue-600 font-semibold text-sm inline-flex items-center hover:text-brand-blue-700"
+          >
             See full training delivery model <ArrowRight className="ml-1 w-4 h-4" />
           </Link>
         </div>
       </section>
-
       {/* ── Who Is This For ── */}
       <section className="py-14">
         <div className="max-w-4xl mx-auto px-4">
           <h2 className="text-3xl font-bold text-gray-900 mb-8">Who Is This For?</h2>
           <div className="grid sm:grid-cols-2 gap-6">
             {[
-              { title: 'Career changers', desc: 'You are working a job that does not pay enough or does not have a future. You want a credential that leads to a real career with benefits and growth.' },
-              { title: 'Unemployed or underemployed', desc: 'You are out of work or working part-time. You may qualify for WIOA funding that covers 100% of your training, including materials and certification exams.' },
-              { title: 'Justice-impacted individuals', desc: 'You have a record and need a fresh start. Job Ready Indy funding may cover your training. Many of our employer partners hire regardless of background.' },
-              { title: 'Young adults (16–24)', desc: 'You are not sure what to do after high school. WIOA Youth funding can cover career training that leads to a credential and a job in weeks, not years.' },
-              { title: 'Veterans', desc: 'You have skills from military service. Our programs help you translate those skills into civilian credentials that employers recognize.' },
-              { title: 'Employers and workforce partners', desc: 'You need trained, credentialed workers. We run custom training cohorts for your hiring needs and handle all the funding paperwork.' },
+              {
+                title: 'Career changers',
+                desc: 'You are working a job that does not pay enough or does not have a future. You want a credential that leads to a real career with benefits and growth.',
+              },
+              {
+                title: 'Unemployed or underemployed',
+                desc: 'You are out of work or working part-time. You may qualify for WIOA funding that covers 100% of your training, including materials and certification exams.',
+              },
+              {
+                title: 'Justice-impacted individuals',
+                desc: 'You have a record and need a fresh start. Job Ready Indy funding may cover your training. Many of our employer partners hire regardless of background.',
+              },
+              {
+                title: 'Young adults (16–24)',
+                desc: 'You are not sure what to do after high school. WIOA Youth funding can cover career training that leads to a credential and a job in weeks, not years.',
+              },
+              {
+                title: 'Veterans',
+                desc: 'You have skills from military service. Our programs help you translate those skills into civilian credentials that employers recognize.',
+              },
+              {
+                title: 'Employers and workforce partners',
+                desc: 'You need trained, credentialed workers. We run custom training cohorts for your hiring needs and handle all the funding paperwork.',
+              },
             ].map((item) => (
               <div key={item.title} className="bg-white rounded-lg border border-gray-200 p-6">
                 <h3 className="font-bold text-gray-900 mb-2">{item.title}</h3>
@@ -377,7 +466,6 @@ export default function PathwaysPage() {
           </div>
         </div>
       </section>
-
       {/* ── What Makes This Different ── */}
       <section className="py-14">
         <div className="max-w-4xl mx-auto px-4">
@@ -385,78 +473,143 @@ export default function PathwaysPage() {
           <div className="space-y-4 text-gray-700">
             <div className="flex gap-4 items-start">
               <div className="relative w-20 h-20 rounded-lg overflow-hidden flex-shrink-0">
-                <Image src="/images/pages/funding.jpg" alt="Funding navigation" fill sizes="80px" className="object-cover" />
+                <Image
+                  src="/images/pages/funding.jpg"
+                  alt="Funding navigation"
+                  fill
+                  sizes="80px"
+                  className="object-cover"
+                />
               </div>
               <div>
                 <h3 className="font-bold text-gray-900 mb-1">We navigate funding for you</h3>
-                <p className="text-sm">Most people do not know they qualify for free training. We walk you through federal and state workforce funding eligibility and handle the paperwork with your local WorkOne career center.</p>
+                <p className="text-sm">
+                  Most people do not know they qualify for free training. We walk you through
+                  federal and state workforce funding eligibility and handle the paperwork with your
+                  local WorkOne career center.
+                </p>
               </div>
             </div>
             <div className="flex gap-4 items-start">
               <div className="relative w-20 h-20 rounded-lg overflow-hidden flex-shrink-0">
-                <Image src="/images/pages/certifications.jpg" alt="Credentials" fill sizes="80px" className="object-cover" />
+                <Image
+                  src="/images/pages/certifications.jpg"
+                  alt="Credentials"
+                  fill
+                  sizes="80px"
+                  className="object-cover"
+                />
               </div>
               <div>
-                <h3 className="font-bold text-gray-900 mb-1">Your credential is issued by a recognized authority — not by us</h3>
-                <p className="text-sm">CNA from Indiana ISDH. CDL from Indiana BMV. EPA 608 from the EPA. IT Specialist from Certiport. Barber license from Indiana PLA. These credentials are recognized nationwide.</p>
+                <h3 className="font-bold text-gray-900 mb-1">
+                  Your credential is issued by a recognized authority — not by us
+                </h3>
+                <p className="text-sm">
+                  CNA from Indiana ISDH. CDL from Indiana BMV. EPA 608 from the EPA. IT Specialist
+                  from Certiport. Barber license from Indiana PLA. These credentials are recognized
+                  nationwide.
+                </p>
               </div>
             </div>
             <div className="flex gap-4 items-start">
               <div className="relative w-20 h-20 rounded-lg overflow-hidden flex-shrink-0">
-                <Image src="/images/pages/employer-handshake.jpg" alt="Employer connections" fill sizes="80px" className="object-cover" />
+                <Image
+                  src="/images/pages/employer-handshake.jpg"
+                  alt="Employer connections"
+                  fill
+                  sizes="80px"
+                  className="object-cover"
+                />
               </div>
               <div>
-                <h3 className="font-bold text-gray-900 mb-1">We connect you to employers who are actually hiring</h3>
-                <p className="text-sm">Not job boards. Direct introductions to hiring managers at companies like Schneider National, FedEx Freight, local HVAC contractors, hospitals, and barbershops across Central Indiana.</p>
+                <h3 className="font-bold text-gray-900 mb-1">
+                  We connect you to employers who are actually hiring
+                </h3>
+                <p className="text-sm">
+                  Not job boards. Direct introductions to hiring managers at companies like
+                  Schneider National, FedEx Freight, local HVAC contractors, hospitals, and
+                  barbershops across Central Indiana.
+                </p>
               </div>
             </div>
             <div className="flex gap-4 items-start">
               <div className="relative w-20 h-20 rounded-lg overflow-hidden flex-shrink-0">
-                <Image src="/images/pages/mentorship-page-3.jpg" alt="Ongoing support" fill sizes="80px" className="object-cover" />
+                <Image
+                  src="/images/pages/mentorship-page-3.jpg"
+                  alt="Ongoing support"
+                  fill
+                  sizes="80px"
+                  className="object-cover"
+                />
               </div>
               <div>
-                <h3 className="font-bold text-gray-900 mb-1">Support does not end when you graduate</h3>
-                <p className="text-sm">We track your employment at 6 and 12 months. You keep access to the learning platform. Career services — resume help, interview coaching, job leads — are available as long as you need them.</p>
+                <h3 className="font-bold text-gray-900 mb-1">
+                  Support does not end when you graduate
+                </h3>
+                <p className="text-sm">
+                  We track your employment at 6 and 12 months. You keep access to the learning
+                  platform. Career services — resume help, interview coaching, job leads — are
+                  available as long as you need them.
+                </p>
               </div>
             </div>
           </div>
         </div>
       </section>
-
       {/* ── Explore More ── */}
       <section className="py-10">
         <div className="max-w-4xl mx-auto px-4">
           <h2 className="text-2xl font-bold text-gray-900 mb-6">Explore the Pathway System</h2>
           <div className="grid sm:grid-cols-3 gap-4">
-            <Link href="/pathways/outcomes" className="bg-white rounded-lg border border-gray-200 p-5 hover:shadow-md transition">
+            <Link
+              href="/pathways/outcomes"
+              className="bg-white rounded-lg border border-gray-200 p-5 hover:shadow-md transition"
+            >
               <h3 className="font-bold text-gray-900 mb-1">Outcomes &amp; Metrics</h3>
-              <p className="text-sm text-black">What each credential means, what jobs pay, and how we measure success.</p>
+              <p className="text-sm text-black">
+                What each credential means, what jobs pay, and how we measure success.
+              </p>
             </Link>
-            <Link href="/pathways/partners" className="bg-white rounded-lg border border-gray-200 p-5 hover:shadow-md transition">
+            <Link
+              href="/pathways/partners"
+              className="bg-white rounded-lg border border-gray-200 p-5 hover:shadow-md transition"
+            >
               <h3 className="font-bold text-gray-900 mb-1">Partners &amp; Cohorts</h3>
-              <p className="text-sm text-black">How workforce boards, employers, and community organizations work with us.</p>
+              <p className="text-sm text-black">
+                How workforce boards, employers, and community organizations work with us.
+              </p>
             </Link>
-            <Link href="/pathways/training-model" className="bg-white rounded-lg border border-gray-200 p-5 hover:shadow-md transition">
+            <Link
+              href="/pathways/training-model"
+              className="bg-white rounded-lg border border-gray-200 p-5 hover:shadow-md transition"
+            >
               <h3 className="font-bold text-gray-900 mb-1">Training Delivery</h3>
-              <p className="text-sm text-black">What a student day looks like, how classes work, and how we track progress.</p>
+              <p className="text-sm text-black">
+                What a student day looks like, how classes work, and how we track progress.
+              </p>
             </Link>
           </div>
         </div>
       </section>
-
       {/* ── CTA ── */}
       <section className="py-14 bg-brand-blue-700 text-white">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-4">Ready to Start?</h2>
           <p className="text-lg text-white mb-8 max-w-2xl mx-auto">
-            The first step is checking your eligibility. It takes about 5 minutes online.
-            If you qualify for funding, your entire training can be free.
+            The first step is checking your eligibility. It takes about 5 minutes online. If you
+            qualify for funding, your entire training can be free.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/start" className="bg-brand-orange-500 hover:bg-brand-orange-600 text-white px-8 py-4 rounded-lg text-lg font-bold transition">
+            <Link
+              href="/start"
+              className="bg-brand-orange-500 hover:bg-brand-orange-600 text-white px-8 py-4 rounded-lg text-lg font-bold transition"
+            >
               Check Eligibility &amp; Apply
             </Link>
-            <Link href="/contact" className="bg-white/10 hover:bg-white/20 text-white px-8 py-4 rounded-lg text-lg font-bold transition border-2 border-white/30">
+            <Link
+              href="/contact"
+              className="bg-white/10 hover:bg-white/20 text-white px-8 py-4 rounded-lg text-lg font-bold transition border-2 border-white/30"
+            >
               Talk to Someone First
             </Link>
           </div>

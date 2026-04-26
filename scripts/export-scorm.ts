@@ -27,7 +27,8 @@ const GEN_DIR = path.resolve('temp/generated-lessons');
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 const args = process.argv.slice(2);
-const format = args.includes('--format') && args[args.indexOf('--format') + 1] === '2004' ? '2004' : '1.2';
+const format =
+  args.includes('--format') && args[args.indexOf('--format') + 1] === '2004' ? '2004' : '1.2';
 
 // ── SCORM API wrapper ──────────────────────────────────────────────────
 
@@ -91,7 +92,7 @@ window.addEventListener("beforeunload", scormFinish);
 function generateLessonHTML(
   lesson: { title: string; lesson_number: number; video_url: string },
   quiz: any[],
-  captions: any[]
+  captions: any[],
 ): string {
   return `<!DOCTYPE html>
 <html lang="en">
@@ -287,7 +288,7 @@ function generateLessonHTML(
 
 function generateManifest(
   lessons: { lesson_number: number; title: string }[],
-  scormFormat: string
+  scormFormat: string,
 ): string {
   if (scormFormat === '2004') {
     let items = '';
@@ -362,7 +363,11 @@ ${resources}
 }
 
 function escapeXml(s: string): string {
-  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  return s
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
 }
 
 // ── Main ────────────────────────────────────────────────────────────────
@@ -376,7 +381,10 @@ async function main() {
     .eq('course_id', COURSE_ID)
     .order('lesson_number');
 
-  if (!lessons) { console.error('No lessons found'); process.exit(1); }
+  if (!lessons) {
+    console.error('No lessons found');
+    process.exit(1);
+  }
 
   // Clean and create output dirs
   const exportDir = path.join(OUT_DIR, `scorm-${format.replace('.', '')}`);
@@ -391,34 +399,32 @@ async function main() {
   let count = 0;
   for (const lesson of lessons) {
     const lessonDir = path.join(GEN_DIR, `lesson-${lesson.lesson_number}`);
-    
+
     let quiz: any[] = [];
     let captions: any[] = [];
-    
+
     const quizPath = path.join(lessonDir, 'quiz.json');
     if (fs.existsSync(quizPath)) quiz = JSON.parse(fs.readFileSync(quizPath, 'utf-8'));
-    
+
     const captionPath = path.join(lessonDir, 'captions.json');
     if (fs.existsSync(captionPath)) captions = JSON.parse(fs.readFileSync(captionPath, 'utf-8'));
 
     const html = generateLessonHTML(
-      { title: lesson.title, lesson_number: lesson.lesson_number, video_url: lesson.video_url || '' },
+      {
+        title: lesson.title,
+        lesson_number: lesson.lesson_number,
+        video_url: lesson.video_url || '',
+      },
       quiz,
-      captions
+      captions,
     );
 
-    fs.writeFileSync(
-      path.join(exportDir, 'lessons', `lesson-${lesson.lesson_number}.html`),
-      html
-    );
+    fs.writeFileSync(path.join(exportDir, 'lessons', `lesson-${lesson.lesson_number}.html`), html);
     count++;
   }
 
   // Write manifest
-  fs.writeFileSync(
-    path.join(exportDir, 'imsmanifest.xml'),
-    generateManifest(lessons, format)
-  );
+  fs.writeFileSync(path.join(exportDir, 'imsmanifest.xml'), generateManifest(lessons, format));
 
   // Create zip
   const zipName = `Elevate-HVAC-EPA608-SCORM${format.replace('.', '')}.zip`;

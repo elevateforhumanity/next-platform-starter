@@ -1,4 +1,3 @@
-
 /**
  * Native Features - Camera, Biometrics, Geolocation, etc.
  */
@@ -10,9 +9,7 @@ export interface CameraOptions {
   height?: number;
 }
 
-export async function capturePhoto(
-  options: CameraOptions = {}
-): Promise<Blob | null> {
+export async function capturePhoto(options: CameraOptions = {}): Promise<Blob | null> {
   try {
     const stream = await navigator.mediaDevices.getUserMedia({
       video: {
@@ -46,7 +43,8 @@ export async function capturePhoto(
     return new Promise((resolve) => {
       canvas.toBlob((blob) => resolve(blob), 'image/jpeg', 0.9);
     });
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     // Error: $1
     return null;
   }
@@ -91,7 +89,8 @@ export async function scanQRCode(): Promise<string | null> {
     }
 
     return null;
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     // Error: $1
     return null;
   }
@@ -106,8 +105,7 @@ export async function authenticateWithBiometrics(): Promise<boolean> {
     }
 
     // Check if biometric authentication is available
-    const available =
-      await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable();
+    const available = await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable();
     if (!available) {
       return false;
     }
@@ -144,7 +142,8 @@ export async function authenticateWithBiometrics(): Promise<boolean> {
     });
 
     return credential !== null;
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     // Error: $1
     return false;
   }
@@ -176,7 +175,8 @@ export async function verifyBiometrics(credentialId: string): Promise<boolean> {
     });
 
     return assertion !== null;
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     // Error: $1
     return false;
   }
@@ -220,14 +220,14 @@ export async function getCurrentLocation(): Promise<GeolocationPosition | null> 
         enableHighAccuracy: true,
         timeout: 10000,
         maximumAge: 0,
-      }
+      },
     );
   });
 }
 
 export function watchLocation(
   callback: (position: GeolocationPosition) => void,
-  errorCallback?: (error: GeolocationPositionError) => void
+  errorCallback?: (error: GeolocationPositionError) => void,
 ): number | null {
   if (!navigator.geolocation) {
     return null;
@@ -250,7 +250,7 @@ export function watchLocation(
       enableHighAccuracy: true,
       timeout: 10000,
       maximumAge: 0,
-    }
+    },
   );
 }
 
@@ -282,7 +282,8 @@ export async function shareContent(data: {
 
     await navigator.share(data);
     return true;
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     // Error: $1
     return false;
   }
@@ -296,9 +297,7 @@ export interface DeviceOrientation {
   absolute: boolean;
 }
 
-export function watchOrientation(
-  callback: (orientation: DeviceOrientation) => void
-): () => void {
+export function watchOrientation(callback: (orientation: DeviceOrientation) => void): () => void {
   const handler = (event: DeviceOrientationEvent) => {
     callback({
       alpha: event.alpha,
@@ -333,7 +332,8 @@ export async function getBatteryStatus(): Promise<{
       };
     }
     return null;
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     // Error: $1
     return null;
   }
@@ -361,9 +361,7 @@ export function getNetworkInfo(): {
   };
 }
 
-export function watchNetworkStatus(
-  callback: (online: boolean) => void
-): () => void {
+export function watchNetworkStatus(callback: (online: boolean) => void): () => void {
   const onlineHandler = () => callback(true);
   const offlineHandler = () => callback(false);
 
@@ -383,7 +381,8 @@ export async function requestWakeLock(): Promise<WakeLockSentinel | null> {
       return await navigator.wakeLock.request('screen');
     }
     return null;
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     // Error: $1
     return null;
   }
@@ -394,7 +393,8 @@ export async function copyToClipboard(text: string): Promise<boolean> {
   try {
     await navigator.clipboard.writeText(text);
     return true;
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     // Error: $1
     return false;
   }
@@ -403,7 +403,8 @@ export async function copyToClipboard(text: string): Promise<boolean> {
 export async function readFromClipboard(): Promise<string | null> {
   try {
     return await navigator.clipboard.readText();
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     // Error: $1
     return null;
   }

@@ -6,7 +6,7 @@
 export async function withTimeout<T>(
   promise: Promise<T>,
   ms: number,
-  label = 'Operation'
+  label = 'Operation',
 ): Promise<T> {
   let timer: ReturnType<typeof setTimeout> | undefined;
 

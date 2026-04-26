@@ -21,7 +21,13 @@ export const PROGRAMS: Record<string, ProgramFacts> = {
     slug: 'hvac-technician',
     name: 'HVAC Technician',
     category: 'Skilled Trades',
-    credentials: ['EPA 608 Universal (prep)', 'OSHA 30-Hour Construction Safety', 'Residential HVAC Cert 1', 'Residential HVAC Cert 2', 'CPR/First Aid'],
+    credentials: [
+      'EPA 608 Universal (prep)',
+      'OSHA 30-Hour Construction Safety',
+      'Residential HVAC Cert 1',
+      'Residential HVAC Cert 2',
+      'CPR/First Aid',
+    ],
     duration: '12 weeks',
     format: 'Hybrid (online theory + hands-on labs)',
     schedule: 'Cohort-based, set during onboarding',
@@ -85,7 +91,7 @@ export const PROGRAMS: Record<string, ProgramFacts> = {
     careerOutcomes: ['Commercial truck driver', 'Delivery driver', 'Freight operator'],
     applyUrl: '/apply?program=cdl-training',
   },
-  'electrical': {
+  electrical: {
     slug: 'electrical',
     name: 'Electrical Apprenticeship',
     category: 'Skilled Trades',
@@ -96,7 +102,7 @@ export const PROGRAMS: Record<string, ProgramFacts> = {
     careerOutcomes: ['Electrical apprentice', 'Residential electrician'],
     applyUrl: '/apply?program=electrical',
   },
-  'welding': {
+  welding: {
     slug: 'welding',
     name: 'Welding Certification',
     category: 'Skilled Trades',
@@ -111,14 +117,17 @@ export const PROGRAMS: Record<string, ProgramFacts> = {
     slug: 'it-support',
     name: 'IT Support Specialist',
     category: 'Technology',
-    credentials: ['Certiport IT Specialist — Device Config', 'Certiport IT Specialist — Networking'],
+    credentials: [
+      'Certiport IT Specialist — Device Config',
+      'Certiport IT Specialist — Networking',
+    ],
     duration: 'Program-dependent',
     format: 'Hybrid',
     fundingNotes: ['WIOA eligible'],
     careerOutcomes: ['IT support specialist', 'Help desk technician', 'Desktop support'],
     applyUrl: '/apply?program=it-support',
   },
-  'cybersecurity': {
+  cybersecurity: {
     slug: 'cybersecurity',
     name: 'Cybersecurity Fundamentals',
     category: 'Technology',
@@ -151,7 +160,7 @@ export const PROGRAMS: Record<string, ProgramFacts> = {
     careerOutcomes: ['Peer recovery coach', 'Recovery support specialist'],
     applyUrl: '/apply?program=certified-peer-recovery-coach',
   },
-  'forklift': {
+  forklift: {
     slug: 'forklift',
     name: 'Forklift Operator Certification',
     category: 'Skilled Trades',
@@ -199,7 +208,9 @@ export function buildSystemPrompt(slug: string): string {
     `Funding: ${p.fundingNotes.join(', ')}`,
     `Career outcomes (non-guaranteed): ${p.careerOutcomes.join(', ')}`,
     `Application link: ${p.applyUrl}`,
-  ].filter(Boolean).join('\n');
+  ]
+    .filter(Boolean)
+    .join('\n');
 
   return [
     `You are the Elevate AI Tutor for the ${p.name} program at Elevate for Humanity.`,

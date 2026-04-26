@@ -2,9 +2,21 @@ import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import {
-  MapPin, Phone, Mail, Clock, Award, CheckCircle2,
-  Scissors, Sparkles, Hand, ChevronRight, Star,
-  GraduationCap, Users, Shield, ArrowRight,
+  MapPin,
+  Phone,
+  Mail,
+  Clock,
+  Award,
+  CheckCircle2,
+  Scissors,
+  Sparkles,
+  Hand,
+  ChevronRight,
+  Star,
+  GraduationCap,
+  Users,
+  Shield,
+  ArrowRight,
 } from 'lucide-react';
 import MesmerizedApplyForm from './MesmerizedApplyForm';
 
@@ -93,7 +105,6 @@ const STATS = [
 export default function MesmerizedByBeautyPage() {
   return (
     <div className="min-h-screen bg-white">
-
       {/* ── HERO ─────────────────────────────────────────────────────── */}
       <section className="relative">
         {/* Hero image */}
@@ -109,8 +120,16 @@ export default function MesmerizedByBeautyPage() {
           <div className="absolute inset-0 bg-black/30" />
           {/* Sponsor bug — top left, per hero standard */}
           <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm rounded-lg px-3 py-1.5 flex items-center gap-2">
-            <Image src="/logo.jpg" alt="Elevate for Humanity" width={20} height={20} className="object-contain" />
-            <span className="text-xs font-semibold text-slate-700">Sponsored by Elevate for Humanity</span>
+            <Image
+              src="/logo.jpg"
+              alt="Elevate for Humanity"
+              width={20}
+              height={20}
+              className="object-contain"
+            />
+            <span className="text-xs font-semibold text-slate-700">
+              Sponsored by Elevate for Humanity
+            </span>
           </div>
         </div>
 
@@ -121,18 +140,25 @@ export default function MesmerizedByBeautyPage() {
               Indianapolis, Indiana · DOL Registered Apprenticeship
             </p>
             <h1 className="text-4xl sm:text-5xl font-black text-slate-900 mb-4 leading-tight">
-              Mesmerized by Beauty<br className="hidden sm:block" /> Cosmetology Academy
+              Mesmerized by Beauty
+              <br className="hidden sm:block" /> Cosmetology Academy
             </h1>
             <p className="text-lg text-slate-600 max-w-2xl mx-auto mb-8">
-              Earn your Indiana cosmetology, esthetician, or nail technician license through hands-on apprenticeship training at our Indianapolis academy. Sponsored by Elevate for Humanity.
+              Earn your Indiana cosmetology, esthetician, or nail technician license through
+              hands-on apprenticeship training at our Indianapolis academy. Sponsored by Elevate for
+              Humanity.
             </p>
             <div className="flex flex-wrap justify-center gap-3">
-              <a href="#apply"
-                className="inline-flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white font-bold px-7 py-3.5 rounded-xl transition-colors text-base">
+              <a
+                href="#apply"
+                className="inline-flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white font-bold px-7 py-3.5 rounded-xl transition-colors text-base"
+              >
                 Apply Now <ArrowRight className="w-4 h-4" />
               </a>
-              <a href="#programs"
-                className="inline-flex items-center gap-2 bg-white border-2 border-slate-200 hover:border-purple-300 text-slate-800 font-bold px-7 py-3.5 rounded-xl transition-colors text-base">
+              <a
+                href="#programs"
+                className="inline-flex items-center gap-2 bg-white border-2 border-slate-200 hover:border-purple-300 text-slate-800 font-bold px-7 py-3.5 rounded-xl transition-colors text-base"
+              >
                 View Programs
               </a>
             </div>
@@ -159,15 +185,22 @@ export default function MesmerizedByBeautyPage() {
         <div className="max-w-5xl mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <p className="text-purple-600 font-semibold text-sm uppercase tracking-widest mb-3">About the Academy</p>
+              <p className="text-purple-600 font-semibold text-sm uppercase tracking-widest mb-3">
+                About the Academy
+              </p>
               <h2 className="text-3xl font-black text-slate-900 mb-5">
                 A full-service beauty school in the heart of Indianapolis
               </h2>
               <p className="text-slate-600 leading-relaxed mb-5">
-                Mesmerized by Beauty Cosmetology Academy offers cosmetology, esthetician, and nail technician programs through a registered apprenticeship model. Students train hands-on in a real salon environment, earning their Indiana state license while building a professional portfolio.
+                Mesmerized by Beauty Cosmetology Academy offers cosmetology, esthetician, and nail
+                technician programs through a registered apprenticeship model. Students train
+                hands-on in a real salon environment, earning their Indiana state license while
+                building a professional portfolio.
               </p>
               <p className="text-slate-600 leading-relaxed mb-6">
-                In partnership with <strong>Elevate for Humanity</strong>, our students gain access to the Elevate LMS for theory coursework, DOL-registered apprenticeship sponsorship, and career placement support — all under one roof.
+                In partnership with <strong>Elevate for Humanity</strong>, our students gain access
+                to the Elevate LMS for theory coursework, DOL-registered apprenticeship sponsorship,
+                and career placement support — all under one roof.
               </p>
               <div className="space-y-3">
                 {[
@@ -206,7 +239,10 @@ export default function MesmerizedByBeautyPage() {
                 </div>
                 <div className="flex items-center gap-3">
                   <Mail className="w-5 h-5 text-purple-600 flex-shrink-0" />
-                  <a href="mailto:mesmerizedbybeautyl@yahoo.com" className="text-purple-700 text-sm hover:underline">
+                  <a
+                    href="mailto:mesmerizedbybeautyl@yahoo.com"
+                    className="text-purple-700 text-sm hover:underline"
+                  >
                     mesmerizedbybeautyl@yahoo.com
                   </a>
                 </div>
@@ -224,16 +260,24 @@ export default function MesmerizedByBeautyPage() {
       <section id="programs" className="py-16 bg-slate-50">
         <div className="max-w-5xl mx-auto px-4">
           <div className="text-center mb-12">
-            <p className="text-purple-600 font-semibold text-sm uppercase tracking-widest mb-3">Programs Offered</p>
-            <h2 className="text-3xl font-black text-slate-900 mb-4">Three paths to your Indiana license</h2>
+            <p className="text-purple-600 font-semibold text-sm uppercase tracking-widest mb-3">
+              Programs Offered
+            </p>
+            <h2 className="text-3xl font-black text-slate-900 mb-4">
+              Three paths to your Indiana license
+            </h2>
             <p className="text-slate-600 max-w-xl mx-auto">
-              All programs are offered as DOL Registered Apprenticeships. You train in a licensed salon, earn wages, and graduate with a state license.
+              All programs are offered as DOL Registered Apprenticeships. You train in a licensed
+              salon, earn wages, and graduate with a state license.
             </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-6">
             {PROGRAMS.map((prog) => (
-              <div key={prog.slug} className={`bg-white rounded-2xl border-2 ${prog.borderColor} overflow-hidden flex flex-col`}>
+              <div
+                key={prog.slug}
+                className={`bg-white rounded-2xl border-2 ${prog.borderColor} overflow-hidden flex flex-col`}
+              >
                 {/* Program header */}
                 <div className={`${prog.color} p-6 text-white`}>
                   <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mb-4">
@@ -263,19 +307,23 @@ export default function MesmerizedByBeautyPage() {
                   <ul className="space-y-2 mb-6 flex-1">
                     {prog.outcomes.map((o) => (
                       <li key={o} className="flex items-start gap-2 text-sm text-slate-700">
-                        <CheckCircle2 className={`w-4 h-4 ${prog.textColor} flex-shrink-0 mt-0.5`} />
+                        <CheckCircle2
+                          className={`w-4 h-4 ${prog.textColor} flex-shrink-0 mt-0.5`}
+                        />
                         {o}
                       </li>
                     ))}
                   </ul>
 
-                  <a href={`#apply?program=${prog.slug}`}
+                  <a
+                    href={`#apply?program=${prog.slug}`}
                     onClick={(e) => {
                       e.preventDefault();
                       const el = document.getElementById('apply');
                       if (el) el.scrollIntoView({ behavior: 'smooth' });
                     }}
-                    className={`w-full text-center ${prog.color} hover:opacity-90 text-white font-bold py-3 rounded-xl transition-opacity text-sm flex items-center justify-center gap-2`}>
+                    className={`w-full text-center ${prog.color} hover:opacity-90 text-white font-bold py-3 rounded-xl transition-opacity text-sm flex items-center justify-center gap-2`}
+                  >
                     Apply for {prog.label} <ChevronRight className="w-4 h-4" />
                   </a>
                 </div>
@@ -289,10 +337,15 @@ export default function MesmerizedByBeautyPage() {
       <section className="py-16 bg-white">
         <div className="max-w-4xl mx-auto px-4">
           <div className="text-center mb-10">
-            <p className="text-purple-600 font-semibold text-sm uppercase tracking-widest mb-3">Registered Apprenticeship</p>
-            <h2 className="text-3xl font-black text-slate-900 mb-4">You get paid while you train</h2>
+            <p className="text-purple-600 font-semibold text-sm uppercase tracking-widest mb-3">
+              Registered Apprenticeship
+            </p>
+            <h2 className="text-3xl font-black text-slate-900 mb-4">
+              You get paid while you train
+            </h2>
             <p className="text-slate-600 max-w-xl mx-auto">
-              This is not a traditional school where you pay tuition and wait. As a DOL Registered Apprentice, you are placed at a licensed salon and earn wages from day one.
+              This is not a traditional school where you pay tuition and wait. As a DOL Registered
+              Apprentice, you are placed at a licensed salon and earn wages from day one.
             </p>
           </div>
 
@@ -314,7 +367,10 @@ export default function MesmerizedByBeautyPage() {
                 desc: 'Workforce funding (WIOA) may cover your program costs. We help you apply — most students pay nothing out of pocket.',
               },
             ].map((item) => (
-              <div key={item.title} className="bg-purple-50 border border-purple-100 rounded-2xl p-6 text-center">
+              <div
+                key={item.title}
+                className="bg-purple-50 border border-purple-100 rounded-2xl p-6 text-center"
+              >
                 <div className="text-3xl mb-3">{item.icon}</div>
                 <h3 className="font-bold text-slate-900 mb-2">{item.title}</h3>
                 <p className="text-slate-600 text-sm leading-relaxed">{item.desc}</p>
@@ -326,18 +382,26 @@ export default function MesmerizedByBeautyPage() {
           <div className="bg-slate-900 rounded-2xl p-7">
             <div className="text-center mb-6">
               <h3 className="text-xl font-black text-white mb-2">Are you eligible?</h3>
-              <p className="text-slate-400 text-sm">Most people qualify. Check the basics before you apply.</p>
+              <p className="text-slate-400 text-sm">
+                Most people qualify. Check the basics before you apply.
+              </p>
             </div>
             <div className="grid sm:grid-cols-2 gap-3 mb-6">
               {[
                 { check: 'Age 16 or older', note: 'No upper age limit' },
                 { check: 'High school diploma or GED', note: 'Or currently enrolled' },
                 { check: 'Authorized to work in the US', note: 'Citizen, resident, or work visa' },
-                { check: 'Able to commit to training schedule', note: 'Full-time or part-time tracks available' },
+                {
+                  check: 'Able to commit to training schedule',
+                  note: 'Full-time or part-time tracks available',
+                },
                 { check: 'No prior cosmetology license required', note: 'Beginners welcome' },
                 { check: 'Indiana resident preferred', note: 'Out-of-state applicants considered' },
               ].map((item) => (
-                <div key={item.check} className="flex items-start gap-3 bg-white/5 rounded-xl px-4 py-3">
+                <div
+                  key={item.check}
+                  className="flex items-start gap-3 bg-white/5 rounded-xl px-4 py-3"
+                >
                   <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" />
                   <div>
                     <p className="text-white text-sm font-semibold">{item.check}</p>
@@ -348,7 +412,10 @@ export default function MesmerizedByBeautyPage() {
             </div>
             <p className="text-center text-slate-400 text-sm">
               Not sure if you qualify?{' '}
-              <a href="mailto:mesmerizedbybeautyl@yahoo.com" className="text-purple-400 hover:text-purple-300 font-semibold">
+              <a
+                href="mailto:mesmerizedbybeautyl@yahoo.com"
+                className="text-purple-400 hover:text-purple-300 font-semibold"
+              >
                 Email us before applying
               </a>{' '}
               — we will tell you honestly.
@@ -361,8 +428,12 @@ export default function MesmerizedByBeautyPage() {
       <section className="py-16 bg-slate-50">
         <div className="max-w-4xl mx-auto px-4">
           <div className="text-center mb-12">
-            <p className="text-purple-600 font-semibold text-sm uppercase tracking-widest mb-3">Enrollment Process</p>
-            <h2 className="text-3xl font-black text-slate-900 mb-4">What happens after you apply</h2>
+            <p className="text-purple-600 font-semibold text-sm uppercase tracking-widest mb-3">
+              Enrollment Process
+            </p>
+            <h2 className="text-3xl font-black text-slate-900 mb-4">
+              What happens after you apply
+            </h2>
             <p className="text-slate-600 max-w-xl mx-auto">
               From application to first paid shift — here is the exact timeline.
             </p>
@@ -411,7 +482,9 @@ export default function MesmerizedByBeautyPage() {
                 },
               ].map((item) => (
                 <div key={item.step} className="flex gap-5 sm:gap-8 items-start">
-                  <div className={`w-12 h-12 ${item.color} text-white rounded-2xl flex items-center justify-center flex-shrink-0 font-black text-sm z-10`}>
+                  <div
+                    className={`w-12 h-12 ${item.color} text-white rounded-2xl flex items-center justify-center flex-shrink-0 font-black text-sm z-10`}
+                  >
                     {item.step}
                   </div>
                   <div className="flex-1 bg-white rounded-2xl border border-slate-200 p-5">
@@ -434,24 +507,54 @@ export default function MesmerizedByBeautyPage() {
       <section className="py-16 bg-white">
         <div className="max-w-4xl mx-auto px-4">
           <div className="text-center mb-10">
-            <p className="text-purple-600 font-semibold text-sm uppercase tracking-widest mb-3">Real Outcomes</p>
-            <h2 className="text-3xl font-black text-slate-900 mb-4">What apprentices actually experience</h2>
+            <p className="text-purple-600 font-semibold text-sm uppercase tracking-widest mb-3">
+              Real Outcomes
+            </p>
+            <h2 className="text-3xl font-black text-slate-900 mb-4">
+              What apprentices actually experience
+            </h2>
             <p className="text-slate-500 text-sm max-w-lg mx-auto">
-              We don&apos;t have 10 years of data yet — we&apos;re building this program with you. Here&apos;s what the path looks like based on Indiana apprenticeship standards and our partner network.
+              We don&apos;t have 10 years of data yet — we&apos;re building this program with you.
+              Here&apos;s what the path looks like based on Indiana apprenticeship standards and our
+              partner network.
             </p>
           </div>
 
           {/* Outcome stats */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-12">
             {[
-              { value: '$12–$16', unit: '/hr', label: 'Typical starting wage during training', color: 'text-purple-700' },
-              { value: '3–4', unit: ' weeks', label: 'Average time from application to first paid shift', color: 'text-purple-700' },
-              { value: '$0', unit: '', label: 'Tuition cost for most WIOA-eligible students', color: 'text-emerald-700' },
-              { value: '100%', unit: '', label: 'Hands-on training in a real licensed salon', color: 'text-purple-700' },
+              {
+                value: '$12–$16',
+                unit: '/hr',
+                label: 'Typical starting wage during training',
+                color: 'text-purple-700',
+              },
+              {
+                value: '3–4',
+                unit: ' weeks',
+                label: 'Average time from application to first paid shift',
+                color: 'text-purple-700',
+              },
+              {
+                value: '$0',
+                unit: '',
+                label: 'Tuition cost for most WIOA-eligible students',
+                color: 'text-emerald-700',
+              },
+              {
+                value: '100%',
+                unit: '',
+                label: 'Hands-on training in a real licensed salon',
+                color: 'text-purple-700',
+              },
             ].map((stat) => (
-              <div key={stat.label} className="bg-slate-50 border border-slate-200 rounded-2xl p-5 text-center">
+              <div
+                key={stat.label}
+                className="bg-slate-50 border border-slate-200 rounded-2xl p-5 text-center"
+              >
                 <p className={`text-3xl font-black ${stat.color}`}>
-                  {stat.value}<span className="text-lg">{stat.unit}</span>
+                  {stat.value}
+                  <span className="text-lg">{stat.unit}</span>
                 </p>
                 <p className="text-xs text-slate-500 mt-2 leading-snug">{stat.label}</p>
               </div>
@@ -461,16 +564,42 @@ export default function MesmerizedByBeautyPage() {
           {/* A day in the life */}
           <div className="bg-slate-900 rounded-2xl overflow-hidden">
             <div className="px-6 py-5 border-b border-white/10">
-              <h3 className="text-white font-black text-lg">A day in the life of a cosmetology apprentice</h3>
+              <h3 className="text-white font-black text-lg">
+                A day in the life of a cosmetology apprentice
+              </h3>
               <p className="text-slate-400 text-sm mt-1">Month 3 of training — a typical Tuesday</p>
             </div>
             <div className="p-6 space-y-4">
               {[
-                { time: '8:30 AM', event: 'Arrive at partner salon. Clock in on the Elevate app.', tag: 'Paid hours start' },
-                { time: '9:00 AM', event: 'First client — shampoo, blow-dry, and style under supervisor observation.', tag: 'Practical training' },
-                { time: '12:00 PM', event: 'Lunch break. Review today\'s theory module on the Elevate LMS — 20 minutes on chemical services.', tag: 'Theory coursework' },
-                { time: '1:00 PM', event: 'Two more clients. Supervisor signs off on a new competency: basic color application.', tag: 'Skills milestone' },
-                { time: '5:00 PM', event: 'Clock out. 8 hours logged. Running total: 312 of 1,500 hours. On track to test in 11 months.', tag: 'Progress tracked' },
+                {
+                  time: '8:30 AM',
+                  event: 'Arrive at partner salon. Clock in on the Elevate app.',
+                  tag: 'Paid hours start',
+                },
+                {
+                  time: '9:00 AM',
+                  event:
+                    'First client — shampoo, blow-dry, and style under supervisor observation.',
+                  tag: 'Practical training',
+                },
+                {
+                  time: '12:00 PM',
+                  event:
+                    "Lunch break. Review today's theory module on the Elevate LMS — 20 minutes on chemical services.",
+                  tag: 'Theory coursework',
+                },
+                {
+                  time: '1:00 PM',
+                  event:
+                    'Two more clients. Supervisor signs off on a new competency: basic color application.',
+                  tag: 'Skills milestone',
+                },
+                {
+                  time: '5:00 PM',
+                  event:
+                    'Clock out. 8 hours logged. Running total: 312 of 1,500 hours. On track to test in 11 months.',
+                  tag: 'Progress tracked',
+                },
               ].map((item) => (
                 <div key={item.time} className="flex gap-4 items-start">
                   <div className="w-16 flex-shrink-0 text-right">
@@ -487,7 +616,8 @@ export default function MesmerizedByBeautyPage() {
             </div>
             <div className="px-6 py-4 bg-white/5 border-t border-white/10">
               <p className="text-slate-400 text-sm text-center">
-                This is what the program is designed to look like — structured, supervised, and paid.
+                This is what the program is designed to look like — structured, supervised, and
+                paid.
               </p>
             </div>
           </div>
@@ -500,22 +630,47 @@ export default function MesmerizedByBeautyPage() {
           <div className="flex flex-col md:flex-row items-center gap-8">
             <div className="flex-shrink-0">
               <div className="w-20 h-20 bg-white rounded-2xl flex items-center justify-center">
-                <Image src="/logo.jpg" alt="Elevate for Humanity" width={52} height={52} className="object-contain" />
+                <Image
+                  src="/logo.jpg"
+                  alt="Elevate for Humanity"
+                  width={52}
+                  height={52}
+                  className="object-contain"
+                />
               </div>
             </div>
             <div className="text-center md:text-left">
-              <p className="text-purple-200 text-sm font-semibold uppercase tracking-widest mb-2">Official Partnership</p>
-              <h2 className="text-2xl font-black text-white mb-3">Sponsored by Elevate for Humanity</h2>
+              <p className="text-purple-200 text-sm font-semibold uppercase tracking-widest mb-2">
+                Official Partnership
+              </p>
+              <h2 className="text-2xl font-black text-white mb-3">
+                Sponsored by Elevate for Humanity
+              </h2>
               <p className="text-purple-100 leading-relaxed">
-                Mesmerized by Beauty Cosmetology Academy is an official Elevate for Humanity partner school. Students gain access to the Elevate LMS for theory coursework, DOL-registered apprenticeship sponsorship, RAPIDS compliance reporting, and career placement support — all at no additional cost.
+                Mesmerized by Beauty Cosmetology Academy is an official Elevate for Humanity partner
+                school. Students gain access to the Elevate LMS for theory coursework,
+                DOL-registered apprenticeship sponsorship, RAPIDS compliance reporting, and career
+                placement support — all at no additional cost.
               </p>
             </div>
           </div>
           <div className="grid sm:grid-cols-3 gap-4 mt-10">
             {[
-              { icon: <Award className="w-5 h-5" />, label: 'DOL Registered Apprenticeship', desc: 'Federally recognized credential' },
-              { icon: <GraduationCap className="w-5 h-5" />, label: 'Elevate LMS Theory', desc: 'Online coursework included' },
-              { icon: <Users className="w-5 h-5" />, label: 'Career Placement', desc: 'Job placement support' },
+              {
+                icon: <Award className="w-5 h-5" />,
+                label: 'DOL Registered Apprenticeship',
+                desc: 'Federally recognized credential',
+              },
+              {
+                icon: <GraduationCap className="w-5 h-5" />,
+                label: 'Elevate LMS Theory',
+                desc: 'Online coursework included',
+              },
+              {
+                icon: <Users className="w-5 h-5" />,
+                label: 'Career Placement',
+                desc: 'Job placement support',
+              },
             ].map((item) => (
               <div key={item.label} className="bg-white/10 rounded-xl p-4 text-center">
                 <div className="text-purple-200 flex justify-center mb-2">{item.icon}</div>
@@ -531,7 +686,9 @@ export default function MesmerizedByBeautyPage() {
       <section className="py-16 bg-slate-50">
         <div className="max-w-4xl mx-auto px-4">
           <div className="text-center mb-10">
-            <p className="text-purple-600 font-semibold text-sm uppercase tracking-widest mb-3">Why Choose Us</p>
+            <p className="text-purple-600 font-semibold text-sm uppercase tracking-widest mb-3">
+              Why Choose Us
+            </p>
             <h2 className="text-3xl font-black text-slate-900">Built for working adults</h2>
           </div>
           <div className="grid sm:grid-cols-3 gap-6">
@@ -566,7 +723,9 @@ export default function MesmerizedByBeautyPage() {
       <section id="apply" className="py-16 bg-white">
         <div className="max-w-2xl mx-auto px-4">
           <div className="text-center mb-10">
-            <p className="text-purple-600 font-semibold text-sm uppercase tracking-widest mb-3">Enrollment</p>
+            <p className="text-purple-600 font-semibold text-sm uppercase tracking-widest mb-3">
+              Enrollment
+            </p>
             <h2 className="text-3xl font-black text-slate-900 mb-4">Apply to a program</h2>
             <p className="text-slate-600">
               Free to apply. Our admissions team will contact you within 2–3 business days.
@@ -579,26 +738,40 @@ export default function MesmerizedByBeautyPage() {
       {/* ── FOOTER CTA ───────────────────────────────────────────────── */}
       <section className="py-12 bg-slate-900">
         <div className="max-w-3xl mx-auto px-4 text-center">
-          <h2 className="text-2xl font-black text-white mb-3">Ready to start your beauty career?</h2>
-          <p className="text-slate-400 mb-6">Apply today — no cost to apply, no commitment required.</p>
+          <h2 className="text-2xl font-black text-white mb-3">
+            Ready to start your beauty career?
+          </h2>
+          <p className="text-slate-400 mb-6">
+            Apply today — no cost to apply, no commitment required.
+          </p>
           <div className="flex flex-wrap justify-center gap-4 mb-8">
-            <a href="#apply"
-              className="inline-flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white font-bold px-7 py-3.5 rounded-xl transition-colors">
+            <a
+              href="#apply"
+              className="inline-flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white font-bold px-7 py-3.5 rounded-xl transition-colors"
+            >
               Apply Now <ArrowRight className="w-4 h-4" />
             </a>
-            <a href="mailto:mesmerizedbybeautyl@yahoo.com"
-              className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white font-bold px-7 py-3.5 rounded-xl transition-colors">
+            <a
+              href="mailto:mesmerizedbybeautyl@yahoo.com"
+              className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white font-bold px-7 py-3.5 rounded-xl transition-colors"
+            >
               <Mail className="w-4 h-4" /> Email the School
             </a>
           </div>
           <div className="flex flex-wrap justify-center gap-6 text-sm text-slate-500">
-            <span className="flex items-center gap-2"><MapPin className="w-4 h-4" /> 8325 Michigan Road, Indianapolis, IN 46268</span>
-            <span className="flex items-center gap-2"><Mail className="w-4 h-4" /> mesmerizedbybeautyl@yahoo.com</span>
+            <span className="flex items-center gap-2">
+              <MapPin className="w-4 h-4" /> 8325 Michigan Road, Indianapolis, IN 46268
+            </span>
+            <span className="flex items-center gap-2">
+              <Mail className="w-4 h-4" /> mesmerizedbybeautyl@yahoo.com
+            </span>
           </div>
           <p className="text-slate-600 text-xs mt-6">
             Sponsored by{' '}
-            <Link href="/" className="text-purple-400 hover:text-purple-300">Elevate for Humanity</Link>
-            {' '}· A DOL Registered Apprenticeship Program
+            <Link href="/" className="text-purple-400 hover:text-purple-300">
+              Elevate for Humanity
+            </Link>{' '}
+            · A DOL Registered Apprenticeship Program
           </p>
         </div>
       </section>

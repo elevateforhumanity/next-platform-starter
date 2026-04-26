@@ -32,7 +32,9 @@ export default function SignDocumentPage() {
     async function load() {
       const supabase = createClient();
 
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       if (!user) {
         router.push(`/login?redirect=/sign/${documentId}`);
         return;
@@ -75,7 +77,9 @@ export default function SignDocumentPage() {
     setError(null);
 
     const supabase = createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) {
       setError('Please log in to sign this document.');
       setSigning(false);
@@ -118,13 +122,26 @@ export default function SignDocumentPage() {
       <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="max-w-md mx-auto text-center bg-white rounded-2xl border border-slate-200 p-8">
           <div className="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-4">
-            <svg className="w-8 h-8 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            <svg
+              className="w-8 h-8 text-red-500"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
             </svg>
           </div>
           <h1 className="text-xl font-bold text-slate-900 mb-2">Document Not Found</h1>
           <p className="text-slate-500 mb-6">{error}</p>
-          <Link href="/learner/dashboard" className="inline-block px-6 py-3 bg-brand-blue-600 text-white rounded-xl font-semibold hover:bg-brand-blue-700">
+          <Link
+            href="/learner/dashboard"
+            className="inline-block px-6 py-3 bg-brand-blue-600 text-white rounded-xl font-semibold hover:bg-brand-blue-700"
+          >
             Return to Dashboard
           </Link>
         </div>
@@ -137,15 +154,28 @@ export default function SignDocumentPage() {
       <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="max-w-md mx-auto text-center bg-white rounded-2xl border border-slate-200 p-8">
           <div className="w-16 h-16 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-4">
-            <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            <svg
+              className="w-8 h-8 text-green-600"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M5 13l4 4L19 7"
+              />
             </svg>
           </div>
           <h1 className="text-xl font-bold text-slate-900 mb-2">Document Signed</h1>
           <p className="text-slate-500 mb-6">
             Your signature has been recorded. A copy has been saved to your account.
           </p>
-          <Link href="/learner/dashboard" className="inline-block px-6 py-3 bg-brand-blue-600 text-white rounded-xl font-semibold hover:bg-brand-blue-700">
+          <Link
+            href="/learner/dashboard"
+            className="inline-block px-6 py-3 bg-brand-blue-600 text-white rounded-xl font-semibold hover:bg-brand-blue-700"
+          >
             Return to Dashboard
           </Link>
         </div>
@@ -156,7 +186,9 @@ export default function SignDocumentPage() {
   return (
     <div className="min-h-screen bg-white py-12">
       <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: 'Sign Document', href: '/sign' }, { label: doc?.title || 'Document' }]} />
+        <Breadcrumbs
+          items={[{ label: 'Sign Document', href: '/sign' }, { label: doc?.title || 'Document' }]}
+        />
       </div>
 
       <div className="max-w-4xl mx-auto px-4">
@@ -216,8 +248,9 @@ export default function SignDocumentPage() {
                 className="mt-1 h-4 w-4 text-brand-blue-600 border-slate-300 rounded focus:ring-brand-blue-500"
               />
               <span className="text-sm text-slate-600">
-                I have read and agree to the terms of this document. I understand that by typing my name above,
-                I am providing my electronic signature which is legally binding under the E-SIGN Act.
+                I have read and agree to the terms of this document. I understand that by typing my
+                name above, I am providing my electronic signature which is legally binding under
+                the E-SIGN Act.
               </span>
             </label>
           </div>

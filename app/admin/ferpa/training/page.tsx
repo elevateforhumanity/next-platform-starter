@@ -16,14 +16,16 @@ export default async function FERPATrainingPage() {
 
   const [{ data: profile }, { data: trainingRecords }, { data: pendingUsers }] = await Promise.all([
     db.from('profiles').select('role, full_name').eq('id', userId).maybeSingle(),
-    db.from('ferpa_training_records')
-      .select('id, user_id, status, quiz_score, completed_at, expires_at, training_acknowledged, created_at')
-      .order('created_at', { ascending: false }),
-    db.from('profiles')
-      .select('id, full_name, email, role')
-      .not('id', 'in',
-        `(SELECT user_id FROM ferpa_training_records WHERE status = 'completed')`
+    db
+      .from('ferpa_training_records')
+      .select(
+        'id, user_id, status, quiz_score, completed_at, expires_at, training_acknowledged, created_at',
       )
+      .order('created_at', { ascending: false }),
+    db
+      .from('profiles')
+      .select('id, full_name, email, role')
+      .not('id', 'in', `(SELECT user_id FROM ferpa_training_records WHERE status = 'completed')`)
       .in('role', ['staff', 'instructor', 'admin', 'super_admin'])
       .order('full_name'),
   ]);

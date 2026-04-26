@@ -27,8 +27,7 @@ export const metadata: Metadata = {
     'Direct Support Professional apprenticeship',
   ],
   alternates: {
-    canonical:
-      'https://www.elevateforhumanity.org/programs/direct-support-professional',
+    canonical: 'https://www.elevateforhumanity.org/programs/direct-support-professional',
   },
 };
 
@@ -45,7 +44,7 @@ export default async function Page() {
       </div>
     );
   }
-  
+
   // Fetch DSP program info
   const { data: program } = await supabase
     .from('programs')
@@ -56,10 +55,7 @@ export default async function Page() {
   return (
     <div className="min-h-screen bg-white">
       <Breadcrumbs
-        items={[
-          { label: 'Programs', href: '/programs' },
-          { label: 'Direct Support Professional' },
-        ]}
+        items={[{ label: 'Programs', href: '/programs' }, { label: 'Direct Support Professional' }]}
       />
       <CompactHero
         variant="default"
@@ -88,18 +84,15 @@ export default async function Page() {
       <section className="max-w-7xl mx-auto px-4 py-16">
         <div className="grid md:grid-cols-2 gap-12">
           <div>
-            <h2 className="text-3xl font-bold text-black mb-6">
-              Program Overview
-            </h2>
+            <h2 className="text-3xl font-bold text-black mb-6">Program Overview</h2>
             <p className="text-lg text-black mb-4">
-              Direct Support Professionals provide essential care and support to
-              individuals with intellectual and developmental disabilities. This
-              rewarding career helps people live independently and participate
-              fully in their communities.
+              Direct Support Professionals provide essential care and support to individuals with
+              intellectual and developmental disabilities. This rewarding career helps people live
+              independently and participate fully in their communities.
             </p>
             <p className="text-lg text-black mb-4">
-              Our free training program prepares you for immediate employment in
-              residential facilities, day programs, and community settings.
+              Our free training program prepares you for immediate employment in residential
+              facilities, day programs, and community settings.
             </p>
             <div className="relative h-[300px] rounded-xl overflow-hidden mt-6">
               <Image
@@ -111,9 +104,7 @@ export default async function Page() {
             </div>
           </div>
           <div className="bg-blue-50 p-8 rounded-lg">
-            <h3 className="text-2xl font-bold text-black mb-4">
-              Quick Facts
-            </h3>
+            <h3 className="text-2xl font-bold text-black mb-4">Quick Facts</h3>
             <ul className="space-y-3">
               <li className="flex items-start gap-3">
                 <span className="text-blue-600 font-bold">Duration:</span>
@@ -125,9 +116,7 @@ export default async function Page() {
               </li>
               <li className="flex items-start gap-3">
                 <span className="text-blue-600 font-bold">Format:</span>
-                <span className="text-black">
-                  Hybrid (online + in-person)
-                </span>
+                <span className="text-black">Hybrid (online + in-person)</span>
               </li>
               <li className="flex items-start gap-3">
                 <span className="text-blue-600 font-bold">Starting Pay:</span>
@@ -145,54 +134,34 @@ export default async function Page() {
       {/* What You'll Learn */}
       <section className="bg-gray-50 py-16">
         <div className="max-w-7xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-black mb-8 text-center">
-            What You'll Learn
-          </h2>
+          <h2 className="text-3xl font-bold text-black mb-8 text-center">What You'll Learn</h2>
           <div className="grid md:grid-cols-3 gap-6">
             <div className="bg-white p-6 rounded-lg shadow-sm">
-              <h3 className="text-xl font-bold text-black mb-3">
-                Person-Centered Care
-              </h3>
+              <h3 className="text-xl font-bold text-black mb-3">Person-Centered Care</h3>
               <p className="text-black">
                 Supporting individual goals, preferences, and independence
               </p>
             </div>
             <div className="bg-white p-6 rounded-lg shadow-sm">
-              <h3 className="text-xl font-bold text-black mb-3">
-                Health & Safety
-              </h3>
+              <h3 className="text-xl font-bold text-black mb-3">Health & Safety</h3>
               <p className="text-black">
                 Medication administration, first aid, emergency procedures
               </p>
             </div>
             <div className="bg-white p-6 rounded-lg shadow-sm">
-              <h3 className="text-xl font-bold text-black mb-3">
-                Communication
-              </h3>
-              <p className="text-black">
-                Effective communication strategies and documentation
-              </p>
+              <h3 className="text-xl font-bold text-black mb-3">Communication</h3>
+              <p className="text-black">Effective communication strategies and documentation</p>
             </div>
             <div className="bg-white p-6 rounded-lg shadow-sm">
-              <h3 className="text-xl font-bold text-black mb-3">
-                Rights & Ethics
-              </h3>
-              <p className="text-black">
-                Protecting rights, dignity, and confidentiality
-              </p>
+              <h3 className="text-xl font-bold text-black mb-3">Rights & Ethics</h3>
+              <p className="text-black">Protecting rights, dignity, and confidentiality</p>
             </div>
             <div className="bg-white p-6 rounded-lg shadow-sm">
-              <h3 className="text-xl font-bold text-black mb-3">
-                Behavioral Support
-              </h3>
-              <p className="text-black">
-                Positive behavior strategies and crisis intervention
-              </p>
+              <h3 className="text-xl font-bold text-black mb-3">Behavioral Support</h3>
+              <p className="text-black">Positive behavior strategies and crisis intervention</p>
             </div>
             <div className="bg-white p-6 rounded-lg shadow-sm">
-              <h3 className="text-xl font-bold text-black mb-3">
-                Community Integration
-              </h3>
+              <h3 className="text-xl font-bold text-black mb-3">Community Integration</h3>
               <p className="text-black">
                 Supporting community participation and social connections
               </p>
@@ -203,21 +172,16 @@ export default async function Page() {
 
       {/* Career Outlook */}
       <section className="max-w-7xl mx-auto px-4 py-16">
-        <h2 className="text-3xl font-bold text-black mb-8 text-center">
-          Career Outlook
-        </h2>
+        <h2 className="text-3xl font-bold text-black mb-8 text-center">Career Outlook</h2>
         <div className="prose prose-lg max-w-none">
           <p className="text-lg text-black mb-4">
-            The demand for Direct Support Professionals is growing rapidly as
-            more individuals with disabilities choose community-based living.
-            This is a stable, rewarding career with opportunities for
-            advancement.
+            The demand for Direct Support Professionals is growing rapidly as more individuals with
+            disabilities choose community-based living. This is a stable, rewarding career with
+            opportunities for advancement.
           </p>
           <div className="grid md:grid-cols-2 gap-8 mt-8">
             <div>
-              <h3 className="text-2xl font-bold text-black mb-4">
-                Career Paths
-              </h3>
+              <h3 className="text-2xl font-bold text-black mb-4">Career Paths</h3>
               <ul className="space-y-2 text-black">
                 <li>• Residential Support Specialist</li>
                 <li>• Day Program Coordinator</li>
@@ -227,9 +191,7 @@ export default async function Page() {
               </ul>
             </div>
             <div>
-              <h3 className="text-2xl font-bold text-black mb-4">
-                Work Settings
-              </h3>
+              <h3 className="text-2xl font-bold text-black mb-4">Work Settings</h3>
               <ul className="space-y-2 text-black">
                 <li>• Group Homes</li>
                 <li>• Day Programs</li>
@@ -272,12 +234,8 @@ export default async function Page() {
       {/* CTA */}
       <section className="bg-brand-blue-600 text-white py-16">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-4">
-            Ready to Start Your DSP Career?
-          </h2>
-          <p className="text-xl mb-8">
-            Check eligibility and begin training in weeks, not months.
-          </p>
+          <h2 className="text-3xl font-bold mb-4">Ready to Start Your DSP Career?</h2>
+          <p className="text-xl mb-8">Check eligibility and begin training in weeks, not months.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/apply"

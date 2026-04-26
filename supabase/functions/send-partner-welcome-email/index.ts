@@ -51,15 +51,21 @@ function getPartnerWelcomeEmail(data: {
       Great news! You've been successfully enrolled in <strong>${data.providerName}</strong>${data.programName ? ` as part of your <strong>${data.programName}</strong> program` : ''}.
     </p>
 
-    ${data.enrollmentUrl ? `
+    ${
+      data.enrollmentUrl
+        ? `
     <div style="background: #f9fafb; border: 1px solid #e5e7eb; padding: 20px; border-radius: 8px; margin: 30px 0;">
       <h2 style="margin-top: 0; color: #1f2937; font-size: 20px;">🚀 Get Started</h2>
       <p style="margin-bottom: 15px;">Click the button below to access your courses:</p>
       <a href="${data.enrollmentUrl}" style="display: inline-block; background: #ea580c; color: white; padding: 14px 28px; text-decoration: none; border-radius: 6px; font-weight: 600; font-size: 16px;">Access ${data.providerName}</a>
     </div>
-    ` : ''}
+    `
+        : ''
+    }
 
-    ${data.promoCode ? `
+    ${
+      data.promoCode
+        ? `
     <div style="background: #f9fafb; border-left: 4px solid #e5e7eb; padding: 20px; margin: 30px 0; border-radius: 4px;">
       <h3 style="margin-top: 0; color: #374151; font-size: 18px;">💰 Your Promo Code</h3>
       <p style="margin-bottom: 10px; color: #78350f;">Use this code during enrollment:</p>
@@ -67,14 +73,20 @@ function getPartnerWelcomeEmail(data: {
         <code style="font-size: 24px; font-weight: bold; color: #667eea; letter-spacing: 2px;">${data.promoCode}</code>
       </div>
     </div>
-    ` : ''}
+    `
+        : ''
+    }
 
-    ${data.loginInstructions ? `
+    ${
+      data.loginInstructions
+        ? `
     <div style="background: #f9fafb; border: 1px solid #e5e7eb; padding: 20px; border-radius: 8px; margin: 30px 0;">
       <h3 style="margin-top: 0; color: #3730a3; font-size: 18px;">📝 Login Instructions</h3>
       <p style="color: #4338ca; margin: 0;">${data.loginInstructions}</p>
     </div>
-    ` : ''}
+    `
+        : ''
+    }
 
     <div style="margin: 30px 0;">
       <h3 style="color: #1f2937; font-size: 18px;">What's Next?</h3>
@@ -86,14 +98,18 @@ function getPartnerWelcomeEmail(data: {
       </ol>
     </div>
 
-    ${data.contactEmail || data.contactPhone ? `
+    ${
+      data.contactEmail || data.contactPhone
+        ? `
     <div style="background: #f9fafb; padding: 20px; border-radius: 8px; margin: 30px 0;">
       <h3 style="margin-top: 0; color: #1f2937; font-size: 18px;">💬 Need Help?</h3>
       <p style="color: #4b5563; margin-bottom: 10px;">If you have questions or need assistance:</p>
       ${data.contactEmail ? `<p style="margin: 5px 0;"><strong>Email:</strong> <a href="mailto:${data.contactEmail}" style="color: #667eea;">${data.contactEmail}</a></p>` : ''}
       ${data.contactPhone ? `<p style="margin: 5px 0;"><strong>Phone:</strong> ${data.contactPhone}</p>` : ''}
     </div>
-    ` : ''}
+    `
+        : ''
+    }
 
   </div>
 
@@ -150,21 +166,23 @@ serve(async (req) => {
     const { enrollment_id, provider_id, student_id }: WelcomeEmailRequest = await req.json();
 
     if (!enrollment_id || !provider_id || !student_id) {
-      return new Response(
-        JSON.stringify({ error: 'Missing required fields' }),
-        { status: 400, headers: { 'Content-Type': 'application/json' } }
-      );
+      return new Response(JSON.stringify({ error: 'Missing required fields' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' },
+      });
     }
 
     // Fetch enrollment details
     const { data: enrollment, error: enrollmentError } = await supabase
       .from('partner_lms_enrollments')
-      .select(`
+      .select(
+        `
         *,
         provider:partner_lms_providers(*),
         student:profiles(*),
         program:programs(*)
-      `)
+      `,
+      )
       .eq('id', enrollment_id)
       .single();
 
@@ -188,22 +206,20 @@ serve(async (req) => {
     const { subject, html, text } = getPartnerWelcomeEmail(emailData);
 
     // Queue email for sending
-    const { error: queueError } = await supabase
-      .from('email_queue')
-      .insert({
-        recipient: enrollment.student.email,
-        subject,
-        html,
-        text,
-        from_email: 'noreply@www.elevateforhumanity.org',
-        user_id: student_id,
-        status: 'pending',
-        metadata: {
-          type: 'partner_welcome',
-          enrollment_id,
-          provider_id,
-        },
-      });
+    const { error: queueError } = await supabase.from('email_queue').insert({
+      recipient: enrollment.student.email,
+      subject,
+      html,
+      text,
+      from_email: 'noreply@www.elevateforhumanity.org',
+      user_id: student_id,
+      status: 'pending',
+      metadata: {
+        type: 'partner_welcome',
+        enrollment_id,
+        provider_id,
+      },
+    });
 
     if (queueError) {
       throw queueError;
@@ -215,14 +231,13 @@ serve(async (req) => {
       .update({ welcome_email_sent: true })
       .eq('id', enrollment_id);
 
-    return new Response(
-      JSON.stringify({ success: true, message: 'Welcome email queued' }),
-      { headers: { 'Content-Type': 'application/json' } }
-    );
+    return new Response(JSON.stringify({ success: true, message: 'Welcome email queued' }), {
+      headers: { 'Content-Type': 'application/json' },
+    });
   } catch (error: any) {
-    return new Response(
-      JSON.stringify({ error: error.message }),
-      { status: 500, headers: { 'Content-Type': 'application/json' } }
-    );
+    return new Response(JSON.stringify({ error: error.message }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' },
+    });
   }
 });

@@ -37,7 +37,9 @@ async function resolveUserId(req: Request): Promise<string | null> {
   try {
     const { createClient } = await import('@/lib/supabase/server');
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     return user?.id ?? null;
   } catch {
     return null;
@@ -85,7 +87,10 @@ export function withApiAudit(
       result = 'error';
       statusCode = 500;
       errorSummary = e instanceof Error ? e.message.slice(0, 200) : 'Unknown error';
-      logger.error(`[withApiAudit] Unhandled exception in handler for ${endpoint}`, e instanceof Error ? e : new Error(String(e)));
+      logger.error(
+        `[withApiAudit] Unhandled exception in handler for ${endpoint}`,
+        e instanceof Error ? e : new Error(String(e)),
+      );
       Sentry.captureException(e, { tags: { endpoint, subsystem: 'withApiAudit' } });
       // For webhook routes: never propagate — Stripe must receive a response, not a connection error.
       // For all other routes: re-throw so Next.js renders its error boundary.
@@ -104,7 +109,10 @@ export function withApiAudit(
 
       if (!staticActorType) {
         const userId = await resolveUserId(req);
-        if (userId) { actorId = userId; actorType = 'user'; }
+        if (userId) {
+          actorId = userId;
+          actorType = 'user';
+        }
       }
 
       // Params are intentionally omitted from the audit payload.
@@ -129,7 +137,10 @@ export function withApiAudit(
         try {
           await writeApiAuditEvent(auditPayload);
         } catch (auditErr) {
-          logger.error(`Audit write failed on critical route ${endpoint}`, auditErr instanceof Error ? auditErr : new Error(String(auditErr)));
+          logger.error(
+            `Audit write failed on critical route ${endpoint}`,
+            auditErr instanceof Error ? auditErr : new Error(String(auditErr)),
+          );
           Sentry.captureException(auditErr, {
             tags: { audit_critical: 'true', endpoint },
             extra: { request_id: rid, actor_id: actorId, result },

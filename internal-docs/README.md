@@ -8,11 +8,11 @@ These files are present in this repository for version control purposes only. Th
 
 ## Contents
 
-| Directory | Contents |
-|-----------|---------|
+| Directory   | Contents                                                                              |
+| ----------- | ------------------------------------------------------------------------------------- |
 | `internal/` | Sales artifacts, readiness audits, pricing, licensing playbooks, operational runbooks |
-| `policies/` | Internal enrollment, funding, and staff policies |
-| `outreach/` | Employer agreement templates, sponsorship pitches, referral materials |
+| `policies/` | Internal enrollment, funding, and staff policies                                      |
+| `outreach/` | Employer agreement templates, sponsorship pitches, referral materials                 |
 
 ## Note
 

@@ -31,7 +31,10 @@ export default async function handler() {
 
   if (res.status === 207) {
     // ACTION_REQUIRED — linkable orphaned rows detected
-    console.error('[cron-orphan-check] ACTION REQUIRED — orphaned rows with matching profiles:', JSON.stringify(body, null, 2));
+    console.error(
+      '[cron-orphan-check] ACTION REQUIRED — orphaned rows with matching profiles:',
+      JSON.stringify(body, null, 2),
+    );
     // Still return 200 to Netlify so the function is not marked as failed
     // (failure would suppress future runs). The error is in the logs.
     return { statusCode: 200 };

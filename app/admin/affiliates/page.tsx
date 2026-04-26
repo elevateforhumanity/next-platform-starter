@@ -3,7 +3,15 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { Users, DollarSign, TrendingUp, UserPlus, Search, Filter, MoreVertical } from 'lucide-react';
+import {
+  Users,
+  DollarSign,
+  TrendingUp,
+  UserPlus,
+  Search,
+  Filter,
+  MoreVertical,
+} from 'lucide-react';
 import { getAdminClient } from '@/lib/supabase/admin';
 
 export const dynamic = 'force-dynamic';
@@ -67,27 +75,33 @@ export default async function AffiliatesPage() {
     { label: 'Total Affiliates', value: String(dbStats.total), icon: Users },
     { label: 'Approved', value: String(dbStats.active), icon: TrendingUp },
     { label: 'Pending Applications', value: String(dbStats.pending), icon: UserPlus },
-    { label: 'Commissions Paid', value: `$${dbStats.totalPaid.toLocaleString()}`, icon: DollarSign },
+    {
+      label: 'Commissions Paid',
+      value: `$${dbStats.totalPaid.toLocaleString()}`,
+      icon: DollarSign,
+    },
   ];
 
-  const affiliates = dbApplications.length > 0
-    ? dbApplications.map((a: any) => ({
-        id: a.id,
-        name: a.company_name || 'Unknown',
-        status: a.status || 'pending',
-        appliedAt: a.created_at ? new Date(a.created_at).toLocaleDateString() : '—',
-      }))
-    : [{ id: 'empty', name: 'No applications yet', status: 'pending', appliedAt: '—' }];
+  const affiliates =
+    dbApplications.length > 0
+      ? dbApplications.map((a: any) => ({
+          id: a.id,
+          name: a.company_name || 'Unknown',
+          status: a.status || 'pending',
+          appliedAt: a.created_at ? new Date(a.created_at).toLocaleDateString() : '—',
+        }))
+      : [{ id: 'empty', name: 'No applications yet', status: 'pending', appliedAt: '—' }];
 
   return (
     <div className="p-6 max-w-7xl mx-auto">
-
       {/* Hero Image */}
-      <Breadcrumbs items={[{ label: "Admin", href: "/admin" }, { label: "Affiliates" }]} />
+      <Breadcrumbs items={[{ label: 'Admin', href: '/admin' }, { label: 'Affiliates' }]} />
       <div className="flex justify-between items-center mb-8">
         <div>
           <h1 className="text-3xl font-bold text-slate-900">Affiliate Management</h1>
-          <p className="text-slate-700 mt-1">Manage affiliate partners and track referral performance</p>
+          <p className="text-slate-700 mt-1">
+            Manage affiliate partners and track referral performance
+          </p>
         </div>
         <Link
           href="/admin/affiliates/new"
@@ -148,13 +162,15 @@ export default async function AffiliatesPage() {
                 </td>
                 <td className="px-6 py-4 text-slate-700 text-sm">{affiliate.appliedAt}</td>
                 <td className="px-6 py-4">
-                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                    affiliate.status === 'approved'
-                      ? 'bg-brand-green-100 text-brand-green-800'
-                      : affiliate.status === 'rejected'
-                      ? 'bg-red-100 text-red-800'
-                      : 'bg-yellow-100 text-yellow-800'
-                  }`}>
+                  <span
+                    className={`px-2 py-1 rounded-full text-xs font-medium ${
+                      affiliate.status === 'approved'
+                        ? 'bg-brand-green-100 text-brand-green-800'
+                        : affiliate.status === 'rejected'
+                          ? 'bg-red-100 text-red-800'
+                          : 'bg-yellow-100 text-yellow-800'
+                    }`}
+                  >
                     {affiliate.status}
                   </span>
                 </td>

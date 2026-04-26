@@ -38,10 +38,7 @@ async function _POST(req: Request) {
     const { shop_document_id, approved } = await req.json();
 
     if (!shop_document_id) {
-      return NextResponse.json(
-        { error: 'Document ID required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Document ID required' }, { status: 400 });
     }
 
     // Update document approval status
@@ -55,10 +52,7 @@ async function _POST(req: Request) {
       .eq('id', shop_document_id);
 
     if (error) {
-      return NextResponse.json(
-        { error: toErrorMessage(error) },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: toErrorMessage(error) }, { status: 500 });
     }
 
     await logAdminAudit({
@@ -120,7 +114,7 @@ async function _POST(req: Request) {
                 ownerProfile.email,
                 shop.name || 'Your Shop',
                 true,
-                doc.shop_id
+                doc.shop_id,
               );
             }
           }
@@ -133,10 +127,7 @@ async function _POST(req: Request) {
     return NextResponse.json({ success: true });
   } catch (err: any) {
     // Error: $1
-    return NextResponse.json(
-      { err: toErrorMessage(err) || 'Approval failed' },
-      { status: 500 }
-    );
+    return NextResponse.json({ err: toErrorMessage(err) || 'Approval failed' }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/admin/shop-docs/approve', _POST, { critical: true });

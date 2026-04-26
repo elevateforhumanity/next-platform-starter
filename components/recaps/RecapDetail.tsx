@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -55,10 +55,8 @@ export default function RecapDetail({ recapId }: { recapId: string }) {
     load();
   }, [recapId]);
 
-  if (loading)
-    return <div className="text-sm text-neutral-600">Loading recap…</div>;
-  if (!recap)
-    return <div className="text-sm text-neutral-600">Recap not found.</div>;
+  if (loading) return <div className="text-sm text-neutral-600">Loading recap…</div>;
+  if (!recap) return <div className="text-sm text-neutral-600">Recap not found.</div>;
 
   return (
     <div className="grid gap-6">
@@ -75,21 +73,15 @@ export default function RecapDetail({ recapId }: { recapId: string }) {
 
         {recap.summary ? (
           <div className="mt-4">
-            <div className="text-xs font-semibold text-neutral-700 mb-2">
-              Summary
-            </div>
-            <p className="text-sm leading-relaxed text-neutral-900">
-              {recap.summary}
-            </p>
+            <div className="text-xs font-semibold text-neutral-700 mb-2">Summary</div>
+            <p className="text-sm leading-relaxed text-neutral-900">{recap.summary}</p>
           </div>
         ) : null}
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="rounded-2xl border bg-white p-5 shadow-sm">
-          <div className="text-xs font-semibold text-neutral-700 mb-3">
-            Key points
-          </div>
+          <div className="text-xs font-semibold text-neutral-700 mb-3">Key points</div>
           <ul className="grid gap-2">
             {(recap.key_points || []).map((x, i) => (
               <li key={i} className="text-sm text-neutral-900 leading-relaxed">
@@ -103,9 +95,7 @@ export default function RecapDetail({ recapId }: { recapId: string }) {
         </div>
 
         <div className="rounded-2xl border bg-white p-5 shadow-sm">
-          <div className="text-xs font-semibold text-neutral-700 mb-3">
-            Decisions
-          </div>
+          <div className="text-xs font-semibold text-neutral-700 mb-3">Decisions</div>
           <ul className="grid gap-2">
             {(recap.decisions || []).map((x, i) => (
               <li key={i} className="text-sm text-neutral-900 leading-relaxed">
@@ -121,9 +111,7 @@ export default function RecapDetail({ recapId }: { recapId: string }) {
 
       <div className="rounded-2xl border bg-white p-5 shadow-sm">
         <div className="flex items-center justify-between mb-3">
-          <div className="text-xs font-semibold text-neutral-700">
-            Action items
-          </div>
+          <div className="text-xs font-semibold text-neutral-700">Action items</div>
           <button onClick={load} className="text-xs font-semibold underline">
             Refresh
           </button>
@@ -142,9 +130,7 @@ export default function RecapDetail({ recapId }: { recapId: string }) {
                 }`}
               />
               <div className="flex-1">
-                <div className="text-sm font-semibold text-neutral-900">
-                  {it.label}
-                </div>
+                <div className="text-sm font-semibold text-neutral-900">{it.label}</div>
                 <div className="text-xs text-neutral-600 mt-1">
                   {it.due_date ? `Due: ${it.due_date}` : 'No due date'}
                   {it.completed_at ? ' • Completed' : ''}
@@ -160,9 +146,7 @@ export default function RecapDetail({ recapId }: { recapId: string }) {
 
       {recap.follow_up_email ? (
         <div className="rounded-2xl border bg-white p-5 shadow-sm">
-          <div className="text-xs font-semibold text-neutral-700 mb-3">
-            Follow-up email draft
-          </div>
+          <div className="text-xs font-semibold text-neutral-700 mb-3">Follow-up email draft</div>
           <pre className="whitespace-pre-wrap text-sm leading-relaxed text-neutral-900">
             {recap.follow_up_email}
           </pre>

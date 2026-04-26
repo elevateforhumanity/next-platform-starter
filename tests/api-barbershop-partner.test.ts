@@ -31,7 +31,6 @@ const validApplication = {
 };
 
 test.describe('Barbershop Partner Application API', () => {
-
   test('should reject missing required fields', async ({ request }) => {
     const incompleteData = {
       shopLegalName: 'Test Shop',
@@ -46,7 +45,7 @@ test.describe('Barbershop Partner Application API', () => {
     expect(response.status()).toBe(400);
     const body = await response.json();
     expect(body.error).toContain('Missing required field');
-    
+
     console.log('✅ Missing required fields rejected correctly');
   });
 
@@ -64,7 +63,7 @@ test.describe('Barbershop Partner Application API', () => {
     expect(response.status()).toBe(400);
     const body = await response.json();
     expect(body.error).toContain('Invalid email');
-    
+
     console.log('✅ Invalid email rejected correctly');
   });
 
@@ -82,7 +81,7 @@ test.describe('Barbershop Partner Application API', () => {
     expect(response.status()).toBe(400);
     const body = await response.json();
     expect(body.error).toContain('Invalid phone');
-    
+
     console.log('✅ Invalid phone rejected correctly');
   });
 
@@ -100,7 +99,7 @@ test.describe('Barbershop Partner Application API', () => {
     expect(response.status()).toBe(400);
     const body = await response.json();
     expect(body.error).toContain('Invalid employment model');
-    
+
     console.log('✅ Invalid employment model rejected correctly');
   });
 
@@ -118,7 +117,7 @@ test.describe('Barbershop Partner Application API', () => {
     expect(response.status()).toBe(400);
     const body = await response.json();
     expect(body.error).toContain('acknowledge');
-    
+
     console.log('✅ Missing MOU acknowledgment rejected correctly');
   });
 
@@ -136,7 +135,7 @@ test.describe('Barbershop Partner Application API', () => {
     expect(response.status()).toBe(400);
     const body = await response.json();
     expect(body.error).toContain('acknowledge');
-    
+
     console.log('✅ Missing consent acknowledgment rejected correctly');
   });
 
@@ -157,7 +156,7 @@ test.describe('Barbershop Partner Application API', () => {
     expect(body.success).toBe(true);
     // Should NOT have an applicationId (wasn't actually saved)
     expect(body.applicationId).toBeUndefined();
-    
+
     console.log('✅ Honeypot trap works correctly');
   });
 
@@ -190,47 +189,46 @@ test.describe('Barbershop Partner Application API', () => {
       expect(response.status()).not.toBe(400);
     }
   });
-
 });
 
 test.describe('Barbershop Partner Pages', () => {
-
   test('partner info page loads correctly', async ({ page }) => {
     await page.goto(`${baseURL}/partners/barbershop-apprenticeship`);
-    
+
     await expect(page.locator('h1')).toContainText('Barbershop Partner');
     await expect(page.locator('text=Apply to Become a Partner')).toBeVisible();
     await expect(page.locator('text=View MOU Template')).toBeVisible();
-    
+
     console.log('✅ Partner info page loads correctly');
   });
 
   test('application form page loads correctly', async ({ page }) => {
     await page.goto(`${baseURL}/partners/barbershop-apprenticeship/apply`);
-    
+
     await expect(page.locator('h1')).toContainText('Barbershop Partner Application');
-    await expect(page.locator('input[name="shopLegalName"], input[value=""]').first()).toBeVisible();
+    await expect(
+      page.locator('input[name="shopLegalName"], input[value=""]').first(),
+    ).toBeVisible();
     await expect(page.locator('button[type="submit"]')).toBeVisible();
-    
+
     console.log('✅ Application form page loads correctly');
   });
 
   test('MOU page loads correctly', async ({ page }) => {
     await page.goto(`${baseURL}/docs/Indiana-Barbershop-Apprenticeship-MOU`);
-    
+
     await expect(page.locator('h1')).toContainText('MEMORANDUM OF UNDERSTANDING');
     await expect(page.locator('text=Print / Save as PDF')).toBeVisible();
-    
+
     console.log('✅ MOU page loads correctly');
   });
 
   test('thank you page loads correctly', async ({ page }) => {
     await page.goto(`${baseURL}/partners/barbershop-apprenticeship/thank-you`);
-    
+
     await expect(page.locator('h1')).toContainText('Application Received');
     await expect(page.locator('text=What Happens Next')).toBeVisible();
-    
+
     console.log('✅ Thank you page loads correctly');
   });
-
 });

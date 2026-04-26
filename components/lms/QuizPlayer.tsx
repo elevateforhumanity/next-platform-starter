@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import React, { useState, useCallback, useRef, useEffect } from "react";
-import { CheckCircle, XCircle, ChevronRight, RotateCcw, Trophy } from "lucide-react";
-import { CheckpointAssist } from "@/components/lms/ai/CheckpointAssist";
+import React, { useState, useCallback, useRef, useEffect } from 'react';
+import { CheckCircle, XCircle, ChevronRight, RotateCcw, Trophy } from 'lucide-react';
+import { CheckpointAssist } from '@/components/lms/ai/CheckpointAssist';
 
 // ── Types ──────────────────────────────────────────────────────────────
 
@@ -31,15 +31,17 @@ function normalizeQuestion(raw: unknown, index: number): Question | null {
   // Canonical shape — also handles {answer} variant used in HVAC quiz banks
   if (typeof q.question === 'string' && Array.isArray(q.options)) {
     const correctAnswer =
-      typeof q.correctAnswer === 'number' ? q.correctAnswer :
-      typeof q.answer       === 'number' ? q.answer :
-      0;
+      typeof q.correctAnswer === 'number'
+        ? q.correctAnswer
+        : typeof q.answer === 'number'
+          ? q.answer
+          : 0;
     return {
-      id:            typeof q.id === 'string' ? q.id : `q-${index}`,
-      question:      q.question,
-      options:       q.options.filter((o): o is string => typeof o === 'string'),
+      id: typeof q.id === 'string' ? q.id : `q-${index}`,
+      question: q.question,
+      options: q.options.filter((o): o is string => typeof o === 'string'),
       correctAnswer,
-      explanation:   typeof q.explanation === 'string' ? q.explanation : undefined,
+      explanation: typeof q.explanation === 'string' ? q.explanation : undefined,
     };
   }
 
@@ -47,14 +49,15 @@ function normalizeQuestion(raw: unknown, index: number): Question | null {
   if (typeof q.question_text === 'string' && Array.isArray(q.options)) {
     const opts = q.options.filter((o): o is string => typeof o === 'string');
     // correct_answer is a letter like "A", "B", "C", "D"
-    const letter = typeof q.correct_answer === 'string' ? q.correct_answer.trim().toUpperCase() : '';
+    const letter =
+      typeof q.correct_answer === 'string' ? q.correct_answer.trim().toUpperCase() : '';
     const correctIndex = ['A', 'B', 'C', 'D'].indexOf(letter);
     return {
-      id:            `q-${index}`,
-      question:      q.question_text,
-      options:       opts,
+      id: `q-${index}`,
+      question: q.question_text,
+      options: opts,
       correctAnswer: correctIndex >= 0 ? correctIndex : 0,
-      explanation:   undefined,
+      explanation: undefined,
     };
   }
 
@@ -80,7 +83,7 @@ function playCorrectSound() {
     [523.25, 659.25].forEach((freq, i) => {
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
-      osc.type = "sine";
+      osc.type = 'sine';
       osc.frequency.value = freq;
       gain.gain.setValueAtTime(0.3, ctx.currentTime + i * 0.12);
       gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.12 + 0.4);
@@ -98,7 +101,7 @@ function playWrongSound() {
     const ctx = new AudioContext();
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
-    osc.type = "triangle";
+    osc.type = 'triangle';
     osc.frequency.value = 220;
     gain.gain.setValueAtTime(0.2, ctx.currentTime);
     gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.3);
@@ -144,7 +147,7 @@ export default function QuizPlayer({
   // Scroll feedback into view when revealed
   useEffect(() => {
     if (isRevealed && feedbackRef.current) {
-      feedbackRef.current.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      feedbackRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
   }, [isRevealed]);
 
@@ -167,7 +170,7 @@ export default function QuizPlayer({
         { questionId: question.id, selected: optionIndex, correct },
       ]);
     },
-    [isRevealed, question]
+    [isRevealed, question],
   );
 
   const handleNext = useCallback(() => {
@@ -180,7 +183,9 @@ export default function QuizPlayer({
       setFinished(true);
       // Build answers map: { questionId: selectedOptionIndex }
       const answersMap: Record<string, number> = {};
-      answeredQuestions.forEach((q) => { answersMap[q.questionId] = q.selected; });
+      answeredQuestions.forEach((q) => {
+        answersMap[q.questionId] = q.selected;
+      });
       onComplete(finalScore, answersMap);
     } else {
       setCurrentIndex((i) => i + 1);
@@ -207,13 +212,13 @@ export default function QuizPlayer({
         <div
           className={`px-8 py-10 text-center ${
             passed
-              ? "bg-gradient-to-br from-brand-green-50 to-emerald-50"
-              : "bg-gradient-to-br from-amber-50 to-orange-50"
+              ? 'bg-gradient-to-br from-brand-green-50 to-emerald-50'
+              : 'bg-gradient-to-br from-amber-50 to-orange-50'
           }`}
         >
           <div
             className={`w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 ${
-              passed ? "bg-brand-green-100" : "bg-amber-100"
+              passed ? 'bg-brand-green-100' : 'bg-amber-100'
             }`}
           >
             {passed ? (
@@ -223,10 +228,10 @@ export default function QuizPlayer({
             )}
           </div>
           <h2 className="text-3xl font-bold mb-2">
-            {passed ? "Congratulations!" : isCheckpoint ? "Not Yet" : "Keep Studying!"}
+            {passed ? 'Congratulations!' : isCheckpoint ? 'Not Yet' : 'Keep Studying!'}
           </h2>
           <p className="text-lg text-slate-700">
-            You scored <span className="font-bold">{score}%</span> — {correctCount} of{" "}
+            You scored <span className="font-bold">{score}%</span> — {correctCount} of{' '}
             {questions.length} correct
           </p>
           <p className="text-sm text-slate-500 mt-1">
@@ -249,8 +254,8 @@ export default function QuizPlayer({
                 key={q.id}
                 className={`p-4 rounded-xl border-2 ${
                   record.correct
-                    ? "border-brand-green-200 bg-brand-green-50/50"
-                    : "border-brand-red-200 bg-brand-red-50/50"
+                    ? 'border-brand-green-200 bg-brand-green-50/50'
+                    : 'border-brand-red-200 bg-brand-red-50/50'
                 }`}
               >
                 <div className="flex items-start gap-3">
@@ -264,12 +269,12 @@ export default function QuizPlayer({
                       {idx + 1}. {q.question}
                     </p>
                     <p className="text-sm sm:text-base text-slate-600">
-                      Your answer:{" "}
+                      Your answer:{' '}
                       <span
                         className={
                           record.correct
-                            ? "text-brand-green-700 font-semibold"
-                            : "text-brand-red-700 font-semibold line-through"
+                            ? 'text-brand-green-700 font-semibold'
+                            : 'text-brand-red-700 font-semibold line-through'
                         }
                       >
                         {q.options[record.selected]}
@@ -277,7 +282,7 @@ export default function QuizPlayer({
                     </p>
                     {!record.correct && (
                       <p className="text-sm text-slate-600 mt-0.5">
-                        Correct answer:{" "}
+                        Correct answer:{' '}
                         <span className="text-brand-green-700 font-semibold">
                           {q.options[q.correctAnswer]}
                         </span>
@@ -307,7 +312,7 @@ export default function QuizPlayer({
             <button
               onClick={() => {
                 // Scroll to top or let parent handle navigation
-                window.scrollTo({ top: 0, behavior: "smooth" });
+                window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
               className="flex-1 bg-brand-green-600 hover:bg-brand-green-700 text-white py-3 rounded-xl font-semibold transition"
             >
@@ -352,7 +357,8 @@ export default function QuizPlayer({
             const isSelected = selectedAnswer === idx;
             const isCorrectOption = idx === question.correctAnswer;
 
-            let optionStyle = "border-slate-200 hover:border-slate-300 hover:bg-slate-50 cursor-pointer";
+            let optionStyle =
+              'border-slate-200 hover:border-slate-300 hover:bg-slate-50 cursor-pointer';
             let indicator = (
               <div className="w-8 h-8 rounded-full border-2 border-slate-300 flex items-center justify-center flex-shrink-0">
                 <span className="text-sm font-bold text-slate-400">
@@ -364,7 +370,8 @@ export default function QuizPlayer({
             if (isRevealed) {
               if (isCorrectOption) {
                 // Always highlight the correct answer in green
-                optionStyle = "border-brand-green-400 bg-brand-green-50 ring-2 ring-brand-green-200";
+                optionStyle =
+                  'border-brand-green-400 bg-brand-green-50 ring-2 ring-brand-green-200';
                 indicator = (
                   <div className="w-8 h-8 rounded-full bg-brand-green-500 flex items-center justify-center flex-shrink-0">
                     <CheckCircle className="w-5 h-5 text-white" />
@@ -372,7 +379,7 @@ export default function QuizPlayer({
                 );
               } else if (isSelected && !isCorrectOption) {
                 // Wrong selection — red
-                optionStyle = "border-brand-red-400 bg-brand-red-50 ring-2 ring-brand-red-200";
+                optionStyle = 'border-brand-red-400 bg-brand-red-50 ring-2 ring-brand-red-200';
                 indicator = (
                   <div className="w-8 h-8 rounded-full bg-brand-red-500 flex items-center justify-center flex-shrink-0">
                     <XCircle className="w-5 h-5 text-white" />
@@ -380,10 +387,10 @@ export default function QuizPlayer({
                 );
               } else {
                 // Unselected, not correct — dim
-                optionStyle = "border-slate-200 bg-slate-50 opacity-50 cursor-default";
+                optionStyle = 'border-slate-200 bg-slate-50 opacity-50 cursor-default';
               }
             } else if (isSelected) {
-              optionStyle = "border-brand-blue-500 bg-brand-blue-50 ring-2 ring-brand-blue-200";
+              optionStyle = 'border-brand-blue-500 bg-brand-blue-50 ring-2 ring-brand-blue-200';
               indicator = (
                 <div className="w-8 h-8 rounded-full bg-brand-blue-600 flex items-center justify-center flex-shrink-0">
                   <span className="text-sm font-bold text-white">
@@ -413,8 +420,8 @@ export default function QuizPlayer({
             ref={feedbackRef}
             className={`mt-6 rounded-xl p-5 border-2 transition-all duration-300 animate-in fade-in slide-in-from-bottom-2 ${
               isCorrect
-                ? "bg-brand-green-50 border-brand-green-300"
-                : "bg-amber-50 border-amber-300"
+                ? 'bg-brand-green-50 border-brand-green-300'
+                : 'bg-amber-50 border-amber-300'
             }`}
           >
             {isCorrect ? (
@@ -437,8 +444,10 @@ export default function QuizPlayer({
                 <div className="flex-1">
                   <p className="font-bold text-amber-800 text-lg">Not quite.</p>
                   <p className="text-amber-700 mt-1">
-                    The correct answer is:{" "}
-                    <span className="font-semibold">{question.options[question.correctAnswer]}</span>
+                    The correct answer is:{' '}
+                    <span className="font-semibold">
+                      {question.options[question.correctAnswer]}
+                    </span>
                   </p>
                   {question.explanation && (
                     <p className="text-amber-700 mt-2">{question.explanation}</p>
@@ -458,8 +467,8 @@ export default function QuizPlayer({
               onClick={handleNext}
               className={`mt-4 w-full flex items-center justify-center gap-2 py-3 rounded-xl font-semibold text-white transition ${
                 isLastQuestion
-                  ? "bg-brand-green-600 hover:bg-brand-green-700"
-                  : "bg-brand-blue-600 hover:bg-brand-blue-700"
+                  ? 'bg-brand-green-600 hover:bg-brand-green-700'
+                  : 'bg-brand-blue-600 hover:bg-brand-blue-700'
               }`}
             >
               {isLastQuestion ? (

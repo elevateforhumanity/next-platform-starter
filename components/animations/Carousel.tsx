@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import { useState, useEffect, useRef, ReactNode, TouchEvent } from 'react';
 
 interface CarouselProps {
@@ -7,11 +7,7 @@ interface CarouselProps {
   className?: string;
 }
 
-export function Carousel({
-  children,
-  autoPlayInterval = 5000,
-  className = ''
-}: CarouselProps) {
+export function Carousel({ children, autoPlayInterval = 5000, className = '' }: CarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [touchStart, setTouchStart] = useState(0);
@@ -92,10 +88,7 @@ export function Carousel({
         }}
       >
         {children.map((child, index) => (
-          <div
-            key={index}
-            className="min-w-full"
-          >
+          <div key={index} className="min-w-full">
             {child}
           </div>
         ))}
@@ -106,10 +99,8 @@ export function Carousel({
         className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-3 shadow-lg transition-all duration-300 hover:scale-110"
         aria-label="Previous slide"
       >
-        <svg className="w-6 h-6" fill="none" stroke="currentColor"
-viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-d="M15 19l-7-7 7-7" />
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
         </svg>
       </button>
 
@@ -118,10 +109,8 @@ d="M15 19l-7-7 7-7" />
         className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-3 shadow-lg transition-all duration-300 hover:scale-110"
         aria-label="Next slide"
       >
-        <svg className="w-6 h-6" fill="none" stroke="currentColor"
-viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-d="M9 5l7 7-7 7" />
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
         </svg>
       </button>
 
@@ -131,9 +120,7 @@ d="M9 5l7 7-7 7" />
             key={index}
             onClick={() => goToSlide(index)}
             className={`w-3 h-3 rounded-full transition-all duration-300 ${
-              index === currentIndex
-                ? 'bg-brand-orange-500 w-8'
-                : 'bg-white/50 hover:bg-white/80'
+              index === currentIndex ? 'bg-brand-orange-500 w-8' : 'bg-white/50 hover:bg-white/80'
             }`}
             aria-label={`Go to slide ${index + 1}`}
           />

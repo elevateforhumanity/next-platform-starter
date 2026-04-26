@@ -9,11 +9,11 @@ import { TaxPreparer, CreatePreparerInput, PreparerStats } from './types';
 function getServiceClient(): SupabaseClient {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  
+
   if (!supabaseUrl || !supabaseServiceKey) {
     throw new Error('Missing Supabase environment variables');
   }
-  
+
   return createClient(supabaseUrl, supabaseServiceKey);
 }
 
@@ -76,15 +76,15 @@ export class PreparerService {
         hourly_rate: input.hourly_rate,
         commission_percent: input.commission_percent,
         created_by: createdBy,
-        notes: input.notes
+        notes: input.notes,
       })
       .select()
       .maybeSingle();
 
     if (error) throw new Error(`Failed to create preparer`);
-    
+
     await this.logAudit('preparer_created', 'franchise_preparer', data.id, null, data);
-    
+
     return data as TaxPreparer;
   }
 
@@ -109,7 +109,7 @@ export class PreparerService {
       if (error.code === 'PGRST116') return null;
       throw new Error(`Failed to get preparer`);
     }
-    
+
     return data as TaxPreparer;
   }
 
@@ -127,7 +127,7 @@ export class PreparerService {
       if (error.code === 'PGRST116') return null;
       throw new Error(`Failed to get preparer`);
     }
-    
+
     return data as TaxPreparer;
   }
 
@@ -145,18 +145,21 @@ export class PreparerService {
       if (error.code === 'PGRST116') return null;
       throw new Error(`Failed to get preparer`);
     }
-    
+
     return data as TaxPreparer;
   }
 
   /**
    * List preparers for an office
    */
-  async listPreparersByOffice(officeId: string, filters?: {
-    status?: string;
-    limit?: number;
-    offset?: number;
-  }): Promise<{ preparers: TaxPreparer[]; total: number }> {
+  async listPreparersByOffice(
+    officeId: string,
+    filters?: {
+      status?: string;
+      limit?: number;
+      offset?: number;
+    },
+  ): Promise<{ preparers: TaxPreparer[]; total: number }> {
     let query = this.supabase
       .from('franchise_preparers')
       .select('*', { count: 'exact' })
@@ -178,10 +181,10 @@ export class PreparerService {
     const { data, error, count } = await query;
 
     if (error) throw new Error(`Failed to list preparers`);
-    
+
     return {
       preparers: data as TaxPreparer[],
-      total: count || 0
+      total: count || 0,
     };
   }
 
@@ -194,9 +197,7 @@ export class PreparerService {
     limit?: number;
     offset?: number;
   }): Promise<{ preparers: TaxPreparer[]; total: number }> {
-    let query = this.supabase
-      .from('franchise_preparers')
-      .select('*', { count: 'exact' });
+    let query = this.supabase.from('franchise_preparers').select('*', { count: 'exact' });
 
     if (filters?.status) {
       query = query.eq('status', filters.status);
@@ -217,10 +218,10 @@ export class PreparerService {
     const { data, error, count } = await query;
 
     if (error) throw new Error(`Failed to list preparers`);
-    
+
     return {
       preparers: data as TaxPreparer[],
-      total: count || 0
+      total: count || 0,
     };
   }
 
@@ -229,7 +230,7 @@ export class PreparerService {
    */
   async updatePreparer(preparerId: string, updates: Partial<TaxPreparer>): Promise<TaxPreparer> {
     const current = await this.getPreparer(preparerId);
-    
+
     // If updating PTIN, validate and check uniqueness
     if (updates.ptin && updates.ptin !== current?.ptin) {
       if (!this.validatePTIN(updates.ptin)) {
@@ -246,16 +247,16 @@ export class PreparerService {
       .from('franchise_preparers')
       .update({
         ...updates,
-        updated_at: new Date().toISOString()
+        updated_at: new Date().toISOString(),
       })
       .eq('id', preparerId)
       .select()
       .maybeSingle();
 
     if (error) throw new Error(`Failed to update preparer`);
-    
+
     await this.logAudit('preparer_updated', 'franchise_preparer', preparerId, current, data);
-    
+
     return data as TaxPreparer;
   }
 
@@ -265,7 +266,7 @@ export class PreparerService {
   async activatePreparer(preparerId: string): Promise<TaxPreparer> {
     return this.updatePreparer(preparerId, {
       status: 'active',
-      activated_at: new Date().toISOString()
+      activated_at: new Date().toISOString(),
     });
   }
 
@@ -276,7 +277,7 @@ export class PreparerService {
     return this.updatePreparer(preparerId, {
       status: 'suspended',
       suspended_at: new Date().toISOString(),
-      suspension_reason: reason
+      suspension_reason: reason,
     });
   }
 
@@ -285,11 +286,13 @@ export class PreparerService {
    */
   async deactivatePreparer(preparerId: string, actorId: string): Promise<TaxPreparer> {
     const preparer = await this.updatePreparer(preparerId, {
-      status: 'terminated'
+      status: 'terminated',
     });
-    
-    await this.logAudit('preparer_terminated', 'franchise_preparer', preparerId, null, { terminated_by: actorId });
-    
+
+    await this.logAudit('preparer_terminated', 'franchise_preparer', preparerId, null, {
+      terminated_by: actorId,
+    });
+
     return preparer;
   }
 
@@ -298,24 +301,27 @@ export class PreparerService {
    */
   async linkUserAccount(preparerId: string, userId: string): Promise<TaxPreparer> {
     return this.updatePreparer(preparerId, {
-      user_id: userId
+      user_id: userId,
     } as Partial<TaxPreparer>);
   }
 
   /**
    * Add certification to preparer
    */
-  async addCertification(preparerId: string, certification: {
-    name: string;
-    issued_date: string;
-    expiration_date?: string;
-    issuer: string;
-  }): Promise<TaxPreparer> {
+  async addCertification(
+    preparerId: string,
+    certification: {
+      name: string;
+      issued_date: string;
+      expiration_date?: string;
+      issuer: string;
+    },
+  ): Promise<TaxPreparer> {
     const preparer = await this.getPreparer(preparerId);
     if (!preparer) throw new Error('Preparer not found');
 
     const certifications = [...(preparer.certifications || []), certification];
-    
+
     return this.updatePreparer(preparerId, { certifications });
   }
 
@@ -337,8 +343,8 @@ export class PreparerService {
     if (error) throw new Error(`Failed to get preparer stats`);
 
     const returns = submissions || [];
-    const rejectedReturns = returns.filter(r => r.status === 'rejected');
-    
+    const rejectedReturns = returns.filter((r) => r.status === 'rejected');
+
     const totalRevenue = returns.reduce((sum, r) => sum + (r.client_fee || 0), 0);
     const totalEarnings = returns.reduce((sum, r) => sum + (r.preparer_commission || 0), 0);
     const avgFee = returns.length > 0 ? totalRevenue / returns.length : 0;
@@ -350,7 +356,7 @@ export class PreparerService {
       revenue_generated: totalRevenue,
       average_fee: avgFee,
       rejection_rate: rejectionRate,
-      earnings: totalEarnings
+      earnings: totalEarnings,
     };
   }
 
@@ -366,7 +372,7 @@ export class PreparerService {
       .update({
         returns_prepared_lifetime: (preparer.returns_prepared_lifetime || 0) + 1,
         returns_prepared_current_season: (preparer.returns_prepared_current_season || 0) + 1,
-        updated_at: new Date().toISOString()
+        updated_at: new Date().toISOString(),
       })
       .eq('id', preparerId);
   }
@@ -379,7 +385,7 @@ export class PreparerService {
       .from('franchise_preparers')
       .update({
         returns_prepared_current_season: 0,
-        updated_at: new Date().toISOString()
+        updated_at: new Date().toISOString(),
       })
       .neq('status', 'terminated');
   }
@@ -392,7 +398,7 @@ export class PreparerService {
     entityType: string,
     entityId: string,
     oldValues: unknown,
-    newValues: unknown
+    newValues: unknown,
   ): Promise<void> {
     await this.supabase.from('franchise_audit_log').insert({
       action: eventType,
@@ -400,7 +406,7 @@ export class PreparerService {
       entity_id: entityId,
       old_values: oldValues,
       new_values: newValues,
-      created_at: new Date().toISOString()
+      created_at: new Date().toISOString(),
     });
   }
 }

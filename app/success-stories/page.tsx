@@ -1,14 +1,7 @@
 import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import {
-  Quote,
-  ArrowRight,
-  Play,
-  CheckCircle,
-  TrendingUp,
-  Heart,
-} from 'lucide-react';
+import { Quote, ArrowRight, Play, CheckCircle, TrendingUp, Heart } from 'lucide-react';
 import ModernLandingHero from '@/components/landing/ModernLandingHero';
 import { createClient } from '@/lib/supabase/server';
 
@@ -21,7 +14,8 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: 'Success Stories - Real People, Real Results',
-    description: 'Inspiring stories from graduates who transformed their lives through workforce training.',
+    description:
+      'Inspiring stories from graduates who transformed their lives through workforce training.',
     url: 'https://www.elevateforhumanity.org/success-stories',
     siteName: 'Elevate for Humanity',
     images: [{ url: '/og-default.jpg', width: 1200, height: 630, alt: 'Success Stories' }],
@@ -198,7 +192,10 @@ export default async function SuccessStoriesPage() {
   if (supabase) {
     const [enrolledRes, completedRes, certsRes] = await Promise.all([
       supabase.from('program_enrollments').select('id', { count: 'exact', head: true }),
-      supabase.from('program_enrollments').select('id', { count: 'exact', head: true }).eq('status', 'completed'),
+      supabase
+        .from('program_enrollments')
+        .select('id', { count: 'exact', head: true })
+        .eq('status', 'completed'),
       supabase.from('program_completion_certificates').select('id', { count: 'exact', head: true }),
     ]);
     totalEnrolled = enrolledRes.count ?? 0;
@@ -206,9 +203,8 @@ export default async function SuccessStoriesPage() {
     totalCerts = certsRes.count ?? 0;
   }
 
-  const completionRate = totalEnrolled > 0
-    ? Math.round((totalCompleted / totalEnrolled) * 100)
-    : null;
+  const completionRate =
+    totalEnrolled > 0 ? Math.round((totalCompleted / totalEnrolled) * 100) : null;
 
   return (
     <div className="min-h-screen bg-white">
@@ -220,12 +216,18 @@ export default async function SuccessStoriesPage() {
         description="Real people who transformed their lives through education, determination, and the right support at the right time."
         imageSrc="/images/learners/reentry-coaching.jpg"
         imageAlt="Success Stories"
-        primaryCTA={{ text: "Read Stories", href: "#stories" }}
-        secondaryCTA={{ text: "Start Your Journey", href: "/apply" }}
+        primaryCTA={{ text: 'Read Stories', href: '#stories' }}
+        secondaryCTA={{ text: 'Start Your Journey', href: '/apply' }}
         features={[
-          totalEnrolled > 0 ? `${totalEnrolled.toLocaleString()}+ learners enrolled` : 'Workforce training that works',
-          totalCerts > 0 ? `${totalCerts.toLocaleString()} credentials issued` : 'Industry-recognized credentials',
-          completionRate !== null ? `${completionRate}% program completion rate` : 'Hands-on, employer-aligned training',
+          totalEnrolled > 0
+            ? `${totalEnrolled.toLocaleString()}+ learners enrolled`
+            : 'Workforce training that works',
+          totalCerts > 0
+            ? `${totalCerts.toLocaleString()} credentials issued`
+            : 'Industry-recognized credentials',
+          completionRate !== null
+            ? `${completionRate}% program completion rate`
+            : 'Hands-on, employer-aligned training',
         ]}
         imageOnRight={false}
       />
@@ -301,12 +303,8 @@ export default async function SuccessStoriesPage() {
                 {/* Content */}
                 <div className={`${index % 2 === 1 ? 'md:order-1' : ''}`}>
                   <div className="mb-4">
-                    <h2 className="text-2xl md:text-3xl font-bold text-black mb-2">
-                      {story.name}
-                    </h2>
-                    <p className="text-lg text-brand-blue-600 font-semibold">
-                      {story.program}
-                    </p>
+                    <h2 className="text-2xl md:text-3xl font-bold text-black mb-2">{story.name}</h2>
+                    <p className="text-lg text-brand-blue-600 font-semibold">{story.program}</p>
                     <p className="text-sm text-black">Age {story.age}</p>
                   </div>
 
@@ -314,17 +312,11 @@ export default async function SuccessStoriesPage() {
                   <div className="bg-slate-50 rounded-lg p-6 mb-6">
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <div className="text-xs text-slate-500 uppercase mb-1">
-                          Before
-                        </div>
-                        <div className="text-sm font-semibold text-black">
-                          {story.beforeJob}
-                        </div>
+                        <div className="text-xs text-slate-500 uppercase mb-1">Before</div>
+                        <div className="text-sm font-semibold text-black">{story.beforeJob}</div>
                       </div>
                       <div>
-                        <div className="text-xs text-slate-500 uppercase mb-1">
-                          After
-                        </div>
+                        <div className="text-xs text-slate-500 uppercase mb-1">After</div>
                         <div className="text-sm font-semibold text-brand-green-600">
                           {story.afterJob}
                         </div>
@@ -349,9 +341,7 @@ export default async function SuccessStoriesPage() {
                   </div>
 
                   {/* Story */}
-                  <p className="text-black leading-relaxed mb-6">
-                    {story.story}
-                  </p>
+                  <p className="text-black leading-relaxed mb-6">{story.story}</p>
 
                   {/* CTA */}
                   <Link
@@ -405,21 +395,14 @@ export default async function SuccessStoriesPage() {
             </h2>
             <div className="grid md:grid-cols-3 gap-6">
               {successStories.slice(0, 3).map((story) => (
-                <div
-                  key={story.id}
-                  className="bg-white rounded-lg p-6 shadow-sm"
-                >
+                <div key={story.id} className="bg-white rounded-lg p-6 shadow-sm">
                   <div className="flex items-center gap-4 mb-4">
                     <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
                       <CheckCircle className="w-6 h-6 text-brand-blue-600" />
                     </div>
                     <div>
-                      <div className="font-bold text-black">
-                        {story.name}
-                      </div>
-                      <div className="text-sm text-black">
-                        {story.program}
-                      </div>
+                      <div className="font-bold text-black">{story.name}</div>
+                      <div className="text-sm text-black">{story.program}</div>
                     </div>
                   </div>
                   <p className="text-sm text-black italic">

@@ -1,10 +1,10 @@
 /**
  * Sezzle Webhook Handler
- * 
+ *
  * Handles webhook events from Sezzle for order status updates.
  * Configure webhook URL in Sezzle merchant dashboard:
  * https://yourdomain.com/api/sezzle/webhook
- * 
+ *
  * Events:
  * - order.authorized: Customer completed checkout, funds authorized
  * - order.captured: Funds captured successfully - CREATES ENROLLMENT
@@ -77,16 +77,13 @@ interface SezzleWebhookEvent {
 function verifyWebhookSignature(
   payload: string,
   signature: string | null,
-  secret: string
+  secret: string,
 ): boolean {
   if (!signature || !secret) {
     return false;
   }
 
-  const expectedSignature = crypto
-    .createHmac('sha256', secret)
-    .update(payload)
-    .digest('hex');
+  const expectedSignature = crypto.createHmac('sha256', secret).update(payload).digest('hex');
 
   // timingSafeEqual requires equal-length buffers
   const sigBuf = Buffer.from(signature);
@@ -116,10 +113,14 @@ async function _POST(request: NextRequest) {
       return NextResponse.json({ error: 'Invalid signature' }, { status: 401 });
     }
   } else if (process.env.NODE_ENV === 'production') {
-    logger.error('[Sezzle Webhook] SEZZLE_WEBHOOK_SECRET not set in production — rejecting request');
+    logger.error(
+      '[Sezzle Webhook] SEZZLE_WEBHOOK_SECRET not set in production — rejecting request',
+    );
     return NextResponse.json({ error: 'Webhook not configured' }, { status: 503 });
   } else {
-    logger.warn('[Sezzle Webhook] SEZZLE_WEBHOOK_SECRET not set — skipping signature verification (dev only)');
+    logger.warn(
+      '[Sezzle Webhook] SEZZLE_WEBHOOK_SECRET not set — skipping signature verification (dev only)',
+    );
   }
 
   // After signature verification, always return 200 to prevent retries
@@ -148,14 +149,18 @@ async function _POST(request: NextRequest) {
 
     // Fail-closed: if deduplication check is not authoritative, reject for retry
     if (!confident) {
-      logger.error('[Sezzle Webhook] Cannot verify idempotency — rejecting for retry', { eventId: sezzleEventId });
+      logger.error('[Sezzle Webhook] Cannot verify idempotency — rejecting for retry', {
+        eventId: sezzleEventId,
+      });
       return NextResponse.json({ error: 'Temporary processing error' }, { status: 503 });
     }
 
     // Use admin client — webhooks have no user session, RLS would block writes
     const supabase = await getAdminClient();
     if (!supabase) {
-      logger.error('[Sezzle Webhook] createAdminClient returned null — SUPABASE_SERVICE_ROLE_KEY likely missing. DB writes will be skipped.');
+      logger.error(
+        '[Sezzle Webhook] createAdminClient returned null — SUPABASE_SERVICE_ROLE_KEY likely missing. DB writes will be skipped.',
+      );
       await finalizeWebhookEvent('sezzle', sezzleEventId, 'errored', 'DB unavailable');
     }
 
@@ -207,7 +212,11 @@ async function _POST(request: NextRequest) {
   } catch (error) {
     // Log but still return 200 — don't let processing errors cause retries
     logger.error('[Sezzle Webhook] Processing error:', error);
-    try { await finalizeWebhookEvent('sezzle', sezzleEventId, 'errored', String(error)); } catch { /* */ }
+    try {
+      await finalizeWebhookEvent('sezzle', sezzleEventId, 'errored', String(error));
+    } catch {
+      /* */
+    }
   }
 
   return NextResponse.json({ received: true });
@@ -298,7 +307,10 @@ async function handleOrderCaptured(event: SezzleWebhookEvent, supabase: any) {
         const hoursRemaining = Math.max(0, totalHoursRequired - transferHours);
         const weeksRemaining = Math.ceil(hoursRemaining / hoursPerWeek);
         // Remaining balance: full tuition minus what was paid
-        const remainingBalance = Math.max(0, (BARBER_PRICING.fullPrice * 100 - paidAmountCents) / 100);
+        const remainingBalance = Math.max(
+          0,
+          (BARBER_PRICING.fullPrice * 100 - paidAmountCents) / 100,
+        );
 
         await supabase.from('barber_subscriptions').insert({
           customer_email: customer.email,
@@ -310,7 +322,12 @@ async function handleOrderCaptured(event: SezzleWebhookEvent, supabase: any) {
           payment_method: 'sezzle',
           bnpl_provider: 'sezzle',
           fully_paid: paymentOption === 'full' || paidAmountCents >= BARBER_PRICING.fullPrice * 100,
-          weekly_payment_cents: paymentOption === 'full' ? 0 : (weeksRemaining > 0 ? Math.round(remainingBalance / weeksRemaining * 100) : 0),
+          weekly_payment_cents:
+            paymentOption === 'full'
+              ? 0
+              : weeksRemaining > 0
+                ? Math.round((remainingBalance / weeksRemaining) * 100)
+                : 0,
           weeks_remaining: paymentOption === 'full' ? 0 : weeksRemaining,
           hours_per_week: hoursPerWeek,
           transferred_hours_verified: transferHours,
@@ -335,9 +352,7 @@ async function handleOrderCaptured(event: SezzleWebhookEvent, supabase: any) {
       studentId: studentId,
       programId: programId,
       programSlug: programSlug,
-      courseId: programSlug === 'barber-apprenticeship'
-        ? BARBER_COURSE_ID
-        : undefined,
+      courseId: programSlug === 'barber-apprenticeship' ? BARBER_COURSE_ID : undefined,
       email: customer.email,
       firstName: customer.first_name,
       lastName: customer.last_name,
@@ -394,9 +409,7 @@ async function handleOrderCaptured(event: SezzleWebhookEvent, supabase: any) {
           status: 'active',
           payment_status: 'paid',
           activated_at: new Date().toISOString(),
-          ...(programSlug === 'barber-apprenticeship'
-            ? { course_id: BARBER_COURSE_ID }
-            : {}),
+          ...(programSlug === 'barber-apprenticeship' ? { course_id: BARBER_COURSE_ID } : {}),
         })
         .eq('id', payment.enrollment_id);
 
@@ -530,4 +543,7 @@ async function handleCheckoutCompleted(event: SezzleWebhookEvent, supabase: any)
       .eq('sezzle_reference_id', reference_id);
   }
 }
-export const POST = withApiAudit('/api/sezzle/webhook', _POST, { actor_type: 'webhook', skip_body: true });
+export const POST = withApiAudit('/api/sezzle/webhook', _POST, {
+  actor_type: 'webhook',
+  skip_body: true,
+});

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -70,9 +70,7 @@ export default function NotificationSettings() {
           </div>
           <div>
             <h3 className="font-semibold text-black">Push Notifications</h3>
-            <p className="text-sm text-black">
-              {enabled ? 'Enabled' : 'Disabled'}
-            </p>
+            <p className="text-sm text-black">{enabled ? 'Enabled' : 'Disabled'}</p>
           </div>
         </div>
         <button

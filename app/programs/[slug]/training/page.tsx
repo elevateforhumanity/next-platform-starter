@@ -17,15 +17,23 @@ import { createClient } from '@/lib/supabase/server';
 import { getDb } from '@/lib/lms/api';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import {
-  BookOpen, ExternalLink, Clock, Award, CheckCircle2,
-  Lock, ArrowRight, Info,
+  BookOpen,
+  ExternalLink,
+  Clock,
+  Award,
+  CheckCircle2,
+  Lock,
+  ArrowRight,
+  Info,
 } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
-export async function generateMetadata(
-  { params }: { params: Promise<{ slug: string }> }
-): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
   const { slug } = await params;
   const db = await getDb();
   const { data: program } = await supabase
@@ -44,42 +52,42 @@ export async function generateMetadata(
 // Maps course category keywords → a real image from public/images/pages/
 
 const COVER_MAP: Record<string, string> = {
-  hvac:           '/images/pages/admin-hvac-activation-hero.jpg',
-  'heating':      '/images/pages/admin-hvac-activation-hero.jpg',
-  'cooling':      '/images/pages/admin-hvac-activation-hero.jpg',
-  cdl:            '/images/pages/cdl-training.jpg',
-  'truck':        '/images/pages/cdl-truck-highway.jpg',
-  'driving':      '/images/pages/cdl-driver-seat.jpg',
-  cna:            '/images/pages/cna-patient-care.jpg',
-  'nursing':      '/images/pages/cna-nursing-real.jpg',
-  'clinical':     '/images/pages/cna-clinical.jpg',
-  'healthcare':   '/images/pages/cna-vitals.jpg',
-  'medical':      '/images/pages/cna-nursing.jpg',
-  'phlebotomy':   '/images/pages/cna-clinical.jpg',
-  cyber:          '/images/pages/cybersecurity.jpg',
-  'security':     '/images/pages/cybersecurity-screen.jpg',
-  'it ':          '/images/pages/cybersecurity-code.jpg',
-  'network':      '/images/pages/cybersecurity-code.jpg',
-  electrical:     '/images/pages/electrical-panel.jpg',
-  'wiring':       '/images/pages/electrical-conduit.jpg',
-  welding:        '/images/pages/comp-highlights-welding.jpg',
-  'fabrication':  '/images/pages/comp-highlights-welding.jpg',
-  tax:            '/images/pages/admin-tax-preparers-hero.jpg',
-  'accounting':   '/images/pages/admin-tax-preparers-hero.jpg',
-  barber:         '/images/barber-hero.jpg',
-  'cosmetology':  '/images/barber-hero.jpg',
-  business:       '/images/pages/about-career-training.jpg',
-  'management':   '/images/pages/about-career-training.jpg',
-  construction:   '/images/pages/construction-trades.jpg',
-  'trades':       '/images/pages/skilled-trades-sector.jpg',
-  plumbing:       '/images/pages/construction-trades.jpg',
-  carpentry:      '/images/pages/construction-trades.jpg',
+  hvac: '/images/pages/admin-hvac-activation-hero.jpg',
+  heating: '/images/pages/admin-hvac-activation-hero.jpg',
+  cooling: '/images/pages/admin-hvac-activation-hero.jpg',
+  cdl: '/images/pages/cdl-training.jpg',
+  truck: '/images/pages/cdl-truck-highway.jpg',
+  driving: '/images/pages/cdl-driver-seat.jpg',
+  cna: '/images/pages/cna-patient-care.jpg',
+  nursing: '/images/pages/cna-nursing-real.jpg',
+  clinical: '/images/pages/cna-clinical.jpg',
+  healthcare: '/images/pages/cna-vitals.jpg',
+  medical: '/images/pages/cna-nursing.jpg',
+  phlebotomy: '/images/pages/cna-clinical.jpg',
+  cyber: '/images/pages/cybersecurity.jpg',
+  security: '/images/pages/cybersecurity-screen.jpg',
+  'it ': '/images/pages/cybersecurity-code.jpg',
+  network: '/images/pages/cybersecurity-code.jpg',
+  electrical: '/images/pages/electrical-panel.jpg',
+  wiring: '/images/pages/electrical-conduit.jpg',
+  welding: '/images/pages/comp-highlights-welding.jpg',
+  fabrication: '/images/pages/comp-highlights-welding.jpg',
+  tax: '/images/pages/admin-tax-preparers-hero.jpg',
+  accounting: '/images/pages/admin-tax-preparers-hero.jpg',
+  barber: '/images/barber-hero.jpg',
+  cosmetology: '/images/barber-hero.jpg',
+  business: '/images/pages/about-career-training.jpg',
+  management: '/images/pages/about-career-training.jpg',
+  construction: '/images/pages/construction-trades.jpg',
+  trades: '/images/pages/skilled-trades-sector.jpg',
+  plumbing: '/images/pages/construction-trades.jpg',
+  carpentry: '/images/pages/construction-trades.jpg',
 };
 
 const DEFAULT_COVER = '/images/pages/about-career-training.jpg';
 
 function getCoverImage(category: string | null, title: string | null): string {
-  const text = `${(category ?? '')} ${(title ?? '')}`.toLowerCase();
+  const text = `${category ?? ''} ${title ?? ''}`.toLowerCase();
   for (const [keyword, img] of Object.entries(COVER_MAP)) {
     if (text.includes(keyword)) return img;
   }
@@ -139,7 +147,9 @@ export default async function ProgramTrainingPage({
   const supabase = await createClient();
   const db = await getDb();
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect(`/login?redirect=/programs/${slug}/training`);
 
   const { data: program } = await supabase
@@ -163,10 +173,12 @@ export default async function ProgramTrainingPage({
 
   const { data: internalLinks } = await supabase
     .from('program_courses')
-    .select(`
+    .select(
+      `
       id, sort_order, is_required,
       course:training_courses(id, title, course_name, slug, description, duration_hours, category, status, thumbnail_url)
-    `)
+    `,
+    )
     .eq('program_id', program.id)
     .order('sort_order');
 
@@ -178,55 +190,63 @@ export default async function ProgramTrainingPage({
     .order('sort_order');
 
   const internalCourseIds = (internalLinks ?? []).map((l: any) => l.course?.id).filter(Boolean);
-  const { data: enrollments } = internalCourseIds.length > 0
-    ? await supabase
-        .from('training_enrollments')
-        .select('course_id')
-        .eq('user_id', user.id)
-        .in('course_id', internalCourseIds)
-    : { data: [] };
+  const { data: enrollments } =
+    internalCourseIds.length > 0
+      ? await supabase
+          .from('training_enrollments')
+          .select('course_id')
+          .eq('user_id', user.id)
+          .in('course_id', internalCourseIds)
+      : { data: [] };
   const enrolledSet = new Set((enrollments ?? []).map((e: any) => e.course_id));
 
   const externalIds = (externalRows ?? []).map((e: any) => e.id);
-  const { data: extCompletions } = externalIds.length > 0
-    ? await supabase
-        .from('program_external_completions')
-        .select('external_course_id')
-        .eq('user_id', user.id)
-        .in('external_course_id', externalIds)
-    : { data: [] };
-  const completedExternalSet = new Set((extCompletions ?? []).map((c: any) => c.external_course_id));
+  const { data: extCompletions } =
+    externalIds.length > 0
+      ? await supabase
+          .from('program_external_completions')
+          .select('external_course_id')
+          .eq('user_id', user.id)
+          .in('external_course_id', externalIds)
+      : { data: [] };
+  const completedExternalSet = new Set(
+    (extCompletions ?? []).map((c: any) => c.external_course_id),
+  );
 
   const items: TrainingItem[] = [
-    ...(internalLinks ?? []).map((l: any): InternalItem => ({
-      kind: 'internal',
-      sort_order: l.sort_order ?? 0,
-      is_required: l.is_required ?? true,
-      link_id: l.id,
-      course: l.course ?? {},
-      enrolled: enrolledSet.has(l.course?.id),
-    })),
-    ...(externalRows ?? []).map((e: any): ExternalItem => ({
-      kind: 'external',
-      sort_order: e.sort_order ?? 0,
-      is_required: e.is_required ?? true,
-      id: e.id,
-      partner_name: e.partner_name,
-      title: e.title,
-      external_url: e.external_url,
-      description: e.description,
-      duration_display: e.duration_display,
-      credential_type: e.credential_type,
-      credential_name: e.credential_name,
-      enrollment_instructions: e.enrollment_instructions,
-      opens_in_new_tab: e.opens_in_new_tab ?? true,
-      manual_completion_enabled: e.manual_completion_enabled ?? true,
-      completed: completedExternalSet.has(e.id),
-    })),
+    ...(internalLinks ?? []).map(
+      (l: any): InternalItem => ({
+        kind: 'internal',
+        sort_order: l.sort_order ?? 0,
+        is_required: l.is_required ?? true,
+        link_id: l.id,
+        course: l.course ?? {},
+        enrolled: enrolledSet.has(l.course?.id),
+      }),
+    ),
+    ...(externalRows ?? []).map(
+      (e: any): ExternalItem => ({
+        kind: 'external',
+        sort_order: e.sort_order ?? 0,
+        is_required: e.is_required ?? true,
+        id: e.id,
+        partner_name: e.partner_name,
+        title: e.title,
+        external_url: e.external_url,
+        description: e.description,
+        duration_display: e.duration_display,
+        credential_type: e.credential_type,
+        credential_name: e.credential_name,
+        enrollment_instructions: e.enrollment_instructions,
+        opens_in_new_tab: e.opens_in_new_tab ?? true,
+        manual_completion_enabled: e.manual_completion_enabled ?? true,
+        completed: completedExternalSet.has(e.id),
+      }),
+    ),
   ].sort((a, b) => a.sort_order - b.sort_order);
 
-  const totalRequired = items.filter(i => i.is_required).length;
-  const completedRequired = items.filter(i => {
+  const totalRequired = items.filter((i) => i.is_required).length;
+  const completedRequired = items.filter((i) => {
     if (!i.is_required) return false;
     if (i.kind === 'internal') return i.enrolled;
     return i.completed;
@@ -240,11 +260,13 @@ export default async function ProgramTrainingPage({
       {/* Header */}
       <div className="bg-white border-b border-slate-200">
         <div className="max-w-6xl mx-auto px-4 py-6">
-          <Breadcrumbs items={[
-            { label: 'Programs', href: '/programs' },
-            { label: program.title, href: `/programs/${programCode}` },
-            { label: 'Training' },
-          ]} />
+          <Breadcrumbs
+            items={[
+              { label: 'Programs', href: '/programs' },
+              { label: program.title, href: `/programs/${programCode}` },
+              { label: 'Training' },
+            ]}
+          />
           <div className="mt-4 flex items-start justify-between gap-6 flex-wrap">
             <div>
               <h1 className="text-2xl font-bold text-slate-900">{program.title}</h1>
@@ -273,8 +295,12 @@ export default async function ProgramTrainingPage({
                   <svg className="w-14 h-14 -rotate-90" viewBox="0 0 56 56">
                     <circle cx="28" cy="28" r="22" fill="none" stroke="#e2e8f0" strokeWidth="5" />
                     <circle
-                      cx="28" cy="28" r="22" fill="none"
-                      stroke="#2563eb" strokeWidth="5"
+                      cx="28"
+                      cy="28"
+                      r="22"
+                      fill="none"
+                      stroke="#2563eb"
+                      strokeWidth="5"
                       strokeDasharray={`${2 * Math.PI * 22}`}
                       strokeDashoffset={`${2 * Math.PI * 22 * (1 - progressPct / 100)}`}
                       strokeLinecap="round"
@@ -309,9 +335,11 @@ export default async function ProgramTrainingPage({
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {items.map((item, idx) =>
-              item.kind === 'internal'
-                ? <InternalCard key={item.link_id} item={item} index={idx} />
-                : <ExternalCard key={item.id} item={item} index={idx} />
+              item.kind === 'internal' ? (
+                <InternalCard key={item.link_id} item={item} index={idx} />
+              ) : (
+                <ExternalCard key={item.id} item={item} index={idx} />
+              ),
             )}
           </div>
         )}
@@ -337,9 +365,11 @@ function InternalCard({ item, index }: { item: InternalItem; index: number }) {
   const cover = c.thumbnail_url || getCoverImage(c.category, label);
 
   return (
-    <div className={`bg-white rounded-2xl border overflow-hidden flex flex-col shadow-sm hover:shadow-md transition-shadow ${
-      item.enrolled ? 'border-brand-blue-200' : 'border-slate-200'
-    }`}>
+    <div
+      className={`bg-white rounded-2xl border overflow-hidden flex flex-col shadow-sm hover:shadow-md transition-shadow ${
+        item.enrolled ? 'border-brand-blue-200' : 'border-slate-200'
+      }`}
+    >
       {/* Cover image */}
       <div className="relative h-44 w-full bg-white">
         <Image
@@ -379,12 +409,11 @@ function InternalCard({ item, index }: { item: InternalItem; index: number }) {
         <div className="flex flex-wrap gap-3 mt-3 text-xs text-black">
           {c.duration_hours && (
             <span className="flex items-center gap-1">
-              <Clock className="w-3 h-3" />{c.duration_hours}h
+              <Clock className="w-3 h-3" />
+              {c.duration_hours}h
             </span>
           )}
-          {c.category && (
-            <span className="px-2 py-0.5 bg-white rounded-full">{c.category}</span>
-          )}
+          {c.category && <span className="px-2 py-0.5 bg-white rounded-full">{c.category}</span>}
         </div>
 
         <div className="mt-4">
@@ -413,9 +442,11 @@ function ExternalCard({ item, index }: { item: ExternalItem; index: number }) {
   const cover = getCoverImage(item.credential_type, item.title);
 
   return (
-    <div className={`bg-white rounded-2xl border overflow-hidden flex flex-col shadow-sm hover:shadow-md transition-shadow ${
-      item.completed ? 'border-green-200' : 'border-teal-200'
-    }`}>
+    <div
+      className={`bg-white rounded-2xl border overflow-hidden flex flex-col shadow-sm hover:shadow-md transition-shadow ${
+        item.completed ? 'border-green-200' : 'border-teal-200'
+      }`}
+    >
       {/* Cover image */}
       <div className="relative h-44 w-full bg-white">
         <Image
@@ -448,17 +479,25 @@ function ExternalCard({ item, index }: { item: ExternalItem; index: number }) {
           </span>
           <span className="text-xs text-black">· {item.partner_name}</span>
         </div>
-        <h3 className="text-base font-bold text-slate-900 leading-snug line-clamp-2">{item.title}</h3>
+        <h3 className="text-base font-bold text-slate-900 leading-snug line-clamp-2">
+          {item.title}
+        </h3>
         {item.description && (
           <p className="text-sm text-black mt-1 line-clamp-2 flex-1">{item.description}</p>
         )}
 
         <div className="flex flex-wrap gap-3 mt-3 text-xs text-black">
           {item.duration_display && (
-            <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{item.duration_display}</span>
+            <span className="flex items-center gap-1">
+              <Clock className="w-3 h-3" />
+              {item.duration_display}
+            </span>
           )}
           {item.credential_name && (
-            <span className="flex items-center gap-1"><Award className="w-3 h-3" />{item.credential_name}</span>
+            <span className="flex items-center gap-1">
+              <Award className="w-3 h-3" />
+              {item.credential_name}
+            </span>
           )}
         </div>
 

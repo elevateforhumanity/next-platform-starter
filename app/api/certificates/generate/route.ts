@@ -1,4 +1,3 @@
-
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { logger } from '@/lib/logger';
@@ -48,7 +47,7 @@ async function _POST(request: Request) {
     if (!enrollmentId && !courseId && !programSlug) {
       return NextResponse.json(
         { error: 'Missing enrollmentId, courseId, or programSlug' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -62,7 +61,9 @@ async function _POST(request: Request) {
       // Workforce path: load program directly by slug (no course required)
       const { data: prog } = await supabase
         .from('programs')
-        .select('id, title, slug, issuance_policy, min_rti_hours, min_ojl_hours, credential_type, credential_name, requires_instructor_attestation, min_engagement_hours')
+        .select(
+          'id, title, slug, issuance_policy, min_rti_hours, min_ojl_hours, credential_type, credential_name, requires_instructor_attestation, min_engagement_hours',
+        )
         .eq('slug', programSlug)
         .maybeSingle();
 
@@ -74,15 +75,20 @@ async function _POST(request: Request) {
       // Check for an enrollment or application for this user + program
       const { data: enroll } = await supabase
         .from('program_enrollments')
-        .select('id, user_id, course_id, completed_at, status, funding_source, funding_status, amount_paid_cents, stripe_payment_intent_id')
+        .select(
+          'id, user_id, course_id, completed_at, status, funding_source, funding_status, amount_paid_cents, stripe_payment_intent_id',
+        )
         .eq('user_id', user.id)
         .eq('program_id', prog.id)
         .maybeSingle();
 
       if (enroll?.status === 'pending_funding_verification') {
         return NextResponse.json(
-          { error: 'Certificates cannot be issued while enrollment is pending funding verification.' },
-          { status: 403 }
+          {
+            error:
+              'Certificates cannot be issued while enrollment is pending funding verification.',
+          },
+          { status: 403 },
         );
       }
       enrollment = enroll || { id: null, user_id: user.id, course_id: null, status: 'active' };
@@ -118,7 +124,7 @@ async function _POST(request: Request) {
               min_engagement_hours
             )
           )
-        `
+        `,
         )
         .eq(enrollmentId ? 'id' : 'course_id', enrollmentId ?? courseId)
         .eq('user_id', user.id)
@@ -132,7 +138,9 @@ async function _POST(request: Request) {
       enrollment = enroll;
       course = Array.isArray(enroll.courses) ? enroll.courses[0] : enroll.courses;
       program = course?.programs
-        ? Array.isArray(course.programs) ? course.programs[0] : course.programs
+        ? Array.isArray(course.programs)
+          ? course.programs[0]
+          : course.programs
         : null;
       course_id = course?.id;
 
@@ -160,11 +168,12 @@ async function _POST(request: Request) {
         return NextResponse.json(
           {
             error: 'Hour requirements not met',
-            message: 'Apprenticeship completion requires meeting both OJL and RTI hour minimums independently.',
+            message:
+              'Apprenticeship completion requires meeting both OJL and RTI hour minimums independently.',
             blocking_reasons: eligibility.blockingReasons,
             evidence: eligibility.evidence,
           },
-          { status: 400 }
+          { status: 400 },
         );
       }
     } else {
@@ -178,7 +187,7 @@ async function _POST(request: Request) {
           is_course_completed,
           total_required_lessons,
           completed_required_lessons
-        `
+        `,
         )
         .eq('student_id', enrollment.user_id)
         .eq('course_id', course_id)
@@ -197,7 +206,7 @@ async function _POST(request: Request) {
             message: `You have completed ${completionRow?.completed_required_lessons || 0} of ${completionRow?.total_required_lessons || 0} required lessons.`,
             details: completionRow ?? null,
           },
-          { status: 400 }
+          { status: 400 },
         );
       }
 
@@ -212,7 +221,8 @@ async function _POST(request: Request) {
           .eq('course_id', course_id);
 
         const totalSeconds = (progressRows || []).reduce(
-          (sum: number, row: any) => sum + (row.time_spent_seconds || 0), 0
+          (sum: number, row: any) => sum + (row.time_spent_seconds || 0),
+          0,
         );
         const totalEngagementHours = Math.round((totalSeconds / 3600) * 10) / 10;
 
@@ -224,7 +234,7 @@ async function _POST(request: Request) {
               engagement_hours: totalEngagementHours,
               required_hours: program.min_engagement_hours,
             },
-            { status: 400 }
+            { status: 400 },
           );
         }
       }
@@ -250,16 +260,18 @@ async function _POST(request: Request) {
         return NextResponse.json(
           {
             error: 'Instructor attestation required',
-            message: 'This program requires instructor sign-off before certificate issuance. No attestations found for this student.',
+            message:
+              'This program requires instructor sign-off before certificate issuance. No attestations found for this student.',
           },
-          { status: 400 }
+          { status: 400 },
         );
       }
 
       // If program has min_engagement_hours, verify attested hours meet threshold
       if (program.min_engagement_hours && program.min_engagement_hours > 0) {
         const totalAttestedHours = (attestations || []).reduce(
-          (sum: number, a: any) => sum + (a.hours_attested || 0), 0
+          (sum: number, a: any) => sum + (a.hours_attested || 0),
+          0,
         );
 
         if (totalAttestedHours < program.min_engagement_hours) {
@@ -270,7 +282,7 @@ async function _POST(request: Request) {
               attested_hours: totalAttestedHours,
               required_hours: program.min_engagement_hours,
             },
-            { status: 400 }
+            { status: 400 },
           );
         }
       }
@@ -280,7 +292,8 @@ async function _POST(request: Request) {
         ...eligibilityEvidence,
         attestation_count: attestationCount,
         attested_hours: (attestations || []).reduce(
-          (sum: number, a: any) => sum + (a.hours_attested || 0), 0
+          (sum: number, a: any) => sum + (a.hours_attested || 0),
+          0,
         ),
         attestation_types: [...new Set((attestations || []).map((a: any) => a.attestation_type))],
       };
@@ -339,22 +352,26 @@ async function _POST(request: Request) {
         course_title: course?.title,
         program_name: program?.title ?? null,
         hours_completed: isApprenticeship
-          ? null  // No single "total" for apprenticeship — OJL and RTI are separate
-          : (course?.duration_hours || 0),
+          ? null // No single "total" for apprenticeship — OJL and RTI are separate
+          : course?.duration_hours || 0,
         issued_by: user.id,
-        credential_stack: isApprenticeship ? {
-          issuance_policy: 'apprenticeship_certificate',
-          issued_at: new Date().toISOString(),
-          evidence: eligibilityEvidence,
-        } : {
-          issuance_policy: 'course_certificate',
-        },
-        metadata: isApprenticeship ? {
-          approved_ojl_hours: eligibilityEvidence?.approvedHours?.ojl || 0,
-          approved_rti_hours: eligibilityEvidence?.approvedHours?.rti || 0,
-          min_ojl_hours: eligibilityEvidence?.minOjlHours || 0,
-          min_rti_hours: eligibilityEvidence?.minRtiHours || 0,
-        } : null,
+        credential_stack: isApprenticeship
+          ? {
+              issuance_policy: 'apprenticeship_certificate',
+              issued_at: new Date().toISOString(),
+              evidence: eligibilityEvidence,
+            }
+          : {
+              issuance_policy: 'course_certificate',
+            },
+        metadata: isApprenticeship
+          ? {
+              approved_ojl_hours: eligibilityEvidence?.approvedHours?.ojl || 0,
+              approved_rti_hours: eligibilityEvidence?.approvedHours?.rti || 0,
+              min_ojl_hours: eligibilityEvidence?.minOjlHours || 0,
+              min_rti_hours: eligibilityEvidence?.minRtiHours || 0,
+            }
+          : null,
         // Immutable point-in-time snapshot at issuance. Never updated after insert.
         // DB trigger (trg_protect_issuance_snapshot) blocks mutation.
         // Auditors compare this against current funding_status to see what changed.
@@ -370,20 +387,24 @@ async function _POST(request: Request) {
             enrollment_id: enrollment?.id || null,
             enrollment_status_at_issuance: enrollment?.status || null,
             issuance_policy: isApprenticeship ? 'apprenticeship_certificate' : 'course_certificate',
-            competency_evidence: isApprenticeship ? {
-              ojl_hours: eligibilityEvidence?.approvedHours?.ojl || 0,
-              rti_hours: eligibilityEvidence?.approvedHours?.rti || 0,
-              min_ojl_required: eligibilityEvidence?.minOjlHours || 0,
-              min_rti_required: eligibilityEvidence?.minRtiHours || 0,
-            } : {
-              seat_time_hours: course?.duration_hours || 0,
-            },
-            instructor_attestation: program?.requires_instructor_attestation ? {
-              attestation_count: eligibilityEvidence?.attestation_count || 0,
-              attested_hours: eligibilityEvidence?.attested_hours || 0,
-              attestation_types: eligibilityEvidence?.attestation_types || [],
-              min_engagement_hours: program?.min_engagement_hours || null,
-            } : null,
+            competency_evidence: isApprenticeship
+              ? {
+                  ojl_hours: eligibilityEvidence?.approvedHours?.ojl || 0,
+                  rti_hours: eligibilityEvidence?.approvedHours?.rti || 0,
+                  min_ojl_required: eligibilityEvidence?.minOjlHours || 0,
+                  min_rti_required: eligibilityEvidence?.minRtiHours || 0,
+                }
+              : {
+                  seat_time_hours: course?.duration_hours || 0,
+                },
+            instructor_attestation: program?.requires_instructor_attestation
+              ? {
+                  attestation_count: eligibilityEvidence?.attestation_count || 0,
+                  attested_hours: eligibilityEvidence?.attested_hours || 0,
+                  attestation_types: eligibilityEvidence?.attestation_types || [],
+                  min_engagement_hours: program?.min_engagement_hours || null,
+                }
+              : null,
             issued_by: user.id,
           };
           const canonical = JSON.stringify(snapshot, Object.keys(snapshot).sort());
@@ -398,10 +419,7 @@ async function _POST(request: Request) {
 
     if (certError || !cert) {
       logger.error('Error inserting certificate:', certError);
-      return NextResponse.json(
-        { error: 'Failed to create certificate' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to create certificate' }, { status: 500 });
     }
 
     // 7) Update enrollment status to completed and record certificate issuance timestamp
@@ -420,7 +438,7 @@ async function _POST(request: Request) {
       certificate: cert,
       message: 'Certificate generated successfully',
     });
-  } catch (error) { 
+  } catch (error) {
     logger.error('Error in /api/certificates/generate:', error);
     return NextResponse.json({ error: 'Internal error' }, { status: 500 });
   }

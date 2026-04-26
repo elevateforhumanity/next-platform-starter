@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { createClient } from '@/lib/supabase/client';
 
@@ -7,13 +7,7 @@ import React from 'react';
 import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import SignatureCanvas from 'react-signature-canvas';
-import {
-  FileText,
-  Shield,
-  AlertCircle,
-  Download,
-  RefreshCw,
-CheckCircle, } from 'lucide-react';
+import { FileText, Shield, AlertCircle, Download, RefreshCw, CheckCircle } from 'lucide-react';
 
 interface FERPATrainingFormProps {
   user: any;
@@ -28,20 +22,15 @@ const QUIZ_QUESTIONS = [
       'Federal Education Records Protection Act',
       'Family Educational Rights and Privacy Act',
       'Federal Enrollment Rights and Privacy Act',
-      'Family Education Regulation and Protection Act'
+      'Family Education Regulation and Protection Act',
     ],
-    correct: 1
+    correct: 1,
   },
   {
     id: 2,
     question: 'Which of the following is considered an education record under FERPA?',
-    options: [
-      'Parking tickets',
-      'Student grades',
-      'Campus maps',
-      'Cafeteria menus'
-    ],
-    correct: 1
+    options: ['Parking tickets', 'Student grades', 'Campus maps', 'Cafeteria menus'],
+    correct: 1,
   },
   {
     id: 3,
@@ -50,9 +39,9 @@ const QUIZ_QUESTIONS = [
       'Any employer',
       'Other students',
       'The student (or parent if under 18)',
-      'Social media followers'
+      'Social media followers',
     ],
-    correct: 2
+    correct: 2,
   },
   {
     id: 4,
@@ -61,9 +50,9 @@ const QUIZ_QUESTIONS = [
       'Directory information',
       'Non-directory information',
       'Public records',
-      'Course descriptions'
+      'Course descriptions',
     ],
-    correct: 1
+    correct: 1,
   },
   {
     id: 5,
@@ -72,9 +61,9 @@ const QUIZ_QUESTIONS = [
       'Securely posting grades in LMS',
       'Sharing grades with unauthorized persons',
       'Using role-based access',
-      'Encrypting data'
+      'Encrypting data',
     ],
-    correct: 1
+    correct: 1,
   },
   {
     id: 6,
@@ -83,31 +72,21 @@ const QUIZ_QUESTIONS = [
       'Allow shared logins',
       'Display student grades publicly',
       'Use secure logins and role-based access',
-      'Disable audit logs'
+      'Disable audit logs',
     ],
-    correct: 2
+    correct: 2,
   },
   {
     id: 7,
     question: 'How often should FERPA training be completed?',
-    options: [
-      'One time only',
-      'Every 10 years',
-      'Annually',
-      'Never'
-    ],
-    correct: 2
+    options: ['One time only', 'Every 10 years', 'Annually', 'Never'],
+    correct: 2,
   },
   {
     id: 8,
     question: 'Which of the following is directory information (unless student opts out)?',
-    options: [
-      'Grades',
-      'Attendance',
-      'Student name',
-      'Disability records'
-    ],
-    correct: 2
+    options: ['Grades', 'Attendance', 'Student name', 'Disability records'],
+    correct: 2,
   },
   {
     id: 9,
@@ -116,9 +95,9 @@ const QUIZ_QUESTIONS = [
       'Ignore it',
       'Post it publicly',
       'Report it according to policy',
-      'Share with coworkers'
+      'Share with coworkers',
     ],
-    correct: 2
+    correct: 2,
   },
   {
     id: 10,
@@ -127,10 +106,10 @@ const QUIZ_QUESTIONS = [
       'It replaces accreditation',
       'It proves financial stability',
       'It demonstrates student privacy compliance',
-      'It guarantees funding'
+      'It guarantees funding',
     ],
-    correct: 2
-  }
+    correct: 2,
+  },
 ];
 
 export default function FERPATrainingForm({ user, existingTraining }: FERPATrainingFormProps) {
@@ -170,7 +149,7 @@ export default function FERPATrainingForm({ user, existingTraining }: FERPATrain
 
   const calculateScore = () => {
     let correct = 0;
-    QUIZ_QUESTIONS.forEach(q => {
+    QUIZ_QUESTIONS.forEach((q) => {
       if (answers[q.id] === q.correct) {
         correct++;
       }
@@ -186,7 +165,9 @@ export default function FERPATrainingForm({ user, existingTraining }: FERPATrain
     if (finalScore >= 80) {
       setStep(3);
     } else {
-      setError('You must score 80% or higher to pass. Please review the training materials and try again.');
+      setError(
+        'You must score 80% or higher to pass. Please review the training materials and try again.',
+      );
     }
   };
 
@@ -241,8 +222,8 @@ export default function FERPATrainingForm({ user, existingTraining }: FERPATrain
           training_acknowledged: trainingAcknowledged,
           confidentiality_acknowledged: confidentialityAcknowledged,
           ip_address: window.location.hostname,
-          user_agent: navigator.userAgent
-        })
+          user_agent: navigator.userAgent,
+        }),
       });
 
       if (!response.ok) {
@@ -256,7 +237,6 @@ export default function FERPATrainingForm({ user, existingTraining }: FERPATrain
       setTimeout(() => {
         router.push('/ferpa/training/certificate/' + data.certificate_id);
       }, 3000);
-
     } catch (err) {
       setError('Failed to submit training');
     } finally {
@@ -264,19 +244,37 @@ export default function FERPATrainingForm({ user, existingTraining }: FERPATrain
     }
   };
 
-  if (existingTraining && new Date(existingTraining.completed_at) > new Date(Date.now() - 365 * 24 * 60 * 60 * 1000)) {
+  if (
+    existingTraining &&
+    new Date(existingTraining.completed_at) > new Date(Date.now() - 365 * 24 * 60 * 60 * 1000)
+  ) {
     return (
       <div className="min-h-screen bg-white py-12">
         <div className="max-w-4xl mx-auto px-4">
           <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-8">
             <div className="text-center">
               <span className="text-slate-500 flex-shrink-0">•</span>
-              <h1 className="text-3xl font-bold text-black mb-4">
-                Training Already Completed
-              </h1>
+              <h1 className="text-3xl font-bold text-black mb-4">Training Already Completed</h1>
               <p className="text-black mb-6">
-                You completed FERPA training on {new Date(existingTraining.completed_at).toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' })}.
-                Your certification is valid until {new Date(new Date(existingTraining.completed_at).setFullYear(new Date(existingTraining.completed_at).getFullYear() + 1)).toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' })}.
+                You completed FERPA training on{' '}
+                {new Date(existingTraining.completed_at).toLocaleDateString('en-US', {
+                  timeZone: 'UTC',
+                  month: 'short',
+                  day: 'numeric',
+                  year: 'numeric',
+                })}
+                . Your certification is valid until{' '}
+                {new Date(
+                  new Date(existingTraining.completed_at).setFullYear(
+                    new Date(existingTraining.completed_at).getFullYear() + 1,
+                  ),
+                ).toLocaleDateString('en-US', {
+                  timeZone: 'UTC',
+                  month: 'short',
+                  day: 'numeric',
+                  year: 'numeric',
+                })}
+                .
               </p>
               <div className="flex gap-4 justify-center">
                 <button
@@ -325,16 +323,14 @@ export default function FERPATrainingForm({ user, existingTraining }: FERPATrain
           <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-8">
             <div className="flex items-center gap-3 mb-6">
               <FileText className="w-8 h-8 text-brand-blue-600" />
-              <h1 className="text-3xl font-bold text-black">
-                FERPA Training Course
-              </h1>
+              <h1 className="text-3xl font-bold text-black">FERPA Training Course</h1>
             </div>
 
             <div className="prose max-w-none mb-8">
               <h2>Welcome to FERPA Training</h2>
               <p>
-                This training course will teach you about the Family Educational Rights and Privacy Act (FERPA)
-                and your responsibilities for protecting student education records.
+                This training course will teach you about the Family Educational Rights and Privacy
+                Act (FERPA) and your responsibilities for protecting student education records.
               </p>
 
               <h3>What You'll Learn</h3>
@@ -397,7 +393,8 @@ export default function FERPATrainingForm({ user, existingTraining }: FERPATrain
                 className="mt-1 w-5 h-5 text-brand-blue-600 rounded"
               />
               <label htmlFor="training-reviewed" className="text-black">
-                I have reviewed all training materials and understand my responsibilities under FERPA
+                I have reviewed all training materials and understand my responsibilities under
+                FERPA
               </label>
             </div>
 
@@ -416,9 +413,7 @@ export default function FERPATrainingForm({ user, existingTraining }: FERPATrain
           <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-8">
             <div className="flex items-center gap-3 mb-6">
               <span className="text-slate-500 flex-shrink-0">•</span>
-              <h1 className="text-3xl font-bold text-black">
-                FERPA Assessment Quiz
-              </h1>
+              <h1 className="text-3xl font-bold text-black">FERPA Assessment Quiz</h1>
             </div>
 
             <div className="mb-6">
@@ -506,28 +501,24 @@ export default function FERPATrainingForm({ user, existingTraining }: FERPATrain
             <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-8">
               <div className="text-center">
                 <span className="text-slate-500 flex-shrink-0">•</span>
-                <h2 className="text-2xl font-bold text-black mb-2">
-                  Assessment Passed!
-                </h2>
-                <p className="text-3xl font-bold text-brand-green-600 mb-2">
-                  {score}%
-                </p>
+                <h2 className="text-2xl font-bold text-black mb-2">Assessment Passed!</h2>
+                <p className="text-3xl font-bold text-brand-green-600 mb-2">{score}%</p>
                 <p className="text-black">
-                  You answered {Math.round((score! / 100) * QUIZ_QUESTIONS.length)} out of {QUIZ_QUESTIONS.length} questions correctly
+                  You answered {Math.round((score! / 100) * QUIZ_QUESTIONS.length)} out of{' '}
+                  {QUIZ_QUESTIONS.length} questions correctly
                 </p>
               </div>
             </div>
 
             {/* Training Acknowledgment Signature */}
             <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-8">
-              <h2 className="text-2xl font-bold text-black mb-6">
-                Training Acknowledgment
-              </h2>
+              <h2 className="text-2xl font-bold text-black mb-6">Training Acknowledgment</h2>
 
               <div className="prose max-w-none mb-6">
                 <p>
-                  I certify that I have completed the FERPA Training Course and understand my responsibilities
-                  for protecting student education records under the Family Educational Rights and Privacy Act.
+                  I certify that I have completed the FERPA Training Course and understand my
+                  responsibilities for protecting student education records under the Family
+                  Educational Rights and Privacy Act.
                 </p>
               </div>
 
@@ -557,9 +548,7 @@ export default function FERPATrainingForm({ user, existingTraining }: FERPATrain
 
               <div className="grid md:grid-cols-2 gap-4 mb-6">
                 <div>
-                  <label className="block text-sm font-medium text-black mb-1">
-                    Name
-                  </label>
+                  <label className="block text-sm font-medium text-black mb-1">Name</label>
                   <input
                     type="text"
                     value={user.full_name || ''}
@@ -568,12 +557,15 @@ export default function FERPATrainingForm({ user, existingTraining }: FERPATrain
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-black mb-1">
-                    Date
-                  </label>
+                  <label className="block text-sm font-medium text-black mb-1">Date</label>
                   <input
                     type="text"
-                    value={new Date().toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' })}
+                    value={new Date().toLocaleDateString('en-US', {
+                      timeZone: 'UTC',
+                      month: 'short',
+                      day: 'numeric',
+                      year: 'numeric',
+                    })}
                     disabled
                     className="w-full px-4 py-2 border border-slate-300 rounded-lg bg-slate-50"
                   />
@@ -585,9 +577,7 @@ export default function FERPATrainingForm({ user, existingTraining }: FERPATrain
             <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-8">
               <div className="flex items-center gap-3 mb-6">
                 <Shield className="w-8 h-8 text-purple-600" />
-                <h2 className="text-2xl font-bold text-black">
-                  FERPA Confidentiality Agreement
-                </h2>
+                <h2 className="text-2xl font-bold text-black">FERPA Confidentiality Agreement</h2>
               </div>
 
               <div className="prose max-w-none mb-6">
@@ -620,7 +610,8 @@ export default function FERPATrainingForm({ user, existingTraining }: FERPATrain
                   className="mt-1 w-5 h-5 text-brand-blue-600 rounded"
                 />
                 <label htmlFor="confidentiality-acknowledged" className="text-black">
-                  I have read and agree to the FERPA Confidentiality Agreement and understand the consequences of violations
+                  I have read and agree to the FERPA Confidentiality Agreement and understand the
+                  consequences of violations
                 </label>
               </div>
 
@@ -650,9 +641,7 @@ export default function FERPATrainingForm({ user, existingTraining }: FERPATrain
 
               <div className="grid md:grid-cols-3 gap-4 mb-6">
                 <div>
-                  <label className="block text-sm font-medium text-black mb-1">
-                    Name
-                  </label>
+                  <label className="block text-sm font-medium text-black mb-1">Name</label>
                   <input
                     type="text"
                     value={user.full_name || ''}
@@ -661,9 +650,7 @@ export default function FERPATrainingForm({ user, existingTraining }: FERPATrain
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-black mb-1">
-                    Role
-                  </label>
+                  <label className="block text-sm font-medium text-black mb-1">Role</label>
                   <input
                     type="text"
                     value={user.role || ''}
@@ -672,12 +659,15 @@ export default function FERPATrainingForm({ user, existingTraining }: FERPATrain
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-black mb-1">
-                    Date
-                  </label>
+                  <label className="block text-sm font-medium text-black mb-1">Date</label>
                   <input
                     type="text"
-                    value={new Date().toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' })}
+                    value={new Date().toLocaleDateString('en-US', {
+                      timeZone: 'UTC',
+                      month: 'short',
+                      day: 'numeric',
+                      year: 'numeric',
+                    })}
                     disabled
                     className="w-full px-4 py-2 border border-slate-300 rounded-lg bg-slate-50"
                   />
@@ -703,7 +693,9 @@ export default function FERPATrainingForm({ user, existingTraining }: FERPATrain
               </button>
               <button
                 onClick={handleFinalSubmit}
-                disabled={loading || !signature || !confidentialitySignature || !confidentialityAcknowledged}
+                disabled={
+                  loading || !signature || !confidentialitySignature || !confidentialityAcknowledged
+                }
                 className="flex-1 px-6 py-3 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700 transition disabled:bg-slate-300 disabled:cursor-not-allowed"
               >
                 {loading ? 'Submitting...' : 'Complete Training & Get Certificate'}
@@ -717,12 +709,10 @@ export default function FERPATrainingForm({ user, existingTraining }: FERPATrain
           <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-8">
             <div className="text-center">
               <span className="text-slate-500 flex-shrink-0">•</span>
-              <h1 className="text-3xl font-bold text-black mb-4">
-                Training Complete!
-              </h1>
+              <h1 className="text-3xl font-bold text-black mb-4">Training Complete!</h1>
               <p className="text-black mb-6">
-                Your FERPA training has been successfully completed and recorded.
-                Your certificate is being generated...
+                Your FERPA training has been successfully completed and recorded. Your certificate
+                is being generated...
               </p>
               <div className="animate-pulse text-brand-blue-600">
                 Redirecting to your certificate...

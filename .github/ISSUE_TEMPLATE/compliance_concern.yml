@@ -1,7 +1,7 @@
 name: Compliance / Data Concern
 description: Report a concern related to data handling, student records, funding compliance, or regulatory requirements.
-title: "[Compliance] "
-labels: ["compliance", "needs-review"]
+title: '[Compliance] '
+labels: ['compliance', 'needs-review']
 body:
   - type: markdown
     attributes:

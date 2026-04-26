@@ -135,20 +135,18 @@ export async function generateWelcomePacket(data: WelcomePacketData): Promise<{
   ];
 
   // Insert packet items
-  const { error: itemsError } = await supabase
-    .from('welcome_packet_items')
-    .insert(
-      items.map((item) => ({
-        packet_id: packet.id,
-        item_id: item.id,
-        title: item.title,
-        description: item.description,
-        type: item.type,
-        url: item.url,
-        required: item.required,
-        completed: false,
-      }))
-    );
+  const { error: itemsError } = await supabase.from('welcome_packet_items').insert(
+    items.map((item) => ({
+      packet_id: packet.id,
+      item_id: item.id,
+      title: item.title,
+      description: item.description,
+      type: item.type,
+      url: item.url,
+      required: item.required,
+      completed: false,
+    })),
+  );
 
   if (itemsError) {
     throw new Error(`Failed to create packet items: ${itemsError.message}`);
@@ -168,7 +166,7 @@ export async function generateWelcomePacket(data: WelcomePacketData): Promise<{
  */
 export async function sendWelcomePacketEmail(
   data: WelcomePacketData,
-  packetId: string
+  packetId: string,
 ): Promise<void> {
   const supabase = await createClient();
 
@@ -241,7 +239,7 @@ export async function sendWelcomePacketEmail(
 export async function completeWelcomePacketItem(
   packetId: string,
   itemId: string,
-  studentId: string
+  studentId: string,
 ): Promise<void> {
   const supabase = await createClient();
 
@@ -264,9 +262,7 @@ export async function completeWelcomePacketItem(
     .select('*')
     .eq('packet_id', packetId);
 
-  const allRequiredComplete = items?.every(
-    (item) => !item.required || item.completed
-  );
+  const allRequiredComplete = items?.every((item) => !item.required || item.completed);
 
   if (allRequiredComplete) {
     // Mark packet as complete
@@ -288,7 +284,7 @@ export async function completeWelcomePacketItem(
  */
 async function sendWelcomePacketCompletionEmail(
   packetId: string,
-  studentId: string
+  studentId: string,
 ): Promise<void> {
   const supabase = await createClient();
 
@@ -386,9 +382,7 @@ export async function getWelcomePacketStatus(packetId: string): Promise<{
 /**
  * Send reminder email for incomplete welcome packet
  */
-export async function sendWelcomePacketReminder(
-  packetId: string
-): Promise<void> {
+export async function sendWelcomePacketReminder(packetId: string): Promise<void> {
   const supabase = await createClient();
 
   const { data: packet } = await supabase
@@ -400,7 +394,7 @@ export async function sendWelcomePacketReminder(
       enrollment:enrollments(
         program:programs(name)
       )
-    `
+    `,
     )
     .eq('id', packetId)
     .maybeSingle();

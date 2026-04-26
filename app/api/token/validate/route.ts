@@ -21,10 +21,7 @@ async function _POST(request: NextRequest) {
     const { token } = await request.json();
 
     if (!token) {
-      return NextResponse.json(
-        { error: 'Token is required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Token is required' }, { status: 400 });
     }
 
     // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -32,11 +29,11 @@ async function _POST(request: NextRequest) {
 
     if (!result || !result.valid) {
       return NextResponse.json(
-        { 
+        {
           error: 'Invalid or expired token',
           valid: false,
         },
-        { status: 401 }
+        { status: 401 },
       );
     }
 
@@ -49,10 +46,7 @@ async function _POST(request: NextRequest) {
     });
   } catch (error) {
     logger.error('Token validation error:', error);
-    return NextResponse.json(
-      { error: 'Failed to validate token' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to validate token' }, { status: 500 });
   }
 }
 
@@ -60,10 +54,9 @@ async function _POST(request: NextRequest) {
  * GET endpoint for simple token validation (redirect flow)
  */
 async function _GET(request: NextRequest) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const { searchParams } = new URL(request.url);
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const { searchParams } = new URL(request.url);
   const token = searchParams.get('token');
 
   if (!token) {

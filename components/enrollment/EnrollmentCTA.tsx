@@ -16,11 +16,11 @@ const CTA_LABELS = {
   pay: 'Pay & Enroll',
 };
 
-export function EnrollmentCTA({ 
-  programSlug, 
+export function EnrollmentCTA({
+  programSlug,
   variant = 'apply',
   className = '',
-  size = 'md'
+  size = 'md',
 }: EnrollmentCTAProps) {
   const sizeClasses = {
     sm: 'px-4 py-2 text-sm',

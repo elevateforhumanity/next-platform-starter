@@ -14,7 +14,9 @@ async function getProctor() {
   const db = admin || supabase;
   if (!supabase) return null;
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return null;
 
   const { data: profile } = await db
@@ -28,10 +30,7 @@ async function getProctor() {
 }
 
 // GET /api/proctor/sessions/[id]
-async function _GET(
-  _req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+async function _GET(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const ctx = await getProctor();
     if (!ctx) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -39,11 +38,7 @@ async function _GET(
     const { id } = await params;
     const { db } = ctx;
 
-    const { data, error } = await db
-      .from('exam_sessions')
-      .select('*')
-      .eq('id', id)
-      .maybeSingle();
+    const { data, error } = await db.from('exam_sessions').select('*').eq('id', id).maybeSingle();
 
     if (error || !data) {
       return NextResponse.json({ error: 'Session not found' }, { status: 404 });
@@ -57,10 +52,7 @@ async function _GET(
 }
 
 // PATCH /api/proctor/sessions/[id] — update status, result, score
-async function _PATCH(
-  req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+async function _PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const ctx = await getProctor();
     if (!ctx) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -92,7 +84,7 @@ async function _PATCH(
     if (finalResults.includes(incomingResult) && !incomingIdVerified) {
       return NextResponse.json(
         { error: 'id_verified must be true before recording a final exam result' },
-        { status: 422 }
+        { status: 422 },
       );
     }
 
@@ -105,16 +97,28 @@ async function _PATCH(
       !effectiveEvidence
     ) {
       return NextResponse.json(
-        { error: 'evidence_url is required before recording a result for online proctored sessions' },
-        { status: 422 }
+        {
+          error: 'evidence_url is required before recording a result for online proctored sessions',
+        },
+        { status: 422 },
       );
     }
 
     // Only allow specific fields to be updated (no overwriting provider, student, proctor identity)
     const allowed = [
-      'status', 'result', 'score', 'started_at', 'completed_at',
-      'proctor_notes', 'id_verified', 'id_type', 'id_notes',
-      'evidence_url', 'evidence_storage_key', 'evidence_hash', 'delivery_method',
+      'status',
+      'result',
+      'score',
+      'started_at',
+      'completed_at',
+      'proctor_notes',
+      'id_verified',
+      'id_type',
+      'id_notes',
+      'evidence_url',
+      'evidence_storage_key',
+      'evidence_hash',
+      'delivery_method',
     ];
     const updates: Record<string, unknown> = {};
     for (const key of allowed) {
@@ -160,7 +164,8 @@ async function _PATCH(
     }
     if (body.result && body.result !== 'pending' && current.result === 'pending') {
       await appendSessionEvent(db, id, 'result_recorded', profile.id, profile.role, {
-        result: body.result, score: body.score ?? null,
+        result: body.result,
+        score: body.score ?? null,
       });
     }
     if (body.status === 'voided' && current.status !== 'voided') {
@@ -169,7 +174,9 @@ async function _PATCH(
       });
     }
 
-    logger.info(`[Proctor] Session ${id} updated: result=${incomingResult}, id_verified=${incomingIdVerified}`);
+    logger.info(
+      `[Proctor] Session ${id} updated: result=${incomingResult}, id_verified=${incomingIdVerified}`,
+    );
     return NextResponse.json({ session: data });
   } catch (err) {
     logger.error('[Proctor] PATCH error:', err);

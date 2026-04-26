@@ -14,14 +14,20 @@ const ADMIN_ROLES = ['admin', 'super_admin'];
 
 async function requireSuperAdmin() {
   const supabase = await createClient();
-  const { data: { user }, error } = await supabase.auth.getUser();
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.getUser();
   if (error || !user) return { user: null, db: null, error: 'Unauthorized' as const };
 
   const db = await getAdminClient();
   if (!db) return { user: null, db: null, error: 'Service unavailable' as const };
 
   const { data: profile } = await db
-    .from('profiles').select('role').eq('id', user.id).maybeSingle();
+    .from('profiles')
+    .select('role')
+    .eq('id', user.id)
+    .maybeSingle();
 
   if (!profile || !ADMIN_ROLES.includes(profile.role ?? '')) {
     return { user: null, db: null, error: 'Forbidden' as const };
@@ -35,7 +41,10 @@ export async function POST(req: Request) {
 
   const { user, db, error: authError } = await requireSuperAdmin();
   if (authError || !user || !db) {
-    return NextResponse.json({ error: authError }, { status: authError === 'Unauthorized' ? 401 : 403 });
+    return NextResponse.json(
+      { error: authError },
+      { status: authError === 'Unauthorized' ? 401 : 403 },
+    );
   }
 
   try {
@@ -86,7 +95,10 @@ export async function GET(request: Request) {
 
   const { user, db, error: authError } = await requireSuperAdmin();
   if (authError || !user || !db) {
-    return NextResponse.json({ error: authError }, { status: authError === 'Unauthorized' ? 401 : 403 });
+    return NextResponse.json(
+      { error: authError },
+      { status: authError === 'Unauthorized' ? 401 : 403 },
+    );
   }
 
   try {

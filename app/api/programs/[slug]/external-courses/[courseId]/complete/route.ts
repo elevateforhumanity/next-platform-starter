@@ -79,18 +79,16 @@ export async function POST(
     certificateUrl = urlData.publicUrl;
   }
 
-  const { error } = await adminDb
-    .from('external_course_completions')
-    .upsert(
-      {
-        user_id: auth.id,
-        external_course_id: courseId,
-        program_id: programId,
-        completed_at: new Date().toISOString(),
-        ...(certificateUrl ? { certificate_url: certificateUrl } : {}),
-      },
-      { onConflict: 'user_id,external_course_id' },
-    );
+  const { error } = await adminDb.from('external_course_completions').upsert(
+    {
+      user_id: auth.id,
+      external_course_id: courseId,
+      program_id: programId,
+      completed_at: new Date().toISOString(),
+      ...(certificateUrl ? { certificate_url: certificateUrl } : {}),
+    },
+    { onConflict: 'user_id,external_course_id' },
+  );
 
   if (error) return safeDbError(error, 'Failed to record completion');
 

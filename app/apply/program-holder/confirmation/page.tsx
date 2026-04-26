@@ -1,4 +1,3 @@
-
 export const revalidate = 3600;
 
 import { Metadata } from 'next';
@@ -8,7 +7,8 @@ import { Mail, CheckCircle, ArrowRight } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Application Received | Elevate for Humanity',
-  description: 'Your program holder application has been received. Check your email for next steps.',
+  description:
+    'Your program holder application has been received. Check your email for next steps.',
 };
 
 export default function ProgramHolderConfirmationPage() {
@@ -47,8 +47,8 @@ export default function ProgramHolderConfirmationPage() {
               <div>
                 <p className="font-semibold text-amber-900 text-sm">Check your email now</p>
                 <p className="text-amber-800 text-sm mt-1 leading-relaxed">
-                  We sent you a password setup link. Click it to set your password and
-                  start your onboarding steps.
+                  We sent you a password setup link. Click it to set your password and start your
+                  onboarding steps.
                 </p>
                 <p className="text-amber-900 text-sm mt-2 font-semibold">
                   ⚠️ The link expires in 24 hours. Open it before it expires.
@@ -80,7 +80,8 @@ export default function ProgramHolderConfirmationPage() {
             {/* Didn't get email */}
             <div className="border-t border-slate-100 pt-5">
               <p className="text-xs text-slate-900 mb-3">
-                Didn&apos;t receive the email, or the link expired? Check your spam folder, then contact us for a new link:
+                Didn&apos;t receive the email, or the link expired? Check your spam folder, then
+                contact us for a new link:
               </p>
               <div className="flex flex-col sm:flex-row gap-2 text-sm">
                 <a
@@ -103,10 +104,7 @@ export default function ProgramHolderConfirmationPage() {
 
           {/* Footer */}
           <div className="bg-slate-50 px-8 py-4 border-t border-slate-100 flex items-center justify-between">
-            <Link
-              href="/"
-              className="text-sm text-slate-900 hover:text-slate-700"
-            >
+            <Link href="/" className="text-sm text-slate-900 hover:text-slate-700">
               Return to home
             </Link>
             <Link

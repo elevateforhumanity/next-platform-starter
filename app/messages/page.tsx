@@ -15,7 +15,9 @@ export const dynamic = 'force-dynamic';
 
 export default async function MessagesPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     redirect('/login?redirect=/messages');
@@ -24,19 +26,21 @@ export default async function MessagesPage() {
   // Fetch conversations
   const { data: conversations } = await supabase
     .from('direct_message_conversations')
-    .select(`
+    .select(
+      `
       id,
       participant_1_id,
       participant_2_id,
       last_message_at,
       last_message_preview
-    `)
+    `,
+    )
     .or(`participant_1_id.eq.${user.id},participant_2_id.eq.${user.id}`)
     .order('last_message_at', { ascending: false });
 
   // Get participant details
   const participantIds = new Set<string>();
-  conversations?.forEach(c => {
+  conversations?.forEach((c) => {
     if (c.participant_1_id !== user.id) participantIds.add(c.participant_1_id);
     if (c.participant_2_id !== user.id) participantIds.add(c.participant_2_id);
   });
@@ -48,13 +52,13 @@ export default async function MessagesPage() {
       .select('id, full_name, avatar_url')
       .in('id', Array.from(participantIds));
 
-    users?.forEach(u => {
+    users?.forEach((u) => {
       participants[u.id] = u;
     });
   }
 
   return (
-    <MessagesClient 
+    <MessagesClient
       userId={user.id}
       initialConversations={conversations || []}
       participants={participants}

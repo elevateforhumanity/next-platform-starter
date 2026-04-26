@@ -1,16 +1,25 @@
-
 export const revalidate = 3600;
-
 
 import { requireRole } from '@/lib/auth/require-role';
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { ArrowLeft, Building2, Handshake, Heart, GraduationCap, FileText, Mail, MapPin, Phone } from 'lucide-react';
+import {
+  ArrowLeft,
+  Building2,
+  Handshake,
+  Heart,
+  GraduationCap,
+  FileText,
+  Mail,
+  MapPin,
+  Phone,
+} from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const metadata: Metadata = {
   title: 'Legal & Entity Information | Elevate for Humanity',
-  description: 'Corporate structure, entity relationships, and governance documents for Elevate for Humanity Career & Technical Institute.',
+  description:
+    'Corporate structure, entity relationships, and governance documents for Elevate for Humanity Career & Technical Institute.',
 };
 
 export default async function LegalGovernancePage() {
@@ -18,11 +27,15 @@ export default async function LegalGovernancePage() {
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* Hero Image */}
       <div className="bg-slate-50 border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[{ label: 'Governance', href: '/admin/governance' }, { label: 'Legal & Entity Information' }]} />
+          <Breadcrumbs
+            items={[
+              { label: 'Governance', href: '/admin/governance' },
+              { label: 'Legal & Entity Information' },
+            ]}
+          />
         </div>
       </div>
 
@@ -43,7 +56,6 @@ export default async function LegalGovernancePage() {
       </div>
 
       <div className="max-w-4xl mx-auto px-4 py-12">
-
         {/* Operator / School */}
         <section className="mb-12">
           <div className="flex items-center gap-3 mb-4">
@@ -60,7 +72,9 @@ export default async function LegalGovernancePage() {
               </div>
               <div>
                 <p className="text-sm text-slate-500">Trade Name (DBA)</p>
-                <p className="font-semibold text-slate-900">Elevate for Humanity Career &amp; Technical Institute</p>
+                <p className="font-semibold text-slate-900">
+                  Elevate for Humanity Career &amp; Technical Institute
+                </p>
               </div>
               <div>
                 <p className="text-sm text-slate-500">Entity Type</p>
@@ -72,15 +86,16 @@ export default async function LegalGovernancePage() {
               </div>
             </div>
             <p className="text-slate-700 text-sm pt-2 border-t border-slate-200">
-              Elevate for Humanity Career &amp; Technical Institute (&ldquo;Elevate for Humanity&rdquo;) is operated
-              by 2Exclusive LLC-S (the &ldquo;School,&rdquo; &ldquo;we,&rdquo; &ldquo;us&rdquo;). The School runs
-              the institute, the website at elevateforhumanity.org, the learning management system,
-              enrollment and credentialing systems, student contracts, and all associated workforce
-              training programs.
+              Elevate for Humanity Career &amp; Technical Institute (&ldquo;Elevate for
+              Humanity&rdquo;) is operated by 2Exclusive LLC-S (the &ldquo;School,&rdquo;
+              &ldquo;we,&rdquo; &ldquo;us&rdquo;). The School runs the institute, the website at
+              elevateforhumanity.org, the learning management system, enrollment and credentialing
+              systems, student contracts, and all associated workforce training programs.
             </p>
             <p className="text-slate-700 text-sm">
               2Exclusive LLC-S also operates SupersonicFastCash (a separate DBA) for tax preparation
-              services. Tax preparation services are governed by separate terms and security documentation.
+              services. Tax preparation services are governed by separate terms and security
+              documentation.
             </p>
           </div>
         </section>
@@ -110,9 +125,9 @@ export default async function LegalGovernancePage() {
             </div>
             <p className="text-slate-700 text-sm pt-2 border-t border-slate-200">
               We partner with Selfish Inc. (d/b/a Rise Forward Foundation), a 501(c)(3) nonprofit
-              (&ldquo;Rise Forward&rdquo;), to provide supportive services that help students persist
-              and complete training. Rise Forward coordinates community outreach, employer partnerships,
-              and wrap-around student support.
+              (&ldquo;Rise Forward&rdquo;), to provide supportive services that help students
+              persist and complete training. Rise Forward coordinates community outreach, employer
+              partnerships, and wrap-around student support.
             </p>
           </div>
         </section>
@@ -137,9 +152,9 @@ export default async function LegalGovernancePage() {
               </div>
             </div>
             <p className="text-slate-700 text-sm pt-2 border-t border-slate-200">
-              CurvatureBody Sculpting is a mental wellness program operated by Rise Forward Foundation.
-              It is not a separate contracting entity. CurvatureBody provides wellness support services
-              to students enrolled in Elevate for Humanity training programs.
+              CurvatureBody Sculpting is a mental wellness program operated by Rise Forward
+              Foundation. It is not a separate contracting entity. CurvatureBody provides wellness
+              support services to students enrolled in Elevate for Humanity training programs.
             </p>
           </div>
         </section>
@@ -154,9 +169,9 @@ export default async function LegalGovernancePage() {
           </div>
           <div className="bg-slate-50 rounded-xl p-6 space-y-3">
             <p className="text-slate-700 text-sm">
-              Certain training programs may be delivered in collaboration with approved third-party training
-              partners. Where a third-party partner delivers instruction or clinical components, this will
-              be disclosed at or before enrollment.
+              Certain training programs may be delivered in collaboration with approved third-party
+              training partners. Where a third-party partner delivers instruction or clinical
+              components, this will be disclosed at or before enrollment.
             </p>
           </div>
         </section>
@@ -168,10 +183,10 @@ export default async function LegalGovernancePage() {
           </h2>
           <div className="bg-amber-50 border border-amber-200 rounded-xl p-6">
             <p className="text-slate-700 text-sm">
-              Unless a specific written agreement states otherwise, training enrollment, platform access,
-              and website use are provided by 2Exclusive LLC-S. Rise Forward Foundation and training
-              partners do not control the Elevate for Humanity website or student contracts except
-              where explicitly stated.
+              Unless a specific written agreement states otherwise, training enrollment, platform
+              access, and website use are provided by 2Exclusive LLC-S. Rise Forward Foundation and
+              training partners do not control the Elevate for Humanity website or student contracts
+              except where explicitly stated.
             </p>
           </div>
         </section>
@@ -183,10 +198,19 @@ export default async function LegalGovernancePage() {
           </h2>
           <div className="bg-slate-50 rounded-xl p-6">
             <ul className="space-y-2 text-slate-700 text-sm">
-              <li>&ldquo;Elevate for Humanity Career &amp; Technical Institute&rdquo; is a trade name (DBA) of 2Exclusive LLC-S.</li>
+              <li>
+                &ldquo;Elevate for Humanity Career &amp; Technical Institute&rdquo; is a trade name
+                (DBA) of 2Exclusive LLC-S.
+              </li>
               <li>&ldquo;Rise Forward Foundation&rdquo; is a trade name of Selfish Inc.</li>
-              <li>&ldquo;CurvatureBody Sculpting&rdquo; is a program of Rise Forward Foundation (not a separate entity).</li>
-              <li>&ldquo;SupersonicFastCash&rdquo; is a trade name of 2Exclusive LLC-S, used exclusively for tax preparation services.</li>
+              <li>
+                &ldquo;CurvatureBody Sculpting&rdquo; is a program of Rise Forward Foundation (not a
+                separate entity).
+              </li>
+              <li>
+                &ldquo;SupersonicFastCash&rdquo; is a trade name of 2Exclusive LLC-S, used
+                exclusively for tax preparation services.
+              </li>
             </ul>
           </div>
         </section>
@@ -202,26 +226,37 @@ export default async function LegalGovernancePage() {
                 <tr>
                   <th className="text-left p-3 font-semibold text-slate-900 border-b">Entity</th>
                   <th className="text-left p-3 font-semibold text-slate-900 border-b">Role</th>
-                  <th className="text-left p-3 font-semibold text-slate-900 border-b">Data Shared</th>
+                  <th className="text-left p-3 font-semibold text-slate-900 border-b">
+                    Data Shared
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 <tr className="border-b">
                   <td className="p-3 text-slate-900 font-medium">2Exclusive LLC-S</td>
-                  <td className="p-3 text-slate-700">Operator / School &mdash; enrollment, contracts, platform, credentialing</td>
+                  <td className="p-3 text-slate-700">
+                    Operator / School &mdash; enrollment, contracts, platform, credentialing
+                  </td>
                   <td className="p-3 text-slate-700">All student data (controller)</td>
                 </tr>
                 <tr className="border-b bg-slate-50">
                   <td className="p-3 text-slate-900 font-medium">Rise Forward Foundation</td>
-                  <td className="p-3 text-slate-700">Nonprofit partner &mdash; supportive services, outreach, employer partnerships</td>
-                  <td className="p-3 text-slate-700">Enrollment status, eligibility, support needs (minimum necessary)</td>
+                  <td className="p-3 text-slate-700">
+                    Nonprofit partner &mdash; supportive services, outreach, employer partnerships
+                  </td>
+                  <td className="p-3 text-slate-700">
+                    Enrollment status, eligibility, support needs (minimum necessary)
+                  </td>
                 </tr>
                 <tr className="border-b">
                   <td className="p-3 text-slate-900 font-medium">CurvatureBody Sculpting</td>
-                  <td className="p-3 text-slate-700">Mental wellness program (under Rise Forward)</td>
-                  <td className="p-3 text-slate-700">Participation status only (no PII beyond name)</td>
+                  <td className="p-3 text-slate-700">
+                    Mental wellness program (under Rise Forward)
+                  </td>
+                  <td className="p-3 text-slate-700">
+                    Participation status only (no PII beyond name)
+                  </td>
                 </tr>
-
               </tbody>
             </table>
           </div>
@@ -237,14 +272,21 @@ export default async function LegalGovernancePage() {
               <Mail className="w-4 h-4 text-slate-500" />
               <div>
                 <p className="text-sm text-slate-500">General Inquiries</p>
-                <a href="/contact" className="text-brand-blue-600 hover:underline">Contact Us</a>
+                <a href="/contact" className="text-brand-blue-600 hover:underline">
+                  Contact Us
+                </a>
               </div>
             </div>
             <div className="flex items-center gap-3">
               <Mail className="w-4 h-4 text-slate-500" />
               <div>
                 <p className="text-sm text-slate-500">Legal &amp; Privacy</p>
-                <a href="mailto:legal@elevateforhumanity.org" className="text-brand-blue-600 hover:underline">legal@elevateforhumanity.org</a>
+                <a
+                  href="mailto:legal@elevateforhumanity.org"
+                  className="text-brand-blue-600 hover:underline"
+                >
+                  legal@elevateforhumanity.org
+                </a>
               </div>
             </div>
             <div className="flex items-center gap-3">
@@ -274,12 +316,36 @@ export default async function LegalGovernancePage() {
           </div>
           <div className="grid sm:grid-cols-2 gap-4">
             {[
-              { title: 'Terms of Service', href: '/terms-of-service', desc: 'User agreement for platform access and services' },
-              { title: 'Privacy Policy', href: '/privacy-policy', desc: 'Data collection, use, sharing, and your rights' },
-              { title: 'Security & Data Protection', href: '/admin/governance/security', desc: 'How we protect personal and educational data' },
-              { title: 'Accessibility', href: '/accessibility', desc: 'WCAG 2.1 AA compliance and accommodations' },
-              { title: 'Outcomes Methodology', href: '/outcomes', desc: 'How we measure and report student outcomes' },
-              { title: 'Governance Overview', href: '/admin/governance', desc: 'Full documentation index' },
+              {
+                title: 'Terms of Service',
+                href: '/terms-of-service',
+                desc: 'User agreement for platform access and services',
+              },
+              {
+                title: 'Privacy Policy',
+                href: '/privacy-policy',
+                desc: 'Data collection, use, sharing, and your rights',
+              },
+              {
+                title: 'Security & Data Protection',
+                href: '/admin/governance/security',
+                desc: 'How we protect personal and educational data',
+              },
+              {
+                title: 'Accessibility',
+                href: '/accessibility',
+                desc: 'WCAG 2.1 AA compliance and accommodations',
+              },
+              {
+                title: 'Outcomes Methodology',
+                href: '/outcomes',
+                desc: 'How we measure and report student outcomes',
+              },
+              {
+                title: 'Governance Overview',
+                href: '/admin/governance',
+                desc: 'Full documentation index',
+              },
             ].map((doc) => (
               <Link
                 key={doc.href}

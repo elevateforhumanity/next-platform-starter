@@ -16,11 +16,7 @@ function findHTMLFiles(dir) {
   const entries = fs.readdirSync(dir, { withFileTypes: true });
   for (const entry of entries) {
     const fullPath = path.join(dir, entry.name);
-    if (
-      entry.isDirectory() &&
-      !entry.name.startsWith('.') &&
-      entry.name !== 'node_modules'
-    ) {
+    if (entry.isDirectory() && !entry.name.startsWith('.') && entry.name !== 'node_modules') {
       results = results.concat(findHTMLFiles(fullPath));
     } else if (entry.name.endsWith('.html')) {
       results.push(fullPath);
@@ -64,15 +60,9 @@ htmlFiles.forEach((file) => {
     }
 
     // Fix onclick window.location
-    const onclickPattern = new RegExp(
-      `window\\.location\\.href='${pathToFix}'`,
-      'g'
-    );
+    const onclickPattern = new RegExp(`window\\.location\\.href='${pathToFix}'`, 'g');
     if (content.match(onclickPattern)) {
-      content = content.replace(
-        onclickPattern,
-        `window.location.href='${pathToFix}.html'`
-      );
+      content = content.replace(onclickPattern, `window.location.href='${pathToFix}.html'`);
       modified = true;
     }
   });

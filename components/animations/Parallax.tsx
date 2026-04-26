@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import { useEffect, useRef, ReactNode } from 'react';
 
 interface ParallaxProps {
@@ -7,11 +7,7 @@ interface ParallaxProps {
   className?: string;
 }
 
-export function Parallax({
-  children,
-  speed = 0.5,
-  className = ''
-}: ParallaxProps) {
+export function Parallax({ children, speed = 0.5, className = '' }: ParallaxProps) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

@@ -1,9 +1,10 @@
 import { readdirSync, readFileSync, writeFileSync } from 'fs';
 import { join } from 'path';
 
-
 const archiveDir = 'supabase/migrations/archive-legacy';
-const files = readdirSync(archiveDir).filter(f => f.endsWith('.sql')).sort();
+const files = readdirSync(archiveDir)
+  .filter((f) => f.endsWith('.sql'))
+  .sort();
 
 const analysis = {
   totalFiles: files.length,
@@ -16,10 +17,10 @@ const analysis = {
     content: [],
     analytics: [],
     complete_schema: [],
-    other: []
+    other: [],
   },
   duplicateTables: {},
-  uniqueTables: new Set()
+  uniqueTables: new Set(),
 };
 
 // Analyze each file
@@ -67,13 +68,13 @@ const report = {
     totalFiles: analysis.totalFiles,
     totalSizeMB: (analysis.totalSize / 1024 / 1024).toFixed(2),
     uniqueTables: analysis.uniqueTables.size,
-    tablesWithDuplicates: Object.keys(analysis.duplicateTables).filter(t =>
-      analysis.duplicateTables[t].length > 1
-    ).length
+    tablesWithDuplicates: Object.keys(analysis.duplicateTables).filter(
+      (t) => analysis.duplicateTables[t].length > 1,
+    ).length,
   },
   categories: {},
   topDuplicates: [],
-  recommendations: []
+  recommendations: [],
 };
 
 // Category summaries
@@ -82,7 +83,7 @@ for (const [category, files] of Object.entries(analysis.categories)) {
     report.categories[category] = {
       count: files.length,
       sizeMB: (files.reduce((sum, f) => sum + f.size, 0) / 1024 / 1024).toFixed(2),
-      files: files.map(f => f.file)
+      files: files.map((f) => f.file),
     };
   }
 }
@@ -96,7 +97,7 @@ const duplicates = Object.entries(analysis.duplicateTables)
 report.topDuplicates = duplicates.map(([table, files]) => ({
   table,
   count: files.length,
-  files: files.slice(0, 5)
+  files: files.slice(0, 5),
 }));
 
 // Recommendations
@@ -105,7 +106,7 @@ if (report.categories.complete_schema) {
     category: 'complete_schema',
     action: 'DELETE',
     reason: 'These files duplicate ALL tables. Keep only the latest one for reference.',
-    files: report.categories.complete_schema.files
+    files: report.categories.complete_schema.files,
   });
 }
 
@@ -114,7 +115,7 @@ if (report.categories.lms_courses && report.categories.lms_courses.count > 10) {
     category: 'lms_courses',
     action: 'CONSOLIDATE',
     reason: `${report.categories.lms_courses.count} files for LMS courses. Consolidate into one reference file.`,
-    count: report.categories.lms_courses.count
+    count: report.categories.lms_courses.count,
   });
 }
 
@@ -126,9 +127,6 @@ writeFileSync('migration-archive-analysis.json', JSON.stringify(report, null, 2)
 for (const [category, data] of Object.entries(report.categories)) {
 }
 
-report.topDuplicates.slice(0, 10).forEach(({ table, count }) => {
-});
+report.topDuplicates.slice(0, 10).forEach(({ table, count }) => {});
 
-report.recommendations.forEach((rec, i) => {
-});
-
+report.recommendations.forEach((rec, i) => {});

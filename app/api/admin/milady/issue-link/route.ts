@@ -27,7 +27,9 @@ export async function POST(request: NextRequest) {
     }
 
     // Basic URL validation
-    try { new URL(miladyLink); } catch {
+    try {
+      new URL(miladyLink);
+    } catch {
       return safeError('miladyLink must be a valid URL', 400);
     }
 
@@ -49,9 +51,9 @@ export async function POST(request: NextRequest) {
     }
 
     const studentEmail = queueRow.student_email as string;
-    const studentName  = (queueRow.student_name as string) || studentEmail;
-    const firstName    = studentName.split(' ')[0] || 'there';
-    const programSlug  = queueRow.program_slug as string;
+    const studentName = (queueRow.student_name as string) || studentEmail;
+    const firstName = studentName.split(' ')[0] || 'there';
+    const programSlug = queueRow.program_slug as string;
 
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
 
@@ -108,9 +110,9 @@ export async function POST(request: NextRequest) {
     await db
       .from('milady_provisioning_queue')
       .update({
-        status:       'completed',
+        status: 'completed',
         processed_at: new Date().toISOString(),
-        notes:        `${queueRow.notes || ''}\nLink issued: ${miladyLink}`.trim(),
+        notes: `${queueRow.notes || ''}\nLink issued: ${miladyLink}`.trim(),
       })
       .eq('id', queueId);
 
@@ -126,14 +128,17 @@ export async function POST(request: NextRequest) {
     }
 
     // Update milady_access record
-    await db.from('milady_access').upsert({
-      student_email: studentEmail,
-      program_slug:  programSlug,
-      status:        'active',
-      provisioning_method: 'link',
-      access_url:    miladyLink,
-      provisioned_at: new Date().toISOString(),
-    }, { onConflict: 'student_email,program_slug' });
+    await db.from('milady_access').upsert(
+      {
+        student_email: studentEmail,
+        program_slug: programSlug,
+        status: 'active',
+        provisioning_method: 'link',
+        access_url: miladyLink,
+        provisioned_at: new Date().toISOString(),
+      },
+      { onConflict: 'student_email,program_slug' },
+    );
 
     logger.info('[milady/issue-link] Link issued', { queueId, studentEmail, programSlug });
 

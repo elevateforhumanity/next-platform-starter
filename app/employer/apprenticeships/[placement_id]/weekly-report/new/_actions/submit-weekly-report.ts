@@ -10,7 +10,9 @@ export async function submitWeeklyReport(formData: FormData) {
   if (!db) throw new Error('Admin client failed to initialize');
 
   // Get authenticated user
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     redirect('/login');
@@ -62,20 +64,18 @@ export async function submitWeeklyReport(formData: FormData) {
   }
 
   // Create weekly report
-  const { error: reportError } = await db
-    .from('apprentice_weekly_reports')
-    .insert({
-      placement_id,
-      week_start,
-      week_end,
-      hours_ojt,
-      hours_related,
-      hours_total,
-      notes,
-      submitted_by_user_id: user.id,
-      submitted_at: new Date().toISOString(),
-      status: 'submitted',
-    });
+  const { error: reportError } = await db.from('apprentice_weekly_reports').insert({
+    placement_id,
+    week_start,
+    week_end,
+    hours_ojt,
+    hours_related,
+    hours_total,
+    notes,
+    submitted_by_user_id: user.id,
+    submitted_at: new Date().toISOString(),
+    status: 'submitted',
+  });
 
   if (reportError) {
     throw new Error('Failed to submit weekly report');

@@ -91,7 +91,9 @@ function PartnerCard({ partner }: { partner: TrainingPartner }) {
           <h3 className="font-semibold text-slate-900 text-sm">{partner.name}</h3>
           <div className="flex items-center gap-1 text-xs text-slate-500 mt-0.5">
             <MapPin className="w-3 h-3" />
-            <span>{partner.city}, {partner.state}</span>
+            <span>
+              {partner.city}, {partner.state}
+            </span>
           </div>
           {partner.description && (
             <p className="text-xs text-slate-600 mt-1.5 leading-relaxed">{partner.description}</p>
@@ -112,7 +114,13 @@ function PartnerCard({ partner }: { partner: TrainingPartner }) {
   );
 }
 
-function CategorySection({ category, partners }: { category: PartnerCategory; partners: TrainingPartner[] }) {
+function CategorySection({
+  category,
+  partners,
+}: {
+  category: PartnerCategory;
+  partners: TrainingPartner[];
+}) {
   const meta = PARTNER_CATEGORIES[category];
   const Icon = CATEGORY_ICONS[category];
   if (partners.length === 0) return null;
@@ -167,20 +175,24 @@ export default async function TrainingSitesPage() {
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* Breadcrumb */}
       <div className="bg-slate-50 border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[
-            { label: 'Home', href: '/' },
-            { label: 'Partners', href: '/partners' },
-            { label: 'Training Sites & Facilities' },
-          ]} />
+          <Breadcrumbs
+            items={[
+              { label: 'Home', href: '/' },
+              { label: 'Partners', href: '/partners' },
+              { label: 'Training Sites & Facilities' },
+            ]}
+          />
         </div>
       </div>
 
       {/* Hero */}
-      <section className="relative overflow-hidden" style={{ minHeight: 'clamp(420px, 50vw, 580px)' }}>
+      <section
+        className="relative overflow-hidden"
+        style={{ minHeight: 'clamp(420px, 50vw, 580px)' }}
+      >
         <Image
           src="/images/pages/apprenticeship-hero.jpg"
           alt="Elevate for Humanity training sites and employer partners"
@@ -199,9 +211,9 @@ export default async function TrainingSitesPage() {
           </h1>
           <p className="text-lg md:text-xl text-white/90 max-w-3xl leading-relaxed drop-shadow">
             Elevate students complete hands-on training, OJT hours, clinical rotations, and
-            apprenticeship placements at approved employer partner sites throughout Indiana.
-            Every site operates under a documented agreement and meets our supervision and
-            safety standards.
+            apprenticeship placements at approved employer partner sites throughout Indiana. Every
+            site operates under a documented agreement and meets our supervision and safety
+            standards.
           </p>
         </div>
       </section>
@@ -221,7 +233,10 @@ export default async function TrainingSitesPage() {
             {WHAT_IS_A_TRAINING_SITE.map((item) => {
               const Icon = item.icon;
               return (
-                <div key={item.title} className="bg-slate-50 rounded-xl p-6 border border-slate-200">
+                <div
+                  key={item.title}
+                  className="bg-slate-50 rounded-xl p-6 border border-slate-200"
+                >
                   <div className="w-12 h-12 bg-brand-blue-100 rounded-lg flex items-center justify-center mb-4">
                     <Icon className="w-6 h-6 text-brand-blue-600" />
                   </div>
@@ -237,12 +252,16 @@ export default async function TrainingSitesPage() {
       {/* Training Model */}
       <section className="py-12 bg-brand-blue-50 border-y border-brand-blue-100">
         <div className="max-w-6xl mx-auto px-4">
-          <h2 className="text-2xl font-black text-slate-900 mb-8 text-center">How Training Is Delivered</h2>
+          <h2 className="text-2xl font-black text-slate-900 mb-8 text-center">
+            How Training Is Delivered
+          </h2>
           <div className="grid sm:grid-cols-3 gap-6">
             <div className="bg-white rounded-xl p-6 border border-brand-blue-200 flex gap-4">
               <Monitor className="w-8 h-8 text-brand-blue-600 flex-shrink-0 mt-0.5" />
               <div>
-                <h3 className="font-bold text-slate-900 mb-1">Related Technical Instruction (RTI)</h3>
+                <h3 className="font-bold text-slate-900 mb-1">
+                  Related Technical Instruction (RTI)
+                </h3>
                 <p className="text-sm text-slate-700 leading-relaxed">
                   Online coursework delivered through Elevate's LMS. Covers theory, safety,
                   regulations, and credential prep. Completed on the student's schedule.
@@ -254,8 +273,8 @@ export default async function TrainingSitesPage() {
               <div>
                 <h3 className="font-bold text-slate-900 mb-1">On-the-Job Training (OJT)</h3>
                 <p className="text-sm text-slate-700 leading-relaxed">
-                  Hands-on hours completed at an approved employer training site. Students
-                  work under a licensed supervisor and log hours toward their credential.
+                  Hands-on hours completed at an approved employer training site. Students work
+                  under a licensed supervisor and log hours toward their credential.
                 </p>
               </div>
             </div>
@@ -264,9 +283,9 @@ export default async function TrainingSitesPage() {
               <div>
                 <h3 className="font-bold text-slate-900 mb-1">Competency Sign-Off</h3>
                 <p className="text-sm text-slate-700 leading-relaxed">
-                  Supervisors verify and sign off on specific skills as students demonstrate
-                  them. Completed competencies are logged in Elevate's system and submitted
-                  to credentialing bodies.
+                  Supervisors verify and sign off on specific skills as students demonstrate them.
+                  Completed competencies are logged in Elevate's system and submitted to
+                  credentialing bodies.
                 </p>
               </div>
             </div>
@@ -298,7 +317,9 @@ export default async function TrainingSitesPage() {
           ) : (
             <div>
               <div className="mb-10">
-                <h2 className="text-2xl font-black text-slate-900 mb-2">Training Site Categories</h2>
+                <h2 className="text-2xl font-black text-slate-900 mb-2">
+                  Training Site Categories
+                </h2>
                 <p className="text-slate-600 max-w-3xl">
                   Elevate partners with employers across multiple industries to provide hands-on
                   training. All sites operate under documented agreements including MOUs, OJT
@@ -307,23 +328,31 @@ export default async function TrainingSitesPage() {
                 </p>
               </div>
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                {(Object.entries(PARTNER_CATEGORIES) as [PartnerCategory, typeof PARTNER_CATEGORIES[PartnerCategory]][]).map(
-                  ([key, meta]) => {
-                    const Icon = CATEGORY_ICONS[key];
-                    return (
-                      <div key={key} className="bg-white rounded-xl border border-slate-200 p-6 hover:shadow-md transition-shadow">
-                        <div className="flex items-center gap-3 mb-3">
-                          <div className="w-10 h-10 bg-brand-blue-100 rounded-lg flex items-center justify-center">
-                            <Icon className="w-5 h-5 text-brand-blue-600" />
-                          </div>
-                          <h3 className="font-bold text-slate-900">{meta.label}</h3>
+                {(
+                  Object.entries(PARTNER_CATEGORIES) as [
+                    PartnerCategory,
+                    (typeof PARTNER_CATEGORIES)[PartnerCategory],
+                  ][]
+                ).map(([key, meta]) => {
+                  const Icon = CATEGORY_ICONS[key];
+                  return (
+                    <div
+                      key={key}
+                      className="bg-white rounded-xl border border-slate-200 p-6 hover:shadow-md transition-shadow"
+                    >
+                      <div className="flex items-center gap-3 mb-3">
+                        <div className="w-10 h-10 bg-brand-blue-100 rounded-lg flex items-center justify-center">
+                          <Icon className="w-5 h-5 text-brand-blue-600" />
                         </div>
-                        <p className="text-sm text-slate-700 mb-2 leading-relaxed">{meta.description}</p>
-                        <p className="text-xs text-slate-500 italic">{meta.trainingDescription}</p>
+                        <h3 className="font-bold text-slate-900">{meta.label}</h3>
                       </div>
-                    );
-                  }
-                )}
+                      <p className="text-sm text-slate-700 mb-2 leading-relaxed">
+                        {meta.description}
+                      </p>
+                      <p className="text-xs text-slate-500 italic">{meta.trainingDescription}</p>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           )}
@@ -337,9 +366,9 @@ export default async function TrainingSitesPage() {
             <div>
               <h2 className="text-3xl font-black text-slate-900 mb-4">Become a Training Site</h2>
               <p className="text-slate-700 leading-relaxed mb-6">
-                Employers, barbershops, healthcare facilities, and trade businesses can partner
-                with Elevate to host apprentices, provide OJT placements, and hire trained
-                graduates. There is no cost to become a training site partner.
+                Employers, barbershops, healthcare facilities, and trade businesses can partner with
+                Elevate to host apprentices, provide OJT placements, and hire trained graduates.
+                There is no cost to become a training site partner.
               </p>
               <ul className="space-y-3 mb-8">
                 {PARTNER_BENEFITS.map((item) => (
@@ -391,14 +420,35 @@ export default async function TrainingSitesPage() {
           </p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {[
-              { title: 'Memorandum of Understanding (MOU)', desc: 'Defines roles, responsibilities, and training scope between Elevate and the employer.' },
-              { title: 'Training Site Agreement', desc: 'Specifies supervision requirements, safety standards, and competency verification procedures.' },
-              { title: 'RAPIDS Employer Registration', desc: 'DOL-linked employer registration for registered apprenticeship programs — required for all apprenticeship OJT sites.' },
-              { title: 'OJT Contract', desc: 'WIOA-compliant on-the-job training contract with wage reimbursement terms and performance benchmarks.' },
-              { title: 'Clinical Affiliation Agreement', desc: 'Healthcare facility agreement governing clinical rotations, supervision ratios, and liability for CNA, MA, and phlebotomy students.' },
-              { title: 'Written Partnership Confirmation', desc: 'Documented confirmation of training role, active status, and supervisor credentials for all other site types.' },
+              {
+                title: 'Memorandum of Understanding (MOU)',
+                desc: 'Defines roles, responsibilities, and training scope between Elevate and the employer.',
+              },
+              {
+                title: 'Training Site Agreement',
+                desc: 'Specifies supervision requirements, safety standards, and competency verification procedures.',
+              },
+              {
+                title: 'RAPIDS Employer Registration',
+                desc: 'DOL-linked employer registration for registered apprenticeship programs — required for all apprenticeship OJT sites.',
+              },
+              {
+                title: 'OJT Contract',
+                desc: 'WIOA-compliant on-the-job training contract with wage reimbursement terms and performance benchmarks.',
+              },
+              {
+                title: 'Clinical Affiliation Agreement',
+                desc: 'Healthcare facility agreement governing clinical rotations, supervision ratios, and liability for CNA, MA, and phlebotomy students.',
+              },
+              {
+                title: 'Written Partnership Confirmation',
+                desc: 'Documented confirmation of training role, active status, and supervisor credentials for all other site types.',
+              },
             ].map((doc) => (
-              <div key={doc.title} className="bg-white rounded-xl border border-slate-200 p-5 hover:shadow-sm transition-shadow">
+              <div
+                key={doc.title}
+                className="bg-white rounded-xl border border-slate-200 p-5 hover:shadow-sm transition-shadow"
+              >
                 <h3 className="font-bold text-slate-900 text-sm mb-2">{doc.title}</h3>
                 <p className="text-sm text-slate-600 leading-relaxed">{doc.desc}</p>
               </div>
@@ -417,14 +467,17 @@ export default async function TrainingSitesPage() {
               { label: 'For Employers', href: '/employers' },
               { label: 'All Disclosures', href: '/disclosures' },
             ].map((link) => (
-              <Link key={link.href} href={link.href} className="text-brand-blue-600 hover:underline font-medium">
+              <Link
+                key={link.href}
+                href={link.href}
+                className="text-brand-blue-600 hover:underline font-medium"
+              >
                 {link.label}
               </Link>
             ))}
           </div>
         </div>
       </section>
-
     </div>
   );
 }

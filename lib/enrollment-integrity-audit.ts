@@ -24,9 +24,7 @@ export interface IntegrityResult {
   clean: boolean;
 }
 
-export async function validateEnrollmentIntegrity(
-  db: SupabaseClient,
-): Promise<IntegrityResult> {
+export async function validateEnrollmentIntegrity(db: SupabaseClient): Promise<IntegrityResult> {
   const counts: Record<IntegrityFailure, number> = {
     NULL_PROGRAM_ID_DETECTED: 0,
     ORPHANED_PROGRAM_REFERENCE: 0,
@@ -112,9 +110,7 @@ export async function validateEnrollmentIntegrity(
     counts.PRIVILEGED_BYPASS_DETECTED = bypassCount;
   }
 
-  const failures = (Object.keys(counts) as IntegrityFailure[]).filter(
-    (k) => counts[k] > 0,
-  );
+  const failures = (Object.keys(counts) as IntegrityFailure[]).filter((k) => counts[k] > 0);
 
   return { failures, counts, clean: failures.length === 0 };
 }

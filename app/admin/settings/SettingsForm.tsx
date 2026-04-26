@@ -26,11 +26,13 @@ export default function SettingsForm() {
 
   useEffect(() => {
     fetch('/api/admin/settings')
-      .then(r => r.json())
-      .then(d => {
+      .then((r) => r.json())
+      .then((d) => {
         if (d.settings) setSettings({ ...DEFAULTS, ...d.settings });
       })
-      .catch(() => {/* use defaults */})
+      .catch(() => {
+        /* use defaults */
+      })
       .finally(() => setLoading(false));
   }, []);
 
@@ -73,7 +75,7 @@ export default function SettingsForm() {
         <input
           type="text"
           value={settings.site_name}
-          onChange={e => setSettings(s => ({ ...s, site_name: e.target.value }))}
+          onChange={(e) => setSettings((s) => ({ ...s, site_name: e.target.value }))}
           className="w-full border border-slate-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
           required
         />
@@ -84,7 +86,7 @@ export default function SettingsForm() {
         <input
           type="email"
           value={settings.support_email}
-          onChange={e => setSettings(s => ({ ...s, support_email: e.target.value }))}
+          onChange={(e) => setSettings((s) => ({ ...s, support_email: e.target.value }))}
           className="w-full border border-slate-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
           required
         />
@@ -96,7 +98,12 @@ export default function SettingsForm() {
           <input
             type="checkbox"
             checked={settings.email_notifications === 'true'}
-            onChange={e => setSettings(s => ({ ...s, email_notifications: e.target.checked ? 'true' : 'false' }))}
+            onChange={(e) =>
+              setSettings((s) => ({
+                ...s,
+                email_notifications: e.target.checked ? 'true' : 'false',
+              }))
+            }
             className="w-4 h-4 rounded border-slate-300 text-brand-blue-600 focus:ring-brand-blue-500"
           />
           <span className="text-sm text-slate-700">Email notifications</span>
@@ -105,7 +112,9 @@ export default function SettingsForm() {
           <input
             type="checkbox"
             checked={settings.system_alerts === 'true'}
-            onChange={e => setSettings(s => ({ ...s, system_alerts: e.target.checked ? 'true' : 'false' }))}
+            onChange={(e) =>
+              setSettings((s) => ({ ...s, system_alerts: e.target.checked ? 'true' : 'false' }))
+            }
             className="w-4 h-4 rounded border-slate-300 text-brand-blue-600 focus:ring-brand-blue-500"
           />
           <span className="text-sm text-slate-700">System alerts</span>

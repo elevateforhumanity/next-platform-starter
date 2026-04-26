@@ -16,6 +16,6 @@ export function jsonErr(message: string, status: number = 500, code?: string) {
       },
       request_id: requestId,
     },
-    { status }
+    { status },
   );
 }

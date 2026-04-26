@@ -14,13 +14,13 @@ Elevate for Humanity maintains enterprise-grade security controls to protect lea
 
 ### Cloud Infrastructure
 
-| Component | Provider | Certification |
-|-----------|----------|---------------|
-| Application Hosting | Netlify / AWS | SOC 2 Type II |
-| Database | Supabase (PostgreSQL) | SOC 2 Type II |
-| File Storage | Supabase Storage | SOC 2 Type II |
-| CDN | Cloudflare | SOC 2 Type II |
-| Email | Resend | SOC 2 Type II |
+| Component           | Provider              | Certification |
+| ------------------- | --------------------- | ------------- |
+| Application Hosting | Netlify / AWS         | SOC 2 Type II |
+| Database            | Supabase (PostgreSQL) | SOC 2 Type II |
+| File Storage        | Supabase Storage      | SOC 2 Type II |
+| CDN                 | Cloudflare            | SOC 2 Type II |
+| Email               | Resend                | SOC 2 Type II |
 
 ### Network Security
 
@@ -59,6 +59,7 @@ Elevate for Humanity maintains enterprise-grade security controls to protect lea
 ### Audit Logging
 
 All security-relevant events are logged, including:
+
 - User authentication events
 - Data access and modifications
 - Administrative actions
@@ -72,13 +73,13 @@ Logs retained for minimum 1 year.
 
 ### Current Certifications
 
-| Regulation | Status | Details |
-|------------|--------|---------|
-| **FERPA** | ✓ Compliant | Student data privacy controls |
-| **WIOA** | ✓ Compliant | Workforce reporting automation |
-| **ADA/Section 508** | ✓ Compliant | Accessibility standards |
-| **GDPR** | ✓ Compliant | EU data protection (where applicable) |
-| **CCPA** | ✓ Compliant | California privacy rights |
+| Regulation          | Status      | Details                               |
+| ------------------- | ----------- | ------------------------------------- |
+| **FERPA**           | ✓ Compliant | Student data privacy controls         |
+| **WIOA**            | ✓ Compliant | Workforce reporting automation        |
+| **ADA/Section 508** | ✓ Compliant | Accessibility standards               |
+| **GDPR**            | ✓ Compliant | EU data protection (where applicable) |
+| **CCPA**            | ✓ Compliant | California privacy rights             |
 
 ### FERPA Compliance Details
 
@@ -102,25 +103,26 @@ Logs retained for minimum 1 year.
 
 ### Data Classification
 
-| Classification | Examples | Handling |
-|----------------|----------|----------|
-| Public | Course catalogs, marketing | No restrictions |
-| Internal | Aggregate analytics | Staff access only |
-| Confidential | Learner PII, grades | Encrypted, access-controlled |
-| Restricted | SSN, financial data | Additional encryption, audit logging |
+| Classification | Examples                   | Handling                             |
+| -------------- | -------------------------- | ------------------------------------ |
+| Public         | Course catalogs, marketing | No restrictions                      |
+| Internal       | Aggregate analytics        | Staff access only                    |
+| Confidential   | Learner PII, grades        | Encrypted, access-controlled         |
+| Restricted     | SSN, financial data        | Additional encryption, audit logging |
 
 ### Data Retention
 
-| Data Type | Retention Period | Deletion Method |
-|-----------|------------------|-----------------|
-| Active learner records | Duration of enrollment + 7 years | Secure deletion |
-| Completed learner records | 7 years post-completion | Secure deletion |
-| Audit logs | 7 years | Secure deletion |
-| Marketing data | Until consent withdrawn | Immediate deletion |
+| Data Type                 | Retention Period                 | Deletion Method    |
+| ------------------------- | -------------------------------- | ------------------ |
+| Active learner records    | Duration of enrollment + 7 years | Secure deletion    |
+| Completed learner records | 7 years post-completion          | Secure deletion    |
+| Audit logs                | 7 years                          | Secure deletion    |
+| Marketing data            | Until consent withdrawn          | Immediate deletion |
 
 ### Data Subject Rights
 
 We support the following rights for all users:
+
 - **Access:** Request copy of personal data
 - **Rectification:** Correct inaccurate data
 - **Erasure:** Request deletion (subject to legal requirements)
@@ -133,16 +135,17 @@ We support the following rights for all users:
 
 ### Response Timeline
 
-| Severity | Response Time | Resolution Target |
-|----------|---------------|-------------------|
-| Critical (data breach) | 1 hour | 24 hours |
-| High (service outage) | 4 hours | 48 hours |
-| Medium (degraded service) | 8 hours | 72 hours |
-| Low (minor issues) | 24 hours | 1 week |
+| Severity                  | Response Time | Resolution Target |
+| ------------------------- | ------------- | ----------------- |
+| Critical (data breach)    | 1 hour        | 24 hours          |
+| High (service outage)     | 4 hours       | 48 hours          |
+| Medium (degraded service) | 8 hours       | 72 hours          |
+| Low (minor issues)        | 24 hours      | 1 week            |
 
 ### Breach Notification
 
 In the event of a data breach:
+
 1. Affected parties notified within 72 hours
 2. Regulatory bodies notified as required
 3. Root cause analysis completed
@@ -173,6 +176,7 @@ In the event of a data breach:
 ### Third-Party Risk
 
 All vendors undergo security assessment including:
+
 - SOC 2 report review
 - Data processing agreement
 - Annual reassessment
@@ -200,12 +204,12 @@ Changes communicated 30 days in advance.
 
 ## 9. Document Control
 
-| Version | Date | Changes |
-|---------|------|---------|
-| 1.0 | 2024-01-01 | Initial release |
-| 1.1 | 2024-06-01 | Added CCPA compliance |
-| 1.2 | 2025-01-01 | Updated infrastructure details |
+| Version | Date       | Changes                        |
+| ------- | ---------- | ------------------------------ |
+| 1.0     | 2024-01-01 | Initial release                |
+| 1.1     | 2024-06-01 | Added CCPA compliance          |
+| 1.2     | 2025-01-01 | Updated infrastructure details |
 
 ---
 
-*This document is provided for informational purposes. For specific compliance questions or to request a formal security assessment, please contact our security team.*
+_This document is provided for informational purposes. For specific compliance questions or to request a formal security assessment, please contact our security team._

@@ -24,7 +24,7 @@ const CACHE_TTL_MS = 60 * 60 * 1000; // 1 hour
  */
 export async function reconcileTrialOnboarding(
   supabase: SupabaseClient,
-  organizationId: string
+  organizationId: string,
 ): Promise<void> {
   try {
     // Short-circuit: already checked this org recently
@@ -65,15 +65,18 @@ export async function reconcileTrialOnboarding(
       .eq('id', organizationId);
 
     // Log the reconciliation
-    await supabase.from('license_events').insert({
-      license_id: license.id,
-      organization_id: organizationId,
-      event_type: 'trial_onboarding_reconciled',
-      event_data: {
-        source: 'admin_layout_reconciliation',
-        reason: 'onboarding_started_at was null on first dashboard load',
-      },
-    }).catch(() => {}); // Non-critical
+    await supabase
+      .from('license_events')
+      .insert({
+        license_id: license.id,
+        organization_id: organizationId,
+        event_type: 'trial_onboarding_reconciled',
+        event_data: {
+          source: 'admin_layout_reconciliation',
+          reason: 'onboarding_started_at was null on first dashboard load',
+        },
+      })
+      .catch(() => {}); // Non-critical
 
     reconcileCache.set(organizationId, Date.now());
   } catch {

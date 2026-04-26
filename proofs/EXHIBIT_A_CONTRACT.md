@@ -21,6 +21,7 @@ Provider shall provide and maintain a licensed Platform that:
 ### 2.1 Enforces Governed Lifecycles
 
 The Platform enforces distinct, deterministic lifecycle stages, including but not limited to:
+
 - enrollment,
 - eligibility and approval,
 - document intake and review,
@@ -35,6 +36,7 @@ The Platform is designed so that actions taken by users reliably produce defined
 ### 2.3 Supports Institution-Specific Configuration
 
 The Platform supports configuration of institution-specific elements, including:
+
 - programs and offerings,
 - branding and communications,
 - eligibility and funding rules,
@@ -54,6 +56,7 @@ Unless expressly agreed in writing, the following are excluded from the licensed
 ### 3.1 Ad Hoc Core Lifecycle Modifications
 
 Provider shall not modify core lifecycle logic:
+
 - on a per-program basis,
 - mid-launch or mid-cohort,
 - or in response to one-off operational requests.
@@ -105,6 +108,7 @@ Failure to enforce a boundary on any occasion does not constitute a waiver of th
 ## 6. Acknowledgement
 
 By executing the Agreement, Client acknowledges that:
+
 - these boundaries are intended to reduce operational risk,
 - deviations increase complexity and audit exposure, and
 - adherence to this Exhibit is necessary for predictable outcomes.
@@ -115,11 +119,11 @@ By executing the Agreement, Client acknowledges that:
 
 **Accepted and Agreed:**
 
-Provider: _________________________
+Provider: ************\_************
 
-Client: __________________________
+Client: ************\_\_************
 
-Date: ___________________________
+Date: ************\_\_\_************
 
 ---
 
@@ -132,6 +136,7 @@ When legal asks, say:
 Then stop talking.
 
 **Legal teams accept this because:**
+
 - It defines scope cleanly
 - It limits implied obligations
 - It protects both parties

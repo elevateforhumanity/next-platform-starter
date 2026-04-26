@@ -50,7 +50,9 @@ export default function MOUSignClient({ holderName }: { holderName: string }) {
       <h3 className="text-base font-bold text-slate-900 mb-4">Sign this Agreement</h3>
 
       <div className="bg-slate-50 rounded-lg p-4 mb-5 text-sm text-slate-600 leading-relaxed">
-        By signing below, <strong>{holderName}</strong> agrees to the terms of this Memorandum of Understanding with Elevate for Humanity Career & Technical Institute, including program delivery standards, reporting requirements, and compliance obligations.
+        By signing below, <strong>{holderName}</strong> agrees to the terms of this Memorandum of
+        Understanding with Elevate for Humanity Career & Technical Institute, including program
+        delivery standards, reporting requirements, and compliance obligations.
       </div>
 
       <div className="mb-4">
@@ -60,24 +62,23 @@ export default function MOUSignClient({ holderName }: { holderName: string }) {
         <input
           type="text"
           value={name}
-          onChange={e => setName(e.target.value)}
+          onChange={(e) => setName(e.target.value)}
           placeholder="Full legal name"
           className="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
         />
-        {name && (
-          <p className="mt-2 font-signature text-2xl text-slate-700 italic pl-1">{name}</p>
-        )}
+        {name && <p className="mt-2 font-signature text-2xl text-slate-700 italic pl-1">{name}</p>}
       </div>
 
       <label className="flex items-start gap-3 mb-5 cursor-pointer">
         <input
           type="checkbox"
           checked={agreed}
-          onChange={e => setAgreed(e.target.checked)}
+          onChange={(e) => setAgreed(e.target.checked)}
           className="mt-0.5 w-4 h-4 rounded border-slate-300 text-brand-blue-600"
         />
         <span className="text-sm text-slate-600">
-          I have read and agree to the terms of this Memorandum of Understanding. I understand this constitutes a legally binding agreement.
+          I have read and agree to the terms of this Memorandum of Understanding. I understand this
+          constitutes a legally binding agreement.
         </span>
       </label>
 
@@ -88,7 +89,13 @@ export default function MOUSignClient({ holderName }: { holderName: string }) {
         disabled={!name.trim() || !agreed || loading}
         className="w-full bg-brand-blue-600 hover:bg-brand-blue-700 disabled:bg-slate-300 disabled:cursor-not-allowed text-white font-bold py-3 rounded-xl transition-colors flex items-center justify-center gap-2"
       >
-        {loading ? <><Loader2 className="w-4 h-4 animate-spin" /> Signing...</> : 'Sign & Submit MOU'}
+        {loading ? (
+          <>
+            <Loader2 className="w-4 h-4 animate-spin" /> Signing...
+          </>
+        ) : (
+          'Sign & Submit MOU'
+        )}
       </button>
       <p className="text-xs text-slate-400 text-center mt-2">
         Signed {new Date().toLocaleDateString()} · IP recorded for compliance

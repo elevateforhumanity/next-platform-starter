@@ -9,12 +9,40 @@ const findings = [];
 // Define expected table access patterns by category
 const expectedAccess = {
   student: {
-    allowed: ['profiles', 'enrollments', 'student_progress', 'courses', 'lessons', 'quizzes', 'quiz_attempts', 'assignments', 'submissions', 'badges', 'certificates', 'student_documents', 'student_notes', 'attendance', 'payments', 'financial_aid'],
+    allowed: [
+      'profiles',
+      'enrollments',
+      'student_progress',
+      'courses',
+      'lessons',
+      'quizzes',
+      'quiz_attempts',
+      'assignments',
+      'submissions',
+      'badges',
+      'certificates',
+      'student_documents',
+      'student_notes',
+      'attendance',
+      'payments',
+      'financial_aid',
+    ],
     requiresUserScope: true,
     requiresOrgScope: false,
   },
   programHolder: {
-    allowed: ['profiles', 'program_holders', 'program_holder_students', 'program_holder_documents', 'shops', 'shop_staff', 'apprentice_placements', 'apprentice_weekly_reports', 'shop_onboarding', 'program_holder_acknowledgements'],
+    allowed: [
+      'profiles',
+      'program_holders',
+      'program_holder_students',
+      'program_holder_documents',
+      'shops',
+      'shop_staff',
+      'apprentice_placements',
+      'apprentice_weekly_reports',
+      'shop_onboarding',
+      'program_holder_acknowledgements',
+    ],
     requiresUserScope: false,
     requiresOrgScope: true,
   },
@@ -24,17 +52,47 @@ const expectedAccess = {
     requiresOrgScope: false, // Admin sees across orgs
   },
   lms: {
-    allowed: ['profiles', 'courses', 'lessons', 'quizzes', 'quiz_attempts', 'enrollments', 'student_progress', 'assignments', 'submissions', 'course_modules'],
+    allowed: [
+      'profiles',
+      'courses',
+      'lessons',
+      'quizzes',
+      'quiz_attempts',
+      'enrollments',
+      'student_progress',
+      'assignments',
+      'submissions',
+      'course_modules',
+    ],
     requiresUserScope: true,
     requiresOrgScope: false,
   },
   instructor: {
-    allowed: ['profiles', 'courses', 'lessons', 'enrollments', 'student_progress', 'assignments', 'submissions', 'quizzes', 'quiz_attempts', 'grades', 'attendance'],
+    allowed: [
+      'profiles',
+      'courses',
+      'lessons',
+      'enrollments',
+      'student_progress',
+      'assignments',
+      'submissions',
+      'quizzes',
+      'quiz_attempts',
+      'grades',
+      'attendance',
+    ],
     requiresUserScope: false,
     requiresOrgScope: true,
   },
   employer: {
-    allowed: ['profiles', 'employer_profiles', 'job_postings', 'applications', 'placements', 'employer_students'],
+    allowed: [
+      'profiles',
+      'employer_profiles',
+      'job_postings',
+      'applications',
+      'placements',
+      'employer_students',
+    ],
     requiresUserScope: false,
     requiresOrgScope: true,
   },
@@ -53,7 +111,7 @@ Object.entries(contractMap.routes).forEach(([route, data]) => {
 
   // Check table access violations
   if (expected.allowed !== '*') {
-    tables.forEach(table => {
+    tables.forEach((table) => {
       if (!expected.allowed.includes(table)) {
         findings.push({
           severity: 'HIGH',
@@ -71,7 +129,7 @@ Object.entries(contractMap.routes).forEach(([route, data]) => {
   // Check missing scope filters
   if (expected.requiresOrgScope && !hasOrgFilter && tables.length > 0) {
     // Exception: profiles table might use user_id instead
-    const nonProfileTables = tables.filter(t => t !== 'profiles');
+    const nonProfileTables = tables.filter((t) => t !== 'profiles');
     if (nonProfileTables.length > 0) {
       findings.push({
         severity: 'CRITICAL',
@@ -105,7 +163,8 @@ Object.entries(contractMap.routes).forEach(([route, data]) => {
       route,
       category,
       file,
-      message: 'Route accesses both program_holders and enrollments - verify correct entity separation',
+      message:
+        'Route accesses both program_holders and enrollments - verify correct entity separation',
     });
   }
 
@@ -123,9 +182,9 @@ Object.entries(contractMap.routes).forEach(([route, data]) => {
 
 // Group findings by severity
 const grouped = {
-  CRITICAL: findings.filter(f => f.severity === 'CRITICAL'),
-  HIGH: findings.filter(f => f.severity === 'HIGH'),
-  MEDIUM: findings.filter(f => f.severity === 'MEDIUM'),
+  CRITICAL: findings.filter((f) => f.severity === 'CRITICAL'),
+  HIGH: findings.filter((f) => f.severity === 'HIGH'),
+  MEDIUM: findings.filter((f) => f.severity === 'MEDIUM'),
 };
 
 const report = {
@@ -150,7 +209,7 @@ md += `- **CRITICAL:** ${report.bySeverity.CRITICAL}\n`;
 md += `- **HIGH:** ${report.bySeverity.HIGH}\n`;
 md += `- **MEDIUM:** ${report.bySeverity.MEDIUM}\n\n`;
 
-['CRITICAL', 'HIGH', 'MEDIUM'].forEach(severity => {
+['CRITICAL', 'HIGH', 'MEDIUM'].forEach((severity) => {
   if (grouped[severity].length > 0) {
     md += `## ${severity} Issues (${grouped[severity].length})\n\n`;
     grouped[severity].slice(0, 20).forEach((finding, i) => {
@@ -167,6 +226,5 @@ md += `- **MEDIUM:** ${report.bySeverity.MEDIUM}\n\n`;
 });
 
 writeFileSync('reports/cross-wiring-findings.md', md);
-
 
 process.exit(report.bySeverity.CRITICAL > 0 ? 1 : 0);

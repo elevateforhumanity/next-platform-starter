@@ -1,5 +1,3 @@
-
-
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { toErrorMessage } from '@/lib/safe';
@@ -34,7 +32,7 @@ async function _GET(request: Request) {
     if (!profile || !['employer', 'admin', 'sponsor'].includes(profile.role)) {
       return NextResponse.json(
         { error: 'Forbidden - requires employer/admin/sponsor role' },
-        { status: 403 }
+        { status: 403 },
       );
     }
 
@@ -52,7 +50,7 @@ async function _GET(request: Request) {
         notes,
         created_at,
         user_id
-      `
+      `,
       )
       .eq('status', 'pending')
       .order('work_date', { ascending: false });
@@ -79,9 +77,7 @@ async function _GET(request: Request) {
 
     // Filter by employer if not admin
     if (profile.role === 'employer' && profile.employer_id) {
-      hours = hours.filter(
-        (item: any) => item.user_profiles?.employer_id === profile.employer_id
-      );
+      hours = hours.filter((item: any) => item.user_profiles?.employer_id === profile.employer_id);
     }
 
     return NextResponse.json({ hours });
@@ -89,7 +85,7 @@ async function _GET(request: Request) {
     // Error: $1
     return NextResponse.json(
       { err: toErrorMessage(err) || 'Failed to load hours' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

@@ -11,9 +11,7 @@ export function createStaticClient() {
 
   if (!supabaseUrl || !supabaseAnonKey) {
     if (process.env.NODE_ENV === 'development') {
-      logger.info(
-        '[Supabase Static] Missing environment variables - returning mock client'
-      );
+      logger.info('[Supabase Static] Missing environment variables - returning mock client');
     }
     // Return a mock client that returns empty data for build-time
     return {

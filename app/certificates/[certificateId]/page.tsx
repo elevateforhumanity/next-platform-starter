@@ -11,7 +11,8 @@ import {
   User,
   BookOpen,
   ExternalLink,
-CheckCircle, } from 'lucide-react';
+  CheckCircle,
+} from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
@@ -22,8 +23,7 @@ interface Props {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { certificateId } = await params;
   const supabase = await createClient();
-  
-  
+
   const { data: certificate } = await supabase
     .from('certificates')
     .select('title')
@@ -31,7 +31,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     .maybeSingle();
 
   return {
-    title: certificate ? `${certificate.title} | Certificate` : 'Certificate | Elevate for Humanity',
+    title: certificate
+      ? `${certificate.title} | Certificate`
+      : 'Certificate | Elevate for Humanity',
     description: 'View and verify this certificate of completion.',
   };
 }
@@ -40,15 +42,16 @@ export default async function CertificateViewPage({ params }: Props) {
   const { certificateId } = await params;
   const supabase = await createClient();
 
-
   // Fetch certificate with user and course info
   // profiles join works via user_id FK; courses join does not exist on this table
   const { data: certificate, error } = await supabase
     .from('certificates')
-    .select(`
+    .select(
+      `
       *,
       profiles (first_name, last_name, full_name)
-    `)
+    `,
+    )
     .eq('id', certificateId)
     .maybeSingle();
 
@@ -56,18 +59,25 @@ export default async function CertificateViewPage({ params }: Props) {
     notFound();
   }
 
-  const recipient = certificate.profiles as { first_name: string; last_name: string; full_name: string } | null;
-  const recipientName = recipient?.full_name
-    || (recipient ? `${recipient.first_name} ${recipient.last_name}` : null)
-    || certificate.metadata?.student_name
-    || 'Student';
+  const recipient = certificate.profiles as {
+    first_name: string;
+    last_name: string;
+    full_name: string;
+  } | null;
+  const recipientName =
+    recipient?.full_name ||
+    (recipient ? `${recipient.first_name} ${recipient.last_name}` : null) ||
+    certificate.metadata?.student_name ||
+    'Student';
 
   return (
     <div className="min-h-screen bg-brand-blue-50 py-12">
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Certificates", href: "/certificates" }, { label: "[Certificateid]" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs
+          items={[{ label: 'Certificates', href: '/certificates' }, { label: '[Certificateid]' }]}
+        />
       </div>
-<div className="max-w-4xl mx-auto px-4">
+      <div className="max-w-4xl mx-auto px-4">
         {/* Verification Badge */}
         <div className="flex items-center justify-center gap-2 mb-8">
           <div className="flex items-center gap-2 px-4 py-2 bg-brand-green-100 text-brand-green-800 rounded-full">
@@ -88,15 +98,16 @@ export default async function CertificateViewPage({ params }: Props) {
           {/* Body */}
           <div className="p-12 text-center">
             <p className="text-slate-600 text-lg mb-4">This is to certify that</p>
-            
-            <h2 className="text-4xl font-bold text-slate-900 mb-4 font-serif">
-              {recipientName}
-            </h2>
-            
+
+            <h2 className="text-4xl font-bold text-slate-900 mb-4 font-serif">{recipientName}</h2>
+
             <p className="text-slate-600 text-lg mb-4">has successfully completed</p>
-            
+
             <h3 className="text-2xl font-bold text-brand-blue-900 mb-8">
-              {certificate.course_title || certificate.program_name || certificate.metadata?.course_name || 'Course'}
+              {certificate.course_title ||
+                certificate.program_name ||
+                certificate.metadata?.course_name ||
+                'Course'}
             </h3>
 
             {/* Details */}
@@ -104,7 +115,8 @@ export default async function CertificateViewPage({ params }: Props) {
               <div className="flex items-center gap-2">
                 <Calendar className="w-5 h-5" />
                 <span>
-                  Issued: {new Date(certificate.issued_at).toLocaleDateString('en-US', {
+                  Issued:{' '}
+                  {new Date(certificate.issued_at).toLocaleDateString('en-US', {
                     month: 'long',
                     day: 'numeric',
                     year: 'numeric',
@@ -156,9 +168,9 @@ export default async function CertificateViewPage({ params }: Props) {
               About This Certificate
             </h3>
             <p className="text-slate-600 text-sm">
-              This certificate verifies that the recipient has successfully completed all requirements
-              for the course or program listed above. The certificate is issued by Elevate for Humanity
-              and can be verified using the certificate ID.
+              This certificate verifies that the recipient has successfully completed all
+              requirements for the course or program listed above. The certificate is issued by
+              Elevate for Humanity and can be verified using the certificate ID.
             </p>
           </div>
           <div className="bg-white rounded-xl border border-slate-200 p-6">

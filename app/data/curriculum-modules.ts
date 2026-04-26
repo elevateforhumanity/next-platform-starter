@@ -490,7 +490,8 @@ export const programCurriculums: ProgramCurriculum[] = [
       {
         id: 'tax-w1',
         title: 'Week 1: Orientation, Ethics & Federal Tax Law',
-        description: 'Program orientation, IRS ethics (Circular 230), Volunteer Standards of Conduct, and introduction to the federal tax system.',
+        description:
+          'Program orientation, IRS ethics (Circular 230), Volunteer Standards of Conduct, and introduction to the federal tax system.',
         hours: 15,
         topics: [
           'Program orientation and expectations',
@@ -504,7 +505,8 @@ export const programCurriculums: ProgramCurriculum[] = [
       {
         id: 'tax-w2',
         title: 'Week 2: Filing Status, Dependents & Income',
-        description: 'Filing status determination, dependency rules, and reporting wages, interest, and dividends.',
+        description:
+          'Filing status determination, dependency rules, and reporting wages, interest, and dividends.',
         hours: 15,
         topics: [
           'Filing status determination (Single, MFJ, MFS, HOH, QSS)',
@@ -519,7 +521,8 @@ export const programCurriculums: ProgramCurriculum[] = [
       {
         id: 'tax-w3',
         title: 'Week 3: Adjustments, Deductions & Credits',
-        description: 'Above-the-line adjustments, standard vs itemized deductions, and key tax credits (EITC, CTC, education).',
+        description:
+          'Above-the-line adjustments, standard vs itemized deductions, and key tax credits (EITC, CTC, education).',
         hours: 15,
         topics: [
           'Adjustments to income (student loan interest, IRA, HSA)',
@@ -534,7 +537,8 @@ export const programCurriculums: ProgramCurriculum[] = [
       {
         id: 'tax-w4',
         title: 'Week 4: TaxSlayer Software & Practice Returns',
-        description: 'Hands-on TaxSlayer Pro training. Data entry, e-filing, quality review, and mid-term simulation exam.',
+        description:
+          'Hands-on TaxSlayer Pro training. Data entry, e-filing, quality review, and mid-term simulation exam.',
         hours: 15,
         topics: [
           'TaxSlayer Pro navigation and setup',
@@ -549,7 +553,8 @@ export const programCurriculums: ProgramCurriculum[] = [
       {
         id: 'tax-w5',
         title: 'Week 5: Financial Literacy',
-        description: 'Personal finance via Intuit for Education: budgeting, credit management, savings, and investing.',
+        description:
+          'Personal finance via Intuit for Education: budgeting, credit management, savings, and investing.',
         hours: 15,
         topics: [
           'Intuit for Education: Money Mindsets',
@@ -562,7 +567,8 @@ export const programCurriculums: ProgramCurriculum[] = [
       {
         id: 'tax-w6-9',
         title: 'Weeks 6–9: VITA Site Practicum',
-        description: 'Live client tax preparation at an IRS-approved VITA site. 60 hours supervised practicum.',
+        description:
+          'Live client tax preparation at an IRS-approved VITA site. 60 hours supervised practicum.',
         hours: 60,
         topics: [
           'VITA site orientation and procedures',
@@ -576,7 +582,8 @@ export const programCurriculums: ProgramCurriculum[] = [
       {
         id: 'tax-w10',
         title: 'Week 10: Certification, Career Readiness & Placement',
-        description: 'IRS VITA/TCE certification exam, credential exams, resume building, and job placement.',
+        description:
+          'IRS VITA/TCE certification exam, credential exams, resume building, and job placement.',
         hours: 15,
         topics: [
           'IRS certification exam prep review',
@@ -1342,5 +1349,5 @@ export const programCurriculums: ProgramCurriculum[] = [
 ];
 
 export function getCurriculumBySlug(slug: string): ProgramCurriculum | undefined {
-  return programCurriculums.find(c => c.programSlug === slug);
+  return programCurriculums.find((c) => c.programSlug === slug);
 }

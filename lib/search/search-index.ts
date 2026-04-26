@@ -3,14 +3,28 @@
  * All searchable content across the site with audience tags
  */
 
-export type Audience = 'students' | 'organizations' | 'developers' | 'employers' | 'instructors' | 'everyone';
+export type Audience =
+  | 'students'
+  | 'organizations'
+  | 'developers'
+  | 'employers'
+  | 'instructors'
+  | 'everyone';
 
 export interface SearchItem {
   id: string;
   title: string;
   description: string;
   href: string;
-  category: 'program' | 'course' | 'product' | 'license' | 'tool' | 'resource' | 'page' | 'dashboard';
+  category:
+    | 'program'
+    | 'course'
+    | 'product'
+    | 'license'
+    | 'tool'
+    | 'resource'
+    | 'page'
+    | 'dashboard';
   audiences: Audience[];
   keywords: string[];
   image?: string;
@@ -25,11 +39,21 @@ export const SEARCH_INDEX: SearchItem[] = [
   {
     id: 'barber-apprenticeship',
     title: 'Barber Apprenticeship Program',
-    description: '2,000-hour state-approved apprenticeship with master barber instruction and job placement.',
+    description:
+      '2,000-hour state-approved apprenticeship with master barber instruction and job placement.',
     href: '/programs/barber-apprenticeship',
     category: 'program',
     audiences: ['students', 'everyone'],
-    keywords: ['barber', 'barbering', 'cosmetology', 'hair', 'cutting', 'fades', 'apprentice', 'license'],
+    keywords: [
+      'barber',
+      'barbering',
+      'cosmetology',
+      'hair',
+      'cutting',
+      'fades',
+      'apprentice',
+      'license',
+    ],
     image: '/images/pages/training-classroom.jpg',
     price: 'WIOA Funded',
     badge: 'WIOA Eligible',
@@ -37,11 +61,21 @@ export const SEARCH_INDEX: SearchItem[] = [
   {
     id: 'cna-training',
     title: 'CNA Training Program',
-    description: '6-week certified nursing assistant training with clinical rotations and state exam prep.',
+    description:
+      '6-week certified nursing assistant training with clinical rotations and state exam prep.',
     href: '/programs/cna',
     category: 'program',
     audiences: ['students', 'everyone'],
-    keywords: ['cna', 'nursing', 'healthcare', 'medical', 'nurse', 'assistant', 'clinical', 'hospital'],
+    keywords: [
+      'cna',
+      'nursing',
+      'healthcare',
+      'medical',
+      'nurse',
+      'assistant',
+      'clinical',
+      'hospital',
+    ],
     image: '/images/pages/training-classroom.jpg',
     price: 'WIOA Funded',
     badge: 'WIOA Eligible',
@@ -53,7 +87,15 @@ export const SEARCH_INDEX: SearchItem[] = [
     href: '/programs/hvac',
     category: 'program',
     audiences: ['students', 'everyone'],
-    keywords: ['hvac', 'heating', 'cooling', 'air conditioning', 'refrigeration', 'epa', 'technician'],
+    keywords: [
+      'hvac',
+      'heating',
+      'cooling',
+      'air conditioning',
+      'refrigeration',
+      'epa',
+      'technician',
+    ],
     image: '/images/pages/training-classroom.jpg',
     price: 'WIOA Funded',
     badge: 'WIOA Eligible',
@@ -65,7 +107,16 @@ export const SEARCH_INDEX: SearchItem[] = [
     href: '/programs/cdl',
     category: 'program',
     audiences: ['students', 'everyone'],
-    keywords: ['cdl', 'truck', 'driver', 'trucking', 'commercial', 'driving', 'transportation', 'logistics'],
+    keywords: [
+      'cdl',
+      'truck',
+      'driver',
+      'trucking',
+      'commercial',
+      'driving',
+      'transportation',
+      'logistics',
+    ],
     image: '/images/pages/training-classroom.jpg',
     price: 'WIOA Funded',
     badge: 'WIOA Eligible',
@@ -88,7 +139,8 @@ export const SEARCH_INDEX: SearchItem[] = [
   {
     id: 'core-license',
     title: 'Core Platform License',
-    description: 'Essential LMS with course builder, enrollment system, and basic compliance tracking.',
+    description:
+      'Essential LMS with course builder, enrollment system, and basic compliance tracking.',
     href: '/store/licenses/core-license',
     category: 'license',
     audiences: ['organizations', 'developers'],
@@ -99,11 +151,21 @@ export const SEARCH_INDEX: SearchItem[] = [
   {
     id: 'school-license',
     title: 'School / Training Provider License',
-    description: 'White-label platform with WIOA compliance, partner dashboard, and case management.',
+    description:
+      'White-label platform with WIOA compliance, partner dashboard, and case management.',
     href: '/store/licenses/school-license',
     category: 'license',
     audiences: ['organizations'],
-    keywords: ['school', 'training', 'provider', 'white-label', 'wioa', 'compliance', 'lms', 'platform'],
+    keywords: [
+      'school',
+      'training',
+      'provider',
+      'white-label',
+      'wioa',
+      'compliance',
+      'lms',
+      'platform',
+    ],
     image: '/images/pages/training-classroom.jpg',
     price: '$15,000',
     badge: 'Most Popular',
@@ -111,7 +173,8 @@ export const SEARCH_INDEX: SearchItem[] = [
   {
     id: 'enterprise-license',
     title: 'Enterprise License',
-    description: 'Multi-site deployment with custom integrations, API access, and dedicated support.',
+    description:
+      'Multi-site deployment with custom integrations, API access, and dedicated support.',
     href: '/store/licenses/enterprise-license',
     category: 'license',
     audiences: ['organizations'],
@@ -133,7 +196,8 @@ export const SEARCH_INDEX: SearchItem[] = [
   {
     id: 'developer-pro',
     title: 'Developer Pro License',
-    description: 'Full source code with commercial rights, priority support, and white-label rights.',
+    description:
+      'Full source code with commercial rights, priority support, and white-label rights.',
     href: '/store/licenses/developer-pro',
     category: 'license',
     audiences: ['developers'],
@@ -148,7 +212,8 @@ export const SEARCH_INDEX: SearchItem[] = [
   {
     id: 'wioa-toolkit',
     title: 'WIOA Compliance Toolkit',
-    description: 'Automated WIOA tracking, PIRL exports, and quarterly reporting. Saves 40+ hours/quarter.',
+    description:
+      'Automated WIOA tracking, PIRL exports, and quarterly reporting. Saves 40+ hours/quarter.',
     href: '/store/compliance/wioa',
     category: 'tool',
     audiences: ['organizations'],
@@ -159,7 +224,8 @@ export const SEARCH_INDEX: SearchItem[] = [
   {
     id: 'ferpa-toolkit',
     title: 'FERPA Compliance Toolkit',
-    description: 'Student data protection with AES-256 encryption, access controls, and audit logging.',
+    description:
+      'Student data protection with AES-256 encryption, access controls, and audit logging.',
     href: '/store/compliance/ferpa',
     category: 'tool',
     audiences: ['organizations'],
@@ -170,7 +236,8 @@ export const SEARCH_INDEX: SearchItem[] = [
   {
     id: 'grant-reporting',
     title: 'Grant Reporting Suite',
-    description: 'Automated reporting for federal and state workforce grants with one-click exports.',
+    description:
+      'Automated reporting for federal and state workforce grants with one-click exports.',
     href: '/store/compliance/grant-reporting',
     category: 'tool',
     audiences: ['organizations'],
@@ -181,7 +248,8 @@ export const SEARCH_INDEX: SearchItem[] = [
   {
     id: 'ai-tutor',
     title: 'AI Tutor License',
-    description: '24/7 AI-powered tutoring for learners with personalized support and progress tracking.',
+    description:
+      '24/7 AI-powered tutoring for learners with personalized support and progress tracking.',
     href: '/store/ai-studio',
     category: 'tool',
     audiences: ['organizations', 'students'],
@@ -337,7 +405,7 @@ export const SEARCH_INDEX: SearchItem[] = [
 
 export function searchItems(query: string, audience?: Audience, category?: string): SearchItem[] {
   const normalizedQuery = query.toLowerCase().trim();
-  
+
   if (!normalizedQuery && !audience && !category) {
     return [];
   }
@@ -346,20 +414,21 @@ export function searchItems(query: string, audience?: Audience, category?: strin
 
   // Filter by audience
   if (audience && audience !== 'everyone') {
-    results = results.filter(item => 
-      item.audiences.includes(audience) || item.audiences.includes('everyone')
+    results = results.filter(
+      (item) => item.audiences.includes(audience) || item.audiences.includes('everyone'),
     );
   }
 
   // Filter by category
   if (category) {
-    results = results.filter(item => item.category === category);
+    results = results.filter((item) => item.category === category);
   }
 
   // Search by query
   if (normalizedQuery) {
-    results = results.filter(item => {
-      const searchText = `${item.title} ${item.description} ${item.keywords.join(' ')}`.toLowerCase();
+    results = results.filter((item) => {
+      const searchText =
+        `${item.title} ${item.description} ${item.keywords.join(' ')}`.toLowerCase();
       return searchText.includes(normalizedQuery);
     });
 
@@ -375,19 +444,17 @@ export function searchItems(query: string, audience?: Audience, category?: strin
 }
 
 export function getItemsByAudience(audience: Audience): SearchItem[] {
-  return SEARCH_INDEX.filter(item => 
-    item.audiences.includes(audience) || item.audiences.includes('everyone')
+  return SEARCH_INDEX.filter(
+    (item) => item.audiences.includes(audience) || item.audiences.includes('everyone'),
   );
 }
 
 export function getItemsByCategory(category: string): SearchItem[] {
-  return SEARCH_INDEX.filter(item => item.category === category);
+  return SEARCH_INDEX.filter((item) => item.category === category);
 }
 
 export function getFeaturedForAudience(audience: Audience, limit = 6): SearchItem[] {
   const items = getItemsByAudience(audience);
   // Prioritize items with badges
-  return items
-    .sort((a, b) => (b.badge ? 1 : 0) - (a.badge ? 1 : 0))
-    .slice(0, limit);
+  return items.sort((a, b) => (b.badge ? 1 : 0) - (a.badge ? 1 : 0)).slice(0, limit);
 }

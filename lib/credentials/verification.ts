@@ -34,9 +34,9 @@ export interface VerificationProvider {
 
 export interface VerifyParams {
   recipient_email: string;
-  credential_name: string;       // e.g. "CompTIA A+"
+  credential_name: string; // e.g. "CompTIA A+"
   credential_abbreviation?: string; // e.g. "A+"
-  external_id?: string;          // cert number if known
+  external_id?: string; // cert number if known
 }
 
 // =============================================================================
@@ -133,7 +133,7 @@ const PROVIDERS: Record<string, VerificationProvider> = {
  */
 export async function verifyCredential(
   providerName: string,
-  params: VerifyParams
+  params: VerifyParams,
 ): Promise<VerificationResult> {
   const provider = PROVIDERS[providerName.toLowerCase()] ?? ManualProvider;
 

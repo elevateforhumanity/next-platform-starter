@@ -39,7 +39,9 @@ async function _POST(request: Request) {
     // Auth check
     const supabase = await createClient();
 
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -51,7 +53,10 @@ async function _POST(request: Request) {
       .maybeSingle();
 
     if (!profile || !['admin', 'super_admin', 'instructor'].includes(profile.role)) {
-      return NextResponse.json({ error: 'Forbidden - Admin or Instructor required' }, { status: 403 });
+      return NextResponse.json(
+        { error: 'Forbidden - Admin or Instructor required' },
+        { status: 403 },
+      );
     }
 
     // Validate input
@@ -61,7 +66,7 @@ async function _POST(request: Request) {
     if (!parsed.success) {
       return NextResponse.json(
         { error: 'Invalid input', details: parsed.error.flatten() },
-        { status: 400 }
+        { status: 400 },
       );
     }
 

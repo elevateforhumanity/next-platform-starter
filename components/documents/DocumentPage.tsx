@@ -45,14 +45,9 @@ export function DocumentPage({
           referenceNumber={referenceNumber}
         />
 
-        <main className="print:text-[11pt]">
-          {children}
-        </main>
+        <main className="print:text-[11pt]">{children}</main>
 
-        <DocumentFooter
-          confidential={confidential}
-          notice={footerNotice}
-        />
+        <DocumentFooter confidential={confidential} notice={footerNotice} />
       </div>
     </div>
   );

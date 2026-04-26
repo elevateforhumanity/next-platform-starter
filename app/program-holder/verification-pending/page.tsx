@@ -4,7 +4,7 @@ import { Clock, Mail, ArrowRight } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 export const metadata: Metadata = {
@@ -14,7 +14,9 @@ export const metadata: Metadata = {
 
 export default async function VerificationPendingPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) redirect('/login?redirect=/program-holder/verification-pending');
 
@@ -35,20 +37,19 @@ export default async function VerificationPendingPage() {
             <Clock className="w-10 h-10 text-brand-orange-600" />
           </div>
 
-          <h1 className="text-2xl font-bold text-black mb-3">
-            Verification Pending
-          </h1>
+          <h1 className="text-2xl font-bold text-black mb-3">Verification Pending</h1>
 
           <p className="text-slate-700 mb-6">
-            {firstName ? `Hi ${firstName}, your` : 'Your'} identity documents have been submitted and are under review.
-            Our team will verify your identity within 24–48 hours.
+            {firstName ? `Hi ${firstName}, your` : 'Your'} identity documents have been submitted
+            and are under review. Our team will verify your identity within 24–48 hours.
           </p>
 
           {email && (
             <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-lg p-4 mb-6 flex items-start gap-3 text-left">
               <Mail className="w-5 h-5 text-brand-blue-600 flex-shrink-0 mt-0.5" />
               <p className="text-sm text-brand-blue-800">
-                You'll receive an email at <strong>{email}</strong> once your verification is complete.
+                You'll receive an email at <strong>{email}</strong> once your verification is
+                complete.
               </p>
             </div>
           )}

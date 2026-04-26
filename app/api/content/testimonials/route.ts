@@ -6,10 +6,9 @@ import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 
 async function _GET(request: NextRequest) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const searchParams = request.nextUrl.searchParams;
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const searchParams = request.nextUrl.searchParams;
   const serviceType = searchParams.get('serviceType');
   const programSlug = searchParams.get('programSlug');
   const featured = searchParams.get('featured') === 'true';

@@ -23,7 +23,7 @@ import { setAuditContext } from '@/lib/audit-context';
 export async function issueCertificateIfEligible(
   userId: string,
   courseId: string,
-  enrollmentId: string
+  enrollmentId: string,
 ): Promise<string | null> {
   const db = await getAdminClient();
 
@@ -94,12 +94,17 @@ export async function issueCertificateIfEligible(
         .in('external_course_id', requiredIds)
         .not('approved_at', 'is', null);
 
-      const approvedIds = new Set((approvedCompletions ?? []).map((r: any) => r.external_course_id));
+      const approvedIds = new Set(
+        (approvedCompletions ?? []).map((r: any) => r.external_course_id),
+      );
       const allApproved = requiredIds.every((id: string) => approvedIds.has(id));
 
       if (!allApproved) {
         logger.info('[engine/certificate] Blocked — required external courses not yet approved', {
-          userId, courseId, requiredIds, approvedIds: [...approvedIds],
+          userId,
+          courseId,
+          requiredIds,
+          approvedIds: [...approvedIds],
         });
         return null;
       }
@@ -115,15 +120,15 @@ export async function issueCertificateIfEligible(
   const verificationUrl = `/verify/${certNumber}`;
 
   const { error } = await db.from('program_completion_certificates').insert({
-    user_id:             userId,
-    program_id:          programId,
-    course_id:           courseId,
-    enrollment_id:       enrollmentId,
-    certificate_number:  certNumber,
-    completion_date:     new Date().toISOString().split('T')[0],
-    verification_url:    verificationUrl,
-    checkpoints_passed:  checkpointsPassed,
-    total_checkpoints:   totalCheckpoints,
+    user_id: userId,
+    program_id: programId,
+    course_id: courseId,
+    enrollment_id: enrollmentId,
+    certificate_number: certNumber,
+    completion_date: new Date().toISOString().split('T')[0],
+    verification_url: verificationUrl,
+    checkpoints_passed: checkpointsPassed,
+    total_checkpoints: totalCheckpoints,
   });
 
   if (error) {
@@ -140,22 +145,22 @@ export async function issueCertificateIfEligible(
       db.from('courses').select('title, slug').eq('id', courseId).maybeSingle(),
     ]);
 
-    const profile  = profileResult.data;
-    const course   = courseResult.data;
+    const profile = profileResult.data;
+    const course = courseResult.data;
 
     if (profile?.email) {
       const emailPayload = getCertificateIssuedEmail({
-        email:         profile.email,
-        firstName:     profile.first_name ?? undefined,
-        courseName:    course?.title ?? 'your program',
+        email: profile.email,
+        firstName: profile.first_name ?? undefined,
+        courseName: course?.title ?? 'your program',
         certificateId: certNumber,
-        programSlug:   course?.slug ?? '',
+        programSlug: course?.slug ?? '',
       });
       await sendEmail({
-        to:      profile.email,
+        to: profile.email,
         subject: emailPayload.subject,
-        html:    emailPayload.html,
-        from:    'Elevate for Humanity <noreply@elevateforhumanity.org>',
+        html: emailPayload.html,
+        from: 'Elevate for Humanity <noreply@elevateforhumanity.org>',
         replyTo: 'elevate4humanityedu@gmail.com',
       });
       logger.info('[engine/certificate] Certificate email sent', { userId, certNumber });

@@ -44,7 +44,7 @@ We'll review your inquiry and follow up to:
 
 —
 Elevate for Humanity
-    `
+    `,
   },
 
   /**
@@ -86,7 +86,7 @@ Please review and let us know if you'd like to proceed.
 
 —
 Elevate for Humanity
-    `
+    `,
   },
 
   /**
@@ -133,6 +133,6 @@ Welcome aboard.
 
 —
 Elevate for Humanity
-    `
-  }
+    `,
+  },
 };

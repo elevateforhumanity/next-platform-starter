@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -23,7 +23,8 @@ export function PushNotificationSettings() {
     try {
       await subscribe();
       toast.success('Push notifications enabled');
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       toast.error('Failed to enable push notifications');
       // Error logged
     }
@@ -33,7 +34,8 @@ export function PushNotificationSettings() {
     try {
       await unsubscribe();
       toast.success('Push notifications disabled');
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       toast.error('Failed to disable push notifications');
       // Error logged
     }
@@ -47,7 +49,8 @@ export function PushNotificationSettings() {
       } else {
         toast.error('Notification permission denied');
       }
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       toast.error('Failed to request permission');
       // Error logged
     }
@@ -65,7 +68,8 @@ export function PushNotificationSettings() {
         tag: 'test',
       });
       toast.success('Test notification sent');
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       toast.error('Failed to send test notification');
       // Error logged
     } finally {
@@ -91,12 +95,10 @@ export function PushNotificationSettings() {
             />
           </svg>
           <div>
-            <h3 className="font-semibold text-black">
-              Push Notifications Not Supported
-            </h3>
+            <h3 className="font-semibold text-black">Push Notifications Not Supported</h3>
             <p className="text-sm text-black mt-1">
-              Your browser doesn't support push notifications. Try using a modern
-              browser like Chrome, Firefox, or Edge.
+              Your browser doesn't support push notifications. Try using a modern browser like
+              Chrome, Firefox, or Edge.
             </p>
           </div>
         </div>
@@ -137,15 +139,15 @@ export function PushNotificationSettings() {
                   permission === 'granted'
                     ? 'bg-brand-green-100 text-brand-green-800'
                     : permission === 'denied'
-                    ? 'bg-brand-red-100 text-brand-red-800'
-                    : 'bg-gray-100 text-black'
+                      ? 'bg-brand-red-100 text-brand-red-800'
+                      : 'bg-gray-100 text-black'
                 }`}
               >
                 {permission === 'granted'
                   ? 'Allowed'
                   : permission === 'denied'
-                  ? 'Blocked'
-                  : 'Not Set'}
+                    ? 'Blocked'
+                    : 'Not Set'}
               </span>
             </div>
           </div>
@@ -195,8 +197,8 @@ export function PushNotificationSettings() {
         {permission === 'denied' && (
           <div className="text-sm text-black">
             <p>
-              Notifications are blocked. To enable them, click the lock icon in your
-              browser's address bar and allow notifications.
+              Notifications are blocked. To enable them, click the lock icon in your browser's
+              address bar and allow notifications.
             </p>
           </div>
         )}

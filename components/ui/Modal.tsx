@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, { useEffect } from 'react';
 import { X } from 'lucide-react';
@@ -49,18 +49,13 @@ export const Modal: React.FC<ModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      <div
-        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
-        onClick={onClose}
-      />
+      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
       <div
         className={`relative bg-white rounded-lg shadow-xl ${sizeClasses[size]} w-full max-h-[90vh] overflow-auto animate-in fade-in zoom-in duration-200`}
       >
         {(title || showCloseButton) && (
           <div className="flex items-center justify-between p-6 border-b border-slate-200">
-            {title && (
-              <h2 className="text-2xl font-bold text-black">{title}</h2>
-            )}
+            {title && <h2 className="text-2xl font-bold text-black">{title}</h2>}
             {showCloseButton && (
               <button
                 onClick={onClose}

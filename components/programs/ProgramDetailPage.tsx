@@ -13,12 +13,26 @@ import Link from 'next/link';
 import HeroVideo from '@/components/marketing/HeroVideo';
 import heroBanners, { type HeroBannerConfig } from '@/content/heroBanners';
 import {
-  BookOpen, Clock, DollarSign,
-  MapPin, Shield, TrendingUp, ChevronRight,
-  Award, ExternalLink, CheckCircle2, Layers,
+  BookOpen,
+  Clock,
+  DollarSign,
+  MapPin,
+  Shield,
+  TrendingUp,
+  ChevronRight,
+  Award,
+  ExternalLink,
+  CheckCircle2,
+  Layers,
 } from 'lucide-react';
 import type { ProgramSchema } from '@/lib/programs/program-schema';
-import { validateProgram, getTotalHoursRange, getTotalHoursFromBreakdown, getPrimaryCTA, getEnrollmentTracks } from '@/lib/programs/program-schema';
+import {
+  validateProgram,
+  getTotalHoursRange,
+  getTotalHoursFromBreakdown,
+  getPrimaryCTA,
+  getEnrollmentTracks,
+} from '@/lib/programs/program-schema';
 import { DeliveryBadge, FundingSection } from './ProgramTruthBadges';
 import { ICC_URL, ICC_INSTRUCTION } from '@/lib/page-design-tokens';
 
@@ -31,7 +45,12 @@ interface Props {
   children?: React.ReactNode;
 }
 
-export default function ProgramDetailPage({ program: p, banner: bannerProp, heroOverride, children }: Props) {
+export default function ProgramDetailPage({
+  program: p,
+  banner: bannerProp,
+  heroOverride,
+  children,
+}: Props) {
   // Dev-time validation
   if (process.env.NODE_ENV === 'development') {
     const errors = validateProgram(p);
@@ -46,50 +65,49 @@ export default function ProgramDetailPage({ program: p, banner: bannerProp, hero
   const primaryCTA = getPrimaryCTA(p);
   const enrollmentTracks = getEnrollmentTracks(p);
 
-
-
   return (
     <div className="min-h-screen bg-white">
       {/* A. HERO */}
       <section>
-        {heroOverride ?? (() => {
-          // bannerProp is passed from the server page.tsx — use it first.
-          // heroBanners Proxy only works server-side; returns undefined on client.
-          const banner = bannerProp ?? heroBanners[p.slug];
-          if (banner) {
-            const bannerCtas = [
-              banner.primaryCta,
-              ...(banner.secondaryCta ? [banner.secondaryCta] : []),
-            ];
+        {heroOverride ??
+          (() => {
+            // bannerProp is passed from the server page.tsx — use it first.
+            // heroBanners Proxy only works server-side; returns undefined on client.
+            const banner = bannerProp ?? heroBanners[p.slug];
+            if (banner) {
+              const bannerCtas = [
+                banner.primaryCta,
+                ...(banner.secondaryCta ? [banner.secondaryCta] : []),
+              ];
+              return (
+                <HeroVideo
+                  videoSrcDesktop={banner.videoSrcDesktop}
+                  posterImage={banner.posterImage}
+                  voiceoverSrc={banner.voiceoverSrc}
+                  microLabel={banner.microLabel}
+                  analyticsName={banner.analyticsName}
+                  belowHeroHeadline={banner.belowHeroHeadline}
+                  belowHeroSubheadline={banner.belowHeroSubheadline}
+                  ctas={bannerCtas}
+                  trustIndicators={banner.trustIndicators}
+                  transcript={banner.transcript}
+                />
+              );
+            }
+            // Fallback: plain image hero for programs without a banner entry
             return (
-              <HeroVideo
-                videoSrcDesktop={banner.videoSrcDesktop}
-                posterImage={banner.posterImage}
-                voiceoverSrc={banner.voiceoverSrc}
-                microLabel={banner.microLabel}
-                analyticsName={banner.analyticsName}
-                belowHeroHeadline={banner.belowHeroHeadline}
-                belowHeroSubheadline={banner.belowHeroSubheadline}
-                ctas={bannerCtas}
-                trustIndicators={banner.trustIndicators}
-                transcript={banner.transcript}
-              />
+              <div className="relative h-[45vh] min-h-[280px] max-h-[560px] w-full overflow-hidden">
+                <Image
+                  src={p.heroImage}
+                  alt={p.heroImageAlt}
+                  fill
+                  className="object-cover object-center"
+                  priority
+                  sizes="100vw"
+                />
+              </div>
             );
-          }
-          // Fallback: plain image hero for programs without a banner entry
-          return (
-            <div className="relative h-[45vh] min-h-[280px] max-h-[560px] w-full overflow-hidden">
-              <Image
-                src={p.heroImage}
-                alt={p.heroImageAlt}
-                fill
-                className="object-cover object-center"
-                priority
-                sizes="100vw"
-              />
-            </div>
-          );
-        })()}
+          })()}
 
         {/* Hero content panel — below image, no overlay */}
         <div className="bg-white">
@@ -100,7 +118,9 @@ export default function ProgramDetailPage({ program: p, banner: bannerProp, hero
                 <span key={i} className="flex items-center gap-1.5">
                   {i > 0 && <ChevronRight className="w-3 h-3" />}
                   {b.href ? (
-                    <Link href={b.href} className="hover:text-slate-600 transition-colors">{b.label}</Link>
+                    <Link href={b.href} className="hover:text-slate-600 transition-colors">
+                      {b.label}
+                    </Link>
                   ) : (
                     <span className="text-slate-600 font-medium">{b.label}</span>
                   )}
@@ -113,18 +133,21 @@ export default function ProgramDetailPage({ program: p, banner: bannerProp, hero
                 {/* Badges row — program badge + delivery model */}
                 <div className="flex flex-wrap items-center gap-2 mb-3">
                   {p.badge && (
-                    <span className={`inline-block text-xs font-bold text-white px-3 py-1 rounded-full ${
-                      p.badgeColor === 'orange' ? 'bg-brand-orange-500' :
-                      p.badgeColor === 'green'  ? 'bg-brand-green-500' :
-                      p.badgeColor === 'red'    ? 'bg-brand-red-500' :
-                      'bg-brand-blue-500'
-                    }`}>
+                    <span
+                      className={`inline-block text-xs font-bold text-white px-3 py-1 rounded-full ${
+                        p.badgeColor === 'orange'
+                          ? 'bg-brand-orange-500'
+                          : p.badgeColor === 'green'
+                            ? 'bg-brand-green-500'
+                            : p.badgeColor === 'red'
+                              ? 'bg-brand-red-500'
+                              : 'bg-brand-blue-500'
+                      }`}
+                    >
                       {p.badge}
                     </span>
                   )}
-                  {p.deliveryModelDetail && (
-                    <DeliveryBadge model={p.deliveryModelDetail} />
-                  )}
+                  {p.deliveryModelDetail && <DeliveryBadge model={p.deliveryModelDetail} />}
                 </div>
                 <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 leading-tight mb-3">
                   {p.title}
@@ -136,13 +159,34 @@ export default function ProgramDetailPage({ program: p, banner: bannerProp, hero
                 {/* Quick fact chips */}
                 <div className="flex flex-wrap gap-2">
                   {[
-                    { icon: <Clock className="w-3.5 h-3.5" />, val: `${p.durationWeeks} ${p.durationWeeks === 1 ? 'week' : 'weeks'}` },
-                    { icon: <BookOpen className="w-3.5 h-3.5" />, val: `${p.hoursPerWeekMin}–${p.hoursPerWeekMax} hrs/week` },
-                    { icon: <Award className="w-3.5 h-3.5" />, val: `${p.credentials.length} credential${p.credentials.length !== 1 ? 's' : ''}` },
-                    { icon: <MapPin className="w-3.5 h-3.5" />, val: p.deliveryMode === 'hybrid' ? 'Hybrid' : p.deliveryMode === 'online' ? 'Online' : 'In-Person' },
+                    {
+                      icon: <Clock className="w-3.5 h-3.5" />,
+                      val: `${p.durationWeeks} ${p.durationWeeks === 1 ? 'week' : 'weeks'}`,
+                    },
+                    {
+                      icon: <BookOpen className="w-3.5 h-3.5" />,
+                      val: `${p.hoursPerWeekMin}–${p.hoursPerWeekMax} hrs/week`,
+                    },
+                    {
+                      icon: <Award className="w-3.5 h-3.5" />,
+                      val: `${p.credentials.length} credential${p.credentials.length !== 1 ? 's' : ''}`,
+                    },
+                    {
+                      icon: <MapPin className="w-3.5 h-3.5" />,
+                      val:
+                        p.deliveryMode === 'hybrid'
+                          ? 'Hybrid'
+                          : p.deliveryMode === 'online'
+                            ? 'Online'
+                            : 'In-Person',
+                    },
                   ].map(({ icon, val }) => (
-                    <span key={val} className="inline-flex items-center gap-1.5 bg-slate-100 text-slate-700 text-xs font-semibold px-3 py-1.5 rounded-full border border-slate-200">
-                      {icon}{val}
+                    <span
+                      key={val}
+                      className="inline-flex items-center gap-1.5 bg-slate-100 text-slate-700 text-xs font-semibold px-3 py-1.5 rounded-full border border-slate-200"
+                    >
+                      {icon}
+                      {val}
                     </span>
                   ))}
                 </div>
@@ -179,7 +223,9 @@ export default function ProgramDetailPage({ program: p, banner: bannerProp, hero
 
                   {p.cta.enrollHref && (
                     <>
-                      <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1.5">Already Enrolled?</p>
+                      <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1.5">
+                        Already Enrolled?
+                      </p>
                       <Link
                         href={p.cta.enrollHref}
                         className="block w-full text-center bg-brand-blue-600 hover:bg-brand-blue-700 text-white font-bold py-3 rounded-xl transition-colors text-sm mb-3"
@@ -215,27 +261,44 @@ export default function ProgramDetailPage({ program: p, banner: bannerProp, hero
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
             <div>
-              <div className="text-2xl font-extrabold text-slate-900">{p.laborMarket?.salaryRange ?? '—'}</div>
+              <div className="text-2xl font-extrabold text-slate-900">
+                {p.laborMarket?.salaryRange ?? '—'}
+              </div>
               <div className="text-xs text-slate-500 mt-0.5">Typical wage range</div>
             </div>
             <div>
-              <div className="text-2xl font-extrabold text-slate-900">{totalHours > 0 ? `${totalHours} hrs` : hoursRange}</div>
+              <div className="text-2xl font-extrabold text-slate-900">
+                {totalHours > 0 ? `${totalHours} hrs` : hoursRange}
+              </div>
               <div className="text-xs text-slate-500 mt-0.5">Total training hours</div>
             </div>
             <div>
-              <div className="text-2xl font-extrabold text-slate-900">{p.credentials.length} credential{p.credentials.length !== 1 ? 's' : ''}</div>
-              <div className="text-xs text-slate-500 mt-0.5">{p.credentials[0]?.issuingBody ?? 'Industry recognized'}</div>
+              <div className="text-2xl font-extrabold text-slate-900">
+                {p.credentials.length} credential{p.credentials.length !== 1 ? 's' : ''}
+              </div>
+              <div className="text-xs text-slate-500 mt-0.5">
+                {p.credentials[0]?.issuingBody ?? 'Industry recognized'}
+              </div>
             </div>
             <div>
-              <div className="text-2xl font-extrabold text-slate-900">{p.laborMarket?.growthRate ?? '—'}</div>
-              <div className="text-xs text-slate-500 mt-0.5">Job growth ({p.laborMarket?.sourceYear ?? ''})</div>
+              <div className="text-2xl font-extrabold text-slate-900">
+                {p.laborMarket?.growthRate ?? '—'}
+              </div>
+              <div className="text-xs text-slate-500 mt-0.5">
+                Job growth ({p.laborMarket?.sourceYear ?? ''})
+              </div>
             </div>
           </div>
           {p.complianceAlignment.length > 0 && (
             <div className="mt-6 pt-6 border-t border-slate-100 flex flex-wrap items-center gap-2 justify-center">
-              <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Aligned with:</span>
+              <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">
+                Aligned with:
+              </span>
               {p.complianceAlignment.map((a) => (
-                <span key={a.standard} className="inline-flex items-center gap-1.5 bg-slate-50 text-slate-700 text-xs font-semibold px-3 py-1.5 rounded-full border border-slate-200">
+                <span
+                  key={a.standard}
+                  className="inline-flex items-center gap-1.5 bg-slate-50 text-slate-700 text-xs font-semibold px-3 py-1.5 rounded-full border border-slate-200"
+                >
                   <Shield className="w-3 h-3 text-slate-400" />
                   {a.standard}
                 </span>
@@ -249,12 +312,17 @@ export default function ProgramDetailPage({ program: p, banner: bannerProp, hero
       <section className="py-12">
         <div className="max-w-6xl mx-auto px-4">
           <h2 className="text-2xl font-extrabold text-slate-900 mb-2">What You&apos;ll Learn</h2>
-          <p className="text-slate-500 text-sm mb-8">Full curriculum broken down by module. Every topic is covered in class and assessed before you advance.</p>
+          <p className="text-slate-500 text-sm mb-8">
+            Full curriculum broken down by module. Every topic is covered in class and assessed
+            before you advance.
+          </p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {p.curriculum.map((mod, i) => (
               <div key={i} className="rounded-xl border border-slate-200 bg-white p-5">
                 <div className="flex items-center gap-2 mb-3">
-                  <span className="w-6 h-6 rounded-full text-[11px] font-extrabold flex items-center justify-center flex-shrink-0 bg-slate-900 text-white">{i + 1}</span>
+                  <span className="w-6 h-6 rounded-full text-[11px] font-extrabold flex items-center justify-center flex-shrink-0 bg-slate-900 text-white">
+                    {i + 1}
+                  </span>
                   <h3 className="font-bold text-sm text-slate-900">{mod.title}</h3>
                 </div>
                 <ul className="space-y-1.5">
@@ -272,7 +340,9 @@ export default function ProgramDetailPage({ program: p, banner: bannerProp, hero
       </section>
 
       {/* WHAT'S INCLUDED */}
-      {((p.partnerCourses && p.partnerCourses.length > 0) || (p.microCourses && p.microCourses.length > 0) || p.lmsCourseSlug) && (
+      {((p.partnerCourses && p.partnerCourses.length > 0) ||
+        (p.microCourses && p.microCourses.length > 0) ||
+        p.lmsCourseSlug) && (
         <section className="py-12 bg-slate-50 border-y border-slate-100">
           <div className="max-w-6xl mx-auto px-4">
             <div className="flex items-center gap-3 mb-8">
@@ -280,29 +350,39 @@ export default function ProgramDetailPage({ program: p, banner: bannerProp, hero
                 <Layers className="w-5 h-5 text-white" />
               </div>
               <div>
-                <h2 className="text-2xl font-extrabold text-slate-900">What&apos;s Included in This Program</h2>
-                <p className="text-slate-500 text-sm mt-0.5">All training components delivered as part of your enrollment</p>
+                <h2 className="text-2xl font-extrabold text-slate-900">
+                  What&apos;s Included in This Program
+                </h2>
+                <p className="text-slate-500 text-sm mt-0.5">
+                  All training components delivered as part of your enrollment
+                </p>
               </div>
             </div>
 
             <div className="space-y-6">
-
               {/* Internal LMS training */}
               {p.lmsCourseSlug && (
                 <div>
-                  <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-3">Elevate Internal Training</p>
+                  <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-3">
+                    Elevate Internal Training
+                  </p>
                   <div className="bg-white rounded-xl border border-slate-200 p-5 flex items-start gap-4">
                     <div className="w-10 h-10 bg-brand-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
                       <BookOpen className="w-5 h-5 text-brand-blue-700" />
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <h3 className="font-bold text-slate-900 text-sm">{p.title} — Full Curriculum</h3>
-                        <span className="bg-brand-blue-100 text-brand-blue-700 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">Elevate LMS</span>
+                        <h3 className="font-bold text-slate-900 text-sm">
+                          {p.title} — Full Curriculum
+                        </h3>
+                        <span className="bg-brand-blue-100 text-brand-blue-700 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
+                          Elevate LMS
+                        </span>
                       </div>
                       <p className="text-slate-500 text-xs mt-1">
-                        Modules, lessons, quizzes, and checkpoints delivered through the Elevate learning platform.
-                        Progress is tracked and gated — you advance when you&apos;re ready.
+                        Modules, lessons, quizzes, and checkpoints delivered through the Elevate
+                        learning platform. Progress is tracked and gated — you advance when
+                        you&apos;re ready.
                       </p>
                     </div>
                     <div className="flex-shrink-0">
@@ -317,10 +397,15 @@ export default function ProgramDetailPage({ program: p, banner: bannerProp, hero
               {/* Partner courses */}
               {p.partnerCourses && p.partnerCourses.length > 0 && (
                 <div>
-                  <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-3">Partner-Delivered Training</p>
+                  <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-3">
+                    Partner-Delivered Training
+                  </p>
                   <div className="grid sm:grid-cols-2 gap-3">
                     {p.partnerCourses.map((c) => (
-                      <div key={c.courseId} className="bg-white rounded-xl border border-slate-200 p-5 flex items-start gap-4">
+                      <div
+                        key={c.courseId}
+                        className="bg-white rounded-xl border border-slate-200 p-5 flex items-start gap-4"
+                      >
                         <div className="w-10 h-10 bg-brand-orange-50 rounded-lg flex items-center justify-center flex-shrink-0">
                           <ExternalLink className="w-4 h-4 text-brand-orange-600" />
                         </div>
@@ -328,11 +413,14 @@ export default function ProgramDetailPage({ program: p, banner: bannerProp, hero
                           <div className="flex items-center gap-2 flex-wrap">
                             <h3 className="font-bold text-slate-900 text-sm">{c.label}</h3>
                             {c.required && (
-                              <span className="bg-slate-100 text-slate-600 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">Required</span>
+                              <span className="bg-slate-100 text-slate-600 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
+                                Required
+                              </span>
                             )}
                           </div>
                           <p className="text-slate-500 text-xs mt-0.5">
-                            {c.partnerName}{c.duration ? ` · ${c.duration}` : ''}
+                            {c.partnerName}
+                            {c.duration ? ` · ${c.duration}` : ''}
                           </p>
                           {c.credentialIssued && (
                             <p className="text-brand-green-700 text-xs font-semibold mt-1 flex items-center gap-1">
@@ -349,21 +437,28 @@ export default function ProgramDetailPage({ program: p, banner: bannerProp, hero
               {/* Micro courses / certifications */}
               {p.microCourses && p.microCourses.length > 0 && (
                 <div>
-                  <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-3">Included Certifications</p>
+                  <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-3">
+                    Included Certifications
+                  </p>
                   <div className="flex flex-wrap gap-3">
                     {p.microCourses.map((c) => (
-                      <div key={c.courseId} className="bg-white rounded-xl border border-slate-200 px-4 py-3 flex items-center gap-3">
+                      <div
+                        key={c.courseId}
+                        className="bg-white rounded-xl border border-slate-200 px-4 py-3 flex items-center gap-3"
+                      >
                         <CheckCircle2 className="w-4 h-4 text-brand-green-600 flex-shrink-0" />
                         <div>
                           <p className="font-semibold text-slate-900 text-sm">{c.label}</p>
-                          <p className="text-slate-500 text-xs">{c.partnerName}{c.duration ? ` · ${c.duration}` : ''}</p>
+                          <p className="text-slate-500 text-xs">
+                            {c.partnerName}
+                            {c.duration ? ` · ${c.duration}` : ''}
+                          </p>
                         </div>
                       </div>
                     ))}
                   </div>
                 </div>
               )}
-
             </div>
           </div>
         </section>
@@ -373,15 +468,19 @@ export default function ProgramDetailPage({ program: p, banner: bannerProp, hero
       <section className="py-14 border-y border-slate-100">
         <div className="max-w-5xl mx-auto px-4">
           <div className="text-center mb-10">
-            <p className="text-xs font-bold uppercase tracking-widest text-brand-green-600 mb-3">How You Can Start</p>
-            <h2 className="text-2xl font-extrabold text-slate-900 mb-3">Choose the path that fits your situation.</h2>
+            <p className="text-xs font-bold uppercase tracking-widest text-brand-green-600 mb-3">
+              How You Can Start
+            </p>
+            <h2 className="text-2xl font-extrabold text-slate-900 mb-3">
+              Choose the path that fits your situation.
+            </h2>
             <p className="text-slate-500 text-base max-w-2xl mx-auto">
-              There&apos;s a path to enrollment whether you qualify for funding or not. We&apos;ll help you figure out which one.
+              There&apos;s a path to enrollment whether you qualify for funding or not. We&apos;ll
+              help you figure out which one.
             </p>
           </div>
 
           <div className="grid sm:grid-cols-2 gap-6">
-
             {/* Track 1: Funded */}
             <div className="bg-white rounded-2xl border-2 border-brand-green-500 shadow-sm p-7 flex flex-col">
               <div className="flex items-center gap-2 mb-4">
@@ -389,7 +488,9 @@ export default function ProgramDetailPage({ program: p, banner: bannerProp, hero
                   Lowest Cost Path
                 </span>
               </div>
-              <h3 className="text-lg font-extrabold text-slate-900 mb-1">{enrollmentTracks.funded.label}</h3>
+              <h3 className="text-lg font-extrabold text-slate-900 mb-1">
+                {enrollmentTracks.funded.label}
+              </h3>
               <p className="text-xs font-semibold text-brand-green-700 mb-3">
                 {enrollmentTracks.funded.requirement}
               </p>
@@ -397,10 +498,15 @@ export default function ProgramDetailPage({ program: p, banner: bannerProp, hero
                 {enrollmentTracks.funded.description}
               </p>
               <div className="space-y-2">
-                {p.fundingOptions?.some(f => f === 'wioa' || f === 'wrg') && (
+                {p.fundingOptions?.some((f) => f === 'wioa' || f === 'wrg') && (
                   <div className="flex flex-wrap gap-2 mb-4">
-                    {['WorkOne', 'WIOA', 'Trade Act', 'SNAP E&T', 'JRI'].map(prog => (
-                      <span key={prog} className="bg-slate-100 text-slate-600 text-xs font-semibold px-2.5 py-1 rounded-lg">{prog}</span>
+                    {['WorkOne', 'WIOA', 'Trade Act', 'SNAP E&T', 'JRI'].map((prog) => (
+                      <span
+                        key={prog}
+                        className="bg-slate-100 text-slate-600 text-xs font-semibold px-2.5 py-1 rounded-lg"
+                      >
+                        {prog}
+                      </span>
                     ))}
                   </div>
                 )}
@@ -410,18 +516,26 @@ export default function ProgramDetailPage({ program: p, banner: bannerProp, hero
                 >
                   Apply Now — $0 Tuition if Eligible
                 </Link>
-                <p className="text-center text-xs text-slate-500 mt-1">Free to apply · no payment today · takes 2 minutes</p>
+                <p className="text-center text-xs text-slate-500 mt-1">
+                  Free to apply · no payment today · takes 2 minutes
+                </p>
               </div>
             </div>
 
             {/* Track 2: Self-pay */}
-            <div className={`bg-white rounded-2xl border-2 shadow-sm p-7 flex flex-col ${enrollmentTracks.selfPay.available ? 'border-brand-blue-400' : 'border-slate-200'}`}>
+            <div
+              className={`bg-white rounded-2xl border-2 shadow-sm p-7 flex flex-col ${enrollmentTracks.selfPay.available ? 'border-brand-blue-400' : 'border-slate-200'}`}
+            >
               <div className="flex items-center gap-2 mb-4">
-                <span className={`text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider ${enrollmentTracks.selfPay.available ? 'bg-brand-blue-100 text-brand-blue-700' : 'bg-slate-100 text-slate-500'}`}>
+                <span
+                  className={`text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider ${enrollmentTracks.selfPay.available ? 'bg-brand-blue-100 text-brand-blue-700' : 'bg-slate-100 text-slate-500'}`}
+                >
                   {enrollmentTracks.selfPay.available ? 'Start Immediately' : 'Enrollment Pending'}
                 </span>
               </div>
-              <h3 className="text-lg font-extrabold text-slate-900 mb-1">{enrollmentTracks.selfPay.label}</h3>
+              <h3 className="text-lg font-extrabold text-slate-900 mb-1">
+                {enrollmentTracks.selfPay.label}
+              </h3>
               <p className="text-2xl font-extrabold text-slate-900 mb-3">
                 {enrollmentTracks.selfPay.cost}
                 <span className="text-sm font-normal text-slate-500 ml-1">tuition</span>
@@ -430,8 +544,15 @@ export default function ProgramDetailPage({ program: p, banner: bannerProp, hero
                 {enrollmentTracks.selfPay.description}
               </p>
               <div className="bg-slate-50 rounded-xl p-4 mb-5 text-sm text-slate-600 space-y-1.5">
-                <p className="font-semibold text-slate-700 text-xs uppercase tracking-wider mb-2">Payment options</p>
-                {['Debit / Credit card', 'ACH bank transfer', 'Payment plan (split over time)', 'BNPL — Klarna, Afterpay, Zip'].map((item) => (
+                <p className="font-semibold text-slate-700 text-xs uppercase tracking-wider mb-2">
+                  Payment options
+                </p>
+                {[
+                  'Debit / Credit card',
+                  'ACH bank transfer',
+                  'Payment plan (split over time)',
+                  'BNPL — Klarna, Afterpay, Zip',
+                ].map((item) => (
                   <div key={item} className="flex items-start gap-2">
                     <span className="flex-shrink-0 w-1.5 h-1.5 rounded-full bg-slate-400 mt-1.5" />
                     <span>{item}</span>
@@ -465,22 +586,27 @@ export default function ProgramDetailPage({ program: p, banner: bannerProp, hero
                 </div>
               )}
             </div>
-
           </div>
 
           {/* Reassurance line */}
           <p className="text-center text-slate-500 text-sm mt-8">
-            Not sure which path is right? <Link href="/contact" className="text-brand-blue-600 hover:underline font-medium">Talk to an advisor</Link> — it&apos;s free and takes 10 minutes.
+            Not sure which path is right?{' '}
+            <Link href="/contact" className="text-brand-blue-600 hover:underline font-medium">
+              Talk to an advisor
+            </Link>{' '}
+            — it&apos;s free and takes 10 minutes.
           </p>
 
           {/* Indiana Career Connect */}
-          {p.fundingOptions?.some(f => f === 'wioa' || f === 'wrg') && (
-          <div className="mt-8 bg-brand-blue-50 border border-brand-blue-200 rounded-xl p-6">
-            <p className="text-brand-blue-900 font-semibold text-sm mb-1">Indiana Career Connect</p>
-            <p className="text-brand-blue-800 text-sm leading-relaxed mb-4">{ICC_INSTRUCTION}</p>
-            <a
-              href={ICC_URL}
-              target="_blank"
+          {p.fundingOptions?.some((f) => f === 'wioa' || f === 'wrg') && (
+            <div className="mt-8 bg-brand-blue-50 border border-brand-blue-200 rounded-xl p-6">
+              <p className="text-brand-blue-900 font-semibold text-sm mb-1">
+                Indiana Career Connect
+              </p>
+              <p className="text-brand-blue-800 text-sm leading-relaxed mb-4">{ICC_INSTRUCTION}</p>
+              <a
+                href={ICC_URL}
+                target="_blank"
                 rel="noopener noreferrer"
                 className="inline-block bg-brand-blue-600 hover:bg-brand-blue-700 text-white font-bold px-6 py-2.5 rounded-lg transition-colors text-sm"
               >
@@ -488,7 +614,8 @@ export default function ProgramDetailPage({ program: p, banner: bannerProp, hero
               </a>
             </div>
           )}
-        </div>{/* max-w-5xl */}
+        </div>
+        {/* max-w-5xl */}
       </section>
 
       {/* CTA */}
@@ -497,7 +624,9 @@ export default function ProgramDetailPage({ program: p, banner: bannerProp, hero
           <h2 className="text-3xl sm:text-4xl font-extrabold text-white mb-3">
             Ready to Start Your {p.title} Career?
           </h2>
-          <p className="text-slate-300 text-base max-w-xl mx-auto mb-10 leading-relaxed">{p.fundingStatement}</p>
+          <p className="text-slate-300 text-base max-w-xl mx-auto mb-10 leading-relaxed">
+            {p.fundingStatement}
+          </p>
 
           {/* Two distinct paths — applicant vs enrolled */}
           <div className="flex flex-col sm:flex-row items-stretch justify-center gap-4 mb-4">
@@ -524,7 +653,9 @@ export default function ProgramDetailPage({ program: p, banner: bannerProp, hero
             {/* Already enrolled — only render when an LMS course exists for this program */}
             {p.cta.enrollHref && (
               <div className="flex flex-col items-center gap-1.5">
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Already Enrolled</span>
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                  Already Enrolled
+                </span>
                 <Link
                   href={p.cta.enrollHref}
                   className="bg-brand-blue-600 hover:bg-brand-blue-700 text-white px-10 py-4 rounded-xl font-extrabold text-base transition-colors whitespace-nowrap"

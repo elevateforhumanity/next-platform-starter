@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useEffect, useRef } from 'react';
@@ -11,7 +10,7 @@ export function useFocusTrap(isActive: boolean) {
 
     const element = ref.current;
     const focusableElements = element.querySelectorAll<HTMLElement>(
-      'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])'
+      'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])',
     );
 
     const firstElement = focusableElements[0];

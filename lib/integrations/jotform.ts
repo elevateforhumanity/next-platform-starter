@@ -97,7 +97,7 @@ class JotFormIntegration {
           headers: {
             'Content-Type': 'application/json',
           },
-        }
+        },
       );
 
       if (!response.ok) {
@@ -124,7 +124,7 @@ class JotFormIntegration {
           headers: {
             'Content-Type': 'application/json',
           },
-        }
+        },
       );
 
       if (!response.ok) {
@@ -163,7 +163,7 @@ class JotFormIntegration {
         zip: this.getAnswer(answers, 'zip', 'zipCode', 'postal_code'),
       },
 
-      filingStatus: this.getAnswer(answers, 'filingStatus', 'filing_status') as any || 'single',
+      filingStatus: (this.getAnswer(answers, 'filingStatus', 'filing_status') as any) || 'single',
       dependents: this.parseDependents(answers),
 
       hasW2: this.getBooleanAnswer(answers, 'hasW2', 'w2'),
@@ -171,7 +171,8 @@ class JotFormIntegration {
       hasSelfEmployment: this.getBooleanAnswer(answers, 'selfEmployment', 'self_employed'),
       hasRentalIncome: this.getBooleanAnswer(answers, 'rentalIncome', 'rental'),
 
-      refundMethod: this.getAnswer(answers, 'refundMethod', 'refund_method') as any || 'direct_deposit',
+      refundMethod:
+        (this.getAnswer(answers, 'refundMethod', 'refund_method') as any) || 'direct_deposit',
       wantsRefundAdvance: this.getBooleanAnswer(answers, 'refundAdvance', 'advance'),
     };
 
@@ -190,7 +191,7 @@ class JotFormIntegration {
       clientData.bankAccount = {
         routingNumber: this.getAnswer(answers, 'routingNumber', 'routing'),
         accountNumber: this.getAnswer(answers, 'accountNumber', 'account'),
-        accountType: this.getAnswer(answers, 'accountType', 'account_type') as any || 'checking',
+        accountType: (this.getAnswer(answers, 'accountType', 'account_type') as any) || 'checking',
       };
     }
 
@@ -257,18 +258,15 @@ class JotFormIntegration {
    */
   async createWebhook(formId: string, webhookUrl: string): Promise<void> {
     try {
-      const response = await fetch(
-        `${this.apiUrl}/form/${formId}/webhooks?apiKey=${this.apiKey}`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            webhookURL: webhookUrl,
-          }),
-        }
-      );
+      const response = await fetch(`${this.apiUrl}/form/${formId}/webhooks?apiKey=${this.apiKey}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          webhookURL: webhookUrl,
+        }),
+      });
 
       if (!response.ok) {
         throw new Error(`JotForm webhook creation error: ${response.statusText}`);

@@ -54,7 +54,7 @@ function drawWrappedText(
   font: PDFFont,
   fontSize: number,
   lineHeight: number,
-  color = rgb(0, 0, 0)
+  color = rgb(0, 0, 0),
 ): number {
   const lines = wrapText(text, maxWidth, font, fontSize);
   for (const line of lines) {
@@ -76,7 +76,9 @@ export async function generateCosmetologyMOUPdf(data: CosmetologyMOUPDFData): Pr
   const contentWidth = pageWidth - margin * 2;
   const lineH = 14;
   const signedDate = new Date(data.signed_at).toLocaleDateString('en-US', {
-    year: 'numeric', month: 'long', day: 'numeric',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
   });
 
   let page = doc.addPage([pageWidth, pageHeight]);
@@ -87,7 +89,9 @@ export async function generateCosmetologyMOUPdf(data: CosmetologyMOUPDFData): Pr
     y = pageHeight - margin;
   };
 
-  const checkY = (needed = 60) => { if (y < margin + needed) newPage(); };
+  const checkY = (needed = 60) => {
+    if (y < margin + needed) newPage();
+  };
 
   const drawLine = (yPos: number) => {
     page.drawLine({
@@ -100,7 +104,13 @@ export async function generateCosmetologyMOUPdf(data: CosmetologyMOUPDFData): Pr
 
   // ── Header ──────────────────────────────────────────────────────────────────
   // Purple header bar for cosmetology (vs dark navy for barber)
-  page.drawRectangle({ x: 0, y: pageHeight - 90, width: pageWidth, height: 90, color: rgb(0.35, 0.1, 0.55) });
+  page.drawRectangle({
+    x: 0,
+    y: pageHeight - 90,
+    width: pageWidth,
+    height: 90,
+    color: rgb(0.35, 0.1, 0.55),
+  });
 
   let logoEmbedded = false;
   try {
@@ -112,27 +122,73 @@ export async function generateCosmetologyMOUPdf(data: CosmetologyMOUPDFData): Pr
       const logoImg = await doc.embedPng(logoBytes).catch(() => null);
       if (logoImg) {
         const logoDims = logoImg.scale(0.18);
-        page.drawImage(logoImg, { x: margin, y: pageHeight - 80, width: logoDims.width, height: logoDims.height });
+        page.drawImage(logoImg, {
+          x: margin,
+          y: pageHeight - 80,
+          width: logoDims.width,
+          height: logoDims.height,
+        });
         logoEmbedded = true;
       }
     }
-  } catch { /* fall back to text */ }
+  } catch {
+    /* fall back to text */
+  }
 
   const textX = logoEmbedded ? margin + 120 : margin;
-  page.drawText('ELEVATE FOR HUMANITY', { x: textX, y: pageHeight - 38, size: 15, font: boldFont, color: rgb(1, 1, 1) });
-  page.drawText('Technical and Career Institute  ·  DOL Registered Apprenticeship', { x: textX, y: pageHeight - 54, size: 8, font: regularFont, color: rgb(0.88, 0.78, 0.98) });
-  page.drawText(`RAPIDS: ${RAPIDS}  ·  CAGE: ${CAGE}  ·  UEI: ${UEI}`, { x: textX, y: pageHeight - 68, size: 7.5, font: regularFont, color: rgb(0.78, 0.68, 0.9) });
+  page.drawText('ELEVATE FOR HUMANITY', {
+    x: textX,
+    y: pageHeight - 38,
+    size: 15,
+    font: boldFont,
+    color: rgb(1, 1, 1),
+  });
+  page.drawText('Technical and Career Institute  ·  DOL Registered Apprenticeship', {
+    x: textX,
+    y: pageHeight - 54,
+    size: 8,
+    font: regularFont,
+    color: rgb(0.88, 0.78, 0.98),
+  });
+  page.drawText(`RAPIDS: ${RAPIDS}  ·  CAGE: ${CAGE}  ·  UEI: ${UEI}`, {
+    x: textX,
+    y: pageHeight - 68,
+    size: 7.5,
+    font: regularFont,
+    color: rgb(0.78, 0.68, 0.9),
+  });
 
   y = pageHeight - 100;
 
   // ── Title ───────────────────────────────────────────────────────────────────
-  page.drawText('EMPLOYER TRAINING SITE', { x: margin, y, size: 11, font: boldFont, color: rgb(0.4, 0.4, 0.4) });
+  page.drawText('EMPLOYER TRAINING SITE', {
+    x: margin,
+    y,
+    size: 11,
+    font: boldFont,
+    color: rgb(0.4, 0.4, 0.4),
+  });
   y -= 18;
-  page.drawText('Memorandum of Understanding', { x: margin, y, size: 18, font: boldFont, color: rgb(0.35, 0.1, 0.55) });
+  page.drawText('Memorandum of Understanding', {
+    x: margin,
+    y,
+    size: 18,
+    font: boldFont,
+    color: rgb(0.35, 0.1, 0.55),
+  });
   y -= 16;
-  page.drawText('Indiana Cosmetology Apprenticeship Program', { x: margin, y, size: 11, font: regularFont, color: rgb(0.3, 0.3, 0.3) });
+  page.drawText('Indiana Cosmetology Apprenticeship Program', {
+    x: margin,
+    y,
+    size: 11,
+    font: regularFont,
+    color: rgb(0.3, 0.3, 0.3),
+  });
   y -= 12;
-  page.drawText(`Version ${data.mou_version || '2025-cosmetology-01'}  ·  Effective: ${signedDate}`, { x: margin, y, size: 9, font: italicFont, color: rgb(0.5, 0.5, 0.5) });
+  page.drawText(
+    `Version ${data.mou_version || '2025-cosmetology-01'}  ·  Effective: ${signedDate}`,
+    { x: margin, y, size: 9, font: italicFont, color: rgb(0.5, 0.5, 0.5) },
+  );
   y -= 20;
   drawLine(y);
   y -= 16;
@@ -141,7 +197,16 @@ export async function generateCosmetologyMOUPdf(data: CosmetologyMOUPDFData): Pr
   page.drawText('PARTIES', { x: margin, y, size: 10, font: boldFont, color: rgb(0.35, 0.1, 0.55) });
   y -= lineH;
   y = drawWrappedText(page, `Sponsor: ${SPONSOR}`, margin, y, contentWidth, regularFont, 9, lineH);
-  y = drawWrappedText(page, `Employer Training Site (Host Salon): ${data.salon_name}`, margin, y, contentWidth, regularFont, 9, lineH);
+  y = drawWrappedText(
+    page,
+    `Employer Training Site (Host Salon): ${data.salon_name}`,
+    margin,
+    y,
+    contentWidth,
+    regularFont,
+    9,
+    lineH,
+  );
   y -= 8;
 
   // ── MOU Sections ────────────────────────────────────────────────────────────
@@ -182,9 +247,24 @@ export async function generateCosmetologyMOUPdf(data: CosmetologyMOUPDFData): Pr
 
   for (const section of sections) {
     checkY(60);
-    page.drawText(section.title, { x: margin, y, size: 10, font: boldFont, color: rgb(0.35, 0.1, 0.55) });
+    page.drawText(section.title, {
+      x: margin,
+      y,
+      size: 10,
+      font: boldFont,
+      color: rgb(0.35, 0.1, 0.55),
+    });
     y -= lineH;
-    y = drawWrappedText(page, section.body, margin + 10, y, contentWidth - 10, regularFont, 9, lineH);
+    y = drawWrappedText(
+      page,
+      section.body,
+      margin + 10,
+      y,
+      contentWidth - 10,
+      regularFont,
+      9,
+      lineH,
+    );
     y -= 8;
   }
 
@@ -193,20 +273,43 @@ export async function generateCosmetologyMOUPdf(data: CosmetologyMOUPDFData): Pr
   y -= 10;
   drawLine(y);
   y -= 20;
-  page.drawText('SIGNATURES', { x: margin, y, size: 12, font: boldFont, color: rgb(0.35, 0.1, 0.55) });
+  page.drawText('SIGNATURES', {
+    x: margin,
+    y,
+    size: 12,
+    font: boldFont,
+    color: rgb(0.35, 0.1, 0.55),
+  });
   y -= 20;
 
   const colW = (contentWidth - 20) / 2;
   const col2X = margin + colW + 20;
 
   page.drawText('SPONSOR', { x: margin, y, size: 9, font: boldFont, color: rgb(0.1, 0.1, 0.18) });
-  page.drawText('HOST SALON', { x: col2X, y, size: 9, font: boldFont, color: rgb(0.35, 0.1, 0.55) });
+  page.drawText('HOST SALON', {
+    x: col2X,
+    y,
+    size: 9,
+    font: boldFont,
+    color: rgb(0.35, 0.1, 0.55),
+  });
   y -= 16;
 
   // Sponsor signature (typed)
-  page.drawText(SPONSOR_SIGNER, { x: margin, y, size: 18, font: italicFont, color: rgb(0.1, 0.1, 0.18) });
+  page.drawText(SPONSOR_SIGNER, {
+    x: margin,
+    y,
+    size: 18,
+    font: italicFont,
+    color: rgb(0.1, 0.1, 0.18),
+  });
   y -= 4;
-  page.drawLine({ start: { x: margin, y }, end: { x: margin + colW, y }, thickness: 1, color: rgb(0.2, 0.2, 0.2) });
+  page.drawLine({
+    start: { x: margin, y },
+    end: { x: margin + colW, y },
+    thickness: 1,
+    color: rgb(0.2, 0.2, 0.2),
+  });
 
   // Salon signature (drawn image or typed fallback)
   if (data.signature_data && data.signature_data.startsWith('data:image/')) {
@@ -216,42 +319,125 @@ export async function generateCosmetologyMOUPdf(data: CosmetologyMOUPDFData): Pr
       const img = await doc.embedPng(imgBytes).catch(() => doc.embedJpg(imgBytes));
       page.drawImage(img, { x: col2X, y: y - 20, width: colW, height: 36 });
     } catch {
-      page.drawText(data.signer_name, { x: col2X, y, size: 18, font: italicFont, color: rgb(0.1, 0.1, 0.18) });
+      page.drawText(data.signer_name, {
+        x: col2X,
+        y,
+        size: 18,
+        font: italicFont,
+        color: rgb(0.1, 0.1, 0.18),
+      });
     }
   } else {
-    page.drawText(data.signer_name, { x: col2X, y, size: 18, font: italicFont, color: rgb(0.1, 0.1, 0.18) });
+    page.drawText(data.signer_name, {
+      x: col2X,
+      y,
+      size: 18,
+      font: italicFont,
+      color: rgb(0.1, 0.1, 0.18),
+    });
   }
   y -= 4;
-  page.drawLine({ start: { x: col2X, y }, end: { x: col2X + colW, y }, thickness: 1, color: rgb(0.35, 0.1, 0.55) });
+  page.drawLine({
+    start: { x: col2X, y },
+    end: { x: col2X + colW, y },
+    thickness: 1,
+    color: rgb(0.35, 0.1, 0.55),
+  });
 
   y -= 14;
-  page.drawText(`Name: ${SPONSOR_SIGNER}`, { x: margin, y, size: 9, font: regularFont, color: rgb(0.2, 0.2, 0.2) });
-  page.drawText(`Name: ${data.signer_name}`, { x: col2X, y, size: 9, font: regularFont, color: rgb(0.2, 0.2, 0.2) });
+  page.drawText(`Name: ${SPONSOR_SIGNER}`, {
+    x: margin,
+    y,
+    size: 9,
+    font: regularFont,
+    color: rgb(0.2, 0.2, 0.2),
+  });
+  page.drawText(`Name: ${data.signer_name}`, {
+    x: col2X,
+    y,
+    size: 9,
+    font: regularFont,
+    color: rgb(0.2, 0.2, 0.2),
+  });
   y -= lineH;
-  page.drawText(`Title: ${SPONSOR_TITLE}`, { x: margin, y, size: 9, font: regularFont, color: rgb(0.2, 0.2, 0.2) });
-  page.drawText(`Title: ${data.signer_title}`, { x: col2X, y, size: 9, font: regularFont, color: rgb(0.2, 0.2, 0.2) });
+  page.drawText(`Title: ${SPONSOR_TITLE}`, {
+    x: margin,
+    y,
+    size: 9,
+    font: regularFont,
+    color: rgb(0.2, 0.2, 0.2),
+  });
+  page.drawText(`Title: ${data.signer_title}`, {
+    x: col2X,
+    y,
+    size: 9,
+    font: regularFont,
+    color: rgb(0.2, 0.2, 0.2),
+  });
   y -= lineH;
-  page.drawText(`Organization: ${SPONSOR}`, { x: margin, y, size: 7, font: regularFont, color: rgb(0.4, 0.4, 0.4) });
-  page.drawText(`Organization: ${data.salon_name}`, { x: col2X, y, size: 9, font: regularFont, color: rgb(0.2, 0.2, 0.2) });
+  page.drawText(`Organization: ${SPONSOR}`, {
+    x: margin,
+    y,
+    size: 7,
+    font: regularFont,
+    color: rgb(0.4, 0.4, 0.4),
+  });
+  page.drawText(`Organization: ${data.salon_name}`, {
+    x: col2X,
+    y,
+    size: 9,
+    font: regularFont,
+    color: rgb(0.2, 0.2, 0.2),
+  });
   y -= lineH;
-  page.drawText(`Date: ${signedDate}`, { x: margin, y, size: 9, font: regularFont, color: rgb(0.2, 0.2, 0.2) });
-  page.drawText(`Date: ${signedDate}`, { x: col2X, y, size: 9, font: regularFont, color: rgb(0.2, 0.2, 0.2) });
+  page.drawText(`Date: ${signedDate}`, {
+    x: margin,
+    y,
+    size: 9,
+    font: regularFont,
+    color: rgb(0.2, 0.2, 0.2),
+  });
+  page.drawText(`Date: ${signedDate}`, {
+    x: col2X,
+    y,
+    size: 9,
+    font: regularFont,
+    color: rgb(0.2, 0.2, 0.2),
+  });
 
   // ── Footer ───────────────────────────────────────────────────────────────────
   y -= 30;
   drawLine(y);
   y -= 12;
-  page.drawText(`Document ID: MOU-COSM-${Date.now()}  ·  Signed: ${signedDate}  ·  IP: ${data.ip_address || 'on file'}`, {
-    x: margin, y, size: 7, font: regularFont, color: rgb(0.6, 0.6, 0.6),
-  });
+  page.drawText(
+    `Document ID: MOU-COSM-${Date.now()}  ·  Signed: ${signedDate}  ·  IP: ${data.ip_address || 'on file'}`,
+    {
+      x: margin,
+      y,
+      size: 7,
+      font: regularFont,
+      color: rgb(0.6, 0.6, 0.6),
+    },
+  );
   y -= 10;
   page.drawText(`${SPONSOR}  ·  ${ADDRESS}  ·  ${PHONE}`, {
-    x: margin, y, size: 7, font: regularFont, color: rgb(0.6, 0.6, 0.6),
+    x: margin,
+    y,
+    size: 7,
+    font: regularFont,
+    color: rgb(0.6, 0.6, 0.6),
   });
   y -= 10;
-  page.drawText('This document was executed electronically under the Indiana Uniform Electronic Transactions Act (IC 26-2-8) and the federal ESIGN Act.', {
-    x: margin, y, size: 7, font: italicFont, color: rgb(0.6, 0.6, 0.6),
-  });
+  page.drawText(
+    'This document was executed electronically under the Indiana Uniform Electronic Transactions Act (IC 26-2-8) and the federal ESIGN Act.',
+    {
+      x: margin,
+      y,
+      size: 7,
+      font: italicFont,
+      color: rgb(0.6, 0.6, 0.6),
+    },
+  );
 
   return doc.save();
 }

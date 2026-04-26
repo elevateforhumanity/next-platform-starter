@@ -17,9 +17,11 @@ export function SuggestionCard({ suggestion, onUse, onSkip }: Props) {
   const [showAlts, setShowAlts] = useState(false);
 
   const confidenceColor =
-    suggestion.confidence >= 0.9 ? 'text-green-600 bg-green-50 border-green-200' :
-    suggestion.confidence >= 0.7 ? 'text-yellow-600 bg-yellow-50 border-yellow-200' :
-    'text-slate-700 bg-gray-50 border-gray-200';
+    suggestion.confidence >= 0.9
+      ? 'text-green-600 bg-green-50 border-green-200'
+      : suggestion.confidence >= 0.7
+        ? 'text-yellow-600 bg-yellow-50 border-yellow-200'
+        : 'text-slate-700 bg-gray-50 border-gray-200';
 
   const handleUse = (value: string) => {
     onUse(value);
@@ -80,7 +82,8 @@ export function SuggestionCard({ suggestion, onUse, onSkip }: Props) {
             onClick={() => setShowAlts(!showAlts)}
             className="flex items-center gap-1 text-slate-700 hover:text-slate-700 px-2 py-1.5 text-xs transition-colors ml-auto"
           >
-            Alternatives {showAlts ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
+            Alternatives{' '}
+            {showAlts ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
           </button>
         )}
       </div>

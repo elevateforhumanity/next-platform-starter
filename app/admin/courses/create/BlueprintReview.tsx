@@ -2,10 +2,24 @@
 
 import React, { useState } from 'react';
 import {
-  AlertTriangle, CheckCircle, ChevronDown, ChevronUp,
-  Clock, Layers, BookOpen, HelpCircle, Award, Plus, Trash2,
+  AlertTriangle,
+  CheckCircle,
+  ChevronDown,
+  ChevronUp,
+  Clock,
+  Layers,
+  BookOpen,
+  HelpCircle,
+  Award,
+  Plus,
+  Trash2,
 } from 'lucide-react';
-import type { CourseBlueprint, ModuleBlueprint, LessonBlueprint, QuizQuestionBlueprint } from '@/lib/ai/course-ingestion';
+import type {
+  CourseBlueprint,
+  ModuleBlueprint,
+  LessonBlueprint,
+  QuizQuestionBlueprint,
+} from '@/lib/ai/course-ingestion';
 
 interface Props {
   initial: CourseBlueprint;
@@ -16,7 +30,11 @@ interface Props {
 
 // Minimal inline text input used throughout
 function InlineField({
-  value, onChange, placeholder, multiline = false, className = '',
+  value,
+  onChange,
+  placeholder,
+  multiline = false,
+  className = '',
 }: {
   value: string;
   onChange: (v: string) => void;
@@ -78,14 +96,17 @@ export default function BlueprintReview({ initial, error, onBack, onSave }: Prop
   const addLesson = (mi: number) =>
     setBp((b) => {
       const modules = [...b.modules];
-      const lessons = [...modules[mi].lessons, {
-        title: 'New Lesson',
-        description: '',
-        content: '',
-        order_index: modules[mi].lessons.length,
-        duration_minutes: 20,
-        content_type: 'text' as const,
-      }];
+      const lessons = [
+        ...modules[mi].lessons,
+        {
+          title: 'New Lesson',
+          description: '',
+          content: '',
+          order_index: modules[mi].lessons.length,
+          duration_minutes: 20,
+          content_type: 'text' as const,
+        },
+      ];
       modules[mi] = { ...modules[mi], lessons };
       return { ...b, modules };
     });
@@ -101,15 +122,32 @@ export default function BlueprintReview({ initial, error, onBack, onSave }: Prop
   const addModule = () =>
     setBp((b) => ({
       ...b,
-      modules: [...b.modules, {
-        title: 'New Module',
-        description: '',
-        order_index: b.modules.length,
-        lessons: [
-          { title: 'Lesson 1', description: '', content: '', order_index: 0, duration_minutes: 20, content_type: 'text' as const },
-          { title: 'Lesson 2', description: '', content: '', order_index: 1, duration_minutes: 20, content_type: 'text' as const },
-        ],
-      }],
+      modules: [
+        ...b.modules,
+        {
+          title: 'New Module',
+          description: '',
+          order_index: b.modules.length,
+          lessons: [
+            {
+              title: 'Lesson 1',
+              description: '',
+              content: '',
+              order_index: 0,
+              duration_minutes: 20,
+              content_type: 'text' as const,
+            },
+            {
+              title: 'Lesson 2',
+              description: '',
+              content: '',
+              order_index: 1,
+              duration_minutes: 20,
+              content_type: 'text' as const,
+            },
+          ],
+        },
+      ],
     }));
 
   const removeModule = (mi: number) =>
@@ -155,13 +193,16 @@ export default function BlueprintReview({ initial, error, onBack, onSave }: Prop
   const addQuestion = () =>
     setBp((b) => ({
       ...b,
-      quiz_questions: [...b.quiz_questions, {
-        question_text: '',
-        question_type: 'multiple_choice' as const,
-        options: ['Option A', 'Option B', 'Option C', 'Option D'],
-        correct_answer: 'Option A',
-        points: 1,
-      }],
+      quiz_questions: [
+        ...b.quiz_questions,
+        {
+          question_text: '',
+          question_type: 'multiple_choice' as const,
+          options: ['Option A', 'Option B', 'Option C', 'Option D'],
+          correct_answer: 'Option A',
+          points: 1,
+        },
+      ],
     }));
 
   const removeQuestion = (qi: number) =>
@@ -219,7 +260,11 @@ export default function BlueprintReview({ initial, error, onBack, onSave }: Prop
               className="w-16 text-lg font-bold text-slate-900 border-b border-dashed border-gray-300 focus:outline-none focus:border-brand-blue-400 bg-transparent"
             />
           </StatBox>
-          <StatBox icon={HelpCircle} label="Quiz questions" value={bp.quiz_questions?.length ?? 0} />
+          <StatBox
+            icon={HelpCircle}
+            label="Quiz questions"
+            value={bp.quiz_questions?.length ?? 0}
+          />
         </div>
       </div>
 
@@ -231,7 +276,9 @@ export default function BlueprintReview({ initial, error, onBack, onSave }: Prop
             Review before publishing
           </div>
           {bp.warnings.map((w, i) => (
-            <p key={i} className="text-sm text-yellow-700 pl-6">• {w}</p>
+            <p key={i} className="text-sm text-yellow-700 pl-6">
+              • {w}
+            </p>
           ))}
         </div>
       )}
@@ -254,7 +301,9 @@ export default function BlueprintReview({ initial, error, onBack, onSave }: Prop
               <label className="block text-xs text-slate-700 mb-1">Skill level</label>
               <select
                 value={bp.skill_level || 'beginner'}
-                onChange={(e) => set({ skill_level: e.target.value as CourseBlueprint['skill_level'] })}
+                onChange={(e) =>
+                  set({ skill_level: e.target.value as CourseBlueprint['skill_level'] })
+                }
                 className="w-full border rounded px-2 py-1 text-sm"
               >
                 <option value="beginner">Beginner</option>
@@ -285,7 +334,10 @@ export default function BlueprintReview({ initial, error, onBack, onSave }: Prop
         <div>
           <div className="flex items-center justify-between mb-2">
             <label className="text-xs text-slate-700">Learning objectives</label>
-            <button onClick={addObjective} className="text-xs text-brand-blue-600 hover:text-brand-blue-700 flex items-center gap-1">
+            <button
+              onClick={addObjective}
+              className="text-xs text-brand-blue-600 hover:text-brand-blue-700 flex items-center gap-1"
+            >
               <Plus className="w-3 h-3" /> Add
             </button>
           </div>
@@ -299,7 +351,10 @@ export default function BlueprintReview({ initial, error, onBack, onSave }: Prop
                   placeholder="Learning objective"
                   className="flex-1"
                 />
-                <button onClick={() => removeObjective(i)} className="text-slate-700 hover:text-red-400 shrink-0">
+                <button
+                  onClick={() => removeObjective(i)}
+                  className="text-slate-700 hover:text-red-400 shrink-0"
+                >
                   <Trash2 className="w-3.5 h-3.5" />
                 </button>
               </div>
@@ -317,7 +372,10 @@ export default function BlueprintReview({ initial, error, onBack, onSave }: Prop
             className="h-4 w-4 mt-0.5 rounded border-gray-300 text-brand-blue-600 focus:ring-brand-blue-500"
           />
           <div className="flex-1">
-            <label htmlFor="cert_toggle" className="text-sm font-medium text-slate-900 flex items-center gap-1">
+            <label
+              htmlFor="cert_toggle"
+              className="text-sm font-medium text-slate-900 flex items-center gap-1"
+            >
               <Award className="w-4 h-4 text-brand-blue-600" /> Certificate of completion
             </label>
             {bp.certificate_enabled && (
@@ -337,7 +395,9 @@ export default function BlueprintReview({ initial, error, onBack, onSave }: Prop
         <div className="px-6 py-4 border-b flex items-center justify-between">
           <div>
             <h3 className="font-semibold text-slate-900">Course structure</h3>
-            <p className="text-sm text-slate-700">{bp.modules?.length} modules · {totalLessons} lessons</p>
+            <p className="text-sm text-slate-700">
+              {bp.modules?.length} modules · {totalLessons} lessons
+            </p>
           </div>
           <button
             onClick={addModule}
@@ -350,7 +410,10 @@ export default function BlueprintReview({ initial, error, onBack, onSave }: Prop
           {bp.modules?.map((mod, mi) => (
             <div key={mi}>
               <div className="flex items-center gap-2 px-4 py-3 hover:bg-gray-50">
-                <button onClick={() => toggleModule(mi)} className="flex items-center gap-2 flex-1 min-w-0 text-left">
+                <button
+                  onClick={() => toggleModule(mi)}
+                  className="flex items-center gap-2 flex-1 min-w-0 text-left"
+                >
                   <span className="w-7 h-7 rounded-full bg-brand-blue-100 text-brand-blue-700 text-xs font-bold flex items-center justify-center shrink-0">
                     {mi + 1}
                   </span>
@@ -360,12 +423,19 @@ export default function BlueprintReview({ initial, error, onBack, onSave }: Prop
                     placeholder="Module title"
                     className="font-medium text-slate-900 flex-1"
                   />
-                  <span className="text-xs text-slate-700 shrink-0">{mod.lessons?.length ?? 0} lessons</span>
-                  {expandedModules.has(mi)
-                    ? <ChevronUp className="w-4 h-4 text-slate-700 shrink-0" />
-                    : <ChevronDown className="w-4 h-4 text-slate-700 shrink-0" />}
+                  <span className="text-xs text-slate-700 shrink-0">
+                    {mod.lessons?.length ?? 0} lessons
+                  </span>
+                  {expandedModules.has(mi) ? (
+                    <ChevronUp className="w-4 h-4 text-slate-700 shrink-0" />
+                  ) : (
+                    <ChevronDown className="w-4 h-4 text-slate-700 shrink-0" />
+                  )}
                 </button>
-                <button onClick={() => removeModule(mi)} className="text-slate-700 hover:text-red-400 shrink-0 ml-1">
+                <button
+                  onClick={() => removeModule(mi)}
+                  className="text-slate-700 hover:text-red-400 shrink-0 ml-1"
+                >
                   <Trash2 className="w-4 h-4" />
                 </button>
               </div>
@@ -396,12 +466,19 @@ export default function BlueprintReview({ initial, error, onBack, onSave }: Prop
                             type="number"
                             min={1}
                             value={lesson.duration_minutes}
-                            onChange={(e) => updateLesson(mi, li, { duration_minutes: parseInt(e.target.value) || 20 })}
+                            onChange={(e) =>
+                              updateLesson(mi, li, {
+                                duration_minutes: parseInt(e.target.value) || 20,
+                              })
+                            }
                             className="w-12 text-xs text-slate-700 border-b border-dashed border-gray-300 focus:outline-none focus:border-brand-blue-400 bg-transparent text-right"
                           />
                           <span className="text-xs text-slate-700">min</span>
                         </div>
-                        <button onClick={() => removeLesson(mi, li)} className="text-slate-700 hover:text-red-400 shrink-0">
+                        <button
+                          onClick={() => removeLesson(mi, li)}
+                          className="text-slate-700 hover:text-red-400 shrink-0"
+                        >
                           <Trash2 className="w-3.5 h-3.5" />
                         </button>
                       </div>
@@ -442,7 +519,11 @@ export default function BlueprintReview({ initial, error, onBack, onSave }: Prop
               {bp.quiz_title || 'Course Assessment'} · {bp.quiz_questions?.length ?? 0} questions
             </span>
           </div>
-          {showQuiz ? <ChevronUp className="w-4 h-4 text-slate-700" /> : <ChevronDown className="w-4 h-4 text-slate-700" />}
+          {showQuiz ? (
+            <ChevronUp className="w-4 h-4 text-slate-700" />
+          ) : (
+            <ChevronDown className="w-4 h-4 text-slate-700" />
+          )}
         </button>
 
         {showQuiz && (
@@ -472,14 +553,19 @@ export default function BlueprintReview({ initial, error, onBack, onSave }: Prop
             {bp.quiz_questions?.map((q, qi) => (
               <div key={qi} className="border rounded-lg p-4 space-y-2 bg-gray-50">
                 <div className="flex items-start gap-2">
-                  <span className="text-xs font-medium text-slate-700 mt-1.5 shrink-0">Q{qi + 1}</span>
+                  <span className="text-xs font-medium text-slate-700 mt-1.5 shrink-0">
+                    Q{qi + 1}
+                  </span>
                   <InlineField
                     value={q.question_text}
                     onChange={(v) => updateQuestion(qi, { question_text: v })}
                     placeholder="Question text"
                     className="flex-1 font-medium text-slate-900"
                   />
-                  <button onClick={() => removeQuestion(qi)} className="text-slate-700 hover:text-red-400 shrink-0 mt-1">
+                  <button
+                    onClick={() => removeQuestion(qi)}
+                    className="text-slate-700 hover:text-red-400 shrink-0 mt-1"
+                  >
                     <Trash2 className="w-3.5 h-3.5" />
                   </button>
                 </div>
@@ -502,7 +588,9 @@ export default function BlueprintReview({ initial, error, onBack, onSave }: Prop
                       />
                     </div>
                   ))}
-                  <p className="text-xs text-slate-700 pl-5">Select radio button to mark correct answer</p>
+                  <p className="text-xs text-slate-700 pl-5">
+                    Select radio button to mark correct answer
+                  </p>
                 </div>
               </div>
             ))}
@@ -519,7 +607,9 @@ export default function BlueprintReview({ initial, error, onBack, onSave }: Prop
 
       {/* Error */}
       {error && (
-        <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-sm text-red-700">{error}</div>
+        <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-sm text-red-700">
+          {error}
+        </div>
       )}
 
       {/* Actions */}
@@ -542,7 +632,10 @@ export default function BlueprintReview({ initial, error, onBack, onSave }: Prop
 }
 
 function StatBox({
-  icon: Icon, label, value, children,
+  icon: Icon,
+  label,
+  value,
+  children,
 }: {
   icon: React.ElementType;
   label: string;

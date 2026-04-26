@@ -45,7 +45,7 @@ interface OnboardingStatus {
  */
 export async function checkOnboardingComplete(
   db: SupabaseClient,
-  employerId: string
+  employerId: string,
 ): Promise<OnboardingStatus> {
   const { data: onboarding } = await db
     .from('employer_onboarding')
@@ -80,8 +80,7 @@ export async function checkOnboardingComplete(
 
   // MOU can be satisfied by either a signed agreement or an approved uploaded document
   const hasMOU =
-    signedAgreements.has('employer_agreement') ||
-    docMap.get('employer_mou') === 'approved';
+    signedAgreements.has('employer_agreement') || docMap.get('employer_mou') === 'approved';
 
   const missing: string[] = [];
   const pendingReview: string[] = [];
@@ -98,7 +97,11 @@ export async function checkOnboardingComplete(
 
   for (const docType of REQUIRED_DOC_TYPES) {
     if (docType === 'employer_mou') {
-      docStatuses.push({ type: docType, uploaded: hasMOU || docMap.has(docType), approved: hasMOU });
+      docStatuses.push({
+        type: docType,
+        uploaded: hasMOU || docMap.has(docType),
+        approved: hasMOU,
+      });
       continue;
     }
 
@@ -141,10 +144,7 @@ export async function checkOnboardingComplete(
  *
  * Returns true if the employer was activated.
  */
-export async function tryAutoActivate(
-  db: SupabaseClient,
-  employerId: string
-): Promise<boolean> {
+export async function tryAutoActivate(db: SupabaseClient, employerId: string): Promise<boolean> {
   const { data: onboarding } = await db
     .from('employer_onboarding')
     .select('id, status, contact_name, contact_email, business_name')
@@ -160,7 +160,10 @@ export async function tryAutoActivate(
 
   if (!status.complete) {
     // Move to onboarding_in_progress if they've started uploading
-    if (onboarding.status === 'approved' && (status.docStatuses.some(d => d.uploaded) || status.hasHiringNeeds)) {
+    if (
+      onboarding.status === 'approved' &&
+      (status.docStatuses.some((d) => d.uploaded) || status.hasHiringNeeds)
+    ) {
       await db
         .from('employer_onboarding')
         .update({ status: 'onboarding_in_progress', updated_at: new Date().toISOString() })
@@ -195,7 +198,7 @@ export async function tryAutoActivate(
       after_state: {
         business_name: onboarding.business_name,
         activation_method: 'auto_all_docs_approved',
-        docs_verified: status.docStatuses.filter(d => d.approved).map(d => d.type),
+        docs_verified: status.docStatuses.filter((d) => d.approved).map((d) => d.type),
         hiring_needs: status.hasHiringNeeds,
         mou_signed: status.hasMOU,
       },

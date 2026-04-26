@@ -190,7 +190,7 @@ async function generateAudio(text: string, outPath: string): Promise<void> {
         res.pipe(out);
         out.on('finish', resolve);
         out.on('error', reject);
-      }
+      },
     );
     req.on('error', reject);
     req.write(body);
@@ -213,4 +213,7 @@ async function main() {
   console.log('All scenes generated.');
 }
 
-main().catch((e) => { console.error(e); process.exit(1); });
+main().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});

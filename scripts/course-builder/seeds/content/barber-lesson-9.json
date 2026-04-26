@@ -4,108 +4,63 @@
     "questions": [
       {
         "prompt": "What is the active growth phase of the hair cycle called?",
-        "choices": [
-          "Anagen",
-          "Catagen",
-          "Telogen",
-          "Exogen"
-        ],
+        "choices": ["Anagen", "Catagen", "Telogen", "Exogen"],
         "answerIndex": 0,
         "rationale": "The anagen phase is the active growth stage where hair cells divide rapidly, resulting in hair growth.",
         "type": "recall"
       },
       {
         "prompt": "How long does the catagen phase typically last?",
-        "choices": [
-          "Two to three weeks",
-          "Two to seven years",
-          "Three to four months",
-          "One year"
-        ],
+        "choices": ["Two to three weeks", "Two to seven years", "Three to four months", "One year"],
         "answerIndex": 0,
         "rationale": "The catagen phase is a short transitional stage lasting about two to three weeks.",
         "type": "recall"
       },
       {
         "prompt": "During which phase does the hair follicle detach from the dermal papilla?",
-        "choices": [
-          "Anagen",
-          "Catagen",
-          "Telogen",
-          "Exogen"
-        ],
+        "choices": ["Anagen", "Catagen", "Telogen", "Exogen"],
         "answerIndex": 1,
         "rationale": "In the catagen phase, the hair follicle shrinks and detaches from the dermal papilla.",
         "type": "recall"
       },
       {
         "prompt": "What percentage of hair is typically in the anagen phase at any given time?",
-        "choices": [
-          "10–15%",
-          "1–2%",
-          "85–90%",
-          "50–60%"
-        ],
+        "choices": ["10–15%", "1–2%", "85–90%", "50–60%"],
         "answerIndex": 2,
         "rationale": "About 85–90% of hair is in the anagen phase, reflecting its continuous growth.",
         "type": "recall"
       },
       {
         "prompt": "What is the resting stage of the hair growth cycle called?",
-        "choices": [
-          "Anagen",
-          "Catagen",
-          "Telogen",
-          "Exogen"
-        ],
+        "choices": ["Anagen", "Catagen", "Telogen", "Exogen"],
         "answerIndex": 2,
         "rationale": "The telogen phase is the resting stage where hair does not grow but remains attached to the follicle.",
         "type": "recall"
       },
       {
         "prompt": "How long does the telogen phase last?",
-        "choices": [
-          "Two to three weeks",
-          "Two to seven years",
-          "Three to four months",
-          "One year"
-        ],
+        "choices": ["Two to three weeks", "Two to seven years", "Three to four months", "One year"],
         "answerIndex": 2,
         "rationale": "The telogen phase lasts around three to four months before the hair is shed.",
         "type": "recall"
       },
       {
         "prompt": "Which phase of the hair cycle is associated with hair shedding?",
-        "choices": [
-          "Anagen",
-          "Catagen",
-          "Telogen",
-          "Exogen"
-        ],
+        "choices": ["Anagen", "Catagen", "Telogen", "Exogen"],
         "answerIndex": 2,
         "rationale": "The telogen phase is when hair is shed and a new hair begins to grow in its place.",
         "type": "recall"
       },
       {
         "prompt": "What is the primary action during the anagen phase?",
-        "choices": [
-          "Hair shedding",
-          "Hair growth",
-          "Hair follicle detachment",
-          "Hair resting"
-        ],
+        "choices": ["Hair shedding", "Hair growth", "Hair follicle detachment", "Hair resting"],
         "answerIndex": 1,
         "rationale": "During the anagen phase, hair growth occurs as cells in the hair root divide rapidly.",
         "type": "recall"
       },
       {
         "prompt": "A client presents with concerns about hair not growing as expected. You suspect the hair is in which phase?",
-        "choices": [
-          "Anagen",
-          "Catagen",
-          "Telogen",
-          "Exogen"
-        ],
+        "choices": ["Anagen", "Catagen", "Telogen", "Exogen"],
         "answerIndex": 1,
         "rationale": "In the catagen phase, hair growth stops, which could explain why hair is not growing as expected.",
         "type": "scenario"
@@ -124,12 +79,7 @@
       },
       {
         "prompt": "A new client asks why their hair seems to have stopped growing. Which phase might this indicate?",
-        "choices": [
-          "Anagen",
-          "Catagen",
-          "Telogen",
-          "Exogen"
-        ],
+        "choices": ["Anagen", "Catagen", "Telogen", "Exogen"],
         "answerIndex": 1,
         "rationale": "The catagen phase is a transitional stage where hair growth stops.",
         "type": "scenario"
@@ -148,12 +98,7 @@
       },
       {
         "prompt": "A client mentions significant hair loss after a stressful event. What should you consider?",
-        "choices": [
-          "Anagen phase",
-          "Catagen phase",
-          "Telogen phase",
-          "Exogen phase"
-        ],
+        "choices": ["Anagen phase", "Catagen phase", "Telogen phase", "Exogen phase"],
         "answerIndex": 2,
         "rationale": "Stress can trigger telogen effluvium, where hair prematurely enters the telogen phase and sheds.",
         "type": "scenario"

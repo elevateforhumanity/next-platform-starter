@@ -36,7 +36,8 @@ The assessment system includes quizzes, practical evaluations, and proctored exa
 Upon completion, students earn industry-recognized certificates that can be shared with employers directly through our platform.
 
 The Elevate LMS - where careers begin.`,
-    imagePrompt: 'Professional screenshot of a modern learning management system dashboard showing course progress, student metrics, and clean UI design, blue and white color scheme, corporate software interface',
+    imagePrompt:
+      'Professional screenshot of a modern learning management system dashboard showing course progress, student metrics, and clean UI design, blue and white color scheme, corporate software interface',
   },
   {
     id: 'employer-portal',
@@ -57,7 +58,8 @@ For On-the-Job Training programs, we handle the paperwork. Track wage reimbursem
 The analytics dashboard shows your hiring metrics, retention rates, and return on investment for training partnerships.
 
 Partner with Elevate and build your workforce with confidence.`,
-    imagePrompt: 'Professional employer HR dashboard interface showing candidate profiles, hiring metrics, and workforce analytics, modern corporate software design, purple and white color scheme',
+    imagePrompt:
+      'Professional employer HR dashboard interface showing candidate profiles, hiring metrics, and workforce analytics, modern corporate software design, purple and white color scheme',
   },
   {
     id: 'admin-dashboard',
@@ -78,7 +80,8 @@ Financial tools handle payments, scholarships, and funding source tracking. Gene
 Compliance management ensures your programs meet regulatory requirements. Track certifications, audit documentation, and generate reports for accrediting bodies.
 
 The Elevate Admin Dashboard - powerful tools for program excellence.`,
-    imagePrompt: 'Professional admin dashboard interface showing student management, analytics charts, and administrative controls, modern SaaS design, dark blue and orange accents, data visualization',
+    imagePrompt:
+      'Professional admin dashboard interface showing student management, analytics charts, and administrative controls, modern SaaS design, dark blue and orange accents, data visualization',
   },
   {
     id: 'course-builder',
@@ -101,18 +104,19 @@ Upload existing materials - videos, documents, or SCORM packages - and the AI in
 Preview your course exactly as students will experience it. Make final adjustments and publish when ready.
 
 The Elevate Course Builder - professional training content, powered by AI.`,
-    imagePrompt: 'Professional course authoring tool interface showing drag-and-drop lesson builder, AI content generation panel, and course preview, modern educational software design, green and white theme',
+    imagePrompt:
+      'Professional course authoring tool interface showing drag-and-drop lesson builder, AI content generation panel, and course preview, modern educational software design, green and white theme',
   },
 ];
 
-async function generateVoiceover(demo: typeof DEMOS[0]): Promise<string> {
+async function generateVoiceover(demo: (typeof DEMOS)[0]): Promise<string> {
   console.log(`🎙️  Generating voiceover for: ${demo.title}`);
-  
+
   const response = await fetch('https://api.openai.com/v1/audio/speech', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${OPENAI_API_KEY}`,
+      Authorization: `Bearer ${OPENAI_API_KEY}`,
     },
     body: JSON.stringify({
       model: 'tts-1-hd',
@@ -129,21 +133,21 @@ async function generateVoiceover(demo: typeof DEMOS[0]): Promise<string> {
 
   const audioBuffer = await response.arrayBuffer();
   const outputPath = path.join(OUTPUT_DIR, 'videos', 'demos', `${demo.id}-voiceover.mp3`);
-  
+
   fs.writeFileSync(outputPath, Buffer.from(audioBuffer));
   console.log(`   ✅ Saved: ${outputPath} (${(audioBuffer.byteLength / 1024).toFixed(1)} KB)`);
-  
+
   return outputPath;
 }
 
-async function generateThumbnail(demo: typeof DEMOS[0]): Promise<string> {
+async function generateThumbnail(demo: (typeof DEMOS)[0]): Promise<string> {
   console.log(`🖼️  Generating thumbnail for: ${demo.title}`);
-  
+
   const response = await fetch('https://api.openai.com/v1/images/generations', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${OPENAI_API_KEY}`,
+      Authorization: `Bearer ${OPENAI_API_KEY}`,
     },
     body: JSON.stringify({
       model: 'dall-e-3',
@@ -161,15 +165,15 @@ async function generateThumbnail(demo: typeof DEMOS[0]): Promise<string> {
 
   const data = await response.json();
   const imageUrl = data.data[0].url;
-  
+
   // Download the image
   const imageResponse = await fetch(imageUrl);
   const imageBuffer = await imageResponse.arrayBuffer();
-  
+
   const outputPath = path.join(OUTPUT_DIR, 'images', 'demos', `${demo.id}-thumb.jpg`);
   fs.writeFileSync(outputPath, Buffer.from(imageBuffer));
   console.log(`   ✅ Saved: ${outputPath} (${(imageBuffer.byteLength / 1024).toFixed(1)} KB)`);
-  
+
   return outputPath;
 }
 
@@ -188,7 +192,7 @@ async function generateAllAssets() {
   for (const demo of DEMOS) {
     console.log('');
     console.log(`━━━ ${demo.title} ━━━`);
-    
+
     let voiceoverSuccess = false;
     let thumbnailSuccess = false;
 
@@ -207,20 +211,27 @@ async function generateAllAssets() {
     }
 
     results.push({ demo: demo.id, voiceover: voiceoverSuccess, thumbnail: thumbnailSuccess });
-    
+
     // Small delay to avoid rate limits
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
   }
 
   // Save scripts for video production
   const scriptsPath = path.join(OUTPUT_DIR, 'videos', 'demos', 'scripts.json');
-  fs.writeFileSync(scriptsPath, JSON.stringify(DEMOS.map(d => ({
-    id: d.id,
-    title: d.title,
-    script: d.script,
-    voiceoverFile: `${d.id}-voiceover.mp3`,
-    thumbnailFile: `${d.id}-thumb.jpg`,
-  })), null, 2));
+  fs.writeFileSync(
+    scriptsPath,
+    JSON.stringify(
+      DEMOS.map((d) => ({
+        id: d.id,
+        title: d.title,
+        script: d.script,
+        voiceoverFile: `${d.id}-voiceover.mp3`,
+        thumbnailFile: `${d.id}-thumb.jpg`,
+      })),
+      null,
+      2,
+    ),
+  );
 
   console.log('');
   console.log('═══════════════════════════════════════════════════════════');
@@ -234,11 +245,13 @@ async function generateAllAssets() {
     console.log(`${result.demo}: Voiceover ${voiceStatus} | Thumbnail ${thumbStatus}`);
   }
 
-  const totalVoiceovers = results.filter(r => r.voiceover).length;
-  const totalThumbnails = results.filter(r => r.thumbnail).length;
+  const totalVoiceovers = results.filter((r) => r.voiceover).length;
+  const totalThumbnails = results.filter((r) => r.thumbnail).length;
 
   console.log('');
-  console.log(`Total: ${totalVoiceovers}/${DEMOS.length} voiceovers, ${totalThumbnails}/${DEMOS.length} thumbnails`);
+  console.log(
+    `Total: ${totalVoiceovers}/${DEMOS.length} voiceovers, ${totalThumbnails}/${DEMOS.length} thumbnails`,
+  );
   console.log('');
   console.log('Scripts saved to: public/videos/demos/scripts.json');
   console.log('');

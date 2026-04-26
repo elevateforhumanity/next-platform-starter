@@ -34,7 +34,7 @@ const SECTIONS: SectionInfo[] = [
     covers: [
       'Ozone depletion and the Clean Air Act',
       'Montreal Protocol phase-out dates',
-      'The Three R\'s: Recover, Recycle, Reclaim',
+      "The Three R's: Recover, Recycle, Reclaim",
       'Refrigerant safety and cylinder handling',
       'Refrigeration cycle fundamentals',
       'Pressure-Temperature charts',
@@ -123,18 +123,25 @@ export default function EPA608Overview({ mode = 'explore', onComplete }: Props) 
 
   return (
     <div className="space-y-6">
-
       {/* Header */}
       <div className="bg-brand-blue-700 rounded-2xl p-6 text-white">
-        <p className="text-brand-red-400 text-xs font-bold uppercase tracking-widest mb-2">EPA Section 608</p>
+        <p className="text-brand-red-400 text-xs font-bold uppercase tracking-widest mb-2">
+          EPA Section 608
+        </p>
         <h2 className="text-2xl font-extrabold mb-2">Certification Structure</h2>
         <p className="text-slate-600 text-sm leading-relaxed">
-          Pass all four sections to earn <span className="text-white font-bold">Universal Certification</span> — the credential employers require.
-          Each section has 25 questions. You need 70% in each section independently.
+          Pass all four sections to earn{' '}
+          <span className="text-white font-bold">Universal Certification</span> — the credential
+          employers require. Each section has 25 questions. You need 70% in each section
+          independently.
         </p>
         <div className="mt-4 flex flex-wrap gap-3 text-sm">
-          <span className="bg-white/10 rounded-lg px-3 py-1.5 font-semibold">100 questions total</span>
-          <span className="bg-white/10 rounded-lg px-3 py-1.5 font-semibold">70% per section to pass</span>
+          <span className="bg-white/10 rounded-lg px-3 py-1.5 font-semibold">
+            100 questions total
+          </span>
+          <span className="bg-white/10 rounded-lg px-3 py-1.5 font-semibold">
+            70% per section to pass
+          </span>
           <span className="bg-white/10 rounded-lg px-3 py-1.5 font-semibold">Proctored exam</span>
           <span className="bg-white/10 rounded-lg px-3 py-1.5 font-semibold">Never expires</span>
         </div>
@@ -159,15 +166,17 @@ export default function EPA608Overview({ mode = 'explore', onComplete }: Props) 
                 isActive
                   ? `${s.bg} ${s.border} shadow-lg scale-[1.02]`
                   : isSeen
-                  ? 'bg-slate-50 border-slate-200 hover:border-slate-300'
-                  : 'bg-white border-slate-200 hover:border-slate-300 hover:shadow-sm'
+                    ? 'bg-slate-50 border-slate-200 hover:border-slate-300'
+                    : 'bg-white border-slate-200 hover:border-slate-300 hover:shadow-sm'
               }`}
             >
               {isSeen && !isActive && (
                 <CheckCircle className="absolute top-2 right-2 w-4 h-4 text-brand-green-500" />
               )}
               <Icon className={`w-6 h-6 mb-2 ${isActive ? s.color : 'text-slate-400'}`} />
-              <p className={`font-extrabold text-lg ${isActive ? s.color : 'text-slate-900'}`}>{s.label}</p>
+              <p className={`font-extrabold text-lg ${isActive ? s.color : 'text-slate-900'}`}>
+                {s.label}
+              </p>
               <p className="text-xs text-slate-500 mt-0.5 leading-snug">{s.subtitle}</p>
               <p className="text-xs font-semibold text-slate-500 mt-2">{s.questions} questions</p>
             </button>
@@ -177,7 +186,9 @@ export default function EPA608Overview({ mode = 'explore', onComplete }: Props) 
 
       {/* Detail panel */}
       {activeSection && (
-        <div className={`rounded-2xl border-2 ${activeSection.border} ${activeSection.bg} p-6 space-y-4`}>
+        <div
+          className={`rounded-2xl border-2 ${activeSection.border} ${activeSection.bg} p-6 space-y-4`}
+        >
           <div className="flex items-start justify-between gap-4">
             <div>
               <h3 className={`text-xl font-extrabold ${activeSection.color}`}>
@@ -190,12 +201,16 @@ export default function EPA608Overview({ mode = 'explore', onComplete }: Props) 
             <div className="text-right flex-shrink-0">
               <p className="text-2xl font-extrabold text-slate-900">{activeSection.questions}</p>
               <p className="text-xs text-slate-500">questions</p>
-              <p className="text-sm font-bold text-brand-green-700 mt-1">{activeSection.passing}% to pass</p>
+              <p className="text-sm font-bold text-brand-green-700 mt-1">
+                {activeSection.passing}% to pass
+              </p>
             </div>
           </div>
 
           <div>
-            <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">This section covers:</p>
+            <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">
+              This section covers:
+            </p>
             <ul className="space-y-2">
               {activeSection.covers.map((item, i) => (
                 <li key={i} className="flex gap-2 text-sm text-slate-700">
@@ -215,10 +230,10 @@ export default function EPA608Overview({ mode = 'explore', onComplete }: Props) 
           <p className="font-extrabold text-lg">Universal Certification</p>
         </div>
         <p className="text-white text-sm leading-relaxed">
-          Pass Core + Type I + Type II + Type III = EPA 608 Universal.
-          This is what every HVAC employer requires. It means you can legally purchase refrigerant
-          and work on any equipment — residential, commercial, or industrial.
-          The card never expires. Keep it with you on every job.
+          Pass Core + Type I + Type II + Type III = EPA 608 Universal. This is what every HVAC
+          employer requires. It means you can legally purchase refrigerant and work on any equipment
+          — residential, commercial, or industrial. The card never expires. Keep it with you on
+          every job.
         </p>
       </div>
 

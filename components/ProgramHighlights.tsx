@@ -12,38 +12,42 @@ interface ProgramHighlightsProps {
 
 const defaultHighlights: Highlight[] = [
   {
-    title: "No-Cost Training Available",
-    description: "No tuition for eligible participants. Funded through WIOA, WRG, and JRI programs.",
-    image: "/images/pages/cna-clinical.jpg"
+    title: 'No-Cost Training Available',
+    description:
+      'No tuition for eligible participants. Funded through WIOA, WRG, and JRI programs.',
+    image: '/images/pages/cna-clinical.jpg',
   },
   {
-    title: "Earn While You Learn",
-    description: "Get paid during training through work-study programs and apprenticeships.",
-    image: "/images/pages/hvac-technician.jpg"
+    title: 'Earn While You Learn',
+    description: 'Get paid during training through work-study programs and apprenticeships.',
+    image: '/images/pages/hvac-technician.jpg',
   },
   {
-    title: "Industry Certification",
-    description: "Earn recognized certifications that employers value and actively seek.",
-    image: "/images/pages/comp-home-hero.jpg"
+    title: 'Industry Certification',
+    description: 'Earn recognized certifications that employers value and actively seek.',
+    image: '/images/pages/comp-home-hero.jpg',
   },
   {
-    title: "Job Placement Support",
-    description: "We connect you with employers hiring in your field. Resume and interview prep included.",
-    image: "/images/pages/it-helpdesk-desk.jpg"
+    title: 'Job Placement Support',
+    description:
+      'We connect you with employers hiring in your field. Resume and interview prep included.',
+    image: '/images/pages/it-helpdesk-desk.jpg',
   },
   {
-    title: "Hands-On Experience",
-    description: "Real-world training with actual equipment and industry-standard tools.",
-    image: "/images/pages/cdl-truck-highway.jpg"
+    title: 'Hands-On Experience',
+    description: 'Real-world training with actual equipment and industry-standard tools.',
+    image: '/images/pages/cdl-truck-highway.jpg',
   },
   {
-    title: "Support Services",
-    description: "Childcare, transportation, and career counseling to keep you on track.",
-    image: "/images/pages/barber-hero-main.jpg"
-  }
+    title: 'Support Services',
+    description: 'Childcare, transportation, and career counseling to keep you on track.',
+    image: '/images/pages/barber-hero-main.jpg',
+  },
 ];
 
-export default function ProgramHighlights({ highlights = defaultHighlights }: ProgramHighlightsProps) {
+export default function ProgramHighlights({
+  highlights = defaultHighlights,
+}: ProgramHighlightsProps) {
   return (
     <section className="py-16 sm:py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
@@ -58,22 +62,22 @@ export default function ProgramHighlights({ highlights = defaultHighlights }: Pr
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {highlights.map((highlight, index) => (
-            <div key={index} className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-all group">
+            <div
+              key={index}
+              className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-all group"
+            >
               <div className="relative h-40 overflow-hidden">
                 <Image
                   src={highlight.image}
                   alt={highlight.title}
                   fill
                   className="object-cover group-hover:scale-105 transition-transform duration-500"
-                 sizes="100vw" />
+                  sizes="100vw"
+                />
               </div>
               <div className="p-5">
-                <h3 className="text-lg font-bold text-slate-900 mb-2">
-                  {highlight.title}
-                </h3>
-                <p className="text-slate-600 text-sm leading-relaxed">
-                  {highlight.description}
-                </p>
+                <h3 className="text-lg font-bold text-slate-900 mb-2">{highlight.title}</h3>
+                <p className="text-slate-600 text-sm leading-relaxed">{highlight.description}</p>
               </div>
             </div>
           ))}
@@ -89,7 +93,8 @@ export default function ProgramHighlights({ highlights = defaultHighlights }: Pr
                   alt="Small class sizes"
                   fill
                   className="object-cover"
-                 sizes="100vw" />
+                  sizes="100vw"
+                />
               </div>
               <h4 className="font-bold text-black mb-1">Small Classes</h4>
               <p className="text-sm text-black">8-12 students per class</p>
@@ -101,7 +106,8 @@ export default function ProgramHighlights({ highlights = defaultHighlights }: Pr
                   alt="Expert instructors"
                   fill
                   className="object-cover"
-                 sizes="(max-width: 768px) 48px, 64px" />
+                  sizes="(max-width: 768px) 48px, 64px"
+                />
               </div>
               <h4 className="font-bold text-black mb-1">Expert Instructors</h4>
               <p className="text-sm text-black">10+ years experience</p>
@@ -113,7 +119,8 @@ export default function ProgramHighlights({ highlights = defaultHighlights }: Pr
                   alt="Modern equipment"
                   fill
                   className="object-cover"
-                 sizes="100vw" />
+                  sizes="100vw"
+                />
               </div>
               <h4 className="font-bold text-black mb-1">Modern Equipment</h4>
               <p className="text-sm text-black">Industry-standard tools</p>
@@ -125,7 +132,8 @@ export default function ProgramHighlights({ highlights = defaultHighlights }: Pr
                   alt="Job placement"
                   fill
                   className="object-cover"
-                 sizes="100vw" />
+                  sizes="100vw"
+                />
               </div>
               <h4 className="font-bold text-black mb-1">Job Placement</h4>
               <p className="text-sm text-black">Employer connections</p>

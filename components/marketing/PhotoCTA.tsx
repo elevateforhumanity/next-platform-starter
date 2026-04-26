@@ -1,6 +1,6 @@
 // components/marketing/PhotoCTA.tsx
-import Image from "next/image";
-import Link from "next/link";
+import Image from 'next/image';
+import Link from 'next/link';
 
 export function PhotoCTA() {
   return (
@@ -15,7 +15,8 @@ export function PhotoCTA() {
                 alt="Barber apprenticeship in action"
                 fill
                 className="object-cover"
-               sizes="(max-width: 768px) 48px, 64px" />
+                sizes="(max-width: 768px) 48px, 64px"
+              />
             </div>
             <div className="relative h-40 overflow-hidden rounded-2xl sm:h-48">
               <Image
@@ -23,7 +24,8 @@ export function PhotoCTA() {
                 alt="Healthcare student in lab coat"
                 fill
                 className="object-cover"
-               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" />
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              />
             </div>
             <div className="relative h-40 overflow-hidden rounded-2xl sm:h-48">
               <Image
@@ -31,7 +33,8 @@ export function PhotoCTA() {
                 alt="HVAC technician training"
                 fill
                 className="object-cover"
-               sizes="(max-width: 768px) 48px, 64px" />
+                sizes="(max-width: 768px) 48px, 64px"
+              />
             </div>
             <div className="relative h-40 overflow-hidden rounded-2xl sm:h-48">
               <Image
@@ -39,7 +42,8 @@ export function PhotoCTA() {
                 alt="Classroom and coaching"
                 fill
                 className="object-cover"
-               sizes="(max-width: 768px) 48px, 64px" />
+                sizes="(max-width: 768px) 48px, 64px"
+              />
             </div>
           </div>
 
@@ -52,9 +56,9 @@ export function PhotoCTA() {
               Show courts, case managers, and employers what Elevate feels like.
             </p>
             <p className="mt-3 text-sm text-black">
-              These aren&apos;t stock photos. They&apos;re the environments,
-              partners, and energy your learners actually experience — from the
-              shop floor to the clinic to the classroom.
+              These aren&apos;t stock photos. They&apos;re the environments, partners, and energy
+              your learners actually experience — from the shop floor to the clinic to the
+              classroom.
             </p>
 
             <div className="mt-6 space-y-3">
@@ -71,9 +75,8 @@ export function PhotoCTA() {
                 I&apos;m an employer / court / partner
               </Link>
               <p className="text-xs text-slate-500">
-                We work with workforce boards, courts, re-entry programs,
-                community orgs, and employers to line training up with real
-                opportunities.
+                We work with workforce boards, courts, re-entry programs, community orgs, and
+                employers to line training up with real opportunities.
               </p>
             </div>
           </div>

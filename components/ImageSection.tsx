@@ -1,5 +1,5 @@
-import Image from "next/image";
-import { getMediaBySlot, MediaSlot } from "../lms-data/mediaSlots";
+import Image from 'next/image';
+import { getMediaBySlot, MediaSlot } from '../lms-data/mediaSlots';
 
 interface ImageSectionProps {
   mediaSlot: MediaSlot;
@@ -24,7 +24,7 @@ export function ImageSection({
     <section className="">
       <div
         className={`mx-auto flex max-w-6xl flex-col gap-6 px-4 py-8 ${
-          reverse ? "md:flex-row-reverse" : "md:flex-row"
+          reverse ? 'md:flex-row-reverse' : 'md:flex-row'
         } md:items-center`}
       >
         <div className="flex-1 space-y-2 text-[11px] md:text-[12px]">

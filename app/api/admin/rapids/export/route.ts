@@ -1,6 +1,6 @@
 /**
  * RAPIDS Export API
- * 
+ *
  * Generates CSV files for RAPIDS bulk upload.
  * Admin only endpoint.
  */
@@ -21,9 +21,8 @@ import { withApiAudit } from '@/lib/audit/withApiAudit';
 export const dynamic = 'force-dynamic';
 
 async function _GET(request: NextRequest) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
   const auth = await apiRequireAdmin(request);
   if (auth.error) return auth.error;
 
@@ -53,16 +52,19 @@ async function _GET(request: NextRequest) {
   }
 
   if (result.errors.length > 0 && result.count === 0) {
-    return NextResponse.json({ 
-      error: result.errors[0],
-      errors: result.errors 
-    }, { status: 400 });
+    return NextResponse.json(
+      {
+        error: result.errors[0],
+        errors: result.errors,
+      },
+      { status: 400 },
+    );
   }
 
   // Return as downloadable CSV
   if (format === 'csv') {
     const filename = `rapids_${type}_${new Date().toISOString().split('T')[0]}.csv`;
-    
+
     return new NextResponse(result.csv, {
       headers: {
         'Content-Type': 'text/csv',
@@ -85,8 +87,8 @@ async function _GET(request: NextRequest) {
  * POST - Mark records as submitted to RAPIDS
  */
 async function _POST(request: NextRequest) {
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
   const auth = await apiRequireAdmin(request);
   if (auth.error) return auth.error;
 
@@ -107,8 +109,8 @@ async function _POST(request: NextRequest) {
     return NextResponse.json({ error: result.error }, { status: 500 });
   }
 
-  return NextResponse.json({ 
-    success: true, 
+  return NextResponse.json({
+    success: true,
     message: `${enrollment_ids.length} records marked as submitted`,
   });
 }

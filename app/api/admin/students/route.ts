@@ -9,9 +9,15 @@ export const dynamic = 'force-dynamic';
 
 async function requireAdmin() {
   const supabase = await createClient();
-const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return { error: 'Unauthorized', status: 401 };
-  const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).maybeSingle();
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('role')
+    .eq('id', user.id)
+    .maybeSingle();
   if (!profile || !['admin', 'super_admin', 'staff'].includes(profile.role)) {
     return { error: 'Forbidden', status: 403 };
   }
@@ -19,12 +25,11 @@ const { data: { user } } = await supabase.auth.getUser();
 }
 
 async function _GET(request: Request) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const auth = await requireAdmin();
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const auth = await requireAdmin();
   if ('error' in auth) return NextResponse.json({ error: auth.error }, { status: auth.status });
-  
+
   try {
     const { searchParams } = new URL(request.url);
     const status = searchParams.get('status');
@@ -36,7 +41,8 @@ const auth = await requireAdmin();
 
     let query = auth.supabase
       .from('profiles')
-      .select(`
+      .select(
+        `
         *,
         enrollments:enrollments(
           id,
@@ -46,7 +52,9 @@ const auth = await requireAdmin();
           hours_completed,
           programs:program_id(id, title)
         )
-      `, { count: 'exact' })
+      `,
+        { count: 'exact' },
+      )
       .eq('role', 'student')
       .order('created_at', { ascending: false })
       .range(offset, offset + limit - 1);
@@ -65,7 +73,7 @@ const auth = await requireAdmin();
     // Filter by enrollment status/program if needed
     let filteredStudents = students || [];
     if (status || programId) {
-      filteredStudents = filteredStudents.filter(student => {
+      filteredStudents = filteredStudents.filter((student) => {
         const enrollments = student.enrollments || [];
         return enrollments.some((e: any) => {
           if (status && e.status !== status) return false;
@@ -81,8 +89,8 @@ const auth = await requireAdmin();
         page,
         limit,
         total: count || 0,
-        totalPages: Math.ceil((count || 0) / limit)
-      }
+        totalPages: Math.ceil((count || 0) / limit),
+      },
     });
   } catch (error: any) {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
@@ -90,15 +98,15 @@ const auth = await requireAdmin();
 }
 
 async function _POST(request: Request) {
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
 
   const auth = await requireAdmin();
   if ('error' in auth) return NextResponse.json({ error: auth.error }, { status: auth.status });
-  
+
   try {
     const body = await request.json();
-    
+
     // Create profile for new student
     const { data: student, error } = await auth.supabase
       .from('profiles')

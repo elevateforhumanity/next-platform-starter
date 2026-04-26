@@ -23,7 +23,9 @@ export default async function ProgramGradesPage({
 
   const { data: enrollments } = await db
     .from('program_enrollments')
-    .select('id, user_id, progress, status, grade, enrolled_at, profiles!program_enrollments_user_id_fkey(full_name, email)')
+    .select(
+      'id, user_id, progress, status, grade, enrolled_at, profiles!program_enrollments_user_id_fkey(full_name, email)',
+    )
     .eq('program_id', programId)
     .order('enrolled_at', { ascending: false })
     .limit(100);
@@ -74,17 +76,25 @@ export default async function ProgramGradesPage({
                   return (
                     <tr key={item.id} className="hover:bg-white">
                       <td className="py-3">
-                        <p className="font-medium text-slate-900">{profile?.full_name || 'Unknown'}</p>
+                        <p className="font-medium text-slate-900">
+                          {profile?.full_name || 'Unknown'}
+                        </p>
                         <p className="text-xs text-slate-700">{profile?.email || ''}</p>
                       </td>
                       <td className="py-3 text-center font-medium">{item.progress || 0}%</td>
                       <td className="py-3 text-center font-bold">{item.grade || '—'}</td>
                       <td className="py-3 text-center">
-                        <span className={`text-xs font-medium px-2 py-1 rounded ${
-                          item.status === 'completed' ? 'bg-brand-green-100 text-brand-green-800' :
-                          item.status === 'active' ? 'bg-brand-blue-100 text-brand-blue-800' :
-                          'bg-white text-slate-700'
-                        }`}>{item.status}</span>
+                        <span
+                          className={`text-xs font-medium px-2 py-1 rounded ${
+                            item.status === 'completed'
+                              ? 'bg-brand-green-100 text-brand-green-800'
+                              : item.status === 'active'
+                                ? 'bg-brand-blue-100 text-brand-blue-800'
+                                : 'bg-white text-slate-700'
+                          }`}
+                        >
+                          {item.status}
+                        </span>
                       </td>
                     </tr>
                   );

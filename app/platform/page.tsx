@@ -1,4 +1,3 @@
-
 import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -105,10 +104,18 @@ const complianceItems = [
 ];
 
 const pipeline = [
-  { n: '01', label: 'Intake & Eligibility', desc: 'WIOA screening, enrollment, funding verification' },
+  {
+    n: '01',
+    label: 'Intake & Eligibility',
+    desc: 'WIOA screening, enrollment, funding verification',
+  },
   { n: '02', label: 'Training Delivery', desc: 'LMS, apprenticeships, in-person, hybrid' },
   { n: '03', label: 'Compliance & Reporting', desc: 'Attendance, FERPA, DOL/DWD audit-ready' },
-  { n: '04', label: 'Employer Placement', desc: 'Pipeline matching, partner hiring, career services' },
+  {
+    n: '04',
+    label: 'Employer Placement',
+    desc: 'Pipeline matching, partner hiring, career services',
+  },
   { n: '05', label: 'Outcome Tracking', desc: 'Credentials, employment, wage gains, retention' },
 ];
 
@@ -133,21 +140,35 @@ export default function PlatformPage() {
             transcript={hero.transcript}
             analyticsName={hero.analyticsName}
           >
-            <p className="text-brand-red-600 font-bold text-xs uppercase tracking-widest mb-4">What This Is</p>
+            <p className="text-brand-red-600 font-bold text-xs uppercase tracking-widest mb-4">
+              What This Is
+            </p>
             <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 leading-tight mb-6">
-              Workforce infrastructure for providers, agencies, and employers — not a course platform.
+              Workforce infrastructure for providers, agencies, and employers — not a course
+              platform.
             </h1>
             <p className="text-black text-lg leading-relaxed mb-4 max-w-3xl">
-              Elevate operates a multi-tenant Workforce Development Hub. Training providers deliver programs under the hub. Credential authorities issue certifications. Employers access a verified graduate pipeline. Workforce agencies run compliance reports. All roles operate from one coordinated system with isolated data and role-based access.
+              Elevate operates a multi-tenant Workforce Development Hub. Training providers deliver
+              programs under the hub. Credential authorities issue certifications. Employers access
+              a verified graduate pipeline. Workforce agencies run compliance reports. All roles
+              operate from one coordinated system with isolated data and role-based access.
             </p>
             <p className="text-black text-base leading-relaxed max-w-3xl mb-8">
-              If you are a workforce board, training provider, government agency, or employer looking for infrastructure built for WIOA, DOL, and state funding compliance — this is what you are looking at.
+              If you are a workforce board, training provider, government agency, or employer
+              looking for infrastructure built for WIOA, DOL, and state funding compliance — this is
+              what you are looking at.
             </p>
             <div className="flex flex-wrap gap-3">
-              <Link href="/contact" className="inline-flex items-center gap-2 bg-brand-red-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-brand-red-700 transition text-sm">
+              <Link
+                href="/contact"
+                className="inline-flex items-center gap-2 bg-brand-red-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-brand-red-700 transition text-sm"
+              >
                 Schedule a Demo <ArrowRight className="w-4 h-4" />
               </Link>
-              <Link href="/store/licensing" className="inline-flex items-center gap-2 border border-slate-300 text-slate-700 px-6 py-3 rounded-lg font-bold hover:bg-slate-50 transition text-sm">
+              <Link
+                href="/store/licensing"
+                className="inline-flex items-center gap-2 border border-slate-300 text-slate-700 px-6 py-3 rounded-lg font-bold hover:bg-slate-50 transition text-sm"
+              >
                 Licensing Options
               </Link>
             </div>
@@ -159,12 +180,19 @@ export default function PlatformPage() {
       <section className="py-16 sm:py-20 border-b">
         <div className="max-w-6xl mx-auto px-6">
           <div className="mb-12">
-            <p className="text-brand-red-600 font-bold text-xs uppercase tracking-widest mb-2">Platform Capabilities</p>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">Built for funders, auditors, and regulators</h2>
+            <p className="text-brand-red-600 font-bold text-xs uppercase tracking-widest mb-2">
+              Platform Capabilities
+            </p>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">
+              Built for funders, auditors, and regulators
+            </h2>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {capabilities.map((cap) => (
-              <div key={cap.label} className="bg-white rounded-xl border border-slate-200 overflow-hidden">
+              <div
+                key={cap.label}
+                className="bg-white rounded-xl border border-slate-200 overflow-hidden"
+              >
                 <div className="relative w-full aspect-[4/3]" style={{ aspectRatio: '16/10' }}>
                   <Image
                     src={cap.image}
@@ -188,8 +216,12 @@ export default function PlatformPage() {
       <section className="py-16 sm:py-20 border-b">
         <div className="max-w-6xl mx-auto px-6">
           <div className="mb-12">
-            <p className="text-brand-red-600 font-bold text-xs uppercase tracking-widest mb-2">End-to-End Pipeline</p>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-3">Every stage in one system</h2>
+            <p className="text-brand-red-600 font-bold text-xs uppercase tracking-widest mb-2">
+              End-to-End Pipeline
+            </p>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-3">
+              Every stage in one system
+            </h2>
             <p className="text-black text-sm max-w-2xl leading-relaxed">
               From first contact to verified employment outcome — no handoffs to disconnected tools.
             </p>
@@ -217,12 +249,19 @@ export default function PlatformPage() {
       <section className="py-16 sm:py-20 border-b">
         <div className="max-w-6xl mx-auto px-6">
           <div className="mb-12">
-            <p className="text-brand-red-600 font-bold text-xs uppercase tracking-widest mb-2">Who It Serves</p>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">Find your path into the platform</h2>
+            <p className="text-brand-red-600 font-bold text-xs uppercase tracking-widest mb-2">
+              Who It Serves
+            </p>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">
+              Find your path into the platform
+            </h2>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {audiences.map((a) => (
-              <div key={a.title} className="bg-white rounded-xl border border-slate-200 overflow-hidden flex flex-col">
+              <div
+                key={a.title}
+                className="bg-white rounded-xl border border-slate-200 overflow-hidden flex flex-col"
+              >
                 <div className="relative w-full aspect-[4/3]" style={{ aspectRatio: '4/3' }}>
                   <Image
                     src={a.image}
@@ -235,7 +274,10 @@ export default function PlatformPage() {
                 <div className="p-5 flex flex-col flex-1">
                   <h3 className="font-bold text-slate-900 mb-2">{a.title}</h3>
                   <p className="text-black text-sm leading-relaxed flex-1 mb-4">{a.desc}</p>
-                  <Link href={a.href} className="inline-flex items-center gap-1 text-brand-red-600 hover:text-brand-red-700 text-sm font-semibold">
+                  <Link
+                    href={a.href}
+                    className="inline-flex items-center gap-1 text-brand-red-600 hover:text-brand-red-700 text-sm font-semibold"
+                  >
                     {a.cta} <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
                 </div>
@@ -250,12 +292,16 @@ export default function PlatformPage() {
         <div className="max-w-6xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
-              <p className="text-brand-red-600 font-bold text-xs uppercase tracking-widest mb-3">Compliance & Security</p>
+              <p className="text-brand-red-600 font-bold text-xs uppercase tracking-widest mb-3">
+                Compliance & Security
+              </p>
               <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-4">
                 Designed for organizations that answer to funders and auditors
               </h2>
               <p className="text-black text-sm leading-relaxed mb-6">
-                Every design decision in this platform was made with workforce funding compliance in mind. WIOA, WRG, Job Ready Indy, and DOL Registered Apprenticeship requirements are not bolted on — they are in the data model.
+                Every design decision in this platform was made with workforce funding compliance in
+                mind. WIOA, WRG, Job Ready Indy, and DOL Registered Apprenticeship requirements are
+                not bolted on — they are in the data model.
               </p>
               <ul className="space-y-3">
                 {complianceItems.map((item) => (
@@ -266,12 +312,18 @@ export default function PlatformPage() {
                 ))}
               </ul>
               <div className="mt-6">
-                <Link href="/compliance" className="text-sm font-semibold text-brand-red-600 hover:text-brand-red-700">
+                <Link
+                  href="/compliance"
+                  className="text-sm font-semibold text-brand-red-600 hover:text-brand-red-700"
+                >
                   Full compliance documentation →
                 </Link>
               </div>
             </div>
-            <div className="relative min-h-[320px] rounded-xl overflow-hidden" style={{ aspectRatio: '4/3' }}>
+            <div
+              className="relative min-h-[320px] rounded-xl overflow-hidden"
+              style={{ aspectRatio: '4/3' }}
+            >
               <Image
                 src="/images/pages/platform-page-12.jpg"
                 alt="Compliance and audit infrastructure"
@@ -287,21 +339,33 @@ export default function PlatformPage() {
       {/* PRIMARY CTA */}
       <section className="py-16 sm:py-20">
         <div className="max-w-3xl mx-auto px-6 text-center">
-          <p className="text-brand-red-600 font-bold text-xs uppercase tracking-widest mb-4">Get Started</p>
+          <p className="text-brand-red-600 font-bold text-xs uppercase tracking-widest mb-4">
+            Get Started
+          </p>
           <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-4">
             Ready to operate on the platform?
           </h2>
           <p className="text-black text-base leading-relaxed mb-8 max-w-xl mx-auto">
-            Whether you are a training provider, workforce board, employer, or organization looking to license the infrastructure — the next step is a conversation.
+            Whether you are a training provider, workforce board, employer, or organization looking
+            to license the infrastructure — the next step is a conversation.
           </p>
           <div className="flex flex-wrap gap-3 justify-center">
-            <Link href="/contact" className="inline-flex items-center gap-2 bg-brand-red-600 text-white px-8 py-3.5 rounded-lg font-bold hover:bg-brand-red-700 transition">
+            <Link
+              href="/contact"
+              className="inline-flex items-center gap-2 bg-brand-red-600 text-white px-8 py-3.5 rounded-lg font-bold hover:bg-brand-red-700 transition"
+            >
               Schedule a Demo <ArrowRight className="w-4 h-4" />
             </Link>
-            <Link href="/platform/providers" className="inline-flex items-center gap-2 border border-slate-300 text-slate-700 px-8 py-3.5 rounded-lg font-bold hover:bg-slate-50 transition">
+            <Link
+              href="/platform/providers"
+              className="inline-flex items-center gap-2 border border-slate-300 text-slate-700 px-8 py-3.5 rounded-lg font-bold hover:bg-slate-50 transition"
+            >
               Provider Requirements
             </Link>
-            <Link href="/store/licensing" className="inline-flex items-center gap-2 border border-slate-300 text-slate-700 px-8 py-3.5 rounded-lg font-bold hover:bg-slate-50 transition">
+            <Link
+              href="/store/licensing"
+              className="inline-flex items-center gap-2 border border-slate-300 text-slate-700 px-8 py-3.5 rounded-lg font-bold hover:bg-slate-50 transition"
+            >
               Licensing Options
             </Link>
           </div>

@@ -23,24 +23,14 @@ export default function ServiceHero({
   return (
     <section className="relative w-full h-[500px] overflow-hidden">
       <div className="absolute inset-0">
-        <Image
-          src={imageUrl}
-          alt={title}
-          fill
-          className="object-cover"
-          priority
-         sizes="100vw" />
+        <Image src={imageUrl} alt={title} fill className="object-cover" priority sizes="100vw" />
       </div>
-      
+
       <div className="relative h-full flex items-center">
         <div className="max-w-7xl mx-auto px-6 text-white">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6">
-            {title}
-          </h1>
-          <p className="text-xl md:text-2xl mb-8 max-w-3xl">
-            {subtitle}
-          </p>
-          
+          <h1 className="text-5xl md:text-6xl font-bold mb-6">{title}</h1>
+          <p className="text-xl md:text-2xl mb-8 max-w-3xl">{subtitle}</p>
+
           {(ctaText || secondaryCtaText) && (
             <div className="flex flex-wrap gap-4">
               {ctaText && ctaHref && (

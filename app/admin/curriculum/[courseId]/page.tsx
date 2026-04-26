@@ -20,9 +20,10 @@ export default async function CurriculumCourseEditorPage({
 }) {
   const { courseId } = await params;
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login');
-
 
   const { data: profile } = await supabase
     .from('profiles')
@@ -45,8 +46,7 @@ export default async function CurriculumCourseEditorPage({
     ? await supabase.from('programs').select('id, title').eq('id', courseId).maybeSingle()
     : { data: null };
 
-  const courseName =
-    trainingCourse?.title ?? program?.name ?? null;
+  const courseName = trainingCourse?.title ?? program?.name ?? null;
 
   // Count curriculum_lessons rows for this courseId
   const { count: lessonCount } = await supabase
@@ -115,7 +115,8 @@ export default async function CurriculumCourseEditorPage({
               {courseName ?? 'Curriculum Editor'}
             </h1>
             <p className="text-sm text-slate-500 mt-1">
-              {lessonCount ?? 0} lesson{lessonCount !== 1 ? 's' : ''} across {modules.length} module{modules.length !== 1 ? 's' : ''}
+              {lessonCount ?? 0} lesson{lessonCount !== 1 ? 's' : ''} across {modules.length} module
+              {modules.length !== 1 ? 's' : ''}
             </p>
           </div>
 
@@ -144,9 +145,7 @@ export default async function CurriculumCourseEditorPage({
                         className="flex items-center justify-between text-sm text-slate-700 hover:text-brand-blue-600 py-1 px-2 rounded hover:bg-slate-50 transition"
                       >
                         <span className="truncate">{mod.title}</span>
-                        <span className="text-xs text-slate-400 ml-2 shrink-0">
-                          {mod.count}
-                        </span>
+                        <span className="text-xs text-slate-400 ml-2 shrink-0">{mod.count}</span>
                       </a>
                     </li>
                   ))}

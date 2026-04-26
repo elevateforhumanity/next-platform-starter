@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { Check } from 'lucide-react';
 import Link from 'next/link';
@@ -20,9 +20,7 @@ export function AppPricingScreen() {
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-black mb-2">
-            Choose Your Access Level
-          </h1>
+          <h1 className="text-3xl font-bold text-black mb-2">Choose Your Access Level</h1>
           <p className="text-black">
             The app is free to download. Some programs require paid platform access.
           </p>
@@ -45,12 +43,8 @@ export function AppPricingScreen() {
 
               <div className="flex justify-between items-start mb-4">
                 <div>
-                  <h2 className="text-xl font-bold text-black">
-                    {product.name}
-                  </h2>
-                  <p className="text-sm text-black mt-1">
-                    {product.description}
-                  </p>
+                  <h2 className="text-xl font-bold text-black">{product.name}</h2>
+                  <p className="text-sm text-black mt-1">{product.description}</p>
                 </div>
                 <div className="text-right">
                   <div className="text-2xl font-bold text-black">
@@ -107,7 +101,8 @@ export function AppPricingScreen() {
         <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-xl p-4 text-sm text-black">
           <p className="font-semibold mb-2">Important:</p>
           <p>
-            Prices apply to platform access. Training and services may be paid separately through our website.
+            Prices apply to platform access. Training and services may be paid separately through
+            our website.
           </p>
           <p className="mt-2">
             <strong>Payments are processed securely on our website.</strong>

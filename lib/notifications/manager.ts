@@ -37,7 +37,8 @@ export class NotificationManager {
     try {
       const permission = await Notification.requestPermission();
       return permission === 'granted';
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
       return false;
     }
@@ -65,7 +66,8 @@ export class NotificationManager {
         await this.sendSubscriptionToServer(subscription);
       }
       return subscription;
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
       return null;
     }
@@ -84,15 +86,13 @@ export class NotificationManager {
         return true;
       }
       return false;
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
       return false;
     }
   }
-  async sendNotification(
-    title: string,
-    options?: NotificationOptions
-  ): Promise<void> {
+  async sendNotification(title: string, options?: NotificationOptions): Promise<void> {
     const permission = await this.getPermissionStatus();
     if (!permission.granted) {
       return;
@@ -113,43 +113,33 @@ export class NotificationManager {
       });
     }
   }
-  private async sendSubscriptionToServer(
-    subscription: PushSubscription
-  ): Promise<void> {
+  private async sendSubscriptionToServer(subscription: PushSubscription): Promise<void> {
     try {
       await fetch('/api/notifications/subscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(subscription),
       });
-    } catch (error) { /* Error handled silently */ 
-      logger.error(
-        '[Notifications] Failed to send subscription to server:',
-        error
-      );
+    } catch (error) {
+      /* Error handled silently */
+      logger.error('[Notifications] Failed to send subscription to server:', error);
     }
   }
-  private async removeSubscriptionFromServer(
-    subscription: PushSubscription
-  ): Promise<void> {
+  private async removeSubscriptionFromServer(subscription: PushSubscription): Promise<void> {
     try {
       await fetch('/api/notifications/unsubscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(subscription),
       });
-    } catch (error) { /* Error handled silently */ 
-      logger.error(
-        '[Notifications] Failed to remove subscription from server:',
-        error
-      );
+    } catch (error) {
+      /* Error handled silently */
+      logger.error('[Notifications] Failed to remove subscription from server:', error);
     }
   }
   private urlBase64ToUint8Array(base64String: string): BufferSource {
     const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
-    const base64 = (base64String + padding)
-      .replace(/-/g, '+')
-      .replace(/_/g, '/');
+    const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
     const rawData = window.atob(base64);
     const outputArray = new Uint8Array(rawData.length);
     for (let i = 0; i < rawData.length; ++i) {

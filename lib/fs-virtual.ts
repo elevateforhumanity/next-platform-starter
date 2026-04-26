@@ -1,4 +1,3 @@
-
 import { gh, parseRepo } from './github';
 
 export async function readFile(repo: string, path: string, ref = 'main') {
@@ -25,7 +24,7 @@ export async function writeFile(
   path: string,
   content: string,
   sha?: string,
-  branch = 'main'
+  branch = 'main',
 ) {
   const { owner, name } = parseRepo(repo);
   const client = gh();
@@ -61,16 +60,13 @@ export async function listFiles(repo: string, folder: string, ref = 'main') {
     if (!Array.isArray(res.data)) return [];
 
     return res.data.map((f) => f.path);
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     return [];
   }
 }
 
-export async function fileExists(
-  repo: string,
-  path: string,
-  ref = 'main'
-): Promise<boolean> {
+export async function fileExists(repo: string, path: string, ref = 'main'): Promise<boolean> {
   try {
     await readFile(repo, path, ref);
     return true;
@@ -79,12 +75,7 @@ export async function fileExists(
   }
 }
 
-export async function deleteFile(
-  repo: string,
-  path: string,
-  sha: string,
-  branch = 'main'
-) {
+export async function deleteFile(repo: string, path: string, sha: string, branch = 'main') {
   const { owner, name } = parseRepo(repo);
   const client = gh();
 

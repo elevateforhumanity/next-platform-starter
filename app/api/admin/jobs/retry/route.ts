@@ -6,7 +6,6 @@
  * will fail permanently if it exceeds MAX_ATTEMPTS again.
  */
 
-
 import { NextRequest, NextResponse } from 'next/server';
 import { getAdminClient } from '@/lib/supabase/admin';
 import { createClient } from '@/lib/supabase/server';
@@ -17,7 +16,9 @@ export const dynamic = 'force-dynamic';
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   // Verify admin role

@@ -16,12 +16,7 @@
       },
       {
         "prompt": "Which personal protective equipment is essential for barbers during chemical services?",
-        "choices": [
-          "Cotton gloves",
-          "Nitrile gloves",
-          "Wool gloves",
-          "Plastic gloves"
-        ],
+        "choices": ["Cotton gloves", "Nitrile gloves", "Wool gloves", "Plastic gloves"],
         "answerIndex": 1,
         "rationale": "Nitrile gloves are essential because they provide a barrier against a wide range of chemicals.",
         "type": "recall"
@@ -76,12 +71,7 @@
       },
       {
         "prompt": "Which area is commonly used for a patch test?",
-        "choices": [
-          "Back of the hand",
-          "Inner forearm",
-          "Top of the foot",
-          "Outer thigh"
-        ],
+        "choices": ["Back of the hand", "Inner forearm", "Top of the foot", "Outer thigh"],
         "answerIndex": 1,
         "rationale": "The inner forearm is a discreet area commonly used for patch tests.",
         "type": "recall"

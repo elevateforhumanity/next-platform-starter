@@ -30,16 +30,13 @@ try {
   const keyMatch = envContent.match(/VITE_SUPABASE_ANON_KEY=(.+)/);
 
   SUPABASE_URL = urlMatch ? urlMatch[1].trim() : process.env.VITE_SUPABASE_URL;
-  SUPABASE_KEY = keyMatch
-    ? keyMatch[1].trim()
-    : process.env.VITE_SUPABASE_ANON_KEY;
+  SUPABASE_KEY = keyMatch ? keyMatch[1].trim() : process.env.VITE_SUPABASE_ANON_KEY;
 } catch (err) {
   SUPABASE_URL = process.env.VITE_SUPABASE_URL;
   SUPABASE_KEY = process.env.VITE_SUPABASE_ANON_KEY;
 }
 
 const projectRef = SUPABASE_URL?.match(/https:\/\/([^.]+)\.supabase\.co/)?.[1];
-
 
 // Check if tables exist
 async function checkTables() {
@@ -55,33 +52,28 @@ async function checkTables() {
   const checks = await Promise.all(
     tables.map(async (table) => {
       try {
-        const response = await fetch(
-          `${SUPABASE_URL}/rest/v1/${table}?limit=0`,
-          {
-            headers: {
-              apikey: SUPABASE_KEY,
-              Authorization: `Bearer ${SUPABASE_KEY}`,
-            },
-          }
-        );
+        const response = await fetch(`${SUPABASE_URL}/rest/v1/${table}?limit=0`, {
+          headers: {
+            apikey: SUPABASE_KEY,
+            Authorization: `Bearer ${SUPABASE_KEY}`,
+          },
+        });
         return { table, exists: response.ok || response.status === 416 };
       } catch {
         return { table, exists: false };
       }
-    })
+    }),
   );
 
   return checks.every((c) => c.exists);
 }
 
 async function main() {
-
   const tablesExist = await checkTables();
 
   if (tablesExist) {
     process.exit(0);
   }
-
 
   // Create combined setup file
   const migrationsFile = join(
@@ -89,7 +81,7 @@ async function main() {
     '..',
     'supabase',
     'migrations',
-    'ALL_IN_ONE__paste_into_dashboard.sql'
+    'ALL_IN_ONE__paste_into_dashboard.sql',
   );
   const vitaFile = join(__dirname, 'add-vita-course.sql');
   const outputFile = join(__dirname, '..', 'COMPLETE_SETUP.sql');
@@ -117,7 +109,6 @@ ${vita}
 `;
 
     writeFileSync(outputFile, combined);
-
   } catch (err) {
     console.error('❌ Error creating setup file:', err.message);
     process.exit(1);
@@ -126,26 +117,18 @@ ${vita}
   // Try to open in browser
   const dashboardUrl = `https://supabase.com/dashboard/project/${projectRef}/sql/new`;
 
-
   try {
     const command =
-      process.platform === 'darwin'
-        ? 'open'
-        : process.platform === 'win32'
-          ? 'start'
-          : 'xdg-open';
+      process.platform === 'darwin' ? 'open' : process.platform === 'win32' ? 'start' : 'xdg-open';
 
     await execAsync(`${command} "${dashboardUrl}"`);
-  } catch {
-  }
+  } catch {}
 
   // Try to open file in editor
 
   try {
     await execAsync(`code "${outputFile}"`);
-  } catch {
-  }
-
+  } catch {}
 
   // Create a reminder file
   const reminderFile = join(__dirname, '..', 'AUTOPILOT_REMINDER.txt');
@@ -179,9 +162,8 @@ This is industry standard for database security.
 VERIFY:
 Run: pnpm autopilot:migrate
 Should show: ✅ DATABASE ALREADY CONFIGURED!
-`
+`,
   );
-
 }
 
 main().catch((err) => {

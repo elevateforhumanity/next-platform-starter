@@ -16,11 +16,11 @@ interface Course {
   title: string;
 }
 
-export default function AttendanceRecordForm({ 
-  students: initialStudents, 
-  courses 
-}: { 
-  students: Student[]; 
+export default function AttendanceRecordForm({
+  students: initialStudents,
+  courses,
+}: {
+  students: Student[];
   courses: Course[];
 }) {
   const router = useRouter();
@@ -28,7 +28,7 @@ export default function AttendanceRecordForm({
   const [courseId, setCourseId] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-  const [attendance, setAttendance] = useState(initialStudents.map(s => ({ ...s })));
+  const [attendance, setAttendance] = useState(initialStudents.map((s) => ({ ...s })));
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,9 +36,9 @@ export default function AttendanceRecordForm({
 
     try {
       const supabase = createClient();
-      
+
       // Record attendance for each student
-      const records = attendance.map(student => ({
+      const records = attendance.map((student) => ({
         student_id: student.id,
         course_id: courseId || null,
         attendance_date: date,
@@ -46,9 +46,7 @@ export default function AttendanceRecordForm({
         recorded_at: new Date().toISOString(),
       }));
 
-      const { error } = await supabase
-        .from('attendance_records')
-        .insert(records);
+      const { error } = await supabase.from('attendance_records').insert(records);
 
       if (error) {
         console.error('Error recording attendance:', error);
@@ -79,23 +77,25 @@ export default function AttendanceRecordForm({
       <div className="grid md:grid-cols-2 gap-4">
         <div>
           <label className="block text-sm font-medium text-slate-900 mb-2">Date</label>
-          <input 
-            type="date" 
-            value={date} 
+          <input
+            type="date"
+            value={date}
             onChange={(e) => setDate(e.target.value)}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg" 
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg"
           />
         </div>
         <div>
           <label className="block text-sm font-medium text-slate-900 mb-2">Course</label>
-          <select 
-            value={courseId} 
+          <select
+            value={courseId}
             onChange={(e) => setCourseId(e.target.value)}
             className="w-full px-4 py-3 border border-gray-300 rounded-lg"
           >
             <option value="">Select course (optional)</option>
             {courses.map((course) => (
-              <option key={course.id} value={course.id}>{course.title}</option>
+              <option key={course.id} value={course.id}>
+                {course.title}
+              </option>
             ))}
           </select>
         </div>
@@ -105,34 +105,37 @@ export default function AttendanceRecordForm({
         <h3 className="font-semibold text-slate-900 mb-4">Students ({attendance.length})</h3>
         <div className="space-y-2">
           {attendance.map((student, i) => (
-            <div key={student.id} className="flex items-center justify-between p-3 bg-white rounded-lg">
+            <div
+              key={student.id}
+              className="flex items-center justify-between p-3 bg-white rounded-lg"
+            >
               <span className="font-medium text-slate-900">{student.name}</span>
               <div className="flex gap-4">
                 <label className="flex items-center cursor-pointer">
-                  <input 
-                    type="radio" 
-                    name={`student-${student.id}`} 
+                  <input
+                    type="radio"
+                    name={`student-${student.id}`}
                     checked={student.present}
-                    onChange={() => { 
-                      const newAtt = [...attendance]; 
-                      newAtt[i].present = true; 
-                      setAttendance(newAtt); 
+                    onChange={() => {
+                      const newAtt = [...attendance];
+                      newAtt[i].present = true;
+                      setAttendance(newAtt);
                     }}
-                    className="w-4 h-4 text-brand-green-600" 
+                    className="w-4 h-4 text-brand-green-600"
                   />
                   <span className="ml-2 text-brand-green-600">Present</span>
                 </label>
                 <label className="flex items-center cursor-pointer">
-                  <input 
-                    type="radio" 
-                    name={`student-${student.id}`} 
+                  <input
+                    type="radio"
+                    name={`student-${student.id}`}
                     checked={!student.present}
-                    onChange={() => { 
-                      const newAtt = [...attendance]; 
-                      newAtt[i].present = false; 
-                      setAttendance(newAtt); 
+                    onChange={() => {
+                      const newAtt = [...attendance];
+                      newAtt[i].present = false;
+                      setAttendance(newAtt);
                     }}
-                    className="w-4 h-4 text-brand-red-600" 
+                    className="w-4 h-4 text-brand-red-600"
                   />
                   <span className="ml-2 text-brand-red-600">Absent</span>
                 </label>
@@ -142,8 +145,8 @@ export default function AttendanceRecordForm({
         </div>
       </div>
 
-      <button 
-        type="submit" 
+      <button
+        type="submit"
         disabled={submitting}
         className="w-full bg-brand-blue-600 hover:bg-brand-blue-700 disabled:bg-brand-blue-400 text-white py-3 rounded-lg font-bold flex items-center justify-center"
       >

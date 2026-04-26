@@ -23,52 +23,52 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 // Add entries here when a new alias is discovered — never in route code.
 const SLUG_ALIASES: Record<string, string> = {
   // CNA
-  'cna certification':                    'cna',
-  'cna training':                         'cna',
-  'certified nursing assistant':          'cna',
+  'cna certification': 'cna',
+  'cna training': 'cna',
+  'certified nursing assistant': 'cna',
   // HVAC
-  'hvac':                                 'hvac-technician',
-  'hvac tech':                            'hvac-technician',
-  'hvac technician':                      'hvac-technician',
+  hvac: 'hvac-technician',
+  'hvac tech': 'hvac-technician',
+  'hvac technician': 'hvac-technician',
   // Cosmetology
-  'cosmetology apprenticeship':           'cosmetology-apprenticeship',
-  'cosmetology':                          'cosmetology-apprenticeship',
+  'cosmetology apprenticeship': 'cosmetology-apprenticeship',
+  cosmetology: 'cosmetology-apprenticeship',
   'hair stylist esthetician apprenticeship': 'cosmetology-apprenticeship',
   // Barber
-  'barber apprenticeship':                'barber-apprenticeship',
-  'barber':                               'barber-apprenticeship',
-  'barbering':                            'barber-apprenticeship',
+  'barber apprenticeship': 'barber-apprenticeship',
+  barber: 'barber-apprenticeship',
+  barbering: 'barber-apprenticeship',
   // Medical
-  'medical assistant':                    'medical-assistant',
-  'phlebotomy':                           'phlebotomy-technician',
-  'phlebotomy technician':                'phlebotomy-technician',
-  'home health aide':                     'home-health-aide',
+  'medical assistant': 'medical-assistant',
+  phlebotomy: 'phlebotomy-technician',
+  'phlebotomy technician': 'phlebotomy-technician',
+  'home health aide': 'home-health-aide',
   // Business
-  'accounting':                           'bookkeeping',
-  'bookkeeping':                          'bookkeeping',
-  'entrepreneurship':                     'entrepreneurship-small-business',
-  'entrepreneurship small business':      'entrepreneurship-small-business',
+  accounting: 'bookkeeping',
+  bookkeeping: 'bookkeeping',
+  entrepreneurship: 'entrepreneurship-small-business',
+  'entrepreneurship small business': 'entrepreneurship-small-business',
   // Electrical / trades
-  'electrical apprenticeship':            'electrical',
-  'plumbing apprenticeship':              'plumbing',
-  'welding certification':                'welding',
-  'building maintenance':                 'building-maintenance',
-  'building maintenance technician':      'building-maintenance',
+  'electrical apprenticeship': 'electrical',
+  'plumbing apprenticeship': 'plumbing',
+  'welding certification': 'welding',
+  'building maintenance': 'building-maintenance',
+  'building maintenance technician': 'building-maintenance',
   // IT
-  'it support specialist':                'it-support',
-  'it support':                           'it-support',
-  'cybersecurity':                        'cybersecurity-analyst',
-  'cybersecurity fundamentals':           'cybersecurity-analyst',
+  'it support specialist': 'it-support',
+  'it support': 'it-support',
+  cybersecurity: 'cybersecurity-analyst',
+  'cybersecurity fundamentals': 'cybersecurity-analyst',
   // CDL
-  'cdl':                                  'cdl-training',
-  'cdl (commercial driver\'s license)':   'cdl-training',
-  'commercial driver\'s license':         'cdl-training',
+  cdl: 'cdl-training',
+  "cdl (commercial driver's license)": 'cdl-training',
+  "commercial driver's license": 'cdl-training',
   // Other
-  'peer recovery specialist':             'peer-recovery-specialist',
-  'drug & alcohol specimen collector':    'drug-alcohol-specimen-collector',
-  'emergency health & safety tech':       'emergency-health-safety',
-  'public safety reentry specialist':     'public-safety-reentry',
-  'direct support professional':          'direct-support-professional',
+  'peer recovery specialist': 'peer-recovery-specialist',
+  'drug & alcohol specimen collector': 'drug-alcohol-specimen-collector',
+  'emergency health & safety tech': 'emergency-health-safety',
+  'public safety reentry specialist': 'public-safety-reentry',
+  'direct support professional': 'direct-support-professional',
 };
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -100,7 +100,10 @@ export async function resolveProgram(
   }
 
   // ── 2. Exact slug match ──────────────────────────────────────────────────
-  const slugified = raw.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+  const slugified = raw
+    .toLowerCase()
+    .replace(/\s+/g, '-')
+    .replace(/[^a-z0-9-]/g, '');
   {
     const { data } = await db
       .from('programs')
@@ -149,7 +152,13 @@ export async function resolveProgram(
       .select('id, slug, title')
       .eq('slug', slugified)
       .maybeSingle();
-    if (data) return { id: data.id, slug: data.slug ?? slugified, title: data.title, source: 'course_slug' };
+    if (data)
+      return {
+        id: data.id,
+        slug: data.slug ?? slugified,
+        title: data.title,
+        source: 'course_slug',
+      };
   }
 
   // ── 7. Partial title match on courses (legacy) ───────────────────────────
@@ -160,7 +169,13 @@ export async function resolveProgram(
       .ilike('title', `%${raw}%`)
       .limit(1)
       .maybeSingle();
-    if (data) return { id: data.id, slug: data.slug ?? slugified, title: data.title, source: 'course_title' };
+    if (data)
+      return {
+        id: data.id,
+        slug: data.slug ?? slugified,
+        title: data.title,
+        source: 'course_title',
+      };
   }
 
   return null;

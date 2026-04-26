@@ -76,7 +76,16 @@ interface Filters {
 // ─── Constants ────────────────────────────────────────────────────────────────
 
 const PROVIDERS = ['', 'stripe', 'sezzle', 'affirm', 'jotform', 'calendly', 'resend'];
-const STATUSES = ['', 'received', 'validated', 'processing', 'processed', 'failed', 'errored', 'skipped'];
+const STATUSES = [
+  '',
+  'received',
+  'validated',
+  'processing',
+  'processed',
+  'failed',
+  'errored',
+  'skipped',
+];
 
 const STATUS_STYLES: Record<string, string> = {
   processed: 'bg-green-100 text-green-800',
@@ -102,8 +111,11 @@ const PROVIDER_COLORS: Record<string, string> = {
 function fmtDate(iso: string | null) {
   if (!iso) return '—';
   return new Date(iso).toLocaleString('en-US', {
-    month: 'short', day: 'numeric',
-    hour: '2-digit', minute: '2-digit', second: '2-digit',
+    month: 'short',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
   });
 }
 
@@ -121,8 +133,16 @@ function fmtRelative(iso: string | null) {
 // ─── Sub-components ───────────────────────────────────────────────────────────
 
 function SummaryCard({
-  label, value, icon: Icon, color,
-}: { label: string; value: number; icon: React.ElementType; color: string }) {
+  label,
+  value,
+  icon: Icon,
+  color,
+}: {
+  label: string;
+  value: number;
+  icon: React.ElementType;
+  color: string;
+}) {
   return (
     <div className="bg-white rounded-xl border border-gray-200 p-5 flex items-center gap-4">
       <div className={`p-3 rounded-lg ${color}`}>
@@ -141,14 +161,20 @@ function ProviderCard({ p }: { p: ProviderHealth }) {
   const errorRate = p.last24h > 0 ? Math.round((errorCount / p.last24h) * 100) : 0;
 
   return (
-    <div className={`bg-white rounded-xl border-2 p-5 ${p.healthy ? 'border-gray-200' : 'border-red-300'}`}>
+    <div
+      className={`bg-white rounded-xl border-2 p-5 ${p.healthy ? 'border-gray-200' : 'border-red-300'}`}
+    >
       <div className="flex items-center justify-between mb-3">
-        <span className={`text-xs font-semibold px-2 py-1 rounded-full uppercase tracking-wide ${PROVIDER_COLORS[p.provider] || 'bg-gray-100 text-slate-900'}`}>
+        <span
+          className={`text-xs font-semibold px-2 py-1 rounded-full uppercase tracking-wide ${PROVIDER_COLORS[p.provider] || 'bg-gray-100 text-slate-900'}`}
+        >
           {p.provider}
         </span>
-        {p.healthy
-          ? <CheckCircle2 className="h-5 w-5 text-green-500" />
-          : <AlertTriangle className="h-5 w-5 text-red-500" />}
+        {p.healthy ? (
+          <CheckCircle2 className="h-5 w-5 text-green-500" />
+        ) : (
+          <AlertTriangle className="h-5 w-5 text-red-500" />
+        )}
       </div>
 
       <div className="grid grid-cols-2 gap-2 text-sm mb-3">
@@ -162,7 +188,9 @@ function ProviderCard({ p }: { p: ProviderHealth }) {
         </div>
         <div>
           <p className="text-slate-700 text-xs">Error rate</p>
-          <p className={`font-bold ${errorRate > 20 ? 'text-red-600' : 'text-slate-900'}`}>{errorRate}%</p>
+          <p className={`font-bold ${errorRate > 20 ? 'text-red-600' : 'text-slate-900'}`}>
+            {errorRate}%
+          </p>
         </div>
         <div>
           <p className="text-slate-700 text-xs">Last event</p>
@@ -179,10 +207,13 @@ function ProviderCard({ p }: { p: ProviderHealth }) {
               title={`${s}: ${n}`}
               style={{ width: `${(n / p.last24h) * 100}%` }}
               className={
-                s === 'processed' ? 'bg-green-400' :
-                s === 'errored' || s === 'failed' ? 'bg-red-400' :
-                s === 'skipped' ? 'bg-gray-300' :
-                'bg-brand-blue-400'
+                s === 'processed'
+                  ? 'bg-green-400'
+                  : s === 'errored' || s === 'failed'
+                    ? 'bg-red-400'
+                    : s === 'skipped'
+                      ? 'bg-gray-300'
+                      : 'bg-brand-blue-400'
               }
             />
           ))}
@@ -194,7 +225,9 @@ function ProviderCard({ p }: { p: ProviderHealth }) {
 
 function StatusBadge({ status }: { status: string }) {
   return (
-    <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${STATUS_STYLES[status] || 'bg-gray-100 text-slate-700'}`}>
+    <span
+      className={`text-xs font-medium px-2 py-0.5 rounded-full ${STATUS_STYLES[status] || 'bg-gray-100 text-slate-700'}`}
+    >
       {status}
     </span>
   );
@@ -202,7 +235,9 @@ function StatusBadge({ status }: { status: string }) {
 
 function ProviderBadge({ provider }: { provider: string }) {
   return (
-    <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${PROVIDER_COLORS[provider] || 'bg-gray-100 text-slate-700'}`}>
+    <span
+      className={`text-xs font-semibold px-2 py-0.5 rounded-full ${PROVIDER_COLORS[provider] || 'bg-gray-100 text-slate-700'}`}
+    >
       {provider}
     </span>
   );
@@ -214,11 +249,7 @@ function EventDrawer({ event, onClose }: { event: WebhookEvent; onClose: () => v
   return (
     <>
       {/* Backdrop */}
-      <div
-        className="fixed inset-0 bg-black/30 z-40"
-        onClick={onClose}
-        aria-hidden="true"
-      />
+      <div className="fixed inset-0 bg-black/30 z-40" onClick={onClose} aria-hidden="true" />
       {/* Panel */}
       <div
         role="dialog"
@@ -268,7 +299,9 @@ function EventDrawer({ event, onClose }: { event: WebhookEvent; onClose: () => v
           {/* Metadata */}
           {event.metadata && Object.keys(event.metadata).length > 0 && (
             <div>
-              <p className="text-xs font-semibold text-slate-700 uppercase tracking-wide mb-2">Metadata</p>
+              <p className="text-xs font-semibold text-slate-700 uppercase tracking-wide mb-2">
+                Metadata
+              </p>
               <pre className="bg-gray-50 border border-gray-200 rounded-lg p-4 text-xs font-mono overflow-x-auto whitespace-pre-wrap break-all">
                 {JSON.stringify(event.metadata, null, 2)}
               </pre>
@@ -284,7 +317,9 @@ function Field({ label, value, mono }: { label: string; value: string; mono?: bo
   return (
     <div>
       <dt className="text-xs font-semibold text-slate-700 uppercase tracking-wide">{label}</dt>
-      <dd className={`mt-0.5 text-sm text-slate-800 break-all ${mono ? 'font-mono' : ''}`}>{value}</dd>
+      <dd className={`mt-0.5 text-sm text-slate-800 break-all ${mono ? 'font-mono' : ''}`}>
+        {value}
+      </dd>
     </div>
   );
 }
@@ -300,7 +335,11 @@ export default function WebhookHealthDashboard() {
   const [eventsLoading, setEventsLoading] = useState(true);
 
   const [filters, setFilters] = useState<Filters>({
-    provider: '', status: '', event_type: '', from: '', to: '',
+    provider: '',
+    status: '',
+    event_type: '',
+    from: '',
+    to: '',
   });
   const [page, setPage] = useState(1);
   const [selectedEvent, setSelectedEvent] = useState<WebhookEvent | null>(null);
@@ -344,12 +383,16 @@ export default function WebhookHealthDashboard() {
     }
   }, [filters, page]);
 
-  useEffect(() => { fetchHealth(); }, [fetchHealth]);
-  useEffect(() => { fetchEvents(); }, [fetchEvents]);
+  useEffect(() => {
+    fetchHealth();
+  }, [fetchHealth]);
+  useEffect(() => {
+    fetchEvents();
+  }, [fetchEvents]);
 
   // Reset to page 1 when filters change
   const applyFilter = (key: keyof Filters, value: string) => {
-    setFilters(f => ({ ...f, [key]: value }));
+    setFilters((f) => ({ ...f, [key]: value }));
     setPage(1);
   };
 
@@ -364,11 +407,13 @@ export default function WebhookHealthDashboard() {
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <Breadcrumbs items={[
-          { label: 'Admin', href: '/admin' },
-          { label: 'System', href: '/admin/system-health' },
-          { label: 'Webhooks' },
-        ]} />
+        <Breadcrumbs
+          items={[
+            { label: 'Admin', href: '/admin' },
+            { label: 'System', href: '/admin/system-health' },
+            { label: 'Webhooks' },
+          ]}
+        />
 
         {/* Page header */}
         <div className="flex items-center justify-between mt-4 mb-8">
@@ -383,11 +428,16 @@ export default function WebhookHealthDashboard() {
             </p>
           </div>
           <button
-            onClick={() => { fetchHealth(); fetchEvents(); }}
+            onClick={() => {
+              fetchHealth();
+              fetchEvents();
+            }}
             disabled={healthLoading || eventsLoading}
             className="flex items-center gap-2 px-4 py-2 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700 disabled:opacity-50 transition-colors text-sm font-medium"
           >
-            <RefreshCw className={`h-4 w-4 ${(healthLoading || eventsLoading) ? 'animate-spin' : ''}`} />
+            <RefreshCw
+              className={`h-4 w-4 ${healthLoading || eventsLoading ? 'animate-spin' : ''}`}
+            />
             Refresh
           </button>
         </div>
@@ -397,11 +447,15 @@ export default function WebhookHealthDashboard() {
           <div className="mb-6 bg-red-50 border border-red-200 rounded-xl p-4">
             <div className="flex items-center gap-2 mb-2">
               <AlertTriangle className="h-5 w-5 text-red-600 flex-shrink-0" />
-              <p className="font-semibold text-red-800">{health.alerts.length} alert{health.alerts.length > 1 ? 's' : ''}</p>
+              <p className="font-semibold text-red-800">
+                {health.alerts.length} alert{health.alerts.length > 1 ? 's' : ''}
+              </p>
             </div>
             <ul className="space-y-1">
               {health.alerts.map((a, i) => (
-                <li key={i} className="text-sm text-red-700">• {a}</li>
+                <li key={i} className="text-sm text-red-700">
+                  • {a}
+                </li>
               ))}
             </ul>
           </div>
@@ -418,17 +472,47 @@ export default function WebhookHealthDashboard() {
         {healthLoading && !health ? (
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
             {Array.from({ length: 5 }).map((_, i) => (
-              <div key={i} className="bg-white rounded-xl border border-gray-200 p-5 h-24 animate-pulse" />
+              <div
+                key={i}
+                className="bg-white rounded-xl border border-gray-200 p-5 h-24 animate-pulse"
+              />
             ))}
           </div>
-        ) : health?.summary && (
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
-            <SummaryCard label="Total (24h)" value={health.summary.total} icon={Activity} color="bg-brand-blue-100 text-brand-blue-700" />
-            <SummaryCard label="Processed" value={health.summary.processed} icon={CheckCircle2} color="bg-green-100 text-green-700" />
-            <SummaryCard label="Failed" value={health.summary.failed} icon={XCircle} color="bg-red-100 text-red-700" />
-            <SummaryCard label="Errored" value={health.summary.errored} icon={AlertTriangle} color="bg-orange-100 text-orange-700" />
-            <SummaryCard label="Skipped" value={health.summary.skipped} icon={SkipForward} color="bg-gray-100 text-slate-700" />
-          </div>
+        ) : (
+          health?.summary && (
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
+              <SummaryCard
+                label="Total (24h)"
+                value={health.summary.total}
+                icon={Activity}
+                color="bg-brand-blue-100 text-brand-blue-700"
+              />
+              <SummaryCard
+                label="Processed"
+                value={health.summary.processed}
+                icon={CheckCircle2}
+                color="bg-green-100 text-green-700"
+              />
+              <SummaryCard
+                label="Failed"
+                value={health.summary.failed}
+                icon={XCircle}
+                color="bg-red-100 text-red-700"
+              />
+              <SummaryCard
+                label="Errored"
+                value={health.summary.errored}
+                icon={AlertTriangle}
+                color="bg-orange-100 text-orange-700"
+              />
+              <SummaryCard
+                label="Skipped"
+                value={health.summary.skipped}
+                icon={SkipForward}
+                color="bg-gray-100 text-slate-700"
+              />
+            </div>
+          )
         )}
 
         {/* Provider grid */}
@@ -436,12 +520,15 @@ export default function WebhookHealthDashboard() {
         {healthLoading && !health ? (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-10">
             {Array.from({ length: 6 }).map((_, i) => (
-              <div key={i} className="bg-white rounded-xl border border-gray-200 p-5 h-36 animate-pulse" />
+              <div
+                key={i}
+                className="bg-white rounded-xl border border-gray-200 p-5 h-36 animate-pulse"
+              />
             ))}
           </div>
         ) : (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-10">
-            {(health?.providers || []).map(p => (
+            {(health?.providers || []).map((p) => (
               <ProviderCard key={p.provider} p={p} />
             ))}
           </div>
@@ -475,25 +562,29 @@ export default function WebhookHealthDashboard() {
             <div className="flex flex-wrap gap-3">
               <select
                 value={filters.provider}
-                onChange={e => applyFilter('provider', e.target.value)}
+                onChange={(e) => applyFilter('provider', e.target.value)}
                 className="text-sm border border-gray-300 rounded-lg px-3 py-1.5 bg-white focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
                 aria-label="Filter by provider"
               >
                 <option value="">All providers</option>
-                {PROVIDERS.filter(Boolean).map(p => (
-                  <option key={p} value={p}>{p}</option>
+                {PROVIDERS.filter(Boolean).map((p) => (
+                  <option key={p} value={p}>
+                    {p}
+                  </option>
                 ))}
               </select>
 
               <select
                 value={filters.status}
-                onChange={e => applyFilter('status', e.target.value)}
+                onChange={(e) => applyFilter('status', e.target.value)}
                 className="text-sm border border-gray-300 rounded-lg px-3 py-1.5 bg-white focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
                 aria-label="Filter by status"
               >
                 <option value="">All statuses</option>
-                {STATUSES.filter(Boolean).map(s => (
-                  <option key={s} value={s}>{s}</option>
+                {STATUSES.filter(Boolean).map((s) => (
+                  <option key={s} value={s}>
+                    {s}
+                  </option>
                 ))}
               </select>
 
@@ -501,7 +592,7 @@ export default function WebhookHealthDashboard() {
                 type="text"
                 placeholder="Event type (e.g. payment_intent.succeeded)"
                 value={filters.event_type}
-                onChange={e => applyFilter('event_type', e.target.value)}
+                onChange={(e) => applyFilter('event_type', e.target.value)}
                 className="text-sm border border-gray-300 rounded-lg px-3 py-1.5 bg-white focus:outline-none focus:ring-2 focus:ring-brand-blue-500 w-72"
                 aria-label="Filter by event type"
               />
@@ -510,7 +601,7 @@ export default function WebhookHealthDashboard() {
                 <input
                   type="datetime-local"
                   value={filters.from}
-                  onChange={e => applyFilter('from', e.target.value)}
+                  onChange={(e) => applyFilter('from', e.target.value)}
                   className="text-sm border border-gray-300 rounded-lg px-3 py-1.5 bg-white focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
                   aria-label="From date"
                 />
@@ -518,7 +609,7 @@ export default function WebhookHealthDashboard() {
                 <input
                   type="datetime-local"
                   value={filters.to}
-                  onChange={e => applyFilter('to', e.target.value)}
+                  onChange={(e) => applyFilter('to', e.target.value)}
                   className="text-sm border border-gray-300 rounded-lg px-3 py-1.5 bg-white focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
                   aria-label="To date"
                 />
@@ -531,12 +622,24 @@ export default function WebhookHealthDashboard() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-gray-100 bg-gray-50">
-                  <th className="text-left px-6 py-3 text-xs font-semibold text-slate-700 uppercase tracking-wide">Received</th>
-                  <th className="text-left px-4 py-3 text-xs font-semibold text-slate-700 uppercase tracking-wide">Provider</th>
-                  <th className="text-left px-4 py-3 text-xs font-semibold text-slate-700 uppercase tracking-wide">Event Type</th>
-                  <th className="text-left px-4 py-3 text-xs font-semibold text-slate-700 uppercase tracking-wide">Status</th>
-                  <th className="text-left px-4 py-3 text-xs font-semibold text-slate-700 uppercase tracking-wide">Reference</th>
-                  <th className="text-left px-4 py-3 text-xs font-semibold text-slate-700 uppercase tracking-wide">Error</th>
+                  <th className="text-left px-6 py-3 text-xs font-semibold text-slate-700 uppercase tracking-wide">
+                    Received
+                  </th>
+                  <th className="text-left px-4 py-3 text-xs font-semibold text-slate-700 uppercase tracking-wide">
+                    Provider
+                  </th>
+                  <th className="text-left px-4 py-3 text-xs font-semibold text-slate-700 uppercase tracking-wide">
+                    Event Type
+                  </th>
+                  <th className="text-left px-4 py-3 text-xs font-semibold text-slate-700 uppercase tracking-wide">
+                    Status
+                  </th>
+                  <th className="text-left px-4 py-3 text-xs font-semibold text-slate-700 uppercase tracking-wide">
+                    Reference
+                  </th>
+                  <th className="text-left px-4 py-3 text-xs font-semibold text-slate-700 uppercase tracking-wide">
+                    Error
+                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-50">
@@ -557,7 +660,7 @@ export default function WebhookHealthDashboard() {
                     </td>
                   </tr>
                 ) : (
-                  events?.events.map(ev => (
+                  events?.events.map((ev) => (
                     <tr
                       key={ev.id}
                       onClick={() => setSelectedEvent(ev)}
@@ -596,7 +699,7 @@ export default function WebhookHealthDashboard() {
               </p>
               <div className="flex items-center gap-2">
                 <button
-                  onClick={() => setPage(p => Math.max(1, p - 1))}
+                  onClick={() => setPage((p) => Math.max(1, p - 1))}
                   disabled={events.page <= 1 || eventsLoading}
                   className="p-2 rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-40 transition-colors"
                   aria-label="Previous page"
@@ -604,7 +707,7 @@ export default function WebhookHealthDashboard() {
                   <ChevronLeft className="h-4 w-4" />
                 </button>
                 <button
-                  onClick={() => setPage(p => Math.min(events.pages, p + 1))}
+                  onClick={() => setPage((p) => Math.min(events.pages, p + 1))}
                   disabled={events.page >= events.pages || eventsLoading}
                   className="p-2 rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-40 transition-colors"
                   aria-label="Next page"

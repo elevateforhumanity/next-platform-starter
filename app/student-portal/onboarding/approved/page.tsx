@@ -26,7 +26,9 @@ interface VerificationResult {
 export default async function ApprovedPage() {
   const supabase = await createClient();
   const db = (await getAdminClient()) || supabase;
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login?next=/student-portal/onboarding/approved');
 
   // Call the verification function to get real-time checklist
@@ -108,7 +110,9 @@ export default async function ApprovedPage() {
             `</table>`,
             `<h4>Verification Checklist</h4>`,
             `<ul>`,
-            ...checklist.map((c) => `<li>${c.verified ? '✅' : '❌'} ${c.requirement} — ${c.status}</li>`),
+            ...checklist.map(
+              (c) => `<li>${c.verified ? '✅' : '❌'} ${c.requirement} — ${c.status}</li>`,
+            ),
             `</ul>`,
             `<p><a href="${SITE_URL}/admin/applications">View in Admin Dashboard</a></p>`,
           ].join(''),
@@ -127,19 +131,23 @@ export default async function ApprovedPage() {
 
   return (
     <main className="min-h-screen bg-slate-50 py-12">
-
       {/* Hero Image */}
       <section className="relative h-[160px] sm:h-[220px] md:h-[280px]">
-        <Image src="/images/pages/comp-home-highlight-success.jpg" alt="Student portal" fill sizes="100vw" className="object-cover" priority />
+        <Image
+          src="/images/pages/comp-home-highlight-success.jpg"
+          alt="Student portal"
+          fill
+          sizes="100vw"
+          className="object-cover"
+          priority
+        />
       </section>
       <div className="max-w-2xl mx-auto px-6">
         <div className="text-center mb-10">
           <div className="w-20 h-20 bg-brand-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <Shield className="w-10 h-10 text-brand-green-600" />
           </div>
-          <h1 className="text-3xl font-extrabold text-slate-900 mb-2">
-            Enrollment Approved
-          </h1>
+          <h1 className="text-3xl font-extrabold text-slate-900 mb-2">Enrollment Approved</h1>
           <p className="text-lg text-slate-600">
             All requirements verified. You are now enrolled in your program.
           </p>
@@ -159,11 +167,13 @@ export default async function ApprovedPage() {
                   <XCircle className="w-5 h-5 text-brand-red-500 shrink-0" />
                 )}
                 <span className="flex-1 text-sm text-slate-800">{item.requirement}</span>
-                <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${
-                  item.verified
-                    ? 'bg-brand-green-100 text-brand-green-700'
-                    : 'bg-brand-red-100 text-brand-red-700'
-                }`}>
+                <span
+                  className={`text-xs font-bold px-2 py-0.5 rounded-full ${
+                    item.verified
+                      ? 'bg-brand-green-100 text-brand-green-700'
+                      : 'bg-brand-red-100 text-brand-red-700'
+                  }`}
+                >
                   {item.status}
                 </span>
               </div>

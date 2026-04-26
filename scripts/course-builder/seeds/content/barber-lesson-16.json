@@ -16,12 +16,7 @@
       },
       {
         "prompt": "Which technique helps maintain uniformity throughout a haircut?",
-        "choices": [
-          "Layering",
-          "Texturizing",
-          "Establishing a guide line",
-          "Thinning"
-        ],
+        "choices": ["Layering", "Texturizing", "Establishing a guide line", "Thinning"],
         "answerIndex": 2,
         "rationale": "Establishing a guide line provides a reference point for maintaining uniformity in length and shape.",
         "type": "recall"
@@ -124,12 +119,7 @@
       },
       {
         "prompt": "Which tool is essential for creating precise partings?",
-        "choices": [
-          "Thinning shears",
-          "Comb",
-          "Razor",
-          "Blow dryer"
-        ],
+        "choices": ["Thinning shears", "Comb", "Razor", "Blow dryer"],
         "answerIndex": 1,
         "rationale": "A comb is essential for creating precise partings and ensuring even sections.",
         "type": "recall"
@@ -148,12 +138,7 @@
       },
       {
         "prompt": "A client wants a symmetrical haircut. What is the key to achieving this?",
-        "choices": [
-          "Cutting freehand",
-          "Using a guide line",
-          "Texturizing",
-          "Using a razor"
-        ],
+        "choices": ["Cutting freehand", "Using a guide line", "Texturizing", "Using a razor"],
         "answerIndex": 1,
         "rationale": "Using a guide line ensures symmetry and uniformity throughout the haircut.",
         "type": "scenario"

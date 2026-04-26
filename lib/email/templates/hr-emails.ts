@@ -71,8 +71,8 @@ export interface HrEmailParams {
   department?: string;
   startDate?: string;
   payRate?: string;
-  payType?: string;           // 'hourly' | 'salary'
-  payMethod?: string;         // 'direct_deposit' | 'pay_card' | 'check'
+  payType?: string; // 'hourly' | 'salary'
+  payMethod?: string; // 'direct_deposit' | 'pay_card' | 'check'
   interviewDate?: string;
   interviewTime?: string;
   zoomLink?: string;
@@ -83,7 +83,6 @@ export interface HrEmailParams {
 }
 
 export const hrEmailTemplates = {
-
   // ── 1. Application Received ───────────────────────────────────────────────
   application_received: (p: HrEmailParams) => ({
     from: FROM,
@@ -257,14 +256,18 @@ export const hrEmailTemplates = {
             ['Read Employee Handbook', 'Acknowledge in the portal'],
             ['Complete skills assessment', 'Identifies your training needs'],
             ['Watch orientation video', 'About 15 minutes'],
-          ].map(([task, note]) => `
+          ]
+            .map(
+              ([task, note]) => `
           <tr style="border-bottom:1px solid #f1f5f9">
             <td style="padding:10px 0">
               <span style="display:inline-block;width:18px;height:18px;border:2px solid #cbd5e1;border-radius:4px;margin-right:10px;vertical-align:middle"></span>
               <strong>${task}</strong>
             </td>
             <td style="padding:10px 0;color:${BRAND.muted};font-size:13px">${note}</td>
-          </tr>`).join('')}
+          </tr>`,
+            )
+            .join('')}
         </table>
       </div>
       ${btn('Open Onboarding Portal', p.onboardingLink ?? `${BASE_URL}/onboarding/staff`, BRAND.primary)}
@@ -275,7 +278,6 @@ export const hrEmailTemplates = {
       <p style="margin-bottom:0">Warmly,<br><strong>Elevate for Humanity HR Team</strong></p>
     `),
   }),
-
 };
 
 export type HrEmailStep = keyof typeof hrEmailTemplates;

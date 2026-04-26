@@ -92,9 +92,8 @@ export async function saveBlueprintToCanonical(
         quiz_questions: lesson.compiled?.quiz_questions?.length
           ? lesson.compiled.quiz_questions
           : null,
-        passing_score: stepType === 'checkpoint' || stepType === 'quiz' || stepType === 'exam'
-          ? 70
-          : null,
+        passing_score:
+          stepType === 'checkpoint' || stepType === 'quiz' || stepType === 'exam' ? 70 : null,
         // Store full compiled assets in activities JSONB
         activities: lesson.compiled
           ? {

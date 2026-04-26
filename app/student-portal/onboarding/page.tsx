@@ -152,9 +152,7 @@ export default function StudentOnboardingPage() {
 
       const acceptedTypes = agreements?.map((a) => a.agreement_type) || [];
       const requiredAgreements = ['enrollment', 'participation', 'ferpa'];
-      const allAgreementsSigned = requiredAgreements.every((type) =>
-        acceptedTypes.includes(type)
-      );
+      const allAgreementsSigned = requiredAgreements.every((type) => acceptedTypes.includes(type));
 
       if (allAgreementsSigned) {
         const wasAlreadyComplete = onboardingData?.agreements_completed;
@@ -183,9 +181,7 @@ export default function StudentOnboardingPage() {
 
   const completedSteps = Object.values(progress).filter(Boolean).length;
   const requiredSteps = ONBOARDING_STEPS.filter((s) => s.required).length;
-  const requiredComplete = ONBOARDING_STEPS.filter(
-    (s) => s.required && progress[s.id]
-  ).length;
+  const requiredComplete = ONBOARDING_STEPS.filter((s) => s.required && progress[s.id]).length;
 
   const getNextStep = () => {
     for (const step of ONBOARDING_STEPS) {
@@ -213,7 +209,14 @@ export default function StudentOnboardingPage() {
     <div className="min-h-screen bg-slate-50">
       {/* Hero Image */}
       <section className="relative h-[160px] sm:h-[220px] md:h-[280px]">
-        <Image src="/images/pages/comp-home-highlight-success.jpg" alt="Student onboarding" fill sizes="100vw" className="object-cover" priority />
+        <Image
+          src="/images/pages/comp-home-highlight-success.jpg"
+          alt="Student onboarding"
+          fill
+          sizes="100vw"
+          className="object-cover"
+          priority
+        />
       </section>
 
       <div className="max-w-3xl mx-auto px-4 py-12">
@@ -230,9 +233,7 @@ export default function StudentOnboardingPage() {
         {/* Progress Bar */}
         <div className="bg-white rounded-xl shadow-sm p-6 mb-8">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-sm font-medium text-slate-700">
-              Onboarding Progress
-            </span>
+            <span className="text-sm font-medium text-slate-700">Onboarding Progress</span>
             <span className="text-sm text-slate-500">
               {requiredComplete} of {requiredSteps} required steps complete
             </span>
@@ -254,7 +255,10 @@ export default function StudentOnboardingPage() {
               <p className="text-amber-700 text-sm">
                 You must complete all required steps before accessing your courses.
                 {nextStep && (
-                  <> Next: <strong>{nextStep.title}</strong></>
+                  <>
+                    {' '}
+                    Next: <strong>{nextStep.title}</strong>
+                  </>
                 )}
               </p>
             </div>
@@ -276,8 +280,8 @@ export default function StudentOnboardingPage() {
                   isComplete
                     ? 'border-2 border-brand-green-500'
                     : isNext
-                    ? 'border-2 border-brand-blue-500 ring-2 ring-brand-blue-100'
-                    : 'border border-slate-200 hover:border-slate-300'
+                      ? 'border-2 border-brand-blue-500 ring-2 ring-brand-blue-100'
+                      : 'border border-slate-200 hover:border-slate-300'
                 }`}
               >
                 <div className="flex items-center gap-4">
@@ -287,17 +291,15 @@ export default function StudentOnboardingPage() {
                       isComplete
                         ? 'bg-brand-green-100'
                         : isNext
-                        ? 'bg-brand-blue-100'
-                        : 'bg-slate-100'
+                          ? 'bg-brand-blue-100'
+                          : 'bg-slate-100'
                     }`}
                   >
                     {isComplete ? (
                       <Check className="w-6 h-6 text-brand-green-600" />
                     ) : (
                       <Icon
-                        className={`w-6 h-6 ${
-                          isNext ? 'text-brand-blue-600' : 'text-slate-400'
-                        }`}
+                        className={`w-6 h-6 ${isNext ? 'text-brand-blue-600' : 'text-slate-400'}`}
                       />
                     )}
                   </div>
@@ -310,8 +312,8 @@ export default function StudentOnboardingPage() {
                           isComplete
                             ? 'text-brand-green-900'
                             : isNext
-                            ? 'text-brand-blue-900'
-                            : 'text-slate-900'
+                              ? 'text-brand-blue-900'
+                              : 'text-slate-900'
                         }`}
                       >
                         {step.title}
@@ -327,9 +329,7 @@ export default function StudentOnboardingPage() {
                         </span>
                       )}
                     </div>
-                    <p className="text-sm text-slate-600 mt-1">
-                      {step.description}
-                    </p>
+                    <p className="text-sm text-slate-600 mt-1">{step.description}</p>
                   </div>
 
                   {/* Arrow */}
@@ -338,8 +338,8 @@ export default function StudentOnboardingPage() {
                       isComplete
                         ? 'text-brand-green-400'
                         : isNext
-                        ? 'text-brand-blue-400'
-                        : 'text-slate-300'
+                          ? 'text-brand-blue-400'
+                          : 'text-slate-300'
                     }`}
                   />
                 </div>

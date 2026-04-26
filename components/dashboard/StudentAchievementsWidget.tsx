@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
 import React from 'react';
 
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 type Achievement = {
   code: string;
@@ -16,11 +16,11 @@ type ApiResponse = {
 };
 
 const niceEmojiForCode: Record<string, string> = {
-  STREAK_3: "🔥",
-  STREAK_7: "⚡",
-  STREAK_30: "🏆",
-  BIG_DAY_30: "⏱️",
-  BIG_DAY_60: "💪",
+  STREAK_3: '🔥',
+  STREAK_7: '⚡',
+  STREAK_30: '🏆',
+  BIG_DAY_30: '⏱️',
+  BIG_DAY_60: '💪',
 };
 
 export function StudentAchievementsWidget() {
@@ -30,8 +30,8 @@ export function StudentAchievementsWidget() {
   useEffect(() => {
     async function load() {
       try {
-        const res = await fetch("/api/student/achievements", {
-          cache: "no-store",
+        const res = await fetch('/api/student/achievements', {
+          cache: 'no-store',
         });
         if (!res.ok) {
           setLoading(false);
@@ -62,9 +62,7 @@ export function StudentAchievementsWidget() {
         <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">
           Achievements
         </p>
-        <p className="mt-1 text-xs text-black">
-          Start learning to unlock your first badge.
-        </p>
+        <p className="mt-1 text-xs text-black">Start learning to unlock your first badge.</p>
       </div>
     );
   }
@@ -77,35 +75,31 @@ export function StudentAchievementsWidget() {
         <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">
           Achievements
         </p>
-        <p className="text-[11px] text-slate-500">
-          {achievements.length} unlocked
-        </p>
+        <p className="text-[11px] text-slate-500">{achievements.length} unlocked</p>
       </div>
 
       <div className="mt-3 grid grid-cols-2 gap-2">
         {recent.map((a) => {
-          const emoji = niceEmojiForCode[a.code] ?? "⭐";
+          const emoji = niceEmojiForCode[a.code] ?? '⭐';
           const date = new Date(a.earned_at);
-          const dateLabel = date.toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' });
+          const dateLabel = date.toLocaleDateString('en-US', {
+            timeZone: 'UTC',
+            month: 'short',
+            day: 'numeric',
+            year: 'numeric',
+          });
 
           return (
-            <div
-              key={a.code}
-              className="flex flex-col gap-1 rounded-lg border bg-slate-50 p-2"
-            >
+            <div key={a.code} className="flex flex-col gap-1 rounded-lg border bg-slate-50 p-2">
               <div className="flex items-center gap-2">
                 <span className="text-lg">{emoji}</span>
                 <div className="flex-1">
-                  <p className="line-clamp-1 text-[11px] font-semibold text-black">
-                    {a.label}
-                  </p>
+                  <p className="line-clamp-1 text-[11px] font-semibold text-black">{a.label}</p>
                   <p className="text-[10px] text-slate-500">{dateLabel}</p>
                 </div>
               </div>
               {a.description && (
-                <p className="line-clamp-2 text-[10px] text-black">
-                  {a.description}
-                </p>
+                <p className="line-clamp-2 text-[10px] text-black">{a.description}</p>
               )}
             </div>
           );

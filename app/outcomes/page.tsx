@@ -1,12 +1,12 @@
 import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
-import { 
-  BarChart3, 
-  Users, 
-  Briefcase, 
-  Clock, 
-  FileText, 
+import {
+  BarChart3,
+  Users,
+  Briefcase,
+  Clock,
+  FileText,
   CheckCircle,
   AlertCircle,
   Calendar,
@@ -15,7 +15,8 @@ import {
 
 export const metadata: Metadata = {
   title: 'Outcomes & Methodology | Elevate for Humanity',
-  description: 'How we measure and report student outcomes, job placement rates, and program effectiveness.',
+  description:
+    'How we measure and report student outcomes, job placement rates, and program effectiveness.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/outcomes',
   },
@@ -24,10 +25,10 @@ export const metadata: Metadata = {
 export default function OutcomesPage() {
   return (
     <div className="min-h-screen bg-white">
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Outcomes" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Outcomes' }]} />
       </div>
-{/* Header */}
+      {/* Header */}
       <section className="bg-slate-900 text-white py-16">
         <div className="max-w-4xl mx-auto px-6">
           <div className="flex items-center gap-2 text-blue-400 text-sm font-medium mb-4">
@@ -47,9 +48,10 @@ export default function OutcomesPage() {
           <div className="bg-blue-50 border border-blue-200 rounded-xl p-6">
             <h2 className="text-xl font-bold text-blue-900 mb-3">Our Commitment to Transparency</h2>
             <p className="text-blue-800">
-              Elevate for Humanity is committed to honest, verifiable reporting of student outcomes. 
-              This page explains how we collect data, calculate metrics, and what our numbers actually mean. 
-              We believe prospective students, funders, and partners deserve clear information to make informed decisions.
+              Elevate for Humanity is committed to honest, verifiable reporting of student outcomes.
+              This page explains how we collect data, calculate metrics, and what our numbers
+              actually mean. We believe prospective students, funders, and partners deserve clear
+              information to make informed decisions.
             </p>
           </div>
         </section>
@@ -59,7 +61,7 @@ export default function OutcomesPage() {
           <h2 className="text-2xl font-bold text-gray-900 mb-6 pb-2 border-b-2 border-blue-500">
             What We Track
           </h2>
-          
+
           <div className="grid md:grid-cols-2 gap-6">
             <div className="bg-gray-50 rounded-xl p-6">
               <div className="flex items-center gap-3 mb-4">
@@ -131,17 +133,18 @@ export default function OutcomesPage() {
               </h3>
               <div className="bg-gray-50 rounded-lg p-4 mb-4">
                 <p className="font-mono text-sm text-gray-700">
-                  Placement Rate = (Graduates Employed within 90 days) ÷ (Total Graduates - Exclusions) × 100
+                  Placement Rate = (Graduates Employed within 90 days) ÷ (Total Graduates -
+                  Exclusions) × 100
                 </p>
               </div>
               <p className="text-gray-700 text-sm mb-3">
-                <strong>Exclusions:</strong> Students who continue to further education, enter military service, 
-                become incarcerated, or are otherwise unavailable for employment are excluded from the denominator 
-                per WIOA reporting standards.
+                <strong>Exclusions:</strong> Students who continue to further education, enter
+                military service, become incarcerated, or are otherwise unavailable for employment
+                are excluded from the denominator per WIOA reporting standards.
               </p>
               <p className="text-gray-700 text-sm">
-                <strong>Verification:</strong> Employment is verified through employer confirmation, pay stubs, 
-                or student self-report with follow-up verification when possible.
+                <strong>Verification:</strong> Employment is verified through employer confirmation,
+                pay stubs, or student self-report with follow-up verification when possible.
               </p>
             </div>
 
@@ -151,8 +154,9 @@ export default function OutcomesPage() {
                 Time to Employment
               </h3>
               <p className="text-gray-700 text-sm">
-                Measured from program completion date to first day of employment in a position related to training. 
-                Only includes graduates who achieved employment; does not include those still seeking employment.
+                Measured from program completion date to first day of employment in a position
+                related to training. Only includes graduates who achieved employment; does not
+                include those still seeking employment.
               </p>
             </div>
 
@@ -163,12 +167,13 @@ export default function OutcomesPage() {
               </h3>
               <div className="bg-gray-50 rounded-lg p-4 mb-4">
                 <p className="font-mono text-sm text-gray-700">
-                  Completion Rate = (Students Completing Program) ÷ (Students Enrolled - Early Withdrawals within 14 days) × 100
+                  Completion Rate = (Students Completing Program) ÷ (Students Enrolled - Early
+                  Withdrawals within 14 days) × 100
                 </p>
               </div>
               <p className="text-gray-700 text-sm">
-                Students who withdraw within the first 14 days are excluded to account for those who determine 
-                the program is not the right fit before substantive training begins.
+                Students who withdraw within the first 14 days are excluded to account for those who
+                determine the program is not the right fit before substantive training begins.
               </p>
             </div>
           </div>
@@ -179,7 +184,7 @@ export default function OutcomesPage() {
           <h2 className="text-2xl font-bold text-gray-900 mb-6 pb-2 border-b-2 border-blue-500">
             Data Sources
           </h2>
-          
+
           <div className="space-y-4">
             <div className="flex items-start gap-4 p-4 bg-gray-50 rounded-lg">
               <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
@@ -200,7 +205,8 @@ export default function OutcomesPage() {
               <div>
                 <h4 className="font-semibold text-gray-900">Student Self-Report</h4>
                 <p className="text-gray-600 text-sm">
-                  Post-completion surveys at 30, 90, and 180 days collect employment status and wage data.
+                  Post-completion surveys at 30, 90, and 180 days collect employment status and wage
+                  data.
                 </p>
               </div>
             </div>
@@ -212,7 +218,8 @@ export default function OutcomesPage() {
               <div>
                 <h4 className="font-semibold text-gray-900">Employer Partner Verification</h4>
                 <p className="text-gray-600 text-sm">
-                  For placements through our employer network, we receive direct confirmation of hire.
+                  For placements through our employer network, we receive direct confirmation of
+                  hire.
                 </p>
               </div>
             </div>
@@ -224,7 +231,8 @@ export default function OutcomesPage() {
               <div>
                 <h4 className="font-semibold text-gray-900">WIOA Reporting</h4>
                 <p className="text-gray-600 text-sm">
-                  For WIOA-funded students, outcomes are reported to and verified by workforce development boards.
+                  For WIOA-funded students, outcomes are reported to and verified by workforce
+                  development boards.
                 </p>
               </div>
             </div>
@@ -236,7 +244,7 @@ export default function OutcomesPage() {
           <h2 className="text-2xl font-bold text-gray-900 mb-6 pb-2 border-b-2 border-orange-500">
             Limitations & Caveats
           </h2>
-          
+
           <div className="bg-orange-50 border border-orange-200 rounded-xl p-6">
             <div className="flex items-start gap-3 mb-4">
               <AlertCircle className="w-6 h-6 text-orange-600 flex-shrink-0" />
@@ -245,23 +253,40 @@ export default function OutcomesPage() {
             <ul className="space-y-3 text-orange-800 text-sm">
               <li className="flex items-start gap-2">
                 <span className="font-bold">•</span>
-                <span><strong>Response rates vary.</strong> Not all graduates respond to follow-up surveys. Outcomes data represents those who responded and may not reflect all graduates.</span>
+                <span>
+                  <strong>Response rates vary.</strong> Not all graduates respond to follow-up
+                  surveys. Outcomes data represents those who responded and may not reflect all
+                  graduates.
+                </span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="font-bold">•</span>
-                <span><strong>Self-reported data.</strong> Some employment information is self-reported and not independently verified.</span>
+                <span>
+                  <strong>Self-reported data.</strong> Some employment information is self-reported
+                  and not independently verified.
+                </span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="font-bold">•</span>
-                <span><strong>Program variation.</strong> Outcomes vary significantly by program, cohort, and local labor market conditions.</span>
+                <span>
+                  <strong>Program variation.</strong> Outcomes vary significantly by program,
+                  cohort, and local labor market conditions.
+                </span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="font-bold">•</span>
-                <span><strong>Historical data.</strong> Published statistics reflect historical performance and do not guarantee future results.</span>
+                <span>
+                  <strong>Historical data.</strong> Published statistics reflect historical
+                  performance and do not guarantee future results.
+                </span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="font-bold">•</span>
-                <span><strong>Coordination role.</strong> Elevate for Humanity coordinates training through partner providers. Outcomes reflect the combined efforts of students, instructors, and employer partners.</span>
+                <span>
+                  <strong>Coordination role.</strong> Elevate for Humanity coordinates training
+                  through partner providers. Outcomes reflect the combined efforts of students,
+                  instructors, and employer partners.
+                </span>
               </li>
             </ul>
           </div>
@@ -272,14 +297,14 @@ export default function OutcomesPage() {
           <h2 className="text-2xl font-bold text-gray-900 mb-6 pb-2 border-b-2 border-blue-500">
             Reporting Schedule
           </h2>
-          
+
           <div className="flex items-start gap-4 p-6 bg-gray-50 rounded-xl">
             <Calendar className="w-6 h-6 text-blue-600 flex-shrink-0" />
             <div>
               <p className="text-gray-700">
-                Outcomes data is compiled quarterly and published annually. The most recent complete data 
-                reflects the prior program year (July 1 – June 30). Current year data is preliminary 
-                until the full cohort has reached the 180-day post-completion milestone.
+                Outcomes data is compiled quarterly and published annually. The most recent complete
+                data reflects the prior program year (July 1 – June 30). Current year data is
+                preliminary until the full cohort has reached the 180-day post-completion milestone.
               </p>
               <p className="text-gray-600 text-sm mt-3">
                 <strong>Last Updated:</strong> January 2026 (reflecting PY 2024-2025 data)
@@ -293,16 +318,19 @@ export default function OutcomesPage() {
           <h2 className="text-2xl font-bold text-gray-900 mb-6 pb-2 border-b-2 border-blue-500">
             Questions About Our Data
           </h2>
-          
+
           <p className="text-gray-700 mb-4">
-            If you have questions about our outcomes methodology, need program-specific data for funding applications, 
-            or want to verify reported statistics, please contact us:
+            If you have questions about our outcomes methodology, need program-specific data for
+            funding applications, or want to verify reported statistics, please contact us:
           </p>
-          
+
           <div className="bg-gray-50 rounded-xl p-6">
             <p className="text-gray-700 mb-2">
               <strong>Email:</strong>{' '}
-              <a href="mailto:elevate4humanityedu@gmail.com" className="text-blue-600 hover:underline">
+              <a
+                href="mailto:elevate4humanityedu@gmail.com"
+                className="text-blue-600 hover:underline"
+              >
                 elevate4humanityedu@gmail.com
               </a>
             </p>
@@ -319,7 +347,8 @@ export default function OutcomesPage() {
         <section className="bg-blue-600 text-white rounded-2xl p-8 text-center">
           <h2 className="text-2xl font-bold mb-4">Ready to Start Your Career Journey?</h2>
           <p className="text-blue-100 mb-6">
-            Our programs are designed to help you succeed. Apply today and work with an advisor to find the right path.
+            Our programs are designed to help you succeed. Apply today and work with an advisor to
+            find the right path.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link

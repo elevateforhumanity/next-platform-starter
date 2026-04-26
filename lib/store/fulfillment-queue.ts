@@ -22,15 +22,15 @@ let redis: Redis | null = null;
 
 function getRedis(): Redis | null {
   if (redis) return redis;
-  
+
   const url = process.env.UPSTASH_REDIS_REST_URL;
   const token = process.env.UPSTASH_REDIS_REST_TOKEN;
-  
+
   if (!url || !token) {
     logger.warn('Upstash Redis not configured - queue disabled');
     return null;
   }
-  
+
   redis = new Redis({ url, token });
   return redis;
 }
@@ -41,14 +41,14 @@ function getRedis(): Redis | null {
 export async function queueFulfillment(job: FulfillmentJob): Promise<boolean> {
   const client = getRedis();
   if (!client) return false;
-  
+
   try {
     const jobWithMeta: FulfillmentJob = {
       ...job,
       retryCount: 0,
       createdAt: new Date().toISOString(),
     };
-    
+
     await client.lpush(QUEUE_KEY, JSON.stringify(jobWithMeta));
     logger.info('Fulfillment job queued', { eventId: job.eventId });
     return true;
@@ -64,7 +64,7 @@ export async function queueFulfillment(job: FulfillmentJob): Promise<boolean> {
 export async function getNextJob(): Promise<FulfillmentJob | null> {
   const client = getRedis();
   if (!client) return null;
-  
+
   try {
     const jobStr = await client.rpoplpush(QUEUE_KEY, PROCESSING_KEY);
     if (!jobStr) return null;
@@ -81,7 +81,7 @@ export async function getNextJob(): Promise<FulfillmentJob | null> {
 export async function completeJob(job: FulfillmentJob): Promise<void> {
   const client = getRedis();
   if (!client) return;
-  
+
   try {
     await client.lrem(PROCESSING_KEY, 1, JSON.stringify(job));
     logger.info('Fulfillment job completed', { eventId: job.eventId });
@@ -96,34 +96,37 @@ export async function completeJob(job: FulfillmentJob): Promise<void> {
 export async function retryJob(job: FulfillmentJob): Promise<boolean> {
   const client = getRedis();
   if (!client) return false;
-  
+
   const retryCount = (job.retryCount || 0) + 1;
-  
+
   if (retryCount > MAX_RETRIES) {
     logger.error('Job exceeded max retries', { eventId: job.eventId, retryCount });
     // Move to dead letter queue
-    await client.lpush('store:fulfillment:dead', JSON.stringify({
-      ...job,
-      retryCount,
-      failedAt: new Date().toISOString(),
-    }));
+    await client.lpush(
+      'store:fulfillment:dead',
+      JSON.stringify({
+        ...job,
+        retryCount,
+        failedAt: new Date().toISOString(),
+      }),
+    );
     await client.lrem(PROCESSING_KEY, 1, JSON.stringify(job));
     return false;
   }
-  
+
   try {
     // Remove from processing
     await client.lrem(PROCESSING_KEY, 1, JSON.stringify(job));
-    
+
     // Re-queue with incremented retry count after delay
     const updatedJob: FulfillmentJob = { ...job, retryCount };
-    
+
     // Use setTimeout for delay (in production, use scheduled job)
     setTimeout(async () => {
       await client.lpush(QUEUE_KEY, JSON.stringify(updatedJob));
       logger.info('Job re-queued for retry', { eventId: job.eventId, retryCount });
     }, RETRY_DELAY_MS * retryCount);
-    
+
     return true;
   } catch (error) {
     logger.error('Failed to retry job', error as Error);
@@ -141,14 +144,14 @@ export async function getQueueStats(): Promise<{
 } | null> {
   const client = getRedis();
   if (!client) return null;
-  
+
   try {
     const [pending, processing, dead] = await Promise.all([
       client.llen(QUEUE_KEY),
       client.llen(PROCESSING_KEY),
       client.llen('store:fulfillment:dead'),
     ]);
-    
+
     return { pending, processing, dead };
   } catch (error) {
     logger.error('Failed to get queue stats', error as Error);
@@ -162,14 +165,14 @@ export async function getQueueStats(): Promise<{
  */
 export async function processFulfillmentQueue(): Promise<number> {
   const { provisionLicense } = await import('@/lib/licensing/provisioning');
-  
+
   let processed = 0;
   const maxBatch = 10;
-  
+
   for (let i = 0; i < maxBatch; i++) {
     const job = await getNextJob();
     if (!job) break;
-    
+
     try {
       // Use transactional provisioning
       const result = await provisionLicense({
@@ -191,7 +194,7 @@ export async function processFulfillmentQueue(): Promise<number> {
       if (result.success) {
         await completeJob(job);
         processed++;
-        logger.info('Fulfillment processed via queue', { 
+        logger.info('Fulfillment processed via queue', {
           eventId: job.eventId,
           tenantId: result.tenantId,
           licenseId: result.licenseId,
@@ -199,12 +202,11 @@ export async function processFulfillmentQueue(): Promise<number> {
       } else {
         throw new Error(result.error || 'Provisioning failed');
       }
-      
     } catch (error) {
       logger.error('Fulfillment failed', error as Error);
       await retryJob(job);
     }
   }
-  
+
   return processed;
 }

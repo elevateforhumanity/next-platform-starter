@@ -1,8 +1,8 @@
 #!/usr/bin/env node
-import OpenAI from "openai";
-import fs from "fs/promises";
-import path from "path";
-import { fileURLToPath } from "url";
+import OpenAI from 'openai';
+import fs from 'fs/promises';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -16,12 +16,12 @@ if (!PLACEHOLDER_MODE) {
   });
 }
 
-const promptsDir = path.join(__dirname, "..", "content", "image-prompts");
-const coursesDir = path.join(promptsDir, "courses");
-const ecdCoursesDir = path.join(promptsDir, "ecd-courses");
-const outputDir = path.join(__dirname, "..", "public", "generated-images");
-const coursesOutputDir = path.join(outputDir, "courses");
-const ecdCoursesOutputDir = path.join(outputDir, "ecd-courses");
+const promptsDir = path.join(__dirname, '..', 'content', 'image-prompts');
+const coursesDir = path.join(promptsDir, 'courses');
+const ecdCoursesDir = path.join(promptsDir, 'ecd-courses');
+const outputDir = path.join(__dirname, '..', 'public', 'generated-images');
+const coursesOutputDir = path.join(outputDir, 'courses');
+const ecdCoursesOutputDir = path.join(outputDir, 'ecd-courses');
 
 async function createPlaceholderImage(slug, width = 1024, height = 1024) {
   // Create a simple SVG placeholder
@@ -35,7 +35,10 @@ async function createPlaceholderImage(slug, width = 1024, height = 1024) {
   </defs>
   <rect width="100%" height="100%" fill="url(#grad)"/>
   <text x="50%" y="50%" font-family="Arial, sans-serif" font-size="48" fill="white" text-anchor="middle" dominant-baseline="middle">
-    ${slug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
+    ${slug
+      .split('-')
+      .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+      .join(' ')}
   </text>
   <text x="50%" y="60%" font-family="Arial, sans-serif" font-size="24" fill="rgba(255,255,255,0.7)" text-anchor="middle" dominant-baseline="middle">
     Placeholder Image
@@ -48,7 +51,7 @@ async function createPlaceholderImage(slug, width = 1024, height = 1024) {
 async function processDirectory(dir, outputSubDir, manifest) {
   let files;
   try {
-    files = (await fs.readdir(dir)).filter((f) => f.endsWith(".md"));
+    files = (await fs.readdir(dir)).filter((f) => f.endsWith('.md'));
   } catch (err) {
     return;
   }
@@ -60,13 +63,12 @@ async function processDirectory(dir, outputSubDir, manifest) {
   await fs.mkdir(outputSubDir, { recursive: true });
 
   for (const file of files) {
-    const slug = file.replace(/\.md$/, "");
+    const slug = file.replace(/\.md$/, '');
     const fullPath = path.join(dir, file);
-    const prompt = await fs.readFile(fullPath, "utf8");
-
+    const prompt = await fs.readFile(fullPath, 'utf8');
 
     const outPath = path.join(outputSubDir, `${slug}.png`);
-    const relativePath = path.relative(path.join(__dirname, "..", "public"), outPath);
+    const relativePath = path.relative(path.join(__dirname, '..', 'public'), outPath);
 
     try {
       if (PLACEHOLDER_MODE) {
@@ -74,15 +76,15 @@ async function processDirectory(dir, outputSubDir, manifest) {
         await fs.writeFile(outPath, buffer);
       } else {
         const result = await openai.images.generate({
-          model: "dall-e-3",
+          model: 'dall-e-3',
           prompt,
-          size: "1024x1024",
+          size: '1024x1024',
           n: 1,
-          response_format: "b64_json",
+          response_format: 'b64_json',
         });
 
         const imageBase64 = result.data[0].b64_json;
-        const buffer = Buffer.from(imageBase64, "base64");
+        const buffer = Buffer.from(imageBase64, 'base64');
         await fs.writeFile(outPath, buffer);
       }
 
@@ -94,7 +96,6 @@ async function processDirectory(dir, outputSubDir, manifest) {
 }
 
 async function main() {
-
   if (PLACEHOLDER_MODE) {
   } else {
   }
@@ -113,15 +114,14 @@ async function main() {
   await processDirectory(ecdCoursesDir, ecdCoursesOutputDir, manifest);
 
   // Write manifest
-  const manifestPath = path.join(outputDir, "manifest.json");
+  const manifestPath = path.join(outputDir, 'manifest.json');
   await fs.writeFile(manifestPath, JSON.stringify(manifest, null, 2));
-
 
   if (PLACEHOLDER_MODE) {
   }
 }
 
 main().catch((err) => {
-  console.error("Unexpected error:", err);
+  console.error('Unexpected error:', err);
   process.exit(1);
 });

@@ -9,21 +9,22 @@
 
 ## Executive Summary
 
-| Category | Count |
-|----------|-------|
-| Admin Pages | 242 |
-| API Routes | 715 |
-| Database Migrations | 96 |
-| Database Tables | ~160 |
-| Webhook Handlers | 14 |
-| Cron Jobs | 12 |
-| Avatar Videos | 8 |
+| Category            | Count |
+| ------------------- | ----- |
+| Admin Pages         | 242   |
+| API Routes          | 715   |
+| Database Migrations | 96    |
+| Database Tables     | ~160  |
+| Webhook Handlers    | 14    |
+| Cron Jobs           | 12    |
+| Avatar Videos       | 8     |
 
 ---
 
 ## 1. Role-Based Portal Architecture
 
 ### Student Portal (14 pages)
+
 - `/student/dashboard` - Main dashboard
 - `/student/courses` - Course catalog
 - `/student/progress` - Progress tracking
@@ -36,6 +37,7 @@
 - `/student/support` - Help center
 
 ### Employer Portal (21 pages)
+
 - `/employer/dashboard` - Main dashboard
 - `/employer/candidates` - Candidate pool
 - `/employer/placements` - Active placements
@@ -47,6 +49,7 @@
 - `/employer/reports` - Reporting
 
 ### Partner Portal (10 pages)
+
 - `/partner/dashboard` - Main dashboard
 - `/partner/students` - Student roster
 - `/partner/attendance` - Attendance tracking
@@ -54,6 +57,7 @@
 - `/partner/reports` - Reporting
 
 ### Workforce Board Portal (10 pages)
+
 - `/workforce-board/dashboard` - Main dashboard
 - `/workforce-board/participants` - Participant tracking
 - `/workforce-board/eligibility` - Eligibility verification
@@ -61,6 +65,7 @@
 - `/workforce-board/reports` - Performance reports
 
 ### Program Holder Portal (20+ pages)
+
 - `/program-holder/dashboard` - Main dashboard
 - `/program-holder/students` - Student management
 - `/program-holder/compliance` - Compliance
@@ -72,6 +77,7 @@
 ## 2. Admin Dashboard (242 pages)
 
 ### Core Management
+
 - User Management (15+ pages)
 - Course & Content (25+ pages)
 - Program Management (20+ pages)
@@ -94,6 +100,7 @@
 ## 3. API Routes (715 total)
 
 ### Webhook Handlers (14)
+
 - `/api/stripe/webhook` - Stripe payments
 - `/api/webhooks/stripe-identity` - Identity verification
 - `/api/webhooks/marketplace` - Marketplace events
@@ -103,6 +110,7 @@
 - `/api/store/webhook` - Store events
 
 ### Cron Jobs (12)
+
 - `check-licenses` - Daily license check
 - `expire-licenses` - Auto-expire overdue
 - `check-expiring-documents` - Document alerts
@@ -120,6 +128,7 @@
 ## 4. Database Schema (96 migrations, ~160 tables)
 
 ### Core Tables
+
 - `profiles` - User profiles
 - `enrollments` - Course enrollments
 - `courses` - Course catalog
@@ -128,17 +137,20 @@
 - `credentials` - Verified credentials
 
 ### Apprenticeship System
+
 - `apprenticeships` - Apprenticeship records
 - `apprenticeship_programs` - Program definitions
 - `apprenticeship_enrollments` - Enrollments
 - `apprentice_documents` - Required documents
 
 ### Compliance & Tracking
+
 - `audit_logs` - System audit trail
 - `compliance_audits` - Compliance records
 - `ferpa_audit_log` - FERPA compliance
 
 ### Financial
+
 - `payment_transactions` - Payments
 - `enrollment_payments` - Enrollment payments
 - `license_purchases` - License sales
@@ -149,22 +161,26 @@
 ## 5. Communications Infrastructure
 
 ### Email (Resend)
+
 - Welcome emails
 - Enrollment confirmations
 - Certificate notifications
 - Reminder sequences
 
 ### SMS (Twilio)
+
 - Assignment reminders
 - Class reminders
 - Verification codes
 - Appointment reminders
 
 ### Push Notifications
+
 - In-app notifications
 - Scheduled delivery
 
 ### Team Integrations
+
 - Slack notifications
 - MS Teams notifications
 
@@ -173,6 +189,7 @@
 ## 6. AI & Avatar System
 
 ### Avatar Videos (8)
+
 - `home-welcome.mp4` - Homepage greeting
 - `ai-tutor.mp4` - AI tutor intro
 - `barber-guide.mp4` - Barber program guide
@@ -183,6 +200,7 @@
 - `store-assistant.mp4` - Store assistant
 
 ### AI Services
+
 - OpenAI integration
 - AI course builder
 - AI summarization
@@ -192,14 +210,14 @@
 
 ## 7. Third-Party Integrations
 
-| Service | Purpose |
-|---------|---------|
+| Service  | Purpose                 |
+| -------- | ----------------------- |
 | Supabase | Database, Auth, Storage |
-| Stripe | Payments, Subscriptions |
-| Resend | Transactional email |
-| Twilio | SMS |
-| OpenAI | AI features |
-| HeyGen | Avatar videos |
+| Stripe   | Payments, Subscriptions |
+| Resend   | Transactional email     |
+| Twilio   | SMS                     |
+| OpenAI   | AI features             |
+| HeyGen   | Avatar videos           |
 
 ---
 
@@ -214,4 +232,4 @@
 
 ---
 
-*Report generated from codebase scan.*
+_Report generated from codebase scan._

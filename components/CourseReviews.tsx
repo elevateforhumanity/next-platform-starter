@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -40,7 +40,8 @@ export function CourseReviews({ courseId }: CourseReviewsProps) {
         setAverageRating(data.averageRating || 0);
         setTotalReviews(data.totalReviews || 0);
       }
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
     }
   }
@@ -64,7 +65,8 @@ export function CourseReviews({ courseId }: CourseReviewsProps) {
         setUserComment('');
         loadReviews();
       }
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
     } finally {
       setSubmitting(false);
@@ -77,21 +79,21 @@ export function CourseReviews({ courseId }: CourseReviewsProps) {
         method: 'POST',
       });
       loadReviews();
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
     }
   }
 
-  const filteredReviews = filter === 'all'
-    ? reviews
-    : reviews.filter(r => r.rating === filter);
+  const filteredReviews = filter === 'all' ? reviews : reviews.filter((r) => r.rating === filter);
 
-  const ratingDistribution = [5, 4, 3, 2, 1].map(rating => ({
+  const ratingDistribution = [5, 4, 3, 2, 1].map((rating) => ({
     rating,
-    count: reviews.filter(r => r.rating === rating).length,
-    percentage: totalReviews > 0
-      ? (reviews.filter(r => r.rating === rating).length / totalReviews) * 100
-      : 0,
+    count: reviews.filter((r) => r.rating === rating).length,
+    percentage:
+      totalReviews > 0
+        ? (reviews.filter((r) => r.rating === rating).length / totalReviews) * 100
+        : 0,
   }));
 
   return (
@@ -109,9 +111,7 @@ export function CourseReviews({ courseId }: CourseReviewsProps) {
               <Star
                 key={star}
                 className={`w-6 h-6 ${
-                  star <= averageRating
-                    ? 'fill-yellow-400 text-yellow-400'
-                    : 'text-slate-300'
+                  star <= averageRating ? 'fill-yellow-400 text-yellow-400' : 'text-slate-300'
                 }`}
               />
             ))}
@@ -126,18 +126,11 @@ export function CourseReviews({ courseId }: CourseReviewsProps) {
               onClick={() => setFilter(rating as string)}
               className="flex items-center gap-3 w-full hover:bg-slate-50 p-2 rounded transition"
             >
-              <span className="text-sm font-medium text-black w-12">
-                {rating} star
-              </span>
+              <span className="text-sm font-medium text-black w-12">{rating} star</span>
               <div className="flex-1 h-2 bg-slate-200 rounded-full overflow-hidden">
-                <div
-                  className="h-full bg-yellow-400"
-                  style={{ width: `${percentage}%` }}
-                />
+                <div className="h-full bg-yellow-400" style={{ width: `${percentage}%` }} />
               </div>
-              <span className="text-sm text-black w-12 text-right">
-                {count}
-              </span>
+              <span className="text-sm text-black w-12 text-right">{count}</span>
             </button>
           ))}
         </div>
@@ -148,9 +141,7 @@ export function CourseReviews({ courseId }: CourseReviewsProps) {
         <h4 className="text-lg font-semibold text-black mb-4">Write a Review</h4>
 
         <div className="mb-4">
-          <label className="block text-sm font-medium text-black mb-2">
-            Your Rating
-          </label>
+          <label className="block text-sm font-medium text-black mb-2">Your Rating</label>
           <div className="flex gap-2">
             {[1, 2, 3, 4, 5].map((star) => (
               <button
@@ -160,9 +151,7 @@ export function CourseReviews({ courseId }: CourseReviewsProps) {
               >
                 <Star
                   className={`w-8 h-8 ${
-                    star <= userRating
-                      ? 'fill-yellow-400 text-yellow-400'
-                      : 'text-slate-300'
+                    star <= userRating ? 'fill-yellow-400 text-yellow-400' : 'text-slate-300'
                   }`}
                 />
               </button>
@@ -171,12 +160,12 @@ export function CourseReviews({ courseId }: CourseReviewsProps) {
         </div>
 
         <div className="mb-4">
-          <label className="block text-sm font-medium text-black mb-2">
-            Your Review
-          </label>
+          <label className="block text-sm font-medium text-black mb-2">Your Review</label>
           <textarea
             value={userComment}
-            onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setUserComment(e.target.value)}
+            onChange={(
+              e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+            ) => setUserComment(e.target.value)}
             placeholder="Share your experience with this course..."
             className="w-full h-24 px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
           />
@@ -196,17 +185,13 @@ export function CourseReviews({ courseId }: CourseReviewsProps) {
         <button
           onClick={() => setFilter('all')}
           className={`px-3 py-2 text-sm rounded-lg ${
-            filter === 'all'
-              ? 'bg-brand-orange-600 text-white'
-              : 'bg-slate-100 text-black'
+            filter === 'all' ? 'bg-brand-orange-600 text-white' : 'bg-slate-100 text-black'
           }`}
         >
           All Reviews
         </button>
         {filter !== 'all' && (
-          <span className="text-sm text-black">
-            Showing {filter} star reviews
-          </span>
+          <span className="text-sm text-black">Showing {filter} star reviews</span>
         )}
       </div>
 
@@ -232,7 +217,12 @@ export function CourseReviews({ courseId }: CourseReviewsProps) {
                       ))}
                     </div>
                     <span className="text-sm text-slate-500">
-                      {new Date(review.created_at).toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' })}
+                      {new Date(review.created_at).toLocaleDateString('en-US', {
+                        timeZone: 'UTC',
+                        month: 'short',
+                        day: 'numeric',
+                        year: 'numeric',
+                      })}
                     </span>
                   </div>
                 </div>

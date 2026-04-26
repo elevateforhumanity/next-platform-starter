@@ -40,7 +40,13 @@ export function ProgramPageTemplate({ program }: ProgramPageTemplateProps) {
       {/* Breadcrumbs */}
       <div className="bg-slate-50 border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[{ label: 'Programs', href: '/programs' }, { label: program.category, href: program.categoryHref }, { label: program.title }]} />
+          <Breadcrumbs
+            items={[
+              { label: 'Programs', href: '/programs' },
+              { label: program.category, href: program.categoryHref },
+              { label: program.title },
+            ]}
+          />
         </div>
       </div>
 
@@ -59,7 +65,7 @@ export function ProgramPageTemplate({ program }: ProgramPageTemplateProps) {
 
       {/* Avatar Guide - Below Hero */}
       {program.avatarVideo && (
-        <HeroAvatarGuide 
+        <HeroAvatarGuide
           videoSrc={program.avatarVideo}
           avatarName={program.avatarName || 'Program Guide'}
           message={`Learn about our ${program.title} program and career opportunities.`}
@@ -107,8 +113,8 @@ export function ProgramPageTemplate({ program }: ProgramPageTemplateProps) {
       <section className="py-16 lg:py-24">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="max-w-3xl mb-16">
-            <Link 
-              href={program.categoryHref} 
+            <Link
+              href={program.categoryHref}
               className="text-sm text-slate-500 hover:text-slate-900 mb-4 inline-block"
             >
               ← {program.category}
@@ -116,14 +122,14 @@ export function ProgramPageTemplate({ program }: ProgramPageTemplateProps) {
             <h1 className="text-4xl sm:text-5xl font-bold text-slate-900 leading-tight mb-6">
               {program.title}
             </h1>
-            <p className="text-xl text-slate-500">
-              {program.description}
-            </p>
+            <p className="text-xl text-slate-500">{program.description}</p>
           </div>
 
           {program.highlights && program.highlights.length > 0 && (
             <div className="border-t border-slate-100 pt-12">
-              <p className="text-sm text-slate-500 uppercase tracking-wider mb-8">This program includes</p>
+              <p className="text-sm text-slate-500 uppercase tracking-wider mb-8">
+                This program includes
+              </p>
               <div className="grid md:grid-cols-3 gap-8">
                 {program.highlights.map((highlight, index) => (
                   <div key={index}>
@@ -139,9 +145,7 @@ export function ProgramPageTemplate({ program }: ProgramPageTemplateProps) {
       {/* What You'll Learn */}
       <section className="py-16 lg:py-24 bg-slate-50">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-slate-900 mb-12">
-            What you'll learn
-          </h2>
+          <h2 className="text-2xl font-bold text-slate-900 mb-12">What you'll learn</h2>
           <div className="grid md:grid-cols-2 gap-x-16 gap-y-4">
             {(program.skills || []).map((skill, index) => (
               <div key={index} className="flex items-start gap-3 py-3 border-b border-slate-200">
@@ -160,14 +164,13 @@ export function ProgramPageTemplate({ program }: ProgramPageTemplateProps) {
             <span className="inline-block bg-brand-green-100 text-brand-green-700 text-sm font-semibold px-4 py-1 rounded-full mb-4">
               Your Journey
             </span>
-            <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
-              How It Works
-            </h2>
+            <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">How It Works</h2>
             <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-              From application to employment - here's exactly what to expect at each step of your training journey.
+              From application to employment - here's exactly what to expect at each step of your
+              training journey.
             </p>
           </div>
-          
+
           <div className="grid lg:grid-cols-3 gap-8">
             {/* Step 1: Apply Online */}
             <div className="relative bg-gradient-to-br from-brand-blue-50 to-white rounded-2xl p-8 border border-brand-blue-100 shadow-sm">
@@ -177,12 +180,15 @@ export function ProgramPageTemplate({ program }: ProgramPageTemplateProps) {
               <div className="pt-4">
                 <h3 className="text-xl font-bold text-slate-900 mb-4">Apply Online</h3>
                 <p className="text-slate-600 mb-6">
-                  Complete our simple online application in just 10-15 minutes. We'll review your eligibility for free WIOA-funded training.
+                  Complete our simple online application in just 10-15 minutes. We'll review your
+                  eligibility for free WIOA-funded training.
                 </p>
                 <ul className="space-y-3">
                   <li className="flex items-start gap-3">
                     <span className="text-slate-500 flex-shrink-0">•</span>
-                    <span className="text-slate-700">Fill out basic information and career goals</span>
+                    <span className="text-slate-700">
+                      Fill out basic information and career goals
+                    </span>
                   </li>
                   <li className="flex items-start gap-3">
                     <span className="text-slate-500 flex-shrink-0">•</span>
@@ -214,7 +220,8 @@ export function ProgramPageTemplate({ program }: ProgramPageTemplateProps) {
               <div className="pt-4">
                 <h3 className="text-xl font-bold text-slate-900 mb-4">Complete Training</h3>
                 <p className="text-slate-600 mb-6">
-                  Attend classes, complete hands-on practice, and earn your industry-recognized certification with expert instructors.
+                  Attend classes, complete hands-on practice, and earn your industry-recognized
+                  certification with expert instructors.
                 </p>
                 <ul className="space-y-3">
                   <li className="flex items-start gap-3">
@@ -251,7 +258,8 @@ export function ProgramPageTemplate({ program }: ProgramPageTemplateProps) {
               <div className="pt-4">
                 <h3 className="text-xl font-bold text-slate-900 mb-4">Start Working</h3>
                 <p className="text-slate-600 mb-6">
-                  Our career services team helps you land your first job with resume support, interview prep, and employer connections.
+                  Our career services team helps you land your first job with resume support,
+                  interview prep, and employer connections.
                 </p>
                 <ul className="space-y-3">
                   <li className="flex items-start gap-3">
@@ -274,7 +282,9 @@ export function ProgramPageTemplate({ program }: ProgramPageTemplateProps) {
                 <div className="mt-6 pt-6 border-t border-brand-green-100">
                   <div className="flex items-center gap-2 text-brand-green-600">
                     <DollarSign className="w-4 h-4" />
-                    <span className="text-sm font-medium">Average starting salary: {program.salary}</span>
+                    <span className="text-sm font-medium">
+                      Average starting salary: {program.salary}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -305,7 +315,8 @@ export function ProgramPageTemplate({ program }: ProgramPageTemplateProps) {
               Where This Training Takes You
             </h2>
             <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-              Graduates from this program work in a variety of high-demand roles with competitive pay and growth opportunities.
+              Graduates from this program work in a variety of high-demand roles with competitive
+              pay and growth opportunities.
             </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -314,9 +325,12 @@ export function ProgramPageTemplate({ program }: ProgramPageTemplateProps) {
               const title = isObject ? outcome.title : outcome;
               const description = isObject ? outcome.description : null;
               const image = isObject && 'image' in outcome ? outcome.image : null;
-              
+
               return (
-                <div key={index} className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-slate-100">
+                <div
+                  key={index}
+                  className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-slate-100"
+                >
                   {image && (
                     <div className="relative h-48 overflow-hidden">
                       <Image
@@ -325,7 +339,8 @@ export function ProgramPageTemplate({ program }: ProgramPageTemplateProps) {
                         fill
                         className="object-cover group-hover:scale-105 transition-transform duration-500"
                         quality={85}
-                       sizes="100vw" />
+                        sizes="100vw"
+                      />
                       <div className="absolute bottom-4 left-4">
                         <span className="inline-flex items-center gap-1 bg-white/90 text-slate-900 text-xs font-semibold px-3 py-1 rounded-full">
                           <Briefcase className="w-3 h-3" />
@@ -357,9 +372,7 @@ export function ProgramPageTemplate({ program }: ProgramPageTemplateProps) {
       {program.requirements && program.requirements.length > 0 && (
         <section className="py-16 lg:py-24">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
-            <h2 className="text-2xl font-bold text-slate-900 mb-12">
-              Requirements
-            </h2>
+            <h2 className="text-2xl font-bold text-slate-900 mb-12">Requirements</h2>
             <div className="grid md:grid-cols-2 gap-x-16 gap-y-4">
               {program.requirements.map((req, index) => (
                 <div key={index} className="flex items-start gap-3 py-3 border-b border-slate-100">
@@ -404,16 +417,16 @@ export function ProgramPageTemplate({ program }: ProgramPageTemplateProps) {
             Ready to get started?
           </h2>
           <p className="text-slate-500 text-lg mb-8">
-            {program.fundingType === 'funded' 
+            {program.fundingType === 'funded'
               ? 'Free training for eligible Indiana residents. Check your eligibility in minutes.'
               : 'Self-pay program with payment options available.'}
           </p>
-          
+
           {/* Pathway Disclosure above CTA */}
           <div className="mb-8">
             <PathwayDisclosure variant="compact" className="bg-gray-800 border-gray-700" />
           </div>
-          
+
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/wioa-eligibility"

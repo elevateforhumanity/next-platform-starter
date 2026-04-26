@@ -3,10 +3,10 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
-import { 
-  User, 
-  Bell, 
-  Lock, 
+import {
+  User,
+  Bell,
+  Lock,
   Globe,
   Palette,
   CreditCard,
@@ -15,7 +15,7 @@ import {
   ChevronRight,
   Camera,
   Mail,
-  Phone
+  Phone,
 } from 'lucide-react';
 
 export const metadata: Metadata = {
@@ -73,7 +73,9 @@ const SETTINGS_SECTIONS = [
 export default async function SettingsPage() {
   const supabase = await createClient();
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     redirect('/login');
@@ -97,9 +99,9 @@ export default async function SettingsPage() {
 
   return (
     <div className="min-h-screen bg-white py-8">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <Breadcrumbs items={[{ label: "LMS", href: "/lms/courses" }, { label: "Settings" }]} />
-        </div>
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'LMS', href: '/lms/courses' }, { label: 'Settings' }]} />
+      </div>
       <div className="max-w-4xl mx-auto px-4">
         {/* Header */}
         <div className="mb-8">
@@ -155,7 +157,9 @@ export default async function SettingsPage() {
                 className="bg-white rounded-xl border border-slate-200 p-6 hover:border-brand-blue-300 hover:shadow-md transition group"
               >
                 <div className="flex items-start gap-4">
-                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${section.color}`}>
+                  <div
+                    className={`w-12 h-12 rounded-xl flex items-center justify-center ${section.color}`}
+                  >
                     <IconComponent className="w-6 h-6" />
                   </div>
                   <div className="flex-1">
@@ -202,7 +206,9 @@ export default async function SettingsPage() {
                 </div>
                 <div>
                   <h3 className="font-medium text-slate-900">Data & Privacy</h3>
-                  <p className="text-sm text-slate-600">Download your data or delete your account</p>
+                  <p className="text-sm text-slate-600">
+                    Download your data or delete your account
+                  </p>
                 </div>
               </div>
               <ChevronRight className="w-5 h-5 text-slate-400" />
@@ -218,7 +224,9 @@ export default async function SettingsPage() {
                   </div>
                   <div>
                     <h3 className="font-medium text-brand-red-600">Sign Out</h3>
-                    <p className="text-sm text-slate-600">Sign out of your account on this device</p>
+                    <p className="text-sm text-slate-600">
+                      Sign out of your account on this device
+                    </p>
                   </div>
                 </div>
               </button>
@@ -230,11 +238,17 @@ export default async function SettingsPage() {
         <div className="mt-8 text-center">
           <p className="text-slate-600">
             Need help? Visit our{' '}
-            <Link href="/lms/support" className="text-brand-blue-600 font-medium hover:text-brand-blue-700">
+            <Link
+              href="/lms/support"
+              className="text-brand-blue-600 font-medium hover:text-brand-blue-700"
+            >
               Support Center
-            </Link>
-            {' '}or{' '}
-            <Link href="/contact" className="text-brand-blue-600 font-medium hover:text-brand-blue-700">
+            </Link>{' '}
+            or{' '}
+            <Link
+              href="/contact"
+              className="text-brand-blue-600 font-medium hover:text-brand-blue-700"
+            >
               Contact Us
             </Link>
           </p>

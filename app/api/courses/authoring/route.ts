@@ -1,7 +1,6 @@
-
 // app/api/courses/authoring/route.ts
-import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@/lib/supabase/server";
+import { NextRequest, NextResponse } from 'next/server';
+import { createClient } from '@/lib/supabase/server';
 import { logger } from '@/lib/logger';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
@@ -22,47 +21,38 @@ async function _GET(req: NextRequest) {
     } = await supabase.auth.getUser();
 
     if (!user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     // Check if user is admin or instructor
     const { data: profile } = await supabase
-      .from("user_profiles")
-      .select("role")
-      .eq("user_id", user.id)
+      .from('user_profiles')
+      .select('role')
+      .eq('user_id', user.id)
       .maybeSingle();
 
-    if (!profile || !["admin", "instructor"].includes(profile.role)) {
-      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    if (!profile || !['admin', 'instructor'].includes(profile.role)) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
     // Get courses created by this user or all if admin
-    let query = supabase
-      .from("courses")
-      .select("*")
-      .order("created_at", { ascending: false });
+    let query = supabase.from('courses').select('*').order('created_at', { ascending: false });
 
-    if (profile.role !== "admin") {
-      query = query.eq("created_by", user.id);
+    if (profile.role !== 'admin') {
+      query = query.eq('created_by', user.id);
     }
 
     const { data: courses, error } = await query;
 
     if (error) {
-      logger.error("Error fetching courses:", error);
-      return NextResponse.json(
-        { error: "Failed to fetch courses" },
-        { status: 500 }
-      );
+      logger.error('Error fetching courses:', error);
+      return NextResponse.json({ error: 'Failed to fetch courses' }, { status: 500 });
     }
 
     return NextResponse.json({ courses: courses || [] });
-  } catch (error) { 
-    logger.error("[Course Authoring Error]:", error);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    );
+  } catch (error) {
+    logger.error('[Course Authoring Error]:', error);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -78,40 +68,32 @@ async function _POST(req: NextRequest) {
     } = await supabase.auth.getUser();
 
     if (!user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     // Check if user is admin or instructor
     const { data: profile } = await supabase
-      .from("user_profiles")
-      .select("role")
-      .eq("user_id", user.id)
+      .from('user_profiles')
+      .select('role')
+      .eq('user_id', user.id)
       .maybeSingle();
 
-    if (!profile || !["admin", "instructor"].includes(profile.role)) {
-      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    if (!profile || !['admin', 'instructor'].includes(profile.role)) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
     const body = await req.json();
-    const {
-      title,
-      description,
-      category,
-      level,
-      duration,
-      modules,
-      settings,
-    } = body;
+    const { title, description, category, level, duration, modules, settings } = body;
 
     // LEGACY_SYSTEM_DISABLED — use POST /api/admin/lms/courses
     return NextResponse.json(
       { error: 'LEGACY_SYSTEM_DISABLED: use POST /api/admin/lms/courses' },
-      { status: 410 }
+      { status: 410 },
     );
 
     // Create course
     const { data: course, error: courseError } = await supabase
-      .from("courses")
+      .from('courses')
       .insert({
         title,
         description,
@@ -119,18 +101,15 @@ async function _POST(req: NextRequest) {
         level,
         duration,
         created_by: user.id,
-        status: "draft",
+        status: 'draft',
         settings,
       })
       .select()
       .maybeSingle();
 
     if (courseError) {
-      logger.error("Error creating course:", courseError);
-      return NextResponse.json(
-        { error: "Failed to create course" },
-        { status: 500 }
-      );
+      logger.error('Error creating course:', courseError);
+      return NextResponse.json({ error: 'Failed to create course' }, { status: 500 });
     }
 
     // Create modules if provided
@@ -142,12 +121,10 @@ async function _POST(req: NextRequest) {
         order: index + 1,
       }));
 
-      const { error: modulesError } = await supabase
-        .from("course_modules")
-        .insert(moduleInserts);
+      const { error: modulesError } = await supabase.from('course_modules').insert(moduleInserts);
 
       if (modulesError) {
-        logger.error("Error creating modules:", modulesError);
+        logger.error('Error creating modules:', modulesError);
         // Don't fail the whole request, course is still created
       }
     }
@@ -157,12 +134,9 @@ async function _POST(req: NextRequest) {
       course_id: course.id,
       course,
     });
-  } catch (error) { 
-    logger.error("[Course Creation Error]:", error);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    );
+  } catch (error) {
+    logger.error('[Course Creation Error]:', error);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/courses/authoring', _GET);

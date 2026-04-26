@@ -5,8 +5,12 @@ import { PrintButton } from '../PrintButton';
 
 export const metadata: Metadata = {
   title: 'OJT Hours Log — Barber Apprenticeship | Elevate for Humanity',
-  description: 'On-the-Job Training hours log sheet for barber apprenticeship. Tracks daily hours, skills practiced, and supervisor verification.',
-  alternates: { canonical: 'https://www.elevateforhumanity.org/compliance/competency-verification/barber/ojt-hours-log' },
+  description:
+    'On-the-Job Training hours log sheet for barber apprenticeship. Tracks daily hours, skills practiced, and supervisor verification.',
+  alternates: {
+    canonical:
+      'https://www.elevateforhumanity.org/compliance/competency-verification/barber/ojt-hours-log',
+  },
 };
 
 const SKILL_CATEGORIES = [
@@ -27,11 +31,13 @@ export default function OJTHoursLogPage() {
       {/* Screen nav */}
       <div className="bg-white border-b print:hidden">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[
-            { label: 'Compliance', href: '/compliance' },
-            { label: 'Barber Rubric', href: '/compliance/competency-verification/barber' },
-            { label: 'OJT Hours Log' },
-          ]} />
+          <Breadcrumbs
+            items={[
+              { label: 'Compliance', href: '/compliance' },
+              { label: 'Barber Rubric', href: '/compliance/competency-verification/barber' },
+              { label: 'OJT Hours Log' },
+            ]}
+          />
         </div>
       </div>
 
@@ -40,7 +46,8 @@ export default function OJTHoursLogPage() {
         <div className="max-w-4xl mx-auto px-4">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">OJT Hours Log Sheet</h1>
           <p className="text-gray-600 mb-4">
-            Daily OJT hours tracking. One sheet per month. Supervisor initials required for each entry.
+            Daily OJT hours tracking. One sheet per month. Supervisor initials required for each
+            entry.
           </p>
           <PrintButton />
         </div>
@@ -50,9 +57,13 @@ export default function OJTHoursLogPage() {
       <div className="hidden print:block px-6 pt-6 pb-3 border-b-2 border-gray-900">
         <div className="flex justify-between items-start">
           <div>
-            <p className="text-[8px] uppercase tracking-widest text-gray-500 mb-0.5">Elevate for Humanity</p>
+            <p className="text-[8px] uppercase tracking-widest text-gray-500 mb-0.5">
+              Elevate for Humanity
+            </p>
             <h1 className="text-base font-bold">ON-THE-JOB TRAINING (OJT) HOURS LOG</h1>
-            <p className="text-[9px] text-gray-600">Barbering Apprenticeship | RAPIDS ID: 2025-IN-132301</p>
+            <p className="text-[9px] text-gray-600">
+              Barbering Apprenticeship | RAPIDS ID: 2025-IN-132301
+            </p>
           </div>
           <div className="text-right text-[9px] text-gray-500">
             <p>One sheet per month</p>
@@ -84,8 +95,12 @@ export default function OJTHoursLogPage() {
                 <th className="p-2 border font-semibold text-center w-16 print:p-1">Start</th>
                 <th className="p-2 border font-semibold text-center w-16 print:p-1">End</th>
                 <th className="p-2 border font-semibold text-center w-14 print:p-1">Hours</th>
-                <th className="p-2 border font-semibold text-left print:p-1">Skills Practiced / Tasks Performed</th>
-                <th className="p-2 border font-semibold text-center w-16 print:p-1">Supv. Initials</th>
+                <th className="p-2 border font-semibold text-left print:p-1">
+                  Skills Practiced / Tasks Performed
+                </th>
+                <th className="p-2 border font-semibold text-center w-16 print:p-1">
+                  Supv. Initials
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -105,13 +120,21 @@ export default function OJTHoursLogPage() {
 
         {/* Monthly Summary by Category */}
         <div className="border-2 rounded-lg p-4 mb-5 print:p-3 print:mb-4 print:border-gray-400 print:break-inside-avoid">
-          <h2 className="font-bold text-sm mb-2 print:text-[10px] print:mb-1">Monthly Hours by Competency Category</h2>
+          <h2 className="font-bold text-sm mb-2 print:text-[10px] print:mb-1">
+            Monthly Hours by Competency Category
+          </h2>
           <table className="w-full border-collapse text-sm print:text-[9px]">
             <thead>
               <tr className="bg-white print:bg-white">
-                <th className="p-2 border font-semibold text-left print:p-1">Competency Category</th>
-                <th className="p-2 border font-semibold text-center w-28 print:p-1">Hours This Month</th>
-                <th className="p-2 border font-semibold text-center w-28 print:p-1">Cumulative Total</th>
+                <th className="p-2 border font-semibold text-left print:p-1">
+                  Competency Category
+                </th>
+                <th className="p-2 border font-semibold text-center w-28 print:p-1">
+                  Hours This Month
+                </th>
+                <th className="p-2 border font-semibold text-center w-28 print:p-1">
+                  Cumulative Total
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -150,37 +173,50 @@ export default function OJTHoursLogPage() {
 
           <div className="space-y-4 print:space-y-3">
             <div className="border-2 rounded-lg p-4 print:p-3 print:border-gray-400">
-              <p className="font-bold text-sm mb-2 print:text-[10px] print:mb-1">Licensed Barbershop Supervisor</p>
+              <p className="font-bold text-sm mb-2 print:text-[10px] print:mb-1">
+                Licensed Barbershop Supervisor
+              </p>
               <p className="text-xs text-gray-600 mb-3 print:text-[9px] print:mb-2">
-                I verify that the hours recorded above are accurate and that all training occurred under my direct supervision at a licensed barbershop.
+                I verify that the hours recorded above are accurate and that all training occurred
+                under my direct supervision at a licensed barbershop.
               </p>
               <div className="grid grid-cols-2 gap-3 text-sm print:text-[10px] print:gap-2">
                 <div>Print Name: ________________________________</div>
                 <div>Indiana Barber License #: ________________________________</div>
-                <div className="col-span-2">Signature: ________________________________________________________________</div>
+                <div className="col-span-2">
+                  Signature: ________________________________________________________________
+                </div>
                 <div>Date: ________________________________</div>
               </div>
             </div>
 
             <div className="border-2 rounded-lg p-4 print:p-3 print:border-gray-400">
-              <p className="font-bold text-sm mb-2 print:text-[10px] print:mb-1">Apprentice Acknowledgment</p>
+              <p className="font-bold text-sm mb-2 print:text-[10px] print:mb-1">
+                Apprentice Acknowledgment
+              </p>
               <p className="text-xs text-gray-600 mb-3 print:text-[9px] print:mb-2">
                 I confirm that the hours and activities recorded above are accurate.
               </p>
               <div className="grid grid-cols-2 gap-3 text-sm print:text-[10px] print:gap-2">
                 <div>Print Name: ________________________________</div>
                 <div>Date: ________________________________</div>
-                <div className="col-span-2">Signature: ________________________________________________________________</div>
+                <div className="col-span-2">
+                  Signature: ________________________________________________________________
+                </div>
               </div>
             </div>
 
             <div className="border-2 rounded-lg p-4 print:p-3 print:border-gray-400">
-              <p className="font-bold text-sm mb-2 print:text-[10px] print:mb-1">Program Holder Review</p>
+              <p className="font-bold text-sm mb-2 print:text-[10px] print:mb-1">
+                Program Holder Review
+              </p>
               <div className="grid grid-cols-2 gap-3 text-sm print:text-[10px] print:gap-2">
                 <div>Reviewed By: ________________________________</div>
                 <div>Date: ________________________________</div>
                 <div>LMS Hours Reconciled: ☐ Yes</div>
-                <div className="col-span-2">Signature: ________________________________________________________________</div>
+                <div className="col-span-2">
+                  Signature: ________________________________________________________________
+                </div>
               </div>
             </div>
           </div>
@@ -196,13 +232,22 @@ export default function OJTHoursLogPage() {
       {/* Screen nav */}
       <div className="py-8 bg-white print:hidden">
         <div className="max-w-4xl mx-auto px-4 flex flex-wrap gap-3">
-          <Link href="/compliance/competency-verification/barber" className="inline-flex items-center gap-2 px-4 py-2 bg-brand-blue-600 text-white rounded-lg text-sm font-medium hover:bg-brand-blue-700 transition">
+          <Link
+            href="/compliance/competency-verification/barber"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-brand-blue-600 text-white rounded-lg text-sm font-medium hover:bg-brand-blue-700 transition"
+          >
             Barber Rubric Overview
           </Link>
-          <Link href="/compliance/competency-verification/barber/monthly-ojt-evaluation" className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-white transition">
+          <Link
+            href="/compliance/competency-verification/barber/monthly-ojt-evaluation"
+            className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-white transition"
+          >
             Monthly OJT Evaluation
           </Link>
-          <Link href="/compliance/competency-verification/barber/supervisor-verification" className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-white transition">
+          <Link
+            href="/compliance/competency-verification/barber/supervisor-verification"
+            className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-white transition"
+          >
             Supervisor Verification
           </Link>
         </div>

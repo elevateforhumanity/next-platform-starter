@@ -1,15 +1,13 @@
 #!/usr/bin/env node
 import { readFile } from 'fs/promises';
 
-
 const files = [
   'app/page.tsx',
   'app/globals.css',
   'components/site/SiteFooter.tsx',
   'components/site/SiteHeader.tsx',
-  'tailwind.config.js'
+  'tailwind.config.js',
 ];
-
 
 for (const file of files) {
   try {
@@ -19,7 +17,5 @@ for (const file of files) {
 
     if (blackCount > 0 || grayCount > 0) {
     }
-  } catch (err) {
-  }
+  } catch (err) {}
 }
-

@@ -1,12 +1,12 @@
 import { logger } from '@/lib/logger';
 /**
  * Payment Monitoring Cron Job
- * 
+ *
  * Runs daily to:
  * 1. Check for upcoming payments and send reminders
  * 2. Check for past-due payments and send alerts
  * 3. Update subscription statuses in database
- * 
+ *
  * Stripe handles the actual weekly charges automatically via subscriptions.
  * This job monitors and notifies.
  */
@@ -44,7 +44,7 @@ async function _GET(request: Request) {
   try {
     const stripe = getStripe();
     const supabase = getSupabaseAdmin();
-    
+
     const results = {
       upcomingReminders: 0,
       pastDueAlerts: 0,
@@ -55,14 +55,16 @@ async function _GET(request: Request) {
     // 1. Get all active subscriptions from database
     const { data: subscriptions, error: subError } = await supabase
       .from('student_subscriptions')
-      .select(`
+      .select(
+        `
         *,
         profiles:student_id (
           id,
           email,
           full_name
         )
-      `)
+      `,
+      )
       .in('status', ['active', 'past_due']);
 
     if (subError) {
@@ -75,7 +77,7 @@ async function _GET(request: Request) {
         try {
           // Fetch current status from Stripe
           const stripeSub = await stripe.subscriptions.retrieve(sub.stripe_subscription_id);
-          
+
           // Update local status if changed
           if (stripeSub.status !== sub.status) {
             await supabase
@@ -87,7 +89,7 @@ async function _GET(request: Request) {
                 updated_at: new Date().toISOString(),
               })
               .eq('id', sub.id);
-            
+
             results.statusUpdates++;
           }
 
@@ -101,12 +103,11 @@ async function _GET(request: Request) {
           const nextPaymentDate = new Date(stripeSub.current_period_end * 1000);
           const twoDaysFromNow = new Date();
           twoDaysFromNow.setDate(twoDaysFromNow.getDate() + 2);
-          
+
           if (nextPaymentDate <= twoDaysFromNow && stripeSub.status === 'active') {
             await sendUpcomingPaymentReminder(sub.profiles, sub, nextPaymentDate);
             results.upcomingReminders++;
           }
-
         } catch (stripeError) {
           logger.error(`Error processing subscription ${sub.id}:`, stripeError);
           results.errors.push(`Subscription ${sub.id}: ${stripeError}`);
@@ -132,14 +133,14 @@ async function _GET(request: Request) {
               updated_at: new Date().toISOString(),
             })
             .eq('id', sub.id);
-          
+
           // Cancel Stripe subscription
           try {
             await stripe.subscriptions.cancel(sub.stripe_subscription_id);
           } catch (e) {
             logger.error('Error canceling completed subscription:', e);
           }
-          
+
           results.statusUpdates++;
         }
       }
@@ -152,12 +153,11 @@ async function _GET(request: Request) {
       timestamp: new Date().toISOString(),
       results,
     });
-
   } catch (error) {
     logger.error('Payment monitoring error:', error);
     return NextResponse.json(
       { error: 'Payment monitoring failed', details: String(error) },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -165,11 +165,10 @@ async function _GET(request: Request) {
 async function sendUpcomingPaymentReminder(
   student: { email: string; full_name: string } | null,
   subscription: any,
-  paymentDate: Date
+  paymentDate: Date,
 ) {
   if (!student?.email || !process.env.SENDGRID_API_KEY) return;
 
-  
   await resend.emails.send({
     from: 'Elevate for Humanity <billing@elevateforhumanity.org>',
     to: student.email,
@@ -189,11 +188,10 @@ async function sendUpcomingPaymentReminder(
 
 async function sendPastDueAlert(
   student: { email: string; full_name: string } | null,
-  subscription: any
+  subscription: any,
 ) {
   if (!student?.email || !process.env.SENDGRID_API_KEY) return;
 
-  
   await resend.emails.send({
     from: 'Elevate for Humanity <billing@elevateforhumanity.org>',
     to: student.email,
@@ -224,4 +222,6 @@ async function sendPastDueAlert(
     `,
   });
 }
-export const GET = withRuntime(withApiAudit('/api/cron/payment-monitoring', _GET, { actor_type: 'cron' }));
+export const GET = withRuntime(
+  withApiAudit('/api/cron/payment-monitoring', _GET, { actor_type: 'cron' }),
+);

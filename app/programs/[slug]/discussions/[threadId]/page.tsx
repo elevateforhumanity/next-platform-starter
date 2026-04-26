@@ -7,7 +7,7 @@ import { createClient } from '@/lib/supabase/client';
 import Link from 'next/link';
 import { ArrowLeft, Send, ThumbsUp, User, Clock, MessageSquare } from 'lucide-react';
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 interface Reply {
@@ -33,7 +33,7 @@ export default function ThreadDetailPage() {
   const router = useRouter();
   const slug = params.slug as string;
   const threadId = params.threadId as string;
-  
+
   const [program, setProgram] = useState<any>(null);
   const [thread, setThread] = useState<Thread | null>(null);
   const [replies, setReplies] = useState<Reply[]>([]);
@@ -49,9 +49,11 @@ export default function ThreadDetailPage() {
 
   async function loadData() {
     const supabase = createClient();
-    
+
     // Check auth
-    const { data: { user: authUser } } = await supabase.auth.getUser();
+    const {
+      data: { user: authUser },
+    } = await supabase.auth.getUser();
     setUser(authUser);
 
     // Load program by slug
@@ -75,14 +77,15 @@ export default function ThreadDetailPage() {
         .select('*', { count: 'exact', head: true })
         .eq('program_id', programData.id)
         .eq('user_id', authUser.id);
-      
+
       setIsEnrolled((count || 0) > 0);
     }
 
     // Load thread
     const { data: threadData } = await supabase
       .from('program_discussions')
-      .select(`
+      .select(
+        `
         id,
         title,
         content,
@@ -90,7 +93,8 @@ export default function ThreadDetailPage() {
         pinned,
         likes,
         author:profiles!author_id(full_name, avatar_url)
-      `)
+      `,
+      )
       .eq('id', threadId)
       .single();
 
@@ -104,13 +108,15 @@ export default function ThreadDetailPage() {
     // Load replies
     const { data: repliesData } = await supabase
       .from('program_discussion_replies')
-      .select(`
+      .select(
+        `
         id,
         content,
         created_at,
         likes,
         author:profiles!author_id(full_name, avatar_url)
-      `)
+      `,
+      )
       .eq('thread_id', threadId)
       .order('created_at', { ascending: true });
 
@@ -121,17 +127,15 @@ export default function ThreadDetailPage() {
   async function postReply(e: React.FormEvent) {
     e.preventDefault();
     if (!replyContent.trim() || !user) return;
-    
+
     setPosting(true);
     const supabase = createClient();
 
-    const { error } = await supabase
-      .from('program_discussion_replies')
-      .insert({
-        thread_id: threadId,
-        author_id: user.id,
-        content: replyContent,
-      });
+    const { error } = await supabase.from('program_discussion_replies').insert({
+      thread_id: threadId,
+      author_id: user.id,
+      content: replyContent,
+    });
 
     if (!error) {
       setReplyContent('');
@@ -139,31 +143,31 @@ export default function ThreadDetailPage() {
     } else {
       alert('Failed to post reply');
     }
-    
+
     setPosting(false);
   }
 
   async function likeThread() {
     if (!user) return;
     const supabase = createClient();
-    
+
     await supabase
       .from('program_discussions')
       .update({ likes: (thread?.likes || 0) + 1 })
       .eq('id', threadId);
-    
+
     loadData();
   }
 
   async function likeReply(replyId: string, currentLikes: number) {
     if (!user) return;
     const supabase = createClient();
-    
+
     await supabase
       .from('program_discussion_replies')
       .update({ likes: currentLikes + 1 })
       .eq('id', replyId);
-    
+
     loadData();
   }
 
@@ -179,13 +183,13 @@ export default function ThreadDetailPage() {
 
   return (
     <div className="min-h-screen bg-white">
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Programs", href: "/programs" }, { label: "[Threadid]" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Programs', href: '/programs' }, { label: '[Threadid]' }]} />
       </div>
-<div className="max-w-4xl mx-auto px-4 py-8">
+      <div className="max-w-4xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8">
-          <Link 
+          <Link
             href={`/programs/${slug}/discussions`}
             className="inline-flex items-center text-brand-blue-600 hover:text-brand-blue-700 mb-4"
           >
@@ -203,7 +207,9 @@ export default function ThreadDetailPage() {
             <div className="flex-1">
               <div className="flex items-center gap-2 mb-2">
                 {thread.pinned && (
-                  <span className="text-xs bg-yellow-100 text-yellow-700 px-2 py-0.5 rounded">Pinned</span>
+                  <span className="text-xs bg-yellow-100 text-yellow-700 px-2 py-0.5 rounded">
+                    Pinned
+                  </span>
                 )}
                 <h1 className="text-2xl font-bold text-slate-900">{thread.title}</h1>
               </div>
@@ -240,7 +246,7 @@ export default function ThreadDetailPage() {
         {/* Replies */}
         <div className="space-y-4 mb-8">
           <h2 className="text-lg font-semibold text-slate-900">Replies ({replies.length})</h2>
-          
+
           {replies.map((reply) => (
             <div key={reply.id} className="bg-white rounded-xl border p-6">
               <div className="flex items-start gap-4">
@@ -249,7 +255,9 @@ export default function ThreadDetailPage() {
                 </div>
                 <div className="flex-1">
                   <div className="flex items-center gap-4 text-sm text-black mb-2">
-                    <span className="font-medium text-slate-900">{reply.author?.full_name || 'Anonymous'}</span>
+                    <span className="font-medium text-slate-900">
+                      {reply.author?.full_name || 'Anonymous'}
+                    </span>
                     <span>{new Date(reply.created_at).toLocaleDateString()}</span>
                   </div>
                   <p className="text-slate-800 whitespace-pre-wrap">{reply.content}</p>
@@ -300,11 +308,17 @@ export default function ThreadDetailPage() {
           <div className="bg-white rounded-xl border p-6 text-center">
             {!user ? (
               <p className="text-black">
-                <Link href="/login" className="text-brand-blue-600 font-semibold">Sign in</Link> to reply to this discussion.
+                <Link href="/login" className="text-brand-blue-600 font-semibold">
+                  Sign in
+                </Link>{' '}
+                to reply to this discussion.
               </p>
             ) : (
               <p className="text-black">
-                <Link href={`/enroll/${program?.id}`} className="text-brand-blue-600 font-semibold">Enroll in this program</Link> to participate in discussions.
+                <Link href={`/enroll/${program?.id}`} className="text-brand-blue-600 font-semibold">
+                  Enroll in this program
+                </Link>{' '}
+                to participate in discussions.
               </p>
             )}
           </div>

@@ -2,10 +2,20 @@
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 import { useState, useCallback } from 'react';
-import { 
-  Upload, FileSpreadsheet, Users, BookOpen, Building2, 
-  GraduationCap, AlertCircle, X, Download,
-  ArrowRight, Loader2, FileText, Table
+import {
+  Upload,
+  FileSpreadsheet,
+  Users,
+  BookOpen,
+  Building2,
+  GraduationCap,
+  AlertCircle,
+  X,
+  Download,
+  ArrowRight,
+  Loader2,
+  FileText,
+  Table,
 } from 'lucide-react';
 
 type ImportType = 'students' | 'courses' | 'programs' | 'employers' | 'enrollments';
@@ -25,7 +35,17 @@ const IMPORT_TABS: ImportTab[] = [
     label: 'Students',
     icon: Users,
     description: 'Import student records with contact info and demographics',
-    sampleFields: ['email', 'first_name', 'last_name', 'phone', 'date_of_birth', 'address', 'city', 'state', 'zip'],
+    sampleFields: [
+      'email',
+      'first_name',
+      'last_name',
+      'phone',
+      'date_of_birth',
+      'address',
+      'city',
+      'state',
+      'zip',
+    ],
     requiredFields: ['email', 'first_name', 'last_name'],
   },
   {
@@ -33,7 +53,15 @@ const IMPORT_TABS: ImportTab[] = [
     label: 'Courses',
     icon: BookOpen,
     description: 'Import course catalog with descriptions and pricing',
-    sampleFields: ['title', 'description', 'duration_hours', 'price', 'category', 'level', 'instructor'],
+    sampleFields: [
+      'title',
+      'description',
+      'duration_hours',
+      'price',
+      'category',
+      'level',
+      'instructor',
+    ],
     requiredFields: ['title'],
   },
   {
@@ -41,7 +69,14 @@ const IMPORT_TABS: ImportTab[] = [
     label: 'Programs',
     icon: GraduationCap,
     description: 'Import training programs and certifications',
-    sampleFields: ['name', 'description', 'duration_weeks', 'credential_type', 'industry', 'funding_eligible'],
+    sampleFields: [
+      'name',
+      'description',
+      'duration_weeks',
+      'credential_type',
+      'industry',
+      'funding_eligible',
+    ],
     requiredFields: ['name'],
   },
   {
@@ -80,75 +115,89 @@ export default function AdminImportPage() {
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<ImportPreview | null>(null);
   const [importing, setImporting] = useState(false);
-  const [importResult, setImportResult] = useState<{ success: number; failed: number; errors: string[] } | null>(null);
+  const [importResult, setImportResult] = useState<{
+    success: number;
+    failed: number;
+    errors: string[];
+  } | null>(null);
 
-  const activeTabData = IMPORT_TABS.find(t => t.id === activeTab)!;
+  const activeTabData = IMPORT_TABS.find((t) => t.id === activeTab)!;
 
-  const parseCSV = useCallback((text: string): ImportPreview => {
-    const lines = text.split('\n').filter(line => line.trim());
-    if (lines.length === 0) {
-      return { headers: [], rows: [], totalRows: 0, errors: ['File is empty'], warnings: [] };
-    }
-
-    // Parse headers
-    const headers = lines[0].split(',').map(h => h.trim().toLowerCase().replace(/['"]/g, ''));
-    
-    // Check required fields
-    const errors: string[] = [];
-    const warnings: string[] = [];
-    
-    activeTabData.requiredFields.forEach(field => {
-      if (!headers.includes(field)) {
-        errors.push(`Missing required column: ${field}`);
+  const parseCSV = useCallback(
+    (text: string): ImportPreview => {
+      const lines = text.split('\n').filter((line) => line.trim());
+      if (lines.length === 0) {
+        return { headers: [], rows: [], totalRows: 0, errors: ['File is empty'], warnings: [] };
       }
-    });
 
-    // Parse rows
-    const rows: ParsedRow[] = [];
-    for (let i = 1; i < Math.min(lines.length, 101); i++) { // Preview first 100 rows
-      const values = lines[i].split(',').map(v => v.trim().replace(/['"]/g, ''));
-      const row: ParsedRow = {};
-      headers.forEach((header, idx) => {
-        row[header] = values[idx] || '';
+      // Parse headers
+      const headers = lines[0].split(',').map((h) => h.trim().toLowerCase().replace(/['"]/g, ''));
+
+      // Check required fields
+      const errors: string[] = [];
+      const warnings: string[] = [];
+
+      activeTabData.requiredFields.forEach((field) => {
+        if (!headers.includes(field)) {
+          errors.push(`Missing required column: ${field}`);
+        }
       });
-      rows.push(row);
-    }
 
-    if (lines.length > 101) {
-      warnings.push(`Showing first 100 of ${lines.length - 1} rows`);
-    }
+      // Parse rows
+      const rows: ParsedRow[] = [];
+      for (let i = 1; i < Math.min(lines.length, 101); i++) {
+        // Preview first 100 rows
+        const values = lines[i].split(',').map((v) => v.trim().replace(/['"]/g, ''));
+        const row: ParsedRow = {};
+        headers.forEach((header, idx) => {
+          row[header] = values[idx] || '';
+        });
+        rows.push(row);
+      }
 
-    return {
-      headers,
-      rows,
-      totalRows: lines.length - 1,
-      errors,
-      warnings,
-    };
-  }, [activeTabData]);
+      if (lines.length > 101) {
+        warnings.push(`Showing first 100 of ${lines.length - 1} rows`);
+      }
 
-  const handleFile = useCallback((file: File) => {
-    setFile(file);
-    setImportResult(null);
-    
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const text = e.target?.result as string;
-      const parsed = parseCSV(text);
-      setPreview(parsed);
-    };
-    reader.readAsText(file);
-  }, [parseCSV]);
+      return {
+        headers,
+        rows,
+        totalRows: lines.length - 1,
+        errors,
+        warnings,
+      };
+    },
+    [activeTabData],
+  );
 
-  const handleDrop = useCallback((e: React.DragEvent) => {
-    e.preventDefault();
-    setIsDragging(false);
-    
-    const droppedFile = e.dataTransfer.files[0];
-    if (droppedFile && (droppedFile.type === 'text/csv' || droppedFile.name.endsWith('.csv'))) {
-      handleFile(droppedFile);
-    }
-  }, [handleFile]);
+  const handleFile = useCallback(
+    (file: File) => {
+      setFile(file);
+      setImportResult(null);
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const text = e.target?.result as string;
+        const parsed = parseCSV(text);
+        setPreview(parsed);
+      };
+      reader.readAsText(file);
+    },
+    [parseCSV],
+  );
+
+  const handleDrop = useCallback(
+    (e: React.DragEvent) => {
+      e.preventDefault();
+      setIsDragging(false);
+
+      const droppedFile = e.dataTransfer.files[0];
+      if (droppedFile && (droppedFile.type === 'text/csv' || droppedFile.name.endsWith('.csv'))) {
+        handleFile(droppedFile);
+      }
+    },
+    [handleFile],
+  );
 
   const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
@@ -161,7 +210,7 @@ export default function AdminImportPage() {
     if (!file || !preview || preview.errors.length > 0) return;
 
     setImporting(true);
-    
+
     try {
       const formData = new FormData();
       formData.append('file', file);
@@ -173,7 +222,7 @@ export default function AdminImportPage() {
       });
 
       const result = await res.json();
-      
+
       if (res.ok) {
         setImportResult({
           success: result.imported || 0,
@@ -200,9 +249,9 @@ export default function AdminImportPage() {
 
   const downloadSampleCSV = () => {
     const headers = activeTabData.sampleFields.join(',');
-    const sampleRow = activeTabData.sampleFields.map(f => `sample_${f}`).join(',');
+    const sampleRow = activeTabData.sampleFields.map((f) => `sample_${f}`).join(',');
     const csv = `${headers}\n${sampleRow}`;
-    
+
     const blob = new Blob([csv], { type: 'text/csv' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -220,7 +269,6 @@ export default function AdminImportPage() {
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* Hero Image */}
       {/* Header */}
       <div className="bg-white border-b">
@@ -273,26 +321,37 @@ export default function AdminImportPage() {
 
           <div className="p-6">
             <p className="text-slate-700 mb-4">{activeTabData.description}</p>
-            
+
             <div className="flex flex-wrap gap-2 mb-6">
               <span className="text-sm text-slate-700">Required fields:</span>
-              {activeTabData.requiredFields.map(field => (
-                <span key={field} className="px-2 py-1 bg-brand-red-50 text-brand-red-700 text-xs font-medium rounded">
+              {activeTabData.requiredFields.map((field) => (
+                <span
+                  key={field}
+                  className="px-2 py-1 bg-brand-red-50 text-brand-red-700 text-xs font-medium rounded"
+                >
                   {field}
                 </span>
               ))}
               <span className="text-sm text-slate-700 ml-2">Optional:</span>
-              {activeTabData.sampleFields.filter(f => !activeTabData.requiredFields.includes(f)).map(field => (
-                <span key={field} className="px-2 py-1 bg-gray-100 text-slate-700 text-xs rounded">
-                  {field}
-                </span>
-              ))}
+              {activeTabData.sampleFields
+                .filter((f) => !activeTabData.requiredFields.includes(f))
+                .map((field) => (
+                  <span
+                    key={field}
+                    className="px-2 py-1 bg-gray-100 text-slate-700 text-xs rounded"
+                  >
+                    {field}
+                  </span>
+                ))}
             </div>
 
             {/* Upload Area */}
             {!file && (
               <div
-                onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
+                onDragOver={(e) => {
+                  e.preventDefault();
+                  setIsDragging(true);
+                }}
                 onDragLeave={() => setIsDragging(false)}
                 onDrop={handleDrop}
                 className={`border-2 border-dashed rounded-xl p-12 text-center transition-colors ${
@@ -301,7 +360,9 @@ export default function AdminImportPage() {
                     : 'border-gray-300 hover:border-gray-400'
                 }`}
               >
-                <Upload className={`w-12 h-12 mx-auto mb-4 ${isDragging ? 'text-brand-blue-500' : 'text-slate-700'}`} />
+                <Upload
+                  className={`w-12 h-12 mx-auto mb-4 ${isDragging ? 'text-brand-blue-500' : 'text-slate-700'}`}
+                />
                 <p className="text-lg font-medium text-slate-900 mb-2">
                   {isDragging ? 'Drop your CSV file here' : 'Drag and drop your CSV file'}
                 </p>
@@ -309,12 +370,7 @@ export default function AdminImportPage() {
                 <label className="inline-flex items-center gap-2 px-6 py-3 bg-brand-blue-600 text-white font-medium rounded-lg hover:bg-brand-blue-700 cursor-pointer transition-colors">
                   <FileSpreadsheet className="w-5 h-5" />
                   Browse Files
-                  <input
-                    type="file"
-                    accept=".csv"
-                    onChange={handleFileInput}
-                    className="hidden"
-                  />
+                  <input type="file" accept=".csv" onChange={handleFileInput} className="hidden" />
                 </label>
                 <p className="text-sm text-slate-700 mt-4">Supports CSV files up to 10MB</p>
               </div>
@@ -334,10 +390,7 @@ export default function AdminImportPage() {
                       </p>
                     </div>
                   </div>
-                  <button
-                    onClick={resetImport}
-                    className="p-2 text-slate-700 hover:text-slate-700"
-                  >
+                  <button onClick={resetImport} className="p-2 text-slate-700 hover:text-slate-700">
                     <X className="w-5 h-5" />
                   </button>
                 </div>
@@ -410,7 +463,10 @@ export default function AdminImportPage() {
                             {preview.rows.slice(0, 10).map((row, rowIdx) => (
                               <tr key={rowIdx} className="hover:bg-gray-50">
                                 {preview.headers.map((header) => (
-                                  <td key={header} className="px-4 py-3 text-sm text-slate-900 whitespace-nowrap">
+                                  <td
+                                    key={header}
+                                    className="px-4 py-3 text-sm text-slate-900 whitespace-nowrap"
+                                  >
                                     {row[header] || <span className="text-slate-700">—</span>}
                                   </td>
                                 ))}
@@ -455,9 +511,11 @@ export default function AdminImportPage() {
             {/* Import Result */}
             {importResult && (
               <div className="space-y-6">
-                <div className={`p-6 rounded-xl ${
-                  importResult.failed === 0 ? 'bg-brand-green-50' : 'bg-yellow-50'
-                }`}>
+                <div
+                  className={`p-6 rounded-xl ${
+                    importResult.failed === 0 ? 'bg-brand-green-50' : 'bg-yellow-50'
+                  }`}
+                >
                   <div className="flex items-start gap-4">
                     {importResult.failed === 0 ? (
                       <span className="text-slate-400 flex-shrink-0">•</span>
@@ -465,19 +523,25 @@ export default function AdminImportPage() {
                       <AlertCircle className="w-8 h-8 text-yellow-600" />
                     )}
                     <div>
-                      <h3 className={`text-lg font-bold ${
-                        importResult.failed === 0 ? 'text-brand-green-800' : 'text-yellow-800'
-                      }`}>
+                      <h3
+                        className={`text-lg font-bold ${
+                          importResult.failed === 0 ? 'text-brand-green-800' : 'text-yellow-800'
+                        }`}
+                      >
                         Import Complete
                       </h3>
                       <div className="mt-2 flex gap-6">
                         <div>
-                          <span className="text-2xl font-bold text-brand-green-600">{importResult.success}</span>
+                          <span className="text-2xl font-bold text-brand-green-600">
+                            {importResult.success}
+                          </span>
                           <span className="text-slate-700 ml-2">records imported</span>
                         </div>
                         {importResult.failed > 0 && (
                           <div>
-                            <span className="text-2xl font-bold text-brand-red-600">{importResult.failed}</span>
+                            <span className="text-2xl font-bold text-brand-red-600">
+                              {importResult.failed}
+                            </span>
                             <span className="text-slate-700 ml-2">failed</span>
                           </div>
                         )}

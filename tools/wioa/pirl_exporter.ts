@@ -159,12 +159,19 @@ function normalizeEnumVal(v: unknown): string | number | null {
 function validateAndFormatField(
   participantId: string,
   spec: PirlFieldSpec,
-  raw: unknown
+  raw: unknown,
 ): { formatted: string; issues: ValidationIssue[] } {
   const issues: ValidationIssue[] = [];
   const blank = () => ' '.repeat(spec.length);
   const issue = (severity: 'error' | 'warning', message: string) =>
-    issues.push({ participantId, element: spec.element, fieldName: spec.name, severity, message, value: raw });
+    issues.push({
+      participantId,
+      element: spec.element,
+      fieldName: spec.name,
+      severity,
+      message,
+      value: raw,
+    });
 
   // Required check
   if (spec.required && isBlank(raw)) {
@@ -229,7 +236,7 @@ function buildFixedWidthLine(
   participantId: string,
   schema: PirlSchema,
   elements: Record<string, unknown>,
-  maxErrors: number
+  maxErrors: number,
 ): { line: string; issues: ValidationIssue[] } {
   const parts: string[] = [];
   const issues: ValidationIssue[] = [];
@@ -246,7 +253,9 @@ function buildFixedWidthLine(
 
 // ── Export pipeline ────────────────────────────────────────────────────────
 
-function summarizeIssues(issues: ValidationIssue[]): Record<string, { errors: number; warnings: number }> {
+function summarizeIssues(
+  issues: ValidationIssue[],
+): Record<string, { errors: number; warnings: number }> {
   const acc: Record<string, { errors: number; warnings: number }> = {};
   for (const i of issues) {
     const k = `${i.element} ${i.fieldName}`;
@@ -259,7 +268,7 @@ function summarizeIssues(issues: ValidationIssue[]): Record<string, { errors: nu
 
 export async function exportQuarterlyPirl(
   adapter: PirlDataAdapter,
-  opts: ExportOptions
+  opts: ExportOptions,
 ): Promise<ExportResult> {
   const maxErrors = opts.maxErrors ?? 2000;
   const schema = mustReadJson<PirlSchema>(opts.schemaPath);
@@ -268,8 +277,14 @@ export async function exportQuarterlyPirl(
 
   const participants = await adapter.fetchParticipantsForQuarter(opts.quarter);
 
-  const dataFilePath = path.join(opts.outputDir, `${opts.filePrefix}_${opts.quarter}_${schema.id}.txt`);
-  const reportFilePath = path.join(opts.outputDir, `${opts.filePrefix}_${opts.quarter}_${schema.id}.validation.json`);
+  const dataFilePath = path.join(
+    opts.outputDir,
+    `${opts.filePrefix}_${opts.quarter}_${schema.id}.txt`,
+  );
+  const reportFilePath = path.join(
+    opts.outputDir,
+    `${opts.filePrefix}_${opts.quarter}_${schema.id}.validation.json`,
+  );
 
   const out = fs.createWriteStream(dataFilePath, { encoding: 'utf8' });
   const allIssues: ValidationIssue[] = [];
@@ -279,7 +294,12 @@ export async function exportQuarterlyPirl(
     const elements = { ...p.elements };
     if (!elements['100']) elements['100'] = p.uniqueIndividualIdentifier;
 
-    const { line, issues } = buildFixedWidthLine(p.uniqueIndividualIdentifier, schema, elements, maxErrors);
+    const { line, issues } = buildFixedWidthLine(
+      p.uniqueIndividualIdentifier,
+      schema,
+      elements,
+      maxErrors,
+    );
     out.write(line + '\n');
     recordCount += 1;
     allIssues.push(...issues);
@@ -323,54 +343,265 @@ export function writeStarterSchema9170(outPath: string) {
     id: 'ETA-9170-PY25-STARTER',
     fields: [
       // Section A: Individual Information
-      { element: '100', name: 'Unique Individual Identifier', type: 'AN', length: 12, required: true },
+      {
+        element: '100',
+        name: 'Unique Individual Identifier',
+        type: 'AN',
+        length: 12,
+        required: true,
+      },
       { element: '101', name: 'Social Security Number', type: 'AN', length: 9, required: false },
       { element: '102', name: 'Date of Birth', type: 'DT', length: 8, required: false },
-      { element: '103', name: 'Zip Code of Residence', type: 'IN', length: 5, required: false, pad: 'leftZero' },
-      { element: '200', name: 'Individual with a Disability', type: 'IN', length: 1, enum: [0, 1], required: false },
-      { element: '201', name: 'Ethnicity Hispanic/Latino', type: 'IN', length: 1, enum: [0, 1], required: false },
-      { element: '202', name: 'American Indian or Alaska Native', type: 'IN', length: 1, enum: [0, 1], required: false },
+      {
+        element: '103',
+        name: 'Zip Code of Residence',
+        type: 'IN',
+        length: 5,
+        required: false,
+        pad: 'leftZero',
+      },
+      {
+        element: '200',
+        name: 'Individual with a Disability',
+        type: 'IN',
+        length: 1,
+        enum: [0, 1],
+        required: false,
+      },
+      {
+        element: '201',
+        name: 'Ethnicity Hispanic/Latino',
+        type: 'IN',
+        length: 1,
+        enum: [0, 1],
+        required: false,
+      },
+      {
+        element: '202',
+        name: 'American Indian or Alaska Native',
+        type: 'IN',
+        length: 1,
+        enum: [0, 1],
+        required: false,
+      },
       { element: '203', name: 'Asian', type: 'IN', length: 1, enum: [0, 1], required: false },
-      { element: '204', name: 'Black or African American', type: 'IN', length: 1, enum: [0, 1], required: false },
-      { element: '205', name: 'Native Hawaiian or Other Pacific Islander', type: 'IN', length: 1, enum: [0, 1], required: false },
+      {
+        element: '204',
+        name: 'Black or African American',
+        type: 'IN',
+        length: 1,
+        enum: [0, 1],
+        required: false,
+      },
+      {
+        element: '205',
+        name: 'Native Hawaiian or Other Pacific Islander',
+        type: 'IN',
+        length: 1,
+        enum: [0, 1],
+        required: false,
+      },
       { element: '206', name: 'White', type: 'IN', length: 1, enum: [0, 1], required: false },
       { element: '300', name: 'Gender', type: 'IN', length: 1, enum: [1, 2], required: false },
-      { element: '301', name: 'Veteran Status', type: 'IN', length: 1, enum: [0, 1], required: false },
+      {
+        element: '301',
+        name: 'Veteran Status',
+        type: 'IN',
+        length: 1,
+        enum: [0, 1],
+        required: false,
+      },
 
       // Section B: Education and Employment at Entry
-      { element: '400', name: 'Employment Status at Participation', type: 'IN', length: 1, enum: [1, 2, 3], required: false },
-      { element: '401', name: 'Highest School Grade Completed', type: 'IN', length: 2, enum: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16], required: false },
+      {
+        element: '400',
+        name: 'Employment Status at Participation',
+        type: 'IN',
+        length: 1,
+        enum: [1, 2, 3],
+        required: false,
+      },
+      {
+        element: '401',
+        name: 'Highest School Grade Completed',
+        type: 'IN',
+        length: 2,
+        enum: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
+        required: false,
+      },
 
       // Section C: Participation
-      { element: '900', name: 'Date of Program Participation', type: 'DT', length: 8, required: true },
+      {
+        element: '900',
+        name: 'Date of Program Participation',
+        type: 'DT',
+        length: 8,
+        required: true,
+      },
       { element: '901', name: 'Date of Program Exit', type: 'DT', length: 8, required: false },
       { element: '903', name: 'Other Reasons for Exit', type: 'IN', length: 2, required: false },
-      { element: '923', name: 'WIOA Title I Adult', type: 'IN', length: 1, enum: [0, 1], required: false },
-      { element: '924', name: 'WIOA Title I Dislocated Worker', type: 'IN', length: 1, enum: [0, 1], required: false },
-      { element: '925', name: 'WIOA Title I Youth', type: 'IN', length: 1, enum: [0, 1], required: false },
-      { element: '930', name: 'WIOA Title III Wagner-Peyser', type: 'IN', length: 1, enum: [0, 1], required: false },
+      {
+        element: '923',
+        name: 'WIOA Title I Adult',
+        type: 'IN',
+        length: 1,
+        enum: [0, 1],
+        required: false,
+      },
+      {
+        element: '924',
+        name: 'WIOA Title I Dislocated Worker',
+        type: 'IN',
+        length: 1,
+        enum: [0, 1],
+        required: false,
+      },
+      {
+        element: '925',
+        name: 'WIOA Title I Youth',
+        type: 'IN',
+        length: 1,
+        enum: [0, 1],
+        required: false,
+      },
+      {
+        element: '930',
+        name: 'WIOA Title III Wagner-Peyser',
+        type: 'IN',
+        length: 1,
+        enum: [0, 1],
+        required: false,
+      },
 
       // Section D: Services
-      { element: '1000', name: 'Received Training', type: 'IN', length: 1, enum: [0, 1], required: false },
-      { element: '1002', name: 'Type of Training Service #1', type: 'IN', length: 2, required: false },
-      { element: '1010', name: 'Occupational Skills Training Code (O*NET)', type: 'AN', length: 8, required: false },
+      {
+        element: '1000',
+        name: 'Received Training',
+        type: 'IN',
+        length: 1,
+        enum: [0, 1],
+        required: false,
+      },
+      {
+        element: '1002',
+        name: 'Type of Training Service #1',
+        type: 'IN',
+        length: 2,
+        required: false,
+      },
+      {
+        element: '1010',
+        name: 'Occupational Skills Training Code (O*NET)',
+        type: 'AN',
+        length: 8,
+        required: false,
+      },
 
       // Section E: Outcomes
-      { element: '1600', name: 'Employed in 1st Quarter After Exit', type: 'IN', length: 1, enum: [0, 1, 2, 3, 9], required: false },
-      { element: '1602', name: 'Employed in 2nd Quarter After Exit', type: 'IN', length: 1, enum: [0, 1, 2, 3, 9], required: false },
-      { element: '1604', name: 'Employed in 4th Quarter After Exit', type: 'IN', length: 1, enum: [0, 1, 2, 3, 9], required: false },
-      { element: '1700', name: 'Median Earnings 2nd Quarter After Exit', type: 'NU', length: 7, required: false },
-      { element: '1800', name: 'Type of Recognized Credential', type: 'IN', length: 1, enum: [0, 1, 2, 3, 4, 5, 6], required: false },
-      { element: '1801', name: 'Date Attained Recognized Credential', type: 'DT', length: 8, required: false },
-      { element: '1811', name: 'Measurable Skill Gains - Educational Functioning Level', type: 'IN', length: 1, enum: [0, 1], required: false },
-      { element: '1812', name: 'Measurable Skill Gains - Secondary Diploma', type: 'IN', length: 1, enum: [0, 1], required: false },
-      { element: '1813', name: 'Measurable Skill Gains - Transcript/Report Card', type: 'IN', length: 1, enum: [0, 1], required: false },
-      { element: '1814', name: 'Measurable Skill Gains - Training Milestone', type: 'IN', length: 1, enum: [0, 1], required: false },
-      { element: '1815', name: 'Measurable Skill Gains - Skills Progression', type: 'IN', length: 1, enum: [0, 1], required: false },
+      {
+        element: '1600',
+        name: 'Employed in 1st Quarter After Exit',
+        type: 'IN',
+        length: 1,
+        enum: [0, 1, 2, 3, 9],
+        required: false,
+      },
+      {
+        element: '1602',
+        name: 'Employed in 2nd Quarter After Exit',
+        type: 'IN',
+        length: 1,
+        enum: [0, 1, 2, 3, 9],
+        required: false,
+      },
+      {
+        element: '1604',
+        name: 'Employed in 4th Quarter After Exit',
+        type: 'IN',
+        length: 1,
+        enum: [0, 1, 2, 3, 9],
+        required: false,
+      },
+      {
+        element: '1700',
+        name: 'Median Earnings 2nd Quarter After Exit',
+        type: 'NU',
+        length: 7,
+        required: false,
+      },
+      {
+        element: '1800',
+        name: 'Type of Recognized Credential',
+        type: 'IN',
+        length: 1,
+        enum: [0, 1, 2, 3, 4, 5, 6],
+        required: false,
+      },
+      {
+        element: '1801',
+        name: 'Date Attained Recognized Credential',
+        type: 'DT',
+        length: 8,
+        required: false,
+      },
+      {
+        element: '1811',
+        name: 'Measurable Skill Gains - Educational Functioning Level',
+        type: 'IN',
+        length: 1,
+        enum: [0, 1],
+        required: false,
+      },
+      {
+        element: '1812',
+        name: 'Measurable Skill Gains - Secondary Diploma',
+        type: 'IN',
+        length: 1,
+        enum: [0, 1],
+        required: false,
+      },
+      {
+        element: '1813',
+        name: 'Measurable Skill Gains - Transcript/Report Card',
+        type: 'IN',
+        length: 1,
+        enum: [0, 1],
+        required: false,
+      },
+      {
+        element: '1814',
+        name: 'Measurable Skill Gains - Training Milestone',
+        type: 'IN',
+        length: 1,
+        enum: [0, 1],
+        required: false,
+      },
+      {
+        element: '1815',
+        name: 'Measurable Skill Gains - Skills Progression',
+        type: 'IN',
+        length: 1,
+        enum: [0, 1],
+        required: false,
+      },
 
       // Section F: Youth-specific
-      { element: '1901', name: 'Youth 2nd Quarter Placement', type: 'IN', length: 1, enum: [0, 1, 2, 3], required: false },
-      { element: '1902', name: 'Youth 4th Quarter Placement', type: 'IN', length: 1, enum: [0, 1, 2, 3], required: false },
+      {
+        element: '1901',
+        name: 'Youth 2nd Quarter Placement',
+        type: 'IN',
+        length: 1,
+        enum: [0, 1, 2, 3],
+        required: false,
+      },
+      {
+        element: '1902',
+        name: 'Youth 4th Quarter Placement',
+        type: 'IN',
+        length: 1,
+        enum: [0, 1, 2, 3],
+        required: false,
+      },
     ],
   };
 
@@ -391,20 +622,22 @@ async function main() {
   }
 
   if (cmd !== 'export') {
-    console.error([
-      'Usage:',
-      '  npx tsx tools/wioa/pirl_exporter.ts init-schema [outPath]',
-      '  npx tsx tools/wioa/pirl_exporter.ts export <schemaPath> <quarter> <outDir> <filePrefix> [--live]',
-      '',
-      'Flags:',
-      '  --live   Use real Supabase data via wioa_participants_for_quarter RPC',
-      '           Requires NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY env vars',
-    ].join('\n'));
+    console.error(
+      [
+        'Usage:',
+        '  npx tsx tools/wioa/pirl_exporter.ts init-schema [outPath]',
+        '  npx tsx tools/wioa/pirl_exporter.ts export <schemaPath> <quarter> <outDir> <filePrefix> [--live]',
+        '',
+        'Flags:',
+        '  --live   Use real Supabase data via wioa_participants_for_quarter RPC',
+        '           Requires NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY env vars',
+      ].join('\n'),
+    );
     process.exit(2);
   }
 
   const useLive = args.includes('--live');
-  const positionalArgs = args.filter(a => !a.startsWith('--'));
+  const positionalArgs = args.filter((a) => !a.startsWith('--'));
   const [schemaPath, quarter, outDir, filePrefix] = positionalArgs;
   if (!schemaPath || !quarter || !outDir || !filePrefix) {
     console.error('Missing required args: schemaPath quarter outDir filePrefix');
@@ -462,8 +695,8 @@ async function main() {
 }
 
 // ESM-compatible entry point
-const isMainModule = typeof import.meta?.url === 'string' && 
-  import.meta.url === `file://${process.argv[1]}` ||
+const isMainModule =
+  (typeof import.meta?.url === 'string' && import.meta.url === `file://${process.argv[1]}`) ||
   process.argv[1]?.endsWith('pirl_exporter.ts');
 
 if (isMainModule) {

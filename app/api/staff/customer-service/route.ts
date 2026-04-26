@@ -30,10 +30,7 @@ async function _GET(request: Request) {
       .eq('id', user.id)
       .maybeSingle();
 
-    if (
-      !profile ||
-      !['admin', 'super_admin', 'staff', 'advisor'].includes(profile.role)
-    ) {
+    if (!profile || !['admin', 'super_admin', 'staff', 'advisor'].includes(profile.role)) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
@@ -44,10 +41,7 @@ async function _GET(request: Request) {
       .order('category');
 
     if (protocolsError) {
-      return NextResponse.json(
-        { error: 'Failed to fetch data' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to fetch data' }, { status: 500 });
     }
 
     // Get active tickets (assigned to user or unassigned)
@@ -58,7 +52,7 @@ async function _GET(request: Request) {
         *,
         student:student_id(id, first_name, last_name, email),
         assigned:assigned_to(id, first_name, last_name)
-      `
+      `,
       )
       .in('status', ['open', 'in_progress'])
       .or(`assigned_to.eq.${user.id},assigned_to.is.null`)
@@ -66,24 +60,17 @@ async function _GET(request: Request) {
       .order('created_at', { ascending: true });
 
     if (ticketsError) {
-      return NextResponse.json(
-        { error: 'Failed to fetch tickets' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to fetch tickets' }, { status: 500 });
     }
 
     return NextResponse.json({
       protocols,
       tickets,
       openTickets: tickets?.filter((t) => t.status === 'open').length || 0,
-      inProgressTickets:
-        tickets?.filter((t) => t.status === 'in_progress').length || 0,
+      inProgressTickets: tickets?.filter((t) => t.status === 'in_progress').length || 0,
     });
-  } catch (error) { 
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+  } catch (error) {
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/staff/customer-service', _GET);

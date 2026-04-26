@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { createClient } from '@/lib/supabase/client';
 
@@ -30,7 +30,9 @@ export default function ProgramOrientationVideo({
   // Check if user has already watched this orientation
   useEffect(() => {
     async function checkWatchStatus() {
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       if (!user) return;
 
       const { data } = await supabase
@@ -47,29 +49,30 @@ export default function ProgramOrientationVideo({
 
   const handleVideoEnd = async () => {
     setHasWatched(true);
-    
+
     // Log completion to DB
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (user) {
-      await supabase
-        .from('orientation_completions')
-        .upsert({
+      await supabase.from('orientation_completions').upsert(
+        {
           user_id: user.id,
           program_id: programId,
           video_url: videoUrl,
-          completed_at: new Date().toISOString()
-        }, { onConflict: 'user_id,video_url' });
+          completed_at: new Date().toISOString(),
+        },
+        { onConflict: 'user_id,video_url' },
+      );
 
       // Also log to video_views for analytics
-      await supabase
-        .from('video_views')
-        .insert({
-          user_id: user.id,
-          video_url: videoUrl,
-          video_type: 'orientation',
-          completed: true,
-          viewed_at: new Date().toISOString()
-        });
+      await supabase.from('video_views').insert({
+        user_id: user.id,
+        video_url: videoUrl,
+        video_type: 'orientation',
+        completed: true,
+        viewed_at: new Date().toISOString(),
+      });
     }
 
     if (onComplete) {
@@ -106,9 +109,7 @@ export default function ProgramOrientationVideo({
               {hasWatched ? 'Watch Again' : 'Watch Orientation'}
             </button>
             {hasWatched && (
-              <span className="ml-3 text-sm text-brand-green-600 font-medium">
-                • Completed
-              </span>
+              <span className="ml-3 text-sm text-brand-green-600 font-medium">• Completed</span>
             )}
           </div>
         </div>
@@ -148,9 +149,7 @@ export default function ProgramOrientationVideo({
 
             {/* Footer */}
             <div className="p-4 bg-slate-50 border-t border-slate-200">
-              <p className="text-sm text-black mb-3">
-                {description}
-              </p>
+              <p className="text-sm text-black mb-3">{description}</p>
               {hasWatched && (
                 <div className="flex items-center gap-2 text-brand-green-600">
                   <span className="text-slate-500 flex-shrink-0">•</span>

@@ -159,9 +159,12 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    await supabase.from('notification_outbox').insert(notifications).catch((err) => {
-      logger.warn('Failed to queue intake notifications', err);
-    });
+    await supabase
+      .from('notification_outbox')
+      .insert(notifications)
+      .catch((err) => {
+        logger.warn('Failed to queue intake notifications', err);
+      });
 
     return NextResponse.json({
       success: true,

@@ -17,10 +17,10 @@ export const dynamic = 'force-dynamic';
 // Session-based auth is not applicable to LRS endpoints.
 async function _POST(request: Request) {
   const supabase = await getAdminClient();
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
 
-    // xAPI endpoint for receiving learning activity statements
+  // xAPI endpoint for receiving learning activity statements
   const body = await parseBody<Record<string, any>>(request);
 
   const statements = Array.isArray(body) ? body : [body];
@@ -42,10 +42,7 @@ async function _POST(request: Request) {
 
   if (error) {
     logger.error('xAPI insert error:', error);
-    return NextResponse.json(
-      { error: 'Failed to store statements' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to store statements' }, { status: 500 });
   }
 
   return NextResponse.json({ stored: data.length });
@@ -53,9 +50,9 @@ async function _POST(request: Request) {
 
 async function _GET(request: Request) {
   const supabase = await getAdminClient();
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
+
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
   // xAPI GET endpoint for retrieving statements
   const { searchParams } = new URL(request.url);
   const actor = searchParams.get('agent');
@@ -79,10 +76,7 @@ async function _GET(request: Request) {
   const { data, error } = await query;
 
   if (error) {
-    return NextResponse.json(
-      { error: 'Failed to retrieve statements' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to retrieve statements' }, { status: 500 });
   }
 
   return NextResponse.json({ statements: data });

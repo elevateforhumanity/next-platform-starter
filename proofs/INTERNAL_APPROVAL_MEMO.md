@@ -1,6 +1,7 @@
 # Internal Approval Memo Template
 
 Give this to buyers and say:
+
 > "You can use this internally. Edit only the bracketed fields."
 
 ---
@@ -56,7 +57,7 @@ An internal build would require us to design, implement, and maintain:
 - safeguards against duplicate or inconsistent outcomes, and
 - long-term ownership of security, failure modes, and staff turnover risk.
 
-These requirements typically become fully visible *after* launch, when correction is expensive.
+These requirements typically become fully visible _after_ launch, when correction is expensive.
 
 ### Licensing (What It Provides)
 

@@ -18,8 +18,8 @@ export class GeminiProvider implements AIProvider {
     if (!apiKey) throw new Error('GEMINI_API_KEY not configured');
 
     const model = options.model || GEMINI_MODELS[0];
-    const systemMsg = options.messages.find(m => m.role === 'system')?.content || '';
-    const userMsgs = options.messages.filter(m => m.role !== 'system');
+    const systemMsg = options.messages.find((m) => m.role === 'system')?.content || '';
+    const userMsgs = options.messages.filter((m) => m.role !== 'system');
 
     // Try models in order (fallback on 429/503)
     const models = options.model ? [options.model] : GEMINI_MODELS;
@@ -33,7 +33,7 @@ export class GeminiProvider implements AIProvider {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             system_instruction: systemMsg ? { parts: [{ text: systemMsg }] } : undefined,
-            contents: userMsgs.map(msg => ({
+            contents: userMsgs.map((msg) => ({
               role: msg.role === 'assistant' ? 'model' : 'user',
               parts: [{ text: msg.content }],
             })),
@@ -55,11 +55,13 @@ export class GeminiProvider implements AIProvider {
         return {
           content,
           model: m,
-          usage: data.usageMetadata ? {
-            promptTokens: data.usageMetadata.promptTokenCount || 0,
-            completionTokens: data.usageMetadata.candidatesTokenCount || 0,
-            totalTokens: data.usageMetadata.totalTokenCount || 0,
-          } : undefined,
+          usage: data.usageMetadata
+            ? {
+                promptTokens: data.usageMetadata.promptTokenCount || 0,
+                completionTokens: data.usageMetadata.candidatesTokenCount || 0,
+                totalTokens: data.usageMetadata.totalTokenCount || 0,
+              }
+            : undefined,
         };
       } catch (e) {
         lastError = e as Error;

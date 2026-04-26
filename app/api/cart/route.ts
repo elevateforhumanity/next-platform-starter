@@ -9,16 +9,15 @@ import { withApiAudit } from '@/lib/audit/withApiAudit';
 
 // Get or create cart
 async function _GET(request: NextRequest) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const cookieStore = await cookies();
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const cookieStore = await cookies();
   const cartId = cookieStore.get('cart_id')?.value;
   const sessionId = cookieStore.get('session_id')?.value || crypto.randomUUID();
 
   try {
     let cart = null;
-    
+
     if (cartId) {
       cart = await getCart(cartId);
     }
@@ -66,8 +65,8 @@ const cookieStore = await cookies();
 
 // Add item to cart
 async function _POST(request: NextRequest) {
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
 
   const cookieStore = await cookies();
   const cartId = cookieStore.get('cart_id')?.value;
@@ -85,7 +84,7 @@ async function _POST(request: NextRequest) {
     }
 
     const item = await addToCart(cartId, productId, quantity, variantId);
-    
+
     if (!item) {
       return NextResponse.json({ error: 'Failed to add item' }, { status: 500 });
     }
@@ -136,10 +135,9 @@ async function _PATCH(request: NextRequest) {
 
 // Remove item from cart
 async function _DELETE(request: NextRequest) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const searchParams = request.nextUrl.searchParams;
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const searchParams = request.nextUrl.searchParams;
   const itemId = searchParams.get('itemId');
 
   if (!itemId) {
@@ -148,7 +146,7 @@ const searchParams = request.nextUrl.searchParams;
 
   try {
     const success = await removeFromCart(itemId);
-    
+
     if (!success) {
       return NextResponse.json({ error: 'Failed to remove item' }, { status: 500 });
     }

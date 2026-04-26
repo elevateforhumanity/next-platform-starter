@@ -172,7 +172,7 @@ function computeCoverageCredit(claimedCount: number): number {
 function detectDistinctionTaught(
   text: string,
   sideAPhrases: string[],
-  sideBPhrases: string[]
+  sideBPhrases: string[],
 ): boolean {
   const sideAPresent = detectPhraseCluster(text, sideAPhrases);
   const sideBPresent = detectPhraseCluster(text, sideBPhrases);
@@ -196,11 +196,21 @@ function detectDistractorAvoided(text: string, distractorPhrases: string[]): boo
     // Check if the surrounding context contains a correction signal
     const context = normalized.slice(Math.max(0, idx - 100), idx + 200);
     const correctionSignals = [
-      'however', 'but', 'not', 'incorrect', 'wrong', 'mistake',
-      'avoid', 'do not', "don't", 'rather than', 'instead',
-      'common misconception', 'it is important to note',
+      'however',
+      'but',
+      'not',
+      'incorrect',
+      'wrong',
+      'mistake',
+      'avoid',
+      'do not',
+      "don't",
+      'rather than',
+      'instead',
+      'common misconception',
+      'it is important to note',
     ];
-    const hasCorrectionSignal = correctionSignals.some(s => context.includes(s));
+    const hasCorrectionSignal = correctionSignals.some((s) => context.includes(s));
     if (!hasCorrectionSignal) return false;
   }
   return true;
@@ -224,7 +234,7 @@ function evaluateCompetency(
     distinction_side_b: string[];
     distractor_phrases: string[];
     requires_distinction: boolean;
-  } | null
+  } | null,
 ): CompetencyAuditResult {
   if (!examProfile) {
     return {
@@ -243,7 +253,11 @@ function evaluateCompetency(
 
   // Fix 3: distinction
   const distinctionTaught = examProfile.requires_distinction
-    ? detectDistinctionTaught(lessonText, examProfile.distinction_side_a, examProfile.distinction_side_b)
+    ? detectDistinctionTaught(
+        lessonText,
+        examProfile.distinction_side_a,
+        examProfile.distinction_side_b,
+      )
     : true; // not all competencies require a distinction
 
   // Fix 3: distractor
@@ -255,13 +269,19 @@ function evaluateCompetency(
   if (!passes) {
     const reasons: string[] = [];
     if (!phraseClusterDetected) {
-      reasons.push(`phrase cluster not detected (need ${MIN_PHRASE_CLUSTER_HITS}+ co-occurring phrases from: ${examProfile.required_phrases.slice(0, 3).join(', ')})`);
+      reasons.push(
+        `phrase cluster not detected (need ${MIN_PHRASE_CLUSTER_HITS}+ co-occurring phrases from: ${examProfile.required_phrases.slice(0, 3).join(', ')})`,
+      );
     }
     if (!distinctionTaught) {
-      reasons.push(`distinction not taught — lesson must contrast both sides (${examProfile.distinction_side_a[0]} vs ${examProfile.distinction_side_b[0]})`);
+      reasons.push(
+        `distinction not taught — lesson must contrast both sides (${examProfile.distinction_side_a[0]} vs ${examProfile.distinction_side_b[0]})`,
+      );
     }
     if (!distractorAvoided) {
-      reasons.push(`distractor pattern reproduced without correction (${examProfile.distractor_phrases[0]})`);
+      reasons.push(
+        `distractor pattern reproduced without correction (${examProfile.distractor_phrases[0]})`,
+      );
     }
     failureReason = reasons.join('; ');
   }
@@ -289,7 +309,7 @@ function evaluateCompetency(
  * Returns a full audit with per-lesson, per-competency results.
  */
 export async function runContentAlignmentAudit(
-  programSlug: string
+  programSlug: string,
 ): Promise<ProgramAlignmentAudit> {
   const db = await getAdminClient();
   const auditedAt = new Date().toISOString();
@@ -343,24 +363,27 @@ export async function runContentAlignmentAudit(
 
   // Load all exam profiles for this program's competencies
   const allCompetencyKeys = [
-    ...new Set(lessons.flatMap(l => (l.competency_keys as string[]) ?? [])),
+    ...new Set(lessons.flatMap((l) => (l.competency_keys as string[]) ?? [])),
   ];
 
   const { data: examProfiles } = await db
     .from('competency_exam_profiles')
     .select(
       'competency_key, competency_name, required_phrases, distinction_side_a, ' +
-      'distinction_side_b, distractor_phrases, requires_distinction'
+        'distinction_side_b, distractor_phrases, requires_distinction',
     )
     .in('competency_key', allCompetencyKeys.length ? allCompetencyKeys : ['__none__']);
 
-  const profileByKey = new Map<string, typeof examProfiles extends (infer T)[] | null ? T : never>();
+  const profileByKey = new Map<
+    string,
+    typeof examProfiles extends (infer T)[] | null ? T : never
+  >();
   for (const p of examProfiles ?? []) {
     profileByKey.set(p.competency_key, p);
   }
 
   // Identify missing exam profiles
-  const missingExamProfiles = allCompetencyKeys.filter(k => !profileByKey.has(k));
+  const missingExamProfiles = allCompetencyKeys.filter((k) => !profileByKey.has(k));
 
   // Audit each lesson
   const lessonResults: LessonAuditResult[] = [];
@@ -374,7 +397,7 @@ export async function runContentAlignmentAudit(
     const coverageCredit = computeCoverageCredit(claimedCompetencies.length);
 
     // Fix 4: evaluate EVERY claimed competency
-    const competencyResults: CompetencyAuditResult[] = claimedCompetencies.map(key => {
+    const competencyResults: CompetencyAuditResult[] = claimedCompetencies.map((key) => {
       const profile = profileByKey.get(key) ?? null;
       const name = profile?.competency_name ?? key;
       return evaluateCompetency(lessonText, key, name, profile);
@@ -385,7 +408,7 @@ export async function runContentAlignmentAudit(
     if (stuffingPenalty) {
       failureReasons.push(
         `Concept stuffing: lesson claims ${claimedCompetencies.length} competencies ` +
-        `(max ${MAX_COMPETENCIES_PER_LESSON}), coverage credit reduced to ${coverageCredit}`
+          `(max ${MAX_COMPETENCIES_PER_LESSON}), coverage credit reduced to ${coverageCredit}`,
       );
     }
 
@@ -396,8 +419,10 @@ export async function runContentAlignmentAudit(
       }
     }
 
-    const examProfileUsed = competencyResults.some(cr => cr.phraseClusterDetected || cr.distinctionTaught);
-    const examProfileAligned = competencyResults.every(cr => cr.passes);
+    const examProfileUsed = competencyResults.some(
+      (cr) => cr.phraseClusterDetected || cr.distinctionTaught,
+    );
+    const examProfileAligned = competencyResults.every((cr) => cr.passes);
 
     // A stuffed lesson fails even if individual competency checks pass
     const passes = failureReasons.length === 0 && !stuffingPenalty;
@@ -417,15 +442,13 @@ export async function runContentAlignmentAudit(
     });
   }
 
-  const passingLessons = lessonResults.filter(l => l.passes).length;
-  const failingLessons = lessonResults.filter(l => !l.passes).length;
-  const stuffedLessons = lessonResults.filter(l => l.stuffingPenalty).length;
+  const passingLessons = lessonResults.filter((l) => l.passes).length;
+  const failingLessons = lessonResults.filter((l) => !l.passes).length;
+  const stuffedLessons = lessonResults.filter((l) => l.stuffingPenalty).length;
 
   // Aligned only when: all lessons pass, no missing exam profiles
   const isAligned =
-    failingLessons === 0 &&
-    stuffedLessons === 0 &&
-    missingExamProfiles.length === 0;
+    failingLessons === 0 && stuffedLessons === 0 && missingExamProfiles.length === 0;
 
   return {
     auditedAt,
@@ -470,7 +493,9 @@ export function formatContentAuditReport(audit: ProgramAlignmentAudit): string {
     lines.push(`   Competencies claimed: ${lesson.claimedCompetencies.join(', ') || 'none'}`);
 
     if (lesson.stuffingPenalty) {
-      lines.push(`   ⚠ STUFFING: ${lesson.claimedCompetencies.length} competencies claimed, credit = ${lesson.coverageCredit}`);
+      lines.push(
+        `   ⚠ STUFFING: ${lesson.claimedCompetencies.length} competencies claimed, credit = ${lesson.coverageCredit}`,
+      );
     }
 
     for (const cr of lesson.competencyResults) {

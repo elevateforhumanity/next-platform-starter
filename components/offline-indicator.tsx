@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -19,7 +19,8 @@ export function OfflineIndicator() {
     setSyncing(true);
     try {
       await syncOfflineActions();
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
     } finally {
       setSyncing(false);
@@ -37,12 +38,7 @@ export function OfflineIndicator() {
       <div className="flex items-center gap-3">
         <div className="flex-shrink-0">
           {isOnline ? (
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -51,12 +47,7 @@ export function OfflineIndicator() {
               />
             </svg>
           ) : (
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -67,13 +58,10 @@ export function OfflineIndicator() {
           )}
         </div>
         <div className="flex-1">
-          <p className="font-semibold">
-            {isOnline ? 'Back Online' : 'Offline Mode'}
-          </p>
+          <p className="font-semibold">{isOnline ? 'Back Online' : 'Offline Mode'}</p>
           {pendingActionsCount > 0 && (
             <p className="text-sm opacity-90">
-              {pendingActionsCount} action{pendingActionsCount !== 1 ? 's' : ''}{' '}
-              pending
+              {pendingActionsCount} action{pendingActionsCount !== 1 ? 's' : ''} pending
             </p>
           )}
         </div>

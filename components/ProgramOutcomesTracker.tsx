@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, { useState, useEffect } from 'react';
 import { Card } from '@/components/ui/Card';
@@ -19,9 +19,15 @@ export default function ProgramOutcomesTracker() {
 
   useEffect(() => {
     fetch('/api/admin/program-outcomes')
-      .then(r => r.json())
-      .then(d => { setOutcomes(d.data || []); setLoading(false); })
-      .catch(() => { setOutcomes([]); setLoading(false); });
+      .then((r) => r.json())
+      .then((d) => {
+        setOutcomes(d.data || []);
+        setLoading(false);
+      })
+      .catch(() => {
+        setOutcomes([]);
+        setLoading(false);
+      });
   }, []);
 
   if (loading) {
@@ -48,9 +54,7 @@ export default function ProgramOutcomesTracker() {
             </div>
             <div>
               <p className="text-sm text-black">Avg Salary</p>
-              <p className="text-2xl font-bold">
-                ${outcome.avgSalary.toLocaleString('en-US')}
-              </p>
+              <p className="text-2xl font-bold">${outcome.avgSalary.toLocaleString('en-US')}</p>
             </div>
             <div>
               <p className="text-sm text-black">Satisfaction</p>

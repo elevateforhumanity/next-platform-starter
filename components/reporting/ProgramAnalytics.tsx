@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -7,7 +7,15 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
-import { Download, TrendingUp, TrendingDown, Users, GraduationCap, Briefcase, DollarSign } from 'lucide-react';
+import {
+  Download,
+  TrendingUp,
+  TrendingDown,
+  Users,
+  GraduationCap,
+  Briefcase,
+  DollarSign,
+} from 'lucide-react';
 
 interface ProgramMetrics {
   programId: string;
@@ -44,7 +52,8 @@ export default function ProgramAnalytics() {
       if (data.length > 0) {
         setSelectedProgram(data[0].programId);
       }
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
     } finally {
       setLoading(false);
@@ -66,10 +75,10 @@ export default function ProgramAnalytics() {
       'Dropout Rate',
       'Avg Completion Time (days)',
       'Total Funding Used',
-      'Cost per Completion'
+      'Cost per Completion',
     ];
 
-    const rows = metrics.map(m => [
+    const rows = metrics.map((m) => [
       m.programName,
       m.totalEnrollments,
       m.activeStudents,
@@ -83,10 +92,10 @@ export default function ProgramAnalytics() {
       `${m.dropoutRate.toFixed(1)}%`,
       m.averageCompletionTime.toFixed(0),
       `$${m.totalFundingUsed.toFixed(2)}`,
-      `$${m.costPerCompletion.toFixed(2)}`
+      `$${m.costPerCompletion.toFixed(2)}`,
     ]);
 
-    const csv = [headers, ...rows].map(row => row.join(',')).join('\n');
+    const csv = [headers, ...rows].map((row) => row.join(',')).join('\n');
     const blob = new Blob([csv], { type: 'text/csv' });
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -95,7 +104,7 @@ export default function ProgramAnalytics() {
     a.click();
   };
 
-  const selectedMetrics = metrics.find(m => m.programId === selectedProgram);
+  const selectedMetrics = metrics.find((m) => m.programId === selectedProgram);
 
   if (loading) {
     return (
@@ -122,14 +131,14 @@ export default function ProgramAnalytics() {
 
       <Tabs value={selectedProgram || ''} onValueChange={setSelectedProgram}>
         <TabsList className="grid grid-cols-3 lg:grid-cols-5 gap-2">
-          {metrics.slice(0, 10).map(m => (
+          {metrics.slice(0, 10).map((m) => (
             <TabsTrigger key={m.programId} value={m.programId}>
               {m.programName}
             </TabsTrigger>
           ))}
         </TabsList>
 
-        {metrics.map(program => (
+        {metrics.map((program) => (
           <TabsContent key={program.programId} value={program.programId} className="space-y-4">
             {/* Key Metrics Cards */}
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -153,9 +162,7 @@ export default function ProgramAnalytics() {
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">{program.completionRate.toFixed(1)}%</div>
-                  <p className="text-xs text-muted-foreground">
-                    {program.completions} completions
-                  </p>
+                  <p className="text-xs text-muted-foreground">{program.completions} completions</p>
                   {program.completionRate >= 70 ? (
                     <Badge variant="default" className="mt-2">
                       <TrendingUp className="mr-1 h-3 w-3" />
@@ -222,11 +229,15 @@ export default function ProgramAnalytics() {
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-sm font-medium">Dropout Rate</span>
-                    <span className="text-2xl font-bold text-brand-orange-600">{program.dropoutRate.toFixed(1)}%</span>
+                    <span className="text-2xl font-bold text-brand-orange-600">
+                      {program.dropoutRate.toFixed(1)}%
+                    </span>
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-sm font-medium">Avg Completion Time</span>
-                    <span className="text-2xl font-bold">{program.averageCompletionTime.toFixed(0)} days</span>
+                    <span className="text-2xl font-bold">
+                      {program.averageCompletionTime.toFixed(0)} days
+                    </span>
                   </div>
                 </CardContent>
               </Card>
@@ -239,20 +250,26 @@ export default function ProgramAnalytics() {
                 <CardContent className="space-y-4">
                   <div className="flex justify-between items-center">
                     <span className="text-sm font-medium">Total Funding Used</span>
-                    <span className="text-2xl font-bold">${program.totalFundingUsed.toLocaleString('en-US')}</span>
+                    <span className="text-2xl font-bold">
+                      ${program.totalFundingUsed.toLocaleString('en-US')}
+                    </span>
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-sm font-medium">Cost per Completion</span>
-                    <span className="text-2xl font-bold">${program.costPerCompletion.toLocaleString('en-US')}</span>
+                    <span className="text-2xl font-bold">
+                      ${program.costPerCompletion.toLocaleString('en-US')}
+                    </span>
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-sm font-medium">ROI Indicator</span>
                     {program.costPerCompletion > 0 && program.averageWage > 0 ? (
-                      <Badge variant={
-                        (program.averageWage * 2080) / program.costPerCompletion > 3
-                          ? 'default'
-                          : 'secondary'
-                      }>
+                      <Badge
+                        variant={
+                          (program.averageWage * 2080) / program.costPerCompletion > 3
+                            ? 'default'
+                            : 'secondary'
+                        }
+                      >
                         {((program.averageWage * 2080) / program.costPerCompletion).toFixed(1)}x
                       </Badge>
                     ) : (
@@ -282,7 +299,7 @@ export default function ProgramAnalytics() {
                       </tr>
                     </thead>
                     <tbody>
-                      {metrics.map(m => (
+                      {metrics.map((m) => (
                         <tr
                           key={m.programId}
                           className={`border-b ${m.programId === program.programId ? 'bg-muted' : ''}`}

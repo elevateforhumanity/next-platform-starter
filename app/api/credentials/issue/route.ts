@@ -49,7 +49,7 @@ async function _POST(req: NextRequest) {
     if (!parsed.success) {
       return NextResponse.json(
         { error: 'Invalid request', details: parsed.error.issues },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -82,10 +82,7 @@ async function _POST(req: NextRequest) {
 
     if (error) {
       logger.error('Failed to issue credential', { error, data });
-      return NextResponse.json(
-        { error: 'Failed to issue credential' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to issue credential' }, { status: 500 });
     }
 
     // Log issuance
@@ -118,10 +115,7 @@ async function _POST(req: NextRequest) {
     });
   } catch (error) {
     logger.error('Credential issuance error', { error });
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/credentials/issue', _POST);

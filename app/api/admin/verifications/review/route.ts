@@ -1,4 +1,3 @@
-
 import { NextRequest, NextResponse } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { sendEmail } from '@/lib/email';
@@ -23,14 +22,10 @@ async function _POST(request: NextRequest) {
 
     const supabase = await createClient();
 
-    const { verificationId, action, rejectionReason, adminId } =
-      await request.json();
+    const { verificationId, action, rejectionReason, adminId } = await request.json();
 
     if (!verificationId || !action) {
-      return NextResponse.json(
-        { error: 'Missing required fields' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
     const status = action === 'approve' ? 'approved' : 'rejected';
@@ -55,10 +50,7 @@ async function _POST(request: NextRequest) {
     });
 
     if (updateError) {
-      return NextResponse.json(
-        { error: 'Failed to update verification' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to update verification' }, { status: 500 });
     }
 
     // Fetch verification record
@@ -74,7 +66,11 @@ async function _POST(request: NextRequest) {
 
     // Hydrate profile separately (user_id → auth.users, no FK to profiles)
     const { data: verifProfile } = verification.user_id
-      ? await supabase.from('profiles').select('id, full_name, email').eq('id', verification.user_id).maybeSingle()
+      ? await supabase
+          .from('profiles')
+          .select('id, full_name, email')
+          .eq('id', verification.user_id)
+          .maybeSingle()
       : { data: null };
 
     await logAdminAudit({
@@ -102,10 +98,7 @@ async function _POST(request: NextRequest) {
 
     return NextResponse.json({ success: true, verification });
   } catch (error) {
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/admin/verifications/review', _POST, { critical: true });

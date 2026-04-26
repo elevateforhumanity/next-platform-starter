@@ -13,30 +13,30 @@
 applied → approved → confirmed → orientation_complete → documents_complete → active
 ```
 
-| State | Meaning | LMS Access |
-|---|---|---|
-| `applied` | Application submitted, not yet reviewed | No |
-| `approved` | Admin approved, awaiting student confirmation | No |
-| `confirmed` | Student confirmed, pre-orientation | No |
-| `orientation_complete` | Orientation done, awaiting documents | No |
-| `documents_complete` | Documents uploaded, under review | No |
-| `active` | Fully cleared — payment confirmed, documents verified | Yes |
+| State                  | Meaning                                               | LMS Access |
+| ---------------------- | ----------------------------------------------------- | ---------- |
+| `applied`              | Application submitted, not yet reviewed               | No         |
+| `approved`             | Admin approved, awaiting student confirmation         | No         |
+| `confirmed`            | Student confirmed, pre-orientation                    | No         |
+| `orientation_complete` | Orientation done, awaiting documents                  | No         |
+| `documents_complete`   | Documents uploaded, under review                      | No         |
+| `active`               | Fully cleared — payment confirmed, documents verified | Yes        |
 
 ### Lateral holding states
 
-| State | Meaning | LMS Access | Resolution path |
-|---|---|---|---|
-| `pending_funding_verification` | Provisionally admitted; source-of-funds not confirmed | **Yes (provisional)** | Admin confirms payment → move to `active`; or revoke |
-| `enrolled` | Legacy / direct-insert rows; treated as active unless flagged | Yes | Migrate to `active` or flag |
+| State                          | Meaning                                                       | LMS Access            | Resolution path                                      |
+| ------------------------------ | ------------------------------------------------------------- | --------------------- | ---------------------------------------------------- |
+| `pending_funding_verification` | Provisionally admitted; source-of-funds not confirmed         | **Yes (provisional)** | Admin confirms payment → move to `active`; or revoke |
+| `enrolled`                     | Legacy / direct-insert rows; treated as active unless flagged | Yes                   | Migrate to `active` or flag                          |
 
 ### Terminal states
 
-| State | Meaning | LMS Access |
-|---|---|---|
-| `completed` | Program completed | No (read-only) |
-| `withdrawn` | Student withdrew | No |
-| `cancelled` | Admin cancelled | No |
-| `revoked` | Access revoked (see `revoked_at`) | No |
+| State       | Meaning                           | LMS Access     |
+| ----------- | --------------------------------- | -------------- |
+| `completed` | Program completed                 | No (read-only) |
+| `withdrawn` | Student withdrew                  | No             |
+| `cancelled` | Admin cancelled                   | No             |
+| `revoked`   | Access revoked (see `revoked_at`) | No             |
 
 ---
 
@@ -45,11 +45,13 @@ applied → approved → confirmed → orientation_complete → documents_comple
 This state was introduced 2026-05-03 to hold ~40 enrollments that were created via direct admin import with `funding_source='pending'` and no Stripe session or application record.
 
 **What it means:**
+
 - Student is provisionally admitted and has LMS access
 - Payment source has not been confirmed
 - Admin must resolve within the SLA window (default: 14 days)
 
 **What it does not mean:**
+
 - Student is financially cleared
 - Payment has been received
 - Enrollment is permanent
@@ -57,6 +59,7 @@ This state was introduced 2026-05-03 to hold ~40 enrollments that were created v
 **LMS access is intentional, not accidental.** The policy decision is: provisional students retain access while funding is being confirmed, to avoid disrupting students who are legitimately enrolled but whose paperwork is delayed. If this policy changes, update `enrollment_grants_lms_access()` in the DB — one function, not 30 query sites.
 
 **Admin resolution options:**
+
 1. **Payment confirmed** → set `enrollment_state = 'active'`, resolve flag with `resolution = 'payment_confirmed'`
 2. **Waived** (e.g. scholarship, grant, error) → resolve flag with `resolution = 'waived'`, set appropriate `funding_source`
 3. **Cannot confirm** → revoke via `revoke_application_access_atomic()`, resolve flag with `resolution = 'enrollment_revoked'`
@@ -89,11 +92,11 @@ The `pending_funding_verification` cohort is intentionally excluded from this vi
 
 ## SLA Rules
 
-| Flag type | SLA window | Escalation action |
-|---|---|---|
-| `no_payment_evidence` | 14 days | `sla_escalated_at` set; surfaces at top of `v_funding_verification_queue` |
-| `blocked_pending_review` | 7 days | Same |
-| `bnpl_unverified` | 14 days | Same |
+| Flag type                | SLA window | Escalation action                                                         |
+| ------------------------ | ---------- | ------------------------------------------------------------------------- |
+| `no_payment_evidence`    | 14 days    | `sla_escalated_at` set; surfaces at top of `v_funding_verification_queue` |
+| `blocked_pending_review` | 7 days     | Same                                                                      |
+| `bnpl_unverified`        | 14 days    | Same                                                                      |
 
 SLA escalation does **not** auto-revoke. It marks the flag so the admin queue surfaces it prominently. A human must take action.
 

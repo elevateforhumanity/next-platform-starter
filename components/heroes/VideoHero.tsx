@@ -47,9 +47,7 @@ export function VideoHero({
           {badge && (
             <div className="mb-6 inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm px-6 py-3 rounded-full border border-white/30">
               <badge.icon className="w-5 h-5 text-white" />
-              <span className="text-white font-semibold">
-                {badge.text}
-              </span>
+              <span className="text-white font-semibold">{badge.text}</span>
             </div>
           )}
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-black mb-6 text-white uppercase tracking-tight leading-tight">

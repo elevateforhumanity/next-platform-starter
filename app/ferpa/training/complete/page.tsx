@@ -18,7 +18,9 @@ export const metadata: Metadata = {
 export default async function CompleteFERPATrainingPage() {
   const supabase = await createClient();
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/ferpa/training/complete');
 
   const { data: profile } = await supabase
@@ -35,12 +37,16 @@ export default async function CompleteFERPATrainingPage() {
     <>
       {/* Hero Image */}
       <section className="relative h-[160px] sm:h-[220px] md:h-[280px] overflow-hidden">
-        <Image src="/images/pages/ferpa-page-12.jpg" alt="FERPA compliance" fill sizes="100vw" className="object-cover" priority />
+        <Image
+          src="/images/pages/ferpa-page-12.jpg"
+          alt="FERPA compliance"
+          fill
+          sizes="100vw"
+          className="object-cover"
+          priority
+        />
       </section>
-      <FERPATrainingForm
-        user={profile}
-        existingTraining={existingTraining}
-      />
+      <FERPATrainingForm user={profile} existingTraining={existingTraining} />
     </>
   );
 }

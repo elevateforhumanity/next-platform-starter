@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -23,8 +23,7 @@ export function VoiceInput({ onCommand, className = '' }: VoiceInputProps) {
     // Check if browser supports speech recognition
     if (typeof window !== 'undefined') {
       const SpeechRecognition =
-        (window as string).SpeechRecognition ||
-        (window as string).webkitSpeechRecognition;
+        (window as string).SpeechRecognition || (window as string).webkitSpeechRecognition;
 
       if (SpeechRecognition) {
         setIsSupported(true);
@@ -78,10 +77,7 @@ export function VoiceInput({ onCommand, className = '' }: VoiceInputProps) {
     const lowerCommand = command.toLowerCase().trim();
 
     // Navigation commands
-    const navigationCommands: Record<
-      string,
-      { route: string; response: string }
-    > = {
+    const navigationCommands: Record<string, { route: string; response: string }> = {
       'go to dashboard': {
         route: '/lms/dashboard',
         response: 'Navigating to dashboard',
@@ -181,12 +177,9 @@ export function VoiceInput({ onCommand, className = '' }: VoiceInputProps) {
     }
 
     // Action commands
-    if (
-      lowerCommand.includes('help') ||
-      lowerCommand.includes('what can you do')
-    ) {
+    if (lowerCommand.includes('help') || lowerCommand.includes('what can you do')) {
       speak(
-        'I can help you navigate the system. Try saying: go to dashboard, show my courses, show programs, my certificates, or my progress.'
+        'I can help you navigate the system. Try saying: go to dashboard, show my courses, show programs, my certificates, or my progress.',
       );
       if (onCommand) onCommand(command);
       return;
@@ -202,16 +195,14 @@ export function VoiceInput({ onCommand, className = '' }: VoiceInputProps) {
     }
 
     // If no command matched
-    speak(
-      "I didn't understand that command. Try saying 'help' to see what I can do."
-    );
+    speak("I didn't understand that command. Try saying 'help' to see what I can do.");
     if (onCommand) onCommand(command);
   };
 
   const toggleListening = () => {
     if (!isSupported) {
       alert(
-        'Speech recognition is not supported in your browser. Please use Chrome, Edge, or Safari.'
+        'Speech recognition is not supported in your browser. Please use Chrome, Edge, or Safari.',
       );
       return;
     }
@@ -257,11 +248,7 @@ export function VoiceInput({ onCommand, className = '' }: VoiceInputProps) {
           <span className="absolute inset-0 rounded-full bg-brand-orange-500 animate-ping opacity-75" />
         )}
       </button>
-      {transcript && (
-        <div className="text-xs text-black max-w-xs text-center">
-          "{transcript}"
-        </div>
-      )}
+      {transcript && <div className="text-xs text-black max-w-xs text-center">"{transcript}"</div>}
       {isListening && <div className="text-xs text-slate-700">Listening...</div>}
     </div>
   );

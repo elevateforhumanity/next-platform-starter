@@ -11,9 +11,8 @@ import {
   Zap,
   ArrowRight,
   Phone,
-CheckCircle, } from 'lucide-react';
-
-
+  CheckCircle,
+} from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Solutions | Elevate For Humanity LMS',
@@ -28,8 +27,7 @@ const solutions = [
   {
     title: 'Workforce Development Agencies',
     icon: Building2,
-    description:
-      'Complete platform for WIOA, WRG, and grant-funded training programs',
+    description: 'Complete platform for WIOA, WRG, and grant-funded training programs',
     features: [
       'ETPL compliance tracking',
       'Grant management & reporting',
@@ -42,8 +40,7 @@ const solutions = [
   {
     title: 'Training Providers',
     icon: GraduationCap,
-    description:
-      'White-label LMS for delivering your training programs at scale',
+    description: 'White-label LMS for delivering your training programs at scale',
     features: [
       'Custom branding & domain',
       'Integrated content library',
@@ -56,8 +53,7 @@ const solutions = [
   {
     title: 'Employers & HR Teams',
     icon: Users,
-    description:
-      'Upskill your workforce with industry-recognized certifications',
+    description: 'Upskill your workforce with industry-recognized certifications',
     features: [
       'Employee training tracking',
       'Compliance certifications',
@@ -70,8 +66,7 @@ const solutions = [
   {
     title: 'Distance Learning',
     icon: GraduationCap,
-    description:
-      'Fully online delivery for remote learners and distributed cohorts',
+    description: 'Fully online delivery for remote learners and distributed cohorts',
     features: [
       'Async & live session support',
       'Virtual proctoring',
@@ -84,8 +79,7 @@ const solutions = [
   {
     title: 'Higher Education',
     icon: Building2,
-    description:
-      'Credential and continuing education programs for colleges and universities',
+    description: 'Credential and continuing education programs for colleges and universities',
     features: [
       'Credit hour tracking',
       'Accreditation reporting',
@@ -98,8 +92,7 @@ const solutions = [
   {
     title: 'K-12 Career Pathways',
     icon: Users,
-    description:
-      'Career and technical education pathways for high school students',
+    description: 'Career and technical education pathways for high school students',
     features: [
       'CTE program management',
       'Dual enrollment support',
@@ -141,10 +134,10 @@ const products = [
 export default function SolutionsPage() {
   return (
     <div className="min-h-screen bg-white">
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Solutions" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Solutions' }]} />
       </div>
-{/* Hero Section */}
+      {/* Hero Section */}
       <section className="relative bg-brand-blue-700 text-white py-20">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -156,9 +149,9 @@ export default function SolutionsPage() {
                 Workforce Training for Agencies, Providers & Employers
               </h1>
               <p className="text-base md:text-lg mb-8 text-brand-blue-50">
-                We partner with workforce boards, training providers, and employers 
-                to deliver WIOA-compliant programs. Our platform handles enrollment, 
-                tracking, and reporting so you can focus on outcomes.
+                We partner with workforce boards, training providers, and employers to deliver
+                WIOA-compliant programs. Our platform handles enrollment, tracking, and reporting so
+                you can focus on outcomes.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link
@@ -169,7 +162,9 @@ export default function SolutionsPage() {
                   <ArrowRight className="ml-2 w-5 h-5" />
                 </Link>
                 <Link
-                  href="https://calendly.com/elevate4humanityedu" target="_blank" rel="noopener noreferrer"
+                  href="https://calendly.com/elevate4humanityedu"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="inline-flex items-center justify-center border-2 border-white text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-white/10 transition"
                 >
                   Schedule a Demo
@@ -182,9 +177,7 @@ export default function SolutionsPage() {
                   <GraduationCap className="w-5 h-5 inline-block" />
                 </div>
                 <div className="text-2xl font-bold mb-2">30+ Programs</div>
-                <div className="text-white mb-6">
-                  Healthcare • Trades • Technology
-                </div>
+                <div className="text-white mb-6">Healthcare • Trades • Technology</div>
                 <div className="grid grid-cols-2 gap-4 text-sm">
                   <div className="bg-white/20 rounded-lg p-4">
                     <div className="text-3xl font-bold">10K+</div>
@@ -209,8 +202,8 @@ export default function SolutionsPage() {
               Solutions for Every Organization
             </h2>
             <p className="text-base md:text-lg text-black max-w-3xl mx-auto">
-              Whether you're a workforce agency, training provider, or employer,
-              we have a solution that fits your needs.
+              Whether you're a workforce agency, training provider, or employer, we have a solution
+              that fits your needs.
             </p>
           </div>
 
@@ -225,17 +218,13 @@ export default function SolutionsPage() {
                   <div className="w-16 h-16 bg-brand-blue-100 rounded-xl flex items-center justify-center mb-6">
                     <Icon className="w-8 h-8 text-brand-blue-600" />
                   </div>
-                  <h3 className="text-lg md:text-lg font-bold text-black mb-4">
-                    {solution.title}
-                  </h3>
+                  <h3 className="text-lg md:text-lg font-bold text-black mb-4">{solution.title}</h3>
                   <p className="text-black mb-6">{solution.description}</p>
                   <ul className="space-y-3 mb-8">
                     {solution.features.map((feature) => (
                       <li key={feature} className="flex items-start gap-2">
                         <span className="text-slate-500 flex-shrink-0">•</span>
-                        <span className="text-sm text-black">
-                          {feature}
-                        </span>
+                        <span className="text-sm text-black">{feature}</span>
                       </li>
                     ))}
                   </ul>
@@ -261,8 +250,8 @@ export default function SolutionsPage() {
               Integrated Content Partners
             </h2>
             <p className="text-base md:text-lg text-black max-w-3xl mx-auto">
-              Access industry-leading training content through our platform. No
-              separate logins or integrations needed.
+              Access industry-leading training content through our platform. No separate logins or
+              integrations needed.
             </p>
           </div>
 
@@ -291,8 +280,8 @@ export default function SolutionsPage() {
             Questions About Our Programs?
           </h2>
           <p className="text-base md:text-lg text-slate-600 mb-8">
-            Contact us at (317) 314-3757 or schedule a walkthrough of our platform.
-            We'll show you exactly how enrollment, tracking, and reporting works.
+            Contact us at (317) 314-3757 or schedule a walkthrough of our platform. We'll show you
+            exactly how enrollment, tracking, and reporting works.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
@@ -302,7 +291,9 @@ export default function SolutionsPage() {
               Try Interactive Demo
             </Link>
             <Link
-              href="https://calendly.com/elevate4humanityedu" target="_blank" rel="noopener noreferrer"
+              href="https://calendly.com/elevate4humanityedu"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center justify-center bg-white text-black px-8 py-4 rounded-lg font-bold text-lg hover:bg-white transition"
             >
               Schedule a Demo
@@ -314,7 +305,9 @@ export default function SolutionsPage() {
       <section className="bg-brand-blue-700 text-white py-12">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-2xl md:text-3xl font-bold mb-3">Ready to Start Your Career?</h2>
-          <p className="text-white mb-6">Check your eligibility for funded career training programs.</p>
+          <p className="text-white mb-6">
+            Check your eligibility for funded career training programs.
+          </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/start"

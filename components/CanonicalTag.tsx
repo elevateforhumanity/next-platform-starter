@@ -7,7 +7,5 @@ export async function CanonicalTag() {
 
   const canonicalUrl = `https://${host}${pathname}`;
 
-  return (
-    <link rel="canonical" href={canonicalUrl} />
-  );
+  return <link rel="canonical" href={canonicalUrl} />;
 }

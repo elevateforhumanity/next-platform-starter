@@ -36,10 +36,7 @@ class PerformanceOptimizer {
     content = content.replace('<head>', '<head>' + preloadHints);
 
     // Add lazy loading to videos
-    content = content.replace(
-      /<video([^>]*?)>/g,
-      '<video$1 loading="lazy" preload="metadata">'
-    );
+    content = content.replace(/<video([^>]*?)>/g, '<video$1 loading="lazy" preload="metadata">');
 
     // Add intersection observer for video loading
     const videoOptimizationScript = `
@@ -201,8 +198,7 @@ class PerformanceOptimizer {
         {
           '@type': 'VideoObject',
           name: 'Transformation Stories - Seeds of Change',
-          description:
-            'Real student success stories and career transformations',
+          description: 'Real student success stories and career transformations',
           thumbnailUrl:
             'https://elevateforhumanity.org/images/video-thumbnails/transformation-stories.jpg',
           uploadDate: '2025-09-16',
@@ -212,8 +208,7 @@ class PerformanceOptimizer {
           '@type': 'VideoObject',
           name: 'AI Lab in Action - Laboratory of Dreams',
           description: 'Tour of our state-of-the-art AI development facilities',
-          thumbnailUrl:
-            'https://elevateforhumanity.org/images/video-thumbnails/ai-lab-tour.jpg',
+          thumbnailUrl: 'https://elevateforhumanity.org/images/video-thumbnails/ai-lab-tour.jpg',
           uploadDate: '2025-09-16',
           duration: 'PT1M30S',
         },
@@ -285,7 +280,6 @@ class PerformanceOptimizer {
 
   // Optimize all files
   optimizeAll() {
-
     // Optimize main HTML file
     if (fs.existsSync('index.html')) {
       const optimizedHTML = this.optimizeHTML('index.html');
@@ -311,7 +305,6 @@ class PerformanceOptimizer {
     // Create video loading strategy file
     const videoStrategy = this.createVideoLoadingStrategy();
     fs.writeFileSync('video-loading-strategy.html', videoStrategy);
-
   }
 }
 

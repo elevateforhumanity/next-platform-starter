@@ -1,4 +1,3 @@
-
 import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
@@ -8,7 +7,8 @@ import { FileText, HelpCircle } from 'lucide-react';
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/workforce-board/eligibility' },
   title: 'WIOA Eligibility | Workforce Board | Elevate For Humanity',
-  description: 'WIOA eligibility requirements for workforce development training programs. Check if you qualify for funded career training.',
+  description:
+    'WIOA eligibility requirements for workforce development training programs. Check if you qualify for funded career training.',
 };
 
 const ELIGIBLE = [
@@ -33,7 +33,7 @@ const PRIORITY_POPULATIONS = [
 ];
 
 const DOCUMENTS_NEEDED = [
-  'Government-issued photo ID (driver\'s license, state ID, passport)',
+  "Government-issued photo ID (driver's license, state ID, passport)",
   'Social Security number (entered online)',
   'Proof of address (utility bill, lease agreement, bank statement)',
   'Proof of income (pay stubs, tax return, benefits letter)',
@@ -43,23 +43,34 @@ const DOCUMENTS_NEEDED = [
 ];
 
 export default function EligibilityPage() {
-
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: 'Workforce Board', href: '/workforce-board' }, { label: 'Eligibility' }]} />
+        <Breadcrumbs
+          items={[{ label: 'Workforce Board', href: '/workforce-board' }, { label: 'Eligibility' }]}
+        />
       </div>
 
       {/* Hero */}
       {/* Hero */}
       <section className="relative w-full">
         <div className="relative h-[50vh] sm:h-[55vh] md:h-[60vh] lg:h-[65vh] min-h-[320px] w-full overflow-hidden">
-          <Image src="/images/pages/workforce-board-page-1.jpg" alt="WIOA eligibility information" fill className="object-cover" priority sizes="100vw" />
+          <Image
+            src="/images/pages/workforce-board-page-1.jpg"
+            alt="WIOA eligibility information"
+            fill
+            className="object-cover"
+            priority
+            sizes="100vw"
+          />
         </div>
         <div className="bg-white py-10">
           <div className="max-w-5xl mx-auto px-4 text-center">
             <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">WIOA Eligibility</h1>
-            <p className="text-lg text-black max-w-3xl mx-auto">Find out if you qualify for funded career training through the Workforce Innovation and Opportunity Act.</p>
+            <p className="text-lg text-black max-w-3xl mx-auto">
+              Find out if you qualify for funded career training through the Workforce Innovation
+              and Opportunity Act.
+            </p>
           </div>
         </div>
       </section>
@@ -68,7 +79,9 @@ export default function EligibilityPage() {
       <section className="py-16">
         <div className="max-w-5xl mx-auto px-4">
           <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">Basic Requirements</h2>
-          <p className="text-black mb-8">To be eligible for WIOA-funded training, you must meet the following criteria:</p>
+          <p className="text-black mb-8">
+            To be eligible for WIOA-funded training, you must meet the following criteria:
+          </p>
           <div className="bg-white border border-gray-200 rounded-xl p-6">
             <ul className="space-y-4">
               {ELIGIBLE.map((item) => (
@@ -85,11 +98,18 @@ export default function EligibilityPage() {
       {/* Priority Populations */}
       <section className="py-16">
         <div className="max-w-5xl mx-auto px-4">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">Priority Populations</h2>
-          <p className="text-black mb-8">WIOA gives priority of service to individuals in the following categories:</p>
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
+            Priority Populations
+          </h2>
+          <p className="text-black mb-8">
+            WIOA gives priority of service to individuals in the following categories:
+          </p>
           <div className="grid sm:grid-cols-2 gap-3">
             {PRIORITY_POPULATIONS.map((item) => (
-              <div key={item} className="bg-white border border-gray-200 rounded-lg px-4 py-3 flex items-center gap-3">
+              <div
+                key={item}
+                className="bg-white border border-gray-200 rounded-lg px-4 py-3 flex items-center gap-3"
+              >
                 <div className="w-2 h-2 bg-white rounded-full flex-shrink-0" />
                 <span className="text-gray-700 text-sm">{item}</span>
               </div>
@@ -124,7 +144,8 @@ export default function EligibilityPage() {
           <HelpCircle className="w-10 h-10 mx-auto mb-4 text-black" />
           <h2 className="text-2xl md:text-3xl font-bold mb-4">Not Sure If You Qualify?</h2>
           <p className="text-white mb-8 text-lg">
-            Attend a free orientation session or contact us. Our enrollment advisors will help determine your eligibility.
+            Attend a free orientation session or contact us. Our enrollment advisors will help
+            determine your eligibility.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <Link

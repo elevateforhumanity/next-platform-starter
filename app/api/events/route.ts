@@ -39,14 +39,8 @@ async function _GET(req: NextRequest) {
 
     return NextResponse.json({ events: data });
   } catch (err: any) {
-    logger.error(
-      'GET /events error',
-      err instanceof Error ? err : new Error(String(err))
-    );
-    return NextResponse.json(
-      { error: 'Failed to fetch events' },
-      { status: 500 }
-    );
+    logger.error('GET /events error', err instanceof Error ? err : new Error(String(err)));
+    return NextResponse.json({ error: 'Failed to fetch events' }, { status: 500 });
   }
 }
 
@@ -75,7 +69,7 @@ async function _POST(req: NextRequest) {
     if (!title || !start_at || !end_at) {
       return NextResponse.json(
         { error: 'Missing required fields: title, start_at, end_at' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -105,14 +99,8 @@ async function _POST(req: NextRequest) {
 
     return NextResponse.json({ event: data }, { status: 201 });
   } catch (err: any) {
-    logger.error(
-      'POST /events error',
-      err instanceof Error ? err : new Error(String(err))
-    );
-    return NextResponse.json(
-      { error: 'Failed to create event' },
-      { status: 500 }
-    );
+    logger.error('POST /events error', err instanceof Error ? err : new Error(String(err)));
+    return NextResponse.json({ error: 'Failed to create event' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/events', _GET);

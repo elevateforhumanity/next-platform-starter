@@ -1,4 +1,3 @@
-
 import { NextRequest, NextResponse } from 'next/server';
 import { createServerSupabaseClient } from '@/lib/auth';
 import { logger } from '@/lib/logger';
@@ -28,7 +27,7 @@ async function _GET(req: NextRequest) {
         `
         *,
         author:profiles!author_id(full_name, email)
-      `
+      `,
       )
       .eq('thread_id', threadId)
       .order('created_at', { ascending: true });
@@ -39,12 +38,9 @@ async function _GET(req: NextRequest) {
     await supabase.rpc('increment_thread_views', { thread_id: threadId });
 
     return NextResponse.json({ posts: data });
-  } catch (error) { 
+  } catch (error) {
     logger.error('Error fetching posts:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch posts' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to fetch posts' }, { status: 500 });
   }
 }
 
@@ -66,10 +62,7 @@ async function _POST(req: NextRequest) {
     const { thread_id, content } = body;
 
     if (!thread_id || !content) {
-      return NextResponse.json(
-        { error: 'Missing required fields' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
     const { data, error }: any = await supabase
@@ -91,12 +84,9 @@ async function _POST(req: NextRequest) {
       .eq('id', thread_id);
 
     return NextResponse.json({ post: data }, { status: 201 });
-  } catch (error) { 
+  } catch (error) {
     logger.error('Error creating post:', error);
-    return NextResponse.json(
-      { error: 'Failed to create post' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to create post' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/forums/posts', _GET);

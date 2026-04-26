@@ -23,7 +23,20 @@ async function _GET(request: Request) {
       .select('created_at, status')
       .gte('created_at', new Date(Date.now() - 180 * 24 * 60 * 60 * 1000).toISOString());
 
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const months = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
+    ];
     const hiringData: Record<string, { hires: number; applications: number }> = {};
 
     // Initialize last 6 months
@@ -34,7 +47,7 @@ async function _GET(request: Request) {
     }
 
     // Aggregate from real data only — no synthetic fallbacks
-    (apprentices || []).forEach(a => {
+    (apprentices || []).forEach((a) => {
       const month = months[new Date(a.created_at).getMonth()];
       if (hiringData[month]) {
         hiringData[month].applications++;

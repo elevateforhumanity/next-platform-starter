@@ -21,8 +21,6 @@ export default async function ReviewVerificationPage({
   const { id } = await params;
   const supabase = await createClient();
 
-
-
   const { data: rawVerification } = await supabase
     .from('id_verifications')
     .select('*')
@@ -35,19 +33,20 @@ export default async function ReviewVerificationPage({
 
   // Hydrate profile separately (id_verifications.user_id → auth.users, no FK to profiles)
   const { data: verifReviewProfile } = rawVerification.user_id
-    ? await supabase.from('profiles').select('id, full_name, email, role').eq('id', rawVerification.user_id).maybeSingle()
+    ? await supabase
+        .from('profiles')
+        .select('id, full_name, email, role')
+        .eq('id', rawVerification.user_id)
+        .maybeSingle()
     : { data: null };
   const verification = { ...rawVerification, profiles: verifReviewProfile ?? null };
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* Hero Image */}
       <section className="border-b py-8">
         <div className="max-w-4xl mx-auto px-6">
-          <h1 className="text-4xl font-bold text-black mb-2">
-            Review ID Verification
-          </h1>
+          <h1 className="text-4xl font-bold text-black mb-2">Review ID Verification</h1>
           <p className="text-lg text-black">
             Review and approve or reject this identity verification
           </p>

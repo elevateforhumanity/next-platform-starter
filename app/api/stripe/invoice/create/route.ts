@@ -1,7 +1,6 @@
 // PUBLIC ROUTE: Stripe invoice creation — admin only
 import { apiRequireAdmin } from '@/lib/admin/guards';
 
-
 import { getStripe } from '@/lib/stripe/client';
 import { NextResponse } from 'next/server';
 import { getAdminClient } from '@/lib/supabase/admin';
@@ -26,31 +25,21 @@ async function _POST(req: Request) {
     const { employer_id, customerId, amount, description } = body;
 
     if (!process.env.STRIPE_SECRET_KEY) {
-      return NextResponse.json(
-        { error: 'Stripe not configured' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Stripe not configured' }, { status: 500 });
     }
 
     // Compliance check: Only allow admin/platform/compliance fees
-    const allowedDescriptions = [
-      'admin',
-      'platform',
-      'compliance',
-      'coordination',
-      'supervision',
-    ];
+    const allowedDescriptions = ['admin', 'platform', 'compliance', 'coordination', 'supervision'];
     const isAllowed = allowedDescriptions.some((keyword) =>
-      description.toLowerCase().includes(keyword)
+      description.toLowerCase().includes(keyword),
     );
 
     if (!isAllowed) {
       return NextResponse.json(
         {
-          error:
-            'Invalid invoice description. Only admin/platform/compliance fees allowed.',
+          error: 'Invalid invoice description. Only admin/platform/compliance fees allowed.',
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -75,10 +64,7 @@ async function _POST(req: Request) {
     const supabase = await getAdminClient();
 
     if (!supabase) {
-      return NextResponse.json(
-        { error: 'Service temporarily unavailable.' },
-        { status: 503 }
-      );
+      return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });
     }
     const { data, error }: any = await supabase
       .from('invoices')
@@ -95,18 +81,12 @@ async function _POST(req: Request) {
       .maybeSingle();
 
     if (error) {
-      return NextResponse.json(
-        { error: 'Failed to save invoice' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to save invoice' }, { status: 500 });
     }
 
     return NextResponse.json({ invoice: data, stripeInvoice: invoice });
-  } catch (error) { 
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+  } catch (error) {
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -120,23 +100,15 @@ async function _GET(request: Request) {
 
     const supabase = await getAdminClient();
 
-    const { data, error }: any = await supabase
-      .from('invoices')
-      .select('*');
+    const { data, error }: any = await supabase.from('invoices').select('*');
 
     if (error) {
-      return NextResponse.json(
-        { error: 'Failed to fetch invoices' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to fetch invoices' }, { status: 500 });
     }
 
     return NextResponse.json({ invoices: data });
-  } catch (error) { 
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+  } catch (error) {
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 export const GET = withRuntime(withApiAudit('/api/stripe/invoice/create', _GET));

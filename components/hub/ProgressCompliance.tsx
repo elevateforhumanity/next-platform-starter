@@ -2,14 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
-import { 
-  
-  Clock, 
-  AlertTriangle, 
-  FileCheck,
-  TrendingUp,
-  Calendar,
-CheckCircle, } from 'lucide-react';
+import { Clock, AlertTriangle, FileCheck, TrendingUp, Calendar, CheckCircle } from 'lucide-react';
 
 interface ProgressData {
   totalHours: number;
@@ -32,10 +25,12 @@ export default function ProgressCompliance({ userId }: { userId?: string }) {
   useEffect(() => {
     async function fetchProgress() {
       const supabase = createClient();
-      
+
       let targetUserId = userId;
       if (!targetUserId) {
-        const { data: { user } } = await supabase.auth.getUser();
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
         targetUserId = user?.id;
       }
 
@@ -118,22 +113,36 @@ export default function ProgressCompliance({ userId }: { userId?: string }) {
   }
 
   const statusConfig = {
-    compliant: { label: 'On Track', color: 'text-brand-green-700', bg: 'bg-brand-green-100', icon: CheckCircle },
+    compliant: {
+      label: 'On Track',
+      color: 'text-brand-green-700',
+      bg: 'bg-brand-green-100',
+      icon: CheckCircle,
+    },
     at_risk: { label: 'At Risk', color: 'text-amber-700', bg: 'bg-amber-100', icon: AlertTriangle },
-    non_compliant: { label: 'Behind', color: 'text-brand-red-700', bg: 'bg-brand-red-100', icon: AlertTriangle },
+    non_compliant: {
+      label: 'Behind',
+      color: 'text-brand-red-700',
+      bg: 'bg-brand-red-100',
+      icon: AlertTriangle,
+    },
   };
 
   const status = statusConfig[data.complianceStatus];
   const StatusIcon = status.icon;
-  const hoursPercent = data.requiredHours > 0 ? Math.min((data.totalHours / data.requiredHours) * 100, 100) : 0;
-  const modulesPercent = data.totalModules > 0 ? Math.min((data.completedModules / data.totalModules) * 100, 100) : 0;
+  const hoursPercent =
+    data.requiredHours > 0 ? Math.min((data.totalHours / data.requiredHours) * 100, 100) : 0;
+  const modulesPercent =
+    data.totalModules > 0 ? Math.min((data.completedModules / data.totalModules) * 100, 100) : 0;
 
   return (
     <div className="bg-white rounded-2xl border border-slate-200 p-6 space-y-6">
       {/* Compliance Status */}
       <div className="flex items-center justify-between">
         <h3 className="font-bold text-slate-900">Progress & Compliance</h3>
-        <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full ${status.bg} ${status.color}`}>
+        <div
+          className={`inline-flex items-center gap-2 px-3 py-1 rounded-full ${status.bg} ${status.color}`}
+        >
           <StatusIcon className="w-4 h-4" />
           <span className="text-sm font-medium">{status.label}</span>
         </div>
@@ -143,10 +152,12 @@ export default function ProgressCompliance({ userId }: { userId?: string }) {
       <div>
         <div className="flex justify-between text-sm mb-1">
           <span className="text-slate-600">Hours Completed</span>
-          <span className="font-medium text-slate-900">{data.totalHours} / {data.requiredHours} hrs</span>
+          <span className="font-medium text-slate-900">
+            {data.totalHours} / {data.requiredHours} hrs
+          </span>
         </div>
         <div className="h-3 bg-slate-100 rounded-full overflow-hidden">
-          <div 
+          <div
             className="h-full bg-white rounded-full transition-all duration-500"
             style={{ width: `${hoursPercent}%` }}
           />
@@ -157,10 +168,12 @@ export default function ProgressCompliance({ userId }: { userId?: string }) {
       <div>
         <div className="flex justify-between text-sm mb-1">
           <span className="text-slate-600">Modules Completed</span>
-          <span className="font-medium text-slate-900">{data.completedModules} / {data.totalModules}</span>
+          <span className="font-medium text-slate-900">
+            {data.completedModules} / {data.totalModules}
+          </span>
         </div>
         <div className="h-3 bg-slate-100 rounded-full overflow-hidden">
-          <div 
+          <div
             className="h-full bg-white rounded-full transition-all duration-500"
             style={{ width: `${modulesPercent}%` }}
           />

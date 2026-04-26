@@ -77,10 +77,7 @@ function InstallPrompt({ appName, appDescription, themeColor = '#7c3aed' }: Inst
 
   return (
     <div className="fixed bottom-20 left-4 right-4 z-50 animate-slide-up">
-      <div 
-        className="rounded-2xl p-4 shadow-2xl"
-        style={{ backgroundColor: themeColor }}
-      >
+      <div className="rounded-2xl p-4 shadow-2xl" style={{ backgroundColor: themeColor }}>
         <div className="flex items-start gap-4">
           <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center flex-shrink-0">
             <Smartphone className="w-6 h-6 text-white" />
@@ -100,7 +97,8 @@ function InstallPrompt({ appName, appDescription, themeColor = '#7c3aed' }: Inst
         {isIOS ? (
           <div className="mt-4 bg-white/10 rounded-xl p-3">
             <p className="text-white/90 text-sm">
-              To install: tap <span className="font-bold">Share</span> then <span className="font-bold">"Add to Home Screen"</span>
+              To install: tap <span className="font-bold">Share</span> then{' '}
+              <span className="font-bold">"Add to Home Screen"</span>
             </p>
           </div>
         ) : (

@@ -26,12 +26,7 @@ interface ActionPayload {
 /**
  * Haversine formula to calculate distance between two GPS coordinates
  */
-function haversineDistance(
-  lat1: number,
-  lng1: number,
-  lat2: number,
-  lng2: number
-): number {
+function haversineDistance(lat1: number, lng1: number, lat2: number, lng2: number): number {
   const R = 6371000; // Earth's radius in meters
   const dLat = ((lat2 - lat1) * Math.PI) / 180;
   const dLng = ((lng2 - lng1) * Math.PI) / 180;
@@ -48,11 +43,7 @@ function haversineDistance(
 /**
  * Log admin alert for compliance violations
  */
-async function raiseAdminAlert(
-  supabase: any,
-  alertType: string,
-  details: Record<string, any>
-) {
+async function raiseAdminAlert(supabase: any, alertType: string, details: Record<string, any>) {
   try {
     await supabase.from('admin_alerts').insert({
       alert_type: alertType,
@@ -87,7 +78,9 @@ async function _POST(request: NextRequest) {
     // Suspension gate — block hour logging for suspended/past-due accounts
     const authClient = await createClient();
     if (authClient) {
-      const { data: { user } } = await authClient.auth.getUser();
+      const {
+        data: { user },
+      } = await authClient.auth.getUser();
       if (user) {
         const db = await getAdminClient();
         if (db) {
@@ -101,31 +94,25 @@ async function _POST(request: NextRequest) {
     if (!action || !apprentice_id || !program_id || !site_id) {
       return NextResponse.json(
         { error: 'Missing required fields: action, apprentice_id, program_id, site_id' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     if (lat === undefined || lng === undefined) {
-      return NextResponse.json(
-        { error: 'GPS coordinates required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'GPS coordinates required' }, { status: 400 });
     }
 
     // Validate GPS accuracy
     if (accuracy_m && accuracy_m > MAX_ACCURACY_M) {
       return NextResponse.json(
         { error: 'GPS accuracy too low', accuracy_m, max_allowed: MAX_ACCURACY_M },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     const supabase = await getAdminClient();
     if (!supabase) {
-      return NextResponse.json(
-        { error: 'Database not configured' },
-        { status: 503 }
-      );
+      return NextResponse.json({ error: 'Database not configured' }, { status: 503 });
     }
 
     // Load site geofence from apprentice_sites
@@ -136,10 +123,7 @@ async function _POST(request: NextRequest) {
       .maybeSingle();
 
     if (siteError || !site) {
-      return NextResponse.json(
-        { error: 'Site not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: 'Site not found' }, { status: 404 });
     }
 
     // Validate inside geofence
@@ -166,7 +150,7 @@ async function _POST(request: NextRequest) {
           distance_m: Math.round(distance),
           radius_m: site.radius_meters,
         },
-        { status: 403 }
+        { status: 403 },
       );
     }
 
@@ -203,10 +187,7 @@ async function _POST(request: NextRequest) {
 
         if (insertError) {
           logger.error('[Timeclock] clock_in insert error:', insertError);
-          return NextResponse.json(
-            { error: 'Failed to clock in' },
-            { status: 500 }
-          );
+          return NextResponse.json({ error: 'Failed to clock in' }, { status: 500 });
         }
 
         return NextResponse.json({
@@ -221,7 +202,7 @@ async function _POST(request: NextRequest) {
         if (!progress_entry_id) {
           return NextResponse.json(
             { error: 'progress_entry_id required for lunch_start' },
-            { status: 400 }
+            { status: 400 },
           );
         }
 
@@ -233,24 +214,15 @@ async function _POST(request: NextRequest) {
           .maybeSingle();
 
         if (entryError || !entry) {
-          return NextResponse.json(
-            { error: 'Progress entry not found' },
-            { status: 404 }
-          );
+          return NextResponse.json({ error: 'Progress entry not found' }, { status: 404 });
         }
 
         if (entry.clock_out_at) {
-          return NextResponse.json(
-            { error: 'Shift already closed' },
-            { status: 400 }
-          );
+          return NextResponse.json({ error: 'Shift already closed' }, { status: 400 });
         }
 
         if (entry.lunch_start_at) {
-          return NextResponse.json(
-            { error: 'Lunch already started' },
-            { status: 400 }
-          );
+          return NextResponse.json({ error: 'Lunch already started' }, { status: 400 });
         }
 
         const { error: updateError } = await supabase
@@ -259,10 +231,7 @@ async function _POST(request: NextRequest) {
           .eq('id', progress_entry_id);
 
         if (updateError) {
-          return NextResponse.json(
-            { error: 'Failed to start lunch' },
-            { status: 500 }
-          );
+          return NextResponse.json({ error: 'Failed to start lunch' }, { status: 500 });
         }
 
         return NextResponse.json({
@@ -277,7 +246,7 @@ async function _POST(request: NextRequest) {
         if (!progress_entry_id) {
           return NextResponse.json(
             { error: 'progress_entry_id required for lunch_end' },
-            { status: 400 }
+            { status: 400 },
           );
         }
 
@@ -289,24 +258,15 @@ async function _POST(request: NextRequest) {
           .maybeSingle();
 
         if (entryError || !entry) {
-          return NextResponse.json(
-            { error: 'Progress entry not found' },
-            { status: 404 }
-          );
+          return NextResponse.json({ error: 'Progress entry not found' }, { status: 404 });
         }
 
         if (!entry.lunch_start_at) {
-          return NextResponse.json(
-            { error: 'Lunch not started' },
-            { status: 400 }
-          );
+          return NextResponse.json({ error: 'Lunch not started' }, { status: 400 });
         }
 
         if (entry.lunch_end_at) {
-          return NextResponse.json(
-            { error: 'Lunch already ended' },
-            { status: 400 }
-          );
+          return NextResponse.json({ error: 'Lunch already ended' }, { status: 400 });
         }
 
         // Check lunch duration
@@ -320,10 +280,7 @@ async function _POST(request: NextRequest) {
           .eq('id', progress_entry_id);
 
         if (updateError) {
-          return NextResponse.json(
-            { error: 'Failed to end lunch' },
-            { status: 500 }
-          );
+          return NextResponse.json({ error: 'Failed to end lunch' }, { status: 500 });
         }
 
         // Raise alert if lunch exceeded standard duration
@@ -351,7 +308,7 @@ async function _POST(request: NextRequest) {
         if (!progress_entry_id) {
           return NextResponse.json(
             { error: 'progress_entry_id required for clock_out' },
-            { status: 400 }
+            { status: 400 },
           );
         }
 
@@ -363,17 +320,11 @@ async function _POST(request: NextRequest) {
           .maybeSingle();
 
         if (entryError || !entry) {
-          return NextResponse.json(
-            { error: 'Progress entry not found' },
-            { status: 404 }
-          );
+          return NextResponse.json({ error: 'Progress entry not found' }, { status: 404 });
         }
 
         if (entry.clock_out_at) {
-          return NextResponse.json(
-            { error: 'Already clocked out' },
-            { status: 400 }
-          );
+          return NextResponse.json({ error: 'Already clocked out' }, { status: 400 });
         }
 
         // Check for missing lunch after 6 hours
@@ -397,10 +348,7 @@ async function _POST(request: NextRequest) {
           .eq('id', progress_entry_id);
 
         if (updateError) {
-          return NextResponse.json(
-            { error: 'Failed to clock out' },
-            { status: 500 }
-          );
+          return NextResponse.json({ error: 'Failed to clock out' }, { status: 500 });
         }
 
         // Reload to get derived hours
@@ -420,17 +368,11 @@ async function _POST(request: NextRequest) {
       }
 
       default:
-        return NextResponse.json(
-          { error: 'Invalid action' },
-          { status: 400 }
-        );
+        return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
     }
   } catch (error) {
     logger.error('[Timeclock] Unexpected error:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/timeclock/action', _POST);

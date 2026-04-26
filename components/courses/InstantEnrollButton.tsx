@@ -27,8 +27,9 @@ export default function InstantEnrollButton({
     router.push(`/courses/${courseId}/enroll`);
   };
 
-  const baseClasses = 'inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg font-bold transition-colors disabled:opacity-50 disabled:cursor-not-allowed';
-  
+  const baseClasses =
+    'inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg font-bold transition-colors disabled:opacity-50 disabled:cursor-not-allowed';
+
   const variantClasses = {
     primary: 'bg-brand-orange-500 hover:bg-brand-orange-600 text-white',
     secondary: 'bg-white hover:bg-gray-50 text-brand-orange-600 border-2 border-brand-orange-500',
@@ -50,9 +51,7 @@ export default function InstantEnrollButton({
         <>
           <ShoppingCart className="h-5 w-5" />
           Enroll Now
-          {price && price > 0 && (
-            <span className="ml-1">- ${price}</span>
-          )}
+          {price && price > 0 && <span className="ml-1">- ${price}</span>}
         </>
       )}
     </button>

@@ -1,4 +1,5 @@
 # Culinary Arts & Food Service
+
 ## Program Syllabus
 
 **Provider:** Elevate for Humanity  
@@ -6,7 +7,7 @@
 **Program Code:** CULINARY  
 **Duration:** 12-18 Months (1,500-2,000 Hours)  
 **Delivery Method:** Registered Apprenticeship (Earn While You Learn)  
-**Funding:** Registered Apprenticeship • WIOA • WRG  
+**Funding:** Registered Apprenticeship • WIOA • WRG
 
 ---
 
@@ -34,6 +35,7 @@ Turn your passion for cooking into a career through Registered Apprenticeship! E
 ### Phase 1: Foundations (Months 1-4, 500 Hours)
 
 #### Classroom Instruction (100 hours)
+
 - Food safety and sanitation (ServSafe)
 - Kitchen safety and OSHA standards
 - Knife skills and equipment use
@@ -43,6 +45,7 @@ Turn your passion for cooking into a career through Registered Apprenticeship! E
 - Professional conduct
 
 #### On-the-Job Training (400 hours)
+
 - Kitchen orientation and safety
 - Basic food preparation
 - Vegetable and fruit preparation
@@ -54,6 +57,7 @@ Turn your passion for cooking into a career through Registered Apprenticeship! E
 ### Phase 2: Core Skills (Months 5-10, 750 Hours)
 
 #### Classroom Instruction (100 hours)
+
 - Cooking methods and techniques
 - Meat, poultry, and seafood preparation
 - Sauce preparation
@@ -63,6 +67,7 @@ Turn your passion for cooking into a career through Registered Apprenticeship! E
 - Customer service
 
 #### On-the-Job Training (650 hours)
+
 - Sauté, grill, and roast techniques
 - Protein preparation and cooking
 - Pasta and grain dishes
@@ -74,6 +79,7 @@ Turn your passion for cooking into a career through Registered Apprenticeship! E
 ### Phase 3: Advanced & Specialization (Months 11-18, 750 Hours)
 
 #### Classroom Instruction (100 hours)
+
 - Advanced cooking techniques
 - International cuisines
 - Dietary restrictions and allergies
@@ -83,6 +89,7 @@ Turn your passion for cooking into a career through Registered Apprenticeship! E
 - Career development
 
 #### On-the-Job Training (650 hours)
+
 - Lead line cook responsibilities
 - Menu development and specials
 - Training junior staff
@@ -141,11 +148,13 @@ Turn your passion for cooking into a career through Registered Apprenticeship! E
 ## Instructor/Mentor Qualifications
 
 **Classroom Instructors:**
+
 - Culinary degree or equivalent experience
 - ServSafe Instructor certification
 - Minimum 5 years professional cooking experience
 
 **On-the-Job Mentors:**
+
 - Executive Chef or Sous Chef
 - Minimum 5 years professional kitchen experience
 - Approved by DOL as apprenticeship sponsor
@@ -156,6 +165,7 @@ Turn your passion for cooking into a career through Registered Apprenticeship! E
 ## Apprenticeship Sponsor Requirements
 
 Participating restaurants/hotels must:
+
 - Hold valid food service license
 - Employ certified chef/kitchen manager
 - Maintain health department standards
@@ -168,6 +178,7 @@ Participating restaurants/hotels must:
 ## Compensation
 
 Apprentices earn wages while training:
+
 - **Phase 1 (Months 1-4):** 50-60% of line cook rate
 - **Phase 2 (Months 5-10):** 60-75% of line cook rate
 - **Phase 3 (Months 11-18):** 75-90% of line cook rate

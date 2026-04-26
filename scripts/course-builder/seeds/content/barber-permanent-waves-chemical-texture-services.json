@@ -16,12 +16,7 @@
       },
       {
         "prompt": "Which of the following is a contraindication for performing a chemical texture service?",
-        "choices": [
-          "Healthy scalp",
-          "Scalp abrasions",
-          "Thick hair",
-          "Natural hair color"
-        ],
+        "choices": ["Healthy scalp", "Scalp abrasions", "Thick hair", "Natural hair color"],
         "answerIndex": 1,
         "rationale": "Scalp abrasions are a contraindication because chemical solutions can exacerbate irritation or damage.",
         "type": "recall"
@@ -40,12 +35,7 @@
       },
       {
         "prompt": "Which personal protective equipment (PPE) is essential for a barber performing chemical texture services?",
-        "choices": [
-          "Gloves",
-          "Hat",
-          "Scarf",
-          "Boots"
-        ],
+        "choices": ["Gloves", "Hat", "Scarf", "Boots"],
         "answerIndex": 0,
         "rationale": "Gloves are essential to prevent skin contact with chemicals, reducing the risk of irritation or allergic reactions.",
         "type": "recall"
@@ -88,12 +78,7 @@
       },
       {
         "prompt": "What factor should be considered when selecting a section of hair for a test curl?",
-        "choices": [
-          "Visibility",
-          "Scalp condition",
-          "Hair color",
-          "Hair length"
-        ],
+        "choices": ["Visibility", "Scalp condition", "Hair color", "Hair length"],
         "answerIndex": 0,
         "rationale": "A section from the back of the head is typically chosen for a test curl because it is less visible.",
         "type": "recall"

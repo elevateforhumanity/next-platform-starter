@@ -7,8 +7,7 @@ import ReelsFeed from '@/components/reels/ReelsFeed';
 
 export const metadata: Metadata = {
   title: 'Reels | Elevate For Humanity',
-  description:
-    'Watch short-form videos about career training and success stories',
+  description: 'Watch short-form videos about career training and success stories',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/blog/reels',
   },
@@ -19,15 +18,17 @@ export default function ReelsPage() {
 
   return (
     <div className="bg-gray-950 min-h-screen">
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Reels" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Reels' }]} />
       </div>
-<ReelsFeed reels={reels} />
+      <ReelsFeed reels={reels} />
       {/* CTA Section */}
       <section className="bg-brand-blue-700 text-white py-12">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-2xl md:text-3xl font-bold mb-3">Ready to Start Your Career?</h2>
-          <p className="text-white mb-6">Check your eligibility for funded career training programs.</p>
+          <p className="text-white mb-6">
+            Check your eligibility for funded career training programs.
+          </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/start"

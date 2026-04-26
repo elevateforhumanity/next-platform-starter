@@ -3,7 +3,7 @@ import { getAdminClient } from '@/lib/supabase/admin';
 import { createClient } from '@/lib/supabase/server';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
-import { Clock, XCircle, Eye, CheckCircle, } from 'lucide-react';
+import { Clock, XCircle, Eye, CheckCircle } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
@@ -16,15 +16,12 @@ export default async function EmployerOnboardingReview() {
   const auth = await createClient();
 
   const supabase = await getAdminClient();
-  
+
   let onboardings: any[] = [];
   let orientationProgress: any[] = [];
   if (supabase) {
     const [onboardingRes, orientationRes] = await Promise.all([
-      supabase
-        .from('employer_onboarding')
-        .select('*')
-        .order('created_at', { ascending: false }),
+      supabase.from('employer_onboarding').select('*').order('created_at', { ascending: false }),
       // employer_onboarding_progress — written by /onboarding/employer/orientation
       supabase
         .from('employer_onboarding_progress')
@@ -52,19 +49,14 @@ export default async function EmployerOnboardingReview() {
 
   return (
     <div className="min-h-screen bg-white py-8 px-4">
-
       {/* Hero Image */}
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Admin", href: "/admin" }, { label: "Onboarding" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Admin', href: '/admin' }, { label: 'Onboarding' }]} />
       </div>
-<div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-black mb-2">
-            Employer Onboarding Review
-          </h1>
-          <p className="text-black">
-            Review and approve employer applications
-          </p>
+          <h1 className="text-3xl font-bold text-black mb-2">Employer Onboarding Review</h1>
+          <p className="text-black">Review and approve employer applications</p>
         </div>
 
         <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
@@ -75,24 +67,12 @@ export default async function EmployerOnboardingReview() {
                   <th className="px-6 py-4 text-left text-sm font-bold text-black">
                     Business Name
                   </th>
-                  <th className="px-6 py-4 text-left text-sm font-bold text-black">
-                    Contact
-                  </th>
-                  <th className="px-6 py-4 text-left text-sm font-bold text-black">
-                    Email
-                  </th>
-                  <th className="px-6 py-4 text-left text-sm font-bold text-black">
-                    Phone
-                  </th>
-                  <th className="px-6 py-4 text-left text-sm font-bold text-black">
-                    Status
-                  </th>
-                  <th className="px-6 py-4 text-left text-sm font-bold text-black">
-                    Submitted
-                  </th>
-                  <th className="px-6 py-4 text-left text-sm font-bold text-black">
-                    Actions
-                  </th>
+                  <th className="px-6 py-4 text-left text-sm font-bold text-black">Contact</th>
+                  <th className="px-6 py-4 text-left text-sm font-bold text-black">Email</th>
+                  <th className="px-6 py-4 text-left text-sm font-bold text-black">Phone</th>
+                  <th className="px-6 py-4 text-left text-sm font-bold text-black">Status</th>
+                  <th className="px-6 py-4 text-left text-sm font-bold text-black">Submitted</th>
+                  <th className="px-6 py-4 text-left text-sm font-bold text-black">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-200">
@@ -103,20 +83,13 @@ export default async function EmployerOnboardingReview() {
                       <td className="px-6 py-4 text-sm font-medium text-black">
                         {onboarding.business_name}
                       </td>
-                      <td className="px-6 py-4 text-sm text-black">
-                        {onboarding.contact_name}
-                      </td>
-                      <td className="px-6 py-4 text-sm text-black">
-                        {onboarding.contact_email}
-                      </td>
-                      <td className="px-6 py-4 text-sm text-black">
-                        {onboarding.contact_phone}
-                      </td>
+                      <td className="px-6 py-4 text-sm text-black">{onboarding.contact_name}</td>
+                      <td className="px-6 py-4 text-sm text-black">{onboarding.contact_email}</td>
+                      <td className="px-6 py-4 text-sm text-black">{onboarding.contact_phone}</td>
                       <td className="px-6 py-4">
                         <span
                           className={`inline-flex items-center gap-1 px-3 py-2 rounded-full text-xs font-bold ${
-                            statusColors[onboarding.status] ||
-                            'bg-slate-100 text-black'
+                            statusColors[onboarding.status] || 'bg-slate-100 text-black'
                           }`}
                         >
                           <StatusIcon className="w-3 h-3" />
@@ -156,22 +129,35 @@ export default async function EmployerOnboardingReview() {
               <table className="w-full text-sm">
                 <thead className="bg-slate-50 border-b">
                   <tr>
-                    {['Employer ID', 'Step', 'Status', 'Completed At'].map(h => (
-                      <th key={h} className="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wide">{h}</th>
+                    {['Employer ID', 'Step', 'Status', 'Completed At'].map((h) => (
+                      <th
+                        key={h}
+                        className="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wide"
+                      >
+                        {h}
+                      </th>
                     ))}
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
                   {orientationProgress.map((row: any) => (
                     <tr key={row.id ?? row.employer_id} className="hover:bg-slate-50">
-                      <td className="px-4 py-3 font-mono text-xs text-slate-400">{(row.employer_id ?? row.user_id ?? '—').slice(0, 8)}…</td>
-                      <td className="px-4 py-3 text-slate-700 capitalize">{(row.step ?? row.current_step ?? '—').replace(/_/g, ' ')}</td>
+                      <td className="px-4 py-3 font-mono text-xs text-slate-400">
+                        {(row.employer_id ?? row.user_id ?? '—').slice(0, 8)}…
+                      </td>
+                      <td className="px-4 py-3 text-slate-700 capitalize">
+                        {(row.step ?? row.current_step ?? '—').replace(/_/g, ' ')}
+                      </td>
                       <td className="px-4 py-3">
-                        <span className={`inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded-full ${
-                          row.status === 'completed' ? 'bg-green-100 text-green-700'
-                          : row.status === 'in_progress' ? 'bg-amber-100 text-amber-700'
-                          : 'bg-slate-100 text-slate-500'
-                        }`}>
+                        <span
+                          className={`inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded-full ${
+                            row.status === 'completed'
+                              ? 'bg-green-100 text-green-700'
+                              : row.status === 'in_progress'
+                                ? 'bg-amber-100 text-amber-700'
+                                : 'bg-slate-100 text-slate-500'
+                          }`}
+                        >
                           {row.status ?? 'pending'}
                         </span>
                       </td>

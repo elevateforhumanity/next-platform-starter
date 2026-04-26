@@ -14,12 +14,7 @@ export const metadata: Metadata = {
 };
 
 export default async function ProcessesPage() {
-  const { user, profile } = await requireRole([
-    'staff',
-    'admin',
-    'super_admin',
-    'advisor',
-  ]);
+  const { user, profile } = await requireRole(['staff', 'admin', 'super_admin', 'advisor']);
   const supabase = await createClient();
 
   const { data: processes, error } = await supabase
@@ -33,12 +28,8 @@ export default async function ProcessesPage() {
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-black">
-                Process Documentation
-              </h1>
-              <p className="text-black mt-2">
-                Step-by-step guides for all procedures
-              </p>
+              <h1 className="text-3xl font-bold text-black">Process Documentation</h1>
+              <p className="text-black mt-2">Step-by-step guides for all procedures</p>
             </div>
             <Link
               href="/staff-portal/dashboard"
@@ -53,21 +44,15 @@ export default async function ProcessesPage() {
       <div className="max-w-7xl mx-auto px-4 py-8">
         {error && (
           <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
-            <p className="text-red-800">
-              Error loading processes: {error.message}
-            </p>
+            <p className="text-red-800">Error loading processes: {error.message}</p>
           </div>
         )}
 
         {!processes || processes.length === 0 ? (
           <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-12 text-center">
             <FileText className="h-16 w-16 text-slate-300 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-black mb-2">
-              No Processes Available
-            </h3>
-            <p className="text-black">
-              Process documentation will appear here once added.
-            </p>
+            <h3 className="text-xl font-semibold text-black mb-2">No Processes Available</h3>
+            <p className="text-black">Process documentation will appear here once added.</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -77,9 +62,7 @@ export default async function ProcessesPage() {
                 className="bg-white rounded-lg shadow-sm border border-slate-200 p-6 hover:shadow-md transition-shadow"
               >
                 <div className="flex items-start justify-between mb-4">
-                  <h3 className="text-lg font-semibold text-black">
-                    {process.name}
-                  </h3>
+                  <h3 className="text-lg font-semibold text-black">{process.name}</h3>
                   {process.category && (
                     <span className="px-2 py-2 bg-blue-100 text-blue-700 text-xs font-medium rounded">
                       {process.category}
@@ -88,9 +71,7 @@ export default async function ProcessesPage() {
                 </div>
 
                 {process.description && (
-                  <p className="text-black text-sm mb-4">
-                    {process.description}
-                  </p>
+                  <p className="text-black text-sm mb-4">{process.description}</p>
                 )}
 
                 <div className="space-y-2 mb-4">

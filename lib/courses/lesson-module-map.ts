@@ -19,8 +19,8 @@ export const LESSON_MODULE_MAP: Record<number, number[]> = {
   11: [60, 61, 62, 63, 64],
   12: [65, 66, 67, 68, 69, 70],
   13: [71, 72, 73, 74, 75, 76],
-  14: [77],              // OSHA 30 — CareerSafe external module
-  15: [85],              // CPR/First Aid/AED — CareerSafe external module
+  14: [77], // OSHA 30 — CareerSafe external module
+  15: [85], // CPR/First Aid/AED — CareerSafe external module
   16: [90, 91, 92, 93, 94, 95],
 };
 

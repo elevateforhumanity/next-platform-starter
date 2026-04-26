@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -73,7 +73,8 @@ export default function FeedbackWidget({ userId }: FeedbackWidgetProps) {
           setCategory('');
         }, 2000);
       }
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
       alert('Failed to submit feedback');
     } finally {
@@ -99,12 +100,8 @@ export default function FeedbackWidget({ userId }: FeedbackWidgetProps) {
             {/* Header */}
             <div className="flex items-center justify-between p-6 border-b   ">
               <div>
-                <h3 className="text-xl font-bold text-black">
-                  Send Feedback
-                </h3>
-                <p className="text-sm text-black">
-                  Help us improve your experience
-                </p>
+                <h3 className="text-xl font-bold text-black">Send Feedback</h3>
+                <p className="text-sm text-black">Help us improve your experience</p>
               </div>
               <button
                 onClick={() => setIsOpen(false)}
@@ -122,9 +119,7 @@ export default function FeedbackWidget({ userId }: FeedbackWidgetProps) {
                   <div className="w-20 h-20 bg-brand-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                     <span className="text-slate-500 flex-shrink-0">•</span>
                   </div>
-                  <h4 className="text-2xl font-bold text-black mb-2">
-                    Thank You!
-                  </h4>
+                  <h4 className="text-2xl font-bold text-black mb-2">Thank You!</h4>
                   <p className="text-black">
                     Your feedback has been submitted. We'll review it shortly.
                   </p>
@@ -138,7 +133,7 @@ export default function FeedbackWidget({ userId }: FeedbackWidgetProps) {
                     What type of feedback is this? *
                   </label>
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                    {feedbackTypes.map(ft => (
+                    {feedbackTypes.map((ft) => (
                       <button
                         key={ft.value}
                         type="button"
@@ -157,30 +152,36 @@ export default function FeedbackWidget({ userId }: FeedbackWidgetProps) {
 
                 {/* Category */}
                 <div>
-                  <label className="block text-sm font-medium text-black mb-2">
-                    Category
-                  </label>
+                  <label className="block text-sm font-medium text-black mb-2">Category</label>
                   <select
                     value={category}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setCategory(e.target.value)}
+                    onChange={(
+                      e: React.ChangeEvent<
+                        HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+                      >,
+                    ) => setCategory(e.target.value)}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                   >
                     <option value="">Select a category</option>
-                    {categories.map(cat => (
-                      <option key={cat} value={cat}>{cat}</option>
+                    {categories.map((cat) => (
+                      <option key={cat} value={cat}>
+                        {cat}
+                      </option>
                     ))}
                   </select>
                 </div>
 
                 {/* Title */}
                 <div>
-                  <label className="block text-sm font-medium text-black mb-2">
-                    Title *
-                  </label>
+                  <label className="block text-sm font-medium text-black mb-2">Title *</label>
                   <input
                     type="text"
                     value={title}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setTitle(e.target.value)}
+                    onChange={(
+                      e: React.ChangeEvent<
+                        HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+                      >,
+                    ) => setTitle(e.target.value)}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                     placeholder="Brief summary of your feedback"
                     required
@@ -189,12 +190,14 @@ export default function FeedbackWidget({ userId }: FeedbackWidgetProps) {
 
                 {/* Description */}
                 <div>
-                  <label className="block text-sm font-medium text-black mb-2">
-                    Description *
-                  </label>
+                  <label className="block text-sm font-medium text-black mb-2">Description *</label>
                   <textarea
                     value={description}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setDescription(e.target.value)}
+                    onChange={(
+                      e: React.ChangeEvent<
+                        HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+                      >,
+                    ) => setDescription(e.target.value)}
                     rows={5}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                     placeholder="Provide as much detail as possible..."
@@ -205,7 +208,8 @@ export default function FeedbackWidget({ userId }: FeedbackWidgetProps) {
                 {/* Info */}
                 <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-lg p-4">
                   <p className="text-sm text-brand-blue-800">
-                    <strong>Note:</strong> Your feedback will include the current page URL and browser information to help us investigate issues.
+                    <strong>Note:</strong> Your feedback will include the current page URL and
+                    browser information to help us investigate issues.
                   </p>
                 </div>
               </form>

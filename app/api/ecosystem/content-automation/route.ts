@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-
 import { logger } from '@/lib/logger';
 import { toErrorMessage } from '@/lib/safe';
 import ContentAutomation from '@/lib/new-ecosystem-services/ContentAutomation';
@@ -26,8 +25,14 @@ async function _POST(request: NextRequest) {
     const result = await automation.run(body);
     return NextResponse.json({ success: true, result });
   } catch (error) {
-    logger.error('Content automation error:', error instanceof Error ? error : new Error(String(error)));
-    return NextResponse.json({ error: toErrorMessage(error) || 'Content automation failed' }, { status: 500 });
+    logger.error(
+      'Content automation error:',
+      error instanceof Error ? error : new Error(String(error)),
+    );
+    return NextResponse.json(
+      { error: toErrorMessage(error) || 'Content automation failed' },
+      { status: 500 },
+    );
   }
 }
 

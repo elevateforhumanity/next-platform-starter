@@ -11,7 +11,8 @@ export const revalidate = 600;
 
 export const metadata: Metadata = {
   title: 'Programs | Elevate for Humanity',
-  description: 'Browse career training programs. WIOA funding available for eligible Indiana residents.',
+  description:
+    'Browse career training programs. WIOA funding available for eligible Indiana residents.',
 };
 
 const DEFAULT_PROGRAM_IMAGE = '/images/pages/comp-home-hero-programs.jpg';
@@ -23,7 +24,6 @@ export default async function LmsProgramsPage() {
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* NAV */}
       <nav className="bg-white border-b border-slate-100 sticky top-0 z-50">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
@@ -37,7 +37,10 @@ export default async function LmsProgramsPage() {
             />
           </Link>
           <div className="flex items-center gap-3">
-            <Link href="/lms" className="text-sm text-slate-600 hover:text-slate-900 font-medium hidden sm:block">
+            <Link
+              href="/lms"
+              className="text-sm text-slate-600 hover:text-slate-900 font-medium hidden sm:block"
+            >
               Home
             </Link>
             <Link
@@ -66,7 +69,8 @@ export default async function LmsProgramsPage() {
             Find Your Program
           </h1>
           <p className="text-slate-700 text-base max-w-xl">
-            Industry-recognized credentials. Most programs are fully funded for eligible Indiana residents through WIOA and WorkOne.
+            Industry-recognized credentials. Most programs are fully funded for eligible Indiana
+            residents through WIOA and WorkOne.
           </p>
         </div>
       </section>
@@ -76,7 +80,9 @@ export default async function LmsProgramsPage() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4">
           <div className="flex flex-wrap items-center gap-2 mb-3">
             <DollarSign className="w-4 h-4 text-green-700 flex-shrink-0" />
-            <span className="text-green-800 text-sm font-bold">Funding available for eligible Indiana residents</span>
+            <span className="text-green-800 text-sm font-bold">
+              Funding available for eligible Indiana residents
+            </span>
           </div>
           <div className="flex flex-wrap gap-3">
             <a
@@ -115,7 +121,8 @@ export default async function LmsProgramsPage() {
             <div className="rounded-2xl border border-slate-200 bg-white p-10 text-center max-w-lg mx-auto">
               <h2 className="text-xl font-bold text-slate-900 mb-2">More programs enrolling now</h2>
               <p className="text-slate-700 text-sm mb-6">
-                No published programs are available yet. If you&apos;re already enrolled, sign in to access your training.
+                No published programs are available yet. If you&apos;re already enrolled, sign in to
+                access your training.
               </p>
               <Link
                 href={buildLoginRedirect('/lms/courses')}
@@ -155,18 +162,22 @@ export default async function LmsProgramsPage() {
                     <div className="p-5 flex flex-col flex-1">
                       <h2 className="font-bold text-slate-900 text-base mb-1">{p.title}</h2>
                       {p.description && (
-                        <p className="text-sm text-slate-700 mb-4 flex-1 line-clamp-2">{p.description}</p>
+                        <p className="text-sm text-slate-700 mb-4 flex-1 line-clamp-2">
+                          {p.description}
+                        </p>
                       )}
 
                       <div className="flex items-center gap-4 mb-4">
                         {p.duration && (
                           <span className="flex items-center gap-1 text-xs text-slate-600">
-                            <Clock className="w-3 h-3" />{p.duration}
+                            <Clock className="w-3 h-3" />
+                            {p.duration}
                           </span>
                         )}
                         {p.certification && (
                           <span className="flex items-center gap-1 text-xs text-slate-600">
-                            <Award className="w-3 h-3" />{p.certification}
+                            <Award className="w-3 h-3" />
+                            {p.certification}
                           </span>
                         )}
                       </div>
@@ -210,7 +221,6 @@ export default async function LmsProgramsPage() {
           </Link>
         </div>
       </section>
-
     </div>
   );
 }

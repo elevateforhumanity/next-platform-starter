@@ -1,0 +1,99 @@
+name: Pre-deploy Check
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+concurrency:
+  group: predeploy-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  platform-doctor:
+    name: Platform Doctor
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        shell: bash
+        run: echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Platform Doctor — check
+        run: pnpm predeploy:check
+        env:
+          # These are needed so TypeScript env imports don't fail at check time
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co' }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder' }}
+          SKIP_ENV_VALIDATION: 'true'
+        # Warnings do not fail the workflow — only CRITICAL issues do (exit code 1)
+        continue-on-error: false
+
+      - name: Upload doctor report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: platform-doctor-reports
+          path: |
+            reports/platform_doctor_report.json
+            reports/platform_polish_report.json
+          retention-days: 14
+
+  platform-polish:
+    name: Platform Polish Audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    # Polish audit is always informational — never blocks deploy
+    continue-on-error: true
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Platform Polish Audit
+        run: node scripts/platform-polish-audit.mjs
+        continue-on-error: true
+
+      - name: Upload polish report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: platform-polish-report
+          path: reports/platform_polish_report.json
+          retention-days: 14

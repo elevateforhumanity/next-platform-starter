@@ -41,7 +41,7 @@ export const AVATARS: Record<string, AvatarConfig> = {
     gender: 'female',
     role: 'Welcome Guide',
   },
-  
+
   chatAssistant: {
     id: 'chat-assistant',
     name: 'Emma',
@@ -60,7 +60,7 @@ export const AVATARS: Record<string, AvatarConfig> = {
     gender: 'female',
     role: 'Store Assistant',
   },
-  
+
   financialAid: {
     id: 'financial-aid',
     name: 'Michelle',
@@ -228,22 +228,22 @@ export function getAvatar(id: string): AvatarConfig | undefined {
 // Get avatar for a course by slug
 export function getAvatarForCourse(courseSlug: string): AvatarConfig {
   const mapping: Record<string, string> = {
-    'cna': 'cna',
+    cna: 'cna',
     'cna-training': 'cna',
-    'phlebotomy': 'phlebotomy',
+    phlebotomy: 'phlebotomy',
     'medical-assistant': 'medicalAssistant',
-    'healthcare': 'healthcare',
-    'hvac': 'hvac',
+    healthcare: 'healthcare',
+    hvac: 'hvac',
     'hvac-technician': 'hvac',
-    'cdl': 'cdl',
+    cdl: 'cdl',
     'cdl-training': 'cdl',
-    'electrical': 'electrical',
-    'barber': 'barber',
+    electrical: 'electrical',
+    barber: 'barber',
     'barber-apprenticeship': 'barber',
-    'cosmetology': 'cosmetology',
+    cosmetology: 'cosmetology',
     'it-support': 'itSupport',
-    'cybersecurity': 'cybersecurity',
-    'technology': 'technology',
+    cybersecurity: 'cybersecurity',
+    technology: 'technology',
   };
 
   const avatarKey = mapping[courseSlug] || 'aiTutor';
@@ -251,7 +251,9 @@ export function getAvatarForCourse(courseSlug: string): AvatarConfig {
 }
 
 // Get all avatars for a category
-export function getAvatarsByCategory(category: 'healthcare' | 'trades' | 'technology' | 'beauty' | 'guides'): AvatarConfig[] {
+export function getAvatarsByCategory(
+  category: 'healthcare' | 'trades' | 'technology' | 'beauty' | 'guides',
+): AvatarConfig[] {
   const categories: Record<string, string[]> = {
     healthcare: ['healthcare', 'cna', 'phlebotomy', 'medicalAssistant'],
     trades: ['trades', 'hvac', 'cdl', 'electrical'],
@@ -260,5 +262,5 @@ export function getAvatarsByCategory(category: 'healthcare' | 'trades' | 'techno
     guides: ['welcome', 'chatAssistant', 'store', 'financialAid', 'vita', 'supersonic', 'aiTutor'],
   };
 
-  return (categories[category] || []).map(id => AVATARS[id]).filter(Boolean);
+  return (categories[category] || []).map((id) => AVATARS[id]).filter(Boolean);
 }

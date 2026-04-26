@@ -1,4 +1,5 @@
 # Pharmacy Technician
+
 ## Program Syllabus
 
 **Provider:** Elevate for Humanity  
@@ -6,7 +7,7 @@
 **Program Code:** PHARM-TECH  
 **Duration:** 12-16 Weeks (320-480 Hours)  
 **Delivery Method:** Hybrid (Online + Externship)  
-**Funding:** WRG • WIOA • Workforce Grants  
+**Funding:** WRG • WIOA • Workforce Grants
 
 ---
 
@@ -32,6 +33,7 @@ Enter the growing pharmacy field in 12-16 weeks! Learn medication dispensing, pr
 ## Course Outline
 
 ### Module 1: Introduction to Pharmacy Practice (40 hours)
+
 - Role of pharmacy technician
 - Healthcare delivery systems
 - Pharmacy settings (retail, hospital, specialty)
@@ -40,6 +42,7 @@ Enter the growing pharmacy field in 12-16 weeks! Learn medication dispensing, pr
 - Pharmacy law and regulations
 
 ### Module 2: Pharmacology & Medication Safety (60 hours)
+
 - Drug classifications and therapeutic uses
 - Brand and generic drug names
 - Routes of administration
@@ -49,6 +52,7 @@ Enter the growing pharmacy field in 12-16 weeks! Learn medication dispensing, pr
 - Look-alike/sound-alike drugs
 
 ### Module 3: Pharmacy Calculations (40 hours)
+
 - Measurement systems (metric, household, apothecary)
 - Ratio and proportion
 - Percentage calculations
@@ -58,6 +62,7 @@ Enter the growing pharmacy field in 12-16 weeks! Learn medication dispensing, pr
 - Pediatric and geriatric dosing
 
 ### Module 4: Prescription Processing (60 hours)
+
 - Reading and interpreting prescriptions
 - Prescription data entry
 - Drug utilization review (DUR)
@@ -67,6 +72,7 @@ Enter the growing pharmacy field in 12-16 weeks! Learn medication dispensing, pr
 - Refill procedures
 
 ### Module 5: Pharmacy Information Systems (30 hours)
+
 - Pharmacy software navigation
 - Patient profile management
 - Prescription processing workflow
@@ -75,6 +81,7 @@ Enter the growing pharmacy field in 12-16 weeks! Learn medication dispensing, pr
 - Medication therapy management (MTM)
 
 ### Module 6: Insurance & Billing (40 hours)
+
 - Insurance plan types
 - Prescription insurance processing
 - Prior authorizations
@@ -84,6 +91,7 @@ Enter the growing pharmacy field in 12-16 weeks! Learn medication dispensing, pr
 - Discount programs and coupons
 
 ### Module 7: Sterile & Non-Sterile Compounding (50 hours)
+
 - USP <795> and <797> standards
 - Aseptic technique
 - IV admixture preparation
@@ -93,6 +101,7 @@ Enter the growing pharmacy field in 12-16 weeks! Learn medication dispensing, pr
 - Hazardous drug handling
 
 ### Module 8: Inventory Management (30 hours)
+
 - Ordering and receiving medications
 - Stock rotation and expiration dating
 - Controlled substance regulations
@@ -101,6 +110,7 @@ Enter the growing pharmacy field in 12-16 weeks! Learn medication dispensing, pr
 - Automated dispensing systems
 
 ### Module 9: Customer Service & Communication (20 hours)
+
 - Professional communication
 - Patient counseling support
 - Telephone etiquette
@@ -109,6 +119,7 @@ Enter the growing pharmacy field in 12-16 weeks! Learn medication dispensing, pr
 - Teamwork and collaboration
 
 ### Module 10: Externship (120-200 hours)
+
 - Supervised practice in retail or hospital pharmacy
 - Prescription processing
 - Patient interaction
@@ -153,6 +164,7 @@ Enter the growing pharmacy field in 12-16 weeks! Learn medication dispensing, pr
 ## Externship Requirements
 
 Students complete supervised practice at approved pharmacies:
+
 - Retail pharmacies (CVS, Walgreens, Kroger, etc.)
 - Hospital pharmacies
 - Specialty pharmacies
@@ -188,6 +200,7 @@ Students complete supervised practice at approved pharmacies:
 ## Certifications Earned
 
 Students are prepared to sit for:
+
 1. **Pharmacy Technician Certification Board (PTCB)** - CPhT
 2. **National Healthcareer Association (NHA)** - ExCPT
 3. **CPR/BLS** - American Heart Association
@@ -197,6 +210,7 @@ Students are prepared to sit for:
 ## State Registration
 
 Indiana pharmacy technicians must:
+
 - Register with Indiana Board of Pharmacy
 - Pass national certification exam (PTCB or NHA)
 - Complete background check

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { createClient } from '@/lib/supabase/client';
 
@@ -29,22 +29,26 @@ export function StudentFeedbackRating({ courseId }: { courseId?: string }) {
     async function loadReviews() {
       const { data } = await supabase
         .from('course_reviews')
-        .select(`
+        .select(
+          `
           id, rating, comment, created_at, helpful_count,
           profiles:user_id (full_name)
-        `)
+        `,
+        )
         .eq('course_id', courseId || 'default')
         .order('created_at', { ascending: false });
 
       if (data && data.length > 0) {
-        setReviews(data.map((r: any) => ({
-          id: r.id,
-          studentName: r.profiles?.full_name || 'Anonymous',
-          rating: r.rating,
-          comment: r.comment,
-          date: r.created_at?.split('T')[0],
-          helpful: r.helpful_count || 0
-        })));
+        setReviews(
+          data.map((r: any) => ({
+            id: r.id,
+            studentName: r.profiles?.full_name || 'Anonymous',
+            rating: r.rating,
+            comment: r.comment,
+            date: r.created_at?.split('T')[0],
+            helpful: r.helpful_count || 0,
+          })),
+        );
       }
     }
     loadReviews();
@@ -55,8 +59,10 @@ export function StudentFeedbackRating({ courseId }: { courseId?: string }) {
     if (!rating || !comment.trim()) return;
     setIsSubmitting(true);
 
-    const { data: { user } } = await supabase.auth.getUser();
-    
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
     const { data: newReview } = await supabase
       .from('course_reviews')
       .insert({
@@ -64,35 +70,39 @@ export function StudentFeedbackRating({ courseId }: { courseId?: string }) {
         user_id: user?.id,
         rating,
         comment: comment.trim(),
-        created_at: new Date().toISOString()
+        created_at: new Date().toISOString(),
       })
       .select('id')
       .single();
 
     if (newReview) {
-      setReviews(prev => [{
-        id: newReview.id,
-        studentName: 'You',
-        rating,
-        comment: comment.trim(),
-        date: new Date().toISOString().split('T')[0],
-        helpful: 0
-      }, ...prev]);
+      setReviews((prev) => [
+        {
+          id: newReview.id,
+          studentName: 'You',
+          rating,
+          comment: comment.trim(),
+          date: new Date().toISOString().split('T')[0],
+          helpful: 0,
+        },
+        ...prev,
+      ]);
       setRating(0);
       setComment('');
     }
     setIsSubmitting(false);
   };
 
-  const avgRating = reviews.length > 0 
-    ? reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length 
-    : 0;
+  const avgRating =
+    reviews.length > 0 ? reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length : 0;
 
   return (
     <div className="min-h-screen bg-white">
       <div className="   text-white py-12">
         <div className="max-w-7xl mx-auto px-4">
-          <h1 className="text-4xl font-bold mb-2 text-2xl md:text-3xl lg:text-4xl">Course Feedback</h1>
+          <h1 className="text-4xl font-bold mb-2 text-2xl md:text-3xl lg:text-4xl">
+            Course Feedback
+          </h1>
           <p className="text-white">Share your learning experience</p>
         </div>
       </div>
@@ -122,7 +132,11 @@ export function StudentFeedbackRating({ courseId }: { courseId?: string }) {
                   <label className="block text-sm font-medium mb-2">Your Review</label>
                   <textarea
                     value={comment}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setComment(e.target.value)}
+                    onChange={(
+                      e: React.ChangeEvent<
+                        HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+                      >,
+                    ) => setComment(e.target.value)}
                     placeholder="Share your experience with this course..."
                     className="w-full px-4 py-2 border rounded-lg h-32"
                   />
@@ -143,7 +157,10 @@ export function StudentFeedbackRating({ courseId }: { courseId?: string }) {
                         <div className="flex items-center gap-2">
                           <div className="flex">
                             {[...Array(5)].map((_, i) => (
-                              <span key={i} className={`text-sm ${i < review.rating ? 'text-yellow-500' : 'text-slate-700'}`}>
+                              <span
+                                key={i}
+                                className={`text-sm ${i < review.rating ? 'text-yellow-500' : 'text-slate-700'}`}
+                              >
                                 ★
                               </span>
                             ))}
@@ -166,10 +183,15 @@ export function StudentFeedbackRating({ courseId }: { courseId?: string }) {
             <Card className="p-6">
               <h3 className="font-bold mb-4">Overall Rating</h3>
               <div className="text-center mb-4">
-                <p className="text-5xl font-bold text-brand-orange-600 text-3xl md:text-4xl lg:text-5xl">{avgRating.toFixed(1)}</p>
+                <p className="text-5xl font-bold text-brand-orange-600 text-3xl md:text-4xl lg:text-5xl">
+                  {avgRating.toFixed(1)}
+                </p>
                 <div className="flex justify-center my-2">
                   {[...Array(5)].map((_, i) => (
-                    <span key={i} className={`text-2xl ${i < Math.round(avgRating) ? 'text-yellow-500' : 'text-slate-700'}`}>
+                    <span
+                      key={i}
+                      className={`text-2xl ${i < Math.round(avgRating) ? 'text-yellow-500' : 'text-slate-700'}`}
+                    >
                       ★
                     </span>
                   ))}
@@ -179,7 +201,7 @@ export function StudentFeedbackRating({ courseId }: { courseId?: string }) {
 
               <div className="space-y-2">
                 {[5, 4, 3, 2, 1].map((stars) => {
-                  const count = reviews.filter(r => r.rating === stars).length;
+                  const count = reviews.filter((r) => r.rating === stars).length;
                   const percentage = (count / reviews.length) * 100;
                   return (
                     <div key={stars} className="flex items-center gap-2">

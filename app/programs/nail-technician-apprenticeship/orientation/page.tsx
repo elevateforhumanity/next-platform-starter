@@ -23,7 +23,9 @@ export default function NailTechOrientationPage() {
           <ul className="space-y-2">
             <li className="flex items-start gap-2">
               <span className="text-black flex-shrink-0">•</span>
-              <span>Obtain your {config.licenseTitle} through the {config.licensingBody}</span>
+              <span>
+                Obtain your {config.licenseTitle} through the {config.licensingBody}
+              </span>
             </li>
             <li className="flex items-start gap-2">
               <span className="text-black flex-shrink-0">•</span>
@@ -35,7 +37,8 @@ export default function NailTechOrientationPage() {
             </li>
           </ul>
           <p className="text-sm text-black mt-4">
-            This is a USDOL Registered Apprenticeship program. Your credential is nationally recognized.
+            This is a USDOL Registered Apprenticeship program. Your credential is nationally
+            recognized.
           </p>
         </div>
       ),
@@ -45,7 +48,10 @@ export default function NailTechOrientationPage() {
       icon: Clock,
       content: (
         <div className="space-y-4">
-          <p>The {config.programTitle} requires <strong>{config.hoursLabel}</strong> of combined training:</p>
+          <p>
+            The {config.programTitle} requires <strong>{config.hoursLabel}</strong> of combined
+            training:
+          </p>
           <div className="grid gap-4 mt-4">
             <div className="bg-pink-50 p-4 rounded-lg">
               <h4 className="font-bold text-pink-900">On-the-Job Training (OJT)</h4>
@@ -57,7 +63,8 @@ export default function NailTechOrientationPage() {
             </div>
           </div>
           <p className="text-sm text-black mt-4">
-            Your hours are logged digitally and verified by your instructor. Track progress in your dashboard.
+            Your hours are logged digitally and verified by your instructor. Track progress in your
+            dashboard.
           </p>
         </div>
       ),
@@ -70,20 +77,40 @@ export default function NailTechOrientationPage() {
           <p>As an apprentice, you are expected to:</p>
           <ul className="space-y-3">
             <li className="flex items-start gap-2">
-              <span className="w-6 h-6 bg-slate-900 text-white rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">1</span>
-              <span><strong>Attend consistently.</strong> Missed hours must be made up. Excessive absences may result in program dismissal.</span>
+              <span className="w-6 h-6 bg-slate-900 text-white rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">
+                1
+              </span>
+              <span>
+                <strong>Attend consistently.</strong> Missed hours must be made up. Excessive
+                absences may result in program dismissal.
+              </span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="w-6 h-6 bg-slate-900 text-white rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">2</span>
-              <span><strong>Maintain professionalism.</strong> You represent the salon and the program. Dress code and conduct standards apply.</span>
+              <span className="w-6 h-6 bg-slate-900 text-white rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">
+                2
+              </span>
+              <span>
+                <strong>Maintain professionalism.</strong> You represent the salon and the program.
+                Dress code and conduct standards apply.
+              </span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="w-6 h-6 bg-slate-900 text-white rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">3</span>
-              <span><strong>Complete coursework on time.</strong> RTI modules have deadlines. Falling behind affects your progress.</span>
+              <span className="w-6 h-6 bg-slate-900 text-white rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">
+                3
+              </span>
+              <span>
+                <strong>Complete coursework on time.</strong> RTI modules have deadlines. Falling
+                behind affects your progress.
+              </span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="w-6 h-6 bg-slate-900 text-white rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">4</span>
-              <span><strong>Communicate proactively.</strong> If issues arise, contact your coordinator immediately.</span>
+              <span className="w-6 h-6 bg-slate-900 text-white rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">
+                4
+              </span>
+              <span>
+                <strong>Communicate proactively.</strong> If issues arise, contact your coordinator
+                immediately.
+              </span>
             </li>
           </ul>
         </div>
@@ -109,11 +136,10 @@ export default function NailTechOrientationPage() {
               <span className="font-bold">{config.tuition.paymentFrequency}</span>
             </div>
           </div>
-          <p className="text-sm text-black">
-            {config.tuition.fundingNote}
-          </p>
+          <p className="text-sm text-black">{config.tuition.fundingNote}</p>
           <p className="text-sm text-brand-red-600 font-medium">
-            Missed payments may result in program suspension. Contact us immediately if you anticipate payment issues.
+            Missed payments may result in program suspension. Contact us immediately if you
+            anticipate payment issues.
           </p>
         </div>
       ),
@@ -144,7 +170,8 @@ export default function NailTechOrientationPage() {
           </ul>
           <div className="bg-yellow-50 border border-yellow-200 p-4 rounded-lg mt-6">
             <p className="text-yellow-800 text-sm">
-              <strong>Important:</strong> Enrollment is program-based. Courses, projects, and work activities are part of your program and cannot be accessed independently.
+              <strong>Important:</strong> Enrollment is program-based. Courses, projects, and work
+              activities are part of your program and cannot be accessed independently.
             </p>
           </div>
         </div>
@@ -189,10 +216,15 @@ export default function NailTechOrientationPage() {
         <div className="max-w-3xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between mb-2">
             <span className="text-sm font-medium text-black">Orientation Progress</span>
-            <span className="text-sm font-bold text-slate-900">{currentSection + 1} of {sections.length}</span>
+            <span className="text-sm font-bold text-slate-900">
+              {currentSection + 1} of {sections.length}
+            </span>
           </div>
           <div className="h-2 bg-slate-200 rounded-full overflow-hidden">
-            <div className="h-full bg-white transition-all duration-300" style={{ width: `${progress}%` }} />
+            <div
+              className="h-full bg-white transition-all duration-300"
+              style={{ width: `${progress}%` }}
+            />
           </div>
         </div>
       </div>
@@ -222,7 +254,10 @@ export default function NailTechOrientationPage() {
                 <span className="text-slate-700">
                   <strong>I understand my responsibilities and agree to proceed.</strong>
                   <br />
-                  <span className="text-sm text-black">By checking this box, I confirm I have read and understood all orientation materials.</span>
+                  <span className="text-sm text-black">
+                    By checking this box, I confirm I have read and understood all orientation
+                    materials.
+                  </span>
                 </span>
               </label>
             </div>
@@ -245,13 +280,18 @@ export default function NailTechOrientationPage() {
                 {submitting ? 'Processing...' : 'Continue to Program'}
               </button>
             ) : (
-              <button onClick={handleNext} className="px-8 py-3 bg-pink-600 text-white font-bold rounded-lg hover:bg-pink-700 transition">
+              <button
+                onClick={handleNext}
+                className="px-8 py-3 bg-pink-600 text-white font-bold rounded-lg hover:bg-pink-700 transition"
+              >
                 Next
               </button>
             )}
           </div>
         </div>
-        <p className="text-center text-black text-sm mt-6">Estimated time: {config.estimatedTime}</p>
+        <p className="text-center text-black text-sm mt-6">
+          Estimated time: {config.estimatedTime}
+        </p>
       </div>
     </div>
   );

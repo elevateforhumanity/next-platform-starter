@@ -1,9 +1,9 @@
 /**
  * Managed Enterprise LMS License Linking Tests
- * 
+ *
  * Verifies that checkout sessions include proper metadata and
  * webhook handlers correctly update the licenses table.
- * 
+ *
  * Sample license:
  * - license_id: ffa5c935-5176-443a-a243-56a67f98d26c
  * - tenant_id: e3a4bc87-b6eb-4aa8-a979-62a4dfb21bb6

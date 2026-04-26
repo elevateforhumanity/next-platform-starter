@@ -3,9 +3,18 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
-import { 
-  Layout, Settings, Plus, Globe, Eye, Trash2, Edit,
-  Monitor, Smartphone, ChevronRight, X
+import {
+  Layout,
+  Settings,
+  Plus,
+  Globe,
+  Eye,
+  Trash2,
+  Edit,
+  Monitor,
+  Smartphone,
+  ChevronRight,
+  X,
 } from 'lucide-react';
 
 interface Props {
@@ -16,13 +25,22 @@ interface Props {
 }
 
 const TEMPLATES = [
-  { id: 'training-provider', name: 'Training Provider', description: 'Perfect for workforce training' },
+  {
+    id: 'training-provider',
+    name: 'Training Provider',
+    description: 'Perfect for workforce training',
+  },
   { id: 'trade-school', name: 'Trade School', description: 'For vocational schools' },
   { id: 'nonprofit', name: 'Nonprofit', description: 'For community organizations' },
   { id: 'apprenticeship', name: 'Apprenticeship', description: 'Showcase apprenticeship programs' },
 ];
 
-export function WebsiteBuilderApp({ user, subscription, websites: initialWebsites, trialDaysRemaining }: Props) {
+export function WebsiteBuilderApp({
+  user,
+  subscription,
+  websites: initialWebsites,
+  trialDaysRemaining,
+}: Props) {
   const [websites, setWebsites] = useState(initialWebsites);
   const [showNewModal, setShowNewModal] = useState(false);
   const [selectedTemplate, setSelectedTemplate] = useState('');
@@ -32,7 +50,7 @@ export function WebsiteBuilderApp({ user, subscription, websites: initialWebsite
   const createWebsite = async (name: string, templateId: string) => {
     if (!supabase) return;
     setLoading(true);
-    
+
     const { data, error } = await supabase
       .from('user_websites')
       .insert({
@@ -51,8 +69,8 @@ export function WebsiteBuilderApp({ user, subscription, websites: initialWebsite
         { website_id: data.id, name: 'About', slug: 'about', blocks: [] },
         { website_id: data.id, name: 'Contact', slug: 'contact', blocks: [] },
       ]);
-      
-      setWebsites(prev => [data, ...prev]);
+
+      setWebsites((prev) => [data, ...prev]);
       setShowNewModal(false);
     }
     setLoading(false);
@@ -61,7 +79,7 @@ export function WebsiteBuilderApp({ user, subscription, websites: initialWebsite
   const deleteWebsite = async (id: string) => {
     if (!supabase || !confirm('Delete this website?')) return;
     await supabase.from('user_websites').delete().eq('id', id);
-    setWebsites(prev => prev.filter(w => w.id !== id));
+    setWebsites((prev) => prev.filter((w) => w.id !== id));
   };
 
   return (
@@ -69,8 +87,10 @@ export function WebsiteBuilderApp({ user, subscription, websites: initialWebsite
       {/* Trial Banner */}
       {subscription.status === 'trial' && trialDaysRemaining > 0 && (
         <div className="bg-white text-yellow-900 px-4 py-2 text-center text-sm font-medium">
-          Trial: {trialDaysRemaining} days remaining. 
-          <Link href="/store/apps/website-builder?upgrade=true" className="underline ml-2">Upgrade now</Link>
+          Trial: {trialDaysRemaining} days remaining.
+          <Link href="/store/apps/website-builder?upgrade=true" className="underline ml-2">
+            Upgrade now
+          </Link>
         </div>
       )}
 
@@ -97,7 +117,9 @@ export function WebsiteBuilderApp({ user, subscription, websites: initialWebsite
         <div className="flex items-center justify-between mb-8">
           <div>
             <h2 className="text-2xl font-bold">My Websites</h2>
-            <p className="text-gray-600">{websites.length} website{websites.length !== 1 ? 's' : ''}</p>
+            <p className="text-gray-600">
+              {websites.length} website{websites.length !== 1 ? 's' : ''}
+            </p>
           </div>
           <button
             onClick={() => setShowNewModal(true)}
@@ -122,8 +144,11 @@ export function WebsiteBuilderApp({ user, subscription, websites: initialWebsite
           </div>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {websites.map(website => (
-              <div key={website.id} className="bg-white rounded-xl border overflow-hidden hover:shadow-lg transition">
+            {websites.map((website) => (
+              <div
+                key={website.id}
+                className="bg-white rounded-xl border overflow-hidden hover:shadow-lg transition"
+              >
                 {/* Preview */}
                 <div className="aspect-video bg-gradient-to-br from-brand-blue-100 to-brand-blue-100 flex items-center justify-center relative">
                   <Layout className="w-12 h-12 text-brand-blue-300" />
@@ -133,14 +158,14 @@ export function WebsiteBuilderApp({ user, subscription, websites: initialWebsite
                     </span>
                   )}
                 </div>
-                
+
                 {/* Info */}
                 <div className="p-4">
                   <h3 className="font-bold mb-1">{website.site_name}</h3>
                   <p className="text-sm text-gray-500 mb-4">
                     {website.subdomain ? `${website.subdomain}.elevatesite.com` : 'Not published'}
                   </p>
-                  
+
                   <div className="flex items-center gap-2">
                     <Link
                       href={`/apps/website-builder/edit/${website.id}`}
@@ -177,14 +202,18 @@ export function WebsiteBuilderApp({ user, subscription, websites: initialWebsite
           <div className="bg-white rounded-xl max-w-2xl w-full p-6 max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-xl font-bold">Create New Website</h3>
-              <button onClick={() => setShowNewModal(false)} aria-label="Close"><X className="w-5 h-5" /></button>
+              <button onClick={() => setShowNewModal(false)} aria-label="Close">
+                <X className="w-5 h-5" />
+              </button>
             </div>
-            
-            <form onSubmit={(e) => {
-              e.preventDefault();
-              const name = (e.target as any).siteName.value;
-              createWebsite(name, selectedTemplate);
-            }}>
+
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                const name = (e.target as any).siteName.value;
+                createWebsite(name, selectedTemplate);
+              }}
+            >
               <div className="mb-6">
                 <label className="block text-sm font-medium mb-2">Website Name</label>
                 <input
@@ -194,17 +223,19 @@ export function WebsiteBuilderApp({ user, subscription, websites: initialWebsite
                   placeholder="My Training Center"
                 />
               </div>
-              
+
               <div className="mb-6">
                 <label className="block text-sm font-medium mb-2">Choose Template</label>
                 <div className="grid grid-cols-2 gap-4">
-                  {TEMPLATES.map(template => (
+                  {TEMPLATES.map((template) => (
                     <button
                       key={template.id}
                       type="button"
                       onClick={() => setSelectedTemplate(template.id)}
                       className={`p-4 border-2 rounded-lg text-left transition ${
-                        selectedTemplate === template.id ? 'border-brand-blue-600 bg-brand-blue-50' : 'border-gray-200 hover:border-gray-300'
+                        selectedTemplate === template.id
+                          ? 'border-brand-blue-600 bg-brand-blue-50'
+                          : 'border-gray-200 hover:border-gray-300'
                       }`}
                     >
                       <div className="w-full aspect-video bg-white rounded mb-3 flex items-center justify-center">
@@ -216,9 +247,13 @@ export function WebsiteBuilderApp({ user, subscription, websites: initialWebsite
                   ))}
                 </div>
               </div>
-              
+
               <div className="flex gap-3">
-                <button type="button" onClick={() => setShowNewModal(false)} className="flex-1 px-4 py-3 border rounded-lg">
+                <button
+                  type="button"
+                  onClick={() => setShowNewModal(false)}
+                  className="flex-1 px-4 py-3 border rounded-lg"
+                >
                   Cancel
                 </button>
                 <button

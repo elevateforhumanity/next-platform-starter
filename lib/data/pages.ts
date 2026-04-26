@@ -56,7 +56,7 @@ export async function getAllPages(): Promise<Omit<Page, 'sections'>[]> {
 
 export async function upsertPage(
   slug: string,
-  fields: Partial<Omit<Page, 'id' | 'slug' | 'sections'>>
+  fields: Partial<Omit<Page, 'id' | 'slug' | 'sections'>>,
 ): Promise<string> {
   const supabase = await createClient();
 
@@ -72,7 +72,7 @@ export async function upsertPage(
 
 export async function upsertSections(
   pageId: string,
-  sections: Omit<PageSection, 'id' | 'page_id'>[]
+  sections: Omit<PageSection, 'id' | 'page_id'>[],
 ): Promise<void> {
   const supabase = await createClient();
 

@@ -18,16 +18,15 @@ export async function concatSceneVideos(
   if (scenePaths.length === 0) throw new Error('No scene videos to concatenate');
 
   const listPath = path.join(tempDir, 'concat.txt');
-  await fs.writeFile(listPath, scenePaths.map(p => `file '${p}'`).join('\n'));
+  await fs.writeFile(listPath, scenePaths.map((p) => `file '${p}'`).join('\n'));
 
   const tmpConcat = outputPath + '.concat.tmp.mp4';
-  const tmpFinal  = outputPath + '.final.tmp.mp4';
+  const tmpFinal = outputPath + '.final.tmp.mp4';
 
   // Stream-copy concat — fast because scenes are already encoded consistently
-  execSync(
-    `ffmpeg -y -f concat -safe 0 -i "${listPath}" -c copy "${tmpConcat}"`,
-    { stdio: 'pipe' },
-  );
+  execSync(`ffmpeg -y -f concat -safe 0 -i "${listPath}" -c copy "${tmpConcat}"`, {
+    stdio: 'pipe',
+  });
 
   // Probe actual video duration from concat output
   const probeOut = execSync(
@@ -39,10 +38,10 @@ export async function concatSceneVideos(
   // Re-encode for +faststart — use video duration as authoritative length
   execSync(
     `ffmpeg -y -i "${tmpConcat}" ` +
-    `-c:v libx264 -crf 22 -preset fast -pix_fmt yuv420p ` +
-    `-c:a aac -b:a 128k -ar 48000 ` +
-    (videoDur > 0 ? `-t ${videoDur.toFixed(3)} ` : '') +
-    `-movflags +faststart "${tmpFinal}"`,
+      `-c:v libx264 -crf 22 -preset fast -pix_fmt yuv420p ` +
+      `-c:a aac -b:a 128k -ar 48000 ` +
+      (videoDur > 0 ? `-t ${videoDur.toFixed(3)} ` : '') +
+      `-movflags +faststart "${tmpFinal}"`,
     { stdio: 'pipe' },
   );
 

@@ -8,11 +8,14 @@ const fs = require('fs');
 const path = require('path');
 
 const API_KEY = process.env.SENDGRID_API_KEY;
-if (!API_KEY) { console.error('SENDGRID_API_KEY not set'); process.exit(1); }
+if (!API_KEY) {
+  console.error('SENDGRID_API_KEY not set');
+  process.exit(1);
+}
 
-const logoBase64 = fs.readFileSync(
-  path.join(__dirname, '../public/images/Elevate_for_Humanity_logo_81bf0fab.jpg')
-).toString('base64');
+const logoBase64 = fs
+  .readFileSync(path.join(__dirname, '../public/images/Elevate_for_Humanity_logo_81bf0fab.jpg'))
+  .toString('base64');
 
 const LOGO_ATTACHMENT = {
   content: logoBase64,
@@ -23,8 +26,12 @@ const LOGO_ATTACHMENT = {
 };
 
 function buildHtml(orgName, bodyText) {
-  const paras = bodyText.split('\n\n').filter(p => p.trim())
-    .map(p => `<p style="margin:0 0 16px 0;color:#1e293b;">${p.trim().replace(/\n/g, '<br>')}</p>`)
+  const paras = bodyText
+    .split('\n\n')
+    .filter((p) => p.trim())
+    .map(
+      (p) => `<p style="margin:0 0 16px 0;color:#1e293b;">${p.trim().replace(/\n/g, '<br>')}</p>`,
+    )
     .join('');
   return `<!DOCTYPE html><html><head><meta charset="utf-8"></head>
 <body style="margin:0;padding:0;background:#f8fafc;font-family:Arial,sans-serif;">
@@ -73,17 +80,35 @@ elevate4humanityedu@gmail.com
 317-314-3537`;
 
 const EMAILS = [
-  { org: 'Central Indiana Community Foundation', subject: 'COPY — Workforce Development Partnership sent to Central Indiana Community Foundation' },
-  { org: 'Lilly Endowment',                      subject: 'COPY — Workforce Development Partnership sent to Lilly Endowment' },
-  { org: 'Nina Mason Pulliam Charitable Trust',   subject: 'COPY — Workforce Development Partnership sent to Nina Mason Pulliam Charitable Trust' },
-  { org: 'Glick Philanthropies',                  subject: 'COPY — Workforce Development Partnership sent to Glick Philanthropies' },
+  {
+    org: 'Central Indiana Community Foundation',
+    subject:
+      'COPY — Workforce Development Partnership sent to Central Indiana Community Foundation',
+  },
+  {
+    org: 'Lilly Endowment',
+    subject: 'COPY — Workforce Development Partnership sent to Lilly Endowment',
+  },
+  {
+    org: 'Nina Mason Pulliam Charitable Trust',
+    subject: 'COPY — Workforce Development Partnership sent to Nina Mason Pulliam Charitable Trust',
+  },
+  {
+    org: 'Glick Philanthropies',
+    subject: 'COPY — Workforce Development Partnership sent to Glick Philanthropies',
+  },
 ];
 
 function sendCopy(email) {
   const body = FOUNDATION_BODY(email.org);
   const payload = JSON.stringify({
-    personalizations: [{ to: [{ email: 'elevate4humanityedu@gmail.com', name: 'Elizabeth Greene' }] }],
-    from: { email: 'noreply@elevateforhumanity.org', name: 'Elizabeth Greene | Elevate for Humanity' },
+    personalizations: [
+      { to: [{ email: 'elevate4humanityedu@gmail.com', name: 'Elizabeth Greene' }] },
+    ],
+    from: {
+      email: 'noreply@elevateforhumanity.org',
+      name: 'Elizabeth Greene | Elevate for Humanity',
+    },
     reply_to: { email: 'elevate4humanityedu@gmail.com', name: 'Elizabeth Greene' },
     subject: email.subject,
     content: [
@@ -94,21 +119,27 @@ function sendCopy(email) {
   });
 
   return new Promise((resolve, reject) => {
-    const req = https.request({
-      hostname: 'api.sendgrid.com',
-      path: '/v3/mail/send',
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${API_KEY}`,
-        'Content-Type': 'application/json',
-        'Content-Length': Buffer.byteLength(payload),
+    const req = https.request(
+      {
+        hostname: 'api.sendgrid.com',
+        path: '/v3/mail/send',
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${API_KEY}`,
+          'Content-Type': 'application/json',
+          'Content-Length': Buffer.byteLength(payload),
+        },
       },
-    }, res => {
-      let d = ''; res.on('data', c => d += c);
-      res.on('end', () => res.statusCode === 202
-        ? resolve({ ok: true })
-        : resolve({ ok: false, status: res.statusCode, body: d }));
-    });
+      (res) => {
+        let d = '';
+        res.on('data', (c) => (d += c));
+        res.on('end', () =>
+          res.statusCode === 202
+            ? resolve({ ok: true })
+            : resolve({ ok: false, status: res.statusCode, body: d }),
+        );
+      },
+    );
     req.on('error', reject);
     req.write(payload);
     req.end();
@@ -130,11 +161,14 @@ async function main() {
     } catch (err) {
       console.log(`❌ error: ${err.message}`);
     }
-    await new Promise(r => setTimeout(r, 500));
+    await new Promise((r) => setTimeout(r, 500));
   }
 
   console.log('\n✅ All 4 foundation email copies sent to elevate4humanityedu@gmail.com');
   console.log(`Timestamp: ${new Date().toISOString()}`);
 }
 
-main().catch(err => { console.error('Fatal:', err); process.exit(1); });
+main().catch((err) => {
+  console.error('Fatal:', err);
+  process.exit(1);
+});

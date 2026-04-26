@@ -7,7 +7,8 @@ const SITE_URL = 'https://www.elevateforhumanity.org';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy | Elevate for Humanity',
-  description: 'Learn how Elevate for Humanity collects, uses, and protects your personal information.',
+  description:
+    'Learn how Elevate for Humanity collects, uses, and protects your personal information.',
   alternates: { canonical: `${SITE_URL}/privacy` },
 };
 
@@ -55,9 +56,7 @@ export default function PrivacyPolicyPage() {
             <h2 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-2">
               <FileText className="w-6 h-6 text-blue-600" /> How We Use Your Information
             </h2>
-            <p className="text-slate-600 mb-4">
-              We use the information we collect to:
-            </p>
+            <p className="text-slate-600 mb-4">We use the information we collect to:</p>
             <ul className="list-disc pl-6 text-slate-600 space-y-2">
               <li>Process your enrollment and provide educational services</li>
               <li>Communicate with you about programs, services, and opportunities</li>
@@ -71,9 +70,7 @@ export default function PrivacyPolicyPage() {
             <h2 className="text-2xl font-bold text-slate-900 mb-4 flex items-center gap-2">
               <Lock className="w-6 h-6 text-blue-600" /> Information Sharing
             </h2>
-            <p className="text-slate-600 mb-4">
-              We may share your information with:
-            </p>
+            <p className="text-slate-600 mb-4">We may share your information with:</p>
             <ul className="list-disc pl-6 text-slate-600 space-y-2">
               <li>Workforce development agencies (as required for WIOA, WRG, JRI funding)</li>
               <li>Employers (with your consent, for job placement services)</li>
@@ -88,9 +85,7 @@ export default function PrivacyPolicyPage() {
 
           <section className="mb-12">
             <h2 className="text-2xl font-bold text-slate-900 mb-4">Your Rights</h2>
-            <p className="text-slate-600 mb-4">
-              You have the right to:
-            </p>
+            <p className="text-slate-600 mb-4">You have the right to:</p>
             <ul className="list-disc pl-6 text-slate-600 space-y-2">
               <li>Access your personal information</li>
               <li>Request correction of inaccurate information</li>
@@ -103,9 +98,10 @@ export default function PrivacyPolicyPage() {
           <section className="mb-12">
             <h2 className="text-2xl font-bold text-slate-900 mb-4">Data Security</h2>
             <p className="text-slate-600">
-              We implement appropriate technical and organizational measures to protect your 
-              personal information against unauthorized access, alteration, disclosure, or 
-              destruction. This includes encryption, secure servers, and regular security assessments.
+              We implement appropriate technical and organizational measures to protect your
+              personal information against unauthorized access, alteration, disclosure, or
+              destruction. This includes encryption, secure servers, and regular security
+              assessments.
             </p>
           </section>
 
@@ -116,9 +112,18 @@ export default function PrivacyPolicyPage() {
             </p>
             <div className="bg-slate-50 rounded-xl p-6">
               <p className="text-slate-700">
-                <strong>Elevate for Humanity</strong><br />
-                Email: <a href="mailto:privacy@elevateforhumanity.org" className="text-blue-600 hover:underline">privacy@elevateforhumanity.org</a><br />
-                Phone: (317) 314-3757<br />
+                <strong>Elevate for Humanity</strong>
+                <br />
+                Email:{' '}
+                <a
+                  href="mailto:privacy@elevateforhumanity.org"
+                  className="text-blue-600 hover:underline"
+                >
+                  privacy@elevateforhumanity.org
+                </a>
+                <br />
+                Phone: (317) 314-3757
+                <br />
                 Address: Indianapolis, IN
               </p>
             </div>
@@ -129,33 +134,39 @@ export default function PrivacyPolicyPage() {
         <div className="border-t pt-8 mt-8">
           <h3 className="font-bold text-slate-900 mb-4">Related Policies</h3>
           <div className="flex flex-wrap gap-4">
-            <Link href="/terms" className="text-blue-600 hover:underline">Terms of Service</Link>
-            <Link href="/accessibility" className="text-blue-600 hover:underline">Accessibility</Link>
-            <Link href="/cookies" className="text-blue-600 hover:underline">Cookie Policy</Link>
-          </div>
-        </div>
-      {/* CTA Section */}
-      <section className="bg-blue-700 text-white py-12">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-2xl md:text-3xl font-bold mb-3">Ready to Start Your Career?</h2>
-          <p className="text-blue-100 mb-6">Apply today for free career training programs.</p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/apply"
-              className="inline-flex items-center justify-center bg-white text-blue-700 px-6 py-3 rounded-lg font-bold hover:bg-gray-100 transition"
-            >
-              Apply Now
+            <Link href="/terms" className="text-blue-600 hover:underline">
+              Terms of Service
             </Link>
-            <a
-              href="tel:317-314-3757"
-              className="inline-flex items-center justify-center gap-2 border-2 border-white text-white px-6 py-3 rounded-lg font-bold hover:bg-blue-800 transition"
-            >
-              <Phone className="w-4 h-4" />
-              (317) 314-3757
-            </a>
+            <Link href="/accessibility" className="text-blue-600 hover:underline">
+              Accessibility
+            </Link>
+            <Link href="/cookies" className="text-blue-600 hover:underline">
+              Cookie Policy
+            </Link>
           </div>
         </div>
-      </section>
+        {/* CTA Section */}
+        <section className="bg-blue-700 text-white py-12">
+          <div className="max-w-4xl mx-auto px-4 text-center">
+            <h2 className="text-2xl md:text-3xl font-bold mb-3">Ready to Start Your Career?</h2>
+            <p className="text-blue-100 mb-6">Apply today for free career training programs.</p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link
+                href="/apply"
+                className="inline-flex items-center justify-center bg-white text-blue-700 px-6 py-3 rounded-lg font-bold hover:bg-gray-100 transition"
+              >
+                Apply Now
+              </Link>
+              <a
+                href="tel:317-314-3757"
+                className="inline-flex items-center justify-center gap-2 border-2 border-white text-white px-6 py-3 rounded-lg font-bold hover:bg-blue-800 transition"
+              >
+                <Phone className="w-4 h-4" />
+                (317) 314-3757
+              </a>
+            </div>
+          </div>
+        </section>
       </div>
     </div>
   );

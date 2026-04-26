@@ -43,7 +43,12 @@ function genderCode(g: string | null): number | null {
 
 function raceFlags(re: string | null): Record<string, number> {
   const r: Record<string, number> = {
-    '201': 0, '202': 0, '203': 0, '204': 0, '205': 0, '206': 0,
+    '201': 0,
+    '202': 0,
+    '203': 0,
+    '204': 0,
+    '205': 0,
+    '206': 0,
   };
   if (!re) return r;
   const l = re.toLowerCase();
@@ -81,7 +86,7 @@ export function createSupabaseAdapter(): PirlDataAdapter {
   const supabase: SupabaseClient = createClient(
     mustEnv('NEXT_PUBLIC_SUPABASE_URL'),
     mustEnv('SUPABASE_SERVICE_ROLE_KEY'),
-    { auth: { persistSession: false } }
+    { auth: { persistSession: false } },
   );
 
   return {
@@ -140,7 +145,8 @@ export function createSupabaseAdapter(): PirlDataAdapter {
           '1600': boolTo019(row.employed_q2_after_exit),
           '1602': boolTo019(row.employed_q2_after_exit),
           '1604': boolTo019(row.employed_q4_after_exit),
-          '1700': row.median_earnings_q2 ?? (row.annual_salary ? Math.round(row.annual_salary / 4) : 0),
+          '1700':
+            row.median_earnings_q2 ?? (row.annual_salary ? Math.round(row.annual_salary / 4) : 0),
           '1800': row.credential_attained ? 1 : 0,
           '1801': row.credential_issued_at,
           '1811': boolTo01(row.measurable_skill_gain),

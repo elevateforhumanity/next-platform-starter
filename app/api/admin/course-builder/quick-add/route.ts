@@ -19,13 +19,16 @@ import { safeError, safeInternalError } from '@/lib/api/safe-error';
 export const dynamic = 'force-dynamic';
 
 function slugify(title: string): string {
-  return title
-    .toLowerCase()
-    .replace(/[^a-z0-9\s-]/g, '')
-    .replace(/\s+/g, '-')
-    .replace(/-+/g, '-')
-    .slice(0, 80)
-    + '-' + Date.now().toString(36);
+  return (
+    title
+      .toLowerCase()
+      .replace(/[^a-z0-9\s-]/g, '')
+      .replace(/\s+/g, '-')
+      .replace(/-+/g, '-')
+      .slice(0, 80) +
+    '-' +
+    Date.now().toString(36)
+  );
 }
 
 const ModuleSchema = z.object({
@@ -39,7 +42,9 @@ const LessonSchema = z.object({
   courseId: z.string().uuid(),
   moduleId: z.string().uuid(),
   title: z.string().min(1).max(200),
-  stepType: z.enum(['lesson', 'quiz', 'checkpoint', 'lab', 'assignment', 'exam', 'certification']).default('lesson'),
+  stepType: z
+    .enum(['lesson', 'quiz', 'checkpoint', 'lab', 'assignment', 'exam', 'certification'])
+    .default('lesson'),
 });
 
 const BodySchema = z.discriminatedUnion('type', [ModuleSchema, LessonSchema]);
@@ -102,7 +107,9 @@ export async function POST(req: NextRequest) {
       status: 'draft',
       content: '',
     })
-    .select('id, title, slug, lesson_order, lesson_type, content, video_url, duration_minutes, passing_score, status')
+    .select(
+      'id, title, slug, lesson_order, lesson_type, content, video_url, duration_minutes, passing_score, status',
+    )
     .single();
 
   if (error) return safeInternalError(error, 'Failed to create lesson');

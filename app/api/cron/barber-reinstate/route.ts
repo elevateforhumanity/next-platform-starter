@@ -22,9 +22,7 @@ export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
 
-export const GET = withRuntime(
-  { cron: 'bearer' },
-  async () => {
+export const GET = withRuntime({ cron: 'bearer' }, async () => {
   const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
 
   const db = await getAdminClient();
@@ -41,7 +39,9 @@ export const GET = withRuntime(
     // Excludes manually_disabled records — those require admin action to reinstate.
     const { data: suspended, error } = await db
       .from('barber_subscriptions')
-      .select('id, user_id, customer_email, customer_name, stripe_subscription_id, suspension_reason')
+      .select(
+        'id, user_id, customer_email, customer_name, stripe_subscription_id, suspension_reason',
+      )
       .in('payment_status', ['past_due', 'suspended'])
       .not('stripe_subscription_id', 'is', null)
       .not('suspension_reason', 'eq', 'manually_disabled');
@@ -87,7 +87,7 @@ export const GET = withRuntime(
                 dashboardUrl: `${SITE_URL}/learner/dashboard`,
               }),
             }).catch((err) =>
-              logger.error('[barber-reinstate cron] reinstate email failed', { id: sub.id, err })
+              logger.error('[barber-reinstate cron] reinstate email failed', { id: sub.id, err }),
             );
           }
 
@@ -107,8 +107,7 @@ export const GET = withRuntime(
     logger.error('[barber-reinstate cron] fatal', err);
     return NextResponse.json({ error: 'Cron failed', details: String(err) }, { status: 500 });
   }
-  }
-);
+});
 
 function reinstateEmailHtml({ name, dashboardUrl }: { name: string; dashboardUrl: string }) {
   return `

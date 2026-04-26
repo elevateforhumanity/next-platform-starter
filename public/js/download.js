@@ -50,13 +50,7 @@ class DownloadTracker {
   }
 
   // Track download completion
-  async trackDownloadComplete(
-    email,
-    productId,
-    licenseKey,
-    fileName,
-    success = true
-  ) {
+  async trackDownloadComplete(email, productId, licenseKey, fileName, success = true) {
     const completionData = {
       email,
       productId,
@@ -82,18 +76,11 @@ class DownloadTracker {
       if (success) {
         this.showTrackingNotification('Download completed successfully');
       }
-    } catch (error) {
-    }
+    } catch (error) {}
   }
 
   // Track download errors
-  async trackDownloadError(
-    email,
-    productId,
-    licenseKey,
-    error,
-    fileName = null
-  ) {
+  async trackDownloadError(email, productId, licenseKey, error, fileName = null) {
     const errorData = {
       email,
       productId,
@@ -116,22 +103,18 @@ class DownloadTracker {
       });
 
       this.showTrackingNotification('Download error reported', 'error');
-    } catch (trackingError) {
-    }
+    } catch (trackingError) {}
   }
 
   // Validate license before download
   async validateLicense(licenseKey) {
     try {
-      const response = await fetch(
-        `${this.apiBase}/api/validate-license/${licenseKey}`,
-        {
-          method: 'GET',
-          headers: {
-            'X-Session-ID': this.sessionId,
-          },
-        }
-      );
+      const response = await fetch(`${this.apiBase}/api/validate-license/${licenseKey}`, {
+        method: 'GET',
+        headers: {
+          'X-Session-ID': this.sessionId,
+        },
+      });
 
       if (response.ok) {
         const data = await response.json();
@@ -240,24 +223,12 @@ class DownloadTracker {
       URL.revokeObjectURL(downloadUrl);
 
       // Track completion
-      await this.trackDownloadComplete(
-        email,
-        productId,
-        licenseKey,
-        fileName,
-        true
-      );
+      await this.trackDownloadComplete(email, productId, licenseKey, fileName, true);
 
       // Remove progress indicator
       setTimeout(() => progressContainer.remove(), 2000);
     } catch (error) {
-      await this.trackDownloadError(
-        email,
-        productId,
-        licenseKey,
-        error,
-        fileName
-      );
+      await this.trackDownloadError(email, productId, licenseKey, error, fileName);
       throw error;
     }
   }
@@ -320,12 +291,7 @@ window.downloadTracker = new DownloadTracker();
 
 // Convenience functions for backward compatibility
 window.trackDownload = (email, productId, licenseKey, fileName) => {
-  return window.downloadTracker.trackDownload(
-    email,
-    productId,
-    licenseKey,
-    fileName
-  );
+  return window.downloadTracker.trackDownload(email, productId, licenseKey, fileName);
 };
 
 window.validateLicense = (licenseKey) => {
@@ -333,13 +299,7 @@ window.validateLicense = (licenseKey) => {
 };
 
 window.downloadWithProgress = (url, fileName, licenseKey, email, productId) => {
-  return window.downloadTracker.downloadWithProgress(
-    url,
-    fileName,
-    licenseKey,
-    email,
-    productId
-  );
+  return window.downloadTracker.downloadWithProgress(url, fileName, licenseKey, email, productId);
 };
 
 // Auto-track page views for license-related pages

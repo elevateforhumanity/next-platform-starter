@@ -9,42 +9,45 @@
  */
 
 import { normalizeLessonType, type LessonType } from '@/lib/curriculum/lesson-types';
-import { normalizeLessonContent, type LessonContent } from '@/lib/curriculum/normalize-lesson-content';
+import {
+  normalizeLessonContent,
+  type LessonContent,
+} from '@/lib/curriculum/normalize-lesson-content';
 import { HVAC_COURSE_ID } from '@/lib/courses/hvac-uuids';
 
 // ─── Render modes ─────────────────────────────────────────────────────────────
 
 export type LessonRenderMode =
-  | 'reading'       // rich text + objectives + materials
-  | 'video'         // video player + transcript + completion threshold
-  | 'quiz'          // quiz player
-  | 'checkpoint'    // checkpoint quiz or reflection card
-  | 'lab'           // lab instructions + evidence submission
-  | 'assignment'    // assignment instructions + evidence submission
-  | 'simulation'    // simulation block + evidence
-  | 'practicum'     // hours/attempts/progress + evidence + signoff
-  | 'externship'    // hours/progress/evidence/signoff
-  | 'clinical'      // hours/progress/evidence/signoff
-  | 'observation'   // observation log + evidence
-  | 'final_exam'    // final exam player
-  | 'capstone'      // project instructions + rubric + evidence + evaluator review
+  | 'reading' // rich text + objectives + materials
+  | 'video' // video player + transcript + completion threshold
+  | 'quiz' // quiz player
+  | 'checkpoint' // checkpoint quiz or reflection card
+  | 'lab' // lab instructions + evidence submission
+  | 'assignment' // assignment instructions + evidence submission
+  | 'simulation' // simulation block + evidence
+  | 'practicum' // hours/attempts/progress + evidence + signoff
+  | 'externship' // hours/progress/evidence/signoff
+  | 'clinical' // hours/progress/evidence/signoff
+  | 'observation' // observation log + evidence
+  | 'final_exam' // final exam player
+  | 'capstone' // project instructions + rubric + evidence + evaluator review
   | 'certification' // completion/certificate screen
-  | 'legacy_hvac';  // HVAC legacy path — isolated adapter
+  | 'legacy_hvac'; // HVAC legacy path — isolated adapter
 
 export interface LessonRenderConfig {
-  mode:                LessonRenderMode;
-  lessonType:          LessonType;
-  content:             LessonContent;
+  mode: LessonRenderMode;
+  lessonType: LessonType;
+  content: LessonContent;
   /** True when the lesson requires evidence submission from the learner. */
-  requiresEvidence:    boolean;
+  requiresEvidence: boolean;
   /** True when the lesson requires evaluator/instructor review. */
-  requiresEvaluator:   boolean;
+  requiresEvaluator: boolean;
   /** True when the lesson requires skill signoff. */
-  requiresSignoff:     boolean;
+  requiresSignoff: boolean;
   /** True when the lesson requires a passing score to complete. */
-  requiresPass:        boolean;
+  requiresPass: boolean;
   /** True when the lesson tracks hours/attempts (practical field training). */
-  tracksPractical:     boolean;
+  tracksPractical: boolean;
   /** For video lessons: minimum watch percentage before completion is allowed. */
   videoCompletionThreshold: number;
 }
@@ -62,9 +65,7 @@ export function getLessonRenderMode(lesson: Record<string, unknown>): LessonRend
   // HVAC legacy adapter — isolate before canonical path
   const isHvacLegacy =
     lesson.lesson_source === 'training' ||
-    (lesson.course_id === HVAC_COURSE_ID &&
-      !lesson.content_structured &&
-      lessonType === 'reading');
+    (lesson.course_id === HVAC_COURSE_ID && !lesson.content_structured && lessonType === 'reading');
 
   if (isHvacLegacy) {
     return buildConfig('legacy_hvac', lessonType, lesson, false, false, false);
@@ -122,21 +123,23 @@ export function getLessonRenderMode(lesson: Record<string, unknown>): LessonRend
 // ─── Builder ──────────────────────────────────────────────────────────────────
 
 function buildConfig(
-  mode:          LessonRenderMode,
-  lessonType:    LessonType,
-  lesson:        Record<string, unknown>,
-  requiresEvidence:  boolean,
+  mode: LessonRenderMode,
+  lessonType: LessonType,
+  lesson: Record<string, unknown>,
+  requiresEvidence: boolean,
   requiresEvaluator: boolean,
-  requiresSignoff:   boolean,
-  content?:      LessonContent
+  requiresSignoff: boolean,
+  content?: LessonContent,
 ): LessonRenderConfig {
   // DB flags override defaults when explicitly set
-  const dbRequiresEvidence  = lesson.requires_evidence  === true ? true : requiresEvidence;
+  const dbRequiresEvidence = lesson.requires_evidence === true ? true : requiresEvidence;
   const dbRequiresEvaluator = lesson.requires_evaluator === true ? true : requiresEvaluator;
-  const dbRequiresSignoff   = lesson.requires_signoff   === true ? true : requiresSignoff;
+  const dbRequiresSignoff = lesson.requires_signoff === true ? true : requiresSignoff;
 
   const requiresPass = ['quiz', 'checkpoint', 'final_exam'].includes(lessonType);
-  const tracksPractical = ['practicum', 'externship', 'clinical', 'observation'].includes(lessonType);
+  const tracksPractical = ['practicum', 'externship', 'clinical', 'observation'].includes(
+    lessonType,
+  );
 
   const videoThreshold =
     content?.video?.completionThresholdPercent ??
@@ -146,10 +149,34 @@ function buildConfig(
   return {
     mode,
     lessonType,
-    content:                  content ?? { version: 1, summary: '', objectives: [], instructionalContent: '', transcript: '', materials: [], activityInstructions: '', evidence: { enabled: false, submissionModes: [], minItems: 0, reviewerRequired: false, instructions: '' }, rubric: [], completionRule: { minMinutes: 0, requiresQuizPass: false, requiresEvidenceApproval: false, requiresSignoff: false, requiresHours: 0, requiresAttempts: 0 } },
-    requiresEvidence:         dbRequiresEvidence,
-    requiresEvaluator:        dbRequiresEvaluator,
-    requiresSignoff:          dbRequiresSignoff,
+    content: content ?? {
+      version: 1,
+      summary: '',
+      objectives: [],
+      instructionalContent: '',
+      transcript: '',
+      materials: [],
+      activityInstructions: '',
+      evidence: {
+        enabled: false,
+        submissionModes: [],
+        minItems: 0,
+        reviewerRequired: false,
+        instructions: '',
+      },
+      rubric: [],
+      completionRule: {
+        minMinutes: 0,
+        requiresQuizPass: false,
+        requiresEvidenceApproval: false,
+        requiresSignoff: false,
+        requiresHours: 0,
+        requiresAttempts: 0,
+      },
+    },
+    requiresEvidence: dbRequiresEvidence,
+    requiresEvaluator: dbRequiresEvaluator,
+    requiresSignoff: dbRequiresSignoff,
     requiresPass,
     tracksPractical,
     videoCompletionThreshold: videoThreshold,

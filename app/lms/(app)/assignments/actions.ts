@@ -7,12 +7,19 @@ import { updateProgramProgress } from '@/lib/lms/update-program-progress';
 import { logger } from '@/lib/logger';
 
 const ACCESS_STATES = [
-  'active', 'in_progress', 'enrolled', 'confirmed', 'pending_funding_verification',
+  'active',
+  'in_progress',
+  'enrolled',
+  'confirmed',
+  'pending_funding_verification',
 ];
 
 export async function submitAssignment(formData: FormData) {
   const supabase = await createClient();
-  const { data: { user }, error: authError } = await supabase.auth.getUser();
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser();
   if (authError) throw new Error(`Auth failed: ${authError.message}`);
   if (!user) return { error: 'Not authenticated' };
 
@@ -97,9 +104,9 @@ export async function submitAssignment(formData: FormData) {
       return { error: `File upload failed: ${uploadError.message}` };
     }
 
-    const { data: { publicUrl } } = supabase.storage
-      .from('assignments')
-      .getPublicUrl(fileName);
+    const {
+      data: { publicUrl },
+    } = supabase.storage.from('assignments').getPublicUrl(fileName);
 
     submissionUrl = publicUrl;
   }
@@ -130,16 +137,14 @@ export async function submitAssignment(formData: FormData) {
     submitError = error;
   } else {
     // Insert — user_id set explicitly from verified session
-    const { error } = await db
-      .from('assignment_submissions')
-      .insert({
-        user_id: user.id,
-        assignment_id: assignmentId,
-        submission_text: content || null,
-        submission_url: submissionUrl,
-        submitted_at: new Date().toISOString(),
-        status: 'submitted',
-      });
+    const { error } = await db.from('assignment_submissions').insert({
+      user_id: user.id,
+      assignment_id: assignmentId,
+      submission_text: content || null,
+      submission_url: submissionUrl,
+      submitted_at: new Date().toISOString(),
+      status: 'submitted',
+    });
     submitError = error;
   }
 

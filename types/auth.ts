@@ -20,7 +20,7 @@ export interface AuthedContext<TParams = Record<string, string>> extends RouteCo
 
 export type AuthHandler<TParams = Record<string, string>> = (
   req: NextRequest,
-  context: AuthedContext<TParams>
+  context: AuthedContext<TParams>,
 ) => Promise<Response> | Response;
 
 export interface WithAuthOptions {

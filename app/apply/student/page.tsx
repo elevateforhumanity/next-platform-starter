@@ -15,10 +15,18 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: 'Apply for Free Career Training | Elevate for Humanity',
-    description: 'Apply for workforce training and career development programs. Most students begin training within 2-4 weeks.',
+    description:
+      'Apply for workforce training and career development programs. Most students begin training within 2-4 weeks.',
     url: 'https://www.elevateforhumanity.org/apply/student',
     siteName: 'Elevate for Humanity',
-    images: [{ url: '/images/pages/comp-home-highlight-health.jpg', width: 1200, height: 630, alt: 'Apply for career training' }],
+    images: [
+      {
+        url: '/images/pages/comp-home-highlight-health.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Apply for career training',
+      },
+    ],
     type: 'website',
   },
   twitter: {
@@ -40,7 +48,14 @@ export default async function StudentApplicationPage({
     <div className="min-h-screen bg-white">
       {/* Hero — standard height, no text overlay */}
       <div className="relative h-[45vh] min-h-[280px] max-h-[560px] overflow-hidden">
-        <Image src="/images/pages/apply-page-4.jpg" alt="Student application — Elevate for Humanity" fill sizes="100vw" className="object-cover" priority />
+        <Image
+          src="/images/pages/apply-page-4.jpg"
+          alt="Student application — Elevate for Humanity"
+          fill
+          sizes="100vw"
+          className="object-cover"
+          priority
+        />
       </div>
 
       {/* Breadcrumbs */}
@@ -60,8 +75,9 @@ export default async function StudentApplicationPage({
             Start Your Career Journey
           </h1>
           <p className="text-black text-base sm:text-lg max-w-2xl leading-relaxed">
-            This application helps us understand your goals and match you with the right
-            training program. Many programs have funding available through WIOA, WRG, and Job Ready Indy grants.
+            This application helps us understand your goals and match you with the right training
+            program. Many programs have funding available through WIOA, WRG, and Job Ready Indy
+            grants.
           </p>
         </div>
       </section>
@@ -75,15 +91,24 @@ export default async function StudentApplicationPage({
         <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8 text-center">
           <p className="text-black text-sm mb-3">Not a student?</p>
           <div className="flex flex-wrap justify-center gap-4">
-            <Link href="/apply/employer" className="text-brand-blue-600 hover:underline font-medium text-sm">
+            <Link
+              href="/apply/employer"
+              className="text-brand-blue-600 hover:underline font-medium text-sm"
+            >
               Employer Partnership
             </Link>
             <span className="text-white">|</span>
-            <Link href="/apply/program-holder" className="text-brand-blue-600 hover:underline font-medium text-sm">
+            <Link
+              href="/apply/program-holder"
+              className="text-brand-blue-600 hover:underline font-medium text-sm"
+            >
               Become a Program Holder
             </Link>
             <span className="text-white">|</span>
-            <Link href="/apply/staff" className="text-brand-blue-600 hover:underline font-medium text-sm">
+            <Link
+              href="/apply/staff"
+              className="text-brand-blue-600 hover:underline font-medium text-sm"
+            >
               Staff Application
             </Link>
           </div>

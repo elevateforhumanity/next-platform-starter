@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import Script from 'next/script';
 import { useEffect } from 'react';
@@ -92,8 +92,8 @@ export function trackConversion(conversionId: string, value?: number) {
 export function updateConsent(analyticsAllowed: boolean, adsAllowed: boolean = false) {
   if (typeof window !== 'undefined' && (window as any).gtag) {
     (window as any).gtag('consent', 'update', {
-      'analytics_storage': analyticsAllowed ? 'granted' : 'denied',
-      'ad_storage': adsAllowed ? 'granted' : 'denied',
+      analytics_storage: analyticsAllowed ? 'granted' : 'denied',
+      ad_storage: adsAllowed ? 'granted' : 'denied',
     });
   }
 }

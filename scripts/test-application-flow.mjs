@@ -18,7 +18,6 @@ if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-
 // Test 1: Verify anon can insert applications
 const testApplication = {
   first_name: 'Test',

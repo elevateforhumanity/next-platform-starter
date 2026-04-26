@@ -249,13 +249,13 @@ export type BlueprintVideoConfig = {
   instructorImagePath: string;
 
   /** Brand colors */
-  topBarColor: string;       // e.g. '#f97316'
-  accentColor: string;       // e.g. '#3b82f6'
-  backgroundColor: string;   // e.g. '#0f172a'
+  topBarColor: string; // e.g. '#f97316'
+  accentColor: string; // e.g. '#3b82f6'
+  backgroundColor: string; // e.g. '#0f172a'
 
   /** Voice for TTS narration */
   ttsVoice: 'onyx' | 'alloy' | 'echo' | 'fable' | 'nova' | 'shimmer';
-  ttsSpeed: number;          // 0.25–4.0, default 0.85
+  ttsSpeed: number; // 0.25–4.0, default 0.85
 
   /** Number of slides per lesson video */
   slideCount: 5;

@@ -77,27 +77,33 @@ export async function GET(req: NextRequest) {
     // Find active job postings that overlap on skills_required or education_required
     const { data: jobs } = await db
       .from('job_postings')
-      .select(`
+      .select(
+        `
         id, title, description, salary_range, salary_min, salary_max,
         location, remote_allowed, job_type, application_deadline, status,
         employer:employers!employer_id(id, business_name)
-      `)
+      `,
+      )
       .eq('status', 'active')
       .or(
         [
           credentialStacks.length
-            ? `skills_required.ov.{${credentialStacks.map(s => `"${s}"`).join(',')}}`
+            ? `skills_required.ov.{${credentialStacks.map((s) => `"${s}"`).join(',')}}`
             : null,
           programTitles.length
-            ? programTitles.map(t => `education_required.ilike.%${t}%`).join(',')
+            ? programTitles.map((t) => `education_required.ilike.%${t}%`).join(',')
             : null,
         ]
           .filter(Boolean)
-          .join(',')
+          .join(','),
       )
       .limit(20);
 
-    return NextResponse.json({ jobs: jobs ?? [], learner_id, matched_on: { credential_stacks: credentialStacks, program_titles: programTitles } });
+    return NextResponse.json({
+      jobs: jobs ?? [],
+      learner_id,
+      matched_on: { credential_stacks: credentialStacks, program_titles: programTitles },
+    });
   }
 
   // ─── Mode 2: program completers relevant to a job posting ─────────────────
@@ -165,7 +171,10 @@ export async function GET(req: NextRequest) {
         const { data: completions } = await db
           .from('program_completion')
           .select('user_id')
-          .in('program_id', progs.map((p: any) => p.id));
+          .in(
+            'program_id',
+            progs.map((p: any) => p.id),
+          );
         const extraIds = (completions ?? []).map((c: any) => c.user_id);
         learnerIds = [...new Set([...learnerIds, ...extraIds])];
       }
@@ -178,10 +187,13 @@ export async function GET(req: NextRequest) {
     const { data: candidates } = await db
       .from('profiles')
       .select('id, full_name, email, city, state')
-      .in('id', learnerIds.slice(0, 50));  // cap at 50 for now
+      .in('id', learnerIds.slice(0, 50)); // cap at 50 for now
 
     return NextResponse.json({ candidates: candidates ?? [], job_id, total: learnerIds.length });
   }
 
-  return NextResponse.json({ error: 'Invalid mode. Use jobs_for_learner or candidates_for_job' }, { status: 400 });
+  return NextResponse.json(
+    { error: 'Invalid mode. Use jobs_for_learner or candidates_for_job' },
+    { status: 400 },
+  );
 }

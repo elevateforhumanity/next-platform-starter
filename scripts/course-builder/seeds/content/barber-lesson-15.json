@@ -16,12 +16,7 @@
       },
       {
         "prompt": "A client presents with a request for a detailed hairline. Which tool should you use?",
-        "choices": [
-          "Clippers",
-          "Trimmers",
-          "Scissors",
-          "Straight razor"
-        ],
+        "choices": ["Clippers", "Trimmers", "Scissors", "Straight razor"],
         "answerIndex": 1,
         "rationale": "Trimmers are specifically designed for detailing work, such as shaping hairlines and trimming around the ears and neck.",
         "type": "scenario"
@@ -40,24 +35,14 @@
       },
       {
         "prompt": "During a service, you notice your scissors are not cutting smoothly. What should you do first?",
-        "choices": [
-          "Replace them",
-          "Disinfect them",
-          "Lubricate them",
-          "Sharpen them"
-        ],
+        "choices": ["Replace them", "Disinfect them", "Lubricate them", "Sharpen them"],
         "answerIndex": 3,
         "rationale": "If scissors are not cutting smoothly, they may need sharpening to restore their precision and effectiveness.",
         "type": "scenario"
       },
       {
         "prompt": "Which tool is used for close shaves and requires careful handling?",
-        "choices": [
-          "Clippers",
-          "Trimmers",
-          "Scissors",
-          "Straight razor"
-        ],
+        "choices": ["Clippers", "Trimmers", "Scissors", "Straight razor"],
         "answerIndex": 3,
         "rationale": "The straight razor is used for close shaves and requires skill and practice to handle safely and effectively.",
         "type": "recall"
@@ -76,12 +61,7 @@
       },
       {
         "prompt": "What is the correct dwell time for clipper blades in a disinfectant solution?",
-        "choices": [
-          "5 minutes",
-          "10 minutes",
-          "15 minutes",
-          "20 minutes"
-        ],
+        "choices": ["5 minutes", "10 minutes", "15 minutes", "20 minutes"],
         "answerIndex": 1,
         "rationale": "The recommended dwell time for clipper blades in a disinfectant solution is usually 10 minutes to ensure effective sanitation.",
         "type": "recall"
@@ -100,48 +80,28 @@
       },
       {
         "prompt": "What is the purpose of lubricating clipper blades?",
-        "choices": [
-          "To disinfect them",
-          "To prevent rust",
-          "To sharpen them",
-          "To remove debris"
-        ],
+        "choices": ["To disinfect them", "To prevent rust", "To sharpen them", "To remove debris"],
         "answerIndex": 1,
         "rationale": "Lubricating clipper blades helps to keep them running smoothly and prevents rust, extending their lifespan.",
         "type": "recall"
       },
       {
         "prompt": "A client presents with sensitive skin and requests a shave. Which tool should you use with caution?",
-        "choices": [
-          "Clippers",
-          "Trimmers",
-          "Scissors",
-          "Straight razor"
-        ],
+        "choices": ["Clippers", "Trimmers", "Scissors", "Straight razor"],
         "answerIndex": 3,
         "rationale": "The straight razor should be used with caution on sensitive skin to avoid irritation and ensure a comfortable shave.",
         "type": "scenario"
       },
       {
         "prompt": "Which tool is essential for sectioning and styling hair during a haircut?",
-        "choices": [
-          "Clippers",
-          "Trimmers",
-          "Scissors",
-          "Combs"
-        ],
+        "choices": ["Clippers", "Trimmers", "Scissors", "Combs"],
         "answerIndex": 3,
         "rationale": "Combs are used in conjunction with scissors and clippers to section and style hair, ensuring uniformity and precision.",
         "type": "recall"
       },
       {
         "prompt": "During a busy day, you accidentally drop a pair of scissors. What is the best approach?",
-        "choices": [
-          "Continue using them",
-          "Rinse with water",
-          "Disinfect them",
-          "Replace them"
-        ],
+        "choices": ["Continue using them", "Rinse with water", "Disinfect them", "Replace them"],
         "answerIndex": 2,
         "rationale": "Disinfecting the scissors ensures they are safe to use and prevents any potential cross-contamination.",
         "type": "applied"
@@ -160,12 +120,7 @@
       },
       {
         "prompt": "A client asks for a layered haircut. Which tool should you primarily use?",
-        "choices": [
-          "Clippers",
-          "Trimmers",
-          "Scissors",
-          "Straight razor"
-        ],
+        "choices": ["Clippers", "Trimmers", "Scissors", "Straight razor"],
         "answerIndex": 2,
         "rationale": "Scissors are indispensable for cutting and layering hair, providing more control and precision than clippers.",
         "type": "scenario"
@@ -208,12 +163,7 @@
       },
       {
         "prompt": "Which tool is primarily used for detailing work around the ears and neck?",
-        "choices": [
-          "Clippers",
-          "Trimmers",
-          "Scissors",
-          "Straight razor"
-        ],
+        "choices": ["Clippers", "Trimmers", "Scissors", "Straight razor"],
         "answerIndex": 1,
         "rationale": "Trimmers are designed for detailing work, such as shaping hairlines and trimming around the ears and neck.",
         "type": "recall"

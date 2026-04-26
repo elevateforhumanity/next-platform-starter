@@ -70,34 +70,39 @@ export async function POST(request: NextRequest) {
 
   // Create job — returns immediately with job_id
   const job = await createJob({
-    lesson_id:     lessonId,
-    course_id:     lesson.course_id,
-    lesson_title:  lesson.title,
-    script:        lesson.script ?? undefined,
+    lesson_id: lessonId,
+    course_id: lesson.course_id,
+    lesson_title: lesson.title,
+    script: lesson.script ?? undefined,
     bullet_points: Array.isArray(lesson.bullet_points) ? lesson.bullet_points : [],
   });
 
   // Fire render in background — do not await
   runRender({
-    jobId:        job.id,
+    jobId: job.id,
     lessonId,
-    courseId:     lesson.course_id,
-    lessonTitle:  lesson.title,
-    courseTitle:  course?.title ?? 'Elevate LMS',
-    script:       lesson.script ?? lesson.title,
+    courseId: lesson.course_id,
+    lessonTitle: lesson.title,
+    courseTitle: course?.title ?? 'Elevate LMS',
+    script: lesson.script ?? lesson.title,
     bulletPoints: Array.isArray(lesson.bullet_points) ? lesson.bullet_points : [],
     durationSecs: lesson.duration_seconds ?? undefined,
     adminDb,
-  }).catch(err => {
-    logger.error('[VideoGenerate] Background render threw: ' + (err instanceof Error ? err.message : err));
+  }).catch((err) => {
+    logger.error(
+      '[VideoGenerate] Background render threw: ' + (err instanceof Error ? err.message : err),
+    );
   });
 
-  return NextResponse.json({
-    success:  true,
-    job_id:   job.id,
-    status:   'queued',
-    message:  'Video render queued. Poll /api/videos/status/' + job.id + ' for progress.',
-  }, { status: 202 });
+  return NextResponse.json(
+    {
+      success: true,
+      job_id: job.id,
+      status: 'queued',
+      message: 'Video render queued. Poll /api/videos/status/' + job.id + ' for progress.',
+    },
+    { status: 202 },
+  );
 }
 
 // ── Background render ─────────────────────────────────────────────────────────
@@ -122,17 +127,17 @@ async function runRender(opts: {
 
     const result = await renderLessonVideo({
       lessonId,
-      title:           lessonTitle,
-      moduleTitle:     courseTitle,
-      objective:       lessonTitle,
-      keyPoints:       bulletPoints.length
+      title: lessonTitle,
+      moduleTitle: courseTitle,
+      objective: lessonTitle,
+      keyPoints: bulletPoints.length
         ? bulletPoints
         : script.split(/\.\s+/).filter(Boolean).slice(0, 5),
-      example:         script.substring(0, 300),
-      summary:         script.substring(0, 150),
-      quizTeaser:      'Complete the knowledge check to continue.',
+      example: script.substring(0, 300),
+      summary: script.substring(0, 150),
+      quizTeaser: 'Complete the knowledge check to continue.',
       domainKey,
-      courseName:      courseTitle,
+      courseName: courseTitle,
     });
 
     if (!result.success || !result.videoUrl) {
@@ -153,26 +158,28 @@ async function runRender(opts: {
         .upload(storagePath, buffer, { contentType: 'video/mp4', upsert: true });
 
       if (!uploadErr) {
-        const { data: urlData } = adminDb.storage
-          .from('course-videos')
-          .getPublicUrl(storagePath);
+        const { data: urlData } = adminDb.storage.from('course-videos').getPublicUrl(storagePath);
         storageUrl = urlData.publicUrl;
         // Clean up local file after successful upload
         await unlink(localPath).catch(() => {});
       } else {
-        logger.warn('[VideoGenerate] Storage upload failed, keeping local URL: ' + uploadErr.message);
+        logger.warn(
+          '[VideoGenerate] Storage upload failed, keeping local URL: ' + uploadErr.message,
+        );
       }
     } catch (readErr) {
-      logger.warn('[VideoGenerate] Could not read local MP4 for upload: ' + (readErr instanceof Error ? readErr.message : readErr));
+      logger.warn(
+        '[VideoGenerate] Could not read local MP4 for upload: ' +
+          (readErr instanceof Error ? readErr.message : readErr),
+      );
     }
 
     await markComplete(jobId, {
-      video_url:        storageUrl,
-      audio_url:        result.audioUrl ?? undefined,
+      video_url: storageUrl,
+      audio_url: result.audioUrl ?? undefined,
       duration_seconds: result.duration,
-      scene_count:      undefined,
+      scene_count: undefined,
     });
-
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err);
     await markFailed(jobId, msg);

@@ -9,7 +9,7 @@ export interface TenantContext {
 
 export class TenantContextError extends Error {
   public statusCode: number;
-  
+
   constructor(message: string, statusCode: number = 403) {
     super(message);
     this.name = 'TenantContextError';
@@ -19,18 +19,21 @@ export class TenantContextError extends Error {
 
 /**
  * STEP 4A: Single source of truth for tenant context
- * 
+ *
  * Extracts tenant_id from:
  * 1. JWT claims (preferred) - auth.jwt() ->> 'tenant_id'
  * 2. User metadata fallback - user.user_metadata.tenant_id
- * 
+ *
  * Throws TenantContextError if tenant_id is missing for tenant-scoped routes
  */
 export async function getTenantContext(): Promise<TenantContext> {
   const supabase = await createClient();
-  
-  const { data: { user }, error: authError } = await supabase.auth.getUser();
-  
+
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser();
+
   if (authError || !user) {
     throw new TenantContextError('Authentication required', 401);
   }
@@ -43,7 +46,10 @@ export async function getTenantContext(): Promise<TenantContext> {
 
   if (!tenantId) {
     logger.warn('Tenant context missing', { userId: user.id });
-    throw new TenantContextError('Tenant context required. User not associated with a tenant.', 403);
+    throw new TenantContextError(
+      'Tenant context required. User not associated with a tenant.',
+      403,
+    );
   }
 
   return {
@@ -67,14 +73,13 @@ export async function getTenantContextSafe(): Promise<TenantContext | null> {
 /**
  * Validate that a user belongs to a specific tenant
  */
-export async function validateTenantAccess(
-  userId: string,
-  tenantId: string
-): Promise<boolean> {
+export async function validateTenantAccess(userId: string, tenantId: string): Promise<boolean> {
   const supabase = await createClient();
-  
-  const { data: { user } } = await supabase.auth.getUser();
-  
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   if (!user || user.id !== userId) {
     return false;
   }
@@ -90,10 +95,10 @@ export async function logAdminAccess(
   targetTenantId: string | null,
   action: string,
   tableAccessed: string,
-  reason?: string
+  reason?: string,
 ): Promise<void> {
   const supabase = await createClient();
-  
+
   await supabase.rpc('log_admin_access', {
     p_target_tenant_id: targetTenantId,
     p_action: action,

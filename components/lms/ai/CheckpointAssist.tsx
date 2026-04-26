@@ -55,7 +55,8 @@ export function CheckpointAssist({
       >
         <Lightbulb className="w-3.5 h-3.5" />
         Why was I wrong?
-        {feedback && (open ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />)}
+        {feedback &&
+          (open ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />)}
       </button>
 
       {open && (

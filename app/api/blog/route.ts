@@ -11,7 +11,7 @@ async function _GET(request: Request) {
     if (rateLimited) return rateLimited;
 
     // Rate limit: 60 requests per minute
-    
+
     const { searchParams } = new URL(request.url);
     const limit = parseInt(searchParams.get('limit') || '10');
     const offset = parseInt(searchParams.get('offset') || '0');
@@ -21,10 +21,7 @@ async function _GET(request: Request) {
     const supabase = await getAdminClient();
 
     if (!supabase) {
-      return NextResponse.json(
-        { error: 'Service temporarily unavailable.' },
-        { status: 503 }
-      );
+      return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });
     }
 
     // If slug is provided, get single post
@@ -37,10 +34,7 @@ async function _GET(request: Request) {
         .maybeSingle();
 
       if (error || !post) {
-        return NextResponse.json(
-          { error: 'Post not found' },
-          { status: 404 }
-        );
+        return NextResponse.json({ error: 'Post not found' }, { status: 404 });
       }
 
       return NextResponse.json({ post });
@@ -62,10 +56,7 @@ async function _GET(request: Request) {
 
     if (error) {
       logger.error('Blog fetch error:', error);
-      return NextResponse.json(
-        { error: 'Failed to fetch blog posts' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to fetch blog posts' }, { status: 500 });
     }
 
     return NextResponse.json({
@@ -76,10 +67,7 @@ async function _GET(request: Request) {
     });
   } catch (err) {
     logger.error('Blog API error:', err);
-    return NextResponse.json(
-      { error: 'An error occurred' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'An error occurred' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/blog', _GET);

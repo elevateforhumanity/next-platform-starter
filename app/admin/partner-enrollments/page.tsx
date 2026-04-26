@@ -21,24 +21,23 @@ export default async function PartnerEnrollmentsPage() {
     .select('role')
     .eq('id', user.id)
     .maybeSingle();
-  if (profile?.role !== 'admin' && profile?.role !== 'super_admin')
-    redirect('/unauthorized');
+  if (profile?.role !== 'admin' && profile?.role !== 'super_admin') redirect('/unauthorized');
 
   const { data: enrollments, count } = await supabase
     .from('partner_course_enrollments')
-    .select(
-      '*, student:profiles(full_name, email), course:partner_lms_courses(course_name)',
-      { count: 'exact' }
-    )
+    .select('*, student:profiles(full_name, email), course:partner_lms_courses(course_name)', {
+      count: 'exact',
+    })
     .order('created_at', { ascending: false });
 
   return (
     <div className="min-h-screen bg-white p-8">
-
       {/* Hero Image */}
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <Breadcrumbs items={[{ label: "Admin", href: "/admin" }, { label: "Partner Enrollments" }]} />
-        </div>
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs
+          items={[{ label: 'Admin', href: '/admin' }, { label: 'Partner Enrollments' }]}
+        />
+      </div>
       <div className="max-w-7xl mx-auto">
         <h1 className="text-3xl font-bold mb-6">Partner Course Enrollments</h1>
         <div className="bg-white rounded-lg shadow p-6">

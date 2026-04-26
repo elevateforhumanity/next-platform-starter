@@ -54,11 +54,17 @@ function check(path) {
     if (stripped.startsWith('//') || stripped.startsWith('*')) continue;
 
     // Block: searchParams typed as plain object or Record (not Promise)
-    if (/searchParams\s*:\s*(?!Promise<)(?!PageSearchParams\b)(?!SearchParams\b)(\{|Record<)/.test(line)) {
+    if (
+      /searchParams\s*:\s*(?!Promise<)(?!PageSearchParams\b)(?!SearchParams\b)(\{|Record<)/.test(
+        line,
+      )
+    ) {
       // Allow if it's a sub-component prop (not the page export)
       const context = lines.slice(Math.max(0, i - 5), i + 2).join('\n');
       if (/export\s+default/.test(context)) {
-        console.error(`❌ SYNC searchParams type in server page: ${path.replace(ROOT + '/', '')}:${i + 1}`);
+        console.error(
+          `❌ SYNC searchParams type in server page: ${path.replace(ROOT + '/', '')}:${i + 1}`,
+        );
         console.error(`   ${stripped}`);
         failures++;
       }
@@ -68,7 +74,9 @@ function check(path) {
     if (/URLSearchParams\s*\(\s*searchParams/.test(line)) {
       const prior = lines.slice(0, i).join('\n');
       if (!/await\s+searchParams/.test(prior)) {
-        console.error(`❌ URLSearchParams(searchParams) without await: ${path.replace(ROOT + '/', '')}:${i + 1}`);
+        console.error(
+          `❌ URLSearchParams(searchParams) without await: ${path.replace(ROOT + '/', '')}:${i + 1}`,
+        );
         console.error(`   ${stripped}`);
         failures++;
       }

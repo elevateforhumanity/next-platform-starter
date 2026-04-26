@@ -35,7 +35,11 @@
       "prompt": "You inspect the condenser coil. The fins are heavily clogged with cottonwood seeds and debris. What do you do?",
       "options": [
         { "label": "Recover refrigerant to reduce the overcharge", "next": "s2-wrong" },
-        { "label": "Clean the condenser coil and recheck pressures", "next": "s3", "correct": true },
+        {
+          "label": "Clean the condenser coil and recheck pressures",
+          "next": "s3",
+          "correct": true
+        },
         { "label": "Replace the condenser fan motor", "next": "s2-wrong" }
       ]
     },
@@ -43,25 +47,25 @@
       "id": "s2-wrong",
       "prompt": "The condenser coil is clogged — that is the root cause of high head pressure. Fix the restriction before adjusting refrigerant charge.",
       "feedback": "Never recover refrigerant to compensate for a dirty condenser. Clean the coil first, then recheck.",
-      "options": [
-        { "label": "Clean the condenser coil", "next": "s3", "correct": true }
-      ]
+      "options": [{ "label": "Clean the condenser coil", "next": "s3", "correct": true }]
     },
     "s3": {
       "id": "s3",
       "prompt": "After cleaning the coil, head pressure drops to 410 psig and subcooling is 12°F. Amperage is 15.5A. What do you do?",
       "options": [
         { "label": "Add refrigerant — subcooling could be higher", "next": "s3-wrong" },
-        { "label": "System is within spec — verify operation and document", "next": "pass", "correct": true },
+        {
+          "label": "System is within spec — verify operation and document",
+          "next": "pass",
+          "correct": true
+        },
         { "label": "Replace the high-pressure cutout switch", "next": "s3-wrong" }
       ]
     },
     "s3-wrong": {
       "id": "s3-wrong",
       "prompt": "12°F subcooling is within the 10–15°F target. The system is operating correctly after cleaning. No refrigerant adjustment needed.",
-      "options": [
-        { "label": "Verify operation and document", "next": "pass", "correct": true }
-      ]
+      "options": [{ "label": "Verify operation and document", "next": "pass", "correct": true }]
     },
     "pass": {
       "id": "pass",

@@ -48,18 +48,13 @@ class TrafficTracker {
 
       // Send SMS alert for payment page visits
       if (req.url.includes('/pay')) {
-        this.sendSalesAlert(
-          `🚨 PAYMENT PAGE VISIT: ${hit.ip} at ${hit.timestamp}`
-        );
+        this.sendSalesAlert(`🚨 PAYMENT PAGE VISIT: ${hit.ip} at ${hit.timestamp}`);
       }
     }
 
     // Save to file every 10 hits
     if (this.salesLeads.length % 10 === 0) {
-      fs.writeFileSync(
-        'sales-leads.json',
-        JSON.stringify(this.salesLeads, null, 2)
-      );
+      fs.writeFileSync('sales-leads.json', JSON.stringify(this.salesLeads, null, 2));
     }
   }
 
@@ -69,13 +64,9 @@ class TrafficTracker {
 
   getStats() {
     return {
-      totalHits: Array.from(this.hits.values()).reduce(
-        (sum, arr) => sum + arr.length,
-        0
-      ),
+      totalHits: Array.from(this.hits.values()).reduce((sum, arr) => sum + arr.length, 0),
       salesLeads: this.salesLeads.length,
-      lastHour:
-        this.hits.get(new Date().toISOString().substring(0, 13))?.length || 0,
+      lastHour: this.hits.get(new Date().toISOString().substring(0, 13))?.length || 0,
     };
   }
 }

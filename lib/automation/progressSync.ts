@@ -1,4 +1,3 @@
-
 // lib/automation/progressSync.ts
 import { cookies } from 'next/headers';
 import { createServerClient } from '@supabase/ssr';
@@ -15,7 +14,7 @@ function getSupabaseClient() {
           return cookieStore.get(name)?.value;
         },
       },
-    }
+    },
   );
 }
 
@@ -28,15 +27,14 @@ export async function syncSingleEnrollment(enrollmentId: string) {
       `
       *,
       partner_lms_providers ( provider_type )
-    `
+    `,
     )
     .eq('id', enrollmentId)
     .maybeSingle();
 
   if (error || !enrollment) return;
 
-  const partnerType = enrollment.partner_lms_providers
-    .provider_type as PartnerType;
+  const partnerType = enrollment.partner_lms_providers.provider_type as PartnerType;
   const client = getPartnerClient(partnerType);
 
   const progress = await client.getProgress(enrollment.external_enrollment_id);
@@ -48,9 +46,7 @@ export async function syncSingleEnrollment(enrollmentId: string) {
     .update({
       status: progress.completed ? 'completed' : 'active',
       progress_percentage: progress.percentage,
-      completed_at: progress.completed
-        ? progress.completedAt?.toISOString()
-        : null,
+      completed_at: progress.completed ? progress.completedAt?.toISOString() : null,
       metadata: {
         ...(enrollment.metadata ?? {}),
         last_synced_at: new Date().toISOString(),

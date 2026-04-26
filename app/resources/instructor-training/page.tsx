@@ -5,7 +5,8 @@ import { BookOpen, CheckCircle, Award, Clock, ArrowRight, Phone } from 'lucide-r
 
 export const metadata: Metadata = {
   title: 'Instructor Training | Elevate for Humanity',
-  description: 'Training resources and requirements for Elevate for Humanity instructors. Covers pedagogy, compliance, platform usage, and professional development.',
+  description:
+    'Training resources and requirements for Elevate for Humanity instructors. Covers pedagogy, compliance, platform usage, and professional development.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/resources/instructor-training' },
 };
 
@@ -13,32 +14,62 @@ const modules = [
   {
     title: 'Platform Orientation',
     hours: 2,
-    topics: ['LMS navigation and features', 'Student roster management', 'Attendance and hours tracking', 'Grading and assessment tools'],
+    topics: [
+      'LMS navigation and features',
+      'Student roster management',
+      'Attendance and hours tracking',
+      'Grading and assessment tools',
+    ],
   },
   {
     title: 'Teaching Methods for Adult Learners',
     hours: 4,
-    topics: ['Andragogy principles', 'Competency-based instruction', 'Differentiated instruction strategies', 'Hands-on demonstration techniques'],
+    topics: [
+      'Andragogy principles',
+      'Competency-based instruction',
+      'Differentiated instruction strategies',
+      'Hands-on demonstration techniques',
+    ],
   },
   {
     title: 'Compliance and Reporting',
     hours: 3,
-    topics: ['WIOA reporting requirements', 'FERPA student privacy', 'Attendance documentation standards', 'Indiana licensing board requirements'],
+    topics: [
+      'WIOA reporting requirements',
+      'FERPA student privacy',
+      'Attendance documentation standards',
+      'Indiana licensing board requirements',
+    ],
   },
   {
     title: 'Student Support and Retention',
     hours: 2,
-    topics: ['Identifying at-risk students', 'Barrier assessment and referrals', 'Motivational interviewing basics', 'Connecting students to support services'],
+    topics: [
+      'Identifying at-risk students',
+      'Barrier assessment and referrals',
+      'Motivational interviewing basics',
+      'Connecting students to support services',
+    ],
   },
   {
     title: 'Safety and Workplace Standards',
     hours: 3,
-    topics: ['OSHA compliance for training environments', 'Shop/lab safety protocols', 'Incident reporting procedures', 'Emergency response plans'],
+    topics: [
+      'OSHA compliance for training environments',
+      'Shop/lab safety protocols',
+      'Incident reporting procedures',
+      'Emergency response plans',
+    ],
   },
   {
     title: 'Assessment and Evaluation',
     hours: 2,
-    topics: ['Creating competency-based assessments', 'Practical skills evaluation rubrics', 'State board exam preparation strategies', 'Progress tracking and documentation'],
+    topics: [
+      'Creating competency-based assessments',
+      'Practical skills evaluation rubrics',
+      'State board exam preparation strategies',
+      'Progress tracking and documentation',
+    ],
   },
 ];
 
@@ -55,10 +86,9 @@ export default function InstructorTrainingPage() {
     <div className="min-h-screen bg-white">
       <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[
-            { label: 'Resources', href: '/resources' },
-            { label: 'Instructor Training' },
-          ]} />
+          <Breadcrumbs
+            items={[{ label: 'Resources', href: '/resources' }, { label: 'Instructor Training' }]}
+          />
         </div>
       </div>
 
@@ -73,14 +103,13 @@ export default function InstructorTrainingPage() {
       </section>
 
       <div className="max-w-6xl mx-auto px-4 py-12">
-
         <section className="mb-16">
           <h2 className="text-2xl font-bold text-slate-900 mb-4">Overview</h2>
           <p className="text-slate-600 mb-4">
             All Elevate for Humanity instructors complete a 16-hour onboarding training before
             leading classes. This training covers platform usage, adult education methods,
-            compliance requirements, and safety standards. Ongoing professional development
-            is required annually.
+            compliance requirements, and safety standards. Ongoing professional development is
+            required annually.
           </p>
           <div className="grid sm:grid-cols-3 gap-4 mt-6">
             <div className="text-center p-4 bg-white rounded-lg">
@@ -111,7 +140,9 @@ export default function InstructorTrainingPage() {
                     <span className="text-brand-blue-600 mr-2">Module {i + 1}:</span>
                     {mod.title}
                   </h3>
-                  <span className="text-sm text-slate-500 whitespace-nowrap ml-4">{mod.hours} hours</span>
+                  <span className="text-sm text-slate-500 whitespace-nowrap ml-4">
+                    {mod.hours} hours
+                  </span>
                 </div>
                 <div className="grid sm:grid-cols-2 gap-2">
                   {mod.topics.map((topic) => (
@@ -130,14 +161,19 @@ export default function InstructorTrainingPage() {
           <h2 className="text-2xl font-bold text-slate-900 mb-6">Required Certifications</h2>
           <div className="space-y-3">
             {certifications.map((cert) => (
-              <div key={cert.name} className="flex items-center justify-between p-4 border rounded-lg">
+              <div
+                key={cert.name}
+                className="flex items-center justify-between p-4 border rounded-lg"
+              >
                 <div className="flex items-center gap-3">
                   <Award className="w-5 h-5 text-brand-blue-600" />
                   <span className="text-slate-900 font-medium">{cert.name}</span>
                 </div>
-                <span className={`text-xs font-semibold px-2 py-1 rounded ${
-                  cert.required ? 'bg-brand-red-50 text-brand-red-700' : 'bg-white text-slate-600'
-                }`}>
+                <span
+                  className={`text-xs font-semibold px-2 py-1 rounded ${
+                    cert.required ? 'bg-brand-red-50 text-brand-red-700' : 'bg-white text-slate-600'
+                  }`}
+                >
                   {cert.required ? 'Required' : 'Recommended'}
                 </span>
               </div>
@@ -149,8 +185,8 @@ export default function InstructorTrainingPage() {
           <h2 className="text-2xl font-bold text-slate-900 mb-4">Interested in Teaching?</h2>
           <p className="text-slate-600 mb-6">
             We&apos;re looking for licensed professionals to teach in our career training programs.
-            If you hold an active Indiana license in barbering, cosmetology, HVAC, electrical,
-            CDL, healthcare, or IT, we want to hear from you.
+            If you hold an active Indiana license in barbering, cosmetology, HVAC, electrical, CDL,
+            healthcare, or IT, we want to hear from you.
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
             <Link

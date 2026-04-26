@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -51,7 +51,9 @@ export function AutomatedCertificateWorkflow() {
     <div className="min-h-screen bg-white">
       <div className="   text-white py-12">
         <div className="max-w-7xl mx-auto px-4">
-          <h1 className="text-4xl font-bold mb-2 text-2xl md:text-3xl lg:text-4xl">Certificate Generation</h1>
+          <h1 className="text-4xl font-bold mb-2 text-2xl md:text-3xl lg:text-4xl">
+            Certificate Generation
+          </h1>
           <p className="text-white">Automated workflow for issuing certificates</p>
         </div>
       </div>
@@ -63,7 +65,10 @@ export function AutomatedCertificateWorkflow() {
               <h2 className="text-2xl font-bold mb-4">Pending Certificates</h2>
               <div className="space-y-3">
                 {pending.map((cert) => (
-                  <div key={cert.id} className="p-4 bg-gray-50 rounded flex justify-between items-center">
+                  <div
+                    key={cert.id}
+                    className="p-4 bg-gray-50 rounded flex justify-between items-center"
+                  >
                     <div>
                       <p className="font-bold">{cert.studentName}</p>
                       <p className="text-sm text-black">{cert.course}</p>
@@ -80,11 +85,15 @@ export function AutomatedCertificateWorkflow() {
               <div className="space-y-3">
                 <div className="p-4 bg-brand-green-50 rounded">
                   <p className="font-semibold text-brand-green-900">• Au on course completion</p>
-                  <p className="text-sm text-brand-green-700">Certificates created automatically when students finish</p>
+                  <p className="text-sm text-brand-green-700">
+                    Certificates created automatically when students finish
+                  </p>
                 </div>
                 <div className="p-4 bg-brand-blue-50 rounded">
                   <p className="font-semibold text-brand-blue-900">• Email delivery enabled</p>
-                  <p className="text-sm text-brand-blue-700">Certificates sent via email with verification link</p>
+                  <p className="text-sm text-brand-blue-700">
+                    Certificates sent via email with verification link
+                  </p>
                 </div>
                 <div className="p-4 bg-purple-50 rounded">
                   <p className="font-semibold text-purple-900">• Blockchain verification</p>
@@ -102,7 +111,9 @@ export function AutomatedCertificateWorkflow() {
                   <div
                     key={template.id}
                     className={`p-3 rounded cursor-pointer ${
-                      selectedTemplate === template.id ? 'bg-brand-red-100 border-2 border-brand-red-600' : 'bg-gray-50'
+                      selectedTemplate === template.id
+                        ? 'bg-brand-red-100 border-2 border-brand-red-600'
+                        : 'bg-gray-50'
                     }`}
                     onClick={() => setSelectedTemplate(template.id)}
                   >

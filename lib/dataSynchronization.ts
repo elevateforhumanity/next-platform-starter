@@ -9,7 +9,7 @@ import { logger } from '@/lib/logger';
 function createClient() {
   return createBrowserClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
   );
 }
 type DatabasePayload = {
@@ -59,22 +59,20 @@ class DataSynchronizationManager {
       syncInProgress: false,
     });
     // Create channel
-    const channel = supabase
-      .channel(channelName)
-      .on(
-        'postgres_changes',
-        {
-          event: 'UPDATE',
-          schema: 'public',
-          table: table,
-          filter: filter ? this.buildFilter(filter) : undefined,
-        },
-        (payload) => {
-          //
-          onUpdate(payload);
-          this.updateSyncState(table);
-        }
-      );
+    const channel = supabase.channel(channelName).on(
+      'postgres_changes',
+      {
+        event: 'UPDATE',
+        schema: 'public',
+        table: table,
+        filter: filter ? this.buildFilter(filter) : undefined,
+      },
+      (payload) => {
+        //
+        onUpdate(payload);
+        this.updateSyncState(table);
+      },
+    );
     if (onInsert) {
       channel.on(
         'postgres_changes',
@@ -88,7 +86,7 @@ class DataSynchronizationManager {
           //
           onInsert(payload);
           this.updateSyncState(table);
-        }
+        },
       );
     }
     if (onDelete) {
@@ -104,7 +102,7 @@ class DataSynchronizationManager {
           //
           onDelete(payload);
           this.updateSyncState(table);
-        }
+        },
       );
     }
     channel.subscribe((status) => {
@@ -125,7 +123,7 @@ class DataSynchronizationManager {
   async syncData(
     table: string,
     data: Record<string, any>,
-    operation: 'insert' | 'update' | 'delete'
+    operation: 'insert' | 'update' | 'delete',
   ): Promise<boolean> {
     const supabase = createClient();
     const state = this.syncState.get(table);
@@ -146,10 +144,7 @@ class DataSynchronizationManager {
           result = await supabase.from(table).insert(data);
           break;
         case 'update':
-          result = await supabase
-            .from(table)
-            .update(data)
-            .eq('id', data.id);
+          result = await supabase.from(table).update(data).eq('id', data.id);
           break;
         case 'delete':
           result = await supabase.from(table).delete().eq('id', data.id);
@@ -161,7 +156,8 @@ class DataSynchronizationManager {
       //
       this.updateSyncState(table);
       return true;
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error logged
       await this.retrySync(table, data, operation);
       return false;
@@ -176,12 +172,10 @@ class DataSynchronizationManager {
     table: string,
     data: Record<string, any>,
     operation: 'insert' | 'update' | 'delete',
-    attempt: number = 1
+    attempt: number = 1,
   ): Promise<void> {
     if (attempt > this.maxRetries) {
-      logger.error(
-        `[Sync] Max retries reached for ${operation} on ${table}`
-      );
+      logger.error(`[Sync] Max retries reached for ${operation} on ${table}`);
       this.queueChange(table, { data, operation, timestamp: Date.now() });
       return;
     }
@@ -216,11 +210,7 @@ class DataSynchronizationManager {
     }
     //
     for (const change of queue) {
-      const success = await this.syncData(
-        table,
-        change.data,
-        change.operation
-      );
+      const success = await this.syncData(table, change.data, change.operation);
       if (success) {
         // Remove from queue
         const index = queue.indexOf(change);
@@ -256,9 +246,10 @@ class DataSynchronizationManager {
    * Monitor online/offline status
    */
   monitorConnectivity(table: string): () => void {
-    if (typeof window === 'undefined') return () => {
-      // Server-side: no cleanup needed
-    };
+    if (typeof window === 'undefined')
+      return () => {
+        // Server-side: no cleanup needed
+      };
     const handleOnline = () => {
       //
       const state = this.syncState.get(table);

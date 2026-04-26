@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { createClient } from '@/lib/supabase/client';
 
@@ -30,8 +30,17 @@ export default function UserManagementTable({ users: initialUsers }: Props) {
   // Canonical role set — these are the only roles the system recognises.
   // Derived from actual profile data once loaded; falls back to this list
   // so the edit select never allows an unknown role to be assigned.
-  const CANONICAL_ROLES = ['student', 'admin', 'super_admin', 'program_holder', 'employer', 'staff', 'instructor', 'mentor'] as const;
-  type CanonicalRole = typeof CANONICAL_ROLES[number];
+  const CANONICAL_ROLES = [
+    'student',
+    'admin',
+    'super_admin',
+    'program_holder',
+    'employer',
+    'staff',
+    'instructor',
+    'mentor',
+  ] as const;
+  type CanonicalRole = (typeof CANONICAL_ROLES)[number];
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 20;
   const supabase = createClient();
@@ -43,7 +52,7 @@ export default function UserManagementTable({ users: initialUsers }: Props) {
         .from('profiles')
         .select('id, email, full_name, role, status, created_at, last_sign_in_at')
         .order('created_at', { ascending: false });
-      
+
       if (data && data.length > 0) setUsers(data);
     }
     loadUsers();
@@ -51,19 +60,19 @@ export default function UserManagementTable({ users: initialUsers }: Props) {
 
   // Log admin user management actions
   const logAdminAction = async (action: string, targetUserId: string) => {
-    const { data: { user } } = await supabase.auth.getUser();
-    await supabase
-      .from('admin_audit_log')
-      .insert({
-        admin_id: user?.id,
-        action,
-        target_user_id: targetUserId,
-        timestamp: new Date().toISOString()
-      });
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    await supabase.from('admin_audit_log').insert({
+      admin_id: user?.id,
+      action,
+      target_user_id: targetUserId,
+      timestamp: new Date().toISOString(),
+    });
   };
 
   // Filter users
-  const filteredUsers = users.filter(user => {
+  const filteredUsers = users.filter((user) => {
     const matchesSearch =
       user.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       user.full_name?.toLowerCase().includes(searchTerm.toLowerCase());
@@ -90,7 +99,8 @@ export default function UserManagementTable({ users: initialUsers }: Props) {
       if (response.ok) {
         window.location.reload();
       }
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
     }
   };
@@ -108,7 +118,8 @@ export default function UserManagementTable({ users: initialUsers }: Props) {
       if (response.ok) {
         window.location.reload();
       }
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
     }
   };
@@ -124,7 +135,9 @@ export default function UserManagementTable({ users: initialUsers }: Props) {
               type="text"
               placeholder="Search by name or email..."
               value={searchTerm}
-              onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setSearchTerm(e.target.value)}
+              onChange={(
+                e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+              ) => setSearchTerm(e.target.value)}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
             />
           </div>
@@ -132,15 +145,17 @@ export default function UserManagementTable({ users: initialUsers }: Props) {
           {/* Role Filter */}
           <select
             value={roleFilter}
-            onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setRoleFilter(e.target.value)}
+            onChange={(
+              e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+            ) => setRoleFilter(e.target.value)}
             className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
           >
             <option value="all">All Roles</option>
-            {Array.from(new Set(users.map(u => u.role).filter(Boolean)))
+            {Array.from(new Set(users.map((u) => u.role).filter(Boolean)))
               .sort()
-              .map(role => (
+              .map((role) => (
                 <option key={role} value={role}>
-                  {role.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}
+                  {role.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())}
                 </option>
               ))}
           </select>
@@ -148,7 +163,9 @@ export default function UserManagementTable({ users: initialUsers }: Props) {
           {/* Status Filter */}
           <select
             value={statusFilter}
-            onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setStatusFilter(e.target.value)}
+            onChange={(
+              e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+            ) => setStatusFilter(e.target.value)}
             className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
           >
             <option value="all">All Status</option>
@@ -209,12 +226,16 @@ export default function UserManagementTable({ users: initialUsers }: Props) {
                   <td className="px-6 py-4 whitespace-nowrap">
                     <select
                       value={user.role}
-                      onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => handleRoleChange(user.id, e.target.value)}
+                      onChange={(
+                        e: React.ChangeEvent<
+                          HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+                        >,
+                      ) => handleRoleChange(user.id, e.target.value)}
                       className="text-sm border border-gray-300 rounded px-3 py-2"
                     >
-                      {CANONICAL_ROLES.map(role => (
+                      {CANONICAL_ROLES.map((role) => (
                         <option key={role} value={role}>
-                          {role.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}
+                          {role.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())}
                         </option>
                       ))}
                     </select>
@@ -232,11 +253,21 @@ export default function UserManagementTable({ users: initialUsers }: Props) {
                     </button>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-700">
-                    {new Date(user.created_at).toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' })}
+                    {new Date(user.created_at).toLocaleDateString('en-US', {
+                      timeZone: 'UTC',
+                      month: 'short',
+                      day: 'numeric',
+                      year: 'numeric',
+                    })}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-700">
                     {user.last_sign_in_at
-                      ? new Date(user.last_sign_in_at).toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' })
+                      ? new Date(user.last_sign_in_at).toLocaleDateString('en-US', {
+                          timeZone: 'UTC',
+                          month: 'short',
+                          day: 'numeric',
+                          year: 'numeric',
+                        })
                       : 'Never'}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">

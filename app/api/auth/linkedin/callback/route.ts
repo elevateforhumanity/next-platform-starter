@@ -13,17 +13,16 @@ export const dynamic = 'force-dynamic';
  * Exchanges authorization code for access token
  */
 async function _GET(request: NextRequest) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const searchParams = request.nextUrl.searchParams;
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const searchParams = request.nextUrl.searchParams;
   const code = searchParams.get('code');
   const error = searchParams.get('error');
   const returnedState = searchParams.get('state');
 
   if (error) {
     return NextResponse.redirect(
-      new URL(`/admin/settings/social-media?error=${error}`, request.url)
+      new URL(`/admin/settings/social-media?error=${error}`, request.url),
     );
   }
 
@@ -31,42 +30,36 @@ const searchParams = request.nextUrl.searchParams;
   const storedState = request.cookies.get('oauth_state_linkedin')?.value;
   if (!storedState || !returnedState || storedState !== returnedState) {
     return NextResponse.redirect(
-      new URL('/admin/settings/social-media?error=invalid_state', request.url)
+      new URL('/admin/settings/social-media?error=invalid_state', request.url),
     );
   }
 
   if (!code) {
     return NextResponse.redirect(
-      new URL('/admin/settings/social-media?error=no_code', request.url)
+      new URL('/admin/settings/social-media?error=no_code', request.url),
     );
   }
 
   try {
     // Exchange code for access token
-    const tokenResponse = await fetch(
-      'https://www.linkedin.com/oauth/v2/accessToken',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: new URLSearchParams({
-          grant_type: 'authorization_code',
-          code,
-          client_id: process.env.LINKEDIN_CLIENT_ID!,
-          client_secret: process.env.LINKEDIN_CLIENT_SECRET!,
-          redirect_uri: `${process.env.NEXT_PUBLIC_SITE_URL}/api/auth/linkedin/callback`,
-        }),
-      }
-    );
+    const tokenResponse = await fetch('https://www.linkedin.com/oauth/v2/accessToken', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: new URLSearchParams({
+        grant_type: 'authorization_code',
+        code,
+        client_id: process.env.LINKEDIN_CLIENT_ID!,
+        client_secret: process.env.LINKEDIN_CLIENT_SECRET!,
+        redirect_uri: `${process.env.NEXT_PUBLIC_SITE_URL}/api/auth/linkedin/callback`,
+      }),
+    });
 
     if (!tokenResponse.ok) {
       const errorData = await tokenResponse.json();
       return NextResponse.redirect(
-        new URL(
-          `/admin/settings/social-media?error=token_exchange_failed`,
-          request.url
-        )
+        new URL(`/admin/settings/social-media?error=token_exchange_failed`, request.url),
       );
     }
 
@@ -89,7 +82,7 @@ const searchParams = request.nextUrl.searchParams;
         headers: {
           Authorization: `Bearer ${access_token}`,
         },
-      }
+      },
     );
 
     const organizationsData = await organizationsResponse.json();
@@ -103,39 +96,37 @@ const searchParams = request.nextUrl.searchParams;
 
     if (!user) {
       return NextResponse.redirect(
-        new URL('/admin/settings/social-media?error=unauthorized', request.url)
+        new URL('/admin/settings/social-media?error=unauthorized', request.url),
       );
     }
 
     // Save to settings table
-    const { error: saveError } = await supabase
-      .from('social_media_settings')
-      .upsert({
-        platform: 'linkedin',
-        access_token,
-        refresh_token: tokenData.refresh_token,
-        expires_at: new Date(Date.now() + expires_in * 1000).toISOString(),
-        profile_data: profileData,
-        organizations: organizations,
-        updated_by: user.id,
-        updated_at: new Date().toISOString(),
-      });
+    const { error: saveError } = await supabase.from('social_media_settings').upsert({
+      platform: 'linkedin',
+      access_token,
+      refresh_token: tokenData.refresh_token,
+      expires_at: new Date(Date.now() + expires_in * 1000).toISOString(),
+      profile_data: profileData,
+      organizations: organizations,
+      updated_by: user.id,
+      updated_at: new Date().toISOString(),
+    });
 
     if (saveError) {
       return NextResponse.redirect(
-        new URL(`/admin/settings/social-media?error=save_failed`, request.url)
+        new URL(`/admin/settings/social-media?error=save_failed`, request.url),
       );
     }
 
     // Clear the state cookie — it is single-use.
     const successResponse = NextResponse.redirect(
-      new URL('/admin/settings/social-media?success=linkedin_connected', request.url)
+      new URL('/admin/settings/social-media?success=linkedin_connected', request.url),
     );
     successResponse.cookies.set('oauth_state_linkedin', '', { maxAge: 0, path: '/' });
     return successResponse;
   } catch (error) {
     return NextResponse.redirect(
-      new URL('/admin/settings/social-media?error=unexpected_error', request.url)
+      new URL('/admin/settings/social-media?error=unexpected_error', request.url),
     );
   }
 }

@@ -25,7 +25,7 @@ export default async function handler(req: Request, context: Context) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${internalSecret}`,
+        Authorization: `Bearer ${internalSecret}`,
       },
     });
 

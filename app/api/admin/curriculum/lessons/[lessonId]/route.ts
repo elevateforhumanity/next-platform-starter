@@ -30,10 +30,7 @@ const ALLOWED_FIELDS = [
 
 type AllowedField = (typeof ALLOWED_FIELDS)[number];
 
-async function _PATCH(
-  request: NextRequest,
-  { params }: { params: Promise<{ lessonId: string }> },
-) {
+async function _PATCH(request: NextRequest, { params }: { params: Promise<{ lessonId: string }> }) {
   const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;
   const auth = await apiRequireAdmin(request);
@@ -69,7 +66,9 @@ async function _PATCH(
       .from('curriculum_lessons')
       .update(patch)
       .eq('id', lessonId)
-      .select('id, lesson_slug, lesson_title, step_type, passing_score, module_order, lesson_order, duration_minutes, status')
+      .select(
+        'id, lesson_slug, lesson_title, step_type, passing_score, module_order, lesson_order, duration_minutes, status',
+      )
       .single();
 
     if (error) return safeDbError(error, 'Failed to update lesson');
@@ -79,7 +78,6 @@ async function _PATCH(
   }
 }
 
-export const PATCH = withApiAudit(
-  '/api/admin/curriculum/lessons/[lessonId]',
-  (req, ctx) => _PATCH(req, ctx as { params: Promise<{ lessonId: string }> }),
+export const PATCH = withApiAudit('/api/admin/curriculum/lessons/[lessonId]', (req, ctx) =>
+  _PATCH(req, ctx as { params: Promise<{ lessonId: string }> }),
 );

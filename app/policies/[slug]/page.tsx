@@ -36,7 +36,8 @@ export default async function PolicyPage({ params }: { params: Promise<{ slug: s
           or call{' '}
           <a href={`tel:${siteConfig.phone}`} className="underline">
             {siteConfig.phone}
-          </a>.
+          </a>
+          .
         </p>
       </div>
     </section>

@@ -9,7 +9,9 @@ import crypto from 'crypto';
 // Encryption key MUST come from environment — random fallback would cause data loss on serverless cold starts
 const ENCRYPTION_KEY = process.env.SSN_ENCRYPTION_KEY;
 if (!ENCRYPTION_KEY && typeof window === 'undefined') {
-  logger.error('[SECURITY] SSN_ENCRYPTION_KEY is not set. SSN encrypt/decrypt operations will fail.');
+  logger.error(
+    '[SECURITY] SSN_ENCRYPTION_KEY is not set. SSN encrypt/decrypt operations will fail.',
+  );
 }
 const IV_LENGTH = 16;
 
@@ -52,18 +54,18 @@ export function formatSSN(ssn: string): string {
 export function validateSSN(ssn: string): boolean {
   const clean = ssn.replace(/\D/g, '');
   if (clean.length !== 9) return false;
-  
+
   // Cannot start with 9 (reserved for ITINs)
   if (clean.startsWith('9')) return false;
-  
+
   // Cannot be all zeros in any group
   if (clean.slice(0, 3) === '000') return false;
   if (clean.slice(3, 5) === '00') return false;
   if (clean.slice(5) === '0000') return false;
-  
+
   // Cannot be known invalid numbers
   const invalid = ['078051120', '219099999', '123456789'];
   if (invalid.includes(clean)) return false;
-  
+
   return true;
 }

@@ -12,9 +12,12 @@ import { generateTextToSpeech } from '../server/tts-service';
 import { renderLessonVideo } from '../server/lesson-video-renderer';
 import type { LessonSlide } from '../lib/autopilot/lesson-script-generator';
 
-const OUTPUT_DIR       = path.join(process.cwd(), 'public/videos/barber-lessons');
-const INSTRUCTOR_PHOTO = path.join(process.cwd(), 'public/images/team/instructors/instructor-barber.jpg');
-const VOICE            = 'onyx';
+const OUTPUT_DIR = path.join(process.cwd(), 'public/videos/barber-lessons');
+const INSTRUCTOR_PHOTO = path.join(
+  process.cwd(),
+  'public/images/team/instructors/instructor-barber.jpg',
+);
+const VOICE = 'onyx';
 
 interface Lesson {
   slug: string;
@@ -45,12 +48,70 @@ A few things about professionalism before we begin. Show up on time. Every time.
 
 The barbering industry in Indiana is growing. Licensed barbers with strong technical skills and professional habits are in demand. This program gives you both. Let us get started.`,
     slides: [
-      { segment: 'intro', title: 'Welcome to the Barber Apprenticeship', bullets: ['DOL Registered Apprenticeship', '2,000 OJT Hours + Technical Instruction', 'Indiana Barber License upon completion'], imagePrompt: 'professional barbershop interior clean modern' },
-      { segment: 'concept', title: 'Program Structure — 8 Modules', bullets: ['Module 1: Infection Control & Safety', 'Module 2: Hair Science & Scalp Analysis', 'Module 3: Tools & Equipment', 'Module 4: Haircutting Techniques'], imagePrompt: 'barber apprentice learning from instructor barbershop' },
-      { segment: 'concept', title: 'Modules 5–8', bullets: ['Module 5: Shaving & Beard Services', 'Module 6: Chemical Services', 'Module 7: Professional & Business Skills', 'Module 8: State Board Exam Prep'], imagePrompt: 'barber tools clippers shears organized station' },
-      { segment: 'visual', title: 'What You Earn', bullets: ['Indiana Barber License', 'Eligible for state reciprocity', '70% required to pass each checkpoint', 'OJT hours logged with host shop supervisor'], imagePrompt: 'barber license certificate professional credential' },
-      { segment: 'application', title: 'Your Responsibilities', bullets: ['Track and submit OJT hours on time', 'Score 70%+ on every checkpoint quiz', 'Show up on time — every time', 'Treat every client like they matter'], imagePrompt: 'professional barber confident at workstation' },
-      { segment: 'wrapup', title: 'Ready to Begin', bullets: ['Next: Infection Control & Safety', 'Foundation of professional barbering', 'Protects you and every client'], imagePrompt: 'barbershop open sign ready for business' },
+      {
+        segment: 'intro',
+        title: 'Welcome to the Barber Apprenticeship',
+        bullets: [
+          'DOL Registered Apprenticeship',
+          '2,000 OJT Hours + Technical Instruction',
+          'Indiana Barber License upon completion',
+        ],
+        imagePrompt: 'professional barbershop interior clean modern',
+      },
+      {
+        segment: 'concept',
+        title: 'Program Structure — 8 Modules',
+        bullets: [
+          'Module 1: Infection Control & Safety',
+          'Module 2: Hair Science & Scalp Analysis',
+          'Module 3: Tools & Equipment',
+          'Module 4: Haircutting Techniques',
+        ],
+        imagePrompt: 'barber apprentice learning from instructor barbershop',
+      },
+      {
+        segment: 'concept',
+        title: 'Modules 5–8',
+        bullets: [
+          'Module 5: Shaving & Beard Services',
+          'Module 6: Chemical Services',
+          'Module 7: Professional & Business Skills',
+          'Module 8: State Board Exam Prep',
+        ],
+        imagePrompt: 'barber tools clippers shears organized station',
+      },
+      {
+        segment: 'visual',
+        title: 'What You Earn',
+        bullets: [
+          'Indiana Barber License',
+          'Eligible for state reciprocity',
+          '70% required to pass each checkpoint',
+          'OJT hours logged with host shop supervisor',
+        ],
+        imagePrompt: 'barber license certificate professional credential',
+      },
+      {
+        segment: 'application',
+        title: 'Your Responsibilities',
+        bullets: [
+          'Track and submit OJT hours on time',
+          'Score 70%+ on every checkpoint quiz',
+          'Show up on time — every time',
+          'Treat every client like they matter',
+        ],
+        imagePrompt: 'professional barber confident at workstation',
+      },
+      {
+        segment: 'wrapup',
+        title: 'Ready to Begin',
+        bullets: [
+          'Next: Infection Control & Safety',
+          'Foundation of professional barbering',
+          'Protects you and every client',
+        ],
+        imagePrompt: 'barbershop open sign ready for business',
+      },
     ],
   },
   {
@@ -81,12 +142,70 @@ Personal protective equipment is your first line of defense. Wear gloves when th
 
 Infection control is not about fear — it is about professionalism. Clients trust you with their health. Honor that trust.`,
     slides: [
-      { segment: 'intro', title: 'Infection Control Fundamentals', bullets: ['Required by Indiana law', 'Protects clients and barbers', 'Foundation of professional practice'], imagePrompt: 'barber washing hands sink professional hygiene' },
-      { segment: 'concept', title: 'Types of Pathogens', bullets: ['Bacteria — staph, skin infections', 'Viruses — HIV, Hepatitis B & C', 'Fungi — tinea capitis (ringworm)', 'Parasites — head lice (pediculosis)'], imagePrompt: 'microscope laboratory pathogen science' },
-      { segment: 'concept', title: 'Routes of Transmission', bullets: ['Direct contact — touching infected person', 'Indirect contact — contaminated tools', 'Droplet — respiratory transmission', 'Indirect contact is #1 concern in barbershop'], imagePrompt: 'barber disinfecting tools blue solution professional' },
-      { segment: 'visual', title: '3 Levels of Decontamination', bullets: ['Sanitation — reduces pathogens (handwashing)', 'Disinfection — destroys most pathogens (tools)', 'Sterilization — destroys all (autoclave, medical)', 'Barbershops require DISINFECTION level'], imagePrompt: 'barbershop disinfectant jar tools soaking clean' },
-      { segment: 'application', title: 'On the Job', bullets: ['EPA-registered disinfectant required', 'Follow manufacturer contact time exactly', 'Gloves when risk of blood contact', 'Stop service if contagious condition spotted'], imagePrompt: 'barber gloves professional service client safety' },
-      { segment: 'wrapup', title: 'Key Takeaways', bullets: ['Disinfect tools between every client', 'Know your pathogens and transmission routes', 'Next: Bloodborne Pathogens & OSHA Standards'], imagePrompt: 'clean organized barbershop professional station' },
+      {
+        segment: 'intro',
+        title: 'Infection Control Fundamentals',
+        bullets: [
+          'Required by Indiana law',
+          'Protects clients and barbers',
+          'Foundation of professional practice',
+        ],
+        imagePrompt: 'barber washing hands sink professional hygiene',
+      },
+      {
+        segment: 'concept',
+        title: 'Types of Pathogens',
+        bullets: [
+          'Bacteria — staph, skin infections',
+          'Viruses — HIV, Hepatitis B & C',
+          'Fungi — tinea capitis (ringworm)',
+          'Parasites — head lice (pediculosis)',
+        ],
+        imagePrompt: 'microscope laboratory pathogen science',
+      },
+      {
+        segment: 'concept',
+        title: 'Routes of Transmission',
+        bullets: [
+          'Direct contact — touching infected person',
+          'Indirect contact — contaminated tools',
+          'Droplet — respiratory transmission',
+          'Indirect contact is #1 concern in barbershop',
+        ],
+        imagePrompt: 'barber disinfecting tools blue solution professional',
+      },
+      {
+        segment: 'visual',
+        title: '3 Levels of Decontamination',
+        bullets: [
+          'Sanitation — reduces pathogens (handwashing)',
+          'Disinfection — destroys most pathogens (tools)',
+          'Sterilization — destroys all (autoclave, medical)',
+          'Barbershops require DISINFECTION level',
+        ],
+        imagePrompt: 'barbershop disinfectant jar tools soaking clean',
+      },
+      {
+        segment: 'application',
+        title: 'On the Job',
+        bullets: [
+          'EPA-registered disinfectant required',
+          'Follow manufacturer contact time exactly',
+          'Gloves when risk of blood contact',
+          'Stop service if contagious condition spotted',
+        ],
+        imagePrompt: 'barber gloves professional service client safety',
+      },
+      {
+        segment: 'wrapup',
+        title: 'Key Takeaways',
+        bullets: [
+          'Disinfect tools between every client',
+          'Know your pathogens and transmission routes',
+          'Next: Bloodborne Pathogens & OSHA Standards',
+        ],
+        imagePrompt: 'clean organized barbershop professional station',
+      },
     ],
   },
   {
@@ -113,12 +232,70 @@ Indiana state law mirrors OSHA requirements and adds additional barbershop-speci
 
 Know these standards. Follow them every day. They protect you, your clients, and your license.`,
     slides: [
-      { segment: 'intro', title: 'Bloodborne Pathogens & OSHA', bullets: ['HIV, Hepatitis B, Hepatitis C', 'Transmitted through blood contact', 'OSHA 29 CFR 1910.1030 applies to barbershops'], imagePrompt: 'OSHA safety workplace professional standards' },
-      { segment: 'concept', title: 'The 3 Bloodborne Pathogens', bullets: ['HIV — attacks immune system', 'Hepatitis B — survives 7 days on surfaces', 'Hepatitis C — most common bloodborne infection', 'All transmitted via blood contact'], imagePrompt: 'medical safety gloves protection bloodborne' },
-      { segment: 'concept', title: 'OSHA Requirements', bullets: ['Written exposure control plan', 'Universal precautions — treat all blood as infected', 'PPE — gloves available and used', 'Hepatitis B vaccine offered at no cost'], imagePrompt: 'workplace safety compliance documentation professional' },
-      { segment: 'visual', title: 'Post-Exposure Protocol', bullets: ['Wash wound with soap and water 15+ seconds', 'Report to supervisor immediately', 'Seek medical evaluation within 2 hours', 'HIV PEP most effective within 72 hours'], imagePrompt: 'first aid handwashing sink emergency protocol' },
-      { segment: 'application', title: 'Sharps & Client Nicks', bullets: ['Sharps container for used razor blades', 'Never recap blade with two hands', 'Client nick: styptic, change gloves, document', 'Disinfect tool before reuse'], imagePrompt: 'sharps container disposal safety barbershop' },
-      { segment: 'wrapup', title: 'Key Takeaways', bullets: ['Universal precautions — always', 'Know post-exposure protocol cold', 'Next: Tool Disinfection Procedures'], imagePrompt: 'professional barber safe clean organized station' },
+      {
+        segment: 'intro',
+        title: 'Bloodborne Pathogens & OSHA',
+        bullets: [
+          'HIV, Hepatitis B, Hepatitis C',
+          'Transmitted through blood contact',
+          'OSHA 29 CFR 1910.1030 applies to barbershops',
+        ],
+        imagePrompt: 'OSHA safety workplace professional standards',
+      },
+      {
+        segment: 'concept',
+        title: 'The 3 Bloodborne Pathogens',
+        bullets: [
+          'HIV — attacks immune system',
+          'Hepatitis B — survives 7 days on surfaces',
+          'Hepatitis C — most common bloodborne infection',
+          'All transmitted via blood contact',
+        ],
+        imagePrompt: 'medical safety gloves protection bloodborne',
+      },
+      {
+        segment: 'concept',
+        title: 'OSHA Requirements',
+        bullets: [
+          'Written exposure control plan',
+          'Universal precautions — treat all blood as infected',
+          'PPE — gloves available and used',
+          'Hepatitis B vaccine offered at no cost',
+        ],
+        imagePrompt: 'workplace safety compliance documentation professional',
+      },
+      {
+        segment: 'visual',
+        title: 'Post-Exposure Protocol',
+        bullets: [
+          'Wash wound with soap and water 15+ seconds',
+          'Report to supervisor immediately',
+          'Seek medical evaluation within 2 hours',
+          'HIV PEP most effective within 72 hours',
+        ],
+        imagePrompt: 'first aid handwashing sink emergency protocol',
+      },
+      {
+        segment: 'application',
+        title: 'Sharps & Client Nicks',
+        bullets: [
+          'Sharps container for used razor blades',
+          'Never recap blade with two hands',
+          'Client nick: styptic, change gloves, document',
+          'Disinfect tool before reuse',
+        ],
+        imagePrompt: 'sharps container disposal safety barbershop',
+      },
+      {
+        segment: 'wrapup',
+        title: 'Key Takeaways',
+        bullets: [
+          'Universal precautions — always',
+          'Know post-exposure protocol cold',
+          'Next: Tool Disinfection Procedures',
+        ],
+        imagePrompt: 'professional barber safe clean organized station',
+      },
     ],
   },
   {
@@ -141,12 +318,70 @@ Common mistakes to avoid. Do not use the same disinfectant jar for multiple tool
 
 Disinfection is not a burden — it is a professional standard. Clients notice when a barber takes it seriously. It builds trust and it builds your reputation.`,
     slides: [
-      { segment: 'intro', title: 'Tool Disinfection Procedures', bullets: ['Required between every client in Indiana', 'Cleaning first, then disinfecting', 'EPA-registered disinfectant required'], imagePrompt: 'barber tools disinfectant jar blue solution clippers' },
-      { segment: 'concept', title: '6-Step Disinfection Procedure', bullets: ['1. Remove all hair and debris', '2. Wash with soap and water', '3. Fully immerse in EPA disinfectant', '4. Wait full contact time (read label)'], imagePrompt: 'barber cleaning clippers brush debris removal' },
-      { segment: 'concept', title: '6-Step Procedure (continued)', bullets: ['5. Remove and air dry completely', '6. Store in clean covered container', 'Never wipe dry — recontaminates tool', 'Never pull out before contact time ends'], imagePrompt: 'barbershop tools organized clean covered storage' },
-      { segment: 'visual', title: 'Tool-Specific Rules', bullets: ['Clippers — blade spray + body wipe', 'Shears — immerse in solution', 'Combs/brushes — wash then immerse', 'Straight razor — fresh blade every client'], imagePrompt: 'barber shears clippers combs professional tools laid out' },
-      { segment: 'application', title: 'Disinfection Log & Solution Care', bullets: ['Log disinfection after every client', 'Change solution daily or when contaminated', 'Label container with date mixed', 'Inspector will ask for the log'], imagePrompt: 'barbershop inspection log documentation professional' },
-      { segment: 'wrapup', title: 'Key Takeaways', bullets: ['Clean before you disinfect — always', 'Full contact time is non-negotiable', 'Next: Shop Sanitation & Client Safety'], imagePrompt: 'clean organized barbershop professional ready for client' },
+      {
+        segment: 'intro',
+        title: 'Tool Disinfection Procedures',
+        bullets: [
+          'Required between every client in Indiana',
+          'Cleaning first, then disinfecting',
+          'EPA-registered disinfectant required',
+        ],
+        imagePrompt: 'barber tools disinfectant jar blue solution clippers',
+      },
+      {
+        segment: 'concept',
+        title: '6-Step Disinfection Procedure',
+        bullets: [
+          '1. Remove all hair and debris',
+          '2. Wash with soap and water',
+          '3. Fully immerse in EPA disinfectant',
+          '4. Wait full contact time (read label)',
+        ],
+        imagePrompt: 'barber cleaning clippers brush debris removal',
+      },
+      {
+        segment: 'concept',
+        title: '6-Step Procedure (continued)',
+        bullets: [
+          '5. Remove and air dry completely',
+          '6. Store in clean covered container',
+          'Never wipe dry — recontaminates tool',
+          'Never pull out before contact time ends',
+        ],
+        imagePrompt: 'barbershop tools organized clean covered storage',
+      },
+      {
+        segment: 'visual',
+        title: 'Tool-Specific Rules',
+        bullets: [
+          'Clippers — blade spray + body wipe',
+          'Shears — immerse in solution',
+          'Combs/brushes — wash then immerse',
+          'Straight razor — fresh blade every client',
+        ],
+        imagePrompt: 'barber shears clippers combs professional tools laid out',
+      },
+      {
+        segment: 'application',
+        title: 'Disinfection Log & Solution Care',
+        bullets: [
+          'Log disinfection after every client',
+          'Change solution daily or when contaminated',
+          'Label container with date mixed',
+          'Inspector will ask for the log',
+        ],
+        imagePrompt: 'barbershop inspection log documentation professional',
+      },
+      {
+        segment: 'wrapup',
+        title: 'Key Takeaways',
+        bullets: [
+          'Clean before you disinfect — always',
+          'Full contact time is non-negotiable',
+          'Next: Shop Sanitation & Client Safety',
+        ],
+        imagePrompt: 'clean organized barbershop professional ready for client',
+      },
     ],
   },
   {
@@ -171,12 +406,70 @@ Indiana inspectors conduct unannounced inspections. They check workstations, too
 
 Your reputation is built one client at a time. A clean shop, clean tools, and professional hygiene tell every client that you take their safety seriously. That is how you build a loyal clientele that comes back week after week.`,
     slides: [
-      { segment: 'intro', title: 'Shop Sanitation & Client Safety', bullets: ['Workstation, draping, personal hygiene', 'Client contraindications', 'Indiana inspection standards'], imagePrompt: 'clean professional barbershop workstation organized' },
-      { segment: 'concept', title: 'Workstation Standards', bullets: ['Disinfect chair, headrest, armrests between clients', 'Sweep hair from floor between every client', 'Keep all products capped and stored', 'Fresh neck strip for every client — no exceptions'], imagePrompt: 'barber cleaning chair disinfecting workstation professional' },
-      { segment: 'concept', title: 'Personal Hygiene Standards', bullets: ['Wash hands before and after every client', 'Soap and water — 20 seconds minimum', 'Nails trimmed short and clean', 'Clean professional attire every day'], imagePrompt: 'barber handwashing sink soap professional hygiene' },
-      { segment: 'visual', title: 'Client Contraindications', bullets: ['Visible scalp infections — decline service', 'Head lice or nits — decline service', 'Open wounds on scalp or neck — decline', 'Refer to physician, document refusal'], imagePrompt: 'barber professional consultation client assessment' },
-      { segment: 'application', title: 'Indiana Inspection Standards', bullets: ['Unannounced inspections by IPLA', 'Floors swept, sinks stocked, trash emptied', 'Ventilation required for chemical services', 'Clean shop passes every time'], imagePrompt: 'barbershop inspection professional compliance clean' },
-      { segment: 'wrapup', title: 'Key Takeaways', bullets: ['Sanitation builds client trust and loyalty', 'Contraindications protect clients and your license', 'Next: Indiana Barbering Laws & Regulations'], imagePrompt: 'professional barber confident clean organized shop' },
+      {
+        segment: 'intro',
+        title: 'Shop Sanitation & Client Safety',
+        bullets: [
+          'Workstation, draping, personal hygiene',
+          'Client contraindications',
+          'Indiana inspection standards',
+        ],
+        imagePrompt: 'clean professional barbershop workstation organized',
+      },
+      {
+        segment: 'concept',
+        title: 'Workstation Standards',
+        bullets: [
+          'Disinfect chair, headrest, armrests between clients',
+          'Sweep hair from floor between every client',
+          'Keep all products capped and stored',
+          'Fresh neck strip for every client — no exceptions',
+        ],
+        imagePrompt: 'barber cleaning chair disinfecting workstation professional',
+      },
+      {
+        segment: 'concept',
+        title: 'Personal Hygiene Standards',
+        bullets: [
+          'Wash hands before and after every client',
+          'Soap and water — 20 seconds minimum',
+          'Nails trimmed short and clean',
+          'Clean professional attire every day',
+        ],
+        imagePrompt: 'barber handwashing sink soap professional hygiene',
+      },
+      {
+        segment: 'visual',
+        title: 'Client Contraindications',
+        bullets: [
+          'Visible scalp infections — decline service',
+          'Head lice or nits — decline service',
+          'Open wounds on scalp or neck — decline',
+          'Refer to physician, document refusal',
+        ],
+        imagePrompt: 'barber professional consultation client assessment',
+      },
+      {
+        segment: 'application',
+        title: 'Indiana Inspection Standards',
+        bullets: [
+          'Unannounced inspections by IPLA',
+          'Floors swept, sinks stocked, trash emptied',
+          'Ventilation required for chemical services',
+          'Clean shop passes every time',
+        ],
+        imagePrompt: 'barbershop inspection professional compliance clean',
+      },
+      {
+        segment: 'wrapup',
+        title: 'Key Takeaways',
+        bullets: [
+          'Sanitation builds client trust and loyalty',
+          'Contraindications protect clients and your license',
+          'Next: Indiana Barbering Laws & Regulations',
+        ],
+        imagePrompt: 'professional barber confident clean organized shop',
+      },
     ],
   },
 ];
@@ -196,7 +489,10 @@ async function main() {
     console.log(`  Script: ${words} words (~${Math.round(words / 140)} min)`);
     console.log(`  Slides: ${lesson.slides.length}`);
 
-    if (dryRun) { console.log('  [dry-run skipped]\n'); continue; }
+    if (dryRun) {
+      console.log('  [dry-run skipped]\n');
+      continue;
+    }
 
     // TTS
     process.stdout.write('  → TTS audio...');
@@ -217,10 +513,15 @@ async function main() {
       courseName: 'Barber Apprenticeship — Elevate for Humanity',
     });
     await fs.unlink(tmpAudio).catch(() => {});
-    console.log(` ✅ ${Math.round(result.duration / 60)}min ${(result.fileSize / 1024 / 1024).toFixed(1)}MB\n`);
+    console.log(
+      ` ✅ ${Math.round(result.duration / 60)}min ${(result.fileSize / 1024 / 1024).toFixed(1)}MB\n`,
+    );
   }
 
   console.log('Done.');
 }
 
-main().catch(e => { console.error('Fatal:', e); process.exit(1); });
+main().catch((e) => {
+  console.error('Fatal:', e);
+  process.exit(1);
+});

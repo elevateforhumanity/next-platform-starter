@@ -3,8 +3,16 @@
 import { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import {
-  CheckCircle, Play, DollarSign, Clock, AlertTriangle,
-  Shield, MapPin, BookOpen, ChevronRight, ChevronLeft,
+  CheckCircle,
+  Play,
+  DollarSign,
+  Clock,
+  AlertTriangle,
+  Shield,
+  MapPin,
+  BookOpen,
+  ChevronRight,
+  ChevronLeft,
 } from 'lucide-react';
 import { formatCurrency } from '@/lms-data/orientationConfig';
 import { BARBER_PRICING } from '@/lib/programs/pricing';
@@ -49,7 +57,7 @@ const HANDBOOK_SLIDES = [
     title: 'Auto Clock-Out',
     content: [
       'The system sends a heartbeat every few minutes while you are clocked in.',
-      'If the heartbeat detects you have left the shop\'s GPS boundary, it will automatically clock you out.',
+      "If the heartbeat detects you have left the shop's GPS boundary, it will automatically clock you out.",
       'You will receive a notification when this happens. Hours up to the point you left are saved.',
       'Do not attempt to spoof your location. GPS fraud is a violation of your apprenticeship agreement and may result in immediate termination.',
       'If you believe an auto clock-out was an error, contact your advisor within 24 hours with an explanation.',
@@ -131,7 +139,7 @@ export default function BarberOrientationClient({
   }
 
   function markSlideRead(index: number) {
-    setReadSlides(prev => new Set([...prev, index]));
+    setReadSlides((prev) => new Set([...prev, index]));
   }
 
   function goToSlide(index: number) {
@@ -148,18 +156,21 @@ export default function BarberOrientationClient({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ program: 'barber-apprenticeship' }),
       });
-    } catch { /* non-fatal */ }
+    } catch {
+      /* non-fatal */
+    }
     router.push('/programs/barber-apprenticeship/documents');
   }
 
   return (
     <div className="min-h-screen bg-slate-900">
-
       {/* Header */}
       <div className="bg-slate-900 border-b border-slate-800 px-6 py-4">
         <div className="max-w-3xl mx-auto flex items-center justify-between">
           <div>
-            <p className="text-slate-400 text-xs uppercase tracking-widest mb-0.5">Barber Apprenticeship</p>
+            <p className="text-slate-400 text-xs uppercase tracking-widest mb-0.5">
+              Barber Apprenticeship
+            </p>
             <h1 className="text-white font-bold text-lg">Program Orientation</h1>
           </div>
           <div className="flex items-center gap-4 text-slate-400 text-sm">
@@ -177,7 +188,6 @@ export default function BarberOrientationClient({
       </div>
 
       <div className="max-w-3xl mx-auto px-4 py-8 space-y-8">
-
         {/* Step 1: Video */}
         <div className="space-y-3">
           <h2 className="text-white font-semibold text-sm uppercase tracking-widest">
@@ -202,8 +212,12 @@ export default function BarberOrientationClient({
                 <div className="w-16 h-16 rounded-full bg-white/20 group-hover:bg-white/30 flex items-center justify-center transition">
                   <Play className="w-7 h-7 text-white fill-white ml-1" />
                 </div>
-                <span className="text-white font-semibold text-sm">Watch your orientation video</span>
-                <span className="text-white text-xs">Covers: program overview · clocking in/out · LMS coursework · payment terms</span>
+                <span className="text-white font-semibold text-sm">
+                  Watch your orientation video
+                </span>
+                <span className="text-white text-xs">
+                  Covers: program overview · clocking in/out · LMS coursework · payment terms
+                </span>
               </button>
             )}
           </div>
@@ -223,7 +237,9 @@ export default function BarberOrientationClient({
         </div>
 
         {/* Step 2: Handbook slides */}
-        <div className={`space-y-4 transition-opacity duration-300 ${videoWatched ? 'opacity-100' : 'opacity-30 pointer-events-none'}`}>
+        <div
+          className={`space-y-4 transition-opacity duration-300 ${videoWatched ? 'opacity-100' : 'opacity-30 pointer-events-none'}`}
+        >
           <h2 className="text-white font-semibold text-sm uppercase tracking-widest">
             Step 2 — Student Handbook ({readSlides.size}/{HANDBOOK_SLIDES.length} sections read)
           </h2>
@@ -246,7 +262,11 @@ export default function BarberOrientationClient({
                         : 'bg-slate-800 text-slate-400 hover:text-white'
                   }`}
                 >
-                  {isRead && !isCurrent ? <CheckCircle className="w-3 h-3" /> : <Icon className="w-3 h-3" />}
+                  {isRead && !isCurrent ? (
+                    <CheckCircle className="w-3 h-3" />
+                  ) : (
+                    <Icon className="w-3 h-3" />
+                  )}
                   {slide.title}
                 </button>
               );
@@ -256,7 +276,10 @@ export default function BarberOrientationClient({
           {/* Current slide */}
           <div className="bg-slate-800 rounded-2xl p-6 space-y-4">
             <div className="flex items-center gap-3">
-              {(() => { const Icon = currentSlide.icon; return <Icon className="w-5 h-5 text-brand-blue-400 flex-shrink-0" />; })()}
+              {(() => {
+                const Icon = currentSlide.icon;
+                return <Icon className="w-5 h-5 text-brand-blue-400 flex-shrink-0" />;
+              })()}
               <h3 className="text-white font-bold text-base">{currentSlide.title}</h3>
             </div>
             <ul className="space-y-3">
@@ -273,25 +296,35 @@ export default function BarberOrientationClient({
               <div className="bg-slate-700/50 rounded-xl divide-y divide-slate-600 mt-4">
                 <div className="flex justify-between px-4 py-2.5">
                   <span className="text-slate-400 text-sm">Program Total</span>
-                  <span className="text-white font-semibold text-sm">{formatCurrency(BARBER_PRICING.fullPrice)}</span>
+                  <span className="text-white font-semibold text-sm">
+                    {formatCurrency(BARBER_PRICING.fullPrice)}
+                  </span>
                 </div>
                 <div className="flex justify-between px-4 py-2.5">
                   <span className="text-slate-400 text-sm">Your Down Payment</span>
-                  <span className="text-white font-semibold text-sm">{formatCurrency(payment.downPayment)}</span>
+                  <span className="text-white font-semibold text-sm">
+                    {formatCurrency(payment.downPayment)}
+                  </span>
                 </div>
                 {!payment.fullyPaid ? (
                   <>
                     <div className="flex justify-between px-4 py-2.5">
                       <span className="text-slate-400 text-sm">Remaining Balance</span>
-                      <span className="text-white font-semibold text-sm">{formatCurrency(payment.remainingBalance)}</span>
+                      <span className="text-white font-semibold text-sm">
+                        {formatCurrency(payment.remainingBalance)}
+                      </span>
                     </div>
                     <div className="flex justify-between px-4 py-2.5">
                       <span className="text-slate-400 text-sm">Weekly Auto-Draft</span>
-                      <span className="text-brand-blue-400 font-bold text-sm">{formatCurrency(weeklyDollars)} every Friday</span>
+                      <span className="text-brand-blue-400 font-bold text-sm">
+                        {formatCurrency(weeklyDollars)} every Friday
+                      </span>
                     </div>
                     <div className="flex justify-between px-4 py-2.5">
                       <span className="text-slate-400 text-sm">Weeks Remaining</span>
-                      <span className="text-white font-semibold text-sm">{payment.weeksRemaining} weeks</span>
+                      <span className="text-white font-semibold text-sm">
+                        {payment.weeksRemaining} weeks
+                      </span>
                     </div>
                   </>
                 ) : (
@@ -332,7 +365,9 @@ export default function BarberOrientationClient({
         </div>
 
         {/* Step 3: Acknowledge & Continue */}
-        <div className={`bg-slate-800 rounded-2xl p-6 space-y-4 transition-opacity duration-300 ${allSlidesRead ? 'opacity-100' : 'opacity-30 pointer-events-none'}`}>
+        <div
+          className={`bg-slate-800 rounded-2xl p-6 space-y-4 transition-opacity duration-300 ${allSlidesRead ? 'opacity-100' : 'opacity-30 pointer-events-none'}`}
+        >
           <h2 className="text-white font-semibold text-sm uppercase tracking-widest">
             Step 3 — Acknowledge & Continue
           </h2>
@@ -340,12 +375,15 @@ export default function BarberOrientationClient({
             <input
               type="checkbox"
               checked={acknowledged}
-              onChange={e => setAcknowledged(e.target.checked)}
+              onChange={(e) => setAcknowledged(e.target.checked)}
               disabled={!allSlidesRead}
               className="w-5 h-5 mt-0.5 rounded border-slate-500 text-brand-blue-600 focus:ring-brand-blue-500 flex-shrink-0"
             />
             <span className="text-white text-sm leading-relaxed">
-              I have watched the orientation video and read all sections of the student handbook. I understand the clocking requirements, auto clock-out rules, LMS coursework expectations, payment auto-draft schedule, and the consequences of missed payments or conduct violations. I agree to proceed.
+              I have watched the orientation video and read all sections of the student handbook. I
+              understand the clocking requirements, auto clock-out rules, LMS coursework
+              expectations, payment auto-draft schedule, and the consequences of missed payments or
+              conduct violations. I agree to proceed.
             </span>
           </label>
           <button
@@ -361,7 +399,6 @@ export default function BarberOrientationClient({
             </p>
           )}
         </div>
-
       </div>
     </div>
   );

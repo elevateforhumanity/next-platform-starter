@@ -8,7 +8,7 @@
 'use strict';
 
 const path = require('path');
-const fs   = require('fs');
+const fs = require('fs');
 
 // Load .env.local
 const envPath = path.join(__dirname, '..', '.env.local');
@@ -20,20 +20,32 @@ if (fs.existsSync(envPath)) {
     const eq = trimmed.indexOf('=');
     if (eq === -1) continue;
     const key = trimmed.slice(0, eq).trim();
-    const val = trimmed.slice(eq + 1).trim().replace(/^["']|["']$/g, '');
+    const val = trimmed
+      .slice(eq + 1)
+      .trim()
+      .replace(/^["']|["']$/g, '');
     if (!process.env[key]) process.env[key] = val;
   }
 }
 
 const {
-  Document, Packer, Paragraph, TextRun, Table, TableRow, TableCell,
-  WidthType, AlignmentType, BorderStyle, HeadingLevel,
+  Document,
+  Packer,
+  Paragraph,
+  TextRun,
+  Table,
+  TableRow,
+  TableCell,
+  WidthType,
+  AlignmentType,
+  BorderStyle,
+  HeadingLevel,
   convertInchesToTwip,
 } = require('docx');
 
 // ── Brand colours ──────────────────────────────────────────────────
 const DARK = '1E293B';
-const RED  = 'DC2626';
+const RED = 'DC2626';
 const GRAY = '6B7280';
 const LIGHT = 'F8FAFC';
 
@@ -43,26 +55,30 @@ function heading(text, level = 1) {
   const colors = { 1: DARK, 2: RED, 3: DARK };
   return new Paragraph({
     spacing: { before: level === 1 ? 320 : 240, after: 120 },
-    children: [new TextRun({
-      text,
-      bold: true,
-      size: sizes[level] ?? 24,
-      color: colors[level] ?? DARK,
-      font: 'Arial',
-    })],
+    children: [
+      new TextRun({
+        text,
+        bold: true,
+        size: sizes[level] ?? 24,
+        color: colors[level] ?? DARK,
+        font: 'Arial',
+      }),
+    ],
   });
 }
 
 function body(text, opts = {}) {
   return new Paragraph({
     spacing: { after: 100 },
-    children: [new TextRun({
-      text,
-      size: 22,
-      color: opts.color ?? DARK,
-      bold: opts.bold ?? false,
-      font: 'Arial',
-    })],
+    children: [
+      new TextRun({
+        text,
+        size: 22,
+        color: opts.color ?? DARK,
+        bold: opts.bold ?? false,
+        font: 'Arial',
+      }),
+    ],
   });
 }
 
@@ -95,30 +111,37 @@ function labelValue(label, value) {
 function tableRow(cells, isHeader = false) {
   return new TableRow({
     tableHeader: isHeader,
-    children: cells.map(({ text, width }) => new TableCell({
-      width: { size: width ?? 2500, type: WidthType.DXA },
-      shading: isHeader ? { fill: DARK } : undefined,
-      margins: { top: 80, bottom: 80, left: 120, right: 120 },
-      children: [new Paragraph({
-        children: [new TextRun({
-          text,
-          bold: isHeader,
-          size: isHeader ? 20 : 20,
-          color: isHeader ? 'FFFFFF' : DARK,
-          font: 'Arial',
-        })],
-      })],
-    })),
+    children: cells.map(
+      ({ text, width }) =>
+        new TableCell({
+          width: { size: width ?? 2500, type: WidthType.DXA },
+          shading: isHeader ? { fill: DARK } : undefined,
+          margins: { top: 80, bottom: 80, left: 120, right: 120 },
+          children: [
+            new Paragraph({
+              children: [
+                new TextRun({
+                  text,
+                  bold: isHeader,
+                  size: isHeader ? 20 : 20,
+                  color: isHeader ? 'FFFFFF' : DARK,
+                  font: 'Arial',
+                }),
+              ],
+            }),
+          ],
+        }),
+    ),
   });
 }
 
 // ── RTI hours (WIOA-fundable only — excludes OJT weeks 10-12) ──────
 // Weeks 1–9 @ 20 hrs/week = 180 RTI hours
-const RTI_WEEKS        = 9;
-const RTI_HOURS        = 180;   // 9 weeks × 20 hrs
-const OJT_WEEKS        = '2–4';
-const TOTAL_WEEKS      = '12–20';
-const COST_PER_HOUR    = (5000 / RTI_HOURS).toFixed(2);  // $27.78/hr RTI only
+const RTI_WEEKS = 9;
+const RTI_HOURS = 180; // 9 weeks × 20 hrs
+const OJT_WEEKS = '2–4';
+const TOTAL_WEEKS = '12–20';
+const COST_PER_HOUR = (5000 / RTI_HOURS).toFixed(2); // $27.78/hr RTI only
 
 // ── Document ───────────────────────────────────────────────────────
 async function buildDoc() {
@@ -133,21 +156,40 @@ async function buildDoc() {
   sections.push(heading('Program Identification', 2));
   sections.push(labelValue('Program Name', 'HVAC Technician'));
   sections.push(labelValue('Provider', 'Elevate for Humanity Career & Technical Institute'));
-  sections.push(labelValue('CIP Code', '47.0201 — Heating, Air Conditioning, Ventilation and Refrigeration Maintenance Technology'));
-  sections.push(labelValue('SOC Code', '49-9021 — Heating, Air Conditioning, and Refrigeration Mechanics and Installers'));
-  sections.push(labelValue('Delivery Method', 'Hybrid — Online RTI (LMS) + Hands-On Lab at Indianapolis training center'));
+  sections.push(
+    labelValue(
+      'CIP Code',
+      '47.0201 — Heating, Air Conditioning, Ventilation and Refrigeration Maintenance Technology',
+    ),
+  );
+  sections.push(
+    labelValue(
+      'SOC Code',
+      '49-9021 — Heating, Air Conditioning, and Refrigeration Mechanics and Installers',
+    ),
+  );
+  sections.push(
+    labelValue(
+      'Delivery Method',
+      'Hybrid — Online RTI (LMS) + Hands-On Lab at Indianapolis training center',
+    ),
+  );
   sections.push(labelValue('Location', 'Indianapolis, Indiana'));
 
   sections.push(divider());
   sections.push(heading('Duration & Hours — ETPL Reportable (RTI Only)', 2));
-  sections.push(body(
-    '⚠  WIOA/ETPL funding covers Related Technical Instruction (RTI) only — Weeks 1–9. ' +
-    'OJT (Weeks 10–12) is a separate employer-funded or OJT-contract instrument.',
-    { color: RED, bold: true }
-  ));
+  sections.push(
+    body(
+      '⚠  WIOA/ETPL funding covers Related Technical Instruction (RTI) only — Weeks 1–9. ' +
+        'OJT (Weeks 10–12) is a separate employer-funded or OJT-contract instrument.',
+      { color: RED, bold: true },
+    ),
+  );
   sections.push(labelValue('RTI Duration (ETPL-fundable)', `${RTI_WEEKS} weeks`));
   sections.push(labelValue('RTI Clock Hours', `${RTI_HOURS} hours (9 weeks × 20 hrs/week)`));
-  sections.push(labelValue('OJT Duration (separate instrument)', `${OJT_WEEKS} weeks — employer site`));
+  sections.push(
+    labelValue('OJT Duration (separate instrument)', `${OJT_WEEKS} weeks — employer site`),
+  );
   sections.push(labelValue('Total Program Duration (ETPL listing)', `${TOTAL_WEEKS} weeks`));
   sections.push(labelValue('Hours/Week', '15–20 hours'));
   sections.push(labelValue('Schedule Options', 'Daytime and evening/weekend cohorts available'));
@@ -157,14 +199,25 @@ async function buildDoc() {
   sections.push(labelValue('Total Tuition (RTI)', '$5,000'));
   sections.push(labelValue('RTI Clock Hours', `${RTI_HOURS} hours`));
   sections.push(labelValue('Cost Per Clock Hour', `$${COST_PER_HOUR}`));
-  sections.push(labelValue('Included in Tuition',
-    'All PPE, tools, training materials, EPA 608 exam fee, OSHA 10 card, CPR/First Aid/AED'));
-  sections.push(labelValue('OJT Cost to WIOA', 'None — OJT funded via separate OJT reimbursement agreement with employer'));
-  sections.push(body(
-    'Note: If an OJT contract is in place, WorkOne reimburses the employer up to 50% of trainee wages ' +
-    'for the OJT period. This is separate from the ITA and does not affect the ETPL cost figure.',
-    { color: GRAY }
-  ));
+  sections.push(
+    labelValue(
+      'Included in Tuition',
+      'All PPE, tools, training materials, EPA 608 exam fee, OSHA 10 card, CPR/First Aid/AED',
+    ),
+  );
+  sections.push(
+    labelValue(
+      'OJT Cost to WIOA',
+      'None — OJT funded via separate OJT reimbursement agreement with employer',
+    ),
+  );
+  sections.push(
+    body(
+      'Note: If an OJT contract is in place, WorkOne reimburses the employer up to 50% of trainee wages ' +
+        'for the OJT period. This is separate from the ITA and does not affect the ETPL cost figure.',
+      { color: GRAY },
+    ),
+  );
 
   sections.push(divider());
   sections.push(heading('Credentials Earned', 2));
@@ -175,7 +228,7 @@ async function buildDoc() {
     'Residential HVAC Certification 1 & 2 (Elevate for Humanity)',
     'Rise Up Retail Industry Fundamentals (NRF Foundation)',
   ];
-  credentials.forEach(c => sections.push(bullet(c)));
+  credentials.forEach((c) => sections.push(bullet(c)));
 
   sections.push(divider());
   sections.push(heading('Funding Eligibility', 2));
@@ -187,16 +240,18 @@ async function buildDoc() {
     'Job Readiness Indiana (JRI)',
     'Self-pay ($5,000 — payment plans available)',
   ];
-  funding.forEach(f => sections.push(bullet(f)));
+  funding.forEach((f) => sections.push(bullet(f)));
 
   // ── PAGE 2: UPDATED CURRICULUM ────────────────────────────────────
   sections.push(new Paragraph({ pageBreakBefore: true, children: [] }));
   sections.push(heading('HVAC Technician — Updated Curriculum', 1));
   sections.push(body('RTI Phases (WIOA-Fundable) — Weeks 1–9 | 180 Clock Hours', { bold: true }));
-  sections.push(body(
-    'OJT Phase (Weeks 10–12) is listed separately and funded via employer OJT contract — not included in ITA cost.',
-    { color: GRAY }
-  ));
+  sections.push(
+    body(
+      'OJT Phase (Weeks 10–12) is listed separately and funded via employer OJT contract — not included in ITA cost.',
+      { color: GRAY },
+    ),
+  );
   sections.push(divider());
 
   // Curriculum table
@@ -210,7 +265,7 @@ async function buildDoc() {
         'How HVAC systems work — heating, cooling, ventilation',
         'HVAC tools and equipment identification (10/10 practical)',
         'PPE and shop safety — LOTO per OSHA 1910.147',
-        'Electrical fundamentals: voltage, current, resistance, Ohm\'s Law',
+        "Electrical fundamentals: voltage, current, resistance, Ohm's Law",
         'Multimeter operation and electrical testing (±5% accuracy)',
         'Reading wiring diagrams and schematics',
         'Capacitors, contactors, and relays',
@@ -258,16 +313,18 @@ async function buildDoc() {
 
   for (const p of phases) {
     sections.push(heading(`${p.phase}: ${p.title}  (${p.hours})`, 2));
-    p.topics.forEach(t => sections.push(bullet(t)));
+    p.topics.forEach((t) => sections.push(bullet(t)));
     sections.push(new Paragraph({ spacing: { after: 80 }, children: [] }));
   }
 
   sections.push(divider());
   sections.push(heading('OJT Phase — Weeks 10–12 (Employer Site — Separate Instrument)', 2));
-  sections.push(body(
-    'Not included in ITA / ETPL cost. Funded via OJT reimbursement agreement between WorkOne and employer partner.',
-    { color: RED }
-  ));
+  sections.push(
+    body(
+      'Not included in ITA / ETPL cost. Funded via OJT reimbursement agreement between WorkOne and employer partner.',
+      { color: RED },
+    ),
+  );
   const ojtCompetencies = [
     'Diagnose 3 common AC faults within 30 minutes each',
     'Complete a full furnace safety inspection (15-point checklist)',
@@ -275,16 +332,18 @@ async function buildDoc() {
     'Document service calls using industry-standard formats',
     'Supervised real-world service calls at Indianapolis-area employer partner sites',
   ];
-  ojtCompetencies.forEach(c => sections.push(bullet(c)));
+  ojtCompetencies.forEach((c) => sections.push(bullet(c)));
 
   sections.push(divider());
   sections.push(heading('Supplemental Certifications — EPATest.com (Self-Paced, Open-Book)', 2));
-  sections.push(body(
-    'Issued by Mainstream Engineering Corporation via epatest.com. All are open-book, no time limit, ' +
-    'no proctoring required. Students complete these independently after earning EPA 608. ' +
-    'Cost: $26.95 per exam (wallet card included). Retest: $7.95.',
-    { color: GRAY }
-  ));
+  sections.push(
+    body(
+      'Issued by Mainstream Engineering Corporation via epatest.com. All are open-book, no time limit, ' +
+        'no proctoring required. Students complete these independently after earning EPA 608. ' +
+        'Cost: $26.95 per exam (wallet card included). Retest: $7.95.',
+      { color: GRAY },
+    ),
+  );
   sections.push(new Paragraph({ spacing: { after: 80 }, children: [] }));
 
   const suppCerts = [
@@ -321,15 +380,17 @@ async function buildDoc() {
   ];
 
   for (const cert of suppCerts) {
-    sections.push(new Paragraph({
-      spacing: { after: 60 },
-      bullet: { level: 0 },
-      children: [
-        new TextRun({ text: cert.name, bold: true, size: 22, color: DARK, font: 'Arial' }),
-        new TextRun({ text: ` — ${cert.desc}`, size: 22, color: GRAY, font: 'Arial' }),
-        new TextRun({ text: `  ${cert.url}`, size: 20, color: '1D4ED8', font: 'Arial' }),
-      ],
-    }));
+    sections.push(
+      new Paragraph({
+        spacing: { after: 60 },
+        bullet: { level: 0 },
+        children: [
+          new TextRun({ text: cert.name, bold: true, size: 22, color: DARK, font: 'Arial' }),
+          new TextRun({ text: ` — ${cert.desc}`, size: 22, color: GRAY, font: 'Arial' }),
+          new TextRun({ text: `  ${cert.url}`, size: 20, color: '1D4ED8', font: 'Arial' }),
+        ],
+      }),
+    );
   }
 
   sections.push(divider());
@@ -337,8 +398,12 @@ async function buildDoc() {
   sections.push(labelValue('SOC', '49-9021 — HVAC Mechanics and Installers'));
   sections.push(labelValue('Median Salary (Indiana)', '$52,000/year'));
   sections.push(labelValue('Salary Range', '$38,000–$80,000'));
-  sections.push(labelValue('Job Growth', '+6% (faster than average) — BLS Occupational Outlook Handbook 2024'));
-  sections.push(labelValue('Indianapolis MSA Openings', '200+ active postings (Indeed/LinkedIn, Q1 2025)'));
+  sections.push(
+    labelValue('Job Growth', '+6% (faster than average) — BLS Occupational Outlook Handbook 2024'),
+  );
+  sections.push(
+    labelValue('Indianapolis MSA Openings', '200+ active postings (Indeed/LinkedIn, Q1 2025)'),
+  );
 
   // ── Build doc ──────────────────────────────────────────────────────
   const doc = new Document({
@@ -352,19 +417,21 @@ async function buildDoc() {
         },
       },
     },
-    sections: [{
-      properties: {
-        page: {
-          margin: {
-            top:    convertInchesToTwip(1),
-            bottom: convertInchesToTwip(1),
-            left:   convertInchesToTwip(1.25),
-            right:  convertInchesToTwip(1.25),
+    sections: [
+      {
+        properties: {
+          page: {
+            margin: {
+              top: convertInchesToTwip(1),
+              bottom: convertInchesToTwip(1),
+              left: convertInchesToTwip(1.25),
+              right: convertInchesToTwip(1.25),
+            },
           },
         },
+        children: sections,
       },
-      children: sections,
-    }],
+    ],
   });
 
   const buffer = await Packer.toBuffer(doc);
@@ -385,7 +452,9 @@ async function sendDoc(docPath) {
   const attachment = fs.readFileSync(docPath).toString('base64');
 
   const payload = {
-    personalizations: [{ to: [{ email: 'elevate4humanityedu@gmail.com', name: 'Elizabeth Greene' }] }],
+    personalizations: [
+      { to: [{ email: 'elevate4humanityedu@gmail.com', name: 'Elizabeth Greene' }] },
+    ],
     from: { email: 'noreply@elevateforhumanity.org', name: 'Elevate for Humanity' },
     reply_to: { email: 'elevate4humanityedu@gmail.com' },
     subject: 'HVAC Technician — ETPL Listing Data & Updated Curriculum',
@@ -440,7 +509,7 @@ async function sendDoc(docPath) {
   const res = await fetch('https://api.sendgrid.com/v3/mail/send', {
     method: 'POST',
     headers: {
-      'Authorization': `Bearer ${key}`,
+      Authorization: `Bearer ${key}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(payload),

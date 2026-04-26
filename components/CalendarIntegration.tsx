@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -47,10 +47,14 @@ export function CalendarIntegration() {
 
   const getTypeColor = (type: string) => {
     switch (type) {
-      case 'class': return 'bg-brand-blue-100 text-brand-blue-700';
-      case 'meeting': return 'bg-brand-green-100 text-brand-green-700';
-      case 'deadline': return 'bg-brand-red-100 text-brand-red-700';
-      default: return 'bg-purple-100 text-purple-700';
+      case 'class':
+        return 'bg-brand-blue-100 text-brand-blue-700';
+      case 'meeting':
+        return 'bg-brand-green-100 text-brand-green-700';
+      case 'deadline':
+        return 'bg-brand-red-100 text-brand-red-700';
+      default:
+        return 'bg-purple-100 text-purple-700';
     }
   };
 
@@ -70,8 +74,12 @@ export function CalendarIntegration() {
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-2xl font-bold">February 2024</h2>
                 <div className="flex gap-2">
-                  <Button size="sm" variant="secondary">← Prev</Button>
-                  <Button size="sm" variant="secondary">Next →</Button>
+                  <Button size="sm" variant="secondary">
+                    ← Prev
+                  </Button>
+                  <Button size="sm" variant="secondary">
+                    Next →
+                  </Button>
                 </div>
               </div>
 
@@ -86,7 +94,7 @@ export function CalendarIntegration() {
               <div className="grid grid-cols-7 gap-2">
                 {Array.from({ length: 35 }, (_, i) => {
                   const day = i - 2;
-                  const hasEvent = events.some(e => new Date(e.date).getDate() === day);
+                  const hasEvent = events.some((e) => new Date(e.date).getDate() === day);
                   return (
                     <div
                       key={i}
@@ -115,7 +123,9 @@ export function CalendarIntegration() {
                         <h4 className="font-bold">{event.title}</h4>
                         <p className="text-sm text-black">{event.description}</p>
                       </div>
-                      <span className={`px-2 py-2 rounded text-xs font-medium ${getTypeColor(event.type)}`}>
+                      <span
+                        className={`px-2 py-2 rounded text-xs font-medium ${getTypeColor(event.type)}`}
+                      >
                         {event.type}
                       </span>
                     </div>
@@ -133,8 +143,12 @@ export function CalendarIntegration() {
               <h3 className="font-bold mb-4">Quick Actions</h3>
               <div className="space-y-2">
                 <Button className="w-full">Add Event</Button>
-                <Button variant="secondary" className="w-full">Sync with Google</Button>
-                <Button variant="secondary" className="w-full">Export Calendar</Button>
+                <Button variant="secondary" className="w-full">
+                  Sync with Google
+                </Button>
+                <Button variant="secondary" className="w-full">
+                  Export Calendar
+                </Button>
               </div>
             </Card>
 

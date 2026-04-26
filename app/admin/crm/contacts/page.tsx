@@ -2,10 +2,7 @@ import { requireRole } from '@/lib/auth/require-role';
 import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
 import Link from 'next/link';
-import { 
-  Users, Search, Filter, Plus, Mail, Phone,
-  MoreVertical, Building2
-} from 'lucide-react';
+import { Users, Search, Filter, Plus, Mail, Phone, MoreVertical, Building2 } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Contacts | CRM | Admin | Elevate For Humanity',
@@ -19,8 +16,6 @@ export default async function ContactsPage() {
   await requireRole(['admin', 'super_admin', 'staff']);
   const supabase = await createClient();
 
-
-
   // Fetch real contacts from CRM
   const { data: contactData } = await supabase
     .from('marketing_contacts')
@@ -32,8 +27,9 @@ export default async function ContactsPage() {
     const updatedAt = new Date(c.updated_at);
     const now = new Date();
     const diffDays = Math.floor((now.getTime() - updatedAt.getTime()) / 86400000);
-    const lastContact = diffDays === 0 ? 'Today' : diffDays === 1 ? 'Yesterday' : `${diffDays} days ago`;
-    
+    const lastContact =
+      diffDays === 0 ? 'Today' : diffDays === 1 ? 'Yesterday' : `${diffDays} days ago`;
+
     return {
       id: c.id,
       name: c.name || 'Contact',
@@ -49,25 +45,32 @@ export default async function ContactsPage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'Hot': return 'bg-brand-red-100 text-brand-red-700';
-      case 'Warm': return 'bg-brand-orange-100 text-brand-orange-700';
-      case 'Active': return 'bg-brand-green-100 text-brand-green-700';
-      default: return 'bg-gray-100 text-slate-900';
+      case 'Hot':
+        return 'bg-brand-red-100 text-brand-red-700';
+      case 'Warm':
+        return 'bg-brand-orange-100 text-brand-orange-700';
+      case 'Active':
+        return 'bg-brand-green-100 text-brand-green-700';
+      default:
+        return 'bg-gray-100 text-slate-900';
     }
   };
 
   const getTypeColor = (type: string) => {
     switch (type) {
-      case 'Lead': return 'bg-brand-blue-100 text-brand-blue-700';
-      case 'Customer': return 'bg-brand-green-100 text-brand-green-700';
-      case 'Partner': return 'bg-brand-blue-100 text-brand-blue-700';
-      default: return 'bg-gray-100 text-slate-900';
+      case 'Lead':
+        return 'bg-brand-blue-100 text-brand-blue-700';
+      case 'Customer':
+        return 'bg-brand-green-100 text-brand-green-700';
+      case 'Partner':
+        return 'bg-brand-blue-100 text-brand-blue-700';
+      default:
+        return 'bg-gray-100 text-slate-900';
     }
   };
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* Hero Image */}
       {/* Header */}
       <section className="border-b">
@@ -130,7 +133,10 @@ export default async function ContactsPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {contacts.map((contact) => (
-              <div key={contact.id} className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow">
+              <div
+                key={contact.id}
+                className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow"
+              >
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center gap-3">
                     <div className="w-12 h-12 rounded-full bg-slate-200 flex items-center justify-center flex-shrink-0">
@@ -163,16 +169,22 @@ export default async function ContactsPage() {
                 </div>
 
                 <div className="flex items-center gap-2 mb-4">
-                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${getTypeColor(contact.type)}`}>
+                  <span
+                    className={`px-2 py-1 rounded-full text-xs font-medium ${getTypeColor(contact.type)}`}
+                  >
                     {contact.type}
                   </span>
-                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(contact.status)}`}>
+                  <span
+                    className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(contact.status)}`}
+                  >
                     {contact.status}
                   </span>
                 </div>
 
                 <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-                  <span className="text-sm text-slate-700">Last contact: {contact.lastContact}</span>
+                  <span className="text-sm text-slate-700">
+                    Last contact: {contact.lastContact}
+                  </span>
                   <Link
                     href={`/admin/crm/contacts/${contact.id}`}
                     className="text-brand-blue-600 text-sm font-medium hover:text-brand-blue-700"

@@ -14,9 +14,18 @@ export const maxDuration = 60;
 export const dynamic = 'force-dynamic';
 
 async function _GET(req: NextRequest) {
-  try { const rl = await applyRateLimit(req, 'api'); if (rl) return rl; } catch (e) { console.warn('[rate-limit] applyRateLimit failed — continuing without limit', e); }
+  try {
+    const rl = await applyRateLimit(req, 'api');
+    if (rl) return rl;
+  } catch (e) {
+    console.warn('[rate-limit] applyRateLimit failed — continuing without limit', e);
+  }
   let supabase: Awaited<ReturnType<typeof getAdminClient>> | null = null;
-  try { supabase = await getAdminClient(); } catch { /* non-fatal — falls back to anon client */ }
+  try {
+    supabase = await getAdminClient();
+  } catch {
+    /* non-fatal — falls back to anon client */
+  }
   if (!supabase) return NextResponse.json({ programs: [], cached: false });
   const cacheKey = 'programs:featured';
 
@@ -25,7 +34,7 @@ async function _GET(req: NextRequest) {
   if (cached) {
     return NextResponse.json(
       { programs: cached, cached: true },
-      { headers: { 'Cache-Control': 's-maxage=300, stale-while-revalidate=600' } }
+      { headers: { 'Cache-Control': 's-maxage=300, stale-while-revalidate=600' } },
     );
   }
 
@@ -46,7 +55,7 @@ async function _GET(req: NextRequest) {
 
   return NextResponse.json(
     { programs: data, cached: false },
-    { headers: { 'Cache-Control': 's-maxage=300, stale-while-revalidate=600' } }
+    { headers: { 'Cache-Control': 's-maxage=300, stale-while-revalidate=600' } },
   );
 }
 export const GET = withApiAudit('/api/programs/featured', _GET);

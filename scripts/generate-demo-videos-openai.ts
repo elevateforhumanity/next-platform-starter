@@ -15,11 +15,11 @@ const require = createRequire(import.meta.url);
 const OPENAI_KEY = process.env.OPENAI_API_KEY!;
 const FFMPEG = require('@ffmpeg-installer/ffmpeg').path as string;
 
-const OUT_DIR   = 'public/videos/demo';
+const OUT_DIR = 'public/videos/demo';
 const AUDIO_DIR = `${OUT_DIR}/audio`;
-const PHOTO     = 'public/images/team/instructors/instructor-trades.jpg';
+const PHOTO = 'public/images/team/instructors/instructor-trades.jpg';
 
-mkdirSync(OUT_DIR,   { recursive: true });
+mkdirSync(OUT_DIR, { recursive: true });
 mkdirSync(AUDIO_DIR, { recursive: true });
 
 // ---------------------------------------------------------------------------
@@ -85,7 +85,7 @@ async function generateAudio(text: string, outPath: string): Promise<void> {
   const res = await fetch('https://api.openai.com/v1/audio/speech', {
     method: 'POST',
     headers: {
-      'Authorization': `Bearer ${OPENAI_KEY}`,
+      Authorization: `Bearer ${OPENAI_KEY}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
@@ -107,7 +107,7 @@ async function generateScript(prompt: string): Promise<string> {
   const res = await fetch('https://api.openai.com/v1/chat/completions', {
     method: 'POST',
     headers: {
-      'Authorization': `Bearer ${OPENAI_KEY}`,
+      Authorization: `Bearer ${OPENAI_KEY}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
@@ -115,7 +115,8 @@ async function generateScript(prompt: string): Promise<string> {
       messages: [
         {
           role: 'system',
-          content: 'You write concise, professional video narration scripts. Output only the spoken words — no stage directions, no timestamps, no labels. 80–100 words maximum.',
+          content:
+            'You write concise, professional video narration scripts. Output only the spoken words — no stage directions, no timestamps, no labels. 80–100 words maximum.',
         },
         { role: 'user', content: prompt },
       ],
@@ -124,7 +125,7 @@ async function generateScript(prompt: string): Promise<string> {
     }),
   });
   if (!res.ok) throw new Error(`GPT error: ${await res.text()}`);
-  const json = await res.json() as any;
+  const json = (await res.json()) as any;
   return json.choices[0].message.content.trim();
 }
 
@@ -154,8 +155,14 @@ function makeVideo(photoPath: string, audioPath: string, outPath: string): void 
 // Main
 // ---------------------------------------------------------------------------
 async function main() {
-  if (!OPENAI_KEY) { console.error('OPENAI_API_KEY not set'); process.exit(1); }
-  if (!existsSync(PHOTO)) { console.error(`Instructor photo not found: ${PHOTO}`); process.exit(1); }
+  if (!OPENAI_KEY) {
+    console.error('OPENAI_API_KEY not set');
+    process.exit(1);
+  }
+  if (!existsSync(PHOTO)) {
+    console.error(`Instructor photo not found: ${PHOTO}`);
+    process.exit(1);
+  }
 
   console.log(`Generating ${SCENES.length} demo videos (OpenAI TTS + ffmpeg)...\n`);
 
@@ -185,7 +192,6 @@ async function main() {
       process.stdout.write('  3/3 Rendering video... ');
       makeVideo(PHOTO, audioPath, videoPath);
       console.log(`✅ ${videoPath}`);
-
     } catch (err: any) {
       console.error(`\n  ❌ Failed: ${err.message}`);
     }

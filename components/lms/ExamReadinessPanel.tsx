@@ -60,13 +60,19 @@ export default function ExamReadinessPanel({
           <h3 className="font-semibold text-green-800 text-base">Verified Exam Ready</h3>
         </div>
         <p className="text-green-700 text-sm">
-          You have met all requirements for <strong>{programTitle}</strong> and are authorized
-          to sit for the certification exam.
+          You have met all requirements for <strong>{programTitle}</strong> and are authorized to
+          sit for the certification exam.
         </p>
         {authorizationExpiresAt && (
           <p className="text-green-600 text-xs mt-2">
-            Authorization expires {new Date(authorizationExpiresAt).toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' })}.
-            Contact your instructor if you need to reschedule.
+            Authorization expires{' '}
+            {new Date(authorizationExpiresAt).toLocaleDateString('en-US', {
+              timeZone: 'UTC',
+              month: 'short',
+              day: 'numeric',
+              year: 'numeric',
+            })}
+            . Contact your instructor if you need to reschedule.
           </p>
         )}
       </div>
@@ -134,8 +140,8 @@ export default function ExamReadinessPanel({
                   d.passed
                     ? 'bg-green-50 border border-green-200'
                     : d.learner_avg === 0
-                    ? 'bg-slate-50 border border-slate-200'
-                    : 'bg-red-50 border border-red-200'
+                      ? 'bg-slate-50 border border-slate-200'
+                      : 'bg-red-50 border border-red-200'
                 }`}
               >
                 {d.passed ? (
@@ -152,13 +158,15 @@ export default function ExamReadinessPanel({
                       {d.learner_avg === 0
                         ? 'Not yet covered — complete the checkpoint for this domain.'
                         : d.domain_min_score !== null
-                        ? `Your score: ${d.learner_avg}% — need ${d.domain_min_score}%. Retake the checkpoint to improve.`
-                        : `Score: ${d.learner_avg}%`}
+                          ? `Your score: ${d.learner_avg}% — need ${d.domain_min_score}%. Retake the checkpoint to improve.`
+                          : `Score: ${d.learner_avg}%`}
                     </p>
                   )}
                 </div>
                 {d.passed && d.learner_avg > 0 && (
-                  <span className="text-xs text-green-600 font-medium shrink-0">{d.learner_avg}%</span>
+                  <span className="text-xs text-green-600 font-medium shrink-0">
+                    {d.learner_avg}%
+                  </span>
                 )}
               </div>
             ))}

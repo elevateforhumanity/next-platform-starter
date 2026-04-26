@@ -280,7 +280,9 @@ export async function GET(request: NextRequest) {
     const optional = results.integrations.filter((i: any) => i.status === 'optional').length;
 
     const requiredIntegrations = results.integrations.filter((i: any) => i.required !== false);
-    const requiredOperational = requiredIntegrations.filter((i: any) => i.status === 'operational').length;
+    const requiredOperational = requiredIntegrations.filter(
+      (i: any) => i.status === 'operational',
+    ).length;
 
     results.summary = {
       total_integrations: totalIntegrations,
@@ -323,10 +325,8 @@ export async function GET(request: NextRequest) {
     });
 
     return NextResponse.json(results);
-  } catch (error) { /* Error handled silently */ 
-    return NextResponse.json(
-      { error: error.message, stack: error.stack },
-      { status: 500 }
-    );
+  } catch (error) {
+    /* Error handled silently */
+    return NextResponse.json({ error: error.message, stack: error.stack }, { status: 500 });
   }
 }

@@ -39,16 +39,13 @@ async function _POST(req: Request) {
 
     // Validate before touching the database
     if (!name || !email || !phone || !program) {
-      return NextResponse.json(
-        { error: 'Please fill in all required fields' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Please fill in all required fields' }, { status: 400 });
     }
 
     // Save inquiry to database
     try {
       const supabase = await createClient();
-          await supabase.from('inquiries').insert({
+      await supabase.from('inquiries').insert({
         name,
         email,
         phone,
@@ -200,15 +197,12 @@ async function _POST(req: Request) {
       return NextResponse.json({ success: true });
     }
 
-    return NextResponse.redirect(
-      new URL('/inquiry/success', req.url),
-      { status: 303 }
-    );
+    return NextResponse.redirect(new URL('/inquiry/success', req.url), { status: 303 });
   } catch (error) {
     logger.error('Inquiry error:', error);
     return NextResponse.json(
       { error: 'Failed to submit inquiry. Please call 317-314-3757.' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

@@ -64,7 +64,8 @@ export default function AiConsoleClient() {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: 'assistant',
-      content: "I'm your admin AI assistant. I have live access to your platform data — enrollments, applications, revenue, students, programs, and compliance. Ask me anything.",
+      content:
+        "I'm your admin AI assistant. I have live access to your platform data — enrollments, applications, revenue, students, programs, and compliance. Ask me anything.",
     },
   ]);
   const [input, setInput] = useState('');
@@ -119,7 +120,9 @@ export default function AiConsoleClient() {
       {/* Header */}
       <div className="mb-8">
         <nav className="text-sm mb-4 text-slate-500">
-          <Link href="/admin" className="hover:text-slate-900">Admin</Link>
+          <Link href="/admin" className="hover:text-slate-900">
+            Admin
+          </Link>
           <span className="mx-2">/</span>
           <span className="text-slate-900 font-medium">AI Console</span>
         </nav>
@@ -131,22 +134,30 @@ export default function AiConsoleClient() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Chat — takes 2/3 */}
-        <div className="lg:col-span-2 flex flex-col bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden" style={{ height: '600px' }}>
+        <div
+          className="lg:col-span-2 flex flex-col bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden"
+          style={{ height: '600px' }}
+        >
           <div className="px-4 py-3 border-b border-slate-100 flex items-center gap-2">
             <Brain className="w-4 h-4 text-purple-600" />
             <span className="font-medium text-slate-900 text-sm">Admin Assistant — GPT-4o</span>
-            <span className="ml-auto text-xs text-green-600 bg-green-50 px-2 py-0.5 rounded-full">Live data</span>
+            <span className="ml-auto text-xs text-green-600 bg-green-50 px-2 py-0.5 rounded-full">
+              Live data
+            </span>
           </div>
 
           {/* Messages */}
           <div className="flex-1 overflow-y-auto p-4 space-y-4">
             {messages.map((m, i) => (
-              <div key={i} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                <div className={`max-w-[80%] rounded-xl px-4 py-2.5 text-sm whitespace-pre-wrap ${
-                  m.role === 'user'
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-slate-100 text-slate-900'
-                }`}>
+              <div
+                key={i}
+                className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}
+              >
+                <div
+                  className={`max-w-[80%] rounded-xl px-4 py-2.5 text-sm whitespace-pre-wrap ${
+                    m.role === 'user' ? 'bg-blue-600 text-white' : 'bg-slate-100 text-slate-900'
+                  }`}
+                >
                   {m.content}
                 </div>
               </div>
@@ -183,7 +194,9 @@ export default function AiConsoleClient() {
 
         {/* Feature grid — 1/3 */}
         <div className="space-y-3">
-          <h2 className="font-semibold text-slate-900 text-sm uppercase tracking-wide">AI Features</h2>
+          <h2 className="font-semibold text-slate-900 text-sm uppercase tracking-wide">
+            AI Features
+          </h2>
           {AI_FEATURES.map((f) => {
             const Icon = f.icon;
             return (
@@ -192,13 +205,19 @@ export default function AiConsoleClient() {
                 href={f.href}
                 className="flex items-start gap-3 p-4 bg-white border border-slate-200 rounded-xl hover:border-blue-300 hover:shadow-sm transition-all group"
               >
-                <div className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 ${f.color}`}>
+                <div
+                  className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 ${f.color}`}
+                >
                   <Icon className="w-4 h-4" />
                 </div>
                 <div className="min-w-0">
                   <div className="flex items-center gap-2">
-                    <p className="font-medium text-slate-900 text-sm group-hover:text-blue-600 transition-colors">{f.title}</p>
-                    <span className="text-xs text-green-600 bg-green-50 px-1.5 py-0.5 rounded-full">live</span>
+                    <p className="font-medium text-slate-900 text-sm group-hover:text-blue-600 transition-colors">
+                      {f.title}
+                    </p>
+                    <span className="text-xs text-green-600 bg-green-50 px-1.5 py-0.5 rounded-full">
+                      live
+                    </span>
                   </div>
                   <p className="text-xs text-slate-500 mt-0.5">{f.description}</p>
                 </div>

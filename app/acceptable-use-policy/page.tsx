@@ -1,4 +1,3 @@
-
 export const revalidate = 3600;
 
 import type { Metadata } from 'next';
@@ -7,7 +6,8 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const metadata: Metadata = {
   title: 'Acceptable Use Policy | Elevate for Humanity',
-  description: 'Acceptable use policy for the Elevate for Humanity platform, LMS, and related services.',
+  description:
+    'Acceptable use policy for the Elevate for Humanity platform, LMS, and related services.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/acceptable-use-policy' },
 };
 
@@ -26,12 +26,19 @@ export default function AcceptableUsePolicyPage() {
         <div className="prose prose-slate max-w-none space-y-6">
           <section>
             <h2 className="text-xl font-bold text-slate-900 mb-3">1. Purpose</h2>
-            <p className="text-slate-700">This Acceptable Use Policy (&quot;AUP&quot;) governs the use of the Elevate for Humanity platform, learning management system, and all related services. By accessing or using the platform, you agree to comply with this policy.</p>
+            <p className="text-slate-700">
+              This Acceptable Use Policy (&quot;AUP&quot;) governs the use of the Elevate for
+              Humanity platform, learning management system, and all related services. By accessing
+              or using the platform, you agree to comply with this policy.
+            </p>
           </section>
 
           <section>
             <h2 className="text-xl font-bold text-slate-900 mb-3">2. Permitted Use</h2>
-            <p className="text-slate-700">The platform is provided for legitimate workforce training, education, enrollment, career services, and related administrative purposes. Users may:</p>
+            <p className="text-slate-700">
+              The platform is provided for legitimate workforce training, education, enrollment,
+              career services, and related administrative purposes. Users may:
+            </p>
             <ul className="list-disc pl-6 text-slate-700 space-y-1 mt-2">
               <li>Access assigned courses, training materials, and assessments</li>
               <li>Submit applications, enrollment forms, and required documentation</li>
@@ -58,22 +65,44 @@ export default function AcceptableUsePolicyPage() {
 
           <section>
             <h2 className="text-xl font-bold text-slate-900 mb-3">4. Data and Privacy</h2>
-            <p className="text-slate-700">Users are responsible for maintaining the confidentiality of their account credentials. Personal data is handled in accordance with our <Link href="/privacy-policy" className="text-brand-red-600 hover:underline">Privacy Policy</Link>, FERPA regulations, and applicable Indiana and federal law.</p>
+            <p className="text-slate-700">
+              Users are responsible for maintaining the confidentiality of their account
+              credentials. Personal data is handled in accordance with our{' '}
+              <Link href="/privacy-policy" className="text-brand-red-600 hover:underline">
+                Privacy Policy
+              </Link>
+              , FERPA regulations, and applicable Indiana and federal law.
+            </p>
           </section>
 
           <section>
             <h2 className="text-xl font-bold text-slate-900 mb-3">5. Intellectual Property</h2>
-            <p className="text-slate-700">All course content, training materials, assessments, and platform software are the intellectual property of Elevate for Humanity or its licensors. Unauthorized reproduction or distribution is prohibited.</p>
+            <p className="text-slate-700">
+              All course content, training materials, assessments, and platform software are the
+              intellectual property of Elevate for Humanity or its licensors. Unauthorized
+              reproduction or distribution is prohibited.
+            </p>
           </section>
 
           <section>
             <h2 className="text-xl font-bold text-slate-900 mb-3">6. Enforcement</h2>
-            <p className="text-slate-700">Violations of this policy may result in account suspension, removal from training programs, forfeiture of credentials, and referral to appropriate authorities. Elevate for Humanity reserves the right to investigate suspected violations and take action without prior notice.</p>
+            <p className="text-slate-700">
+              Violations of this policy may result in account suspension, removal from training
+              programs, forfeiture of credentials, and referral to appropriate authorities. Elevate
+              for Humanity reserves the right to investigate suspected violations and take action
+              without prior notice.
+            </p>
           </section>
 
           <section>
             <h2 className="text-xl font-bold text-slate-900 mb-3">7. Contact</h2>
-            <p className="text-slate-700">Questions about this policy should be directed to <Link href="/support" className="text-brand-red-600 hover:underline">our support team</Link> or emailed to compliance@elevateforhumanity.org.</p>
+            <p className="text-slate-700">
+              Questions about this policy should be directed to{' '}
+              <Link href="/support" className="text-brand-red-600 hover:underline">
+                our support team
+              </Link>{' '}
+              or emailed to compliance@elevateforhumanity.org.
+            </p>
           </section>
         </div>
       </div>

@@ -12,12 +12,12 @@ export const metadata: Metadata = {
 };
 
 const STATUS_BADGE: Record<string, string> = {
-  active:    'bg-green-100 text-green-800',
-  paused:    'bg-yellow-100 text-yellow-800',
-  draft:     'bg-gray-100 text-slate-700',
+  active: 'bg-green-100 text-green-800',
+  paused: 'bg-yellow-100 text-yellow-800',
+  draft: 'bg-gray-100 text-slate-700',
   scheduled: 'bg-blue-100 text-blue-800',
   completed: 'bg-purple-100 text-purple-800',
-  failed:    'bg-red-100 text-red-800',
+  failed: 'bg-red-100 text-red-800',
 };
 
 export default async function SocialMediaPage() {
@@ -43,17 +43,19 @@ export default async function SocialMediaPage() {
             <h1 className="text-3xl font-bold text-slate-900">Social Media Campaigns</h1>
             <p className="text-slate-700 text-sm mt-1">Live campaign records from the database</p>
           </div>
-          <Link href="/admin/social-media/campaigns/new"
-            className="bg-brand-orange-600 hover:bg-brand-orange-700 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors">
+          <Link
+            href="/admin/social-media/campaigns/new"
+            className="bg-brand-orange-600 hover:bg-brand-orange-700 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors"
+          >
             + New Campaign
           </Link>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
           {[
-            { label: 'Total Campaigns',  value: rows.length },
-            { label: 'Active',           value: active },
-            { label: 'Posts Published',  value: totalPublished.toLocaleString() },
+            { label: 'Total Campaigns', value: rows.length },
+            { label: 'Active', value: active },
+            { label: 'Posts Published', value: totalPublished.toLocaleString() },
           ].map((kpi) => (
             <div key={kpi.label} className="bg-white rounded-lg border p-4 shadow-sm">
               <p className="text-xs text-slate-700 uppercase tracking-wide">{kpi.label}</p>
@@ -70,8 +72,18 @@ export default async function SocialMediaPage() {
             <table className="min-w-full text-sm">
               <thead className="bg-slate-50 border-b">
                 <tr>
-                  {['Campaign', 'Platform', 'Status', 'Scheduled', 'Published', 'Failed', 'Last Published'].map((h) => (
-                    <th key={h} className="px-4 py-3 text-left font-medium text-slate-600">{h}</th>
+                  {[
+                    'Campaign',
+                    'Platform',
+                    'Status',
+                    'Scheduled',
+                    'Published',
+                    'Failed',
+                    'Last Published',
+                  ].map((h) => (
+                    <th key={h} className="px-4 py-3 text-left font-medium text-slate-600">
+                      {h}
+                    </th>
                   ))}
                 </tr>
               </thead>
@@ -81,7 +93,9 @@ export default async function SocialMediaPage() {
                     <td className="px-4 py-3 font-medium text-slate-900">{r.name}</td>
                     <td className="px-4 py-3 text-slate-600 capitalize">{r.platform}</td>
                     <td className="px-4 py-3">
-                      <span className={`px-2 py-0.5 rounded text-xs font-medium ${STATUS_BADGE[r.status] ?? 'bg-gray-100 text-slate-700'}`}>
+                      <span
+                        className={`px-2 py-0.5 rounded text-xs font-medium ${STATUS_BADGE[r.status] ?? 'bg-gray-100 text-slate-700'}`}
+                      >
                         {r.status}
                       </span>
                     </td>
@@ -89,7 +103,9 @@ export default async function SocialMediaPage() {
                     <td className="px-4 py-3 text-slate-600">{r.published_posts}</td>
                     <td className="px-4 py-3 text-slate-600">{r.failed_posts}</td>
                     <td className="px-4 py-3 text-slate-600">
-                      {r.last_published_at ? new Date(r.last_published_at).toLocaleString() : 'Never'}
+                      {r.last_published_at
+                        ? new Date(r.last_published_at).toLocaleString()
+                        : 'Never'}
                     </td>
                   </tr>
                 ))}

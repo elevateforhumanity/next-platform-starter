@@ -37,13 +37,16 @@ export function HoursApprovalQueue() {
       const data = await res.json();
       const hours = data.hours || [];
 
-      setEntries(hours.map((h: any) => ({
-        ...h,
-        user_name: h.user_profiles
-          ? `${h.user_profiles.first_name || ''} ${h.user_profiles.last_name || ''}`.trim() || 'Unknown'
-          : 'Unknown',
-        user_email: h.user_profiles?.email || '',
-      })));
+      setEntries(
+        hours.map((h: any) => ({
+          ...h,
+          user_name: h.user_profiles
+            ? `${h.user_profiles.first_name || ''} ${h.user_profiles.last_name || ''}`.trim() ||
+              'Unknown'
+            : 'Unknown',
+          user_email: h.user_profiles?.email || '',
+        })),
+      );
     } catch {
       setMessage({ type: 'error', text: 'Failed to load pending hours' });
     } finally {
@@ -61,13 +64,13 @@ export function HoursApprovalQueue() {
     setMessage(null);
 
     try {
-      const endpoint = action === 'approve'
-        ? '/api/employer/hours/approve'
-        : '/api/apprenticeship/hours/reject';
+      const endpoint =
+        action === 'approve' ? '/api/employer/hours/approve' : '/api/apprenticeship/hours/reject';
 
-      const body = action === 'approve'
-        ? { hour_id: entryId }
-        : { hour_id: entryId, reason: 'Rejected by employer' };
+      const body =
+        action === 'approve'
+          ? { hour_id: entryId }
+          : { hour_id: entryId, reason: 'Rejected by employer' };
 
       const res = await fetch(endpoint, {
         method: 'POST',
@@ -80,7 +83,7 @@ export function HoursApprovalQueue() {
         throw new Error(data.error || `Failed to ${action}`);
       }
 
-      setEntries(prev => prev.filter(e => e.id !== entryId));
+      setEntries((prev) => prev.filter((e) => e.id !== entryId));
       setMessage({ type: 'success', text: `Hours ${action}d` });
     } catch (err: any) {
       setMessage({ type: 'error', text: err.message || 'Action failed' });
@@ -100,7 +103,7 @@ export function HoursApprovalQueue() {
       const res = await fetch('/api/apprenticeship/hours/approve', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ hour_ids: entries.map(e => e.id) }),
+        body: JSON.stringify({ hour_ids: entries.map((e) => e.id) }),
       });
 
       if (!res.ok) throw new Error('Bulk approve failed');
@@ -126,12 +129,18 @@ export function HoursApprovalQueue() {
   return (
     <div>
       {message && (
-        <div className={`mb-4 p-4 rounded-lg flex items-center gap-3 ${
-          message.type === 'success'
-            ? 'bg-brand-green-50 border border-brand-green-200 text-brand-green-800'
-            : 'bg-brand-red-50 border border-brand-red-200 text-brand-red-800'
-        }`}>
-          {message.type === 'success' ? <CheckCircle className="w-5 h-5" /> : <AlertCircle className="w-5 h-5" />}
+        <div
+          className={`mb-4 p-4 rounded-lg flex items-center gap-3 ${
+            message.type === 'success'
+              ? 'bg-brand-green-50 border border-brand-green-200 text-brand-green-800'
+              : 'bg-brand-red-50 border border-brand-red-200 text-brand-red-800'
+          }`}
+        >
+          {message.type === 'success' ? (
+            <CheckCircle className="w-5 h-5" />
+          ) : (
+            <AlertCircle className="w-5 h-5" />
+          )}
           <p>{message.text}</p>
         </div>
       )}
@@ -175,22 +184,33 @@ export function HoursApprovalQueue() {
                     <div className="flex items-center gap-2">
                       <Calendar className="w-4 h-4 text-slate-700" />
                       <span className="text-sm text-slate-900">
-                        {new Date(entry.work_date).toLocaleDateString('en-US', { timeZone: 'UTC',
-                          weekday: 'short', month: 'short', day: 'numeric',
+                        {new Date(entry.work_date).toLocaleDateString('en-US', {
+                          timeZone: 'UTC',
+                          weekday: 'short',
+                          month: 'short',
+                          day: 'numeric',
                         })}
                       </span>
                     </div>
                     <div className="flex items-center gap-2">
                       <Clock className="w-4 h-4 text-slate-700" />
-                      <span className="text-sm font-medium text-slate-900">{entry.hours_claimed} hours</span>
+                      <span className="text-sm font-medium text-slate-900">
+                        {entry.hours_claimed} hours
+                      </span>
                     </div>
                     <div>
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                        entry.source_type === 'ojt'
-                          ? 'bg-brand-blue-100 text-brand-blue-700'
-                          : 'bg-purple-100 text-purple-700'
-                      }`}>
-                        {entry.source_type === 'ojt' ? 'OJT' : entry.source_type === 'rti' ? 'RTI' : entry.source_type?.toUpperCase()}
+                      <span
+                        className={`px-2 py-1 rounded-full text-xs font-medium ${
+                          entry.source_type === 'ojt'
+                            ? 'bg-brand-blue-100 text-brand-blue-700'
+                            : 'bg-purple-100 text-purple-700'
+                        }`}
+                      >
+                        {entry.source_type === 'ojt'
+                          ? 'OJT'
+                          : entry.source_type === 'rti'
+                            ? 'RTI'
+                            : entry.source_type?.toUpperCase()}
                       </span>
                     </div>
                     {entry.category && (

@@ -38,10 +38,18 @@ export default function CanonicalImage({
 }: Props) {
   if (process.env.NODE_ENV === 'development') {
     if (!alt.trim()) {
-      throw new Error('CanonicalImage requires meaningful alt text. Use aria-hidden="true" on the parent if this is purely decorative.');
+      throw new Error(
+        'CanonicalImage requires meaningful alt text. Use aria-hidden="true" on the parent if this is purely decorative.',
+      );
     }
-    if (alt.toLowerCase() === 'image' || alt.toLowerCase() === 'photo' || alt.toLowerCase() === 'picture') {
-      throw new Error(`CanonicalImage alt="${alt}" is not meaningful. Describe what the image shows.`);
+    if (
+      alt.toLowerCase() === 'image' ||
+      alt.toLowerCase() === 'photo' ||
+      alt.toLowerCase() === 'picture'
+    ) {
+      throw new Error(
+        `CanonicalImage alt="${alt}" is not meaningful. Describe what the image shows.`,
+      );
     }
   }
 

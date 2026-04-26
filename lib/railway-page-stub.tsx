@@ -17,6 +17,10 @@ export default function RailwayStub() {
 }
 
 // Named exports satisfy layout.tsx / route.ts contracts
-export function GET() { return notFound(); }
-export function POST() { return notFound(); }
+export function GET() {
+  return notFound();
+}
+export function POST() {
+  return notFound();
+}
 export const dynamic = 'force-dynamic';

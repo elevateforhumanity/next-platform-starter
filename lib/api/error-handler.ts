@@ -14,48 +14,40 @@ export function withErrorHandling(handler: ApiHandler): ApiHandler {
   return async (req: Request) => {
     try {
       return await handler(req);
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
 
       // Handle specific error types
       if (error instanceof Error) {
         // Database errors
-        if (error.message.includes('duplicate key') || error.message.includes('unique constraint')) {
-          return NextResponse.json(
-            { error: 'This record already exists.' },
-            { status: 409 }
-          );
+        if (
+          error.message.includes('duplicate key') ||
+          error.message.includes('unique constraint')
+        ) {
+          return NextResponse.json({ error: 'This record already exists.' }, { status: 409 });
         }
 
         // Foreign key errors
         if (error.message.includes('foreign key constraint')) {
-          return NextResponse.json(
-            { error: 'Related record not found.' },
-            { status: 400 }
-          );
+          return NextResponse.json({ error: 'Related record not found.' }, { status: 400 });
         }
 
         // Not found errors
         if (error.message.includes('not found') || error.message.includes('404')) {
-          return NextResponse.json(
-            { error: 'Resource not found.' },
-            { status: 404 }
-          );
+          return NextResponse.json({ error: 'Resource not found.' }, { status: 404 });
         }
 
         // Unauthorized errors
         if (error.message.includes('unauthorized') || error.message.includes('401')) {
-          return NextResponse.json(
-            { error: 'Unauthorized. Please log in.' },
-            { status: 401 }
-          );
+          return NextResponse.json({ error: 'Unauthorized. Please log in.' }, { status: 401 });
         }
 
         // Forbidden errors
         if (error.message.includes('forbidden') || error.message.includes('403')) {
           return NextResponse.json(
             { error: 'You do not have permission to perform this action.' },
-            { status: 403 }
+            { status: 403 },
           );
         }
       }
@@ -63,7 +55,7 @@ export function withErrorHandling(handler: ApiHandler): ApiHandler {
       // Generic error response
       return NextResponse.json(
         { error: 'An unexpected error occurred. Please try again later.' },
-        { status: 500 }
+        { status: 500 },
       );
     }
   };

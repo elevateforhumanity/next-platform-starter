@@ -31,7 +31,7 @@ async function _POST(request: Request) {
             return cookieStore.get(name)?.value;
           },
         },
-      }
+      },
     );
 
     // Fetch enrollment details
@@ -42,25 +42,23 @@ async function _POST(request: Request) {
       .maybeSingle();
 
     if (!rawWelcomeEnrollment) {
-      return NextResponse.json(
-        { error: 'Enrollment not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: 'Enrollment not found' }, { status: 404 });
     }
 
     // Hydrate profile separately (user_id → auth.users, no FK to profiles)
     const { data: welcomeProfile } = rawWelcomeEnrollment.user_id
-      ? await supabase.from('profiles').select('full_name, email').eq('id', rawWelcomeEnrollment.user_id).maybeSingle()
+      ? await supabase
+          .from('profiles')
+          .select('full_name, email')
+          .eq('id', rawWelcomeEnrollment.user_id)
+          .maybeSingle()
       : { data: null };
 
     const enrollment = rawWelcomeEnrollment;
     const profile = welcomeProfile;
-    const course = Array.isArray(enrollment.courses)
-      ? enrollment.courses[0]
-      : enrollment.courses;
+    const course = Array.isArray(enrollment.courses) ? enrollment.courses[0] : enrollment.courses;
 
-    const studentName =
-      profile?.full_name || profile?.email?.split('@')[0] || 'Student';
+    const studentName = profile?.full_name || profile?.email?.split('@')[0] || 'Student';
     const courseName = course?.title || 'Course';
     const loginUrl = `${process.env.NEXT_PUBLIC_APP_URL || `https://${process.env.URL}` || 'http://localhost:3000'}/learner/dashboard`;
 
@@ -73,12 +71,9 @@ async function _POST(request: Request) {
     });
 
     return NextResponse.json({ success: true });
-  } catch (error) { 
+  } catch (error) {
     logger.error('Error sending welcome email:', error);
-    return NextResponse.json(
-      { error: 'Failed to send email' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to send email' }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/emails/welcome', _POST);

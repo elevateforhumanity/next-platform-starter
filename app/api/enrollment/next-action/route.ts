@@ -1,12 +1,12 @@
 import { logger } from '@/lib/logger';
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
-import { 
-  getNextRequiredAction, 
-  getActionRoute, 
-  getActionCTA, 
+import {
+  getNextRequiredAction,
+  getActionRoute,
+  getActionCTA,
   getActionDescription,
-  type EnrollmentState 
+  type EnrollmentState,
 } from '@/lib/enrollment/state-machine';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
@@ -17,8 +17,11 @@ async function _GET(req: Request) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
+
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
     if (authError || !user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -36,12 +39,15 @@ async function _GET(req: Request) {
       query = query.eq('program_id', programId);
     }
 
-    const { data: enrollment, error } = await query.order('created_at', { ascending: false }).limit(1).maybeSingle();
+    const { data: enrollment, error } = await query
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .maybeSingle();
 
     if (error || !enrollment) {
-      return NextResponse.json({ 
+      return NextResponse.json({
         action: null,
-        message: 'No active enrollment found'
+        message: 'No active enrollment found',
       });
     }
 

@@ -97,7 +97,7 @@ export function ScormPlayerWrapper({
         // Tracking failure is non-fatal
       }
     },
-    [packageId, userId, progress, score]
+    [packageId, userId, progress, score],
   );
 
   useEffect(() => {

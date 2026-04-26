@@ -23,7 +23,7 @@ import * as checkpoint from './module6/checkpoint';
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
+  process.env.SUPABASE_SERVICE_ROLE_KEY!,
 );
 
 const COURSE_ID = '3fb5ce19-1cde-434c-a8c6-f138d7d7aa17';
@@ -37,13 +37,7 @@ interface LessonModule {
   quizQuestions: object[];
 }
 
-const lessons: LessonModule[] = [
-  lesson35,
-  lesson36,
-  lesson37,
-  lesson38,
-  checkpoint,
-];
+const lessons: LessonModule[] = [lesson35, lesson36, lesson37, lesson38, checkpoint];
 
 async function deployLesson(mod: LessonModule): Promise<void> {
   console.log(`\n→ ${mod.slug}: ${mod.title}`);
@@ -81,10 +75,7 @@ async function deployLesson(mod: LessonModule): Promise<void> {
   }
 
   if (existing) {
-    const { error } = await supabase
-      .from('course_lessons')
-      .update(payload)
-      .eq('id', existing.id);
+    const { error } = await supabase.from('course_lessons').update(payload).eq('id', existing.id);
 
     if (error) {
       console.error(`  ✗ update failed: ${error.message}`);
@@ -92,15 +83,13 @@ async function deployLesson(mod: LessonModule): Promise<void> {
       console.log(`  ✓ updated (id: ${existing.id})`);
     }
   } else {
-    const { error } = await supabase
-      .from('course_lessons')
-      .insert({
-        course_id: COURSE_ID,
-        slug: mod.slug,
-        title: mod.title,
-        lesson_type: isCheckpoint ? 'checkpoint' : 'lesson',
-        ...payload,
-      });
+    const { error } = await supabase.from('course_lessons').insert({
+      course_id: COURSE_ID,
+      slug: mod.slug,
+      title: mod.title,
+      lesson_type: isCheckpoint ? 'checkpoint' : 'lesson',
+      ...payload,
+    });
 
     if (error) {
       console.error(`  ✗ insert failed: ${error.message}`);
@@ -113,7 +102,7 @@ async function deployLesson(mod: LessonModule): Promise<void> {
 async function main() {
   console.log(`Module 6 deploy — ${DRY_RUN ? 'DRY RUN' : 'LIVE'}`);
   console.log(`Course ID: ${COURSE_ID}`);
-  console.log(`Lessons: ${lessons.map(l => l.slug).join(', ')}`);
+  console.log(`Lessons: ${lessons.map((l) => l.slug).join(', ')}`);
 
   for (const lesson of lessons) {
     await deployLesson(lesson);
@@ -122,7 +111,7 @@ async function main() {
   console.log('\nDone.');
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.error('Fatal:', err);
   process.exit(1);
 });

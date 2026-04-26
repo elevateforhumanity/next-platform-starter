@@ -17,8 +17,6 @@ export default async function BulkCertificationsPage() {
   await requireRole(['admin', 'super_admin']);
   const supabase = await createClient();
 
-
-
   // Fetch certification types
   const { data: certificationTypes } = await supabase
     .from('certification_types')
@@ -33,25 +31,37 @@ export default async function BulkCertificationsPage() {
     .limit(20);
 
   // Hydrate profiles separately (user_id → auth.users, no FK to profiles)
-  const certUserIds = [...new Set((rawPendingCerts ?? []).map((c: any) => c.user_id).filter(Boolean))];
+  const certUserIds = [
+    ...new Set((rawPendingCerts ?? []).map((c: any) => c.user_id).filter(Boolean)),
+  ];
   const { data: certProfiles } = certUserIds.length
     ? await supabase.from('profiles').select('id, full_name, email').in('id', certUserIds)
     : { data: [] };
   const certProfileMap = Object.fromEntries((certProfiles ?? []).map((p: any) => [p.id, p]));
-  const pendingCertifications = (rawPendingCerts ?? []).map((c: any) => ({ ...c, profiles: certProfileMap[c.user_id] ?? null }));
+  const pendingCertifications = (rawPendingCerts ?? []).map((c: any) => ({
+    ...c,
+    profiles: certProfileMap[c.user_id] ?? null,
+  }));
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* Hero Image */}
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8">
           <nav className="text-sm mb-4">
             <ol className="flex items-center space-x-2 text-slate-700">
-              <li><Link href="/admin" className="hover:text-primary">Admin</Link></li>
+              <li>
+                <Link href="/admin" className="hover:text-primary">
+                  Admin
+                </Link>
+              </li>
               <li>/</li>
-              <li><Link href="/admin/certifications" className="hover:text-primary">Certifications</Link></li>
+              <li>
+                <Link href="/admin/certifications" className="hover:text-primary">
+                  Certifications
+                </Link>
+              </li>
               <li>/</li>
               <li className="text-slate-900 font-medium">Bulk Management</li>
             </ol>
@@ -67,7 +77,9 @@ export default async function BulkCertificationsPage() {
               <select className="border rounded-lg px-3 py-2 text-sm">
                 <option value="">Filter by Type</option>
                 {certificationTypes?.map((type: any) => (
-                  <option key={type.id} value={type.id}>{type.name}</option>
+                  <option key={type.id} value={type.id}>
+                    {type.name}
+                  </option>
                 ))}
               </select>
               <select className="border rounded-lg px-3 py-2 text-sm">
@@ -119,12 +131,14 @@ export default async function BulkCertificationsPage() {
               <p className="text-sm text-slate-700">Review and approve certification records</p>
             </div>
             <div className="flex gap-2">
-              <button className="text-sm text-brand-blue-600 hover:text-brand-blue-800">Select All</button>
+              <button className="text-sm text-brand-blue-600 hover:text-brand-blue-800">
+                Select All
+              </button>
               <span className="text-slate-700">|</span>
               <button className="text-sm text-slate-700 hover:text-slate-900">Clear</button>
             </div>
           </div>
-          
+
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead className="bg-gray-50">
@@ -132,11 +146,21 @@ export default async function BulkCertificationsPage() {
                   <th className="px-4 py-3 text-left text-xs font-medium text-slate-700 uppercase">
                     <input type="checkbox" className="w-4 h-4 rounded" />
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-slate-700 uppercase">Participant</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-slate-700 uppercase">Certification</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-slate-700 uppercase">Earned Date</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-slate-700 uppercase">Status</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-slate-700 uppercase">Actions</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-slate-700 uppercase">
+                    Participant
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-slate-700 uppercase">
+                    Certification
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-slate-700 uppercase">
+                    Earned Date
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-slate-700 uppercase">
+                    Status
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-slate-700 uppercase">
+                    Actions
+                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y">
@@ -163,8 +187,12 @@ export default async function BulkCertificationsPage() {
                       </td>
                       <td className="px-4 py-3">
                         <div className="flex gap-2">
-                          <button className="text-brand-green-600 hover:text-brand-green-800 text-sm">Approve</button>
-                          <button className="text-brand-red-600 hover:text-brand-red-800 text-sm">Reject</button>
+                          <button className="text-brand-green-600 hover:text-brand-green-800 text-sm">
+                            Approve
+                          </button>
+                          <button className="text-brand-red-600 hover:text-brand-red-800 text-sm">
+                            Reject
+                          </button>
                         </div>
                       </td>
                     </tr>

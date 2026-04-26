@@ -11,20 +11,21 @@ export async function getLmsSummary(db: SupabaseClient): Promise<DashboardLms> {
   const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
 
   const [active, progress, inactive, ready] = await Promise.all([
-    db.from('program_enrollments')
+    db
+      .from('program_enrollments')
       .select('id', { count: 'exact', head: true })
       .eq('status', 'active'),
 
-    db.from('program_enrollments')
-      .select('progress_percent')
-      .eq('status', 'active'),
+    db.from('program_enrollments').select('progress_percent').eq('status', 'active'),
 
-    db.from('program_enrollments')
+    db
+      .from('program_enrollments')
       .select('id', { count: 'exact', head: true })
       .eq('status', 'active')
       .lt('updated_at', sevenDaysAgo),
 
-    db.from('program_enrollments')
+    db
+      .from('program_enrollments')
       .select('id', { count: 'exact', head: true })
       .eq('status', 'active')
       .gte('progress_percent', 90),
@@ -36,9 +37,9 @@ export async function getLmsSummary(db: SupabaseClient): Promise<DashboardLms> {
     : 0;
 
   return {
-    activeLearners:       active.count  ?? 0,
-    avgProgressPercent:   avg,
-    inactiveOver7Days:    inactive.count ?? 0,
-    completionReadyCount: ready.count   ?? 0,
+    activeLearners: active.count ?? 0,
+    avgProgressPercent: avg,
+    inactiveOver7Days: inactive.count ?? 0,
+    completionReadyCount: ready.count ?? 0,
   };
 }

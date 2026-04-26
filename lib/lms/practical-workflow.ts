@@ -74,9 +74,9 @@ export type ReviewPracticalResult = {
 // ─── Status mapping ───────────────────────────────────────────────────────────
 
 const ACTION_TO_STATUS: Record<ReviewAction, SubmissionStatus> = {
-  approve:           'approved',
-  request_revision:  'revision_requested',
-  reject:            'rejected',
+  approve: 'approved',
+  request_revision: 'revision_requested',
+  reject: 'rejected',
   mark_under_review: 'pending_review',
 };
 
@@ -90,10 +90,17 @@ export async function submitPractical(
   db: SupabaseClient,
   params: SubmitPracticalParams,
 ): Promise<SubmitPracticalResult> {
-  const { userId, courseLessonId, courseId, stepType, submissionText, fileUrls, competencyKey } = params;
+  const { userId, courseLessonId, courseId, stepType, submissionText, fileUrls, competencyKey } =
+    params;
 
   // Verify enrollment
-  const ACCESS_STATES = ['active', 'in_progress', 'enrolled', 'confirmed', 'pending_funding_verification'];
+  const ACCESS_STATES = [
+    'active',
+    'in_progress',
+    'enrolled',
+    'confirmed',
+    'pending_funding_verification',
+  ];
   const { data: enrollment } = await db
     .from('program_enrollments')
     .select('id, status, enrollment_state')
@@ -113,22 +120,26 @@ export async function submitPractical(
   const { data: submission, error } = await db
     .from('step_submissions')
     .insert({
-      user_id:          userId,
-      lesson_id:        courseLessonId,
+      user_id: userId,
+      lesson_id: courseLessonId,
       course_lesson_id: courseLessonId,
-      course_id:        courseId,
-      step_type:        stepType,
-      submission_text:  submissionText?.trim() || null,
-      file_urls:        fileUrls ?? [],
-      status:           'submitted',
-      competency_key:   competencyKey ?? null,
-      updated_at:       new Date().toISOString(),
+      course_id: courseId,
+      step_type: stepType,
+      submission_text: submissionText?.trim() || null,
+      file_urls: fileUrls ?? [],
+      status: 'submitted',
+      competency_key: competencyKey ?? null,
+      updated_at: new Date().toISOString(),
     })
     .select('id')
     .maybeSingle();
 
   if (error) {
-    logger.error('[practical-workflow] submitPractical failed', { userId, courseLessonId, error: error.message });
+    logger.error('[practical-workflow] submitPractical failed', {
+      userId,
+      courseLessonId,
+      error: error.message,
+    });
     return { success: false, error: error.message };
   }
 
@@ -153,7 +164,12 @@ export async function reviewPractical(
 
   // Require note for rejection and revision
   if ((action === 'reject' || action === 'request_revision') && !note?.trim()) {
-    return { success: false, lessonUnlocked: false, competencyAchieved: false, error: 'A note is required for rejection or revision requests' };
+    return {
+      success: false,
+      lessonUnlocked: false,
+      competencyAchieved: false,
+      error: 'A note is required for rejection or revision requests',
+    };
   }
 
   // Load submission
@@ -164,7 +180,12 @@ export async function reviewPractical(
     .maybeSingle();
 
   if (fetchErr || !submission) {
-    return { success: false, lessonUnlocked: false, competencyAchieved: false, error: 'Submission not found' };
+    return {
+      success: false,
+      lessonUnlocked: false,
+      competencyAchieved: false,
+      error: 'Submission not found',
+    };
   }
 
   const newStatus = ACTION_TO_STATUS[action];
@@ -175,36 +196,51 @@ export async function reviewPractical(
   const { error: updateErr } = await db
     .from('step_submissions')
     .update({
-      status:              newStatus,
-      instructor_note:     note?.trim() || null,
-      instructor_id:       instructorId,
-      instructor_status:   action === 'approve' ? 'approved' : action === 'reject' ? 'rejected' : 'pending',
+      status: newStatus,
+      instructor_note: note?.trim() || null,
+      instructor_id: instructorId,
+      instructor_status:
+        action === 'approve' ? 'approved' : action === 'reject' ? 'rejected' : 'pending',
       instructor_feedback: note?.trim() || null,
-      reviewed_by:         instructorId,
-      reviewed_at:         now,
-      updated_at:          now,
+      reviewed_by: instructorId,
+      reviewed_at: now,
+      updated_at: now,
     })
     .eq('id', submissionId);
 
   if (updateErr) {
-    logger.error('[practical-workflow] reviewPractical update failed', { submissionId, error: updateErr.message });
-    return { success: false, lessonUnlocked: false, competencyAchieved: false, error: updateErr.message };
+    logger.error('[practical-workflow] reviewPractical update failed', {
+      submissionId,
+      error: updateErr.message,
+    });
+    return {
+      success: false,
+      lessonUnlocked: false,
+      competencyAchieved: false,
+      error: updateErr.message,
+    };
   }
 
   // Write audit log
-  await db.from('competency_audit_log').insert({
-    submission_id:  submissionId,
-    user_id:        submission.user_id,
-    lesson_id:      lessonId,
-    course_id:      submission.course_id,
-    competency_key: submission.competency_key ?? null,
-    action:         newStatus,
-    actor_id:       instructorId,
-    note:           note?.trim() || null,
-    created_at:     now,
-  }).then(({ error }) => {
-    if (error) logger.warn('[practical-workflow] audit log insert failed (non-fatal)', { error: error.message });
-  });
+  await db
+    .from('competency_audit_log')
+    .insert({
+      submission_id: submissionId,
+      user_id: submission.user_id,
+      lesson_id: lessonId,
+      course_id: submission.course_id,
+      competency_key: submission.competency_key ?? null,
+      action: newStatus,
+      actor_id: instructorId,
+      note: note?.trim() || null,
+      created_at: now,
+    })
+    .then(({ error }) => {
+      if (error)
+        logger.warn('[practical-workflow] audit log insert failed (non-fatal)', {
+          error: error.message,
+        });
+    });
 
   let competencyAchieved = false;
   let lessonUnlocked = false;
@@ -213,13 +249,13 @@ export async function reviewPractical(
     // Mark competency achieved if this submission has a competency_key
     if (submission.competency_key) {
       const compResult = await markCompetencyAchieved(db, {
-        userId:                submission.user_id,
-        courseId:              submission.course_id,
-        competencyKey:         submission.competency_key,
-        achievedVia:           'observation',
-        verifiedBy:            instructorId,
+        userId: submission.user_id,
+        courseId: submission.course_id,
+        competencyKey: submission.competency_key,
+        achievedVia: 'observation',
+        verifiedBy: instructorId,
         lessonId,
-        evidenceSubmissionId:  submissionId,
+        evidenceSubmissionId: submissionId,
       });
       competencyAchieved = compResult.success;
       if (!compResult.success) {
@@ -242,20 +278,24 @@ export async function reviewPractical(
         .eq('course_id', submission.course_id)
         .maybeSingle();
 
-      const { error: progressErr } = await db
-        .from('lesson_progress')
-        .upsert({
-          user_id:       submission.user_id,
-          lesson_id:     lessonId,
-          course_id:     submission.course_id,
+      const { error: progressErr } = await db.from('lesson_progress').upsert(
+        {
+          user_id: submission.user_id,
+          lesson_id: lessonId,
+          course_id: submission.course_id,
           enrollment_id: enrollment?.id ?? null,
-          completed:     true,
-          completed_at:  now,
-          updated_at:    now,
-        }, { onConflict: 'user_id,lesson_id' });
+          completed: true,
+          completed_at: now,
+          updated_at: now,
+        },
+        { onConflict: 'user_id,lesson_id' },
+      );
 
       if (progressErr) {
-        logger.error('[practical-workflow] lesson_progress upsert failed', { lessonId, error: progressErr.message });
+        logger.error('[practical-workflow] lesson_progress upsert failed', {
+          lessonId,
+          error: progressErr.message,
+        });
       } else {
         lessonUnlocked = true;
       }
@@ -268,30 +308,45 @@ export async function reviewPractical(
         ? `Submission approved. Still waiting on: ${gate.missingKeys.join(', ')}`
         : 'Your practical submission was approved.';
 
-    await db.from('notifications').insert({
-      user_id:    submission.user_id,
-      type:       'submission_reviewed',
-      title:      'Practical Submission Approved',
-      message:    notifMessage,
-      action_url: `/lms/courses/${submission.course_id}/lessons/${lessonId}`,
-    }).then(({ error }) => {
-      if (error) logger.warn('[practical-workflow] notification insert failed (non-fatal)', { error: error.message });
-    });
-
+    await db
+      .from('notifications')
+      .insert({
+        user_id: submission.user_id,
+        type: 'submission_reviewed',
+        title: 'Practical Submission Approved',
+        message: notifMessage,
+        action_url: `/lms/courses/${submission.course_id}/lessons/${lessonId}`,
+      })
+      .then(({ error }) => {
+        if (error)
+          logger.warn('[practical-workflow] notification insert failed (non-fatal)', {
+            error: error.message,
+          });
+      });
   } else if (action === 'request_revision' || action === 'reject') {
     // Notify learner of revision request or rejection
     const title = action === 'reject' ? 'Practical Submission Rejected' : 'Revision Requested';
-    const message = note?.trim() ?? (action === 'reject' ? 'Your submission was rejected.' : 'Your instructor has requested revisions.');
+    const message =
+      note?.trim() ??
+      (action === 'reject'
+        ? 'Your submission was rejected.'
+        : 'Your instructor has requested revisions.');
 
-    await db.from('notifications').insert({
-      user_id:    submission.user_id,
-      type:       'submission_reviewed',
-      title,
-      message,
-      action_url: `/lms/courses/${submission.course_id}/lessons/${lessonId}`,
-    }).then(({ error }) => {
-      if (error) logger.warn('[practical-workflow] notification insert failed (non-fatal)', { error: error.message });
-    });
+    await db
+      .from('notifications')
+      .insert({
+        user_id: submission.user_id,
+        type: 'submission_reviewed',
+        title,
+        message,
+        action_url: `/lms/courses/${submission.course_id}/lessons/${lessonId}`,
+      })
+      .then(({ error }) => {
+        if (error)
+          logger.warn('[practical-workflow] notification insert failed (non-fatal)', {
+            error: error.message,
+          });
+      });
   }
 
   return { success: true, lessonUnlocked, competencyAchieved };
@@ -321,12 +376,12 @@ export async function getSubmissionsForLesson(
 
   if (error) throw new Error(`getSubmissionsForLesson: ${error.message}`);
 
-  return (data ?? []).map(row => ({
-    submissionId:   row.id,
-    status:         row.status as SubmissionStatus,
-    competencyKey:  row.competency_key ?? undefined,
-    submittedAt:    row.created_at,
-    reviewedAt:     row.reviewed_at ?? undefined,
+  return (data ?? []).map((row) => ({
+    submissionId: row.id,
+    status: row.status as SubmissionStatus,
+    competencyKey: row.competency_key ?? undefined,
+    submittedAt: row.created_at,
+    reviewedAt: row.reviewed_at ?? undefined,
     instructorNote: row.instructor_note ?? undefined,
   }));
 }

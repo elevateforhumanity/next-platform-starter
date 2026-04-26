@@ -1,13 +1,10 @@
-"use client";
+'use client';
 
 import React from 'react';
 
 import { useState, useEffect } from 'react';
 import { Download, Check, Loader2 } from 'lucide-react';
-import {
-  OfflineVideoManager,
-  DownloadProgress,
-} from '@/lib/video/offline-video';
+import { OfflineVideoManager, DownloadProgress } from '@/lib/video/offline-video';
 
 interface VideoDownloadButtonProps {
   videoId: string;
@@ -49,12 +46,7 @@ export default function VideoDownloadButton({
       setProgress(Math.round(prog.percent));
     };
 
-    const success = await manager.downloadVideo(
-      videoId,
-      lessonId,
-      videoUrl,
-      onProgress
-    );
+    const success = await manager.downloadVideo(videoId, lessonId, videoUrl, onProgress);
 
     if (success) {
       setIsDownloaded(true);

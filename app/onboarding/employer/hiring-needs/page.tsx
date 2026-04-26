@@ -5,9 +5,16 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { createBrowserClient } from '@supabase/ssr';
-import { 
-  Briefcase, Users, MapPin, Clock, DollarSign,
-  CheckCircle, ChevronRight, Building, ArrowLeft
+import {
+  Briefcase,
+  Users,
+  MapPin,
+  Clock,
+  DollarSign,
+  CheckCircle,
+  ChevronRight,
+  Building,
+  ArrowLeft,
 } from 'lucide-react';
 
 const industries = [
@@ -43,7 +50,7 @@ export default function HiringNeedsPage() {
   useEffect(() => {
     const supabase = createBrowserClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     );
     supabase.auth.getUser().then(({ data: { user } }) => {
       if (!user) router.replace('/login?redirect=/onboarding/employer/hiring-needs');
@@ -64,11 +71,11 @@ export default function HiringNeedsPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handlePositionTypeToggle = (id: string) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       positionTypes: prev.positionTypes.includes(id)
-        ? prev.positionTypes.filter(t => t !== id)
-        : [...prev.positionTypes, id]
+        ? prev.positionTypes.filter((t) => t !== id)
+        : [...prev.positionTypes, id],
     }));
   };
 
@@ -79,9 +86,11 @@ export default function HiringNeedsPage() {
     try {
       const supabase = createBrowserClient(
         process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
       );
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       if (!user) {
         router.push('/login?redirect=/onboarding/employer/hiring-needs');
         return;
@@ -148,19 +157,21 @@ export default function HiringNeedsPage() {
       {/* Breadcrumbs */}
       <div className="bg-white border-b">
         <div className="max-w-4xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[
-            { label: 'Onboarding', href: '/onboarding' },
-            { label: 'Employer', href: '/onboarding/employer' },
-            { label: 'Hiring Needs' }
-          ]} />
+          <Breadcrumbs
+            items={[
+              { label: 'Onboarding', href: '/onboarding' },
+              { label: 'Employer', href: '/onboarding/employer' },
+              { label: 'Hiring Needs' },
+            ]}
+          />
         </div>
       </div>
 
       {/* Hero Section */}
       <div className="bg-gradient-to-r from-brand-blue-600 to-indigo-600 text-white">
         <div className="max-w-4xl mx-auto px-4 py-12">
-          <Link 
-            href="/onboarding/employer" 
+          <Link
+            href="/onboarding/employer"
             className="inline-flex items-center gap-2 text-brand-blue-100 hover:text-white mb-4"
           >
             <ArrowLeft className="w-4 h-4" />
@@ -195,8 +206,10 @@ export default function HiringNeedsPage() {
               required
             >
               <option value="">Select your industry</option>
-              {industries.map(industry => (
-                <option key={industry} value={industry}>{industry}</option>
+              {industries.map((industry) => (
+                <option key={industry} value={industry}>
+                  {industry}
+                </option>
               ))}
             </select>
           </div>
@@ -209,7 +222,7 @@ export default function HiringNeedsPage() {
             </h2>
             <p className="text-slate-700 text-sm mb-4">Select all that apply</p>
             <div className="grid md:grid-cols-2 gap-4">
-              {positionTypes.map(type => (
+              {positionTypes.map((type) => (
                 <button
                   key={type.id}
                   type="button"
@@ -262,7 +275,7 @@ export default function HiringNeedsPage() {
               Hiring Timeline
             </h2>
             <div className="grid md:grid-cols-2 gap-4">
-              {hiringTimelines.map(timeline => (
+              {hiringTimelines.map((timeline) => (
                 <button
                   key={timeline.id}
                   type="button"

@@ -1,25 +1,32 @@
-
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import {
-
-  Shield, FileText, DollarSign, Users, Download,
-  AlertCircle, Clock, ArrowRight, BarChart,
+  Shield,
+  FileText,
+  DollarSign,
+  Users,
+  Download,
+  AlertCircle,
+  Clock,
+  ArrowRight,
+  BarChart,
 } from 'lucide-react';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: 'Compliance & Reporting | Employer Portal | Elevate for Humanity',
-  description: 'Employer compliance tools, WIOA reporting, WOTC tax credits, and EEO documentation.',
+  description:
+    'Employer compliance tools, WIOA reporting, WOTC tax credits, and EEO documentation.',
 };
 
 const complianceAreas = [
   {
     icon: BarChart,
     title: 'WIOA Reporting',
-    description: 'Track workforce outcomes, participant progress, and submit required quarterly and annual reports to meet DOL requirements.',
+    description:
+      'Track workforce outcomes, participant progress, and submit required quarterly and annual reports to meet DOL requirements.',
     status: 'Active',
     actions: [
       { label: 'View Reports', href: '/employer/reports' },
@@ -29,7 +36,8 @@ const complianceAreas = [
   {
     icon: DollarSign,
     title: 'Tax Credits (WOTC)',
-    description: 'Access Work Opportunity Tax Credits for hiring from eligible populations. Credits range from $2,400 to $9,600 per qualified hire.',
+    description:
+      'Access Work Opportunity Tax Credits for hiring from eligible populations. Credits range from $2,400 to $9,600 per qualified hire.',
     status: 'Active',
     actions: [
       { label: 'View Eligible Hires', href: '/employer-portal/wotc' },
@@ -39,7 +47,8 @@ const complianceAreas = [
   {
     icon: Users,
     title: 'Equal Opportunity',
-    description: 'EEO compliance documentation, non-discrimination policies, and required postings for your workplace.',
+    description:
+      'EEO compliance documentation, non-discrimination policies, and required postings for your workplace.',
     status: 'Active',
     actions: [
       { label: 'View Policy', href: '/equal-opportunity' },
@@ -49,7 +58,8 @@ const complianceAreas = [
   {
     icon: FileText,
     title: 'Documentation',
-    description: 'Required forms, agreements, and records for workforce program participation. Keep your files current and audit-ready.',
+    description:
+      'Required forms, agreements, and records for workforce program participation. Keep your files current and audit-ready.',
     status: 'Active',
     actions: [
       { label: 'View Documents', href: '/employer/documents' },
@@ -90,7 +100,9 @@ export default async function EmployerCompliancePage() {
     <div className="min-h-screen bg-white">
       <div className="bg-white border-b">
         <div className="max-w-7xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[{ label: 'Employer', href: '/employer' }, { label: 'Compliance' }]} />
+          <Breadcrumbs
+            items={[{ label: 'Employer', href: '/employer' }, { label: 'Compliance' }]}
+          />
         </div>
       </div>
 
@@ -101,7 +113,9 @@ export default async function EmployerCompliancePage() {
             <Shield className="w-10 h-10 text-slate-300" />
             <div>
               <h1 className="text-3xl font-bold">Compliance & Reporting</h1>
-              <p className="text-slate-600">Stay compliant with workforce development requirements</p>
+              <p className="text-slate-600">
+                Stay compliant with workforce development requirements
+              </p>
             </div>
           </div>
         </div>
@@ -119,12 +133,18 @@ export default async function EmployerCompliancePage() {
                   </div>
                   <h3 className="font-bold text-slate-900">{area.title}</h3>
                 </div>
-                <span className="text-xs font-medium px-2 py-1 bg-brand-green-100 text-brand-green-700 rounded-full">{area.status}</span>
+                <span className="text-xs font-medium px-2 py-1 bg-brand-green-100 text-brand-green-700 rounded-full">
+                  {area.status}
+                </span>
               </div>
               <p className="text-slate-700 text-sm mb-4">{area.description}</p>
               <div className="flex flex-wrap gap-2">
                 {area.actions.map((action, j) => (
-                  <Link key={j} href={action.href} className="text-sm px-4 py-2 bg-white rounded-lg hover:bg-brand-blue-50 hover:text-brand-blue-600 transition font-medium">
+                  <Link
+                    key={j}
+                    href={action.href}
+                    className="text-sm px-4 py-2 bg-white rounded-lg hover:bg-brand-blue-50 hover:text-brand-blue-600 transition font-medium"
+                  >
                     {action.label}
                   </Link>
                 ))}
@@ -143,7 +163,9 @@ export default async function EmployerCompliancePage() {
               {upcomingDeadlines.map((item, i) => (
                 <div key={i} className="flex items-center justify-between p-3 bg-white rounded-lg">
                   <div className="flex items-center gap-3">
-                    <AlertCircle className={`w-4 h-4 ${item.priority === 'high' ? 'text-brand-red-500' : 'text-yellow-500'}`} />
+                    <AlertCircle
+                      className={`w-4 h-4 ${item.priority === 'high' ? 'text-brand-red-500' : 'text-yellow-500'}`}
+                    />
                     <div>
                       <p className="text-sm font-medium text-slate-900">{item.title}</p>
                       <p className="text-xs text-slate-700">{item.date}</p>
@@ -174,12 +196,20 @@ export default async function EmployerCompliancePage() {
         {/* Help */}
         <div className="mt-8 bg-brand-blue-50 rounded-xl p-6 border border-brand-blue-200">
           <h2 className="font-bold text-slate-900 mb-2">Need Compliance Help?</h2>
-          <p className="text-slate-700 text-sm mb-4">Our compliance team can help you understand requirements and prepare documentation.</p>
+          <p className="text-slate-700 text-sm mb-4">
+            Our compliance team can help you understand requirements and prepare documentation.
+          </p>
           <div className="flex flex-wrap gap-3">
-            <Link href="/contact" className="text-sm px-4 py-2 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700 transition font-medium">
+            <Link
+              href="/contact"
+              className="text-sm px-4 py-2 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700 transition font-medium"
+            >
               Contact Compliance Team
             </Link>
-            <Link href="/store/compliance" className="text-sm px-4 py-2 bg-white border rounded-lg hover:bg-white transition font-medium">
+            <Link
+              href="/store/compliance"
+              className="text-sm px-4 py-2 bg-white border rounded-lg hover:bg-white transition font-medium"
+            >
               View Compliance Tools
             </Link>
           </div>

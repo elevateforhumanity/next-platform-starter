@@ -9,11 +9,14 @@ const fs = require('fs');
 const path = require('path');
 
 const API_KEY = process.env.SENDGRID_API_KEY;
-if (!API_KEY) { console.error('SENDGRID_API_KEY not set'); process.exit(1); }
+if (!API_KEY) {
+  console.error('SENDGRID_API_KEY not set');
+  process.exit(1);
+}
 
-const logoBase64 = fs.readFileSync(
-  path.join(__dirname, '../public/images/Elevate_for_Humanity_logo_81bf0fab.jpg')
-).toString('base64');
+const logoBase64 = fs
+  .readFileSync(path.join(__dirname, '../public/images/Elevate_for_Humanity_logo_81bf0fab.jpg'))
+  .toString('base64');
 
 const LOGO_ATTACHMENT = {
   content: logoBase64,
@@ -58,8 +61,12 @@ elevate4humanityedu@gmail.com
 }
 
 function buildHtml(text) {
-  const paras = text.split('\n\n').filter(p => p.trim())
-    .map(p => `<p style="margin:0 0 16px 0;color:#1e293b;">${p.trim().replace(/\n/g, '<br>')}</p>`)
+  const paras = text
+    .split('\n\n')
+    .filter((p) => p.trim())
+    .map(
+      (p) => `<p style="margin:0 0 16px 0;color:#1e293b;">${p.trim().replace(/\n/g, '<br>')}</p>`,
+    )
     .join('');
   return `<!DOCTYPE html><html><head><meta charset="utf-8"></head>
 <body style="margin:0;padding:0;background:#f8fafc;font-family:Arial,sans-serif;">
@@ -103,10 +110,22 @@ const RECIPIENTS = [
 
 // Messer, IEC Indy, Bricklayers Local 4, ISBCTC — no direct email found, noted below
 const NO_EMAIL = [
-  { org: 'Messer Construction', note: 'No public email — use contact form at messer.com or call (317) 576-9250' },
-  { org: 'IEC Indy', note: 'No public email — use contact form at iec-indy.org or call (317) 562-1102' },
-  { org: 'Bricklayers & Allied Craftworkers Local 4', note: 'No public email — call (800) 322-2830' },
-  { org: 'Indiana State Building & Construction Trades Council', note: 'No public email — use contact form at isbctc.org' },
+  {
+    org: 'Messer Construction',
+    note: 'No public email — use contact form at messer.com or call (317) 576-9250',
+  },
+  {
+    org: 'IEC Indy',
+    note: 'No public email — use contact form at iec-indy.org or call (317) 562-1102',
+  },
+  {
+    org: 'Bricklayers & Allied Craftworkers Local 4',
+    note: 'No public email — call (800) 322-2830',
+  },
+  {
+    org: 'Indiana State Building & Construction Trades Council',
+    note: 'No public email — use contact form at isbctc.org',
+  },
 ];
 
 function sendEmail(recipient) {
@@ -115,11 +134,16 @@ function sendEmail(recipient) {
   if (recipient.cc_extra) cc.push({ email: recipient.cc_extra, name: recipient.org });
 
   const payload = JSON.stringify({
-    personalizations: [{
-      to: [{ email: recipient.to, name: recipient.toName }],
-      cc,
-    }],
-    from: { email: 'noreply@elevateforhumanity.org', name: 'Elizabeth Greene | Elevate for Humanity' },
+    personalizations: [
+      {
+        to: [{ email: recipient.to, name: recipient.toName }],
+        cc,
+      },
+    ],
+    from: {
+      email: 'noreply@elevateforhumanity.org',
+      name: 'Elizabeth Greene | Elevate for Humanity',
+    },
     reply_to: { email: 'elevate4humanityedu@gmail.com', name: 'Elizabeth Greene' },
     subject: 'Workforce Partnership Opportunity — Elevate for Humanity',
     content: [
@@ -130,21 +154,27 @@ function sendEmail(recipient) {
   });
 
   return new Promise((resolve, reject) => {
-    const req = https.request({
-      hostname: 'api.sendgrid.com',
-      path: '/v3/mail/send',
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${API_KEY}`,
-        'Content-Type': 'application/json',
-        'Content-Length': Buffer.byteLength(payload),
+    const req = https.request(
+      {
+        hostname: 'api.sendgrid.com',
+        path: '/v3/mail/send',
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${API_KEY}`,
+          'Content-Type': 'application/json',
+          'Content-Length': Buffer.byteLength(payload),
+        },
       },
-    }, res => {
-      let d = ''; res.on('data', c => d += c);
-      res.on('end', () => res.statusCode === 202
-        ? resolve({ ok: true })
-        : resolve({ ok: false, status: res.statusCode, body: d }));
-    });
+      (res) => {
+        let d = '';
+        res.on('data', (c) => (d += c));
+        res.on('end', () =>
+          res.statusCode === 202
+            ? resolve({ ok: true })
+            : resolve({ ok: false, status: res.statusCode, body: d }),
+        );
+      },
+    );
     req.on('error', reject);
     req.write(payload);
     req.end();
@@ -170,22 +200,25 @@ async function main() {
       console.log(`❌ error: ${err.message}`);
       results.push({ to: r.to, org: r.org, status: 'error', error: err.message });
     }
-    await new Promise(r => setTimeout(r, 500));
+    await new Promise((r) => setTimeout(r, 500));
   }
 
   console.log('\n--- Delivery Report ---');
-  const sent = results.filter(r => r.status === 'sent');
-  const failed = results.filter(r => r.status !== 'sent');
+  const sent = results.filter((r) => r.status === 'sent');
+  const failed = results.filter((r) => r.status !== 'sent');
   console.log(`Sent: ${sent.length}/${results.length}`);
   if (failed.length) {
     console.log('\nFailed:');
-    failed.forEach(f => console.log(`  ${f.to}: ${f.error}`));
+    failed.forEach((f) => console.log(`  ${f.to}: ${f.error}`));
   }
   console.log('\nTimestamps:');
-  sent.forEach(r => console.log(`  ${r.org} | ${r.to} | ${r.ts}`));
+  sent.forEach((r) => console.log(`  ${r.org} | ${r.to} | ${r.ts}`));
 
   console.log('\n--- Requires Manual Contact (no public email) ---');
-  NO_EMAIL.forEach(n => console.log(`  ${n.org}: ${n.note}`));
+  NO_EMAIL.forEach((n) => console.log(`  ${n.org}: ${n.note}`));
 }
 
-main().catch(err => { console.error('Fatal:', err); process.exit(1); });
+main().catch((err) => {
+  console.error('Fatal:', err);
+  process.exit(1);
+});

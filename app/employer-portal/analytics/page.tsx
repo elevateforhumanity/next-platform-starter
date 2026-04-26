@@ -5,8 +5,13 @@ import { getAdminClient } from '@/lib/supabase/admin';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import {
-  BarChart3, TrendingUp, Users, Briefcase,
-  ArrowRight, Download, CheckCircle,
+  BarChart3,
+  TrendingUp,
+  Users,
+  Briefcase,
+  ArrowRight,
+  Download,
+  CheckCircle,
 } from 'lucide-react';
 
 export const metadata: Metadata = {
@@ -25,7 +30,9 @@ export default async function AnalyticsPage() {
     redirect('/login?redirect=/employer-portal/analytics');
   }
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     redirect('/login?redirect=/employer-portal/analytics');
@@ -38,7 +45,7 @@ export default async function AnalyticsPage() {
     .eq('employer_id', user.id)
     .order('created_at', { ascending: false });
 
-  const jobIds = (jobPostings || []).map(j => j.id);
+  const jobIds = (jobPostings || []).map((j) => j.id);
   const safeJobIds = jobIds.length > 0 ? jobIds : ['00000000-0000-0000-0000-000000000000'];
 
   // Fetch application counts
@@ -53,8 +60,11 @@ export default async function AnalyticsPage() {
     .in('job_id', safeJobIds)
     .eq('status', 'hired');
 
-  const activeJobs = (jobPostings || []).filter(j => j.status === 'active').length;
-  const totalPositions = (jobPostings || []).reduce((sum, j) => sum + (j.positions_available || 0), 0);
+  const activeJobs = (jobPostings || []).filter((j) => j.status === 'active').length;
+  const totalPositions = (jobPostings || []).reduce(
+    (sum, j) => sum + (j.positions_available || 0),
+    0,
+  );
   const appCount = totalApplications || 0;
   const hired = hiredCount || 0;
   const hireRate = appCount > 0 ? Math.round((hired / appCount) * 100) : 0;
@@ -68,7 +78,7 @@ export default async function AnalyticsPage() {
 
   // Top jobs by positions filled
   const topJobs = (jobPostings || [])
-    .map(j => ({
+    .map((j) => ({
       title: j.job_title,
       positions: j.positions_available || 0,
       filled: j.positions_filled || 0,
@@ -88,7 +98,9 @@ export default async function AnalyticsPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Breadcrumbs items={[{ label: "Employer Portal", href: "/employer-portal" }, { label: "Analytics" }]} />
+      <Breadcrumbs
+        items={[{ label: 'Employer Portal', href: '/employer-portal' }, { label: 'Analytics' }]}
+      />
 
       {/* Header */}
       <section className="bg-white border-b">
@@ -146,7 +158,11 @@ export default async function AnalyticsPage() {
                 ].map((row) => (
                   <div key={row.label} className="flex justify-between text-sm">
                     <span className="text-gray-600">{row.label}</span>
-                    <span className={`font-semibold ${row.green ? 'text-brand-green-600' : 'text-gray-900'}`}>{row.value}</span>
+                    <span
+                      className={`font-semibold ${row.green ? 'text-brand-green-600' : 'text-gray-900'}`}
+                    >
+                      {row.value}
+                    </span>
                   </div>
                 ))}
               </div>
@@ -162,17 +178,24 @@ export default async function AnalyticsPage() {
                       <div key={status}>
                         <div className="flex items-center justify-between mb-2">
                           <span className="text-gray-700 capitalize">{status}</span>
-                          <span className="font-semibold text-gray-900">{count} ({pct}%)</span>
+                          <span className="font-semibold text-gray-900">
+                            {count} ({pct}%)
+                          </span>
                         </div>
                         <div className="h-3 bg-gray-100 rounded-full overflow-hidden">
-                          <div className="h-full bg-indigo-500 rounded-full" style={{ width: `${pct}%` }} />
+                          <div
+                            className="h-full bg-indigo-500 rounded-full"
+                            style={{ width: `${pct}%` }}
+                          />
                         </div>
                       </div>
                     );
                   })}
                 </div>
               ) : (
-                <p className="text-gray-500 text-center py-8">No job postings yet. Post your first job to see analytics.</p>
+                <p className="text-gray-500 text-center py-8">
+                  No job postings yet. Post your first job to see analytics.
+                </p>
               )}
             </div>
           </div>
@@ -190,10 +213,18 @@ export default async function AnalyticsPage() {
               <table className="w-full">
                 <thead className="bg-gray-50">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Job Title</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Positions</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Filled</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                      Job Title
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                      Positions
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                      Filled
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                      Status
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100">
@@ -207,11 +238,15 @@ export default async function AnalyticsPage() {
                         <span className="text-brand-green-600 font-medium">{job.filled}</span>
                       </td>
                       <td className="px-6 py-4">
-                        <span className={`px-2 py-1 rounded text-xs font-medium ${
-                          job.status === 'active' ? 'bg-brand-green-100 text-brand-green-700' :
-                          job.status === 'closed' ? 'bg-gray-100 text-gray-700' :
-                          'bg-yellow-100 text-yellow-700'
-                        }`}>
+                        <span
+                          className={`px-2 py-1 rounded text-xs font-medium ${
+                            job.status === 'active'
+                              ? 'bg-brand-green-100 text-brand-green-700'
+                              : job.status === 'closed'
+                                ? 'bg-gray-100 text-gray-700'
+                                : 'bg-yellow-100 text-yellow-700'
+                          }`}
+                        >
                           {job.status}
                         </span>
                       </td>
@@ -223,7 +258,10 @@ export default async function AnalyticsPage() {
               <div className="p-12 text-center">
                 <Briefcase className="w-12 h-12 text-gray-300 mx-auto mb-3" />
                 <p className="text-gray-600">No job postings yet.</p>
-                <Link href="/employer-portal/jobs/new" className="inline-flex items-center gap-2 mt-4 text-brand-blue-600 hover:text-brand-blue-700 font-medium">
+                <Link
+                  href="/employer-portal/jobs/new"
+                  className="inline-flex items-center gap-2 mt-4 text-brand-blue-600 hover:text-brand-blue-700 font-medium"
+                >
                   Post your first job <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>

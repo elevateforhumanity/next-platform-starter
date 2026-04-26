@@ -83,31 +83,32 @@ async function _GET(request: NextRequest) {
       return NextResponse.json({ error: 'Invalid bucket' }, { status: 400 });
     }
 
-    const { data, error } = await db.storage
-      .from(bucket)
-      .createSignedUrl(filePath, 60);
+    const { data, error } = await db.storage.from(bucket).createSignedUrl(filePath, 60);
 
     if (error || !data?.signedUrl) {
       return NextResponse.json({ error: 'Failed to generate URL' }, { status: 500 });
     }
 
     // Audit the legacy path access
-    await db.from('admin_audit_events').insert({
-      actor_user_id: auth.id,
-      action: 'DOCUMENT_URL_ISSUED',
-      target_type: 'document',
-      target_id: matchingDoc.id,
-      metadata: {
-        bucket,
-        admin_role: auth.role,
-        document_owner_id: matchingDoc.user_id,
-        document_type: matchingDoc.document_type,
-        file_path: filePath,
-        resolution: 'client_path',
-      },
-    }).then(null, (err: Error) => {
-      logger.warn('[SignedURL] Audit log insert failed', { error: err.message });
-    });
+    await db
+      .from('admin_audit_events')
+      .insert({
+        actor_user_id: auth.id,
+        action: 'DOCUMENT_URL_ISSUED',
+        target_type: 'document',
+        target_id: matchingDoc.id,
+        metadata: {
+          bucket,
+          admin_role: auth.role,
+          document_owner_id: matchingDoc.user_id,
+          document_type: matchingDoc.document_type,
+          file_path: filePath,
+          resolution: 'client_path',
+        },
+      })
+      .then(null, (err: Error) => {
+        logger.warn('[SignedURL] Audit log insert failed', { error: err.message });
+      });
 
     return NextResponse.json({ url: data.signedUrl });
   } catch {

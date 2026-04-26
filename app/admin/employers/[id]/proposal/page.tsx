@@ -54,11 +54,23 @@ export default async function EmployerProposalPage({
       <div className="max-w-4xl mx-auto px-4 py-8">
         <nav className="text-sm mb-6">
           <ol className="flex items-center space-x-2 text-slate-600">
-            <li><Link href="/admin" className="hover:text-slate-900">Admin</Link></li>
+            <li>
+              <Link href="/admin" className="hover:text-slate-900">
+                Admin
+              </Link>
+            </li>
             <li>/</li>
-            <li><Link href="/admin/employers" className="hover:text-slate-900">Employers</Link></li>
+            <li>
+              <Link href="/admin/employers" className="hover:text-slate-900">
+                Employers
+              </Link>
+            </li>
             <li>/</li>
-            <li><Link href={`/admin/employers/${id}`} className="hover:text-slate-900">{employer.name}</Link></li>
+            <li>
+              <Link href={`/admin/employers/${id}`} className="hover:text-slate-900">
+                {employer.name}
+              </Link>
+            </li>
             <li>/</li>
             <li className="text-slate-900 font-medium">Proposal</li>
           </ol>

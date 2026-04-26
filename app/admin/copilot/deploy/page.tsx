@@ -18,20 +18,25 @@ export default async function DeployCopilotPage() {
   await requireRole(['admin', 'super_admin']);
   const supabase = await createClient();
 
-
-
   return (
     <div className="min-h-screen bg-white">
-
       {/* Hero Image */}
       <div className="max-w-4xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8">
           <nav className="text-sm mb-4">
             <ol className="flex items-center space-x-2 text-slate-700">
-              <li><Link href="/admin" className="hover:text-primary">Admin</Link></li>
+              <li>
+                <Link href="/admin" className="hover:text-primary">
+                  Admin
+                </Link>
+              </li>
               <li>/</li>
-              <li><Link href="/admin/copilot" className="hover:text-primary">Copilot</Link></li>
+              <li>
+                <Link href="/admin/copilot" className="hover:text-primary">
+                  Copilot
+                </Link>
+              </li>
               <li>/</li>
               <li className="text-slate-900 font-medium">Deploy</li>
             </ol>

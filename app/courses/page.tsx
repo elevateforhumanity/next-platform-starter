@@ -1,9 +1,17 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
-import { 
-  Clock, Users, Star, ArrowRight, Play, 
-  GraduationCap, Briefcase, Award, BookOpen, Sparkles 
+import {
+  Clock,
+  Users,
+  Star,
+  ArrowRight,
+  Play,
+  GraduationCap,
+  Briefcase,
+  Award,
+  BookOpen,
+  Sparkles,
 } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import { getAdminClient } from '@/lib/supabase/admin';
@@ -18,8 +26,18 @@ const SITE_URL = 'https://www.elevateforhumanity.org';
 
 export const metadata: Metadata = {
   title: 'Career Training Courses | Elevate for Humanity',
-  description: 'Explore career-focused training programs in healthcare, skilled trades, technology, and more. WIOA-funded, job-ready certifications.',
-  keywords: ['courses', 'training programs', 'career education', 'HVAC training', 'medical assistant', 'CDL training', 'barber school', 'WIOA'],
+  description:
+    'Explore career-focused training programs in healthcare, skilled trades, technology, and more. WIOA-funded, job-ready certifications.',
+  keywords: [
+    'courses',
+    'training programs',
+    'career education',
+    'HVAC training',
+    'medical assistant',
+    'CDL training',
+    'barber school',
+    'WIOA',
+  ],
   alternates: { canonical: `${SITE_URL}/courses` },
 };
 
@@ -61,12 +79,25 @@ export default async function CoursesPage() {
       {/* Hero */}
       <section className="relative w-full">
         <div className="relative h-[300px] md:h-[400px] w-full overflow-hidden">
-          <Image src="/images/heroes/training-provider-3.jpg" alt="Career Training Courses" fill className="object-cover" priority sizes="100vw" />
+          <Image
+            src="/images/heroes/training-provider-3.jpg"
+            alt="Career Training Courses"
+            fill
+            className="object-cover"
+            priority
+            sizes="100vw"
+          />
         </div>
         <div className="bg-slate-900 py-10">
           <div className="max-w-5xl mx-auto px-4 text-center">
-            <h1 className="text-3xl md:text-4xl font-bold text-white mb-3">Launch Your New Career <span className="block text-brand-green-400">In Weeks, Not Years</span></h1>
-            <p className="text-lg text-slate-300 max-w-3xl mx-auto">Industry-recognized certifications in healthcare, skilled trades, technology, and more. Free for eligible Indiana residents through WIOA funding.</p>
+            <h1 className="text-3xl md:text-4xl font-bold text-white mb-3">
+              Launch Your New Career{' '}
+              <span className="block text-brand-green-400">In Weeks, Not Years</span>
+            </h1>
+            <p className="text-lg text-slate-300 max-w-3xl mx-auto">
+              Industry-recognized certifications in healthcare, skilled trades, technology, and
+              more. Free for eligible Indiana residents through WIOA funding.
+            </p>
           </div>
         </div>
       </section>
@@ -76,10 +107,22 @@ export default async function CoursesPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-4 gap-8">
             {[
-              { icon: GraduationCap, title: 'Industry Certifications', desc: 'Earn credentials employers recognize' },
-              { icon: Briefcase, title: 'Job Placement', desc: 'Career services and employer connections' },
+              {
+                icon: GraduationCap,
+                title: 'Industry Certifications',
+                desc: 'Earn credentials employers recognize',
+              },
+              {
+                icon: Briefcase,
+                title: 'Job Placement',
+                desc: 'Career services and employer connections',
+              },
               { icon: Award, title: 'WIOA Approved', desc: 'Free training for eligible residents' },
-              { icon: BookOpen, title: 'Flexible Learning', desc: 'Online, in-person, and hybrid options' },
+              {
+                icon: BookOpen,
+                title: 'Flexible Learning',
+                desc: 'Online, in-person, and hybrid options',
+              },
             ].map((item) => (
               <div key={item.title} className="text-center">
                 <div className="w-14 h-14 bg-brand-green-100 rounded-xl flex items-center justify-center mx-auto mb-4">
@@ -127,7 +170,8 @@ export default async function CoursesPage() {
                 <div className="p-6">
                   <p className="text-slate-600 mb-4">{category.description}</p>
                   <div className="flex items-center gap-2 text-brand-green-600 font-semibold">
-                    View Programs <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    View Programs{' '}
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </div>
                 </div>
               </Link>
@@ -141,9 +185,7 @@ export default async function CoursesPage() {
         <section className="py-20 bg-slate-900">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
-              <h2 className="text-3xl sm:text-4xl font-black text-white mb-4">
-                Featured Programs
-              </h2>
+              <h2 className="text-3xl sm:text-4xl font-black text-white mb-4">Featured Programs</h2>
               <p className="text-xl text-slate-400">Our most popular training programs</p>
             </div>
 
@@ -200,9 +242,7 @@ export default async function CoursesPage() {
               <Clock className="w-4 h-4" />
               Quick Certifications
             </div>
-            <h2 className="text-3xl sm:text-4xl font-black text-slate-900 mb-4">
-              Micro Classes
-            </h2>
+            <h2 className="text-3xl sm:text-4xl font-black text-slate-900 mb-4">Micro Classes</h2>
             <p className="text-xl text-slate-600 max-w-2xl mx-auto">
               Short, focused courses to boost your skills and earn certifications quickly
             </p>

@@ -23,10 +23,7 @@ async function _POST(req: Request) {
     const supabase = await getAdminClient();
 
     if (!supabase) {
-      return NextResponse.json(
-        { error: 'Service temporarily unavailable.' },
-        { status: 503 }
-      );
+      return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });
     }
 
     // Fetch courses with Stripe price IDs
@@ -40,7 +37,7 @@ async function _POST(req: Request) {
     }
 
     // Check if all courses have Stripe price IDs
-    const missingStripe = courses.filter(c => !c.stripe_price_id);
+    const missingStripe = courses.filter((c) => !c.stripe_price_id);
     if (missingStripe.length > 0) {
       // Create Stripe products/prices on the fly
       for (const course of missingStripe) {
@@ -73,14 +70,14 @@ async function _POST(req: Request) {
     }
 
     // Create line items
-    const lineItems = courses.map(course => ({
+    const lineItems = courses.map((course) => ({
       price: course.stripe_price_id,
       quantity: 1,
     }));
 
     // Handle promo code - create Stripe coupon if needed
     let discounts: Stripe.Checkout.SessionCreateParams.Discount[] | undefined;
-    
+
     if (promoCode) {
       const { data: promo } = await supabase
         .from('promo_codes')
@@ -93,10 +90,9 @@ async function _POST(req: Request) {
         // Create a Stripe coupon for this promo
         try {
           const coupon = await stripe.coupons.create({
-            ...(promo.discount_type === 'percentage' 
+            ...(promo.discount_type === 'percentage'
               ? { percent_off: Number(promo.discount_value) }
-              : { amount_off: Math.round(Number(promo.discount_value) * 100), currency: 'usd' }
-            ),
+              : { amount_off: Math.round(Number(promo.discount_value) * 100), currency: 'usd' }),
             duration: 'once',
             name: promo.code,
             metadata: {
@@ -104,7 +100,7 @@ async function _POST(req: Request) {
               promo_code: promo.code,
             },
           });
-          
+
           discounts = [{ coupon: coupon.id }];
 
           // Increment usage count
@@ -124,7 +120,9 @@ async function _POST(req: Request) {
       payment_method_types: ['card', 'klarna', 'afterpay_clearpay'],
       line_items: lineItems,
       discounts,
-      success_url: successUrl || `${process.env.NEXT_PUBLIC_SITE_URL}/career-services/courses/success?session_id={CHECKOUT_SESSION_ID}`,
+      success_url:
+        successUrl ||
+        `${process.env.NEXT_PUBLIC_SITE_URL}/career-services/courses/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: cancelUrl || `${process.env.NEXT_PUBLIC_SITE_URL}/career-services/courses`,
       customer_email: email || undefined,
       metadata: {
@@ -141,10 +139,7 @@ async function _POST(req: Request) {
     });
   } catch (error: any) {
     logger.error('Checkout error:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/checkout/career-courses', _POST);

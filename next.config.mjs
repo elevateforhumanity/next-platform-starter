@@ -1,7 +1,5 @@
 import { withSentryConfig } from '@sentry/nextjs';
 
-
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // Server external packages - exclude heavy dependencies from the server bundle
@@ -82,7 +80,7 @@ const nextConfig = {
     buildActivity: false,
     buildActivityPosition: 'bottom-right',
   },
-  
+
   // Use commit SHA as build ID so webpack filesystem cache is reused across
   // retries of the same commit. Date.now() would bust the cache every build.
   generateBuildId: async () => {
@@ -96,8 +94,6 @@ const nextConfig = {
   // Railway build uses next.config.railway.mjs where edge-tts is in
   // serverExternalPackages instead — a package cannot be in both arrays under Turbopack.
   transpilePackages: ['edge-tts'],
-
-
 
   // turbopack: {} removed — enabling it causes OOM kills on Netlify's build
   // containers (exit 137). Production builds use webpack. Dev uses --turbopack
@@ -136,16 +132,16 @@ const nextConfig = {
 
   // Performance optimizations
   compiler: {
-    removeConsole: process.env.NODE_ENV === 'production' ? {
-      exclude: ['error', 'warn'],
-    } : false,
+    removeConsole:
+      process.env.NODE_ENV === 'production'
+        ? {
+            exclude: ['error', 'warn'],
+          }
+        : false,
   },
 
   // Allow cross-origin requests from preview/deploy URLs
-  allowedDevOrigins: [
-    'localhost',
-    '**.gitpod.dev',
-  ],
+  allowedDevOrigins: ['localhost', '**.gitpod.dev'],
 
   // Experimental features for better performance
   experimental: {
@@ -176,9 +172,8 @@ const nextConfig = {
 
     // deferredEntries: removed — OOM is now controlled via single worker +
     // 4GB heap. Two-pass compilation added complexity without enough benefit.
-
   },
-  
+
   // Suppress middleware deprecation warning (middleware.ts is still correct for our use case)
   logging: {
     fetches: {
@@ -194,9 +189,6 @@ const nextConfig = {
         tls: false,
       };
     }
-
-
-
 
     // Limit parallelism to 1 on all builds — this is a 2,670-file app and
     // webpack holds all in-flight module graphs in memory simultaneously.
@@ -366,8 +358,16 @@ const nextConfig = {
       // ============================================
       // DELETED PAGE REDIRECTS
       // ============================================
-      { source: '/programs/technology/it-support', destination: '/programs/it-help-desk', permanent: true },
-      { source: '/programs/technology/cybersecurity', destination: '/programs/cybersecurity-analyst', permanent: true },
+      {
+        source: '/programs/technology/it-support',
+        destination: '/programs/it-help-desk',
+        permanent: true,
+      },
+      {
+        source: '/programs/technology/cybersecurity',
+        destination: '/programs/cybersecurity-analyst',
+        permanent: true,
+      },
 
       // ============================================
       // OLD URL ALIASES → CORRECT EXISTING PAGES
@@ -378,28 +378,92 @@ const nextConfig = {
       { source: '/verifyemail', destination: '/verify-email', permanent: true },
       { source: '/lms/messages/new', destination: '/lms/messages', permanent: true },
       { source: '/lms/messages/support/new', destination: '/lms/messages', permanent: true },
-      { source: '/programs/building-maintenance-tech', destination: '/programs/hvac-technician', permanent: true },
-      { source: '/programs/building-services-technician', destination: '/programs/hvac-technician', permanent: true },
-      { source: '/programs/business-financial', destination: '/programs/finance-bookkeeping-accounting', permanent: true },
+      {
+        source: '/programs/building-maintenance-tech',
+        destination: '/programs/hvac-technician',
+        permanent: true,
+      },
+      {
+        source: '/programs/building-services-technician',
+        destination: '/programs/hvac-technician',
+        permanent: true,
+      },
+      {
+        source: '/programs/business-financial',
+        destination: '/programs/finance-bookkeeping-accounting',
+        permanent: true,
+      },
       // cpr-first-aid has no page — cpr-first-aid-hsi is the real page
-      { source: '/programs/cpr-first-aid', destination: '/programs/cpr-first-aid-hsi', permanent: true },
-      { source: '/programs/direct-support-professional', destination: '/programs/peer-recovery-specialist', permanent: true },
-      { source: '/programs/drug-collector', destination: '/drug-testing/training', permanent: true },
-      { source: '/programs/esthetician-apprenticeship', destination: '/programs/cosmetology-apprenticeship', permanent: true },
-      { source: '/programs/professional-esthetician', destination: '/programs/esthetician', permanent: true },
+      {
+        source: '/programs/cpr-first-aid',
+        destination: '/programs/cpr-first-aid-hsi',
+        permanent: true,
+      },
+      {
+        source: '/programs/direct-support-professional',
+        destination: '/programs/peer-recovery-specialist',
+        permanent: true,
+      },
+      {
+        source: '/programs/drug-collector',
+        destination: '/drug-testing/training',
+        permanent: true,
+      },
+      {
+        source: '/programs/esthetician-apprenticeship',
+        destination: '/programs/cosmetology-apprenticeship',
+        permanent: true,
+      },
+      {
+        source: '/programs/professional-esthetician',
+        destination: '/programs/esthetician',
+        permanent: true,
+      },
       // forklift now has its own detail page — redirect removed
       { source: '/programs/it-support', destination: '/programs/it-help-desk', permanent: true },
-      { source: '/programs/jri', destination: '/programs/peer-recovery-specialist', permanent: true },
+      {
+        source: '/programs/jri',
+        destination: '/programs/peer-recovery-specialist',
+        permanent: true,
+      },
       { source: '/programs/phlebotomy', destination: '/programs/healthcare', permanent: true },
-      { source: '/programs/phlebotomy-technician', destination: '/programs/healthcare', permanent: true },
-      { source: '/programs/business-startup-marketing', destination: '/programs/entrepreneurship', permanent: true },
-      { source: '/programs/emergency-health-safety-tech', destination: '/programs/healthcare', permanent: true },
+      {
+        source: '/programs/phlebotomy-technician',
+        destination: '/programs/healthcare',
+        permanent: true,
+      },
+      {
+        source: '/programs/business-startup-marketing',
+        destination: '/programs/entrepreneurship',
+        permanent: true,
+      },
+      {
+        source: '/programs/emergency-health-safety-tech',
+        destination: '/programs/healthcare',
+        permanent: true,
+      },
       { source: '/programs/home-health-aide', destination: '/programs/cna', permanent: true },
-      { source: '/programs/public-safety-reentry-specialist', destination: '/programs/peer-recovery-specialist', permanent: true },
+      {
+        source: '/programs/public-safety-reentry-specialist',
+        destination: '/programs/peer-recovery-specialist',
+        permanent: true,
+      },
       { source: '/programs/cdl-class-a', destination: '/programs/cdl-training', permanent: true },
-      { source: '/programs/certified-nursing-assistant', destination: '/programs/cna', permanent: true },
-      { source: '/programs/medical-coding-billing', destination: '/programs/healthcare', permanent: true },
-      { source: '/programs/cosmetology', destination: '/programs/cosmetology-apprenticeship', permanent: true },
+      {
+        source: '/programs/certified-nursing-assistant',
+        destination: '/programs/cna',
+        permanent: true,
+      },
+      {
+        source: '/programs/medical-coding-billing',
+        destination: '/programs/healthcare',
+        permanent: true,
+      },
+      {
+        source: '/programs/cosmetology',
+        destination: '/programs/cosmetology-apprenticeship',
+        permanent: true,
+      },
 
       // ============================================
       // APP ALIAS REDIRECTS (Rule B: auth/app path renames)
@@ -437,19 +501,55 @@ const nextConfig = {
       { source: '/partner/refer', destination: '/platform/partners', permanent: true },
 
       // Portal — exact match before wildcard
-      { source: '/portal/staff/dashboard', destination: '/staff-portal/dashboard', permanent: true },
+      {
+        source: '/portal/staff/dashboard',
+        destination: '/staff-portal/dashboard',
+        permanent: true,
+      },
 
       // Program holder
-      { source: '/program-holder/portal', destination: '/program-holder/dashboard', permanent: true },
-      { source: '/program-holder/portal/attendance', destination: '/program-holder/dashboard', permanent: true },
-      { source: '/program-holder/portal/live-qa', destination: '/program-holder/support', permanent: true },
-      { source: '/program-holder/portal/messages', destination: '/program-holder/support', permanent: true },
-      { source: '/program-holder/portal/reports', destination: '/program-holder/reports', permanent: true },
-      { source: '/program-holder/portal/students', destination: '/program-holder/students', permanent: true },
-      { source: '/program-holder/programs/new', destination: '/program-holder/programs', permanent: true },
+      {
+        source: '/program-holder/portal',
+        destination: '/program-holder/dashboard',
+        permanent: true,
+      },
+      {
+        source: '/program-holder/portal/attendance',
+        destination: '/program-holder/dashboard',
+        permanent: true,
+      },
+      {
+        source: '/program-holder/portal/live-qa',
+        destination: '/program-holder/support',
+        permanent: true,
+      },
+      {
+        source: '/program-holder/portal/messages',
+        destination: '/program-holder/support',
+        permanent: true,
+      },
+      {
+        source: '/program-holder/portal/reports',
+        destination: '/program-holder/reports',
+        permanent: true,
+      },
+      {
+        source: '/program-holder/portal/students',
+        destination: '/program-holder/students',
+        permanent: true,
+      },
+      {
+        source: '/program-holder/programs/new',
+        destination: '/program-holder/programs',
+        permanent: true,
+      },
 
       // Staff
-      { source: '/staff-portal/processes', destination: '/staff-portal/qa-checklist', permanent: true },
+      {
+        source: '/staff-portal/processes',
+        destination: '/staff-portal/qa-checklist',
+        permanent: true,
+      },
 
       // Student portal
       { source: '/student-portal/messages', destination: '/lms/chat', permanent: true },
@@ -463,7 +563,7 @@ const nextConfig = {
       { source: '/institute', destination: '/', permanent: true },
       { source: '/training-institute', destination: '/programs', permanent: true },
       { source: '/student/dashboard', destination: '/student-portal', permanent: true },
-      
+
       // Fix old hero image paths
       {
         source: '/clear-pathways-hero.jpg',
@@ -494,7 +594,7 @@ const nextConfig = {
         permanent: true,
       },
       // /home → / handled by Netlify (public SEO route, Rule A)
-      
+
       // /student, /student/:path*, /learner, /learner/:path*, /lms/:path* →
       // handled by Netlify edge (netlify.toml [[redirects]] → /login). Removed here to avoid conflict.
       // Exact match first: /portal → portal chooser. Wildcard below catches /portal/anything → /lms/anything.
@@ -502,16 +602,44 @@ const nextConfig = {
       { source: '/portal/:path*', destination: '/lms/:path*', permanent: true },
       { source: '/students/:path*', destination: '/lms/:path*', permanent: true },
       { source: '/learners/:path*', destination: '/lms/:path*', permanent: true },
-      { source: '/program-holder-portal/:path*', destination: '/program-holder/:path*', permanent: true },
+      {
+        source: '/program-holder-portal/:path*',
+        destination: '/program-holder/:path*',
+        permanent: true,
+      },
       // Legacy pluralized Program Holder URLs → canonical singular routes
       { source: '/program-holders', destination: '/program-holder', permanent: true },
-      { source: '/program-holders/portal', destination: '/program-holder/dashboard', permanent: true },
-      { source: '/program-holders/universal-mou', destination: '/legal/program-holder-mou', permanent: true },
-      { source: '/program-holders/sign-mou', destination: '/program-holder/sign-mou', permanent: true },
+      {
+        source: '/program-holders/portal',
+        destination: '/program-holder/dashboard',
+        permanent: true,
+      },
+      {
+        source: '/program-holders/universal-mou',
+        destination: '/legal/program-holder-mou',
+        permanent: true,
+      },
+      {
+        source: '/program-holders/sign-mou',
+        destination: '/program-holder/sign-mou',
+        permanent: true,
+      },
       { source: '/program-holders/apply', destination: '/apply/program-holder', permanent: true },
-      { source: '/program-holders/onboarding', destination: '/program-holder/onboarding', permanent: true },
-      { source: '/program-holders/training-providers', destination: '/program-holder', permanent: true },
-      { source: '/program-holders/acknowledgement', destination: '/program-holder/rights-responsibilities', permanent: true },
+      {
+        source: '/program-holders/onboarding',
+        destination: '/program-holder/onboarding',
+        permanent: true,
+      },
+      {
+        source: '/program-holders/training-providers',
+        destination: '/program-holder',
+        permanent: true,
+      },
+      {
+        source: '/program-holders/acknowledgement',
+        destination: '/program-holder/rights-responsibilities',
+        permanent: true,
+      },
       { source: '/program-holders/:path*', destination: '/program-holder/:path*', permanent: true },
       // /admin-portal is now a public landing page - no redirect needed
       // /dashboard redirect removed - handled by middleware with auth check
@@ -528,30 +656,58 @@ const nextConfig = {
 
       // Program alias → DB canonical slug (one URL per program)
       // Archived year-specific variants
-      { source: '/programs/barber-2024', destination: '/programs/barber-apprenticeship', permanent: true },
+      {
+        source: '/programs/barber-2024',
+        destination: '/programs/barber-apprenticeship',
+        permanent: true,
+      },
       { source: '/programs/hvac-2024', destination: '/programs/hvac-technician', permanent: true },
       // CDL
       { source: '/programs/cdl', destination: '/programs/cdl-training', permanent: true },
-      { source: '/programs/cdl-transportation', destination: '/programs/cdl-training', permanent: true },
+      {
+        source: '/programs/cdl-transportation',
+        destination: '/programs/cdl-training',
+        permanent: true,
+      },
       // CNA — /programs/cna is the canonical page
       { source: '/programs/cna-cert', destination: '/programs/cna', permanent: true },
       { source: '/programs/cna-certification', destination: '/programs/cna', permanent: true },
       // HVAC
       { source: '/programs/hvac', destination: '/programs/hvac-technician', permanent: true },
       // Barber & Beauty
-      { source: '/programs/barber', destination: '/programs/barber-apprenticeship', permanent: true },
-      { source: '/programs/beauty', destination: '/programs/barber-apprenticeship', permanent: true },
+      {
+        source: '/programs/barber',
+        destination: '/programs/barber-apprenticeship',
+        permanent: true,
+      },
+      {
+        source: '/programs/beauty',
+        destination: '/programs/barber-apprenticeship',
+        permanent: true,
+      },
       // Business
       // Tax programs — no tax page in this repo; send to contact
       { source: '/programs/tax-preparation', destination: '/contact', permanent: false },
       { source: '/programs/tax-prep', destination: '/contact', permanent: false },
-      { source: '/programs/tax-entrepreneurship', destination: '/programs/entrepreneurship', permanent: true },
-      { source: '/programs/tax-prep-financial-services', destination: '/contact', permanent: false },
+      {
+        source: '/programs/tax-entrepreneurship',
+        destination: '/programs/entrepreneurship',
+        permanent: true,
+      },
+      {
+        source: '/programs/tax-prep-financial-services',
+        destination: '/contact',
+        permanent: false,
+      },
       // Healthcare aliases
       // Human Services
       // Skilled Trades aliases
       // Technology aliases
-      { source: '/programs/cybersecurity', destination: '/programs/cybersecurity-analyst', permanent: true },
+      {
+        source: '/programs/cybersecurity',
+        destination: '/programs/cybersecurity-analyst',
+        permanent: true,
+      },
 
       // Career consolidation — /career-center handled by Netlify (Rule A)
       { source: '/career-fair/:path*', destination: '/career-services/:path*', permanent: true },
@@ -560,18 +716,54 @@ const nextConfig = {
       { source: '/partner-application/:path*', destination: '/partners/:path*', permanent: true },
 
       // apply/barber — dedicated partner application flow (was a redirect-only page.tsx, moved here)
-      { source: '/apply/barber', destination: '/partners/barbershop-apprenticeship/apply', permanent: true },
+      {
+        source: '/apply/barber',
+        destination: '/partners/barbershop-apprenticeship/apply',
+        permanent: true,
+      },
 
       // Partner onboarding flows — auth-gated Railway pages.
       // Unauthenticated hits get sent to login; Railway serves the page post-auth.
-      { source: '/partners/barbershop-apprenticeship/forms', destination: '/login?redirect=/partners/barbershop-apprenticeship/forms', permanent: false },
-      { source: '/partners/barbershop-apprenticeship/handbook', destination: '/login?redirect=/partners/barbershop-apprenticeship/handbook', permanent: false },
-      { source: '/partners/barbershop-apprenticeship/sign-mou', destination: '/login?redirect=/partners/barbershop-apprenticeship/sign-mou', permanent: false },
-      { source: '/partners/barbershop-apprenticeship/policy-acknowledgment', destination: '/login?redirect=/partners/barbershop-apprenticeship/policy-acknowledgment', permanent: false },
-      { source: '/partners/cosmetology-apprenticeship/forms', destination: '/login?redirect=/partners/cosmetology-apprenticeship/forms', permanent: false },
-      { source: '/partners/cosmetology-apprenticeship/handbook', destination: '/login?redirect=/partners/cosmetology-apprenticeship/handbook', permanent: false },
-      { source: '/partners/cosmetology-apprenticeship/sign-mou', destination: '/login?redirect=/partners/cosmetology-apprenticeship/sign-mou', permanent: false },
-      { source: '/partners/cosmetology-apprenticeship/policy-acknowledgment', destination: '/login?redirect=/partners/cosmetology-apprenticeship/policy-acknowledgment', permanent: false },
+      {
+        source: '/partners/barbershop-apprenticeship/forms',
+        destination: '/login?redirect=/partners/barbershop-apprenticeship/forms',
+        permanent: false,
+      },
+      {
+        source: '/partners/barbershop-apprenticeship/handbook',
+        destination: '/login?redirect=/partners/barbershop-apprenticeship/handbook',
+        permanent: false,
+      },
+      {
+        source: '/partners/barbershop-apprenticeship/sign-mou',
+        destination: '/login?redirect=/partners/barbershop-apprenticeship/sign-mou',
+        permanent: false,
+      },
+      {
+        source: '/partners/barbershop-apprenticeship/policy-acknowledgment',
+        destination: '/login?redirect=/partners/barbershop-apprenticeship/policy-acknowledgment',
+        permanent: false,
+      },
+      {
+        source: '/partners/cosmetology-apprenticeship/forms',
+        destination: '/login?redirect=/partners/cosmetology-apprenticeship/forms',
+        permanent: false,
+      },
+      {
+        source: '/partners/cosmetology-apprenticeship/handbook',
+        destination: '/login?redirect=/partners/cosmetology-apprenticeship/handbook',
+        permanent: false,
+      },
+      {
+        source: '/partners/cosmetology-apprenticeship/sign-mou',
+        destination: '/login?redirect=/partners/cosmetology-apprenticeship/sign-mou',
+        permanent: false,
+      },
+      {
+        source: '/partners/cosmetology-apprenticeship/policy-acknowledgment',
+        destination: '/login?redirect=/partners/cosmetology-apprenticeship/policy-acknowledgment',
+        permanent: false,
+      },
       { source: '/partner-courses/:path*', destination: '/partners/:path*', permanent: true },
       { source: '/partner-playbook/:path*', destination: '/partners/:path*', permanent: true },
 
@@ -586,10 +778,18 @@ const nextConfig = {
       { source: '/for-agencies', destination: '/contact', permanent: false },
       { source: '/partnerships', destination: '/partners', permanent: true },
       { source: '/program-holder', destination: '/apply', permanent: false },
-      { source: '/program-holder/:path*', destination: '/login?redirect=/program-holder/:path*', permanent: false },
+      {
+        source: '/program-holder/:path*',
+        destination: '/login?redirect=/program-holder/:path*',
+        permanent: false,
+      },
       { source: '/cna-waitlist', destination: '/programs', permanent: false },
       { source: '/credentials/checksheets', destination: '/programs', permanent: false },
-      { source: '/credentials/hvac-standards', destination: '/programs/hvac-technician', permanent: false },
+      {
+        source: '/credentials/hvac-standards',
+        destination: '/programs/hvac-technician',
+        permanent: false,
+      },
       { source: '/credentials/:path*', destination: '/programs', permanent: false },
       { source: '/careers', destination: '/contact', permanent: false },
       { source: '/donate', destination: '/contact', permanent: false },
@@ -669,8 +869,16 @@ const nextConfig = {
       { source: '/terms', destination: '/terms-of-service', permanent: true },
       { source: '/legal/privacy', destination: '/privacy-policy', permanent: true },
       { source: '/legal/terms-of-service', destination: '/legal/privacy', permanent: true },
-      { source: '/legal/governance/lms', destination: '/legal/governance/lms-standards', permanent: true },
-      { source: '/legal/governance/store', destination: '/legal/governance/store-payments', permanent: true },
+      {
+        source: '/legal/governance/lms',
+        destination: '/legal/governance/lms-standards',
+        permanent: true,
+      },
+      {
+        source: '/legal/governance/store',
+        destination: '/legal/governance/store-payments',
+        permanent: true,
+      },
       { source: '/policies/privacy', destination: '/privacy-policy', permanent: true },
       { source: '/policies/terms', destination: '/terms-of-service', permanent: true },
       { source: '/policies/grievance', destination: '/grievance', permanent: true },
@@ -719,7 +927,7 @@ const nextConfig = {
       { source: '/forum/:path*', destination: '/blog', permanent: true },
       // /news/page.tsx exists (137 lines) — do not redirect away from it
       // { source: '/news/:path*', destination: '/blog/:path*', permanent: true },
-      
+
       // Old 404 URLs from Google/Netlify logs - redirect to relevant pages
       { source: '/about/founder', destination: '/about/team', permanent: true },
       { source: '/etpl-programs', destination: '/pathways', permanent: true },
@@ -728,7 +936,6 @@ const nextConfig = {
       { source: '/downloads', destination: '/resources', permanent: true },
       { source: '/docs/students/certificates', destination: '/credentials', permanent: true },
       { source: '/programs/food-handler', destination: '/programs', permanent: true },
-
 
       // ============================================
       // ENROLL / APPLY CONSOLIDATION
@@ -739,7 +946,11 @@ const nextConfig = {
       { source: '/enroll', destination: '/apply', permanent: true },
 
       // Barber enrollment: 1-hop to dedicated apply page (kills 3-hop chain)
-      { source: '/enroll/barber-apprenticeship', destination: '/programs/barber-apprenticeship/apply', permanent: true },
+      {
+        source: '/enroll/barber-apprenticeship',
+        destination: '/programs/barber-apprenticeship/apply',
+        permanent: true,
+      },
 
       // Duplicate student forms → canonical /apply/student
       { source: '/apply/quick', destination: '/apply/student', permanent: true },
@@ -757,37 +968,41 @@ const nextConfig = {
       { source: '/health-services', destination: '/programs/healthcare', permanent: true },
       // Donate page has its own content now
       { source: '/resources/:path*', destination: '/blog', permanent: true },
-      { source: '/career-uplift-services/:path*', destination: '/career-services', permanent: true },
+      {
+        source: '/career-uplift-services/:path*',
+        destination: '/career-services',
+        permanent: true,
+      },
       // /community/page.tsx exists (371 lines) — do not redirect away from it
       { source: '/video', destination: '/videos', permanent: true },
-      
+
       // LMS redirects
       { source: '/lms/my-courses', destination: '/lms/courses', permanent: true },
-      
+
       // Student portal redirects
       { source: '/student-portal/dashboard', destination: '/student-portal', permanent: true },
       { source: '/student-portal/courses', destination: '/student-portal', permanent: true },
       { source: '/student-portal/certificates', destination: '/student-portal', permanent: true },
       { source: '/student-portal/progress', destination: '/student-portal', permanent: true },
       // /student-portal/settings → /lms/settings handled by middleware (Rule B)
-      
+
       // Partner portal redirects
       // NOTE: /partner/dashboard is the canonical partner dashboard page.
       // /partner/page.tsx redirects TO /partner/dashboard, so do NOT redirect /partner/dashboard back.
       // Removed: { source: '/partner/dashboard', destination: '/partner', permanent: true },
       // Removed: { source: '/partner/courses', destination: '/partner', permanent: true },
       // Removed: { source: '/partner/students', destination: '/partner', permanent: true },
-      
+
       // AI redirects
       { source: '/ai-instructor', destination: '/ai-tutor', permanent: true },
-      
+
       // Marketing redirects
       { source: '/success-stories', destination: '/testimonials', permanent: true },
       { source: '/for-workforce-boards', destination: '/workforce-board', permanent: true },
       { source: '/get-started', destination: '/start', permanent: true },
-      
+
       // /admin/* consolidation is Railway-internal — handled there, not here.
-      
+
       // /outcomes/indiana is a public page — do not redirect it
       // Other outcomes sub-routes redirect to programs until data exists
       { source: '/metrics', destination: '/programs', permanent: false },
@@ -799,12 +1014,13 @@ const nextConfig = {
   async headers() {
     const isProduction = process.env.NODE_ENV === 'production';
     // Netlify sets CONTEXT (not NODE_ENV) to 'deploy-preview' or 'branch-deploy'
-    const isPreview = process.env.CONTEXT === 'deploy-preview' || process.env.CONTEXT === 'branch-deploy';
+    const isPreview =
+      process.env.CONTEXT === 'deploy-preview' || process.env.CONTEXT === 'branch-deploy';
     const host = process.env.URL || '';
-    
+
     // No special handling needed - single canonical domain: www.elevateforhumanity.org
     const robotsHeaders = [];
-    
+
     // Base security headers for all environments
     const securityHeaders = [
       ...robotsHeaders,
@@ -854,10 +1070,10 @@ const nextConfig = {
           "base-uri 'self'",
           "form-action 'self' https://js.stripe.com",
           "frame-ancestors 'none'",
-          "upgrade-insecure-requests",
+          'upgrade-insecure-requests',
           // CSP violation reporting endpoint
-          "report-uri /api/csp-report",
-          "report-to csp-endpoint",
+          'report-uri /api/csp-report',
+          'report-to csp-endpoint',
         ].join('; '),
       },
       {
@@ -922,9 +1138,7 @@ const nextConfig = {
       // 2) Allow hashed Next static assets to be cached long-term (safe)
       {
         source: '/_next/static/:path*',
-        headers: [
-          { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
-        ],
+        headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }],
       },
 
       // 3) Next image optimizer - short cache with revalidation
@@ -938,15 +1152,11 @@ const nextConfig = {
       // 4) Safety: prevent accidental long-caching of direct CSS/JS files at root
       {
         source: '/:path*.css',
-        headers: [
-          { key: 'Cache-Control', value: 'public, max-age=0, must-revalidate' },
-        ],
+        headers: [{ key: 'Cache-Control', value: 'public, max-age=0, must-revalidate' }],
       },
       {
         source: '/:path*.js',
-        headers: [
-          { key: 'Cache-Control', value: 'public, max-age=0, must-revalidate' },
-        ],
+        headers: [{ key: 'Cache-Control', value: 'public, max-age=0, must-revalidate' }],
       },
 
       // Override X-Robots-Tag for images and videos

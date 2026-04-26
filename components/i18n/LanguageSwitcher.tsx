@@ -35,13 +35,18 @@ export function LanguageSwitcher() {
         aria-haspopup="listbox"
       >
         <Globe className="w-4 h-4" aria-hidden="true" />
-        <span className="hidden sm:inline">{LOCALE_FLAGS[locale]} {LOCALE_NAMES[locale]}</span>
+        <span className="hidden sm:inline">
+          {LOCALE_FLAGS[locale]} {LOCALE_NAMES[locale]}
+        </span>
         <span className="sm:hidden">{LOCALE_FLAGS[locale]}</span>
-        <ChevronDown className={`w-3 h-3 transition-transform ${isOpen ? 'rotate-180' : ''}`} aria-hidden="true" />
+        <ChevronDown
+          className={`w-3 h-3 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+          aria-hidden="true"
+        />
       </button>
 
       {isOpen && (
-        <div 
+        <div
           className="absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50"
           role="listbox"
           aria-label="Available languages"
@@ -60,9 +65,7 @@ export function LanguageSwitcher() {
                 <span>{LOCALE_FLAGS[loc]}</span>
                 <span>{LOCALE_NAMES[loc]}</span>
               </span>
-              {loc === locale && (
-                <Check className="w-4 h-4" aria-hidden="true" />
-              )}
+              {loc === locale && <Check className="w-4 h-4" aria-hidden="true" />}
             </button>
           ))}
         </div>

@@ -26,7 +26,7 @@ export default async function AffirmCancelPage() {
       </div>
     );
   }
-  
+
   // Log affirm cancellation
   await supabase.from('page_views').insert({ page: 'affirm_cancel' }).select();
   return (
@@ -34,19 +34,16 @@ export default async function AffirmCancelPage() {
       <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8 text-center">
         <XCircle className="w-16 h-16 text-brand-orange-600 mx-auto mb-4" />
 
-        <h1 className="text-2xl font-bold text-black mb-2">
-          Payment Cancelled
-        </h1>
+        <h1 className="text-2xl font-bold text-black mb-2">Payment Cancelled</h1>
 
         <p className="text-black mb-6">
-          You cancelled the payment process. No charges were made to your
-          account.
+          You cancelled the payment process. No charges were made to your account.
         </p>
 
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
           <p className="text-sm text-blue-800">
-            <strong>Need help?</strong> Our team is here to assist you with any
-            questions about payment options or enrollment.
+            <strong>Need help?</strong> Our team is here to assist you with any questions about
+            payment options or enrollment.
           </p>
         </div>
 
@@ -65,18 +62,14 @@ export default async function AffirmCancelPage() {
             Contact Us
           </Link>
 
-          <Link
-            href="/"
-            className="text-black hover:text-black transition-colors"
-          >
+          <Link href="/" className="text-black hover:text-black transition-colors">
             Return to Homepage
           </Link>
         </div>
 
         <div className="mt-8 pt-6 border-t border-gray-200">
           <p className="text-sm text-black">
-            Remember: Most of our programs are 100% FREE through WIOA, WRG, or
-            JRI funding.
+            Remember: Most of our programs are 100% FREE through WIOA, WRG, or JRI funding.
           </p>
           <Link
             href="/financial-aid"

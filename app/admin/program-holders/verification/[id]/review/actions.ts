@@ -13,11 +13,14 @@ const VALID_FROM_STATES = ['pending', 'submitted', 'under_review'];
 export async function submitVerificationDecision(
   holderId: string,
   decision: 'approved' | 'rejected',
-  notes?: string
+  notes?: string,
 ) {
   // ── 1. AUTH ────────────────────────────────────────────────────────
   const supabase = await createClient();
-  const { data: { user }, error: authError } = await supabase.auth.getUser();
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser();
   if (authError) throw new Error(`Auth failed: ${authError.message}`);
   if (!user) return { error: 'Not authenticated' };
 
@@ -37,7 +40,9 @@ export async function submitVerificationDecision(
   // ── 3. LOAD HOLDER — source of truth, not client input ────────────
   const { data: holder, error: holderError } = await db
     .from('program_holders')
-    .select('id, user_id, status, primary_program_id, contact_email, organization_name, contact_name')
+    .select(
+      'id, user_id, status, primary_program_id, contact_email, organization_name, contact_name',
+    )
     .eq('id', holderId)
     .maybeSingle();
 
@@ -99,18 +104,20 @@ export async function submitVerificationDecision(
     const firstName = holder.contact_name?.split(' ')[0] || 'Program Holder';
     const orgName = holder.organization_name || 'your organization';
 
-    const subject = decision === 'approved'
-      ? 'Your Program Holder Application Has Been Approved — Elevate for Humanity'
-      : 'Update on Your Program Holder Application — Elevate for Humanity';
+    const subject =
+      decision === 'approved'
+        ? 'Your Program Holder Application Has Been Approved — Elevate for Humanity'
+        : 'Update on Your Program Holder Application — Elevate for Humanity';
 
-    const html = decision === 'approved'
-      ? `<p>Hi ${firstName},</p>
+    const html =
+      decision === 'approved'
+        ? `<p>Hi ${firstName},</p>
          <p>Congratulations! Your program holder application for <strong>${orgName}</strong> has been <strong>approved</strong> by Elevate for Humanity.</p>
          <p>You can now log in to your Program Holder Portal to get started:</p>
          <p><a href="https://www.elevateforhumanity.org/program-holder/dashboard">Access Your Portal →</a></p>
          <p>If you have any questions, reply to this email or contact us at <a href="mailto:info@elevateforhumanity.org">info@elevateforhumanity.org</a>.</p>
          <br/><p>Warm regards,<br/>Elevate for Humanity Team</p>`
-      : `<p>Hi ${firstName},</p>
+        : `<p>Hi ${firstName},</p>
          <p>Thank you for applying to become a Program Holder with Elevate for Humanity.</p>
          <p>After reviewing your application for <strong>${orgName}</strong>, we are unable to approve it at this time${notes ? ': ' + notes : '.'}</p>
          <p>If you believe this decision was made in error or would like to discuss next steps, please contact us at <a href="mailto:info@elevateforhumanity.org">info@elevateforhumanity.org</a>.</p>

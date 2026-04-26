@@ -27,19 +27,13 @@ async function _GET(req: Request) {
     const orgId = url.searchParams.get('orgId');
 
     if (!orgId) {
-      return NextResponse.json(
-        { error: 'Organization ID required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Organization ID required' }, { status: 400 });
     }
 
     const { role } = await requireOrgAdmin(req, orgId);
 
     if (role !== 'super_admin') {
-      return NextResponse.json(
-        { error: 'Super admin access required' },
-        { status: 403 }
-      );
+      return NextResponse.json({ error: 'Super admin access required' }, { status: 403 });
     }
 
     const timeWindow = parseInt(url.searchParams.get('window') || '3600000', 10); // Default 1 hour
@@ -69,7 +63,7 @@ async function _GET(req: Request) {
       })),
       failedLoginsByIP: failedLoginsByIP.slice(0, 20), // Top 20 IPs
     });
-  } catch (error) { 
+  } catch (error) {
     if (error instanceof Error && error.message === 'Unauthorized') {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -77,10 +71,7 @@ async function _GET(req: Request) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    return NextResponse.json(
-      { error: 'Failed to get monitoring stats' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to get monitoring stats' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/monitoring/stats', _GET);

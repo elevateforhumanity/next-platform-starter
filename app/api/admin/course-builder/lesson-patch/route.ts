@@ -42,13 +42,13 @@ export async function PATCH(req: NextRequest) {
 
   // Build update payload — only include fields that were sent
   const update: Record<string, unknown> = { updated_at: new Date().toISOString() };
-  if (fields.title !== undefined)            update.title = fields.title;
-  if (fields.content !== undefined)          update.content = fields.content;
-  if (fields.video_url !== undefined)        update.video_url = fields.video_url;
-  if (fields.step_type !== undefined)        update.lesson_type = fields.step_type;
+  if (fields.title !== undefined) update.title = fields.title;
+  if (fields.content !== undefined) update.content = fields.content;
+  if (fields.video_url !== undefined) update.video_url = fields.video_url;
+  if (fields.step_type !== undefined) update.lesson_type = fields.step_type;
   if (fields.duration_minutes !== undefined) update.duration_minutes = fields.duration_minutes;
-  if (fields.passing_score !== undefined)    update.passing_score = fields.passing_score;
-  if (fields.status !== undefined)           update.status = fields.status;
+  if (fields.passing_score !== undefined) update.passing_score = fields.passing_score;
+  if (fields.status !== undefined) update.status = fields.status;
 
   const db = await getAdminClient();
 

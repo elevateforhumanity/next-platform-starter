@@ -30,12 +30,7 @@ const ROOT = process.cwd();
 const MAX_FILE_BYTES = 512 * 1024; // 512 KB
 
 // Paths that must never be read or written
-const BLOCKED_PATTERNS = [
-  /^\.env/,
-  /node_modules/,
-  /\.git\//,
-  /\.next\//,
-];
+const BLOCKED_PATTERNS = [/^\.env/, /node_modules/, /\.git\//, /\.next\//];
 
 function resolveSafe(filePath: string): string | null {
   const resolved = path.resolve(ROOT, filePath);

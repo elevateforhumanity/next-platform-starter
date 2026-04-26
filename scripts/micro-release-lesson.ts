@@ -51,12 +51,14 @@ function saveRollbackLog(entries: RollbackEntry[]) {
 
 function getVersionedFilename(lessonDefId: string): string {
   const log = loadRollbackLog();
-  const existing = log.filter(e => e.lessonDefId === lessonDefId);
+  const existing = log.filter((e) => e.lessonDefId === lessonDefId);
   const version = existing.length + 1;
   return `hvac/${lessonDefId}-v${version}.mp4`;
 }
 
-async function verifyPublicUrl(url: string): Promise<{ ok: boolean; status: number; contentType: string }> {
+async function verifyPublicUrl(
+  url: string,
+): Promise<{ ok: boolean; status: number; contentType: string }> {
   try {
     const resp = await fetch(url, { method: 'HEAD' });
     const contentType = resp.headers.get('content-type') || '';
@@ -111,7 +113,9 @@ async function uploadLesson(lessonDefId: string): Promise<void> {
   if (uploadError) {
     console.error(`❌ Upload failed: ${uploadError.message}`);
     if (uploadError.message.includes('already exists')) {
-      console.error(`   File already exists at ${storagePath}. This is a safety check — versioned filenames should be unique.`);
+      console.error(
+        `   File already exists at ${storagePath}. This is a safety check — versioned filenames should be unique.`,
+      );
     }
     process.exit(1);
   }
@@ -123,7 +127,7 @@ async function uploadLesson(lessonDefId: string): Promise<void> {
   console.log(`[3/5] Verifying public URL: ${publicUrl}`);
 
   // Wait a moment for CDN propagation
-  await new Promise(r => setTimeout(r, 2000));
+  await new Promise((r) => setTimeout(r, 2000));
 
   const verification = await verifyPublicUrl(publicUrl);
   if (!verification.ok) {
@@ -131,7 +135,9 @@ async function uploadLesson(lessonDefId: string): Promise<void> {
     console.error(`   Status: ${verification.status}`);
     console.error(`   Content-Type: ${verification.contentType}`);
     console.error(`   URL: ${publicUrl}`);
-    console.error(`\n   Aborting — no DB changes made. The uploaded file is safe at ${storagePath}.`);
+    console.error(
+      `\n   Aborting — no DB changes made. The uploaded file is safe at ${storagePath}.`,
+    );
     process.exit(1);
   }
   console.log(`   ✅ Status: ${verification.status}, Content-Type: ${verification.contentType}`);
@@ -216,7 +222,7 @@ async function uploadLesson(lessonDefId: string): Promise<void> {
 
 async function rollbackLesson(lessonDefId: string): Promise<void> {
   const log = loadRollbackLog();
-  const entries = log.filter(e => e.lessonDefId === lessonDefId);
+  const entries = log.filter((e) => e.lessonDefId === lessonDefId);
 
   if (entries.length === 0) {
     console.error(`❌ No rollback entries found for ${lessonDefId}`);
@@ -286,7 +292,7 @@ async function main() {
   }
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.error('Fatal error:', err);
   process.exit(1);
 });

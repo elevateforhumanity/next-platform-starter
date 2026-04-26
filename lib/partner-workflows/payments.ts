@@ -8,7 +8,6 @@ import 'server-only';
 import { stripe } from '@/lib/stripe/client';
 import { createClient } from '@/lib/supabase/client';
 
-
 export interface PaymentRequest {
   studentId: string;
   providerId: string;
@@ -29,9 +28,7 @@ export interface PaymentResult {
 /**
  * Create Stripe checkout session for partner certification payment
  */
-export async function createPartnerPaymentSession(
-  request: PaymentRequest
-): Promise<PaymentResult> {
+export async function createPartnerPaymentSession(request: PaymentRequest): Promise<PaymentResult> {
   try {
     const supabase = createClient();
 
@@ -88,9 +85,7 @@ export async function createPartnerPaymentSession(
             product_data: {
               name: `${provider.provider_name} Certification`,
               description: `Access to ${provider.provider_name} courses and certifications`,
-              images: [
-                'https://www.elevateforhumanity.org/images/certification-badge.png',
-              ],
+              images: ['https://www.elevateforhumanity.org/images/certification-badge.png'],
             },
             unit_amount: Math.round(request.amount * 100), // Convert to cents
           },
@@ -124,7 +119,8 @@ export async function createPartnerPaymentSession(
       checkoutUrl: session.url || undefined,
       sessionId: session.id,
     };
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     // Error: $1
     return {
       success: false,
@@ -257,10 +253,7 @@ export async function getProviderPricing(providerId: string): Promise<{
 /**
  * Check if student has already paid for a provider
  */
-export async function hasStudentPaid(
-  studentId: string,
-  providerId: string
-): Promise<boolean> {
+export async function hasStudentPaid(studentId: string, providerId: string): Promise<boolean> {
   const supabase = createClient();
 
   const { data: enrollments } = await supabase
@@ -278,7 +271,7 @@ export async function hasStudentPaid(
  */
 export async function createPaymentLink(
   providerId: string,
-  amount: number
+  amount: number,
 ): Promise<{ url: string; id: string }> {
   const supabase = createClient();
 

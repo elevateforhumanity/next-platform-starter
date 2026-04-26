@@ -74,15 +74,32 @@ export function PageTemplate({
       {/* Hero Section */}
       <section className="relative w-full">
         <div className="relative h-[50vh] sm:h-[55vh] md:h-[60vh] lg:h-[65vh] min-h-[320px] w-full overflow-hidden">
-          <ClickableImage src={heroImage} alt={heroImageAlt || title} fill priority sizes="100vw" objectFit="cover" />
+          <ClickableImage
+            src={heroImage}
+            alt={heroImageAlt || title}
+            fill
+            priority
+            sizes="100vw"
+            objectFit="cover"
+          />
         </div>
         <div className="bg-white py-10 border-t">
           <div className="max-w-5xl mx-auto px-4 text-center">
             <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">{title}</h1>
             <p className="text-lg text-slate-600 mb-6 max-w-3xl mx-auto">{description}</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href={ctaPrimaryHref} className="bg-brand-orange-600 hover:bg-brand-orange-700 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-colors">{ctaPrimaryText}</Link>
-              <Link href={ctaSecondaryHref} className="bg-white hover:bg-gray-100 text-brand-blue-600 px-8 py-4 rounded-lg text-lg font-semibold transition-colors">{ctaSecondaryText}</Link>
+              <Link
+                href={ctaPrimaryHref}
+                className="bg-brand-orange-600 hover:bg-brand-orange-700 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-colors"
+              >
+                {ctaPrimaryText}
+              </Link>
+              <Link
+                href={ctaSecondaryHref}
+                className="bg-white hover:bg-gray-100 text-brand-blue-600 px-8 py-4 rounded-lg text-lg font-semibold transition-colors"
+              >
+                {ctaSecondaryText}
+              </Link>
             </div>
           </div>
         </div>
@@ -100,9 +117,7 @@ export function PageTemplate({
                     <div className="w-16 h-16 bg-brand-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                       {feature.icon}
                     </div>
-                    <h3 className="text-xl font-semibold mb-2">
-                      {feature.title}
-                    </h3>
+                    <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
                     <p className="text-black">{feature.description}</p>
                   </div>
                 ))}
@@ -158,9 +173,7 @@ export function PageTemplate({
                       <div className="w-12 h-12 bg-brand-blue-100 rounded-lg flex items-center justify-center mb-4">
                         {card.icon}
                       </div>
-                      <h3 className="text-xl font-semibold mb-3">
-                        {card.title}
-                      </h3>
+                      <h3 className="text-xl font-semibold mb-3">{card.title}</h3>
                       <p className="text-black">{card.description}</p>
                     </>
                   );
@@ -174,10 +187,7 @@ export function PageTemplate({
                       {CardContent}
                     </Link>
                   ) : (
-                    <div
-                      key={index}
-                      className="bg-white rounded-lg shadow-sm border p-6"
-                    >
+                    <div key={index} className="bg-white rounded-lg shadow-sm border p-6">
                       {CardContent}
                     </div>
                   );
@@ -189,10 +199,7 @@ export function PageTemplate({
             {gallery && gallery.length > 0 && (
               <div className="grid md:grid-cols-3 gap-6 mb-16">
                 {gallery.map((item, index) => (
-                  <div
-                    key={index}
-                    className="relative h-64 rounded-lg overflow-hidden shadow-md"
-                  >
+                  <div key={index} className="relative h-64 rounded-lg overflow-hidden shadow-md">
                     <ClickableImage
                       src={item.src}
                       alt={item.alt}
@@ -215,9 +222,7 @@ export function PageTemplate({
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto text-center">
               <h2 className="text-3xl font-bold mb-4">{finalCTA.title}</h2>
-              <p className="text-xl text-white mb-8">
-                {finalCTA.description}
-              </p>
+              <p className="text-xl text-white mb-8">{finalCTA.description}</p>
               <div className="flex flex-wrap gap-4 justify-center">
                 <Link
                   href={finalCTA.primaryHref}

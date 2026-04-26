@@ -14,15 +14,19 @@ import { Plus, Trash2 } from 'lucide-react';
 
 interface Props {
   lessonType: LessonType;
-  practical:  PracticalConfig;
-  onChange:   (practical: PracticalConfig) => void;
+  practical: PracticalConfig;
+  onChange: (practical: PracticalConfig) => void;
   /** Full instructions text — stored in practical_requirements.instructions */
   instructions: string;
   onInstructionsChange: (instructions: string) => void;
 }
 
 export default function LessonPracticalEditor({
-  lessonType, practical, onChange, instructions, onInstructionsChange,
+  lessonType,
+  practical,
+  onChange,
+  instructions,
+  onInstructionsChange,
 }: Props) {
   const set = (patch: Partial<PracticalConfig>) => onChange({ ...practical, ...patch });
 
@@ -40,8 +44,8 @@ export default function LessonPracticalEditor({
   return (
     <div className="space-y-4">
       <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-3 text-xs text-emerald-700">
-        <strong>Practical lesson:</strong> configure hours, attempts, approval requirements, and materials.
-        Instructions are required for publish.
+        <strong>Practical lesson:</strong> configure hours, attempts, approval requirements, and
+        materials. Instructions are required for publish.
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -56,7 +60,7 @@ export default function LessonPracticalEditor({
               min={0}
               step={0.5}
               value={practical.requiredHours}
-              onChange={e => set({ requiredHours: parseFloat(e.target.value) || 0 })}
+              onChange={(e) => set({ requiredHours: parseFloat(e.target.value) || 0 })}
               className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
             />
             <p className="text-xs text-slate-400 mt-1">0 = no minimum hours required.</p>
@@ -72,7 +76,7 @@ export default function LessonPracticalEditor({
             type="number"
             min={0}
             value={practical.requiredAttempts}
-            onChange={e => set({ requiredAttempts: parseInt(e.target.value) || 0 })}
+            onChange={(e) => set({ requiredAttempts: parseInt(e.target.value) || 0 })}
             className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
           />
           <p className="text-xs text-slate-400 mt-1">0 = no minimum attempts required.</p>
@@ -85,7 +89,7 @@ export default function LessonPracticalEditor({
           <input
             type="checkbox"
             checked={practical.requiresEvaluatorApproval}
-            onChange={e => set({ requiresEvaluatorApproval: e.target.checked })}
+            onChange={(e) => set({ requiresEvaluatorApproval: e.target.checked })}
             className="accent-emerald-600 w-4 h-4"
           />
           <span className="text-sm text-slate-700">
@@ -96,7 +100,7 @@ export default function LessonPracticalEditor({
           <input
             type="checkbox"
             checked={practical.requiresSkillSignoff}
-            onChange={e => set({ requiresSkillSignoff: e.target.checked })}
+            onChange={(e) => set({ requiresSkillSignoff: e.target.checked })}
             className="accent-emerald-600 w-4 h-4"
           />
           <span className="text-sm text-slate-700">
@@ -112,7 +116,7 @@ export default function LessonPracticalEditor({
         </label>
         <textarea
           value={instructions}
-          onChange={e => onInstructionsChange(e.target.value)}
+          onChange={(e) => onInstructionsChange(e.target.value)}
           rows={5}
           placeholder="Step-by-step instructions for the learner. What to do, how to do it, what to submit as evidence..."
           className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 resize-y"
@@ -124,7 +128,7 @@ export default function LessonPracticalEditor({
         <label className="block text-xs font-semibold text-slate-600 mb-1">Safety Guidance</label>
         <textarea
           value={practical.safetyGuidance}
-          onChange={e => set({ safetyGuidance: e.target.value })}
+          onChange={(e) => set({ safetyGuidance: e.target.value })}
           rows={3}
           placeholder="Any safety precautions, PPE requirements, or hazard warnings..."
           className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 resize-y"
@@ -134,7 +138,9 @@ export default function LessonPracticalEditor({
       {/* Materials needed */}
       <div>
         <div className="flex items-center justify-between mb-2">
-          <label className="block text-xs font-semibold text-slate-600">Materials / Equipment Needed</label>
+          <label className="block text-xs font-semibold text-slate-600">
+            Materials / Equipment Needed
+          </label>
           <button
             type="button"
             onClick={addMaterial}
@@ -153,7 +159,7 @@ export default function LessonPracticalEditor({
               <input
                 type="text"
                 value={mat}
-                onChange={e => updateMaterial(i, e.target.value)}
+                onChange={(e) => updateMaterial(i, e.target.value)}
                 placeholder="e.g. Stethoscope, gloves, patient chart..."
                 className="flex-1 border border-slate-200 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
               />

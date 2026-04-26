@@ -20,7 +20,9 @@ async function _GET(request: Request) {
   const supabase = await createClient();
   const db = await getAdminClient();
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   const { data: profile } = await db
@@ -54,26 +56,29 @@ async function _GET(request: Request) {
     });
   } catch (error) {
     logger.error('Monitoring status error:', error);
-    return NextResponse.json({
-      overall: 'down',
-      timestamp: new Date().toISOString(),
-      error: 'Internal server error',
-      checks: {
-        database: { status: 'fail', connected: false },
-        redis: { status: 'fail', connected: false },
-        stripe: { status: 'fail', configured: false },
-        email: { status: 'fail', configured: false },
-      },
-      metrics: {
-        uptime: process.uptime(),
-        memory: {
-          used: Math.round(process.memoryUsage().heapUsed / 1024 / 1024),
-          total: Math.round(process.memoryUsage().heapTotal / 1024 / 1024),
+    return NextResponse.json(
+      {
+        overall: 'down',
+        timestamp: new Date().toISOString(),
+        error: 'Internal server error',
+        checks: {
+          database: { status: 'fail', connected: false },
+          redis: { status: 'fail', connected: false },
+          stripe: { status: 'fail', configured: false },
+          email: { status: 'fail', configured: false },
         },
-        requests: { total: 0, errors: 0, rate: 0 },
-        rateLimits: { blocked: 0, allowed: 0 },
+        metrics: {
+          uptime: process.uptime(),
+          memory: {
+            used: Math.round(process.memoryUsage().heapUsed / 1024 / 1024),
+            total: Math.round(process.memoryUsage().heapTotal / 1024 / 1024),
+          },
+          requests: { total: 0, errors: 0, rate: 0 },
+          rateLimits: { blocked: 0, allowed: 0 },
+        },
       },
-    }, { status: 500 });
+      { status: 500 },
+    );
   }
 }
 

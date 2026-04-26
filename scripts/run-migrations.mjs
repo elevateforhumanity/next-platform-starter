@@ -24,8 +24,8 @@ async function runSQL(sql) {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'apikey': SKEY,
-      'Authorization': `Bearer ${SKEY}`,
+      apikey: SKEY,
+      Authorization: `Bearer ${SKEY}`,
     },
     body: JSON.stringify({ sql }),
   });
@@ -36,11 +36,14 @@ async function runSQL(sql) {
 }
 
 const files = process.argv.slice(2);
-if (!files.length) { console.error('No files specified'); process.exit(1); }
+if (!files.length) {
+  console.error('No files specified');
+  process.exit(1);
+}
 
 let failed = 0;
 for (const file of files) {
-  const sql   = readFileSync(resolve(file), 'utf8');
+  const sql = readFileSync(resolve(file), 'utf8');
   const label = file.split('/').pop();
   process.stdout.write(`Applying ${label} ... `);
   try {

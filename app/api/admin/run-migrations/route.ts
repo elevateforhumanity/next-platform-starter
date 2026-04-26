@@ -24,64 +24,61 @@ async function _POST(request: NextRequest) {
 
     // Create admin client
     const supabase = createClient(supabaseUrl, serviceKey, {
-      auth: { persistSession: false }
+      auth: { persistSession: false },
     });
 
     const results: { migration: string; status: string; error?: string }[] = [];
 
     // Check tables
     const tables = ['program_announcements', 'program_discussions', 'program_discussion_replies'];
-    
+
     for (const table of tables) {
       try {
-        const { error: checkError } = await supabase
-          .from(table)
-          .select('id')
-          .limit(1);
+        const { error: checkError } = await supabase.from(table).select('id').limit(1);
 
         if (checkError?.code === 'PGRST205') {
           results.push({
             migration: table,
             status: 'REQUIRES_MANUAL',
-            error: 'Table must be created via Supabase SQL Editor'
+            error: 'Table must be created via Supabase SQL Editor',
           });
         } else if (checkError?.code === '42501') {
           results.push({
             migration: table,
             status: 'EXISTS',
-            error: 'Table exists (RLS blocking)'
+            error: 'Table exists (RLS blocking)',
           });
         } else {
           results.push({
             migration: table,
-            status: 'EXISTS'
+            status: 'EXISTS',
           });
         }
       } catch (e: any) {
         results.push({
           migration: table,
           status: 'ERROR',
-          error: 'Operation failed'
+          error: 'Operation failed',
         });
       }
     }
 
-    const allExist = results.every(r => r.status === 'EXISTS');
-    const requiresManual = results.some(r => r.status === 'REQUIRES_MANUAL');
+    const allExist = results.every((r) => r.status === 'EXISTS');
+    const requiresManual = results.some((r) => r.status === 'REQUIRES_MANUAL');
 
     return NextResponse.json({
       success: allExist,
       requiresManual,
-      message: requiresManual 
+      message: requiresManual
         ? 'Some tables need to be created manually in Supabase SQL Editor'
-        : allExist 
+        : allExist
           ? 'All migrations applied'
           : 'Migration check complete',
       results,
       sqlFiles: [
         '/supabase/migrations/20260116_program_announcements.sql',
-        '/supabase/migrations/20260116_program_discussions.sql'
-      ]
+        '/supabase/migrations/20260116_program_discussions.sql',
+      ],
     });
   });
 }

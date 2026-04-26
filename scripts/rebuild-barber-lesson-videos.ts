@@ -14,21 +14,21 @@ import { execSync } from 'child_process';
 import { barberApprenticeshipBlueprint } from '../lib/curriculum/blueprints/barber-apprenticeship';
 import { generateAndSaveAudio } from '../server/tts-service';
 
-const VIDEOS_DIR  = path.join(process.cwd(), 'public/videos/barber-lessons');
-const BROLL_DIR   = path.join(process.cwd(), 'public/videos');
+const VIDEOS_DIR = path.join(process.cwd(), 'public/videos/barber-lessons');
+const BROLL_DIR = path.join(process.cwd(), 'public/videos');
 
 // Map lesson slug → best matching b-roll clip
 const BROLL_MAP: Record<string, string> = {
   // Sanitation / infection control
-  'barber-lesson-1':  'barber-training.mp4',
-  'barber-lesson-2':  'course-barber-sanitation.mp4',
-  'barber-lesson-3':  'course-barber-sanitation.mp4',
-  'barber-lesson-4':  'course-barber-sanitation.mp4',
-  'barber-lesson-5':  'course-barber-sanitation.mp4',
-  'barber-lesson-6':  'barber-training.mp4',
+  'barber-lesson-1': 'barber-training.mp4',
+  'barber-lesson-2': 'course-barber-sanitation.mp4',
+  'barber-lesson-3': 'course-barber-sanitation.mp4',
+  'barber-lesson-4': 'course-barber-sanitation.mp4',
+  'barber-lesson-5': 'course-barber-sanitation.mp4',
+  'barber-lesson-6': 'barber-training.mp4',
   // Hair science
-  'barber-lesson-8':  'course-barber-shampoo.mp4',
-  'barber-lesson-9':  'course-barber-shampoo.mp4',
+  'barber-lesson-8': 'course-barber-shampoo.mp4',
+  'barber-lesson-9': 'course-barber-shampoo.mp4',
   'barber-lesson-10': 'course-barber-shampoo.mp4',
   'barber-lesson-11': 'course-barber-shampoo.mp4',
   // Client services
@@ -76,7 +76,10 @@ const BROLL_MAP: Record<string, string> = {
 
 function buildNarration(title: string, content: string): string {
   // Strip HTML tags
-  const plain = content.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+  const plain = content
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
   return `${title}. ${plain}`.slice(0, 3000);
 }
 
@@ -84,18 +87,15 @@ function getAudioDuration(audioPath: string): number {
   try {
     const out = execSync(
       `ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 "${audioPath}"`,
-      { encoding: 'utf8' }
+      { encoding: 'utf8' },
     );
     return parseFloat(out.trim()) || 60;
-  } catch { return 60; }
+  } catch {
+    return 60;
+  }
 }
 
-async function buildLessonVideo(
-  slug: string,
-  title: string,
-  content: string,
-  outputPath: string,
-) {
+async function buildLessonVideo(slug: string, title: string, content: string, outputPath: string) {
   const brollFile = BROLL_MAP[slug] ?? 'barber-training.mp4';
   const brollPath = path.join(BROLL_DIR, brollFile);
 
@@ -117,15 +117,15 @@ async function buildLessonVideo(
     const loopedVideo = path.join(tmp, 'looped.mp4');
     execSync(
       `ffmpeg -y -stream_loop -1 -i "${brollPath}" -t ${audioDur.toFixed(2)} ` +
-      `-c:v libx264 -preset fast -crf 20 -an "${loopedVideo}"`,
-      { stdio: 'pipe' }
+        `-c:v libx264 -preset fast -crf 20 -an "${loopedVideo}"`,
+      { stdio: 'pipe' },
     );
 
     // 3. Mux looped video + narration audio
     execSync(
       `ffmpeg -y -i "${loopedVideo}" -i "${audioPath}" ` +
-      `-c:v copy -c:a aac -b:a 128k -shortest "${outputPath}"`,
-      { stdio: 'pipe' }
+        `-c:v copy -c:a aac -b:a 128k -shortest "${outputPath}"`,
+      { stdio: 'pipe' },
     );
 
     const dur = getAudioDuration(outputPath);
@@ -139,7 +139,7 @@ async function main() {
   fs.mkdirSync(VIDEOS_DIR, { recursive: true });
 
   // Delete old canvas-rendered slide videos
-  const existing = fs.readdirSync(VIDEOS_DIR).filter(f => f.endsWith('.mp4'));
+  const existing = fs.readdirSync(VIDEOS_DIR).filter((f) => f.endsWith('.mp4'));
   for (const f of existing) {
     fs.unlinkSync(path.join(VIDEOS_DIR, f));
     console.log(`🗑  Deleted old: ${f}`);

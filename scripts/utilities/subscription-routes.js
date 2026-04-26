@@ -23,11 +23,7 @@ const SUBSCRIPTION_PLANS = {
     name: 'Starter',
     price_monthly: 9900, // $99.00
     price_yearly: 99000, // $990.00 (2 months free)
-    features: [
-      'Access to core courses',
-      'Basic progress tracking',
-      'Email support',
-    ],
+    features: ['Access to core courses', 'Basic progress tracking', 'Email support'],
   },
   professional: {
     name: 'Professional',
@@ -68,9 +64,7 @@ router.get('/api/subscription/plans', (req, res) => {
     price_monthly: plan.price_monthly,
     price_yearly: plan.price_yearly,
     features: plan.features,
-    savings_yearly: Math.round(
-      (plan.price_monthly * 12 - plan.price_yearly) / 100
-    ),
+    savings_yearly: Math.round((plan.price_monthly * 12 - plan.price_yearly) / 100),
   }));
 
   res.json({ plans });
@@ -85,11 +79,7 @@ router.post('/api/subscription/checkout', async (req, res) => {
       return res.status(400).json({ error: 'Email and plan ID required' });
     }
 
-    const result = await subscriptionManager.createSubscription(
-      email,
-      planId,
-      billingPeriod
-    );
+    const result = await subscriptionManager.createSubscription(email, planId, billingPeriod);
     res.json(result);
   } catch (error) {
     res.status(500).json({ error: 'Failed to create subscription' });
@@ -121,10 +111,7 @@ router.get('/api/subscription/access/:courseSlug', async (req, res) => {
       return res.status(400).json({ error: 'Email required' });
     }
 
-    const hasAccess = await subscriptionManager.canAccessCourse(
-      email,
-      courseSlug
-    );
+    const hasAccess = await subscriptionManager.canAccessCourse(email, courseSlug);
     res.json({ hasAccess });
   } catch (error) {
     res.status(500).json({ error: 'Failed to check access' });

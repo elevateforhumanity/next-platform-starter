@@ -8,10 +8,9 @@ export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 async function _GET(req: Request) {
-  
-    const rateLimited = await applyRateLimit(req, 'api');
-    if (rateLimited) return rateLimited;
-const supabase = await createClient();
+  const rateLimited = await applyRateLimit(req, 'api');
+  if (rateLimited) return rateLimited;
+  const supabase = await createClient();
 
   const {
     data: { user },
@@ -29,7 +28,8 @@ const supabase = await createClient();
     // Get student's apprentice enrollment with transfer hours and required hours
     let enrollmentQuery = supabase
       .from('student_enrollments')
-      .select(`
+      .select(
+        `
         id,
         program_id,
         transfer_hours,
@@ -43,7 +43,8 @@ const supabase = await createClient();
           slug,
           total_hours
         )
-      `)
+      `,
+      )
       .eq('student_id', user.id);
 
     if (enrollmentId) {
@@ -58,9 +59,8 @@ const supabase = await createClient();
 
     if (enrollment) {
       // Use enrollment-specific required hours if set, otherwise use program default
-      requiredHours = enrollment.required_hours 
-        || (enrollment.programs as any)?.total_hours 
-        || 2000;
+      requiredHours =
+        enrollment.required_hours || (enrollment.programs as any)?.total_hours || 2000;
       transferHours = enrollment.transfer_hours || 0;
     }
 
@@ -76,30 +76,43 @@ const supabase = await createClient();
 
     // Calculate totals (hour_entries stores hours directly, not minutes)
     const logs = hourLogs || [];
-    
+
     const totalRtiHours = logs
-      .filter(l => l.source_type === 'rti')
+      .filter((l) => l.source_type === 'rti')
       .reduce((sum, l) => sum + (Number(l.hours_claimed) || 0), 0);
-    
+
     const totalOjlHours = logs
-      .filter(l => l.source_type === 'ojl' || l.source_type === 'host_shop' || l.source_type === 'timeclock' || l.source_type === 'manual')
+      .filter(
+        (l) =>
+          l.source_type === 'ojl' ||
+          l.source_type === 'host_shop' ||
+          l.source_type === 'timeclock' ||
+          l.source_type === 'manual',
+      )
       .reduce((sum, l) => sum + (Number(l.hours_claimed) || 0), 0);
-    
+
     const approvedHoursVal = logs
-      .filter(l => l.status === 'approved')
+      .filter((l) => l.status === 'approved')
       .reduce((sum, l) => sum + (Number(l.accepted_hours) || Number(l.hours_claimed) || 0), 0);
-    
+
     const pendingHoursVal = logs
-      .filter(l => l.status === 'pending')
+      .filter((l) => l.status === 'pending')
       .reduce((sum, l) => sum + (Number(l.hours_claimed) || 0), 0);
 
     // WIOA-specific hours (tracked via category)
     const wioaRtiHours = logs
-      .filter(l => l.source_type === 'rti' && l.category === 'wioa')
+      .filter((l) => l.source_type === 'rti' && l.category === 'wioa')
       .reduce((sum, l) => sum + (Number(l.hours_claimed) || 0), 0);
 
     const wioaOjlHours = logs
-      .filter(l => (l.source_type === 'ojl' || l.source_type === 'host_shop' || l.source_type === 'timeclock' || l.source_type === 'manual') && l.category === 'wioa')
+      .filter(
+        (l) =>
+          (l.source_type === 'ojl' ||
+            l.source_type === 'host_shop' ||
+            l.source_type === 'timeclock' ||
+            l.source_type === 'manual') &&
+          l.category === 'wioa',
+      )
       .reduce((sum, l) => sum + (Number(l.hours_claimed) || 0), 0);
 
     // Alias for backward compat in calculations below
@@ -148,20 +161,20 @@ const supabase = await createClient();
       wioa_ojl_hours: wioaOjlMinutes / 60,
       enrollment_id: enrollment?.id || null,
       program_name: (enrollment?.programs as any)?.name || 'Barber Apprenticeship',
-      
+
       // RAPIDS info
       rapids_status: rapidsData?.status || enrollment?.rapids_status || 'pending',
       rapids_id: rapidsData?.rapids_id || enrollment?.rapids_id || null,
       rapids_registration_date: rapidsData?.registration_date || null,
-      
+
       // LMS enrollment status (DB columns retain milady_ prefix until migration)
       lms_enrolled: enrollment?.lms_enrolled || false,
       lms_completed: stateBoardData?.lms_completed || false,
-      
+
       // State board readiness
       ready_for_exam: readyForExam && (stateBoardData?.lms_completed || false),
       practical_skills_verified: stateBoardData?.practical_skills_verified || false,
-      
+
       // Shop info
       shop_id: enrollment?.shop_id || null,
     };
@@ -169,10 +182,7 @@ const supabase = await createClient();
     return NextResponse.json({ summary });
   } catch (error: any) {
     logger.error('Error in hours-summary:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch hour summary' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to fetch hour summary' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/apprentice/hours-summary', _GET);

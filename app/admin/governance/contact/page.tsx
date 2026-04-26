@@ -1,6 +1,4 @@
-
 export const revalidate = 3600;
-
 
 import { requireRole } from '@/lib/auth/require-role';
 import { Metadata } from 'next';
@@ -22,7 +20,8 @@ const contactCategories = [
     title: 'General Governance Inquiries',
     icon: Building2,
     email: 'info@elevateforhumanity.org',
-    description: 'Questions about platform governance, authoritative documents, or operational controls.',
+    description:
+      'Questions about platform governance, authoritative documents, or operational controls.',
     responseTime: '2-3 business days',
   },
   {
@@ -59,13 +58,9 @@ export default async function GovernanceContactPage() {
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* Hero Image */}
       <Breadcrumbs
-        items={[
-          { label: 'Governance', href: '/admin/governance' },
-          { label: 'Contact' },
-        ]}
+        items={[{ label: 'Governance', href: '/admin/governance' }, { label: 'Contact' }]}
       />
       {/* Header */}
       <div className="bg-slate-900 text-white py-12">
@@ -73,11 +68,9 @@ export default async function GovernanceContactPage() {
           <div className="flex items-center gap-3 mb-4">
             <Mail className="w-8 h-8 text-brand-blue-400" />
           </div>
-          <h1 className="text-3xl md:text-4xl font-bold mb-4">
-            Governance Contact
-          </h1>
+          <h1 className="text-3xl md:text-4xl font-bold mb-4">Governance Contact</h1>
           <p className="text-slate-300 text-lg max-w-2xl">
-            For governance, compliance, security, or diligence inquiries, use the appropriate 
+            For governance, compliance, security, or diligence inquiries, use the appropriate
             contact channel below.
           </p>
           <div className="mt-6 text-sm text-slate-500">
@@ -92,7 +85,7 @@ export default async function GovernanceContactPage() {
           <h2 className="text-2xl font-bold text-slate-900 mb-6">Contact Channels</h2>
           <div className="grid md:grid-cols-2 gap-6">
             {contactCategories.map((category) => (
-              <div 
+              <div
                 key={category.title}
                 className="border border-slate-200 rounded-xl p-6 hover:border-brand-blue-300 transition-colors"
               >
@@ -103,7 +96,7 @@ export default async function GovernanceContactPage() {
                   <h3 className="font-semibold text-slate-900">{category.title}</h3>
                 </div>
                 <p className="text-slate-600 text-sm mb-4">{category.description}</p>
-                <a 
+                <a
                   href={`mailto:${category.email}`}
                   className="inline-flex items-center gap-2 text-brand-blue-600 font-medium hover:text-brand-blue-700"
                 >
@@ -132,12 +125,16 @@ export default async function GovernanceContactPage() {
 
         {/* For Partners and Buyers */}
         <section className="mb-12 bg-slate-50 rounded-xl p-6 border border-slate-200">
-          <h2 className="text-xl font-bold text-slate-900 mb-4">For Partners, Buyers & Reviewers</h2>
+          <h2 className="text-xl font-bold text-slate-900 mb-4">
+            For Partners, Buyers & Reviewers
+          </h2>
           <p className="text-slate-700 mb-4">
             If you are conducting due diligence or require formal documentation:
           </p>
           <ul className="space-y-2 text-slate-700 mb-4">
-            <li>• Use the <strong>Diligence Requests</strong> channel above</li>
+            <li>
+              • Use the <strong>Diligence Requests</strong> channel above
+            </li>
             <li>• Specify which documents you need (refer to the Authoritative Documents Index)</li>
             <li>• Indicate your timeline and any specific format requirements</li>
           </ul>
@@ -156,7 +153,7 @@ export default async function GovernanceContactPage() {
           <p className="text-slate-700 mb-4">
             If you need to report a security incident or vulnerability:
           </p>
-          <a 
+          <a
             href="/contact"
             className="inline-flex items-center gap-2 px-4 py-2 bg-brand-red-600 text-white rounded-lg font-medium hover:bg-brand-red-700 transition-colors"
           >

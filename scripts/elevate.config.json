@@ -1,15 +1,7 @@
 {
   "baseUrl": "https://www.elevateforhumanity.org",
   "projectType": "vite-react",
-  "roots": [
-    "public",
-    "src/pages",
-    "src/routes",
-    "content",
-    "blog",
-    "posts",
-    "programs"
-  ],
+  "roots": ["public", "src/pages", "src/routes", "content", "blog", "posts", "programs"],
   "programDirNames": ["programs", "apprenticeships"],
   "blogDirNames": ["blog", "posts", "content/blog"],
   "sisterSites": [

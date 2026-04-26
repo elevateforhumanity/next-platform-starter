@@ -6,14 +6,10 @@ import { logger } from '@/lib/logger';
  * @param filename - The filename stored in program_holders.signed_mou_url
  * @returns Public URL for downloading the signed MOU
  */
-export async function getSignedMOUUrl(
-  filename: string
-): Promise<string | null> {
+export async function getSignedMOUUrl(filename: string): Promise<string | null> {
   const supabase = createClient();
 
-  const { data, error }: any = await supabase.storage
-    .from('mous')
-    .createSignedUrl(filename, 60); // 60-second expiry for compliance documents
+  const { data, error }: any = await supabase.storage.from('mous').createSignedUrl(filename, 60); // 60-second expiry for compliance documents
 
   if (error) {
     logger.error('Error creating signed URL', error as Error, { filename });
@@ -28,14 +24,10 @@ export async function getSignedMOUUrl(
  * @param filename - The filename stored in program_holders.signed_mou_url
  * @returns Blob of the PDF file
  */
-export async function downloadSignedMOU(
-  filename: string
-): Promise<Blob | null> {
+export async function downloadSignedMOU(filename: string): Promise<Blob | null> {
   const supabase = createClient();
 
-  const { data, error }: any = await supabase.storage
-    .from('mous')
-    .download(filename);
+  const { data, error }: any = await supabase.storage.from('mous').download(filename);
 
   if (error) {
     logger.error('Error downloading MOU', error as Error, { filename });

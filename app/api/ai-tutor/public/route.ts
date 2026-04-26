@@ -14,10 +14,7 @@ export const maxDuration = 30;
 const MAX_INPUT_CHARS = 500;
 const MAX_OUTPUT_TOKENS = 400;
 
-const ALLOWED_ORIGINS = [
-  'https://www.elevateforhumanity.org',
-  'https://elevateforhumanity.org',
-];
+const ALLOWED_ORIGINS = ['https://www.elevateforhumanity.org', 'https://elevateforhumanity.org'];
 
 function isAllowedOrigin(origin: string): boolean {
   if (ALLOWED_ORIGINS.includes(origin)) return true;
@@ -39,7 +36,11 @@ function getClientIp(req: NextRequest): string {
 
 function hashIp(ip: string): string {
   const salt = process.env.LOG_SALT || 'elevate-public-tutor';
-  return crypto.createHash('sha256').update(ip + salt).digest('hex').slice(0, 16);
+  return crypto
+    .createHash('sha256')
+    .update(ip + salt)
+    .digest('hex')
+    .slice(0, 16);
 }
 
 function containsPII(text: string): boolean {
@@ -100,14 +101,14 @@ async function _POST(req: NextRequest) {
   if (message.length > MAX_INPUT_CHARS) {
     return NextResponse.json(
       { error: `Max ${MAX_INPUT_CHARS} characters` },
-      { status: 400, headers }
+      { status: 400, headers },
     );
   }
 
   if (containsPII(message)) {
     return NextResponse.json(
       { error: 'Please do not include personal information (email, phone, SSN).' },
-      { status: 400, headers }
+      { status: 400, headers },
     );
   }
 
@@ -136,7 +137,9 @@ async function _POST(req: NextRequest) {
   try {
     const { isAIAvailable } = await import('@/lib/ai/ai-service');
     aiAvailable = isAIAvailable();
-  } catch { /* AI service not available */ }
+  } catch {
+    /* AI service not available */
+  }
 
   if (!aiAvailable) {
     const fallback = `The ${program.title || program?.title || program?.name} program is available at Elevate for Humanity. Apply at elevateforhumanity.org${program.applyUrl} or contact us for details.`;
@@ -157,17 +160,21 @@ async function _POST(req: NextRequest) {
       maxTokens: MAX_OUTPUT_TOKENS,
     });
 
-    const answer = result.content
-      || `I can help with ${program.title || program?.title || program?.name} questions. Please try rephrasing.`;
+    const answer =
+      result.content ||
+      `I can help with ${program.title || program?.title || program?.name} questions. Please try rephrasing.`;
 
     await logRequest(answer.length, null);
     return NextResponse.json({ message: answer }, { headers });
   } catch (error) {
-    logger.error('Public AI tutor error', error instanceof Error ? error : new Error(String(error)));
+    logger.error(
+      'Public AI tutor error',
+      error instanceof Error ? error : new Error(String(error)),
+    );
     await logRequest(0, 'exception');
     return NextResponse.json(
-      { message: 'I\'m having trouble right now. Please try again in a moment.' },
-      { headers }
+      { message: "I'm having trouble right now. Please try again in a moment." },
+      { headers },
     );
   }
 }

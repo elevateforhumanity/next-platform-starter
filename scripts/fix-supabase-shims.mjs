@@ -16,8 +16,11 @@ import { execSync } from 'child_process';
 
 const files = execSync(
   `grep -rl "from '@/lib/supabaseAdmin'\\|from '@/lib/supabase-admin'\\|from '@/lib/supabaseServer'\\|from '@/lib/supabase-server'\\|from '@/lib/supabaseClient'\\|from '@/lib/supabaseClients'\\|from '@/lib/supabase-api'\\|from '@/lib/getSupabaseServerClient'\\|from '@/lib/supabase-lazy'" app --include="*.ts" --include="*.tsx"`,
-  { encoding: 'utf8' }
-).trim().split('\n').filter(Boolean);
+  { encoding: 'utf8' },
+)
+  .trim()
+  .split('\n')
+  .filter(Boolean);
 
 console.log(`Fixing ${files.length} files...`);
 
@@ -27,11 +30,20 @@ for (const file of files) {
   const original = src;
 
   // ── 1. Remove all deprecated import lines ──────────────────────────────
-  src = src.replace(/^import\s+\{[^}]+\}\s+from\s+'@\/lib\/(supabaseAdmin|supabase-admin|supabaseServer|supabase-server|supabaseClient|supabaseClients|supabase-api|getSupabaseServerClient|supabase-lazy)';\n?/gm, '');
-  src = src.replace(/^import\s+\*\s+as\s+\w+\s+from\s+'@\/lib\/(supabaseAdmin|supabase-admin|supabaseServer|supabase-server|supabaseClient|supabaseClients|supabase-api|getSupabaseServerClient|supabase-lazy)';\n?/gm, '');
+  src = src.replace(
+    /^import\s+\{[^}]+\}\s+from\s+'@\/lib\/(supabaseAdmin|supabase-admin|supabaseServer|supabase-server|supabaseClient|supabaseClients|supabase-api|getSupabaseServerClient|supabase-lazy)';\n?/gm,
+    '',
+  );
+  src = src.replace(
+    /^import\s+\*\s+as\s+\w+\s+from\s+'@\/lib\/(supabaseAdmin|supabase-admin|supabaseServer|supabase-server|supabaseClient|supabaseClients|supabase-api|getSupabaseServerClient|supabase-lazy)';\n?/gm,
+    '',
+  );
 
   // ── 2. Add canonical import if not already present ─────────────────────
-  const needsAdmin = /supabaseAdmin\b|supabaseServer\(\)|createSupabaseClient\(\)|getSupabaseServerClient\(\)|getServerSupabase\(\)|getAdminSupabase\(\)/.test(src);
+  const needsAdmin =
+    /supabaseAdmin\b|supabaseServer\(\)|createSupabaseClient\(\)|getSupabaseServerClient\(\)|getServerSupabase\(\)|getAdminSupabase\(\)/.test(
+      src,
+    );
   const needsClient = /getClientSupabase\(\)/.test(src);
 
   const hasAdminImport = /from '@\/lib\/supabase\/admin'/.test(src);
@@ -41,13 +53,13 @@ for (const file of files) {
     // Insert after the last existing import block
     src = src.replace(
       /^(import\s.+;\n)(?!import\s)/m,
-      `$1import { createAdminClient } from '@/lib/supabase/admin';\n`
+      `$1import { createAdminClient } from '@/lib/supabase/admin';\n`,
     );
   }
   if (needsClient && !hasClientImport) {
     src = src.replace(
       /^(import\s.+;\n)(?!import\s)/m,
-      `$1import { createBrowserClient } from '@/lib/supabase/client';\n`
+      `$1import { createBrowserClient } from '@/lib/supabase/client';\n`,
     );
   }
 

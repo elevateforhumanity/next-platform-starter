@@ -11,21 +11,15 @@
  * Returns a Uint8Array of the completed PDF.
  */
 
-import {
-  PDFDocument,
-  rgb,
-  StandardFonts,
-  PDFFont,
-  PDFPage,
-} from 'pdf-lib';
+import { PDFDocument, rgb, StandardFonts, PDFFont, PDFPage } from 'pdf-lib';
 
 export interface FieldMapEntry {
   name: string;
   label: string;
   type: 'text' | 'date' | 'signature' | 'checkbox';
-  page: number;   // 1-based
-  x: number;      // points from left
-  y: number;      // points from bottom
+  page: number; // 1-based
+  x: number; // points from left
+  y: number; // points from bottom
   width: number;
   height: number;
   required?: boolean;
@@ -33,25 +27,20 @@ export interface FieldMapEntry {
 
 export interface SignedPDFInput {
   documentTitle: string;
-  documentBody?: string;           // HTML/plain text body (used when no template)
-  pdfTemplateBytes?: Uint8Array;   // raw bytes of uploaded PDF template
+  documentBody?: string; // HTML/plain text body (used when no template)
+  pdfTemplateBytes?: Uint8Array; // raw bytes of uploaded PDF template
   fieldMap?: FieldMapEntry[];
   fieldValues?: Record<string, string>;
   signerName: string;
   signerEmail: string;
-  signatureData?: string;          // base64 PNG data URL (draw mode)
-  typedName?: string;              // typed name (typed mode)
+  signatureData?: string; // base64 PNG data URL (draw mode)
+  typedName?: string; // typed name (typed mode)
   signatureType: 'draw' | 'typed';
-  signedAt: string;                // ISO string
+  signedAt: string; // ISO string
   ipAddress?: string;
 }
 
-function wrapText(
-  text: string,
-  maxWidth: number,
-  font: PDFFont,
-  fontSize: number
-): string[] {
+function wrapText(text: string, maxWidth: number, font: PDFFont, fontSize: number): string[] {
   const words = text.split(' ');
   const lines: string[] = [];
   let current = '';
@@ -76,7 +65,7 @@ function drawWrappedText(
   maxWidth: number,
   font: PDFFont,
   fontSize: number,
-  lineHeight: number
+  lineHeight: number,
 ): number {
   const lines = wrapText(text, maxWidth, font, fontSize);
   for (const line of lines) {
@@ -144,7 +133,7 @@ export async function generateSignedPDF(input: SignedPDFInput): Promise<Uint8Arr
     const boldFont = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
 
     const margin = 60;
-    const pageWidth = 612;   // US Letter
+    const pageWidth = 612; // US Letter
     const pageHeight = 792;
     const contentWidth = pageWidth - margin * 2;
     const lineHeight = 16;
@@ -194,7 +183,16 @@ export async function generateSignedPDF(input: SignedPDFInput): Promise<Uint8Arr
         page = pdfDoc.addPage([pageWidth, pageHeight]);
         y = pageHeight - margin;
       }
-      y = drawWrappedText(page, paragraph.trim(), margin, y, contentWidth, font, fontSize, lineHeight);
+      y = drawWrappedText(
+        page,
+        paragraph.trim(),
+        margin,
+        y,
+        contentWidth,
+        font,
+        fontSize,
+        lineHeight,
+      );
       y -= 4;
     }
 
@@ -250,16 +248,35 @@ export async function generateSignedPDF(input: SignedPDFInput): Promise<Uint8Arr
     });
     y -= 14;
 
-    page.drawText(`${input.signerName}`, { x: margin, y, size: 10, font: boldFont, color: rgb(0, 0, 0) });
+    page.drawText(`${input.signerName}`, {
+      x: margin,
+      y,
+      size: 10,
+      font: boldFont,
+      color: rgb(0, 0, 0),
+    });
     y -= 14;
     page.drawText(input.signerEmail, { x: margin, y, size: 9, font, color: rgb(0.4, 0.4, 0.4) });
     y -= 14;
-    page.drawText(`Signed: ${new Date(input.signedAt).toLocaleString('en-US', { timeZone: 'America/Indiana/Indianapolis' })}`, {
-      x: margin, y, size: 9, font, color: rgb(0.4, 0.4, 0.4),
-    });
+    page.drawText(
+      `Signed: ${new Date(input.signedAt).toLocaleString('en-US', { timeZone: 'America/Indiana/Indianapolis' })}`,
+      {
+        x: margin,
+        y,
+        size: 9,
+        font,
+        color: rgb(0.4, 0.4, 0.4),
+      },
+    );
     if (input.ipAddress) {
       y -= 14;
-      page.drawText(`IP: ${input.ipAddress}`, { x: margin, y, size: 8, font, color: rgb(0.6, 0.6, 0.6) });
+      page.drawText(`IP: ${input.ipAddress}`, {
+        x: margin,
+        y,
+        size: 8,
+        font,
+        color: rgb(0.6, 0.6, 0.6),
+      });
     }
   }
 

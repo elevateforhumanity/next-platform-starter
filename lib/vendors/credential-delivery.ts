@@ -59,7 +59,7 @@ const PARTNER_ENROLLMENT_URLS: Record<string, string> = {
  * Deliver course credentials to student after payment.
  */
 export async function deliverCredentials(
-  request: CredentialDeliveryRequest
+  request: CredentialDeliveryRequest,
 ): Promise<CredentialDeliveryResult> {
   const supabase = await getAdminClient();
   if (!supabase) {
@@ -125,13 +125,19 @@ export async function deliverCredentials(
 
     return result;
   } catch (err) {
-    logger.error('[credential-delivery] Error:',
-      err instanceof Error ? err : new Error(String(err)));
+    logger.error(
+      '[credential-delivery] Error:',
+      err instanceof Error ? err : new Error(String(err)),
+    );
 
     // Queue for manual processing
     await queueManualDelivery(supabase, request);
 
-    return { success: false, method: 'manual_queue', error: 'Credential delivery failed, queued for manual processing' };
+    return {
+      success: false,
+      method: 'manual_queue',
+      error: 'Credential delivery failed, queued for manual processing',
+    };
   }
 }
 
@@ -150,14 +156,16 @@ async function deliverHSI(request: CredentialDeliveryRequest): Promise<Credentia
 /**
  * Certiport: If API available, provision account. Otherwise send portal link.
  */
-async function deliverCertiport(request: CredentialDeliveryRequest): Promise<CredentialDeliveryResult> {
+async function deliverCertiport(
+  request: CredentialDeliveryRequest,
+): Promise<CredentialDeliveryResult> {
   // If Certiport API is configured, provision directly
   if (process.env.CERTIPORT_API_KEY) {
     try {
       const response = await fetch('https://api.certiport.com/v1/students', {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${process.env.CERTIPORT_API_KEY}`,
+          Authorization: `Bearer ${process.env.CERTIPORT_API_KEY}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
@@ -193,7 +201,9 @@ async function deliverCertiport(request: CredentialDeliveryRequest): Promise<Cre
 /**
  * CareerSafe: Send enrollment link with course access.
  */
-async function deliverCareerSafe(request: CredentialDeliveryRequest): Promise<CredentialDeliveryResult> {
+async function deliverCareerSafe(
+  request: CredentialDeliveryRequest,
+): Promise<CredentialDeliveryResult> {
   return {
     success: true,
     method: 'enrollment_link',
@@ -206,11 +216,12 @@ async function deliverCareerSafe(request: CredentialDeliveryRequest): Promise<Cr
  */
 async function deliverGeneric(
   request: CredentialDeliveryRequest,
-  providerType: string
+  providerType: string,
 ): Promise<CredentialDeliveryResult> {
-  const loginUrl = request.courseUrl
-    || PARTNER_ENROLLMENT_URLS[providerType]
-    || `https://www.elevateforhumanity.org/courses/partners/${request.courseId}/access`;
+  const loginUrl =
+    request.courseUrl ||
+    PARTNER_ENROLLMENT_URLS[providerType] ||
+    `https://www.elevateforhumanity.org/courses/partners/${request.courseId}/access`;
 
   return {
     success: true,
@@ -224,7 +235,7 @@ async function deliverGeneric(
  */
 async function sendCredentialEmail(
   request: CredentialDeliveryRequest,
-  result: CredentialDeliveryResult
+  result: CredentialDeliveryResult,
 ): Promise<void> {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
 
@@ -283,8 +294,10 @@ async function sendCredentialEmail(
     logger.info('[credential-delivery] Email sent to:', request.studentEmail);
   } catch (emailErr) {
     // Non-fatal: enrollment succeeds even if email fails
-    logger.error('[credential-delivery] Email send failed (non-fatal):',
-      emailErr instanceof Error ? emailErr : new Error(String(emailErr)));
+    logger.error(
+      '[credential-delivery] Email send failed (non-fatal):',
+      emailErr instanceof Error ? emailErr : new Error(String(emailErr)),
+    );
   }
 }
 
@@ -293,7 +306,7 @@ async function sendCredentialEmail(
  */
 async function queueManualDelivery(
   supabase: ReturnType<typeof createAdminClient>,
-  request: CredentialDeliveryRequest
+  request: CredentialDeliveryRequest,
 ): Promise<void> {
   try {
     await supabase!.from('credential_delivery_queue').insert({
@@ -310,7 +323,9 @@ async function queueManualDelivery(
     });
     logger.info('[credential-delivery] Queued for manual delivery:', request.enrollmentId);
   } catch (queueErr) {
-    logger.error('[credential-delivery] Failed to queue:',
-      queueErr instanceof Error ? queueErr : new Error(String(queueErr)));
+    logger.error(
+      '[credential-delivery] Failed to queue:',
+      queueErr instanceof Error ? queueErr : new Error(String(queueErr)),
+    );
   }
 }

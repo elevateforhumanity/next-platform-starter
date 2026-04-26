@@ -16,12 +16,7 @@
       },
       {
         "prompt": "Which tool acts as a guide in the Scissor Over Comb technique?",
-        "choices": [
-          "Scissors",
-          "Comb",
-          "Razor",
-          "Clippers"
-        ],
+        "choices": ["Scissors", "Comb", "Razor", "Clippers"],
         "answerIndex": 1,
         "rationale": "In the Scissor Over Comb technique, the comb acts as a guide, determining the length of hair to be cut.",
         "type": "recall"
@@ -88,12 +83,7 @@
       },
       {
         "prompt": "What percentage of the Indiana state board barber exam is dedicated to haircutting skills?",
-        "choices": [
-          "10%",
-          "25%",
-          "50%",
-          "75%"
-        ],
+        "choices": ["10%", "25%", "50%", "75%"],
         "answerIndex": 1,
         "rationale": "The Indiana state board barber exam dedicates 25% of the exam to haircutting skills.",
         "type": "recall"
@@ -136,12 +126,7 @@
       },
       {
         "prompt": "A client requests a classic cut with no visible lines. Which technique should you use to achieve this?",
-        "choices": [
-          "Clipper Over Comb",
-          "Scissor Over Comb",
-          "Razor Cutting",
-          "Point Cutting"
-        ],
+        "choices": ["Clipper Over Comb", "Scissor Over Comb", "Razor Cutting", "Point Cutting"],
         "answerIndex": 1,
         "rationale": "The Scissor Over Comb technique is ideal for creating classic cuts with smooth transitions and no visible lines.",
         "type": "scenario"
@@ -172,12 +157,7 @@
       },
       {
         "prompt": "A client wants a seamless blend between the top and sides of their haircut. Which technique should you prioritize?",
-        "choices": [
-          "Clipper Over Comb",
-          "Scissor Over Comb",
-          "Razor Cutting",
-          "Point Cutting"
-        ],
+        "choices": ["Clipper Over Comb", "Scissor Over Comb", "Razor Cutting", "Point Cutting"],
         "answerIndex": 1,
         "rationale": "The Scissor Over Comb technique is essential for creating a seamless blend between different lengths of hair.",
         "type": "scenario"

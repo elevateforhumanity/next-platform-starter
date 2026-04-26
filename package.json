@@ -379,7 +379,11 @@
     "guard:authguards-imports": "bash scripts/guard-authguards-imports.sh",
     "lint:guards": "bash scripts/guard-enrollment-writes.sh && bash scripts/guard-authguards-imports.sh",
     "course:generate-content": "tsx scripts/course-builder/generate-lesson-content.ts",
-    "course:apply": "tsx scripts/apply-barber-content.ts"
+    "course:apply": "tsx scripts/apply-barber-content.ts",
+    "platform:doctor": "node scripts/platform-doctor.mjs",
+    "platform:doctor:fix": "node scripts/platform-doctor.mjs --fix",
+    "platform:polish": "node scripts/platform-polish-audit.mjs",
+    "predeploy:check": "node scripts/platform-doctor.mjs && node scripts/platform-polish-audit.mjs"
   },
   "overrides": {
     "inflight": "npm:lru-cache@^10.0.0"

@@ -28,26 +28,33 @@ export async function validateXmlAgainstXsd(input: {
   try {
     await access(input.schemaPath);
   } catch {
-    return [{
-      code: 'SCHEMA_MISSING',
-      message: `IRS XSD schema not found: ${input.schemaPath}. Download from IRS e-Services → MeF → Software Developer Resources.`,
-      severity: 'error',
-    }];
+    return [
+      {
+        code: 'SCHEMA_MISSING',
+        message: `IRS XSD schema not found: ${input.schemaPath}. Download from IRS e-Services → MeF → Software Developer Resources.`,
+        severity: 'error',
+      },
+    ];
   }
 
   // Confirm xmllint is available
   try {
     execFileSync('xmllint', ['--version'], { stdio: 'ignore' });
   } catch {
-    return [{
-      code: 'XMLLINT_NOT_AVAILABLE',
-      message: 'xmllint is not installed. Install libxml2-utils to enable XSD validation.',
-      severity: 'error',
-    }];
+    return [
+      {
+        code: 'XMLLINT_NOT_AVAILABLE',
+        message: 'xmllint is not installed. Install libxml2-utils to enable XSD validation.',
+        severity: 'error',
+      },
+    ];
   }
 
   // Write XML to temp file for xmllint
-  const tmpFile = path.join(os.tmpdir(), `xsd-validate-${Date.now()}-${Math.random().toString(36).slice(2)}.xml`);
+  const tmpFile = path.join(
+    os.tmpdir(),
+    `xsd-validate-${Date.now()}-${Math.random().toString(36).slice(2)}.xml`,
+  );
   try {
     await writeFile(tmpFile, input.xml, 'utf-8');
 
@@ -58,9 +65,10 @@ export async function validateXmlAgainstXsd(input: {
       });
       return []; // exit 0 = valid
     } catch (err) {
-      const stderr = err && typeof err === 'object' && 'stderr' in err
-        ? String((err as { stderr?: unknown }).stderr ?? '')
-        : 'xmllint exited with errors';
+      const stderr =
+        err && typeof err === 'object' && 'stderr' in err
+          ? String((err as { stderr?: unknown }).stderr ?? '')
+          : 'xmllint exited with errors';
 
       return parseXmllintOutput(stderr);
     }
@@ -71,9 +79,9 @@ export async function validateXmlAgainstXsd(input: {
 
 function parseXmllintOutput(stderr: string): XsdValidationIssue[] {
   const issues: XsdValidationIssue[] = [];
-  const lines = stderr.split('\n').filter(l =>
-    l.trim() && !l.includes('fails to validate') && !l.includes(' validates')
-  );
+  const lines = stderr
+    .split('\n')
+    .filter((l) => l.trim() && !l.includes('fails to validate') && !l.includes(' validates'));
 
   for (const line of lines) {
     const isWarning = line.toLowerCase().includes('warning');

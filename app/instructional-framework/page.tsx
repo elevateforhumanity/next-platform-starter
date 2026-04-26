@@ -42,7 +42,8 @@ const PROVIDER_TIERS = [
       'Signed Memorandum of Understanding (MOU) with Elevate',
       'Credential match: license/approval must correspond to the program delivered',
     ],
-    examples: 'Accredited nursing programs (CNA), ELDT-compliant CDL schools, DOE-approved trade schools, licensed barber schools',
+    examples:
+      'Accredited nursing programs (CNA), ELDT-compliant CDL schools, DOE-approved trade schools, licensed barber schools',
   },
   {
     tier: 2,
@@ -58,7 +59,8 @@ const PROVIDER_TIERS = [
       'Responsible for RTI scheduling, module delivery, and progress documentation',
       'Subject to periodic program review by Elevate',
     ],
-    examples: 'Barber apprenticeship coordinators, healthcare training managers, trade program leads',
+    examples:
+      'Barber apprenticeship coordinators, healthcare training managers, trade program leads',
   },
   {
     tier: 3,
@@ -74,7 +76,8 @@ const PROVIDER_TIERS = [
       'Subject to Elevate curriculum standards and assessment protocols',
       'Credential must match the occupation being supported',
     ],
-    examples: 'Licensed master barbers, EPA-certified HVAC technicians, Certiport-certified IT professionals, AWS-certified welders',
+    examples:
+      'Licensed master barbers, EPA-certified HVAC technicians, Certiport-certified IT professionals, AWS-certified welders',
   },
   {
     tier: 4,
@@ -90,32 +93,161 @@ const PROVIDER_TIERS = [
       'Monthly or quarterly evaluation submissions',
       'Compliance with workplace safety and labor standards',
     ],
-    examples: 'Host barbershops, healthcare facilities, HVAC contractors, trucking companies, IT employers',
+    examples:
+      'Host barbershops, healthcare facilities, HVAC contractors, trucking companies, IT employers',
   },
 ];
 
 /* ── RTI Program Hours ── */
 const RTI_PROGRAMS = [
-  { program: 'Barber Apprenticeship', totalHours: 2000, rtiHours: 144, ojtHours: 1500, method: 'In-Person + LMS', credential: 'Indiana Barber License', credentialIssuer: 'Indiana PLA / USDOL' },
-  { program: 'CNA Certification', totalHours: 150, rtiHours: 105, ojtHours: 45, method: 'Hybrid', credential: 'CNA Certification', credentialIssuer: 'Indiana ISDH' },
-  { program: 'CDL Commercial Driving', totalHours: 160, rtiHours: 40, ojtHours: 120, method: 'In-Person', credential: 'CDL Class A/B', credentialIssuer: 'Indiana BMV' },
-  { program: 'HVAC Technician', totalHours: 400, rtiHours: 200, ojtHours: 200, method: 'Hybrid', credential: 'EPA 608 + OSHA 10', credentialIssuer: 'EPA / OSHA' },
-  { program: 'IT Help Desk', totalHours: 320, rtiHours: 280, ojtHours: 40, method: 'In-Person + Labs', credential: 'IT Specialist — Device Config', credentialIssuer: 'Certiport' },
-  { program: 'Cybersecurity Analyst', totalHours: 480, rtiHours: 440, ojtHours: 40, method: 'In-Person + Labs', credential: 'IT Specialist — Cybersecurity', credentialIssuer: 'Certiport' },
-  { program: 'Welding', totalHours: 400, rtiHours: 160, ojtHours: 240, method: 'In-Person', credential: 'AWS D1.1 + OSHA 10', credentialIssuer: 'AWS / OSHA' },
-  { program: 'Electrical', totalHours: 400, rtiHours: 200, ojtHours: 200, method: 'Hybrid', credential: 'OSHA 10 + NCCER Core', credentialIssuer: 'OSHA / NCCER' },
+  {
+    program: 'Barber Apprenticeship',
+    totalHours: 2000,
+    rtiHours: 144,
+    ojtHours: 1500,
+    method: 'In-Person + LMS',
+    credential: 'Indiana Barber License',
+    credentialIssuer: 'Indiana PLA / USDOL',
+  },
+  {
+    program: 'CNA Certification',
+    totalHours: 150,
+    rtiHours: 105,
+    ojtHours: 45,
+    method: 'Hybrid',
+    credential: 'CNA Certification',
+    credentialIssuer: 'Indiana ISDH',
+  },
+  {
+    program: 'CDL Commercial Driving',
+    totalHours: 160,
+    rtiHours: 40,
+    ojtHours: 120,
+    method: 'In-Person',
+    credential: 'CDL Class A/B',
+    credentialIssuer: 'Indiana BMV',
+  },
+  {
+    program: 'HVAC Technician',
+    totalHours: 400,
+    rtiHours: 200,
+    ojtHours: 200,
+    method: 'Hybrid',
+    credential: 'EPA 608 + OSHA 10',
+    credentialIssuer: 'EPA / OSHA',
+  },
+  {
+    program: 'IT Help Desk',
+    totalHours: 320,
+    rtiHours: 280,
+    ojtHours: 40,
+    method: 'In-Person + Labs',
+    credential: 'IT Specialist — Device Config',
+    credentialIssuer: 'Certiport',
+  },
+  {
+    program: 'Cybersecurity Analyst',
+    totalHours: 480,
+    rtiHours: 440,
+    ojtHours: 40,
+    method: 'In-Person + Labs',
+    credential: 'IT Specialist — Cybersecurity',
+    credentialIssuer: 'Certiport',
+  },
+  {
+    program: 'Welding',
+    totalHours: 400,
+    rtiHours: 160,
+    ojtHours: 240,
+    method: 'In-Person',
+    credential: 'AWS D1.1 + OSHA 10',
+    credentialIssuer: 'AWS / OSHA',
+  },
+  {
+    program: 'Electrical',
+    totalHours: 400,
+    rtiHours: 200,
+    ojtHours: 200,
+    method: 'Hybrid',
+    credential: 'OSHA 10 + NCCER Core',
+    credentialIssuer: 'OSHA / NCCER',
+  },
 ];
 
 /* ── Authorized RTI Provider Registry ── */
 const RTI_REGISTRY = [
-  { program: 'Barber Apprenticeship', credentialPartner: 'Licensed Barber School (State-Approved)', partnerType: 'State-Approved School', programHolder: 'Barber Apprenticeship Coordinator', rtiHours: 144, mouStatus: 'Required', credentialIssued: 'Indiana Barber License (PLA)' },
-  { program: 'CNA Certification', credentialPartner: 'Accredited Nursing Program', partnerType: 'State-Approved School', programHolder: 'Healthcare Training Manager', rtiHours: 105, mouStatus: 'Required', credentialIssued: 'CNA Certification (ISDH)' },
-  { program: 'CDL Commercial Driving', credentialPartner: 'ELDT-Compliant CDL School', partnerType: 'State-Approved School', programHolder: 'CDL Program Coordinator', rtiHours: 40, mouStatus: 'Required', credentialIssued: 'CDL Class A/B (BMV)' },
-  { program: 'HVAC Technician', credentialPartner: 'Authorized Testing Partner', partnerType: 'Industry Partner', programHolder: 'Trades Program Lead', rtiHours: 200, mouStatus: 'Required', credentialIssued: 'EPA 608 + OSHA 10' },
-  { program: 'IT Help Desk', credentialPartner: 'Certiport Authorized Testing Center', partnerType: 'Authorized Testing Center', programHolder: 'Technology Program Lead', rtiHours: 280, mouStatus: 'Required', credentialIssued: 'IT Specialist — Device Config' },
-  { program: 'Cybersecurity Analyst', credentialPartner: 'Certiport Authorized Testing Center', partnerType: 'Authorized Testing Center', programHolder: 'Technology Program Lead', rtiHours: 440, mouStatus: 'Required', credentialIssued: 'IT Specialist — Cybersecurity' },
-  { program: 'Welding', credentialPartner: 'AWS-Accredited Testing Facility', partnerType: 'State-Approved School', programHolder: 'Trades Program Lead', rtiHours: 160, mouStatus: 'Required', credentialIssued: 'AWS D1.1 + OSHA 10' },
-  { program: 'Electrical', credentialPartner: 'Authorized Testing Partner', partnerType: 'Industry Partner', programHolder: 'Trades Program Lead', rtiHours: 200, mouStatus: 'Required', credentialIssued: 'OSHA 10 + NCCER Core' },
+  {
+    program: 'Barber Apprenticeship',
+    credentialPartner: 'Licensed Barber School (State-Approved)',
+    partnerType: 'State-Approved School',
+    programHolder: 'Barber Apprenticeship Coordinator',
+    rtiHours: 144,
+    mouStatus: 'Required',
+    credentialIssued: 'Indiana Barber License (PLA)',
+  },
+  {
+    program: 'CNA Certification',
+    credentialPartner: 'Accredited Nursing Program',
+    partnerType: 'State-Approved School',
+    programHolder: 'Healthcare Training Manager',
+    rtiHours: 105,
+    mouStatus: 'Required',
+    credentialIssued: 'CNA Certification (ISDH)',
+  },
+  {
+    program: 'CDL Commercial Driving',
+    credentialPartner: 'ELDT-Compliant CDL School',
+    partnerType: 'State-Approved School',
+    programHolder: 'CDL Program Coordinator',
+    rtiHours: 40,
+    mouStatus: 'Required',
+    credentialIssued: 'CDL Class A/B (BMV)',
+  },
+  {
+    program: 'HVAC Technician',
+    credentialPartner: 'Authorized Testing Partner',
+    partnerType: 'Industry Partner',
+    programHolder: 'Trades Program Lead',
+    rtiHours: 200,
+    mouStatus: 'Required',
+    credentialIssued: 'EPA 608 + OSHA 10',
+  },
+  {
+    program: 'IT Help Desk',
+    credentialPartner: 'Certiport Authorized Testing Center',
+    partnerType: 'Authorized Testing Center',
+    programHolder: 'Technology Program Lead',
+    rtiHours: 280,
+    mouStatus: 'Required',
+    credentialIssued: 'IT Specialist — Device Config',
+  },
+  {
+    program: 'Cybersecurity Analyst',
+    credentialPartner: 'Certiport Authorized Testing Center',
+    partnerType: 'Authorized Testing Center',
+    programHolder: 'Technology Program Lead',
+    rtiHours: 440,
+    mouStatus: 'Required',
+    credentialIssued: 'IT Specialist — Cybersecurity',
+  },
+  {
+    program: 'Welding',
+    credentialPartner: 'AWS-Accredited Testing Facility',
+    partnerType: 'State-Approved School',
+    programHolder: 'Trades Program Lead',
+    rtiHours: 160,
+    mouStatus: 'Required',
+    credentialIssued: 'AWS D1.1 + OSHA 10',
+  },
+  {
+    program: 'Electrical',
+    credentialPartner: 'Authorized Testing Partner',
+    partnerType: 'Industry Partner',
+    programHolder: 'Trades Program Lead',
+    rtiHours: 200,
+    mouStatus: 'Required',
+    credentialIssued: 'OSHA 10 + NCCER Core',
+  },
 ];
 
 export default function InstructionalFrameworkPage() {
@@ -163,8 +295,8 @@ export default function InstructionalFrameworkPage() {
               supplemental instruction, mentoring, and supervised module support. On-the-Job
               Training (OJT) is conducted by approved employer partners in real work environments
               under documented work process schedules. All instruction is tracked through the
-              institutional Learning Management System (LMS) under centralized program oversight
-              by Elevate for Humanity.
+              institutional Learning Management System (LMS) under centralized program oversight by
+              Elevate for Humanity.
             </p>
           </div>
 
@@ -193,19 +325,52 @@ export default function InstructionalFrameworkPage() {
             </div>
           </div>
 
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Instructional Authority Hierarchy</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">
+            Instructional Authority Hierarchy
+          </h2>
           <p className="text-gray-600 mb-6">
-            Six-level accountability structure defining who is responsible at each stage of training delivery.
+            Six-level accountability structure defining who is responsible at each stage of training
+            delivery.
           </p>
 
           <div className="space-y-4">
             {[
-              { role: 'Sponsor (Oversight & Compliance)', entity: '2Exclusive LLC-S (DBA Elevate for Humanity Career & Technical Institute)', detail: 'Curriculum standards, enrollment, funding navigation, progress tracking, credential verification, RAPIDS registration, ETPL compliance, institutional accountability' },
-              { role: 'Primary RTI Providers', entity: 'State-Approved / Licensed Credential Partners', detail: 'Occupation-specific classroom instruction, clinical rotations, lab sessions, certification exam preparation. Credentials must match the occupation taught.' },
-              { role: 'Program Holders', entity: 'Authorized Curriculum Managers & RTI Coordinators', detail: 'Curriculum delivery coordination, module sequencing, RTI scheduling, progress documentation. Operate under licensed instructional supervision of Tier 1 Credential Partners.' },
-              { role: 'Subject Matter Experts', entity: 'Credentialed SMEs (Supplemental Instruction)', detail: 'Mentoring, supplemental labs, module support, practice sessions. Not sole RTI authorities — state-approved providers are always involved.' },
-              { role: 'Employer Partners', entity: 'OJT Providers (Hands-On Apprenticeship Training)', detail: 'Structured workplace training under documented work process schedules, supervisor verification, wage progression, periodic evaluations.' },
-              { role: 'Central Compliance System', entity: 'Institutional LMS', detail: 'Single system of record for RTI attendance, module completion, assessments, instructor verification, OJT hour logging, and cohort progress reporting.' },
+              {
+                role: 'Sponsor (Oversight & Compliance)',
+                entity: '2Exclusive LLC-S (DBA Elevate for Humanity Career & Technical Institute)',
+                detail:
+                  'Curriculum standards, enrollment, funding navigation, progress tracking, credential verification, RAPIDS registration, ETPL compliance, institutional accountability',
+              },
+              {
+                role: 'Primary RTI Providers',
+                entity: 'State-Approved / Licensed Credential Partners',
+                detail:
+                  'Occupation-specific classroom instruction, clinical rotations, lab sessions, certification exam preparation. Credentials must match the occupation taught.',
+              },
+              {
+                role: 'Program Holders',
+                entity: 'Authorized Curriculum Managers & RTI Coordinators',
+                detail:
+                  'Curriculum delivery coordination, module sequencing, RTI scheduling, progress documentation. Operate under licensed instructional supervision of Tier 1 Credential Partners.',
+              },
+              {
+                role: 'Subject Matter Experts',
+                entity: 'Credentialed SMEs (Supplemental Instruction)',
+                detail:
+                  'Mentoring, supplemental labs, module support, practice sessions. Not sole RTI authorities — state-approved providers are always involved.',
+              },
+              {
+                role: 'Employer Partners',
+                entity: 'OJT Providers (Hands-On Apprenticeship Training)',
+                detail:
+                  'Structured workplace training under documented work process schedules, supervisor verification, wage progression, periodic evaluations.',
+              },
+              {
+                role: 'Central Compliance System',
+                entity: 'Institutional LMS',
+                detail:
+                  'Single system of record for RTI attendance, module completion, assessments, instructor verification, OJT hour logging, and cohort progress reporting.',
+              },
             ].map((item, i) => (
               <div key={i} className="flex gap-4 items-start bg-white rounded-lg p-4">
                 <div className="flex-shrink-0 w-8 h-8 rounded-full bg-brand-blue-600 text-white flex items-center justify-center text-sm font-bold">
@@ -224,24 +389,41 @@ export default function InstructionalFrameworkPage() {
           <div className="mt-10 bg-amber-50 border border-amber-200 rounded-lg p-6">
             <h3 className="font-bold text-gray-900 mb-3">Formal Role Definitions</h3>
             <p className="text-sm text-gray-600 mb-4">
-              These definitions standardize terminology across all compliance documents, partnership packets, and ETPL submissions.
+              These definitions standardize terminology across all compliance documents, partnership
+              packets, and ETPL submissions.
             </p>
             <dl className="space-y-3 text-sm">
               <div>
                 <dt className="font-semibold text-gray-900">Credential Partner</dt>
-                <dd className="text-gray-700 ml-4">A state-approved or licensed instructional authority whose credentials match the occupation they teach. Credential Partners are the primary RTI providers and may issue industry certifications.</dd>
+                <dd className="text-gray-700 ml-4">
+                  A state-approved or licensed instructional authority whose credentials match the
+                  occupation they teach. Credential Partners are the primary RTI providers and may
+                  issue industry certifications.
+                </dd>
               </div>
               <div>
                 <dt className="font-semibold text-gray-900">Program Holder</dt>
-                <dd className="text-gray-700 ml-4">An authorized RTI coordinator who manages curriculum delivery under the instructional supervision of a Credential Partner. Program Holders are not independent instructors — they coordinate scheduling, module delivery, and progress documentation.</dd>
+                <dd className="text-gray-700 ml-4">
+                  An authorized RTI coordinator who manages curriculum delivery under the
+                  instructional supervision of a Credential Partner. Program Holders are not
+                  independent instructors — they coordinate scheduling, module delivery, and
+                  progress documentation.
+                </dd>
               </div>
               <div>
                 <dt className="font-semibold text-gray-900">Subject Matter Expert (SME)</dt>
-                <dd className="text-gray-700 ml-4">An industry professional with occupation-specific credentials who provides supplemental instruction, mentoring, and lab support. SMEs are never the sole RTI authority for any program.</dd>
+                <dd className="text-gray-700 ml-4">
+                  An industry professional with occupation-specific credentials who provides
+                  supplemental instruction, mentoring, and lab support. SMEs are never the sole RTI
+                  authority for any program.
+                </dd>
               </div>
               <div>
                 <dt className="font-semibold text-gray-900">Employer Partner</dt>
-                <dd className="text-gray-700 ml-4">An approved employer providing structured OJT under a documented work process schedule with designated supervisors and periodic evaluations.</dd>
+                <dd className="text-gray-700 ml-4">
+                  An approved employer providing structured OJT under a documented work process
+                  schedule with designated supervisors and periodic evaluations.
+                </dd>
               </div>
             </dl>
           </div>
@@ -253,8 +435,8 @@ export default function InstructionalFrameworkPage() {
         <div className="max-w-4xl mx-auto px-4">
           <h2 className="text-2xl font-bold text-gray-900 mb-2">Provider Tier System</h2>
           <p className="text-gray-600 mb-8">
-            All instructional partners are classified into three tiers based on authorization
-            level, credential requirements, and scope of instruction.
+            All instructional partners are classified into three tiers based on authorization level,
+            credential requirements, and scope of instruction.
           </p>
 
           <div className="space-y-6">
@@ -314,9 +496,15 @@ export default function InstructionalFrameworkPage() {
               <thead>
                 <tr className="bg-white">
                   <th className="text-left p-3 font-semibold text-gray-900 border-b">Program</th>
-                  <th className="text-center p-3 font-semibold text-gray-900 border-b">Total Hours</th>
-                  <th className="text-center p-3 font-semibold text-gray-900 border-b">RTI Hours</th>
-                  <th className="text-center p-3 font-semibold text-gray-900 border-b">OJT Hours</th>
+                  <th className="text-center p-3 font-semibold text-gray-900 border-b">
+                    Total Hours
+                  </th>
+                  <th className="text-center p-3 font-semibold text-gray-900 border-b">
+                    RTI Hours
+                  </th>
+                  <th className="text-center p-3 font-semibold text-gray-900 border-b">
+                    OJT Hours
+                  </th>
                   <th className="text-left p-3 font-semibold text-gray-900 border-b">Delivery</th>
                   <th className="text-left p-3 font-semibold text-gray-900 border-b">Credential</th>
                   <th className="text-left p-3 font-semibold text-gray-900 border-b">Issued By</th>
@@ -326,9 +514,15 @@ export default function InstructionalFrameworkPage() {
                 {RTI_PROGRAMS.map((p, i) => (
                   <tr key={i} className={i % 2 === 0 ? 'bg-white' : 'bg-white/50'}>
                     <td className="p-3 font-medium text-gray-900 border-b">{p.program}</td>
-                    <td className="p-3 text-center text-gray-700 border-b">{p.totalHours.toLocaleString()}</td>
-                    <td className="p-3 text-center text-brand-blue-700 font-medium border-b">{p.rtiHours}</td>
-                    <td className="p-3 text-center text-gray-700 border-b">{p.ojtHours.toLocaleString()}</td>
+                    <td className="p-3 text-center text-gray-700 border-b">
+                      {p.totalHours.toLocaleString()}
+                    </td>
+                    <td className="p-3 text-center text-brand-blue-700 font-medium border-b">
+                      {p.rtiHours}
+                    </td>
+                    <td className="p-3 text-center text-gray-700 border-b">
+                      {p.ojtHours.toLocaleString()}
+                    </td>
                     <td className="p-3 text-gray-700 border-b">{p.method}</td>
                     <td className="p-3 text-gray-700 border-b">{p.credential}</td>
                     <td className="p-3 text-gray-700 border-b text-xs">{p.credentialIssuer}</td>
@@ -343,7 +537,9 @@ export default function InstructionalFrameworkPage() {
       {/* Authorized RTI Provider Registry */}
       <section className="py-12">
         <div className="max-w-5xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Authorized RTI Provider Registry</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">
+            Authorized RTI Provider Registry
+          </h2>
           <p className="text-gray-600 mb-6">
             Per-program registry of credential partners, program holders, and RTI authorization.
             This registry answers the question: &ldquo;Who delivers RTI for each program?&rdquo;
@@ -354,12 +550,22 @@ export default function InstructionalFrameworkPage() {
               <thead>
                 <tr className="bg-white">
                   <th className="text-left p-3 font-semibold text-gray-900 border-b">Program</th>
-                  <th className="text-left p-3 font-semibold text-gray-900 border-b">Credential Partner</th>
-                  <th className="text-left p-3 font-semibold text-gray-900 border-b">Partner Type</th>
-                  <th className="text-left p-3 font-semibold text-gray-900 border-b">Program Holder</th>
-                  <th className="text-center p-3 font-semibold text-gray-900 border-b">RTI Hours</th>
+                  <th className="text-left p-3 font-semibold text-gray-900 border-b">
+                    Credential Partner
+                  </th>
+                  <th className="text-left p-3 font-semibold text-gray-900 border-b">
+                    Partner Type
+                  </th>
+                  <th className="text-left p-3 font-semibold text-gray-900 border-b">
+                    Program Holder
+                  </th>
+                  <th className="text-center p-3 font-semibold text-gray-900 border-b">
+                    RTI Hours
+                  </th>
                   <th className="text-center p-3 font-semibold text-gray-900 border-b">MOU</th>
-                  <th className="text-left p-3 font-semibold text-gray-900 border-b">Credential Issued</th>
+                  <th className="text-left p-3 font-semibold text-gray-900 border-b">
+                    Credential Issued
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -369,9 +575,13 @@ export default function InstructionalFrameworkPage() {
                     <td className="p-3 text-gray-700 border-b">{r.credentialPartner}</td>
                     <td className="p-3 text-gray-700 border-b text-xs">{r.partnerType}</td>
                     <td className="p-3 text-gray-700 border-b">{r.programHolder}</td>
-                    <td className="p-3 text-center text-brand-blue-700 font-medium border-b">{r.rtiHours}</td>
+                    <td className="p-3 text-center text-brand-blue-700 font-medium border-b">
+                      {r.rtiHours}
+                    </td>
                     <td className="p-3 text-center border-b">
-                      <span className="text-xs font-medium text-brand-green-700 bg-brand-green-50 px-2 py-0.5 rounded">{r.mouStatus}</span>
+                      <span className="text-xs font-medium text-brand-green-700 bg-brand-green-50 px-2 py-0.5 rounded">
+                        {r.mouStatus}
+                      </span>
                     </td>
                     <td className="p-3 text-gray-700 border-b text-xs">{r.credentialIssued}</td>
                   </tr>
@@ -382,7 +592,10 @@ export default function InstructionalFrameworkPage() {
 
           <div className="mt-6 bg-white border rounded-lg p-4">
             <p className="text-sm text-gray-700">
-              <span className="font-semibold">Note:</span> Specific provider names are maintained in internal compliance files and disclosed to authorized reviewers (ETPL, DWD, DOL, workforce boards) upon request. This public registry documents the structural framework and provider type requirements.
+              <span className="font-semibold">Note:</span> Specific provider names are maintained in
+              internal compliance files and disclosed to authorized reviewers (ETPL, DWD, DOL,
+              workforce boards) upon request. This public registry documents the structural
+              framework and provider type requirements.
             </p>
           </div>
         </div>
@@ -391,7 +604,9 @@ export default function InstructionalFrameworkPage() {
       {/* Competency & Assessment */}
       <section className="py-12">
         <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Competency Tracking & Assessment</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">
+            Competency Tracking & Assessment
+          </h2>
           <p className="text-gray-600 mb-8">
             How student progress is measured, documented, and reported across all programs.
           </p>
@@ -485,7 +700,9 @@ export default function InstructionalFrameworkPage() {
       {/* Credential Issuance */}
       <section className="py-12">
         <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Credential Issuance (Dual-Issuer Model)</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">
+            Credential Issuance (Dual-Issuer Model)
+          </h2>
           <p className="text-gray-600 mb-6">
             Elevate operates a dual-issuer model: credential partners and certifying bodies issue
             industry credentials, while Elevate issues program completion certificates. This
@@ -498,21 +715,24 @@ export default function InstructionalFrameworkPage() {
                 type: 'Industry Credential',
                 issuer: 'Credential Partner or Certifying Body',
                 color: 'bg-brand-blue-50 border-brand-blue-200',
-                examples: 'CNA certification (Indiana ISDH), CDL license (Indiana BMV), IT Specialist (Certiport), EPA 608 (EPA), Indiana Barber License (PLA), AWS D1.1 (AWS)',
+                examples:
+                  'CNA certification (Indiana ISDH), CDL license (Indiana BMV), IT Specialist (Certiport), EPA 608 (EPA), Indiana Barber License (PLA), AWS D1.1 (AWS)',
                 note: 'Issued by the licensed authority — not by Elevate. Elevate facilitates enrollment, training, and exam preparation.',
               },
               {
                 type: 'Certificate of Completion',
                 issuer: 'Elevate for Humanity Career & Technical Institute',
                 color: 'bg-brand-green-50 border-brand-green-200',
-                examples: 'Program completion certificates, module completion records, workforce readiness certificates, RTI hour documentation',
+                examples:
+                  'Program completion certificates, module completion records, workforce readiness certificates, RTI hour documentation',
                 note: 'Documents that the student completed the Elevate training pathway. Does not replace industry credentials.',
               },
               {
                 type: 'Apprenticeship Credential',
                 issuer: 'U.S. Department of Labor / State Apprenticeship Agency',
                 color: 'bg-amber-50 border-amber-200',
-                examples: 'Certificate of Completion of Apprenticeship issued through the registered apprenticeship framework (RAPIDS)',
+                examples:
+                  'Certificate of Completion of Apprenticeship issued through the registered apprenticeship framework (RAPIDS)',
                 note: 'Federal credential issued upon completion of all RTI and OJT requirements under the registered apprenticeship.',
               },
             ].map((item, i) => (
@@ -532,17 +752,28 @@ export default function InstructionalFrameworkPage() {
       {/* Registration & Links */}
       <section className="py-12">
         <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Registration & Compliance References</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">
+            Registration & Compliance References
+          </h2>
           <div className="grid sm:grid-cols-2 gap-4">
             <div className="bg-white rounded-lg p-5">
-              <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">Registered Apprenticeship Sponsor</p>
+              <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">
+                Registered Apprenticeship Sponsor
+              </p>
               <p className="font-semibold text-gray-900">RAPIDS ID: 2025-IN-132301</p>
-              <p className="text-sm text-gray-600 mt-1">Sponsor of Record: 2Exclusive LLC-S (DBA Elevate for Humanity Career &amp; Technical Institute)</p>
+              <p className="text-sm text-gray-600 mt-1">
+                Sponsor of Record: 2Exclusive LLC-S (DBA Elevate for Humanity Career &amp; Technical
+                Institute)
+              </p>
             </div>
             <div className="bg-white rounded-lg p-5">
-              <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">ETPL / INTraining</p>
+              <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">
+                ETPL / INTraining
+              </p>
               <p className="font-semibold text-gray-900">Location ID: 10004621</p>
-              <p className="text-sm text-gray-600 mt-1">Indiana Department of Workforce Development</p>
+              <p className="text-sm text-gray-600 mt-1">
+                Indiana Department of Workforce Development
+              </p>
             </div>
           </div>
 

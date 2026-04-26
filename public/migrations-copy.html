@@ -1,383 +1,396 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Copy SQL Migrations - Elevate for Humanity</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
+          sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 40px 20px;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .header {
+        text-align: center;
+        color: white;
+        margin-bottom: 40px;
+      }
+
+      .header h1 {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+        font-weight: 700;
+      }
+
+      .header p {
+        font-size: 1.2rem;
+        opacity: 0.9;
+      }
+
+      .migration-card {
+        background: white;
+        border-radius: 12px;
+        padding: 30px;
+        margin-bottom: 30px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      }
+
+      .migration-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        padding-bottom: 20px;
+        border-bottom: 2px solid #e5e7eb;
+      }
+
+      .migration-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #1f2937;
+      }
+
+      .migration-number {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 1.2rem;
+      }
+
+      .migration-description {
+        color: #6b7280;
+        margin-bottom: 20px;
+        line-height: 1.6;
+      }
+
+      .tables-list {
+        background: #f9fafb;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+      }
+
+      .tables-list h4 {
+        color: #374151;
+        margin-bottom: 10px;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .tables-list ul {
+        list-style: none;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 8px;
+      }
+
+      .tables-list li {
+        color: #6b7280;
+        font-size: 0.9rem;
+        padding: 5px 10px;
+        background: white;
+        border-radius: 4px;
+      }
+
+      .tables-list li:before {
+        content: '✓ ';
+        color: #10b981;
+        font-weight: bold;
+      }
+
+      .copy-button {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        padding: 15px 30px;
+        font-size: 1rem;
+        font-weight: 600;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .copy-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+      }
+
+      .copy-button:active {
+        transform: translateY(0);
+      }
+
+      .copy-button.copied {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      }
+
+      .copy-icon {
+        font-size: 1.2rem;
+      }
+
+      .sql-preview {
+        background: #1f2937;
+        color: #e5e7eb;
+        padding: 20px;
+        border-radius: 8px;
+        font-family: 'Courier New', monospace;
+        font-size: 0.85rem;
+        max-height: 200px;
+        overflow-y: auto;
+        margin-top: 15px;
+        line-height: 1.5;
+      }
+
+      .instructions {
+        background: #fef3c7;
+        border-left: 4px solid #f59e0b;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 30px;
+      }
+
+      .instructions h3 {
+        color: #92400e;
+        margin-bottom: 10px;
+        font-size: 1.2rem;
+      }
+
+      .instructions ol {
+        color: #78350f;
+        margin-left: 20px;
+        line-height: 1.8;
+      }
+
+      .instructions li {
+        margin-bottom: 8px;
+      }
+
+      .success-message {
+        background: #d1fae5;
+        border-left: 4px solid #10b981;
+        padding: 15px 20px;
+        border-radius: 8px;
+        margin-top: 15px;
+        display: none;
+        animation: slideIn 0.3s ease;
+      }
+
+      .success-message.show {
+        display: block;
+      }
+
+      .success-message p {
+        color: #065f46;
+        font-weight: 600;
+      }
+
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
         }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 40px 20px;
+        to {
+          opacity: 1;
+          transform: translateY(0);
         }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .header {
-            text-align: center;
-            color: white;
-            margin-bottom: 40px;
-        }
-        
+      }
+
+      .footer {
+        text-align: center;
+        color: white;
+        margin-top: 40px;
+        opacity: 0.9;
+      }
+
+      @media (max-width: 768px) {
         .header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            font-weight: 700;
+          font-size: 1.8rem;
         }
-        
-        .header p {
-            font-size: 1.2rem;
-            opacity: 0.9;
-        }
-        
-        .migration-card {
-            background: white;
-            border-radius: 12px;
-            padding: 30px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-        
+
         .migration-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid #e5e7eb;
+          flex-direction: column;
+          gap: 15px;
         }
-        
-        .migration-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #1f2937;
-        }
-        
-        .migration-number {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 1.2rem;
-        }
-        
-        .migration-description {
-            color: #6b7280;
-            margin-bottom: 20px;
-            line-height: 1.6;
-        }
-        
-        .tables-list {
-            background: #f9fafb;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
-        
-        .tables-list h4 {
-            color: #374151;
-            margin-bottom: 10px;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
+
         .tables-list ul {
-            list-style: none;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 8px;
+          grid-template-columns: 1fr;
         }
-        
-        .tables-list li {
-            color: #6b7280;
-            font-size: 0.9rem;
-            padding: 5px 10px;
-            background: white;
-            border-radius: 4px;
-        }
-        
-        .tables-list li:before {
-            content: "✓ ";
-            color: #10b981;
-            font-weight: bold;
-        }
-        
-        .copy-button {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            font-size: 1rem;
-            font-weight: 600;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-        
-        .copy-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
-        }
-        
-        .copy-button:active {
-            transform: translateY(0);
-        }
-        
-        .copy-button.copied {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-        }
-        
-        .copy-icon {
-            font-size: 1.2rem;
-        }
-        
-        .sql-preview {
-            background: #1f2937;
-            color: #e5e7eb;
-            padding: 20px;
-            border-radius: 8px;
-            font-family: 'Courier New', monospace;
-            font-size: 0.85rem;
-            max-height: 200px;
-            overflow-y: auto;
-            margin-top: 15px;
-            line-height: 1.5;
-        }
-        
-        .instructions {
-            background: #fef3c7;
-            border-left: 4px solid #f59e0b;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 30px;
-        }
-        
-        .instructions h3 {
-            color: #92400e;
-            margin-bottom: 10px;
-            font-size: 1.2rem;
-        }
-        
-        .instructions ol {
-            color: #78350f;
-            margin-left: 20px;
-            line-height: 1.8;
-        }
-        
-        .instructions li {
-            margin-bottom: 8px;
-        }
-        
-        .success-message {
-            background: #d1fae5;
-            border-left: 4px solid #10b981;
-            padding: 15px 20px;
-            border-radius: 8px;
-            margin-top: 15px;
-            display: none;
-            animation: slideIn 0.3s ease;
-        }
-        
-        .success-message.show {
-            display: block;
-        }
-        
-        .success-message p {
-            color: #065f46;
-            font-weight: 600;
-        }
-        
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .footer {
-            text-align: center;
-            color: white;
-            margin-top: 40px;
-            opacity: 0.9;
-        }
-        
-        @media (max-width: 768px) {
-            .header h1 {
-                font-size: 1.8rem;
-            }
-            
-            .migration-header {
-                flex-direction: column;
-                gap: 15px;
-            }
-            
-            .tables-list ul {
-                grid-template-columns: 1fr;
-            }
-        }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <div class="header">
-            <h1>📊 SQL Migrations</h1>
-            <p>Copy and paste into Supabase SQL Editor</p>
-        </div>
-        
-        <div class="instructions">
-            <h3>📋 How to Use:</h3>
-            <ol>
-                <li>Click the <strong>"Copy SQL"</strong> button below</li>
-                <li>Go to <a href="https://supabase.com/dashboard" target="_blank" style="color: #2563eb; text-decoration: underline;">Supabase Dashboard</a></li>
-                <li>Select your project</li>
-                <li>Click <strong>"SQL Editor"</strong> in the left sidebar</li>
-                <li>Click <strong>"+ New query"</strong></li>
-                <li>Paste the SQL (Ctrl+V or Cmd+V)</li>
-                <li>Click <strong>"Run"</strong> button</li>
-                <li>Wait for success message</li>
-                <li>Repeat for each migration</li>
-            </ol>
+      <div class="header">
+        <h1>📊 SQL Migrations</h1>
+        <p>Copy and paste into Supabase SQL Editor</p>
+      </div>
+
+      <div class="instructions">
+        <h3>📋 How to Use:</h3>
+        <ol>
+          <li>Click the <strong>"Copy SQL"</strong> button below</li>
+          <li>
+            Go to
+            <a
+              href="https://supabase.com/dashboard"
+              target="_blank"
+              style="color: #2563eb; text-decoration: underline"
+              >Supabase Dashboard</a
+            >
+          </li>
+          <li>Select your project</li>
+          <li>Click <strong>"SQL Editor"</strong> in the left sidebar</li>
+          <li>Click <strong>"+ New query"</strong></li>
+          <li>Paste the SQL (Ctrl+V or Cmd+V)</li>
+          <li>Click <strong>"Run"</strong> button</li>
+          <li>Wait for success message</li>
+          <li>Repeat for each migration</li>
+        </ol>
+      </div>
+
+      <!-- Migration 1 -->
+      <div class="migration-card">
+        <div class="migration-header">
+          <div>
+            <div class="migration-title">Employment Outcomes & Credentials</div>
+          </div>
+          <div class="migration-number">1</div>
         </div>
 
-        <!-- Migration 1 -->
-        <div class="migration-card">
-            <div class="migration-header">
-                <div>
-                    <div class="migration-title">Employment Outcomes & Credentials</div>
-                </div>
-                <div class="migration-number">1</div>
-            </div>
-            
-            <div class="migration-description">
-                Track employment outcomes, credential attainment, and WIOA compliance metrics for workforce development reporting.
-            </div>
-            
-            <div class="tables-list">
-                <h4>Creates 5 Tables:</h4>
-                <ul>
-                    <li>employment_outcomes</li>
-                    <li>credentials_attained</li>
-                    <li>quarterly_performance</li>
-                    <li>participant_demographics</li>
-                    <li>followup_schedule</li>
-                </ul>
-            </div>
-            
-            <button class="copy-button" onclick="copySql(1)">
-                <span class="copy-icon">📋</span>
-                <span class="button-text">Copy SQL Migration 1</span>
-            </button>
-            
-            <div class="success-message" id="success-1">
-                <p>✅ Copied! Now paste into Supabase SQL Editor and click Run.</p>
-            </div>
+        <div class="migration-description">
+          Track employment outcomes, credential attainment, and WIOA compliance metrics for
+          workforce development reporting.
         </div>
 
-        <!-- Migration 2 -->
-        <div class="migration-card">
-            <div class="migration-header">
-                <div>
-                    <div class="migration-title">Quiz & Assessment Engine</div>
-                </div>
-                <div class="migration-number">2</div>
-            </div>
-            
-            <div class="migration-description">
-                Complete quiz and assessment system with multiple question types, automatic grading, and progress tracking.
-            </div>
-            
-            <div class="tables-list">
-                <h4>Creates 8 Tables:</h4>
-                <ul>
-                    <li>quizzes</li>
-                    <li>quiz_questions</li>
-                    <li>quiz_answer_options</li>
-                    <li>quiz_attempts</li>
-                    <li>quiz_responses</li>
-                    <li>assessments</li>
-                    <li>assessment_results</li>
-                    <li>question_bank</li>
-                </ul>
-            </div>
-            
-            <button class="copy-button" onclick="copySql(2)">
-                <span class="copy-icon">📋</span>
-                <span class="button-text">Copy SQL Migration 2</span>
-            </button>
-            
-            <div class="success-message" id="success-2">
-                <p>✅ Copied! Now paste into Supabase SQL Editor and click Run.</p>
-            </div>
+        <div class="tables-list">
+          <h4>Creates 5 Tables:</h4>
+          <ul>
+            <li>employment_outcomes</li>
+            <li>credentials_attained</li>
+            <li>quarterly_performance</li>
+            <li>participant_demographics</li>
+            <li>followup_schedule</li>
+          </ul>
         </div>
 
-        <!-- Migration 3 -->
-        <div class="migration-card">
-            <div class="migration-header">
-                <div>
-                    <div class="migration-title">Unauthorized Access Tracking</div>
-                </div>
-                <div class="migration-number">3</div>
-            </div>
-            
-            <div class="migration-description">
-                Track unauthorized site copies, scraping attempts, DMCA takedowns, and legal actions for intellectual property protection.
-            </div>
-            
-            <div class="tables-list">
-                <h4>Creates 6 Tables:</h4>
-                <ul>
-                    <li>unauthorized_access_log</li>
-                    <li>alert_notifications</li>
-                    <li>dmca_takedown_requests</li>
-                    <li>legal_actions</li>
-                    <li>monitoring_alerts</li>
-                    <li>scraping_attempts</li>
-                </ul>
-            </div>
-            
-            <button class="copy-button" onclick="copySql(3)">
-                <span class="copy-icon">📋</span>
-                <span class="button-text">Copy SQL Migration 3</span>
-            </button>
-            
-            <div class="success-message" id="success-3">
-                <p>✅ Copied! Now paste into Supabase SQL Editor and click Run.</p>
-            </div>
+        <button class="copy-button" onclick="copySql(1)">
+          <span class="copy-icon">📋</span>
+          <span class="button-text">Copy SQL Migration 1</span>
+        </button>
+
+        <div class="success-message" id="success-1">
+          <p>✅ Copied! Now paste into Supabase SQL Editor and click Run.</p>
+        </div>
+      </div>
+
+      <!-- Migration 2 -->
+      <div class="migration-card">
+        <div class="migration-header">
+          <div>
+            <div class="migration-title">Quiz & Assessment Engine</div>
+          </div>
+          <div class="migration-number">2</div>
         </div>
 
-        <div class="footer">
-            <p>© 2024 Elevate for Humanity. All Rights Reserved.</p>
+        <div class="migration-description">
+          Complete quiz and assessment system with multiple question types, automatic grading, and
+          progress tracking.
         </div>
+
+        <div class="tables-list">
+          <h4>Creates 8 Tables:</h4>
+          <ul>
+            <li>quizzes</li>
+            <li>quiz_questions</li>
+            <li>quiz_answer_options</li>
+            <li>quiz_attempts</li>
+            <li>quiz_responses</li>
+            <li>assessments</li>
+            <li>assessment_results</li>
+            <li>question_bank</li>
+          </ul>
+        </div>
+
+        <button class="copy-button" onclick="copySql(2)">
+          <span class="copy-icon">📋</span>
+          <span class="button-text">Copy SQL Migration 2</span>
+        </button>
+
+        <div class="success-message" id="success-2">
+          <p>✅ Copied! Now paste into Supabase SQL Editor and click Run.</p>
+        </div>
+      </div>
+
+      <!-- Migration 3 -->
+      <div class="migration-card">
+        <div class="migration-header">
+          <div>
+            <div class="migration-title">Unauthorized Access Tracking</div>
+          </div>
+          <div class="migration-number">3</div>
+        </div>
+
+        <div class="migration-description">
+          Track unauthorized site copies, scraping attempts, DMCA takedowns, and legal actions for
+          intellectual property protection.
+        </div>
+
+        <div class="tables-list">
+          <h4>Creates 6 Tables:</h4>
+          <ul>
+            <li>unauthorized_access_log</li>
+            <li>alert_notifications</li>
+            <li>dmca_takedown_requests</li>
+            <li>legal_actions</li>
+            <li>monitoring_alerts</li>
+            <li>scraping_attempts</li>
+          </ul>
+        </div>
+
+        <button class="copy-button" onclick="copySql(3)">
+          <span class="copy-icon">📋</span>
+          <span class="button-text">Copy SQL Migration 3</span>
+        </button>
+
+        <div class="success-message" id="success-3">
+          <p>✅ Copied! Now paste into Supabase SQL Editor and click Run.</p>
+        </div>
+      </div>
+
+      <div class="footer">
+        <p>© 2024 Elevate for Humanity. All Rights Reserved.</p>
+      </div>
     </div>
 
     <script>
-        // SQL Migration 1
-        const sql1 = `-- Employment Outcomes and Credential Tracking Migration
+      // SQL Migration 1
+      const sql1 = `-- Employment Outcomes and Credential Tracking Migration
 -- For WIOA compliance and workforce reporting
 
 -- EMPLOYMENT OUTCOMES TABLE
@@ -556,8 +569,8 @@ CREATE TRIGGER update_participant_demographics_updated_at BEFORE UPDATE ON parti
 CREATE TRIGGER update_followup_schedule_updated_at BEFORE UPDATE ON followup_schedule
     FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();`;
 
-        // SQL Migration 2 (truncated for brevity - you'll need to add the full SQL)
-        const sql2 = `-- Quiz and Assessment Engine Migration
+      // SQL Migration 2 (truncated for brevity - you'll need to add the full SQL)
+      const sql2 = `-- Quiz and Assessment Engine Migration
 
 -- QUIZZES TABLE
 CREATE TABLE IF NOT EXISTS quizzes (
@@ -592,8 +605,8 @@ CREATE INDEX idx_quizzes_type ON quizzes(quiz_type);
 
 -- Continue with rest of migration 2...`;
 
-        // SQL Migration 3 (truncated for brevity)
-        const sql3 = `-- Unauthorized Access Tracking Migration
+      // SQL Migration 3 (truncated for brevity)
+      const sql3 = `-- Unauthorized Access Tracking Migration
 
 -- UNAUTHORIZED ACCESS LOG TABLE
 CREATE TABLE IF NOT EXISTS unauthorized_access_log (
@@ -627,36 +640,42 @@ CREATE TABLE IF NOT EXISTS unauthorized_access_log (
 
 -- Continue with rest of migration 3...`;
 
-        function copySql(migrationNumber) {
-            let sql;
-            if (migrationNumber === 1) sql = sql1;
-            else if (migrationNumber === 2) sql = sql2;
-            else if (migrationNumber === 3) sql = sql3;
-            
-            // Copy to clipboard
-            navigator.clipboard.writeText(sql).then(() => {
-                // Show success message
-                const successMsg = document.getElementById(`success-${migrationNumber}`);
-                successMsg.classList.add('show');
-                
-                // Update button
-                const button = event.target.closest('.copy-button');
-                const buttonText = button.querySelector('.button-text');
-                const originalText = buttonText.textContent;
-                
-                button.classList.add('copied');
-                buttonText.textContent = '✓ Copied to Clipboard!';
-                
-                // Reset after 3 seconds
-                setTimeout(() => {
-                    successMsg.classList.remove('show');
-                    button.classList.remove('copied');
-                    buttonText.textContent = originalText;
-                }, 3000);
-            }).catch(err => {
-                alert('Failed to copy. Please try again or copy manually from COPY_PASTE_MIGRATIONS.md');
-            });
-        }
+      function copySql(migrationNumber) {
+        let sql;
+        if (migrationNumber === 1) sql = sql1;
+        else if (migrationNumber === 2) sql = sql2;
+        else if (migrationNumber === 3) sql = sql3;
+
+        // Copy to clipboard
+        navigator.clipboard
+          .writeText(sql)
+          .then(() => {
+            // Show success message
+            const successMsg = document.getElementById(`success-${migrationNumber}`);
+            successMsg.classList.add('show');
+
+            // Update button
+            const button = event.target.closest('.copy-button');
+            const buttonText = button.querySelector('.button-text');
+            const originalText = buttonText.textContent;
+
+            button.classList.add('copied');
+            buttonText.textContent = '✓ Copied to Clipboard!';
+
+            // Reset after 3 seconds
+            setTimeout(() => {
+              successMsg.classList.remove('show');
+              button.classList.remove('copied');
+              buttonText.textContent = originalText;
+            }, 3000);
+          })
+          .catch((err) => {
+            alert(
+              'Failed to copy. Please try again or copy manually from COPY_PASTE_MIGRATIONS.md',
+            );
+          });
+      }
     </script>
-</body>
-</html>`;
+  </body>
+</html>
+`;

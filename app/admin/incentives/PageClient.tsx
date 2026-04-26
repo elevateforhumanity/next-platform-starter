@@ -64,10 +64,9 @@ export default function IncentivesPage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
-
-      {/* Hero Image */}
+        {/* Hero Image */}
         <div className="max-w-7xl mx-auto px-4 py-4">
-          <Breadcrumbs items={[{ label: "Admin", href: "/admin" }, { label: "Incentives" }]} />
+          <Breadcrumbs items={[{ label: 'Admin', href: '/admin' }, { label: 'Incentives' }]} />
         </div>
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-blue-600" />
       </div>
@@ -76,9 +75,9 @@ export default function IncentivesPage() {
 
   return (
     <div className="min-h-screen bg-white py-8">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <Breadcrumbs items={[{ label: "Admin", href: "/admin" }, { label: "Incentives" }]} />
-        </div>
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Admin', href: '/admin' }, { label: 'Incentives' }]} />
+      </div>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
           <Link
@@ -91,13 +90,9 @@ export default function IncentivesPage() {
             <div>
               <div className="flex items-center gap-3 mb-2">
                 <DollarSign className="w-8 h-8 text-brand-blue-600" />
-                <h1 className="text-3xl font-bold text-black">
-                  Employer Incentives
-                </h1>
+                <h1 className="text-3xl font-bold text-black">Employer Incentives</h1>
               </div>
-              <p className="text-black">
-                Track WEX and OJT employer incentive programs
-              </p>
+              <p className="text-black">Track WEX and OJT employer incentive programs</p>
             </div>
             <Link
               href="/admin/incentives/create"
@@ -113,13 +108,9 @@ export default function IncentivesPage() {
           <div className="bg-white rounded-lg shadow p-6">
             <div className="flex items-center gap-3 mb-2">
               <Award className="w-6 h-6 text-brand-blue-600" />
-              <h3 className="text-sm font-medium text-black">
-                Total Programs
-              </h3>
+              <h3 className="text-sm font-medium text-black">Total Programs</h3>
             </div>
-            <p className="text-3xl font-bold text-brand-blue-600">
-              {stats.total}
-            </p>
+            <p className="text-3xl font-bold text-brand-blue-600">{stats.total}</p>
             <p className="text-xs text-black mt-1">
               {stats.wex} WEX • {stats.ojt} OJT
             </p>
@@ -128,9 +119,7 @@ export default function IncentivesPage() {
           <div className="bg-white rounded-lg shadow p-6">
             <div className="flex items-center gap-3 mb-2">
               <DollarSign className="w-6 h-6 text-brand-green-600" />
-              <h3 className="text-sm font-medium text-black">
-                Total Amount
-              </h3>
+              <h3 className="text-sm font-medium text-black">Total Amount</h3>
             </div>
             <p className="text-3xl font-bold text-brand-green-600">
               ${stats.totalAmount.toLocaleString()}
@@ -143,9 +132,7 @@ export default function IncentivesPage() {
               <TrendingUp className="w-6 h-6 text-brand-orange-600" />
               <h3 className="text-sm font-medium text-black">Pending</h3>
             </div>
-            <p className="text-3xl font-bold text-brand-orange-600">
-              {stats.pending}
-            </p>
+            <p className="text-3xl font-bold text-brand-orange-600">{stats.pending}</p>
             <p className="text-xs text-black mt-1">Awaiting approval</p>
           </div>
 
@@ -163,9 +150,7 @@ export default function IncentivesPage() {
         <div className="bg-white rounded-lg shadow p-4 mb-6">
           <div className="flex flex-wrap gap-4">
             <div>
-              <label className="block text-sm font-medium text-black mb-1">
-                Program Type
-              </label>
+              <label className="block text-sm font-medium text-black mb-1">Program Type</label>
               <select
                 value={filter}
                 onChange={(e) => setFilter(e.target.value as any)}
@@ -177,9 +162,7 @@ export default function IncentivesPage() {
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-black mb-1">
-                Status
-              </label>
+              <label className="block text-sm font-medium text-black mb-1">Status</label>
               <select
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value)}
@@ -193,7 +176,10 @@ export default function IncentivesPage() {
               </select>
             </div>
             <div className="ml-auto flex items-end">
-              <button className="flex items-center gap-2 px-4 py-2 bg-gray-100 text-black rounded-md hover:bg-gray-200" aria-label="Action button">
+              <button
+                className="flex items-center gap-2 px-4 py-2 bg-gray-100 text-black rounded-md hover:bg-gray-200"
+                aria-label="Action button"
+              >
                 <Download className="w-4 h-4" />
                 Export
               </button>
@@ -206,9 +192,7 @@ export default function IncentivesPage() {
           {filteredIncentives.length === 0 ? (
             <div className="text-center py-12">
               <DollarSign className="w-16 h-16 text-slate-700 mx-auto mb-4" />
-              <p className="text-black text-lg">
-                No incentive programs found
-              </p>
+              <p className="text-black text-lg">No incentive programs found</p>
               <p className="text-black text-sm mt-2">
                 Create a new incentive program to get started
               </p>
@@ -249,9 +233,7 @@ export default function IncentivesPage() {
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-black">
-                        {incentive.student_name}
-                      </div>
+                      <div className="text-sm text-black">{incentive.student_name}</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span
@@ -271,8 +253,7 @@ export default function IncentivesPage() {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm text-black">
-                        {incentive.hours_completed} / {incentive.hours_required}{' '}
-                        hrs
+                        {incentive.hours_completed} / {incentive.hours_required} hrs
                       </div>
                       <div className="w-full bg-gray-200 rounded-full h-2 mt-1">
                         <div
@@ -315,19 +296,15 @@ export default function IncentivesPage() {
 
         {/* Info Box */}
         <div className="mt-6 bg-brand-blue-50 border border-brand-blue-200 rounded-lg p-4">
-          <h3 className="font-semibold text-brand-blue-900 mb-2">
-            About WEX and OJT Programs
-          </h3>
+          <h3 className="font-semibold text-brand-blue-900 mb-2">About WEX and OJT Programs</h3>
           <div className="text-sm text-brand-blue-800 space-y-2">
             <p>
-              <strong>WEX (Work Experience):</strong> Provides wage subsidies to
-              employers who hire and train eligible participants. Typically
-              covers 50% of wages for a limited period.
+              <strong>WEX (Work Experience):</strong> Provides wage subsidies to employers who hire
+              and train eligible participants. Typically covers 50% of wages for a limited period.
             </p>
             <p>
-              <strong>OJT (On-the-Job Training):</strong> Reimburses employers
-              for the cost of training new employees. Usually covers up to 50%
-              of wages during the training period.
+              <strong>OJT (On-the-Job Training):</strong> Reimburses employers for the cost of
+              training new employees. Usually covers up to 50% of wages during the training period.
             </p>
           </div>
         </div>

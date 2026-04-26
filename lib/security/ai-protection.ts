@@ -55,7 +55,7 @@ const requestLog = new Map<string, number[]>();
 const blockedIPs = new Set<string>();
 
 export function detectAIBot(userAgent: string): boolean {
-  return AI_BOT_PATTERNS.some(pattern => pattern.test(userAgent));
+  return AI_BOT_PATTERNS.some((pattern) => pattern.test(userAgent));
 }
 
 export function isRateLimited(ip: string): boolean {
@@ -63,11 +63,11 @@ export function isRateLimited(ip: string): boolean {
   const requests = requestLog.get(ip) || [];
 
   // Clean old requests (older than 24 hours)
-  const recentRequests = requests.filter(time => now - time < 24 * 60 * 60 * 1000);
+  const recentRequests = requests.filter((time) => now - time < 24 * 60 * 60 * 1000);
 
   // Check rate limits
-  const lastMinute = recentRequests.filter(time => now - time < 60 * 1000).length;
-  const lastHour = recentRequests.filter(time => now - time < 60 * 60 * 1000).length;
+  const lastMinute = recentRequests.filter((time) => now - time < 60 * 1000).length;
+  const lastHour = recentRequests.filter((time) => now - time < 60 * 60 * 1000).length;
   const lastDay = recentRequests.length;
 
   return (
@@ -97,11 +97,7 @@ export function isBlocked(ip: string): boolean {
   return blockedIPs.has(ip);
 }
 
-export function analyzeRequest(
-  ip: string,
-  userAgent: string,
-  endpoint: string
-): ScrapingAttempt {
+export function analyzeRequest(ip: string, userAgent: string, endpoint: string): ScrapingAttempt {
   const attempt: ScrapingAttempt = {
     ip,
     userAgent,
@@ -143,7 +139,7 @@ export function generateContentFingerprint(content: string): string {
   let hash = 0;
   for (let i = 0; i < content.length; i++) {
     const char = content.charCodeAt(i);
-    hash = ((hash << 5) - hash) + char;
+    hash = (hash << 5) - hash + char;
     hash = hash & hash;
   }
   return hash.toString(36);
@@ -158,7 +154,7 @@ export function watermarkContent(content: string, userId: string): string {
 // Detect if content has been scraped
 export function detectScrapedContent(
   originalFingerprint: string,
-  suspectedContent: string
+  suspectedContent: string,
 ): boolean {
   const suspectedFingerprint = generateContentFingerprint(suspectedContent);
   return originalFingerprint === suspectedFingerprint;
@@ -185,7 +181,8 @@ export async function submitDMCATakedown(notice: DMCANotice): Promise<boolean> {
     });
 
     return true;
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     // Error: $1
     return false;
   }

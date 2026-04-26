@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -40,24 +40,44 @@ export function LiveStreamingClassroom({ sessionId }: LiveStreamingClassroomProp
   const [handRaised, setHandRaised] = useState(false);
   const [participants, setParticipants] = useState<Participant[]>([]);
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([
-    { id: '1', author: 'Alex Chen', message: 'Could you explain the closure example again?', timestamp: '10:23 AM' },
-    { id: '2', author: 'Dr. Emily Rodriguez', message: 'Sure! Let me share my screen and walk through it step by step.', timestamp: '10:24 AM' },
-    { id: '3', author: 'Sarah Williams', message: 'This is really helpful, thank you!', timestamp: '10:25 AM' },
+    {
+      id: '1',
+      author: 'Alex Chen',
+      message: 'Could you explain the closure example again?',
+      timestamp: '10:23 AM',
+    },
+    {
+      id: '2',
+      author: 'Dr. Emily Rodriguez',
+      message: 'Sure! Let me share my screen and walk through it step by step.',
+      timestamp: '10:24 AM',
+    },
+    {
+      id: '3',
+      author: 'Sarah Williams',
+      message: 'This is really helpful, thank you!',
+      timestamp: '10:25 AM',
+    },
   ]);
 
   const fetchSessionData = useCallback(async () => {
     if (!sessionId) return;
-    
+
     const supabase = createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     // Log attendance
     if (user) {
-      await supabase.from('live_session_attendance').upsert({
-        session_id: sessionId,
-        user_id: user.id,
-        joined_at: new Date().toISOString(),
-      }).catch(() => {});
+      await supabase
+        .from('live_session_attendance')
+        .upsert({
+          session_id: sessionId,
+          user_id: user.id,
+          joined_at: new Date().toISOString(),
+        })
+        .catch(() => {});
     }
 
     // Fetch participants
@@ -67,7 +87,7 @@ export function LiveStreamingClassroom({ sessionId }: LiveStreamingClassroomProp
       .eq('session_id', sessionId);
 
     if (attendees) {
-      const formatted: Participant[] = attendees.map(a => ({
+      const formatted: Participant[] = attendees.map((a) => ({
         id: a.user_id,
         name: a.profiles?.full_name || 'Participant',
         avatar: a.profiles?.avatar_url || '/images/team/elizabeth-greene.jpg',
@@ -138,9 +158,15 @@ export function LiveStreamingClassroom({ sessionId }: LiveStreamingClassroomProp
             <p className="text-sm text-slate-700">Live Session • 45 participants</p>
           </div>
           <div className="flex gap-2">
-            <Button variant="secondary" size="sm">🔴 Recording</Button>
-            <Button variant="secondary" size="sm">⚙️ Settings</Button>
-            <Button size="sm" className="bg-brand-orange-600 hover:bg-brand-orange-700">Leave</Button>
+            <Button variant="secondary" size="sm">
+              🔴 Recording
+            </Button>
+            <Button variant="secondary" size="sm">
+              ⚙️ Settings
+            </Button>
+            <Button size="sm" className="bg-brand-orange-600 hover:bg-brand-orange-700">
+              Leave
+            </Button>
           </div>
         </div>
 
@@ -258,7 +284,10 @@ export function LiveStreamingClassroom({ sessionId }: LiveStreamingClassroomProp
                     {participants.length} participants
                   </div>
                   {participants.map((p) => (
-                    <div key={p.id} className="flex items-center justify-between p-2 hover:bg-white rounded">
+                    <div
+                      key={p.id}
+                      className="flex items-center justify-between p-2 hover:bg-white rounded"
+                    >
                       <div className="flex items-center gap-3">
                         <div className="text-2xl">{p.avatar}</div>
                         <div>

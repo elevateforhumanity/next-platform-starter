@@ -14,10 +14,15 @@ export async function POST(request: NextRequest) {
     const auth = await apiAuthGuard(request);
     if (auth.error) return auth.error;
 
-    await auditPiiAccess({ action: 'PII_ACCESS', entity: 'pii', req: request, metadata: { route: '/api/tax/calculate' } });
+    await auditPiiAccess({
+      action: 'PII_ACCESS',
+      entity: 'pii',
+      req: request,
+      metadata: { route: '/api/tax/calculate' },
+    });
 
     const body = await request.json();
-    
+
     // Build tax return from request
     const taxReturn: TaxReturn = {
       taxYear: body.taxYear || 2024,
@@ -28,13 +33,13 @@ export async function POST(request: NextRequest) {
         firstName: '',
         lastName: '',
         ssn: '',
-        dateOfBirth: ''
+        dateOfBirth: '',
       },
       address: body.address || {
         street: '',
         city: '',
         state: '',
-        zip: ''
+        zip: '',
       },
       dependents: body.dependents || [],
       w2Income: body.w2Income || [],
@@ -51,17 +56,17 @@ export async function POST(request: NextRequest) {
         childTaxCredit: 0,
         creditForOtherDependents: 0,
         earnedIncomeCredit: 0,
-        additionalChildTaxCredit: 0
+        additionalChildTaxCredit: 0,
       },
       totalCredits: 0,
       federalWithholding: 0,
       totalTax: 0,
-      totalPayments: 0
+      totalPayments: 0,
     };
-    
+
     // Calculate Form 1040
     const result = calculateForm1040(taxReturn);
-    
+
     return NextResponse.json({
       success: true,
       calculation: {
@@ -77,24 +82,20 @@ export async function POST(request: NextRequest) {
         amountOwed: result.line37,
         eitc: result.line28,
         childTaxCredit: result.line19,
-        additionalChildTaxCredit: result.line29
+        additionalChildTaxCredit: result.line29,
       },
-      lines: result
+      lines: result,
     });
   } catch (error) {
     logger.error('Tax calculation error:', error);
-    return NextResponse.json(
-      { success: false, error: 'Failed to calculate tax' },
-      { status: 500 }
-    );
+    return NextResponse.json({ success: false, error: 'Failed to calculate tax' }, { status: 500 });
   }
 }
 
 export async function GET(request: Request) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-// Return standard deductions for reference
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  // Return standard deductions for reference
   return NextResponse.json({
     taxYear: 2024,
     standardDeductions: {
@@ -102,7 +103,7 @@ export async function GET(request: Request) {
       married_filing_jointly: getStandardDeduction('married_filing_jointly'),
       married_filing_separately: getStandardDeduction('married_filing_separately'),
       head_of_household: getStandardDeduction('head_of_household'),
-      qualifying_surviving_spouse: getStandardDeduction('qualifying_surviving_spouse')
-    }
+      qualifying_surviving_spouse: getStandardDeduction('qualifying_surviving_spouse'),
+    },
   });
 }

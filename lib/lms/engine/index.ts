@@ -25,16 +25,15 @@
 export { getProgramStructure } from './structure';
 export { getLearnerProgress } from './progress';
 export { canAccessLesson } from './access';
-export { recordStepCompletion, recordStepUncompletion, recordCheckpointAttempt } from './completion';
+export {
+  recordStepCompletion,
+  recordStepUncompletion,
+  recordCheckpointAttempt,
+} from './completion';
 export { issueCertificateIfEligible } from './certificate';
 export { enforceCheckpointGate } from './gate';
 export type { CheckpointGateError } from './gate';
-export {
-  getOrgPrograms,
-  getOrgCohorts,
-  getOrgLearners,
-  getOrgProgress,
-} from './org-scope';
+export { getOrgPrograms, getOrgCohorts, getOrgLearners, getOrgProgress } from './org-scope';
 export type {
   OrgProgram,
   OrgCohort,

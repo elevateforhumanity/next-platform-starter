@@ -6,10 +6,7 @@ import { safeError, safeInternalError, safeDbError } from '@/lib/api/safe-error'
 import { sendEmail } from '@/lib/email';
 import { logger } from '@/lib/logger';
 
-export async function POST(
-  request: NextRequest,
-  { params }: { params: { slug: string } }
-) {
+export async function POST(request: NextRequest, { params }: { params: { slug: string } }) {
   const rateLimited = await applyRateLimit(request, 'contact');
   if (rateLimited) return rateLimited;
 
@@ -55,10 +52,13 @@ export async function POST(
       program_interest: slug,
       status: 'inquiry',
       source: body.source || 'program-request-info',
-      notes: [
-        message ? `Message: ${message}` : '',
-        fundingQuestion ? `Funding question: ${fundingQuestion}` : '',
-      ].filter(Boolean).join('\n') || null,
+      notes:
+        [
+          message ? `Message: ${message}` : '',
+          fundingQuestion ? `Funding question: ${fundingQuestion}` : '',
+        ]
+          .filter(Boolean)
+          .join('\n') || null,
       eligibility_data: { inquiry_slug: slug },
     })
     .select('id')

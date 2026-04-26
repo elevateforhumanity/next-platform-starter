@@ -1,11 +1,6 @@
-
 import { NextResponse } from 'next/server';
 import { getAdminClient } from '@/lib/supabase/admin';
-import {
-  normalizeRapidsStatus,
-  canTransitionRapidsStatus,
-  type RapidsStatus,
-} from '@/lib/rapids';
+import { normalizeRapidsStatus, canTransitionRapidsStatus, type RapidsStatus } from '@/lib/rapids';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
@@ -27,10 +22,7 @@ async function _POST(req: Request) {
     const { apprentice_id, status, rapids_id } = body;
 
     if (!apprentice_id) {
-      return NextResponse.json(
-        { error: 'apprentice_id is required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'apprentice_id is required' }, { status: 400 });
     }
 
     const safeStatus = normalizeRapidsStatus(status);
@@ -38,10 +30,7 @@ async function _POST(req: Request) {
     const supabase = await getAdminClient();
 
     if (!supabase) {
-      return NextResponse.json(
-        { error: 'Service temporarily unavailable.' },
-        { status: 503 }
-      );
+      return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });
     }
 
     // Get current status to validate transition
@@ -53,16 +42,13 @@ async function _POST(req: Request) {
 
     // If record exists, validate transition
     if (current && current.status) {
-      const canTransition = canTransitionRapidsStatus(
-        current.status as RapidsStatus,
-        safeStatus
-      );
+      const canTransition = canTransitionRapidsStatus(current.status as RapidsStatus, safeStatus);
       if (!canTransition) {
         return NextResponse.json(
           {
             error: `Invalid status transition from ${current.status} to ${safeStatus}`,
           },
-          { status: 400 }
+          { status: 400 },
         );
       }
     }
@@ -103,11 +89,8 @@ async function _POST(req: Request) {
     }
 
     return NextResponse.json({ success: true, rapids: data });
-  } catch (error) { 
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+  } catch (error) {
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/rapids/safe-update', _POST, { critical: true });

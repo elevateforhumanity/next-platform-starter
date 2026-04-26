@@ -16,7 +16,9 @@ async function _GET(request: Request) {
   if (rateLimited) return rateLimited;
 
   const serverClient = await createClient();
-  const { data: { user } } = await serverClient.auth.getUser();
+  const {
+    data: { user },
+  } = await serverClient.auth.getUser();
   const supabase = await getAdminClient();
 
   if (!user) {
@@ -35,7 +37,7 @@ async function _GET(request: Request) {
       metadata,
       partner_lms_providers ( provider_name ),
       partner_courses ( course_name )
-    `
+    `,
     )
     .eq('student_id', user.id)
     .order('enrolled_at', { ascending: false });

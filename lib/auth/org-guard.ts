@@ -28,12 +28,7 @@ import { getAdminClient } from '@/lib/supabase/admin';
 // Must match the CHECK constraint on organization_users.role.
 // Order is lowest → highest privilege.
 
-export type OrgRole =
-  | 'report_viewer'
-  | 'instructor'
-  | 'reviewer'
-  | 'org_admin'
-  | 'org_owner';
+export type OrgRole = 'report_viewer' | 'instructor' | 'reviewer' | 'org_admin' | 'org_owner';
 
 export const ORG_ROLE_HIERARCHY: OrgRole[] = [
   'report_viewer',
@@ -44,9 +39,9 @@ export const ORG_ROLE_HIERARCHY: OrgRole[] = [
 ];
 
 export interface OrgActor {
-  userId:          string;
-  orgId:           string;
-  role:            OrgRole;
+  userId: string;
+  orgId: string;
+  role: OrgRole;
   isPlatformAdmin: boolean;
 }
 
@@ -74,11 +69,14 @@ function meetsMinRole(actual: OrgRole, min: OrgRole): boolean {
  */
 export async function requireOrgAccess(
   request: NextRequest,
-  orgId:   string,
-  minRole: OrgRole = 'report_viewer'
+  orgId: string,
+  minRole: OrgRole = 'report_viewer',
 ): Promise<OrgActor> {
   const supabase = await createClient();
-  const { data: { user }, error: authErr } = await supabase.auth.getUser();
+  const {
+    data: { user },
+    error: authErr,
+  } = await supabase.auth.getUser();
 
   if (authErr || !user) {
     throw NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -116,10 +114,7 @@ export async function requireOrgAccess(
   const role = membership.role as OrgRole;
 
   if (!meetsMinRole(role, minRole)) {
-    throw NextResponse.json(
-      { error: `Requires ${minRole} or higher` },
-      { status: 403 }
-    );
+    throw NextResponse.json({ error: `Requires ${minRole} or higher` }, { status: 403 });
   }
 
   return { userId: user.id, orgId, role, isPlatformAdmin: false };
@@ -133,10 +128,12 @@ export async function requireOrgAccess(
  * Returns null if the user has no active org membership.
  */
 export async function getSessionOrg(
-  request: NextRequest
+  request: NextRequest,
 ): Promise<{ orgId: string; role: OrgRole } | null> {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return null;
 
   const db = await getAdminClient();
@@ -162,9 +159,9 @@ export async function getSessionOrg(
  * Returns true if the user has at least `minRole` in `orgId`.
  */
 export async function assertOrgRole(
-  userId:  string,
-  orgId:   string,
-  minRole: OrgRole = 'report_viewer'
+  userId: string,
+  orgId: string,
+  minRole: OrgRole = 'report_viewer',
 ): Promise<boolean> {
   const db = await getAdminClient();
   if (!db) return false;

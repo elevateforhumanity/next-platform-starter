@@ -3,8 +3,7 @@
 
 import { sendEmail } from './email';
 
-const APP_URL =
-  process.env.NEXT_PUBLIC_APP_URL || 'https://www.elevateforhumanity.org';
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://www.elevateforhumanity.org';
 const FROM_EMAIL = process.env.EMAIL_FROM || 'noreply@elevateforhumanity.org';
 
 interface CourseEnrollmentData {
@@ -188,14 +187,7 @@ export async function sendCourseEnrollmentEmail(data: CourseEnrollmentData) {
  * Send course start reminder email (sent 1-2 days before start date)
  */
 export async function sendCourseStartReminderEmail(data: CourseEnrollmentData) {
-  const {
-    studentName,
-    studentEmail,
-    courseName,
-    courseSlug,
-    startDate,
-    liveSessionInfo,
-  } = data;
+  const { studentName, studentEmail, courseName, courseSlug, startDate, liveSessionInfo } = data;
 
   const courseUrl = `${APP_URL}/lms/courses/${courseSlug}`;
 

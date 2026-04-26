@@ -24,7 +24,7 @@ import { join, relative } from 'path';
 
 const ROOT = process.cwd();
 const STRICT = process.argv.includes('--strict');
-const FIX    = process.argv.includes('--fix');
+const FIX = process.argv.includes('--fix');
 
 // ─── Classification patterns ──────────────────────────────────────────────────
 
@@ -69,11 +69,7 @@ const PATTERNS = {
     /x-internal-token/i,
     /\/\/\s*CRON ROUTE/,
   ],
-  PUBLIC: [
-    /\/\/\s*PUBLIC ROUTE/i,
-    /\/\/\s*INTENTIONALLY PUBLIC/i,
-    /\/\/\s*public route/i,
-  ],
+  PUBLIC: [/\/\/\s*PUBLIC ROUTE/i, /\/\/\s*INTENTIONALLY PUBLIC/i, /\/\/\s*public route/i],
 };
 
 // ─── File walker ──────────────────────────────────────────────────────────────
@@ -95,7 +91,7 @@ function walk(dir, files = []) {
 
 function classify(src) {
   for (const [cls, patterns] of Object.entries(PATTERNS)) {
-    if (patterns.some(p => p.test(src))) return cls;
+    if (patterns.some((p) => p.test(src))) return cls;
   }
   return 'UNCLASSIFIED';
 }
@@ -121,7 +117,9 @@ for (const [cls, files] of Object.entries(results)) {
   if (cls === 'UNCLASSIFIED') continue;
   console.log(`${cls.padEnd(12)} ${files.length} routes`);
 }
-console.log(`${'UNCLASSIFIED'.padEnd(12)} ${unclassified} routes${unclassified > 0 ? ' ← NEEDS ATTENTION' : ' ✓'}`);
+console.log(
+  `${'UNCLASSIFIED'.padEnd(12)} ${unclassified} routes${unclassified > 0 ? ' ← NEEDS ATTENTION' : ' ✓'}`,
+);
 console.log(`\nTotal: ${total} routes`);
 
 if (unclassified > 0) {

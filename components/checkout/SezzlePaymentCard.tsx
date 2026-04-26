@@ -12,12 +12,12 @@ interface SezzlePaymentCardProps {
 
 /**
  * Sezzle Payment Option Card
- * 
+ *
  * Displays Sezzle as a payment option at checkout showing:
  * - 4 interest-free payments breakdown
  * - Payment schedule
  * - Trust indicators
- * 
+ *
  * Usage:
  * <SezzlePaymentCard price={199.99} selected={true} onSelect={() => {}} />
  */
@@ -28,7 +28,7 @@ export default function SezzlePaymentCard({
   disabled = false,
 }: SezzlePaymentCardProps) {
   const installmentAmount = (price / 4).toFixed(2);
-  
+
   // Sezzle limits
   const isEligible = price >= 35 && price <= 2500;
 
@@ -41,9 +41,10 @@ export default function SezzlePaymentCard({
       onClick={disabled ? undefined : onSelect}
       className={`
         relative border-2 rounded-xl p-5 transition-all cursor-pointer
-        ${selected 
-          ? 'border-purple-600 bg-purple-50 shadow-md' 
-          : 'border-gray-200 bg-white hover:border-purple-300 hover:shadow-sm'
+        ${
+          selected
+            ? 'border-purple-600 bg-purple-50 shadow-md'
+            : 'border-gray-200 bg-white hover:border-purple-300 hover:shadow-sm'
         }
         ${disabled ? 'opacity-50 cursor-not-allowed' : ''}
       `}
@@ -77,9 +78,7 @@ export default function SezzlePaymentCard({
               <span className={`font-bold ${i === 0 ? 'text-purple-600' : 'text-slate-900'}`}>
                 ${installmentAmount}
               </span>
-              {i === 0 && (
-                <span className="text-xs text-purple-600 mt-1">Due now</span>
-              )}
+              {i === 0 && <span className="text-xs text-purple-600 mt-1">Due now</span>}
             </div>
           ))}
         </div>
@@ -147,7 +146,7 @@ export function SezzleInfoTooltip() {
       >
         What is Sezzle?
       </button>
-      
+
       {isOpen && (
         <div className="absolute bottom-full left-0 mb-2 w-64 bg-white border border-gray-200 rounded-lg shadow-lg p-4 z-50">
           <h4 className="font-semibold text-slate-900 mb-2">Buy Now, Pay Later</h4>
@@ -158,9 +157,9 @@ export function SezzleInfoTooltip() {
             <li>• Instant approval decision</li>
           </ul>
           <div className="mt-3 pt-3 border-t border-gray-100">
-            <a 
-              href="https://sezzle.com/how-it-works" 
-              target="_blank" 
+            <a
+              href="https://sezzle.com/how-it-works"
+              target="_blank"
               rel="noopener noreferrer"
               className="text-purple-600 hover:text-purple-700 text-sm"
             >

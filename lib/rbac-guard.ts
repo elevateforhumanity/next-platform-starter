@@ -57,10 +57,7 @@ export function requireRoleAPI(session: Session, allowedRoles: UserRole[]) {
       requiredRoles: allowedRoles,
     });
 
-    return Response.json(
-      { error: 'Forbidden - Insufficient permissions' },
-      { status: 403 }
-    );
+    return Response.json({ error: 'Forbidden - Insufficient permissions' }, { status: 403 });
   }
 
   return userRole;
@@ -98,7 +95,7 @@ export function hasRoleOrHigher(session: Session, minimumRole: UserRole): boolea
  */
 export async function canAccess(
   session: Session | null,
-  allowedRoles: UserRole[]
+  allowedRoles: UserRole[],
 ): Promise<boolean> {
   if (!session) return false;
   return hasRole(session, allowedRoles);

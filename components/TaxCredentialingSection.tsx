@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import Link from "next/link";
+import Link from 'next/link';
 
 export function TaxCredentialingSection() {
   return (
@@ -10,10 +10,10 @@ export function TaxCredentialingSection() {
       </h2>
 
       <p className="mt-2 text-black">
-        This pathway is designed to align with the IRS Volunteer Income Tax Assistance (VITA)
-        and Tax Counseling for the Elderly (TCE) programs. To be recognized as an IRS VITA
-        volunteer, learners must complete IRS training, pass certification tests, and sign
-        the required volunteer agreement forms.
+        This pathway is designed to align with the IRS Volunteer Income Tax Assistance (VITA) and
+        Tax Counseling for the Elderly (TCE) programs. To be recognized as an IRS VITA volunteer,
+        learners must complete IRS training, pass certification tests, and sign the required
+        volunteer agreement forms.
       </p>
 
       <div className="mt-4 grid gap-4 md:grid-cols-3">
@@ -23,8 +23,8 @@ export function TaxCredentialingSection() {
             Step 1: IRS Link &amp; Learn Taxes
           </h3>
           <p className="mt-1 text-[11px] text-black">
-            Complete the official IRS Link &amp; Learn Taxes online training and certification
-            for the VITA/TCE program. This is where you take your ethics and tax law tests.
+            Complete the official IRS Link &amp; Learn Taxes online training and certification for
+            the VITA/TCE program. This is where you take your ethics and tax law tests.
           </p>
           <ul className="mt-2 list-disc pl-4 text-[11px] text-black space-y-1">
             <li>Choose the appropriate certification level (Basic, Advanced, etc.).</li>
@@ -46,16 +46,17 @@ export function TaxCredentialingSection() {
             Step 2: Required IRS Volunteer Forms
           </h3>
           <p className="mt-1 text-[11px] text-black">
-            VITA/TCE sites use these IRS forms and publications for ethics, training,
-            intake, and quality review. Learners in this pathway will be guided on how
-            to complete them with the sponsoring site.
+            VITA/TCE sites use these IRS forms and publications for ethics, training, intake, and
+            quality review. Learners in this pathway will be guided on how to complete them with the
+            sponsoring site.
           </p>
           <ul className="mt-2 space-y-1 text-[11px] text-black">
             <li>
               <a
                 href="https://www.irs.gov/pub/irs-pdf/f13615.pdf"
                 target="_blank"
-                className="text-brand-red-700 underline" rel="noreferrer"
+                className="text-brand-red-700 underline"
+                rel="noreferrer"
               >
                 Form 13615 – Volunteer Standards of Conduct Agreement
               </a>
@@ -64,7 +65,8 @@ export function TaxCredentialingSection() {
               <a
                 href="https://www.irs.gov/pub/irs-pdf/f6744.pdf"
                 target="_blank"
-                className="text-brand-red-700 underline" rel="noreferrer"
+                className="text-brand-red-700 underline"
+                rel="noreferrer"
               >
                 Form 6744 – VITA/TCE Volunteer Assistor&apos;s Test/Retest
               </a>
@@ -73,7 +75,8 @@ export function TaxCredentialingSection() {
               <a
                 href="https://www.irs.gov/pub/irs-pdf/p4012.pdf"
                 target="_blank"
-                className="text-brand-red-700 underline" rel="noreferrer"
+                className="text-brand-red-700 underline"
+                rel="noreferrer"
               >
                 Pub 4012 – VITA/TCE Volunteer Resource Guide
               </a>
@@ -82,7 +85,8 @@ export function TaxCredentialingSection() {
               <a
                 href="https://www.irs.gov/pub/irs-pdf/p4961.pdf"
                 target="_blank"
-                className="text-brand-red-700 underline" rel="noreferrer"
+                className="text-brand-red-700 underline"
+                rel="noreferrer"
               >
                 Pub 4961 – Volunteer Standards of Conduct (Ethics Training)
               </a>
@@ -91,7 +95,8 @@ export function TaxCredentialingSection() {
               <a
                 href="https://www.irs.gov/pub/irs-pdf/p5166.pdf"
                 target="_blank"
-                className="text-brand-red-700 underline" rel="noreferrer"
+                className="text-brand-red-700 underline"
+                rel="noreferrer"
               >
                 Pub 5166 – VITA/TCE Quality Site Requirements
               </a>
@@ -100,7 +105,8 @@ export function TaxCredentialingSection() {
               <a
                 href="https://www.irs.gov/pub/irs-pdf/f13614c.pdf"
                 target="_blank"
-                className="text-brand-red-700 underline" rel="noreferrer"
+                className="text-brand-red-700 underline"
+                rel="noreferrer"
               >
                 Form 13614-C – Intake/Interview &amp; Quality Review Sheet
               </a>
@@ -109,14 +115,15 @@ export function TaxCredentialingSection() {
               <a
                 href="https://www.irs.gov/pub/irs-pdf/f14446.pdf"
                 target="_blank"
-                className="text-brand-red-700 underline" rel="noreferrer"
+                className="text-brand-red-700 underline"
+                rel="noreferrer"
               >
                 Form 14446 – Virtual VITA/TCE Taxpayer Consent
               </a>
             </li>
             <li className="text-[10px] text-slate-500">
-              Additional forms (e.g., Form 13206 Volunteer Assistance Summary) can be added
-              to this list or provided by the site coordinator.
+              Additional forms (e.g., Form 13206 Volunteer Assistance Summary) can be added to this
+              list or provided by the site coordinator.
             </li>
           </ul>
         </div>
@@ -127,15 +134,16 @@ export function TaxCredentialingSection() {
             Step 3: Intuit Free Tax Courses (Optional but Recommended)
           </h3>
           <p className="mt-1 text-[11px] text-black">
-            To deepen your tax skills and prepare for paid roles, learners can complete free
-            Intuit Academy tax courses.
+            To deepen your tax skills and prepare for paid roles, learners can complete free Intuit
+            Academy tax courses.
           </p>
           <ul className="mt-2 space-y-1 text-[11px] text-black">
             <li>
               <a
                 href="https://academy.intuit.com/programs/tax-preparation"
                 target="_blank"
-                className="text-brand-red-700 underline" rel="noreferrer"
+                className="text-brand-red-700 underline"
+                rel="noreferrer"
               >
                 Intuit Academy – Tax Preparation (overview)
               </a>
@@ -144,7 +152,8 @@ export function TaxCredentialingSection() {
               <a
                 href="https://academy.intuit.com/programs/tax-level-1"
                 target="_blank"
-                className="text-brand-red-700 underline" rel="noreferrer"
+                className="text-brand-red-700 underline"
+                rel="noreferrer"
               >
                 Tax Level 1 – Federal Individual Tax Fundamentals
               </a>
@@ -153,24 +162,25 @@ export function TaxCredentialingSection() {
               <a
                 href="https://academy.intuit.com/programs/tax-level-2"
                 target="_blank"
-                className="text-brand-red-700 underline" rel="noreferrer"
+                className="text-brand-red-700 underline"
+                rel="noreferrer"
               >
                 Tax Level 2 – Advanced Topics
               </a>
             </li>
           </ul>
           <p className="mt-2 text-[11px] text-black">
-            These courses are free and self-paced, and can help learners qualify for seasonal
-            or year-round tax preparation opportunities.
+            These courses are free and self-paced, and can help learners qualify for seasonal or
+            year-round tax preparation opportunities.
           </p>
         </div>
       </div>
 
       <p className="mt-4 text-[11px] text-black">
-        Elevate for Humanity uses this pathway to help learners understand both community
-        service through VITA and the steps into paid tax preparation work. Local site
-        coordinators and partners will confirm the exact forms, certifications, and
-        schedules required each tax season.
+        Elevate for Humanity uses this pathway to help learners understand both community service
+        through VITA and the steps into paid tax preparation work. Local site coordinators and
+        partners will confirm the exact forms, certifications, and schedules required each tax
+        season.
       </p>
     </section>
   );

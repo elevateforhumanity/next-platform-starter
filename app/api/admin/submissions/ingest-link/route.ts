@@ -24,18 +24,31 @@ import { logger } from '@/lib/logger';
 
 function extractText(html: string, pattern: RegExp): string | null {
   const m = html.match(pattern);
-  return m ? m[1].replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&#39;/g, "'").replace(/&quot;/g, '"').trim() : null;
+  return m
+    ? m[1]
+        .replace(/&amp;/g, '&')
+        .replace(/&lt;/g, '<')
+        .replace(/&gt;/g, '>')
+        .replace(/&#39;/g, "'")
+        .replace(/&quot;/g, '"')
+        .trim()
+    : null;
 }
 
 function extractDate(html: string, keywords: string[]): string | null {
   for (const kw of keywords) {
-    const re = new RegExp(`${kw}[^\\d]{0,40}(\\d{1,2}[/\\-]\\d{1,2}[/\\-]\\d{2,4}|\\w+ \\d{1,2},? \\d{4})`, 'i');
+    const re = new RegExp(
+      `${kw}[^\\d]{0,40}(\\d{1,2}[/\\-]\\d{1,2}[/\\-]\\d{2,4}|\\w+ \\d{1,2},? \\d{4})`,
+      'i',
+    );
     const m = html.match(re);
     if (m) {
       try {
         const d = new Date(m[1]);
         if (!isNaN(d.getTime())) return d.toISOString().slice(0, 10);
-      } catch { /* skip */ }
+      } catch {
+        /* skip */
+      }
     }
   }
   return null;
@@ -56,29 +69,45 @@ function detectOpportunityType(url: string, html: string): string {
   if (combined.includes('rfp') || combined.includes('request for proposal')) return 'rfp';
   if (combined.includes('rfq') || combined.includes('request for quote')) return 'rfq';
   if (combined.includes('rfi') || combined.includes('request for information')) return 'rfi';
-  if (combined.includes('grant') || combined.includes('nofa') || combined.includes('notice of funding')) return 'grant';
-  if (combined.includes('bid') || combined.includes('invitation to bid') || combined.includes('itb')) return 'bid';
-  if (combined.includes('vendor') || combined.includes('registration')) return 'vendor_registration';
+  if (
+    combined.includes('grant') ||
+    combined.includes('nofa') ||
+    combined.includes('notice of funding')
+  )
+    return 'grant';
+  if (
+    combined.includes('bid') ||
+    combined.includes('invitation to bid') ||
+    combined.includes('itb')
+  )
+    return 'bid';
+  if (combined.includes('vendor') || combined.includes('registration'))
+    return 'vendor_registration';
   if (combined.includes('contract')) return 'contract';
   return 'other';
 }
 
 function extractTitle(html: string, url: string): string {
   // Try OG title, then <title>, then h1
-  const og = extractText(html, /<meta[^>]+property="og:title"[^>]+content="([^"]+)"/i)
-    || extractText(html, /<meta[^>]+content="([^"]+)"[^>]+property="og:title"/i);
+  const og =
+    extractText(html, /<meta[^>]+property="og:title"[^>]+content="([^"]+)"/i) ||
+    extractText(html, /<meta[^>]+content="([^"]+)"[^>]+property="og:title"/i);
   if (og) return og;
   const title = extractText(html, /<title[^>]*>([^<]+)<\/title>/i);
   if (title) return title;
   const h1 = extractText(html, /<h1[^>]*>([^<]+)<\/h1>/i);
   if (h1) return h1;
   // Fall back to URL path
-  return new URL(url).pathname.split('/').filter(Boolean).pop()?.replace(/[-_]/g, ' ') || 'Untitled Opportunity';
+  return (
+    new URL(url).pathname.split('/').filter(Boolean).pop()?.replace(/[-_]/g, ' ') ||
+    'Untitled Opportunity'
+  );
 }
 
 function extractIssuer(html: string, url: string): string | null {
-  const og = extractText(html, /<meta[^>]+property="og:site_name"[^>]+content="([^"]+)"/i)
-    || extractText(html, /<meta[^>]+content="([^"]+)"[^>]+property="og:site_name"/i);
+  const og =
+    extractText(html, /<meta[^>]+property="og:site_name"[^>]+content="([^"]+)"/i) ||
+    extractText(html, /<meta[^>]+content="([^"]+)"[^>]+property="og:site_name"/i);
   if (og) return og;
   try {
     return new URL(url).hostname.replace(/^www\./, '');
@@ -102,12 +131,17 @@ function extractRefNumber(html: string): string | null {
 
 function extractScopeSummary(html: string): string | null {
   // Try meta description
-  const desc = extractText(html, /<meta[^>]+name="description"[^>]+content="([^"]+)"/i)
-    || extractText(html, /<meta[^>]+content="([^"]+)"[^>]+name="description"/i);
+  const desc =
+    extractText(html, /<meta[^>]+name="description"[^>]+content="([^"]+)"/i) ||
+    extractText(html, /<meta[^>]+content="([^"]+)"[^>]+name="description"/i);
   if (desc && desc.length > 30) return desc.slice(0, 800);
   // Try first substantial paragraph
   const pMatch = html.match(/<p[^>]*>([^<]{80,})<\/p>/i);
-  if (pMatch) return pMatch[1].replace(/<[^>]+>/g, '').trim().slice(0, 800);
+  if (pMatch)
+    return pMatch[1]
+      .replace(/<[^>]+>/g, '')
+      .trim()
+      .slice(0, 800);
   return null;
 }
 
@@ -202,13 +236,19 @@ export async function POST(req: Request) {
 
   // 4. Extract metadata from HTML (best-effort even on partial fetch)
   const extracted = {
-    title: html ? extractTitle(html, finalUrl) : new URL(finalUrl).pathname.split('/').pop() || 'Untitled',
+    title: html
+      ? extractTitle(html, finalUrl)
+      : new URL(finalUrl).pathname.split('/').pop() || 'Untitled',
     issuer_name: html ? extractIssuer(html, finalUrl) : parsedUrl.hostname,
     reference_number: html ? extractRefNumber(html) : null,
     opportunity_type: detectOpportunityType(finalUrl, html),
-    due_date: html ? extractDate(html, ['due', 'deadline', 'close', 'submission', 'submit by', 'proposals due']) : null,
+    due_date: html
+      ? extractDate(html, ['due', 'deadline', 'close', 'submission', 'submit by', 'proposals due'])
+      : null,
     issue_date: html ? extractDate(html, ['issued', 'release date', 'posted', 'publish']) : null,
-    questions_deadline: html ? extractDate(html, ['questions due', 'questions deadline', 'inquiries due']) : null,
+    questions_deadline: html
+      ? extractDate(html, ['questions due', 'questions deadline', 'inquiries due'])
+      : null,
     estimated_value: html ? extractDollarAmount(html) : null,
     scope_summary: html ? extractScopeSummary(html) : null,
   };

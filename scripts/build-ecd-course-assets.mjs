@@ -1,17 +1,17 @@
 #!/usr/bin/env node
-import fs from "fs/promises";
-import path from "path";
-import { fileURLToPath } from "url";
+import fs from 'fs/promises';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const coursesPath = path.join(__dirname, "..", "content", "courses", "ecd-courses.json");
-const imgDir = path.join(__dirname, "..", "content", "image-prompts", "ecd-courses");
-const videoDir = path.join(__dirname, "..", "content", "video-scripts", "ecd-courses");
+const coursesPath = path.join(__dirname, '..', 'content', 'courses', 'ecd-courses.json');
+const imgDir = path.join(__dirname, '..', 'content', 'image-prompts', 'ecd-courses');
+const videoDir = path.join(__dirname, '..', 'content', 'video-scripts', 'ecd-courses');
 
 const baseFundingLine =
-  "Thanks to our partnerships with federal and state workforce programs like WIOA, Workforce Ready Grants, and Job Ready Indy, eligible learners may qualify for reduced or no-cost tuition, plus case management and job placement support.";
+  'Thanks to our partnerships with federal and state workforce programs like WIOA, Workforce Ready Grants, and Job Ready Indy, eligible learners may qualify for reduced or no-cost tuition, plus case management and job placement support.';
 
 async function ensureDirs() {
   await fs.mkdir(imgDir, { recursive: true });
@@ -23,7 +23,7 @@ async function ensureDirs() {
 function imagePromptFor(course) {
   const { title, category } = course;
 
-  if (category.includes("Healthcare")) {
+  if (category.includes('Healthcare')) {
     return `# ${title} – Course Cover (1:1)
 
 Create a square (1:1) course cover image for "${title}" at Elevate Connects Directory.
@@ -34,7 +34,7 @@ Style: realistic, welcoming, professional, no logos or text.
 Mood: compassionate care, entry into healthcare careers.`;
   }
 
-  if (category.includes("Beauty")) {
+  if (category.includes('Beauty')) {
     return `# ${title} – Course Cover (1:1)
 
 Create a square (1:1) course cover image for "${title}" as part of a workforce beauty education platform.
@@ -45,7 +45,7 @@ Style: photo-realistic, aspirational, no text or branding.
 Mood: professional creativity, mentorship, and confidence.`;
   }
 
-  if (category.includes("Technology")) {
+  if (category.includes('Technology')) {
     return `# ${title} – Course Cover (1:1)
 
 Create a square (1:1) course cover image for "${title}" in an IT training environment.
@@ -56,7 +56,7 @@ Style: realistic with a tech feel, no logos or text.
 Mood: problem-solving, support, breaking into tech.`;
   }
 
-  if (category.includes("Transportation")) {
+  if (category.includes('Transportation')) {
     return `# ${title} – Course Cover (1:1)
 
 Create a square (1:1) course cover image for "${title}" in a CDL training yard.
@@ -84,20 +84,20 @@ function videoScriptFor(course) {
   const { title, slug, shortDescription, category } = course;
 
   let introLine = `Welcome to the ${title} program, listed in the Elevate Connects Directory.`;
-  if (slug.includes("barber")) {
+  if (slug.includes('barber')) {
     introLine = `Do you see yourself behind the chair as a professional barber? The ${title} program in the Elevate Connects Directory helps you get there.`;
-  } else if (slug.includes("cna") || category.includes("Healthcare")) {
+  } else if (slug.includes('cna') || category.includes('Healthcare')) {
     introLine = `If you're ready to care for others and start a healthcare career, the ${title} pathway in the Elevate Connects Directory is designed for you.`;
-  } else if (slug.includes("hvac")) {
+  } else if (slug.includes('hvac')) {
     introLine = `If you like solving problems with your hands and tools, the ${title} pathway in the Elevate Connects Directory is a strong entry into HVAC careers.`;
-  } else if (slug.includes("cdl") || category.includes("Transportation")) {
+  } else if (slug.includes('cdl') || category.includes('Transportation')) {
     introLine = `Looking for a career with movement, income, and demand? The ${title} program in the Elevate Connects Directory might be your next step.`;
-  } else if (slug.includes("it-support") || category.includes("Technology")) {
+  } else if (slug.includes('it-support') || category.includes('Technology')) {
     introLine = `If you enjoy helping people solve tech problems, the ${title} program in the Elevate Connects Directory can open the door to IT careers.`;
   }
 
   const outcomesLine =
-    category.includes("Skilled Trades") || slug.includes("apprenticeship")
+    category.includes('Skilled Trades') || slug.includes('apprenticeship')
       ? "You'll learn through a mix of classroom instruction, hands-on labs, and on-the-job apprenticeship hours so you graduate with both knowledge and real experience."
       : "You'll learn through a mix of instructor-led sessions, hands-on practice, and real-world scenarios so you graduate with both knowledge and confidence.";
 
@@ -117,31 +117,22 @@ If you're ready to take the next step, visit this program inside ElevateConnects
 async function main() {
   await ensureDirs();
 
-  const raw = await fs.readFile(coursesPath, "utf8");
+  const raw = await fs.readFile(coursesPath, 'utf8');
   const courses = JSON.parse(raw);
-
 
   for (const course of courses) {
     const imgPrompt = imagePromptFor(course);
     const videoScript = videoScriptFor(course);
 
-    const imgFile = path.join(
-      imgDir,
-      `${course.slug}-cover.md`
-    );
-    const vidFile = path.join(
-      videoDir,
-      `${course.slug}-video.md`
-    );
+    const imgFile = path.join(imgDir, `${course.slug}-cover.md`);
+    const vidFile = path.join(videoDir, `${course.slug}-video.md`);
 
-    await fs.writeFile(imgFile, imgPrompt, "utf8");
-    await fs.writeFile(vidFile, videoScript, "utf8");
-
+    await fs.writeFile(imgFile, imgPrompt, 'utf8');
+    await fs.writeFile(vidFile, videoScript, 'utf8');
   }
-
 }
 
 main().catch((err) => {
-  console.error("Error building ECD course assets:", err);
+  console.error('Error building ECD course assets:', err);
   process.exit(1);
 });

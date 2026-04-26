@@ -3,7 +3,7 @@ import { logger } from '@/lib/logger';
 
 /**
  * STEP 6A: Database-backed job queue
- * 
+ *
  * Job types:
  * - license_provision: Create/activate license
  * - license_suspend: Suspend license (refund/dispute)
@@ -13,7 +13,7 @@ import { logger } from '@/lib/logger';
  * - webhook_process: Process Stripe webhook event
  */
 
-export type JobType = 
+export type JobType =
   | 'license_provision'
   | 'license_suspend'
   | 'license_reactivate'
@@ -58,7 +58,7 @@ export interface EnqueueJobParams {
  */
 export async function enqueueJob(params: EnqueueJobParams): Promise<string> {
   const supabase = await getAdminClient();
-  
+
   const { data, error } = await supabase
     .from('provisioning_jobs')
     .insert({
@@ -72,29 +72,29 @@ export async function enqueueJob(params: EnqueueJobParams): Promise<string> {
     })
     .select('id')
     .maybeSingle();
-  
+
   if (error) {
     // Check for duplicate (idempotency)
     if (error.code === '23505' && params.stripeEventId) {
-      logger.info('Job already exists (idempotent)', { 
-        stripeEventId: params.stripeEventId 
+      logger.info('Job already exists (idempotent)', {
+        stripeEventId: params.stripeEventId,
       });
       return 'duplicate';
     }
-    
-    logger.error('Failed to enqueue job', error, { 
+
+    logger.error('Failed to enqueue job', error, {
       jobType: params.jobType,
-      correlationId: params.correlationId 
+      correlationId: params.correlationId,
     });
     throw error;
   }
-  
-  logger.info('Job enqueued', { 
-    jobId: data.id, 
+
+  logger.info('Job enqueued', {
+    jobId: data.id,
     jobType: params.jobType,
-    correlationId: params.correlationId 
+    correlationId: params.correlationId,
   });
-  
+
   return data.id;
 }
 
@@ -104,16 +104,16 @@ export async function enqueueJob(params: EnqueueJobParams): Promise<string> {
  */
 export async function claimJobs(limit: number = 25): Promise<ProvisioningJob[]> {
   const supabase = await getAdminClient();
-  
+
   const { data, error } = await supabase.rpc('claim_provisioning_jobs', {
     p_limit: limit,
   });
-  
+
   if (error) {
     logger.error('Failed to claim jobs', error);
     throw error;
   }
-  
+
   return (data || []) as ProvisioningJob[];
 }
 
@@ -122,12 +122,12 @@ export async function claimJobs(limit: number = 25): Promise<ProvisioningJob[]> 
  */
 export async function completeJob(jobId: string): Promise<void> {
   const supabase = await getAdminClient();
-  
+
   const { error } = await supabase.rpc('complete_provisioning_job', {
     p_job_id: jobId,
     p_success: true,
   });
-  
+
   if (error) {
     logger.error('Failed to complete job', error, { jobId });
     throw error;
@@ -139,13 +139,13 @@ export async function completeJob(jobId: string): Promise<void> {
  */
 export async function failJob(jobId: string, errorMessage: string): Promise<void> {
   const supabase = await getAdminClient();
-  
+
   const { error } = await supabase.rpc('complete_provisioning_job', {
     p_job_id: jobId,
     p_success: false,
     p_error: errorMessage,
   });
-  
+
   if (error) {
     logger.error('Failed to mark job as failed', error, { jobId });
     throw error;
@@ -157,39 +157,36 @@ export async function failJob(jobId: string, errorMessage: string): Promise<void
  */
 export async function getDeadLetterJobs(): Promise<ProvisioningJob[]> {
   const supabase = await getAdminClient();
-  
+
   const { data, error } = await supabase
     .from('provisioning_jobs')
     .select('*')
     .eq('status', 'dead')
     .order('updated_at', { ascending: false });
-  
+
   if (error) {
     logger.error('Failed to fetch dead letter jobs', error);
     throw error;
   }
-  
+
   return (data || []) as ProvisioningJob[];
 }
 
 /**
  * Retry a dead letter job (admin action)
  */
-export async function retryDeadLetterJob(
-  jobId: string, 
-  adminUserId: string
-): Promise<boolean> {
+export async function retryDeadLetterJob(jobId: string, adminUserId: string): Promise<boolean> {
   const supabase = await getAdminClient();
-  
+
   const { data, error } = await supabase.rpc('retry_dead_letter_job', {
     p_job_id: jobId,
     p_admin_user_id: adminUserId,
   });
-  
+
   if (error) {
     logger.error('Failed to retry dead letter job', error, { jobId });
     throw error;
   }
-  
+
   return data as boolean;
 }

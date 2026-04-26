@@ -61,10 +61,7 @@ export interface OrgAdminResult {
  * }
  * ```
  */
-export async function requireOrgAdmin(
-  req: Request,
-  orgId: string
-): Promise<OrgAdminResult> {
+export async function requireOrgAdmin(req: Request, orgId: string): Promise<OrgAdminResult> {
   const endpoint = new URL(req.url).pathname;
   const ip = getClientIP(req);
 
@@ -116,10 +113,7 @@ export async function requireOrgAdmin(
 /**
  * Require super_admin role specifically
  */
-export async function requireSuperAdmin(
-  req: Request,
-  orgId: string
-): Promise<OrgAdminResult> {
+export async function requireSuperAdmin(req: Request, orgId: string): Promise<OrgAdminResult> {
   const result = await requireOrgAdmin(req, orgId);
 
   if (result.role !== 'super_admin') {

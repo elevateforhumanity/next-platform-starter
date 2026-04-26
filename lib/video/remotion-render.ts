@@ -33,20 +33,20 @@ export interface RemotionLessonInput {
   title: string;
   moduleTitle: string;
   objective: string;
-  keyPoints: string[];       // 3–5 bullet points
+  keyPoints: string[]; // 3–5 bullet points
   example: string;
   summary: string;
   quizTeaser?: string;
-  domainKey?: string;        // for Pexels topic lookup (e.g. 'hvac', 'foundations')
-  instructorId?: string;     // maps to voice + name
+  domainKey?: string; // for Pexels topic lookup (e.g. 'hvac', 'foundations')
+  instructorId?: string; // maps to voice + name
   courseName?: string;
 }
 
 export interface RemotionRenderResult {
   success: boolean;
-  videoUrl?: string;         // public path, e.g. /generated/lessons/lesson-<id>.mp4
-  audioUrl?: string;         // public path to the MP3 (kept for reuse)
-  duration?: number;         // seconds
+  videoUrl?: string; // public path, e.g. /generated/lessons/lesson-<id>.mp4
+  audioUrl?: string; // public path to the MP3 (kept for reuse)
+  duration?: number; // seconds
   method: 'remotion-free';
   error?: string;
 }
@@ -130,11 +130,17 @@ function getInstructor(instructorId?: string): InstructorConfig {
  */
 function calcSegmentFrames(
   totalSeconds: number,
-  fps = 30
+  fps = 30,
 ): [number, number, number, number, number] {
   const total = Math.round(totalSeconds * fps);
-  const ratios = [0.15, 0.25, 0.25, 0.20, 0.15];
-  const frames = ratios.map(r => Math.round(total * r)) as [number, number, number, number, number];
+  const ratios = [0.15, 0.25, 0.25, 0.2, 0.15];
+  const frames = ratios.map((r) => Math.round(total * r)) as [
+    number,
+    number,
+    number,
+    number,
+    number,
+  ];
 
   // Adjust last segment to absorb rounding error
   const sum = frames.reduce((a, b) => a + b, 0);
@@ -201,9 +207,7 @@ async function getBundleUrl(): Promise<string> {
  * Output is written to public/generated/lessons/lesson-<id>.mp4
  * Returns the public URL path.
  */
-export async function renderLessonVideo(
-  input: RemotionLessonInput
-): Promise<RemotionRenderResult> {
+export async function renderLessonVideo(input: RemotionLessonInput): Promise<RemotionRenderResult> {
   const { lessonId, domainKey = 'default', instructorId } = input;
   const instructor = getInstructor(instructorId);
   const paths = getOutputPaths(lessonId);
@@ -231,7 +235,7 @@ export async function renderLessonVideo(
 
     // ── Step 2: Fetch background image ────────────────────────────────────────
     logger.info(`[RemotionRender] Fetching background image (domain: ${domainKey})`);
-    const backgroundImageSrc = await getPexelsImage(domainKey) ?? undefined;
+    const backgroundImageSrc = (await getPexelsImage(domainKey)) ?? undefined;
 
     // ── Step 3: Build Remotion props ──────────────────────────────────────────
     const segmentFrames = calcSegmentFrames(duration);
@@ -245,7 +249,7 @@ export async function renderLessonVideo(
       example: input.example,
       summary: input.summary,
       quizTeaser: input.quizTeaser,
-      audioSrc: paths.audioPath,   // absolute path — Remotion reads from disk
+      audioSrc: paths.audioPath, // absolute path — Remotion reads from disk
       backgroundImageSrc,
       instructorName: instructor.name,
       instructorTitle: instructor.title,
@@ -295,7 +299,6 @@ export async function renderLessonVideo(
       duration,
       method: 'remotion-free',
     };
-
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err);
     logger.error('[RemotionRender] Render failed: ' + msg);
@@ -325,7 +328,7 @@ export interface BatchRenderResult {
  */
 export async function renderLessonVideoBatch(
   lessons: RemotionLessonInput[],
-  onProgress?: (done: number, total: number, current: RemotionLessonInput) => void
+  onProgress?: (done: number, total: number, current: RemotionLessonInput) => void,
 ): Promise<BatchRenderResult[]> {
   const results: BatchRenderResult[] = [];
 
@@ -338,7 +341,7 @@ export async function renderLessonVideoBatch(
 
     // Brief pause between renders to let GC run
     if (i < lessons.length - 1) {
-      await new Promise(r => setTimeout(r, 500));
+      await new Promise((r) => setTimeout(r, 500));
     }
   }
 

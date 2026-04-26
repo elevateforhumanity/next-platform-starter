@@ -15,7 +15,7 @@ export default function WebContainerPreview({ url, isLoading }: WebContainerPrev
   const [key, setKey] = useState(0);
 
   const refresh = () => {
-    setKey(prev => prev + 1);
+    setKey((prev) => prev + 1);
   };
 
   const openInNewTab = () => {
@@ -27,7 +27,7 @@ export default function WebContainerPreview({ url, isLoading }: WebContainerPrev
   const deviceSizes = {
     desktop: 'w-full h-full',
     tablet: 'w-[768px] h-full mx-auto',
-    mobile: 'w-[375px] h-full mx-auto'
+    mobile: 'w-[375px] h-full mx-auto',
   };
 
   return (
@@ -36,11 +36,7 @@ export default function WebContainerPreview({ url, isLoading }: WebContainerPrev
       <div className="flex items-center justify-between px-4 py-2 bg-[#161b22] border-b border-[#30363d]">
         <div className="flex items-center gap-2">
           <span className="text-sm font-medium text-[#c9d1d9]">Preview</span>
-          {url && (
-            <span className="text-xs text-[#8b949e] truncate max-w-[150px]">
-              {url}
-            </span>
-          )}
+          {url && <span className="text-xs text-[#8b949e] truncate max-w-[150px]">{url}</span>}
         </div>
 
         <div className="flex items-center gap-2">

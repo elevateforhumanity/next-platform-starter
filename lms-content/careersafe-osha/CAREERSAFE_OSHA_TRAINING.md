@@ -12,6 +12,7 @@
 **Phone:** (317) 314-3757
 
 **Available Courses:**
+
 - ✅ OSHA 10-Hour (includes Bloodborne Pathogens module)
 - ✅ Bloodborne Pathogens (standalone - same as OSHA 10 module)
 - ✅ HAZWOPER 8-Hour Refresher (not full HAZMAT)
@@ -22,12 +23,14 @@
 ## 📚 Available OSHA Courses
 
 ### 1. **OSHA 10-Hour General Industry**
+
 **Certification:** OSHA 10-Hour Card (DOL issued)
 **Duration:** 10 hours (self-paced online)
 **Validity:** Lifetime (recommended refresh every 5 years)
 **Format:** 100% online, interactive modules
 
 **Topics Covered:**
+
 - Introduction to OSHA
 - Walking and Working Surfaces
 - Exit Routes, Emergency Action Plans
@@ -41,6 +44,7 @@
 - And more...
 
 **Best For:**
+
 - Entry-level workers
 - General industry employees
 - Apprentice programs
@@ -49,12 +53,14 @@
 **DOL Card:** Official OSHA card mailed within 90 days of completion
 
 ### 2. **OSHA 30-Hour General Industry**
+
 **Certification:** OSHA 30-Hour Card (DOL issued)
 **Duration:** 30 hours (self-paced online)
 **Validity:** Lifetime (recommended refresh every 5 years)
 **Format:** 100% online, interactive modules
 
 **Topics Covered:**
+
 - All OSHA 10-Hour topics (in-depth)
 - Confined Spaces
 - Ergonomics
@@ -66,6 +72,7 @@
 - And more...
 
 **Best For:**
+
 - Supervisors and managers
 - Safety coordinators
 - Advanced workers
@@ -74,12 +81,14 @@
 **DOL Card:** Official OSHA card mailed within 90 days of completion
 
 ### 3. **OSHA 10-Hour Construction**
+
 **Certification:** OSHA 10-Hour Card (DOL issued)
 **Duration:** 10 hours (self-paced online)
 **Validity:** Lifetime (recommended refresh every 5 years)
 **Format:** 100% online, interactive modules
 
 **Topics Covered:**
+
 - Introduction to OSHA
 - Fall Protection
 - Electrical Safety
@@ -93,6 +102,7 @@
 - And more...
 
 **Best For:**
+
 - Construction workers
 - CDL drivers (construction sites)
 - HVAC technicians
@@ -101,12 +111,14 @@
 **DOL Card:** Official OSHA card mailed within 90 days of completion
 
 ### 4. **OSHA 30-Hour Construction**
+
 **Certification:** OSHA 30-Hour Card (DOL issued)
 **Duration:** 30 hours (self-paced online)
 **Validity:** Lifetime (recommended refresh every 5 years)
 **Format:** 100% online, interactive modules
 
 **Topics Covered:**
+
 - All OSHA 10-Hour Construction topics (in-depth)
 - Confined Spaces
 - Concrete and Masonry
@@ -117,6 +129,7 @@
 - And more...
 
 **Best For:**
+
 - Construction supervisors
 - Site managers
 - Safety coordinators
@@ -129,12 +142,14 @@
 ## 🧪 Additional Safety Courses
 
 ### 5. **HAZWOPER 8-Hour Refresher**
+
 **Certification:** HAZWOPER Refresher Certificate
 **Duration:** 8 hours
 **Validity:** 1 year (annual refresher required)
 **Format:** 100% online
 
 **Topics Covered:**
+
 - Hazardous Waste Operations
 - Emergency Response
 - Personal Protective Equipment (PPE)
@@ -144,6 +159,7 @@
 - OSHA HAZWOPER Standard (29 CFR 1910.120)
 
 **Best For:**
+
 - Workers with prior HAZWOPER training
 - Annual refresher requirement
 - Environmental workers
@@ -154,12 +170,14 @@
 **⚠️ HAZMAT Training:** CareerSafe does NOT offer full DOT HAZMAT training. For CDL HAZMAT endorsement training, contact alternative providers.
 
 ### 6. **Bloodborne Pathogens (BBP)**
+
 **Certification:** BBP Certificate
 **Duration:** 1-2 hours
 **Validity:** 1 year (annual renewal required)
 **Format:** 100% online
 
 **Topics Covered:**
+
 - Bloodborne diseases (HIV, Hepatitis B/C)
 - Exposure Control Plan
 - Universal Precautions
@@ -169,6 +187,7 @@
 - OSHA Bloodborne Pathogens Standard
 
 **Best For:**
+
 - Healthcare workers
 - First responders
 - Custodial staff
@@ -180,12 +199,14 @@
 **⚠️ IMPORTANT:** This standalone course contains the SAME content as the Bloodborne Pathogens module in OSHA 10-Hour. If students take OSHA 10-Hour, they do NOT need this separate course (would be buying the same module twice).
 
 ### 7. **Forklift/Powered Industrial Truck (PIT)**
+
 **Certification:** Forklift Operator Certificate
 **Duration:** 4-6 hours online + practical evaluation
 **Validity:** 3 years (must renew)
 **Format:** Online training + in-person skills test
 
 **Topics Covered:**
+
 - Forklift types and components
 - Pre-operation inspection
 - Safe operating procedures
@@ -196,6 +217,7 @@
 - OSHA regulations
 
 **Best For:**
+
 - Warehouse workers
 - Manufacturing employees
 - Distribution center staff
@@ -204,12 +226,14 @@
 **OSHA Required:** Employer must provide training and evaluation
 
 ### 8. **Confined Space Entry**
+
 **Certification:** Confined Space Certificate
 **Duration:** 2-4 hours
 **Validity:** 1 year (annual renewal recommended)
 **Format:** 100% online
 
 **Topics Covered:**
+
 - Confined space definition
 - Permit-required vs. non-permit spaces
 - Atmospheric hazards
@@ -219,18 +243,21 @@
 - OSHA regulations
 
 **Best For:**
+
 - Maintenance workers
 - Utilities workers
 - Construction workers
 - Industrial workers
 
 ### 9. **Lockout/Tagout (LOTO)**
+
 **Certification:** LOTO Certificate
 **Duration:** 2-3 hours
 **Validity:** 1 year (annual renewal recommended)
 **Format:** 100% online
 
 **Topics Covered:**
+
 - Energy control procedures
 - Lockout devices
 - Tagout devices
@@ -240,18 +267,21 @@
 - OSHA regulations
 
 **Best For:**
+
 - Maintenance technicians
 - Electricians
 - HVAC technicians
 - Machine operators
 
 ### 10. **Fall Protection**
+
 **Certification:** Fall Protection Certificate
 **Duration:** 2-3 hours
 **Validity:** 1 year (annual renewal recommended)
 **Format:** 100% online
 
 **Topics Covered:**
+
 - Fall hazards
 - Fall protection systems
 - Personal fall arrest systems (PFAS)
@@ -261,6 +291,7 @@
 - OSHA regulations
 
 **Best For:**
+
 - Construction workers
 - Roofers
 - HVAC technicians
@@ -272,27 +303,29 @@
 
 ### Individual Pricing (Typical Retail)
 
-| Course | Estimated Price | Duration | Validity |
-|--------|----------------|----------|----------|
-| **OSHA 10-Hour General Industry** | $75-$95 | 10 hours | Lifetime |
-| **OSHA 30-Hour General Industry** | $175-$225 | 30 hours | Lifetime |
-| **OSHA 10-Hour Construction** | $75-$95 | 10 hours | Lifetime |
-| **OSHA 30-Hour Construction** | $30-$225 | 30 hours | Lifetime |
-| **HAZMAT (DOT)** | $50-$75 | 4-8 hours | 3 years |
-| **Bloodborne Pathogens** | $25-$40 | 1-2 hours | 1 year |
-| **Forklift Training** | $60-$100 | 4-6 hours | 3 years |
-| **Confined Space** | $40-$60 | 2-4 hours | 1 year |
-| **Lockout/Tagout** | $40-$60 | 2-3 hours | 1 year |
-| **Fall Protection** | $40-$60 | 2-3 hours | 1 year |
+| Course                            | Estimated Price | Duration  | Validity |
+| --------------------------------- | --------------- | --------- | -------- |
+| **OSHA 10-Hour General Industry** | $75-$95         | 10 hours  | Lifetime |
+| **OSHA 30-Hour General Industry** | $175-$225       | 30 hours  | Lifetime |
+| **OSHA 10-Hour Construction**     | $75-$95         | 10 hours  | Lifetime |
+| **OSHA 30-Hour Construction**     | $30-$225        | 30 hours  | Lifetime |
+| **HAZMAT (DOT)**                  | $50-$75         | 4-8 hours | 3 years  |
+| **Bloodborne Pathogens**          | $25-$40         | 1-2 hours | 1 year   |
+| **Forklift Training**             | $60-$100        | 4-6 hours | 3 years  |
+| **Confined Space**                | $40-$60         | 2-4 hours | 1 year   |
+| **Lockout/Tagout**                | $40-$60         | 2-3 hours | 1 year   |
+| **Fall Protection**               | $40-$60         | 2-3 hours | 1 year   |
 
 ### Group Pricing (25+ Seats)
 
 **Expected Discounts:**
+
 - 25-49 seats: 10-15% off
 - 50-99 seats: 15-20% off
 - 100+ seats: 20-30% off
 
 **Estimated Group Pricing (25 seats):**
+
 - OSHA 10-Hour: ~$65-80 per seat
 - OSHA 30-Hour: ~$150-190 per seat
 - HAZMAT: ~$40-60 per seat
@@ -307,10 +340,12 @@
 ## 🎓 Training Formats
 
 ### Self-Paced Online
+
 **Format:** 100% online, interactive modules
 **Duration:** Varies by course
 **Access:** 6 months to complete (typically)
 **Features:**
+
 - Video lessons
 - Interactive activities
 - Knowledge checks
@@ -319,16 +354,19 @@
 - DOL card (OSHA courses)
 
 **Best For:**
+
 - Flexible schedules
 - Remote students
 - Self-motivated learners
 - Cost-effective training
 
 ### Instructor-Led Online
+
 **Format:** Live virtual classroom
 **Duration:** Scheduled sessions
 **Access:** Real-time instruction
 **Features:**
+
 - Live instructor
 - Q&A sessions
 - Group discussions
@@ -336,22 +374,26 @@
 - Certificate upon completion
 
 **Best For:**
+
 - Structured learning
 - Group cohorts
 - Interactive experience
 - Immediate feedback
 
 ### Blended Learning
+
 **Format:** Online + in-person skills
 **Duration:** Online modules + practical session
 **Access:** Flexible online + scheduled skills
 **Features:**
+
 - Online theory
 - In-person practice
 - Skills evaluation
 - Certificate upon completion
 
 **Best For:**
+
 - Forklift training
 - Hands-on skills
 - Comprehensive training
@@ -362,15 +404,19 @@
 ## 📋 Integration into Programs
 
 ### All Programs (Universal Requirement)
+
 **Required:**
+
 - OSHA 10-Hour (General Industry or Construction)
 - Bloodborne Pathogens (if applicable)
 
 **Add to curriculum:**
+
 ```markdown
 ## [Program Name] - Week 1: Safety First
 
 ### Day 1-2: OSHA 10-Hour Training
+
 - Introduction to OSHA
 - Workplace hazards
 - Personal protective equipment
@@ -384,21 +430,26 @@
 ```
 
 ### CDL/Truck Driving Program
+
 **Required:**
+
 - OSHA 10-Hour Construction (includes BBP module)
 - HAZMAT (find alternative provider - NOT available via CareerSafe)
 
 **Add to curriculum:**
+
 ```markdown
 ## CDL Training Program
 
 ### Week 1: Safety & Compliance
+
 - **OSHA 10-Hour Construction** (10 hours) - includes Bloodborne Pathogens
 - **HAZMAT Training** (8 hours) - via alternative provider
 - DOT regulations
 - Pre-trip inspection
 
 ### Certifications Earned:
+
 ✅ OSHA 10-Hour Card (DOL) - includes BBP
 ✅ HAZMAT Certificate (3-year) - via alternative provider
 ```
@@ -406,17 +457,21 @@
 **⚠️ Note:** CareerSafe does NOT offer full DOT HAZMAT training. Must use alternative provider for CDL HAZMAT endorsement.
 
 ### HVAC Technician Program
+
 **Required:**
+
 - OSHA 10-Hour Construction (includes BBP module)
 - Confined Space Entry (if available)
 - Lockout/Tagout (if available)
 - Fall Protection (if available)
 
 **Add to curriculum:**
+
 ```markdown
 ## HVAC Technician Program
 
 ### Week 1: Safety Fundamentals
+
 - **OSHA 10-Hour Construction** (10 hours) - includes Bloodborne Pathogens
 - **Confined Space Entry** (3 hours) - check CareerSafe catalog
 - **Lockout/Tagout** (3 hours) - check CareerSafe catalog
@@ -424,6 +479,7 @@
 - Electrical safety
 
 ### Certifications Earned:
+
 ✅ OSHA 10-Hour Card (DOL) - includes BBP
 ✅ Additional safety certifications (if available)
 ```
@@ -431,17 +487,21 @@
 **⚠️ Note:** Verify availability of specialized safety courses in CareerSafe admin dashboard.
 
 ### Building Maintenance Program
+
 **Required:**
+
 - OSHA 10-Hour General Industry
 - Forklift Training
 - Lockout/Tagout
 - Bloodborne Pathogens
 
 **Add to curriculum:**
+
 ```markdown
 ## Building Maintenance Program
 
 ### Week 1: Safety & Equipment
+
 - **OSHA 10-Hour General Industry** (10 hours)
 - **Forklift Training** (6 hours online + practical)
 - **Lockout/Tagout** (3 hours)
@@ -449,6 +509,7 @@
 - Tool safety
 
 ### Certifications Earned:
+
 ✅ OSHA 10-Hour Card (DOL)
 ✅ Forklift Operator Certified (3-year)
 ✅ LOTO Certified
@@ -456,16 +517,20 @@
 ```
 
 ### Healthcare Programs (CNA, Medical Assistant)
+
 **Required:**
+
 - OSHA 10-Hour General Industry
 - Bloodborne Pathogens
 - Hazard Communication
 
 **Add to curriculum:**
+
 ```markdown
 ## CNA Training Program
 
 ### Week 1: Healthcare Safety
+
 - **OSHA 10-Hour General Industry** (10 hours)
 - **Bloodborne Pathogens** (2 hours)
 - HSI: Healthcare Provider CPR/AED (4 hours)
@@ -473,21 +538,26 @@
 - Patient safety
 
 ### Certifications Earned:
+
 ✅ OSHA 10-Hour Card (DOL)
 ✅ Bloodborne Pathogens (1-year)
 ✅ CPR/AED (2-year)
 ```
 
 ### Barber Apprenticeship
+
 **Required:**
+
 - OSHA 10-Hour General Industry
 - Bloodborne Pathogens
 
 **Add to curriculum:**
+
 ```markdown
 ## Barber Apprenticeship
 
 ### Week 1: Health & Safety
+
 - Milady RISE Certification
 - **OSHA 10-Hour General Industry** (10 hours)
 - **Bloodborne Pathogens** (2 hours)
@@ -495,6 +565,7 @@
 - Sanitation and hygiene
 
 ### Certifications Earned:
+
 ✅ Milady RISE
 ✅ OSHA 10-Hour Card (DOL)
 ✅ Bloodborne Pathogens (1-year)
@@ -506,7 +577,9 @@
 ## 🎯 Certification Tracking
 
 ### Student Records
+
 **Track:**
+
 - Course name
 - Completion date
 - Certificate number
@@ -516,18 +589,20 @@
 
 ### Renewal Schedule
 
-| Course | Validity | Renewal Required |
-|--------|----------|------------------|
-| OSHA 10/30-Hour | Lifetime | Recommended every 5 years |
-| HAZMAT | 3 years | Yes (DOT required) |
-| Bloodborne Pathogens | 1 year | Yes (OSHA required) |
-| Forklift | 3 years | Yes (OSHA required) |
-| Confined Space | 1 year | Recommended |
-| Lockout/Tagout | 1 year | Recommended |
-| Fall Protection | 1 year | Recommended |
+| Course               | Validity | Renewal Required          |
+| -------------------- | -------- | ------------------------- |
+| OSHA 10/30-Hour      | Lifetime | Recommended every 5 years |
+| HAZMAT               | 3 years  | Yes (DOT required)        |
+| Bloodborne Pathogens | 1 year   | Yes (OSHA required)       |
+| Forklift             | 3 years  | Yes (OSHA required)       |
+| Confined Space       | 1 year   | Recommended               |
+| Lockout/Tagout       | 1 year   | Recommended               |
+| Fall Protection      | 1 year   | Recommended               |
 
 ### Employer Verification
+
 **Provide:**
+
 - Copy of certificate
 - DOL card (OSHA courses)
 - Verification letter
@@ -538,25 +613,30 @@
 ## 📊 Pricing Strategy
 
 ### Option 1: Included in Tuition
+
 **Model:** Build OSHA training into program cost
 **Student Cost:** $0 (included)
 **Benefit:** Competitive advantage, 100% compliance
 
 **Example:**
+
 - HVAC Program: $4,500 (includes OSHA 10 + 3 safety courses)
 - CDL Program: $3,500 (includes OSHA 10 + HAZMAT)
 
 ### Option 2: Separate Fee
+
 **Model:** Charge students for certifications
 **Student Cost:** $50-$100 per course
 **Benefit:** Revenue stream, optional for some
 
 **Example:**
+
 - OSHA 10-Hour: $75
 - HAZMAT: $60
 - Bloodborne Pathogens: $30
 
 ### Option 3: Employer Sponsored
+
 **Model:** Employer pays for employee certifications
 **Student Cost:** $0 (employer pays)
 **Benefit:** Employer partnership, job placement
@@ -631,6 +711,7 @@ CEO, Elevate for Humanity
 ## 📅 Implementation Timeline
 
 ### Week 1: Setup ✅ COMPLETE
+
 - [x] Account created and activated
 - [x] Organization setup complete
 - [ ] **Review QuickStart Guide:** https://www.careersafeonline.com/support/quick-start-guide
@@ -639,6 +720,7 @@ CEO, Elevate for Humanity
 - [ ] Determine pricing strategy
 
 ### Week 2: Planning
+
 - [ ] **Purchase course seats** (contact CareerSafe for pricing)
 - [ ] Review group management features
 - [ ] Create student enrollment process
@@ -648,6 +730,7 @@ CEO, Elevate for Humanity
 - [ ] **Request welcome letter** for DWD
 
 ### Week 3: Marketing
+
 - [ ] Add OSHA certifications to website
 - [ ] Update program descriptions
 - [ ] Promote OSHA 10-Hour requirement
@@ -656,6 +739,7 @@ CEO, Elevate for Humanity
 - [ ] Request CareerSafe partnership materials
 
 ### Week 4: Launch
+
 - [ ] Enroll students
 - [ ] Monitor completion rates
 - [ ] Track certifications
@@ -668,11 +752,13 @@ CEO, Elevate for Humanity
 ## 📞 Support Contacts
 
 ### CareerSafe Support Resources
+
 - **QuickStart Guide:** https://www.careersafeonline.com/support/quick-start-guide
 - **Group Management Guide:** https://www.careersafeonline.com/support/group-mgmt-support-guide
 - **Business Portal:** https://www.careersafeonline.com/for-business/osha-training
 
 ### Elevate for Humanity
+
 - **Organization:** Elevate for Humanity Training Center
 - **Address:** 8888 Keystone Crossing, Indianapolis, IN 46240
 - **Phone:** (317) 314-3757
@@ -683,6 +769,7 @@ CEO, Elevate for Humanity
 ## ✅ Implementation Checklist
 
 ### Immediate Actions ✅ COMPLETE
+
 - [x] Submit quote request to CareerSafe
 - [x] Account created and activated
 - [x] Organization setup complete
@@ -690,6 +777,7 @@ CEO, Elevate for Humanity
 - [ ] **Read Group Management Guide:** https://www.careersafeonline.com/support/group-mgmt-support-guide
 
 ### Setup Phase (THIS WEEK)
+
 - [ ] Login to admin dashboard
 - [ ] Explore course catalog
 - [ ] Review pricing with CareerSafe
@@ -699,6 +787,7 @@ CEO, Elevate for Humanity
 - [ ] Set up student groups
 
 ### Integration Phase (NEXT WEEK)
+
 - [ ] Update all program curriculum
 - [ ] Add OSHA 10 to Week 1 of all programs
 - [ ] Create student onboarding materials
@@ -707,6 +796,7 @@ CEO, Elevate for Humanity
 - [ ] Test enrollment process
 
 ### Launch Phase (WEEK 3-4)
+
 - [ ] Enroll students
 - [ ] Monitor progress via dashboard
 - [ ] Track completion rates
@@ -721,6 +811,7 @@ CEO, Elevate for Humanity
 ### Make OSHA 10 Universal
 
 **Why:**
+
 - Industry standard
 - Employer requirement
 - Safety culture
@@ -728,12 +819,14 @@ CEO, Elevate for Humanity
 - Student protection
 
 **How:**
+
 - Week 1 requirement for ALL programs
 - Included in tuition
 - Self-paced online
 - 30-day completion deadline
 
 **Impact:**
+
 - 100% of students OSHA certified
 - Enhanced employability
 - Safer workforce
@@ -743,22 +836,26 @@ CEO, Elevate for Humanity
 ### Add Specialized Courses
 
 **CDL Program:**
+
 - OSHA 10 Construction
 - HAZMAT (required for CDL)
 - Bloodborne Pathogens
 
 **HVAC Program:**
+
 - OSHA 10 Construction
 - Confined Space
 - Lockout/Tagout
 - Fall Protection
 
 **Healthcare Programs:**
+
 - OSHA 10 General Industry
 - Bloodborne Pathogens (required)
 - Hazard Communication
 
 **Building Maintenance:**
+
 - OSHA 10 General Industry
 - Forklift Training
 - Lockout/Tagout
@@ -769,18 +866,21 @@ CEO, Elevate for Humanity
 ## 💡 Best Practices
 
 ### 1. Start Early
+
 - Week 1 of every program
 - Before hands-on training
 - Sets safety tone
 - Builds foundation
 
 ### 2. Make it Engaging
+
 - Interactive modules
 - Real-world scenarios
 - Knowledge checks
 - Gamification
 
 ### 3. Track Everything
+
 - Enrollment dates
 - Completion dates
 - Certificate numbers
@@ -788,12 +888,14 @@ CEO, Elevate for Humanity
 - Renewal dates
 
 ### 4. Celebrate Success
+
 - Certificate ceremonies
 - Social media posts
 - Employer notifications
 - Student recognition
 
 ### 5. Maintain Compliance
+
 - Track renewals
 - Send reminders
 - Update records
@@ -804,6 +906,7 @@ CEO, Elevate for Humanity
 ## 🚀 Next Steps
 
 ### This Week (IMMEDIATE):
+
 1. ✅ **Account is ACTIVE** - ready to use!
 2. **Review QuickStart Guide:** https://www.careersafeonline.com/support/quick-start-guide
 3. **Review Group Management Guide:** https://www.careersafeonline.com/support/group-mgmt-support-guide
@@ -814,6 +917,7 @@ CEO, Elevate for Humanity
    - Partnership verification documentation
 
 ### Next Week:
+
 6. **Purchase course seats** (OSHA 10-Hour)
 7. **Set up student groups** (follow Group Management Guide)
 8. **Create enrollment process**
@@ -821,6 +925,7 @@ CEO, Elevate for Humanity
 10. **Train staff** on admin portal
 
 ### Launch:
+
 11. **Enroll students**
 12. **Monitor progress** via admin dashboard
 13. **Track certifications**
@@ -832,23 +937,27 @@ CEO, Elevate for Humanity
 ## 📚 Additional Resources
 
 ### CareerSafe Resources
+
 - **QuickStart Guide:** https://www.careersafeonline.com/support/quick-start-guide
 - **Group Management Guide:** https://www.careersafeonline.com/support/group-mgmt-support-guide
 - **Business Portal:** https://www.careersafeonline.com/for-business/osha-training
 
 ### Getting Started
+
 1. **QuickStart Guide:** Follow step-by-step setup instructions
 2. **Group Management:** Learn how to enroll and manage students
 3. **Course Catalog:** Explore available OSHA and safety courses
 4. **Admin Dashboard:** Manage organization and track student progress
 
 ### OSHA Resources
+
 - **OSHA Website:** https://www.osha.gov
 - **Training Requirements:** https://www.osha.gov/training
 - **Authorized Providers:** https://www.osha.gov/training/outreach
 - **Standards:** https://www.osha.gov/laws-regs
 
 ### Marketing Materials
+
 - Request from CareerSafe
 - OSHA logos and badges
 - Certificate samples
@@ -862,26 +971,31 @@ CEO, Elevate for Humanity
 ### Track These KPIs:
 
 **Enrollment:**
+
 - Students enrolled per month
 - Courses per student
 - Time to enrollment
 
 **Completion:**
+
 - Completion rate (target: 95%+)
 - Average completion time
 - First-attempt pass rate
 
 **Certification:**
+
 - Certificates issued
 - DOL cards received
 - Renewal rate
 
 **Employment:**
+
 - Job placement rate
 - Employer satisfaction
 - Certification requirements met
 
 **Financial:**
+
 - Cost per student
 - Revenue (if charging separately)
 - ROI on group pricing
@@ -893,6 +1007,7 @@ CEO, Elevate for Humanity
 ### Why OSHA Training Matters:
 
 **For Students:**
+
 - Required by employers
 - Demonstrates safety knowledge
 - Increases employability
@@ -900,6 +1015,7 @@ CEO, Elevate for Humanity
 - Industry-recognized credential
 
 **For Elevate:**
+
 - Program differentiation
 - Employer partnerships
 - Compliance with regulations
@@ -907,6 +1023,7 @@ CEO, Elevate for Humanity
 - Student success
 
 **For Employers:**
+
 - Trained workforce
 - Reduced accidents
 - OSHA compliance
@@ -918,6 +1035,7 @@ CEO, Elevate for Humanity
 **Add OSHA training to every program and create the safest, most employable workforce in Indianapolis!** 🏗️✨
 
 **Complete Training Portfolio:**
+
 1. ✅ JRI (Job Readiness)
 2. ✅ Milady RISE (Barber Safety)
 3. ✅ NRF RISE Up (Customer Service)

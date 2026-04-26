@@ -8,11 +8,7 @@ interface HeroWithVoiceoverProps {
   children: React.ReactNode;
 }
 
-export function HeroWithVoiceover({
-  videoSrc,
-  audioSrc,
-  children,
-}: HeroWithVoiceoverProps) {
+export function HeroWithVoiceover({ videoSrc, audioSrc, children }: HeroWithVoiceoverProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
   const [showButton, setShowButton] = useState(true);

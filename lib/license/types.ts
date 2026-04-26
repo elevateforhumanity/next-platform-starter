@@ -2,25 +2,25 @@ import { PRICES } from '@/lib/stripe/prices';
 
 /**
  * License Types and Pricing Tiers
- * 
+ *
  * Three infrastructure tiers:
  * 1. Core ($750/month) - Solo operators, pilots
  * 2. Institutional ($2,500/month) - Schools, nonprofits, training providers
  * 3. Enterprise ($8,500/month) - Workforce boards, agencies, regional systems
  */
 
-export type LicenseStatus = 
-  | 'trial'      // Active trial period
-  | 'active'     // Paid and current
-  | 'past_due'   // Payment failed, grace period
-  | 'canceled'   // User canceled, access until period end
+export type LicenseStatus =
+  | 'trial' // Active trial period
+  | 'active' // Paid and current
+  | 'past_due' // Payment failed, grace period
+  | 'canceled' // User canceled, access until period end
   | 'suspended'; // Payment failed after grace, locked out
 
-export type PlanId = 
+export type PlanId =
   // Infrastructure Tiers (Monthly)
-  | 'core'           // $750/month
-  | 'institutional'  // $2,500/month
-  | 'enterprise';    // $8,500/month
+  | 'core' // $750/month
+  | 'institutional' // $2,500/month
+  | 'enterprise'; // $8,500/month
 
 export type PlanCategory = 'infrastructure';
 
@@ -29,23 +29,23 @@ export interface License {
   organizationId: string;
   status: LicenseStatus;
   planId: PlanId;
-  
+
   // Trial tracking
   trialStartedAt: Date | null;
   trialEndsAt: Date | null;
-  
+
   // Stripe integration
   stripeCustomerId: string | null;
   stripeSubscriptionId: string | null;
-  
+
   // Billing period
   currentPeriodStart: Date | null;
   currentPeriodEnd: Date | null;
-  
+
   // Payment tracking
   lastPaymentStatus: string | null;
   lastInvoiceUrl: string | null;
-  
+
   // Metadata
   createdAt: Date;
   updatedAt: Date;
@@ -65,7 +65,7 @@ export interface Organization {
   updatedAt: Date;
 }
 
-export type OrganizationType = 
+export type OrganizationType =
   | 'workforce_board'
   | 'nonprofit'
   | 'training_provider'
@@ -242,11 +242,7 @@ export const ADD_ONS: Record<string, AddOnDefinition> = {
     priceDisplay: '$1,000',
     interval: 'month',
     description: 'Per additional 1,000 learners beyond tier capacity',
-    features: [
-      'Scale beyond tier capacity',
-      'Same compliance coverage',
-      'No performance limits',
-    ],
+    features: ['Scale beyond tier capacity', 'Same compliance coverage', 'No performance limits'],
   },
 };
 
@@ -292,7 +288,9 @@ export function getStatusMessage(license: License): string {
   switch (license.status) {
     case 'trial':
       if (license.trialEndsAt) {
-        const days = Math.ceil((license.trialEndsAt.getTime() - Date.now()) / (1000 * 60 * 60 * 24));
+        const days = Math.ceil(
+          (license.trialEndsAt.getTime() - Date.now()) / (1000 * 60 * 60 * 24),
+        );
         return `Trial: ${days} day${days !== 1 ? 's' : ''} remaining`;
       }
       return 'Trial active';
@@ -317,11 +315,17 @@ export function getStatusMessage(license: License): string {
  */
 export function getStatusBannerType(status: LicenseStatus): 'info' | 'warning' | 'error' | null {
   switch (status) {
-    case 'trial': return 'info';
-    case 'active': return null;
-    case 'past_due': return 'warning';
-    case 'canceled': return 'warning';
-    case 'suspended': return 'error';
-    default: return null;
+    case 'trial':
+      return 'info';
+    case 'active':
+      return null;
+    case 'past_due':
+      return 'warning';
+    case 'canceled':
+      return 'warning';
+    case 'suspended':
+      return 'error';
+    default:
+      return null;
   }
 }

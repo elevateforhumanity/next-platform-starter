@@ -9,9 +9,21 @@ interface Props {
 }
 
 const EVENTS = [
-  { key: 'new_application', label: 'New application submitted', description: 'Fires when a learner submits an application via /apply' },
-  { key: 'application_approved', label: 'Application approved', description: 'Fires after the full approval pipeline completes' },
-  { key: 'checkpoint_failed', label: 'Checkpoint failed', description: 'Fires when a learner fails a checkpoint — at-risk signal' },
+  {
+    key: 'new_application',
+    label: 'New application submitted',
+    description: 'Fires when a learner submits an application via /apply',
+  },
+  {
+    key: 'application_approved',
+    label: 'Application approved',
+    description: 'Fires after the full approval pipeline completes',
+  },
+  {
+    key: 'checkpoint_failed',
+    label: 'Checkpoint failed',
+    description: 'Fires when a learner fails a checkpoint — at-risk signal',
+  },
 ];
 
 export default function TeamsIntegrationClient({ isConfigured, webhookConfigured }: Props) {
@@ -45,8 +57,12 @@ export default function TeamsIntegrationClient({ isConfigured, webhookConfigured
         <div className="flex items-center justify-between">
           <div>
             <div className="flex items-center gap-2">
-              <span className={`inline-flex items-center gap-1.5 text-sm font-medium px-2.5 py-1 rounded-full ${isConfigured ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700'}`}>
-                <span className={`w-1.5 h-1.5 rounded-full ${isConfigured ? 'bg-green-500' : 'bg-amber-500'}`} />
+              <span
+                className={`inline-flex items-center gap-1.5 text-sm font-medium px-2.5 py-1 rounded-full ${isConfigured ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700'}`}
+              >
+                <span
+                  className={`w-1.5 h-1.5 rounded-full ${isConfigured ? 'bg-green-500' : 'bg-amber-500'}`}
+                />
                 {isConfigured ? 'Webhook configured' : 'Not configured'}
               </span>
             </div>
@@ -86,9 +102,15 @@ export default function TeamsIntegrationClient({ isConfigured, webhookConfigured
             <p className="text-sm font-medium text-slate-700 mb-2">Setup instructions</p>
             <ol className="space-y-1.5 text-sm text-slate-600 list-decimal list-inside">
               <li>In Microsoft Teams, open the channel you want notifications in</li>
-              <li>Click <strong>···</strong> → <strong>Connectors</strong> → <strong>Incoming Webhook</strong></li>
+              <li>
+                Click <strong>···</strong> → <strong>Connectors</strong> →{' '}
+                <strong>Incoming Webhook</strong>
+              </li>
               <li>Create the webhook and copy the URL</li>
-              <li>Set <code className="bg-slate-100 px-1 rounded text-xs">TEAMS_WEBHOOK_URL</code> in your Netlify environment variables</li>
+              <li>
+                Set <code className="bg-slate-100 px-1 rounded text-xs">TEAMS_WEBHOOK_URL</code> in
+                your Netlify environment variables
+              </li>
               <li>Redeploy — notifications will be active immediately</li>
             </ol>
           </div>
@@ -99,14 +121,18 @@ export default function TeamsIntegrationClient({ isConfigured, webhookConfigured
       <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
         <div className="px-6 py-4 border-b border-slate-100">
           <h2 className="font-semibold text-slate-900">Active Notification Events</h2>
-          <p className="text-sm text-slate-400 mt-0.5">These events send a Teams message when they fire</p>
+          <p className="text-sm text-slate-400 mt-0.5">
+            These events send a Teams message when they fire
+          </p>
         </div>
         <ul className="divide-y divide-slate-50">
-          {EVENTS.map(ev => (
+          {EVENTS.map((ev) => (
             <li key={ev.key} className="px-6 py-4 flex items-start gap-3">
-              {isConfigured
-                ? <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
-                : <XCircle className="w-4 h-4 text-slate-300 flex-shrink-0 mt-0.5" />}
+              {isConfigured ? (
+                <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+              ) : (
+                <XCircle className="w-4 h-4 text-slate-300 flex-shrink-0 mt-0.5" />
+              )}
               <div>
                 <p className="text-sm font-medium text-slate-900">{ev.label}</p>
                 <p className="text-xs text-slate-400 mt-0.5">{ev.description}</p>

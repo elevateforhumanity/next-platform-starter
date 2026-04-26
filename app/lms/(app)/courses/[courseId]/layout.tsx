@@ -18,11 +18,7 @@ export default async function LMSCourseLayout({
 
   if (!db) return notFound();
 
-  const { data: course } = await db
-    .from('courses')
-    .select('id')
-    .eq('id', courseId)
-    .maybeSingle();
+  const { data: course } = await db.from('courses').select('id').eq('id', courseId).maybeSingle();
 
   if (!course) notFound();
 

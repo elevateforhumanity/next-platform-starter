@@ -1,14 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { 
-  Play, 
-  
-  Clock, 
-  ChevronRight,
-  Download,
-  MessageSquare
-} from 'lucide-react';
+import { Play, Clock, ChevronRight, Download, MessageSquare } from 'lucide-react';
 
 interface Module {
   id: string;
@@ -80,9 +73,7 @@ export function CoursePlayer({ course, modules }: CoursePlayerProps) {
           <div className="max-w-4xl mx-auto">
             <div className="flex items-start justify-between mb-4">
               <div>
-                <h2 className="text-xl font-bold text-slate-900 mb-1">
-                  {currentModule?.title}
-                </h2>
+                <h2 className="text-xl font-bold text-slate-900 mb-1">{currentModule?.title}</h2>
                 <p className="text-black">{currentModule?.description}</p>
               </div>
               <div className="flex items-center gap-2 text-black">
@@ -127,10 +118,7 @@ export function CoursePlayer({ course, modules }: CoursePlayerProps) {
             <span className="text-sm font-medium text-white">{progress}%</span>
           </div>
           <div className="h-2 bg-white rounded-full overflow-hidden">
-            <div 
-              className="h-full bg-white transition-all"
-              style={{ width: `${progress}%` }}
-            />
+            <div className="h-full bg-white transition-all" style={{ width: `${progress}%` }} />
           </div>
           <p className="text-xs text-black mt-2">
             {completedModules.length} of {modules.length} lessons completed
@@ -155,16 +143,20 @@ export function CoursePlayer({ course, modules }: CoursePlayerProps) {
                   {completedModules.includes(module.id) ? (
                     <span className="text-black flex-shrink-0">•</span>
                   ) : (
-                    <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center text-xs font-medium ${
-                      currentModuleIndex === index ? 'border-white' : 'border-gray-500'
-                    }`}>
+                    <div
+                      className={`w-5 h-5 rounded-full border-2 flex items-center justify-center text-xs font-medium ${
+                        currentModuleIndex === index ? 'border-white' : 'border-gray-500'
+                      }`}
+                    >
                       {index + 1}
                     </div>
                   )}
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium truncate">{module.title}</p>
-                  <p className={`text-xs ${currentModuleIndex === index ? 'text-white' : 'text-black'}`}>
+                  <p
+                    className={`text-xs ${currentModuleIndex === index ? 'text-white' : 'text-black'}`}
+                  >
                     {module.duration_minutes} min
                   </p>
                 </div>

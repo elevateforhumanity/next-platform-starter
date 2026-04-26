@@ -6,9 +6,10 @@ export const dynamic = 'force-dynamic';
 
 export default async function AdminGeocodingPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login');
-
 
   const { data: profile } = await supabase
     .from('profiles')
@@ -23,17 +24,18 @@ export default async function AdminGeocodingPage() {
   // Get shops with geocoding status
   const { data: shops } = await supabase
     .from('shops')
-    .select('id, name, address1, address2, city, state, zip, latitude, longitude, geocoded_at, geocode_source, geocode_failed_at, geocode_error, active')
+    .select(
+      'id, name, address1, address2, city, state, zip, latitude, longitude, geocoded_at, geocode_source, geocode_failed_at, geocode_error, active',
+    )
     .order('name');
 
   const allShops = shops || [];
-  const needsGeocoding = allShops.filter(s => s.active && !s.latitude && !s.geocode_failed_at);
-  const geocoded = allShops.filter(s => s.latitude && s.longitude);
-  const failed = allShops.filter(s => s.geocode_failed_at);
+  const needsGeocoding = allShops.filter((s) => s.active && !s.latitude && !s.geocode_failed_at);
+  const geocoded = allShops.filter((s) => s.latitude && s.longitude);
+  const failed = allShops.filter((s) => s.geocode_failed_at);
 
   return (
     <div className="p-6 max-w-6xl mx-auto">
-
       {/* Hero Image */}
       <h1 className="text-2xl font-bold mb-6">Shop Geocoding</h1>
 

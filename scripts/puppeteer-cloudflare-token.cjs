@@ -116,10 +116,9 @@ async function createCloudflareToken() {
 
     // Click "Create Token" button
     console.log('[6/8] Creating new token...');
-    await page.waitForSelector(
-      'button:has-text("Create Token"), a:has-text("Create Token")',
-      { timeout: 10000 }
-    );
+    await page.waitForSelector('button:has-text("Create Token"), a:has-text("Create Token")', {
+      timeout: 10000,
+    });
 
     // Try different selectors for the Create Token button
     const createTokenButton = await page.evaluateHandle(() => {
@@ -144,7 +143,7 @@ async function createCloudflareToken() {
       return buttons.find(
         (btn) =>
           btn.textContent.includes('Custom token') ||
-          btn.textContent.includes('Create Custom Token')
+          btn.textContent.includes('Create Custom Token'),
       );
     });
 
@@ -154,13 +153,10 @@ async function createCloudflareToken() {
     }
 
     // Fill in token name
-    await page.waitForSelector(
-      'input[name="name"], input[placeholder*="Token name"]',
-      { timeout: 10000 }
-    );
-    const nameInput = await page.$(
-      'input[name="name"], input[placeholder*="Token name"]'
-    );
+    await page.waitForSelector('input[name="name"], input[placeholder*="Token name"]', {
+      timeout: 10000,
+    });
+    const nameInput = await page.$('input[name="name"], input[placeholder*="Token name"]');
     await nameInput.type(TOKEN_NAME);
     console.log(`✅ Token name set: ${TOKEN_NAME}`);
 
@@ -185,7 +181,7 @@ async function createCloudflareToken() {
         (btn) =>
           btn.textContent.includes('Continue') ||
           btn.textContent.includes('Summary') ||
-          btn.textContent.includes('Next')
+          btn.textContent.includes('Next'),
       );
     });
 
@@ -241,13 +237,9 @@ async function createCloudflareToken() {
     if (token) {
       console.log('✅ Token extracted successfully');
       console.log('');
-      console.log(
-        '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
-      );
+      console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
       console.log('🎉 Token Created Successfully!');
-      console.log(
-        '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'
-      );
+      console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
       console.log('');
       console.log('Your new Cloudflare API token:');
       console.log(token);
@@ -258,10 +250,7 @@ async function createCloudflareToken() {
       let envContent = fs.readFileSync(envPath, 'utf8');
 
       if (envContent.includes('CLOUDFLARE_API_TOKEN=')) {
-        envContent = envContent.replace(
-          /CLOUDFLARE_API_TOKEN=.*/,
-          `CLOUDFLARE_API_TOKEN=${token}`
-        );
+        envContent = envContent.replace(/CLOUDFLARE_API_TOKEN=.*/, `CLOUDFLARE_API_TOKEN=${token}`);
       } else {
         envContent += `\nCLOUDFLARE_API_TOKEN=${token}\n`;
       }

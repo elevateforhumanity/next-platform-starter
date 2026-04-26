@@ -25,18 +25,19 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
       id,
       ...props
     },
-    ref
+    ref,
   ) => {
     const generatedId = useId();
     const inputId = id || `input-${generatedId}`;
 
-    const baseStyles = 'px-4 py-2 border rounded-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-1';
+    const baseStyles =
+      'px-4 py-2 border rounded-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-1';
 
     const stateStyles = error
       ? 'border-brand-red-500 focus:border-brand-red-500 focus:ring-brand-red-500'
       : success
-      ? 'border-brand-green-500 focus:border-brand-green-500 focus:ring-brand-green-500'
-      : 'border-slate-300 focus:border-brand-orange-500 focus:ring-brand-blue-500';
+        ? 'border-brand-green-500 focus:border-brand-green-500 focus:ring-brand-green-500'
+        : 'border-slate-300 focus:border-brand-orange-500 focus:ring-brand-blue-500';
 
     const disabledStyles = props.disabled
       ? 'bg-slate-100 cursor-not-allowed opacity-60'
@@ -49,10 +50,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className={fullWidth ? 'w-full' : ''}>
         {label && (
-          <label
-            htmlFor={inputId}
-            className="block text-sm font-semibold text-black mb-2"
-          >
+          <label htmlFor={inputId} className="block text-sm font-semibold text-black mb-2">
             {label}
             {props.required && <span className="text-brand-red-500 ml-1">*</span>}
           </label>
@@ -110,7 +108,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
         )}
       </div>
     );
-  }
+  },
 );
 
 Input.displayName = 'Input';

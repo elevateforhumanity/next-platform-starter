@@ -17,7 +17,7 @@ const _GET = withAuth(
   async (req, context) => {
     const { user } = context;
     const supabase = await createRouteHandlerClient({ cookies });
-      const url = new URL(req.url);
+    const url = new URL(req.url);
     const id = url.searchParams.get('id');
 
     if (!id) {
@@ -37,7 +37,7 @@ const _GET = withAuth(
           contact_name,
           contact_email
         )
-      `
+      `,
       )
       .eq('id', id)
       .maybeSingle();
@@ -61,10 +61,7 @@ const _GET = withAuth(
 
     // Update MOU status to 'sent' if not already
     if (holder.mou_status === 'not_sent') {
-      await supabase
-        .from('program_holders')
-        .update({ mou_status: 'sent' })
-        .eq('id', id);
+      await supabase.from('program_holders').update({ mou_status: 'sent' }).eq('id', id);
 
       await logAdminAudit({
         action: AdminAction.MOU_STATUS_CHANGED,
@@ -77,17 +74,16 @@ const _GET = withAuth(
     }
 
     // Return as downloadable text file
-  const filename = `EFH_MOU_${holder.name.replace(/[^a-zA-Z0-9]/g, '_')}_${new Date().toISOString().split('T')[0]}.txt`;
+    const filename = `EFH_MOU_${holder.name.replace(/[^a-zA-Z0-9]/g, '_')}_${new Date().toISOString().split('T')[0]}.txt`;
 
-  return new Response(mouText, {
-    status: 200,
-    headers: {
-      'Content-Type': 'text/plain; charset=utf-8',
-      'Content-Disposition': `attachment; filename="${filename}"`,
-    },
-  });
-
+    return new Response(mouText, {
+      status: 200,
+      headers: {
+        'Content-Type': 'text/plain; charset=utf-8',
+        'Content-Disposition': `attachment; filename="${filename}"`,
+      },
+    });
   },
-  { roles: ['admin', 'super_admin'] }
+  { roles: ['admin', 'super_admin'] },
 );
 export const GET = withApiAudit('/api/admin/program-holders/mou', _GET);

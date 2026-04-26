@@ -1,5 +1,3 @@
-
-
 import type Stripe from 'stripe';
 import { getStripe } from '@/lib/stripe/client';
 import { hydrateProcessEnv } from '@/lib/secrets';
@@ -18,12 +16,9 @@ export async function POST(req: Request) {
   await hydrateProcessEnv();
   const supabase = await getAdminClient();
 
-    if (!supabase) {
-      return NextResponse.json(
-        { error: 'Service temporarily unavailable.' },
-        { status: 503 }
-      );
-    }
+  if (!supabase) {
+    return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });
+  }
   const body = await req.text();
   const sig = req.headers.get('stripe-signature');
 
@@ -35,11 +30,7 @@ export async function POST(req: Request) {
 
   try {
     const stripe = getStripe();
-    event = stripe.webhooks.constructEvent(
-      body,
-      sig,
-      process.env.STRIPE_WEBHOOK_SECRET
-    );
+    event = stripe.webhooks.constructEvent(body, sig, process.env.STRIPE_WEBHOOK_SECRET);
   } catch (err: any) {
     // Error logged
     return NextResponse.json({ error: 'Webhook processing failed.' }, { status: 400 });
@@ -89,10 +80,7 @@ export async function POST(req: Request) {
 
     if (error) {
       // Error: $1
-      return NextResponse.json(
-        { error: toErrorMessage(error) },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: toErrorMessage(error) }, { status: 500 });
     }
 
     // Audit log

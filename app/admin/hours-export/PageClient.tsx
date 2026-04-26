@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import React from 'react';
 
@@ -6,8 +6,6 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Calendar, Download, Clock } from 'lucide-react';
 export const dynamic = 'force-dynamic';
-
-
 
 export default function HoursExportPage() {
   const [loading, setLoading] = useState(false);
@@ -78,10 +76,9 @@ export default function HoursExportPage() {
 
   return (
     <div className="min-h-screen bg-white py-8">
-
       {/* Hero Image */}
       <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Admin", href: "/admin" }, { label: "Hours Export" }]} />
+        <Breadcrumbs items={[{ label: 'Admin', href: '/admin' }, { label: 'Hours Export' }]} />
       </div>
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
@@ -93,25 +90,18 @@ export default function HoursExportPage() {
           </Link>
           <div className="flex items-center gap-3 mb-2">
             <Clock className="w-8 h-8 text-brand-blue-600" />
-            <h1 className="text-3xl font-bold text-black">
-              Weekly Hours Export
-            </h1>
+            <h1 className="text-3xl font-bold text-black">Weekly Hours Export</h1>
           </div>
-          <p className="text-black">
-            Export apprenticeship hours for WorkOne/DWD reporting
-          </p>
+          <p className="text-black">Export apprenticeship hours for WorkOne/DWD reporting</p>
         </div>
 
         {/* Info Box */}
         <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-lg p-4 mb-6">
-          <h3 className="font-semibold text-brand-blue-900 mb-2">
-            WorkOne/DWD Compliance
-          </h3>
+          <h3 className="font-semibold text-brand-blue-900 mb-2">WorkOne/DWD Compliance</h3>
           <p className="text-sm text-brand-blue-800">
-            This export generates a CSV file formatted for WorkOne and Indiana
-            Department of Workforce Development (DWD) reporting requirements.
-            The file includes all apprenticeship hours for the selected date
-            range with approval status.
+            This export generates a CSV file formatted for WorkOne and Indiana Department of
+            Workforce Development (DWD) reporting requirements. The file includes all apprenticeship
+            hours for the selected date range with approval status.
           </p>
         </div>
 
@@ -123,9 +113,7 @@ export default function HoursExportPage() {
 
         {/* Export Form */}
         <div className="bg-white rounded-lg shadow p-6">
-          <h2 className="text-lg font-semibold text-black mb-6">
-            Select Date Range
-          </h2>
+          <h2 className="text-lg font-semibold text-black mb-6">Select Date Range</h2>
 
           {/* Quick Select Buttons */}
           <div className="flex gap-3 mb-6">
@@ -173,9 +161,7 @@ export default function HoursExportPage() {
 
           {/* Export Info */}
           <div className="bg-gray-50 rounded-md p-4 mb-6">
-            <h3 className="text-sm font-semibold text-black mb-2">
-              Export will include:
-            </h3>
+            <h3 className="text-sm font-semibold text-black mb-2">Export will include:</h3>
             <ul className="text-sm text-black space-y-1">
               <li>• Student name and email</li>
               <li>• Shop name and license number</li>
@@ -201,15 +187,11 @@ export default function HoursExportPage() {
 
         {/* Instructions */}
         <div className="mt-6 bg-white rounded-lg shadow p-6">
-          <h2 className="text-lg font-semibold text-black mb-4">
-            How to Use This Export
-          </h2>
+          <h2 className="text-lg font-semibold text-black mb-4">How to Use This Export</h2>
           <ol className="space-y-3 text-sm text-black">
             <li className="flex gap-2">
               <span className="font-semibold text-brand-blue-600">1.</span>
-              <span>
-                Select the week you want to report (typically the previous week)
-              </span>
+              <span>Select the week you want to report (typically the previous week)</span>
             </li>
             <li className="flex gap-2">
               <span className="font-semibold text-brand-blue-600">2.</span>
@@ -225,9 +207,7 @@ export default function HoursExportPage() {
             </li>
             <li className="flex gap-2">
               <span className="font-semibold text-brand-blue-600">5.</span>
-              <span>
-                Submit to WorkOne/DWD according to their reporting schedule
-              </span>
+              <span>Submit to WorkOne/DWD according to their reporting schedule</span>
             </li>
           </ol>
         </div>

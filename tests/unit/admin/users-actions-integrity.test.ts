@@ -14,10 +14,7 @@ import { describe, it, expect } from 'vitest';
 import fs from 'fs';
 import path from 'path';
 
-const src = fs.readFileSync(
-  path.resolve('app/admin/users/actions.ts'),
-  'utf-8'
-);
+const src = fs.readFileSync(path.resolve('app/admin/users/actions.ts'), 'utf-8');
 
 describe('admin/users/actions.ts integrity contracts', () => {
   it('activateUser: pre-reads target before update', () => {
@@ -43,7 +40,8 @@ describe('admin/users/actions.ts integrity contracts', () => {
     const deactivateFn = src.slice(src.indexOf('export async function deactivateUser'));
     // Either explicit self-guard or terminal-state guard (already inactive)
     const hasSelfGuard = deactivateFn.includes('actorId') || deactivateFn.includes('actor.id');
-    const hasStateGuard = deactivateFn.includes('already inactive') || deactivateFn.includes('is_active === false');
+    const hasStateGuard =
+      deactivateFn.includes('already inactive') || deactivateFn.includes('is_active === false');
     expect(hasSelfGuard || hasStateGuard).toBe(true);
   });
 
@@ -57,7 +55,7 @@ describe('admin/users/actions.ts integrity contracts', () => {
 
   it('deleteUser: audit log written after delete, not before', () => {
     const deleteFn = src.slice(src.indexOf('export async function deleteUser'));
-    const deletePos = deleteFn.indexOf(".delete()");
+    const deletePos = deleteFn.indexOf('.delete()');
     const auditPos = deleteFn.indexOf('writeAdminAuditEvent');
     // Audit must come after the delete call
     expect(deletePos).toBeGreaterThan(0);

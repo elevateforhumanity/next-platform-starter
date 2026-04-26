@@ -2,16 +2,16 @@ import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
 import Link from 'next/link';
 import Image from 'next/image';
-import { 
-  GraduationCap, 
-  DollarSign, 
-  Briefcase, 
-  Users, 
+import {
+  GraduationCap,
+  DollarSign,
+  Briefcase,
+  Users,
   Circle,
   ArrowRight,
   Clock,
   Award,
-  TrendingUp
+  TrendingUp,
 } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
@@ -19,7 +19,8 @@ export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: 'For Students | Free Career Training | Elevate for Humanity',
-  description: 'Funded career training with job placement. No cost, no debt. Get certified and start earning in weeks.',
+  description:
+    'Funded career training with job placement. No cost, no debt. Get certified and start earning in weeks.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/students',
   },
@@ -38,7 +39,7 @@ export default async function StudentsPage() {
       </div>
     );
   }
-  
+
   // Fetch student stats
   const { count: studentCount } = await supabase
     .from('students')
@@ -46,11 +47,7 @@ export default async function StudentsPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      <Breadcrumbs
-        items={[
-          { label: 'Students' },
-        ]}
-      />
+      <Breadcrumbs items={[{ label: 'Students' }]} />
       {/* Hero Section */}
       <section className="relative bg-slate-700 text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -59,17 +56,16 @@ export default async function StudentsPage() {
               <GraduationCap className="w-5 h-5" />
               <span className="text-sm font-semibold">For Students</span>
             </div>
-            
-            <h1 className="text-4xl md:text-6xl font-black mb-6">
-              Launch Your Career
-            </h1>
+
+            <h1 className="text-4xl md:text-6xl font-black mb-6">Launch Your Career</h1>
             <p className="text-xl md:text-2xl text-white/90 mb-4">
               Real certifications. Job placement included.
             </p>
             <p className="text-sm text-white/70 mb-8">
-              Free training available for eligible participants. Some licensure programs are self-pay or employer-paid.
+              Free training available for eligible participants. Some licensure programs are
+              self-pay or employer-paid.
             </p>
-            
+
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 href="/apply"
@@ -94,7 +90,7 @@ export default async function StudentsPage() {
           <h2 className="text-3xl md:text-4xl font-black text-center mb-12">
             How Our Programs Work
           </h2>
-          
+
           <div className="grid md:grid-cols-3 gap-8">
             <div className="bg-white rounded-xl p-8 shadow-sm border-2 border-gray-100">
               <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-6">
@@ -102,7 +98,8 @@ export default async function StudentsPage() {
               </div>
               <h3 className="text-2xl font-bold mb-4">Funding Available</h3>
               <p className="text-black mb-4">
-                Many programs are free through WIOA, WRG, and JRI funding. Some licensure programs offer self-pay or employer-paid options.
+                Many programs are free through WIOA, WRG, and JRI funding. Some licensure programs
+                offer self-pay or employer-paid options.
               </p>
               <ul className="space-y-2">
                 <li className="flex items-start gap-2">
@@ -126,7 +123,8 @@ export default async function StudentsPage() {
               </div>
               <h3 className="text-2xl font-bold mb-4">Fast Track</h3>
               <p className="text-black mb-4">
-                Get certified and start earning in weeks, not years. Programs designed for quick entry into the workforce.
+                Get certified and start earning in weeks, not years. Programs designed for quick
+                entry into the workforce.
               </p>
               <ul className="space-y-2">
                 <li className="flex items-start gap-2">
@@ -150,7 +148,8 @@ export default async function StudentsPage() {
               </div>
               <h3 className="text-2xl font-bold mb-4">Job Placement</h3>
               <p className="text-black mb-4">
-                Career services and job placement support. We connect you with employers actively hiring in your field.
+                Career services and job placement support. We connect you with employers actively
+                hiring in your field.
               </p>
               <ul className="space-y-2">
                 <li className="flex items-start gap-2">
@@ -174,19 +173,15 @@ export default async function StudentsPage() {
       {/* How It Works */}
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl md:text-4xl font-black text-center mb-12">
-            How It Works
-          </h2>
-          
+          <h2 className="text-3xl md:text-4xl font-black text-center mb-12">How It Works</h2>
+
           <div className="grid md:grid-cols-4 gap-8">
             <div className="text-center">
               <div className="w-16 h-16 bg-blue-600 text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">
                 1
               </div>
               <h3 className="text-xl font-bold mb-2">Apply</h3>
-              <p className="text-black">
-                Fill out our simple application. Takes 5 minutes.
-              </p>
+              <p className="text-black">Fill out our simple application. Takes 5 minutes.</p>
             </div>
 
             <div className="text-center">
@@ -194,9 +189,7 @@ export default async function StudentsPage() {
                 2
               </div>
               <h3 className="text-xl font-bold mb-2">Get Approved</h3>
-              <p className="text-black">
-                We verify your eligibility for free funding.
-              </p>
+              <p className="text-black">We verify your eligibility for free funding.</p>
             </div>
 
             <div className="text-center">
@@ -204,9 +197,7 @@ export default async function StudentsPage() {
                 3
               </div>
               <h3 className="text-xl font-bold mb-2">Train</h3>
-              <p className="text-black">
-                Complete your program and complete your training.
-              </p>
+              <p className="text-black">Complete your program and complete your training.</p>
             </div>
 
             <div className="text-center">
@@ -214,9 +205,7 @@ export default async function StudentsPage() {
                 4
               </div>
               <h3 className="text-xl font-bold mb-2">Get Hired</h3>
-              <p className="text-black">
-                Start your new career with job placement support.
-              </p>
+              <p className="text-black">Start your new career with job placement support.</p>
             </div>
           </div>
         </div>
@@ -225,15 +214,16 @@ export default async function StudentsPage() {
       {/* Programs Section */}
       <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl md:text-4xl font-black text-center mb-4">
-            Popular Programs
-          </h2>
+          <h2 className="text-3xl md:text-4xl font-black text-center mb-4">Popular Programs</h2>
           <p className="text-xl text-black text-center mb-12">
             Choose from 20+ career training programs
           </p>
-          
+
           <div className="grid md:grid-cols-3 gap-8 mb-8">
-            <Link href="/programs/cna" className="bg-white rounded-xl p-6 shadow-sm border-2 border-gray-100 hover:border-blue-500 transition group">
+            <Link
+              href="/programs/cna"
+              className="bg-white rounded-xl p-6 shadow-sm border-2 border-gray-100 hover:border-blue-500 transition group"
+            >
               <Award className="w-12 h-12 text-blue-600 mb-4" />
               <h3 className="text-xl font-bold mb-2 group-hover:text-blue-600">CNA Training</h3>
               <p className="text-black mb-4">6-8 weeks • $16-20/hr starting</p>
@@ -242,16 +232,24 @@ export default async function StudentsPage() {
               </div>
             </Link>
 
-            <Link href="/programs/barber-apprenticeship" className="bg-white rounded-xl p-6 shadow-sm border-2 border-gray-100 hover:border-blue-500 transition group">
+            <Link
+              href="/programs/barber-apprenticeship"
+              className="bg-white rounded-xl p-6 shadow-sm border-2 border-gray-100 hover:border-blue-500 transition group"
+            >
               <Award className="w-12 h-12 text-blue-600 mb-4" />
-              <h3 className="text-xl font-bold mb-2 group-hover:text-blue-600">Barber Apprenticeship</h3>
+              <h3 className="text-xl font-bold mb-2 group-hover:text-blue-600">
+                Barber Apprenticeship
+              </h3>
               <p className="text-black mb-4">12 months • Earn while you learn</p>
               <div className="flex items-center text-blue-600 font-semibold">
                 Learn More <ArrowRight className="w-4 h-4 ml-2" />
               </div>
             </Link>
 
-            <Link href="/programs/cdl-transportation" className="bg-white rounded-xl p-6 shadow-sm border-2 border-gray-100 hover:border-blue-500 transition group">
+            <Link
+              href="/programs/cdl-transportation"
+              className="bg-white rounded-xl p-6 shadow-sm border-2 border-gray-100 hover:border-blue-500 transition group"
+            >
               <Award className="w-12 h-12 text-blue-600 mb-4" />
               <h3 className="text-xl font-bold mb-2 group-hover:text-blue-600">CDL Training</h3>
               <p className="text-black mb-4">4-6 weeks • $50k+ annually</p>
@@ -275,9 +273,7 @@ export default async function StudentsPage() {
       {/* CTA Section */}
       <section className="py-16 bg-blue-600 text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-4xl font-black mb-6">
-            Ready to Start Your Career?
-          </h2>
+          <h2 className="text-3xl md:text-4xl font-black mb-6">Ready to Start Your Career?</h2>
           <p className="text-xl mb-8 text-blue-100">
             Apply today and take the first step toward a better future.
           </p>

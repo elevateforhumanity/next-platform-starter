@@ -11,8 +11,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/rise',
   },
-  title:
-    'RISE Foundation | Free Tax Preparation Training | IRS VITA Volunteer | Indianapolis',
+  title: 'RISE Foundation | Free Tax Preparation Training | IRS VITA Volunteer | Indianapolis',
   description:
     'RISE Foundation offers free IRS-certified tax preparation training. Become a VITA volunteer through IRS Link & Learn. Help low-income families get free tax help. IRS-approved training provider in Indianapolis.',
   keywords:
@@ -33,7 +32,7 @@ export default async function RiseFoundationPage() {
       </div>
     );
   }
-  
+
   // Fetch RISE Foundation info
   const { data: riseInfo } = await db
     .from('organizations')
@@ -42,10 +41,10 @@ export default async function RiseFoundationPage() {
     .single();
   return (
     <div className="min-h-screen bg-white">
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Rise" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Rise' }]} />
       </div>
-{/* Hero Section */}
+      {/* Hero Section */}
       <section className="relative h-[600px] overflow-hidden bg-slate-900">
         <Image
           src="/images/barber/gallery-1.jpg"
@@ -78,16 +77,13 @@ export default async function RiseFoundationPage() {
           </section>
 
           <div className="mx-auto max-w-7xl px-12 text-center text-white">
-            <h1 className="mb-6 text-6xl font-light md:text-8xl">
-              RISE Foundation
-            </h1>
+            <h1 className="mb-6 text-6xl font-light md:text-8xl">RISE Foundation</h1>
             <p className="mb-8 text-base md:text-lg font-light">
               Recognizing Indusstart Safety & Empowerment
             </p>
             <p className="mx-auto max-w-3xl text-base md:text-lg text-slate-200">
-              A non-profit organization dedicated to providing free educational
-              opportunities, workforce development, and community empowerment
-              programs.
+              A non-profit organization dedicated to providing free educational opportunities,
+              workforce development, and community empowerment programs.
             </p>
           </div>
         </div>
@@ -101,8 +97,8 @@ export default async function RiseFoundationPage() {
               Our Mission
             </h2>
             <p className="text-base md:text-lg text-black max-w-3xl mx-auto">
-              To empower individuals and communities through accessible
-              education, workforce training, and comprehensive support services.
+              To empower individuals and communities through accessible education, workforce
+              training, and comprehensive support services.
             </p>
           </div>
 
@@ -123,12 +119,9 @@ export default async function RiseFoundationPage() {
                   />
                 </svg>
               </div>
-              <h3 className="text-lg md:text-lg font-semibold text-black mb-4">
-                Education
-              </h3>
+              <h3 className="text-lg md:text-lg font-semibold text-black mb-4">Education</h3>
               <p className="text-black">
-                Free training programs in healthcare, beauty, trades, and
-                technology
+                Free training programs in healthcare, beauty, trades, and technology
               </p>
             </div>
 
@@ -148,12 +141,9 @@ export default async function RiseFoundationPage() {
                   />
                 </svg>
               </div>
-              <h3 className="text-lg md:text-lg font-semibold text-black mb-4">
-                Community
-              </h3>
+              <h3 className="text-lg md:text-lg font-semibold text-black mb-4">Community</h3>
               <p className="text-black">
-                Building stronger communities through support services and
-                partnerships
+                Building stronger communities through support services and partnerships
               </p>
             </div>
 
@@ -173,12 +163,9 @@ export default async function RiseFoundationPage() {
                   />
                 </svg>
               </div>
-              <h3 className="text-lg md:text-lg font-semibold text-black mb-4">
-                Empowerment
-              </h3>
+              <h3 className="text-lg md:text-lg font-semibold text-black mb-4">Empowerment</h3>
               <p className="text-black">
-                Helping individuals achieve economic independence and career
-                success
+                Helping individuals achieve economic independence and career success
               </p>
             </div>
           </div>
@@ -203,10 +190,9 @@ export default async function RiseFoundationPage() {
                 IRS VITA Volunteer Training
               </h3>
               <p className="text-black mb-6">
-                Become an IRS-certified tax preparer through our free VITA
-                (Volunteer Income Tax Assistance) training program. Complete IRS
-                Link & Learn certification and help low-income families file
-                taxes for free.
+                Become an IRS-certified tax preparer through our free VITA (Volunteer Income Tax
+                Assistance) training program. Complete IRS Link & Learn certification and help
+                low-income families file taxes for free.
               </p>
               <div className="space-y-3 mb-6">
                 <a
@@ -235,12 +221,10 @@ export default async function RiseFoundationPage() {
             </div>
 
             <div className="bg-white rounded-lg p-8 shadow-md hover:shadow-xl transition-all duration-700">
-              <h3 className="text-3xl font-semibold text-black mb-4">
-                Support Services
-              </h3>
+              <h3 className="text-3xl font-semibold text-black mb-4">Support Services</h3>
               <p className="text-black mb-6">
-                Comprehensive wraparound services including housing assistance,
-                mental health support, childcare, and transportation.
+                Comprehensive wraparound services including housing assistance, mental health
+                support, childcare, and transportation.
               </p>
               <Link
                 href="/students"
@@ -251,13 +235,10 @@ export default async function RiseFoundationPage() {
             </div>
 
             <div className="bg-white rounded-lg p-8 shadow-md hover:shadow-xl transition-all duration-700">
-              <h3 className="text-3xl font-semibold text-black mb-4">
-                Apprenticeships
-              </h3>
+              <h3 className="text-3xl font-semibold text-black mb-4">Apprenticeships</h3>
               <p className="text-black mb-6">
-                DOL-registered apprenticeship programs where students earn while
-                they learn, gaining real-world experience and industry-standard
-                credentials.
+                DOL-registered apprenticeship programs where students earn while they learn, gaining
+                real-world experience and industry-standard credentials.
               </p>
               <Link
                 href="/programs/barber-apprenticeship"
@@ -268,12 +249,10 @@ export default async function RiseFoundationPage() {
             </div>
 
             <div className="bg-white rounded-lg p-8 shadow-md hover:shadow-xl transition-all duration-700">
-              <h3 className="text-3xl font-semibold text-black mb-4">
-                Community Partnerships
-              </h3>
+              <h3 className="text-3xl font-semibold text-black mb-4">Community Partnerships</h3>
               <p className="text-black mb-6">
-                Collaborating with employers, educational institutions, and
-                community organizations to create pathways to success.
+                Collaborating with employers, educational institutions, and community organizations
+                to create pathways to success.
               </p>
               <Link
                 href="/employers"
@@ -293,8 +272,8 @@ export default async function RiseFoundationPage() {
             Support Our Mission
           </h2>
           <p className="text-base md:text-lg text-slate-300 mb-12">
-            Help us empower more individuals and strengthen communities through
-            education and opportunity.
+            Help us empower more individuals and strengthen communities through education and
+            opportunity.
           </p>
           <div className="flex flex-col sm:flex-row gap-6 justify-center">
             <Link

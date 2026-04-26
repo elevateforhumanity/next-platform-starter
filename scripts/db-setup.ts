@@ -40,15 +40,13 @@ async function main() {
         .filter((f) => f.endsWith('.sql'))
         .sort(); // run in filename order
 
-
       for (const file of files) {
         const filePath = path.join(migrationsDir, file);
 
         // Check if already applied
-        const { rows } = await client.query(
-          'SELECT 1 FROM efh_migrations WHERE filename = $1',
-          [file],
-        );
+        const { rows } = await client.query('SELECT 1 FROM efh_migrations WHERE filename = $1', [
+          file,
+        ]);
         if (rows.length > 0) {
           continue;
         }
@@ -57,10 +55,7 @@ async function main() {
         await client.query('BEGIN');
         try {
           await runSqlFile(client, filePath);
-          await client.query(
-            'INSERT INTO efh_migrations (filename) VALUES ($1)',
-            [file],
-          );
+          await client.query('INSERT INTO efh_migrations (filename) VALUES ($1)', [file]);
           await client.query('COMMIT');
         } catch (err) {
           await client.query('ROLLBACK');
@@ -76,7 +71,6 @@ async function main() {
       await runSqlFile(client, seedFile);
     } else {
     }
-
   } finally {
     await client.end();
   }

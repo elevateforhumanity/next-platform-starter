@@ -14,7 +14,11 @@ export const metadata: Metadata = {
 
 export default function TransparencyPage() {
   const outcomes = [
-    { label: 'Programs Available', value: '10+', image: '/images/pages/comp-home-pathways-support.jpg' },
+    {
+      label: 'Programs Available',
+      value: '10+',
+      image: '/images/pages/comp-home-pathways-support.jpg',
+    },
     { label: 'Placement Goal', value: '85%', image: '/images/pages/about-hero.jpg' },
     { label: 'Training Cost', value: '$0', image: '/images/pages/about-hero.jpg' },
     { label: 'Support', value: '24/7', image: '/images/pages/healthcare-grad.jpg' },
@@ -23,8 +27,16 @@ export default function TransparencyPage() {
   ];
 
   const financials = [
-    { category: 'Program Delivery', percentage: 75, description: 'Training, instruction, and student support' },
-    { category: 'Career Services', percentage: 15, description: 'Job placement and career counseling' },
+    {
+      category: 'Program Delivery',
+      percentage: 75,
+      description: 'Training, instruction, and student support',
+    },
+    {
+      category: 'Career Services',
+      percentage: 15,
+      description: 'Job placement and career counseling',
+    },
     { category: 'Administration', percentage: 10, description: 'Operations and overhead' },
   ];
 
@@ -52,7 +64,8 @@ export default function TransparencyPage() {
           fill
           className="object-cover"
           priority
-         sizes="100vw" />
+          sizes="100vw"
+        />
       </section>
 
       <div className="max-w-7xl mx-auto px-4 py-16">
@@ -61,9 +74,18 @@ export default function TransparencyPage() {
           <h2 className="text-3xl font-bold mb-8">Our Outcomes</h2>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             {outcomes.map((outcome) => (
-              <div key={outcome.label} className="bg-white rounded-xl shadow-sm border overflow-hidden">
+              <div
+                key={outcome.label}
+                className="bg-white rounded-xl shadow-sm border overflow-hidden"
+              >
                 <div className="relative h-20 overflow-hidden">
-                  <Image src={outcome.image} alt={outcome.label} fill sizes="100vw" className="object-cover" />
+                  <Image
+                    src={outcome.image}
+                    alt={outcome.label}
+                    fill
+                    sizes="100vw"
+                    className="object-cover"
+                  />
                 </div>
                 <div className="p-4 text-center">
                   <div className="text-2xl font-bold">
@@ -88,7 +110,7 @@ export default function TransparencyPage() {
                     <span className="text-brand-blue-600 font-bold">{item.percentage}%</span>
                   </div>
                   <div className="w-full h-4 bg-gray-200 rounded-full overflow-hidden mb-2">
-                    <div 
+                    <div
                       className="h-full bg-white rounded-full"
                       style={{ width: `${item.percentage}%` }}
                     />
@@ -112,13 +134,17 @@ export default function TransparencyPage() {
             <div className="bg-white rounded-xl shadow-sm border p-6">
               <FileText className="w-10 h-10 text-brand-blue-600 mb-4" />
               <h3 className="font-semibold text-lg mb-2">2023 Annual Report</h3>
-              <p className="text-gray-600 text-sm mb-4">Complete overview of our programs, outcomes, and financials.</p>
+              <p className="text-gray-600 text-sm mb-4">
+                Complete overview of our programs, outcomes, and financials.
+              </p>
               <span className="text-brand-blue-600 font-medium">Available on Request</span>
             </div>
             <div className="bg-white rounded-xl shadow-sm border p-6">
               <FileText className="w-10 h-10 text-brand-blue-600 mb-4" />
               <h3 className="font-semibold text-lg mb-2">2022 Annual Report</h3>
-              <p className="text-gray-600 text-sm mb-4">Our growth and impact in the second year of operations.</p>
+              <p className="text-gray-600 text-sm mb-4">
+                Our growth and impact in the second year of operations.
+              </p>
               <span className="text-brand-blue-600 font-medium">Available on Request</span>
             </div>
             <div className="bg-white rounded-xl shadow-sm border p-6">

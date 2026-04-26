@@ -45,7 +45,7 @@ export async function POST(req: NextRequest) {
   if (!targetLang || !SUPPORTED_LANGUAGES[targetLang]) {
     return NextResponse.json(
       { error: `Unsupported language. Supported: ${Object.keys(SUPPORTED_LANGUAGES).join(', ')}` },
-      { status: 400 }
+      { status: 400 },
     );
   }
 

@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 
-
 import { createClient } from '@/lib/supabase/server';
 import { getAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
@@ -12,42 +11,48 @@ export const dynamic = 'force-dynamic';
 
 // Base steps every student goes through regardless of funding source
 const BASE_STEPS = [
-  { key: 'efh_inquiry',          label: 'Submit Elevate for Humanity application' },
-  { key: 'icc_account',          label: 'Create IndianaCareerConnect account' },
-  { key: 'workone_appt_booked',  label: 'Book WorkOne appointment (tell them you\'re here for Elevate for Humanity)' },
-  { key: 'attend_appt',          label: 'Attend WorkOne appointment' },
-  { key: 'confirm_pathway',      label: 'Confirm funding pathway with WorkOne counselor' },
-  { key: 'upload_docs',          label: 'Upload eligibility documents if requested by WorkOne' },
-  { key: 'get_approval',         label: 'Receive WorkOne approval letter or authorization code' },
-  { key: 'call_efh_back',        label: 'Contact Elevate with your approval to activate enrollment' },
-  { key: 'enrollment_final',     label: 'Elevate enrollment activated' },
+  { key: 'efh_inquiry', label: 'Submit Elevate for Humanity application' },
+  { key: 'icc_account', label: 'Create IndianaCareerConnect account' },
+  {
+    key: 'workone_appt_booked',
+    label: "Book WorkOne appointment (tell them you're here for Elevate for Humanity)",
+  },
+  { key: 'attend_appt', label: 'Attend WorkOne appointment' },
+  { key: 'confirm_pathway', label: 'Confirm funding pathway with WorkOne counselor' },
+  { key: 'upload_docs', label: 'Upload eligibility documents if requested by WorkOne' },
+  { key: 'get_approval', label: 'Receive WorkOne approval letter or authorization code' },
+  { key: 'call_efh_back', label: 'Contact Elevate with your approval to activate enrollment' },
+  { key: 'enrollment_final', label: 'Elevate enrollment activated' },
 ];
 
 // Extra steps per funding source
 const FUNDING_EXTRA_STEPS: Record<string, { key: string; label: string }[]> = {
   workone: [
-    { key: 'wioa_eligibility',   label: 'WorkOne confirms WIOA Title I eligibility' },
-    { key: 'iep_created',        label: 'Individual Employment Plan (IEP) created with WorkOne' },
+    { key: 'wioa_eligibility', label: 'WorkOne confirms WIOA Title I eligibility' },
+    { key: 'iep_created', label: 'Individual Employment Plan (IEP) created with WorkOne' },
   ],
   workforce_ready_grant: [
-    { key: 'wrg_eligibility',    label: 'WorkOne confirms Workforce Ready Grant eligibility' },
-    { key: 'wrg_authorization',  label: 'Receive Workforce Ready Grant authorization' },
+    { key: 'wrg_eligibility', label: 'WorkOne confirms Workforce Ready Grant eligibility' },
+    { key: 'wrg_authorization', label: 'Receive Workforce Ready Grant authorization' },
   ],
   jri: [
-    { key: 'jri_case_manager',   label: 'Connect with Job Ready Indy case manager or reentry coordinator' },
-    { key: 'jri_docs',           label: 'Provide justice-involved documentation to Elevate' },
-    { key: 'jri_approval',       label: 'Job Ready Indy funding confirmed by Elevate' },
+    {
+      key: 'jri_case_manager',
+      label: 'Connect with Job Ready Indy case manager or reentry coordinator',
+    },
+    { key: 'jri_docs', label: 'Provide justice-involved documentation to Elevate' },
+    { key: 'jri_approval', label: 'Job Ready Indy funding confirmed by Elevate' },
   ],
   employer_sponsored: [
     { key: 'employer_agreement', label: 'Employer signs sponsorship agreement with Elevate' },
-    { key: 'employer_invoice',   label: 'Employer receives and pays invoice' },
+    { key: 'employer_invoice', label: 'Employer receives and pays invoice' },
   ],
   partner: [
-    { key: 'partner_seat',       label: 'Elevate confirms partner-funded seat availability' },
-    { key: 'partner_approval',   label: 'Partner funding confirmed' },
+    { key: 'partner_seat', label: 'Elevate confirms partner-funded seat availability' },
+    { key: 'partner_approval', label: 'Partner funding confirmed' },
   ],
   self_pay: [
-    { key: 'payment_plan',       label: 'Confirm payment plan or tuition payment with Elevate' },
+    { key: 'payment_plan', label: 'Confirm payment plan or tuition payment with Elevate' },
   ],
 };
 
@@ -64,7 +69,9 @@ async function _POST(req: Request) {
   if (rateLimited) return rateLimited;
 
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   const adminClient = await getAdminClient();
@@ -110,11 +117,11 @@ async function _POST(req: Request) {
 
   const inserts = steps.map((s, i) => ({
     organization_id: profile?.organization_id ?? null,
-    user_id:         targetUserId,
-    step_key:        s.key,
-    step_label:      s.label,
-    status:          'todo',
-    sort_order:      i,
+    user_id: targetUserId,
+    step_key: s.key,
+    step_label: s.label,
+    status: 'todo',
+    sort_order: i,
   }));
 
   const { error } = await adminClient

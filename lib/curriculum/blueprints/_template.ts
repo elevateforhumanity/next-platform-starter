@@ -8,56 +8,56 @@ import type { CredentialBlueprint, BlueprintVideoConfig } from './types';
 
 const PROGRAM_VIDEO_CONFIG: BlueprintVideoConfig = {
   videoGenerator: 'runway', // all new programs use Runway Gen4.5
-  template:           'elevate-slide',
-  instructorName:     'Marcus Johnson',           // Change per program
-  instructorTitle:    'Lead Instructor',          // Change per program
+  template: 'elevate-slide',
+  instructorName: 'Marcus Johnson', // Change per program
+  instructorTitle: 'Lead Instructor', // Change per program
   instructorImagePath: '/images/instructors/marcus-johnson.jpg',
 
-  topBarColor:        '#f97316',   // Elevate orange — change for different programs
-  accentColor:        '#3b82f6',   // Blue accent
-  backgroundColor:    '#0f172a',   // Dark navy
+  topBarColor: '#f97316', // Elevate orange — change for different programs
+  accentColor: '#3b82f6', // Blue accent
+  backgroundColor: '#0f172a', // Dark navy
 
-  ttsVoice:           'onyx',      // OpenAI TTS voice
-  ttsSpeed:           0.95,
+  ttsVoice: 'onyx', // OpenAI TTS voice
+  ttsSpeed: 0.95,
 
-  slideCount:         5,
-  segments:           ['intro', 'concept', 'visual', 'application', 'wrapup'],
+  slideCount: 5,
+  segments: ['intro', 'concept', 'visual', 'application', 'wrapup'],
 
   generateDalleImage: true,
-  dalleImageStyle:    'natural',
+  dalleImageStyle: 'natural',
 
-  width:              1920,
-  height:             1080,
+  width: 1920,
+  height: 1080,
 };
 
 // ─── Blueprint ────────────────────────────────────────────────────────────────
 
 export const PROGRAM_BLUEPRINT: CredentialBlueprint = {
   // ── Identity ──────────────────────────────────────────────────────────────
-  id:             'program-state-v1',       // e.g. 'cna-indiana-v1', 'bookkeeping-v1'
-  version:        '1.0.0',
-  credentialSlug: 'program-credential',     // credential_exam_domains.credential_slug
-  credentialTitle: 'Program Full Title',    // e.g. 'CNA Certification'
-  credentialCode:  'PROG-001',              // Short code for display
-  state:           'IN',                    // Two-letter state or 'federal'
-  programSlug:     'program-slug',          // programs.slug in DB
-  trackVariants:   ['standard'],
-  status:          'draft',                 // Change to 'active' when ready
+  id: 'program-state-v1', // e.g. 'cna-indiana-v1', 'bookkeeping-v1'
+  version: '1.0.0',
+  credentialSlug: 'program-credential', // credential_exam_domains.credential_slug
+  credentialTitle: 'Program Full Title', // e.g. 'CNA Certification'
+  credentialCode: 'PROG-001', // Short code for display
+  state: 'IN', // Two-letter state or 'federal'
+  programSlug: 'program-slug', // programs.slug in DB
+  trackVariants: ['standard'],
+  status: 'draft', // Change to 'active' when ready
 
   // ── Generation rules ──────────────────────────────────────────────────────
   generationRules: {
-    allowRemediation:        true,
-    allowExpansionLessons:   false,
-    maxTotalLessons:         60,
-    requiresFinalExam:       true,
+    allowRemediation: true,
+    allowExpansionLessons: false,
+    maxTotalLessons: 60,
+    requiresFinalExam: true,
     requiresUniversalReview: false,
-    generatorMode:           'fixed',       // 'fixed' = use lessons[] exactly
+    generatorMode: 'fixed', // 'fixed' = use lessons[] exactly
   },
 
   // ── Hard counts — validated at module load time ───────────────────────────
   // Update these to match your actual module and lesson counts below.
-  expectedModuleCount: 3,   // UPDATE THIS
-  expectedLessonCount: 12,  // UPDATE THIS (count all lessons[] entries)
+  expectedModuleCount: 3, // UPDATE THIS
+  expectedLessonCount: 12, // UPDATE THIS (count all lessons[] entries)
 
   // ── Video format — locked ─────────────────────────────────────────────────
   videoConfig: PROGRAM_VIDEO_CONFIG,
@@ -81,17 +81,17 @@ export const PROGRAM_BLUEPRINT: CredentialBlueprint = {
   // ── Assessment rules ──────────────────────────────────────────────────────
   assessmentRules: [
     {
-      assessmentType:   'module',
-      scope:            'all',
-      minQuestions:     5,
-      maxQuestions:     10,
-      passingThreshold: 0.70,
+      assessmentType: 'module',
+      scope: 'all',
+      minQuestions: 5,
+      maxQuestions: 10,
+      passingThreshold: 0.7,
     },
     {
-      assessmentType:   'final',
-      scope:            'all',
-      minQuestions:     25,
-      maxQuestions:     50,
+      assessmentType: 'final',
+      scope: 'all',
+      minQuestions: 25,
+      maxQuestions: 50,
       passingThreshold: 0.75,
     },
   ],
@@ -106,21 +106,21 @@ export const PROGRAM_BLUEPRINT: CredentialBlueprint = {
 
   modules: [
     {
-      slug:       'module-one',
-      title:      'Module One Title',
+      slug: 'module-one',
+      title: 'Module One Title',
       orderIndex: 1,
-      domainKey:  'domain_key_one',
+      domainKey: 'domain_key_one',
       minLessons: 3,
       maxLessons: 6,
-      quizRequired:      true,
+      quizRequired: true,
       practicalRequired: false,
-      isCritical:        true,
+      isCritical: true,
       requiredLessonTypes: [
-        { lessonType: 'lesson',     requiredCount: 2 },
+        { lessonType: 'lesson', requiredCount: 2 },
         { lessonType: 'checkpoint', requiredCount: 1 },
       ],
       competencies: [
-        { competencyKey: 'competency_one', isCritical: true,  minimumTouchpoints: 2 },
+        { competencyKey: 'competency_one', isCritical: true, minimumTouchpoints: 2 },
         { competencyKey: 'competency_two', isCritical: false, minimumTouchpoints: 1 },
       ],
       suggestedLessonSkeleton: [
@@ -131,31 +131,46 @@ export const PROGRAM_BLUEPRINT: CredentialBlueprint = {
       ],
       lessons: [
         // lesson_type = 'lesson' (default)
-        { slug: 'module-one-01', title: 'Introduction to Topic',   order: 1, domainKey: 'domain_key_one' },
-        { slug: 'module-one-02', title: 'Core Concept',            order: 2, domainKey: 'domain_key_one' },
-        { slug: 'module-one-03', title: 'Practical Application',   order: 3, domainKey: 'domain_key_one' },
+        {
+          slug: 'module-one-01',
+          title: 'Introduction to Topic',
+          order: 1,
+          domainKey: 'domain_key_one',
+        },
+        { slug: 'module-one-02', title: 'Core Concept', order: 2, domainKey: 'domain_key_one' },
+        {
+          slug: 'module-one-03',
+          title: 'Practical Application',
+          order: 3,
+          domainKey: 'domain_key_one',
+        },
         // lesson_type = 'checkpoint' (slug ends in -checkpoint)
-        { slug: 'module-one-checkpoint', title: 'Module 1 Checkpoint Quiz', order: 4, domainKey: 'domain_key_one' },
+        {
+          slug: 'module-one-checkpoint',
+          title: 'Module 1 Checkpoint Quiz',
+          order: 4,
+          domainKey: 'domain_key_one',
+        },
       ],
     },
 
     {
-      slug:       'module-two',
-      title:      'Module Two Title',
+      slug: 'module-two',
+      title: 'Module Two Title',
       orderIndex: 2,
-      domainKey:  'domain_key_two',
+      domainKey: 'domain_key_two',
       minLessons: 3,
       maxLessons: 6,
-      quizRequired:      true,
+      quizRequired: true,
       practicalRequired: true,
-      isCritical:        true,
+      isCritical: true,
       requiredLessonTypes: [
-        { lessonType: 'lesson',     requiredCount: 2 },
-        { lessonType: 'lab',        requiredCount: 1 },
+        { lessonType: 'lesson', requiredCount: 2 },
+        { lessonType: 'lab', requiredCount: 1 },
         { lessonType: 'checkpoint', requiredCount: 1 },
       ],
       competencies: [
-        { competencyKey: 'competency_three', isCritical: true,  minimumTouchpoints: 2 },
+        { competencyKey: 'competency_three', isCritical: true, minimumTouchpoints: 2 },
       ],
       suggestedLessonSkeleton: [
         'Topic Overview',
@@ -164,36 +179,41 @@ export const PROGRAM_BLUEPRINT: CredentialBlueprint = {
         'Module 2 Checkpoint Quiz',
       ],
       lessons: [
-        { slug: 'module-two-01',         title: 'Topic Overview',           order: 1, domainKey: 'domain_key_two' },
+        { slug: 'module-two-01', title: 'Topic Overview', order: 1, domainKey: 'domain_key_two' },
         // lesson_type = 'lab' (slug ends in -lab)
-        { slug: 'module-two-lab',        title: 'Hands-On Lab',             order: 2, domainKey: 'domain_key_two' },
-        { slug: 'module-two-02',         title: 'Review',                   order: 3, domainKey: 'domain_key_two' },
-        { slug: 'module-two-checkpoint', title: 'Module 2 Checkpoint Quiz', order: 4, domainKey: 'domain_key_two' },
+        { slug: 'module-two-lab', title: 'Hands-On Lab', order: 2, domainKey: 'domain_key_two' },
+        { slug: 'module-two-02', title: 'Review', order: 3, domainKey: 'domain_key_two' },
+        {
+          slug: 'module-two-checkpoint',
+          title: 'Module 2 Checkpoint Quiz',
+          order: 4,
+          domainKey: 'domain_key_two',
+        },
       ],
     },
 
     {
-      slug:       'final-module',
-      title:      'Final Assessment',
+      slug: 'final-module',
+      title: 'Final Assessment',
       orderIndex: 3,
-      domainKey:  'domain_key_final',
+      domainKey: 'domain_key_final',
       minLessons: 2,
       maxLessons: 4,
-      quizRequired:      true,
+      quizRequired: true,
       practicalRequired: false,
-      isCritical:        true,
-      requiredLessonTypes: [
-        { lessonType: 'exam', requiredCount: 1 },
-      ],
+      isCritical: true,
+      requiredLessonTypes: [{ lessonType: 'exam', requiredCount: 1 }],
       competencies: [],
-      suggestedLessonSkeleton: [
-        'Final Review',
-        'Program Final Exam',
-      ],
+      suggestedLessonSkeleton: ['Final Review', 'Program Final Exam'],
       lessons: [
-        { slug: 'final-review',      title: 'Final Review',       order: 1, domainKey: 'domain_key_final' },
+        { slug: 'final-review', title: 'Final Review', order: 1, domainKey: 'domain_key_final' },
         // lesson_type = 'exam' (slug ends in -exam)
-        { slug: 'final-program-exam', title: 'Program Final Exam', order: 2, domainKey: 'domain_key_final' },
+        {
+          slug: 'final-program-exam',
+          title: 'Program Final Exam',
+          order: 2,
+          domainKey: 'domain_key_final',
+        },
       ],
     },
   ],
@@ -204,16 +224,17 @@ export const PROGRAM_BLUEPRINT: CredentialBlueprint = {
 const _moduleCount = PROGRAM_BLUEPRINT.modules.length;
 if (_moduleCount !== PROGRAM_BLUEPRINT.expectedModuleCount) {
   throw new Error(
-    `Blueprint invalid: expected ${PROGRAM_BLUEPRINT.expectedModuleCount} modules, got ${_moduleCount}`
+    `Blueprint invalid: expected ${PROGRAM_BLUEPRINT.expectedModuleCount} modules, got ${_moduleCount}`,
   );
 }
 
 const _lessonCount = PROGRAM_BLUEPRINT.modules.reduce(
-  (sum, m) => sum + (m.lessons?.length ?? 0), 0
+  (sum, m) => sum + (m.lessons?.length ?? 0),
+  0,
 );
 if (_lessonCount !== PROGRAM_BLUEPRINT.expectedLessonCount) {
   throw new Error(
-    `Blueprint invalid: expected ${PROGRAM_BLUEPRINT.expectedLessonCount} lessons, got ${_lessonCount}`
+    `Blueprint invalid: expected ${PROGRAM_BLUEPRINT.expectedLessonCount} lessons, got ${_lessonCount}`,
   );
 }
 

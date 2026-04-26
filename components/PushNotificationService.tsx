@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -9,16 +9,33 @@ export function PushNotificationService() {
   const [isEnabled, setIsEnabled] = useState(false);
 
   const notifications = [
-    { id: '1', title: 'New Assignment', body: 'JavaScript project has been posted', time: '5 min ago' },
-    { id: '2', title: 'Class Reminder', body: 'React workshop starts in 30 minutes', time: '25 min ago' },
-    { id: '3', title: 'Grade Posted', body: 'Your assignment has been graded', time: '2 hours ago' },
+    {
+      id: '1',
+      title: 'New Assignment',
+      body: 'JavaScript project has been posted',
+      time: '5 min ago',
+    },
+    {
+      id: '2',
+      title: 'Class Reminder',
+      body: 'React workshop starts in 30 minutes',
+      time: '25 min ago',
+    },
+    {
+      id: '3',
+      title: 'Grade Posted',
+      body: 'Your assignment has been graded',
+      time: '2 hours ago',
+    },
   ];
 
   return (
     <div className="min-h-screen bg-white">
       <div className="   text-white py-12">
         <div className="max-w-7xl mx-auto px-4">
-          <h1 className="text-4xl font-bold mb-2 text-2xl md:text-3xl lg:text-4xl">Push Notifications</h1>
+          <h1 className="text-4xl font-bold mb-2 text-2xl md:text-3xl lg:text-4xl">
+            Push Notifications
+          </h1>
           <p className="text-white">Stay updated with instant alerts</p>
         </div>
       </div>
@@ -36,9 +53,11 @@ export function PushNotificationService() {
                 isEnabled ? 'bg-brand-green-500' : 'bg-gray-300'
               }`}
             >
-              <div className={`absolute top-1 left-1 w-6 h-6 bg-white rounded-full transition-transform ${
-                isEnabled ? 'transform translate-x-6' : ''
-              }`} />
+              <div
+                className={`absolute top-1 left-1 w-6 h-6 bg-white rounded-full transition-transform ${
+                  isEnabled ? 'transform translate-x-6' : ''
+                }`}
+              />
             </button>
           </div>
         </Card>

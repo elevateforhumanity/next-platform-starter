@@ -1,9 +1,8 @@
 'use client';
 
-import { 
-  Building2, 
-  
-  Shield, 
+import {
+  Building2,
+  Shield,
   ClipboardCheck,
   UserCheck,
   AlertTriangle,
@@ -26,7 +25,7 @@ const UNIVERSAL_REQUIREMENTS = [
   'A licensed professional appropriate to the program track (Barber, Cosmetology, etc.) must be designated as the on-site supervisor.',
   'The site must agree to apprenticeship documentation (training plan, time/attendance logs, evaluations) and cooperate with compliance verification.',
   'Sanitation, infection control, and workplace safety standards must be followed as required by the licensing board for the region.',
-  'Appropriate business insurance is required (general liability, workers\' compensation if applicable).',
+  "Appropriate business insurance is required (general liability, workers' compensation if applicable).",
   'Apprentices may only perform services within the permitted scope as allowed by regional licensing and supervision.',
 ];
 
@@ -75,34 +74,36 @@ const APPROVAL_STEPS = [
   {
     step: 1,
     title: 'Select Region & Submit Shop',
-    description: 'Apprentice selects Training Region and submits preferred shop(s) with address, owner/manager contact, and supervisor name/license type.',
+    description:
+      'Apprentice selects Training Region and submits preferred shop(s) with address, owner/manager contact, and supervisor name/license type.',
   },
   {
     step: 2,
     title: 'License Verification',
-    description: 'We verify license status and confirm the supervisor\'s credentials for the selected track and region.',
+    description:
+      "We verify license status and confirm the supervisor's credentials for the selected track and region.",
   },
   {
     step: 3,
     title: 'Agreement Confirmation',
-    description: 'We confirm the shop\'s agreement to documentation, evaluations, and region-specific workplace standards.',
+    description:
+      "We confirm the shop's agreement to documentation, evaluations, and region-specific workplace standards.",
   },
   {
     step: 4,
     title: 'Placement Confirmed',
-    description: 'Placement is confirmed (or we request an alternate shop if requirements are not met).',
+    description:
+      'Placement is confirmed (or we request an alternate shop if requirements are not met).',
   },
 ];
 
-export function HostShopRequirements({ 
-  programTrack = 'all', 
+export function HostShopRequirements({
+  programTrack = 'all',
   showApprovalProcess = true,
   showMultiRegion = true,
   compact = false,
 }: HostShopRequirementsProps) {
-  const tracksToShow = programTrack === 'all' 
-    ? Object.keys(TRACK_GUIDELINES) 
-    : [programTrack];
+  const tracksToShow = programTrack === 'all' ? Object.keys(TRACK_GUIDELINES) : [programTrack];
 
   return (
     <section className={`${compact ? 'py-8' : 'py-16'} bg-slate-50`}>
@@ -118,13 +119,16 @@ export function HostShopRequirements({
                 <h3 className="text-xl font-bold mb-2 flex items-center gap-2">
                   <MapPin className="w-5 h-5" />
                   Multi-Region Requirements
-                  <span className="text-sm font-normal bg-white/20 px-2 py-0.5 rounded">Read Before Choosing a Shop</span>
+                  <span className="text-sm font-normal bg-white/20 px-2 py-0.5 rounded">
+                    Read Before Choosing a Shop
+                  </span>
                 </h3>
                 <p className="text-purple-100 mb-4">
-                  We are based in Indiana, but host site requirements vary by region (state licensing boards, 
-                  workforce board policies, and employer eligibility standards). Your selected training region's 
-                  rules determine which shops are eligible to host your apprenticeship. We verify each host site 
-                  based on regional licensing and compliance standards before placement is confirmed.
+                  We are based in Indiana, but host site requirements vary by region (state
+                  licensing boards, workforce board policies, and employer eligibility standards).
+                  Your selected training region's rules determine which shops are eligible to host
+                  your apprenticeship. We verify each host site based on regional licensing and
+                  compliance standards before placement is confirmed.
                 </p>
                 <ul className="space-y-2">
                   {MULTI_REGION_BULLETS.map((bullet, index) => (
@@ -146,17 +150,16 @@ export function HostShopRequirements({
               <Building2 className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h2 className="text-2xl font-bold text-black">
-                Host Shop Requirements
-              </h2>
+              <h2 className="text-2xl font-bold text-black">Host Shop Requirements</h2>
               <p className="text-slate-600 text-sm">Per Program Track</p>
             </div>
           </div>
-          
+
           <div className="bg-brand-blue-50 border-l-4 border-brand-blue-600 p-4 rounded-r-lg">
             <p className="text-brand-blue-900">
-              The shop/salon you choose must meet state/local licensing and workplace standards based on 
-              your training region. Host sites must be approved before apprenticeship placement is confirmed.
+              The shop/salon you choose must meet state/local licensing and workplace standards
+              based on your training region. Host sites must be approved before apprenticeship
+              placement is confirmed.
             </p>
           </div>
         </div>
@@ -210,9 +213,9 @@ export function HostShopRequirements({
           <div className="flex items-start gap-3">
             <AlertTriangle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
             <p className="text-amber-900 font-medium">
-              Host site approval is required before placement is finalized. Approval includes 
-              license verification and a readiness review (supervision, safety, documentation) 
-              based on the selected region.
+              Host site approval is required before placement is finalized. Approval includes
+              license verification and a readiness review (supervision, safety, documentation) based
+              on the selected region.
             </p>
           </div>
         </div>

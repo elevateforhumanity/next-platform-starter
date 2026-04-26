@@ -54,32 +54,32 @@ export function CareerServicesHook({ programName, programSlug }: CareerServicesH
     e.preventDefault();
     setSubmitting(true);
     setError(null);
-    
+
     const formData = new FormData(e.currentTarget);
     const supabase = createClient();
-    
+
     try {
       // Get current user if logged in
-      const { data: { user } } = await supabase.auth.getUser();
-      
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
       // Insert into customer_service_tickets table
-      const { error: insertError } = await supabase
-        .from('customer_service_tickets')
-        .insert({
-          user_id: user?.id || null,
-          subject: `Career Services Request: ${services.find(s => s.id === selectedService)?.title}`,
-          description: `
+      const { error: insertError } = await supabase.from('customer_service_tickets').insert({
+        user_id: user?.id || null,
+        subject: `Career Services Request: ${services.find((s) => s.id === selectedService)?.title}`,
+        description: `
 Program: ${programName}
-Service Requested: ${services.find(s => s.id === selectedService)?.title}
+Service Requested: ${services.find((s) => s.id === selectedService)?.title}
 Name: ${formData.get('name')}
 Email: ${formData.get('email')}
 Phone: ${formData.get('phone') || 'Not provided'}
 Notes: ${formData.get('notes') || 'None'}
           `.trim(),
-          category: 'career_services',
-          priority: 'medium',
-          status: 'open',
-        });
+        category: 'career_services',
+        priority: 'medium',
+        status: 'open',
+      });
 
       if (insertError) {
         console.error('Failed to submit request:', insertError);
@@ -98,7 +98,7 @@ Notes: ${formData.get('notes') || 'None'}
       console.error('Error submitting request:', err);
       setError('An error occurred. Please try again.');
     }
-    
+
     setSubmitting(false);
   };
 
@@ -119,12 +119,16 @@ Notes: ${formData.get('notes') || 'None'}
                 onClick={() => handleRequestService(service.id)}
                 className={`text-left p-4 bg-white rounded-xl border-2 border-transparent hover:border-${service.color}-300 hover:shadow-md transition group`}
               >
-                <div className={`w-10 h-10 bg-${service.color}-100 rounded-lg flex items-center justify-center mb-3`}>
+                <div
+                  className={`w-10 h-10 bg-${service.color}-100 rounded-lg flex items-center justify-center mb-3`}
+                >
                   <Icon className={`w-5 h-5 text-${service.color}-600`} />
                 </div>
                 <h4 className="font-semibold text-slate-900 mb-1">{service.title}</h4>
                 <p className="text-sm text-slate-500">{service.description}</p>
-                <span className={`inline-flex items-center gap-1 text-sm text-${service.color}-600 mt-2 group-hover:gap-2 transition-all`}>
+                <span
+                  className={`inline-flex items-center gap-1 text-sm text-${service.color}-600 mt-2 group-hover:gap-2 transition-all`}
+                >
                   Request <ArrowRight className="w-4 h-4" />
                 </span>
               </button>
@@ -166,10 +170,11 @@ Notes: ${formData.get('notes') || 'None'}
             ) : (
               <>
                 <h3 className="text-xl font-bold text-slate-900 mb-2">
-                  Request {services.find(s => s.id === selectedService)?.title}
+                  Request {services.find((s) => s.id === selectedService)?.title}
                 </h3>
                 <p className="text-slate-600 mb-6">
-                  Fill out this form and our career services team will reach out to schedule your session.
+                  Fill out this form and our career services team will reach out to schedule your
+                  session.
                 </p>
 
                 {error && (
@@ -193,9 +198,7 @@ Notes: ${formData.get('notes') || 'None'}
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-1">
-                      Email
-                    </label>
+                    <label className="block text-sm font-medium text-slate-700 mb-1">Email</label>
                     <input
                       type="email"
                       name="email"
@@ -216,9 +219,7 @@ Notes: ${formData.get('notes') || 'None'}
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-1">
-                      Program
-                    </label>
+                    <label className="block text-sm font-medium text-slate-700 mb-1">Program</label>
                     <input
                       type="text"
                       name="program"

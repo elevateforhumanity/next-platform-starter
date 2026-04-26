@@ -1,4 +1,3 @@
-
 import { NextRequest, NextResponse } from 'next/server';
 import { createServerSupabaseClient } from '@/lib/auth';
 import { logger } from '@/lib/logger';
@@ -74,10 +73,7 @@ async function _POST(req: NextRequest) {
     const title = (formData.get('title') as string) || file?.name || 'SCORM Package';
 
     if (!file || !courseId) {
-      return NextResponse.json(
-        { error: 'Missing file or course_id' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Missing file or course_id' }, { status: 400 });
     }
 
     // Read ZIP into memory
@@ -89,7 +85,7 @@ async function _POST(req: NextRequest) {
     if (!manifestFile) {
       return NextResponse.json(
         { error: 'Invalid SCORM package: missing imsmanifest.xml' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -104,7 +100,7 @@ async function _POST(req: NextRequest) {
     if (!launchHref) {
       return NextResponse.json(
         { error: 'Could not determine launch href from imsmanifest.xml' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -140,7 +136,7 @@ async function _POST(req: NextRequest) {
           if (uploadErr) {
             logger.error(`Failed to upload ${dest}:`, uploadErr);
           }
-        })
+        }),
       );
     });
 
@@ -179,14 +175,11 @@ async function _POST(req: NextRequest) {
           status: 'ready',
         },
       },
-      { status: 201 }
+      { status: 201 },
     );
   } catch (error) {
     logger.error('SCORM upload error:', error);
-    return NextResponse.json(
-      { error: 'Failed to upload SCORM package' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to upload SCORM package' }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/scorm/upload', _POST);

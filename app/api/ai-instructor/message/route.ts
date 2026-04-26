@@ -57,7 +57,7 @@ const fallbackMessages = {
   encouragement:
     "You're making excellent progress! Your dedication and hard work are truly paying off. Keep pushing forward - you're closer to your goals than you think!",
   completion:
-    "Congratulations on completing this module! This is a significant achievement. Take a moment to celebrate your success, then get ready for the next exciting challenge ahead!",
+    'Congratulations on completing this module! This is a significant achievement. Take a moment to celebrate your success, then get ready for the next exciting challenge ahead!',
 };
 
 async function _POST(req: NextRequest) {
@@ -72,7 +72,8 @@ async function _POST(req: NextRequest) {
 
     if (!process.env.GEMINI_API_KEY) {
       return NextResponse.json({
-        message: fallbackMessages[context as keyof typeof fallbackMessages] || fallbackMessages.welcome,
+        message:
+          fallbackMessages[context as keyof typeof fallbackMessages] || fallbackMessages.welcome,
         fallback: true,
       });
     }
@@ -85,7 +86,10 @@ async function _POST(req: NextRequest) {
     const message = await callGemini(systemPrompt, userPrompt);
 
     return NextResponse.json({
-      message: message || fallbackMessages[context as keyof typeof fallbackMessages] || fallbackMessages.welcome,
+      message:
+        message ||
+        fallbackMessages[context as keyof typeof fallbackMessages] ||
+        fallbackMessages.welcome,
       fallback: !message,
     });
   } catch (error) {

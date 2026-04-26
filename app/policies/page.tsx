@@ -4,7 +4,8 @@ import { buildMetadata } from '@/lib/cf-seo';
 
 export const metadata = buildMetadata({
   title: 'Policies',
-  description: 'Elevate for Humanity institutional policies covering admissions, attendance, academic integrity, privacy, and more.',
+  description:
+    'Elevate for Humanity institutional policies covering admissions, attendance, academic integrity, privacy, and more.',
   path: '/policies',
 });
 

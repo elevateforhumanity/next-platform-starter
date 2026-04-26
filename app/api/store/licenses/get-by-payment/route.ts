@@ -15,10 +15,7 @@ async function _GET(request: NextRequest) {
     const paymentIntent = request.nextUrl.searchParams.get('payment_intent');
 
     if (!paymentIntent) {
-      return NextResponse.json(
-        { error: 'Payment intent ID required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Payment intent ID required' }, { status: 400 });
     }
 
     const supabase = await createClient();
@@ -26,7 +23,8 @@ async function _GET(request: NextRequest) {
     // Get the license purchase by payment intent
     const { data: purchase, error: purchaseError } = await supabase
       .from('license_purchases')
-      .select(`
+      .select(
+        `
         id,
         product_id,
         product_slug,
@@ -36,16 +34,14 @@ async function _GET(request: NextRequest) {
         status,
         tenant_id,
         created_at
-      `)
+      `,
+      )
       .eq('stripe_payment_intent_id', paymentIntent)
       .single();
 
     if (purchaseError || !purchase) {
       logger.warn('License purchase not found', { paymentIntent });
-      return NextResponse.json(
-        { error: 'License not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: 'License not found' }, { status: 404 });
     }
 
     // Get the associated license if provisioned
@@ -81,10 +77,7 @@ async function _GET(request: NextRequest) {
     });
   } catch (error) {
     logger.error('Failed to fetch license by payment', error as Error);
-    return NextResponse.json(
-      { error: 'Failed to fetch license details' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to fetch license details' }, { status: 500 });
   }
 }
 
@@ -98,13 +91,34 @@ function getTierConfig(licenseType: string) {
     },
     school: {
       tier: 'professional',
-      features: ['lms', 'enrollment', 'admin', 'payments', 'partner-dashboard', 'case-management', 'compliance', 'white-label'],
+      features: [
+        'lms',
+        'enrollment',
+        'admin',
+        'payments',
+        'partner-dashboard',
+        'case-management',
+        'compliance',
+        'white-label',
+      ],
       maxDeployments: 3,
       maxUsers: 1000,
     },
     enterprise: {
       tier: 'enterprise',
-      features: ['lms', 'enrollment', 'admin', 'payments', 'partner-dashboard', 'case-management', 'employer-portal', 'compliance', 'white-label', 'ai-tutor', 'api-access'],
+      features: [
+        'lms',
+        'enrollment',
+        'admin',
+        'payments',
+        'partner-dashboard',
+        'case-management',
+        'employer-portal',
+        'compliance',
+        'white-label',
+        'ai-tutor',
+        'api-access',
+      ],
       maxDeployments: 999,
       maxUsers: 999999,
     },

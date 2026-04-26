@@ -4,7 +4,14 @@
 export interface MobileProgramSummary {
   programId: string;
   label: string;
-  category: "healthcare" | "skilled-trades" | "beauty" | "business" | "transportation" | "community" | "other";
+  category:
+    | 'healthcare'
+    | 'skilled-trades'
+    | 'beauty'
+    | 'business'
+    | 'transportation'
+    | 'community'
+    | 'other';
   primaryCourseSlug?: string;
   allowMobileLessons: boolean;
   allowNotifications: boolean;
@@ -21,50 +28,50 @@ export interface MobileAppConfig {
 }
 
 export const mobileAppConfig: MobileAppConfig = {
-  appName: "Elevate for Humanity",
-  bundleIdAndroid: "org.elevateforhumanity.app",
-  bundleIdIos: "org.elevateforhumanity.app",
-  minVersion: "1.0.0",
-  recommendedVersion: "1.0.0",
-  supportEmail: "support@www.elevateforhumanity.org",
+  appName: 'Elevate for Humanity',
+  bundleIdAndroid: 'org.elevateforhumanity.app',
+  bundleIdIos: 'org.elevateforhumanity.app',
+  minVersion: '1.0.0',
+  recommendedVersion: '1.0.0',
+  supportEmail: 'support@www.elevateforhumanity.org',
   programs: [
     {
-      programId: "prog-cna",
-      label: "CNA Training",
-      category: "healthcare",
-      primaryCourseSlug: "job-ready-indy-core",
+      programId: 'prog-cna',
+      label: 'CNA Training',
+      category: 'healthcare',
+      primaryCourseSlug: 'job-ready-indy-core',
       allowMobileLessons: true,
       allowNotifications: true,
     },
     {
-      programId: "prog-barber",
-      label: "Barber Apprenticeship",
-      category: "beauty",
-      primaryCourseSlug: "barber-apprentice-foundations",
+      programId: 'prog-barber',
+      label: 'Barber Apprenticeship',
+      category: 'beauty',
+      primaryCourseSlug: 'barber-apprentice-foundations',
       allowMobileLessons: true,
       allowNotifications: true,
     },
     {
-      programId: "prog-tax-vita",
-      label: "Tax & VITA Track",
-      category: "community",
-      primaryCourseSlug: "tax-vita-onramp",
+      programId: 'prog-tax-vita',
+      label: 'Tax & VITA Track',
+      category: 'community',
+      primaryCourseSlug: 'tax-vita-onramp',
       allowMobileLessons: true,
       allowNotifications: true,
     },
     {
-      programId: "prog-hvac",
-      label: "HVAC Technician Pathway",
-      category: "skilled-trades",
-      primaryCourseSlug: "hvac-tech-foundations",
+      programId: 'prog-hvac',
+      label: 'HVAC Technician Pathway',
+      category: 'skilled-trades',
+      primaryCourseSlug: 'hvac-tech-foundations',
       allowMobileLessons: true,
       allowNotifications: true,
     },
     {
-      programId: "prog-cdl",
-      label: "CDL Training",
-      category: "transportation",
-      primaryCourseSlug: "cdl-eldt-core",
+      programId: 'prog-cdl',
+      label: 'CDL Training',
+      category: 'transportation',
+      primaryCourseSlug: 'cdl-eldt-core',
       allowMobileLessons: true,
       allowNotifications: true,
     },

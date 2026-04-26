@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -53,14 +53,11 @@ function CheckoutForm({ courseId, courseName, price, userId, onSuccess }: Checko
       const cardElement = elements.getElement(CardElement);
       if (!cardElement) throw new Error('Card element not found');
 
-      const { error: stripeError, paymentIntent } = await stripe.confirmCardPayment(
-        clientSecret,
-        {
-          payment_method: {
-            card: cardElement,
-          },
-        }
-      );
+      const { error: stripeError, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+        payment_method: {
+          card: cardElement,
+        },
+      });
 
       if (stripeError) {
         throw new Error(stripeError.message);
@@ -94,26 +91,44 @@ function CheckoutForm({ courseId, courseName, price, userId, onSuccess }: Checko
       {/* Progress Steps */}
       <div className="mb-8">
         <div className="flex items-center justify-between">
-          <div className={`flex items-center ${step >= 1 ? 'text-brand-blue-600' : 'text-slate-700'}`}>
-            <div className={`w-8 h-8 rounded-full flex items-center justify-center ${step >= 1 ? 'bg-brand-blue-600 text-white' : 'bg-gray-300'}`}>
+          <div
+            className={`flex items-center ${step >= 1 ? 'text-brand-blue-600' : 'text-slate-700'}`}
+          >
+            <div
+              className={`w-8 h-8 rounded-full flex items-center justify-center ${step >= 1 ? 'bg-brand-blue-600 text-white' : 'bg-gray-300'}`}
+            >
               1
             </div>
             <span className="ml-2 font-medium">Review</span>
           </div>
           <div className="flex-1 h-1 mx-4 bg-gray-300">
-            <div className={`h-full ${step >= 2 ? 'bg-brand-blue-600' : 'bg-gray-300'}`} style={{ width: step >= 2 ? '100%' : '0%' }} />
+            <div
+              className={`h-full ${step >= 2 ? 'bg-brand-blue-600' : 'bg-gray-300'}`}
+              style={{ width: step >= 2 ? '100%' : '0%' }}
+            />
           </div>
-          <div className={`flex items-center ${step >= 2 ? 'text-brand-blue-600' : 'text-slate-700'}`}>
-            <div className={`w-8 h-8 rounded-full flex items-center justify-center ${step >= 2 ? 'bg-brand-blue-600 text-white' : 'bg-gray-300'}`}>
+          <div
+            className={`flex items-center ${step >= 2 ? 'text-brand-blue-600' : 'text-slate-700'}`}
+          >
+            <div
+              className={`w-8 h-8 rounded-full flex items-center justify-center ${step >= 2 ? 'bg-brand-blue-600 text-white' : 'bg-gray-300'}`}
+            >
               2
             </div>
             <span className="ml-2 font-medium">Payment</span>
           </div>
           <div className="flex-1 h-1 mx-4 bg-gray-300">
-            <div className={`h-full ${step >= 3 ? 'bg-brand-blue-600' : 'bg-gray-300'}`} style={{ width: step >= 3 ? '100%' : '0%' }} />
+            <div
+              className={`h-full ${step >= 3 ? 'bg-brand-blue-600' : 'bg-gray-300'}`}
+              style={{ width: step >= 3 ? '100%' : '0%' }}
+            />
           </div>
-          <div className={`flex items-center ${step >= 3 ? 'text-brand-blue-600' : 'text-slate-700'}`}>
-            <div className={`w-8 h-8 rounded-full flex items-center justify-center ${step >= 3 ? 'bg-brand-blue-600 text-white' : 'bg-gray-300'}`}>
+          <div
+            className={`flex items-center ${step >= 3 ? 'text-brand-blue-600' : 'text-slate-700'}`}
+          >
+            <div
+              className={`w-8 h-8 rounded-full flex items-center justify-center ${step >= 3 ? 'bg-brand-blue-600 text-white' : 'bg-gray-300'}`}
+            >
               3
             </div>
             <span className="ml-2 font-medium">Complete</span>
@@ -155,12 +170,22 @@ function CheckoutForm({ courseId, courseName, price, userId, onSuccess }: Checko
 
           <div className="bg-brand-green-50 border border-brand-green-200 rounded-lg p-4 mb-6">
             <div className="flex items-start">
-              <svg className="w-5 h-5 text-brand-green-600 mt-0.5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+              <svg
+                className="w-5 h-5 text-brand-green-600 mt-0.5 mr-2"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                  clipRule="evenodd"
+                />
               </svg>
               <div>
                 <p className="font-semibold text-brand-green-900">30-Day Money-Back Guarantee</p>
-                <p className="text-sm text-brand-green-700">Not satisfied? Get a full refund within 30 days.</p>
+                <p className="text-sm text-brand-green-700">
+                  Not satisfied? Get a full refund within 30 days.
+                </p>
               </div>
             </div>
           </div>
@@ -181,9 +206,7 @@ function CheckoutForm({ courseId, courseName, price, userId, onSuccess }: Checko
 
           <form onSubmit={handleSubmit}>
             <div className="mb-6">
-              <label className="block text-sm font-medium text-black mb-2">
-                Card Details
-              </label>
+              <label className="block text-sm font-medium text-black mb-2">Card Details</label>
               <div className="border border-gray-300 rounded-lg p-4">
                 <CardElement
                   options={{
@@ -212,8 +235,16 @@ function CheckoutForm({ courseId, courseName, price, userId, onSuccess }: Checko
 
             <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-6">
               <div className="flex items-center text-sm text-black">
-                <svg className="w-5 h-5 text-slate-700 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
+                <svg
+                  className="w-5 h-5 text-slate-700 mr-2"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                    clipRule="evenodd"
+                  />
                 </svg>
                 <span>Your payment information is secure and encrypted</span>
               </div>
@@ -240,16 +271,20 @@ function CheckoutForm({ courseId, courseName, price, userId, onSuccess }: Checko
 
           <div className="mt-6 flex items-center justify-center space-x-4 text-slate-700">
             <svg className="w-10 h-6" viewBox="0 0 38 24" fill="none">
-              <rect width="38" height="24" rx="3"
-fill="#1434CB"/>
-              <path d="M13.5 8.5h11v7h-11z" fill="#FF5F00"/>
-              <path d="M14.5 12a4.5 4.5 0 014.5-4.5 4.5 4.5 0 00-3 1.7 4.5 4.5 0 000 5.6 4.5 4.5 0 003 1.7 4.5 4.5 0 01-4.5-4.5z" fill="#EB001B"/>
-              <path d="M23.5 12a4.5 4.5 0 01-3 4.2 4.5 4.5 0 000-8.4 4.5 4.5 0 013 4.2z" fill="#F79E1B"/>
+              <rect width="38" height="24" rx="3" fill="#1434CB" />
+              <path d="M13.5 8.5h11v7h-11z" fill="#FF5F00" />
+              <path
+                d="M14.5 12a4.5 4.5 0 014.5-4.5 4.5 4.5 0 00-3 1.7 4.5 4.5 0 000 5.6 4.5 4.5 0 003 1.7 4.5 4.5 0 01-4.5-4.5z"
+                fill="#EB001B"
+              />
+              <path
+                d="M23.5 12a4.5 4.5 0 01-3 4.2 4.5 4.5 0 000-8.4 4.5 4.5 0 013 4.2z"
+                fill="#F79E1B"
+              />
             </svg>
             <svg className="w-10 h-6" viewBox="0 0 38 24" fill="none">
-              <rect width="38" height="24" rx="3"
-fill="#0066B2"/>
-              <path d="M15 12l-3 6h2l.5-1h3l.5 1h2l-3-6h-2zm.5 3.5l1-2 1 2h-2z" fill="white"/>
+              <rect width="38" height="24" rx="3" fill="#0066B2" />
+              <path d="M15 12l-3 6h2l.5-1h3l.5 1h2l-3-6h-2zm.5 3.5l1-2 1 2h-2z" fill="white" />
             </svg>
             <span className="text-sm">Secure payment powered by Stripe</span>
           </div>
@@ -261,16 +296,16 @@ fill="#0066B2"/>
         <div className="bg-white rounded-lg shadow-lg p-8 text-center">
           <div className="w-16 h-16 bg-brand-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <svg className="w-8 h-8 text-brand-green-600" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+              <path
+                fillRule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                clipRule="evenodd"
+              />
             </svg>
           </div>
 
-          <h2 className="text-3xl font-bold text-black mb-2">
-            Enrollment Complete!
-          </h2>
-          <p className="text-black mb-6">
-            You're now enrolled in {courseName}
-          </p>
+          <h2 className="text-3xl font-bold text-black mb-2">Enrollment Complete!</h2>
+          <p className="text-black mb-6">You're now enrolled in {courseName}</p>
 
           <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-lg p-4 mb-6">
             <p className="text-sm text-brand-blue-900">
@@ -280,13 +315,13 @@ fill="#0066B2"/>
 
           <div className="space-y-3">
             <button
-              onClick={() => window.location.href = `/student/courses/${courseId}`}
+              onClick={() => (window.location.href = `/student/courses/${courseId}`)}
               className="w-full bg-brand-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-brand-blue-700 transition"
             >
               Start Learning Now
             </button>
             <button
-              onClick={() => window.location.href = '/student/dashboard'}
+              onClick={() => (window.location.href = '/student/dashboard')}
               className="w-full bg-gray-200 text-black py-3 rounded-lg font-semibold hover:bg-gray-300 transition"
             >
               Go to Dashboard

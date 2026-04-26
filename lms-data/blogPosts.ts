@@ -1,7 +1,7 @@
 export interface BlogPost {
   slug: string;
   title: string;
-  category: "funding" | "success-story" | "employers" | "lms" | "community";
+  category: 'funding' | 'success-story' | 'employers' | 'lms' | 'community';
   summary: string;
   body: string;
   publishedDate: string;
@@ -9,12 +9,12 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
-    slug: "how-elevate-stacks-wrg-jri-and-philanthropy",
-    title: "How Elevate Stacks WRG, JRI, and Philanthropy to Reduce Tuition",
-    category: "funding",
+    slug: 'how-elevate-stacks-wrg-jri-and-philanthropy',
+    title: 'How Elevate Stacks WRG, JRI, and Philanthropy to Reduce Tuition',
+    category: 'funding',
     summary:
-      "A plain-language walkthrough of how Elevate combines state grants, Job Ready Indy (JRI), and scholarship funds so learners pay less out of pocket.",
-    publishedDate: "2025-11-20",
+      'A plain-language walkthrough of how Elevate combines state grants, Job Ready Indy (JRI), and scholarship funds so learners pay less out of pocket.',
+    publishedDate: '2025-11-20',
     body: `
 At Elevate for Humanity, we don't believe that a zip code or bank account should decide who gets access to career training.
 
@@ -31,12 +31,12 @@ The goal is always the same: get you into a real program with real outcomes, not
 `,
   },
   {
-    slug: "from-side-hustle-to-career",
-    title: "From Side Hustle to Career: A Barber Apprentice Story",
-    category: "success-story",
+    slug: 'from-side-hustle-to-career',
+    title: 'From Side Hustle to Career: A Barber Apprentice Story',
+    category: 'success-story',
     summary:
-      "How one learner turned a love for cutting hair into a formal barber apprenticeship and a full client book.",
-    publishedDate: "2025-11-18",
+      'How one learner turned a love for cutting hair into a formal barber apprenticeship and a full client book.',
+    publishedDate: '2025-11-18',
     body: `
 When Jay first connected with Elevate, he was already cutting hair in his living room. No license, no shop, just word of mouth.
 
@@ -50,12 +50,12 @@ Within a year, Jay went from "couch cuts" to a fully booked chair at a professio
 `,
   },
   {
-    slug: "what-employers-get-when-they-partner-with-elevate",
-    title: "What Employers Get When They Partner with Elevate",
-    category: "employers",
+    slug: 'what-employers-get-when-they-partner-with-elevate',
+    title: 'What Employers Get When They Partner with Elevate',
+    category: 'employers',
     summary:
-      "A quick overview for employers on WEX, OJT, apprenticeships, and how Elevate reduces hiring risk.",
-    publishedDate: "2025-11-15",
+      'A quick overview for employers on WEX, OJT, apprenticeships, and how Elevate reduces hiring risk.',
+    publishedDate: '2025-11-15',
     body: `
 Employers today don't just need more applicants. They need the *right* applicants.
 

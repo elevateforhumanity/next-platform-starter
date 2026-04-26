@@ -3,8 +3,16 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import {
-  DollarSign, Users, Calendar, Play, CheckCircle,
-  Clock, AlertCircle, Download, ChevronRight, X
+  DollarSign,
+  Users,
+  Calendar,
+  Play,
+  CheckCircle,
+  Clock,
+  AlertCircle,
+  Download,
+  ChevronRight,
+  X,
 } from 'lucide-react';
 
 interface PayrollRun {
@@ -31,7 +39,11 @@ function fmt(n: number | null) {
 }
 
 function fmtDate(d: string) {
-  return new Date(d).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  return new Date(d).toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  });
 }
 
 function statusBadge(status: string) {
@@ -95,9 +107,13 @@ export default function PayrollClient({ staffCount, payrollRuns: initial }: Prop
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
           <nav className="text-sm mb-2 text-slate-500">
-            <Link href="/admin" className="hover:text-brand-blue-600">Admin</Link>
+            <Link href="/admin" className="hover:text-brand-blue-600">
+              Admin
+            </Link>
             {' / '}
-            <Link href="/admin/hr" className="hover:text-brand-blue-600">HR</Link>
+            <Link href="/admin/hr" className="hover:text-brand-blue-600">
+              HR
+            </Link>
             {' / '}
             <span className="text-slate-900 font-medium">Payroll</span>
           </nav>
@@ -123,20 +139,30 @@ export default function PayrollClient({ staffCount, payrollRuns: initial }: Prop
       {/* Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
         <div className="bg-white rounded-xl border p-5">
-          <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 mb-1">Last Run Gross</p>
-          <p className="text-2xl font-bold text-brand-green-600">{fmt(lastRun?.total_gross ?? null)}</p>
+          <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 mb-1">
+            Last Run Gross
+          </p>
+          <p className="text-2xl font-bold text-brand-green-600">
+            {fmt(lastRun?.total_gross ?? null)}
+          </p>
           {lastRun && <p className="text-xs text-slate-400 mt-1">{fmtDate(lastRun.pay_date)}</p>}
         </div>
         <div className="bg-white rounded-xl border p-5">
-          <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 mb-1">YTD Total</p>
+          <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 mb-1">
+            YTD Total
+          </p>
           <p className="text-2xl font-bold text-brand-blue-600">{fmt(ytd)}</p>
         </div>
         <div className="bg-white rounded-xl border p-5">
-          <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 mb-1">Staff Accounts</p>
+          <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 mb-1">
+            Staff Accounts
+          </p>
           <p className="text-2xl font-bold text-brand-blue-600">{staffCount}</p>
         </div>
         <div className="bg-white rounded-xl border p-5">
-          <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 mb-1">Next Pay Date</p>
+          <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 mb-1">
+            Next Pay Date
+          </p>
           <p className="text-lg font-bold text-slate-900">{fmtDate(form.pay_date)}</p>
         </div>
       </div>
@@ -149,8 +175,11 @@ export default function PayrollClient({ staffCount, payrollRuns: initial }: Prop
           { label: 'Payroll Cards', href: '/admin/payroll-cards', icon: DollarSign },
           { label: 'Leave Management', href: '/admin/hr/leave', icon: Calendar },
         ].map(({ label, href, icon: Icon }) => (
-          <Link key={href} href={href}
-            className="flex items-center gap-3 bg-white border rounded-xl px-4 py-3 hover:border-brand-blue-300 hover:bg-brand-blue-50 transition group">
+          <Link
+            key={href}
+            href={href}
+            className="flex items-center gap-3 bg-white border rounded-xl px-4 py-3 hover:border-brand-blue-300 hover:bg-brand-blue-50 transition group"
+          >
             <Icon className="w-5 h-5 text-brand-blue-500 group-hover:text-brand-blue-700" />
             <span className="text-sm font-medium text-slate-700">{label}</span>
             <ChevronRight className="w-4 h-4 text-slate-400 ml-auto" />
@@ -162,29 +191,41 @@ export default function PayrollClient({ staffCount, payrollRuns: initial }: Prop
       <div className="bg-white rounded-xl border overflow-hidden">
         <div className="px-6 py-4 border-b flex items-center justify-between">
           <h2 className="text-lg font-semibold text-slate-900">Payroll History</h2>
-          <Link href="/api/payroll/export" className="flex items-center gap-1.5 text-sm text-brand-blue-600 hover:underline">
+          <Link
+            href="/api/payroll/export"
+            className="flex items-center gap-1.5 text-sm text-brand-blue-600 hover:underline"
+          >
             <Download className="w-4 h-4" /> Export
           </Link>
         </div>
         {runs.length === 0 ? (
           <div className="px-6 py-12 text-center text-slate-400">
             <DollarSign className="w-10 h-10 mx-auto mb-3 opacity-30" />
-            <p>No payroll runs yet. Click <strong>Run Payroll</strong> to get started.</p>
+            <p>
+              No payroll runs yet. Click <strong>Run Payroll</strong> to get started.
+            </p>
           </div>
         ) : (
           <div className="divide-y">
             {runs.map((run) => (
-              <div key={run.id} className="px-6 py-4 flex flex-col sm:flex-row sm:items-center gap-3">
+              <div
+                key={run.id}
+                className="px-6 py-4 flex flex-col sm:flex-row sm:items-center gap-3"
+              >
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-0.5">
-                    <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${statusBadge(run.status)}`}>
+                    <span
+                      className={`text-xs font-semibold px-2 py-0.5 rounded-full ${statusBadge(run.status)}`}
+                    >
                       {run.status}
                     </span>
                     <span className="text-sm font-semibold text-slate-900">
                       {fmtDate(run.pay_period_start)} – {fmtDate(run.pay_period_end)}
                     </span>
                   </div>
-                  <p className="text-xs text-slate-400">Pay date: {fmtDate(run.pay_date)} · {run.employee_count ?? 0} employees</p>
+                  <p className="text-xs text-slate-400">
+                    Pay date: {fmtDate(run.pay_date)} · {run.employee_count ?? 0} employees
+                  </p>
                 </div>
                 <div className="flex items-center gap-6 text-sm">
                   <div className="text-right">
@@ -212,28 +253,44 @@ export default function PayrollClient({ staffCount, payrollRuns: initial }: Prop
           <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md">
             <div className="flex items-center justify-between px-6 py-4 border-b">
               <h2 className="text-lg font-bold text-slate-900">Run Payroll</h2>
-              <button onClick={() => setShowModal(false)} className="text-slate-400 hover:text-slate-700">
+              <button
+                onClick={() => setShowModal(false)}
+                className="text-slate-400 hover:text-slate-700"
+              >
                 <X className="w-5 h-5" />
               </button>
             </div>
             <div className="px-6 py-5 space-y-4">
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">Pay Period Start</label>
-                <input type="date" value={form.pay_period_start}
-                  onChange={e => setForm(f => ({ ...f, pay_period_start: e.target.value }))}
-                  className="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-brand-blue-500 focus:outline-none" />
+                <label className="block text-sm font-medium text-slate-700 mb-1">
+                  Pay Period Start
+                </label>
+                <input
+                  type="date"
+                  value={form.pay_period_start}
+                  onChange={(e) => setForm((f) => ({ ...f, pay_period_start: e.target.value }))}
+                  className="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-brand-blue-500 focus:outline-none"
+                />
               </div>
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">Pay Period End</label>
-                <input type="date" value={form.pay_period_end}
-                  onChange={e => setForm(f => ({ ...f, pay_period_end: e.target.value }))}
-                  className="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-brand-blue-500 focus:outline-none" />
+                <label className="block text-sm font-medium text-slate-700 mb-1">
+                  Pay Period End
+                </label>
+                <input
+                  type="date"
+                  value={form.pay_period_end}
+                  onChange={(e) => setForm((f) => ({ ...f, pay_period_end: e.target.value }))}
+                  className="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-brand-blue-500 focus:outline-none"
+                />
               </div>
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Pay Date</label>
-                <input type="date" value={form.pay_date}
-                  onChange={e => setForm(f => ({ ...f, pay_date: e.target.value }))}
-                  className="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-brand-blue-500 focus:outline-none" />
+                <input
+                  type="date"
+                  value={form.pay_date}
+                  onChange={(e) => setForm((f) => ({ ...f, pay_date: e.target.value }))}
+                  className="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-brand-blue-500 focus:outline-none"
+                />
               </div>
               {error && (
                 <div className="flex items-center gap-2 text-sm text-red-700 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
@@ -241,17 +298,31 @@ export default function PayrollClient({ staffCount, payrollRuns: initial }: Prop
                 </div>
               )}
               <div className="bg-slate-50 rounded-lg px-4 py-3 text-xs text-slate-500">
-                This will calculate gross pay, taxes, and net pay for all active employees with approved time entries in the selected period.
+                This will calculate gross pay, taxes, and net pay for all active employees with
+                approved time entries in the selected period.
               </div>
             </div>
             <div className="px-6 py-4 border-t flex gap-3 justify-end">
-              <button onClick={() => setShowModal(false)}
-                className="px-4 py-2 text-sm font-medium text-slate-700 border rounded-lg hover:bg-slate-50">
+              <button
+                onClick={() => setShowModal(false)}
+                className="px-4 py-2 text-sm font-medium text-slate-700 border rounded-lg hover:bg-slate-50"
+              >
                 Cancel
               </button>
-              <button onClick={runPayroll} disabled={submitting}
-                className="flex items-center gap-2 px-5 py-2 text-sm font-semibold bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700 disabled:opacity-50">
-                {submitting ? <><Clock className="w-4 h-4 animate-spin" /> Processing…</> : <><Play className="w-4 h-4" /> Run Payroll</>}
+              <button
+                onClick={runPayroll}
+                disabled={submitting}
+                className="flex items-center gap-2 px-5 py-2 text-sm font-semibold bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700 disabled:opacity-50"
+              >
+                {submitting ? (
+                  <>
+                    <Clock className="w-4 h-4 animate-spin" /> Processing…
+                  </>
+                ) : (
+                  <>
+                    <Play className="w-4 h-4" /> Run Payroll
+                  </>
+                )}
               </button>
             </div>
           </div>

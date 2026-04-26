@@ -7,7 +7,7 @@ export function requireEnv(keys: string[]): void {
 
   if (missing.length > 0) {
     throw new Error(
-      `Missing required environment variables:\n${missing.map((k) => `  - ${k}`).join('\n')}`
+      `Missing required environment variables:\n${missing.map((k) => `  - ${k}`).join('\n')}`,
     );
   }
 }

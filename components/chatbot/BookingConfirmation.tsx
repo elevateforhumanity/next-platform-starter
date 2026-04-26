@@ -9,17 +9,16 @@ interface BookingConfirmationProps {
 
 /**
  * Booking Confirmation Component
- * 
+ *
  * Displays the "What Happens Next" checklist after a call is scheduled.
  * Reduces no-shows and sets clear expectations.
  */
-export function BookingConfirmation({ 
+export function BookingConfirmation({
   meetingTime,
-  meetingType = 'standard' 
+  meetingType = 'standard',
 }: BookingConfirmationProps) {
-  const callLabel = meetingType === 'government' 
-    ? 'Program Operations Review' 
-    : 'Scope Confirmation Call';
+  const callLabel =
+    meetingType === 'government' ? 'Program Operations Review' : 'Scope Confirmation Call';
 
   return (
     <div className="max-w-2xl mx-auto">
@@ -30,7 +29,9 @@ export function BookingConfirmation({
         </div>
         <h1 className="text-2xl font-bold text-slate-900 mb-2">You're Booked</h1>
         {meetingTime && (
-          <p className="text-slate-700">{callLabel} scheduled for {meetingTime}</p>
+          <p className="text-slate-700">
+            {callLabel} scheduled for {meetingTime}
+          </p>
         )}
       </div>
 
@@ -55,7 +56,9 @@ export function BookingConfirmation({
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-slate-700">•</span>
-                <span>Ona will review your program structure, scale, and governance needs in advance.</span>
+                <span>
+                  Ona will review your program structure, scale, and governance needs in advance.
+                </span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-slate-700">•</span>
@@ -112,7 +115,10 @@ export function BookingConfirmation({
             <ul className="space-y-2 text-sm text-slate-900 ml-7">
               <li className="flex items-start gap-2">
                 <span className="text-slate-700">•</span>
-                <span>If there's a clear fit, next steps will be outlined (timeline, scope, documentation).</span>
+                <span>
+                  If there's a clear fit, next steps will be outlined (timeline, scope,
+                  documentation).
+                </span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-slate-700">•</span>

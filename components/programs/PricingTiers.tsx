@@ -86,8 +86,8 @@ export function PricingTiers({
           </div>
         </div>
         <p className="text-slate-700 mb-4">
-          This program is available at no cost through workforce funding programs. 
-          Training, materials, and certification exam fees may be covered.
+          This program is available at no cost through workforce funding programs. Training,
+          materials, and certification exam fees may be covered.
         </p>
         <Link
           href={`/apply?program=${programSlug}`}
@@ -114,8 +114,8 @@ export function PricingTiers({
               tier.popular
                 ? 'border-brand-blue-500 shadow-lg scale-105'
                 : selectedTier === tier.id
-                ? 'border-brand-blue-400 shadow-md'
-                : 'border-slate-200 hover:border-slate-300'
+                  ? 'border-brand-blue-400 shadow-md'
+                  : 'border-slate-200 hover:border-slate-300'
             }`}
             onClick={() => setSelectedTier(tier.id)}
           >
@@ -137,7 +137,9 @@ export function PricingTiers({
                 <div className="text-3xl font-bold text-brand-green-600">FREE</div>
               ) : (
                 <div>
-                  <span className="text-3xl font-bold text-slate-900">${tier.price.toLocaleString('en-US')}</span>
+                  <span className="text-3xl font-bold text-slate-900">
+                    ${tier.price.toLocaleString('en-US')}
+                  </span>
                 </div>
               )}
             </div>
@@ -168,8 +170,8 @@ export function PricingTiers({
       {fundingAvailable && (
         <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-xl p-4 text-center">
           <p className="text-brand-blue-800">
-            <strong>Funding may be available!</strong> Many participants qualify for 
-            workforce funding that covers all or part of program costs.{' '}
+            <strong>Funding may be available!</strong> Many participants qualify for workforce
+            funding that covers all or part of program costs.{' '}
             <Link href="/funding" className="underline font-semibold">
               Learn about funding options
             </Link>

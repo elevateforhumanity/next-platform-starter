@@ -16,8 +16,6 @@ interface SchemaCheck {
   recommendations?: string[];
 }
 
-
-
 export default function MonitoringSetupPage() {
   const [checking, setChecking] = useState(true);
   const [result, setResult] = useState<SchemaCheck | null>(null);
@@ -62,12 +60,11 @@ export default function MonitoringSetupPage() {
 
   return (
     <div className="min-h-screen bg-white p-6">
-
       {/* Hero Image */}
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Admin", href: "/admin" }, { label: "Setup" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Admin', href: '/admin' }, { label: 'Setup' }]} />
       </div>
-<div className="max-w-4xl mx-auto">
+      <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-black flex items-center gap-3">
@@ -79,11 +76,15 @@ export default function MonitoringSetupPage() {
 
         {/* Status Card */}
         {result && (
-          <div className={`mb-8 p-6 rounded-xl border-2 ${
-            result.status === 'ready' ? 'bg-brand-green-50 border-brand-green-200' :
-            result.status === 'needs_setup' ? 'bg-yellow-50 border-yellow-200' :
-            'bg-brand-red-50 border-brand-red-200'
-          }`}>
+          <div
+            className={`mb-8 p-6 rounded-xl border-2 ${
+              result.status === 'ready'
+                ? 'bg-brand-green-50 border-brand-green-200'
+                : result.status === 'needs_setup'
+                  ? 'bg-yellow-50 border-yellow-200'
+                  : 'bg-brand-red-50 border-brand-red-200'
+            }`}
+          >
             <div className="flex items-center gap-4 mb-4">
               {result.status === 'ready' ? (
                 <span className="text-slate-400 flex-shrink-0">•</span>
@@ -125,8 +126,8 @@ export default function MonitoringSetupPage() {
                 )}
               </div>
               <p className="text-sm text-black">
-                {result.checks.tableExists 
-                  ? 'audit_logs table exists' 
+                {result.checks.tableExists
+                  ? 'audit_logs table exists'
                   : 'audit_logs table not found'}
               </p>
             </div>
@@ -142,9 +143,7 @@ export default function MonitoringSetupPage() {
                 )}
               </div>
               <p className="text-sm text-black">
-                {result.checks.canQuery 
-                  ? 'SELECT permission granted' 
-                  : 'Cannot query audit_logs'}
+                {result.checks.canQuery ? 'SELECT permission granted' : 'Cannot query audit_logs'}
               </p>
             </div>
 
@@ -159,8 +158,8 @@ export default function MonitoringSetupPage() {
                 )}
               </div>
               <p className="text-sm text-black">
-                {result.checks.canInsert 
-                  ? 'INSERT permission granted' 
+                {result.checks.canInsert
+                  ? 'INSERT permission granted'
                   : 'Cannot insert into audit_logs'}
               </p>
             </div>
@@ -169,7 +168,7 @@ export default function MonitoringSetupPage() {
             <div className="bg-white rounded-xl border border-gray-200 p-6">
               <div className="flex items-center justify-between mb-2">
                 <h3 className="font-bold text-black">Required Columns</h3>
-                {Object.values(result.checks.requiredColumns).every(v => v) ? (
+                {Object.values(result.checks.requiredColumns).every((v) => v) ? (
                   <span className="text-slate-400 flex-shrink-0">•</span>
                 ) : (
                   <AlertCircle className="h-5 w-5 text-yellow-600" />
@@ -183,9 +182,7 @@ export default function MonitoringSetupPage() {
                     ) : (
                       <AlertCircle className="h-3 w-3 text-brand-red-600" />
                     )}
-                    <span className={exists ? 'text-black' : 'text-brand-red-600'}>
-                      {col}
-                    </span>
+                    <span className={exists ? 'text-black' : 'text-brand-red-600'}>{col}</span>
                   </div>
                 ))}
               </div>
@@ -218,7 +215,7 @@ export default function MonitoringSetupPage() {
               Go to Supabase Dashboard → SQL Editor → New Query → Paste and run:
             </p>
             <pre className="bg-gray-900 text-slate-700 p-4 rounded-lg overflow-x-auto text-sm">
-{`-- Add missing columns to audit_logs table
+              {`-- Add missing columns to audit_logs table
 DO $$ 
 BEGIN
     -- Add action_type if missing

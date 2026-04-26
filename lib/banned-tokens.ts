@@ -22,7 +22,7 @@ export type BannedToken = (typeof BANNED_TOKENS)[number];
  */
 export const BANNED_TOKENS_PATTERN = new RegExp(
   BANNED_TOKENS.map((t) => t.replace(/\s+/g, '\\s+')).join('|'),
-  'gi'
+  'gi',
 );
 
 /**

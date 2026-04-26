@@ -56,9 +56,7 @@ export class SCORMAPIWrapper {
     }
     try {
       const result =
-        this.version === '1.2'
-          ? this.lmsAPI.LMSInitialize('')
-          : this.lmsAPI.Initialize('');
+        this.version === '1.2' ? this.lmsAPI.LMSInitialize('') : this.lmsAPI.Initialize('');
       this.initialized = result === 'true';
       if (this.initialized) {
         // `);
@@ -66,7 +64,8 @@ export class SCORMAPIWrapper {
         // Error logged
       }
       return this.initialized;
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
       return false;
     }
@@ -78,11 +77,10 @@ export class SCORMAPIWrapper {
     }
     try {
       const value =
-        this.version === '1.2'
-          ? this.lmsAPI.LMSGetValue(element)
-          : this.lmsAPI.GetValue(element);
+        this.version === '1.2' ? this.lmsAPI.LMSGetValue(element) : this.lmsAPI.GetValue(element);
       return value || '';
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error logged
       return '';
     }
@@ -98,7 +96,8 @@ export class SCORMAPIWrapper {
           ? this.lmsAPI.LMSSetValue(element, value)
           : this.lmsAPI.SetValue(element, value);
       return result === 'true';
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error logged
       return false;
     }
@@ -109,12 +108,10 @@ export class SCORMAPIWrapper {
       return false;
     }
     try {
-      const result =
-        this.version === '1.2'
-          ? this.lmsAPI.LMSCommit('')
-          : this.lmsAPI.Commit('');
+      const result = this.version === '1.2' ? this.lmsAPI.LMSCommit('') : this.lmsAPI.Commit('');
       return result === 'true';
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
       return false;
     }
@@ -125,16 +122,14 @@ export class SCORMAPIWrapper {
       return false;
     }
     try {
-      const result =
-        this.version === '1.2'
-          ? this.lmsAPI.LMSFinish('')
-          : this.lmsAPI.Terminate('');
+      const result = this.version === '1.2' ? this.lmsAPI.LMSFinish('') : this.lmsAPI.Terminate('');
       this.initialized = false;
       if (result === 'true') {
         //
       }
       return result === 'true';
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
       return false;
     }
@@ -143,10 +138,9 @@ export class SCORMAPIWrapper {
   getLastError(): string {
     if (!this.lmsAPI) return '';
     try {
-      return this.version === '1.2'
-        ? this.lmsAPI.LMSGetLastError()
-        : this.lmsAPI.GetLastError();
-    } catch (error) { /* Error handled silently */ 
+      return this.version === '1.2' ? this.lmsAPI.LMSGetLastError() : this.lmsAPI.GetLastError();
+    } catch (error) {
+      /* Error handled silently */
       return '';
     }
   }
@@ -157,24 +151,16 @@ export class SCORMAPIWrapper {
       return this.version === '1.2'
         ? this.lmsAPI.LMSGetErrorString(errorCode)
         : this.lmsAPI.GetErrorString(errorCode);
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       return '';
     }
   }
   // Helper: Set lesson status
   setStatus(
-    status:
-      | 'passed'
-      | 'completed'
-      | 'failed'
-      | 'incomplete'
-      | 'browsed'
-      | 'not attempted'
+    status: 'passed' | 'completed' | 'failed' | 'incomplete' | 'browsed' | 'not attempted',
   ): boolean {
-    const element =
-      this.version === '1.2'
-        ? 'cmi.core.lesson_status'
-        : 'cmi.completion_status';
+    const element = this.version === '1.2' ? 'cmi.core.lesson_status' : 'cmi.completion_status';
     const value =
       this.version === '2004' && (status === 'passed' || status === 'failed')
         ? status === 'passed'
@@ -182,10 +168,7 @@ export class SCORMAPIWrapper {
           : 'incomplete'
         : status;
     const success = this.setValue(element, value);
-    if (
-      this.version === '2004' &&
-      (status === 'passed' || status === 'failed')
-    ) {
+    if (this.version === '2004' && (status === 'passed' || status === 'failed')) {
       this.setValue('cmi.success_status', status);
     }
     return success && this.commit();
@@ -204,20 +187,17 @@ export class SCORMAPIWrapper {
   }
   // Helper: Set progress/location
   setProgress(location: string): boolean {
-    const element =
-      this.version === '1.2' ? 'cmi.core.lesson_location' : 'cmi.location';
+    const element = this.version === '1.2' ? 'cmi.core.lesson_location' : 'cmi.location';
     return this.setValue(element, location) && this.commit();
   }
   // Helper: Get progress/location
   getProgress(): string {
-    const element =
-      this.version === '1.2' ? 'cmi.core.lesson_location' : 'cmi.location';
+    const element = this.version === '1.2' ? 'cmi.core.lesson_location' : 'cmi.location';
     return this.getValue(element);
   }
   // Helper: Set session time
   setSessionTime(seconds: number): boolean {
-    const element =
-      this.version === '1.2' ? 'cmi.core.session_time' : 'cmi.session_time';
+    const element = this.version === '1.2' ? 'cmi.core.session_time' : 'cmi.session_time';
     const timeString = this.formatTime(seconds);
     return this.setValue(element, timeString) && this.commit();
   }
@@ -239,14 +219,12 @@ export class SCORMAPIWrapper {
   }
   // Helper: Set suspend data (for saving progress)
   setSuspendData(data: string): boolean {
-    const element =
-      this.version === '1.2' ? 'cmi.suspend_data' : 'cmi.suspend_data';
+    const element = this.version === '1.2' ? 'cmi.suspend_data' : 'cmi.suspend_data';
     return this.setValue(element, data) && this.commit();
   }
   // Helper: Get suspend data
   getSuspendData(): string {
-    const element =
-      this.version === '1.2' ? 'cmi.suspend_data' : 'cmi.suspend_data';
+    const element = this.version === '1.2' ? 'cmi.suspend_data' : 'cmi.suspend_data';
     return this.getValue(element);
   }
   // Check if API is available
@@ -276,10 +254,8 @@ export function useSCORM() {
   return {
     initialize: () => scorm.initialize(),
     terminate: () => scorm.terminate(),
-    setStatus: (status: Parameters<typeof scorm.setStatus>[0]) =>
-      scorm.setStatus(status),
-    setScore: (score: number, min?: number, max?: number) =>
-      scorm.setScore(score, min, max),
+    setStatus: (status: Parameters<typeof scorm.setStatus>[0]) => scorm.setStatus(status),
+    setScore: (score: number, min?: number, max?: number) => scorm.setScore(score, min, max),
     setProgress: (location: string) => scorm.setProgress(location),
     getProgress: () => scorm.getProgress(),
     setSessionTime: (seconds: number) => scorm.setSessionTime(seconds),

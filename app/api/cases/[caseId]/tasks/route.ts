@@ -15,8 +15,11 @@ async function _GET(req: Request, { params }: { params: Promise<{ caseId: string
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    const { data: { user }, error: authErr } = await supabase.auth.getUser();
-    
+    const {
+      data: { user },
+      error: authErr,
+    } = await supabase.auth.getUser();
+
     if (authErr || !user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -37,8 +40,11 @@ async function _POST(req: Request, { params }: { params: Promise<{ caseId: strin
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    const { data: { user }, error: authErr } = await supabase.auth.getUser();
-    
+    const {
+      data: { user },
+      error: authErr,
+    } = await supabase.auth.getUser();
+
     if (authErr || !user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -65,8 +71,11 @@ async function _PATCH(req: Request, { params }: { params: Promise<{ caseId: stri
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    const { data: { user }, error: authErr } = await supabase.auth.getUser();
-    
+    const {
+      data: { user },
+      error: authErr,
+    } = await supabase.auth.getUser();
+
     if (authErr || !user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }

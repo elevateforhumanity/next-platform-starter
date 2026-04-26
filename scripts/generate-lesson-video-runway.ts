@@ -37,13 +37,13 @@ import {
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 interface LessonVideoInput {
-  slug:        string;
-  title:       string;
-  moduleName:  string;
-  content:     string;
-  outputPath:  string;
-  ttsVoice?:   string;
-  ttsSpeed?:   number;
+  slug: string;
+  title: string;
+  moduleName: string;
+  content: string;
+  outputPath: string;
+  ttsVoice?: string;
+  ttsSpeed?: number;
 }
 
 const SEGMENTS = ['intro', 'concept', 'visual', 'application', 'wrapup'] as const;
@@ -53,17 +53,23 @@ async function buildScript(input: LessonVideoInput): Promise<{
   narration: string;
   visualPrompts: Record<string, string>;
 }> {
-  const plain = input.content.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 2000);
+  const plain = input.content
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .slice(0, 2000);
 
   const res = await openai.chat.completions.create({
     model: 'gpt-4o',
     temperature: 0.4,
-    messages: [{
-      role: 'system',
-      content: `You are a professional instructional video scriptwriter for a barber apprenticeship program.`,
-    }, {
-      role: 'user',
-      content: `
+    messages: [
+      {
+        role: 'system',
+        content: `You are a professional instructional video scriptwriter for a barber apprenticeship program.`,
+      },
+      {
+        role: 'user',
+        content: `
 Lesson: "${input.title}"
 Module: "${input.moduleName}"
 Content: ${plain}
@@ -85,7 +91,8 @@ Visual prompt rules:
 - Specific to the lesson topic (e.g. "barber disinfecting clippers in blue solution")
 - No text, no slides, no graphics — pure video action
 `,
-    }],
+      },
+    ],
   });
 
   const raw = res.choices[0].message.content ?? '{}';
@@ -117,7 +124,9 @@ function getAudioDuration(p: string): number {
       { encoding: 'utf8' },
     );
     return parseFloat(out.trim()) || 60;
-  } catch { return 60; }
+  } catch {
+    return 60;
+  }
 }
 
 export async function generateLessonVideoRunway(input: LessonVideoInput): Promise<void> {
@@ -163,7 +172,6 @@ export async function generateLessonVideoRunway(input: LessonVideoInput): Promis
     const finalDur = getAudioDuration(input.outputPath);
     const size = (fs.statSync(input.outputPath).size / 1024 / 1024).toFixed(1);
     console.log(`  ✅ Done: ${finalDur.toFixed(0)}s, ${size}MB → ${input.outputPath}`);
-
   } finally {
     fs.rmSync(tmp, { recursive: true, force: true });
   }
@@ -177,22 +185,29 @@ if (process.argv[1].includes('generate-lesson-video-runway')) {
     return i !== -1 ? args[i + 1] : undefined;
   };
 
-  const slug    = get('--slug')   ?? 'barber-lesson-1';
-  const title   = get('--title')  ?? 'Welcome to the Barber Apprenticeship';
+  const slug = get('--slug') ?? 'barber-lesson-1';
+  const title = get('--title') ?? 'Welcome to the Barber Apprenticeship';
   const module_ = get('--module') ?? 'Infection Control & Safety';
-  const out     = get('--out')    ?? `public/videos/barber-lessons/${slug}.mp4`;
+  const out = get('--out') ?? `public/videos/barber-lessons/${slug}.mp4`;
 
   // Pull content from blueprint
-  const { barberApprenticeshipBlueprint } = await import('../lib/curriculum/blueprints/barber-apprenticeship');
+  const { barberApprenticeshipBlueprint } =
+    await import('../lib/curriculum/blueprints/barber-apprenticeship');
   let content = '';
   for (const mod of barberApprenticeshipBlueprint.modules) {
     for (const lesson of mod.lessons) {
-      if (lesson.slug === slug) { content = lesson.content ?? ''; break; }
+      if (lesson.slug === slug) {
+        content = lesson.content ?? '';
+        break;
+      }
     }
   }
 
   await generateLessonVideoRunway({
-    slug, title, moduleName: module_, content,
+    slug,
+    title,
+    moduleName: module_,
+    content,
     outputPath: path.resolve(process.cwd(), out),
   });
 }

@@ -2,11 +2,11 @@
 
 /**
  * Migrate local videos and large images to Cloudflare R2
- * 
+ *
  * Usage:
  *   node scripts/migrate-to-r2.mjs --dry-run    # Preview what will be migrated
  *   node scripts/migrate-to-r2.mjs              # Actually migrate files
- * 
+ *
  * Required env vars:
  *   CLOUDFLARE_ACCOUNT_ID
  *   CLOUDFLARE_R2_ACCESS_KEY_ID
@@ -81,7 +81,7 @@ function getContentType(filename) {
 
 function findFilesToMigrate() {
   const files = [];
-  
+
   // Find videos
   const videosDir = path.join(PUBLIC_DIR, 'videos');
   if (fs.existsSync(videosDir)) {
@@ -112,7 +112,7 @@ function findFilesToMigrate() {
         for (const entry of entries) {
           const fullPath = path.join(dir, entry.name);
           const relativePath = prefix ? `${prefix}/${entry.name}` : entry.name;
-          
+
           if (entry.isDirectory()) {
             walkDir(fullPath, relativePath);
           } else if (entry.isFile()) {
@@ -140,16 +140,18 @@ function findFilesToMigrate() {
 
 async function uploadFile(client, file) {
   const fileContent = fs.readFileSync(file.localPath);
-  
-  await client.send(new PutObjectCommand({
-    Bucket: R2_BUCKET_NAME,
-    Key: file.r2Key,
-    Body: fileContent,
-    ContentType: getContentType(file.localPath),
-    CacheControl: 'public, max-age=31536000',
-  }));
 
-  return R2_PUBLIC_URL 
+  await client.send(
+    new PutObjectCommand({
+      Bucket: R2_BUCKET_NAME,
+      Key: file.r2Key,
+      Body: fileContent,
+      ContentType: getContentType(file.localPath),
+      CacheControl: 'public, max-age=31536000',
+    }),
+  );
+
+  return R2_PUBLIC_URL
     ? `${R2_PUBLIC_URL}/${file.r2Key}`
     : `https://pub-${R2_ACCOUNT_ID}.r2.dev/${file.r2Key}`;
 }
@@ -179,13 +181,17 @@ async function main() {
   }
 
   // Summary
-  const videos = files.filter(f => f.type === 'video');
-  const images = files.filter(f => f.type === 'image');
+  const videos = files.filter((f) => f.type === 'video');
+  const images = files.filter((f) => f.type === 'image');
   const totalSize = files.reduce((sum, f) => sum + f.size, 0);
 
   console.log('📊 Migration Summary:');
-  console.log(`   Videos: ${videos.length} files (${formatSize(videos.reduce((s, f) => s + f.size, 0))})`);
-  console.log(`   Images: ${images.length} files (${formatSize(images.reduce((s, f) => s + f.size, 0))})`);
+  console.log(
+    `   Videos: ${videos.length} files (${formatSize(videos.reduce((s, f) => s + f.size, 0))})`,
+  );
+  console.log(
+    `   Images: ${images.length} files (${formatSize(images.reduce((s, f) => s + f.size, 0))})`,
+  );
   console.log(`   Total:  ${files.length} files (${formatSize(totalSize)})\n`);
 
   if (DRY_RUN) {
@@ -207,7 +213,7 @@ async function main() {
   for (let i = 0; i < files.length; i++) {
     const file = files[i];
     const progress = `[${i + 1}/${files.length}]`;
-    
+
     try {
       process.stdout.write(`${progress} Uploading ${file.r2Key}...`);
       const url = await uploadFile(client, file);

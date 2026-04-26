@@ -57,16 +57,20 @@ function ConfirmContent() {
       <div className="max-w-lg w-full">
         <div className="bg-white rounded-xl shadow-lg border border-slate-200 overflow-hidden">
           {/* Header */}
-          <div className={`px-8 py-6 text-center ${
-            status === 'success' ? 'bg-green-600' :
-            status === 'declined' ? 'bg-slate-600' :
-            'bg-red-600'
-          }`}>
+          <div
+            className={`px-8 py-6 text-center ${
+              status === 'success'
+                ? 'bg-green-600'
+                : status === 'declined'
+                  ? 'bg-slate-600'
+                  : 'bg-red-600'
+            }`}
+          >
             {status === 'success' && <CheckCircle2 className="w-12 h-12 text-white mx-auto mb-3" />}
             {status === 'declined' && <XCircle className="w-12 h-12 text-white mx-auto mb-3" />}
             {status === 'error' && <XCircle className="w-12 h-12 text-white mx-auto mb-3" />}
             <h1 className="text-xl font-bold text-white">
-              {status === 'success' && 'You\'re Confirmed!'}
+              {status === 'success' && "You're Confirmed!"}
               {status === 'declined' && 'Response Recorded'}
               {status === 'error' && 'Something Went Wrong'}
             </h1>
@@ -102,10 +106,16 @@ function ConfirmContent() {
             <div className="border-t border-slate-200 pt-5">
               <p className="text-sm text-black text-center mb-3">Questions? Contact us:</p>
               <div className="flex justify-center gap-6 text-sm">
-                <a href="tel:+13173143757" className="flex items-center gap-1.5 text-slate-700 hover:text-brand-blue-600">
+                <a
+                  href="tel:+13173143757"
+                  className="flex items-center gap-1.5 text-slate-700 hover:text-brand-blue-600"
+                >
                   <Phone className="w-4 h-4" /> (317) 314-3757
                 </a>
-                <a href="mailto:info@elevateforhumanity.org" className="flex items-center gap-1.5 text-slate-700 hover:text-brand-blue-600">
+                <a
+                  href="mailto:info@elevateforhumanity.org"
+                  className="flex items-center gap-1.5 text-slate-700 hover:text-brand-blue-600"
+                >
                   <Mail className="w-4 h-4" /> Email Us
                 </a>
               </div>
@@ -114,7 +124,10 @@ function ConfirmContent() {
 
           {/* Footer */}
           <div className="bg-white px-8 py-4 text-center border-t border-slate-200">
-            <Link href="/programs/barber-apprenticeship" className="text-sm text-brand-blue-600 font-medium hover:underline">
+            <Link
+              href="/programs/barber-apprenticeship"
+              className="text-sm text-brand-blue-600 font-medium hover:underline"
+            >
               View Program Details
             </Link>
             <span className="text-white mx-3">|</span>
@@ -134,11 +147,13 @@ function ConfirmContent() {
 
 export default function BarberConfirmPage() {
   return (
-    <Suspense fallback={
-      <div className="min-h-screen bg-white flex items-center justify-center">
-        <Loader2 className="w-10 h-10 text-brand-blue-600 animate-spin" />
-      </div>
-    }>
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-white flex items-center justify-center">
+          <Loader2 className="w-10 h-10 text-brand-blue-600 animate-spin" />
+        </div>
+      }
+    >
       <ConfirmContent />
     </Suspense>
   );

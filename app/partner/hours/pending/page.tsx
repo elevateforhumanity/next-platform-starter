@@ -79,7 +79,7 @@ export default function PartnerHoursPendingPage() {
       }
 
       setSuccess('Hours approved successfully');
-      setPendingHours(prev => prev.filter(h => h.id !== hourId));
+      setPendingHours((prev) => prev.filter((h) => h.id !== hourId));
     } catch (err: any) {
       setError('An error occurred');
     } finally {
@@ -109,7 +109,7 @@ export default function PartnerHoursPendingPage() {
       }
 
       setSuccess('Hours rejected');
-      setPendingHours(prev => prev.filter(h => h.id !== hourId));
+      setPendingHours((prev) => prev.filter((h) => h.id !== hourId));
     } catch (err: any) {
       setError('An error occurred');
     } finally {
@@ -119,7 +119,7 @@ export default function PartnerHoursPendingPage() {
 
   const handleBulkApprove = async () => {
     if (pendingHours.length === 0) return;
-    
+
     const confirmed = confirm(`Approve all ${pendingHours.length} pending hours entries?`);
     if (!confirmed) return;
 
@@ -128,8 +128,8 @@ export default function PartnerHoursPendingPage() {
     setSuccess(null);
 
     try {
-      const hourIds = pendingHours.map(h => h.id);
-      
+      const hourIds = pendingHours.map((h) => h.id);
+
       const response = await fetch('/api/apprenticeship/hours/approve', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
@@ -164,18 +164,26 @@ export default function PartnerHoursPendingPage() {
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* Hero Image */}
       <section className="relative h-[160px] sm:h-[220px] md:h-[280px] overflow-hidden">
-        <Image src="/images/pages/partner-page-7.jpg" alt="Pending hours" fill sizes="100vw" className="object-cover" priority />
+        <Image
+          src="/images/pages/partner-page-7.jpg"
+          alt="Pending hours"
+          fill
+          sizes="100vw"
+          className="object-cover"
+          priority
+        />
       </section>
       <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[
-            { label: 'Partner', href: '/partner/attendance' },
-            { label: 'Hours', href: '/partner/hours' },
-            { label: 'Pending Review' }
-          ]} />
+          <Breadcrumbs
+            items={[
+              { label: 'Partner', href: '/partner/attendance' },
+              { label: 'Hours', href: '/partner/hours' },
+              { label: 'Pending Review' },
+            ]}
+          />
         </div>
       </div>
 
@@ -188,7 +196,8 @@ export default function PartnerHoursPendingPage() {
             <div>
               <h1 className="text-3xl font-bold text-slate-900">Pending Hours Review</h1>
               <p className="text-slate-700 mt-1">
-                {pendingHours.length} {pendingHours.length === 1 ? 'entry' : 'entries'} awaiting approval
+                {pendingHours.length} {pendingHours.length === 1 ? 'entry' : 'entries'} awaiting
+                approval
               </p>
             </div>
           </div>
@@ -251,7 +260,8 @@ export default function PartnerHoursPendingPage() {
                       <div className="flex items-center gap-2">
                         <Calendar className="w-4 h-4 text-slate-700" />
                         <span className="text-sm text-slate-900">
-                          {new Date(hour.work_date).toLocaleDateString('en-US', { timeZone: 'UTC',
+                          {new Date(hour.work_date).toLocaleDateString('en-US', {
+                            timeZone: 'UTC',
                             weekday: 'short',
                             month: 'short',
                             day: 'numeric',
@@ -261,15 +271,23 @@ export default function PartnerHoursPendingPage() {
                       </div>
                       <div className="flex items-center gap-2">
                         <Clock className="w-4 h-4 text-slate-700" />
-                        <span className="text-sm font-medium text-slate-900">{hour.hours_claimed} hours</span>
+                        <span className="text-sm font-medium text-slate-900">
+                          {hour.hours_claimed} hours
+                        </span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                          hour.source_type === 'ojt' 
-                            ? 'bg-brand-blue-100 text-brand-blue-700' 
-                            : 'bg-purple-100 text-purple-700'
-                        }`}>
-                          {hour.source_type === 'ojt' ? 'OJT' : hour.source_type === 'rti' ? 'RTI' : hour.source_type?.toUpperCase()}
+                        <span
+                          className={`px-2 py-1 rounded-full text-xs font-medium ${
+                            hour.source_type === 'ojt'
+                              ? 'bg-brand-blue-100 text-brand-blue-700'
+                              : 'bg-purple-100 text-purple-700'
+                          }`}
+                        >
+                          {hour.source_type === 'ojt'
+                            ? 'OJT'
+                            : hour.source_type === 'rti'
+                              ? 'RTI'
+                              : hour.source_type?.toUpperCase()}
                         </span>
                       </div>
                       {hour.category && (

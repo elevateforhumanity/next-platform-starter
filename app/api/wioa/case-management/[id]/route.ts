@@ -11,16 +11,12 @@ export const maxDuration = 60;
 export const dynamic = 'force-dynamic';
 
 // GET /api/wioa/case-management/[id] - Get case by ID
-async function _GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const _authCheck = await requireApiRole(['workforce_board', 'staff', 'admin', 'super_admin']);
-    if (_authCheck instanceof NextResponse) return _authCheck;
-    const supabase = _authCheck.adminDb;
+async function _GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const _authCheck = await requireApiRole(['workforce_board', 'staff', 'admin', 'super_admin']);
+  if (_authCheck instanceof NextResponse) return _authCheck;
+  const supabase = _authCheck.adminDb;
   try {
     const { id } = await params;
 
@@ -33,28 +29,24 @@ const _authCheck = await requireApiRole(['workforce_board', 'staff', 'admin', 's
     if (error) throw error;
 
     return NextResponse.json({ success: true, data });
-  } catch (error) { 
+  } catch (error) {
     return NextResponse.json(
       {
         success: false,
         error: { code: 'SERVER_ERROR', message: toErrorMessage(error) },
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
 
 // PUT /api/wioa/case-management/[id] - Update case
-async function _PUT(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const _authCheck = await requireApiRole(['workforce_board', 'staff', 'admin', 'super_admin']);
-    if (_authCheck instanceof NextResponse) return _authCheck;
-    const supabase = _authCheck.adminDb;
+async function _PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const _authCheck = await requireApiRole(['workforce_board', 'staff', 'admin', 'super_admin']);
+  if (_authCheck instanceof NextResponse) return _authCheck;
+  const supabase = _authCheck.adminDb;
   try {
     const { id } = await params;
     const body = await parseBody<Record<string, any>>(request);
@@ -69,13 +61,13 @@ const _authCheck = await requireApiRole(['workforce_board', 'staff', 'admin', 's
     if (error) throw error;
 
     return NextResponse.json({ success: true, data });
-  } catch (error) { 
+  } catch (error) {
     return NextResponse.json(
       {
         success: false,
         error: { code: 'SERVER_ERROR', message: toErrorMessage(error) },
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

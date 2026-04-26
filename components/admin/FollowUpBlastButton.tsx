@@ -52,8 +52,8 @@ export function FollowUpBlastButton({ pendingCount }: Props) {
         state === 'done'
           ? 'bg-green-600 text-white'
           : state === 'error'
-          ? 'bg-red-600 text-white'
-          : 'bg-amber-500 hover:bg-amber-600 text-white'
+            ? 'bg-red-600 text-white'
+            : 'bg-amber-500 hover:bg-amber-600 text-white'
       }`}
     >
       {state === 'loading' ? (
@@ -66,10 +66,10 @@ export function FollowUpBlastButton({ pendingCount }: Props) {
       {state === 'loading'
         ? 'Sending…'
         : state === 'done'
-        ? `Sent ${sent}`
-        : state === 'error'
-        ? errorMsg.slice(0, 40)
-        : `Follow-up (${pendingCount})`}
+          ? `Sent ${sent}`
+          : state === 'error'
+            ? errorMsg.slice(0, 40)
+            : `Follow-up (${pendingCount})`}
     </button>
   );
 }

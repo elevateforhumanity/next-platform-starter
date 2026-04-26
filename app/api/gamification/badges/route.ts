@@ -1,4 +1,3 @@
-
 import { NextRequest, NextResponse } from 'next/server';
 import { createServerSupabaseClient } from '@/lib/auth';
 import { logger } from '@/lib/logger';
@@ -26,7 +25,7 @@ async function _GET(req: NextRequest) {
           `
           *,
           badge:badges(*)
-        `
+        `,
         )
         .eq('user_id', userId)
         .order('earned_at', { ascending: false });
@@ -43,12 +42,9 @@ async function _GET(req: NextRequest) {
       if (error) throw error;
       return NextResponse.json({ badges: data });
     }
-  } catch (error) { 
+  } catch (error) {
     logger.error('Error fetching badges:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch badges' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to fetch badges' }, { status: 500 });
   }
 }
 
@@ -108,12 +104,9 @@ async function _POST(req: NextRequest) {
     }
 
     return NextResponse.json({ badge: data }, { status: 201 });
-  } catch (error) { 
+  } catch (error) {
     logger.error('Error awarding badge:', error);
-    return NextResponse.json(
-      { error: 'Failed to award badge' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to award badge' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/gamification/badges', _GET);

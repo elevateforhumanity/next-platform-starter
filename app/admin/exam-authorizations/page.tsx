@@ -14,7 +14,9 @@ export const metadata: Metadata = {
 
 export default async function ExamAuthorizationsPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login');
 
   const db = await getAdminClient();
@@ -30,31 +32,29 @@ export default async function ExamAuthorizationsPage() {
   }
 
   // Work queue — active + recently terminal authorizations
-  const { data: queue } = await supabase
-    .from('exam_authorization_queue')
-    .select('*');
+  const { data: queue } = await supabase.from('exam_authorization_queue').select('*');
 
   const rows = queue ?? [];
 
   // Summary counts for the header strip
   const counts = {
-    needs_scheduling:     rows.filter(r => r.action_needed === 'needs_scheduling').length,
-    awaiting_outcome:     rows.filter(r => r.action_needed === 'awaiting_outcome').length,
-    needs_result:         rows.filter(r => r.action_needed === 'needs_result_recorded').length,
-    eligible_for_reauth:  rows.filter(r => r.action_needed === 'eligible_for_reauth').length,
-    expiring_soon:        rows.filter(r => r.expiring_soon).length,
+    needs_scheduling: rows.filter((r) => r.action_needed === 'needs_scheduling').length,
+    awaiting_outcome: rows.filter((r) => r.action_needed === 'awaiting_outcome').length,
+    needs_result: rows.filter((r) => r.action_needed === 'needs_result_recorded').length,
+    eligible_for_reauth: rows.filter((r) => r.action_needed === 'eligible_for_reauth').length,
+    expiring_soon: rows.filter((r) => r.expiring_soon).length,
     // Stuck: authorized > 5 days with no scheduled date
-    stuck: rows.filter(r =>
-      r.action_needed === 'needs_scheduling' &&
-      r.authorized_at &&
-      (Date.now() - new Date(r.authorized_at).getTime()) > 5 * 24 * 60 * 60 * 1000
+    stuck: rows.filter(
+      (r) =>
+        r.action_needed === 'needs_scheduling' &&
+        r.authorized_at &&
+        Date.now() - new Date(r.authorized_at).getTime() > 5 * 24 * 60 * 60 * 1000,
     ).length,
   };
 
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-
         {/* Header */}
         <div className="mb-6">
           <h1 className="text-2xl font-bold text-slate-900">Exam Authorization Queue</h1>
@@ -111,7 +111,10 @@ export default async function ExamAuthorizationsPage() {
 }
 
 function SummaryCard({
-  label, count, icon, color,
+  label,
+  count,
+  icon,
+  color,
 }: {
   label: string;
   count: number;
@@ -119,17 +122,20 @@ function SummaryCard({
   color: 'blue' | 'red' | 'yellow' | 'green' | 'orange' | 'purple' | 'gray';
 }) {
   const colorMap = {
-    blue:   'bg-blue-50 text-blue-700 border-blue-200',
-    red:    'bg-red-50 text-red-700 border-red-200',
+    blue: 'bg-blue-50 text-blue-700 border-blue-200',
+    red: 'bg-red-50 text-red-700 border-red-200',
     yellow: 'bg-yellow-50 text-yellow-700 border-yellow-200',
-    green:  'bg-green-50 text-green-700 border-green-200',
+    green: 'bg-green-50 text-green-700 border-green-200',
     orange: 'bg-orange-50 text-orange-700 border-orange-200',
     purple: 'bg-purple-50 text-purple-700 border-purple-200',
-    gray:   'bg-gray-50 text-slate-700 border-gray-200',
+    gray: 'bg-gray-50 text-slate-700 border-gray-200',
   };
   return (
     <div className={`rounded-lg border p-3 ${colorMap[color]}`}>
-      <div className="flex items-center gap-2 mb-1">{icon}<span className="text-xs font-medium">{label}</span></div>
+      <div className="flex items-center gap-2 mb-1">
+        {icon}
+        <span className="text-xs font-medium">{label}</span>
+      </div>
       <div className="text-2xl font-bold">{count}</div>
     </div>
   );

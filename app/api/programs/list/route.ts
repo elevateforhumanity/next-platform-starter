@@ -12,8 +12,10 @@ const _GET = withErrorHandling(async (request: NextRequest) => {
   const supabase = await createClient();
 
   // Optional: Check authentication
-  const { data: { user } } = await supabase.auth.getUser();
-  
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   // Query programs table
   const { data: programs, error } = await supabase
     .from('programs')

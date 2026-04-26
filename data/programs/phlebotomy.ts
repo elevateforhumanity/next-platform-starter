@@ -8,7 +8,8 @@ import type { ProgramSchema } from '@/lib/programs/program-schema';
 export const PHLEBOTOMY: ProgramSchema = {
   slug: 'phlebotomy',
   title: 'Phlebotomy Technician',
-  subtitle: 'Complete 120 hours of classroom and clinical training in 4 weeks. Prepare for the NHA Certified Phlebotomy Technician (CPT) exam and enter healthcare within a month.',
+  subtitle:
+    'Complete 120 hours of classroom and clinical training in 4 weeks. Prepare for the NHA Certified Phlebotomy Technician (CPT) exam and enter healthcare within a month.',
   sector: 'healthcare',
   category: 'Healthcare',
 
@@ -38,7 +39,8 @@ export const PHLEBOTOMY: ProgramSchema = {
     {
       name: 'NHA Certified Phlebotomy Technician (CPT)',
       issuer: 'National Healthcareer Association (NHA)',
-      description: 'National certification recognized by hospitals, labs, and clinics across the U.S. Covers venipuncture, capillary puncture, specimen handling, and patient interaction.',
+      description:
+        'National certification recognized by hospitals, labs, and clinics across the U.S. Covers venipuncture, capillary puncture, specimen handling, and patient interaction.',
       validity: '2 years (renewable with CE)',
     },
     {
@@ -64,34 +66,69 @@ export const PHLEBOTOMY: ProgramSchema = {
   ],
 
   careerOutcomes: [
-    { title: 'Phlebotomist', employer: 'Hospital / Lab', salaryRange: '$32,000–$42,000', hiringRate: '92%' },
-    { title: 'Lab Assistant', employer: 'Clinical Laboratory', salaryRange: '$30,000–$40,000', hiringRate: '88%' },
-    { title: 'Patient Services Tech', employer: 'Outpatient Clinic', salaryRange: '$31,000–$41,000', hiringRate: '85%' },
+    {
+      title: 'Phlebotomist',
+      employer: 'Hospital / Lab',
+      salaryRange: '$32,000–$42,000',
+      hiringRate: '92%',
+    },
+    {
+      title: 'Lab Assistant',
+      employer: 'Clinical Laboratory',
+      salaryRange: '$30,000–$40,000',
+      hiringRate: '88%',
+    },
+    {
+      title: 'Patient Services Tech',
+      employer: 'Outpatient Clinic',
+      salaryRange: '$31,000–$41,000',
+      hiringRate: '85%',
+    },
   ],
 
   curriculum: [
     {
       week: 1,
       title: 'Foundations of Phlebotomy',
-      topics: ['Anatomy of the venous system', 'Medical terminology', 'Infection control and PPE', 'Patient identification and consent'],
+      topics: [
+        'Anatomy of the venous system',
+        'Medical terminology',
+        'Infection control and PPE',
+        'Patient identification and consent',
+      ],
       hours: 30,
     },
     {
       week: 2,
       title: 'Venipuncture Technique',
-      topics: ['Vacutainer and syringe methods', 'Butterfly needle technique', 'Order of draw', 'Difficult draws and complications'],
+      topics: [
+        'Vacutainer and syringe methods',
+        'Butterfly needle technique',
+        'Order of draw',
+        'Difficult draws and complications',
+      ],
       hours: 30,
     },
     {
       week: 3,
       title: 'Capillary Puncture & Specimen Handling',
-      topics: ['Fingerstick and heelstick technique', 'Specimen labeling and chain of custody', 'Centrifuge operation', 'Specimen rejection criteria'],
+      topics: [
+        'Fingerstick and heelstick technique',
+        'Specimen labeling and chain of custody',
+        'Centrifuge operation',
+        'Specimen rejection criteria',
+      ],
       hours: 30,
     },
     {
       week: 4,
       title: 'Clinical Practice & Exam Prep',
-      topics: ['Supervised clinical draws', 'NHA CPT exam review', 'Practice exams', 'Career readiness and job search'],
+      topics: [
+        'Supervised clinical draws',
+        'NHA CPT exam review',
+        'Practice exams',
+        'Career readiness and job search',
+      ],
       hours: 30,
     },
   ],
@@ -113,12 +150,22 @@ export const PHLEBOTOMY: ProgramSchema = {
   },
 
   complianceAlignment: [
-    { framework: 'OSHA Bloodborne Pathogens Standard (29 CFR 1910.1030)', description: 'Full compliance training included' },
-    { framework: 'HIPAA Patient Privacy', description: 'Patient data handling and confidentiality' },
-    { framework: 'CLSI Standards', description: 'Clinical and Laboratory Standards Institute venipuncture guidelines' },
+    {
+      framework: 'OSHA Bloodborne Pathogens Standard (29 CFR 1910.1030)',
+      description: 'Full compliance training included',
+    },
+    {
+      framework: 'HIPAA Patient Privacy',
+      description: 'Patient data handling and confidentiality',
+    },
+    {
+      framework: 'CLSI Standards',
+      description: 'Clinical and Laboratory Standards Institute venipuncture guidelines',
+    },
   ],
 
-  prerequisites: 'No prior healthcare experience required. Must be 18+ and have a high school diploma or GED.',
+  prerequisites:
+    'No prior healthcare experience required. Must be 18+ and have a high school diploma or GED.',
 
   whatYouNeed: [
     'High school diploma or GED',
@@ -135,7 +182,8 @@ export const PHLEBOTOMY: ProgramSchema = {
     'Career placement support',
   ],
 
-  paymentTerms: 'Self-pay program. $1,500 total tuition. 20% deposit ($300) required at enrollment. Pay the balance weekly, in full, or via BNPL (Affirm, Sezzle, Afterpay, Klarna).',
+  paymentTerms:
+    'Self-pay program. $1,500 total tuition. 20% deposit ($300) required at enrollment. Pay the balance weekly, in full, or via BNPL (Affirm, Sezzle, Afterpay, Klarna).',
 
   // ─── Content model ──────────────────────────────────────────────
   deliveryModel: 'internal',
@@ -144,39 +192,78 @@ export const PHLEBOTOMY: ProgramSchema = {
   enrollmentType: 'internal',
 
   careerPathway: [
-    { title: 'Phlebotomist', timeframe: '0–3 months', requirements: 'CPT certification + background check', salaryRange: '$32,000–$42,000' },
-    { title: 'Lead Phlebotomist / Supervisor', timeframe: '2–4 years', requirements: 'Experience + leadership skills', salaryRange: '$40,000–$52,000' },
-    { title: 'Medical Laboratory Technician', timeframe: '2–3 years', requirements: 'Additional MLT training', salaryRange: '$45,000–$58,000' },
+    {
+      title: 'Phlebotomist',
+      timeframe: '0–3 months',
+      requirements: 'CPT certification + background check',
+      salaryRange: '$32,000–$42,000',
+    },
+    {
+      title: 'Lead Phlebotomist / Supervisor',
+      timeframe: '2–4 years',
+      requirements: 'Experience + leadership skills',
+      salaryRange: '$40,000–$52,000',
+    },
+    {
+      title: 'Medical Laboratory Technician',
+      timeframe: '2–3 years',
+      requirements: 'Additional MLT training',
+      salaryRange: '$45,000–$58,000',
+    },
   ],
 
   weeklySchedule: [
-    { week: 'Weeks 1–2', title: 'Anatomy & Blood Collection Fundamentals', competencyMilestone: 'Identify venipuncture sites and demonstrate proper technique on mannequin' },
-    { week: 'Weeks 3–4', title: 'Specimen Handling & Safety', competencyMilestone: 'Process and label specimens correctly; pass OSHA bloodborne pathogens assessment' },
-    { week: 'Week 5', title: 'Clinical Practicum & Certification Prep', competencyMilestone: 'Complete 50 supervised venipunctures; pass NHA CPT practice exam' },
+    {
+      week: 'Weeks 1–2',
+      title: 'Anatomy & Blood Collection Fundamentals',
+      competencyMilestone:
+        'Identify venipuncture sites and demonstrate proper technique on mannequin',
+    },
+    {
+      week: 'Weeks 3–4',
+      title: 'Specimen Handling & Safety',
+      competencyMilestone:
+        'Process and label specimens correctly; pass OSHA bloodborne pathogens assessment',
+    },
+    {
+      week: 'Week 5',
+      title: 'Clinical Practicum & Certification Prep',
+      competencyMilestone: 'Complete 50 supervised venipunctures; pass NHA CPT practice exam',
+    },
   ],
 
-  employerPartners: ['IU Health', 'Eskenazi Health', 'Community Health Network', 'Clinical laboratories'],
+  employerPartners: [
+    'IU Health',
+    'Eskenazi Health',
+    'Community Health Network',
+    'Clinical laboratories',
+  ],
 
   faqs: [
     {
       question: 'Do I need healthcare experience?',
-      answer: 'No. This program starts from the basics. You will practice venipuncture on training arms before moving to supervised clinical draws.',
+      answer:
+        'No. This program starts from the basics. You will practice venipuncture on training arms before moving to supervised clinical draws.',
     },
     {
       question: 'What is the NHA CPT exam?',
-      answer: 'The NHA Certified Phlebotomy Technician exam is a 100-question multiple-choice test covering anatomy, venipuncture technique, specimen handling, and safety. It is proctored at Elevate.',
+      answer:
+        'The NHA Certified Phlebotomy Technician exam is a 100-question multiple-choice test covering anatomy, venipuncture technique, specimen handling, and safety. It is proctored at Elevate.',
     },
     {
       question: 'Is this program covered by WIOA or state grants?',
-      answer: 'The Phlebotomy program is self-pay. It is not currently on the Indiana ETPL. Flexible payment plans and BNPL options are available.',
+      answer:
+        'The Phlebotomy program is self-pay. It is not currently on the Indiana ETPL. Flexible payment plans and BNPL options are available.',
     },
     {
       question: 'Can I work in other states with this certification?',
-      answer: 'Most states do not require phlebotomists to hold a state license — national certification (NHA CPT) is accepted by employers. California, Louisiana, Nevada, and Washington require additional state licensure. Use the state licensing tool on this page to check your state.',
+      answer:
+        'Most states do not require phlebotomists to hold a state license — national certification (NHA CPT) is accepted by employers. California, Louisiana, Nevada, and Washington require additional state licensure. Use the state licensing tool on this page to check your state.',
     },
     {
       question: 'How quickly can I get a job after completing the program?',
-      answer: 'Most graduates receive job offers within 2–4 weeks of passing the NHA CPT exam. Hospitals, labs, blood banks, and outpatient clinics hire phlebotomists year-round.',
+      answer:
+        'Most graduates receive job offers within 2–4 weeks of passing the NHA CPT exam. Hospitals, labs, blood banks, and outpatient clinics hire phlebotomists year-round.',
     },
   ],
 
@@ -189,12 +276,14 @@ export const PHLEBOTOMY: ProgramSchema = {
   cta: {
     applyHref: '/apply?program=phlebotomy',
     requestInfoHref: '/programs/phlebotomy/request-info',
-    careerConnectHref: 'https://www.indianacareerconnect.com/jobs/search?q=phlebotomist&location=Indiana',
+    careerConnectHref:
+      'https://www.indianacareerconnect.com/jobs/search?q=phlebotomist&location=Indiana',
     advisorHref: '/contact',
   },
 
   metaTitle: 'Phlebotomy Training | NHA CPT Certification | Indianapolis Indiana',
-  metaDescription: '4-week phlebotomy program in Indianapolis. Prepare for the NHA Certified Phlebotomy Technician (CPT) exam. 120 hours, self-pay $1,500 with flexible payment plans.',
+  metaDescription:
+    '4-week phlebotomy program in Indianapolis. Prepare for the NHA Certified Phlebotomy Technician (CPT) exam. 120 hours, self-pay $1,500 with flexible payment plans.',
 
   enrollmentTracks: {
     funded: {

@@ -36,9 +36,7 @@ export const imageManifest = {
   },
 
   programs: {
-    overview: [
-      '/images/programs/marketing/elevate-collage-hero-01.jpg',
-    ],
+    overview: ['/images/programs/marketing/elevate-collage-hero-01.jpg'],
     healthcare: [
       '/images/programs/healthcare/healthcare-lab-01.jpg',
       '/images/programs/healthcare/healthcare-lab-02.jpg',

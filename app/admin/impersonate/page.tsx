@@ -14,9 +14,10 @@ export const dynamic = 'force-dynamic';
 
 export default async function ImpersonatePage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login');
-
 
   const db = await getAdminClient();
   const { data: profile } = await supabase
@@ -54,7 +55,6 @@ export default async function ImpersonatePage() {
       </div>
 
       <div className="max-w-4xl mx-auto px-6 py-8 space-y-8">
-
         {/* Warning banner */}
         <div className="bg-amber-50 border border-amber-300 rounded-xl p-4 flex gap-3">
           <span className="text-amber-600 text-lg">⚠️</span>
@@ -82,7 +82,9 @@ export default async function ImpersonatePage() {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="bg-slate-50 border-b border-slate-100">
-                    <th className="text-left px-5 py-3 font-semibold text-slate-600">Target User</th>
+                    <th className="text-left px-5 py-3 font-semibold text-slate-600">
+                      Target User
+                    </th>
                     <th className="text-left px-5 py-3 font-semibold text-slate-600">Reason</th>
                     <th className="text-left px-5 py-3 font-semibold text-slate-600">Started</th>
                   </tr>
@@ -93,8 +95,12 @@ export default async function ImpersonatePage() {
                     return (
                       <tr key={s.id} className="hover:bg-slate-50">
                         <td className="px-5 py-3">
-                          <p className="font-medium text-slate-900">{after.target_user_name ?? '—'}</p>
-                          <p className="text-xs text-slate-500">{after.target_user_email ?? s.entity_id}</p>
+                          <p className="font-medium text-slate-900">
+                            {after.target_user_name ?? '—'}
+                          </p>
+                          <p className="text-xs text-slate-500">
+                            {after.target_user_email ?? s.entity_id}
+                          </p>
                         </td>
                         <td className="px-5 py-3 text-slate-600 text-xs">{after.reason ?? '—'}</td>
                         <td className="px-5 py-3 text-slate-500 text-xs">

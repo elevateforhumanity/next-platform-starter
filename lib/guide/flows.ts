@@ -41,7 +41,8 @@ export const storeGuideFlow: GuideFlow = {
           icon: 'graduation-cap',
           route: '/demo/admin',
           startTour: false,
-          description: 'Open the interactive demo — click through the admin dashboard, employer portal, and student experience with real sample data.',
+          description:
+            'Open the interactive demo — click through the admin dashboard, employer portal, and student experience with real sample data.',
         },
         {
           id: 'license-platform',
@@ -50,7 +51,8 @@ export const storeGuideFlow: GuideFlow = {
           route: '/store/licensing',
           startTour: true,
           tourId: 'licenses-tour',
-          description: 'Managed hosting from $1,500/mo or enterprise source-use licensing. See what\'s included.',
+          description:
+            "Managed hosting from $1,500/mo or enterprise source-use licensing. See what's included.",
         },
         {
           id: 'start-trial',
@@ -80,7 +82,8 @@ export const storeGuideFlow: GuideFlow = {
           icon: 'server',
           route: '/demo/admin/wioa',
           startTour: false,
-          description: 'See WIOA eligibility, ITA tracking, PIRL reporting, and provider network management.',
+          description:
+            'See WIOA eligibility, ITA tracking, PIRL reporting, and provider network management.',
         },
         {
           id: 'training-provider',
@@ -88,11 +91,12 @@ export const storeGuideFlow: GuideFlow = {
           icon: 'graduation-cap',
           route: '/demo/admin',
           startTour: false,
-          description: 'See enrollment management, course delivery, compliance, and outcome tracking.',
+          description:
+            'See enrollment management, course delivery, compliance, and outcome tracking.',
         },
         {
           id: 'employer',
-          label: 'I\'m an employer partner',
+          label: "I'm an employer partner",
           icon: 'shopping-bag',
           route: '/demo/employer',
           startTour: false,
@@ -133,7 +137,8 @@ export const destinationTours: Record<string, DestinationTour> = {
       {
         target: '[data-tour="shop-categories"]',
         title: 'Browse Categories',
-        content: 'Filter products by category: Tools, Apparel, Books, Safety gear, and Accessories.',
+        content:
+          'Filter products by category: Tools, Apparel, Books, Safety gear, and Accessories.',
         placement: 'bottom',
       },
       {
@@ -181,31 +186,36 @@ export const destinationTours: Record<string, DestinationTour> = {
       {
         target: '[data-tour="license-hero"]',
         title: 'Workforce Operating System',
-        content: 'License a complete platform for enrollment, training delivery, compliance reporting, and outcome tracking. Stop building from scratch.',
+        content:
+          'License a complete platform for enrollment, training delivery, compliance reporting, and outcome tracking. Stop building from scratch.',
         placement: 'bottom',
       },
       {
         target: '[data-tour="license-managed"]',
         title: 'Managed Platform ($1,500-$3,500/mo)',
-        content: 'We host and maintain everything. You get your own branded instance with your domain. Includes LMS, student/instructor/employer portals, WIOA compliance, and 24/7 support. Launch in 2 weeks.',
+        content:
+          'We host and maintain everything. You get your own branded instance with your domain. Includes LMS, student/instructor/employer portals, WIOA compliance, and 24/7 support. Launch in 2 weeks.',
         placement: 'bottom',
       },
       {
         target: '[data-tour="license-source"]',
         title: 'Source-Use License ($75,000+)',
-        content: 'For large agencies requiring on-premise deployment. Get restricted code access to deploy on your infrastructure. Requires dedicated DevOps team and enterprise approval.',
+        content:
+          'For large agencies requiring on-premise deployment. Get restricted code access to deploy on your infrastructure. Requires dedicated DevOps team and enterprise approval.',
         placement: 'bottom',
       },
       {
         target: '[data-tour="license-features"]',
         title: 'What Every License Includes',
-        content: 'Complete LMS with courses and certificates, multi-stakeholder portals, WIOA-compliant reporting, automated workflows, enterprise security, and dedicated support.',
+        content:
+          'Complete LMS with courses and certificates, multi-stakeholder portals, WIOA-compliant reporting, automated workflows, enterprise security, and dedicated support.',
         placement: 'bottom',
       },
       {
         target: '[data-tour="license-cta"]',
         title: 'Ready to Get Started?',
-        content: 'View detailed pricing, watch a demo, or schedule a call with our team to discuss your specific needs.',
+        content:
+          'View detailed pricing, watch a demo, or schedule a call with our team to discuss your specific needs.',
         placement: 'top',
       },
     ],

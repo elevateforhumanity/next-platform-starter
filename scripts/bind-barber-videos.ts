@@ -22,8 +22,8 @@ dotenv.config({ path: path.join(process.cwd(), '.env'), override: false });
 
 import { createClient } from '@supabase/supabase-js';
 
-const COURSE_ID  = '3fb5ce19-1cde-434c-a8c6-f138d7d7aa17';
-const VIDEO_DIR  = path.join(process.cwd(), 'public', 'videos', 'barber-lessons');
+const COURSE_ID = '3fb5ce19-1cde-434c-a8c6-f138d7d7aa17';
+const VIDEO_DIR = path.join(process.cwd(), 'public', 'videos', 'barber-lessons');
 const URL_PREFIX = '/videos/barber-lessons';
 
 async function main() {
@@ -48,11 +48,12 @@ async function main() {
     process.exit(1);
   }
 
-  const slugIndex = new Map(lessons.map(l => [l.slug, l]));
+  const slugIndex = new Map(lessons.map((l) => [l.slug, l]));
 
   // Find all MP4s in the video dir
-  const mp4Files = fs.readdirSync(VIDEO_DIR)
-    .filter(f => f.endsWith('.mp4'))
+  const mp4Files = fs
+    .readdirSync(VIDEO_DIR)
+    .filter((f) => f.endsWith('.mp4'))
     .sort();
 
   console.log(`Found ${mp4Files.length} MP4 files in ${VIDEO_DIR}`);
@@ -91,7 +92,9 @@ async function main() {
     }
   }
 
-  console.log(`\nBound: ${counts.bound} | Already set: ${counts.already} | Unmatched: ${counts.unmatched} | Failed: ${counts.failed}`);
+  console.log(
+    `\nBound: ${counts.bound} | Already set: ${counts.already} | Unmatched: ${counts.unmatched} | Failed: ${counts.failed}`,
+  );
 
   // Final validation — check per-lesson 1:1 coverage
   // A lesson is fully bound when its video_url matches /videos/barber-lessons/{slug}.mp4
@@ -102,20 +105,24 @@ async function main() {
     .order('order_index');
 
   const notPerLesson = (allLessons ?? []).filter(
-    l => l.video_url !== `${URL_PREFIX}/${l.slug}.mp4`,
+    (l) => l.video_url !== `${URL_PREFIX}/${l.slug}.mp4`,
   );
 
   if (notPerLesson.length > 0) {
-    console.log(`\n⚠️  ${notPerLesson.length} lessons without a per-lesson video (still using shared/null):`);
+    console.log(
+      `\n⚠️  ${notPerLesson.length} lessons without a per-lesson video (still using shared/null):`,
+    );
     for (const l of notPerLesson) console.log(`   ${l.slug}  →  ${l.video_url ?? 'NULL'}`);
-    console.log('\nRun generate-barber-videos.ts to produce the missing MP4s, then re-run this script.');
+    console.log(
+      '\nRun generate-barber-videos.ts to produce the missing MP4s, then re-run this script.',
+    );
     process.exit(1);
   } else {
     console.log('\n✓ All 50 lessons have 1:1 per-lesson video_url. Track C complete.');
   }
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.error(err);
   process.exit(1);
 });

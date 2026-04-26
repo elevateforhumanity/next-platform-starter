@@ -10,7 +10,6 @@ const CHECK_PATHS = [
   '/elevate_license_dashboard.html',
 ];
 
-
 function checkPath(path) {
   return new Promise((resolve) => {
     const url = `${SITE_URL}${path}`;

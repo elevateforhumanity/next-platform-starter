@@ -1,4 +1,3 @@
-
 import { NextResponse } from 'next/server';
 import { getStripe } from '@/lib/stripe/client';
 import { createClient } from '@/lib/supabase/server';
@@ -23,34 +22,28 @@ async function handler(req: Request) {
       const ip = req.headers.get('x-forwarded-for') || req.headers.get('x-real-ip') || 'unknown';
       const limiter = paymentRateLimit.get();
       const { success } = limiter ? await limiter.limit(ip) : { success: true };
-      
+
       if (!success) {
         return NextResponse.json(
           { error: 'Too many payment requests. Please try again later.' },
-          { status: 429 }
+          { status: 429 },
         );
       }
     }
 
     if (!process.env.STRIPE_SECRET_KEY) {
-      return NextResponse.json(
-        { error: 'Payment system not configured' },
-        { status: 503 }
-      );
+      return NextResponse.json({ error: 'Payment system not configured' }, { status: 503 });
     }
 
     const body = await req.json();
     const { courseId, priceId, successUrl, cancelUrl } = body;
 
     if (!courseId || !successUrl || !cancelUrl) {
-      return NextResponse.json(
-        { error: 'Missing required fields' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
     const supabase = await createClient();
-    
+
     // Get course details
     const { data: course, error: courseError } = await supabase
       .from('training_courses')
@@ -59,18 +52,17 @@ async function handler(req: Request) {
       .maybeSingle();
 
     if (courseError || !course) {
-      return NextResponse.json(
-        { error: 'Course not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: 'Course not found' }, { status: 404 });
     }
 
     // Get authenticated user
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     // Create or retrieve Stripe price
     let stripePriceId = priceId;
-    
+
     if (!stripePriceId && course.price > 0) {
       // Create a new price in Stripe
       const price = await stripe.prices.create({
@@ -85,10 +77,7 @@ async function handler(req: Request) {
     }
 
     if (!stripePriceId) {
-      return NextResponse.json(
-        { error: 'Unable to create payment' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Unable to create payment' }, { status: 500 });
     }
 
     // Create Stripe Checkout session
@@ -114,18 +103,12 @@ async function handler(req: Request) {
     });
 
     if (!session.url) {
-      return NextResponse.json(
-        { error: 'Failed to create checkout session' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to create checkout session' }, { status: 500 });
     }
 
     return NextResponse.json({ url: session.url });
-  } catch (error) { 
-    return NextResponse.json(
-      { error: toErrorMessage(error) },
-      { status: 500 }
-    );
+  } catch (error) {
+    return NextResponse.json({ error: toErrorMessage(error) }, { status: 500 });
   }
 }
 export const POST = withRuntime(withApiAudit('/api/stripe/create-checkout', handler));

@@ -7,14 +7,17 @@ import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { auditedMutation } from '@/lib/audit/transactional';
 
 async function _POST(request: NextRequest) {
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
 
   const supabase = await createClient();
-  
+
   // Get current user and verify admin role
-  const { data: { user }, error: authError } = await supabase.auth.getUser();
-  
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser();
+
   if (authError || !user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
@@ -82,28 +85,33 @@ async function _POST(request: NextRequest) {
     try {
       const { advanceHvacWorkflow } = await import('@/lib/courses/hvac-completion-workflow');
       const wfResult = await advanceHvacWorkflow(data.user_id);
-      logger.info('[hvac-workflow] Advanced on admin approval', { userId: data.user_id, ...wfResult });
+      logger.info('[hvac-workflow] Advanced on admin approval', {
+        userId: data.user_id,
+        ...wfResult,
+      });
     } catch (wfErr) {
       logger.error('[hvac-workflow] Advance failed (non-fatal):', wfErr);
     }
   }
 
-  return NextResponse.json({ 
-    success: true, 
+  return NextResponse.json({
+    success: true,
     submission: data,
-    message: `Certification ${newStatus}` 
+    message: `Certification ${newStatus}`,
   });
 }
 
 async function _GET(request: NextRequest) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const supabase = await createClient();
-  
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const supabase = await createClient();
+
   // Get current user and verify admin role
-  const { data: { user }, error: authError } = await supabase.auth.getUser();
-  
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser();
+
   if (authError || !user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
@@ -124,11 +132,13 @@ const supabase = await createClient();
 
   let query = supabase
     .from('certification_submissions')
-    .select(`
+    .select(
+      `
       *,
       profiles:user_id (id, full_name, email),
       programs:program_id (id, name, title)
-    `)
+    `,
+    )
     .order('created_at', { ascending: false });
 
   if (status) {

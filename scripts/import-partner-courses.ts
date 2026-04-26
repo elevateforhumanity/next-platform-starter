@@ -15,7 +15,7 @@ import { parse } from 'csv-parse/sync';
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
+  process.env.SUPABASE_SERVICE_ROLE_KEY!,
 );
 
 interface CourseData {
@@ -55,30 +55,19 @@ async function getProviderId(providerType: string): Promise<string> {
   return data.id;
 }
 
-function calculateRetailPrice(
-  wholesalePrice: number,
-  providerType: string
-): number {
+function calculateRetailPrice(wholesalePrice: number, providerType: string): number {
   const markup = MARKUP_RATES[providerType] || 1.4;
   return Math.round(wholesalePrice * markup * 100) / 100;
 }
 
-async function importCoursesFromJSON(
-  providerType: string,
-  filePath: string
-): Promise<void> {
-
+async function importCoursesFromJSON(providerType: string, filePath: string): Promise<void> {
   const fileContent = fs.readFileSync(filePath, 'utf-8');
   const courses: CourseData[] = JSON.parse(fileContent);
 
   await importCourses(providerType, courses);
 }
 
-async function importCoursesFromCSV(
-  providerType: string,
-  filePath: string
-): Promise<void> {
-
+async function importCoursesFromCSV(providerType: string, filePath: string): Promise<void> {
   const fileContent = fs.readFileSync(filePath, 'utf-8');
   const records = parse(fileContent, {
     columns: true,
@@ -90,9 +79,7 @@ async function importCoursesFromCSV(
     description: record.description || '',
     category: record.category || 'General',
     wholesalePrice: parseFloat(record.wholesale_price || record.price || '0'),
-    retailPrice: record.retail_price
-      ? parseFloat(record.retail_price)
-      : undefined,
+    retailPrice: record.retail_price ? parseFloat(record.retail_price) : undefined,
     duration: record.duration ? parseInt(record.duration) : undefined,
     prerequisites: record.prerequisites || '',
     certificationType: record.certification_type || 'Certificate',
@@ -103,23 +90,16 @@ async function importCoursesFromCSV(
   await importCourses(providerType, courses);
 }
 
-async function importCourses(
-  providerType: string,
-  courses: CourseData[]
-): Promise<void> {
+async function importCourses(providerType: string, courses: CourseData[]): Promise<void> {
   const providerId = await getProviderId(providerType);
-
 
   const coursesToInsert = courses.map((course) => ({
     provider_id: providerId,
     course_name: course.title,
     description: course.description,
     category: course.category,
-    wholesale_price:
-      course.wholesalePrice === 0 ? 0 : course.wholesalePrice || 99.99,
-    retail_price:
-      course.retailPrice ||
-      calculateRetailPrice(course.wholesalePrice, providerType),
+    wholesale_price: course.wholesalePrice === 0 ? 0 : course.wholesalePrice || 99.99,
+    retail_price: course.retailPrice || calculateRetailPrice(course.wholesalePrice, providerType),
     duration_hours: course.duration || null,
     prerequisites: course.prerequisites || null,
     certification_type: course.certificationType || 'Certificate',
@@ -135,9 +115,7 @@ async function importCourses(
   for (let i = 0; i < coursesToInsert.length; i += batchSize) {
     const batch = coursesToInsert.slice(i, i + batchSize);
 
-    const { error } = await supabase
-      .from('partner_courses_catalog')
-      .insert(batch);
+    const { error } = await supabase.from('partner_courses_catalog').insert(batch);
 
     if (error) {
       throw error;
@@ -145,7 +123,6 @@ async function importCourses(
 
     imported += batch.length;
   }
-
 }
 
 async function main() {
@@ -184,7 +161,6 @@ async function main() {
     } else {
       process.exit(1);
     }
-
   } catch (error) {
     process.exit(1);
   }

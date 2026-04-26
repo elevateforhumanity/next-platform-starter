@@ -18,8 +18,17 @@
 
 import { getAdminClient } from '@/lib/supabase/admin';
 import { fetchOnetOccupation, isOnetConfigured, type OnetOccupation } from './onet';
-import { fetchBlsWages, fetchBlsProjections, type BlsWageData, type BlsProjectionData } from './bls';
-import { fetchCareerOneStopData, isCareerOneStopConfigured, type CareerOneStopData } from './careeronestop';
+import {
+  fetchBlsWages,
+  fetchBlsProjections,
+  type BlsWageData,
+  type BlsProjectionData,
+} from './bls';
+import {
+  fetchCareerOneStopData,
+  isCareerOneStopConfigured,
+  type CareerOneStopData,
+} from './careeronestop';
 
 export interface CredentialDomain {
   key: string;
@@ -128,7 +137,13 @@ export async function loadIndustryStandards(
 
   // 3. Load credential domains from DB
   const { data: domainRow } = credentialCode
-    ? await db.from('credential_domains').select('*').eq('credential_code', credentialCode).order('version', { ascending: false }).limit(1).maybeSingle()
+    ? await db
+        .from('credential_domains')
+        .select('*')
+        .eq('credential_code', credentialCode)
+        .order('version', { ascending: false })
+        .limit(1)
+        .maybeSingle()
     : { data: null };
 
   // 4. Write to cache
@@ -156,13 +171,19 @@ async function loadFromCache(
   if (!rows || rows.length === 0) return null;
 
   const onetRow = rows.find((r: any) => r.source === 'onet');
-  const blsRow  = rows.find((r: any) => r.source === 'bls');
-  const cosRow  = rows.find((r: any) => r.source === 'careeronestop');
+  const blsRow = rows.find((r: any) => r.source === 'bls');
+  const cosRow = rows.find((r: any) => r.source === 'careeronestop');
 
   if (!onetRow && !blsRow) return null;
 
   const { data: domainRow } = credentialCode
-    ? await db.from('credential_domains').select('*').eq('credential_code', credentialCode).order('version', { ascending: false }).limit(1).maybeSingle()
+    ? await db
+        .from('credential_domains')
+        .select('*')
+        .eq('credential_code', credentialCode)
+        .order('version', { ascending: false })
+        .limit(1)
+        .maybeSingle()
     : { data: null };
 
   const onet = onetRow ? rowToOnet(onetRow) : null;
@@ -171,7 +192,12 @@ async function loadFromCache(
   const cos = cosRow ? rowToCos(cosRow, socCode) : null;
 
   return buildStandards(
-    socCode, onet, wages, projections, cos, domainRow,
+    socCode,
+    onet,
+    wages,
+    projections,
+    cos,
+    domainRow,
     [onetRow && 'onet', blsRow && 'bls', cosRow && 'careeronestop'].filter(Boolean) as string[],
     true,
   );
@@ -189,51 +215,60 @@ async function writeToCache(
   const expires = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
 
   if (onet) {
-    await db.from('occupation_standards').upsert({
-      soc_code: socCode,
-      soc_title: onet.title,
-      source: 'onet',
-      tasks: onet.tasks,
-      skills: onet.skills,
-      knowledge: onet.knowledge,
-      abilities: onet.abilities,
-      work_activities: onet.work_activities,
-      technology_skills: onet.technology_skills,
-      education_required: onet.education,
-      fetched_at: now,
-      expires_at: expires,
-    }, { onConflict: 'soc_code,source' });
+    await db.from('occupation_standards').upsert(
+      {
+        soc_code: socCode,
+        soc_title: onet.title,
+        source: 'onet',
+        tasks: onet.tasks,
+        skills: onet.skills,
+        knowledge: onet.knowledge,
+        abilities: onet.abilities,
+        work_activities: onet.work_activities,
+        technology_skills: onet.technology_skills,
+        education_required: onet.education,
+        fetched_at: now,
+        expires_at: expires,
+      },
+      { onConflict: 'soc_code,source' },
+    );
   }
 
   if (wages || projections) {
-    await db.from('occupation_standards').upsert({
-      soc_code: socCode,
-      soc_title: onet?.title ?? socCode,
-      source: 'bls',
-      median_annual_wage: wages?.median_annual_wage ?? projections?.median_annual_wage ?? null,
-      entry_wage: wages?.entry_wage ?? null,
-      experienced_wage: wages?.experienced_wage ?? null,
-      employment_count: projections?.employment_2032 ?? null,
-      projected_growth_pct: projections?.projected_growth_pct ?? null,
-      projected_growth_cat: projections?.projected_growth_cat ?? null,
-      fetched_at: now,
-      expires_at: expires,
-    }, { onConflict: 'soc_code,source' });
+    await db.from('occupation_standards').upsert(
+      {
+        soc_code: socCode,
+        soc_title: onet?.title ?? socCode,
+        source: 'bls',
+        median_annual_wage: wages?.median_annual_wage ?? projections?.median_annual_wage ?? null,
+        entry_wage: wages?.entry_wage ?? null,
+        experienced_wage: wages?.experienced_wage ?? null,
+        employment_count: projections?.employment_2032 ?? null,
+        projected_growth_pct: projections?.projected_growth_pct ?? null,
+        projected_growth_cat: projections?.projected_growth_cat ?? null,
+        fetched_at: now,
+        expires_at: expires,
+      },
+      { onConflict: 'soc_code,source' },
+    );
   }
 
   if (cos) {
-    await db.from('occupation_standards').upsert({
-      soc_code: socCode,
-      soc_title: onet?.title ?? socCode,
-      source: 'careeronestop',
-      certifications: cos.certifications,
-      apprenticeship_count: cos.apprenticeship_count,
-      job_postings_count: cos.job_postings_count,
-      indiana_median_wage: cos.local_median_wage,
-      top_employers: cos.top_employers,
-      fetched_at: now,
-      expires_at: expires,
-    }, { onConflict: 'soc_code,source' });
+    await db.from('occupation_standards').upsert(
+      {
+        soc_code: socCode,
+        soc_title: onet?.title ?? socCode,
+        source: 'careeronestop',
+        certifications: cos.certifications,
+        apprenticeship_count: cos.apprenticeship_count,
+        job_postings_count: cos.job_postings_count,
+        indiana_median_wage: cos.local_median_wage,
+        top_employers: cos.top_employers,
+        fetched_at: now,
+        expires_at: expires,
+      },
+      { onConflict: 'soc_code,source' },
+    );
   }
 }
 
@@ -249,28 +284,28 @@ function buildStandards(
 ): IndustryStandards {
   // Top tasks: core tasks sorted by importance, top 15
   const topTasks = (onet?.tasks ?? [])
-    .filter(t => t.task_type === 'core')
+    .filter((t) => t.task_type === 'core')
     .sort((a, b) => b.importance - a.importance)
     .slice(0, 15)
-    .map(t => t.task);
+    .map((t) => t.task);
 
   // Top skills: sorted by importance, top 12
   const topSkills = (onet?.skills ?? [])
     .sort((a, b) => b.importance - a.importance)
     .slice(0, 12)
-    .map(s => s.name);
+    .map((s) => s.name);
 
   // Top knowledge: sorted by importance, top 8
   const topKnowledge = (onet?.knowledge ?? [])
     .sort((a, b) => b.importance - a.importance)
     .slice(0, 8)
-    .map(k => k.name);
+    .map((k) => k.name);
 
   // Technology skills: hot technologies first
   const techSkills = (onet?.technology_skills ?? [])
     .sort((a, b) => (b.hot_technology ? 1 : 0) - (a.hot_technology ? 1 : 0))
     .slice(0, 10)
-    .map(t => t.name);
+    .map((t) => t.name);
 
   const domains: CredentialDomain[] = domainRow?.domains ?? [];
   const examBlueprint = domainRow?.exam_blueprint ?? null;

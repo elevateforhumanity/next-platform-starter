@@ -10,20 +10,19 @@ export const maxDuration = 60;
 
 /**
  * DEPRECATED: Use /api/checkout/learner instead
- * 
+ *
  * This handler forwards to the canonical learner checkout.
  * Will be removed in a future release.
  */
 async function _POST(request: NextRequest) {
-  
-    const rateLimited = await applyRateLimit(request, 'contact');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(request, 'contact');
+  if (rateLimited) return rateLimited;
 
-    const auth = await requireAuth(request);
-    if (auth.error) return auth.error;
-logger.warn('Deprecated checkout endpoint called', { 
+  const auth = await requireAuth(request);
+  if (auth.error) return auth.error;
+  logger.warn('Deprecated checkout endpoint called', {
     path: '/api/checkout/student',
-    redirect: '/api/checkout/learner'
+    redirect: '/api/checkout/learner',
   });
 
   // Forward to canonical endpoint

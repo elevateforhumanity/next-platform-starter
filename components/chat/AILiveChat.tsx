@@ -1,17 +1,9 @@
-"use client";
+'use client';
 
 import React from 'react';
 
 import { useState, useEffect, useRef } from 'react';
-import {
-  MessageCircle,
-  X,
-  Send,
-  Loader2,
-  Bot,
-  User,
-  Minimize2,
-} from 'lucide-react';
+import { MessageCircle, X, Send, Loader2, Bot, User, Minimize2 } from 'lucide-react';
 
 interface Message {
   id: string;
@@ -27,11 +19,7 @@ interface AILiveChatProps {
   userEmail?: string;
 }
 
-export default function AILiveChat({
-  userId,
-  userName,
-  userEmail,
-}: AILiveChatProps) {
+export default function AILiveChat({ userId, userName, userEmail }: AILiveChatProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -131,7 +119,8 @@ export default function AILiveChat({
           setAgentConnected(true);
         }
       }
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
       setMessages((prev) => prev.filter((m) => m.id !== 'typing'));
       setMessages((prev) => [
@@ -178,7 +167,8 @@ export default function AILiveChat({
           },
         ]);
       }
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
     } finally {
       setIsLoading(false);
@@ -217,8 +207,7 @@ export default function AILiveChat({
               <div>
                 <p className="font-bold text-slate-900 mb-1">Need Help?</p>
                 <p className="text-sm text-slate-600 mb-3">
-                  Hi! I'm here to answer questions about our programs. Click to
-                  chat!
+                  Hi! I'm here to answer questions about our programs. Click to chat!
                 </p>
                 <button
                   onClick={() => {
@@ -328,9 +317,7 @@ export default function AILiveChat({
                           />
                         </div>
                       ) : (
-                        <p className="text-sm whitespace-pre-wrap">
-                          {message.content}
-                        </p>
+                        <p className="text-sm whitespace-pre-wrap">{message.content}</p>
                       )}
                     </div>
                     <p className="text-xs text-slate-700 mt-1 px-2">

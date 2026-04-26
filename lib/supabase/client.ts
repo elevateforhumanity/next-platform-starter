@@ -36,9 +36,21 @@ const noOpAuth = {
   getUser: () => Promise.resolve({ data: { user: null }, error: null }),
   getSession: () => Promise.resolve({ data: { session: null }, error: null }),
   signOut: () => Promise.resolve({ error: null }),
-  signInWithPassword: () => Promise.resolve({ data: { user: null, session: null }, error: { message: 'Supabase not configured' } }),
-  signInWithOAuth: () => Promise.resolve({ data: { url: null, provider: null }, error: { message: 'Supabase not configured' } }),
-  signUp: () => Promise.resolve({ data: { user: null, session: null }, error: { message: 'Supabase not configured' } }),
+  signInWithPassword: () =>
+    Promise.resolve({
+      data: { user: null, session: null },
+      error: { message: 'Supabase not configured' },
+    }),
+  signInWithOAuth: () =>
+    Promise.resolve({
+      data: { url: null, provider: null },
+      error: { message: 'Supabase not configured' },
+    }),
+  signUp: () =>
+    Promise.resolve({
+      data: { user: null, session: null },
+      error: { message: 'Supabase not configured' },
+    }),
   onAuthStateChange: () => ({ data: { subscription: { unsubscribe: () => {} } } }),
   resetPasswordForEmail: () => Promise.resolve({ data: null, error: null }),
   updateUser: () => Promise.resolve({ data: { user: null }, error: null }),
@@ -78,7 +90,9 @@ export function createBrowserClient(): SupabaseClient<any> {
 
   if (!supabaseUrl || !supabaseAnonKey) {
     if (!warnedOnce && process.env.NODE_ENV !== 'production') {
-      logger.warn('[Supabase Browser] Missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY; returning no-op client.');
+      logger.warn(
+        '[Supabase Browser] Missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY; returning no-op client.',
+      );
       warnedOnce = true;
     }
     return noOpClient;

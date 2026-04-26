@@ -13,7 +13,7 @@ test.describe('Barbershop application approval', () => {
         headers: {
           // Supply cookie/header if your admin auth middleware requires it.
         },
-      }
+      },
     );
 
     expect([200, 401, 403]).toContain(res.status());

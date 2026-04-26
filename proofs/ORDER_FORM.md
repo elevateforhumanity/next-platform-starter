@@ -6,21 +6,21 @@ This Order Form is entered into pursuant to the Master Services Agreement ("Agre
 
 ## 1. Client Information
 
-| Field | Value |
-|-------|-------|
-| Client Legal Name | __________________________ |
-| Department / Division | _______________________ |
-| Primary Contact | ____________________________ |
-| Email | _____________________________________ |
+| Field                 | Value                                  |
+| --------------------- | -------------------------------------- |
+| Client Legal Name     | ************\_\_************           |
+| Department / Division | **********\_\_\_**********             |
+| Primary Contact       | ************\_\_\_\_************       |
+| Email                 | ******************\_****************** |
 
 ---
 
 ## 2. Licensed Platform
 
-| Field | Value |
-|-------|-------|
-| Platform Name | ______________________________ |
-| License Type | ☐ Annual  ☐ Pilot  ☐ Multi-Year |
+| Field         | Value                            |
+| ------------- | -------------------------------- |
+| Platform Name | **************\_\_************** |
+| License Type  | ☐ Annual ☐ Pilot ☐ Multi-Year    |
 
 ---
 
@@ -28,12 +28,12 @@ This Order Form is entered into pursuant to the Master Services Agreement ("Agre
 
 This license includes access to the Platform within the following limits:
 
-| Element | Limit |
-|---------|-------|
-| Programs | ______ active programs |
-| Learners | ______ active learners per license term |
-| Credentials Issued | ______ per license term |
-| Partners (if applicable) | ______ |
+| Element                  | Limit                                     |
+| ------------------------ | ----------------------------------------- |
+| Programs                 | **\_\_** active programs                  |
+| Learners                 | **\_\_** active learners per license term |
+| Credentials Issued       | **\_\_** per license term                 |
+| Partners (if applicable) | **\_\_**                                  |
 
 **Exceeding these limits requires a mutually agreed amendment.**
 
@@ -41,20 +41,20 @@ This license includes access to the Platform within the following limits:
 
 ## 4. Term
 
-| Field | Value |
-|-------|-------|
-| License Term Start Date | ____________________ |
-| License Term End Date | ______________________ |
+| Field                   | Value                    |
+| ----------------------- | ------------------------ |
+| License Term Start Date | ********\_\_\_\_******** |
+| License Term End Date   | **********\_\_********** |
 
 ---
 
 ## 5. Fees
 
-| Field | Value |
-|-------|-------|
-| License Fee | $______________________________ |
-| Billing Frequency | ☐ Annual  ☐ Other: _________ |
-| Payment Terms | _____________________________ |
+| Field             | Value                             |
+| ----------------- | --------------------------------- |
+| License Fee       | $**************\_\_************** |
+| Billing Frequency | ☐ Annual ☐ Other: ****\_****      |
+| Payment Terms     | **************\_**************    |
 
 ---
 
@@ -93,10 +93,10 @@ This Order Form incorporates by reference:
 
 ## 9. Acceptance
 
-| Party | Signature | Date |
-|-------|-----------|------|
-| Provider | ___________________________ | __________ |
-| Client | _____________________________ | __________ |
+| Party    | Signature                      | Date         |
+| -------- | ------------------------------ | ------------ |
+| Provider | ************\_\_\_************ | ****\_\_**** |
+| Client   | **************\_************** | ****\_\_**** |
 
 ---
 

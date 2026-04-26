@@ -74,7 +74,7 @@ export function useDebounce<T>(value: T, delayMs: number): T {
 export function useIntersectionObserver(
   threshold: number | number[] = 0,
   rootMargin = '0px',
-  root: Element | Document | null = null
+  root: Element | Document | null = null,
 ): [React.RefCallback<Element>, boolean] {
   const [isIntersecting, setIntersecting] = useState(false);
   const observerRef = useRef<IntersectionObserver | null>(null);
@@ -86,13 +86,16 @@ export function useIntersectionObserver(
         observerRef.current = null;
       }
       if (!node) return;
-      observerRef.current = new IntersectionObserver(([entry]) => {
-        setIntersecting(entry.isIntersecting);
-      }, { threshold, rootMargin, root });
+      observerRef.current = new IntersectionObserver(
+        ([entry]) => {
+          setIntersecting(entry.isIntersecting);
+        },
+        { threshold, rootMargin, root },
+      );
       observerRef.current.observe(node);
     },
     // threshold/rootMargin/root are primitive or stable refs — safe in dep array
-    [threshold, rootMargin, root]
+    [threshold, rootMargin, root],
   );
 
   useEffect(() => {

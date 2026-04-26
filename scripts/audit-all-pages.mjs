@@ -23,11 +23,17 @@ function findAllPages(dir, baseDir = dir) {
       if (!item.startsWith('.') && item !== 'node_modules' && item !== 'api') {
         pages = pages.concat(findAllPages(fullPath, baseDir));
       }
-    } else if (item === 'page.tsx' || item === 'page.ts' || item === 'page.jsx' || item === 'page.js') {
-      const relativePath = fullPath.replace(baseDir, '').replace(/\/page\.(tsx|ts|jsx|js)$/, '') || '/';
+    } else if (
+      item === 'page.tsx' ||
+      item === 'page.ts' ||
+      item === 'page.jsx' ||
+      item === 'page.js'
+    ) {
+      const relativePath =
+        fullPath.replace(baseDir, '').replace(/\/page\.(tsx|ts|jsx|js)$/, '') || '/';
       pages.push({
         path: relativePath,
-        file: fullPath
+        file: fullPath,
       });
     }
   }
@@ -48,7 +54,7 @@ function analyzePage(filePath) {
       hasMetadata: /export const metadata/.test(content),
       hasAltText: /alt=["'](?!["'])[^"']+["']/.test(content),
       isAuthRequired: /redirect\(['"]\/login['"]\)|createClient|getUser/.test(content),
-      lineCount: content.split('\n').length
+      lineCount: content.split('\n').length,
     };
   } catch (error) {
     return null;
@@ -70,7 +76,6 @@ function categorizePage(path) {
   return 'marketing';
 }
 
-
 const pages = findAllPages(appDir);
 
 const categories = {
@@ -84,7 +89,7 @@ const categories = {
   employer: [],
   partner: [],
   delegate: [],
-  auth: []
+  auth: [],
 };
 
 const issues = {
@@ -92,7 +97,7 @@ const issues = {
   noCTA: [],
   hasPlaceholder: [],
   noMetadata: [],
-  noAltText: []
+  noAltText: [],
 };
 
 for (const page of pages) {
@@ -102,7 +107,7 @@ for (const page of pages) {
   if (analysis) {
     categories[category].push({
       path: page.path,
-      ...analysis
+      ...analysis,
     });
 
     // Track issues
@@ -128,16 +133,12 @@ for (const page of pages) {
 for (const [category, pageList] of Object.entries(categories)) {
 }
 
-
-
 for (const [category, pageList] of Object.entries(categories)) {
   if (pageList.length > 0) {
-
-    const withHero = pageList.filter(p => p.hasHeroImage).length;
-    const withCTA = pageList.filter(p => p.hasCTA).length;
-    const withPlaceholder = pageList.filter(p => p.hasPlaceholder).length;
-    const withMetadata = pageList.filter(p => p.hasMetadata).length;
-
+    const withHero = pageList.filter((p) => p.hasHeroImage).length;
+    const withCTA = pageList.filter((p) => p.hasCTA).length;
+    const withPlaceholder = pageList.filter((p) => p.hasPlaceholder).length;
+    const withMetadata = pageList.filter((p) => p.hasMetadata).length;
   }
 }
 
@@ -145,6 +146,5 @@ for (const [category, pageList] of Object.entries(categories)) {
 import { writeFileSync } from 'fs';
 writeFileSync(
   join(__dirname, '..', 'page-audit-results.json'),
-  JSON.stringify({ categories, issues, total: pages.length }, null, 2)
+  JSON.stringify({ categories, issues, total: pages.length }, null, 2),
 );
-

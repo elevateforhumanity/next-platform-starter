@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import React from 'react';
 
@@ -33,8 +33,6 @@ interface MediaFile {
 export default function MediaStudioPage() {
   const router = useRouter();
 
-  
-
   const [buckets, setBuckets] = useState<string[]>([]);
   const [selectedBucket, setSelectedBucket] = useState<string>('');
   const [files, setFiles] = useState<MediaFile[]>([]);
@@ -42,7 +40,10 @@ export default function MediaStudioPage() {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedFiles, setSelectedFiles] = useState<Set<string>>(new Set());
-  const [deleteDialog, setDeleteDialog] = useState<{ open: boolean; fileName: string }>({ open: false, fileName: '' });
+  const [deleteDialog, setDeleteDialog] = useState<{ open: boolean; fileName: string }>({
+    open: false,
+    fileName: '',
+  });
 
   useEffect(() => {
     loadBuckets();
@@ -64,9 +65,10 @@ export default function MediaStudioPage() {
           setSelectedBucket(data.buckets[0]);
         }
       }
-    } catch (error) { /* Error handled silently */ 
-    // Error handled
-  }
+    } catch (error) {
+      /* Error handled silently */
+      // Error handled
+    }
   };
 
   const loadFiles = async (bucket: string) => {
@@ -77,9 +79,10 @@ export default function MediaStudioPage() {
       if (res.ok) {
         setFiles(data.files);
       }
-    } catch (error) { /* Error handled silently */ 
-    // Error handled
-  } finally {
+    } catch (error) {
+      /* Error handled silently */
+      // Error handled
+    } finally {
       setLoading(false);
     }
   };
@@ -97,9 +100,10 @@ export default function MediaStudioPage() {
       if (res.ok) {
         loadFiles(selectedBucket);
       }
-    } catch (error) { /* Error handled silently */ 
-    // Error handled
-  }
+    } catch (error) {
+      /* Error handled silently */
+      // Error handled
+    }
   };
 
   const handleDeleteClick = (fileName: string) => {
@@ -111,18 +115,16 @@ export default function MediaStudioPage() {
     setDeleteDialog({ open: false, fileName: '' });
 
     try {
-      const res = await fetch(
-        `/api/media/delete?bucket=${selectedBucket}&file=${fileName}`,
-        {
-          method: 'DELETE',
-        }
-      );
+      const res = await fetch(`/api/media/delete?bucket=${selectedBucket}&file=${fileName}`, {
+        method: 'DELETE',
+      });
       if (res.ok) {
         loadFiles(selectedBucket);
       }
-    } catch (error) { /* Error handled silently */ 
-    // Error handled
-  }
+    } catch (error) {
+      /* Error handled silently */
+      // Error handled
+    }
   };
 
   const optimizeImages = async () => {
@@ -134,21 +136,21 @@ export default function MediaStudioPage() {
         alert('Images optimized successfully!');
         loadFiles(selectedBucket);
       }
-    } catch (error) { /* Error handled silently */ 
-    // Error handled
-  }
+    } catch (error) {
+      /* Error handled silently */
+      // Error handled
+    }
   };
 
   const filteredFiles = files.filter((file) =>
-    file.name.toLowerCase().includes(searchQuery.toLowerCase())
+    file.name.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* Hero Image */}
       <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Admin", href: "/admin" }, { label: "Media Studio" }]} />
+        <Breadcrumbs items={[{ label: 'Admin', href: '/admin' }, { label: 'Media Studio' }]} />
       </div>
       {/* Hero Section */}
       <section className="relative h-48 md:h-64 overflow-hidden">
@@ -161,18 +163,13 @@ export default function MediaStudioPage() {
           priority
           sizes="100vw"
         />
-
       </section>
 
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-black mb-2">
-            Media Studio
-          </h1>
-          <p className="text-black">
-            Manage images, videos, and assets across all buckets
-          </p>
+          <h1 className="text-3xl font-bold text-black mb-2">Media Studio</h1>
+          <p className="text-black">Manage images, videos, and assets across all buckets</p>
         </div>
 
         {/* Toolbar */}
@@ -183,9 +180,7 @@ export default function MediaStudioPage() {
               <select
                 value={selectedBucket}
                 onChange={(
-                  e: React.ChangeEvent<
-                    HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-                  >
+                  e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
                 ) => setSelectedBucket(e.target.value)}
                 className="px-4 py-2 border rounded-lg"
               >
@@ -206,7 +201,7 @@ export default function MediaStudioPage() {
                   onChange={(
                     e: React.ChangeEvent<
                       HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-                    >
+                    >,
                   ) => setSearchQuery(e.target.value)}
                   className="w-full pl-10 pr-4 py-2 border rounded-lg"
                 />
@@ -294,12 +289,8 @@ export default function MediaStudioPage() {
                   )}
                 </div>
                 <div className="p-3">
-                  <p className="text-sm font-medium text-black truncate">
-                    {file.name}
-                  </p>
-                  <p className="text-xs text-black mt-1">
-                    {(file.size / 1024).toFixed(1)} KB
-                  </p>
+                  <p className="text-sm font-medium text-black truncate">{file.name}</p>
+                  <p className="text-xs text-black mt-1">{(file.size / 1024).toFixed(1)} KB</p>
                   <div className="flex gap-2 mt-3">
                     <button
                       onClick={() => window.open(file.url, '_blank')}
@@ -323,26 +314,16 @@ export default function MediaStudioPage() {
             <table className="w-full">
               <thead className="bg-gray-50 border-b">
                 <tr>
-                  <th className="px-4 py-3 text-left text-sm font-medium text-black">
-                    Name
-                  </th>
-                  <th className="px-4 py-3 text-left text-sm font-medium text-black">
-                    Size
-                  </th>
-                  <th className="px-4 py-3 text-left text-sm font-medium text-black">
-                    Created
-                  </th>
-                  <th className="px-4 py-3 text-right text-sm font-medium text-black">
-                    Actions
-                  </th>
+                  <th className="px-4 py-3 text-left text-sm font-medium text-black">Name</th>
+                  <th className="px-4 py-3 text-left text-sm font-medium text-black">Size</th>
+                  <th className="px-4 py-3 text-left text-sm font-medium text-black">Created</th>
+                  <th className="px-4 py-3 text-right text-sm font-medium text-black">Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {filteredFiles.map((file) => (
                   <tr key={file.name} className="border-b hover:bg-gray-50">
-                    <td className="px-4 py-3 text-sm text-black">
-                      {file.name}
-                    </td>
+                    <td className="px-4 py-3 text-sm text-black">{file.name}</td>
                     <td className="px-4 py-3 text-sm text-black">
                       {(file.size / 1024).toFixed(1)} KB
                     </td>
@@ -368,24 +349,22 @@ export default function MediaStudioPage() {
         <section className="py-16">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto text-center">
-              <h2 className="text-2xl md:text-3xl font-bold mb-6">
-              Media Studio
-                          </h2>
+              <h2 className="text-2xl md:text-3xl font-bold mb-6">Media Studio</h2>
               <p className="text-base md:text-lg mb-8 text-brand-blue-100">
-              Upload and manage videos, images, and course media assets.
-                          </p>
+                Upload and manage videos, images, and course media assets.
+              </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link
                   href="/admin/media-studio"
                   className="bg-white text-brand-blue-700 px-8 py-4 rounded-lg font-bold hover:bg-gray-50 text-lg shadow-2xl transition-all"
                 >
-                View Media
+                  View Media
                 </Link>
                 <Link
                   href="/admin/videos"
                   className="bg-brand-blue-800 text-white px-8 py-4 rounded-lg font-bold hover:bg-brand-blue-600 border-2 border-white text-lg shadow-2xl transition-all"
                 >
-                View Videos
+                  View Videos
                 </Link>
               </div>
             </div>

@@ -26,11 +26,10 @@ export default function SocialMediaHighlight() {
         </div>
 
         <div className="relative mx-auto max-w-7xl px-6 text-center">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            Follow Our Journey
-          </h2>
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Follow Our Journey</h2>
           <p className="text-xl text-white/90 max-w-3xl mx-auto mb-10">
-            See daily success stories, training updates, and community impact. Follow our mission to elevate communities.
+            See daily success stories, training updates, and community impact. Follow our mission to
+            elevate communities.
           </p>
 
           <button
@@ -42,9 +41,7 @@ export default function SocialMediaHighlight() {
             Connect With Us
           </button>
 
-          <p className="mt-4 text-sm text-white/60">
-            Facebook · Instagram · LinkedIn · YouTube
-          </p>
+          <p className="mt-4 text-sm text-white/60">Facebook · Instagram · LinkedIn · YouTube</p>
         </div>
       </section>
 

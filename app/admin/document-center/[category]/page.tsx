@@ -47,16 +47,15 @@ export default async function DocumentCategoryPage({ params }: Props) {
   const { category } = await params;
   const supabase = await createClient();
 
-
-
-
   // Fetch documents in this category
   const { data: documents, error } = await supabase
     .from('documents')
-    .select(`
+    .select(
+      `
       *,
       profiles (first_name, last_name)
-    `)
+    `,
+    )
     .eq('category', category)
     .order('created_at', { ascending: false });
 
@@ -67,16 +66,16 @@ export default async function DocumentCategoryPage({ params }: Props) {
   const categoryLabel = categoryLabels[category] || category;
 
   // Group by subcategory if exists
-  const groupedDocs = documents?.reduce((acc: Record<string, any[]>, doc) => {
-    const subcat = doc.subcategory || 'General';
-    if (!acc[subcat]) acc[subcat] = [];
-    acc[subcat].push(doc);
-    return acc;
-  }, {}) || {};
+  const groupedDocs =
+    documents?.reduce((acc: Record<string, any[]>, doc) => {
+      const subcat = doc.subcategory || 'General';
+      if (!acc[subcat]) acc[subcat] = [];
+      acc[subcat].push(doc);
+      return acc;
+    }, {}) || {};
 
   return (
     <div className="p-6 max-w-7xl mx-auto">
-
       {/* Hero Image */}
       {/* Header */}
       <div className="mb-6">
@@ -136,7 +135,9 @@ export default async function DocumentCategoryPage({ params }: Props) {
                   <thead className="bg-slate-50">
                     <tr>
                       <th className="text-left py-3 px-4 font-medium text-slate-600">Document</th>
-                      <th className="text-left py-3 px-4 font-medium text-slate-600">Uploaded By</th>
+                      <th className="text-left py-3 px-4 font-medium text-slate-600">
+                        Uploaded By
+                      </th>
                       <th className="text-left py-3 px-4 font-medium text-slate-600">Date</th>
                       <th className="text-left py-3 px-4 font-medium text-slate-600">Size</th>
                       <th className="text-right py-3 px-4 font-medium text-slate-600">Actions</th>
@@ -160,7 +161,9 @@ export default async function DocumentCategoryPage({ params }: Props) {
                           <div className="flex items-center gap-2">
                             <User className="w-4 h-4 text-slate-400" />
                             <span className="text-slate-700">
-                              {doc.profiles ? `${doc.profiles.first_name} ${doc.profiles.last_name}` : 'System'}
+                              {doc.profiles
+                                ? `${doc.profiles.first_name} ${doc.profiles.last_name}`
+                                : 'System'}
                             </span>
                           </div>
                         </td>
@@ -212,9 +215,7 @@ export default async function DocumentCategoryPage({ params }: Props) {
         <div className="bg-white rounded-xl border border-slate-200 p-12 text-center">
           <FolderOpen className="w-12 h-12 text-slate-300 mx-auto mb-4" />
           <h2 className="text-xl font-semibold text-slate-900 mb-2">No Documents</h2>
-          <p className="text-slate-600 mb-6">
-            There are no documents in this category yet.
-          </p>
+          <p className="text-slate-600 mb-6">There are no documents in this category yet.</p>
           <button className="inline-flex items-center gap-2 px-4 py-2 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700">
             <Upload className="w-4 h-4" />
             Upload First Document

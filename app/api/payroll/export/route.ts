@@ -1,4 +1,3 @@
-
 // app/api/payroll/export/route.ts
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
@@ -11,10 +10,9 @@ export const maxDuration = 60;
 export const dynamic = 'force-dynamic';
 
 async function _GET(request: Request) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const supabase = await createClient();
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const supabase = await createClient();
 
   const {
     data: { user },
@@ -40,10 +38,7 @@ const supabase = await createClient();
   const periodEnd = searchParams.get('end');
 
   if (!periodStart || !periodEnd) {
-    return NextResponse.json(
-      { error: 'start and end dates required' },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: 'start and end dates required' }, { status: 400 });
   }
 
   // Fetch time entries for the period
@@ -58,12 +53,20 @@ const supabase = await createClient();
   }
 
   // Hydrate profiles separately (time_entries.user_id has no FK to profiles)
-  const payrollUserIds = [...new Set((rawEntries ?? []).map((e: any) => e.user_id).filter(Boolean))];
+  const payrollUserIds = [
+    ...new Set((rawEntries ?? []).map((e: any) => e.user_id).filter(Boolean)),
+  ];
   const { data: payrollProfiles } = payrollUserIds.length
-    ? await supabase.from('profiles').select('id, full_name, email, external_payroll_id').in('id', payrollUserIds)
+    ? await supabase
+        .from('profiles')
+        .select('id, full_name, email, external_payroll_id')
+        .in('id', payrollUserIds)
     : { data: [] };
   const payrollProfileMap = Object.fromEntries((payrollProfiles ?? []).map((p: any) => [p.id, p]));
-  const entries = (rawEntries ?? []).map((e: any) => ({ ...e, profiles: payrollProfileMap[e.user_id] ?? null }));
+  const entries = (rawEntries ?? []).map((e: any) => ({
+    ...e,
+    profiles: payrollProfileMap[e.user_id] ?? null,
+  }));
 
   const header = ['EmployeeId', 'Name', 'Date', 'Hours', 'PayCode'];
 
@@ -76,9 +79,7 @@ const supabase = await createClient();
   ]);
 
   const csv = [header, ...rows]
-    .map((r) =>
-      r.map((v) => `"${(v ?? '').toString().replace(/"/g, '""')}"`).join(',')
-    )
+    .map((r) => r.map((v) => `"${(v ?? '').toString().replace(/"/g, '""')}"`).join(','))
     .join('\n');
 
   return new NextResponse(csv, {

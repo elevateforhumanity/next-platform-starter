@@ -1,7 +1,7 @@
 // PUBLIC ROUTE: tax intake form
 import { getAdminClient } from '@/lib/supabase/admin';
 
-import { NextResponse } from "next/server";
+import { NextResponse } from 'next/server';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 export const runtime = 'nodejs';
@@ -18,7 +18,7 @@ async function _POST(req: Request) {
     const body = await req.json();
 
     const { data, error }: any = await supabase
-      .from("tax_intake")
+      .from('tax_intake')
       .insert({
         service_type: body.service_type,
         diy_service: body.diy_service || null,
@@ -28,7 +28,7 @@ async function _POST(req: Request) {
         phone: body.phone,
         notes: body.notes || null,
       })
-      .select("id")
+      .select('id')
       .maybeSingle();
 
     if (error) {
@@ -36,25 +36,24 @@ async function _POST(req: Request) {
     }
 
     return NextResponse.json({ ok: true, intake_id: data.id });
-  } catch (error) { 
+  } catch (error) {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
 async function _GET(req: Request) {
-  
-    const rateLimited = await applyRateLimit(req, 'api');
-    if (rateLimited) return rateLimited;
-// Only allow service role to list intakes
-  const authHeader = req.headers.get("authorization");
+  const rateLimited = await applyRateLimit(req, 'api');
+  if (rateLimited) return rateLimited;
+  // Only allow service role to list intakes
+  const authHeader = req.headers.get('authorization');
   if (!authHeader || !authHeader.includes(process.env.SUPABASE_SERVICE_ROLE_KEY!)) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   const { data, error }: any = await supabase
-    .from("tax_intake")
-    .select("*")
-    .order("created_at", { ascending: false });
+    .from('tax_intake')
+    .select('*')
+    .order('created_at', { ascending: false });
 
   if (error) {
     return NextResponse.json({ error: 'Internal server error' }, { status: 400 });

@@ -12,7 +12,9 @@ export const metadata: Metadata = {
 
 export default async function BuilderPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/lms/builder');
 
   const { data: profile } = await supabase

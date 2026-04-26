@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 import { useEffect } from 'react';
@@ -45,11 +45,10 @@ export function CopyrightProtection() {
       if (typeof window === 'undefined' || !window.outerWidth || !window.outerHeight) {
         return;
       }
-      
+
       const threshold = 160;
       const widthThreshold = window.outerWidth - window.innerWidth > threshold;
-      const heightThreshold =
-        window.outerHeight - window.innerHeight > threshold;
+      const heightThreshold = window.outerHeight - window.innerHeight > threshold;
       if (widthThreshold || heightThreshold) {
         return;
       }
@@ -73,7 +72,7 @@ export function CopyrightProtection() {
       ];
       metaTags.forEach(({ name, property, content }) => {
         const existing = document.querySelector(
-          `meta[${name ? 'name' : 'property'}="${name || property}"]`
+          `meta[${name ? 'name' : 'property'}="${name || property}"]`,
         );
         if (!existing) {
           const meta = document.createElement('meta');
@@ -160,9 +159,7 @@ function showCopyrightNotice() {
 export function CopyrightFooter() {
   return (
     <div className="bg-brand-blue-700 text-white py-3 px-4 text-center text-sm">
-      <p className="mb-2 text-slate-700">
-        © 2025 Elevate for Humanity. All Rights Reserved.
-      </p>
+      <p className="mb-2 text-slate-700">© 2025 Elevate for Humanity. All Rights Reserved.</p>
       <div className="flex justify-center gap-4 text-xs text-slate-700">
         <a href="/terms-of-service" className="hover:text-white">
           Terms

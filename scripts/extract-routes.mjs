@@ -5,7 +5,7 @@ const args = Object.fromEntries(
   process.argv.slice(2).map((a) => {
     const [k, ...r] = a.replace(/^--/, '').split('=');
     return [k, r.join('=') || true];
-  })
+  }),
 );
 const SRC = args.src || 'src',
   OUT = args.out || 'scripts/routes.json',

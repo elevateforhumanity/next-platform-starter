@@ -4,12 +4,7 @@
     "questions": [
       {
         "prompt": "What is the minimum passing score for the Indiana State Board written exam?",
-        "choices": [
-          "70%",
-          "75%",
-          "80%",
-          "85%"
-        ],
+        "choices": ["70%", "75%", "80%", "85%"],
         "answerIndex": 1,
         "rationale": "The written exam requires a minimum score of 75% to pass, ensuring candidates have a solid understanding of barbering concepts.",
         "type": "recall"
@@ -28,24 +23,14 @@
       },
       {
         "prompt": "During the practical exam, what skill is assessed when you perform a precise and smooth fade?",
-        "choices": [
-          "Draping",
-          "Sanitation",
-          "Fade",
-          "Shave"
-        ],
+        "choices": ["Draping", "Sanitation", "Fade", "Shave"],
         "answerIndex": 2,
         "rationale": "The fade is a staple in modern barbering, and your ability to execute it is evaluated during the practical exam.",
         "type": "recall"
       },
       {
         "prompt": "How many hours of on-the-job training (OJT) are required for the barber apprenticeship path in Indiana?",
-        "choices": [
-          "1,500 hours",
-          "2,000 hours",
-          "2,500 hours",
-          "3,000 hours"
-        ],
+        "choices": ["1,500 hours", "2,000 hours", "2,500 hours", "3,000 hours"],
         "answerIndex": 1,
         "rationale": "Indiana requires 2,000 hours of OJT as part of the apprenticeship path to ensure comprehensive hands-on experience.",
         "type": "recall"

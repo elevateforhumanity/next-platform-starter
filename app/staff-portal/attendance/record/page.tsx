@@ -15,7 +15,9 @@ export const dynamic = 'force-dynamic';
 
 export default async function RecordAttendancePage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     redirect('/login?redirect=/staff-portal/attendance/record');
@@ -39,7 +41,9 @@ export default async function RecordAttendancePage() {
     .order('enrolled_at', { ascending: false });
 
   // Hydrate student profiles separately (user_id → auth.users, no FK to profiles)
-  const attendUserIds = [...new Set((rawAttendEnrollments ?? []).map((e: any) => e.user_id).filter(Boolean))];
+  const attendUserIds = [
+    ...new Set((rawAttendEnrollments ?? []).map((e: any) => e.user_id).filter(Boolean)),
+  ];
   const { data: attendProfiles } = attendUserIds.length
     ? await supabase.from('profiles').select('id, full_name, email').in('id', attendUserIds)
     : { data: [] };
@@ -59,45 +63,53 @@ export default async function RecordAttendancePage() {
 
   // Create a map of student attendance
   const attendanceMap = new Map(
-    todayAttendance?.map(a => [a.student_id, { status: a.status, checkIn: a.check_in_time }]) || []
+    todayAttendance?.map((a) => [a.student_id, { status: a.status, checkIn: a.check_in_time }]) ||
+      [],
   );
 
   // Format students for the form
-  const students = activeEnrollments?.map((e: any) => ({
-    id: e.student?.id,
-    enrollmentId: e.id,
-    name: e.student?.full_name || 'Unknown',
-    email: e.student?.email,
-    program: e.program?.name || 'N/A',
-    programId: e.program_id,
-    attended: attendanceMap.has(e.student?.id),
-    status: attendanceMap.get(e.student?.id)?.status || null,
-    checkIn: attendanceMap.get(e.student?.id)?.checkIn || null,
-  })) || [];
+  const students =
+    activeEnrollments?.map((e: any) => ({
+      id: e.student?.id,
+      enrollmentId: e.id,
+      name: e.student?.full_name || 'Unknown',
+      email: e.student?.email,
+      program: e.program?.name || 'N/A',
+      programId: e.program_id,
+      attended: attendanceMap.has(e.student?.id),
+      status: attendanceMap.get(e.student?.id)?.status || null,
+      checkIn: attendanceMap.get(e.student?.id)?.checkIn || null,
+    })) || [];
 
   return (
     <div className="min-h-screen bg-white">
       {/* Breadcrumbs */}
       <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[{ label: 'Staff Portal', href: '/staff-portal' }, { label: 'Attendance', href: '/staff-portal/attendance' }, { label: 'Record' }]} />
+          <Breadcrumbs
+            items={[
+              { label: 'Staff Portal', href: '/staff-portal' },
+              { label: 'Attendance', href: '/staff-portal/attendance' },
+              { label: 'Record' },
+            ]}
+          />
         </div>
       </div>
 
       <div className="py-8">
-      <div className="max-w-5xl mx-auto px-4">
+        <div className="max-w-5xl mx-auto px-4">
+          <h1 className="text-3xl font-bold text-slate-900 mb-2">Record Attendance</h1>
+          <p className="text-slate-700 mb-8">
+            {new Date().toLocaleDateString('en-US', {
+              weekday: 'long',
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+            })}
+          </p>
 
-        <h1 className="text-3xl font-bold text-slate-900 mb-2">Record Attendance</h1>
-        <p className="text-slate-700 mb-8">
-          {new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
-        </p>
-
-        <AttendanceRecordForm 
-          students={students}
-          date={today}
-          staffId={user.id}
-        />
-      </div>
+          <AttendanceRecordForm students={students} date={today} staffId={user.id} />
+        </div>
       </div>
     </div>
   );

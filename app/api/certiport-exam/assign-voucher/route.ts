@@ -23,7 +23,9 @@ async function _POST(request: NextRequest) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
@@ -46,7 +48,7 @@ async function _POST(request: NextRequest) {
     if (!requestId || !voucherCode) {
       return NextResponse.json(
         { error: 'requestId and voucherCode are required' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -70,7 +72,7 @@ async function _POST(request: NextRequest) {
       logger.error('Failed to assign voucher:', error);
       return NextResponse.json(
         { error: 'Failed to assign voucher. Request may not exist or is already assigned.' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -87,8 +89,8 @@ async function _POST(request: NextRequest) {
         },
       });
     } catch (err) {
-        logger.error("Unhandled error", err instanceof Error ? err : undefined);
-      }
+      logger.error('Unhandled error', err instanceof Error ? err : undefined);
+    }
 
     return NextResponse.json({
       message: 'Voucher assigned successfully.',

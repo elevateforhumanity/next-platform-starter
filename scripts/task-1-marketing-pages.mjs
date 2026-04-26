@@ -67,15 +67,14 @@ const MARKETING_PAGES = [
   '/help',
   '/hire-graduates',
   '/home-v2',
-  '/kingdomkonnect'
+  '/kingdomkonnect',
 ];
 
 const issues = {
   fixed: [],
   needsManualReview: [],
-  errors: []
+  errors: [],
 };
-
 
 function getPagePath(route) {
   const appDir = join(__dirname, '..', 'app');
@@ -98,17 +97,21 @@ function auditPage(route) {
       hasEmail: new RegExp(CONTACT_EMAIL).test(content),
       hasMetadata: /export const metadata/.test(content),
       hasAltText: /alt=["'][^"']+["']/.test(content),
-      hasPlaceholder: /TODO|FIXME|placeholder|coming soon/i.test(content)
+      hasPlaceholder: /TODO|FIXME|placeholder|coming soon/i.test(content),
     };
 
-    const needsFix = !checks.hasHero || !checks.hasCTA || !checks.hasMetadata ||
-                     (checks.hasImage && !checks.hasAltText) || checks.hasPlaceholder;
+    const needsFix =
+      !checks.hasHero ||
+      !checks.hasCTA ||
+      !checks.hasMetadata ||
+      (checks.hasImage && !checks.hasAltText) ||
+      checks.hasPlaceholder;
 
     if (needsFix) {
       issues.needsManualReview.push({
         route,
         checks,
-        recommendations: getRecommendations(checks)
+        recommendations: getRecommendations(checks),
       });
     } else {
       issues.fixed.push(route);
@@ -164,16 +167,13 @@ for (const route of MARKETING_PAGES) {
 // Print summary
 
 if (issues.needsManualReview.length > 0) {
-
   for (const issue of issues.needsManualReview) {
-
-    issue.recommendations.forEach(rec => console.log(`  • ${rec}`));
+    issue.recommendations.forEach((rec) => console.log(`  • ${rec}`));
   }
 }
 
 if (issues.errors.length > 0) {
-  issues.errors.forEach(err => {
-  });
+  issues.errors.forEach((err) => {});
 }
 
 // Save detailed report
@@ -187,15 +187,14 @@ const report = {
   details: {
     compliantPages: issues.fixed,
     pagesNeedingFixes: issues.needsManualReview,
-    errors: issues.errors
+    errors: issues.errors,
   },
-  results
+  results,
 };
 
 writeFileSync(
   join(__dirname, '..', 'task-1-marketing-audit-report.json'),
-  JSON.stringify(report, null, 2)
+  JSON.stringify(report, null, 2),
 );
-
 
 // Print next steps

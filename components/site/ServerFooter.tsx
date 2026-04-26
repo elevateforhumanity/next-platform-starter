@@ -106,7 +106,9 @@ export default function ServerFooter() {
             <span className="text-lg font-bold text-white">Elevate for Humanity</span>
           </div>
           <p className="text-sm text-white max-w-2xl leading-relaxed">
-            National workforce training platform connecting online technical instruction, industry credentials, and employer pathways. Programs aligned with EPA, CompTIA, PTCB, Microsoft, and OSHA certifications.
+            National workforce training platform connecting online technical instruction, industry
+            credentials, and employer pathways. Programs aligned with EPA, CompTIA, PTCB, Microsoft,
+            and OSHA certifications.
           </p>
           <div className="flex flex-wrap gap-4 mt-4 text-xs text-white">
             <span>DOL Registered Apprenticeship Sponsor</span>
@@ -132,12 +134,20 @@ export default function ServerFooter() {
 
         {/* Footer CTA */}
         <div className="border-t border-slate-800 pt-8 pb-8 mb-8 text-center">
-          <p className="text-sm text-white mb-4">Ready to start your career? Explore funded training programs.</p>
+          <p className="text-sm text-white mb-4">
+            Ready to start your career? Explore funded training programs.
+          </p>
           <div className="flex flex-wrap justify-center gap-3">
-            <Link href="/apply" className="bg-brand-red-600 hover:bg-brand-red-700 text-white font-semibold text-sm px-6 py-2.5 rounded-lg transition-colors">
+            <Link
+              href="/apply"
+              className="bg-brand-red-600 hover:bg-brand-red-700 text-white font-semibold text-sm px-6 py-2.5 rounded-lg transition-colors"
+            >
               Apply for Training
             </Link>
-            <Link href="/partnerships" className="border border-slate-600 text-white hover:text-white hover:border-slate-400 font-semibold text-sm px-6 py-2.5 rounded-lg transition-colors">
+            <Link
+              href="/partnerships"
+              className="border border-slate-600 text-white hover:text-white hover:border-slate-400 font-semibold text-sm px-6 py-2.5 rounded-lg transition-colors"
+            >
               Partner With Us
             </Link>
           </div>
@@ -146,7 +156,10 @@ export default function ServerFooter() {
         {/* Credential Alignment */}
         <div className="border-t border-slate-800 pt-6 pb-6 mb-6 text-center">
           <p className="text-[10px] text-white max-w-3xl mx-auto leading-relaxed">
-            Programs aligned with industry-recognized certifications including EPA Section 608, CompTIA A+, CompTIA Security+, PTCB CPhT, Microsoft Office Specialist, OSHA 30, and Indiana state licensing requirements. Credential outcomes are issued by the respective certifying organizations.
+            Programs aligned with industry-recognized certifications including EPA Section 608,
+            CompTIA A+, CompTIA Security+, PTCB CPhT, Microsoft Office Specialist, OSHA 30, and
+            Indiana state licensing requirements. Credential outcomes are issued by the respective
+            certifying organizations.
           </p>
         </div>
 
@@ -155,43 +168,66 @@ export default function ServerFooter() {
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             {/* Logo and Copyright */}
             <div className="flex items-center gap-3">
-              <LogoImage
-                alt="Elevate"
-                width={28}
-                height={42}
-                className="w-auto h-7"
-              />
+              <LogoImage alt="Elevate" width={28} height={42} className="w-auto h-7" />
               <p className="text-white text-sm">
                 <Copyright entity="2Exclusive LLC-S d/b/a Elevate for Humanity Career & Technical Institute" />
               </p>
             </div>
-            
+
             {/* Contact */}
             <div className="flex flex-wrap items-center justify-center gap-4 text-white text-sm mb-4">
-              <a href="tel:+13173143757" className="hover:text-white">(317) 314-3757</a>
+              <a href="tel:+13173143757" className="hover:text-white">
+                (317) 314-3757
+              </a>
               <span className="text-white">|</span>
-              <a href="mailto:info@elevateforhumanity.org" className="hover:text-white">info@elevateforhumanity.org</a>
+              <a href="mailto:info@elevateforhumanity.org" className="hover:text-white">
+                info@elevateforhumanity.org
+              </a>
             </div>
 
             {/* Social Icons */}
             <div className="flex items-center justify-center gap-4 mb-4">
               {SOCIAL_LINKS.facebook && (
-                <a href={SOCIAL_LINKS.facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="text-white hover:text-white transition-colors">
+                <a
+                  href={SOCIAL_LINKS.facebook}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Facebook"
+                  className="text-white hover:text-white transition-colors"
+                >
                   <Facebook className="w-5 h-5" />
                 </a>
               )}
               {SOCIAL_LINKS.instagram && (
-                <a href={SOCIAL_LINKS.instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="text-white hover:text-white transition-colors">
+                <a
+                  href={SOCIAL_LINKS.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Instagram"
+                  className="text-white hover:text-white transition-colors"
+                >
                   <Instagram className="w-5 h-5" />
                 </a>
               )}
               {SOCIAL_LINKS.linkedin && (
-                <a href={SOCIAL_LINKS.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="text-white hover:text-white transition-colors">
+                <a
+                  href={SOCIAL_LINKS.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="LinkedIn"
+                  className="text-white hover:text-white transition-colors"
+                >
                   <Linkedin className="w-5 h-5" />
                 </a>
               )}
               {SOCIAL_LINKS.youtube && (
-                <a href={SOCIAL_LINKS.youtube} target="_blank" rel="noopener noreferrer" aria-label="YouTube" className="text-white hover:text-white transition-colors">
+                <a
+                  href={SOCIAL_LINKS.youtube}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="YouTube"
+                  className="text-white hover:text-white transition-colors"
+                >
                   <Youtube className="w-5 h-5" />
                 </a>
               )}
@@ -206,7 +242,10 @@ export default function ServerFooter() {
                 { abbr: 'EPA 608', label: 'Certification Prep' },
                 { abbr: 'OSHA', label: 'Safety Training' },
               ].map((b) => (
-                <span key={b.abbr} className="inline-flex items-center text-[10px] font-semibold px-2.5 py-1 rounded-full bg-slate-800 text-white border border-slate-700">
+                <span
+                  key={b.abbr}
+                  className="inline-flex items-center text-[10px] font-semibold px-2.5 py-1 rounded-full bg-slate-800 text-white border border-slate-700"
+                >
                   {b.abbr}
                 </span>
               ))}
@@ -215,11 +254,7 @@ export default function ServerFooter() {
             {/* Legal Links */}
             <div className="flex flex-wrap justify-center gap-6 text-sm">
               {footerLinks.legal.map((link) => (
-                <Link 
-                  key={link.name}
-                  href={link.href} 
-                  className="text-white hover:text-white"
-                >
+                <Link key={link.name} href={link.href} className="text-white hover:text-white">
                   {link.name}
                 </Link>
               ))}
@@ -227,8 +262,18 @@ export default function ServerFooter() {
 
             {/* Legal Disclaimer */}
             <div className="mt-6 pt-6 border-t border-slate-800">
-<p className="text-[10px] leading-relaxed text-slate-500 max-w-4xl mx-auto text-center">
-                Elevate for Humanity Career &amp; Technical Institute is a DOL Registered Apprenticeship Sponsor, Indiana ETPL-listed workforce training provider, and Certiport Authorized Testing Center operating under 2Exclusive LLC-S. Industry certifications are issued by the respective credentialing bodies (CompTIA, NHA, EPA, NCCCO, etc.) upon passing the required exams — these are the same credentials employers hire for. Training may be fully funded for eligible participants through WIOA, Workforce Ready Grant, JRI, and approved workforce partners; eligibility is determined by the applicable agency. Elevate for Humanity Career &amp; Technical Institute is a workforce training organization, not a degree-granting postsecondary institution under the Indiana Department of Education — our programs lead to industry certifications and employment, not academic degrees.
+              <p className="text-[10px] leading-relaxed text-slate-500 max-w-4xl mx-auto text-center">
+                Elevate for Humanity Career &amp; Technical Institute is a DOL Registered
+                Apprenticeship Sponsor, Indiana ETPL-listed workforce training provider, and
+                Certiport Authorized Testing Center operating under 2Exclusive LLC-S. Industry
+                certifications are issued by the respective credentialing bodies (CompTIA, NHA, EPA,
+                NCCCO, etc.) upon passing the required exams — these are the same credentials
+                employers hire for. Training may be fully funded for eligible participants through
+                WIOA, Workforce Ready Grant, JRI, and approved workforce partners; eligibility is
+                determined by the applicable agency. Elevate for Humanity Career &amp; Technical
+                Institute is a workforce training organization, not a degree-granting postsecondary
+                institution under the Indiana Department of Education — our programs lead to
+                industry certifications and employment, not academic degrees.
               </p>
             </div>
           </div>

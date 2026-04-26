@@ -5,15 +5,14 @@ import { requireAuth } from '@/lib/api/requireAuth';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 
 async function _GET(request: NextRequest) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
 
-    const auth = await requireAuth(request);
-    if (auth.error) return auth.error;
-const searchParams = request.nextUrl.searchParams;
+  const auth = await requireAuth(request);
+  if (auth.error) return auth.error;
+  const searchParams = request.nextUrl.searchParams;
   const runTests = searchParams.get('runTests') === 'true';
-  
+
   const status = {
     service: 'Elevate Tax Software',
     version: '1.0.0',
@@ -28,20 +27,20 @@ const searchParams = request.nextUrl.searchParams;
       childTaxCredit: true,
       directDeposit: true,
       mefXmlGeneration: true,
-      irsTransmission: true
+      irsTransmission: true,
     },
     endpoints: {
       calculate: '/api/tax/calculate',
       validate: '/api/tax/validate',
       submit: '/api/tax/submit',
-      status: '/api/tax/status'
+      status: '/api/tax/status',
     },
     certificationStatus: process.env.IRS_SOFTWARE_ID
       ? 'SOFTWARE_ID_CONFIGURED'
       : 'PENDING_IRS_SOFTWARE_DEVELOPER_APPLICATION',
-    testResults: runTests ? runCertificationTests() : undefined
+    testResults: runTests ? runCertificationTests() : undefined,
   };
-  
+
   return NextResponse.json(status);
 }
 export const GET = withApiAudit('/api/tax/status', _GET);

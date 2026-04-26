@@ -1,8 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import {
-  transformLessonContent,
-  isAiJsonBlob,
-} from '@/lib/lms/transformLessonContent';
+import { transformLessonContent, isAiJsonBlob } from '@/lib/lms/transformLessonContent';
 
 // ── fixtures ──────────────────────────────────────────────────────────────────
 
@@ -23,8 +20,7 @@ const VALID_BLOB = {
       d: 'Universal',
     },
     correct: 'd' as const,
-    rationale:
-      'Universal certification covers all equipment types under Section 608.',
+    rationale: 'Universal certification covers all equipment types under Section 608.',
   },
 };
 
@@ -93,19 +89,28 @@ describe('transformLessonContent', () => {
   });
 
   it('sets correct_index to 0 for choice "a"', () => {
-    const blob = { ...VALID_BLOB, assessment_question: { ...VALID_BLOB.assessment_question, correct: 'a' as const } };
+    const blob = {
+      ...VALID_BLOB,
+      assessment_question: { ...VALID_BLOB.assessment_question, correct: 'a' as const },
+    };
     const result = transformLessonContent(blob, 'test');
     expect(result.quizQuestions[0].correct_index).toBe(0);
   });
 
   it('sets correct_index to 1 for choice "b"', () => {
-    const blob = { ...VALID_BLOB, assessment_question: { ...VALID_BLOB.assessment_question, correct: 'b' as const } };
+    const blob = {
+      ...VALID_BLOB,
+      assessment_question: { ...VALID_BLOB.assessment_question, correct: 'b' as const },
+    };
     const result = transformLessonContent(blob, 'test');
     expect(result.quizQuestions[0].correct_index).toBe(1);
   });
 
   it('returns empty quiz when assessment_question is missing', () => {
-    const blob = { learning_points: ['Point A'], scenario: 'A scenario here for testing purposes.' };
+    const blob = {
+      learning_points: ['Point A'],
+      scenario: 'A scenario here for testing purposes.',
+    };
     const result = transformLessonContent(JSON.stringify(blob), 'test');
     expect(result.quizQuestions).toHaveLength(0);
     expect(result.html).toContain('<li>Point A</li>');

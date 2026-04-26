@@ -20,14 +20,16 @@
  */
 export function assertSuccessWithId<T extends { success?: boolean; id?: string | number }>(
   payload: T,
-  label = 'Request'
+  label = 'Request',
 ): T {
   if (!payload?.success) {
     throw new Error(`${label} failed`);
   }
 
   if (!payload?.id) {
-    throw new Error(`${label} succeeded without a required record ID — DB write may not have completed`);
+    throw new Error(
+      `${label} succeeded without a required record ID — DB write may not have completed`,
+    );
   }
 
   return payload;
@@ -43,14 +45,16 @@ export function assertSuccessWithId<T extends { success?: boolean; id?: string |
 export function assertSuccessWithField<T extends Record<string, unknown>>(
   payload: T,
   field: keyof T,
-  label = 'Request'
+  label = 'Request',
 ): T {
   if (!payload?.success) {
     throw new Error(`${label} failed`);
   }
 
   if (!payload?.[field]) {
-    throw new Error(`${label} succeeded without required field '${String(field)}' — DB write may not have completed`);
+    throw new Error(
+      `${label} succeeded without required field '${String(field)}' — DB write may not have completed`,
+    );
   }
 
   return payload;

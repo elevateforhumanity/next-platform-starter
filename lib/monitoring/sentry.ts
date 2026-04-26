@@ -19,10 +19,7 @@ export const captureException = (error: Error, context?: any) => {
   }
 };
 
-export const captureMessage = (
-  message: string,
-  level: 'info' | 'warning' | 'error' = 'info'
-) => {
+export const captureMessage = (message: string, level: 'info' | 'warning' | 'error' = 'info') => {
   if (typeof window !== 'undefined') {
     if (SENTRY_DSN && window.Sentry) {
       window.Sentry.captureMessage(message, level);

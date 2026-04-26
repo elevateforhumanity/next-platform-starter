@@ -4,7 +4,11 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
-import { verifyCertificate, getVerificationUrl, getQRCodeUrl } from '@/lib/certificates/verification';
+import {
+  verifyCertificate,
+  getVerificationUrl,
+  getQRCodeUrl,
+} from '@/lib/certificates/verification';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -18,10 +22,7 @@ async function _GET(request: NextRequest) {
     const certificateNumber = searchParams.get('number');
 
     if (!certificateNumber) {
-      return NextResponse.json(
-        { error: 'Certificate number is required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Certificate number is required' }, { status: 400 });
     }
 
     const supabase = await createClient();
@@ -33,10 +34,7 @@ async function _GET(request: NextRequest) {
       .maybeSingle();
 
     if (error || !cert) {
-      return NextResponse.json(
-        { valid: false, error: 'Certificate not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ valid: false, error: 'Certificate not found' }, { status: 404 });
     }
 
     return NextResponse.json({
@@ -48,14 +46,11 @@ async function _GET(request: NextRequest) {
         completionDate: cert.completion_date,
         issuedAt: cert.issued_at,
         expiresAt: cert.expires_at,
-      }
+      },
     });
   } catch (error) {
     logger.error('Error verifying certificate:', error);
-    return NextResponse.json(
-      { error: 'Failed to verify certificate' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to verify certificate' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/certificates/verify', _GET);

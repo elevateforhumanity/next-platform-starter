@@ -31,7 +31,8 @@ async function sendEnrollmentConfirmationEmail({
 }) {
   const logoUrl = `${SITE_URL}/images/Elevate_for_Humanity_logo_81bf0fab.jpg`;
 
-  const checkinBlock = checkinCode ? `
+  const checkinBlock = checkinCode
+    ? `
           <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:20px;margin:24px 0">
             <p style="margin:0 0 8px;font-size:14px;font-weight:bold;color:#1e40af">🏪 Your Shop Check-In Code</p>
             <p style="margin:0 0 12px;font-size:13px;color:#1e3a8a">Use this code to clock in and out at ${shopName || 'your training shop'} each day.</p>
@@ -41,7 +42,8 @@ async function sendEnrollmentConfirmationEmail({
             <p style="margin:12px 0 0;font-size:12px;color:#3b82f6;text-align:center">
               Go to <a href="${SITE_URL}/pwa/barber/checkin" style="color:#1d4ed8">${SITE_URL}/pwa/barber/checkin</a> and enter this code
             </p>
-          </div>` : '';
+          </div>`
+    : '';
 
   await sendEmail({
     to,
@@ -96,7 +98,9 @@ async function _POST(request: NextRequest) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -104,21 +108,25 @@ async function _POST(request: NextRequest) {
 
     const userId = user.id;
     const db = await getAdminClient();
-  if (!db) return NextResponse.json({ error: 'Admin client failed to initialize' }, { status: 500 });
+    if (!db)
+      return NextResponse.json({ error: 'Admin client failed to initialize' }, { status: 500 });
 
     // Fetch profile + most recent application + enrollment in parallel
     const [profileResult, appResult, enrollmentResult] = await Promise.all([
-      db.from('profiles')
+      db
+        .from('profiles')
         .select('first_name, last_name, full_name, email, onboarding_completed, enrollment_status')
         .eq('id', userId)
         .maybeSingle(),
-      db.from('applications')
+      db
+        .from('applications')
         .select('id, status, program_id, program_interest, support_notes')
         .eq('user_id', userId)
         .order('created_at', { ascending: false })
         .limit(1)
         .maybeSingle(),
-      db.from('program_enrollments')
+      db
+        .from('program_enrollments')
         .select('id, program_id, enrollment_state')
         .eq('user_id', userId)
         .order('created_at', { ascending: false })
@@ -127,7 +135,10 @@ async function _POST(request: NextRequest) {
     ]);
 
     if (profileResult.error) {
-      logger.error('[onboarding/complete] Failed to fetch profile', { userId, error: profileResult.error.message });
+      logger.error('[onboarding/complete] Failed to fetch profile', {
+        userId,
+        error: profileResult.error.message,
+      });
       return NextResponse.json({ error: 'Failed to load user profile' }, { status: 500 });
     }
 
@@ -145,10 +156,13 @@ async function _POST(request: NextRequest) {
     }
 
     // Mark onboarding complete
-    await db.from('profiles').update({
-      onboarding_completed: true,
-      onboarding_completed_at: new Date().toISOString(),
-    }).eq('id', userId);
+    await db
+      .from('profiles')
+      .update({
+        onboarding_completed: true,
+        onboarding_completed_at: new Date().toISOString(),
+      })
+      .eq('id', userId);
 
     // Run approval pipeline if application not yet approved
     const programId = enrollment?.program_id || application?.program_id || null;
@@ -160,13 +174,20 @@ async function _POST(request: NextRequest) {
         role: 'student',
       });
       if (approvalResult.success) {
-        logger.info('[onboarding/complete] Application approved', { userId, applicationId: application.id });
+        logger.info('[onboarding/complete] Application approved', {
+          userId,
+          applicationId: application.id,
+        });
       } else {
-        logger.warn('[onboarding/complete] Approval failed', { userId, error: approvalResult.error });
+        logger.warn('[onboarding/complete] Approval failed', {
+          userId,
+          error: approvalResult.error,
+        });
       }
     } else if (enrollment && enrollment.enrollment_state !== 'active') {
       // Enrollment exists but not active — activate it
-      await db.from('program_enrollments')
+      await db
+        .from('program_enrollments')
         .update({ enrollment_state: 'active', status: 'active' })
         .eq('id', enrollment.id);
     }
@@ -217,14 +238,19 @@ async function _POST(request: NextRequest) {
 
     if (email) {
       // Non-blocking — don't fail the request if email fails
-      sendEnrollmentConfirmationEmail({ to: email, firstName, programName, checkinCode, shopName: checkinShopName })
-        .catch(err => logger.warn('[onboarding/complete] Enrollment email failed', err));
+      sendEnrollmentConfirmationEmail({
+        to: email,
+        firstName,
+        programName,
+        checkinCode,
+        shopName: checkinShopName,
+      }).catch((err) => logger.warn('[onboarding/complete] Enrollment email failed', err));
 
       sendEmail({
         to: ADMIN_EMAIL,
         subject: `[ENROLLED] ${profile?.full_name || firstName} — ${programName}`,
         html: `<p><strong>${profile?.full_name || firstName}</strong> completed onboarding and is now enrolled in <strong>${programName}</strong>.</p><p>Email: <a href="mailto:${email}">${email}</a></p><p><a href="${SITE_URL}/admin/enrollments">View in Admin</a></p>`,
-      }).catch(err => logger.warn('[onboarding/complete] Admin notification failed', err));
+      }).catch((err) => logger.warn('[onboarding/complete] Admin notification failed', err));
     }
 
     // Provision students record (required for student_enrollments FK and clock-in)
@@ -238,27 +264,38 @@ async function _POST(request: NextRequest) {
     if (!existingStudent) {
       const nameParts = (profile?.full_name ?? '').trim().split(' ');
       const firstName = profile?.first_name ?? nameParts[0] ?? null;
-      const lastName = profile?.last_name ?? (nameParts.length > 1 ? nameParts.slice(1).join(' ') : null);
-      await db.from('students').insert({
-        id: userId,
-        email: profile?.email ?? user.email ?? null,
-        first_name: firstName,
-        last_name: lastName,
-        state: 'IN',
-        funding_type: 'apprenticeship',
-        eligibility_verified: true,
-        eligibility_verified_at: new Date().toISOString(),
-        program_name: programName !== 'your training program' ? programName : null,
-      }).then(({ error }) => {
-        if (error) logger.warn('[onboarding/complete] students insert failed', error);
-      });
+      const lastName =
+        profile?.last_name ?? (nameParts.length > 1 ? nameParts.slice(1).join(' ') : null);
+      await db
+        .from('students')
+        .insert({
+          id: userId,
+          email: profile?.email ?? user.email ?? null,
+          first_name: firstName,
+          last_name: lastName,
+          state: 'IN',
+          funding_type: 'apprenticeship',
+          eligibility_verified: true,
+          eligibility_verified_at: new Date().toISOString(),
+          program_name: programName !== 'your training program' ? programName : null,
+        })
+        .then(({ error }) => {
+          if (error) logger.warn('[onboarding/complete] students insert failed', error);
+        });
     }
 
     // Provision apprentices record for apprenticeship programs (required for clock-in)
-    const apprenticeshipKeywords = ['barber', 'cosmetology', 'hvac', 'electrical', 'plumbing', 'nail'];
+    const apprenticeshipKeywords = [
+      'barber',
+      'cosmetology',
+      'hvac',
+      'electrical',
+      'plumbing',
+      'nail',
+    ];
     const programSlug = (enrollment as any)?.program_slug ?? application?.program_interest ?? '';
-    const isApprenticeship = apprenticeshipKeywords.some((k) =>
-      programSlug.toLowerCase().includes(k) || programName.toLowerCase().includes(k)
+    const isApprenticeship = apprenticeshipKeywords.some(
+      (k) => programSlug.toLowerCase().includes(k) || programName.toLowerCase().includes(k),
     );
 
     if (isApprenticeship) {
@@ -295,20 +332,26 @@ async function _POST(request: NextRequest) {
               .maybeSingle();
             shopId = matchedShop?.id ?? null;
             if (!shopId) {
-              logger.warn('[onboarding/complete] host shop not found in shops table', { hostShopName, userId });
+              logger.warn('[onboarding/complete] host shop not found in shops table', {
+                hostShopName,
+                userId,
+              });
             }
           }
         }
 
-        await db.from('apprentices').insert({
-          user_id: userId,
-          program_id: programId ?? null,
-          status: 'active',
-          start_date: new Date().toISOString().split('T')[0],
-          shop_id: shopId,
-        }).then(({ error }) => {
-          if (error) logger.warn('[onboarding/complete] apprentices insert failed', error);
-        });
+        await db
+          .from('apprentices')
+          .insert({
+            user_id: userId,
+            program_id: programId ?? null,
+            status: 'active',
+            start_date: new Date().toISOString().split('T')[0],
+            shop_id: shopId,
+          })
+          .then(({ error }) => {
+            if (error) logger.warn('[onboarding/complete] apprentices insert failed', error);
+          });
       }
     }
 
@@ -318,10 +361,13 @@ async function _POST(request: NextRequest) {
       programName,
     });
   } catch (error) {
-    logger.error('Onboarding completion error:', error instanceof Error ? error : new Error(String(error)));
+    logger.error(
+      'Onboarding completion error:',
+      error instanceof Error ? error : new Error(String(error)),
+    );
     return NextResponse.json(
       { error: toErrorMessage(error) || 'Failed to complete onboarding' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

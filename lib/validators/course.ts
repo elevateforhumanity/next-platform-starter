@@ -80,7 +80,9 @@ export type QuizUpdate = z.infer<typeof QuizUpdateSchema>;
 export const QuestionCreateSchema = z.object({
   quiz_id: z.string().uuid('Valid quiz ID required'),
   question_text: z.string().min(1, 'Question text is required'),
-  question_type: z.enum(['multiple_choice', 'true_false', 'short_answer']).default('multiple_choice'),
+  question_type: z
+    .enum(['multiple_choice', 'true_false', 'short_answer'])
+    .default('multiple_choice'),
   options: z.array(z.string()).optional().nullable(),
   correct_answer: z.string().min(1, 'Correct answer is required'),
   points: z.number().int().min(1).default(1),
@@ -155,12 +157,27 @@ export const ApplicationCreateSchema = z.object({
   full_name: z.string().min(1, 'Full name is required'),
   email: z.string().email('Valid email required'),
   phone: z.string().optional().nullable(),
-  status: z.enum(['submitted', 'under_review', 'approved', 'rejected', 'enrolled']).default('submitted'),
+  status: z
+    .enum(['submitted', 'under_review', 'approved', 'rejected', 'enrolled'])
+    .default('submitted'),
   eligibility_data: z.record(z.any()).optional().nullable(),
 });
 
 export const ApplicationUpdateSchema = z.object({
-  status: z.enum(['pending', 'submitted', 'in_review', 'under_review', 'approved', 'rejected', 'enrolled', 'waitlisted', 'ready_to_enroll', 'pending_workone']).optional(),
+  status: z
+    .enum([
+      'pending',
+      'submitted',
+      'in_review',
+      'under_review',
+      'approved',
+      'rejected',
+      'enrolled',
+      'waitlisted',
+      'ready_to_enroll',
+      'pending_workone',
+    ])
+    .optional(),
   reviewer_id: z.string().uuid().optional().nullable(),
   review_notes: z.string().optional().nullable(),
   reviewed_at: z.string().datetime().optional().nullable(),

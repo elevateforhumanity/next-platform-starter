@@ -21,16 +21,19 @@ Then move immediately.
 **Show:** Program → Enrollment start → `/lms/dashboard`
 
 **Say:**
+
 > "Students don't just enroll. They enter a governed lifecycle."
 
 **Point to:**
+
 - The dashboard
 - The dominant action
 
 **Then this line:**
+
 > "The system tells the student what to do next."
 
-*Pause.*
+_Pause._
 
 **Why this works:** Execs instantly understand reduced confusion, fewer emails, fewer staff escalations.
 
@@ -41,13 +44,15 @@ Then move immediately.
 **Do not rush this.**
 
 **Say:**
+
 > "Enrollment, training, and credentialing are separate events."
 > "Completion automatically issues credentials—no one does this by hand."
 
 **Then the key executive line:**
+
 > "That's how you stay audit-safe without adding staff."
 
-*Pause again.*
+_Pause again._
 
 ---
 
@@ -56,10 +61,12 @@ Then move immediately.
 **Briefly show:** Admin view
 
 **Say:**
+
 > "Staff intervene only when something needs judgment."
 > "The system moves forward on its own."
 
 **Then:**
+
 > "This removes operational drag."
 
 ---
@@ -72,18 +79,18 @@ Then move immediately.
 > "The question isn't whether it can be built."
 > "It's whether you want to own this complexity."
 
-*Stop. No pitch. No next slide.*
+_Stop. No pitch. No next slide._
 
 ---
 
 ## Key Differences from 10-Minute Demo
 
-| 10-Minute | 5-Minute Exec |
-|-----------|---------------|
-| Shows document upload flow | Skips it |
-| Explains state machine details | Shows dominant action only |
-| Covers partner notifications | Mentions admin-by-exception |
-| Technical depth | Control and outcomes |
+| 10-Minute                      | 5-Minute Exec               |
+| ------------------------------ | --------------------------- |
+| Shows document upload flow     | Skips it                    |
+| Explains state machine details | Shows dominant action only  |
+| Covers partner notifications   | Mentions admin-by-exception |
+| Technical depth                | Control and outcomes        |
 
 **Use 5-minute for:** Decision-makers who won't sit through details
 **Use 10-minute for:** Operators and technical evaluators

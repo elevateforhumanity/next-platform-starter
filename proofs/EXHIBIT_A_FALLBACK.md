@@ -2,7 +2,7 @@
 
 ## Platform Scope, Operating Boundaries & Change Governance
 
-*Procurement-Softened, Risk-Preserving*
+_Procurement-Softened, Risk-Preserving_
 
 > **Use only if legal/procurement pushes back on rigidity.**
 > This version concedes language tone, not authority.
@@ -59,10 +59,10 @@ Client retains responsibility for instructional content, staffing, and program d
 
 Changes are categorized as:
 
-| Category | Handling |
-|----------|----------|
-| **Configuration Adjustments** | Supported within the Platform's design |
-| **Functional Extensions** | Subject to review and agreement |
+| Category                      | Handling                                             |
+| ----------------------------- | ---------------------------------------------------- |
+| **Configuration Adjustments** | Supported within the Platform's design               |
+| **Functional Extensions**     | Subject to review and agreement                      |
 | **Material Workflow Changes** | Evaluated separately based on impact and feasibility |
 
 Provider will use commercially reasonable efforts to assess requested changes.

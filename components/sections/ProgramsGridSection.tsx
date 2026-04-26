@@ -33,11 +33,13 @@ export function ProgramsGridSection({ title, programs }: ProgramsGridSectionProp
               {/* Image */}
               {program.heroImage && (
                 <div className="relative h-48 w-full overflow-hidden">
-                  <Image alt="Training program" loading="lazy"
+                  <Image
+                    alt="Training program"
+                    loading="lazy"
                     src={program.heroImage}
                     alt={program.name}
                     fill
-          sizes="100vw"
+                    sizes="100vw"
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                 </div>
@@ -48,9 +50,7 @@ export function ProgramsGridSection({ title, programs }: ProgramsGridSectionProp
                 <h3 className="text-xl font-bold text-black mb-2 group-hover:text-brand-blue-600 transition-colors">
                   {program.name}
                 </h3>
-                <p className="text-black mb-4 line-clamp-2">
-                  {program.shortDescription}
-                </p>
+                <p className="text-black mb-4 line-clamp-2">{program.shortDescription}</p>
 
                 {/* Meta */}
                 <div className="flex items-center gap-4 text-sm text-slate-700">

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -22,8 +22,7 @@ export default function HeroSlideshow() {
         setHasEnded(true);
       });
 
-      videoRef.current.play().catch((error) => {
-      });
+      videoRef.current.play().catch((error) => {});
     }
   }, []);
 
@@ -47,7 +46,7 @@ export default function HeroSlideshow() {
           objectFit: 'cover',
           width: '100%',
           height: '100%',
-          filter: 'brightness(1.15) contrast(1.08) saturate(1.12)'
+          filter: 'brightness(1.15) contrast(1.08) saturate(1.12)',
         }}
       >
         <source src="/videos/hero-home.mp4" type="video/mp4" />

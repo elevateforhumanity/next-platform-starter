@@ -96,11 +96,7 @@ export function withRuntime(optionsOrHandler: RuntimeOptions | AnyHandler, handl
     await hydrateProcessEnv();
 
     // 2. Validate required secrets — fail hard, not silent
-    const requiredSecrets = [
-      ...(options.secrets ?? []),
-      ...(options.cron ? ['CRON_SECRET'] : []),
-    ];
-
+    const requiredSecrets = [...(options.secrets ?? []), ...(options.cron ? ['CRON_SECRET'] : [])];
 
     const env: Record<string, string> = {};
     const missing: string[] = [];
@@ -121,16 +117,17 @@ export function withRuntime(optionsOrHandler: RuntimeOptions | AnyHandler, handl
       });
       return NextResponse.json(
         { error: 'Service configuration error. Please try again later.' },
-        { status: 503 }
+        { status: 503 },
       );
     }
 
     // 3. Cron secret validation
     if (options.cron) {
       const cronSecret = env['CRON_SECRET'];
-      const provided = options.cron === 'bearer'
-        ? req.headers.get('authorization')?.replace(/^Bearer\s+/, '')
-        : req.headers.get('x-cron-secret');
+      const provided =
+        options.cron === 'bearer'
+          ? req.headers.get('authorization')?.replace(/^Bearer\s+/, '')
+          : req.headers.get('x-cron-secret');
       if (provided !== cronSecret) {
         logger.warn('[withRuntime] Cron secret mismatch', {
           route: req.nextUrl.pathname,
@@ -170,10 +167,7 @@ export function withRuntime(optionsOrHandler: RuntimeOptions | AnyHandler, handl
         method: req.method,
         error: message,
       });
-      return NextResponse.json(
-        { error: 'Internal server error' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
     }
   };
 }

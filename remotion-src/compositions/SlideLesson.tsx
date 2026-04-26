@@ -55,15 +55,15 @@ export interface SlideLessonProps {
   /** Absolute path to full-lesson MP3 (used when per-scene audio is absent) */
   fullAudioSrc?: string;
   // Brand
-  primaryColor: string;    // e.g. '#f97316'
-  accentColor: string;     // e.g. '#3b82f6'
+  primaryColor: string; // e.g. '#f97316'
+  accentColor: string; // e.g. '#3b82f6'
   backgroundColor: string; // e.g. '#0f172a'
-  logoText?: string;       // defaults to 'Elevate LMS'
+  logoText?: string; // defaults to 'Elevate LMS'
 }
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 
-const INTRO_FRAMES = 90;   // 3s at 30fps
+const INTRO_FRAMES = 90; // 3s at 30fps
 const OUTRO_FRAMES = 90;
 
 // ── Animation helpers ─────────────────────────────────────────────────────────
@@ -84,24 +84,54 @@ function slideUp(frame: number, fps: number, delay = 0): number {
 
 function BrandBar({ color, logoText }: { color: string; logoText: string }) {
   return (
-    <div style={{
-      position: 'absolute', top: 0, left: 0, right: 0,
-      height: 6, background: color,
-    }}>
-      <div style={{
-        position: 'absolute', top: 12, left: 48,
-        display: 'flex', alignItems: 'center', gap: 10,
-      }}>
-        <div style={{
-          width: 32, height: 32, borderRadius: 7,
-          background: color,
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          fontWeight: 900, fontSize: 16, color: '#fff', fontFamily: 'sans-serif',
-        }}>E</div>
-        <span style={{
-          color: '#fff', fontWeight: 700, fontSize: 16,
-          fontFamily: 'sans-serif', opacity: 0.85,
-        }}>{logoText}</span>
+    <div
+      style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        height: 6,
+        background: color,
+      }}
+    >
+      <div
+        style={{
+          position: 'absolute',
+          top: 12,
+          left: 48,
+          display: 'flex',
+          alignItems: 'center',
+          gap: 10,
+        }}
+      >
+        <div
+          style={{
+            width: 32,
+            height: 32,
+            borderRadius: 7,
+            background: color,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontWeight: 900,
+            fontSize: 16,
+            color: '#fff',
+            fontFamily: 'sans-serif',
+          }}
+        >
+          E
+        </div>
+        <span
+          style={{
+            color: '#fff',
+            fontWeight: 700,
+            fontSize: 16,
+            fontFamily: 'sans-serif',
+            opacity: 0.85,
+          }}
+        >
+          {logoText}
+        </span>
       </div>
     </div>
   );
@@ -112,62 +142,108 @@ function BrandBar({ color, logoText }: { color: string; logoText: string }) {
 function BrandedIntro({ props, frame }: { props: SlideLessonProps; frame: number }) {
   const { fps } = useVideoConfig();
   return (
-    <AbsoluteFill style={{
-      background: `linear-gradient(135deg, ${props.backgroundColor} 0%, #1e293b 100%)`,
-      justifyContent: 'center', alignItems: 'center',
-    }}>
+    <AbsoluteFill
+      style={{
+        background: `linear-gradient(135deg, ${props.backgroundColor} 0%, #1e293b 100%)`,
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
       <BrandBar color={props.primaryColor} logoText={props.logoText ?? 'Elevate LMS'} />
 
       {/* Decorative orb */}
-      <div style={{
-        position: 'absolute', top: '15%', right: '8%',
-        width: 360, height: 360, borderRadius: '50%',
-        background: `radial-gradient(circle, ${props.accentColor}28 0%, transparent 70%)`,
-      }} />
+      <div
+        style={{
+          position: 'absolute',
+          top: '15%',
+          right: '8%',
+          width: 360,
+          height: 360,
+          borderRadius: '50%',
+          background: `radial-gradient(circle, ${props.accentColor}28 0%, transparent 70%)`,
+        }}
+      />
 
       <div style={{ textAlign: 'center', padding: '0 120px', maxWidth: 1200 }}>
-        <div style={{
-          opacity: fadeIn(frame, 8, 18),
-          fontSize: 18, color: props.accentColor, fontFamily: 'sans-serif',
-          fontWeight: 700, textTransform: 'uppercase', letterSpacing: 4, marginBottom: 20,
-        }}>
+        <div
+          style={{
+            opacity: fadeIn(frame, 8, 18),
+            fontSize: 18,
+            color: props.accentColor,
+            fontFamily: 'sans-serif',
+            fontWeight: 700,
+            textTransform: 'uppercase',
+            letterSpacing: 4,
+            marginBottom: 20,
+          }}
+        >
           {props.courseTitle}
         </div>
-        <div style={{
-          opacity: fadeIn(frame, 20, 25),
-          transform: `translateY(${slideUp(frame, fps, 20)}px)`,
-          fontSize: 60, fontWeight: 900, color: '#fff',
-          fontFamily: 'sans-serif', lineHeight: 1.15,
-        }}>
+        <div
+          style={{
+            opacity: fadeIn(frame, 20, 25),
+            transform: `translateY(${slideUp(frame, fps, 20)}px)`,
+            fontSize: 60,
+            fontWeight: 900,
+            color: '#fff',
+            fontFamily: 'sans-serif',
+            lineHeight: 1.15,
+          }}
+        >
           {props.lessonTitle}
         </div>
       </div>
 
       {/* Bottom gradient bar */}
-      <div style={{
-        position: 'absolute', bottom: 0, left: 0, right: 0, height: 4,
-        background: `linear-gradient(90deg, ${props.primaryColor}, ${props.accentColor})`,
-      }} />
+      <div
+        style={{
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          height: 4,
+          background: `linear-gradient(90deg, ${props.primaryColor}, ${props.accentColor})`,
+        }}
+      />
     </AbsoluteFill>
   );
 }
 
 // ── Caption bar ───────────────────────────────────────────────────────────────
 
-function CaptionBar({ text, frame, primaryColor }: { text: string; frame: number; primaryColor: string }) {
+function CaptionBar({
+  text,
+  frame,
+  primaryColor,
+}: {
+  text: string;
+  frame: number;
+  primaryColor: string;
+}) {
   return (
-    <div style={{
-      position: 'absolute', bottom: 0, left: 0, right: 0,
-      background: 'rgba(0,0,0,0.72)',
-      borderTop: `2px solid ${primaryColor}55`,
-      padding: '14px 60px',
-      opacity: fadeIn(frame, 10, 15),
-    }}>
-      <p style={{
-        color: '#f1f5f9', fontSize: 22, fontFamily: 'sans-serif',
-        lineHeight: 1.5, margin: 0, textAlign: 'center',
-        textShadow: '0 1px 3px rgba(0,0,0,0.8)',
-      }}>
+    <div
+      style={{
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        background: 'rgba(0,0,0,0.72)',
+        borderTop: `2px solid ${primaryColor}55`,
+        padding: '14px 60px',
+        opacity: fadeIn(frame, 10, 15),
+      }}
+    >
+      <p
+        style={{
+          color: '#f1f5f9',
+          fontSize: 22,
+          fontFamily: 'sans-serif',
+          lineHeight: 1.5,
+          margin: 0,
+          textAlign: 'center',
+          textShadow: '0 1px 3px rgba(0,0,0,0.8)',
+        }}
+      >
         {text}
       </p>
     </div>
@@ -193,7 +269,13 @@ function SceneSlide({
       {scene.clipUrl ? (
         <Video
           src={scene.clipUrl}
-          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
+          style={{
+            position: 'absolute',
+            inset: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+          }}
           startFrom={0}
           loop
           muted
@@ -201,68 +283,111 @@ function SceneSlide({
       ) : scene.imageUrl ? (
         <Img
           src={scene.imageUrl}
-          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
+          style={{
+            position: 'absolute',
+            inset: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+          }}
         />
       ) : null}
 
       {/* Dark overlay so text is always readable */}
-      <div style={{
-        position: 'absolute', inset: 0,
-        background: `linear-gradient(160deg, rgba(15,23,42,0.82) 0%, rgba(15,23,42,0.65) 100%)`,
-      }} />
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          background: `linear-gradient(160deg, rgba(15,23,42,0.82) 0%, rgba(15,23,42,0.65) 100%)`,
+        }}
+      />
 
       <BrandBar color={props.primaryColor} logoText={props.logoText ?? 'Elevate LMS'} />
 
       {/* Scene number badge */}
-      <div style={{
-        position: 'absolute', top: 24, right: 48,
-        background: props.primaryColor + '33',
-        border: `1px solid ${props.primaryColor}66`,
-        borderRadius: 20, padding: '5px 14px',
-        color: props.primaryColor, fontSize: 13,
-        fontFamily: 'sans-serif', fontWeight: 700,
-        opacity: fadeIn(frame, 5, 15),
-      }}>
+      <div
+        style={{
+          position: 'absolute',
+          top: 24,
+          right: 48,
+          background: props.primaryColor + '33',
+          border: `1px solid ${props.primaryColor}66`,
+          borderRadius: 20,
+          padding: '5px 14px',
+          color: props.primaryColor,
+          fontSize: 13,
+          fontFamily: 'sans-serif',
+          fontWeight: 700,
+          opacity: fadeIn(frame, 5, 15),
+        }}
+      >
         {scene.scene_number} / {scene.scene_number}
       </div>
 
       {/* Content panel */}
-      <div style={{
-        position: 'absolute',
-        top: 80, left: 60, right: 60, bottom: 100,
-        display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 28,
-      }}>
+      <div
+        style={{
+          position: 'absolute',
+          top: 80,
+          left: 60,
+          right: 60,
+          bottom: 100,
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          gap: 28,
+        }}
+      >
         {/* Scene title */}
-        <div style={{
-          opacity: fadeIn(frame, 8, 22),
-          transform: `translateY(${slideUp(frame, fps, 8)}px)`,
-          fontSize: 52, fontWeight: 900, color: '#fff',
-          fontFamily: 'sans-serif', lineHeight: 1.2,
-          textShadow: '0 2px 12px rgba(0,0,0,0.6)',
-          borderLeft: `5px solid ${props.primaryColor}`,
-          paddingLeft: 24,
-        }}>
+        <div
+          style={{
+            opacity: fadeIn(frame, 8, 22),
+            transform: `translateY(${slideUp(frame, fps, 8)}px)`,
+            fontSize: 52,
+            fontWeight: 900,
+            color: '#fff',
+            fontFamily: 'sans-serif',
+            lineHeight: 1.2,
+            textShadow: '0 2px 12px rgba(0,0,0,0.6)',
+            borderLeft: `5px solid ${props.primaryColor}`,
+            paddingLeft: 24,
+          }}
+        >
           {scene.title}
         </div>
 
         {/* Bullet points */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16, paddingLeft: 8 }}>
           {scene.bullets.map((bullet, i) => (
-            <div key={i} style={{
-              opacity: fadeIn(frame, 22 + i * 14, 18),
-              transform: `translateY(${slideUp(frame, fps, 22 + i * 14)}px)`,
-              display: 'flex', alignItems: 'flex-start', gap: 16,
-            }}>
-              <div style={{
-                width: 10, height: 10, borderRadius: '50%',
-                background: props.accentColor,
-                flexShrink: 0, marginTop: 10,
-              }} />
-              <div style={{
-                color: '#e2e8f0', fontSize: 28,
-                fontFamily: 'sans-serif', lineHeight: 1.5,
-                textShadow: '0 1px 6px rgba(0,0,0,0.5)',
-              }}>
+            <div
+              key={i}
+              style={{
+                opacity: fadeIn(frame, 22 + i * 14, 18),
+                transform: `translateY(${slideUp(frame, fps, 22 + i * 14)}px)`,
+                display: 'flex',
+                alignItems: 'flex-start',
+                gap: 16,
+              }}
+            >
+              <div
+                style={{
+                  width: 10,
+                  height: 10,
+                  borderRadius: '50%',
+                  background: props.accentColor,
+                  flexShrink: 0,
+                  marginTop: 10,
+                }}
+              />
+              <div
+                style={{
+                  color: '#e2e8f0',
+                  fontSize: 28,
+                  fontFamily: 'sans-serif',
+                  lineHeight: 1.5,
+                  textShadow: '0 1px 6px rgba(0,0,0,0.5)',
+                }}
+              >
                 {bullet}
               </div>
             </div>
@@ -284,45 +409,72 @@ function SceneSlide({
 function BrandedOutro({ props, frame }: { props: SlideLessonProps; frame: number }) {
   const { fps } = useVideoConfig();
   return (
-    <AbsoluteFill style={{
-      background: `linear-gradient(135deg, #0f172a 0%, #1e293b 100%)`,
-      justifyContent: 'center', alignItems: 'center',
-    }}>
+    <AbsoluteFill
+      style={{
+        background: `linear-gradient(135deg, #0f172a 0%, #1e293b 100%)`,
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
       <BrandBar color={props.primaryColor} logoText={props.logoText ?? 'Elevate LMS'} />
 
       <div style={{ textAlign: 'center', padding: '0 120px', maxWidth: 1100 }}>
-        <div style={{
-          opacity: fadeIn(frame, 8, 20),
-          fontSize: 20, color: props.accentColor, fontFamily: 'sans-serif',
-          fontWeight: 700, textTransform: 'uppercase', letterSpacing: 3, marginBottom: 24,
-        }}>
+        <div
+          style={{
+            opacity: fadeIn(frame, 8, 20),
+            fontSize: 20,
+            color: props.accentColor,
+            fontFamily: 'sans-serif',
+            fontWeight: 700,
+            textTransform: 'uppercase',
+            letterSpacing: 3,
+            marginBottom: 24,
+          }}
+        >
           Lesson Complete
         </div>
-        <div style={{
-          opacity: fadeIn(frame, 18, 25),
-          transform: `translateY(${slideUp(frame, fps, 18)}px)`,
-          fontSize: 42, fontWeight: 800, color: '#fff',
-          fontFamily: 'sans-serif', lineHeight: 1.3, marginBottom: 40,
-        }}>
+        <div
+          style={{
+            opacity: fadeIn(frame, 18, 25),
+            transform: `translateY(${slideUp(frame, fps, 18)}px)`,
+            fontSize: 42,
+            fontWeight: 800,
+            color: '#fff',
+            fontFamily: 'sans-serif',
+            lineHeight: 1.3,
+            marginBottom: 40,
+          }}
+        >
           {props.lessonTitle}
         </div>
 
         {/* Quiz reminder */}
-        <div style={{
-          opacity: fadeIn(frame, 40, 20),
-          background: props.accentColor + '22',
-          border: `1px solid ${props.accentColor}55`,
-          borderRadius: 16, padding: '18px 32px',
-          color: props.accentColor, fontSize: 22, fontFamily: 'sans-serif',
-        }}>
+        <div
+          style={{
+            opacity: fadeIn(frame, 40, 20),
+            background: props.accentColor + '22',
+            border: `1px solid ${props.accentColor}55`,
+            borderRadius: 16,
+            padding: '18px 32px',
+            color: props.accentColor,
+            fontSize: 22,
+            fontFamily: 'sans-serif',
+          }}
+        >
           Complete the knowledge check to continue →
         </div>
       </div>
 
-      <div style={{
-        position: 'absolute', bottom: 0, left: 0, right: 0, height: 4,
-        background: `linear-gradient(90deg, ${props.primaryColor}, ${props.accentColor})`,
-      }} />
+      <div
+        style={{
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          height: 4,
+          background: `linear-gradient(90deg, ${props.primaryColor}, ${props.accentColor})`,
+        }}
+      />
     </AbsoluteFill>
   );
 }

@@ -188,7 +188,7 @@ export class CurriculumGenerator {
   constructor(
     programId: string,
     credentialId: string | null = null,
-    mode: GeneratorMode = 'seed_missing'
+    mode: GeneratorMode = 'seed_missing',
   ) {
     this.programId = programId;
     this.credentialId = credentialId;
@@ -242,8 +242,7 @@ export class CurriculumGenerator {
       return this.domainIdCache.get(domainKey)!;
     }
 
-    const { data } = await this.db!
-      .from('credential_exam_domains')
+    const { data } = await this.db!.from('credential_exam_domains')
       .select('id')
       .eq('credential_id', this.credentialId)
       .eq('domain_key', domainKey)
@@ -274,14 +273,14 @@ export class CurriculumGenerator {
       .from('modules')
       .upsert(
         {
-          program_id:  this.programId,
-          slug:        def.slug,
-          title:       def.title,
+          program_id: this.programId,
+          slug: def.slug,
+          title: def.title,
           description: def.description ?? null,
           order_index: def.orderIndex,
-          updated_at:  new Date().toISOString(),
+          updated_at: new Date().toISOString(),
         },
-        { onConflict: 'program_id,slug' }
+        { onConflict: 'program_id,slug' },
       )
       .select('id')
       .maybeSingle();
@@ -385,32 +384,32 @@ export class CurriculumGenerator {
       .from('curriculum_lessons')
       .upsert(
         {
-          program_id:           this.programId,
-          course_id:            def.courseId ?? null,
-          module_id:            moduleId,
-          lesson_slug:          def.lessonSlug,
-          lesson_title:         def.lessonTitle,
-          lesson_order:         def.lessonOrder,
-          module_order:         def.moduleOrder,
-          module_title:         def.moduleTitle,
-          script_text:          def.scriptText,
-          key_terms:            def.keyTerms ?? [],
-          job_application:      def.jobApplication ?? null,
-          watch_for:            def.watchFor ?? [],
-          diagram_ref:          def.diagramRef ?? null,
-          video_file:           def.videoFile ?? null,
-          audio_file:           def.audioFile ?? null,
-          caption_file:         def.captionFile ?? null,
-          diagram_file:         def.diagramFile ?? null,
-          duration_minutes:     def.durationMinutes ?? null,
+          program_id: this.programId,
+          course_id: def.courseId ?? null,
+          module_id: moduleId,
+          lesson_slug: def.lessonSlug,
+          lesson_title: def.lessonTitle,
+          lesson_order: def.lessonOrder,
+          module_order: def.moduleOrder,
+          module_title: def.moduleTitle,
+          script_text: def.scriptText,
+          key_terms: def.keyTerms ?? [],
+          job_application: def.jobApplication ?? null,
+          watch_for: def.watchFor ?? [],
+          diagram_ref: def.diagramRef ?? null,
+          video_file: def.videoFile ?? null,
+          audio_file: def.audioFile ?? null,
+          caption_file: def.captionFile ?? null,
+          diagram_file: def.diagramFile ?? null,
+          duration_minutes: def.durationMinutes ?? null,
           credential_domain_id: credentialDomainId,
-          step_type:            def.stepType ?? 'lesson',
+          step_type: def.stepType ?? 'lesson',
           // NOT NULL column — 0 for plain lessons, explicit threshold for checkpoints/quizzes/exams
-          passing_score:        def.passingScore ?? (def.stepType && def.stepType !== 'lesson' ? 80 : 0),
-          status:               'published',
-          updated_at:           new Date().toISOString(),
+          passing_score: def.passingScore ?? (def.stepType && def.stepType !== 'lesson' ? 80 : 0),
+          status: 'published',
+          updated_at: new Date().toISOString(),
         },
-        { onConflict: 'program_id,lesson_slug' }
+        { onConflict: 'program_id,lesson_slug' },
       )
       .select('id')
       .maybeSingle();
@@ -444,22 +443,20 @@ export class CurriculumGenerator {
   private async upsertQuizzes(
     lessonId: string,
     lessonSlug: string,
-    quizzes: QuizDef[]
+    quizzes: QuizDef[],
   ): Promise<void> {
     for (const q of quizzes) {
-      const { error } = await this.db!
-        .from('curriculum_quizzes')
-        .upsert(
-          {
-            lesson_id:      lessonId,
-            question:       q.question,
-            options:        q.options,
-            correct_answer: q.correctAnswer,
-            explanation:    q.explanation ?? null,
-            quiz_order:     q.quizOrder,
-          },
-          { onConflict: 'lesson_id,quiz_order' }
-        );
+      const { error } = await this.db!.from('curriculum_quizzes').upsert(
+        {
+          lesson_id: lessonId,
+          question: q.question,
+          options: q.options,
+          correct_answer: q.correctAnswer,
+          explanation: q.explanation ?? null,
+          quiz_order: q.quizOrder,
+        },
+        { onConflict: 'lesson_id,quiz_order' },
+      );
 
       if (error) {
         const msg = `upsertQuiz(${lessonSlug}[${q.quizOrder}]): ${error.message}`;
@@ -476,20 +473,18 @@ export class CurriculumGenerator {
   private async upsertRecaps(
     lessonId: string,
     lessonSlug: string,
-    recaps: RecapDef[]
+    recaps: RecapDef[],
   ): Promise<void> {
     for (const r of recaps) {
-      const { error } = await this.db!
-        .from('curriculum_recaps')
-        .upsert(
-          {
-            lesson_id:   lessonId,
-            title:       r.title,
-            description: r.description ?? null,
-            recap_order: r.recapOrder,
-          },
-          { onConflict: 'lesson_id,recap_order' }
-        );
+      const { error } = await this.db!.from('curriculum_recaps').upsert(
+        {
+          lesson_id: lessonId,
+          title: r.title,
+          description: r.description ?? null,
+          recap_order: r.recapOrder,
+        },
+        { onConflict: 'lesson_id,recap_order' },
+      );
 
       if (error) {
         const msg = `upsertRecap(${lessonSlug}[${r.recapOrder}]): ${error.message}`;
@@ -520,7 +515,7 @@ export class CurriculumGenerator {
     }
 
     for (const lesson of lessons.sort(
-      (a, b) => a.moduleOrder - b.moduleOrder || a.lessonOrder - b.lessonOrder
+      (a, b) => a.moduleOrder - b.moduleOrder || a.lessonOrder - b.lessonOrder,
     )) {
       await this.upsertLesson(lesson);
     }
@@ -556,11 +551,7 @@ export class CurriculumGenerator {
 export async function resolveProgramId(slug: string): Promise<string | null> {
   const db = await getAdminClient();
   if (!db) return null;
-  const { data } = await db
-    .from('programs')
-    .select('id')
-    .eq('slug', slug)
-    .maybeSingle();
+  const { data } = await db.from('programs').select('id').eq('slug', slug).maybeSingle();
   return data?.id ?? null;
 }
 

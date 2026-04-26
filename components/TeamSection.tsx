@@ -1,36 +1,37 @@
-import Image from "next/image";
-import Link from "next/link";
+import Image from 'next/image';
+import Link from 'next/link';
 
 const teamMembers = [
   {
-    name: "Elizabeth Greene",
-    title: "Founder & Chief Executive Officer",
-    image: "/images/team/elizabeth-greene-headshot.jpg",
-    bio: "U.S. Army veteran (Unit Supply Specialist), IRS Enrolled Agent (EA), EFIN and PTIN holder, EPA 608 Certified Proctor (ESCO Group & Mainstream Engineering). Elizabeth founded Elevate for Humanity to connect people to funded workforce training. She also operates SupersonicFastCash, a tax preparation software company, and Selfish Inc. — a 501(c)(3) nonprofit (DBA: The Rise Foundation) providing VITA free tax preparation, mental wellness counseling, and community services. Elevate for Humanity is a DOL Registered Apprenticeship Sponsor (RAPIDS: 2025-IN-132301), ETPL listed, WRG approved, WIOA and JRI approved, Job Ready Indy partner, WorkOne partner, EmployIndy partner, HSI affiliate, CareerSafe OSHA training provider, NRF Rise Up provider, Certiport CATC, Choice Medical CNA School partner, PECOS enrolled (Medicare provider), NPI registered, ITAP/INDOT registered, Indiana State Bidder, SAM.gov registered (UEI: VX2GK5S8SZH8, CAGE: 0Q856), federal government contractor, and ByBlack certified (U.S. Black Chambers / NAACP).",
+    name: 'Elizabeth Greene',
+    title: 'Founder & Chief Executive Officer',
+    image: '/images/team/elizabeth-greene-headshot.jpg',
+    bio: 'U.S. Army veteran (Unit Supply Specialist), IRS Enrolled Agent (EA), EFIN and PTIN holder, EPA 608 Certified Proctor (ESCO Group & Mainstream Engineering). Elizabeth founded Elevate for Humanity to connect people to funded workforce training. She also operates SupersonicFastCash, a tax preparation software company, and Selfish Inc. — a 501(c)(3) nonprofit (DBA: The Rise Foundation) providing VITA free tax preparation, mental wellness counseling, and community services. Elevate for Humanity is a DOL Registered Apprenticeship Sponsor (RAPIDS: 2025-IN-132301), ETPL listed, WRG approved, WIOA and JRI approved, Job Ready Indy partner, WorkOne partner, EmployIndy partner, HSI affiliate, CareerSafe OSHA training provider, NRF Rise Up provider, Certiport CATC, Choice Medical CNA School partner, PECOS enrolled (Medicare provider), NPI registered, ITAP/INDOT registered, Indiana State Bidder, SAM.gov registered (UEI: VX2GK5S8SZH8, CAGE: 0Q856), federal government contractor, and ByBlack certified (U.S. Black Chambers / NAACP).',
   },
   {
-    name: "Jozanna George",
-    title: "Director of Enrollment & Beauty Industry Programs | Site Coordinator, Textures Institute of Cosmetology",
-    image: "/images/jozanna-george.jpg",
-    bio: "Jozanna is a multi-licensed beauty professional holding Nail Technician, Nail Instructor, and Esthetician licenses. She oversees the nail program at Textures Institute of Cosmetology and manages enrollment operations for Elevate for Humanity.",
+    name: 'Jozanna George',
+    title:
+      'Director of Enrollment & Beauty Industry Programs | Site Coordinator, Textures Institute of Cosmetology',
+    image: '/images/jozanna-george.jpg',
+    bio: 'Jozanna is a multi-licensed beauty professional holding Nail Technician, Nail Instructor, and Esthetician licenses. She oversees the nail program at Textures Institute of Cosmetology and manages enrollment operations for Elevate for Humanity.',
   },
   {
-    name: "Dr. Carlina Wilkes",
-    title: "Executive Director of Financial Operations & Organizational Compliance",
-    image: "/images/carlina-wilkes.jpg",
-    bio: "Dr. Wilkes brings 24+ years of federal experience with DFAS, holding DoD Financial Management Certification Level II. She oversees financial operations and compliance at Elevate for Humanity.",
+    name: 'Dr. Carlina Wilkes',
+    title: 'Executive Director of Financial Operations & Organizational Compliance',
+    image: '/images/carlina-wilkes.jpg',
+    bio: 'Dr. Wilkes brings 24+ years of federal experience with DFAS, holding DoD Financial Management Certification Level II. She oversees financial operations and compliance at Elevate for Humanity.',
   },
   {
-    name: "Leslie Wafford",
-    title: "Director of Community Services",
-    image: "/images/leslie-wafford.jpg",
+    name: 'Leslie Wafford',
+    title: 'Director of Community Services',
+    image: '/images/leslie-wafford.jpg',
     bio: "Leslie promotes low-barrier housing access and eviction prevention, helping families navigate housing challenges with her 'reach one, teach one' philosophy.",
   },
   {
-    name: "Delores Reynolds",
-    title: "Social Media & Digital Engagement Coordinator",
-    image: "/images/delores-reynolds.jpg",
-    bio: "Delores manages digital communications, sharing student success stories and promoting program offerings to reach those who can benefit from free training.",
+    name: 'Delores Reynolds',
+    title: 'Social Media & Digital Engagement Coordinator',
+    image: '/images/delores-reynolds.jpg',
+    bio: 'Delores manages digital communications, sharing student success stories and promoting program offerings to reach those who can benefit from free training.',
   },
 ];
 
@@ -47,7 +48,8 @@ export default function TeamSection() {
             Meet the People Behind the Mission
           </h2>
           <p className="text-xl text-black max-w-3xl mx-auto">
-            Our dedicated team works every day to connect individuals with life-changing career opportunities through free workforce training.
+            Our dedicated team works every day to connect individuals with life-changing career
+            opportunities through free workforce training.
           </p>
         </div>
 
@@ -60,7 +62,9 @@ export default function TeamSection() {
             >
               {/* Image - Professional Headshot Size */}
               <div className="relative h-64 overflow-hidden bg-slate-100">
-                <Image alt="Team member" loading="lazy"
+                <Image
+                  alt="Team member"
+                  loading="lazy"
                   src={member.image}
                   alt={`${member.name} - ${member.title}`}
                   fill
@@ -71,15 +75,9 @@ export default function TeamSection() {
 
               {/* Content */}
               <div className="p-6">
-                <h3 className="text-xl font-bold text-black mb-2">
-                  {member.name}
-                </h3>
-                <p className="text-sm font-semibold text-teal-600 mb-3">
-                  {member.title}
-                </p>
-                <p className="text-sm text-black leading-relaxed">
-                  {member.bio}
-                </p>
+                <h3 className="text-xl font-bold text-black mb-2">{member.name}</h3>
+                <p className="text-sm font-semibold text-teal-600 mb-3">{member.title}</p>
+                <p className="text-sm text-black leading-relaxed">{member.bio}</p>
               </div>
             </div>
           ))}

@@ -1,13 +1,13 @@
 /**
  * Test Agreement Compliance Flow
- * 
+ *
  * Tests:
  * 1. Table exists and is accessible
  * 2. Can insert agreement acceptance
  * 3. Idempotency - re-insert returns existing
  * 4. Can query by user
  * 5. Counts work correctly
- * 
+ *
  * Usage: npx tsx scripts/test-agreement-flow.ts
  */
 
@@ -29,7 +29,7 @@ async function runTests() {
   }
 
   const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY, {
-    auth: { persistSession: false }
+    auth: { persistSession: false },
   });
 
   let passed = 0;
@@ -55,7 +55,7 @@ async function runTests() {
   console.log('Test 2: Find a test user');
   let testUserId = TEST_USER_ID;
   let testUserEmail = 'test@example.com';
-  
+
   try {
     if (!testUserId) {
       // Get any user from profiles
@@ -86,7 +86,7 @@ async function runTests() {
   console.log('Test 3: Insert agreement acceptance');
   const testAgreementType = 'enrollment';
   const testVersion = '1.0';
-  
+
   try {
     // First, delete any existing test record
     await supabase
@@ -127,24 +127,27 @@ async function runTests() {
   try {
     const { data, error } = await supabase
       .from('license_agreement_acceptances')
-      .upsert({
-        user_id: testUserId,
-        agreement_type: testAgreementType,
-        document_version: testVersion,
-        signer_name: 'Test User Updated',
-        signer_email: testUserEmail,
-        signature_method: 'checkbox',
-        ip_address: '127.0.0.1',
-        user_agent: 'test-script-v2',
-        role_at_signing: 'student',
-      }, {
-        onConflict: 'user_id,agreement_type,document_version',
-      })
+      .upsert(
+        {
+          user_id: testUserId,
+          agreement_type: testAgreementType,
+          document_version: testVersion,
+          signer_name: 'Test User Updated',
+          signer_email: testUserEmail,
+          signature_method: 'checkbox',
+          ip_address: '127.0.0.1',
+          user_agent: 'test-script-v2',
+          role_at_signing: 'student',
+        },
+        {
+          onConflict: 'user_id,agreement_type,document_version',
+        },
+      )
       .select()
       .single();
 
     if (error) throw error;
-    
+
     // Verify it's the same record (not a new one)
     const { count } = await supabase
       .from('license_agreement_acceptances')
@@ -174,7 +177,7 @@ async function runTests() {
       .eq('user_id', testUserId);
 
     if (error) throw error;
-    
+
     console.log(`   Found ${data?.length || 0} agreement(s) for user:`);
     for (const a of data || []) {
       console.log(`     - ${a.agreement_type} v${a.document_version} (${a.signature_method})`);
@@ -205,7 +208,7 @@ async function runTests() {
     for (const [type, count] of Object.entries(counts)) {
       console.log(`     - ${type}: ${count}`);
     }
-    
+
     if (Object.keys(counts).length > 0) {
       console.log('   ✅ PASSED - Counts retrieved\n');
       passed++;
@@ -236,7 +239,9 @@ async function runTests() {
     const hasRole = !!data.role_at_signing;
 
     console.log(`   IP Address: ${data.ip_address} ${hasIp ? '✓' : '⚠️'}`);
-    console.log(`   User Agent: ${data.user_agent?.substring(0, 30)}... ${hasUserAgent ? '✓' : '⚠️'}`);
+    console.log(
+      `   User Agent: ${data.user_agent?.substring(0, 30)}... ${hasUserAgent ? '✓' : '⚠️'}`,
+    );
     console.log(`   Timestamp: ${data.accepted_at} ${hasTimestamp ? '✓' : '⚠️'}`);
     console.log(`   Role: ${data.role_at_signing} ${hasRole ? '✓' : '⚠️'}`);
 

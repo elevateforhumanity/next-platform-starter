@@ -23,6 +23,7 @@
 **Goal:** New user creates account and completes profile
 
 **Steps:**
+
 1. Visit homepage → Click "Get Started" or "Apply"
 2. Fill registration form:
    - Email address
@@ -42,6 +43,7 @@
 7. Receive confirmation email
 
 **Success Criteria:**
+
 - ✅ Account created
 - ✅ Email verified
 - ✅ Profile completed
@@ -49,6 +51,7 @@
 - ✅ Application submitted
 
 **Pages Involved:**
+
 - `/signup`
 - `/verify-email`
 - `/onboarding`
@@ -63,6 +66,7 @@
 **Goal:** Student finds and enrolls in funded training program
 
 **Steps:**
+
 1. Login to account
 2. Browse programs:
    - `/programs` - View all programs
@@ -92,6 +96,7 @@
 10. Access course materials
 
 **Success Criteria:**
+
 - ✅ Program selected
 - ✅ Application submitted
 - ✅ Approval received
@@ -99,6 +104,7 @@
 - ✅ Course access granted
 
 **Pages Involved:**
+
 - `/programs`
 - `/programs/[slug]`
 - `/apply`
@@ -113,6 +119,7 @@
 **Goal:** Student completes all coursework and receives certificate
 
 **Steps:**
+
 1. Access course dashboard:
    - `/courses/[courseId]`
    - View course overview
@@ -139,6 +146,7 @@
     - Download
 
 **Success Criteria:**
+
 - ✅ All lessons completed
 - ✅ All quizzes passed
 - ✅ Final assessment passed
@@ -146,6 +154,7 @@
 - ✅ Certificate downloaded
 
 **Pages Involved:**
+
 - `/courses/[courseId]`
 - `/courses/[courseId]/learn`
 - `/courses/[courseId]/lessons/[lessonId]`
@@ -158,6 +167,7 @@
 **Goal:** Student receives job placement assistance after completion
 
 **Steps:**
+
 1. Complete training program
 2. Access career services:
    - `/career-services`
@@ -186,12 +196,14 @@
    - Wage information
 
 **Success Criteria:**
+
 - ✅ Career services accessed
 - ✅ Resume completed
 - ✅ Jobs applied to
 - ✅ Employment reported
 
 **Pages Involved:**
+
 - `/career-services`
 - `/jobs`
 - `/dashboard/applications`
@@ -206,6 +218,7 @@
 **Goal:** Training provider becomes approved partner
 
 **Steps:**
+
 1. Visit partner page:
    - `/partner`
    - Learn about partnership
@@ -232,6 +245,7 @@
 9. Access partner dashboard
 
 **Success Criteria:**
+
 - ✅ Application submitted
 - ✅ Documents uploaded
 - ✅ Approval received
@@ -239,6 +253,7 @@
 - ✅ Portal access granted
 
 **Pages Involved:**
+
 - `/partner`
 - `/partner-with-us`
 - `/partner/application`
@@ -252,6 +267,7 @@
 **Goal:** Partner adds new training program to marketplace
 
 **Steps:**
+
 1. Login to partner portal
 2. Navigate to programs:
    - `/partner/programs`
@@ -276,6 +292,7 @@
 10. Program goes live
 
 **Success Criteria:**
+
 - ✅ Program created
 - ✅ Materials uploaded
 - ✅ Approval received
@@ -283,6 +300,7 @@
 - ✅ Accepting enrollments
 
 **Pages Involved:**
+
 - `/partner/programs`
 - `/partner/programs/create`
 - `/partner/programs/[programId]/edit`
@@ -294,6 +312,7 @@
 **Goal:** Partner tracks and manages enrolled students
 
 **Steps:**
+
 1. Access partner dashboard:
    - `/partner/dashboard`
    - View enrollment metrics
@@ -323,6 +342,7 @@
    - Outcome reports
 
 **Success Criteria:**
+
 - ✅ Applications reviewed
 - ✅ Students enrolled
 - ✅ Attendance recorded
@@ -330,6 +350,7 @@
 - ✅ Reports generated
 
 **Pages Involved:**
+
 - `/partner/dashboard`
 - `/partner/enrollments`
 - `/partner/attendance`
@@ -345,6 +366,7 @@
 **Goal:** Employer creates account to access talent pipeline
 
 **Steps:**
+
 1. Visit employer page:
    - `/employers`
    - Learn about hiring graduates
@@ -360,11 +382,13 @@
 5. Access employer dashboard
 
 **Success Criteria:**
+
 - ✅ Account created
 - ✅ Company verified
 - ✅ Dashboard access
 
 **Pages Involved:**
+
 - `/employers`
 - `/employer/signup`
 - `/employer/dashboard`
@@ -376,6 +400,7 @@
 **Goal:** Employer posts job for trained candidates
 
 **Steps:**
+
 1. Login to employer dashboard
 2. Click "Post Job"
 3. Complete job posting:
@@ -400,12 +425,14 @@
 10. Report hires
 
 **Success Criteria:**
+
 - ✅ Job posted
 - ✅ Candidates received
 - ✅ Interviews scheduled
 - ✅ Hires reported
 
 **Pages Involved:**
+
 - `/employer/dashboard`
 - `/employer/jobs/create`
 - `/employer/candidates`
@@ -420,6 +447,7 @@
 **Goal:** Admin reviews and approves student applications
 
 **Steps:**
+
 1. Login to admin panel:
    - `/admin/dashboard`
    - View pending applications
@@ -446,6 +474,7 @@
    - Set up funding
 
 **Success Criteria:**
+
 - ✅ Application reviewed
 - ✅ Eligibility verified
 - ✅ Decision made
@@ -453,6 +482,7 @@
 - ✅ Enrollment created (if approved)
 
 **Pages Involved:**
+
 - `/admin/dashboard`
 - `/admin/applications`
 - `/admin/applications/[applicationId]`
@@ -464,6 +494,7 @@
 **Goal:** Admin generates WIOA compliance reports
 
 **Steps:**
+
 1. Access reporting dashboard:
    - `/admin/reports`
    - View report types
@@ -491,12 +522,14 @@
 7. Submit to workforce board
 
 **Success Criteria:**
+
 - ✅ Report generated
 - ✅ Data accurate
 - ✅ Report exported
 - ✅ Submitted to board
 
 **Pages Involved:**
+
 - `/admin/reports`
 - `/admin/reports/wioa`
 - `/admin/reports/generate`
@@ -510,6 +543,7 @@
 **Goal:** Track WIOA-funded enrollments for compliance
 
 **Flow:**
+
 ```
 Student Application
   ↓
@@ -531,6 +565,7 @@ Outcome Reporting
 ```
 
 **Data Collected:**
+
 - Demographics
 - Income verification
 - Education level
@@ -542,6 +577,7 @@ Outcome Reporting
 - Wage information
 
 **Reports Generated:**
+
 - Quarterly WIOA reports
 - Annual performance reports
 - Outcome tracking reports
@@ -553,6 +589,7 @@ Outcome Reporting
 **Goal:** Maintain complete audit trail for compliance
 
 **Tracked Events:**
+
 - User registrations
 - Application submissions
 - Approval decisions
@@ -564,6 +601,7 @@ Outcome Reporting
 - Data modifications
 
 **Audit Log Fields:**
+
 - Timestamp
 - User ID
 - Action type
@@ -575,6 +613,7 @@ Outcome Reporting
 - User agent
 
 **Access:**
+
 - `/admin/audit-logs`
 - Filter by:
   - Date range
@@ -587,6 +626,7 @@ Outcome Reporting
 ## Key Metrics
 
 ### Student Success Metrics
+
 - **Enrollment Rate:** % of applicants who enroll
 - **Completion Rate:** % of enrolled students who complete
 - **Time to Completion:** Average days to complete
@@ -594,6 +634,7 @@ Outcome Reporting
 - **Wage Gain:** Average wage increase post-training
 
 ### Partner Performance Metrics
+
 - **Student Capacity:** Total enrollment capacity
 - **Utilization Rate:** % of capacity filled
 - **Completion Rate:** % of students who complete
@@ -601,6 +642,7 @@ Outcome Reporting
 - **Employment Outcomes:** % of graduates employed
 
 ### Platform Health Metrics
+
 - **Active Users:** Daily/monthly active users
 - **Enrollment Growth:** Month-over-month growth
 - **Course Completion:** Overall completion rate
@@ -642,6 +684,7 @@ Employers   Sign Up    Create Posting   View Profiles   Schedule   Onboard   Tra
 ### Email Notifications
 
 **Student:**
+
 - Welcome email
 - Email verification
 - Application received
@@ -653,6 +696,7 @@ Employers   Sign Up    Create Posting   View Profiles   Schedule   Onboard   Tra
 - Job opportunities
 
 **Partner:**
+
 - Application received
 - Approval notification
 - New enrollment
@@ -661,6 +705,7 @@ Employers   Sign Up    Create Posting   View Profiles   Schedule   Onboard   Tra
 - Payment notifications
 
 **Admin:**
+
 - New applications
 - Pending approvals
 - System alerts
@@ -680,6 +725,7 @@ Employers   Sign Up    Create Posting   View Profiles   Schedule   Onboard   Tra
 ## Support Touchpoints
 
 ### Student Support
+
 - **Live Chat:** Available during business hours
 - **Email:** support@www.elevateforhumanity.org
 - **Phone:** 317-314-3757
@@ -687,6 +733,7 @@ Employers   Sign Up    Create Posting   View Profiles   Schedule   Onboard   Tra
 - **FAQ:** `/faq`
 
 ### Partner Support
+
 - **Dedicated Account Manager**
 - **Partner Portal Help:** `/partner/help`
 - **Technical Support:** partners@www.elevateforhumanity.org

@@ -34,14 +34,14 @@ const colorMap = {
 
 let filesUpdated = 0;
 
-placeholders.pages.forEach(page => {
+placeholders.pages.forEach((page) => {
   const filePath = page.file;
-  
+
   if (!fs.existsSync(filePath)) return;
-  
+
   let content = fs.readFileSync(filePath, 'utf8');
   let modified = false;
-  
+
   // Replace all color gradients with blue
   Object.entries(colorMap).forEach(([oldColor, newColor]) => {
     if (content.includes(oldColor)) {
@@ -49,11 +49,11 @@ placeholders.pages.forEach(page => {
       modified = true;
     }
   });
-  
+
   if (modified) {
     fs.writeFileSync(filePath, content, 'utf8');
     filesUpdated++;
-    
+
     if (filesUpdated % 50 === 0) {
       console.log(`Updated ${filesUpdated} files...`);
     }

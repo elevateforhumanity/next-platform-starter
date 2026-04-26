@@ -5,7 +5,8 @@ export function generateOrganizationSchema() {
     '@context': 'https://schema.org',
     '@type': 'EducationalOrganization',
     name: 'Elevate for Humanity',
-    description: 'WIOA, WRG, and JRI-funded workforce training programs in Marion County and Indianapolis, Indiana',
+    description:
+      'WIOA, WRG, and JRI-funded workforce training programs in Marion County and Indianapolis, Indiana',
     url: 'https://www.elevateforhumanity.org',
     logo: 'https://www.elevateforhumanity.org/logo.png',
     address: {
@@ -78,15 +79,17 @@ export function generateJobPostingSchema(job: {
         addressLocality: job.location,
       },
     },
-    baseSalary: job.salary ? {
-      '@type': 'MonetaryAmount',
-      currency: 'USD',
-      value: {
-        '@type': 'QuantitativeValue',
-        value: job.salary,
-        unitText: 'YEAR',
-      },
-    } : undefined,
+    baseSalary: job.salary
+      ? {
+          '@type': 'MonetaryAmount',
+          currency: 'USD',
+          value: {
+            '@type': 'QuantitativeValue',
+            value: job.salary,
+            unitText: 'YEAR',
+          },
+        }
+      : undefined,
     hiringOrganization: {
       '@type': 'Organization',
       name: 'Elevate for Humanity',

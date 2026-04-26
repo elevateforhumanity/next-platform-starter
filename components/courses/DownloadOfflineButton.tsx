@@ -24,7 +24,7 @@ export function DownloadOfflineButton({ courseId, lessonUrls = [] }: DownloadOff
   const [showConfirm, setShowConfirm] = useState(false);
 
   const handleDownload = async () => {
-    const assets = lessonUrls.map(url => ({ url, type: 'page' as const }));
+    const assets = lessonUrls.map((url) => ({ url, type: 'page' as const }));
     await downloadForOffline(assets);
   };
 
@@ -40,7 +40,9 @@ export function DownloadOfflineButton({ courseId, lessonUrls = [] }: DownloadOff
         className="flex items-center gap-2 px-4 py-2 bg-gray-100 text-slate-700 rounded-lg text-sm"
       >
         <Loader2 className="w-4 h-4 animate-spin" />
-        <span>{t('offline.downloading')} {cacheProgress}%</span>
+        <span>
+          {t('offline.downloading')} {cacheProgress}%
+        </span>
       </button>
     );
   }
@@ -86,9 +88,7 @@ export function DownloadOfflineButton({ courseId, lessonUrls = [] }: DownloadOff
         <Download className="w-4 h-4" />
         <span>{t('offline.downloadForOffline')}</span>
       </button>
-      {error && (
-        <p className="mt-1 text-xs text-brand-red-600">{error}</p>
-      )}
+      {error && <p className="mt-1 text-xs text-brand-red-600">{error}</p>}
     </div>
   );
 }

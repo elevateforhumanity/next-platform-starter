@@ -70,7 +70,11 @@ function auditFile(filePath: string): AuditResult {
   }
 
   // Check for forms
-  if (content.includes('<form') || content.includes('onSubmit') || content.includes('handleSubmit')) {
+  if (
+    content.includes('<form') ||
+    content.includes('onSubmit') ||
+    content.includes('handleSubmit')
+  ) {
     result.hasForms = true;
   }
 
@@ -149,53 +153,42 @@ function auditFile(filePath: string): AuditResult {
 }
 
 function generateReport(results: AuditResult[]) {
-  const errors = results.filter(r => r.status === 'error');
-  const warnings = results.filter(r => r.status === 'warning');
-  const ok = results.filter(r => r.status === 'ok');
+  const errors = results.filter((r) => r.status === 'error');
+  const warnings = results.filter((r) => r.status === 'warning');
+  const ok = results.filter((r) => r.status === 'ok');
 
-
-
-
-  const withSupabase = results.filter(r => r.hasSupabase).length;
-  const withAuth = results.filter(r => r.hasAuth).length;
-  const withForms = results.filter(r => r.hasForms).length;
-  const withApiCalls = results.filter(r => r.hasApiCalls).length;
-
+  const withSupabase = results.filter((r) => r.hasSupabase).length;
+  const withAuth = results.filter((r) => r.hasAuth).length;
+  const withForms = results.filter((r) => r.hasForms).length;
+  const withApiCalls = results.filter((r) => r.hasApiCalls).length;
 
   if (errors.length > 0) {
-
-    errors.forEach(result => {
-      result.issues.forEach(issue => {
-      });
+    errors.forEach((result) => {
+      result.issues.forEach((issue) => {});
     });
   }
 
   if (warnings.length > 0) {
-
-    warnings.forEach(result => {
-      result.issues.forEach(issue => {
-      });
+    warnings.forEach((result) => {
+      result.issues.forEach((issue) => {});
     });
   }
 
   // SupersonicFastCash specific audit
 
-  const supersonicFiles = results.filter(r => r.file.includes('supersonic-fast-cash'));
-  const supersonicErrors = supersonicFiles.filter(r => r.status === 'error');
-  const supersonicWarnings = supersonicFiles.filter(r => r.status === 'warning');
+  const supersonicFiles = results.filter((r) => r.file.includes('supersonic-fast-cash'));
+  const supersonicErrors = supersonicFiles.filter((r) => r.status === 'error');
+  const supersonicWarnings = supersonicFiles.filter((r) => r.status === 'warning');
 
-
-  supersonicFiles.forEach(result => {
+  supersonicFiles.forEach((result) => {
     if (result.issues.length > 0) {
-      result.issues.forEach(issue => {
-      });
+      result.issues.forEach((issue) => {});
     }
   });
 
   // Save detailed report to file
   const reportPath = path.join(process.cwd(), 'audit-report.json');
   fs.writeFileSync(reportPath, JSON.stringify(results, null, 2));
-
 
   return errors.length === 0;
 }
@@ -204,7 +197,6 @@ function generateReport(results: AuditResult[]) {
 
 const appDir = path.join(process.cwd(), 'app');
 const allFiles = getAllFiles(appDir);
-
 
 for (const file of allFiles) {
   const result = auditFile(file);

@@ -24,8 +24,8 @@ export async function POST(request: NextRequest) {
     const body = await parseBody<Record<string, any>>(request);
     const { type, url, timestamp, ...additionalData } = body;
 
-    const ip = request.headers.get('x-forwarded-for') || 
-      request.headers.get('x-real-ip') || 'unknown';
+    const ip =
+      request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown';
     const userAgent = request.headers.get('user-agent') || 'unknown';
 
     logger.error('🚨 SCRAPING ATTEMPT DETECTED:', {
@@ -81,12 +81,10 @@ export async function POST(request: NextRequest) {
     });
 
     return responsePromise;
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     logger.error('Error processing scraper alert:', error);
-    return NextResponse.json(
-      { error: 'Failed to process alert' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to process alert' }, { status: 500 });
   }
 }
 
@@ -190,7 +188,8 @@ async function sendSlackAlert(data: Record<string, any>) {
         ],
       }),
     });
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     logger.error('Failed to send Slack alert:', error);
   }
 }

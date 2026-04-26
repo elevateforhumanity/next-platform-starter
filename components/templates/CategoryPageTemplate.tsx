@@ -57,9 +57,7 @@ export function CategoryPageTemplate({ data }: CategoryPageTemplateProps) {
         description={data.description}
         badges={data.badges}
         primaryCTA={data.ctaPrimary || { text: 'Apply Now', href: '/apply' }}
-        secondaryCTA={
-          data.ctaSecondary || { text: 'Talk to an Advisor', href: '/contact' }
-        }
+        secondaryCTA={data.ctaSecondary || { text: 'Talk to an Advisor', href: '/contact' }}
       />
 
       {/* At-a-Glance Section */}
@@ -78,19 +76,14 @@ export function CategoryPageTemplate({ data }: CategoryPageTemplateProps) {
       )}
 
       {/* Programs Grid */}
-      <ProgramsGridSection
-        title={`${data.title} Programs`}
-        programs={data.programs}
-      />
+      <ProgramsGridSection title={`${data.title} Programs`} programs={data.programs} />
 
       {/* CTA Section */}
       <CTASection
         title="Ready to Get Started?"
         description="Apply now or talk to an advisor to learn more about our programs."
         primaryCTA={data.ctaPrimary || { text: 'Apply Now', href: '/apply' }}
-        secondaryCTA={
-          data.ctaSecondary || { text: 'Contact Us', href: '/contact' }
-        }
+        secondaryCTA={data.ctaSecondary || { text: 'Contact Us', href: '/contact' }}
       />
     </main>
   );

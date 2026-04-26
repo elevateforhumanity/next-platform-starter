@@ -2,9 +2,17 @@
 
 import { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import type { GeneratedCourse, GeneratedLesson, GeneratedModule } from '@/app/api/admin/courses/generate/route';
+import type {
+  GeneratedCourse,
+  GeneratedLesson,
+  GeneratedModule,
+} from '@/app/api/admin/courses/generate/route';
 
-interface Program { id: string; name: string; category: string; }
+interface Program {
+  id: string;
+  name: string;
+  category: string;
+}
 
 type Stage = 'intake' | 'generating' | 'review';
 
@@ -38,7 +46,8 @@ export default function CourseGeneratorClient({ programs }: { programs: Program[
         const form = new FormData();
         form.append('file', fileData);
         const parseRes = await fetch('/api/admin/courses/generate/parse', {
-          method: 'POST', body: form,
+          method: 'POST',
+          body: form,
         });
         const parsed = await parseRes.json();
         if (!parseRes.ok) throw new Error(parsed.error || 'Parse failed');
@@ -73,19 +82,17 @@ export default function CourseGeneratorClient({ programs }: { programs: Program[
   // ── Course field edits ────────────────────────────────────────────────────
 
   function updateCourse(patch: Partial<GeneratedCourse>) {
-    setCourse(c => c ? { ...c, ...patch } : c);
+    setCourse((c) => (c ? { ...c, ...patch } : c));
   }
 
   function updateLesson(modIdx: number, lessonIdx: number, patch: Partial<GeneratedLesson>) {
-    setCourse(c => {
+    setCourse((c) => {
       if (!c) return c;
       const modules = c.modules.map((mod, mi) => {
         if (mi !== modIdx) return mod;
         return {
           ...mod,
-          lessons: mod.lessons.map((l, li) =>
-            li === lessonIdx ? { ...l, ...patch } : l
-          ),
+          lessons: mod.lessons.map((l, li) => (li === lessonIdx ? { ...l, ...patch } : l)),
         };
       });
       return { ...c, modules };
@@ -93,18 +100,18 @@ export default function CourseGeneratorClient({ programs }: { programs: Program[
   }
 
   function updateModule(modIdx: number, patch: Partial<GeneratedModule>) {
-    setCourse(c => {
+    setCourse((c) => {
       if (!c) return c;
       return {
         ...c,
-        modules: c.modules.map((m, i) => i === modIdx ? { ...m, ...patch } : m),
+        modules: c.modules.map((m, i) => (i === modIdx ? { ...m, ...patch } : m)),
       };
     });
   }
 
   function moveLessonUp(modIdx: number, lessonIdx: number) {
     if (lessonIdx === 0) return;
-    setCourse(c => {
+    setCourse((c) => {
       if (!c) return c;
       const modules = c.modules.map((mod, mi) => {
         if (mi !== modIdx) return mod;
@@ -118,7 +125,7 @@ export default function CourseGeneratorClient({ programs }: { programs: Program[
 
   function moveLessonDown(modIdx: number, lessonIdx: number, total: number) {
     if (lessonIdx >= total - 1) return;
-    setCourse(c => {
+    setCourse((c) => {
       if (!c) return c;
       const modules = c.modules.map((mod, mi) => {
         if (mi !== modIdx) return mod;
@@ -135,9 +142,8 @@ export default function CourseGeneratorClient({ programs }: { programs: Program[
   async function regenerateLesson(modIdx: number, lessonIdx: number) {
     if (!course) return;
     const lesson = course.modules[modIdx].lessons[lessonIdx];
-    const flatIdx = course.modules
-      .slice(0, modIdx)
-      .reduce((s, m) => s + m.lessons.length, 0) + lessonIdx;
+    const flatIdx =
+      course.modules.slice(0, modIdx).reduce((s, m) => s + m.lessons.length, 0) + lessonIdx;
     setRegeneratingIdx(flatIdx);
     setError('');
     try {
@@ -195,23 +201,25 @@ export default function CourseGeneratorClient({ programs }: { programs: Program[
   }
 
   if (stage === 'review' && course) {
-    return <ReviewScreen
-      course={course}
-      programs={programs}
-      programId={programId}
-      setProgramId={setProgramId}
-      updateCourse={updateCourse}
-      updateModule={updateModule}
-      updateLesson={updateLesson}
-      moveLessonUp={moveLessonUp}
-      moveLessonDown={moveLessonDown}
-      regenerateLesson={regenerateLesson}
-      regeneratingIdx={regeneratingIdx}
-      publishing={publishing}
-      error={error}
-      onPublish={handlePublish}
-      onBack={() => setStage('intake')}
-    />;
+    return (
+      <ReviewScreen
+        course={course}
+        programs={programs}
+        programId={programId}
+        setProgramId={setProgramId}
+        updateCourse={updateCourse}
+        updateModule={updateModule}
+        updateLesson={updateLesson}
+        moveLessonUp={moveLessonUp}
+        moveLessonDown={moveLessonDown}
+        regenerateLesson={regenerateLesson}
+        regeneratingIdx={regeneratingIdx}
+        publishing={publishing}
+        error={error}
+        onPublish={handlePublish}
+        onBack={() => setStage('intake')}
+      />
+    );
   }
 
   // Intake screen
@@ -219,7 +227,7 @@ export default function CourseGeneratorClient({ programs }: { programs: Program[
     <div className="bg-white rounded-xl border border-slate-200 p-6 space-y-6">
       {/* Mode tabs */}
       <div className="flex gap-2 border-b border-slate-200 pb-4">
-        {(['text', 'file', 'prompt'] as const).map(mode => (
+        {(['text', 'file', 'prompt'] as const).map((mode) => (
           <button
             key={mode}
             onClick={() => setInputMode(mode)}
@@ -229,9 +237,11 @@ export default function CourseGeneratorClient({ programs }: { programs: Program[
                 : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
             }`}
           >
-            {mode === 'text' ? 'Paste Syllabus / Script'
-              : mode === 'file' ? 'Upload PDF / DOCX'
-              : 'Plain-English Prompt'}
+            {mode === 'text'
+              ? 'Paste Syllabus / Script'
+              : mode === 'file'
+                ? 'Upload PDF / DOCX'
+                : 'Plain-English Prompt'}
           </button>
         ))}
       </div>
@@ -240,7 +250,7 @@ export default function CourseGeneratorClient({ programs }: { programs: Program[
       {inputMode === 'text' && (
         <textarea
           value={textInput}
-          onChange={e => setTextInput(e.target.value)}
+          onChange={(e) => setTextInput(e.target.value)}
           placeholder="Paste your syllabus, training script, or course outline here…"
           className="w-full h-64 border border-slate-300 rounded-lg px-4 py-3 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
         />
@@ -249,7 +259,7 @@ export default function CourseGeneratorClient({ programs }: { programs: Program[
       {inputMode === 'prompt' && (
         <textarea
           value={promptInput}
-          onChange={e => setPromptInput(e.target.value)}
+          onChange={(e) => setPromptInput(e.target.value)}
           placeholder="Describe the course you want to create. Example: A 6-week HVAC fundamentals course for beginners covering refrigeration cycles, electrical basics, and EPA 608 exam prep."
           className="w-full h-40 border border-slate-300 rounded-lg px-4 py-3 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
         />
@@ -265,9 +275,12 @@ export default function CourseGeneratorClient({ programs }: { programs: Program[
             type="file"
             accept=".pdf,.doc,.docx"
             className="hidden"
-            onChange={e => {
+            onChange={(e) => {
               const f = e.target.files?.[0];
-              if (f) { setFileData(f); setFileName(f.name); }
+              if (f) {
+                setFileData(f);
+                setFileName(f.name);
+              }
             }}
           />
           {fileName ? (
@@ -289,12 +302,14 @@ export default function CourseGeneratorClient({ programs }: { programs: Program[
           </label>
           <select
             value={programId}
-            onChange={e => setProgramId(e.target.value)}
+            onChange={(e) => setProgramId(e.target.value)}
             className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm"
           >
             <option value="">No program</option>
-            {programs.map(p => (
-              <option key={p.id} value={p.id}>{p.name}</option>
+            {programs.map((p) => (
+              <option key={p.id} value={p.id}>
+                {p.name}
+              </option>
             ))}
           </select>
         </div>
@@ -342,10 +357,21 @@ interface ReviewProps {
 }
 
 function ReviewScreen({
-  course, programs, programId, setProgramId,
-  updateCourse, updateModule, updateLesson,
-  moveLessonUp, moveLessonDown, regenerateLesson,
-  regeneratingIdx, publishing, error, onPublish, onBack,
+  course,
+  programs,
+  programId,
+  setProgramId,
+  updateCourse,
+  updateModule,
+  updateLesson,
+  moveLessonUp,
+  moveLessonDown,
+  regenerateLesson,
+  regeneratingIdx,
+  publishing,
+  error,
+  onPublish,
+  onBack,
 }: ReviewProps) {
   const totalLessons = course.modules.reduce((s, m) => s + m.lessons.length, 0);
   let flatIdx = 0;
@@ -389,7 +415,7 @@ function ReviewScreen({
             <label className="block text-xs font-medium text-slate-500 mb-1">Title</label>
             <input
               value={course.title}
-              onChange={e => updateCourse({ title: e.target.value })}
+              onChange={(e) => updateCourse({ title: e.target.value })}
               className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm"
             />
           </div>
@@ -397,7 +423,7 @@ function ReviewScreen({
             <label className="block text-xs font-medium text-slate-500 mb-1">Subtitle</label>
             <input
               value={course.subtitle}
-              onChange={e => updateCourse({ subtitle: e.target.value })}
+              onChange={(e) => updateCourse({ subtitle: e.target.value })}
               className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm"
             />
           </div>
@@ -405,7 +431,7 @@ function ReviewScreen({
             <label className="block text-xs font-medium text-slate-500 mb-1">Description</label>
             <textarea
               value={course.description}
-              onChange={e => updateCourse({ description: e.target.value })}
+              onChange={(e) => updateCourse({ description: e.target.value })}
               rows={3}
               className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm resize-none"
             />
@@ -414,7 +440,7 @@ function ReviewScreen({
             <label className="block text-xs font-medium text-slate-500 mb-1">Audience</label>
             <input
               value={course.audience}
-              onChange={e => updateCourse({ audience: e.target.value })}
+              onChange={(e) => updateCourse({ audience: e.target.value })}
               className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm"
             />
           </div>
@@ -422,57 +448,84 @@ function ReviewScreen({
             <label className="block text-xs font-medium text-slate-500 mb-1">Category</label>
             <select
               value={course.category}
-              onChange={e => updateCourse({ category: e.target.value })}
+              onChange={(e) => updateCourse({ category: e.target.value })}
               className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm"
             >
-              {['healthcare','trades','technology','business','transportation','personal-services','tax'].map(c => (
-                <option key={c} value={c}>{c}</option>
+              {[
+                'healthcare',
+                'trades',
+                'technology',
+                'business',
+                'transportation',
+                'personal-services',
+                'tax',
+              ].map((c) => (
+                <option key={c} value={c}>
+                  {c}
+                </option>
               ))}
             </select>
           </div>
           <div>
-            <label className="block text-xs font-medium text-slate-500 mb-1">Duration (hours)</label>
+            <label className="block text-xs font-medium text-slate-500 mb-1">
+              Duration (hours)
+            </label>
             <input
-              type="number" min={1}
+              type="number"
+              min={1}
               value={course.duration_hours}
-              onChange={e => updateCourse({ duration_hours: Number(e.target.value) })}
+              onChange={(e) => updateCourse({ duration_hours: Number(e.target.value) })}
               className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm"
             />
           </div>
           <div>
-            <label className="block text-xs font-medium text-slate-500 mb-1">Passing score (%)</label>
+            <label className="block text-xs font-medium text-slate-500 mb-1">
+              Passing score (%)
+            </label>
             <input
-              type="number" min={50} max={100}
+              type="number"
+              min={50}
+              max={100}
               value={course.passing_score}
-              onChange={e => updateCourse({ passing_score: Number(e.target.value) })}
+              onChange={(e) => updateCourse({ passing_score: Number(e.target.value) })}
               className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm"
             />
           </div>
           {programs.length > 0 && (
             <div>
-              <label className="block text-xs font-medium text-slate-500 mb-1">Attach to program</label>
+              <label className="block text-xs font-medium text-slate-500 mb-1">
+                Attach to program
+              </label>
               <select
                 value={programId}
-                onChange={e => setProgramId(e.target.value)}
+                onChange={(e) => setProgramId(e.target.value)}
                 className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm"
               >
                 <option value="">No program</option>
-                {programs.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
+                {programs.map((p) => (
+                  <option key={p.id} value={p.id}>
+                    {p.name}
+                  </option>
+                ))}
               </select>
             </div>
           )}
         </div>
-        <p className="text-xs text-slate-400">{course.modules.length} modules · {totalLessons} lessons</p>
+        <p className="text-xs text-slate-400">
+          {course.modules.length} modules · {totalLessons} lessons
+        </p>
       </div>
 
       {/* Modules + lessons */}
       {course.modules.map((mod, mi) => (
         <div key={mi} className="bg-white rounded-xl border border-slate-200 overflow-hidden">
           <div className="bg-slate-50 border-b border-slate-200 px-6 py-3 flex items-center gap-3">
-            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Module {mi + 1}</span>
+            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+              Module {mi + 1}
+            </span>
             <input
               value={mod.title}
-              onChange={e => updateModule(mi, { title: e.target.value })}
+              onChange={(e) => updateModule(mi, { title: e.target.value })}
               className="flex-1 bg-transparent border-none text-slate-800 font-semibold text-sm focus:outline-none focus:ring-1 focus:ring-brand-blue-400 rounded px-1"
             />
           </div>
@@ -488,7 +541,7 @@ function ReviewScreen({
                   lessonIdx={li}
                   totalInModule={mod.lessons.length}
                   isRegenerating={isRegenerating}
-                  onChange={patch => updateLesson(mi, li, patch)}
+                  onChange={(patch) => updateLesson(mi, li, patch)}
                   onMoveUp={() => moveLessonUp(mi, li)}
                   onMoveDown={() => moveLessonDown(mi, li, mod.lessons.length)}
                   onRegenerate={() => regenerateLesson(mi, li)}
@@ -523,8 +576,14 @@ function ReviewScreen({
 // ── Lesson editor ─────────────────────────────────────────────────────────────
 
 function LessonEditor({
-  lesson, lessonIdx, totalInModule, isRegenerating,
-  onChange, onMoveUp, onMoveDown, onRegenerate,
+  lesson,
+  lessonIdx,
+  totalInModule,
+  isRegenerating,
+  onChange,
+  onMoveUp,
+  onMoveDown,
+  onRegenerate,
 }: {
   lesson: GeneratedLesson;
   lessonIdx: number;
@@ -547,13 +606,17 @@ function LessonEditor({
             disabled={lessonIdx === 0}
             className="text-slate-300 hover:text-slate-600 disabled:opacity-20 text-xs leading-none"
             title="Move up"
-          >▲</button>
+          >
+            ▲
+          </button>
           <button
             onClick={onMoveDown}
             disabled={lessonIdx >= totalInModule - 1}
             className="text-slate-300 hover:text-slate-600 disabled:opacity-20 text-xs leading-none"
             title="Move down"
-          >▼</button>
+          >
+            ▼
+          </button>
         </div>
 
         <div className="flex-1 min-w-0">
@@ -561,42 +624,50 @@ function LessonEditor({
             <span className="text-xs text-slate-400 font-mono w-6">{lesson.lesson_number}</span>
             <input
               value={lesson.title}
-              onChange={e => onChange({ title: e.target.value })}
+              onChange={(e) => onChange({ title: e.target.value })}
               className="flex-1 text-sm font-medium text-slate-800 border-none bg-transparent focus:outline-none focus:ring-1 focus:ring-brand-blue-400 rounded px-1"
             />
             <span className="text-xs text-slate-400 shrink-0">{lesson.duration_minutes}m</span>
             <select
               value={lesson.content_type}
-              onChange={e => onChange({ content_type: e.target.value as GeneratedLesson['content_type'] })}
+              onChange={(e) =>
+                onChange({ content_type: e.target.value as GeneratedLesson['content_type'] })
+              }
               className="text-xs border border-slate-200 rounded px-1 py-0.5 text-slate-600"
             >
-              {['video','reading','quiz','assignment'].map(t => (
-                <option key={t} value={t}>{t}</option>
+              {['video', 'reading', 'quiz', 'assignment'].map((t) => (
+                <option key={t} value={t}>
+                  {t}
+                </option>
               ))}
             </select>
           </div>
 
           <input
             value={lesson.description}
-            onChange={e => onChange({ description: e.target.value })}
+            onChange={(e) => onChange({ description: e.target.value })}
             placeholder="Lesson description"
             className="w-full text-xs text-slate-500 border-none bg-transparent focus:outline-none focus:ring-1 focus:ring-brand-blue-400 rounded px-1 mb-2"
           />
 
           <button
-            onClick={() => setExpanded(x => !x)}
+            onClick={() => setExpanded((x) => !x)}
             className="text-xs text-brand-blue-600 hover:underline"
           >
-            {expanded ? 'Hide content & quiz' : `Edit content & ${lesson.quiz_questions?.length ?? 0} quiz questions`}
+            {expanded
+              ? 'Hide content & quiz'
+              : `Edit content & ${lesson.quiz_questions?.length ?? 0} quiz questions`}
           </button>
 
           {expanded && (
             <div className="mt-3 space-y-3">
               <div>
-                <label className="block text-xs font-medium text-slate-500 mb-1">Lesson content / narration script</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1">
+                  Lesson content / narration script
+                </label>
                 <textarea
                   value={lesson.content}
-                  onChange={e => onChange({ content: e.target.value })}
+                  onChange={(e) => onChange({ content: e.target.value })}
                   rows={6}
                   className="w-full border border-slate-200 rounded-lg px-3 py-2 text-xs resize-y"
                 />
@@ -610,7 +681,7 @@ function LessonEditor({
                   <div key={qi} className="border border-slate-200 rounded-lg p-3 mb-2 space-y-2">
                     <input
                       value={q.question}
-                      onChange={e => {
+                      onChange={(e) => {
                         const qs = [...(lesson.quiz_questions ?? [])];
                         qs[qi] = { ...qs[qi], question: e.target.value };
                         onChange({ quiz_questions: qs });
@@ -632,7 +703,7 @@ function LessonEditor({
                         />
                         <input
                           value={opt}
-                          onChange={e => {
+                          onChange={(e) => {
                             const qs = [...(lesson.quiz_questions ?? [])];
                             const opts = [...qs[qi].options];
                             opts[oi] = e.target.value;
@@ -646,7 +717,7 @@ function LessonEditor({
                     ))}
                     <input
                       value={q.explanation}
-                      onChange={e => {
+                      onChange={(e) => {
                         const qs = [...(lesson.quiz_questions ?? [])];
                         qs[qi] = { ...qs[qi], explanation: e.target.value };
                         onChange({ quiz_questions: qs });

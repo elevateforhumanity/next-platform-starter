@@ -1,23 +1,31 @@
-
 export const revalidate = 86400;
 
-import Image from "next/image";
-import Link from "next/link";
-import type { Metadata } from "next";
-import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
+import Image from 'next/image';
+import Link from 'next/link';
+import type { Metadata } from 'next';
+import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 const SITE_URL = 'https://www.elevateforhumanity.org';
 
 export const metadata: Metadata = {
   title: 'Building Services Technician Apprenticeship | Elevate for Humanity',
-  description: 'DOL Registered Apprenticeship in building services and facility maintenance. 6000-hour program with paid OJT. Multi-story window cleaning, building maintenance, and more.',
+  description:
+    'DOL Registered Apprenticeship in building services and facility maintenance. 6000-hour program with paid OJT. Multi-story window cleaning, building maintenance, and more.',
   alternates: { canonical: `${SITE_URL}/programs/building-services-technician` },
   openGraph: {
     title: 'Building Services Technician Apprenticeship | Elevate for Humanity',
-    description: 'DOL Registered Apprenticeship in building services and facility maintenance. 6000-hour program with paid OJT.',
+    description:
+      'DOL Registered Apprenticeship in building services and facility maintenance. 6000-hour program with paid OJT.',
     url: `${SITE_URL}/programs/building-services-technician`,
     siteName: 'Elevate for Humanity',
-    images: [{ url: `${SITE_URL}/images/programs/building-technician-hero.jpg`, width: 1200, height: 630, alt: 'Building Services Technician' }],
+    images: [
+      {
+        url: `${SITE_URL}/images/programs/building-technician-hero.jpg`,
+        width: 1200,
+        height: 630,
+        alt: 'Building Services Technician',
+      },
+    ],
     type: 'website',
   },
 };
@@ -52,7 +60,8 @@ export default function BuildingServicesTechnicianPage() {
               Building Services Technician
             </h1>
             <p className="text-xl text-white/90 max-w-2xl">
-              Multi-story window cleaning, facility maintenance, and building services. Earn while you learn with paid on-the-job training.
+              Multi-story window cleaning, facility maintenance, and building services. Earn while
+              you learn with paid on-the-job training.
             </p>
           </div>
         </div>
@@ -110,21 +119,30 @@ export default function BuildingServicesTechnicianPage() {
                 <span className="text-2xl font-bold text-blue-600">1</span>
               </div>
               <h3 className="font-bold text-xl mb-2">Get Hired</h3>
-              <p className="text-slate-600">Start working with an approved employer from day one. No waiting—you begin earning immediately.</p>
+              <p className="text-slate-600">
+                Start working with an approved employer from day one. No waiting—you begin earning
+                immediately.
+              </p>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl font-bold text-green-600">2</span>
               </div>
               <h3 className="font-bold text-xl mb-2">Learn On-the-Job</h3>
-              <p className="text-slate-600">Train alongside experienced journeyworkers. Learn building maintenance, window cleaning, and facility services.</p>
+              <p className="text-slate-600">
+                Train alongside experienced journeyworkers. Learn building maintenance, window
+                cleaning, and facility services.
+              </p>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl font-bold text-purple-600">3</span>
               </div>
               <h3 className="font-bold text-xl mb-2">Earn Credentials</h3>
-              <p className="text-slate-600">Complete 6,000 hours and earn your DOL Journeyworker Certificate. Your wages increase as you progress.</p>
+              <p className="text-slate-600">
+                Complete 6,000 hours and earn your DOL Journeyworker Certificate. Your wages
+                increase as you progress.
+              </p>
             </div>
           </div>
         </div>
@@ -134,13 +152,28 @@ export default function BuildingServicesTechnicianPage() {
       <section className="max-w-5xl mx-auto px-6 pb-10">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-lg">
-            <Image src="/images/building-maintenance.jpg" alt="Building Maintenance" fill className="object-cover" />
+            <Image
+              src="/images/building-maintenance.jpg"
+              alt="Building Maintenance"
+              fill
+              className="object-cover"
+            />
           </div>
           <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-lg">
-            <Image src="/images/programs/building-maintenance-hero.jpg" alt="Facility Services" fill className="object-cover" />
+            <Image
+              src="/images/programs/building-maintenance-hero.jpg"
+              alt="Facility Services"
+              fill
+              className="object-cover"
+            />
           </div>
           <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-lg">
-            <Image src="/images/facility-hero.jpg" alt="Building Services" fill className="object-cover" />
+            <Image
+              src="/images/facility-hero.jpg"
+              alt="Building Services"
+              fill
+              className="object-cover"
+            />
           </div>
         </div>
       </section>
@@ -152,17 +185,28 @@ export default function BuildingServicesTechnicianPage() {
             <span className="text-green-600 font-semibold text-sm">RAPIDS CODE: 0688CB</span>
             <h2 className="text-3xl font-bold mt-2 mb-6">What is Building Services Technician?</h2>
             <p className="text-lg text-slate-700 mb-4">
-              Building Services Technicians are skilled professionals who maintain and service commercial and residential buildings. This includes multi-story window cleaning, general building maintenance, HVAC support, plumbing basics, electrical systems, and facility management.
+              Building Services Technicians are skilled professionals who maintain and service
+              commercial and residential buildings. This includes multi-story window cleaning,
+              general building maintenance, HVAC support, plumbing basics, electrical systems, and
+              facility management.
             </p>
             <p className="text-lg text-slate-700 mb-4">
-              As a DOL Registered Apprenticeship, you'll complete 6,000 hours of on-the-job training while earning wages. This is one of our most comprehensive programs, preparing you for a career in facility management and building services.
+              As a DOL Registered Apprenticeship, you'll complete 6,000 hours of on-the-job training
+              while earning wages. This is one of our most comprehensive programs, preparing you for
+              a career in facility management and building services.
             </p>
             <p className="text-lg text-slate-700">
-              Upon completion, you'll receive a nationally recognized Journeyworker Certificate from the U.S. Department of Labor.
+              Upon completion, you'll receive a nationally recognized Journeyworker Certificate from
+              the U.S. Department of Labor.
             </p>
           </div>
           <div className="relative h-96 rounded-2xl overflow-hidden">
-            <Image src="/images/programs/efh-building-tech-card.jpg" alt="Building Services Training" fill className="object-cover" />
+            <Image
+              src="/images/programs/efh-building-tech-card.jpg"
+              alt="Building Services Training"
+              fill
+              className="object-cover"
+            />
           </div>
         </div>
       </section>
@@ -271,21 +315,27 @@ export default function BuildingServicesTechnicianPage() {
                 <span className="text-2xl">🏆</span>
               </div>
               <h3 className="font-bold text-lg mb-2">DOL Journeyworker Certificate</h3>
-              <p className="text-slate-400 text-sm">Nationally recognized credential upon completing 6,000 hours</p>
+              <p className="text-slate-400 text-sm">
+                Nationally recognized credential upon completing 6,000 hours
+              </p>
             </div>
             <div className="bg-slate-800 rounded-xl p-6 text-center">
               <div className="w-16 h-16 bg-orange-500 rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl">🛡️</span>
               </div>
               <h3 className="font-bold text-lg mb-2">OSHA 10/30 Safety</h3>
-              <p className="text-slate-400 text-sm">Industry-standard workplace safety certification</p>
+              <p className="text-slate-400 text-sm">
+                Industry-standard workplace safety certification
+              </p>
             </div>
             <div className="bg-slate-800 rounded-xl p-6 text-center">
               <div className="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl">📋</span>
               </div>
               <h3 className="font-bold text-lg mb-2">Competency Certificate</h3>
-              <p className="text-slate-400 text-sm">Documentation of all skills and competencies mastered</p>
+              <p className="text-slate-400 text-sm">
+                Documentation of all skills and competencies mastered
+              </p>
             </div>
           </div>
         </div>
@@ -295,7 +345,9 @@ export default function BuildingServicesTechnicianPage() {
       <section className="py-16 bg-white">
         <div className="max-w-4xl mx-auto px-6">
           <h2 className="text-3xl font-bold text-center mb-12">Wage Progression</h2>
-          <p className="text-center text-slate-600 mb-8">Your wages increase as you gain skills and complete training milestones.</p>
+          <p className="text-center text-slate-600 mb-8">
+            Your wages increase as you gain skills and complete training milestones.
+          </p>
           <div className="bg-slate-50 rounded-xl p-8">
             <div className="space-y-4">
               <div className="flex justify-between items-center py-3 border-b border-slate-200">
@@ -326,19 +378,31 @@ export default function BuildingServicesTechnicianPage() {
           <div className="space-y-6">
             <div className="bg-white rounded-xl p-6">
               <h3 className="font-bold text-slate-900 mb-2">How long is the apprenticeship?</h3>
-              <p className="text-slate-700">The program is 6,000 hours, which typically takes 3 years working full-time. This is one of our most comprehensive apprenticeships.</p>
+              <p className="text-slate-700">
+                The program is 6,000 hours, which typically takes 3 years working full-time. This is
+                one of our most comprehensive apprenticeships.
+              </p>
             </div>
             <div className="bg-white rounded-xl p-6">
               <h3 className="font-bold text-slate-900 mb-2">Do I get paid during training?</h3>
-              <p className="text-slate-700">Yes! You're employed from day one and earn wages throughout the entire apprenticeship. Your pay increases as you progress.</p>
+              <p className="text-slate-700">
+                Yes! You're employed from day one and earn wages throughout the entire
+                apprenticeship. Your pay increases as you progress.
+              </p>
             </div>
             <div className="bg-white rounded-xl p-6">
               <h3 className="font-bold text-slate-900 mb-2">Is this program free?</h3>
-              <p className="text-slate-700">As a registered apprenticeship, you earn while you learn. There's no tuition—your employer sponsors your training.</p>
+              <p className="text-slate-700">
+                As a registered apprenticeship, you earn while you learn. There's no tuition—your
+                employer sponsors your training.
+              </p>
             </div>
             <div className="bg-white rounded-xl p-6">
               <h3 className="font-bold text-slate-900 mb-2">What's the job outlook?</h3>
-              <p className="text-slate-700">Building services is a stable, in-demand field. Every commercial building needs maintenance, and skilled technicians are always needed.</p>
+              <p className="text-slate-700">
+                Building services is a stable, in-demand field. Every commercial building needs
+                maintenance, and skilled technicians are always needed.
+              </p>
             </div>
           </div>
         </div>
@@ -348,12 +412,20 @@ export default function BuildingServicesTechnicianPage() {
       <section className="py-20 bg-slate-900 text-white">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Start Your Career?</h2>
-          <p className="text-xl text-slate-300 mb-8">Join our Building Services Technician Apprenticeship and earn while you learn.</p>
+          <p className="text-xl text-slate-300 mb-8">
+            Join our Building Services Technician Apprenticeship and earn while you learn.
+          </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/apply?program=building-maintenance-tech" className="inline-flex items-center justify-center px-8 py-4 bg-green-500 text-white font-bold rounded-full hover:bg-green-400">
+            <Link
+              href="/apply?program=building-maintenance-tech"
+              className="inline-flex items-center justify-center px-8 py-4 bg-green-500 text-white font-bold rounded-full hover:bg-green-400"
+            >
               Apply Now
             </Link>
-            <Link href="/inquiry?program=building-services-technician" className="inline-flex items-center justify-center px-8 py-4 bg-slate-700 text-white font-bold rounded-full hover:bg-slate-600 border border-slate-600">
+            <Link
+              href="/inquiry?program=building-services-technician"
+              className="inline-flex items-center justify-center px-8 py-4 bg-slate-700 text-white font-bold rounded-full hover:bg-slate-600 border border-slate-600"
+            >
               Request Information
             </Link>
           </div>

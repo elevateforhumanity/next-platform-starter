@@ -5,7 +5,8 @@ import { ArrowLeft, CheckCircle, Clock, DollarSign, Calendar } from 'lucide-reac
 
 export const metadata: Metadata = {
   title: 'Apply for CPR PROGRAM_TITLE First Aid | Elevate for Humanity',
-  description: 'Apply for our CPR PROGRAM_TITLE First Aid program. Free training with WIOA funding available.',
+  description:
+    'Apply for our CPR PROGRAM_TITLE First Aid program. Free training with WIOA funding available.',
 };
 
 export default function ApplyPage() {

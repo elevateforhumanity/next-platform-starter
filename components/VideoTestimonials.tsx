@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 import Image from 'next/image';
@@ -30,9 +30,10 @@ const testimonials: Testimonial[] = [
     salary: '$42,000/year',
     videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
     thumbnail: '/images/pages/cna-clinical.jpg',
-    quote: 'Elevate changed my life. I went from struggling to make ends meet to having a stable career in healthcare.',
+    quote:
+      'Elevate changed my life. I went from struggling to make ends meet to having a stable career in healthcare.',
     duration: '2:34',
-    graduationYear: '2023'
+    graduationYear: '2023',
   },
   {
     id: '2',
@@ -43,9 +44,10 @@ const testimonials: Testimonial[] = [
     salary: '$55,000/year',
     videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
     thumbnail: '/images/pages/hvac-unit.jpg',
-    quote: 'The hands-on training prepared me for real-world work. I got hired before I even graduated!',
+    quote:
+      'The hands-on training prepared me for real-world work. I got hired before I even graduated!',
     duration: '3:12',
-    graduationYear: '2023'
+    graduationYear: '2023',
   },
   {
     id: '3',
@@ -56,9 +58,10 @@ const testimonials: Testimonial[] = [
     salary: '$48,000/year',
     videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
     thumbnail: '/images/pages/medical-assistant-desk.jpg',
-    quote: 'I can work from home now and spend more time with my kids. This program gave me flexibility and financial security.',
+    quote:
+      'I can work from home now and spend more time with my kids. This program gave me flexibility and financial security.',
     duration: '2:45',
-    graduationYear: '2024'
+    graduationYear: '2024',
   },
   {
     id: '4',
@@ -71,7 +74,7 @@ const testimonials: Testimonial[] = [
     thumbnail: '/images/pages/cdl-cab-interior.jpg',
     quote: 'In just 4 weeks, I got my CDL and doubled my income. Best decision I ever made.',
     duration: '2:18',
-    graduationYear: '2024'
+    graduationYear: '2024',
   },
   {
     id: '5',
@@ -84,7 +87,7 @@ const testimonials: Testimonial[] = [
     thumbnail: '/images/pages/barber-styling-hair.jpg',
     quote: 'I turned my passion into a career. Now I own my own salon and employ 3 other stylists!',
     duration: '3:45',
-    graduationYear: '2023'
+    graduationYear: '2023',
   },
   {
     id: '6',
@@ -97,8 +100,8 @@ const testimonials: Testimonial[] = [
     thumbnail: '/images/pages/phlebotomy-draw.jpg',
     quote: 'The program was fast-paced but thorough. I felt confident on my first day at work.',
     duration: '2:56',
-    graduationYear: '2024'
-  }
+    graduationYear: '2024',
+  },
 ];
 
 export default function VideoTestimonials() {
@@ -116,7 +119,7 @@ export default function VideoTestimonials() {
   const visibleTestimonials = [
     testimonials[currentIndex],
     testimonials[(currentIndex + 1) % testimonials.length],
-    testimonials[(currentIndex + 2) % testimonials.length]
+    testimonials[(currentIndex + 2) % testimonials.length],
   ];
 
   return (
@@ -137,7 +140,8 @@ export default function VideoTestimonials() {
             See How Ona Changed Lives
           </h2>
           <p className="text-xl text-black max-w-3xl mx-auto">
-            Watch real students share their journey from struggle to success. These aren't actors—they're your future colleagues.
+            Watch real students share their journey from struggle to success. These aren't
+            actors—they're your future colleagues.
           </p>
         </motion.div>
 
@@ -209,16 +213,16 @@ export default function VideoTestimonials() {
                     <div className="p-6">
                       <div className="flex items-start justify-between mb-3">
                         <div>
-                          <h3 className="text-xl font-bold text-black mb-1">
-                            {testimonial.name}
-                          </h3>
+                          <h3 className="text-xl font-bold text-black mb-1">{testimonial.name}</h3>
                           <p className="text-sm text-brand-blue-600 font-semibold">
                             {testimonial.program}
                           </p>
                         </div>
                         <div className="text-right">
                           <div className="text-xs text-slate-700">Class of</div>
-                          <div className="text-sm font-bold text-black">{testimonial.graduationYear}</div>
+                          <div className="text-sm font-bold text-black">
+                            {testimonial.graduationYear}
+                          </div>
                         </div>
                       </div>
 
@@ -237,8 +241,12 @@ export default function VideoTestimonials() {
                           <div className="text-sm text-black flex-1">{testimonial.beforeJob}</div>
                         </div>
                         <div className="flex items-start gap-2">
-                          <div className="text-xs font-semibold text-brand-green-600 w-16">AFTER:</div>
-                          <div className="text-sm text-black font-semibold flex-1">{testimonial.afterJob}</div>
+                          <div className="text-xs font-semibold text-brand-green-600 w-16">
+                            AFTER:
+                          </div>
+                          <div className="text-sm text-black font-semibold flex-1">
+                            {testimonial.afterJob}
+                          </div>
                         </div>
                       </div>
 
@@ -246,7 +254,9 @@ export default function VideoTestimonials() {
                       <div className="pt-4 border-t border-gray-200">
                         <div className="flex items-center justify-between">
                           <span className="text-sm text-black">New Salary:</span>
-                          <span className="text-lg font-bold text-brand-green-600">{testimonial.salary}</span>
+                          <span className="text-lg font-bold text-brand-green-600">
+                            {testimonial.salary}
+                          </span>
                         </div>
                       </div>
 
@@ -272,9 +282,7 @@ export default function VideoTestimonials() {
                 key={index}
                 onClick={() => setCurrentIndex(index)}
                 className={`w-2 h-2 rounded-full transition-all ${
-                  index === currentIndex
-                    ? 'bg-brand-blue-600 w-8'
-                    : 'bg-gray-300 hover:bg-gray-400'
+                  index === currentIndex ? 'bg-brand-blue-600 w-8' : 'bg-gray-300 hover:bg-gray-400'
                 }`}
               />
             ))}
@@ -289,19 +297,27 @@ export default function VideoTestimonials() {
           className="mt-16 grid md:grid-cols-4 gap-8"
         >
           <div className="text-center">
-            <div className="text-4xl font-bold text-brand-blue-600 mb-2 text-2xl md:text-3xl lg:text-4xl">94%</div>
+            <div className="text-4xl font-bold text-brand-blue-600 mb-2 text-2xl md:text-3xl lg:text-4xl">
+              94%
+            </div>
             <div className="text-black">Graduate Employment Rate</div>
           </div>
           <div className="text-center">
-            <div className="text-4xl font-bold text-brand-green-600 mb-2 text-2xl md:text-3xl lg:text-4xl">$15K+</div>
+            <div className="text-4xl font-bold text-brand-green-600 mb-2 text-2xl md:text-3xl lg:text-4xl">
+              $15K+
+            </div>
             <div className="text-black">Average Salary Increase</div>
           </div>
           <div className="text-center">
-            <div className="text-4xl font-bold text-purple-600 mb-2 text-2xl md:text-3xl lg:text-4xl">2,500+</div>
+            <div className="text-4xl font-bold text-purple-600 mb-2 text-2xl md:text-3xl lg:text-4xl">
+              2,500+
+            </div>
             <div className="text-black">Success Stories</div>
           </div>
           <div className="text-center">
-            <div className="text-4xl font-bold text-brand-orange-600 mb-2 text-2xl md:text-3xl lg:text-4xl">4.9★</div>
+            <div className="text-4xl font-bold text-brand-orange-600 mb-2 text-2xl md:text-3xl lg:text-4xl">
+              4.9★
+            </div>
             <div className="text-black">Student Satisfaction</div>
           </div>
         </motion.div>
@@ -313,9 +329,7 @@ export default function VideoTestimonials() {
           viewport={{ once: true }}
           className="mt-12 text-center"
         >
-          <p className="text-xl text-black mb-6">
-            Ready to write your own success story?
-          </p>
+          <p className="text-xl text-black mb-6">Ready to write your own success story?</p>
           <a
             href="/apply"
             className="inline-flex items-center gap-2 px-8 py-4    text-white rounded-lg font-semibold hover: hover: transition-all shadow-lg hover:shadow-xl text-lg"
@@ -365,16 +379,16 @@ export default function VideoTestimonials() {
               <div className="p-6 bg-white">
                 <div className="flex items-start justify-between mb-4">
                   <div>
-                    <h3 className="text-2xl font-bold text-black mb-2">
-                      {selectedVideo.name}
-                    </h3>
+                    <h3 className="text-2xl font-bold text-black mb-2">{selectedVideo.name}</h3>
                     <p className="text-brand-blue-600 font-semibold mb-2">
                       {selectedVideo.program} • Class of {selectedVideo.graduationYear}
                     </p>
                   </div>
                   <div className="text-right">
                     <div className="text-sm text-black">New Salary</div>
-                    <div className="text-2xl font-bold text-brand-green-600">{selectedVideo.salary}</div>
+                    <div className="text-2xl font-bold text-brand-green-600">
+                      {selectedVideo.salary}
+                    </div>
                   </div>
                 </div>
 

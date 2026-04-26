@@ -144,6 +144,6 @@ export function mapCourseSummaryRow(row: RawCourseSummaryRow): CourseSummaryRow 
     id: row.id,
     // Resolve course_name/title drift once here
     title: row.title?.trim() || row.course_name?.trim() || 'Untitled Course',
-    isActive: row.is_active ?? (row.status === 'published'),
+    isActive: row.is_active ?? row.status === 'published',
   };
 }

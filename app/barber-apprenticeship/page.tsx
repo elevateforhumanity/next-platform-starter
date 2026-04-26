@@ -4,15 +4,23 @@ import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { getAdminClient } from '@/lib/supabase/admin';
 import {
-  CheckCircle, ArrowRight, Clock, DollarSign,
-  Award, Users, Scissors, Phone, Mail,
+  CheckCircle,
+  ArrowRight,
+  Clock,
+  DollarSign,
+  Award,
+  Users,
+  Scissors,
+  Phone,
+  Mail,
 } from 'lucide-react';
 
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: 'Barber Apprenticeship Program | Earn While You Learn | Elevate for Humanity',
-  description: 'Become a licensed barber through Elevate\'s DOL-registered apprenticeship. Earn wages while training, complete 2,000 OJL hours, and earn your Indiana Barber License.',
+  description:
+    "Become a licensed barber through Elevate's DOL-registered apprenticeship. Earn wages while training, complete 2,000 OJL hours, and earn your Indiana Barber License.",
   alternates: { canonical: 'https://www.elevateforhumanity.org/barber-apprenticeship' },
 };
 
@@ -39,7 +47,9 @@ export default async function BarberApprenticeshipPage() {
   // Pull live program data
   const { data: program } = await db
     .from('programs')
-    .select('id, title, description, short_description, duration_weeks, tuition_cost, credential_type, status')
+    .select(
+      'id, title, description, short_description, duration_weeks, tuition_cost, credential_type, status',
+    )
     .eq('slug', 'barber-apprenticeship')
     .maybeSingle();
 
@@ -69,7 +79,9 @@ export default async function BarberApprenticeshipPage() {
     <div className="min-h-screen bg-white">
       <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[{ label: 'Programs', href: '/programs' }, { label: 'Barber Apprenticeship' }]} />
+          <Breadcrumbs
+            items={[{ label: 'Programs', href: '/programs' }, { label: 'Barber Apprenticeship' }]}
+          />
         </div>
       </div>
 
@@ -78,17 +90,23 @@ export default async function BarberApprenticeshipPage() {
         <Image
           src="/images/pages/barber-hero.jpg"
           alt="Barber apprenticeship training"
-          fill sizes="100vw"
+          fill
+          sizes="100vw"
           className="object-cover"
           priority
         />
         <div className="absolute inset-0 bg-slate-900/60" />
         <div className="absolute inset-0 flex items-end">
           <div className="max-w-4xl mx-auto px-4 pb-10 w-full">
-            <p className="text-xs font-bold uppercase tracking-widest text-brand-red-400 mb-2">DOL Registered Apprenticeship</p>
-            <h1 className="text-3xl sm:text-4xl font-extrabold text-white mb-3">Barber Apprenticeship Program</h1>
+            <p className="text-xs font-bold uppercase tracking-widest text-brand-red-400 mb-2">
+              DOL Registered Apprenticeship
+            </p>
+            <h1 className="text-3xl sm:text-4xl font-extrabold text-white mb-3">
+              Barber Apprenticeship Program
+            </h1>
             <p className="text-slate-200 text-lg max-w-2xl">
-              Earn wages while you train. Complete 2,000 OJL hours at a licensed barbershop and earn your Indiana Barber License.
+              Earn wages while you train. Complete 2,000 OJL hours at a licensed barbershop and earn
+              your Indiana Barber License.
             </p>
           </div>
         </div>
@@ -158,12 +176,23 @@ export default async function BarberApprenticeshipPage() {
             <div className="rounded-xl border border-slate-200 bg-white p-6">
               <h3 className="font-bold text-slate-900 mb-3">Funding Available</h3>
               <ul className="space-y-2 text-sm text-slate-600">
-                <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-green-500" /> WIOA Eligible</li>
-                <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-green-500" /> WRG Eligible</li>
-                <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-green-500" /> DOL Apprenticeship Funding</li>
-                <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-green-500" /> Employer Wage Subsidy</li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="w-4 h-4 text-green-500" /> WIOA Eligible
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="w-4 h-4 text-green-500" /> WRG Eligible
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="w-4 h-4 text-green-500" /> DOL Apprenticeship Funding
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="w-4 h-4 text-green-500" /> Employer Wage Subsidy
+                </li>
               </ul>
-              <Link href="/eligibility" className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-brand-red-600 hover:underline">
+              <Link
+                href="/eligibility"
+                className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-brand-red-600 hover:underline"
+              >
                 Check eligibility <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>
@@ -171,7 +200,8 @@ export default async function BarberApprenticeshipPage() {
               <DollarSign className="w-6 h-6 text-brand-red-500 mb-2" />
               <h3 className="font-bold text-slate-900 mb-1">Earn While You Train</h3>
               <p className="text-sm text-slate-600">
-                Apprentices are employed by a host barbershop and earn wages throughout the program — no unpaid training.
+                Apprentices are employed by a host barbershop and earn wages throughout the program
+                — no unpaid training.
               </p>
             </div>
           </div>
@@ -184,7 +214,10 @@ export default async function BarberApprenticeshipPage() {
           <div className="max-w-5xl mx-auto">
             <div className="flex items-center justify-between mb-8">
               <h2 className="text-2xl font-bold text-slate-900">Host Barbershops</h2>
-              <Link href="/programs/barber-apprenticeship/host-shops" className="text-sm font-semibold text-brand-red-600 hover:underline flex items-center gap-1">
+              <Link
+                href="/programs/barber-apprenticeship/host-shops"
+                className="text-sm font-semibold text-brand-red-600 hover:underline flex items-center gap-1"
+              >
                 All locations <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
@@ -192,7 +225,9 @@ export default async function BarberApprenticeshipPage() {
               {hostShops.map((shop) => (
                 <div key={shop.id} className="rounded-xl border border-slate-200 p-5">
                   <h3 className="font-bold text-slate-900">{shop.business_name}</h3>
-                  <p className="text-sm text-slate-500 mt-1">{shop.city}, {shop.state}</p>
+                  <p className="text-sm text-slate-500 mt-1">
+                    {shop.city}, {shop.state}
+                  </p>
                   <span className="mt-2 inline-block rounded-full bg-green-50 border border-green-200 px-3 py-1 text-xs font-medium text-green-700">
                     Accepting Apprentices
                   </span>
@@ -210,7 +245,8 @@ export default async function BarberApprenticeshipPage() {
             <Users className="w-8 h-8 text-brand-red-400 mb-3" />
             <h2 className="text-2xl font-bold mb-2">Apply to the Barber Apprenticeship</h2>
             <p className="text-slate-300 max-w-lg">
-              Applications are reviewed on a rolling basis. Spots are limited — apply early to secure your placement.
+              Applications are reviewed on a rolling basis. Spots are limited — apply early to
+              secure your placement.
             </p>
           </div>
           <div className="flex flex-col gap-3 shrink-0">

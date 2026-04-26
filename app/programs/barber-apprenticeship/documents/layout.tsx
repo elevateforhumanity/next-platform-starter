@@ -4,11 +4,7 @@ import { createClient } from '@/lib/supabase/server';
 import { getDb } from '@/lib/lms/api';
 import { redirect } from 'next/navigation';
 
-export default async function DocumentsLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default async function DocumentsLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient();
   const db = await getDb();
   if (!db) throw new Error('Admin client failed to initialize');
@@ -17,7 +13,9 @@ export default async function DocumentsLayout({
     redirect('/login?redirect=/programs/barber-apprenticeship/documents');
   }
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     redirect('/login?redirect=/programs/barber-apprenticeship/documents');

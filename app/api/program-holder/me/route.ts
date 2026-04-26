@@ -10,10 +10,9 @@ export const maxDuration = 60;
 export const dynamic = 'force-dynamic';
 
 async function _GET(request: Request) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const supabase = await createRouteHandlerClient({ cookies });
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const supabase = await createRouteHandlerClient({ cookies });
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -36,9 +35,7 @@ const supabase = await createRouteHandlerClient({ cookies });
   // Get program holder details
   const { data: ph, error } = await supabase
     .from('program_holders')
-    .select(
-      'id, name, payout_share, mou_status, mou_holder_name, mou_holder_signed_at'
-    )
+    .select('id, name, payout_share, mou_status, mou_holder_name, mou_holder_signed_at')
     .eq('id', prof.program_holder_id)
     .maybeSingle();
 

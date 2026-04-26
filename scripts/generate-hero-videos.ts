@@ -3,7 +3,8 @@
  * Run with: npx ts-node scripts/generate-hero-videos.ts
  */
 
-const HEYGEN_API_KEY = process.env.HEYGEN_API_KEY || 'sk_V2_hgu_kije3e2gKQj_bvlFVjZVa0v82ie1s0d4ftFtkJwaIl1j';
+const HEYGEN_API_KEY =
+  process.env.HEYGEN_API_KEY || 'sk_V2_hgu_kije3e2gKQj_bvlFVjZVa0v82ie1s0d4ftFtkJwaIl1j';
 
 interface HeroVideoConfig {
   id: string;
@@ -74,7 +75,7 @@ const heroVideos: HeroVideoConfig[] = [
 
 async function generateVideo(config: HeroVideoConfig): Promise<string | null> {
   console.log(`\nGenerating video: ${config.title}`);
-  
+
   const payload = {
     video_inputs: [
       {
@@ -114,7 +115,7 @@ async function generateVideo(config: HeroVideoConfig): Promise<string | null> {
     });
 
     const data = await response.json();
-    
+
     if (data.error) {
       console.error(`Error generating ${config.id}:`, data.error);
       return null;
@@ -159,22 +160,21 @@ async function main() {
       videoIds.push({ id: config.id, videoId });
     }
     // Small delay between requests
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
   }
 
   console.log('\n=== Video Generation Started ===');
   console.log('Video IDs:');
-  videoIds.forEach(v => console.log(`  ${v.id}: ${v.videoId}`));
+  videoIds.forEach((v) => console.log(`  ${v.id}: ${v.videoId}`));
 
   console.log('\nVideos are being processed. Check status with:');
-  console.log('curl -X GET "https://api.heygen.com/v1/video_status.get?video_id=VIDEO_ID" -H "X-Api-Key: YOUR_KEY"');
+  console.log(
+    'curl -X GET "https://api.heygen.com/v1/video_status.get?video_id=VIDEO_ID" -H "X-Api-Key: YOUR_KEY"',
+  );
 
   // Save video IDs to file for later reference
   const fs = await import('fs');
-  fs.writeFileSync(
-    'scripts/video-ids.json',
-    JSON.stringify(videoIds, null, 2)
-  );
+  fs.writeFileSync('scripts/video-ids.json', JSON.stringify(videoIds, null, 2));
   console.log('\nVideo IDs saved to scripts/video-ids.json');
 }
 

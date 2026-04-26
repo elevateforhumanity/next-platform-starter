@@ -23,7 +23,7 @@ import { execSync } from 'child_process';
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
+  process.env.SUPABASE_SERVICE_ROLE_KEY!,
 );
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY! });
 const HEYGEN_KEY = process.env.HEYGEN_API_KEY!;
@@ -41,7 +41,13 @@ const VOICE_ID = '6be73833ef9a4eb0aeee399b8fe9d62b';
 
 interface LessonPlan {
   intro: { script: string; estSeconds: number };
-  demos: { narration: string; soraPrompt: string; label: string; definition: string; estSeconds: number }[];
+  demos: {
+    narration: string;
+    soraPrompt: string;
+    label: string;
+    definition: string;
+    estSeconds: number;
+  }[];
   slides: { title: string; bullets: string[]; narration: string; estSeconds: number }[];
   outro: { script: string; estSeconds: number };
   totalEstSeconds: number;
@@ -50,43 +56,71 @@ interface LessonPlan {
   slideCount: number;
 }
 
-function sleep(ms: number): Promise<void> { return new Promise(r => setTimeout(r, ms)); }
+function sleep(ms: number): Promise<void> {
+  return new Promise((r) => setTimeout(r, ms));
+}
 
 function htmlToPlain(html: string): string {
   return html
     .replace(/<br\s*\/?>/gi, '. ')
-    .replace(/<\/?(p|div|h[1-6]|li|tr|ul|ol|table|thead|tbody|blockquote|section|article|header|footer|nav|aside|figure|figcaption|details|summary|main)[^>]*>/gi, '. ')
+    .replace(
+      /<\/?(p|div|h[1-6]|li|tr|ul|ol|table|thead|tbody|blockquote|section|article|header|footer|nav|aside|figure|figcaption|details|summary|main)[^>]*>/gi,
+      '. ',
+    )
     .replace(/<[^>]+>/g, ' ')
-    .replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'")
-    .replace(/\s+/g, ' ').replace(/\.\s*\./g, '.').trim();
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/\s+/g, ' ')
+    .replace(/\.\s*\./g, '.')
+    .trim();
 }
 
 function esc(s: string): string {
-  return s.replace(/'/g, '').replace(/:/g, ' -').replace(/&/g, 'and')
-    .replace(/\\/g, '').replace(/"/g, '').replace(/\[/g, '(')
-    .replace(/\]/g, ')').replace(/%/g, ' pct').replace(/;/g, ',');
+  return s
+    .replace(/'/g, '')
+    .replace(/:/g, ' -')
+    .replace(/&/g, 'and')
+    .replace(/\\/g, '')
+    .replace(/"/g, '')
+    .replace(/\[/g, '(')
+    .replace(/\]/g, ')')
+    .replace(/%/g, ' pct')
+    .replace(/;/g, ',');
 }
 
 function probeDuration(filePath: string): number {
   try {
-    const p = execSync(`ffprobe -v quiet -print_format json -show_format "${filePath}"`, { encoding: 'utf-8' });
+    const p = execSync(`ffprobe -v quiet -print_format json -show_format "${filePath}"`, {
+      encoding: 'utf-8',
+    });
     return parseFloat(JSON.parse(p).format?.duration || '10');
-  } catch { return 10; }
+  } catch {
+    return 10;
+  }
 }
 
 // ── GPT-4o: Plan the hybrid lesson ──────────────────────────────────
 
-async function planLesson(title: string, content: string, lessonNum: number, total: number): Promise<LessonPlan> {
+async function planLesson(
+  title: string,
+  content: string,
+  lessonNum: number,
+  total: number,
+): Promise<LessonPlan> {
   const plain = htmlToPlain(content).slice(0, 5000);
 
   const res = await openai.chat.completions.create({
     model: 'gpt-4o',
     temperature: 0.4,
     max_tokens: 4000,
-    messages: [{
-      role: 'user',
-      content: `You are planning a training video for Elevate for Humanity's HVAC Technician Program (EPA 608 certification). Lesson ${lessonNum} of ${total}: "${title}"
+    messages: [
+      {
+        role: 'user',
+        content: `You are planning a training video for Elevate for Humanity's HVAC Technician Program (EPA 608 certification). Lesson ${lessonNum} of ${total}: "${title}"
 
 CONTENT:
 ${plain}
@@ -109,12 +143,16 @@ SLIDES: Plan 1 slide that summarizes key terms. Include:
 OUTRO: The instructor avatar returns on camera. Write 30-45 words. Recap the main takeaway, mention the EPA 608 exam relevance, direct student to take the quiz below.
 
 Return JSON only — no markdown:
-{"intro":{"script":"..."},"demos":[{"narration":"...","soraPrompt":"...","label":"...","definition":"..."}],"slides":[{"title":"...","bullets":["..."],"narration":"..."}],"outro":{"script":"..."}}`
-    }],
+{"intro":{"script":"..."},"demos":[{"narration":"...","soraPrompt":"...","label":"...","definition":"..."}],"slides":[{"title":"...","bullets":["..."],"narration":"..."}],"outro":{"script":"..."}}`,
+      },
+    ],
   });
 
   const raw = res.choices[0].message.content || '';
-  const cleaned = raw.replace(/^```json?\s*/i, '').replace(/\s*```$/i, '').trim();
+  const cleaned = raw
+    .replace(/^```json?\s*/i, '')
+    .replace(/\s*```$/i, '')
+    .trim();
   const plan = JSON.parse(cleaned);
 
   // Estimate durations (words / 2.2 words-per-second at 0.80x TTS speed)
@@ -130,7 +168,11 @@ Return JSON only — no markdown:
     estSeconds: Math.ceil(s.narration.split(/\s+/).length / wps),
   }));
 
-  const totalEst = introEst + outroEst + demos.reduce((a: number, d: any) => a + d.estSeconds, 0) + slides.reduce((a: number, s: any) => a + s.estSeconds, 0);
+  const totalEst =
+    introEst +
+    outroEst +
+    demos.reduce((a: number, d: any) => a + d.estSeconds, 0) +
+    slides.reduce((a: number, s: any) => a + s.estSeconds, 0);
 
   return {
     intro: { script: plan.intro.script, estSeconds: introEst },
@@ -151,10 +193,12 @@ async function generateHeyGenClip(script: string, outputPath: string): Promise<v
     method: 'POST',
     headers: { 'X-Api-Key': HEYGEN_KEY, 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      video_inputs: [{
-        character: { type: 'avatar', avatar_id: AVATAR_ID, avatar_style: 'normal' },
-        voice: { type: 'text', input_text: script, voice_id: VOICE_ID, speed: 1.0 },
-      }],
+      video_inputs: [
+        {
+          character: { type: 'avatar', avatar_id: AVATAR_ID, avatar_style: 'normal' },
+          voice: { type: 'text', input_text: script, voice_id: VOICE_ID, speed: 1.0 },
+        },
+      ],
       dimension: { width: 1280, height: 720 },
       test: false,
     }),
@@ -177,7 +221,7 @@ async function generateHeyGenClip(script: string, outputPath: string): Promise<v
       const norm = outputPath.replace('.mp4', '-norm.mp4');
       execSync(
         `ffmpeg -y -i "${outputPath}" -vf "scale=${W}:${H}:force_original_aspect_ratio=decrease,pad=${W}:${H}:(ow-iw)/2:(oh-ih)/2:black,fps=30,format=yuv420p" -c:v libx264 -preset fast -crf 23 -c:a aac -b:a 128k -ar 44100 -ac 2 -movflags +faststart "${norm}"`,
-        { stdio: 'pipe' }
+        { stdio: 'pipe' },
       );
       fs.renameSync(norm, outputPath);
       return;
@@ -191,7 +235,10 @@ async function generateHeyGenClip(script: string, outputPath: string): Promise<v
 
 async function generateTTS(text: string, outPath: string): Promise<number> {
   const resp = await openai.audio.speech.create({
-    model: 'tts-1-hd', voice: 'onyx', input: text.slice(0, 4096), speed: 0.80,
+    model: 'tts-1-hd',
+    voice: 'onyx',
+    input: text.slice(0, 4096),
+    speed: 0.8,
     response_format: 'mp3',
   });
   fs.writeFileSync(outPath, Buffer.from(await resp.arrayBuffer()));
@@ -219,12 +266,20 @@ async function generateSoraClip(prompt: string, outPath: string): Promise<boolea
       if (s.status === 'failed') return false;
     }
     return false;
-  } catch { return false; }
+  } catch {
+    return false;
+  }
 }
 
 // ── Slide: Generate slide video from text ───────────────────────────
 
-function generateSlideVideo(title: string, bullets: string[], audioPath: string, outPath: string, duration: number): void {
+function generateSlideVideo(
+  title: string,
+  bullets: string[],
+  audioPath: string,
+  outPath: string,
+  duration: number,
+): void {
   const safeTitle = esc(title).slice(0, 50);
   const bulletTexts = bullets.slice(0, 6).map((b, i) => {
     const safe = esc(b).slice(0, 70);
@@ -248,18 +303,22 @@ function generateSlideVideo(title: string, bullets: string[], audioPath: string,
 
   execSync(
     `ffmpeg -y -f lavfi -i "${vf}" -i "${audioPath}" ` +
-    `-map 0:v -map 1:a -t ${duration} ` +
-    `-c:v libx264 -preset fast -crf 23 -c:a aac -b:a 128k -ar 44100 -ac 2 ` +
-    `-movflags +faststart -shortest "${outPath}"`,
-    { stdio: 'pipe' }
+      `-map 0:v -map 1:a -t ${duration} ` +
+      `-c:v libx264 -preset fast -crf 23 -c:a aac -b:a 128k -ar 44100 -ac 2 ` +
+      `-movflags +faststart -shortest "${outPath}"`,
+    { stdio: 'pipe' },
   );
 }
 
 // ── Demo segment: Sora clip looped + label overlay + TTS audio ──────
 
 function buildDemoSegment(
-  soraClipPath: string, audioPath: string, outPath: string,
-  label: string, definition: string, duration: number
+  soraClipPath: string,
+  audioPath: string,
+  outPath: string,
+  label: string,
+  definition: string,
+  duration: number,
 ): void {
   const safeLabel = esc(label).slice(0, 35);
   const safeDef = esc(definition).slice(0, 65);
@@ -278,10 +337,10 @@ function buildDemoSegment(
 
   execSync(
     `ffmpeg -y -stream_loop -1 -i "${soraClipPath}" -i "${audioPath}" ` +
-    `-vf "${vf}" -map 0:v -map 1:a -t ${duration} ` +
-    `-c:v libx264 -preset fast -crf 23 -c:a aac -b:a 128k -ar 44100 -ac 2 ` +
-    `-movflags +faststart -shortest "${outPath}"`,
-    { stdio: 'pipe' }
+      `-vf "${vf}" -map 0:v -map 1:a -t ${duration} ` +
+      `-c:v libx264 -preset fast -crf 23 -c:a aac -b:a 128k -ar 44100 -ac 2 ` +
+      `-movflags +faststart -shortest "${outPath}"`,
+    { stdio: 'pipe' },
   );
 }
 
@@ -290,20 +349,28 @@ function buildDemoSegment(
 function generateFallbackClip(outPath: string): void {
   execSync(
     `ffmpeg -y -f lavfi -i "color=c=0x1e293b:s=${W}x${H}:d=4:r=30" ` +
-    `-vf "format=yuv420p" -c:v libx264 -preset fast -crf 23 -an "${outPath}"`,
-    { stdio: 'pipe' }
+      `-vf "format=yuv420p" -c:v libx264 -preset fast -crf 23 -an "${outPath}"`,
+    { stdio: 'pipe' },
   );
 }
 
 // ── Final assembly ──────────────────────────────────────────────────
 
-function assembleVideo(segmentPaths: string[], outPath: string, lessonNum: number, total: number, title: string): void {
+function assembleVideo(
+  segmentPaths: string[],
+  outPath: string,
+  lessonNum: number,
+  total: number,
+  title: string,
+): void {
   const dir = path.dirname(outPath);
   const concatFile = path.join(dir, 'concat.txt');
-  fs.writeFileSync(concatFile, segmentPaths.map(p => `file '${p}'`).join('\n'));
+  fs.writeFileSync(concatFile, segmentPaths.map((p) => `file '${p}'`).join('\n'));
 
   const rawConcat = path.join(dir, 'raw-concat.mp4');
-  execSync(`ffmpeg -y -f concat -safe 0 -i "${concatFile}" -c copy "${rawConcat}"`, { stdio: 'pipe' });
+  execSync(`ffmpeg -y -f concat -safe 0 -i "${concatFile}" -c copy "${rawConcat}"`, {
+    stdio: 'pipe',
+  });
 
   // Add bottom branding bar
   const safeTitle = esc(title).slice(0, 50);
@@ -311,17 +378,21 @@ function assembleVideo(segmentPaths: string[], outPath: string, lessonNum: numbe
 
   execSync(
     `ffmpeg -y -i "${rawConcat}" -vf "` +
-    `drawbox=x=0:y=ih-40:w=iw:h=40:color=0x0f172a@0.85:t=fill,` +
-    `drawtext=text='${label}':fontfile=${FR}:fontsize=12:fontcolor=white@0.6:x=15:y=h-28,` +
-    `drawtext=text='${safeTitle}':fontfile=${FB}:fontsize=14:fontcolor=white@0.8:x=160:y=h-28,` +
-    `drawtext=text='Elevate for Humanity':fontfile=${FR}:fontsize=11:fontcolor=white@0.4:x=w-170:y=h-28` +
-    `" -c:v libx264 -preset fast -crf 26 -c:a aac -b:a 96k ` +
-    `-movflags +faststart "${outPath}"`,
-    { stdio: 'pipe' }
+      `drawbox=x=0:y=ih-40:w=iw:h=40:color=0x0f172a@0.85:t=fill,` +
+      `drawtext=text='${label}':fontfile=${FR}:fontsize=12:fontcolor=white@0.6:x=15:y=h-28,` +
+      `drawtext=text='${safeTitle}':fontfile=${FB}:fontsize=14:fontcolor=white@0.8:x=160:y=h-28,` +
+      `drawtext=text='Elevate for Humanity':fontfile=${FR}:fontsize=11:fontcolor=white@0.4:x=w-170:y=h-28` +
+      `" -c:v libx264 -preset fast -crf 26 -c:a aac -b:a 96k ` +
+      `-movflags +faststart "${outPath}"`,
+    { stdio: 'pipe' },
   );
 
-  try { fs.unlinkSync(concatFile); } catch {}
-  try { fs.unlinkSync(rawConcat); } catch {}
+  try {
+    fs.unlinkSync(concatFile);
+  } catch {}
+  try {
+    fs.unlinkSync(rawConcat);
+  } catch {}
 }
 
 // ── Upload ──────────────────────────────────────────────────────────
@@ -330,7 +401,8 @@ async function uploadVideo(localPath: string, storagePath: string): Promise<stri
   const buf = fs.readFileSync(localPath);
   const mb = buf.length / 1024 / 1024;
   if (mb > 49) throw new Error(`File too large: ${mb.toFixed(1)}MB (max 49MB)`);
-  const { error } = await supabase.storage.from('course-videos')
+  const { error } = await supabase.storage
+    .from('course-videos')
     .upload(storagePath, buf, { contentType: 'video/mp4', upsert: true });
   if (error) throw new Error(`Upload: ${error.message}`);
   return supabase.storage.from('course-videos').getPublicUrl(storagePath).data.publicUrl;
@@ -352,13 +424,16 @@ async function main() {
     .eq('course_id', HVAC_COURSE_ID)
     .order('order_index');
 
-  if (error || !lessons) { console.error('DB:', error?.message); process.exit(1); }
+  if (error || !lessons) {
+    console.error('DB:', error?.message);
+    process.exit(1);
+  }
 
   const total = lessons.length;
   const end = Math.min(startIdx + limit, total);
 
   // Skip checkpoint lessons — video only for lesson and lab types
-  const targets = lessons.slice(startIdx, end).filter(l => l.lesson_type !== 'checkpoint');
+  const targets = lessons.slice(startIdx, end).filter((l) => l.lesson_type !== 'checkpoint');
   console.log(`Total lessons: ${total} | Target: ${targets.length} (skipping quizzes)`);
 
   // ── PLAN PHASE (always runs, even dry-run) ──
@@ -379,16 +454,20 @@ async function main() {
     totalSoraClips += plan.soraClips;
     totalSlides += plan.slideCount;
     totalEstDuration += plan.totalEstSeconds;
-    console.log(` ${plan.totalEstSeconds}s (HeyGen: ${plan.heygenSeconds}s, Sora: ${plan.soraClips}, Slides: ${plan.slideCount})`);
+    console.log(
+      ` ${plan.totalEstSeconds}s (HeyGen: ${plan.heygenSeconds}s, Sora: ${plan.soraClips}, Slides: ${plan.slideCount})`,
+    );
   }
 
   console.log('\n── COST ESTIMATE ──');
   console.log(`  Total video duration: ~${Math.round(totalEstDuration / 60)} min`);
-  console.log(`  HeyGen credits needed: ${totalHeygenSec}s (~${Math.round(totalHeygenSec / 60)} min)`);
-  console.log(`  Sora clips: ${totalSoraClips} (~$${(totalSoraClips * 0.10).toFixed(0)})`);
+  console.log(
+    `  HeyGen credits needed: ${totalHeygenSec}s (~${Math.round(totalHeygenSec / 60)} min)`,
+  );
+  console.log(`  Sora clips: ${totalSoraClips} (~$${(totalSoraClips * 0.1).toFixed(0)})`);
   console.log(`  TTS segments: ${totalSoraClips + totalSlides}`);
   console.log(`  Slides: ${totalSlides}`);
-  console.log(`  OpenAI est: ~$${(targets.length * 0.50).toFixed(0)}`);
+  console.log(`  OpenAI est: ~$${(targets.length * 0.5).toFixed(0)}`);
 
   // Check HeyGen credits
   const quotaRes = await fetch('https://api.heygen.com/v2/user/remaining_quota', {
@@ -409,23 +488,32 @@ async function main() {
     for (const { lesson, plan } of plans) {
       const num = lessons.indexOf(lesson) + 1;
       console.log(`\n  [${num}] ${lesson.title}`);
-      console.log(`    Intro (HeyGen ~${plan.intro.estSeconds}s): "${plan.intro.script.slice(0, 80)}..."`);
+      console.log(
+        `    Intro (HeyGen ~${plan.intro.estSeconds}s): "${plan.intro.script.slice(0, 80)}..."`,
+      );
       for (let i = 0; i < plan.demos.length; i++) {
         const d = plan.demos[i];
-        console.log(`    Demo ${i + 1} (Sora ~${d.estSeconds}s): [${d.label}] "${d.narration.slice(0, 60)}..."`);
+        console.log(
+          `    Demo ${i + 1} (Sora ~${d.estSeconds}s): [${d.label}] "${d.narration.slice(0, 60)}..."`,
+        );
       }
       for (const s of plan.slides) {
         console.log(`    Slide (~${s.estSeconds}s): ${s.title} — ${s.bullets.length} bullets`);
       }
-      console.log(`    Outro (HeyGen ~${plan.outro.estSeconds}s): "${plan.outro.script.slice(0, 80)}..."`);
-      console.log(`    TOTAL: ~${plan.totalEstSeconds}s (${(plan.totalEstSeconds / 60).toFixed(1)} min)`);
+      console.log(
+        `    Outro (HeyGen ~${plan.outro.estSeconds}s): "${plan.outro.script.slice(0, 80)}..."`,
+      );
+      console.log(
+        `    TOTAL: ~${plan.totalEstSeconds}s (${(plan.totalEstSeconds / 60).toFixed(1)} min)`,
+      );
     }
     return;
   }
 
   // ── BUILD PHASE ──
   fs.mkdirSync(TEMP_DIR, { recursive: true });
-  let ok = 0, fail = 0;
+  let ok = 0,
+    fail = 0;
   const t0 = Date.now();
 
   for (const { lesson, plan } of plans) {
@@ -503,20 +591,26 @@ async function main() {
       const dur = probeDuration(finalPath);
       console.log(`  ✅ ${dur.toFixed(0)}s | ${mb.toFixed(1)}MB`);
       ok++;
-
     } catch (err: any) {
       console.error(`  ❌ ${err.message}`);
       fail++;
     }
 
     // Cleanup lesson temp files
-    try { fs.rmSync(dir, { recursive: true, force: true }); } catch {}
+    try {
+      fs.rmSync(dir, { recursive: true, force: true });
+    } catch {}
   }
 
-  try { fs.rmSync(TEMP_DIR, { recursive: true, force: true }); } catch {}
+  try {
+    fs.rmSync(TEMP_DIR, { recursive: true, force: true });
+  } catch {}
 
   const mins = ((Date.now() - t0) / 60000).toFixed(1);
   console.log(`\n=== DONE === ${ok} ok | ${fail} fail | ${mins} min`);
 }
 
-main().catch(e => { console.error('Fatal:', e); process.exit(1); });
+main().catch((e) => {
+  console.error('Fatal:', e);
+  process.exit(1);
+});

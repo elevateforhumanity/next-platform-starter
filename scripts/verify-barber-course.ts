@@ -7,11 +7,7 @@ import fs from 'node:fs';
 const filePath = 'lib/curriculum/blueprints/barber-apprenticeship.ts';
 const content = fs.readFileSync(filePath, 'utf8');
 
-const clipperLessons = new Set([
-  'barber-lesson-23',
-  'barber-lesson-24',
-  'barber-lesson-27',
-]);
+const clipperLessons = new Set(['barber-lesson-23', 'barber-lesson-24', 'barber-lesson-27']);
 
 const slugs = [
   'barber-lesson-22',
@@ -22,15 +18,15 @@ const slugs = [
 ];
 
 const universalChecks: Array<[string, RegExp[]]> = [
-  ['pre-clean',            [/pre-clean/i, /pre clean/i]],
-  ['contact time',         [/contact time/i, /dwell time/i]],
-  ['single-use',           [/single-use/i, /single use/i]],
-  ['porous items',         [/porous/i]],
-  ['blood exposure',       [/blood exposure/i, /blood-contaminated/i, /bleeding/i]],
-  ['stop conditions',      [/stop the service immediately/i, /stop.*immediately/i]],
-  ['competency checks',    [/competencyChecks/i]],
-  ['epa language',         [/epa-registered/i, /epa registered/i]],
-  ['universal precautions',[/universal precaution/i, /universal precautions/i]],
+  ['pre-clean', [/pre-clean/i, /pre clean/i]],
+  ['contact time', [/contact time/i, /dwell time/i]],
+  ['single-use', [/single-use/i, /single use/i]],
+  ['porous items', [/porous/i]],
+  ['blood exposure', [/blood exposure/i, /blood-contaminated/i, /bleeding/i]],
+  ['stop conditions', [/stop the service immediately/i, /stop.*immediately/i]],
+  ['competency checks', [/competencyChecks/i]],
+  ['epa language', [/epa-registered/i, /epa registered/i]],
+  ['universal precautions', [/universal precaution/i, /universal precautions/i]],
 ];
 
 const clipperChecks: Array<[string, RegExp[]]> = [
@@ -43,8 +39,8 @@ for (const slug of slugs) {
   const match = content.match(
     new RegExp(
       `slug:\\s*'${slug}'.*?(?=,\\s*\\{\\s*slug:\\s*'barber-lesson-|,\\s*\\{\\s*slug:\\s*'barber-module-)`,
-      'is'
-    )
+      'is',
+    ),
   );
 
   if (!match) {

@@ -1,6 +1,6 @@
 /**
  * License Limit Enforcement
- * 
+ *
  * Hard ceilings that force enterprise conversion.
  * These are not suggestions. They are walls.
  */
@@ -31,18 +31,18 @@ export const ENTERPRISE_TRIGGERS = {
   // Hard student limits
   STUDENT_LIMIT_STARTER: 100,
   STUDENT_LIMIT_PROFESSIONAL: 500,
-  
-  // Hard admin limits  
+
+  // Hard admin limits
   ADMIN_LIMIT_STARTER: 1,
   ADMIN_LIMIT_PROFESSIONAL: 5,
-  
+
   // Program limits
   PROGRAM_LIMIT_STARTER: 3,
   PROGRAM_LIMIT_PROFESSIONAL: 'unlimited' as const,
-  
+
   // Multi-site = always enterprise
   MULTI_SITE_THRESHOLD: 1,
-  
+
   // Warning thresholds (% of limit)
   WARNING_THRESHOLD: 80,
   CRITICAL_THRESHOLD: 95,
@@ -151,7 +151,10 @@ export function checkLimits(planId: PlanId, usage: UsageMetrics): LimitCheck {
 /**
  * Check if approaching limits (for warnings)
  */
-export function isApproachingLimit(planId: PlanId, usage: UsageMetrics): {
+export function isApproachingLimit(
+  planId: PlanId,
+  usage: UsageMetrics,
+): {
   approaching: boolean;
   metric: 'students' | 'admins' | 'programs' | null;
   percentUsed: number;
@@ -248,7 +251,7 @@ export function getUpgradePath(currentPlanId: PlanId): {
  */
 export const ENTERPRISE_ONLY_FEATURES = [
   'custom_csv_export_schemas',
-  'multi_program_outcome_aggregation', 
+  'multi_program_outcome_aggregation',
   'funder_by_program_reporting',
   'multi_site_deployment',
   'multi_region_deployment',
@@ -259,7 +262,7 @@ export const ENTERPRISE_ONLY_FEATURES = [
   'source_code_access',
 ] as const;
 
-export type EnterpriseFeature = typeof ENTERPRISE_ONLY_FEATURES[number];
+export type EnterpriseFeature = (typeof ENTERPRISE_ONLY_FEATURES)[number];
 
 /**
  * Check if a feature requires enterprise
@@ -271,7 +274,10 @@ export function requiresEnterprise(feature: string): boolean {
 /**
  * Get the upgrade message for hitting a limit
  */
-export function getLimitReachedMessage(limitType: 'students' | 'admins' | 'programs' | 'sites', planName: string): {
+export function getLimitReachedMessage(
+  limitType: 'students' | 'admins' | 'programs' | 'sites',
+  planName: string,
+): {
   title: string;
   body: string;
   cta: string;

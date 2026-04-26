@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -16,7 +16,7 @@ interface AIInstructorClientProps {
 export function AIInstructorClient({
   lessonTitle,
   context = 'general',
-  autoSpeak = true
+  autoSpeak = true,
 }: AIInstructorClientProps) {
   const [isVisible, setIsVisible] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
@@ -121,11 +121,7 @@ export function AIInstructorClient({
               className="h-11 w-11 p-0"
               onClick={() => setIsMuted(!isMuted)}
             >
-              {isMuted ? (
-                <VolumeX className="w-4 h-4" />
-              ) : (
-                <Volume2 className="w-4 h-4" />
-              )}
+              {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
             </Button>
             <Button
               variant="ghost"
@@ -150,20 +146,24 @@ export function AIInstructorClient({
         {isSpeaking && (
           <div className="mt-3 flex justify-center">
             <div className="flex gap-1">
-              <div className="w-1 h-4 bg-white rounded-full animate-pulse" style={{ animationDelay: '0ms' }} />
-              <div className="w-1 h-4 bg-white rounded-full animate-pulse" style={{ animationDelay: '150ms' }} />
-              <div className="w-1 h-4 bg-white rounded-full animate-pulse" style={{ animationDelay: '300ms' }} />
+              <div
+                className="w-1 h-4 bg-white rounded-full animate-pulse"
+                style={{ animationDelay: '0ms' }}
+              />
+              <div
+                className="w-1 h-4 bg-white rounded-full animate-pulse"
+                style={{ animationDelay: '150ms' }}
+              />
+              <div
+                className="w-1 h-4 bg-white rounded-full animate-pulse"
+                style={{ animationDelay: '300ms' }}
+              />
             </div>
           </div>
         )}
 
         {isSpeaking && (
-          <Button
-            variant="outline"
-            size="sm"
-            className="w-full mt-3"
-            onClick={stopSpeaking}
-          >
+          <Button variant="outline" size="sm" className="w-full mt-3" onClick={stopSpeaking}>
             Stop Speaking
           </Button>
         )}

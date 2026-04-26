@@ -23,8 +23,8 @@ export const dynamic = 'force-dynamic';
  */
 
 async function _POST(request: NextRequest) {
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
 
   const supabase = await createClient();
   const {
@@ -46,30 +46,18 @@ async function _POST(request: NextRequest) {
 
     // Validate required files
     if (!idFront || !selfie) {
-      return NextResponse.json(
-        { error: 'ID front and selfie are required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'ID front and selfie are required' }, { status: 400 });
     }
 
     // Validate file sizes (max 10MB each)
     if (idFront.size > 10 * 1024 * 1024) {
-      return NextResponse.json(
-        { error: 'ID front file too large (max 10MB)' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'ID front file too large (max 10MB)' }, { status: 400 });
     }
     if (selfie.size > 10 * 1024 * 1024) {
-      return NextResponse.json(
-        { error: 'Selfie file too large (max 10MB)' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Selfie file too large (max 10MB)' }, { status: 400 });
     }
     if (idBack && idBack.size > 10 * 1024 * 1024) {
-      return NextResponse.json(
-        { error: 'ID back file too large (max 10MB)' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'ID back file too large (max 10MB)' }, { status: 400 });
     }
 
     // Upload files to Supabase Storage
@@ -86,10 +74,7 @@ async function _POST(request: NextRequest) {
       });
 
     if (idFrontError) {
-      return NextResponse.json(
-        { error: 'Failed to upload ID front' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to upload ID front' }, { status: 500 });
     }
 
     // Upload selfie
@@ -101,10 +86,7 @@ async function _POST(request: NextRequest) {
       });
 
     if (selfieError) {
-      return NextResponse.json(
-        { error: 'Failed to upload selfie' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to upload selfie' }, { status: 500 });
     }
 
     // Upload ID back if provided
@@ -143,10 +125,7 @@ async function _POST(request: NextRequest) {
       .maybeSingle();
 
     if (verificationError) {
-      return NextResponse.json(
-        { error: 'Failed to save verification record' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to save verification record' }, { status: 500 });
     }
 
     // Update program holder verification status
@@ -185,14 +164,10 @@ async function _POST(request: NextRequest) {
     return NextResponse.json({
       success: true,
       verification_id: verification.id,
-      message:
-        'Documents uploaded successfully. Review within 1-2 business days.',
+      message: 'Documents uploaded successfully. Review within 1-2 business days.',
     });
   } catch (error) {
-    return NextResponse.json(
-      { error: 'Upload failed. Please try again.' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Upload failed. Please try again.' }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/identity/upload-manual', _POST);

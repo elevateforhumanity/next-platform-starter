@@ -1,5 +1,3 @@
-
-
 import { NextResponse } from 'next/server';
 import { getCurrentUser, createServerSupabaseClient } from '@/lib/auth';
 import { toErrorMessage } from '@/lib/safe';
@@ -56,17 +54,14 @@ async function _GET(request: Request) {
           full_name
         ),
         points
-      `
+      `,
       )
       .gte('earned_at', startDate.toISOString())
       .order('points', { ascending: false })
       .limit(100);
 
     if (error) {
-      return NextResponse.json(
-        { error: 'Internal server error' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
     }
 
     // Aggregate points by user
@@ -93,7 +88,7 @@ async function _GET(request: Request) {
       leaderboard: rankedLeaderboard,
       timeframe,
     });
-  } catch (error) { 
+  } catch (error) {
     return NextResponse.json({ error: toErrorMessage(error) }, { status: 500 });
   }
 }

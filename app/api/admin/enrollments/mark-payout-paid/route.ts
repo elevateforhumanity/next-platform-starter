@@ -37,8 +37,8 @@ export async function POST(request: NextRequest) {
     .from('program_enrollments')
     .update({
       payout_paid_date: now,
-      payout_paid_by:   auth.user.id,
-      payout_status:    'paid',
+      payout_paid_by: auth.user.id,
+      payout_status: 'paid',
     })
     .eq('id', enrollment_id)
     .neq('payout_status', 'paid') // idempotency guard
@@ -53,9 +53,9 @@ export async function POST(request: NextRequest) {
     enrollment_id,
     changed_by: auth.user.id,
     field_name: 'payout_status',
-    old_value:  'pending',
-    new_value:  'paid',
-    note:       'Marked as paid by admin',
+    old_value: 'pending',
+    new_value: 'paid',
+    note: 'Marked as paid by admin',
   });
 
   const { data: auditLog } = await db

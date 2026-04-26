@@ -10,15 +10,19 @@ async function _POST(request: NextRequest) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
-    
+
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
+
     if (authError || !user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const body = await request.json();
-    const { date, hours, minutes, category, description, photoProof, location, totalMinutes } = body;
+    const { date, hours, minutes, category, description, photoProof, location, totalMinutes } =
+      body;
 
     if (!totalMinutes || totalMinutes <= 0) {
       return NextResponse.json({ error: 'Invalid hours' }, { status: 400 });
@@ -43,7 +47,7 @@ async function _POST(request: NextRequest) {
       if (base64Data) {
         const buffer = Buffer.from(base64Data, 'base64');
         const fileName = `hours-proof/${apprentice.id}/${Date.now()}.jpg`;
-        
+
         const { data: uploadData, error: uploadError } = await supabase.storage
           .from('apprentice_uploads')
           .upload(fileName, buffer, {
@@ -52,9 +56,9 @@ async function _POST(request: NextRequest) {
           });
 
         if (!uploadError && uploadData) {
-          const { data: { publicUrl } } = supabase.storage
-            .from('apprentice_uploads')
-            .getPublicUrl(fileName);
+          const {
+            data: { publicUrl },
+          } = supabase.storage.from('apprentice_uploads').getPublicUrl(fileName);
           photoUrl = publicUrl;
         }
       }

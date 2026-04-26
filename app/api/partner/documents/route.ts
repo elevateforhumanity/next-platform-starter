@@ -16,8 +16,10 @@ async function _GET(request: NextRequest) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -43,7 +45,7 @@ async function _GET(request: NextRequest) {
       .eq('partner_id', partnerId)
       .is('revoked_at', null);
 
-    const programs = (programAccess || []).map(p => p.program_id);
+    const programs = (programAccess || []).map((p) => p.program_id);
 
     // Get document requirements for this partner's state and programs
     const { data: requirements } = await supabase
@@ -60,8 +62,8 @@ async function _GET(request: NextRequest) {
       .order('created_at', { ascending: false });
 
     // Map requirements to documents
-    const documentStatus = (requirements || []).map(req => {
-      const doc = (documents || []).find(d => d.document_type === req.document_type);
+    const documentStatus = (requirements || []).map((req) => {
+      const doc = (documents || []).find((d) => d.document_type === req.document_type);
       return {
         ...req,
         uploaded: !!doc,
@@ -72,8 +74,8 @@ async function _GET(request: NextRequest) {
 
     // Check if all required docs are complete
     const allComplete = documentStatus
-      .filter(d => d.is_required)
-      .every(d => d.status === 'accepted');
+      .filter((d) => d.is_required)
+      .every((d) => d.status === 'accepted');
 
     return NextResponse.json({
       documents: documentStatus,
@@ -96,13 +98,12 @@ async function _POST(request: NextRequest) {
     const supabaseAdmin = await getAdminClient();
 
     if (!supabaseAdmin) {
-      return NextResponse.json(
-        { error: 'Service temporarily unavailable.' },
-        { status: 503 }
-      );
+      return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });
     }
-    
-    const { data: { user } } = await supabase.auth.getUser();
+
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -121,8 +122,8 @@ async function _POST(request: NextRequest) {
     const formData = await request.formData();
     const file = formData.get('file') as File;
     const documentType = formData.get('documentType') as string;
-    const programId = formData.get('programId') as string || null;
-    const expiresAt = formData.get('expiresAt') as string || null;
+    const programId = (formData.get('programId') as string) || null;
+    const expiresAt = (formData.get('expiresAt') as string) || null;
 
     if (!file || !documentType) {
       return NextResponse.json({ error: 'File and document type required' }, { status: 400 });
@@ -136,7 +137,10 @@ async function _POST(request: NextRequest) {
     // Validate file type
     const allowedTypes = ['application/pdf', 'image/jpeg', 'image/png'];
     if (!allowedTypes.includes(file.type)) {
-      return NextResponse.json({ error: 'Invalid file type. PDF, JPEG, or PNG only.' }, { status: 400 });
+      return NextResponse.json(
+        { error: 'Invalid file type. PDF, JPEG, or PNG only.' },
+        { status: 400 },
+      );
     }
 
     // Upload to Supabase Storage

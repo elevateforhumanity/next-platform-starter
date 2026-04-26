@@ -32,7 +32,7 @@ const _GET = withAuth(
         approved_at,
         created_at,
         user_id
-      `
+      `,
       )
       .order('created_at', { ascending: false });
 
@@ -57,6 +57,6 @@ const _GET = withAuth(
 
     return Response.json(mapped);
   },
-  { roles: ['admin', 'super_admin'] }
+  { roles: ['admin', 'super_admin'] },
 );
 export const GET = withApiAudit('/api/admin/program-holders', _GET);

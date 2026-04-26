@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { AlertCircle, Clock } from 'lucide-react';
 
@@ -13,7 +13,7 @@ export function StudentStatusBadge({
   status,
   progress,
   showProgress = true,
-  size = 'md'
+  size = 'md',
 }: StudentStatusBadgeProps) {
   const getBadgeConfig = () => {
     switch (status) {
@@ -23,31 +23,41 @@ export function StudentStatusBadge({
           text: 'On Track',
           color: 'text-brand-green-600',
           bgColor: 'bg-brand-green-600',
-          lightBg: 'bg-brand-green-100'
+          lightBg: 'bg-brand-green-100',
         };
       case 'needs_action':
         return {
-          icon: <AlertCircle className={size === 'sm' ? 'w-4 h-4' : size === 'lg' ? 'w-6 h-6' : 'w-5 h-5'} />,
+          icon: (
+            <AlertCircle
+              className={size === 'sm' ? 'w-4 h-4' : size === 'lg' ? 'w-6 h-6' : 'w-5 h-5'}
+            />
+          ),
           text: 'Needs Action',
           color: 'text-yellow-600',
           bgColor: 'bg-yellow-600',
-          lightBg: 'bg-yellow-100'
+          lightBg: 'bg-yellow-100',
         };
       case 'at_risk':
         return {
-          icon: <AlertCircle className={size === 'sm' ? 'w-4 h-4' : size === 'lg' ? 'w-6 h-6' : 'w-5 h-5'} />,
+          icon: (
+            <AlertCircle
+              className={size === 'sm' ? 'w-4 h-4' : size === 'lg' ? 'w-6 h-6' : 'w-5 h-5'}
+            />
+          ),
           text: 'At Risk',
           color: 'text-brand-orange-600',
           bgColor: 'bg-brand-orange-600',
-          lightBg: 'bg-brand-red-100'
+          lightBg: 'bg-brand-red-100',
         };
       default:
         return {
-          icon: <Clock className={size === 'sm' ? 'w-4 h-4' : size === 'lg' ? 'w-6 h-6' : 'w-5 h-5'} />,
+          icon: (
+            <Clock className={size === 'sm' ? 'w-4 h-4' : size === 'lg' ? 'w-6 h-6' : 'w-5 h-5'} />
+          ),
           text: 'Getting Started',
           color: 'text-black',
           bgColor: 'bg-gray-600',
-          lightBg: 'bg-gray-100'
+          lightBg: 'bg-gray-100',
         };
     }
   };
@@ -60,9 +70,7 @@ export function StudentStatusBadge({
     <div className="flex items-center gap-4">
       <div className={`inline-flex items-center gap-2 ${padding} rounded-full ${badge.lightBg}`}>
         <span className={badge.color}>{badge.icon}</span>
-        <span className={`font-semibold ${badge.color} ${textSize}`}>
-          {badge.text}
-        </span>
+        <span className={`font-semibold ${badge.color} ${textSize}`}>{badge.text}</span>
       </div>
 
       {showProgress && (
@@ -73,9 +81,7 @@ export function StudentStatusBadge({
               style={{ width: `${progress}%` }}
             />
           </div>
-          <span className={`font-bold ${badge.color} ${textSize}`}>
-            {progress}%
-          </span>
+          <span className={`font-bold ${badge.color} ${textSize}`}>{progress}%</span>
         </div>
       )}
     </div>

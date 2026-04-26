@@ -31,10 +31,23 @@ export interface JobPosting {
 }
 
 const SELECT_COLS = [
-  'id', 'title', 'description', 'requirements', 'salary_range',
-  'salary_min', 'salary_max', 'location', 'remote_allowed',
-  'job_type', 'employment_type', 'experience_level', 'skills_required',
-  'application_deadline', 'status', 'created_at', 'employer_id',
+  'id',
+  'title',
+  'description',
+  'requirements',
+  'salary_range',
+  'salary_min',
+  'salary_max',
+  'location',
+  'remote_allowed',
+  'job_type',
+  'employment_type',
+  'experience_level',
+  'skills_required',
+  'application_deadline',
+  'status',
+  'created_at',
+  'employer_id',
   'required_certifications',
 ].join(', ');
 
@@ -44,11 +57,13 @@ async function getDb() {
   return await createClient();
 }
 
-export async function getActiveJobs(opts: {
-  limit?: number;
-  remote?: boolean;
-  jobType?: string;
-} = {}): Promise<JobPosting[]> {
+export async function getActiveJobs(
+  opts: {
+    limit?: number;
+    remote?: boolean;
+    jobType?: string;
+  } = {},
+): Promise<JobPosting[]> {
   const db = await getDb();
   let q = db
     .from('job_postings')
@@ -114,5 +129,5 @@ export function jobTypeLabel(type: string | null): string {
     internship: 'Internship',
     temporary: 'Temporary',
   };
-  return map[type ?? ''] ?? (type ?? 'Position');
+  return map[type ?? ''] ?? type ?? 'Position';
 }

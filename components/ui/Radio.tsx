@@ -39,7 +39,9 @@ export const RadioGroup: React.FC<RadioGroupProps> = ({
         </label>
       )}
 
-      <div className={`flex ${direction === 'vertical' ? 'flex-col space-y-3' : 'flex-row flex-wrap gap-4'}`}>
+      <div
+        className={`flex ${direction === 'vertical' ? 'flex-col space-y-3' : 'flex-row flex-wrap gap-4'}`}
+      >
         {options.map((option) => (
           <Radio
             key={option.value}
@@ -54,9 +56,7 @@ export const RadioGroup: React.FC<RadioGroupProps> = ({
         ))}
       </div>
 
-      {error && (
-        <p className="mt-2 text-sm text-brand-orange-600">{error}</p>
-      )}
+      {error && <p className="mt-2 text-sm text-brand-orange-600">{error}</p>}
     </div>
   );
 };
@@ -74,13 +74,7 @@ export const Radio = React.forwardRef<HTMLInputElement, RadioProps>(
     return (
       <div className="flex items-start">
         <div className="flex items-center h-5">
-          <input
-            ref={ref}
-            type="radio"
-            id={radioId}
-            className="sr-only peer"
-            {...props}
-          />
+          <input ref={ref} type="radio" id={radioId} className="sr-only peer" {...props} />
           <label
             htmlFor={radioId}
             className={`
@@ -99,21 +93,16 @@ export const Radio = React.forwardRef<HTMLInputElement, RadioProps>(
         {(label || helperText) && (
           <div className="ml-3">
             {label && (
-              <label
-                htmlFor={radioId}
-                className="text-sm font-medium text-black cursor-pointer"
-              >
+              <label htmlFor={radioId} className="text-sm font-medium text-black cursor-pointer">
                 {label}
               </label>
             )}
-            {helperText && (
-              <p className="text-sm text-slate-500 mt-1">{helperText}</p>
-            )}
+            {helperText && <p className="text-sm text-slate-500 mt-1">{helperText}</p>}
           </div>
         )}
       </div>
     );
-  }
+  },
 );
 
 Radio.displayName = 'Radio';

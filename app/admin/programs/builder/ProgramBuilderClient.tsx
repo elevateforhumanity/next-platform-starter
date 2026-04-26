@@ -33,7 +33,7 @@ const CourseGeneratorClient = dynamic(
         Loading AI generator…
       </div>
     ),
-  }
+  },
 );
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -67,14 +67,14 @@ interface Props {
 // ─── Tab definitions ──────────────────────────────────────────────────────────
 
 const TABS = [
-  { id: 'programs',   label: 'All Programs',  icon: LayoutList },
-  { id: 'structure',  label: 'Structure',     icon: Layers },
-  { id: 'curriculum', label: 'Curriculum',    icon: BookOpen },
-  { id: 'ai',         label: 'AI Assist',     icon: Sparkles },
-  { id: 'publish',    label: 'Publish',       icon: CheckCircle },
+  { id: 'programs', label: 'All Programs', icon: LayoutList },
+  { id: 'structure', label: 'Structure', icon: Layers },
+  { id: 'curriculum', label: 'Curriculum', icon: BookOpen },
+  { id: 'ai', label: 'AI Assist', icon: Sparkles },
+  { id: 'publish', label: 'Publish', icon: CheckCircle },
 ] as const;
 
-type TabId = typeof TABS[number]['id'];
+type TabId = (typeof TABS)[number]['id'];
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
@@ -90,7 +90,7 @@ export default function ProgramBuilderClient({
 
   const validTabs = TABS.map((t) => t.id) as string[];
   const [activeTab, setActiveTab] = useState<TabId>(
-    validTabs.includes(initialTab) ? (initialTab as TabId) : 'programs'
+    validTabs.includes(initialTab) ? (initialTab as TabId) : 'programs',
   );
   const [selectedProgramId, setSelectedProgramId] = useState<string | undefined>(initialProgramId);
 
@@ -168,14 +168,20 @@ export default function ProgramBuilderClient({
           />
         )}
         {activeTab === 'structure' && (
-          <StructureTab program={selectedProgram} programs={programs} onSelectProgram={setSelectedProgramId} />
+          <StructureTab
+            program={selectedProgram}
+            programs={programs}
+            onSelectProgram={setSelectedProgramId}
+          />
         )}
         {activeTab === 'curriculum' && (
-          <CurriculumTab program={selectedProgram} programs={programs} onSelectProgram={setSelectedProgramId} />
+          <CurriculumTab
+            program={selectedProgram}
+            programs={programs}
+            onSelectProgram={setSelectedProgramId}
+          />
         )}
-        {activeTab === 'ai' && (
-          <AITab aiPrograms={aiPrograms} />
-        )}
+        {activeTab === 'ai' && <AITab aiPrograms={aiPrograms} />}
         {activeTab === 'publish' && (
           <PublishTab
             program={selectedProgram}
@@ -250,15 +256,15 @@ function ProgramsTab({
       {/* Programs table */}
       <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
         <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
-          <h2 className="font-semibold text-slate-800 text-sm">
-            Programs ({programs.length})
-          </h2>
+          <h2 className="font-semibold text-slate-800 text-sm">Programs ({programs.length})</h2>
           <div className="flex items-center gap-3 text-xs text-slate-500">
             <span className="flex items-center gap-1">
-              <span className="w-2 h-2 rounded-full bg-green-400 inline-block" /> {published.length} published
+              <span className="w-2 h-2 rounded-full bg-green-400 inline-block" /> {published.length}{' '}
+              published
             </span>
             <span className="flex items-center gap-1">
-              <span className="w-2 h-2 rounded-full bg-yellow-400 inline-block" /> {drafts.length} draft
+              <span className="w-2 h-2 rounded-full bg-yellow-400 inline-block" /> {drafts.length}{' '}
+              draft
             </span>
           </div>
         </div>
@@ -589,20 +595,20 @@ function PublishTab({
   const isPublished = program.published;
 
   const checklist = [
-    { label: 'Program title set',    done: !!program.title?.trim() },
-    { label: 'Program slug set',     done: !!program.slug?.trim() },
-    { label: 'Category assigned',    done: !!program.category?.trim() },
+    { label: 'Program title set', done: !!program.title?.trim() },
+    { label: 'Program slug set', done: !!program.slug?.trim() },
+    { label: 'Category assigned', done: !!program.category?.trim() },
   ];
-  const requiredPassing = checklist.filter(c => c.done).length === checklist.length;
+  const requiredPassing = checklist.filter((c) => c.done).length === checklist.length;
 
   async function handlePublish() {
     if (!program || publishing) return;
     setPublishing(true);
     try {
-      const res = await fetch(
-        `/api/admin/programs/${program.id}/publish-direct`,
-        { method: 'POST', headers: { 'Content-Type': 'application/json' } },
-      );
+      const res = await fetch(`/api/admin/programs/${program.id}/publish-direct`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+      });
       const json = await res.json();
       if (!res.ok) {
         const detail = json.missing?.length
@@ -610,7 +616,10 @@ function PublishTab({
           : (json.error ?? 'Publish failed');
         showToast('error', detail);
       } else {
-        showToast('success', `"${program.title}" is now live at /programs/${json.slug ?? program.slug}`);
+        showToast(
+          'success',
+          `"${program.title}" is now live at /programs/${json.slug ?? program.slug}`,
+        );
         onPublished?.(program.id);
       }
     } catch {
@@ -626,14 +635,18 @@ function PublishTab({
 
       {/* Toast */}
       {toast && (
-        <div className={`flex items-start gap-3 px-4 py-3 rounded-lg text-sm font-medium ${
-          toast.type === 'success'
-            ? 'bg-green-50 border border-green-200 text-green-800'
-            : 'bg-red-50 border border-red-200 text-red-800'
-        }`}>
-          {toast.type === 'success'
-            ? <CheckCircle className="w-4 h-4 mt-0.5 shrink-0" />
-            : <AlertCircle className="w-4 h-4 mt-0.5 shrink-0" />}
+        <div
+          className={`flex items-start gap-3 px-4 py-3 rounded-lg text-sm font-medium ${
+            toast.type === 'success'
+              ? 'bg-green-50 border border-green-200 text-green-800'
+              : 'bg-red-50 border border-red-200 text-red-800'
+          }`}
+        >
+          {toast.type === 'success' ? (
+            <CheckCircle className="w-4 h-4 mt-0.5 shrink-0" />
+          ) : (
+            <AlertCircle className="w-4 h-4 mt-0.5 shrink-0" />
+          )}
           {toast.message}
         </div>
       )}
@@ -646,9 +659,11 @@ function PublishTab({
               Check completeness before making this program available to learners
             </p>
           </div>
-          <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold ${
-            isPublished ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'
-          }`}>
+          <span
+            className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold ${
+              isPublished ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'
+            }`}
+          >
             {isPublished ? 'Published' : 'Draft'}
           </span>
         </div>
@@ -657,9 +672,11 @@ function PublishTab({
         <div className="space-y-3 mb-6">
           {checklist.map((item) => (
             <div key={item.label} className="flex items-center gap-3 text-sm">
-              <span className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 text-xs ${
-                item.done ? 'bg-green-100 text-green-600' : 'bg-slate-100 text-slate-400'
-              }`}>
+              <span
+                className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 text-xs ${
+                  item.done ? 'bg-green-100 text-green-600' : 'bg-slate-100 text-slate-400'
+                }`}
+              >
                 {item.done ? '✓' : '○'}
               </span>
               <span className={item.done ? 'text-slate-700' : 'text-slate-400'}>{item.label}</span>
@@ -671,7 +688,9 @@ function PublishTab({
         {program.slug && (
           <div className="mb-6 flex items-center gap-2 text-xs text-slate-500 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2">
             <Globe className="w-3.5 h-3.5 shrink-0" />
-            <span>Public URL: <span className="font-mono text-slate-700">/programs/{program.slug}</span></span>
+            <span>
+              Public URL: <span className="font-mono text-slate-700">/programs/{program.slug}</span>
+            </span>
             {isPublished && (
               <a
                 href={`/programs/${program.slug}`}
@@ -693,9 +712,15 @@ function PublishTab({
               disabled={!requiredPassing || publishing}
               className="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 disabled:bg-slate-300 disabled:cursor-not-allowed text-white px-5 py-2.5 rounded-lg text-sm font-semibold transition-colors"
             >
-              {publishing
-                ? <><Loader2 className="w-4 h-4 animate-spin" /> Publishing…</>
-                : <><Globe className="w-4 h-4" /> Publish Program</>}
+              {publishing ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" /> Publishing…
+                </>
+              ) : (
+                <>
+                  <Globe className="w-4 h-4" /> Publish Program
+                </>
+              )}
             </button>
           ) : (
             <span className="inline-flex items-center gap-2 bg-green-50 border border-green-200 text-green-700 px-5 py-2.5 rounded-lg text-sm font-semibold">

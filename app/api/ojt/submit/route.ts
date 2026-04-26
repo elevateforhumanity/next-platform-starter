@@ -15,29 +15,21 @@ async function _POST(req: Request) {
     // Auth: require authenticated user
     const { createClient: createAuthClient } = await import('@/lib/supabase/server');
     const authSupabase = await createAuthClient();
-    const { data: { session: authSession } } = await authSupabase.auth.getSession();
+    const {
+      data: { session: authSession },
+    } = await authSupabase.auth.getSession();
     if (!authSession) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-
     const body = await req.json();
-    const {
-      apprentice_id,
-      employer_id,
-      wage_rate,
-      reimbursement_rate,
-      hours_worked,
-      status,
-    } = body;
+    const { apprentice_id, employer_id, wage_rate, reimbursement_rate, hours_worked, status } =
+      body;
 
     const supabase = await getAdminClient();
 
     if (!supabase) {
-      return NextResponse.json(
-        { error: 'Service temporarily unavailable.' },
-        { status: 503 }
-      );
+      return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });
     }
 
     const { data, error }: any = await supabase
@@ -60,11 +52,8 @@ async function _POST(req: Request) {
     }
 
     return NextResponse.json({ success: true, ojt: data });
-  } catch (error) { 
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+  } catch (error) {
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -85,11 +74,8 @@ async function _GET(request: Request) {
     }
 
     return NextResponse.json({ ojt_reimbursements: data });
-  } catch (error) { 
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+  } catch (error) {
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -115,11 +101,8 @@ async function _PATCH(req: Request) {
     }
 
     return NextResponse.json({ success: true, ojt: data });
-  } catch (error) { 
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+  } catch (error) {
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/ojt/submit', _GET, { critical: true });

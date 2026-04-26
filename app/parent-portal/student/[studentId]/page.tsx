@@ -4,8 +4,13 @@ import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import {
-  GraduationCap, BookOpen, Award, CheckCircle2,
-  ArrowLeft, Clock, BarChart3,
+  GraduationCap,
+  BookOpen,
+  Award,
+  CheckCircle2,
+  ArrowLeft,
+  Clock,
+  BarChart3,
 } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
@@ -17,7 +22,11 @@ export const metadata: Metadata = {
 
 function fmtDate(iso: string | null) {
   if (!iso) return '—';
-  return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  return new Date(iso).toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  });
 }
 
 export default async function ParentStudentDetailPage({
@@ -28,7 +37,9 @@ export default async function ParentStudentDetailPage({
   const { studentId } = await params;
   const supabase = await createClient();
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) {
     redirect(`/login?redirect=/parent-portal/student/${studentId}`);
   }
@@ -65,21 +76,24 @@ export default async function ParentStudentDetailPage({
   // Fetch enrollments with program info
   const { data: enrollments } = await supabase
     .from('program_enrollments')
-    .select(`
+    .select(
+      `
       id, status, progress_percent, enrolled_at, completed_at,
       programs ( id, title, slug )
-    `)
+    `,
+    )
     .eq('user_id', studentId)
     .order('enrolled_at', { ascending: false });
 
   // Fetch lesson progress counts per enrollment
   const enrollmentIds = (enrollments ?? []).map((e: any) => e.id);
-  const { data: lessonProgress } = enrollmentIds.length > 0
-    ? await supabase
-        .from('lesson_progress')
-        .select('enrollment_id, completed')
-        .in('enrollment_id', enrollmentIds)
-    : { data: [] };
+  const { data: lessonProgress } =
+    enrollmentIds.length > 0
+      ? await supabase
+          .from('lesson_progress')
+          .select('enrollment_id, completed')
+          .in('enrollment_id', enrollmentIds)
+      : { data: [] };
 
   // Aggregate lesson counts
   const progressByEnrollment: Record<string, { total: number; completed: number }> = {};
@@ -97,21 +111,22 @@ export default async function ParentStudentDetailPage({
     .eq('user_id', studentId)
     .order('issued_at', { ascending: false });
 
-  const activeEnrollments    = (enrollments ?? []).filter((e: any) => e.status === 'active');
+  const activeEnrollments = (enrollments ?? []).filter((e: any) => e.status === 'active');
   const completedEnrollments = (enrollments ?? []).filter((e: any) => e.status === 'completed');
 
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-4xl mx-auto px-4 py-6">
-        <Breadcrumbs items={[
-          { label: 'Parent Portal',  href: '/parent-portal' },
-          { label: 'Dashboard',      href: '/parent-portal/dashboard' },
-          { label: student.full_name ?? 'Student' },
-        ]} />
+        <Breadcrumbs
+          items={[
+            { label: 'Parent Portal', href: '/parent-portal' },
+            { label: 'Dashboard', href: '/parent-portal/dashboard' },
+            { label: student.full_name ?? 'Student' },
+          ]}
+        />
       </div>
 
       <div className="max-w-4xl mx-auto px-4 pb-20">
-
         {/* Student header */}
         <div className="flex items-center gap-5 mb-10">
           <div className="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
@@ -119,18 +134,23 @@ export default async function ParentStudentDetailPage({
           </div>
           <div>
             <h1 className="text-3xl sm:text-4xl font-black text-slate-900">{student.full_name}</h1>
-            <p className="text-slate-400 text-sm mt-0.5">Student since {fmtDate(student.created_at)}</p>
+            <p className="text-slate-400 text-sm mt-0.5">
+              Student since {fmtDate(student.created_at)}
+            </p>
           </div>
         </div>
 
         {/* Summary stats */}
         <div className="grid grid-cols-3 gap-4 mb-10">
           {[
-            { label: 'Active Programs',    value: activeEnrollments.length,    icon: BookOpen },
+            { label: 'Active Programs', value: activeEnrollments.length, icon: BookOpen },
             { label: 'Completed Programs', value: completedEnrollments.length, icon: CheckCircle2 },
-            { label: 'Certificates',       value: (certificates ?? []).length, icon: Award },
+            { label: 'Certificates', value: (certificates ?? []).length, icon: Award },
           ].map(({ label, value, icon: Icon }) => (
-            <div key={label} className="rounded-xl border border-slate-200 bg-white px-4 py-5 text-center">
+            <div
+              key={label}
+              className="rounded-xl border border-slate-200 bg-white px-4 py-5 text-center"
+            >
               <Icon className="w-5 h-5 text-slate-400 mx-auto mb-2" />
               <p className="text-2xl font-black text-slate-900 tabular-nums">{value}</p>
               <p className="text-xs text-slate-400 mt-0.5">{label}</p>
@@ -148,11 +168,18 @@ export default async function ParentStudentDetailPage({
               {activeEnrollments.map((enr: any) => {
                 const lp = progressByEnrollment[enr.id] ?? { total: 0, completed: 0 };
                 return (
-                  <div key={enr.id} className="rounded-xl border border-slate-200 bg-white px-6 py-5">
+                  <div
+                    key={enr.id}
+                    className="rounded-xl border border-slate-200 bg-white px-6 py-5"
+                  >
                     <div className="flex items-start justify-between gap-4 mb-4">
                       <div>
-                        <p className="font-bold text-slate-900">{enr.programs?.title ?? 'Program'}</p>
-                        <p className="text-xs text-slate-400 mt-0.5">Enrolled {fmtDate(enr.enrolled_at)}</p>
+                        <p className="font-bold text-slate-900">
+                          {enr.programs?.title ?? 'Program'}
+                        </p>
+                        <p className="text-xs text-slate-400 mt-0.5">
+                          Enrolled {fmtDate(enr.enrolled_at)}
+                        </p>
                       </div>
                       <span className="flex-shrink-0 text-xs font-semibold px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-700">
                         Active
@@ -193,7 +220,9 @@ export default async function ParentStudentDetailPage({
                 <div key={enr.id} className="flex items-center gap-4 px-6 py-4">
                   <CheckCircle2 className="w-5 h-5 text-emerald-500 flex-shrink-0" />
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-semibold text-slate-900 truncate">{enr.programs?.title ?? 'Program'}</p>
+                    <p className="text-sm font-semibold text-slate-900 truncate">
+                      {enr.programs?.title ?? 'Program'}
+                    </p>
                     <p className="text-xs text-slate-400 mt-0.5">
                       Completed {fmtDate(enr.completed_at ?? enr.enrolled_at)}
                     </p>
@@ -221,7 +250,9 @@ export default async function ParentStudentDetailPage({
                     <p className="text-sm font-semibold text-slate-900 truncate">
                       {(cert.programs as any)?.title ?? 'Certificate'}
                     </p>
-                    <p className="text-xs text-slate-400 mt-0.5">Issued {fmtDate(cert.issued_at)}</p>
+                    <p className="text-xs text-slate-400 mt-0.5">
+                      Issued {fmtDate(cert.issued_at)}
+                    </p>
                   </div>
                   <Link
                     href={`/verify/${cert.id}`}
@@ -238,7 +269,9 @@ export default async function ParentStudentDetailPage({
         {enrollments?.length === 0 && (
           <div className="rounded-xl border border-slate-200 bg-slate-50 px-6 py-10 text-center">
             <Clock className="w-8 h-8 text-slate-300 mx-auto mb-3" />
-            <p className="text-slate-500 text-sm">No enrollment records found for this student yet.</p>
+            <p className="text-slate-500 text-sm">
+              No enrollment records found for this student yet.
+            </p>
           </div>
         )}
 

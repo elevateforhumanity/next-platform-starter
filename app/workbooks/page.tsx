@@ -5,8 +5,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const metadata: Metadata = {
   title: 'Program Workbooks | Elevate for Humanity',
-  description:
-    'Access workbooks, study guides, and course materials for all programs',
+  description: 'Access workbooks, study guides, and course materials for all programs',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/workbooks',
   },
@@ -105,8 +104,7 @@ export default function WorkbooksPage() {
             </h1>
           </div>
           <p className="text-lg text-black">
-            Download workbooks, study guides, and course materials for your
-            program
+            Download workbooks, study guides, and course materials for your program
           </p>
         </div>
       </div>
@@ -118,14 +116,11 @@ export default function WorkbooksPage() {
           <div className="flex items-start gap-4">
             <FileText className="w-6 h-6 text-brand-blue-600 flex-shrink-0 mt-1" />
             <div>
-              <h2 className="text-lg font-bold text-black mb-2">
-                About These Materials
-              </h2>
+              <h2 className="text-lg font-bold text-black mb-2">About These Materials</h2>
               <p className="text-black">
-                All workbooks are provided free of charge to enrolled students.
-                Materials are updated regularly to reflect current industry
-                standards and certification requirements. For best results,
-                download and print workbooks before class begins.
+                All workbooks are provided free of charge to enrolled students. Materials are
+                updated regularly to reflect current industry standards and certification
+                requirements. For best results, download and print workbooks before class begins.
               </p>
             </div>
           </div>
@@ -134,15 +129,10 @@ export default function WorkbooksPage() {
         {/* Workbooks by Program */}
         <div className="space-y-8">
           {workbooks.map((program: any) => (
-            <div
-              key={program.slug}
-              className="bg-white rounded-xl shadow-sm p-8"
-            >
+            <div key={program.slug} className="bg-white rounded-xl shadow-sm p-8">
               <div className="flex items-center gap-3 mb-6">
                 <GraduationCap className="w-8 h-8 text-brand-blue-600" />
-                <h2 className="text-2xl font-bold text-black">
-                  {program.program}
-                </h2>
+                <h2 className="text-2xl font-bold text-black">{program.program}</h2>
               </div>
 
               <div className="grid md:grid-cols-2 gap-4">
@@ -153,12 +143,8 @@ export default function WorkbooksPage() {
                   >
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex-1">
-                        <h3 className="font-bold text-black mb-1">
-                          {material.title}
-                        </h3>
-                        <p className="text-sm text-black">
-                          {material.pages} pages • PDF Format
-                        </p>
+                        <h3 className="font-bold text-black mb-1">{material.title}</h3>
+                        <p className="text-sm text-black">{material.pages} pages • PDF Format</p>
                       </div>
                       <a
                         href={`/downloads/workbooks/${material.file}`}
@@ -188,33 +174,23 @@ export default function WorkbooksPage() {
 
         {/* Additional Resources */}
         <div className="mt-12 bg-white rounded-xl p-8">
-          <h2 className="text-2xl font-bold text-black mb-4">
-            Additional Resources
-          </h2>
+          <h2 className="text-2xl font-bold text-black mb-4">Additional Resources</h2>
           <div className="grid md:grid-cols-3 gap-6">
             <Link
               href="/student-handbook"
               className="block p-6 bg-white rounded-lg hover:shadow-md transition"
             >
               <FileText className="w-8 h-8 text-brand-blue-600 mb-3" />
-              <h3 className="font-bold text-black mb-2">
-                Student Handbook
-              </h3>
-              <p className="text-sm text-black">
-                Policies, procedures, and student rights
-              </p>
+              <h3 className="font-bold text-black mb-2">Student Handbook</h3>
+              <p className="text-sm text-black">Policies, procedures, and student rights</p>
             </Link>
             <Link
               href="/lms/resources"
               className="block p-6 bg-white rounded-lg hover:shadow-md transition"
             >
               <BookOpen className="w-8 h-8 text-brand-green-600 mb-3" />
-              <h3 className="font-bold text-black mb-2">
-                Course Materials
-              </h3>
-              <p className="text-sm text-black">
-                Access your enrolled course materials
-              </p>
+              <h3 className="font-bold text-black mb-2">Course Materials</h3>
+              <p className="text-sm text-black">Access your enrolled course materials</p>
             </Link>
             <Link
               href="/resources"
@@ -222,9 +198,7 @@ export default function WorkbooksPage() {
             >
               <Download className="w-8 h-8 text-brand-blue-600 mb-3" />
               <h3 className="font-bold text-black mb-2">Download Center</h3>
-              <p className="text-sm text-black">
-                Forms, guides, and documents
-              </p>
+              <p className="text-sm text-black">Forms, guides, and documents</p>
             </Link>
           </div>
         </div>
@@ -233,8 +207,8 @@ export default function WorkbooksPage() {
         <div className="mt-8 bg-white rounded-xl shadow-sm p-8">
           <h2 className="text-xl font-bold text-black mb-4">Need Help?</h2>
           <p className="text-black mb-4">
-            If you have trouble downloading materials or need additional
-            resources, contact student support:
+            If you have trouble downloading materials or need additional resources, contact student
+            support:
           </p>
           <div className="flex flex-wrap gap-4">
             <a

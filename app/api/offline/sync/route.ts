@@ -11,8 +11,8 @@ export const maxDuration = 60;
 export const dynamic = 'force-dynamic';
 
 async function _POST(req: Request) {
-    const rateLimited = await applyRateLimit(req, 'api');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(req, 'api');
+  if (rateLimited) return rateLimited;
 
   const supabase = await createClient();
   const {
@@ -65,15 +65,9 @@ async function _POST(req: Request) {
       ok: true,
       synced: pendingActions?.length || 0,
     });
-  } catch (error) { 
-    logger.error(
-      'Sync error:',
-      error instanceof Error ? error : new Error(String(error))
-    );
-    return NextResponse.json(
-      { error: toErrorMessage(error) || 'Sync failed' },
-      { status: 500 }
-    );
+  } catch (error) {
+    logger.error('Sync error:', error instanceof Error ? error : new Error(String(error)));
+    return NextResponse.json({ error: toErrorMessage(error) || 'Sync failed' }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/offline/sync', _POST);

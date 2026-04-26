@@ -62,7 +62,7 @@ export default function PartnerAttendancePage() {
         sat_hours: 0,
         sun_hours: 0,
         notes: '',
-      }))
+      })),
     );
   }
 
@@ -90,11 +90,9 @@ export default function PartnerAttendancePage() {
       setMsg('Service unavailable');
       return;
     }
-    const { error } = await supabase
-      .from('partner_attendance')
-      .upsert(payload, {
-        onConflict: 'shop_id,student_id,program_slug,week_start',
-      });
+    const { error } = await supabase.from('partner_attendance').upsert(payload, {
+      onConflict: 'shop_id,student_id,program_slug,week_start',
+    });
 
     if (error) setMsg(error.message);
     else setMsg('Saved.');
@@ -116,10 +114,10 @@ export default function PartnerAttendancePage() {
 
   return (
     <div className="rounded-2xl border p-5 space-y-4">
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Partners", href: "/partners" }, { label: "Attendance" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Partners', href: '/partners' }, { label: 'Attendance' }]} />
       </div>
-<div>
+      <div>
         <div className="font-semibold">Attendance</div>
         <div className="text-sm text-black">Weekly hours per student.</div>
       </div>
@@ -142,10 +140,7 @@ export default function PartnerAttendancePage() {
             onChange={(e) => setWeekStart(e.target.value)}
           />
         </div>
-        <button
-          className="border rounded-xl px-4 py-2"
-          onClick={loadPlacements}
-        >
+        <button className="border rounded-xl px-4 py-2" onClick={loadPlacements}>
           Load Students
         </button>
         <button
@@ -175,10 +170,7 @@ export default function PartnerAttendancePage() {
           </thead>
           <tbody>
             {rows.map((r, idx) => (
-              <tr
-                key={`${r.student_id}-${r.program_slug}-${idx}`}
-                className="border-b"
-              >
+              <tr key={`${r.student_id}-${r.program_slug}-${idx}`} className="border-b">
                 <td className="py-2">{r.student_id}</td>
                 <td className="py-2">{r.program_slug}</td>
                 {(

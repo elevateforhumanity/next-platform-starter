@@ -10,10 +10,9 @@ export const maxDuration = 60;
 export const dynamic = 'force-dynamic';
 
 async function _GET(request: Request) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const supabase = await createRouteHandlerClient({ cookies });
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const supabase = await createRouteHandlerClient({ cookies });
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -45,9 +44,7 @@ const supabase = await createRouteHandlerClient({ cookies });
   }
 
   // Download from storage — MOUs are stored in the 'mous' bucket
-  const { data, error }: any = await supabase.storage
-    .from('mous')
-    .download(ph.mou_final_pdf_url);
+  const { data, error }: any = await supabase.storage.from('mous').download(ph.mou_final_pdf_url);
 
   if (error || !data) {
     logger.error('Download error:', error);

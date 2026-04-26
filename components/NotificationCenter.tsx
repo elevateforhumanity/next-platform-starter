@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -66,27 +66,34 @@ export function NotificationCenter() {
     },
   ];
 
-  const filteredNotifications = filter === 'unread'
-    ? notifications.filter(n => !n.read)
-    : notifications;
+  const filteredNotifications =
+    filter === 'unread' ? notifications.filter((n) => !n.read) : notifications;
 
-  const unreadCount = notifications.filter(n => !n.read).length;
+  const unreadCount = notifications.filter((n) => !n.read).length;
 
   const getIcon = (type: string) => {
     switch (type) {
-      case 'success': return '•';
-      case 'warning': return '⚠️';
-      case 'error': return '✕';
-      default: return 'ℹ️';
+      case 'success':
+        return '•';
+      case 'warning':
+        return '⚠️';
+      case 'error':
+        return '✕';
+      default:
+        return 'ℹ️';
     }
   };
 
   const getColor = (type: string) => {
     switch (type) {
-      case 'success': return 'bg-brand-green-100 text-brand-green-700 border-brand-green-200';
-      case 'warning': return 'bg-yellow-100 text-yellow-700 border-yellow-200';
-      case 'error': return 'bg-brand-red-100 text-brand-red-700 border-brand-red-200';
-      default: return 'bg-brand-blue-100 text-brand-blue-700 border-brand-blue-200';
+      case 'success':
+        return 'bg-brand-green-100 text-brand-green-700 border-brand-green-200';
+      case 'warning':
+        return 'bg-yellow-100 text-yellow-700 border-yellow-200';
+      case 'error':
+        return 'bg-brand-red-100 text-brand-red-700 border-brand-red-200';
+      default:
+        return 'bg-brand-blue-100 text-brand-blue-700 border-brand-blue-200';
     }
   };
 
@@ -94,7 +101,9 @@ export function NotificationCenter() {
     <div className="min-h-screen bg-white">
       <div className="   text-white py-12">
         <div className="max-w-7xl mx-auto px-4">
-          <h1 className="text-4xl font-bold mb-2 text-2xl md:text-3xl lg:text-4xl">Notifications</h1>
+          <h1 className="text-4xl font-bold mb-2 text-2xl md:text-3xl lg:text-4xl">
+            Notifications
+          </h1>
           <p className="text-white">Stay updated with real-time alerts</p>
         </div>
       </div>
@@ -113,20 +122,27 @@ export function NotificationCenter() {
             <button
               onClick={() => setFilter('unread')}
               className={`px-4 py-2 rounded-lg font-medium ${
-                filter === 'unread' ? 'bg-brand-orange-600 text-white' : 'bg-white text-black border'
+                filter === 'unread'
+                  ? 'bg-brand-orange-600 text-white'
+                  : 'bg-white text-black border'
               }`}
             >
               Unread ({unreadCount})
             </button>
           </div>
-          <Button variant="secondary" size="sm">Mark All as Read</Button>
+          <Button variant="secondary" size="sm">
+            Mark All as Read
+          </Button>
         </div>
 
         <div className="space-y-3">
           {filteredNotifications.map((notification) => (
-            <Card key={notification.id} className={`p-4 border-l-4 ${
-              !notification.read ? 'bg-brand-blue-50' : ''
-            } ${getColor(notification.type)}`}>
+            <Card
+              key={notification.id}
+              className={`p-4 border-l-4 ${
+                !notification.read ? 'bg-brand-blue-50' : ''
+              } ${getColor(notification.type)}`}
+            >
               <div className="flex gap-4">
                 <div className="text-2xl">{getIcon(notification.type)}</div>
                 <div className="flex-1">
@@ -140,7 +156,9 @@ export function NotificationCenter() {
                   <div className="flex justify-between items-center">
                     <span className="text-xs text-slate-700">{notification.timestamp}</span>
                     {notification.actionUrl && (
-                      <Button size="sm" variant="secondary">View</Button>
+                      <Button size="sm" variant="secondary">
+                        View
+                      </Button>
                     )}
                   </div>
                 </div>

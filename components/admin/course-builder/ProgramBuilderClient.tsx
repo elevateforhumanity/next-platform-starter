@@ -35,7 +35,7 @@ export default function ProgramBuilderClient({ initialState, availableCredential
   const derived = useMemo(() => validateProgram(state), [state]);
 
   const patch = useCallback((update: Partial<ProgramBuilderState>) => {
-    setState(prev => ({ ...prev, ...update }));
+    setState((prev) => ({ ...prev, ...update }));
     setSaveSuccess(false);
   }, []);
 
@@ -94,12 +94,10 @@ export default function ProgramBuilderClient({ initialState, availableCredential
       const body = await res.json().catch(() => null);
       if (!res.ok) {
         // 422 = validation failure — surface the missing list
-        const detail = body?.missing?.length
-          ? `\n• ${body.missing.join('\n• ')}`
-          : '';
+        const detail = body?.missing?.length ? `\n• ${body.missing.join('\n• ')}` : '';
         throw new Error((body?.error ?? 'Publish failed') + detail);
       }
-      setState(prev => ({ ...prev, status: 'published', published: true }));
+      setState((prev) => ({ ...prev, status: 'published', published: true }));
     } catch (err: any) {
       setSaveError(err?.message ?? 'Publish failed');
     } finally {
@@ -117,7 +115,7 @@ export default function ProgramBuilderClient({ initialState, availableCredential
         onSave={handleSave}
         onPublish={handlePublish}
         onPreview={() => setShowPreview(true)}
-        onTitleChange={title => patch({ title })}
+        onTitleChange={(title) => patch({ title })}
       />
 
       {/* Context hero */}
@@ -125,7 +123,9 @@ export default function ProgramBuilderClient({ initialState, availableCredential
         <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-              <p className="text-xs font-medium uppercase tracking-wide text-slate-400 mb-1">Program Builder</p>
+              <p className="text-xs font-medium uppercase tracking-wide text-slate-400 mb-1">
+                Program Builder
+              </p>
               <h1 className="text-xl font-bold text-slate-900">
                 {state.title || 'Untitled Program'}
               </h1>
@@ -134,9 +134,13 @@ export default function ProgramBuilderClient({ initialState, availableCredential
               </p>
             </div>
             <div className="flex flex-wrap gap-4 text-sm text-slate-500">
-              <Stat label="Phases"  value={derived.totalPhases} />
+              <Stat label="Phases" value={derived.totalPhases} />
               <Stat label="Modules" value={derived.totalModules} />
-              <Stat label="Lessons" value={derived.totalLessons} highlight={derived.totalLessons < 10} />
+              <Stat
+                label="Lessons"
+                value={derived.totalLessons}
+                highlight={derived.totalLessons < 10}
+              />
               <Stat label="Credentials" value={state.credentials.length} />
               {state.estimated_weeks && <Stat label="Weeks" value={state.estimated_weeks} />}
             </div>
@@ -146,7 +150,9 @@ export default function ProgramBuilderClient({ initialState, availableCredential
 
       {/* Save feedback */}
       {(saveError || saveSuccess) && (
-        <div className={`border-b px-4 py-2 text-sm text-center ${saveError ? 'bg-red-50 border-red-200 text-red-700' : 'bg-emerald-50 border-emerald-200 text-emerald-700'}`}>
+        <div
+          className={`border-b px-4 py-2 text-sm text-center ${saveError ? 'bg-red-50 border-red-200 text-red-700' : 'bg-emerald-50 border-emerald-200 text-emerald-700'}`}
+        >
           {saveError ?? 'Saved successfully'}
         </div>
       )}
@@ -154,7 +160,6 @@ export default function ProgramBuilderClient({ initialState, availableCredential
       {/* Main grid */}
       <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
-
           {/* Editor column */}
           <main className="lg:col-span-8 space-y-6">
             <ProgramIdentitySection state={state} onChange={patch} />
@@ -194,7 +199,11 @@ export default function ProgramBuilderClient({ initialState, availableCredential
 function Stat({ label, value, highlight }: { label: string; value: number; highlight?: boolean }) {
   return (
     <div className="text-center">
-      <p className={`text-lg font-bold tabular-nums ${highlight ? 'text-amber-600' : 'text-slate-900'}`}>{value}</p>
+      <p
+        className={`text-lg font-bold tabular-nums ${highlight ? 'text-amber-600' : 'text-slate-900'}`}
+      >
+        {value}
+      </p>
       <p className="text-xs text-slate-400">{label}</p>
     </div>
   );
@@ -203,7 +212,9 @@ function Stat({ label, value, highlight }: { label: string; value: number; highl
 // ── Preview drawer ────────────────────────────────────────────────────────────
 
 function PreviewDrawer({
-  state, derived, onClose,
+  state,
+  derived,
+  onClose,
 }: {
   state: ProgramBuilderState;
   derived: ProgramDerivedState;
@@ -221,7 +232,12 @@ function PreviewDrawer({
             <h2 className="text-sm font-semibold text-slate-900">Learner Preview</h2>
             <p className="text-xs text-slate-500">How this program appears to learners</p>
           </div>
-          <button onClick={onClose} className="text-slate-400 hover:text-slate-700 text-xl leading-none">×</button>
+          <button
+            onClick={onClose}
+            className="text-slate-400 hover:text-slate-700 text-xl leading-none"
+          >
+            ×
+          </button>
         </div>
 
         <div className="flex-1 p-5 space-y-5">
@@ -233,7 +249,9 @@ function PreviewDrawer({
           )}
 
           <div>
-            <h1 className="text-lg font-bold text-slate-900">{state.title || 'Untitled Program'}</h1>
+            <h1 className="text-lg font-bold text-slate-900">
+              {state.title || 'Untitled Program'}
+            </h1>
             {state.subtitle && <p className="text-sm text-slate-500 mt-1">{state.subtitle}</p>}
           </div>
 
@@ -247,10 +265,15 @@ function PreviewDrawer({
           {/* Credentials */}
           {state.credentials.length > 0 && (
             <div>
-              <p className="text-xs font-semibold uppercase tracking-wide text-slate-400 mb-2">Credentials Earned</p>
+              <p className="text-xs font-semibold uppercase tracking-wide text-slate-400 mb-2">
+                Credentials Earned
+              </p>
               <div className="flex flex-wrap gap-2">
-                {state.credentials.map(c => (
-                  <span key={c.id} className="rounded-full bg-brand-blue-100 px-3 py-1 text-xs font-semibold text-brand-blue-700">
+                {state.credentials.map((c) => (
+                  <span
+                    key={c.id}
+                    className="rounded-full bg-brand-blue-100 px-3 py-1 text-xs font-semibold text-brand-blue-700"
+                  >
                     {c.credential_abbreviation ?? c.credential_name}
                   </span>
                 ))}
@@ -261,9 +284,11 @@ function PreviewDrawer({
           {/* Outcomes */}
           {state.outcomes.length > 0 && (
             <div>
-              <p className="text-xs font-semibold uppercase tracking-wide text-slate-400 mb-2">What You'll Learn</p>
+              <p className="text-xs font-semibold uppercase tracking-wide text-slate-400 mb-2">
+                What You'll Learn
+              </p>
               <ul className="space-y-1.5">
-                {state.outcomes.map(o => (
+                {state.outcomes.map((o) => (
                   <li key={o.id} className="flex items-start gap-2 text-sm text-slate-700">
                     <span className="mt-1 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-brand-blue-500" />
                     {o.text}
@@ -276,12 +301,14 @@ function PreviewDrawer({
           {/* Curriculum outline */}
           {state.phases.length > 0 && (
             <div>
-              <p className="text-xs font-semibold uppercase tracking-wide text-slate-400 mb-2">Curriculum</p>
+              <p className="text-xs font-semibold uppercase tracking-wide text-slate-400 mb-2">
+                Curriculum
+              </p>
               <div className="space-y-2">
-                {state.phases.map(phase => (
+                {state.phases.map((phase) => (
                   <div key={phase.id}>
                     <p className="text-xs font-semibold text-slate-700">{phase.title}</p>
-                    {phase.modules.map(mod => (
+                    {phase.modules.map((mod) => (
                       <p key={mod.id} className="ml-3 text-xs text-slate-500">
                         {mod.title} · {mod.lessons.length} lessons
                       </p>
@@ -304,9 +331,21 @@ function PreviewDrawer({
           {/* Compliance badges */}
           {(state.wioa_approved || state.dol_registered || state.etpl_listed) && (
             <div className="flex flex-wrap gap-2 pt-1">
-              {state.wioa_approved && <span className="rounded bg-emerald-100 px-2 py-0.5 text-xs font-bold text-emerald-700">WIOA Eligible</span>}
-              {state.dol_registered && <span className="rounded bg-emerald-100 px-2 py-0.5 text-xs font-bold text-emerald-700">DOL Registered</span>}
-              {state.etpl_listed && <span className="rounded bg-emerald-100 px-2 py-0.5 text-xs font-bold text-emerald-700">ETPL Listed</span>}
+              {state.wioa_approved && (
+                <span className="rounded bg-emerald-100 px-2 py-0.5 text-xs font-bold text-emerald-700">
+                  WIOA Eligible
+                </span>
+              )}
+              {state.dol_registered && (
+                <span className="rounded bg-emerald-100 px-2 py-0.5 text-xs font-bold text-emerald-700">
+                  DOL Registered
+                </span>
+              )}
+              {state.etpl_listed && (
+                <span className="rounded bg-emerald-100 px-2 py-0.5 text-xs font-bold text-emerald-700">
+                  ETPL Listed
+                </span>
+              )}
             </div>
           )}
         </div>
@@ -314,5 +353,3 @@ function PreviewDrawer({
     </div>
   );
 }
-
-

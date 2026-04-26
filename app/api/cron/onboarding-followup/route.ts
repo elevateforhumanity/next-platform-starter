@@ -106,16 +106,14 @@ function formatProgramName(slug: string): string {
     'cybersecurity-analyst': 'Cybersecurity Analyst',
     'barber-apprenticeship': 'Barber Apprenticeship',
     'nail-technician': 'Nail Technician',
-    'electrical': 'Electrical Technician',
+    electrical: 'Electrical Technician',
     'peer-recovery-specialist-jri': 'Peer Recovery Specialist',
-    'bookkeeping': 'Bookkeeping',
+    bookkeeping: 'Bookkeeping',
     'tax-prep-financial-services': 'Tax Preparation & Financial Services',
     'beauty-career-educator': 'Beauty Career Educator',
     'home-health-aide': 'Home Health Aide',
   };
   if (map[slug]) return map[slug];
   // Title-case the slug
-  return slug
-    .replace(/-/g, ' ')
-    .replace(/\b\w/g, (c) => c.toUpperCase());
+  return slug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
 }

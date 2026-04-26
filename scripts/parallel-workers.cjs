@@ -50,59 +50,68 @@ const sections = {
   'marketing-contact': [],
   'marketing-funding': [],
   'marketing-other': [],
-  'portal': [],
-  'staff': [],
-  'other': []
+  portal: [],
+  staff: [],
+  other: [],
 };
 
 // Categorize each page
-data.pages.forEach(page => {
+data.pages.forEach((page) => {
   const route = page.route.toLowerCase();
-  
+
   if (route.includes('/admin/analytics')) sections['admin-analytics'].push(page);
-  else if (route.includes('/admin/users') || route.includes('/admin/profiles')) sections['admin-users'].push(page);
-  else if (route.includes('/admin/courses') || route.includes('/admin/lessons')) sections['admin-courses'].push(page);
+  else if (route.includes('/admin/users') || route.includes('/admin/profiles'))
+    sections['admin-users'].push(page);
+  else if (route.includes('/admin/courses') || route.includes('/admin/lessons'))
+    sections['admin-courses'].push(page);
   else if (route.includes('/admin/reports')) sections['admin-reports'].push(page);
   else if (route.includes('/admin/compliance')) sections['admin-compliance'].push(page);
   else if (route.includes('/admin/certificate')) sections['admin-certificates'].push(page);
-  else if (route.includes('/admin/application') || route.includes('/admin/applicant')) sections['admin-applications'].push(page);
+  else if (route.includes('/admin/application') || route.includes('/admin/applicant'))
+    sections['admin-applications'].push(page);
   else if (route.includes('/admin')) sections['admin-other'].push(page);
-  
   else if (route.includes('/student/dashboard')) sections['student-dashboard'].push(page);
   else if (route.includes('/student/courses')) sections['student-courses'].push(page);
   else if (route.includes('/student/assignment')) sections['student-assignments'].push(page);
   else if (route.includes('/student/progress')) sections['student-progress'].push(page);
   else if (route.includes('/student/certificate')) sections['student-certificates'].push(page);
   else if (route.includes('/student')) sections['student-other'].push(page);
-  
   else if (route.includes('/lms/courses')) sections['lms-courses'].push(page);
   else if (route.includes('/lms/assignment')) sections['lms-assignments'].push(page);
   else if (route.includes('/lms/grade')) sections['lms-grades'].push(page);
   else if (route.includes('/lms/calendar')) sections['lms-calendar'].push(page);
   else if (route.includes('/lms')) sections['lms-other'].push(page);
-  
   else if (route.includes('/program-holder/portal')) sections['program-holder-portal'].push(page);
   else if (route.includes('/program-holder/courses')) sections['program-holder-courses'].push(page);
-  else if (route.includes('/program-holder/students')) sections['program-holder-students'].push(page);
+  else if (route.includes('/program-holder/students'))
+    sections['program-holder-students'].push(page);
   else if (route.includes('/program-holder/reports')) sections['program-holder-reports'].push(page);
   else if (route.includes('/program-holder')) sections['program-holder-other'].push(page);
-  
-  else if (route.includes('/programs/') && (route.includes('healthcare') || route.includes('cna') || route.includes('medical'))) sections['programs-healthcare'].push(page);
-  else if (route.includes('/programs/') && (route.includes('hvac') || route.includes('trades') || route.includes('plumb'))) sections['programs-trades'].push(page);
-  else if (route.includes('/programs/') && route.includes('cdl')) sections['programs-cdl'].push(page);
+  else if (
+    route.includes('/programs/') &&
+    (route.includes('healthcare') || route.includes('cna') || route.includes('medical'))
+  )
+    sections['programs-healthcare'].push(page);
+  else if (
+    route.includes('/programs/') &&
+    (route.includes('hvac') || route.includes('trades') || route.includes('plumb'))
+  )
+    sections['programs-trades'].push(page);
+  else if (route.includes('/programs/') && route.includes('cdl'))
+    sections['programs-cdl'].push(page);
   else if (route.includes('/programs')) sections['programs-other'].push(page);
-  
-  else if (route.includes('/employer/') && (route.includes('job') || route.includes('post'))) sections['employer-jobs'].push(page);
-  else if (route.includes('/employer/') && route.includes('candidate')) sections['employer-candidates'].push(page);
+  else if (route.includes('/employer/') && (route.includes('job') || route.includes('post')))
+    sections['employer-jobs'].push(page);
+  else if (route.includes('/employer/') && route.includes('candidate'))
+    sections['employer-candidates'].push(page);
   else if (route.includes('/employer/analytics')) sections['employer-analytics'].push(page);
   else if (route.includes('/employer')) sections['employer-other'].push(page);
-  
   else if (route.match(/^\/(about|mission|vision|team)/)) sections['marketing-about'].push(page);
   else if (route.includes('/apply')) sections['marketing-apply'].push(page);
   else if (route.includes('/contact')) sections['marketing-contact'].push(page);
-  else if (route.includes('/funding') || route.includes('/financial')) sections['marketing-funding'].push(page);
+  else if (route.includes('/funding') || route.includes('/financial'))
+    sections['marketing-funding'].push(page);
   else if (route.match(/^\/(faq|blog|careers|partners)/)) sections['marketing-other'].push(page);
-  
   else if (route.includes('/portal')) sections['portal'].push(page);
   else if (route.includes('/staff')) sections['staff'].push(page);
   else sections['other'].push(page);
@@ -115,7 +124,7 @@ console.log('╚═════════════════════�
 
 // Show worker assignments
 console.log('WORKER ASSIGNMENTS:\n');
-Object.keys(sections).forEach(section => {
+Object.keys(sections).forEach((section) => {
   if (sections[section].length > 0) {
     console.log(`Worker "${section}": ${sections[section].length} pages`);
   }
@@ -124,12 +133,9 @@ Object.keys(sections).forEach(section => {
 console.log('\n\nStarting parallel build...\n');
 
 // Save sections to files for workers
-Object.keys(sections).forEach(section => {
+Object.keys(sections).forEach((section) => {
   if (sections[section].length > 0) {
-    fs.writeFileSync(
-      `/tmp/worker-${section}.json`,
-      JSON.stringify(sections[section], null, 2)
-    );
+    fs.writeFileSync(`/tmp/worker-${section}.json`, JSON.stringify(sections[section], null, 2));
   }
 });
 
@@ -140,12 +146,14 @@ console.log('Building all pages now...\n');
 const startTime = Date.now();
 let completed = 0;
 
-Object.keys(sections).forEach(section => {
-  sections[section].forEach(page => {
+Object.keys(sections).forEach((section) => {
+  sections[section].forEach((page) => {
     buildPage(page, section);
     completed++;
-    const percent = (completed / data.pages.length * 100).toFixed(1);
-    process.stdout.write(`\r[${percent}%] ${completed}/${data.pages.length} | Worker: ${section.padEnd(25)}`);
+    const percent = ((completed / data.pages.length) * 100).toFixed(1);
+    process.stdout.write(
+      `\r[${percent}%] ${completed}/${data.pages.length} | Worker: ${section.padEnd(25)}`,
+    );
   });
 });
 
@@ -168,7 +176,7 @@ function buildPage(page, section) {
 function generateCode(page, section) {
   const title = page.title || 'Page';
   const desc = page.description || 'Page description';
-  
+
   // Generate based on section type
   if (section.startsWith('admin')) {
     return generateAdminCode(page, title, desc);

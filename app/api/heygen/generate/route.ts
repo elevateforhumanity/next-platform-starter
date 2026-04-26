@@ -16,11 +16,11 @@ interface VideoGenerateRequest {
 }
 
 async function _POST(request: NextRequest) {
-    const rateLimited = await applyRateLimit(request, 'contact');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(request, 'contact');
+  if (rateLimited) return rateLimited;
 
-    const auth = await requireAuth(request);
-    if (auth.error) return auth.error;
+  const auth = await requireAuth(request);
+  if (auth.error) return auth.error;
 
   if (!HEYGEN_API_KEY) {
     return NextResponse.json({ error: 'HeyGen API key not configured' }, { status: 500 });
@@ -44,13 +44,15 @@ async function _POST(request: NextRequest) {
             voice_id: voiceId || '1bd001e7e50f421d891986aad5158bc8', // Default professional voice
             speed: 1.0,
           },
-          background: background ? {
-            type: 'image',
-            url: background,
-          } : {
-            type: 'color',
-            value: '#1e3a5f',
-          },
+          background: background
+            ? {
+                type: 'image',
+                url: background,
+              }
+            : {
+                type: 'color',
+                value: '#1e3a5f',
+              },
         },
       ],
       dimension: {
@@ -73,7 +75,10 @@ async function _POST(request: NextRequest) {
     const data = await response.json();
 
     if (!response.ok) {
-      return NextResponse.json({ error: data.message || 'Failed to generate video' }, { status: response.status });
+      return NextResponse.json(
+        { error: data.message || 'Failed to generate video' },
+        { status: response.status },
+      );
     }
 
     return NextResponse.json({

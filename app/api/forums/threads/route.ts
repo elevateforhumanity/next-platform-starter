@@ -1,4 +1,3 @@
-
 import { NextRequest, NextResponse } from 'next/server';
 import { createServerSupabaseClient } from '@/lib/auth';
 import { logger } from '@/lib/logger';
@@ -26,7 +25,7 @@ async function _GET(req: NextRequest) {
         *,
         author:profiles!author_id(full_name, email),
         posts:forum_posts(count)
-      `
+      `,
       )
       .order('pinned', { ascending: false })
       .order('updated_at', { ascending: false });
@@ -44,12 +43,9 @@ async function _GET(req: NextRequest) {
     if (error) throw error;
 
     return NextResponse.json({ threads: data });
-  } catch (error) { 
+  } catch (error) {
     logger.error('Error fetching threads:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch threads' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to fetch threads' }, { status: 500 });
   }
 }
 
@@ -71,10 +67,7 @@ async function _POST(req: NextRequest) {
     const { category_id, course_id, title } = body;
 
     if (!category_id || !title) {
-      return NextResponse.json(
-        { error: 'Missing required fields' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
     const { data, error }: any = await supabase
@@ -91,12 +84,9 @@ async function _POST(req: NextRequest) {
     if (error) throw error;
 
     return NextResponse.json({ thread: data }, { status: 201 });
-  } catch (error) { 
+  } catch (error) {
     logger.error('Error creating thread:', error);
-    return NextResponse.json(
-      { error: 'Failed to create thread' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to create thread' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/forums/threads', _GET);

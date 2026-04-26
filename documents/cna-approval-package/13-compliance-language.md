@@ -1,4 +1,5 @@
 # CNA PROGRAM — COMPLIANCE LANGUAGE AND DISCLOSURES
+
 ## Elevate for Humanity LLC
 
 ---
@@ -40,6 +41,7 @@ Salary and wage information provided in program materials represents median or t
 **If a student withdraws before the program begins:** Full refund of any fees paid, minus a non-refundable application processing fee of $25.
 
 **If a student withdraws after the program begins:**
+
 - Withdrawal before completing 10% of program hours: 90% refund of tuition paid
 - Withdrawal after completing 10% but before 25% of program hours: 75% refund
 - Withdrawal after completing 25% but before 50% of program hours: 50% refund
@@ -73,11 +75,11 @@ Students have the right to review their own program records upon written request
 
 All marketing materials, website content, social media posts, and student communications related to the CNA program must include the following language until ISDH approval is received:
 
-*"The Certified Nursing Assistant (CNA) program at Elevate for Humanity LLC is pending approval by the Indiana State Department of Health. Enrollment is not open until approval is granted. Joining the waiting list does not constitute enrollment and does not guarantee a seat in any cohort."*
+_"The Certified Nursing Assistant (CNA) program at Elevate for Humanity LLC is pending approval by the Indiana State Department of Health. Enrollment is not open until approval is granted. Joining the waiting list does not constitute enrollment and does not guarantee a seat in any cohort."_
 
 After ISDH approval is received, marketing materials must include:
 
-*"The Certified Nursing Assistant (CNA) program at Elevate for Humanity LLC is approved by the Indiana State Department of Health under Indiana Code 16-28-13 and 410 IAC 17. Completion of this program makes graduates eligible to sit for the Indiana Nurse Aide Competency Evaluation. Completion does not guarantee passage of the examination or employment."*
+_"The Certified Nursing Assistant (CNA) program at Elevate for Humanity LLC is approved by the Indiana State Department of Health under Indiana Code 16-28-13 and 410 IAC 17. Completion of this program makes graduates eligible to sit for the Indiana Nurse Aide Competency Evaluation. Completion does not guarantee passage of the examination or employment."_
 
 ---
 

@@ -1,4 +1,3 @@
-
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { getAdminClient } from '@/lib/supabase/admin';
@@ -18,22 +17,18 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'Database not configured' }, { status: 503 });
   }
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-  const { data: profile } = await db
-    .from('profiles')
-    .select('role')
-    .eq('id', user.id)
-    .single();
+  const { data: profile } = await db.from('profiles').select('role').eq('id', user.id).single();
 
   if (!profile || !['admin', 'super_admin', 'staff'].includes(profile.role)) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
 
-  const { data, error } = await db
-    .from('applications')
-    .select('status, program_slug');
+  const { data, error } = await db.from('applications').select('status, program_slug');
 
   if (error) {
     return safeInternalError(error, 'Failed to load application summary');
@@ -49,9 +44,13 @@ export async function GET(request: NextRequest) {
   }
 
   // Flatten to array for easy consumption
-  const summary = Object.entries(counts).flatMap(([program_slug, statuses]) =>
-    Object.entries(statuses).map(([status, count]) => ({ program_slug, status, count })),
-  ).sort((a, b) => a.program_slug.localeCompare(b.program_slug) || a.status.localeCompare(b.status));
+  const summary = Object.entries(counts)
+    .flatMap(([program_slug, statuses]) =>
+      Object.entries(statuses).map(([status, count]) => ({ program_slug, status, count })),
+    )
+    .sort(
+      (a, b) => a.program_slug.localeCompare(b.program_slug) || a.status.localeCompare(b.status),
+    );
 
   return NextResponse.json(summary);
 }

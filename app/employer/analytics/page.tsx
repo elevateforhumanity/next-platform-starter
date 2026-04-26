@@ -14,7 +14,9 @@ export const metadata: Metadata = {
 
 export default async function EmployerAnalyticsPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login');
 
   const { data: profile } = await supabase
@@ -66,7 +68,11 @@ export default async function EmployerAnalyticsPage() {
     { label: 'Total Hires', value: totalHires.toString(), color: 'text-brand-green-600' },
     { label: 'Open Positions', value: openPositions.toString(), color: 'text-brand-blue-600' },
     { label: 'Applications', value: totalApplications.toString(), color: 'text-brand-blue-600' },
-    { label: 'Avg. Time to Hire', value: avgTimeToHireDays > 0 ? `${avgTimeToHireDays}d` : '—', color: 'text-brand-orange-600' },
+    {
+      label: 'Avg. Time to Hire',
+      value: avgTimeToHireDays > 0 ? `${avgTimeToHireDays}d` : '—',
+      color: 'text-brand-orange-600',
+    },
   ];
 
   return (
@@ -75,7 +81,11 @@ export default async function EmployerAnalyticsPage() {
         <div className="mb-8">
           <nav className="text-sm mb-4">
             <ol className="flex items-center space-x-2 text-slate-700">
-              <li><Link href="/employer/dashboard" className="hover:text-slate-900">Employer</Link></li>
+              <li>
+                <Link href="/employer/dashboard" className="hover:text-slate-900">
+                  Employer
+                </Link>
+              </li>
               <li>/</li>
               <li className="text-slate-900 font-medium">Analytics</li>
             </ol>

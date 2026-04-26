@@ -22,7 +22,9 @@ type GuardFailure = {
 
 export async function providerApiGuard(): Promise<GuardSuccess | GuardFailure> {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return { error: safeError('Unauthorized', 401) };
 
   const { data: profile } = await supabase
@@ -47,7 +49,12 @@ export async function providerApiGuard(): Promise<GuardSuccess | GuardFailure> {
 
   if (!tenant) return { error: safeError('Tenant not found', 404) };
   if (tenant.status === 'suspended') {
-    return { error: safeError('Your provider account is suspended. Contact support@elevateforhumanity.org.', 403) };
+    return {
+      error: safeError(
+        'Your provider account is suspended. Contact support@elevateforhumanity.org.',
+        403,
+      ),
+    };
   }
   if (!['active'].includes(tenant.status)) {
     return { error: safeError('Provider account is not active', 403) };

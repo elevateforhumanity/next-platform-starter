@@ -33,13 +33,19 @@ export function LimitWarningBanner({
   };
 
   return (
-    <div className={`border-b ${isCritical ? 'bg-brand-red-50 border-brand-red-200' : 'bg-amber-50 border-amber-200'}`}>
+    <div
+      className={`border-b ${isCritical ? 'bg-brand-red-50 border-brand-red-200' : 'bg-amber-50 border-amber-200'}`}
+    >
       <div className="max-w-7xl mx-auto px-4 py-3">
         <div className="flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <TrendingUp className={`w-5 h-5 ${isCritical ? 'text-brand-red-600' : 'text-amber-600'}`} />
+            <TrendingUp
+              className={`w-5 h-5 ${isCritical ? 'text-brand-red-600' : 'text-amber-600'}`}
+            />
             <div>
-              <span className={`font-semibold ${isCritical ? 'text-brand-red-900' : 'text-amber-900'}`}>
+              <span
+                className={`font-semibold ${isCritical ? 'text-brand-red-900' : 'text-amber-900'}`}
+              >
                 {isCritical ? 'Almost at limit' : 'Approaching limit'}
               </span>
               <span className={`ml-2 ${isCritical ? 'text-brand-red-700' : 'text-amber-700'}`}>
@@ -90,12 +96,8 @@ export function LimitReachedModal({
           <div className="w-16 h-16 bg-brand-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
             <Lock className="w-8 h-8 text-brand-red-600" />
           </div>
-          <h2 className="text-2xl font-black text-slate-900 mb-4">
-            {message.title}
-          </h2>
-          <p className="text-slate-700 mb-8">
-            {message.body}
-          </p>
+          <h2 className="text-2xl font-black text-slate-900 mb-4">{message.title}</h2>
+          <p className="text-slate-700 mb-8">{message.body}</p>
           <div className="space-y-3">
             <Link
               href={upgrade.ctaHref}
@@ -128,11 +130,7 @@ interface LimitReachedBannerProps {
 /**
  * Persistent banner when limit is reached
  */
-export function LimitReachedBanner({
-  planId,
-  limitType,
-  planName,
-}: LimitReachedBannerProps) {
+export function LimitReachedBanner({ planId, limitType, planName }: LimitReachedBannerProps) {
   const message = getLimitReachedMessage(limitType, planName);
   const upgrade = getUpgradePath(planId);
 
@@ -195,14 +193,22 @@ export function UsageIndicator({
     <div className="p-3 bg-gray-50 rounded-lg">
       <div className="flex items-center justify-between mb-2">
         <span className="text-slate-900">{label}</span>
-        <span className={`font-medium ${isAtLimit ? 'text-brand-red-600' : isCritical ? 'text-brand-red-600' : isWarning ? 'text-amber-600' : 'text-slate-900'}`}>
+        <span
+          className={`font-medium ${isAtLimit ? 'text-brand-red-600' : isCritical ? 'text-brand-red-600' : isWarning ? 'text-amber-600' : 'text-slate-900'}`}
+        >
           {current} / {limit}
         </span>
       </div>
       <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
         <div
           className={`h-full transition-all ${
-            isAtLimit ? 'bg-brand-red-600' : isCritical ? 'bg-brand-red-500' : isWarning ? 'bg-amber-500' : 'bg-brand-green-500'
+            isAtLimit
+              ? 'bg-brand-red-600'
+              : isCritical
+                ? 'bg-brand-red-500'
+                : isWarning
+                  ? 'bg-amber-500'
+                  : 'bg-brand-green-500'
           }`}
           style={{ width: `${Math.min(percent, 100)}%` }}
         />
@@ -227,9 +233,7 @@ export function EnterpriseFeatureGate({ featureName }: { featureName: string }) 
     <div className="bg-slate-100 border border-slate-200 rounded-lg p-6 text-center">
       <Lock className="w-8 h-8 text-slate-400 mx-auto mb-3" />
       <h3 className="font-bold text-slate-900 mb-2">Enterprise Feature</h3>
-      <p className="text-slate-700 text-sm mb-4">
-        {featureName} requires an Enterprise license.
-      </p>
+      <p className="text-slate-700 text-sm mb-4">{featureName} requires an Enterprise license.</p>
       <Link
         href="/store/request-license?tier=implementation_plus_annual"
         className="inline-flex items-center gap-2 bg-slate-900 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-slate-800 transition-colors"

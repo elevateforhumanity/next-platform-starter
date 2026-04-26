@@ -20,8 +20,11 @@ async function _GET(request: NextRequest) {
 
     const supabase = await createClient();
     const db = await getAdminClient();
-  if (!db) return NextResponse.json({ error: 'Admin client failed to initialize' }, { status: 500 });
-    const { data: { user } } = await supabase.auth.getUser();
+    if (!db)
+      return NextResponse.json({ error: 'Admin client failed to initialize' }, { status: 500 });
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -71,8 +74,11 @@ async function _POST(request: NextRequest) {
 
     const supabase = await createClient();
     const db = await getAdminClient();
-  if (!db) return NextResponse.json({ error: 'Admin client failed to initialize' }, { status: 500 });
-    const { data: { user } } = await supabase.auth.getUser();
+    if (!db)
+      return NextResponse.json({ error: 'Admin client failed to initialize' }, { status: 500 });
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -82,15 +88,14 @@ async function _POST(request: NextRequest) {
     const { action, signature, handbookVersion } = body;
 
     if (action === 'acknowledge') {
-      const { error } = await db
-        .from('handbook_acknowledgments')
-        .insert({
-          user_id: user.id,
-          handbook_version: handbookVersion || '2025.1',
-          acknowledged_at: new Date().toISOString(),
-          ip_address: request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || '0.0.0.0',
-          user_agent: request.headers.get('user-agent') || 'unknown',
-        });
+      const { error } = await db.from('handbook_acknowledgments').insert({
+        user_id: user.id,
+        handbook_version: handbookVersion || '2025.1',
+        acknowledged_at: new Date().toISOString(),
+        ip_address:
+          request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || '0.0.0.0',
+        user_agent: request.headers.get('user-agent') || 'unknown',
+      });
 
       if (error) {
         logger.error('[Handbook API] Acknowledge error:', error);
@@ -101,19 +106,17 @@ async function _POST(request: NextRequest) {
     }
 
     if (action === 'sign') {
-      const { error } = await db
-        .from('agreement_acceptances')
-        .insert({
-          subject_type: 'apprentice',
-          subject_id: user.id,
-          agreement_key: 'apprentice_agreement',
-          agreement_version: '2025.1',
-          accepted_name: signature,
-          accepted_email: user.email || '',
-          accepted_at: new Date().toISOString(),
-          accepted_ip: request.headers.get('x-forwarded-for') || 'unknown',
-          user_agent: request.headers.get('user-agent') || 'unknown',
-        });
+      const { error } = await db.from('agreement_acceptances').insert({
+        subject_type: 'apprentice',
+        subject_id: user.id,
+        agreement_key: 'apprentice_agreement',
+        agreement_version: '2025.1',
+        accepted_name: signature,
+        accepted_email: user.email || '',
+        accepted_at: new Date().toISOString(),
+        accepted_ip: request.headers.get('x-forwarded-for') || 'unknown',
+        user_agent: request.headers.get('user-agent') || 'unknown',
+      });
 
       if (error) {
         logger.error('[Handbook API] Sign error:', error);

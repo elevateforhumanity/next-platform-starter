@@ -8,13 +8,14 @@ export const demoPrograms = [
   {
     id: 'barber-apprenticeship',
     name: 'USDOL Registered Barber Apprenticeship',
-    description: 'Fee-based barber training within a USDOL Registered Apprenticeship framework. Combines Elevate LMS theory instruction with supervised practical training at approved partner shops.',
+    description:
+      'Fee-based barber training within a USDOL Registered Apprenticeship framework. Combines Elevate LMS theory instruction with supervised practical training at approved partner shops.',
     duration: '15-18 months',
     format: 'Hybrid (Online Theory + Shop Training)',
     modules: 12,
     completedModules: 7,
     status: 'active',
-    nextLesson: 'Module 8: Men\'s Haircutting Techniques',
+    nextLesson: "Module 8: Men's Haircutting Techniques",
     schedule: 'Theory: Self-paced online | Practical: 20+ hrs/week at training site',
     certification: 'Indiana Barber License Eligible',
     fundingEligible: ['Self-Pay', 'Klarna/Afterpay/Zip Financing', 'Payment Plans'],
@@ -24,7 +25,8 @@ export const demoPrograms = [
   {
     id: 'cna-training',
     name: 'Certified Nursing Assistant (CNA)',
-    description: 'State-approved CNA training program meeting Indiana requirements for certification examination.',
+    description:
+      'State-approved CNA training program meeting Indiana requirements for certification examination.',
     duration: '6-8 weeks',
     format: 'Hybrid (Online + Clinical)',
     modules: 8,
@@ -40,7 +42,8 @@ export const demoPrograms = [
   {
     id: 'hvac-technician',
     name: 'HVAC Technician Training',
-    description: 'Comprehensive HVAC training covering installation, maintenance, and repair of heating and cooling systems.',
+    description:
+      'Comprehensive HVAC training covering installation, maintenance, and repair of heating and cooling systems.',
     duration: '6-12 months',
     format: 'Hybrid (Online + Hands-On Labs)',
     modules: 10,
@@ -93,7 +96,13 @@ export const demoLearner = {
     { date: 'Jan 13', hours: 8, type: 'OJT', location: 'Elite Cuts Barbershop', verified: true },
     { date: 'Jan 12', hours: 6, type: 'OJT', location: 'Elite Cuts Barbershop', verified: true },
     { date: 'Jan 11', hours: 8, type: 'OJT', location: 'Elite Cuts Barbershop', verified: true },
-    { date: 'Jan 10', hours: 2, type: 'RTI', location: 'Online - Elevate LMS Module 7', verified: true },
+    {
+      date: 'Jan 10',
+      hours: 2,
+      type: 'RTI',
+      location: 'Online - Elevate LMS Module 7',
+      verified: true,
+    },
   ],
 };
 
@@ -115,8 +124,13 @@ export const demoEmployer = {
   hiringSupport: {
     incentive: 'May be eligible for up to $5,000 per hire',
     maxTotal: 'Up to $50,000 total per year',
-    disclaimer: 'Eligibility and approval requirements apply. Contact your workforce representative for details.',
-    programs: ['Work Opportunity Tax Credit', 'On-the-Job Training Reimbursement', 'Apprenticeship Tax Credits'],
+    disclaimer:
+      'Eligibility and approval requirements apply. Contact your workforce representative for details.',
+    programs: [
+      'Work Opportunity Tax Credit',
+      'On-the-Job Training Reimbursement',
+      'Apprenticeship Tax Credits',
+    ],
   },
   apprenticeship: {
     active: true,
@@ -153,7 +167,12 @@ export const demoAdminDashboard = {
   ],
   compliance: {
     note: 'Reporting requirements vary by funding source and region',
-    exports: ['Enrollment reports', 'Completion certificates', 'Attendance records', 'Outcome tracking'],
+    exports: [
+      'Enrollment reports',
+      'Completion certificates',
+      'Attendance records',
+      'Outcome tracking',
+    ],
   },
 };
 

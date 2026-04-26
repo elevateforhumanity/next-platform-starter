@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
 import { createClient } from '@/lib/supabase/client';
 
 import React from 'react';
 
 import { useState, useRef, useEffect } from 'react';
-import { Bell, Award, BookOpen, AlertCircle, CheckCircle, } from 'lucide-react';
+import { Bell, Award, BookOpen, AlertCircle, CheckCircle } from 'lucide-react';
 
 const defaultNotifications = [
   {
@@ -56,8 +56,10 @@ export function NotificationBell() {
   useEffect(() => {
     const fetchNotifications = async () => {
       const supabase = createClient();
-      const { data: { user } } = await supabase.auth.getUser();
-      
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
       if (!user) {
         setLoading(false);
         return;
@@ -72,7 +74,7 @@ export function NotificationBell() {
           .limit(10);
 
         if (data && data.length > 0) {
-          const formatted = data.map(n => ({
+          const formatted = data.map((n) => ({
             id: n.id,
             type: n.notification_type || 'info',
             icon: iconMap[n.notification_type] || BookOpen,
@@ -112,18 +114,13 @@ export function NotificationBell() {
       .update({ read_at: new Date().toISOString() })
       .eq('id', notifId)
       .catch(() => {});
-    
-    setNotifs(prev => prev.map(n => 
-      n.id === notifId ? { ...n, unread: false } : n
-    ));
+
+    setNotifs((prev) => prev.map((n) => (n.id === notifId ? { ...n, unread: false } : n)));
   };
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsOpen(false);
       }
     }
@@ -184,19 +181,11 @@ export function NotificationBell() {
                         <Icon className="h-5 w-5" />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="font-medium text-black text-sm">
-                          {notif.title}
-                        </p>
-                        <p className="text-sm text-black mt-1">
-                          {notif.message}
-                        </p>
-                        <p className="text-xs text-gray-400 mt-1">
-                          {notif.time}
-                        </p>
+                        <p className="font-medium text-black text-sm">{notif.title}</p>
+                        <p className="text-sm text-black mt-1">{notif.message}</p>
+                        <p className="text-xs text-gray-400 mt-1">{notif.time}</p>
                       </div>
-                      {notif.unread && (
-                        <div className="w-2 h-2 bg-white rounded-full mt-2" />
-                      )}
+                      {notif.unread && <div className="w-2 h-2 bg-white rounded-full mt-2" />}
                     </div>
                   </div>
                 );

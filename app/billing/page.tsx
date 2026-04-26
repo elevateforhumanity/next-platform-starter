@@ -17,7 +17,9 @@ export const metadata: Metadata = {
 
 export default async function BillingPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/billing');
 
   const db = await getAdminClient();
@@ -31,13 +33,15 @@ export default async function BillingPage() {
     .order('created_at', { ascending: false })
     .limit(20);
 
-  const totalOwed = invoices
-    ?.filter(i => i.status === 'unpaid' || i.status === 'overdue')
-    .reduce((sum, i) => sum + (i.total ?? i.amount ?? 0), 0) ?? 0;
+  const totalOwed =
+    invoices
+      ?.filter((i) => i.status === 'unpaid' || i.status === 'overdue')
+      .reduce((sum, i) => sum + (i.total ?? i.amount ?? 0), 0) ?? 0;
 
-  const totalPaid = invoices
-    ?.filter(i => i.status === 'paid')
-    .reduce((sum, i) => sum + (i.total ?? i.amount ?? 0), 0) ?? 0;
+  const totalPaid =
+    invoices
+      ?.filter((i) => i.status === 'paid')
+      .reduce((sum, i) => sum + (i.total ?? i.amount ?? 0), 0) ?? 0;
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -77,7 +81,10 @@ export default async function BillingPage() {
         <div className="bg-white rounded-xl border border-slate-200 mb-8">
           <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
             <h2 className="font-bold text-slate-900">Invoices</h2>
-            <Link href="/account/billing" className="text-sm text-brand-red-600 hover:underline flex items-center gap-1">
+            <Link
+              href="/account/billing"
+              className="text-sm text-brand-red-600 hover:underline flex items-center gap-1"
+            >
               Full billing history <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
@@ -93,15 +100,21 @@ export default async function BillingPage() {
                     </p>
                     <p className="text-xs text-slate-400 mt-0.5 flex items-center gap-1">
                       <Clock className="w-3 h-3" />
-                      {inv.due_date ? `Due ${new Date(inv.due_date).toLocaleDateString()}` : new Date(inv.created_at).toLocaleDateString()}
+                      {inv.due_date
+                        ? `Due ${new Date(inv.due_date).toLocaleDateString()}`
+                        : new Date(inv.created_at).toLocaleDateString()}
                     </p>
                   </div>
                   <div className="flex items-center gap-4">
-                    <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${
-                      inv.status === 'paid' ? 'bg-green-50 text-green-700' :
-                      inv.status === 'overdue' ? 'bg-red-50 text-red-700' :
-                      'bg-amber-50 text-amber-700'
-                    }`}>
+                    <span
+                      className={`text-xs font-semibold px-2.5 py-1 rounded-full ${
+                        inv.status === 'paid'
+                          ? 'bg-green-50 text-green-700'
+                          : inv.status === 'overdue'
+                            ? 'bg-red-50 text-red-700'
+                            : 'bg-amber-50 text-amber-700'
+                      }`}
+                    >
                       {inv.status ?? 'pending'}
                     </span>
                     <span className="font-bold text-slate-900 text-sm">
@@ -119,25 +132,34 @@ export default async function BillingPage() {
           <div className="px-6 py-4 border-b border-slate-100">
             <h2 className="font-bold text-slate-900">Payment History</h2>
           </div>
-          {!invoices || invoices.filter(i => i.status === 'paid').length === 0 ? (
-            <div className="px-6 py-10 text-center text-slate-500 text-sm">No payments recorded.</div>
+          {!invoices || invoices.filter((i) => i.status === 'paid').length === 0 ? (
+            <div className="px-6 py-10 text-center text-slate-500 text-sm">
+              No payments recorded.
+            </div>
           ) : (
             <div className="divide-y divide-slate-100">
-              {invoices.filter(i => i.status === 'paid').map((inv) => (
-                <div key={`paid-${inv.id}`} className="flex items-center justify-between px-6 py-4">
-                  <div>
-                    <p className="font-medium text-slate-900 text-sm">
-                      {inv.invoice_number ? `Invoice #${inv.invoice_number}` : 'Invoice'}
-                    </p>
-                    <p className="text-xs text-slate-400 mt-0.5">
-                      {inv.paid_at ? `Paid ${new Date(inv.paid_at).toLocaleDateString()}` : new Date(inv.created_at).toLocaleDateString()}
-                    </p>
+              {invoices
+                .filter((i) => i.status === 'paid')
+                .map((inv) => (
+                  <div
+                    key={`paid-${inv.id}`}
+                    className="flex items-center justify-between px-6 py-4"
+                  >
+                    <div>
+                      <p className="font-medium text-slate-900 text-sm">
+                        {inv.invoice_number ? `Invoice #${inv.invoice_number}` : 'Invoice'}
+                      </p>
+                      <p className="text-xs text-slate-400 mt-0.5">
+                        {inv.paid_at
+                          ? `Paid ${new Date(inv.paid_at).toLocaleDateString()}`
+                          : new Date(inv.created_at).toLocaleDateString()}
+                      </p>
+                    </div>
+                    <span className="font-bold text-slate-900 text-sm">
+                      ${Number(inv.total ?? inv.amount ?? 0).toFixed(2)}
+                    </span>
                   </div>
-                  <span className="font-bold text-slate-900 text-sm">
-                    ${Number(inv.total ?? inv.amount ?? 0).toFixed(2)}
-                  </span>
-                </div>
-              ))}
+                ))}
             </div>
           )}
         </div>
@@ -146,7 +168,10 @@ export default async function BillingPage() {
           <AlertCircle className="w-4 h-4 text-slate-400 shrink-0 mt-0.5" />
           <p className="text-xs text-slate-500">
             For billing questions or disputes, contact{' '}
-            <a href="mailto:billing@elevateforhumanity.org" className="underline">billing@elevateforhumanity.org</a>.
+            <a href="mailto:billing@elevateforhumanity.org" className="underline">
+              billing@elevateforhumanity.org
+            </a>
+            .
           </p>
         </div>
       </div>

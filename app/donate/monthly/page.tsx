@@ -8,7 +8,8 @@ export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: 'Monthly Giving | Sustain Workforce Development | Elevate for Humanity',
-  description: 'Become a monthly donor and provide sustained support for career training, certifications, and job placement at Elevate for Humanity.',
+  description:
+    'Become a monthly donor and provide sustained support for career training, certifications, and job placement at Elevate for Humanity.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/donate/monthly' },
 };
 
@@ -30,7 +31,12 @@ const MONTHLY_TIERS = [
     amount: 100,
     label: 'Sustainer',
     impact: 'Sponsors a full week of training each month',
-    perks: ['Monthly impact report', 'Donor recognition', 'Quarterly newsletter', 'Annual impact call'],
+    perks: [
+      'Monthly impact report',
+      'Donor recognition',
+      'Quarterly newsletter',
+      'Annual impact call',
+    ],
   },
   {
     amount: 250,
@@ -64,7 +70,9 @@ export default async function MonthlyDonationPage() {
     <div className="min-h-screen bg-white">
       <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[{ label: 'Donate', href: '/donate' }, { label: 'Monthly Giving' }]} />
+          <Breadcrumbs
+            items={[{ label: 'Donate', href: '/donate' }, { label: 'Monthly Giving' }]}
+          />
         </div>
       </div>
 
@@ -72,10 +80,13 @@ export default async function MonthlyDonationPage() {
       <section className="bg-slate-900 py-16 px-4 text-center">
         <div className="max-w-3xl mx-auto">
           <RefreshCw className="w-10 h-10 text-brand-red-400 mx-auto mb-4" />
-          <p className="text-xs font-bold uppercase tracking-widest text-brand-red-400 mb-3">Monthly Giving</p>
+          <p className="text-xs font-bold uppercase tracking-widest text-brand-red-400 mb-3">
+            Monthly Giving
+          </p>
           <h1 className="text-4xl font-extrabold text-white mb-4">Sustain Career Transformation</h1>
           <p className="text-slate-300 text-lg max-w-2xl mx-auto">
-            Monthly donors provide the sustained funding that keeps training programs running, certifications accessible, and career pathways open for Indiana workers.
+            Monthly donors provide the sustained funding that keeps training programs running,
+            certifications accessible, and career pathways open for Indiana workers.
           </p>
         </div>
       </section>
@@ -101,8 +112,12 @@ export default async function MonthlyDonationPage() {
       {/* Monthly tiers */}
       <section className="py-16 px-4 bg-white">
         <div className="max-w-5xl mx-auto">
-          <h2 className="text-2xl font-bold text-slate-900 mb-2 text-center">Choose Your Monthly Amount</h2>
-          <p className="text-slate-500 text-center mb-10">Cancel anytime. 100% of your gift supports workforce training.</p>
+          <h2 className="text-2xl font-bold text-slate-900 mb-2 text-center">
+            Choose Your Monthly Amount
+          </h2>
+          <p className="text-slate-500 text-center mb-10">
+            Cancel anytime. 100% of your gift supports workforce training.
+          </p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {MONTHLY_TIERS.map((tier) => (
               <div
@@ -114,9 +129,14 @@ export default async function MonthlyDonationPage() {
                 }`}
               >
                 {tier.featured && (
-                  <span className="text-xs font-bold text-brand-red-600 uppercase tracking-wide mb-2">Most Popular</span>
+                  <span className="text-xs font-bold text-brand-red-600 uppercase tracking-wide mb-2">
+                    Most Popular
+                  </span>
                 )}
-                <p className="text-3xl font-extrabold text-slate-900">${tier.amount}<span className="text-base font-normal text-slate-400">/mo</span></p>
+                <p className="text-3xl font-extrabold text-slate-900">
+                  ${tier.amount}
+                  <span className="text-base font-normal text-slate-400">/mo</span>
+                </p>
                 <p className="text-sm font-semibold text-slate-700 mt-1 mb-3">{tier.label}</p>
                 <p className="text-sm text-slate-600 mb-4 flex-1">{tier.impact}</p>
                 <ul className="space-y-1.5 mb-5">
@@ -149,12 +169,13 @@ export default async function MonthlyDonationPage() {
             <Heart className="w-8 h-8 text-brand-red-500 mb-4" />
             <h2 className="text-2xl font-bold text-slate-900 mb-3">Why Monthly Giving Matters</h2>
             <p className="text-slate-600 mb-4">
-              One-time gifts are appreciated, but monthly giving allows us to plan ahead — hiring instructors, ordering supplies, and keeping programs running without gaps.
+              One-time gifts are appreciated, but monthly giving allows us to plan ahead — hiring
+              instructors, ordering supplies, and keeping programs running without gaps.
             </p>
             <ul className="space-y-2">
               {[
                 'Predictable funding keeps programs fully staffed',
-                'Students aren\'t interrupted mid-program by funding gaps',
+                "Students aren't interrupted mid-program by funding gaps",
                 'Allows us to expand into new credential areas',
                 'Reduces administrative overhead vs. one-time campaigns',
               ].map((item) => (
@@ -184,7 +205,10 @@ export default async function MonthlyDonationPage() {
       <section className="py-12 px-4 bg-slate-900 text-white text-center">
         <div className="max-w-2xl mx-auto">
           <h2 className="text-xl font-bold mb-3">Questions About Giving?</h2>
-          <p className="text-slate-300 mb-6">Contact our development team to discuss corporate giving, matching gifts, or custom donation arrangements.</p>
+          <p className="text-slate-300 mb-6">
+            Contact our development team to discuss corporate giving, matching gifts, or custom
+            donation arrangements.
+          </p>
           <a
             href="mailto:donate@elevateforhumanity.org"
             className="inline-flex items-center gap-2 rounded-lg bg-brand-red-600 px-6 py-3 font-semibold text-white hover:bg-brand-red-700 transition"

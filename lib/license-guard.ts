@@ -1,12 +1,11 @@
-
 /**
  * @deprecated Use @/lib/licensing instead. This module will be removed in a future version.
- * 
+ *
  * Migration guide:
  * - getLicense -> import { getTenantLicense } from '@/lib/licensing'
  * - isFeatureEnabled -> import { isFeatureEnabled } from '@/lib/licensing'
  * - checkUsageLimits -> import { checkUsageLimits } from '@/lib/licensing'
- * 
+ *
  * License Feature Gating System
  * Enforces license-based feature access across the platform.
  */
@@ -58,17 +57,14 @@ const FEATURE_REQUIREMENTS: Record<string, LicensePlan[]> = {
  * Get license for a tenant
  */
 export async function getLicense(tenantId: string): Promise<License | null> {
-  if (
-    !process.env.NEXT_PUBLIC_SUPABASE_URL ||
-    !process.env.SUPABASE_SERVICE_ROLE_KEY
-  ) {
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
     logger.warn('License check skipped: Supabase not configured');
     return null;
   }
 
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL,
-    process.env.SUPABASE_SERVICE_ROLE_KEY
+    process.env.SUPABASE_SERVICE_ROLE_KEY,
   );
 
   const { data, error }: any = await supabase
@@ -93,8 +89,7 @@ export async function getLicense(tenantId: string): Promise<License | null> {
 export function isLicenseValid(license: License | null): boolean {
   if (!license) return false;
   if (license.status !== 'active') return false;
-  if (license.expires_at && new Date(license.expires_at) < new Date())
-    return false;
+  if (license.expires_at && new Date(license.expires_at) < new Date()) return false;
   return true;
 }
 
@@ -103,7 +98,7 @@ export function isLicenseValid(license: License | null): boolean {
  */
 export async function isFeatureEnabled(
   tenantId: string,
-  feature: keyof License['features']
+  feature: keyof License['features'],
 ): Promise<boolean> {
   const license = await getLicense(tenantId);
 
@@ -117,10 +112,7 @@ export async function isFeatureEnabled(
 /**
  * Check if a feature is available for a plan
  */
-export function isFeatureAvailableForPlan(
-  feature: string,
-  plan: LicensePlan
-): boolean {
+export function isFeatureAvailableForPlan(feature: string, plan: LicensePlan): boolean {
   const requiredPlans = FEATURE_REQUIREMENTS[feature];
   if (!requiredPlans) return true; // Feature not gated
   return requiredPlans.includes(plan);
@@ -153,10 +145,7 @@ export async function checkUsageLimits(tenantId: string): Promise<{
     };
   }
 
-  if (
-    !process.env.NEXT_PUBLIC_SUPABASE_URL ||
-    !process.env.SUPABASE_SERVICE_ROLE_KEY
-  ) {
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
     return {
       users: { current: 0, max: license.max_users, exceeded: false },
       programs: { current: 0, max: license.max_programs, exceeded: false },
@@ -166,7 +155,7 @@ export async function checkUsageLimits(tenantId: string): Promise<{
 
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL,
-    process.env.SUPABASE_SERVICE_ROLE_KEY
+    process.env.SUPABASE_SERVICE_ROLE_KEY,
   );
 
   // Count users
@@ -193,23 +182,17 @@ export async function checkUsageLimits(tenantId: string): Promise<{
     users: {
       current: userCount || 0,
       max: license.max_users,
-      exceeded: license.max_users
-        ? (userCount || 0) >= license.max_users
-        : false,
+      exceeded: license.max_users ? (userCount || 0) >= license.max_users : false,
     },
     programs: {
       current: programCount || 0,
       max: license.max_programs,
-      exceeded: license.max_programs
-        ? (programCount || 0) >= license.max_programs
-        : false,
+      exceeded: license.max_programs ? (programCount || 0) >= license.max_programs : false,
     },
     students: {
       current: studentCount || 0,
       max: license.max_students,
-      exceeded: license.max_students
-        ? (studentCount || 0) >= license.max_students
-        : false,
+      exceeded: license.max_students ? (studentCount || 0) >= license.max_students : false,
     },
   };
 }
@@ -243,10 +226,7 @@ export function isInGracePeriod(license: License | null): boolean {
 /**
  * Get upgrade message for a feature
  */
-export function getUpgradeMessage(
-  feature: string,
-  currentPlan: LicensePlan
-): string {
+export function getUpgradeMessage(feature: string, currentPlan: LicensePlan): string {
   const requiredPlans = FEATURE_REQUIREMENTS[feature];
   if (!requiredPlans) return '';
 
@@ -263,10 +243,7 @@ export function getUpgradeMessage(
     priority_support: `Priority support requires ${lowestRequiredPlan} plan or higher.`,
   };
 
-  return (
-    messages[feature] ||
-    `This feature requires ${lowestRequiredPlan} plan or higher.`
-  );
+  return messages[feature] || `This feature requires ${lowestRequiredPlan} plan or higher.`;
 }
 
 /**

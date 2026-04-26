@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 import { useState } from 'react';
@@ -8,7 +8,7 @@ export default function ProductEditor() {
   const [price, setPrice] = useState('150000');
   const [repo, setRepo] = useState('elevateforhumanity/fix2');
   const [description, setDescription] = useState(
-    'Complete LMS and Workforce Development platform with AI-powered course builder'
+    'Complete LMS and Workforce Development platform with AI-powered course builder',
   );
   const [loading, setLoading] = useState(false);
 
@@ -33,7 +33,8 @@ export default function ProductEditor() {
       } else {
         alert('Error: ' + (data.error || 'Failed to create product'));
       }
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       alert('Failed to create product');
     } finally {
       setLoading(false);
@@ -45,15 +46,11 @@ export default function ProductEditor() {
       <h2 className="font-bold text-xl">Create Product</h2>
 
       <div>
-        <label className="block text-sm font-medium text-black mb-1">
-          Product Title
-        </label>
+        <label className="block text-sm font-medium text-black mb-1">Product Title</label>
         <input
           value={title}
           onChange={(
-            e: React.ChangeEvent<
-              HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-            >
+            e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
           ) => setTitle(e.target.value)}
           className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
           placeholder="Product Title"
@@ -61,15 +58,11 @@ export default function ProductEditor() {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-black mb-1">
-          Description
-        </label>
+        <label className="block text-sm font-medium text-black mb-1">Description</label>
         <textarea
           value={description}
           onChange={(
-            e: React.ChangeEvent<
-              HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-            >
+            e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
           ) => setDescription(e.target.value)}
           className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
           placeholder="Product Description"
@@ -78,16 +71,12 @@ export default function ProductEditor() {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-black mb-1">
-          Price (USD)
-        </label>
+        <label className="block text-sm font-medium text-black mb-1">Price (USD)</label>
         <input
           type="number"
           value={price}
           onChange={(
-            e: React.ChangeEvent<
-              HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-            >
+            e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
           ) => setPrice(e.target.value)}
           className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
           placeholder="Price in USD"
@@ -101,9 +90,7 @@ export default function ProductEditor() {
         <input
           value={repo}
           onChange={(
-            e: React.ChangeEvent<
-              HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-            >
+            e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
           ) => setRepo(e.target.value)}
           className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
           placeholder="owner/repository"

@@ -24,7 +24,11 @@ export default function LinkAccountButton({
         body: JSON.stringify({ apprenticeId, userId }),
       });
       const data = await res.json();
-      if (!res.ok) { setErrorMsg(data.error ?? 'Failed'); setState('error'); return; }
+      if (!res.ok) {
+        setErrorMsg(data.error ?? 'Failed');
+        setState('error');
+        return;
+      }
       setState('done');
     } catch {
       setErrorMsg('Network error');
@@ -47,9 +51,15 @@ export default function LinkAccountButton({
         disabled={state === 'loading'}
         className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-brand-blue-600 text-white rounded-lg text-xs font-semibold hover:bg-brand-blue-700 disabled:opacity-50 transition"
       >
-        {state === 'loading'
-          ? <><Loader2 className="w-3.5 h-3.5 animate-spin" /> Linking…</>
-          : <><Link2 className="w-3.5 h-3.5" /> Link Account</>}
+        {state === 'loading' ? (
+          <>
+            <Loader2 className="w-3.5 h-3.5 animate-spin" /> Linking…
+          </>
+        ) : (
+          <>
+            <Link2 className="w-3.5 h-3.5" /> Link Account
+          </>
+        )}
       </button>
       {state === 'error' && <p className="text-xs text-red-600">{errorMsg}</p>}
     </div>

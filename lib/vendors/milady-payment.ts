@@ -5,7 +5,6 @@
 
 import { createClient } from '@/lib/supabase/server';
 
-
 const MILADY_COST = 295; // $295 per enrollment
 
 interface MiladyPaymentParams {
@@ -24,7 +23,6 @@ export async function processMiladyPayment(params: MiladyPaymentParams) {
   const amount = params.amount || MILADY_COST;
 
   try {
-
     // STEP 1: Trigger Milady auto-enrollment API
     // This gives student immediate access to Milady RISE
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
@@ -44,16 +42,14 @@ export async function processMiladyPayment(params: MiladyPaymentParams) {
 
     // STEP 2: Record vendor payment in database
     // This tracks that Milady needs to be paid
-    const { error: paymentError } = await supabase
-      .from('vendor_payments')
-      .insert({
-        enrollment_id: params.enrollmentId,
-        vendor_name: 'milady',
-        amount: amount,
-        status: 'pending', // Will be marked 'paid' when Milady invoices
-        payment_method: 'invoice', // Milady invoices us monthly
-        created_at: new Date().toISOString(),
-      });
+    const { error: paymentError } = await supabase.from('vendor_payments').insert({
+      enrollment_id: params.enrollmentId,
+      vendor_name: 'milady',
+      amount: amount,
+      status: 'pending', // Will be marked 'paid' when Milady invoices
+      payment_method: 'invoice', // Milady invoices us monthly
+      created_at: new Date().toISOString(),
+    });
 
     if (paymentError) {
       // Error: $1
@@ -79,7 +75,8 @@ export async function processMiladyPayment(params: MiladyPaymentParams) {
       status: 'pending',
       message: 'Milady enrollment and payment processed',
     };
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     // Error: $1
 
     // Log error but don't fail enrollment
@@ -103,10 +100,7 @@ export async function processMiladyPayment(params: MiladyPaymentParams) {
 /**
  * Mark Milady payment as paid (when invoice is paid)
  */
-export async function markMiladyPaymentPaid(
-  enrollmentId: string,
-  invoiceId: string
-) {
+export async function markMiladyPaymentPaid(enrollmentId: string, invoiceId: string) {
   const supabase = await createClient();
 
   const { error } = await supabase
@@ -144,7 +138,7 @@ export async function getPendingMiladyPayments() {
         program_id,
         created_at
       )
-    `
+    `,
     )
     .eq('vendor_name', 'milady')
     .eq('status', 'pending')

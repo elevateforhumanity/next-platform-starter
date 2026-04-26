@@ -25,11 +25,11 @@ export async function GET(req: NextRequest) {
   // List all blueprints
   if (!id) {
     return NextResponse.json({
-      blueprints: registry.map(b => ({
-        id:    b.id,
+      blueprints: registry.map((b) => ({
+        id: b.id,
         title: b.credentialTitle,
         state: b.state,
-        slug:  b.programSlug,
+        slug: b.programSlug,
         modules: b.modules.length,
         lessons: b.modules.reduce((s, m) => s + (m.lessons?.length ?? 0), 0),
         status: b.status,
@@ -38,14 +38,14 @@ export async function GET(req: NextRequest) {
   }
 
   // Load a specific blueprint and convert to ProgramBuilderTemplate shape
-  const blueprint = registry.find(b => b.id === id);
+  const blueprint = registry.find((b) => b.id === id);
   if (!blueprint) return safeError('Blueprint not found', 404);
 
   const template = {
-    title:            blueprint.credentialTitle,
-    slug:             blueprint.programSlug,
+    title: blueprint.credentialTitle,
+    slug: blueprint.programSlug,
     credentialTarget: blueprint.credentialCode ?? 'INTERNAL',
-    minimumHours:     blueprint.generationRules?.maxTotalLessons ?? 40,
+    minimumHours: blueprint.generationRules?.maxTotalLessons ?? 40,
     requiresFinalExam: blueprint.generationRules?.requiresFinalExam ?? false,
     finalExam: { required: blueprint.generationRules?.requiresFinalExam ?? false },
     certificateRequirements: {
@@ -58,48 +58,51 @@ export async function GET(req: NextRequest) {
     },
     regulatory: {
       complianceProfileKey: 'internal_basic',
-      credentialTarget:     blueprint.credentialCode ?? 'INTERNAL',
-      governingBody:        null,
-      governingRegion:      blueprint.state ?? null,
+      credentialTarget: blueprint.credentialCode ?? 'INTERNAL',
+      governingBody: null,
+      governingRegion: blueprint.state ?? null,
       governingStandardVersion: null,
-      retentionPolicyDays:  null,
-      auditNotes:           null,
+      retentionPolicyDays: null,
+      auditNotes: null,
     },
     status: 'draft',
     modules: blueprint.modules.map((mod, mi) => ({
-      slug:              mod.slug,
-      title:             mod.title,
-      orderIndex:        mi,
-      domainKey:         mod.domainKey ?? '',
-      targetHours:       Math.ceil((mod.minLessons ?? 1) * 0.75),
-      quizRequired:      mod.quizRequired ?? false,
+      slug: mod.slug,
+      title: mod.title,
+      orderIndex: mi,
+      domainKey: mod.domainKey ?? '',
+      targetHours: Math.ceil((mod.minLessons ?? 1) * 0.75),
+      quizRequired: mod.quizRequired ?? false,
       practicalRequired: mod.practicalRequired ?? false,
       lessons: (mod.lessons ?? []).map((les, li) => ({
-        slug:                les.slug,
-        title:               les.title,
-        orderIndex:          li,
-        lessonType:          'lesson' as const,
-        durationMinutes:     45,
-        learningObjectives:  les.objective ? [les.objective] : [''],
-        content:             les.content ? { html: les.content } : {},
-        quizQuestions:       les.quizQuestions ?? [],
-        competencyChecks:    [],
-        practicalRequired:   false,
-        requiredArtifacts:   [],
-        activities:          ['video', 'reading', 'flashcards', 'practice'],
-        isRequired:          true,
-        generationStatus:    les.content ? 'ready' : 'draft',
-        domainKey:           les.domainKey ?? null,
-        hourCategory:        null,
-        evidenceType:        null,
-        deliveryMethod:      null,
+        slug: les.slug,
+        title: les.title,
+        orderIndex: li,
+        lessonType: 'lesson' as const,
+        durationMinutes: 45,
+        learningObjectives: les.objective ? [les.objective] : [''],
+        content: les.content ? { html: les.content } : {},
+        quizQuestions: les.quizQuestions ?? [],
+        competencyChecks: [],
+        practicalRequired: false,
+        requiredArtifacts: [],
+        activities: ['video', 'reading', 'flashcards', 'practice'],
+        isRequired: true,
+        generationStatus: les.content ? 'ready' : 'draft',
+        domainKey: les.domainKey ?? null,
+        hourCategory: null,
+        evidenceType: null,
+        deliveryMethod: null,
         requiresInstructorSignoff: false,
         instructorRequirement: null,
         minimumSeatTimeMinutes: null,
-        fieldworkEligible:   false,
+        fieldworkEligible: false,
       })),
     })),
   };
 
-  return NextResponse.json({ template, blueprint: { id: blueprint.id, title: blueprint.credentialTitle } });
+  return NextResponse.json({
+    template,
+    blueprint: { id: blueprint.id, title: blueprint.credentialTitle },
+  });
 }

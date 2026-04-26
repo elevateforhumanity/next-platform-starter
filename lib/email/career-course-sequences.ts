@@ -22,15 +22,13 @@ const COURSE_ID_MAP: Record<string, string> = {
 
 function lmsUrl(data: CourseEmailData): string {
   const id = data.courseId ?? COURSE_ID_MAP[data.courseSlug];
-  return id
-    ? `${SITE_URL}/lms/courses/${id}`
-    : `${SITE_URL}/learner/dashboard`;
+  return id ? `${SITE_URL}/lms/courses/${id}` : `${SITE_URL}/learner/dashboard`;
 }
 
 // ─── Brand colors ─────────────────────────────────────────────────────────────
-const BLUE   = '#1E3A5F';
+const BLUE = '#1E3A5F';
 const ORANGE = '#EA580C';
-const LIGHT  = '#F8FAFC';
+const LIGHT = '#F8FAFC';
 
 // ─── Shared layout wrapper ────────────────────────────────────────────────────
 function wrap(body: string): string {
@@ -133,10 +131,8 @@ export function getDay7Email(data: CourseEmailData) {
 
 // ─── Completion ───────────────────────────────────────────────────────────────
 export function getCompletionEmail(data: CourseEmailData & { certificateId?: string }) {
-  const courseUrl  = lmsUrl(data);
-  const certUrl    = data.certificateId
-    ? `${SITE_URL}/verify/${data.certificateId}`
-    : courseUrl;
+  const courseUrl = lmsUrl(data);
+  const certUrl = data.certificateId ? `${SITE_URL}/verify/${data.certificateId}` : courseUrl;
 
   return {
     subject: `You completed ${data.courseName} — your certificate is ready`,

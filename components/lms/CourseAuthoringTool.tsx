@@ -64,8 +64,9 @@ interface Course {
 
 // Sortable Module Component
 function SortableModule(data: any) {
-  const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: module.id });
+  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
+    id: module.id,
+  });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -79,18 +80,12 @@ function SortableModule(data: any) {
       className="bg-white border border-gray-200 rounded-lg p-4 mb-3"
     >
       <div className="flex items-center gap-3">
-        <div
-          {...attributes}
-          {...listeners}
-          className="cursor-grab active:cursor-grabbing"
-        >
+        <div {...attributes} {...listeners} className="cursor-grab active:cursor-grabbing">
           <GripVertical className="w-5 h-5 text-slate-700" />
         </div>
         <div className="flex-1">
           <h3 className="font-semibold text-black">{module.title}</h3>
-          <p className="text-sm text-black">
-            {module.lessons.length} lessons
-          </p>
+          <p className="text-sm text-black">{module.lessons.length} lessons</p>
         </div>
         <button
           onClick={() => onEdit(module)}
@@ -111,8 +106,9 @@ function SortableModule(data: any) {
 
 // Sortable Lesson Component
 function SortableLesson(data: any) {
-  const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: lesson.id });
+  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
+    id: lesson.id,
+  });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -126,18 +122,12 @@ function SortableLesson(data: any) {
       className="bg-gray-50 border border-gray-200 rounded-lg p-3 mb-2"
     >
       <div className="flex items-center gap-3">
-        <div
-          {...attributes}
-          {...listeners}
-          className="cursor-grab active:cursor-grabbing"
-        >
+        <div {...attributes} {...listeners} className="cursor-grab active:cursor-grabbing">
           <GripVertical className="w-4 h-4 text-slate-700" />
         </div>
         <div className="flex-1">
           <h4 className="font-medium text-black">{lesson.title}</h4>
-          <p className="text-xs text-black">
-            {lesson.blocks.length} content blocks
-          </p>
+          <p className="text-xs text-black">{lesson.blocks.length} content blocks</p>
         </div>
         <button
           onClick={() => onEdit(lesson)}
@@ -173,7 +163,7 @@ export default function CourseAuthoringTool() {
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
-    })
+    }),
   );
 
   // Add new module
@@ -206,7 +196,7 @@ export default function CourseAuthoringTool() {
     setCourse({
       ...course,
       modules: course.modules.map((m) =>
-        m.id === moduleId ? { ...m, lessons: [...m.lessons, newLesson] } : m
+        m.id === moduleId ? { ...m, lessons: [...m.lessons, newLesson] } : m,
       ),
     });
     setEditingLesson(newLesson);
@@ -263,7 +253,7 @@ export default function CourseAuthoringTool() {
     const reordered = arrayMove(module.lessons, oldIndex, newIndex);
 
     const updatedModules = course.modules.map((m) =>
-      m.id === moduleId ? { ...m, lessons: reordered } : m
+      m.id === moduleId ? { ...m, lessons: reordered } : m,
     );
     setCourse({ ...course, modules: updatedModules });
     persistLessonReorder(moduleId, reordered);
@@ -295,9 +285,7 @@ export default function CourseAuthoringTool() {
       setCourse({
         ...course,
         modules: course.modules.map((m) =>
-          m.id === moduleId
-            ? { ...m, lessons: m.lessons.filter((l) => l.id !== lessonId) }
-            : m
+          m.id === moduleId ? { ...m, lessons: m.lessons.filter((l) => l.id !== lessonId) } : m,
         ),
       });
     }
@@ -317,7 +305,8 @@ export default function CourseAuthoringTool() {
       } else {
         alert('Failed to save course');
       }
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
       alert('Error saving course');
     }
@@ -334,9 +323,7 @@ export default function CourseAuthoringTool() {
                 type="text"
                 value={course.course_name}
                 onChange={(
-                  e: React.ChangeEvent<
-                    HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-                  >
+                  e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
                 ) => setCourse({ ...course, title: e.target.value })}
                 className="text-2xl font-bold border-none focus:outline-none focus:ring-2 focus:ring-brand-blue-500 rounded px-2"
                 placeholder="Course Title"
@@ -345,9 +332,7 @@ export default function CourseAuthoringTool() {
                 type="text"
                 value={course.description}
                 onChange={(
-                  e: React.ChangeEvent<
-                    HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-                  >
+                  e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
                 ) => setCourse({ ...course, description: e.target.value })}
                 className="text-black border-none focus:outline-none focus:ring-2 focus:ring-brand-blue-500 rounded px-2 mt-1 w-full"
                 placeholder="Course Description"
@@ -426,9 +411,7 @@ export default function CourseAuthoringTool() {
                                       setEditingLesson(l);
                                       setShowLessonForm(true);
                                     }}
-                                    onDelete={(id: string) =>
-                                      deleteLesson(module.id, id)
-                                    }
+                                    onDelete={(id: string) => deleteLesson(module.id, id)}
                                   />
                                 ))}
                               </SortableContext>
@@ -596,9 +579,7 @@ export default function CourseAuthoringTool() {
               ) : (
                 <div className="text-center py-12 text-slate-700">
                   <p className="text-lg">Select a module or lesson to edit</p>
-                  <p className="text-sm mt-2">
-                    Or add a new module to get started
-                  </p>
+                  <p className="text-sm mt-2">Or add a new module to get started</p>
                 </div>
               )}
             </div>

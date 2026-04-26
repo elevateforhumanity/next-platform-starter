@@ -1,6 +1,6 @@
 /**
  * GA4 Analytics Event Tracking
- * 
+ *
  * CORE FUNNEL EVENTS (Required for institutional analytics):
  * - page_view: Baseline traffic
  * - start_tax_prep: Tax funnel entry
@@ -12,13 +12,13 @@
  * - purchase_completed: Conversion
  * - lms_course_start: LMS usage
  * - lms_course_complete: LMS effectiveness
- * 
+ *
  * DATA HYGIENE:
  * - IP anonymization ON (configured in gtag)
  * - No PII in event names or params
  * - No raw tax data tracked
  * - Respect cookie consent
- * 
+ *
  * CONTENT GROUPINGS:
  * - Marketing
  * - Resources
@@ -26,7 +26,7 @@
  * - Store
  */
 
-type EventCategory = 
+type EventCategory =
   | 'engagement'
   | 'conversion'
   | 'navigation'
@@ -60,7 +60,15 @@ function safeGtag(command: string, ...args: any[]) {
 }
 
 // Track generic event
-export function trackEvent({ action, category, label, value, nonInteraction, contentGroup, customParams }: TrackEventParams) {
+export function trackEvent({
+  action,
+  category,
+  label,
+  value,
+  nonInteraction,
+  contentGroup,
+  customParams,
+}: TrackEventParams) {
   safeGtag('event', action, {
     event_category: category,
     event_label: label,

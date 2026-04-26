@@ -54,15 +54,10 @@ export async function generateMetadata({
   };
 }
 
-export default async function VideoWatchPage({
-  params,
-}: {
-  params: Promise<{ videoId: string }>;
-}) {
+export default async function VideoWatchPage({ params }: { params: Promise<{ videoId: string }> }) {
   const { videoId } = await params;
   const supabase = await createClient();
 
-  
   // Try database first
   const { data: dbVideo } = await supabase
     .from('videos')
@@ -98,10 +93,10 @@ export default async function VideoWatchPage({
 
   return (
     <>
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Videos", href: "/videos" }, { label: "[Videoid]" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Videos', href: '/videos' }, { label: '[Videoid]' }]} />
       </div>
-<script
+      <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(videoSchema) }}
       />
@@ -141,12 +136,8 @@ export default async function VideoWatchPage({
                 {video.category}
               </span>
             </div>
-            <h1 className="text-3xl md:text-4xl font-bold text-black mb-4">
-              {video.title}
-            </h1>
-            <p className="text-lg text-black leading-relaxed">
-              {video.description}
-            </p>
+            <h1 className="text-3xl md:text-4xl font-bold text-black mb-4">{video.title}</h1>
+            <p className="text-lg text-black leading-relaxed">{video.description}</p>
 
             {/* CTA */}
             <div className="mt-8 flex flex-wrap gap-4">
@@ -167,9 +158,7 @@ export default async function VideoWatchPage({
 
           {/* Related Videos */}
           <div className="mt-12">
-            <h2 className="text-2xl font-bold text-black mb-6">
-              More Videos
-            </h2>
+            <h2 className="text-2xl font-bold text-black mb-6">More Videos</h2>
             <div className="grid md:grid-cols-3 gap-6">
               {videos
                 .filter((v) => v.id !== video.id)
@@ -193,9 +182,7 @@ export default async function VideoWatchPage({
                       <h3 className="font-bold text-black mb-2 line-clamp-2">
                         {relatedVideo.title}
                       </h3>
-                      <p className="text-sm text-black line-clamp-2">
-                        {relatedVideo.description}
-                      </p>
+                      <p className="text-sm text-black line-clamp-2">{relatedVideo.description}</p>
                     </div>
                   </Link>
                 ))}

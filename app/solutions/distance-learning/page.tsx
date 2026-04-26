@@ -4,7 +4,8 @@ import { Monitor, Globe, Clock, CheckCircle, Wifi, Award, Users } from 'lucide-r
 
 export const metadata: Metadata = {
   title: 'Distance Learning Solutions | Elevate for Humanity',
-  description: 'Fully online career training with industry credentials. Self-paced and cohort-based programs for remote learners, career changers, and working adults.',
+  description:
+    'Fully online career training with industry credentials. Self-paced and cohort-based programs for remote learners, career changers, and working adults.',
 };
 
 const FEATURES = [
@@ -41,18 +42,47 @@ const FEATURES = [
 ];
 
 const PROGRAMS = [
-  { name: 'HVAC Technician', credential: 'EPA 608', format: 'Self-paced', href: '/programs/hvac-technician' },
-  { name: 'IT Help Desk', credential: 'CompTIA A+', format: 'Cohort / Self-paced', href: '/programs/it-help-desk' },
-  { name: 'Medical Assistant', credential: 'NHA CCMA', format: 'Cohort', href: '/programs/medical-assistant' },
-  { name: 'Tax Preparation', credential: 'IRS PTIN', format: 'Self-paced', href: '/programs/tax-preparation' },
-  { name: 'Cybersecurity Fundamentals', credential: 'CompTIA Security+', format: 'Cohort', href: '/programs/cybersecurity' },
-  { name: 'Medical Billing & Coding', credential: 'AAPC CPC', format: 'Self-paced', href: '/programs/medical-billing' },
+  {
+    name: 'HVAC Technician',
+    credential: 'EPA 608',
+    format: 'Self-paced',
+    href: '/programs/hvac-technician',
+  },
+  {
+    name: 'IT Help Desk',
+    credential: 'CompTIA A+',
+    format: 'Cohort / Self-paced',
+    href: '/programs/it-help-desk',
+  },
+  {
+    name: 'Medical Assistant',
+    credential: 'NHA CCMA',
+    format: 'Cohort',
+    href: '/programs/medical-assistant',
+  },
+  {
+    name: 'Tax Preparation',
+    credential: 'IRS PTIN',
+    format: 'Self-paced',
+    href: '/programs/tax-preparation',
+  },
+  {
+    name: 'Cybersecurity Fundamentals',
+    credential: 'CompTIA Security+',
+    format: 'Cohort',
+    href: '/programs/cybersecurity',
+  },
+  {
+    name: 'Medical Billing & Coding',
+    credential: 'AAPC CPC',
+    format: 'Self-paced',
+    href: '/programs/medical-billing',
+  },
 ];
 
 export default function DistanceLearningPage() {
   return (
     <div className="min-h-screen bg-white">
-
       {/* Hero */}
       <section className="bg-gradient-to-br from-teal-900 to-teal-700 text-white py-24 px-6">
         <div className="max-w-4xl mx-auto text-center">
@@ -61,16 +91,26 @@ export default function DistanceLearningPage() {
             Distance Learning
           </div>
           <h1 className="text-5xl font-black mb-6 leading-tight">
-            Career credentials,<br />delivered anywhere.
+            Career credentials,
+            <br />
+            delivered anywhere.
           </h1>
           <p className="text-xl text-teal-100 mb-10 max-w-2xl mx-auto">
-            Elevate's fully online programs reach working adults, rural learners, and career changers who can't access traditional classroom training — without sacrificing credential quality or employer connections.
+            Elevate's fully online programs reach working adults, rural learners, and career
+            changers who can't access traditional classroom training — without sacrificing
+            credential quality or employer connections.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/programs" className="bg-white text-teal-900 px-8 py-4 rounded-xl font-bold text-lg hover:bg-teal-50 transition-colors">
+            <Link
+              href="/programs"
+              className="bg-white text-teal-900 px-8 py-4 rounded-xl font-bold text-lg hover:bg-teal-50 transition-colors"
+            >
               Browse Programs
             </Link>
-            <Link href="/contact" className="border-2 border-white text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-teal-800 transition-colors">
+            <Link
+              href="/contact"
+              className="border-2 border-white text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-teal-800 transition-colors"
+            >
               Talk to an Advisor
             </Link>
           </div>
@@ -98,7 +138,10 @@ export default function DistanceLearningPage() {
       <section className="py-20 px-6">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl font-black text-slate-900 mb-3">Built for distance learners</h2>
-          <p className="text-slate-600 mb-10">Every design decision in our platform prioritizes accessibility, flexibility, and completion rates for remote students.</p>
+          <p className="text-slate-600 mb-10">
+            Every design decision in our platform prioritizes accessibility, flexibility, and
+            completion rates for remote students.
+          </p>
           <div className="grid md:grid-cols-2 gap-6">
             {FEATURES.map(({ icon: Icon, title, desc }) => (
               <div key={title} className="flex items-start gap-4">
@@ -119,13 +162,23 @@ export default function DistanceLearningPage() {
       <section className="bg-slate-50 py-20 px-6">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl font-black text-slate-900 mb-3">Online programs</h2>
-          <p className="text-slate-600 mb-10">All programs are available fully online. Some offer both self-paced and cohort formats.</p>
+          <p className="text-slate-600 mb-10">
+            All programs are available fully online. Some offer both self-paced and cohort formats.
+          </p>
           <div className="grid md:grid-cols-2 gap-4">
             {PROGRAMS.map((p) => (
-              <Link key={p.name} href={p.href} className="group border border-slate-200 bg-white rounded-xl p-5 hover:border-teal-300 hover:shadow-md transition-all">
-                <p className="font-bold text-slate-900 group-hover:text-teal-700 transition-colors">{p.name}</p>
+              <Link
+                key={p.name}
+                href={p.href}
+                className="group border border-slate-200 bg-white rounded-xl p-5 hover:border-teal-300 hover:shadow-md transition-all"
+              >
+                <p className="font-bold text-slate-900 group-hover:text-teal-700 transition-colors">
+                  {p.name}
+                </p>
                 <p className="text-sm text-slate-500 mt-1">{p.credential}</p>
-                <span className="inline-block mt-3 text-xs font-medium bg-teal-50 text-teal-700 px-2 py-1 rounded-full">{p.format}</span>
+                <span className="inline-block mt-3 text-xs font-medium bg-teal-50 text-teal-700 px-2 py-1 rounded-full">
+                  {p.format}
+                </span>
               </Link>
             ))}
           </div>
@@ -138,9 +191,18 @@ export default function DistanceLearningPage() {
           <h2 className="text-3xl font-black text-slate-900 mb-10">Who distance learning serves</h2>
           <div className="grid md:grid-cols-3 gap-6">
             {[
-              { title: 'Working adults', desc: 'Study around your job. Access lessons at 6am or midnight — the platform is always on.' },
-              { title: 'Rural learners', desc: 'No training center nearby? Elevate reaches every zip code in Indiana with the same quality curriculum.' },
-              { title: 'Career changers', desc: 'Pivot to a new field in months, not years. Short-term credentials get you job-ready fast.' },
+              {
+                title: 'Working adults',
+                desc: 'Study around your job. Access lessons at 6am or midnight — the platform is always on.',
+              },
+              {
+                title: 'Rural learners',
+                desc: 'No training center nearby? Elevate reaches every zip code in Indiana with the same quality curriculum.',
+              },
+              {
+                title: 'Career changers',
+                desc: 'Pivot to a new field in months, not years. Short-term credentials get you job-ready fast.',
+              },
             ].map(({ title, desc }) => (
               <div key={title} className="bg-teal-50 rounded-xl p-6">
                 <p className="font-bold text-teal-900 mb-2">{title}</p>
@@ -156,18 +218,26 @@ export default function DistanceLearningPage() {
         <div className="max-w-2xl mx-auto text-center">
           <Globe className="w-12 h-12 text-teal-300 mx-auto mb-6" />
           <h2 className="text-3xl font-black mb-4">Start learning from wherever you are.</h2>
-          <p className="text-teal-200 mb-8">WIOA funding covers tuition for eligible learners. An advisor will help you determine eligibility and choose the right program.</p>
+          <p className="text-teal-200 mb-8">
+            WIOA funding covers tuition for eligible learners. An advisor will help you determine
+            eligibility and choose the right program.
+          </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/programs" className="bg-white text-teal-900 px-10 py-4 rounded-xl font-bold text-lg hover:bg-teal-50 transition-colors">
+            <Link
+              href="/programs"
+              className="bg-white text-teal-900 px-10 py-4 rounded-xl font-bold text-lg hover:bg-teal-50 transition-colors"
+            >
               Browse Programs →
             </Link>
-            <Link href="/contact" className="border-2 border-white text-white px-8 py-4 rounded-xl font-bold hover:bg-teal-800 transition-colors">
+            <Link
+              href="/contact"
+              className="border-2 border-white text-white px-8 py-4 rounded-xl font-bold hover:bg-teal-800 transition-colors"
+            >
               Talk to an Advisor
             </Link>
           </div>
         </div>
       </section>
-
     </div>
   );
 }

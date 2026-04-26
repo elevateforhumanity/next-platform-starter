@@ -47,25 +47,18 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
         {(label || helperText || error) && (
           <div className="ml-3">
             {label && (
-              <label
-                htmlFor={checkboxId}
-                className="text-sm font-medium text-black cursor-pointer"
-              >
+              <label htmlFor={checkboxId} className="text-sm font-medium text-black cursor-pointer">
                 {label}
                 {props.required && <span className="text-brand-red-500 ml-1">*</span>}
               </label>
             )}
-            {helperText && !error && (
-              <p className="text-sm text-slate-500 mt-1">{helperText}</p>
-            )}
-            {error && (
-              <p className="text-sm text-brand-orange-600 mt-1">{error}</p>
-            )}
+            {helperText && !error && <p className="text-sm text-slate-500 mt-1">{helperText}</p>}
+            {error && <p className="text-sm text-brand-orange-600 mt-1">{error}</p>}
           </div>
         )}
       </div>
     );
-  }
+  },
 );
 
 Checkbox.displayName = 'Checkbox';

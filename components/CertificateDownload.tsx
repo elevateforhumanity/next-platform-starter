@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { useState, useEffect } from 'react';
 import { Download, Share2, Printer, Loader2, ExternalLink, Copy } from 'lucide-react';
@@ -68,7 +68,8 @@ export default function CertificateDownload({
       try {
         const { data, error: fetchError } = await supabase
           .from('certificates')
-          .select(`
+          .select(
+            `
             id,
             certificate_number,
             verification_code,
@@ -78,7 +79,8 @@ export default function CertificateDownload({
             hours_completed,
             metadata,
             profiles!certificates_user_id_fkey(full_name)
-          `)
+          `,
+          )
           .eq('id', certificateId)
           .single();
 
@@ -93,7 +95,8 @@ export default function CertificateDownload({
           issue_date: data.issued_date || meta.completion_date || new Date().toISOString(),
           expiry_date: undefined,
           certificate_number: data.certificate_number,
-          verification_code: data.verification_code || data.certificate_number?.split('-').pop() || '',
+          verification_code:
+            data.verification_code || data.certificate_number?.split('-').pop() || '',
           credential_type: 'Certificate of Completion',
           issuer_name: 'Program Director',
           issuer_title: 'Director of Training',
@@ -184,9 +187,9 @@ export default function CertificateDownload({
   // Download as SVG
   const downloadSVG = async () => {
     if (!certificate) return;
-    
+
     setDownloading(true);
-    
+
     try {
       const svg = generateSVG();
       const blob = new Blob([svg], { type: 'image/svg+xml' });
@@ -200,13 +203,18 @@ export default function CertificateDownload({
       // Log download
       if (certificateId) {
         const supabase = createClient();
-        const { data: { user } } = await supabase.auth.getUser();
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
         if (user) {
-          await supabase.from('certificate_downloads').insert({
-            certificate_id: certificateId,
-            user_id: user.id,
-            format: 'svg',
-          }).catch(() => {});
+          await supabase
+            .from('certificate_downloads')
+            .insert({
+              certificate_id: certificateId,
+              user_id: user.id,
+              format: 'svg',
+            })
+            .catch(() => {});
         }
       }
 
@@ -221,16 +229,16 @@ export default function CertificateDownload({
   // Download as PNG
   const downloadPNG = async () => {
     if (!certificate) return;
-    
+
     setDownloading(true);
-    
+
     try {
       const svg = generateSVG();
       const canvas = document.createElement('canvas');
       canvas.width = 1400;
       canvas.height = 1000;
       const ctx = canvas.getContext('2d');
-      
+
       const img = new Image();
       img.onload = () => {
         ctx?.drawImage(img, 0, 0);
@@ -274,7 +282,7 @@ export default function CertificateDownload({
   // Copy verification link
   const copyVerificationLink = async () => {
     if (!certificate) return;
-    
+
     const link = `${window.location.origin}/verify/${certificate.verification_code}`;
     await navigator.clipboard.writeText(link);
     setCopied(true);
@@ -284,7 +292,7 @@ export default function CertificateDownload({
   // Share certificate
   const shareCertificate = async () => {
     if (!certificate) return;
-    
+
     const shareData = {
       title: `${certificate.credential_type} - ${certificate.student_name}`,
       text: `I earned my ${certificate.program_name} certificate from Elevate for Humanity!`,
@@ -329,7 +337,11 @@ export default function CertificateDownload({
               disabled={downloading}
               className="flex items-center gap-2 px-4 py-2 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700 disabled:opacity-50 text-sm font-medium"
             >
-              {downloading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
+              {downloading ? (
+                <Loader2 className="w-4 h-4 animate-spin" />
+              ) : (
+                <Download className="w-4 h-4" />
+              )}
               SVG
             </button>
             <button
@@ -364,7 +376,9 @@ export default function CertificateDownload({
           {/* Watermark */}
           <div className="absolute inset-0 opacity-5 pointer-events-none">
             <div className="absolute inset-0 flex items-center justify-center">
-              <span className="text-8xl font-bold text-brand-blue-600 transform -rotate-45">ELEVATE</span>
+              <span className="text-8xl font-bold text-brand-blue-600 transform -rotate-45">
+                ELEVATE
+              </span>
             </div>
           </div>
 
@@ -373,29 +387,32 @@ export default function CertificateDownload({
             <h3 className="text-3xl md:text-4xl font-bold text-brand-blue-700 mb-8">
               {certificate.credential_type}
             </h3>
-            
+
             <p className="text-lg text-slate-700 mb-2">This certifies that</p>
             <p className="text-3xl md:text-4xl font-bold text-brand-blue-900 mb-4">
               {certificate.student_name}
             </p>
-            
+
             <p className="text-lg text-slate-700 mb-2">has successfully completed</p>
             <p className="text-2xl md:text-3xl font-bold text-brand-green-600 mb-4">
               {certificate.program_name}
             </p>
-            
+
             {certificate.hours_completed && (
-              <p className="text-sm text-slate-700 mb-4">{certificate.hours_completed} Hours Completed</p>
+              <p className="text-sm text-slate-700 mb-4">
+                {certificate.hours_completed} Hours Completed
+              </p>
             )}
-            
+
             <p className="text-slate-700 mb-8">
-              Issued on {new Date(certificate.issue_date).toLocaleDateString('en-US', {
+              Issued on{' '}
+              {new Date(certificate.issue_date).toLocaleDateString('en-US', {
                 year: 'numeric',
                 month: 'long',
                 day: 'numeric',
               })}
             </p>
-            
+
             <div className="flex justify-between items-end mt-12 pt-8 border-t border-gray-200">
               <div className="text-center">
                 <div className="w-32 border-t border-gray-400 mb-2"></div>
@@ -417,14 +434,23 @@ export default function CertificateDownload({
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2 text-sm text-slate-700">
             <span className="text-slate-500 flex-shrink-0">•</span>
-            <span>Verification Code: <code className="bg-gray-200 px-2 py-0.5 rounded">{certificate.verification_code}</code></span>
+            <span>
+              Verification Code:{' '}
+              <code className="bg-gray-200 px-2 py-0.5 rounded">
+                {certificate.verification_code}
+              </code>
+            </span>
           </div>
           <div className="flex items-center gap-2">
             <button
               onClick={copyVerificationLink}
               className="flex items-center gap-1 text-sm text-brand-blue-600 hover:text-brand-blue-800"
             >
-              {copied ? <span className="text-slate-500 flex-shrink-0">•</span> : <Copy className="w-4 h-4" />}
+              {copied ? (
+                <span className="text-slate-500 flex-shrink-0">•</span>
+              ) : (
+                <Copy className="w-4 h-4" />
+              )}
               {copied ? 'Copied!' : 'Copy Link'}
             </button>
             <a

@@ -76,13 +76,13 @@ describe('validatePassword', () => {
 
     it('accepts passwords without sequential runs', () => {
       const result = validatePassword('Tr0ub4dor!');
-      expect(result.errors.some(e => e.includes('sequence'))).toBe(false);
+      expect(result.errors.some((e) => e.includes('sequence'))).toBe(false);
     });
 
     it('accepts passwords where no 4-char run appears in a known sequence', () => {
       // "bdfh" skips letters — not a sequential run
       const result = validatePassword('bdfhjlnp!!');
-      expect(result.errors.some(e => e.includes('sequence'))).toBe(false);
+      expect(result.errors.some((e) => e.includes('sequence'))).toBe(false);
     });
   });
 

@@ -34,7 +34,7 @@ class SMSAlertHandler {
       this.twilio = require('twilio');
       this.client = this.twilio(
         process.env.TWILIO_ACCOUNT_SID || 'demo_sid',
-        process.env.TWILIO_AUTH_TOKEN || 'demo_token'
+        process.env.TWILIO_AUTH_TOKEN || 'demo_token',
       );
       this.initialized = true;
     } catch (error) {
@@ -83,17 +83,11 @@ class SMSAlertHandler {
   }
 
   async onSale(platform, amount, product) {
-    await this.sendAlert(
-      `💰 SALE: $${amount} for ${product} on ${platform}`,
-      'sale'
-    );
+    await this.sendAlert(`💰 SALE: $${amount} for ${product} on ${platform}`, 'sale');
   }
 
   async onPaymentReceived(amount, method, product) {
-    await this.sendAlert(
-      `💳 PAYMENT: $${amount} via ${method} for ${product}`,
-      'payment'
-    );
+    await this.sendAlert(`💳 PAYMENT: $${amount} via ${method} for ${product}`, 'payment');
   }
 
   async onSystemAlert(message) {
@@ -118,11 +112,7 @@ class SMSAlertHandler {
             await this.onSale(platform, data.amount, data.product);
             break;
           case 'payment':
-            await this.onPaymentReceived(
-              data.amount,
-              data.method,
-              data.product
-            );
+            await this.onPaymentReceived(data.amount, data.method, data.product);
             break;
           default:
             await this.onSystemAlert(`Unknown event: ${event}`);
@@ -137,16 +127,12 @@ class SMSAlertHandler {
     // Manual test endpoint
     app.post('/api/sms/test', async (req, res) => {
       try {
-        const result = await this.sendAlert(
-          '🧪 Test alert from EFH system',
-          'test'
-        );
+        const result = await this.sendAlert('🧪 Test alert from EFH system', 'test');
         res.json(result);
       } catch (error) {
         res.status(500).json({ error: error.message });
       }
     });
-
   }
 }
 

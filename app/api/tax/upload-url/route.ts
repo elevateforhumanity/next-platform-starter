@@ -1,4 +1,3 @@
-
 import { NextResponse } from 'next/server';
 
 import { createClient } from '@supabase/supabase-js';
@@ -23,17 +22,14 @@ async function _POST(req: Request) {
 
     // Validate required fields
     if (!filename || !contentType) {
-      return NextResponse.json(
-        { error: 'filename and contentType required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'filename and contentType required' }, { status: 400 });
     }
 
     // Validate contact info
     if (!contactInfo?.name || !contactInfo?.email || !contactInfo?.phone) {
       return NextResponse.json(
         { error: 'Contact information required (name, email, phone)' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -51,22 +47,20 @@ async function _POST(req: Request) {
       .createSignedUploadUrl(path);
 
     if (error) {
-
       // If bucket doesn't exist, return helpful error
       if ('Internal server error'.includes('not found')) {
         return NextResponse.json(
           {
             error: 'Storage bucket not configured. Please contact support.',
-            details:
-              'The tax-documents bucket needs to be created in Supabase.',
+            details: 'The tax-documents bucket needs to be created in Supabase.',
           },
-          { status: 500 }
+          { status: 500 },
         );
       }
 
       return NextResponse.json(
         { error: 'Failed to generate upload URL', details: 'Internal server error' },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
@@ -83,8 +77,8 @@ async function _POST(req: Request) {
         },
       ]);
     } catch (logError) {
-        logger.error("Unhandled error", logError instanceof Error ? logError : undefined);
-      }
+      logger.error('Unhandled error', logError instanceof Error ? logError : undefined);
+    }
 
     return NextResponse.json({
       path,
@@ -92,11 +86,8 @@ async function _POST(req: Request) {
       signedUrl: data.signedUrl,
       expiresIn: 3600, // 1 hour
     });
-  } catch (error) { 
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+  } catch (error) {
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/tax/upload-url', _POST);

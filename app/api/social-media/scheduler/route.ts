@@ -1,5 +1,3 @@
-
-
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { logger } from '@/lib/logger';
@@ -33,9 +31,7 @@ async function _GET(req: Request) {
     // Get current hour in configured timezone
     const now = new Date();
     const tz = process.env.SOCIAL_MEDIA_TIMEZONE || 'America/New_York';
-    const estHour = new Date(
-      now.toLocaleString('en-US', { timeZone: tz })
-    ).getHours();
+    const estHour = new Date(now.toLocaleString('en-US', { timeZone: tz })).getHours();
 
     // Determine which posting slot (0 = morning, 1 = afternoon, 2 = evening)
     let slot = 0;
@@ -61,17 +57,25 @@ async function _GET(req: Request) {
       .limit(1); // one blog post per slot max
 
     for (const post of unpublishedBlogPosts ?? []) {
-      const caption = post.social_post_caption ||
+      const caption =
+        post.social_post_caption ||
         `📚 ${post.title}\n\n${post.excerpt ?? ''}\n\nRead more: ${process.env.NEXT_PUBLIC_SITE_URL}/blog/${post.slug}`;
       for (const platform of ['facebook', 'linkedin']) {
         try {
           await postToSocialMedia(platform, caption, {});
           results.push({ type: 'blog', id: post.id, platform, success: true });
         } catch (err) {
-          results.push({ type: 'blog', id: post.id, platform, success: false, error: toErrorMessage(err) });
+          results.push({
+            type: 'blog',
+            id: post.id,
+            platform,
+            success: false,
+            error: toErrorMessage(err),
+          });
         }
       }
-      await supabase.from('blog_posts')
+      await supabase
+        .from('blog_posts')
         .update({ social_posted_at: now.toISOString() })
         .eq('id', post.id);
     }
@@ -87,17 +91,28 @@ async function _GET(req: Request) {
       .limit(1); // one reel per slot max
 
     for (const reel of unpublishedReels ?? []) {
-      const caption = reel.social_post_caption ||
+      const caption =
+        reel.social_post_caption ||
         `🎬 ${reel.title}\n\n${reel.description ?? ''}\n\n${process.env.NEXT_PUBLIC_SITE_URL}/blog/reels`;
       for (const platform of ['facebook', 'linkedin', 'instagram']) {
         try {
-          await postToSocialMedia(platform, caption, { video_url: reel.video_url, thumbnail_url: reel.thumbnail_url });
+          await postToSocialMedia(platform, caption, {
+            video_url: reel.video_url,
+            thumbnail_url: reel.thumbnail_url,
+          });
           results.push({ type: 'reel', id: reel.id, platform, success: true });
         } catch (err) {
-          results.push({ type: 'reel', id: reel.id, platform, success: false, error: toErrorMessage(err) });
+          results.push({
+            type: 'reel',
+            id: reel.id,
+            platform,
+            success: false,
+            error: toErrorMessage(err),
+          });
         }
       }
-      await supabase.from('reels')
+      await supabase
+        .from('reels')
         .update({ social_posted_at: now.toISOString() })
         .eq('id', reel.id);
     }
@@ -106,7 +121,7 @@ async function _GET(req: Request) {
       return NextResponse.json({
         success: true,
         message: 'No active campaigns',
-        posted: results.filter(r => r.success).length,
+        posted: results.filter((r) => r.success).length,
         results,
       });
     }
@@ -118,7 +133,7 @@ async function _GET(req: Request) {
         // Calculate which post to send based on days elapsed
         const startDate = new Date(campaign.created_at);
         const daysElapsed = Math.floor(
-          (now.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)
+          (now.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24),
         );
 
         // Check if campaign is still within duration
@@ -168,10 +183,10 @@ async function _GET(req: Request) {
               postIndex,
               success: true,
             });
-          } catch (error) { 
+          } catch (error) {
             logger.error(
               `Error posting to ${platform}:`,
-              error instanceof Error ? error : new Error(String(error))
+              error instanceof Error ? error : new Error(String(error)),
             );
 
             // Log failure
@@ -200,10 +215,10 @@ async function _GET(req: Request) {
           .from('social_media_campaigns')
           .update({ last_post_at: now.toISOString() })
           .eq('id', campaign.id);
-      } catch (error) { 
+      } catch (error) {
         logger.error(
           `Error processing campaign ${campaign.id}:`,
-          error instanceof Error ? error : new Error(String(error))
+          error instanceof Error ? error : new Error(String(error)),
         );
         results.push({
           campaignId: campaign.id,
@@ -220,26 +235,16 @@ async function _GET(req: Request) {
       slot: ['morning', 'afternoon', 'evening'][slot],
       results,
     });
-  } catch (error) { 
-    logger.error(
-      'Scheduler error:',
-      error instanceof Error ? error : new Error(String(error))
-    );
-    return NextResponse.json(
-      { success: false, error: toErrorMessage(error) },
-      { status: 500 }
-    );
+  } catch (error) {
+    logger.error('Scheduler error:', error instanceof Error ? error : new Error(String(error)));
+    return NextResponse.json({ success: false, error: toErrorMessage(error) }, { status: 500 });
   }
 }
 
 /**
  * Post to social media platform
  */
-async function postToSocialMedia(
-  platform: string,
-  content: string,
-  campaign: Record<string, any>
-) {
+async function postToSocialMedia(platform: string, content: string, campaign: Record<string, any>) {
   logger.info(`Posting to ${platform}:`, content);
 
   switch (platform.toLowerCase()) {
@@ -261,10 +266,7 @@ async function postToSocialMedia(
   }
 }
 
-async function postToFacebook(
-  content: string,
-  campaign: Record<string, any>
-) {
+async function postToFacebook(content: string, campaign: Record<string, any>) {
   const pageId = process.env.FACEBOOK_PAGE_ID;
   const accessToken = process.env.FACEBOOK_ACCESS_TOKEN;
 
@@ -274,17 +276,14 @@ async function postToFacebook(
   }
 
   try {
-    const response = await fetch(
-      `https://graph.facebook.com/v18.0/${pageId}/feed`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          message: content,
-          access_token: accessToken,
-        }),
-      }
-    );
+    const response = await fetch(`https://graph.facebook.com/v18.0/${pageId}/feed`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        message: content,
+        access_token: accessToken,
+      }),
+    });
 
     const data = await response.json();
 
@@ -293,19 +292,16 @@ async function postToFacebook(
     }
 
     return { success: true, platform: 'facebook', postId: data.id };
-  } catch (error) { 
+  } catch (error) {
     logger.error(
       'Facebook posting error:',
-      error instanceof Error ? error : new Error(String(error))
+      error instanceof Error ? error : new Error(String(error)),
     );
     throw error;
   }
 }
 
-async function postToLinkedIn(
-  content: string,
-  campaign: Record<string, any>
-) {
+async function postToLinkedIn(content: string, campaign: Record<string, any>) {
   const accessToken = process.env.LINKEDIN_ACCESS_TOKEN;
   const organizationId = process.env.LINKEDIN_ORGANIZATION_ID;
 
@@ -346,24 +342,19 @@ async function postToLinkedIn(
     }
 
     return { success: true, platform: 'linkedin', postId: data.id };
-  } catch (error) { 
+  } catch (error) {
     logger.error(
       'LinkedIn posting error:',
-      error instanceof Error ? error : new Error(String(error))
+      error instanceof Error ? error : new Error(String(error)),
     );
     throw error;
   }
 }
 
-async function postToInstagram(
-  content: string,
-  campaign: Record<string, any>
-) {
+async function postToInstagram(content: string, campaign: Record<string, any>) {
   // Instagram requires media (image/video) for posts
   // Text-only posts are not supported
-  logger.warn(
-    'Instagram requires media content - text-only posts not supported'
-  );
+  logger.warn('Instagram requires media content - text-only posts not supported');
   return { success: false, error: 'Instagram requires media content' };
 }
 
@@ -371,8 +362,8 @@ async function postToInstagram(
  * Manual trigger for testing
  */
 async function _POST(req: Request) {
-    const rateLimited = await applyRateLimit(req, 'api');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(req, 'api');
+  if (rateLimited) return rateLimited;
 
   return GET(req);
 }

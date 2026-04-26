@@ -1,4 +1,5 @@
 # 📋 Program Holder Onboarding Packet
+
 ## Elevate for Humanity Partnership
 
 ---
@@ -12,6 +13,7 @@ Thank you for partnering with us to provide high-quality training and career pat
 ## 🎯 What is Elevate for Humanity?
 
 Elevate for Humanity is a workforce development platform that connects:
+
 - **Students** seeking career training
 - **Program Holders** providing quality instruction
 - **Employers** hiring skilled workers
@@ -26,29 +28,34 @@ We handle student recruitment, funding coordination, compliance documentation, a
 As an Elevate for Humanity Program Holder, you receive:
 
 ### Student Referrals
+
 - Pre-screened, motivated students
 - Funding coordination assistance
 - Enrollment support and onboarding
 
 ### Compliance Support
+
 - WIOA documentation assistance
 - Apprenticeship registration support
 - State licensing compliance guidance
 - Reporting templates and tools
 
 ### Digital Infrastructure
+
 - Access to our Learning Management System (LMS)
 - Student tracking and progress reporting
 - Digital curriculum hosting
 - Certificate generation
 
 ### Marketing & Outreach
+
 - Co-branded marketing materials
 - Website listing and promotion
 - Social media exposure
 - Community event support
 
 ### Financial Support
+
 - Assistance with funding applications
 - Payment processing coordination
 - Grant writing support (when available)
@@ -59,30 +66,35 @@ As an Elevate for Humanity Program Holder, you receive:
 ## 📝 Onboarding Steps
 
 ### Step 1: Complete Partnership Agreement
+
 - Review and sign the Memorandum of Understanding (MOU)
 - Provide proof of licensing/accreditation
 - Submit W-9 for payment processing
 - Provide insurance certificates (if required)
 
 ### Step 2: Program Setup
+
 - Submit program details (curriculum, schedule, capacity)
 - Set tuition rates and payment terms
 - Define student prerequisites
 - Establish completion requirements
 
 ### Step 3: Compliance Documentation
+
 - Provide state licenses/approvals
 - Submit instructor credentials
 - Share facility information
 - Complete background check requirements (if applicable)
 
 ### Step 4: Digital Onboarding
+
 - Create your program holder account
 - Upload curriculum materials
 - Set up student tracking
 - Configure reporting preferences
 
 ### Step 5: Launch
+
 - Receive first student referrals
 - Begin instruction
 - Submit progress reports
@@ -113,17 +125,20 @@ As an Elevate for Humanity Program Holder, you receive:
 ## 📊 Reporting Requirements
 
 ### Monthly Reports (Due 5th of each month)
+
 - Student attendance records
 - Progress updates
 - Any issues or concerns
 - Completion notifications
 
 ### Quarterly Reports
+
 - Outcome data (completions, placements)
 - Student satisfaction feedback
 - Program improvements or changes
 
 ### Ad-Hoc Reporting
+
 - Incident reports (if needed)
 - Student withdrawals
 - Schedule changes
@@ -147,6 +162,7 @@ As a Program Holder, you agree to:
 ## 🔒 Compliance & Quality Standards
 
 ### Required Standards
+
 - Maintain current state licenses/approvals
 - Follow all applicable regulations
 - Provide qualified instructors
@@ -154,6 +170,7 @@ As a Program Holder, you agree to:
 - Pass periodic quality reviews
 
 ### Prohibited Activities
+
 - Discrimination of any kind
 - Misrepresentation of credentials
 - Failure to report serious incidents
@@ -165,20 +182,24 @@ As a Program Holder, you agree to:
 ## 📞 Your Support Team
 
 ### Primary Contact
+
 **Elizabeth Greene**
 Founder, Elevate for Humanity
 Email: elizabeth@www.elevateforhumanity.org
 Phone: (317) 555-0100
 
 ### Student Services
+
 Email: students@www.elevateforhumanity.org
 Phone: (317) 555-0101
 
 ### Compliance & Reporting
+
 Email: compliance@www.elevateforhumanity.org
 Phone: (317) 555-0102
 
 ### Technical Support
+
 Email: Elevate4humanityedu@gmail.com
 Portal: www.elevateforhumanity.org/support
 
@@ -211,6 +232,7 @@ Portal: www.elevateforhumanity.org/support
 ## 📚 Additional Resources
 
 ### Available on Partner Portal
+
 - Curriculum templates
 - Reporting forms
 - Marketing materials
@@ -219,6 +241,7 @@ Portal: www.elevateforhumanity.org/support
 - Best practices guides
 
 ### Training & Support
+
 - Monthly partner webinars
 - On-demand training videos
 - Partner community forum
@@ -250,6 +273,7 @@ A: Contact our Student Services team immediately for support.
 Please submit the following to complete onboarding:
 
 ### Business Documents
+
 - [ ] Signed MOU
 - [ ] W-9 Form
 - [ ] Business License
@@ -257,6 +281,7 @@ Please submit the following to complete onboarding:
 - [ ] Facility Lease/Ownership Proof
 
 ### Program Documents
+
 - [ ] State Approval/License
 - [ ] Curriculum Outline
 - [ ] Instructor Credentials
@@ -264,6 +289,7 @@ Please submit the following to complete onboarding:
 - [ ] Completion Certificate Sample
 
 ### Compliance Documents
+
 - [ ] Background Check Policy
 - [ ] Safety Procedures
 - [ ] Grievance Policy

@@ -11,29 +11,57 @@ import fs from 'fs';
 import { execSync } from 'child_process';
 import OpenAI from 'openai';
 
-const ROOT      = '/workspaces/Elevate-lms';
+const ROOT = '/workspaces/Elevate-lms';
 const CLIPS_DIR = path.join(ROOT, 'public/videos/barber-clipper-options');
-const OUT_DIR   = path.join(ROOT, 'public/videos/barber-lessons');
-const TEMP_DIR  = path.join(ROOT, 'temp/clipper-demo');
-const OUTPUT    = path.join(OUT_DIR, 'barber-clipper-demo.mp4');
+const OUT_DIR = path.join(ROOT, 'public/videos/barber-lessons');
+const TEMP_DIR = path.join(ROOT, 'temp/clipper-demo');
+const OUTPUT = path.join(OUT_DIR, 'barber-clipper-demo.mp4');
 const W = 1920;
 const H = 1080;
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY! });
 
-interface ClipDef { file: string; name: string; tagline: string; }
+interface ClipDef {
+  file: string;
+  name: string;
+  tagline: string;
+}
 
 const CLIPS: ClipDef[] = [
-  { file: 'lineup-7697544.mp4',  name: "The Barber's Arsenal",  tagline: 'Professional Clipper Overview' },
-  { file: 'lineup-7697040.mp4',  name: 'Know Your Tools',       tagline: 'Every clipper has a purpose' },
-  { file: 'clip-32000083.mp4',   name: 'Andis Master Clipper',  tagline: 'Corded · Adjustable Blade · Fades and Tapers' },
-  { file: 'clip-34039157.mp4',   name: 'Wahl Magic Clip',       tagline: 'Cordless · Zero-Gap · Blending' },
-  { file: 'clip-29329449.mp4',   name: 'Oster Classic 76',      tagline: 'Heavy Duty · Detachable Blade · Bulk Removal' },
-  { file: 'clip-7697039.mp4',    name: 'T-Outliner Trimmer',    tagline: 'Tight Lines · Edges · Beard Shaping' },
-  { file: 'clip-7697089.mp4',    name: 'Wahl Detailer',         tagline: 'Close Detail Work · Sharp T-Blade' },
-  { file: 'clip-7686543.mp4',    name: 'Andis Slimline Pro',    tagline: 'Cordless Trimmer · Finishing and Clean-Up' },
-  { file: 'clip-4177954.mp4',    name: 'Balding Clipper',       tagline: 'Skin Fades · Close to Scalp' },
-  { file: 'clip-4178106.mp4',    name: 'Straight Razor',        tagline: 'Neckline · Edge Definition · Finishing' },
+  {
+    file: 'lineup-7697544.mp4',
+    name: "The Barber's Arsenal",
+    tagline: 'Professional Clipper Overview',
+  },
+  { file: 'lineup-7697040.mp4', name: 'Know Your Tools', tagline: 'Every clipper has a purpose' },
+  {
+    file: 'clip-32000083.mp4',
+    name: 'Andis Master Clipper',
+    tagline: 'Corded · Adjustable Blade · Fades and Tapers',
+  },
+  { file: 'clip-34039157.mp4', name: 'Wahl Magic Clip', tagline: 'Cordless · Zero-Gap · Blending' },
+  {
+    file: 'clip-29329449.mp4',
+    name: 'Oster Classic 76',
+    tagline: 'Heavy Duty · Detachable Blade · Bulk Removal',
+  },
+  {
+    file: 'clip-7697039.mp4',
+    name: 'T-Outliner Trimmer',
+    tagline: 'Tight Lines · Edges · Beard Shaping',
+  },
+  { file: 'clip-7697089.mp4', name: 'Wahl Detailer', tagline: 'Close Detail Work · Sharp T-Blade' },
+  {
+    file: 'clip-7686543.mp4',
+    name: 'Andis Slimline Pro',
+    tagline: 'Cordless Trimmer · Finishing and Clean-Up',
+  },
+  { file: 'clip-4177954.mp4', name: 'Balding Clipper', tagline: 'Skin Fades · Close to Scalp' },
+  {
+    file: 'clip-4178106.mp4',
+    name: 'Straight Razor',
+    tagline: 'Neckline · Edge Definition · Finishing',
+  },
 ];
 
 const FULL_NARRATION = `Welcome to your clipper training. Every professional barber needs to know their tools inside and out.
@@ -60,48 +88,70 @@ These are the types of tools you will be working with. Know what each one does, 
 
 async function generateAudio(text: string, outPath: string): Promise<number> {
   const resp = await openai.audio.speech.create({
-    model: 'tts-1-hd', voice: 'onyx',
-    input: text.slice(0, 4096), speed: 0.88, response_format: 'mp3',
+    model: 'tts-1-hd',
+    voice: 'onyx',
+    input: text.slice(0, 4096),
+    speed: 0.88,
+    response_format: 'mp3',
   });
   fs.writeFileSync(outPath, Buffer.from(await resp.arrayBuffer()));
   try {
-    return parseFloat(execSync(
-      `ffprobe -v error -show_entries format=duration -of csv=p=0 "${outPath}"`,
-      { encoding: 'utf-8' }
-    ).trim()) || 60;
-  } catch { return 60; }
+    return (
+      parseFloat(
+        execSync(`ffprobe -v error -show_entries format=duration -of csv=p=0 "${outPath}"`, {
+          encoding: 'utf-8',
+        }).trim(),
+      ) || 60
+    );
+  } catch {
+    return 60;
+  }
 }
 
 function getVideoDuration(file: string): number {
   try {
-    return parseFloat(execSync(
-      `ffprobe -v error -show_entries format=duration -of csv=p=0 "${file}"`,
-      { encoding: 'utf-8' }
-    ).trim()) || 8;
-  } catch { return 8; }
+    return (
+      parseFloat(
+        execSync(`ffprobe -v error -show_entries format=duration -of csv=p=0 "${file}"`, {
+          encoding: 'utf-8',
+        }).trim(),
+      ) || 8
+    );
+  } catch {
+    return 8;
+  }
 }
 
-function buildClipWithText(videoFile: string, name: string, tagline: string, targetDur: number, outPath: string): void {
+function buildClipWithText(
+  videoFile: string,
+  name: string,
+  tagline: string,
+  targetDur: number,
+  outPath: string,
+): void {
   const n = name.replace(/'/g, '').replace(/:/g, '');
   const t = tagline.replace(/'/g, '').replace(/:/g, '');
   execSync(
     `ffmpeg -y -stream_loop -1 -i "${videoFile}" ` +
-    `-filter_complex "[0:v]scale=${W}:${H}:force_original_aspect_ratio=decrease,` +
-    `pad=${W}:${H}:(ow-iw)/2:(oh-ih)/2,setsar=1,fps=30,format=yuv420p,` +
-    `drawbox=x=0:y=${H-110}:w=${W}:h=110:color=black@0.80:t=fill,` +
-    `drawbox=x=0:y=${H-110}:w=5:h=110:color=0xf97316@1:t=fill,` +
-    `drawtext=text='${n}':fontsize=40:fontcolor=white:` +
-      `fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf:x=28:y=${H-88},` +
-    `drawtext=text='${t}':fontsize=24:fontcolor=0xf97316:` +
-      `fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=28:y=${H-42},` +
-    `fade=in:0:18,fade=out:st=${Math.max(0, targetDur-0.4)}:d=0.4[v]" ` +
-    `-map "[v]" -c:v libx264 -preset ultrafast -crf 20 -r 30 -an -t ${targetDur} "${outPath}"`,
-    { stdio: 'pipe' }
+      `-filter_complex "[0:v]scale=${W}:${H}:force_original_aspect_ratio=decrease,` +
+      `pad=${W}:${H}:(ow-iw)/2:(oh-ih)/2,setsar=1,fps=30,format=yuv420p,` +
+      `drawbox=x=0:y=${H - 110}:w=${W}:h=110:color=black@0.80:t=fill,` +
+      `drawbox=x=0:y=${H - 110}:w=5:h=110:color=0xf97316@1:t=fill,` +
+      `drawtext=text='${n}':fontsize=40:fontcolor=white:` +
+      `fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf:x=28:y=${H - 88},` +
+      `drawtext=text='${t}':fontsize=24:fontcolor=0xf97316:` +
+      `fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:x=28:y=${H - 42},` +
+      `fade=in:0:18,fade=out:st=${Math.max(0, targetDur - 0.4)}:d=0.4[v]" ` +
+      `-map "[v]" -c:v libx264 -preset ultrafast -crf 20 -r 30 -an -t ${targetDur} "${outPath}"`,
+    { stdio: 'pipe' },
   );
 }
 
 async function main() {
-  if (!process.env.OPENAI_API_KEY) { console.error('OPENAI_API_KEY not set'); process.exit(1); }
+  if (!process.env.OPENAI_API_KEY) {
+    console.error('OPENAI_API_KEY not set');
+    process.exit(1);
+  }
   fs.mkdirSync(TEMP_DIR, { recursive: true });
   fs.mkdirSync(OUT_DIR, { recursive: true });
 
@@ -121,9 +171,12 @@ async function main() {
   for (let i = 0; i < CLIPS.length; i++) {
     const clip = CLIPS[i];
     const videoFile = path.join(CLIPS_DIR, clip.file);
-    if (!fs.existsSync(videoFile)) { console.warn(`⚠️  Missing: ${clip.file}`); continue; }
-    process.stdout.write(`[${i+1}/${CLIPS.length}] ${clip.name}...`);
-    const segPath = path.join(TEMP_DIR, `seg-${String(i).padStart(2,'0')}.mp4`);
+    if (!fs.existsSync(videoFile)) {
+      console.warn(`⚠️  Missing: ${clip.file}`);
+      continue;
+    }
+    process.stdout.write(`[${i + 1}/${CLIPS.length}] ${clip.name}...`);
+    const segPath = path.join(TEMP_DIR, `seg-${String(i).padStart(2, '0')}.mp4`);
     buildClipWithText(videoFile, clip.name, clip.tagline, clipDurEach, segPath);
     segPaths.push(segPath);
     console.log(' ✓');
@@ -133,7 +186,7 @@ async function main() {
   process.stdout.write('Stitching...');
   const stitched = path.join(TEMP_DIR, 'stitched.mp4');
   const cf = path.join(TEMP_DIR, 'concat.txt');
-  fs.writeFileSync(cf, segPaths.map(p => `file '${p}'`).join('\n'));
+  fs.writeFileSync(cf, segPaths.map((p) => `file '${p}'`).join('\n'));
   execSync(`ffmpeg -y -f concat -safe 0 -i "${cf}" -c copy "${stitched}"`, { stdio: 'pipe' });
   console.log(' ✓');
 
@@ -141,18 +194,25 @@ async function main() {
   process.stdout.write('Muxing audio...');
   execSync(
     `ffmpeg -y -i "${stitched}" -i "${audioPath}" ` +
-    `-map 0:v:0 -map 1:a:0 -c:v copy -c:a aac -b:a 192k -ar 44100 -ac 2 ` +
-    `-shortest -movflags +faststart "${OUTPUT}"`,
-    { stdio: 'pipe' }
+      `-map 0:v:0 -map 1:a:0 -c:v copy -c:a aac -b:a 192k -ar 44100 -ac 2 ` +
+      `-shortest -movflags +faststart "${OUTPUT}"`,
+    { stdio: 'pipe' },
   );
   console.log(' ✓');
 
   const mb = fs.statSync(OUTPUT).size / 1024 / 1024;
   const dur = getVideoDuration(OUTPUT);
   console.log(`\n✅ ${OUTPUT}`);
-  console.log(`   ${mb.toFixed(1)}MB | ${Math.floor(dur/60)}:${String(Math.round(dur%60)).padStart(2,'0')}`);
+  console.log(
+    `   ${mb.toFixed(1)}MB | ${Math.floor(dur / 60)}:${String(Math.round(dur % 60)).padStart(2, '0')}`,
+  );
 
-  try { fs.rmSync(TEMP_DIR, { recursive: true, force: true }); } catch {}
+  try {
+    fs.rmSync(TEMP_DIR, { recursive: true, force: true });
+  } catch {}
 }
 
-main().catch(e => { console.error('Fatal:', e); process.exit(1); });
+main().catch((e) => {
+  console.error('Fatal:', e);
+  process.exit(1);
+});

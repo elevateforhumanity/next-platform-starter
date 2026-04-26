@@ -3,7 +3,7 @@ import { EmailType } from './handlers/email-send';
 
 /**
  * STEP 6B: Helper to enqueue emails asynchronously
- * 
+ *
  * Usage:
  * ```
  * await enqueueEmail({
@@ -45,7 +45,7 @@ export const emails = {
     to: string,
     correlationId: string,
     tenantId: string,
-    data: { plan: string; tenantName: string; loginUrl?: string }
+    data: { plan: string; tenantName: string; loginUrl?: string },
   ) {
     return enqueueEmail({
       emailType: 'license_activated',
@@ -55,12 +55,12 @@ export const emails = {
       templateData: data,
     });
   },
-  
+
   async licenseSuspended(
     to: string,
     correlationId: string,
     tenantId: string,
-    data: { reason: string; billingUrl?: string }
+    data: { reason: string; billingUrl?: string },
   ) {
     return enqueueEmail({
       emailType: 'license_suspended',
@@ -70,12 +70,12 @@ export const emails = {
       templateData: data,
     });
   },
-  
+
   async paymentFailed(
     to: string,
     correlationId: string,
     tenantId: string,
-    data: { billingUrl?: string }
+    data: { billingUrl?: string },
   ) {
     return enqueueEmail({
       emailType: 'payment_failed',

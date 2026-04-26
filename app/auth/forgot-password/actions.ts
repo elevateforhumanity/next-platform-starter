@@ -12,15 +12,19 @@ import { logger } from '@/lib/logger';
 // the redirectTo as unauthorized and fall back to the homepage.
 const RAW_SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
 // Normalize: ensure www prefix so Supabase's allowed-redirect check passes.
-const SITE_URL = RAW_SITE_URL.replace('https://elevateforhumanity.org', 'https://www.elevateforhumanity.org')
-                              .replace('http://elevateforhumanity.org', 'https://www.elevateforhumanity.org');
+const SITE_URL = RAW_SITE_URL.replace(
+  'https://elevateforhumanity.org',
+  'https://www.elevateforhumanity.org',
+).replace('http://elevateforhumanity.org', 'https://www.elevateforhumanity.org');
 
 /**
  * Generate a password recovery link via Supabase Admin API and send it
  * through Resend. Supabase's built-in SMTP is not configured, so we
  * bypass it entirely.
  */
-export async function sendRecoveryEmail(email: string): Promise<{ success: boolean; error?: string }> {
+export async function sendRecoveryEmail(
+  email: string,
+): Promise<{ success: boolean; error?: string }> {
   if (!email || !email.includes('@')) {
     return { success: false, error: 'Please enter a valid email address.' };
   }

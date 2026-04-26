@@ -14,7 +14,9 @@ async function _GET(request: NextRequest) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -33,7 +35,9 @@ async function _GET(request: NextRequest) {
     // Get accreditation data
     const { data: programs } = await supabase
       .from('programs')
-      .select('id, title, credential, accreditation_status, accreditation_body, accreditation_expires');
+      .select(
+        'id, title, credential, accreditation_status, accreditation_body, accreditation_expires',
+      );
 
     const { data: enrollments } = await supabase
       .from('program_enrollments')
@@ -44,28 +48,30 @@ async function _GET(request: NextRequest) {
       .select('id, program_id, issued_at');
 
     // Calculate metrics per program
-    const programMetrics = programs?.map(program => {
-      const programEnrollments = enrollments?.filter(e => e.program_id === program.id) || [];
-      const programCertificates = certificates?.filter(c => c.program_id === program.id) || [];
-      const completions = programEnrollments.filter(e => e.status === 'completed').length;
+    const programMetrics =
+      programs?.map((program) => {
+        const programEnrollments = enrollments?.filter((e) => e.program_id === program.id) || [];
+        const programCertificates = certificates?.filter((c) => c.program_id === program.id) || [];
+        const completions = programEnrollments.filter((e) => e.status === 'completed').length;
 
-      return {
-        programId: program.id,
-        programName: program.name,
-        credential: program.credential,
-        accreditationStatus: program.accreditation_status || 'pending',
-        accreditationBody: program.accreditation_body,
-        accreditationExpires: program.accreditation_expires,
-        metrics: {
-          totalEnrollments: programEnrollments.length,
-          completions,
-          completionRate: programEnrollments.length > 0 
-            ? `${(completions / programEnrollments.length * 100).toFixed(1)}%` 
-            : '0%',
-          certificatesIssued: programCertificates.length,
-        },
-      };
-    }) || [];
+        return {
+          programId: program.id,
+          programName: program.name,
+          credential: program.credential,
+          accreditationStatus: program.accreditation_status || 'pending',
+          accreditationBody: program.accreditation_body,
+          accreditationExpires: program.accreditation_expires,
+          metrics: {
+            totalEnrollments: programEnrollments.length,
+            completions,
+            completionRate:
+              programEnrollments.length > 0
+                ? `${((completions / programEnrollments.length) * 100).toFixed(1)}%`
+                : '0%',
+            certificatesIssued: programCertificates.length,
+          },
+        };
+      }) || [];
 
     const report = {
       generatedAt: new Date().toISOString(),
@@ -79,10 +85,12 @@ async function _GET(request: NextRequest) {
       },
       summary: {
         totalPrograms: programs?.length || 0,
-        accreditedPrograms: programs?.filter(p => p.accreditation_status === 'accredited').length || 0,
-        pendingAccreditation: programs?.filter(p => p.accreditation_status === 'pending').length || 0,
+        accreditedPrograms:
+          programs?.filter((p) => p.accreditation_status === 'accredited').length || 0,
+        pendingAccreditation:
+          programs?.filter((p) => p.accreditation_status === 'pending').length || 0,
         totalEnrollments: enrollments?.length || 0,
-        totalCompletions: enrollments?.filter(e => e.status === 'completed').length || 0,
+        totalCompletions: enrollments?.filter((e) => e.status === 'completed').length || 0,
         totalCertificates: certificates?.length || 0,
       },
       programs: programMetrics,
@@ -91,10 +99,7 @@ async function _GET(request: NextRequest) {
     return NextResponse.json(report);
   } catch (error) {
     logger.error('Accreditation report error:', error);
-    return NextResponse.json(
-      { error: 'Failed to generate accreditation report' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to generate accreditation report' }, { status: 500 });
   }
 }
 
@@ -104,7 +109,9 @@ async function _POST(request: NextRequest) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -145,10 +152,7 @@ async function _POST(request: NextRequest) {
     });
   } catch (error) {
     logger.error('Accreditation update error:', error);
-    return NextResponse.json(
-      { error: 'Failed to update accreditation' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to update accreditation' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/accreditation/report', _GET);

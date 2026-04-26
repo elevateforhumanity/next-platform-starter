@@ -58,11 +58,7 @@ function processDirectory(dir) {
       const fullPath = path.join(directory, item);
       const stat = fs.statSync(fullPath);
 
-      if (
-        stat.isDirectory() &&
-        !item.includes('node_modules') &&
-        !item.includes('.git')
-      ) {
+      if (stat.isDirectory() && !item.includes('node_modules') && !item.includes('.git')) {
         scan(fullPath);
       } else if (item.endsWith('.html')) {
         if (addMetaTags(fullPath)) {

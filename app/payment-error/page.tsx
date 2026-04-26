@@ -51,10 +51,7 @@ function PaymentErrorContent() {
           >
             Contact Support
           </Link>
-          <Link
-            href="/"
-            className="text-sm text-slate-700 hover:text-slate-700 transition"
-          >
+          <Link href="/" className="text-sm text-slate-700 hover:text-slate-700 transition">
             Return to Home
           </Link>
         </div>
@@ -65,11 +62,13 @@ function PaymentErrorContent() {
 
 export default function PaymentErrorPage() {
   return (
-    <Suspense fallback={
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-slate-700">Loading...</div>
-      </div>
-    }>
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="text-slate-700">Loading...</div>
+        </div>
+      }
+    >
       <PaymentErrorContent />
     </Suspense>
   );

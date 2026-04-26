@@ -14,18 +14,14 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const rootDir = join(__dirname, '..');
 
-
 // Check environment variables
-const requiredEnvVars = [
-  'NEXT_PUBLIC_SUPABASE_URL',
-  'SUPABASE_SERVICE_ROLE_KEY',
-];
+const requiredEnvVars = ['NEXT_PUBLIC_SUPABASE_URL', 'SUPABASE_SERVICE_ROLE_KEY'];
 
-const missingVars = requiredEnvVars.filter(v => !process.env[v]);
+const missingVars = requiredEnvVars.filter((v) => !process.env[v]);
 
 if (missingVars.length > 0) {
   console.error('❌ Missing required environment variables:');
-  missingVars.forEach(v => console.error(`   - ${v}`));
+  missingVars.forEach((v) => console.error(`   - ${v}`));
   console.error('\n💡 Load environment variables first:');
   console.error('   source .env.local');
   console.error('   or');
@@ -40,7 +36,6 @@ const config = {
   programSlug: process.env.TEST_PROGRAM_SLUG || 'barber-apprenticeship',
   skipPayment: true,
 };
-
 
 // Set environment variables for the test
 process.env.TEST_STUDENT_EMAIL = config.studentEmail;

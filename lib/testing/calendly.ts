@@ -43,7 +43,7 @@ async function calendlyFetch(path: string, options: RequestInit = {}) {
   const res = await fetch(`${CALENDLY_API}${path}`, {
     ...options,
     headers: {
-      'Authorization': `Bearer ${token}`,
+      Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
       ...options.headers,
     },
@@ -71,7 +71,7 @@ export interface CalendlyEventType {
  */
 export async function getEventTypes(): Promise<CalendlyEventType[]> {
   const data = await calendlyFetch(
-    `/event_types?user=${encodeURIComponent(CALENDLY_CONFIG.userUri)}&active=true`
+    `/event_types?user=${encodeURIComponent(CALENDLY_CONFIG.userUri)}&active=true`,
   );
   return data.collection ?? [];
 }
@@ -117,11 +117,13 @@ export interface CalendlyEvent {
  * Returns upcoming scheduled events for the testing center.
  * Used by admin dashboard to show booked testing slots.
  */
-export async function getUpcomingEvents(options: {
-  minStartTime?: string;
-  maxStartTime?: string;
-  count?: number;
-} = {}): Promise<CalendlyEvent[]> {
+export async function getUpcomingEvents(
+  options: {
+    minStartTime?: string;
+    maxStartTime?: string;
+    count?: number;
+  } = {},
+): Promise<CalendlyEvent[]> {
   const params = new URLSearchParams({
     user: CALENDLY_CONFIG.userUri,
     status: 'active',

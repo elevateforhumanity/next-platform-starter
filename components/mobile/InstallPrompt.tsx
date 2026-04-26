@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -30,9 +30,7 @@ export default function InstallPrompt() {
           </div>
           <div className="flex-1">
             <h3 className="font-semibold mb-1">Install Elevate App</h3>
-            <p className="text-sm text-white/90 mb-3">
-              Get quick access and work offline
-            </p>
+            <p className="text-sm text-white/90 mb-3">Get quick access and work offline</p>
             <div className="flex items-center gap-2">
               <button
                 onClick={handleInstall}

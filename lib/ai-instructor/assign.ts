@@ -1,4 +1,3 @@
-
 import { createClient } from '@/lib/supabase/server';
 import { logger } from '@/lib/logger';
 
@@ -121,7 +120,7 @@ export async function getStudentInstructors(studentId: string) {
         `
         *,
         instructor:ai_instructors(*)
-      `
+      `,
       )
       .eq('student_id', studentId)
       .eq('is_active', true);
@@ -132,7 +131,8 @@ export async function getStudentInstructors(studentId: string) {
     }
 
     return assignments || [];
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     logger.error('Get student instructors error', error);
     return [];
   }

@@ -16,12 +16,7 @@
       },
       {
         "prompt": "Which layer of the hair shaft contains melanin, the pigment responsible for hair color?",
-        "choices": [
-          "Cuticle",
-          "Cortex",
-          "Medulla",
-          "Follicle"
-        ],
+        "choices": ["Cuticle", "Cortex", "Medulla", "Follicle"],
         "answerIndex": 1,
         "rationale": "The cortex is the layer of the hair shaft that contains melanin, which is responsible for the hair's color.",
         "type": "recall"
@@ -40,12 +35,7 @@
       },
       {
         "prompt": "Which of the following best describes the function of sebaceous glands in the hair follicle?",
-        "choices": [
-          "Produce keratin",
-          "Produce sebum",
-          "Produce melanin",
-          "Produce sweat"
-        ],
+        "choices": ["Produce keratin", "Produce sebum", "Produce melanin", "Produce sweat"],
         "answerIndex": 1,
         "rationale": "Sebaceous glands produce sebum, a natural oil that conditions the hair and scalp.",
         "type": "recall"
@@ -76,24 +66,14 @@
       },
       {
         "prompt": "What is the primary component of the cortex layer that gives hair its strength and elasticity?",
-        "choices": [
-          "Sebum",
-          "Melanin",
-          "Keratin",
-          "Medulla"
-        ],
+        "choices": ["Sebum", "Melanin", "Keratin", "Medulla"],
         "answerIndex": 2,
         "rationale": "Keratin is the protein found in the cortex layer that gives hair its strength and elasticity.",
         "type": "recall"
       },
       {
         "prompt": "Which layer of the hair shaft is not always present in every hair type?",
-        "choices": [
-          "Cuticle",
-          "Cortex",
-          "Medulla",
-          "Follicle"
-        ],
+        "choices": ["Cuticle", "Cortex", "Medulla", "Follicle"],
         "answerIndex": 2,
         "rationale": "The medulla is a soft, spongy core that is not always present in every hair type.",
         "type": "recall"
@@ -136,12 +116,7 @@
       },
       {
         "prompt": "During a consultation, a client mentions their hair color fades quickly. Which layer of the hair shaft should you focus on?",
-        "choices": [
-          "Cuticle",
-          "Cortex",
-          "Medulla",
-          "Follicle"
-        ],
+        "choices": ["Cuticle", "Cortex", "Medulla", "Follicle"],
         "answerIndex": 1,
         "rationale": "The cortex contains melanin, the pigment responsible for hair color, and is directly affected by coloring services.",
         "type": "scenario"
@@ -172,24 +147,14 @@
       },
       {
         "prompt": "A client is concerned about hair thinning. Which part of the hair structure should you focus on?",
-        "choices": [
-          "The cuticle",
-          "The cortex",
-          "The medulla",
-          "The follicle"
-        ],
+        "choices": ["The cuticle", "The cortex", "The medulla", "The follicle"],
         "answerIndex": 3,
         "rationale": "The health of the follicle directly affects hair growth and thickness, making it a key focus for addressing thinning issues.",
         "type": "scenario"
       },
       {
         "prompt": "A client wants to maintain their hair's natural oils. What product ingredient should they avoid?",
-        "choices": [
-          "Alcohol",
-          "Keratin",
-          "Argan oil",
-          "Silicone"
-        ],
+        "choices": ["Alcohol", "Keratin", "Argan oil", "Silicone"],
         "answerIndex": 0,
         "rationale": "Products with high alcohol content can strip the cuticle of its natural oils, leading to dryness and damage.",
         "type": "scenario"

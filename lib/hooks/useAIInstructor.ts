@@ -11,19 +11,27 @@ interface AIInstructorMessage {
 export function useAIInstructor() {
   const speak = (message: string) => {
     // Dispatch custom event for AI instructor to speak
-    window.dispatchEvent(new CustomEvent('ai-instructor-speak', {
-      detail: { message }
-    }));
+    window.dispatchEvent(
+      new CustomEvent('ai-instructor-speak', {
+        detail: { message },
+      }),
+    );
   };
 
   const triggerMessage = (type: AIInstructorMessage['type'], customMessage?: string) => {
     const messages: Record<AIInstructorMessage['type'], string> = {
-      welcome: "Welcome! I'm your AI instructor, here to guide you through this learning journey. Let's get started!",
-      lesson_start: "Great! Let's dive into this lesson. Take your time and don't hesitate to review any section.",
-      quiz_start: "Time to test your knowledge! Remember, this is a learning opportunity. You've got this!",
-      encouragement: "You're doing great! Keep up the excellent work. Learning takes time and effort, and you're showing both.",
-      completion: "Congratulations! You've completed this section. I'm proud of your dedication and progress!",
-      certificate: "Amazing achievement! You've earned your certificate. This is a testament to your hard work and commitment!"
+      welcome:
+        "Welcome! I'm your AI instructor, here to guide you through this learning journey. Let's get started!",
+      lesson_start:
+        "Great! Let's dive into this lesson. Take your time and don't hesitate to review any section.",
+      quiz_start:
+        "Time to test your knowledge! Remember, this is a learning opportunity. You've got this!",
+      encouragement:
+        "You're doing great! Keep up the excellent work. Learning takes time and effort, and you're showing both.",
+      completion:
+        "Congratulations! You've completed this section. I'm proud of your dedication and progress!",
+      certificate:
+        "Amazing achievement! You've earned your certificate. This is a testament to your hard work and commitment!",
     };
 
     const message = customMessage || messages[type];
@@ -40,7 +48,10 @@ export function useAILessonGuidance(lessonTitle: string) {
   useEffect(() => {
     // Welcome message when lesson loads
     const timer = setTimeout(() => {
-      triggerMessage('lesson_start', `Welcome to ${lessonTitle}. I'll be here to help you throughout this lesson.`);
+      triggerMessage(
+        'lesson_start',
+        `Welcome to ${lessonTitle}. I'll be here to help you throughout this lesson.`,
+      );
     }, 2000);
 
     return () => clearTimeout(timer);
@@ -60,9 +71,15 @@ export function useAIQuizGuidance() {
 
   const onQuizComplete = (score: number, passed: boolean) => {
     if (passed) {
-      triggerMessage('completion', `Excellent work! You scored ${score}%. You've demonstrated a strong understanding of the material.`);
+      triggerMessage(
+        'completion',
+        `Excellent work! You scored ${score}%. You've demonstrated a strong understanding of the material.`,
+      );
     } else {
-      triggerMessage('encouragement', `You scored ${score}%. Don't worry - learning is a process. Review the material and try again when you're ready.`);
+      triggerMessage(
+        'encouragement',
+        `You scored ${score}%. Don't worry - learning is a process. Review the material and try again when you're ready.`,
+      );
     }
   };
 
@@ -75,9 +92,15 @@ export function useAICertificateGuidance() {
 
   const onCertificateEarned = (certificateType: 'module' | 'program', courseName: string) => {
     if (certificateType === 'program') {
-      triggerMessage('certificate', `Congratulations on completing ${courseName}! This program certificate represents your dedication and achievement. I'm so proud of you!`);
+      triggerMessage(
+        'certificate',
+        `Congratulations on completing ${courseName}! This program certificate represents your dedication and achievement. I'm so proud of you!`,
+      );
     } else {
-      triggerMessage('certificate', `Well done! You've earned your certificate for ${courseName}. Keep building on this success!`);
+      triggerMessage(
+        'certificate',
+        `Well done! You've earned your certificate for ${courseName}. Keep building on this success!`,
+      );
     }
   };
 

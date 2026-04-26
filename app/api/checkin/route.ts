@@ -10,9 +10,12 @@ async function _POST(request: NextRequest) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
-    
+
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
+
     if (authError || !user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -44,7 +47,10 @@ async function _POST(request: NextRequest) {
       .maybeSingle();
 
     if (existingSession) {
-      return NextResponse.json({ error: 'Already checked in. Please check out first.' }, { status: 400 });
+      return NextResponse.json(
+        { error: 'Already checked in. Please check out first.' },
+        { status: 400 },
+      );
     }
 
     // Validate check-in code

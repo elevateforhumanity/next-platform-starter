@@ -14,7 +14,9 @@ export const dynamic = 'force-dynamic';
 
 export default async function StaffCoursesPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/staff-portal/courses');
 
   // Fetch courses from training_programs table
@@ -48,7 +50,9 @@ export default async function StaffCoursesPage() {
     <div className="min-h-screen bg-white">
       <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[{ label: 'Staff Portal', href: '/staff-portal' }, { label: 'Courses' }]} />
+          <Breadcrumbs
+            items={[{ label: 'Staff Portal', href: '/staff-portal' }, { label: 'Courses' }]}
+          />
         </div>
       </div>
 
@@ -58,9 +62,16 @@ export default async function StaffCoursesPage() {
           <div className="flex gap-3">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-700" />
-              <input type="text" placeholder="Search courses..." className="pl-10 pr-4 py-2 border rounded-lg" />
+              <input
+                type="text"
+                placeholder="Search courses..."
+                className="pl-10 pr-4 py-2 border rounded-lg"
+              />
             </div>
-            <Link href="/staff-portal/courses/create" className="flex items-center gap-2 px-4 py-2 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700">
+            <Link
+              href="/staff-portal/courses/create"
+              className="flex items-center gap-2 px-4 py-2 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700"
+            >
               <Plus className="w-5 h-5" /> New Course
             </Link>
           </div>
@@ -97,14 +108,27 @@ export default async function StaffCoursesPage() {
                       </td>
                       <td className="p-4 text-slate-700 capitalize">{course.category || '-'}</td>
                       <td className="p-4 text-slate-700">{course.students}</td>
-                      <td className="p-4 text-slate-700">{course.duration ? `${course.duration} weeks` : '-'}</td>
-                      <td className="p-4">
-                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                          course.status === 'Active' ? 'bg-brand-green-100 text-brand-green-700' : 'bg-white text-slate-900'
-                        }`}>{course.status}</span>
+                      <td className="p-4 text-slate-700">
+                        {course.duration ? `${course.duration} weeks` : '-'}
                       </td>
                       <td className="p-4">
-                        <Link href={`/staff-portal/courses/${course.slug || course.id}`} className="text-brand-blue-600 hover:underline text-sm">Manage</Link>
+                        <span
+                          className={`px-2 py-1 rounded-full text-xs font-medium ${
+                            course.status === 'Active'
+                              ? 'bg-brand-green-100 text-brand-green-700'
+                              : 'bg-white text-slate-900'
+                          }`}
+                        >
+                          {course.status}
+                        </span>
+                      </td>
+                      <td className="p-4">
+                        <Link
+                          href={`/staff-portal/courses/${course.slug || course.id}`}
+                          className="text-brand-blue-600 hover:underline text-sm"
+                        >
+                          Manage
+                        </Link>
                       </td>
                     </tr>
                   ))

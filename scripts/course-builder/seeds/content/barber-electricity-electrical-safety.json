@@ -4,24 +4,14 @@
     "questions": [
       {
         "prompt": "What type of current is typically used in battery-operated devices?",
-        "choices": [
-          "AC",
-          "DC",
-          "Alternating",
-          "Sinusoidal"
-        ],
+        "choices": ["AC", "DC", "Alternating", "Sinusoidal"],
         "answerIndex": 1,
         "rationale": "DC, or direct current, flows in a single direction and is used in battery-operated devices like cordless clippers.",
         "type": "recall"
       },
       {
         "prompt": "A client presents with a request for a deep cleansing facial. Which type of current should you use?",
-        "choices": [
-          "Galvanic",
-          "Faradic",
-          "Sinusoidal",
-          "AC"
-        ],
+        "choices": ["Galvanic", "Faradic", "Sinusoidal", "AC"],
         "answerIndex": 0,
         "rationale": "Galvanic current is used in skin treatments for deep cleansing and product penetration.",
         "type": "scenario"
@@ -40,24 +30,14 @@
       },
       {
         "prompt": "Which type of current flows in a back-and-forth motion and is commonly supplied to homes?",
-        "choices": [
-          "DC",
-          "AC",
-          "Galvanic",
-          "Faradic"
-        ],
+        "choices": ["DC", "AC", "Galvanic", "Faradic"],
         "answerIndex": 1,
         "rationale": "AC, or alternating current, flows in a back-and-forth motion and is the standard form of electricity supplied to homes.",
         "type": "recall"
       },
       {
         "prompt": "A new client asks for a scalp treatment to relax their muscles. Which current modality should you use?",
-        "choices": [
-          "Galvanic",
-          "Faradic",
-          "Sinusoidal",
-          "DC"
-        ],
+        "choices": ["Galvanic", "Faradic", "Sinusoidal", "DC"],
         "answerIndex": 2,
         "rationale": "Sinusoidal current is known for its soothing effects and is ideal for relaxing muscles during scalp treatments.",
         "type": "scenario"
@@ -76,24 +56,14 @@
       },
       {
         "prompt": "During a busy day, you notice multiple high-wattage devices plugged into a single outlet. What should you do?",
-        "choices": [
-          "Unplug some devices",
-          "Ignore it",
-          "Add more devices",
-          "Use an adapter"
-        ],
+        "choices": ["Unplug some devices", "Ignore it", "Add more devices", "Use an adapter"],
         "answerIndex": 0,
         "rationale": "Overloading an outlet can cause overheating and increase the risk of fire, so some devices should be unplugged.",
         "type": "scenario"
       },
       {
         "prompt": "Which current modality is used to stimulate muscle contractions in facial treatments?",
-        "choices": [
-          "Galvanic",
-          "Faradic",
-          "Sinusoidal",
-          "DC"
-        ],
+        "choices": ["Galvanic", "Faradic", "Sinusoidal", "DC"],
         "answerIndex": 1,
         "rationale": "Faradic current is used to stimulate muscle contractions, beneficial for toning muscles in facial treatments.",
         "type": "recall"
@@ -112,12 +82,7 @@
       },
       {
         "prompt": "A client requests a facial treatment to improve circulation. Which current modality should you use?",
-        "choices": [
-          "Galvanic",
-          "Faradic",
-          "Sinusoidal",
-          "AC"
-        ],
+        "choices": ["Galvanic", "Faradic", "Sinusoidal", "AC"],
         "answerIndex": 1,
         "rationale": "Faradic current is used to stimulate muscle contractions and improve circulation, making it suitable for such treatments.",
         "type": "scenario"
@@ -136,24 +101,14 @@
       },
       {
         "prompt": "A client presents with muscle tension and requests a soothing treatment. Which current modality should you apply?",
-        "choices": [
-          "Galvanic",
-          "Faradic",
-          "Sinusoidal",
-          "DC"
-        ],
+        "choices": ["Galvanic", "Faradic", "Sinusoidal", "DC"],
         "answerIndex": 2,
         "rationale": "Sinusoidal current is known for its soothing effects, making it ideal for relaxing muscles and alleviating tension.",
         "type": "scenario"
       },
       {
         "prompt": "What is the primary difference between AC and DC current?",
-        "choices": [
-          "Direction of flow",
-          "Voltage level",
-          "Frequency",
-          "Source of power"
-        ],
+        "choices": ["Direction of flow", "Voltage level", "Frequency", "Source of power"],
         "answerIndex": 0,
         "rationale": "The primary difference is the direction of flow: AC flows back-and-forth, while DC flows in a single direction.",
         "type": "recall"
@@ -172,24 +127,14 @@
       },
       {
         "prompt": "Which of the following is a direct current modality used in skin treatments?",
-        "choices": [
-          "Galvanic",
-          "Faradic",
-          "Sinusoidal",
-          "AC"
-        ],
+        "choices": ["Galvanic", "Faradic", "Sinusoidal", "AC"],
         "answerIndex": 0,
         "rationale": "Galvanic current is a direct current used in skin treatments for deep cleansing and product penetration.",
         "type": "recall"
       },
       {
         "prompt": "What should you do if you notice exposed wires on your electrical tool?",
-        "choices": [
-          "Continue using it",
-          "Cover it with tape",
-          "Replace or repair it",
-          "Ignore it"
-        ],
+        "choices": ["Continue using it", "Cover it with tape", "Replace or repair it", "Ignore it"],
         "answerIndex": 2,
         "rationale": "Exposed wires pose a risk of electric shock or fire and should be replaced or repaired immediately.",
         "type": "scenario"

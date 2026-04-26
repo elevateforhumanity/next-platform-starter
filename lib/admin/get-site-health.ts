@@ -40,9 +40,7 @@ export async function getSiteHealthSnapshot(): Promise<SiteHealthSnapshot> {
     // Real DB ping
     (async () => {
       const { latencyMs, error } = await timeCheck(async () => {
-        const { error } = await db
-          .from('profiles')
-          .select('id', { count: 'exact', head: true });
+        const { error } = await db.from('profiles').select('id', { count: 'exact', head: true });
         if (error) throw error;
       });
       if (error) {
@@ -188,7 +186,9 @@ export async function getSiteHealthSnapshot(): Promise<SiteHealthSnapshot> {
         name: 'Resend (inbound)',
         status: (configured ? 'healthy' : 'degraded') as HealthStatus,
         latencyMs: null,
-        detail: configured ? 'RESEND_API_KEY present' : 'RESEND_API_KEY not set — inbound email disabled',
+        detail: configured
+          ? 'RESEND_API_KEY present'
+          : 'RESEND_API_KEY not set — inbound email disabled',
       };
     })(),
   ];

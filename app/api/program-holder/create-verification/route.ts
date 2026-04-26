@@ -1,4 +1,3 @@
-
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { getStripe } from '@/lib/stripe/client';
@@ -17,10 +16,7 @@ async function _POST(request: NextRequest) {
     if (rateLimited) return rateLimited;
 
     if (!stripe) {
-      return NextResponse.json(
-        { error: 'Stripe not configured' },
-        { status: 503 }
-      );
+      return NextResponse.json({ error: 'Stripe not configured' }, { status: 503 });
     }
 
     const { userId } = await request.json();
@@ -91,10 +87,9 @@ async function _POST(request: NextRequest) {
   } catch (err: any) {
     return NextResponse.json(
       {
-        error:
-          'Internal server error',
+        error: 'Internal server error',
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

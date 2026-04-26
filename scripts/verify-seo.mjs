@@ -6,7 +6,6 @@ import path from 'node:path';
 const DEPLOY_DIR = 'deploy';
 const BASE_URL = 'https://www.elevateforhumanity.org';
 
-
 const seoChecks = {
   passed: 0,
   failed: 0,
@@ -36,7 +35,7 @@ check(
   fs.existsSync(robotsPath),
   fs.existsSync(robotsPath)
     ? 'Present and accessible'
-    : 'Missing - search engines cannot find crawl instructions'
+    : 'Missing - search engines cannot find crawl instructions',
 );
 
 const sitemapPath = path.join(DEPLOY_DIR, 'sitemap.xml');
@@ -45,7 +44,7 @@ check(
   fs.existsSync(sitemapPath),
   fs.existsSync(sitemapPath)
     ? 'Present and accessible'
-    : 'Missing - search engines cannot discover pages'
+    : 'Missing - search engines cannot discover pages',
 );
 
 const sitemapsDir = path.join(DEPLOY_DIR, 'sitemaps');
@@ -54,7 +53,7 @@ check(
   fs.existsSync(sitemapsDir),
   fs.existsSync(sitemapsDir)
     ? 'Present with split sitemaps'
-    : 'Missing - sitemap organization lost'
+    : 'Missing - sitemap organization lost',
 );
 
 // 2. Verify sitemap content
@@ -63,11 +62,10 @@ if (fs.existsSync(sitemapPath)) {
     const sitemapContent = fs.readFileSync(sitemapPath, 'utf8');
     check(
       'Sitemap format',
-      sitemapContent.includes('<?xml') &&
-        sitemapContent.includes('sitemapindex'),
+      sitemapContent.includes('<?xml') && sitemapContent.includes('sitemapindex'),
       sitemapContent.includes('sitemapindex')
         ? 'Valid XML sitemap index format'
-        : 'Invalid or corrupted sitemap format'
+        : 'Invalid or corrupted sitemap format',
     );
 
     check(
@@ -75,7 +73,7 @@ if (fs.existsSync(sitemapPath)) {
       sitemapContent.includes(BASE_URL),
       sitemapContent.includes(BASE_URL)
         ? 'Contains correct domain URLs'
-        : 'Missing or incorrect domain URLs'
+        : 'Missing or incorrect domain URLs',
     );
   } catch (error) {
     check('Sitemap content', false, 'Could not read sitemap content');
@@ -88,11 +86,10 @@ if (fs.existsSync(robotsPath)) {
     const robotsContent = fs.readFileSync(robotsPath, 'utf8');
     check(
       'Robots.txt format',
-      robotsContent.includes('User-agent:') &&
-        robotsContent.includes('Sitemap:'),
+      robotsContent.includes('User-agent:') && robotsContent.includes('Sitemap:'),
       robotsContent.includes('Sitemap:')
         ? 'Valid format with sitemap reference'
-        : 'Missing sitemap reference or invalid format'
+        : 'Missing sitemap reference or invalid format',
     );
 
     check(
@@ -100,7 +97,7 @@ if (fs.existsSync(robotsPath)) {
       robotsContent.includes(`${BASE_URL}/sitemap.xml`),
       robotsContent.includes(`${BASE_URL}/sitemap.xml`)
         ? 'Correct sitemap URL referenced'
-        : 'Incorrect or missing sitemap URL'
+        : 'Incorrect or missing sitemap URL',
     );
   } catch (error) {
     check('Robots.txt content', false, 'Could not read robots.txt content');
@@ -109,21 +106,14 @@ if (fs.existsSync(robotsPath)) {
 
 // 4. Check individual sitemap files
 if (fs.existsSync(sitemapsDir)) {
-  const expectedSitemaps = [
-    'core.xml',
-    'programs.xml',
-    'policies.xml',
-    'services.xml',
-  ];
+  const expectedSitemaps = ['core.xml', 'programs.xml', 'policies.xml', 'services.xml'];
   expectedSitemaps.forEach((sitemap) => {
     const sitemapFile = path.join(sitemapsDir, sitemap);
     check(
       `${sitemap}`,
       fs.existsSync(sitemapFile),
-      fs.existsSync(sitemapFile)
-        ? 'Present and accessible'
-        : 'Missing from sitemaps directory',
-      true // Warning, not critical
+      fs.existsSync(sitemapFile) ? 'Present and accessible' : 'Missing from sitemaps directory',
+      true, // Warning, not critical
     );
   });
 }
@@ -147,10 +137,8 @@ pages.forEach(({ path: pagePath, name }) => {
       check(
         `${name} canonical`,
         content.includes('rel="canonical"'),
-        content.includes('rel="canonical"')
-          ? 'Has canonical URL'
-          : 'Missing canonical URL',
-        true
+        content.includes('rel="canonical"') ? 'Has canonical URL' : 'Missing canonical URL',
+        true,
       );
 
       // Check for meta description
@@ -160,7 +148,7 @@ pages.forEach(({ path: pagePath, name }) => {
         content.includes('name="description"')
           ? 'Has meta description'
           : 'Missing meta description',
-        true
+        true,
       );
 
       // Check for proper title
@@ -169,7 +157,7 @@ pages.forEach(({ path: pagePath, name }) => {
         content.includes('<title>') && !content.includes('<title></title>'),
         content.includes('<title>') && !content.includes('<title></title>')
           ? 'Has proper title tag'
-          : 'Missing or empty title tag'
+          : 'Missing or empty title tag',
       );
     } catch (error) {
       check(`${name} content`, false, 'Could not read page content', true);
@@ -190,7 +178,7 @@ if (fs.existsSync(indexPath)) {
       indexContent.includes('application/ld+json')
         ? 'JSON-LD structured data present'
         : 'Missing structured data',
-      true
+      true,
     );
   } catch (error) {
     check('Structured data', false, 'Could not verify structured data', true);
@@ -216,9 +204,7 @@ if (seoChecks.failed > 0) {
   report.recommendations.push('Fix critical SEO issues before deployment');
 }
 if (seoChecks.warnings > 0) {
-  report.recommendations.push(
-    'Address SEO warnings to improve search visibility'
-  );
+  report.recommendations.push('Address SEO warnings to improve search visibility');
 }
 if (!fs.existsSync(robotsPath)) {
   report.recommendations.push('Ensure robots.txt is included in deployment');
@@ -230,7 +216,7 @@ if (!fs.existsSync(sitemapPath)) {
 // Save report
 fs.writeFileSync(
   path.join(DEPLOY_DIR, 'seo-verification-report.json'),
-  JSON.stringify(report, null, 2)
+  JSON.stringify(report, null, 2),
 );
 
 // Summary
@@ -238,7 +224,6 @@ fs.writeFileSync(
 if (report.recommendations.length > 0) {
   report.recommendations.forEach((rec) => console.log(`   • ${rec}`));
 }
-
 
 // Exit with appropriate code
 process.exit(seoChecks.failed > 0 ? 1 : 0);

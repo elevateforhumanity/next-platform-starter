@@ -9,10 +9,7 @@ export const maxDuration = 60;
 
 export const dynamic = 'force-dynamic';
 
-async function _GET(
-  request: Request,
-  { params }: { params: Promise<{ certificateId: string }> }
-) {
+async function _GET(request: Request, { params }: { params: Promise<{ certificateId: string }> }) {
   try {
     const rateLimited = await applyRateLimit(request, 'api');
     if (rateLimited) return rateLimited;
@@ -36,15 +33,17 @@ async function _GET(
       .maybeSingle();
 
     if (!certificate) {
-      return NextResponse.json(
-        { error: 'Certificate not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: 'Certificate not found' }, { status: 404 });
     }
 
     const pdfBlob = await generateCertificatePDF({
-      studentName: certificate.profiles?.full_name || certificate.metadata?.student_name || 'Student',
-      courseName: certificate.course_title || certificate.program_name || certificate.metadata?.course_name || 'Course',
+      studentName:
+        certificate.profiles?.full_name || certificate.metadata?.student_name || 'Student',
+      courseName:
+        certificate.course_title ||
+        certificate.program_name ||
+        certificate.metadata?.course_name ||
+        'Course',
       completionDate: new Date(certificate.issued_at).toLocaleDateString(),
       certificateNumber: certificate.certificate_number,
       programHours: certificate.hours_completed,
@@ -56,11 +55,8 @@ async function _GET(
         'Content-Disposition': `attachment; filename="certificate-${certificate.certificate_number}.pdf"`,
       },
     });
-  } catch (error) { 
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+  } catch (error) {
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/certificates/[certificateId]/download', _GET);

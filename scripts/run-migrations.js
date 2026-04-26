@@ -47,7 +47,6 @@ async function runMigration(filename) {
 
   const sql = fs.readFileSync(filePath, 'utf8');
 
-
   try {
     // Execute the SQL
     const { data, error } = await supabase.rpc('exec_sql', { sql_query: sql });
@@ -56,7 +55,7 @@ async function runMigration(filename) {
       // Try direct query if RPC doesn't exist
       const { error: directError } = await supabase.from('_migrations').insert({
         name: filename,
-        executed_at: new Date().toISOString()
+        executed_at: new Date().toISOString(),
       });
 
       if (directError && !directError.message.includes('already exists')) {
@@ -67,10 +66,10 @@ async function runMigration(filename) {
     return { success: true };
   } catch (error) {
     // Check if it's a "already exists" error (which is OK)
-    if (error.message && (
-      error.message.includes('already exists') ||
-      error.message.includes('duplicate key')
-    )) {
+    if (
+      error.message &&
+      (error.message.includes('already exists') || error.message.includes('duplicate key'))
+    ) {
       return { success: true, skipped: true };
     }
 
@@ -79,7 +78,6 @@ async function runMigration(filename) {
 }
 
 async function verifyData() {
-
   try {
     // Check courses
     const { data: courses, error: coursesError } = await supabase
@@ -107,13 +105,10 @@ async function verifyData() {
     if (modulesError) {
     } else {
     }
-
-  } catch (error) {
-  }
+  } catch (error) {}
 }
 
 async function main() {
-
   let successCount = 0;
   let skipCount = 0;
   let errorCount = 0;
@@ -132,9 +127,8 @@ async function main() {
     }
 
     // Small delay between migrations
-    await new Promise(resolve => setTimeout(resolve, 500));
+    await new Promise((resolve) => setTimeout(resolve, 500));
   }
-
 
   await verifyData();
 
@@ -144,6 +138,6 @@ async function main() {
   }
 }
 
-main().catch(error => {
+main().catch((error) => {
   process.exit(1);
 });

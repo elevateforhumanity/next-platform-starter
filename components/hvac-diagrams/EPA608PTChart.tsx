@@ -13,20 +13,24 @@ import { Thermometer, ArrowRight } from 'lucide-react';
 // Values are approximate saturation temperatures at given pressures
 const PT_DATA: Record<string, { pressures: number[]; temps: number[] }> = {
   'R-22': {
-    pressures: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 175, 200, 225, 250],
-    temps:     [-41, -23, -9, 2, 11, 19, 26, 33, 39, 45, 50, 55, 60, 65, 69, 74, 83, 92, 100, 108],
+    pressures: [
+      0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 175, 200, 225, 250,
+    ],
+    temps: [-41, -23, -9, 2, 11, 19, 26, 33, 39, 45, 50, 55, 60, 65, 69, 74, 83, 92, 100, 108],
   },
   'R-410A': {
-    pressures: [0, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200, 220, 240, 260, 280, 300, 325, 350, 375, 400],
-    temps:     [-62, -41, -26, -14, -4, 5, 13, 20, 27, 33, 39, 44, 49, 54, 59, 63, 69, 74, 79, 84],
+    pressures: [
+      0, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200, 220, 240, 260, 280, 300, 325, 350, 375, 400,
+    ],
+    temps: [-62, -41, -26, -14, -4, 5, 13, 20, 27, 33, 39, 44, 49, 54, 59, 63, 69, 74, 79, 84],
   },
   'R-404A': {
     pressures: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 120, 140, 160, 180, 200, 225, 250],
-    temps:     [-55, -38, -25, -14, -5, 3, 10, 17, 23, 29, 34, 44, 53, 61, 69, 76, 85, 93],
+    temps: [-55, -38, -25, -14, -5, 3, 10, 17, 23, 29, 34, 44, 53, 61, 69, 76, 85, 93],
   },
   'R-134a': {
     pressures: [0, 5, 10, 15, 20, 25, 30, 40, 50, 60, 70, 80, 90, 100, 120, 140, 160, 180, 200],
-    temps:     [-15, -4, 6, 14, 21, 28, 34, 45, 55, 63, 71, 79, 86, 93, 105, 116, 126, 135, 144],
+    temps: [-15, -4, 6, 14, 21, 28, 34, 45, 55, 63, 71, 79, 86, 93, 105, 116, 126, 135, 144],
   },
 };
 
@@ -83,7 +87,13 @@ export default function EPA608PTChart({ onComplete }: { onComplete?: () => void 
   const [pressure, setPressure] = useState('');
   const [lineTemp, setLineTemp] = useState('');
   const [lineType, setLineType] = useState<'suction' | 'liquid'>('suction');
-  const [result, setResult] = useState<{ satTemp: number; delta: number; label: string; color: string; explanation: string } | null>(null);
+  const [result, setResult] = useState<{
+    satTemp: number;
+    delta: number;
+    label: string;
+    color: string;
+    explanation: string;
+  } | null>(null);
   const [scenario, setScenario] = useState<number | null>(null);
   const [completedScenarios, setCompletedScenarios] = useState<Set<number>>(new Set());
 
@@ -108,28 +118,35 @@ export default function EPA608PTChart({ onComplete }: { onComplete?: () => void 
       label = `Superheat: ${delta}°F`;
       if (delta < 5) {
         color = 'text-brand-red-600';
-        explanation = 'Superheat below 5°F — evaporator is flooded. Risk of liquid slugging the compressor. System may be overcharged or TXV stuck open.';
+        explanation =
+          'Superheat below 5°F — evaporator is flooded. Risk of liquid slugging the compressor. System may be overcharged or TXV stuck open.';
       } else if (delta <= 15) {
         color = 'text-brand-green-600';
-        explanation = 'Superheat 5–15°F — normal operating range for most systems. Evaporator is properly fed with refrigerant.';
+        explanation =
+          'Superheat 5–15°F — normal operating range for most systems. Evaporator is properly fed with refrigerant.';
       } else if (delta <= 25) {
         color = 'text-amber-600';
-        explanation = 'Superheat 16–25°F — slightly high. System may be undercharged or TXV is restricting flow.';
+        explanation =
+          'Superheat 16–25°F — slightly high. System may be undercharged or TXV is restricting flow.';
       } else {
         color = 'text-brand-red-600';
-        explanation = 'Superheat above 25°F — evaporator is starved. System is significantly undercharged or has a restriction.';
+        explanation =
+          'Superheat above 25°F — evaporator is starved. System is significantly undercharged or has a restriction.';
       }
     } else {
       label = `Subcooling: ${delta}°F`;
       if (delta < 5) {
         color = 'text-brand-red-600';
-        explanation = 'Subcooling below 5°F — insufficient liquid. Flash gas may be entering the expansion device, reducing capacity.';
+        explanation =
+          'Subcooling below 5°F — insufficient liquid. Flash gas may be entering the expansion device, reducing capacity.';
       } else if (delta <= 20) {
         color = 'text-brand-green-600';
-        explanation = 'Subcooling 5–20°F — normal range. Liquid line has adequate subcooled refrigerant entering the expansion device.';
+        explanation =
+          'Subcooling 5–20°F — normal range. Liquid line has adequate subcooled refrigerant entering the expansion device.';
       } else {
         color = 'text-amber-600';
-        explanation = 'Subcooling above 20°F — may indicate overcharge or condenser issue. Verify system charge.';
+        explanation =
+          'Subcooling above 20°F — may indicate overcharge or condenser issue. Verify system charge.';
       }
     }
 
@@ -156,18 +173,22 @@ export default function EPA608PTChart({ onComplete }: { onComplete?: () => void 
 
   return (
     <div className="space-y-5">
-
       <div className="bg-brand-blue-700 rounded-2xl p-5 text-white">
-        <p className="text-brand-red-400 text-xs font-bold uppercase tracking-widest mb-1">EPA 608 Core — P/T Charts</p>
+        <p className="text-brand-red-400 text-xs font-bold uppercase tracking-widest mb-1">
+          EPA 608 Core — P/T Charts
+        </p>
         <h2 className="text-xl font-extrabold">Pressure-Temperature Drill</h2>
         <p className="text-slate-500 text-sm mt-1">
-          Enter a pressure reading → get the saturation temperature → calculate superheat or subcooling.
+          Enter a pressure reading → get the saturation temperature → calculate superheat or
+          subcooling.
         </p>
       </div>
 
       {/* Practice scenarios */}
       <div>
-        <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Practice Scenarios</p>
+        <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">
+          Practice Scenarios
+        </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
           {SCENARIOS.map((s, i) => (
             <button
@@ -177,8 +198,8 @@ export default function EPA608PTChart({ onComplete }: { onComplete?: () => void 
                 scenario === i
                   ? 'bg-brand-blue-50 border-brand-blue-300 font-semibold text-brand-blue-700'
                   : completedScenarios.has(i)
-                  ? 'bg-brand-green-50 border-brand-green-200 text-slate-600'
-                  : 'bg-white border-slate-200 hover:border-slate-300 text-slate-700'
+                    ? 'bg-brand-green-50 border-brand-green-200 text-slate-600'
+                    : 'bg-white border-slate-200 hover:border-slate-300 text-slate-700'
               }`}
             >
               {completedScenarios.has(i) && <span className="text-brand-green-500 mr-1">✓</span>}
@@ -198,28 +219,43 @@ export default function EPA608PTChart({ onComplete }: { onComplete?: () => void 
         <div className="grid grid-cols-2 gap-3">
           {/* Refrigerant */}
           <div>
-            <label className="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-1">Refrigerant</label>
+            <label className="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-1">
+              Refrigerant
+            </label>
             <select
               value={selectedRef}
-              onChange={(e) => { setSelectedRef(e.target.value); setResult(null); }}
+              onChange={(e) => {
+                setSelectedRef(e.target.value);
+                setResult(null);
+              }}
               className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm font-semibold text-slate-900 bg-white"
             >
-              {REFRIGERANTS.map((r) => <option key={r}>{r}</option>)}
+              {REFRIGERANTS.map((r) => (
+                <option key={r}>{r}</option>
+              ))}
             </select>
           </div>
 
           {/* Line type */}
           <div>
-            <label className="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-1">Line Type</label>
+            <label className="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-1">
+              Line Type
+            </label>
             <div className="flex rounded-lg border border-slate-200 overflow-hidden">
               <button
-                onClick={() => { setLineType('suction'); setResult(null); }}
+                onClick={() => {
+                  setLineType('suction');
+                  setResult(null);
+                }}
                 className={`flex-1 py-2 text-xs font-bold transition-colors ${lineType === 'suction' ? 'bg-brand-blue-600 text-white' : 'bg-white text-slate-600 hover:bg-slate-50'}`}
               >
                 Suction
               </button>
               <button
-                onClick={() => { setLineType('liquid'); setResult(null); }}
+                onClick={() => {
+                  setLineType('liquid');
+                  setResult(null);
+                }}
                 className={`flex-1 py-2 text-xs font-bold transition-colors ${lineType === 'liquid' ? 'bg-brand-blue-600 text-white' : 'bg-white text-slate-600 hover:bg-slate-50'}`}
               >
                 Liquid
@@ -236,7 +272,10 @@ export default function EPA608PTChart({ onComplete }: { onComplete?: () => void 
             <input
               type="number"
               value={pressure}
-              onChange={(e) => { setPressure(e.target.value); setResult(null); }}
+              onChange={(e) => {
+                setPressure(e.target.value);
+                setResult(null);
+              }}
               placeholder="e.g. 120"
               className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm font-semibold text-slate-900"
             />
@@ -248,7 +287,10 @@ export default function EPA608PTChart({ onComplete }: { onComplete?: () => void 
             <input
               type="number"
               value={lineTemp}
-              onChange={(e) => { setLineTemp(e.target.value); setResult(null); }}
+              onChange={(e) => {
+                setLineTemp(e.target.value);
+                setResult(null);
+              }}
               placeholder="e.g. 50"
               className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm font-semibold text-slate-900"
             />
@@ -279,7 +321,9 @@ export default function EPA608PTChart({ onComplete }: { onComplete?: () => void 
               </div>
               <ArrowRight className="w-5 h-5 text-slate-400 flex-shrink-0" />
               <div className="bg-slate-100 rounded-xl px-4 py-3 text-center">
-                <p className="text-xs text-slate-500 font-medium">{lineType === 'suction' ? 'Superheat' : 'Subcooling'}</p>
+                <p className="text-xs text-slate-500 font-medium">
+                  {lineType === 'suction' ? 'Superheat' : 'Subcooling'}
+                </p>
                 <p className={`text-2xl font-extrabold ${result.color}`}>{result.delta}°F</p>
               </div>
             </div>

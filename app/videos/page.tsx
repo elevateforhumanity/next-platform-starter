@@ -19,14 +19,13 @@ export const metadata: Metadata = {
 export default async function VideosPage() {
   const supabase = await createClient();
 
-  
   // Fetch videos from database (for user-uploaded videos)
   const { data: dbVideos } = await supabase
     .from('videos')
     .select('*')
     .eq('published', true)
     .order('created_at', { ascending: false });
-  
+
   // Get videos from canonical registry
   const videos = getAllLiveVideos();
   const categories = getAllCategories();
@@ -43,12 +42,10 @@ export default async function VideosPage() {
       {/* Hero */}
       <section className="bg-brand-blue-700 text-white py-20">
         <div className="max-w-7xl mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">
-            Training Videos
-          </h1>
+          <h1 className="text-4xl md:text-5xl font-bold mb-6">Training Videos</h1>
           <p className="text-xl text-white max-w-3xl mx-auto">
-            Watch videos about our free career training programs. Learn what we
-            offer and how to get started.
+            Watch videos about our free career training programs. Learn what we offer and how to get
+            started.
           </p>
         </div>
       </section>
@@ -58,14 +55,12 @@ export default async function VideosPage() {
         <div className="max-w-7xl mx-auto px-4">
           {categories.map((category) => {
             const categoryVideos = videos.filter(
-              (v) => v.category === category && v.status === 'live'
+              (v) => v.category === category && v.status === 'live',
             );
 
             return (
               <div key={category} className="mb-16">
-                <h2 className="text-3xl font-bold text-black mb-8">
-                  {category}
-                </h2>
+                <h2 className="text-3xl font-bold text-black mb-8">{category}</h2>
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                   {categoryVideos.map((video) => (
                     <Link
@@ -91,9 +86,7 @@ export default async function VideosPage() {
                         <h3 className="text-xl font-bold text-slate-900 mb-3 line-clamp-2">
                           {video.title}
                         </h3>
-                        <p className="text-slate-700 line-clamp-3">
-                          {video.description}
-                        </p>
+                        <p className="text-slate-700 line-clamp-3">{video.description}</p>
                       </div>
                     </Link>
                   ))}
@@ -107,12 +100,9 @@ export default async function VideosPage() {
       {/* CTA */}
       <section className="py-16">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold text-black mb-6">
-            Ready to Get Started?
-          </h2>
+          <h2 className="text-3xl font-bold text-black mb-6">Ready to Get Started?</h2>
           <p className="text-xl text-black mb-8">
-            Apply now for funded career training. Real certifications, real
-            careers.
+            Apply now for funded career training. Real certifications, real careers.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <Link

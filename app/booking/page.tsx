@@ -17,7 +17,6 @@ export const revalidate = 3600;
 export default async function BookingPage() {
   const supabase = await createClient();
 
-
   // Get available appointment types
   const { data: appointmentTypes } = await supabase
     .from('appointment_types')
@@ -76,9 +75,8 @@ export default async function BookingPage() {
     },
   ];
 
-  const displayTypes = appointmentTypes && appointmentTypes.length > 0 
-    ? appointmentTypes 
-    : defaultAppointmentTypes;
+  const displayTypes =
+    appointmentTypes && appointmentTypes.length > 0 ? appointmentTypes : defaultAppointmentTypes;
 
   return (
     <div className="min-h-screen bg-white">
@@ -93,12 +91,23 @@ export default async function BookingPage() {
       {/* Hero */}
       <section className="relative w-full">
         <div className="relative h-[50vh] sm:h-[55vh] md:h-[60vh] lg:h-[65vh] min-h-[320px] w-full overflow-hidden">
-          <Image src="/images/pages/booking-page-1.jpg" alt="Hero image" fill className="object-cover" priority sizes="100vw" />
+          <Image
+            src="/images/pages/booking-page-1.jpg"
+            alt="Hero image"
+            fill
+            className="object-cover"
+            priority
+            sizes="100vw"
+          />
         </div>
         <div className="bg-white py-10">
           <div className="max-w-5xl mx-auto px-4 text-center">
-            <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">Book an Appointment</h1>
-            <p className="text-lg text-slate-600 max-w-3xl mx-auto">Schedule a consultation, campus tour, or advising session with our team.</p>
+            <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">
+              Book an Appointment
+            </h1>
+            <p className="text-lg text-slate-600 max-w-3xl mx-auto">
+              Schedule a consultation, campus tour, or advising session with our team.
+            </p>
           </div>
         </div>
       </section>
@@ -141,7 +150,8 @@ export default async function BookingPage() {
                     <div>
                       <h3 className="font-semibold text-lg">{location.name}</h3>
                       <p className="text-slate-700">
-                        {location.address}<br />
+                        {location.address}
+                        <br />
                         {location.city}, {location.state}
                       </p>
                     </div>
@@ -156,7 +166,8 @@ export default async function BookingPage() {
                     <div>
                       <h3 className="font-semibold text-lg">Main Campus</h3>
                       <p className="text-slate-700">
-                        123 Education Way<br />
+                        123 Education Way
+                        <br />
                         Indianapolis, IN 46204
                       </p>
                     </div>
@@ -168,7 +179,8 @@ export default async function BookingPage() {
                     <div>
                       <h3 className="font-semibold text-lg">Virtual Appointments</h3>
                       <p className="text-slate-700">
-                        Available via Zoom or Google Meet<br />
+                        Available via Zoom or Google Meet
+                        <br />
                         Flexible scheduling options
                       </p>
                     </div>
@@ -185,10 +197,20 @@ export default async function BookingPage() {
             <h2 className="text-3xl font-bold mb-8">Meet Our Team</h2>
             <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-6">
               {staff.map((member: any) => (
-                <div key={member.id} className="bg-white rounded-xl shadow-sm border p-6 text-center">
+                <div
+                  key={member.id}
+                  className="bg-white rounded-xl shadow-sm border p-6 text-center"
+                >
                   <div className="w-20 h-20 rounded-full bg-slate-200 mx-auto mb-4 overflow-hidden relative">
                     {member.avatar_url ? (
-                      <Image src={member.avatar_url} alt={member.name} fill sizes="100vw" className="object-cover" sizes="80px" />
+                      <Image
+                        src={member.avatar_url}
+                        alt={member.name}
+                        fill
+                        sizes="100vw"
+                        className="object-cover"
+                        sizes="80px"
+                      />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center">
                         <User className="w-10 h-10 text-slate-400" />
@@ -207,9 +229,7 @@ export default async function BookingPage() {
         <section>
           <div className="bg-white rounded-xl p-8 text-center">
             <h3 className="font-semibold text-xl mb-2">Need Immediate Assistance?</h3>
-            <p className="text-slate-700 mb-4">
-              Our team is available Monday-Friday, 9am-5pm EST.
-            </p>
+            <p className="text-slate-700 mb-4">Our team is available Monday-Friday, 9am-5pm EST.</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
                 href="/support"

@@ -1,6 +1,6 @@
 /**
  * Download Artlist Images
- * 
+ *
  * This script attempts to download images from Artlist URLs.
  * Note: Artlist uses Cloudflare protection which may block automated downloads.
  */
@@ -41,51 +41,52 @@ const images = [
 async function downloadImage(url, savePath) {
   return new Promise((resolve, reject) => {
     const protocol = url.startsWith('https') ? https : http;
-    
+
     const options = {
       headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+        'User-Agent':
+          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
         'Accept-Language': 'en-US,en;q=0.5',
         'Accept-Encoding': 'gzip, deflate, br',
-        'Connection': 'keep-alive',
+        Connection: 'keep-alive',
         'Upgrade-Insecure-Requests': '1',
-      }
+      },
     };
 
-    protocol.get(url, options, (response) => {
-      if (response.statusCode === 301 || response.statusCode === 302) {
-        // Follow redirect
-        downloadImage(response.headers.location, savePath)
-          .then(resolve)
-          .catch(reject);
-        return;
-      }
+    protocol
+      .get(url, options, (response) => {
+        if (response.statusCode === 301 || response.statusCode === 302) {
+          // Follow redirect
+          downloadImage(response.headers.location, savePath).then(resolve).catch(reject);
+          return;
+        }
 
-      if (response.statusCode !== 200) {
-        reject(new Error(`Failed to download: ${response.statusCode} ${response.statusMessage}`));
-        return;
-      }
+        if (response.statusCode !== 200) {
+          reject(new Error(`Failed to download: ${response.statusCode} ${response.statusMessage}`));
+          return;
+        }
 
-      // Ensure directory exists
-      const dir = path.dirname(savePath);
-      if (!fs.existsSync(dir)) {
-        fs.mkdirSync(dir, { recursive: true });
-      }
+        // Ensure directory exists
+        const dir = path.dirname(savePath);
+        if (!fs.existsSync(dir)) {
+          fs.mkdirSync(dir, { recursive: true });
+        }
 
-      const fileStream = fs.createWriteStream(savePath);
-      response.pipe(fileStream);
+        const fileStream = fs.createWriteStream(savePath);
+        response.pipe(fileStream);
 
-      fileStream.on('finish', () => {
-        fileStream.close();
-        resolve();
-      });
+        fileStream.on('finish', () => {
+          fileStream.close();
+          resolve();
+        });
 
-      fileStream.on('error', (err) => {
-        fs.unlink(savePath, () => {}); // Delete partial file
-        reject(err);
-      });
-    }).on('error', reject);
+        fileStream.on('error', (err) => {
+          fs.unlink(savePath, () => {}); // Delete partial file
+          reject(err);
+        });
+      })
+      .on('error', reject);
   });
 }
 
@@ -99,9 +100,9 @@ async function main() {
       console.log(`📥 Downloading: ${image.name}`);
       console.log(`   URL: ${image.url}`);
       console.log(`   Save to: ${image.savePath}`);
-      
+
       await downloadImage(image.url, image.savePath);
-      
+
       console.log(`✅ Success!\n`);
     } catch (error) {
       console.log(`❌ Failed: ${error.message}\n`);

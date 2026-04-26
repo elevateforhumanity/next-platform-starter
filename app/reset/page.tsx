@@ -16,17 +16,23 @@ export default function ResetPage() {
       setStatus('Signing out from Supabase...');
       const supabase = createClient();
       await supabase.auth.signOut();
-    } catch (error) { /* Error handled silently */ }
+    } catch (error) {
+      /* Error handled silently */
+    }
 
     try {
       setStatus('Clearing localStorage...');
       localStorage.clear();
-    } catch (error) { /* Error handled silently */ }
+    } catch (error) {
+      /* Error handled silently */
+    }
 
     try {
       setStatus('Clearing sessionStorage...');
       sessionStorage.clear();
-    } catch (error) { /* Error handled silently */ }
+    } catch (error) {
+      /* Error handled silently */
+    }
 
     try {
       setStatus('Clearing Cache Storage...');
@@ -34,11 +40,15 @@ export default function ResetPage() {
         const keys = await caches.keys();
         await Promise.all(keys.map((k) => caches.delete(k)));
       }
-    } catch (error) { /* Error handled silently */ }
+    } catch (error) {
+      /* Error handled silently */
+    }
 
     try {
       setStatus('Clearing IndexedDB...');
-      const idb = window.indexedDB as IDBFactory & { databases?: () => Promise<Array<{ name: string; version: number }>> };
+      const idb = window.indexedDB as IDBFactory & {
+        databases?: () => Promise<Array<{ name: string; version: number }>>;
+      };
       if (idb && typeof idb.databases === 'function') {
         const dbs = await idb.databases();
         await Promise.all(
@@ -50,11 +60,13 @@ export default function ResetPage() {
                   req.onerror = () => resolve();
                   req.onblocked = () => resolve();
                 })
-              : Promise.resolve()
-          )
+              : Promise.resolve(),
+          ),
         );
       }
-    } catch (error) { /* Error handled silently */ }
+    } catch (error) {
+      /* Error handled silently */
+    }
 
     try {
       setStatus('Unregistering service workers...');
@@ -62,7 +74,9 @@ export default function ResetPage() {
         const regs = await navigator.serviceWorker.getRegistrations();
         await Promise.all(regs.map((r) => r.unregister()));
       }
-    } catch (error) { /* Error handled silently */ }
+    } catch (error) {
+      /* Error handled silently */
+    }
 
     try {
       setStatus('Clearing cookies...');
@@ -71,7 +85,9 @@ export default function ResetPage() {
         const name = eqPos > -1 ? c.slice(0, eqPos) : c;
         document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/`;
       });
-    } catch (error) { /* Error handled silently */ }
+    } catch (error) {
+      /* Error handled silently */
+    }
 
     setStatus('Complete! Reloading...');
     setTimeout(() => {
@@ -81,14 +97,12 @@ export default function ResetPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-white">
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Reset" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Reset' }]} />
       </div>
-<div className="max-w-md w-full bg-white p-8 rounded-lg shadow-lg text-center">
+      <div className="max-w-md w-full bg-white p-8 rounded-lg shadow-lg text-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-blue-600 mx-auto mb-4"></div>
-        <h1 className="text-2xl font-bold text-black mb-2">
-          Resetting Browser
-        </h1>
+        <h1 className="text-2xl font-bold text-black mb-2">Resetting Browser</h1>
         <p className="text-black">{status}</p>
       </div>
     </div>

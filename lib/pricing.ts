@@ -1,13 +1,13 @@
 /**
  * CANONICAL PRICING SOURCE
- * 
+ *
  * All pricing, licensing, and product data must be imported from this file.
  * DO NOT hardcode pricing elsewhere in the codebase.
- * 
+ *
  * EVIDENCE SOURCES:
  * - app/data/store-products.ts (primary, has Stripe integration)
  * - lib/store/digital-products.ts (digital products)
- * 
+ *
  * Last reconciled: January 2026
  */
 
@@ -138,7 +138,8 @@ export const DIGITAL_PRODUCTS: DigitalProduct[] = [
     name: 'Start a Tax Business Toolkit',
     price: '$49',
     priceInCents: 4900,
-    benefit: 'Step-by-step toolkit with templates, checklists, and marketing materials to launch your tax business.',
+    benefit:
+      'Step-by-step toolkit with templates, checklists, and marketing materials to launch your tax business.',
     checkoutReady: false,
     source: 'lib/store/digital-products.ts:36',
   },
@@ -147,7 +148,8 @@ export const DIGITAL_PRODUCTS: DigitalProduct[] = [
     name: 'Grant Readiness Guide',
     price: '$29',
     priceInCents: 2900,
-    benefit: 'Complete guide to grant applications, compliance requirements, and funding preparation.',
+    benefit:
+      'Complete guide to grant applications, compliance requirements, and funding preparation.',
     checkoutReady: false,
     source: 'lib/store/digital-products.ts:52',
   },
@@ -156,7 +158,8 @@ export const DIGITAL_PRODUCTS: DigitalProduct[] = [
     name: 'Fund-Ready Mini Course',
     price: '$149',
     priceInCents: 14900,
-    benefit: 'Video course on compliance and positioning for workforce funding with downloadable workbook.',
+    benefit:
+      'Video course on compliance and positioning for workforce funding with downloadable workbook.',
     checkoutReady: false,
     source: 'lib/store/digital-products.ts:66',
   },
@@ -169,9 +172,11 @@ export const DIGITAL_PRODUCTS: DigitalProduct[] = [
 export const DISCLAIMERS = {
   pricing: 'Final pricing depends on scope, branding, modules, and implementation support.',
   eligibility: 'Funding eligibility determined by local workforce boards and program requirements.',
-  integration: 'Integrations available via API/webhooks; implementation depends on partner environment.',
+  integration:
+    'Integrations available via API/webhooks; implementation depends on partner environment.',
   hiring: 'Hiring incentives subject to eligibility and approval requirements.',
-  implementation: 'Implementation and configuration services scoped separately based on organizational needs.',
+  implementation:
+    'Implementation and configuration services scoped separately based on organizational needs.',
 } as const;
 
 // ============================================
@@ -242,7 +247,8 @@ export const PLATFORM_FEATURES = [
   {
     id: 'payroll',
     name: 'HR & Payroll',
-    description: 'Built-in payroll processing, staff onboarding, and hiring pipeline for licensee organizations.',
+    description:
+      'Built-in payroll processing, staff onboarding, and hiring pipeline for licensee organizations.',
     capabilities: [
       'Bi-weekly payroll runs with tax calculations (federal, state, FICA)',
       'Pay methods: direct deposit, Elevate Pay Card (Visa), or paper check',
@@ -317,11 +323,11 @@ export const ROUTES = {
 // ============================================
 
 export function getFeaturedTier(): LicenseTier {
-  return LICENSE_TIERS.find(t => t.featured) || LICENSE_TIERS[1];
+  return LICENSE_TIERS.find((t) => t.featured) || LICENSE_TIERS[1];
 }
 
 export function getTierById(id: string): LicenseTier | undefined {
-  return LICENSE_TIERS.find(t => t.id === id);
+  return LICENSE_TIERS.find((t) => t.id === id);
 }
 
 export function getStartingPrice(): string {

@@ -16,8 +16,7 @@ export const samlConfig = {
   entryPoint: process.env.SAML_ENTRY_POINT || '',
   issuer: process.env.SAML_ISSUER || 'elevate-lms',
   callbackUrl:
-    process.env.SAML_CALLBACK_URL ||
-    `${process.env.NEXT_PUBLIC_APP_URL}/api/auth/saml/callback`,
+    process.env.SAML_CALLBACK_URL || `${process.env.NEXT_PUBLIC_APP_URL}/api/auth/saml/callback`,
   cert: process.env.SAML_CERT || '',
   identifierFormat: 'urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress',
   wantAssertionsSigned: true,
@@ -56,9 +55,7 @@ export const ldapConfig = {
 };
 
 // Get SSO providers for tenant
-export async function getTenantSSOProviders(
-  tenantId: string
-): Promise<SSOConfig[]> {
+export async function getTenantSSOProviders(tenantId: string): Promise<SSOConfig[]> {
   // This would fetch from database
   // For now, return configured providers
   const providers: SSOConfig[] = [];

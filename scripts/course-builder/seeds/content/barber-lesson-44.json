@@ -4,24 +4,14 @@
     "questions": [
       {
         "prompt": "Which styling product is known for providing a strong hold with a wet finish?",
-        "choices": [
-          "Gel",
-          "Pomade",
-          "Wax",
-          "Cream"
-        ],
+        "choices": ["Gel", "Pomade", "Wax", "Cream"],
         "answerIndex": 0,
         "rationale": "Gel is known for its strong hold and wet finish, making it ideal for sleek, structured styles.",
         "type": "recall"
       },
       {
         "prompt": "A client presents with thick, curly hair and wants a style with control and definition. Which product should you choose?",
-        "choices": [
-          "Gel",
-          "Pomade",
-          "Wax",
-          "Cream"
-        ],
+        "choices": ["Gel", "Pomade", "Wax", "Cream"],
         "answerIndex": 1,
         "rationale": "Pomade offers a medium to strong hold, which is suitable for maintaining control and definition in thick, curly hair.",
         "type": "scenario"
@@ -52,24 +42,14 @@
       },
       {
         "prompt": "Which styling product is ideal for achieving a natural, matte finish with a flexible hold?",
-        "choices": [
-          "Gel",
-          "Pomade",
-          "Wax",
-          "Spray"
-        ],
+        "choices": ["Gel", "Pomade", "Wax", "Spray"],
         "answerIndex": 2,
         "rationale": "Wax provides a flexible hold with a matte or low-shine finish, suitable for textured, tousled styles.",
         "type": "recall"
       },
       {
         "prompt": "A new client asks for a soft, flowing look. Which product is most appropriate?",
-        "choices": [
-          "Gel",
-          "Pomade",
-          "Wax",
-          "Cream"
-        ],
+        "choices": ["Gel", "Pomade", "Wax", "Cream"],
         "answerIndex": 3,
         "rationale": "Creams offer a light hold and natural finish, making them ideal for soft, flowing looks.",
         "type": "scenario"
@@ -88,24 +68,14 @@
       },
       {
         "prompt": "A client with fine hair wants more volume without weighing it down. Which product should you recommend?",
-        "choices": [
-          "Heavy pomade",
-          "Lightweight cream",
-          "Strong gel",
-          "Thick wax"
-        ],
+        "choices": ["Heavy pomade", "Lightweight cream", "Strong gel", "Thick wax"],
         "answerIndex": 1,
         "rationale": "Lightweight creams or sprays are suitable for fine hair as they add volume without weighing it down.",
         "type": "scenario"
       },
       {
         "prompt": "Which styling product is best for achieving a high-shine, slicked-back look?",
-        "choices": [
-          "Gel",
-          "Pomade",
-          "Wax",
-          "Cream"
-        ],
+        "choices": ["Gel", "Pomade", "Wax", "Cream"],
         "answerIndex": 1,
         "rationale": "Pomades offer a medium to strong hold with a shiny finish, perfect for high-shine, slicked-back styles.",
         "type": "recall"
@@ -124,24 +94,14 @@
       },
       {
         "prompt": "Which product type is known for providing a light hold and natural finish?",
-        "choices": [
-          "Gel",
-          "Pomade",
-          "Wax",
-          "Cream"
-        ],
+        "choices": ["Gel", "Pomade", "Wax", "Cream"],
         "answerIndex": 3,
         "rationale": "Creams offer a light hold and natural finish, making them ideal for soft, flowing looks.",
         "type": "recall"
       },
       {
         "prompt": "A client wants a textured, tousled style with a matte finish. Which product should you use?",
-        "choices": [
-          "Gel",
-          "Pomade",
-          "Wax",
-          "Spray"
-        ],
+        "choices": ["Gel", "Pomade", "Wax", "Spray"],
         "answerIndex": 2,
         "rationale": "Wax provides a flexible hold with a matte or low-shine finish, suitable for textured, tousled styles.",
         "type": "scenario"
@@ -196,12 +156,7 @@
       },
       {
         "prompt": "During a consultation, a client expresses a preference for a natural look with minimal shine. Which product should you choose?",
-        "choices": [
-          "Gel",
-          "Pomade",
-          "Wax",
-          "Spray"
-        ],
+        "choices": ["Gel", "Pomade", "Wax", "Spray"],
         "answerIndex": 2,
         "rationale": "Wax provides a flexible hold with a matte or low-shine finish, ideal for a natural look with minimal shine.",
         "type": "scenario"
@@ -220,24 +175,14 @@
       },
       {
         "prompt": "What percentage of the Indiana State Board Exam for barbers focuses on styling and finishing?",
-        "choices": [
-          "10%",
-          "15%",
-          "20%",
-          "25%"
-        ],
+        "choices": ["10%", "15%", "20%", "25%"],
         "answerIndex": 1,
         "rationale": "The styling and finishing section accounts for approximately 15% of the total exam.",
         "type": "recall"
       },
       {
         "prompt": "A client wants a style that requires a strong hold but with a natural appearance. Which product is most suitable?",
-        "choices": [
-          "Strong gel",
-          "Medium hold pomade",
-          "Lightweight cream",
-          "Strong hold spray"
-        ],
+        "choices": ["Strong gel", "Medium hold pomade", "Lightweight cream", "Strong hold spray"],
         "answerIndex": 3,
         "rationale": "A strong hold spray can provide the necessary hold while maintaining a natural appearance.",
         "type": "scenario"

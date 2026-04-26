@@ -68,7 +68,7 @@ export default function SocialLinksModal({ isOpen, onClose }: SocialLinksModalPr
     if (!modal) return;
 
     const focusable = modal.querySelectorAll<HTMLElement>(
-      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
     );
     const first = focusable[0];
     const last = focusable[focusable.length - 1];
@@ -95,12 +95,17 @@ export default function SocialLinksModal({ isOpen, onClose }: SocialLinksModalPr
   // Prevent body scroll when open
   useEffect(() => {
     document.body.style.overflow = isOpen ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
+    return () => {
+      document.body.style.overflow = '';
+    };
   }, [isOpen]);
 
-  const handleOverlayClick = useCallback((e: React.MouseEvent) => {
-    if (e.target === overlayRef.current) onClose();
-  }, [onClose]);
+  const handleOverlayClick = useCallback(
+    (e: React.MouseEvent) => {
+      if (e.target === overlayRef.current) onClose();
+    },
+    [onClose],
+  );
 
   if (!isOpen) return null;
 
@@ -133,14 +138,12 @@ export default function SocialLinksModal({ isOpen, onClose }: SocialLinksModalPr
             <span className="text-2xl font-black text-white">E</span>
           </div>
 
-          <h2
-            id="social-modal-title"
-            className="text-xl font-bold text-white mb-2"
-          >
+          <h2 id="social-modal-title" className="text-xl font-bold text-white mb-2">
             Stay Connected with Elevate
           </h2>
           <p className="text-sm text-white/75 leading-relaxed">
-            Follow our mission to elevate communities through workforce training and career development.
+            Follow our mission to elevate communities through workforce training and career
+            development.
           </p>
         </div>
 

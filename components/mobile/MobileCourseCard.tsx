@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import Link from 'next/link';
 import Image from 'next/image';
@@ -47,9 +47,7 @@ export default function MobileCourseCard({
       )}
       {/* Content */}
       <div className="p-4">
-        <h3 className="font-semibold text-lg text-black mb-2 line-clamp-2">
-          {title}
-        </h3>
+        <h3 className="font-semibold text-lg text-black mb-2 line-clamp-2">{title}</h3>
         <p className="text-sm text-black mb-3 line-clamp-2">{description}</p>
         {/* Progress Bar */}
         {progress > 0 && (

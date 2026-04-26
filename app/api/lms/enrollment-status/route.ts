@@ -1,4 +1,3 @@
-
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { getAdminClient } from '@/lib/supabase/admin';
@@ -23,7 +22,9 @@ export async function GET(req: NextRequest) {
   }
 
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
@@ -39,7 +40,14 @@ export async function GET(req: NextRequest) {
       .eq('id', user.id)
       .maybeSingle();
     if (['admin', 'super_admin', 'staff'].includes(profile?.role ?? '')) {
-      return NextResponse.json({ enrolled: true, status: 'active', enrollment_state: 'active', progress: 0, approved: true, isAdmin: true });
+      return NextResponse.json({
+        enrolled: true,
+        status: 'active',
+        enrollment_state: 'active',
+        progress: 0,
+        approved: true,
+        isAdmin: true,
+      });
     }
   }
 
@@ -95,18 +103,21 @@ export async function GET(req: NextRequest) {
   }
 
   const isPendingFunding = enrollment?.enrollment_state === 'pending_funding_verification';
-  const effectiveStatus = isPendingFunding ? 'pending_funding_verification'
+  const effectiveStatus = isPendingFunding
+    ? 'pending_funding_verification'
     : (enrollment?.status ?? null);
 
-  const approved = !!enrollment && !isPendingFunding
-    && !['pending_approval', 'pending'].includes(enrollment?.status ?? '');
+  const approved =
+    !!enrollment &&
+    !isPendingFunding &&
+    !['pending_approval', 'pending'].includes(enrollment?.status ?? '');
 
   if (enrollment) {
     return NextResponse.json({
-      enrolled:         true,
-      status:           effectiveStatus,
+      enrolled: true,
+      status: effectiveStatus,
       enrollment_state: enrollment?.enrollment_state ?? null,
-      progress:         enrollment?.progress_percent ?? 0,
+      progress: enrollment?.progress_percent ?? 0,
       approved,
     });
   }
@@ -123,24 +134,22 @@ export async function GET(req: NextRequest) {
     .maybeSingle();
 
   if (legacyEnrollment) {
-    const legacyActive =
-      !!legacyEnrollment.approved_at ||
-      legacyEnrollment.status === 'active';
+    const legacyActive = !!legacyEnrollment.approved_at || legacyEnrollment.status === 'active';
 
     return NextResponse.json({
-      enrolled:         legacyActive,
-      status:           legacyEnrollment.status ?? 'active',
+      enrolled: legacyActive,
+      status: legacyEnrollment.status ?? 'active',
       enrollment_state: null,
-      progress:         legacyEnrollment.progress ?? 0,
-      approved:         legacyActive,
+      progress: legacyEnrollment.progress ?? 0,
+      approved: legacyActive,
     });
   }
 
   return NextResponse.json({
-    enrolled:         false,
-    status:           null,
+    enrolled: false,
+    status: null,
     enrollment_state: null,
-    progress:         0,
-    approved:         false,
+    progress: 0,
+    approved: false,
   });
 }

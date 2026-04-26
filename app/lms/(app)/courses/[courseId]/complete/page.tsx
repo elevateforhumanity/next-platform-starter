@@ -18,7 +18,6 @@ import { redirect } from 'next/navigation';
 
 export const dynamic = 'force-dynamic';
 
-
 interface Params {
   courseId: string;
 }
@@ -26,7 +25,6 @@ interface Params {
 export default async function CompleteCourse({ params }: { params: Params }) {
   const { courseId } = await params;
   const supabase = await createClient();
-
 
   const {
     data: { user },
@@ -67,8 +65,7 @@ export default async function CompleteCourse({ params }: { params: Params }) {
       {isAlreadyCompleted ? (
         <div className="mt-4 rounded-xl border border-brand-green-200 bg-brand-green-50 p-6">
           <p className="font-semibold text-brand-green-800">
-            • You completed this course on{' '}
-            {new Date(progress.completed_at!).toLocaleDateString()}
+            • You completed this course on {new Date(progress.completed_at!).toLocaleDateString()}
           </p>
         </div>
       ) : (
@@ -80,17 +77,11 @@ export default async function CompleteCourse({ params }: { params: Params }) {
             (Certificate PDF, screenshot, or completion code)
           </p>
 
-          <form
-            action="/api/lms/progress/complete"
-            method="post"
-            className="mt-6 space-y-4"
-          >
+          <form action="/api/lms/progress/complete" method="post" className="mt-6 space-y-4">
             <input type="hidden" name="courseId" value={course.id} />
 
             <div>
-              <label className="block font-semibold">
-                Evidence URL (optional)
-              </label>
+              <label className="block font-semibold">Evidence URL (optional)</label>
               <input
                 name="evidenceUrl"
                 type="url"
@@ -98,8 +89,8 @@ export default async function CompleteCourse({ params }: { params: Params }) {
                 placeholder="Paste a file link or leave blank"
               />
               <p className="mt-1 text-xs opacity-60">
-                Upload your certificate to Supabase Storage or another service,
-                then paste the link here
+                Upload your certificate to Supabase Storage or another service, then paste the link
+                here
               </p>
             </div>
 

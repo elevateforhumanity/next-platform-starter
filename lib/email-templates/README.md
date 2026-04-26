@@ -5,9 +5,11 @@ HTML email templates for form submissions and user communications.
 ## Templates
 
 ### 1. contact-form.html
+
 Used when someone submits the contact form. Sent to admin/staff.
 
 **Variables:**
+
 - `{{name}}` - Contact's full name
 - `{{email}}` - Contact's email address
 - `{{phone}}` - Contact's phone number
@@ -16,9 +18,11 @@ Used when someone submits the contact form. Sent to admin/staff.
 - `{{timestamp}}` - Submission timestamp
 
 ### 2. application-confirmation.html
+
 Sent to applicants after they submit a program application.
 
 **Variables:**
+
 - `{{name}}` - Applicant's first name
 - `{{program}}` - Program name they applied to
 - `{{timestamp}}` - Application submission time
@@ -27,6 +31,7 @@ Sent to applicants after they submit a program application.
 ## Usage
 
 ### With Resend (Recommended)
+
 ```typescript
 import { Resend } from 'resend';
 import fs from 'fs';
@@ -51,6 +56,7 @@ await resend.emails.send({
 ```
 
 ### With SendGrid
+
 ```typescript
 import sgMail from '@sendgrid/mail';
 
@@ -69,6 +75,7 @@ await sgMail.send(msg);
 ## Setup Instructions
 
 1. **Install email service:**
+
    ```bash
    npm install resend
    # or
@@ -76,6 +83,7 @@ await sgMail.send(msg);
    ```
 
 2. **Add environment variables:**
+
    ```env
    RESEND_API_KEY=your_key_here
    # or
@@ -83,6 +91,7 @@ await sgMail.send(msg);
    ```
 
 3. **Create API route** (e.g., `app/api/contact/route.ts`):
+
    ```typescript
    import { NextResponse } from 'next/server';
    import { Resend } from 'resend';
@@ -93,22 +102,22 @@ await sgMail.send(msg);
 
    export async function POST(request: Request) {
      const data = await request.json();
-     
+
      const templatePath = path.join(process.cwd(), 'lib/email-templates/contact-form.html');
      let template = fs.readFileSync(templatePath, 'utf-8');
-     
+
      // Replace variables
-     Object.keys(data).forEach(key => {
+     Object.keys(data).forEach((key) => {
        template = template.replace(new RegExp(`{{${key}}}`, 'g'), data[key]);
      });
-     
+
      await resend.emails.send({
        from: 'noreply@www.elevateforhumanity.org',
        to: 'admin@www.elevateforhumanity.org',
        subject: 'New Contact Form Submission',
        html: template,
      });
-     
+
      return NextResponse.json({ success: true });
    }
    ```

@@ -43,11 +43,7 @@ export async function getUserRoles(userId: string): Promise<UserRole[]> {
   return data.map((r) => r.role as UserRole);
 }
 
-export async function assignRole(
-  userId: string,
-  role: UserRole,
-  tenant?: string
-) {
+export async function assignRole(userId: string, role: UserRole, tenant?: string) {
   const supabase = await getAdminClient();
 
   const { data, error }: any = await supabase
@@ -79,14 +75,7 @@ export async function removeRole(userId: string, role: UserRole) {
 
 export function getRolePermissions(role: UserRole) {
   const permissions: Record<UserRole, string[]> = {
-    admin: [
-      'view_all',
-      'edit_all',
-      'delete_all',
-      'manage_users',
-      'manage_billing',
-      'export_audit',
-    ],
+    admin: ['view_all', 'edit_all', 'delete_all', 'manage_users', 'manage_billing', 'export_audit'],
     sponsor: [
       'view_apprentices',
       'edit_apprentices',
@@ -98,12 +87,7 @@ export function getRolePermissions(role: UserRole) {
       'edit_rapids',
       'export_audit',
     ],
-    employer: [
-      'view_own_apprentices',
-      'view_own_billing',
-      'submit_hours',
-      'view_own_invoices',
-    ],
+    employer: ['view_own_apprentices', 'view_own_billing', 'submit_hours', 'view_own_invoices'],
     workone: [
       'view_apprentices',
       'view_funding',

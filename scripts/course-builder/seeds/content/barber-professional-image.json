@@ -4,12 +4,7 @@
     "questions": [
       {
         "prompt": "What percentage of the Indiana State Board Exam focuses on sanitation and infection control?",
-        "choices": [
-          "15%",
-          "25%",
-          "50%",
-          "10%"
-        ],
+        "choices": ["15%", "25%", "50%", "10%"],
         "answerIndex": 0,
         "rationale": "Approximately 15% of the Indiana State Board Exam focuses on sanitation and infection control, testing knowledge of hygiene practices and regulations.",
         "type": "recall"

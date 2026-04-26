@@ -48,12 +48,15 @@ export default function HvacPreviewPage() {
     v.play().catch(() => {});
   }, [idx]);
 
-  function prev() { if (idx > 0) setIdx(idx - 1); }
-  function next() { if (idx < LESSONS.length - 1) setIdx(idx + 1); }
+  function prev() {
+    if (idx > 0) setIdx(idx - 1);
+  }
+  function next() {
+    if (idx < LESSONS.length - 1) setIdx(idx + 1);
+  }
 
   return (
     <div className="min-h-screen bg-black flex flex-col">
-
       {/* Header */}
       <div className="flex items-center justify-between px-6 py-3 bg-slate-900 border-b border-slate-800">
         <span className="text-orange-500 font-bold text-sm tracking-widest uppercase">
@@ -138,16 +141,19 @@ export default function HvacPreviewPage() {
                 : 'bg-slate-900 border-slate-800 hover:border-slate-600'
             }`}
           >
-            <p className={`text-xs font-bold uppercase tracking-widest mb-1 ${i === idx ? 'text-orange-400' : 'text-slate-600'}`}>
+            <p
+              className={`text-xs font-bold uppercase tracking-widest mb-1 ${i === idx ? 'text-orange-400' : 'text-slate-600'}`}
+            >
               Lesson {i + 1}
             </p>
-            <p className={`text-sm font-medium leading-snug line-clamp-2 ${i === idx ? 'text-white' : 'text-slate-400'}`}>
+            <p
+              className={`text-sm font-medium leading-snug line-clamp-2 ${i === idx ? 'text-white' : 'text-slate-400'}`}
+            >
               {l.title}
             </p>
           </button>
         ))}
       </div>
-
     </div>
   );
 }

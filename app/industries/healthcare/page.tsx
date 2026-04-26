@@ -1,4 +1,3 @@
-
 export const revalidate = 3600;
 
 import { Metadata } from 'next';
@@ -29,12 +28,22 @@ export default async function HealthcarePage() {
 
   return (
     <div className="bg-white">
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Industries", href: "/industries" }, { label: "Healthcare" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs
+          items={[{ label: 'Industries', href: '/industries' }, { label: 'Healthcare' }]}
+        />
       </div>
-{/* Hero Section */}
+      {/* Hero Section */}
       <section className="relative h-[50vh] sm:h-[55vh] md:h-[60vh] lg:h-[65vh] min-h-[320px] w-full overflow-hidden">
-        <Image src="/images/pages/industries-page-1.jpg" alt="Healthcare Programs" fill sizes="100vw" className="object-cover" quality={85} loading="lazy" />
+        <Image
+          src="/images/pages/industries-page-1.jpg"
+          alt="Healthcare Programs"
+          fill
+          sizes="100vw"
+          className="object-cover"
+          quality={85}
+          loading="lazy"
+        />
       </section>
 
       {/* Programs Grid */}
@@ -51,7 +60,10 @@ export default async function HealthcarePage() {
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {healthcarePrograms.map((program: any) => {
-              const imgSrc = program.hero_image_url || program.image_url || '/images/pages/comp-home-hero-programs.jpg';
+              const imgSrc =
+                program.hero_image_url ||
+                program.image_url ||
+                '/images/pages/comp-home-hero-programs.jpg';
               const name = program.title || program.name;
               return (
                 <Link
@@ -68,9 +80,7 @@ export default async function HealthcarePage() {
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     />
                     <div className="absolute bottom-4 left-4 right-4">
-                      <h3 className="text-xl font-bold text-white mb-1">
-                        {name}
-                      </h3>
+                      <h3 className="text-xl font-bold text-white mb-1">{name}</h3>
                     </div>
                   </div>
                   <div className="p-6 bg-white">
@@ -100,12 +110,9 @@ export default async function HealthcarePage() {
                     <span className="text-slate-400 flex-shrink-0">•</span>
                   </div>
                   <div>
-                    <h3 className="font-bold text-black mb-1">
-                      High Demand
-                    </h3>
+                    <h3 className="font-bold text-black mb-1">High Demand</h3>
                     <p className="text-black">
-                      Healthcare jobs are always in demand with excellent job
-                      security
+                      Healthcare jobs are always in demand with excellent job security
                     </p>
                   </div>
                 </li>
@@ -125,12 +132,9 @@ export default async function HealthcarePage() {
                     <span className="text-slate-400 flex-shrink-0">•</span>
                   </div>
                   <div>
-                    <h3 className="font-bold text-black mb-1">
-                      Make a Difference
-                    </h3>
+                    <h3 className="font-bold text-black mb-1">Make a Difference</h3>
                     <p className="text-black">
-                      Help people every day and make a real impact in your
-                      community
+                      Help people every day and make a real impact in your community
                     </p>
                   </div>
                 </li>
@@ -139,9 +143,7 @@ export default async function HealthcarePage() {
                     <span className="text-slate-400 flex-shrink-0">•</span>
                   </div>
                   <div>
-                    <h3 className="font-bold text-black mb-1">
-                      Fast Training
-                    </h3>
+                    <h3 className="font-bold text-black mb-1">Fast Training</h3>
                     <p className="text-black">
                       Get certified and start working in weeks, not years
                     </p>

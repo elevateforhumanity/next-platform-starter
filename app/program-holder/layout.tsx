@@ -28,11 +28,7 @@ import {
   HelpCircle,
 } from 'lucide-react';
 
-export default async function ProgramHolderLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default async function ProgramHolderLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient();
   const db = await getAdminClient();
   if (!db) throw new Error('Admin client failed to initialize');
@@ -75,7 +71,8 @@ export default async function ProgramHolderLayout({
       .eq('id', profile.program_holder_id)
       .maybeSingle();
 
-    const isPending = !holder || !['approved', 'active'].includes(holder?.status ?? '') || !holder?.approved_at;
+    const isPending =
+      !holder || !['approved', 'active'].includes(holder?.status ?? '') || !holder?.approved_at;
 
     if (isPending) {
       // Only allow onboarding pages while pending — block everything else
@@ -84,13 +81,25 @@ export default async function ProgramHolderLayout({
         <div className="min-h-screen bg-gray-50 flex items-center justify-center p-6">
           <div className="bg-white rounded-lg border border-gray-200 shadow-sm max-w-md w-full p-8 text-center">
             <div className="w-14 h-14 bg-yellow-50 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg className="w-7 h-7 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              <svg
+                className="w-7 h-7 text-yellow-500"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
               </svg>
             </div>
             <h1 className="text-xl font-bold text-slate-900 mb-2">Thank You for Your Submission</h1>
             <p className="text-slate-700 text-sm mb-4">
-              We have received your application and our team is currently reviewing your information. Once your account has been approved, you will receive an email with your next steps and access to your program holder portal.
+              We have received your application and our team is currently reviewing your
+              information. Once your account has been approved, you will receive an email with your
+              next steps and access to your program holder portal.
             </p>
             <p className="text-slate-700 text-xs mb-6">
               Questions? Contact us at{' '}
@@ -138,7 +147,11 @@ export default async function ProgramHolderLayout({
   return (
     <div className="min-h-screen bg-white">
       {/* Top Navigation */}
-      <nav role="navigation" aria-label="Main navigation" className="bg-white border-b border-gray-200">
+      <nav
+        role="navigation"
+        aria-label="Main navigation"
+        className="bg-white border-b border-gray-200"
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
             <div className="flex">
@@ -168,10 +181,7 @@ export default async function ProgramHolderLayout({
             </div>
             <div className="flex items-center">
               <form action="/auth/signout" method="post">
-                <button
-                  type="submit"
-                  className="text-sm font-medium text-black hover:text-black"
-                >
+                <button type="submit" className="text-sm font-medium text-black hover:text-black">
                   Sign Out
                 </button>
               </form>

@@ -27,7 +27,14 @@ export interface WIOAParticipant {
   englishLanguageLearner: boolean;
 
   // Education
-  highestEducation: 'less-than-hs' | 'hs-diploma' | 'ged' | 'some-college' | 'associates' | 'bachelors' | 'graduate';
+  highestEducation:
+    | 'less-than-hs'
+    | 'hs-diploma'
+    | 'ged'
+    | 'some-college'
+    | 'associates'
+    | 'bachelors'
+    | 'graduate';
 
   // Employment
   employmentStatus: 'employed' | 'unemployed' | 'not-in-labor-force';
@@ -43,9 +50,17 @@ export interface WIOAParticipant {
 }
 
 export interface WIOABarrier {
-  type: 'basic-skills-deficient' | 'english-language-learner' | 'homeless' |
-        'offender' | 'low-income' | 'cultural' | 'disability' | 'single-parent' |
-        'displaced-homemaker' | 'long-term-unemployed';
+  type:
+    | 'basic-skills-deficient'
+    | 'english-language-learner'
+    | 'homeless'
+    | 'offender'
+    | 'low-income'
+    | 'cultural'
+    | 'disability'
+    | 'single-parent'
+    | 'displaced-homemaker'
+    | 'long-term-unemployed';
   verified: boolean;
   verificationDate?: string;
   notes?: string;
@@ -141,7 +156,12 @@ export interface EmploymentOutcome {
 
   // Measurable Skills Gains
   measurableSkillsGain: boolean;
-  skillsGainType?: 'educational' | 'training' | 'secondary-diploma' | 'secondary-ged' | 'postsecondary';
+  skillsGainType?:
+    | 'educational'
+    | 'training'
+    | 'secondary-diploma'
+    | 'secondary-ged'
+    | 'postsecondary';
 }
 
 export interface WIOAPerformanceMetrics {
@@ -188,9 +208,11 @@ export function determineWIOAEligibility(participant: Partial<WIOAParticipant>):
 
   // Adult (18+)
   if (age >= 18) {
-    if (participant.employmentStatus === 'unemployed' ||
-        participant.lowIncome ||
-        participant.receivingPublicAssistance) {
+    if (
+      participant.employmentStatus === 'unemployed' ||
+      participant.lowIncome ||
+      participant.receivingPublicAssistance
+    ) {
       reasons.push('Meets adult eligibility: 18+ and unemployed/low-income');
       return { eligible: true, programType: 'adult', reasons };
     }
@@ -211,11 +233,11 @@ export function determineWIOAEligibility(participant: Partial<WIOAParticipant>):
  */
 export function calculateMeasurableSkillsGain(
   participant: WIOAParticipant,
-  assessments: WIOAAssessment[]
+  assessments: WIOAAssessment[],
 ): boolean {
   // Educational functioning level increase
   const basicSkillsAssessments = assessments
-    .filter(a => a.type === 'basic-skills')
+    .filter((a) => a.type === 'basic-skills')
     .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
   if (basicSkillsAssessments.length >= 2) {
@@ -228,13 +250,12 @@ export function calculateMeasurableSkillsGain(
   }
 
   // Secondary diploma/GED
-  if (participant.highestEducation === 'hs-diploma' ||
-      participant.highestEducation === 'ged') {
+  if (participant.highestEducation === 'hs-diploma' || participant.highestEducation === 'ged') {
     return true;
   }
 
   // Postsecondary transcript/report card
-  const occupationalAssessments = assessments.filter(a => a.type === 'occupational-skills');
+  const occupationalAssessments = assessments.filter((a) => a.type === 'occupational-skills');
   if (occupationalAssessments.length > 0) {
     return true;
   }
@@ -245,7 +266,11 @@ export function calculateMeasurableSkillsGain(
 /**
  * Generate PIRL (Participant Individual Record Layout) Report
  */
-export function generatePIRLReport(participant: WIOAParticipant, iep: IndividualEmploymentPlan, outcome: EmploymentOutcome) {
+export function generatePIRLReport(
+  participant: WIOAParticipant,
+  iep: IndividualEmploymentPlan,
+  outcome: EmploymentOutcome,
+) {
   return {
     // Section A: Participant Information
     participantId: participant.id,
@@ -268,10 +293,10 @@ export function generatePIRLReport(participant: WIOAParticipant, iep: Individual
     fundingStream: participant.fundingStream,
 
     // Section D: Barriers to Employment
-    barriers: participant.eligibilityBarriers.map(b => b.type),
+    barriers: participant.eligibilityBarriers.map((b) => b.type),
 
     // Section E: Services Received
-    services: iep.plannedServices.map(s => ({
+    services: iep.plannedServices.map((s) => ({
       type: s.serviceType,
       name: s.serviceName,
       cost: s.cost,
@@ -296,21 +321,18 @@ export function generatePIRLReport(participant: WIOAParticipant, iep: Individual
  */
 export function calculatePerformanceMetrics(
   participants: WIOAParticipant[],
-  outcomes: EmploymentOutcome[]
+  outcomes: EmploymentOutcome[],
 ): WIOAPerformanceMetrics {
-  const exiters = participants.filter(p => p.exitDate);
-  const employed2nd = outcomes.filter(o => o.employed2ndQuarter).length;
-  const employed4th = outcomes.filter(o => o.employed4thQuarter).length;
-  const credentials = outcomes.filter(o => o.credentialAttained).length;
-  const skillsGains = outcomes.filter(o => o.measurableSkillsGain).length;
+  const exiters = participants.filter((p) => p.exitDate);
+  const employed2nd = outcomes.filter((o) => o.employed2ndQuarter).length;
+  const employed4th = outcomes.filter((o) => o.employed4thQuarter).length;
+  const credentials = outcomes.filter((o) => o.credentialAttained).length;
+  const skillsGains = outcomes.filter((o) => o.measurableSkillsGain).length;
 
-  const wages2nd = outcomes
-    .filter(o => o.wage2ndQuarter)
-    .map(o => o.wage2ndQuarter!);
+  const wages2nd = outcomes.filter((o) => o.wage2ndQuarter).map((o) => o.wage2ndQuarter!);
 
-  const medianWage = wages2nd.length > 0
-    ? wages2nd.sort((a, b) => a - b)[Math.floor(wages2nd.length / 2)]
-    : 0;
+  const medianWage =
+    wages2nd.length > 0 ? wages2nd.sort((a, b) => a - b)[Math.floor(wages2nd.length / 2)] : 0;
 
   return {
     programYear: new Date().getFullYear().toString(),
@@ -318,7 +340,8 @@ export function calculatePerformanceMetrics(
     employmentRate4thQuarter: exiters.length > 0 ? (employed4th / exiters.length) * 100 : 0,
     medianEarnings2ndQuarter: medianWage,
     credentialAttainmentRate: exiters.length > 0 ? (credentials / exiters.length) * 100 : 0,
-    measurableSkillsGainRate: participants.length > 0 ? (skillsGains / participants.length) * 100 : 0,
+    measurableSkillsGainRate:
+      participants.length > 0 ? (skillsGains / participants.length) * 100 : 0,
     totalParticipants: participants.length,
     totalExiters: exiters.length,
     totalEmployed: employed2nd,
@@ -336,11 +359,14 @@ export interface WRGEligibility {
   requirements: string[];
 }
 
-export function determineWRGEligibility(participant: WIOAParticipant, program: {
-  duration: number; // weeks
-  credentialType: string;
-  inDemandOccupation: boolean;
-}): WRGEligibility {
+export function determineWRGEligibility(
+  participant: WIOAParticipant,
+  program: {
+    duration: number; // weeks
+    credentialType: string;
+    inDemandOccupation: boolean;
+  },
+): WRGEligibility {
   const requirements: string[] = [];
   let eligible = true;
   let grantAmount = 0;
@@ -453,7 +479,7 @@ export interface ApprenticeshipEvaluation {
  */
 export function calculateApprenticeshipProgress(
   enrollment: ApprenticeshipEnrollment,
-  program: ApprenticeshipProgram
+  program: ApprenticeshipProgram,
 ): {
   otjProgress: number;
   rtiProgress: number;
@@ -462,8 +488,10 @@ export function calculateApprenticeshipProgress(
 } {
   const otjProgress = (enrollment.otjHoursCompleted / program.otjHours) * 100;
   const rtiProgress = (enrollment.rtiHoursCompleted / program.rtiHours) * 100;
-  const overallProgress = ((enrollment.otjHoursCompleted + enrollment.rtiHoursCompleted) /
-                          (program.otjHours + program.rtiHours)) * 100;
+  const overallProgress =
+    ((enrollment.otjHoursCompleted + enrollment.rtiHoursCompleted) /
+      (program.otjHours + program.rtiHours)) *
+    100;
 
   // Check if on track based on time elapsed
   const startDate = new Date(enrollment.startDate);
@@ -471,7 +499,7 @@ export function calculateApprenticeshipProgress(
   const monthsElapsed = (now.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24 * 30);
   const expectedProgress = (monthsElapsed / program.duration) * 100;
 
-  const onTrack = overallProgress >= (expectedProgress - 10); // 10% tolerance
+  const onTrack = overallProgress >= expectedProgress - 10; // 10% tolerance
 
   return {
     otjProgress,
@@ -503,14 +531,16 @@ function calculateAge(dateOfBirth: string): number {
 export function exportDOLReport(
   participants: WIOAParticipant[],
   ieps: IndividualEmploymentPlan[],
-  outcomes: EmploymentOutcome[]
+  outcomes: EmploymentOutcome[],
 ) {
-  return participants.map(p => {
-    const iep = ieps.find(i => i.participantId === p.id);
-    const outcome = outcomes.find(o => o.participantId === p.id);
+  return participants
+    .map((p) => {
+      const iep = ieps.find((i) => i.participantId === p.id);
+      const outcome = outcomes.find((o) => o.participantId === p.id);
 
-    if (!iep || !outcome) return null;
+      if (!iep || !outcome) return null;
 
-    return generatePIRLReport(p, iep, outcome);
-  }).filter(Boolean);
+      return generatePIRLReport(p, iep, outcome);
+    })
+    .filter(Boolean);
 }

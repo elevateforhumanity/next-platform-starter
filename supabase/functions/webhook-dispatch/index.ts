@@ -38,7 +38,7 @@ function generateSignature(payload: string, secret: string): string {
 
 async function sendWebhook(
   webhook: Webhook,
-  payload: WebhookPayload
+  payload: WebhookPayload,
 ): Promise<{
   success: boolean;
   statusCode?: number;
@@ -98,7 +98,7 @@ async function logWebhookDelivery(
     statusCode?: number;
     error?: string;
     responseTime: number;
-  }
+  },
 ) {
   try {
     await supabase.from('webhook_logs').insert({
@@ -110,8 +110,7 @@ async function logWebhookDelivery(
       error: result.error,
       response_time_ms: result.responseTime,
     });
-  } catch (error) {
-  }
+  } catch (error) {}
 }
 
 async function dispatchWebhook(event: string, data: any, orgId: string) {
@@ -131,8 +130,7 @@ async function dispatchWebhook(event: string, data: any, orgId: string) {
 
     // Filter webhooks that subscribe to this event
     const relevantWebhooks = webhooks.filter(
-      (webhook: Webhook) =>
-        webhook.events.includes(event) || webhook.events.includes('*')
+      (webhook: Webhook) => webhook.events.includes(event) || webhook.events.includes('*'),
     );
 
     if (relevantWebhooks.length === 0) {
@@ -152,7 +150,7 @@ async function dispatchWebhook(event: string, data: any, orgId: string) {
         const result = await sendWebhook(webhook, payload);
         await logWebhookDelivery(webhook.id, payload, result);
         return { webhookId: webhook.id, ...result };
-      })
+      }),
     );
 
     const successful = results.filter((r) => r.success).length;
@@ -188,18 +186,11 @@ async function processWebhookQueue() {
     let processed = 0;
     for (const item of queuedWebhooks) {
       // Mark as processing
-      await supabase
-        .from('webhook_queue')
-        .update({ status: 'processing' })
-        .eq('id', item.id);
+      await supabase.from('webhook_queue').update({ status: 'processing' }).eq('id', item.id);
 
       try {
         // Dispatch webhook
-        const result = await dispatchWebhook(
-          item.event,
-          item.data,
-          item.org_id
-        );
+        const result = await dispatchWebhook(item.event, item.data, item.org_id);
 
         // Update queue status
         await supabase
@@ -292,8 +283,7 @@ serve(async (req) => {
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'POST, OPTIONS',
-        'Access-Control-Allow-Headers':
-          'authorization, x-client-info, apikey, content-type',
+        'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
       },
     });
   }
@@ -326,7 +316,7 @@ serve(async (req) => {
         JSON.stringify({
           error: 'Missing required fields: event, data, orgId',
         }),
-        { status: 400, headers: { 'Content-Type': 'application/json' } }
+        { status: 400, headers: { 'Content-Type': 'application/json' } },
       );
     }
 

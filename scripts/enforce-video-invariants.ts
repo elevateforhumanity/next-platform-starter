@@ -141,10 +141,10 @@ function scan(dir: string) {
           line.includes('autoPlay') &&
           !line.startsWith('//') &&
           !line.startsWith('*') &&
-          !line.includes('autoPlay?') &&       // prop definition
-          !line.includes('autoPlay =') &&       // default value
-          !line.includes('autoPlay:') &&        // type/interface
-          !line.includes('{autoPlay}') &&       // destructure
+          !line.includes('autoPlay?') && // prop definition
+          !line.includes('autoPlay =') && // default value
+          !line.includes('autoPlay:') && // type/interface
+          !line.includes('{autoPlay}') && // destructure
           !line.includes('autoPlay={autoPlay}') // passthrough
         ) {
           violations.push(`autoPlay outside allowlist (line ${i + 1}): ${rel}`);
@@ -161,7 +161,7 @@ if (violations.length > 0) {
   console.error('\n❌ VIDEO INVARIANT VIOLATIONS:\n');
   violations.forEach((v) => console.error(`  ${v}`));
   console.error(
-    '\nTo add a legitimate exception, add the file to the allowlist in scripts/enforce-video-invariants.ts with a comment explaining why.\n'
+    '\nTo add a legitimate exception, add the file to the allowlist in scripts/enforce-video-invariants.ts with a comment explaining why.\n',
   );
   process.exit(1);
 } else {

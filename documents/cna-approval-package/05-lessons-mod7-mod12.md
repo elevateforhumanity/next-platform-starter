@@ -1,5 +1,7 @@
 # CNA PROGRAM — FULL LESSON CONTENT
+
 ## Modules 7–12
+
 ### Elevate for Humanity LLC
 
 ---

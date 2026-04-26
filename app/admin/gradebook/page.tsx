@@ -22,7 +22,6 @@ export default async function AdminGradebookIndexPage() {
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* Hero Image */}
       <div className="max-w-5xl mx-auto px-4 py-8">
         <div className="mb-8">

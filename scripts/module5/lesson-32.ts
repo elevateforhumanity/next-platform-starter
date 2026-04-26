@@ -122,7 +122,8 @@ export const content = `<h2>Post-Shave Care & Skin Treatment</h2>
 export const quizQuestions = [
   {
     id: 'mod5-l32-q1',
-    question: 'Immediately after completing the final razor pass, what is the first post-shave step?',
+    question:
+      'Immediately after completing the final razor pass, what is the first post-shave step?',
     options: [
       'Apply aftershave toner to close the pores',
       'Apply a cold towel to the entire shave area',
@@ -130,11 +131,13 @@ export const quizQuestions = [
       'Check for nicks and apply styptic if needed',
     ],
     correctAnswer: 1,
-    explanation: 'Cold towel application is always first — it contracts follicles, reduces redness, and stops micro-abrasion bleeding before any product is applied. Applying product before the cold towel means product enters open follicles.',
+    explanation:
+      'Cold towel application is always first — it contracts follicles, reduces redness, and stops micro-abrasion bleeding before any product is applied. Applying product before the cold towel means product enters open follicles.',
   },
   {
     id: 'mod5-l32-q2',
-    question: 'A client with dry, sensitive skin has just received a three-pass shave. Which post-shave product is most appropriate?',
+    question:
+      'A client with dry, sensitive skin has just received a three-pass shave. Which post-shave product is most appropriate?',
     options: [
       'Alcohol-based aftershave splash — tightens pores effectively',
       'Witch hazel toner — natural and gentle',
@@ -142,11 +145,13 @@ export const quizQuestions = [
       'Standard aftershave lotion — works for all skin types',
     ],
     correctAnswer: 2,
-    explanation: 'Dry, sensitive skin needs moisture restoration and no irritants. Alcohol strips the skin barrier further. Witch hazel, while gentler, still has astringent properties that can irritate sensitive skin. Fragrance-free balm is the correct choice.',
+    explanation:
+      'Dry, sensitive skin needs moisture restoration and no irritants. Alcohol strips the skin barrier further. Witch hazel, while gentler, still has astringent properties that can irritate sensitive skin. Fragrance-free balm is the correct choice.',
   },
   {
     id: 'mod5-l32-q3',
-    question: 'You apply styptic to a nick and the client asks you to wipe it off because it stings. What is the correct response?',
+    question:
+      'You apply styptic to a nick and the client asks you to wipe it off because it stings. What is the correct response?',
     options: [
       'Wipe it off immediately — client comfort is the priority',
       'Explain that the styptic must stay in contact for 10–15 seconds to constrict the vessel and stop bleeding',
@@ -154,7 +159,8 @@ export const quizQuestions = [
       'Switch to alcohol-based aftershave to disinfect the area',
     ],
     correctAnswer: 1,
-    explanation: 'Styptic works by constricting the blood vessel — this requires sustained contact. Wiping it off before it acts means bleeding resumes. Explain the process briefly; the discomfort is brief and necessary. Never apply alcohol over a nick.',
+    explanation:
+      'Styptic works by constricting the blood vessel — this requires sustained contact. Wiping it off before it acts means bleeding resumes. Explain the process briefly; the discomfort is brief and necessary. Never apply alcohol over a nick.',
   },
   {
     id: 'mod5-l32-q4',
@@ -166,11 +172,13 @@ export const quizQuestions = [
       'It prevents the styptic from drying out on the skin',
     ],
     correctAnswer: 1,
-    explanation: 'Shaving is mechanical exfoliation — the blade removes dead skin cells along with hair. Without a barrier product, transepidermal water loss increases and the skin becomes reactive. Moisturizer is a clinical necessity, not a luxury step.',
+    explanation:
+      'Shaving is mechanical exfoliation — the blade removes dead skin cells along with hair. Without a barrier product, transepidermal water loss increases and the skin becomes reactive. Moisturizer is a clinical necessity, not a luxury step.',
   },
   {
     id: 'mod5-l32-q5',
-    question: 'A client has a moderate cut that continues bleeding after styptic application. What is the correct next step?',
+    question:
+      'A client has a moderate cut that continues bleeding after styptic application. What is the correct next step?',
     options: [
       'Apply more styptic and continue the service',
       'Apply alcohol-based aftershave to disinfect and stop bleeding',
@@ -178,6 +186,7 @@ export const quizQuestions = [
       'Apply cold towel and wait for bleeding to stop naturally',
     ],
     correctAnswer: 2,
-    explanation: 'Persistent bleeding after styptic indicates a deeper cut. Direct pressure is the next step. If bleeding does not stop within 2 minutes, stop the service and refer the client to medical care. Complete an incident report.',
+    explanation:
+      'Persistent bleeding after styptic indicates a deeper cut. Direct pressure is the next step. If bleeding does not stop within 2 minutes, stop the service and refer the client to medical care. Complete an incident report.',
   },
 ];

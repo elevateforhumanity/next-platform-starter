@@ -2,7 +2,9 @@
 // CACHE_VERSION is replaced at build time by scripts/stamp-sw.mjs.
 // If the token was never replaced (broken build / local dev), fall back to a
 // timestamp so old caches are always evicted and users never see a blank screen.
-const CACHE_VERSION = 'v1776518314916'.startsWith('__') ? `fallback-${Date.now()}` : 'v1776518314916';
+const CACHE_VERSION = 'v1776518314916'.startsWith('__')
+  ? `fallback-${Date.now()}`
+  : 'v1776518314916';
 const STATIC_CACHE = `elevate-static-${CACHE_VERSION}`;
 const DYNAMIC_CACHE = `elevate-dynamic-${CACHE_VERSION}`;
 const COURSE_CACHE = `elevate-courses-${CACHE_VERSION}`;
@@ -21,9 +23,9 @@ const PRECACHE_ASSETS = [
 const CACHE_STRATEGIES = {
   // Never cache — always hit the network
   noCache: [
-    /\/admin(\/|$)/,      // All admin routes — auth-gated, must never serve stale
-    /\/api\//,            // All API routes
-    /\/login/,            // Auth pages
+    /\/admin(\/|$)/, // All admin routes — auth-gated, must never serve stale
+    /\/api\//, // All API routes
+    /\/login/, // Auth pages
     /\/logout/,
     /\/unauthorized/,
     /supabase/,
@@ -31,48 +33,38 @@ const CACHE_STRATEGIES = {
     /gtag/,
   ],
   // Cache-first for static assets
-  static: [
-    /\.(js|css|woff2?|ttf|eot)$/,
-    /\/_next\/static\//,
-    /\/images\//,
-    /\/icons\//,
-  ],
+  static: [/\.(js|css|woff2?|ttf|eot)$/, /\/_next\/static\//, /\/images\//, /\/icons\//],
   // Network-first for dynamic content
-  networkFirst: [
-    /\/courses\//,
-    /\/programs\//,
-    /\/lms\//,
-  ],
+  networkFirst: [/\/courses\//, /\/programs\//, /\/lms\//],
   // Stale-while-revalidate for API data
-  staleWhileRevalidate: [
-    /\/api\/public\//,
-  ],
+  staleWhileRevalidate: [/\/api\/public\//],
 };
 
 // Install event - cache essential assets
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(STATIC_CACHE)
+    caches
+      .open(STATIC_CACHE)
       .then((cache) => cache.addAll(PRECACHE_ASSETS))
-      .then(() => self.skipWaiting())
+      .then(() => self.skipWaiting()),
   );
 });
 
 // Activate event - clean up old caches
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys()
+    caches
+      .keys()
       .then((cacheNames) => {
         return Promise.all(
           cacheNames
             .filter((name) => {
-              return name.startsWith('elevate-') && 
-                     !name.includes(CACHE_VERSION);
+              return name.startsWith('elevate-') && !name.includes(CACHE_VERSION);
             })
-            .map((name) => caches.delete(name))
+            .map((name) => caches.delete(name)),
         );
       })
-      .then(() => self.clients.claim())
+      .then(() => self.clients.claim()),
   );
 });
 
@@ -85,7 +77,7 @@ function matchesPattern(url, patterns) {
 async function cacheFirst(request, cacheName) {
   const cached = await caches.match(request);
   if (cached) return cached;
-  
+
   try {
     const response = await fetch(request);
     if (response.ok) {
@@ -116,7 +108,7 @@ async function networkFirst(request, cacheName) {
 async function staleWhileRevalidate(request, cacheName) {
   const cache = await caches.open(cacheName);
   const cached = await cache.match(request);
-  
+
   const fetchPromise = fetch(request)
     .then((response) => {
       if (response.ok) {
@@ -125,7 +117,7 @@ async function staleWhileRevalidate(request, cacheName) {
       return response;
     })
     .catch(() => null);
-  
+
   return cached || fetchPromise;
 }
 
@@ -133,16 +125,16 @@ async function staleWhileRevalidate(request, cacheName) {
 self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
-  
+
   // Skip non-GET requests
   if (request.method !== 'GET') return;
-  
+
   // Skip external URLs
   if (url.origin !== self.location.origin) return;
-  
+
   // Skip no-cache patterns
   if (matchesPattern(request.url, CACHE_STRATEGIES.noCache)) return;
-  
+
   // Handle navigation requests (SPA routing)
   if (request.mode === 'navigate') {
     event.respondWith(
@@ -159,16 +151,15 @@ self.addEventListener('fetch', (event) => {
         })
         .catch(() => {
           // Try to return cached version first
-          return caches.match(request)
-            .then((cached) => cached || caches.match(OFFLINE_URL));
-        })
+          return caches.match(request).then((cached) => cached || caches.match(OFFLINE_URL));
+        }),
     );
     return;
   }
-  
+
   // Determine caching strategy for non-navigation requests
   let responsePromise;
-  
+
   if (matchesPattern(request.url, CACHE_STRATEGIES.static)) {
     // Static assets: cache-first
     responsePromise = cacheFirst(request, STATIC_CACHE);
@@ -182,23 +173,23 @@ self.addEventListener('fetch', (event) => {
     // Default: network-first with dynamic cache
     responsePromise = networkFirst(request, DYNAMIC_CACHE);
   }
-  
+
   event.respondWith(
     responsePromise.then((response) => {
       if (response) return response;
-      
-      return new Response('Offline', { 
+
+      return new Response('Offline', {
         status: 503,
         statusText: 'Service Unavailable',
       });
-    })
+    }),
   );
 });
 
 // Message event - Handle cache management from app
 self.addEventListener('message', (event) => {
   const { type, payload } = event.data || {};
-  
+
   switch (type) {
     case 'CACHE_COURSE':
       // Cache a specific course for offline access
@@ -208,18 +199,18 @@ self.addEventListener('message', (event) => {
         });
       }
       break;
-      
+
     case 'CLEAR_COURSE_CACHE':
       // Clear course cache
       caches.delete(COURSE_CACHE);
       break;
-      
+
     case 'GET_CACHE_SIZE':
       // Report cache size back to app
       Promise.all([
-        caches.open(STATIC_CACHE).then(c => c.keys()),
-        caches.open(DYNAMIC_CACHE).then(c => c.keys()),
-        caches.open(COURSE_CACHE).then(c => c.keys()),
+        caches.open(STATIC_CACHE).then((c) => c.keys()),
+        caches.open(DYNAMIC_CACHE).then((c) => c.keys()),
+        caches.open(COURSE_CACHE).then((c) => c.keys()),
       ]).then(([staticKeys, dynamicKeys, courseKeys]) => {
         event.source.postMessage({
           type: 'CACHE_SIZE',
@@ -255,7 +246,7 @@ async function syncHoursData() {
   const tx = db.transaction('pending-hours', 'readwrite');
   const store = tx.objectStore('pending-hours');
   const requests = await getAllFromStore(store);
-  
+
   for (const req of requests) {
     try {
       await fetch(req.url, {
@@ -297,14 +288,14 @@ function getAllFromStore(store) {
 // Push notification handling
 self.addEventListener('push', (event) => {
   if (!event.data) return;
-  
+
   let data;
   try {
     data = event.data.json();
   } catch {
     data = { title: 'Elevate LMS', body: event.data.text() };
   }
-  
+
   const options = {
     body: data.body || 'You have a new notification',
     icon: data.icon || '/icon-192.png',
@@ -318,42 +309,39 @@ self.addEventListener('push', (event) => {
     },
     actions: data.actions || [],
   };
-  
-  event.waitUntil(
-    self.registration.showNotification(data.title || 'Elevate LMS', options)
-  );
+
+  event.waitUntil(self.registration.showNotification(data.title || 'Elevate LMS', options));
 });
 
 // Notification click handling
 self.addEventListener('notificationclick', (event) => {
   event.notification.close();
-  
+
   const url = event.notification.data?.url || '/';
-  
+
   // Handle action buttons
   if (event.action === 'view') {
     event.waitUntil(clients.openWindow(url));
     return;
   }
-  
+
   if (event.action === 'dismiss') {
     return;
   }
-  
+
   // Default click - open or focus window
   event.waitUntil(
-    clients.matchAll({ type: 'window', includeUncontrolled: true })
-      .then((clientList) => {
-        // Try to focus existing window
-        for (const client of clientList) {
-          if (client.url.includes(self.location.origin) && 'focus' in client) {
-            client.navigate(url);
-            return client.focus();
-          }
+    clients.matchAll({ type: 'window', includeUncontrolled: true }).then((clientList) => {
+      // Try to focus existing window
+      for (const client of clientList) {
+        if (client.url.includes(self.location.origin) && 'focus' in client) {
+          client.navigate(url);
+          return client.focus();
         }
-        // Open new window
-        return clients.openWindow(url);
-      })
+      }
+      // Open new window
+      return clients.openWindow(url);
+    }),
   );
 });
 

@@ -15,13 +15,13 @@ const GPS_OPTIONS: PositionOptions = {
   maximumAge: 0,
 };
 
-export type TimeclockState = 
-  | 'idle'           // Not clocked in
-  | 'clocked_in'     // Clocked in, onsite
-  | 'offsite_grace'  // Clocked in, offsite < 15 min
+export type TimeclockState =
+  | 'idle' // Not clocked in
+  | 'clocked_in' // Clocked in, onsite
+  | 'offsite_grace' // Clocked in, offsite < 15 min
   | 'auto_clocked_out' // Auto clocked out
-  | 'on_lunch'       // On lunch break
-  | 'error';         // GPS or other error
+  | 'on_lunch' // On lunch break
+  | 'error'; // GPS or other error
 
 export interface TimeclockStatus {
   state: TimeclockState;
@@ -53,7 +53,7 @@ interface UseTimeclockOptions {
 
 export function useTimeclock(options: UseTimeclockOptions = {}) {
   const { siteId, partnerId, programId } = options;
-  
+
   const [status, setStatus] = useState<TimeclockStatus>({
     state: 'idle',
     entryId: null,
@@ -85,9 +85,13 @@ export function useTimeclock(options: UseTimeclockOptions = {}) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude, accuracy } = position.coords;
-          
+
           if (accuracy > MAX_ACCURACY_METERS) {
-            reject(new Error(`GPS accuracy too low: ${Math.round(accuracy)}m (max: ${MAX_ACCURACY_METERS}m)`));
+            reject(
+              new Error(
+                `GPS accuracy too low: ${Math.round(accuracy)}m (max: ${MAX_ACCURACY_METERS}m)`,
+              ),
+            );
             return;
           }
 
@@ -112,7 +116,7 @@ export function useTimeclock(options: UseTimeclockOptions = {}) {
               reject(new Error('Unknown location error.'));
           }
         },
-        GPS_OPTIONS
+        GPS_OPTIONS,
       );
     });
   }, []);
@@ -123,8 +127,8 @@ export function useTimeclock(options: UseTimeclockOptions = {}) {
 
     try {
       const position = await getCurrentPosition();
-      
-      setStatus(prev => ({ ...prev, gpsAccuracy: position.accuracy }));
+
+      setStatus((prev) => ({ ...prev, gpsAccuracy: position.accuracy }));
 
       const response = await fetch('/api/timeclock/heartbeat', {
         method: 'POST',
@@ -140,14 +144,14 @@ export function useTimeclock(options: UseTimeclockOptions = {}) {
       const data = await response.json();
 
       if (!response.ok) {
-        setStatus(prev => ({ ...prev, error: data.error }));
+        setStatus((prev) => ({ ...prev, error: data.error }));
         return;
       }
 
       // Update state based on server response
       if (data.auto_clocked_out) {
         stopHeartbeat();
-        setStatus(prev => ({
+        setStatus((prev) => ({
           ...prev,
           state: 'auto_clocked_out',
           clockOutAt: data.clock_out_at,
@@ -163,7 +167,7 @@ export function useTimeclock(options: UseTimeclockOptions = {}) {
         const elapsedSeconds = (now.getTime() - outsideSince.getTime()) / 1000;
         const graceRemaining = Math.max(0, 15 * 60 - elapsedSeconds);
 
-        setStatus(prev => ({
+        setStatus((prev) => ({
           ...prev,
           state: 'offsite_grace',
           withinGeofence: false,
@@ -172,7 +176,7 @@ export function useTimeclock(options: UseTimeclockOptions = {}) {
           error: null,
         }));
       } else {
-        setStatus(prev => ({
+        setStatus((prev) => ({
           ...prev,
           state: prev.lunchStartAt && !prev.lunchEndAt ? 'on_lunch' : 'clocked_in',
           withinGeofence: data.within_geofence,
@@ -182,7 +186,7 @@ export function useTimeclock(options: UseTimeclockOptions = {}) {
         }));
       }
     } catch (error) {
-      setStatus(prev => ({
+      setStatus((prev) => ({
         ...prev,
         error: error instanceof Error ? error.message : 'Heartbeat failed',
       }));
@@ -192,10 +196,10 @@ export function useTimeclock(options: UseTimeclockOptions = {}) {
   // Start heartbeat loop
   const startHeartbeat = useCallback(() => {
     if (heartbeatIntervalRef.current) return;
-    
+
     // Send initial heartbeat
     sendHeartbeat();
-    
+
     // Set up interval
     heartbeatIntervalRef.current = setInterval(sendHeartbeat, HEARTBEAT_INTERVAL_MS);
   }, [sendHeartbeat]);
@@ -215,12 +219,12 @@ export function useTimeclock(options: UseTimeclockOptions = {}) {
   // Clock in
   const clockIn = useCallback(async () => {
     if (!siteId || !partnerId || !programId) {
-      setStatus(prev => ({ ...prev, error: 'Missing site, partner, or program configuration' }));
+      setStatus((prev) => ({ ...prev, error: 'Missing site, partner, or program configuration' }));
       return;
     }
 
     setIsLoading(true);
-    setStatus(prev => ({ ...prev, error: null, alert: null }));
+    setStatus((prev) => ({ ...prev, error: null, alert: null }));
 
     try {
       const position = await getCurrentPosition();
@@ -242,11 +246,11 @@ export function useTimeclock(options: UseTimeclockOptions = {}) {
       const data = await response.json();
 
       if (!response.ok) {
-        setStatus(prev => ({ ...prev, error: data.error }));
+        setStatus((prev) => ({ ...prev, error: data.error }));
         return;
       }
 
-      setStatus(prev => ({
+      setStatus((prev) => ({
         ...prev,
         state: 'clocked_in',
         entryId: data.entry_id,
@@ -266,7 +270,7 @@ export function useTimeclock(options: UseTimeclockOptions = {}) {
       // Start heartbeat
       startHeartbeat();
     } catch (error) {
-      setStatus(prev => ({
+      setStatus((prev) => ({
         ...prev,
         error: error instanceof Error ? error.message : 'Clock in failed',
       }));
@@ -278,12 +282,12 @@ export function useTimeclock(options: UseTimeclockOptions = {}) {
   // Clock out
   const clockOut = useCallback(async () => {
     if (!status.entryId) {
-      setStatus(prev => ({ ...prev, error: 'No active shift' }));
+      setStatus((prev) => ({ ...prev, error: 'No active shift' }));
       return;
     }
 
     setIsLoading(true);
-    setStatus(prev => ({ ...prev, error: null, alert: null }));
+    setStatus((prev) => ({ ...prev, error: null, alert: null }));
 
     try {
       const position = await getCurrentPosition();
@@ -303,13 +307,13 @@ export function useTimeclock(options: UseTimeclockOptions = {}) {
       const data = await response.json();
 
       if (!response.ok) {
-        setStatus(prev => ({ ...prev, error: data.error }));
+        setStatus((prev) => ({ ...prev, error: data.error }));
         return;
       }
 
       stopHeartbeat();
 
-      setStatus(prev => ({
+      setStatus((prev) => ({
         ...prev,
         state: 'idle',
         clockOutAt: data.clock_out_at,
@@ -321,7 +325,7 @@ export function useTimeclock(options: UseTimeclockOptions = {}) {
         alert: data.alert || null,
       }));
     } catch (error) {
-      setStatus(prev => ({
+      setStatus((prev) => ({
         ...prev,
         error: error instanceof Error ? error.message : 'Clock out failed',
       }));
@@ -333,12 +337,12 @@ export function useTimeclock(options: UseTimeclockOptions = {}) {
   // Start lunch
   const startLunch = useCallback(async () => {
     if (!status.entryId) {
-      setStatus(prev => ({ ...prev, error: 'No active shift' }));
+      setStatus((prev) => ({ ...prev, error: 'No active shift' }));
       return;
     }
 
     setIsLoading(true);
-    setStatus(prev => ({ ...prev, error: null, alert: null }));
+    setStatus((prev) => ({ ...prev, error: null, alert: null }));
 
     try {
       const position = await getCurrentPosition();
@@ -358,18 +362,18 @@ export function useTimeclock(options: UseTimeclockOptions = {}) {
       const data = await response.json();
 
       if (!response.ok) {
-        setStatus(prev => ({ ...prev, error: data.error }));
+        setStatus((prev) => ({ ...prev, error: data.error }));
         return;
       }
 
-      setStatus(prev => ({
+      setStatus((prev) => ({
         ...prev,
         state: 'on_lunch',
         lunchStartAt: data.lunch_start_at,
         error: null,
       }));
     } catch (error) {
-      setStatus(prev => ({
+      setStatus((prev) => ({
         ...prev,
         error: error instanceof Error ? error.message : 'Start lunch failed',
       }));
@@ -381,12 +385,12 @@ export function useTimeclock(options: UseTimeclockOptions = {}) {
   // End lunch
   const endLunch = useCallback(async () => {
     if (!status.entryId) {
-      setStatus(prev => ({ ...prev, error: 'No active shift' }));
+      setStatus((prev) => ({ ...prev, error: 'No active shift' }));
       return;
     }
 
     setIsLoading(true);
-    setStatus(prev => ({ ...prev, error: null, alert: null }));
+    setStatus((prev) => ({ ...prev, error: null, alert: null }));
 
     try {
       const position = await getCurrentPosition();
@@ -406,11 +410,11 @@ export function useTimeclock(options: UseTimeclockOptions = {}) {
       const data = await response.json();
 
       if (!response.ok) {
-        setStatus(prev => ({ ...prev, error: data.error }));
+        setStatus((prev) => ({ ...prev, error: data.error }));
         return;
       }
 
-      setStatus(prev => ({
+      setStatus((prev) => ({
         ...prev,
         state: 'clocked_in',
         lunchEndAt: data.lunch_end_at,
@@ -418,7 +422,7 @@ export function useTimeclock(options: UseTimeclockOptions = {}) {
         alert: data.alert || null,
       }));
     } catch (error) {
-      setStatus(prev => ({
+      setStatus((prev) => ({
         ...prev,
         error: error instanceof Error ? error.message : 'End lunch failed',
       }));
@@ -457,7 +461,7 @@ export function useTimeclock(options: UseTimeclockOptions = {}) {
   useEffect(() => {
     if (status.state === 'offsite_grace' && status.graceTimeRemaining !== null) {
       graceTimerRef.current = setInterval(() => {
-        setStatus(prev => {
+        setStatus((prev) => {
           if (prev.graceTimeRemaining === null || prev.graceTimeRemaining <= 0) {
             return prev;
           }

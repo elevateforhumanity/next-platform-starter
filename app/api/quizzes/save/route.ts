@@ -54,25 +54,21 @@ async function _POST(request: NextRequest) {
 
     // Save questions
     if (quiz.questions && quiz.questions.length > 0) {
-      const questions = quiz.questions.map(
-        (q: Record<string, any>, index: number) => ({
-          quiz_id: quizData.id,
-          question_type: q.type,
-          question_text: q.question,
-          points: q.points,
-          question_order: index,
-          options: q.options || null,
-          correct_answer: q.correctAnswer,
-          explanation: q.explanation,
-          image_url: q.imageUrl,
-          code_language: q.codeLanguage,
-          matching_pairs: q.matchingPairs || null,
-        })
-      );
+      const questions = quiz.questions.map((q: Record<string, any>, index: number) => ({
+        quiz_id: quizData.id,
+        question_type: q.type,
+        question_text: q.question,
+        points: q.points,
+        question_order: index,
+        options: q.options || null,
+        correct_answer: q.correctAnswer,
+        explanation: q.explanation,
+        image_url: q.imageUrl,
+        code_language: q.codeLanguage,
+        matching_pairs: q.matchingPairs || null,
+      }));
 
-      const { error: questionsError } = await supabase
-        .from('quiz_questions')
-        .insert(questions);
+      const { error: questionsError } = await supabase.from('quiz_questions').insert(questions);
 
       if (questionsError) throw questionsError;
     }
@@ -82,14 +78,11 @@ async function _POST(request: NextRequest) {
       quizId: quizData.id,
       message: 'Quiz saved successfully',
     });
-  } catch (error) { 
-    logger.error(
-      'Error saving quiz:',
-      error instanceof Error ? error : new Error(String(error))
-    );
+  } catch (error) {
+    logger.error('Error saving quiz:', error instanceof Error ? error : new Error(String(error)));
     return NextResponse.json(
       { error: toErrorMessage(error) || 'Failed to save quiz' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

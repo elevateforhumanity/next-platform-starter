@@ -40,8 +40,8 @@ export default function ResetPasswordPage() {
           </div>
           <h1 className="text-2xl font-bold text-black mb-4">Check Your Email</h1>
           <p className="text-slate-700 mb-6">
-            We've sent a password reset link to <strong>{email}</strong>. 
-            Click the link in the email to reset your password.
+            We've sent a password reset link to <strong>{email}</strong>. Click the link in the
+            email to reset your password.
           </p>
           <p className="text-sm text-slate-700 mb-8">
             Didn't receive the email? Check your spam folder or try again.
@@ -87,9 +87,7 @@ export default function ResetPasswordPage() {
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label className="block text-sm font-medium text-black mb-2">
-                Email Address
-              </label>
+              <label className="block text-sm font-medium text-black mb-2">Email Address</label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-700" />
                 <input

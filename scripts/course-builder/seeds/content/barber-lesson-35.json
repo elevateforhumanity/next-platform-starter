@@ -16,60 +16,35 @@
       },
       {
         "prompt": "Which of the following is a secondary color?",
-        "choices": [
-          "Red",
-          "Green",
-          "Blue",
-          "Yellow"
-        ],
+        "choices": ["Red", "Green", "Blue", "Yellow"],
         "answerIndex": 1,
         "rationale": "Green is a secondary color, created by mixing the primary colors blue and yellow.",
         "type": "recall"
       },
       {
         "prompt": "A client presents with brassy orange tones in their blonde hair. Which complementary color should you use to neutralize the unwanted tones?",
-        "choices": [
-          "Blue",
-          "Red",
-          "Green",
-          "Yellow"
-        ],
+        "choices": ["Blue", "Red", "Green", "Yellow"],
         "answerIndex": 0,
         "rationale": "Blue is the complementary color to orange and will neutralize brassy tones.",
         "type": "scenario"
       },
       {
         "prompt": "During a consultation, a client wants to cover their gray hair with a long-lasting solution. Which type of hair color should you recommend?",
-        "choices": [
-          "Temporary",
-          "Semi-Permanent",
-          "Demi-Permanent",
-          "Permanent"
-        ],
+        "choices": ["Temporary", "Semi-Permanent", "Demi-Permanent", "Permanent"],
         "answerIndex": 3,
         "rationale": "Permanent hair color is ideal for covering gray hair as it offers long-lasting results.",
         "type": "scenario"
       },
       {
         "prompt": "What is the lightest level on the hair color level system?",
-        "choices": [
-          "Level 1",
-          "Level 5",
-          "Level 7",
-          "Level 10"
-        ],
+        "choices": ["Level 1", "Level 5", "Level 7", "Level 10"],
         "answerIndex": 3,
         "rationale": "Level 10 is the lightest level, representing pale blonde on the hair color level system.",
         "type": "recall"
       },
       {
         "prompt": "Which type of hair color requires a low-volume developer and lasts up to 24 shampoos?",
-        "choices": [
-          "Temporary",
-          "Semi-Permanent",
-          "Demi-Permanent",
-          "Permanent"
-        ],
+        "choices": ["Temporary", "Semi-Permanent", "Demi-Permanent", "Permanent"],
         "answerIndex": 2,
         "rationale": "Demi-permanent hair color uses a low-volume developer and lasts longer than semi-permanent options.",
         "type": "recall"
@@ -112,12 +87,7 @@
       },
       {
         "prompt": "Which of the following describes a complementary color relationship?",
-        "choices": [
-          "Red and Green",
-          "Blue and Yellow",
-          "Yellow and Orange",
-          "Purple and Blue"
-        ],
+        "choices": ["Red and Green", "Blue and Yellow", "Yellow and Orange", "Purple and Blue"],
         "answerIndex": 0,
         "rationale": "Red and green are complementary colors, meaning they neutralize each other when combined.",
         "type": "recall"
@@ -136,24 +106,14 @@
       },
       {
         "prompt": "Which hair color type is best for clients who want to experiment with color without a long-term commitment?",
-        "choices": [
-          "Temporary",
-          "Semi-Permanent",
-          "Demi-Permanent",
-          "Permanent"
-        ],
+        "choices": ["Temporary", "Semi-Permanent", "Demi-Permanent", "Permanent"],
         "answerIndex": 1,
         "rationale": "Semi-permanent hair color is ideal for clients wanting to experiment without long-term commitment, lasting 4 to 12 shampoos.",
         "type": "recall"
       },
       {
         "prompt": "A client wants a subtle color change that enhances their natural shade. Which hair color type should you recommend?",
-        "choices": [
-          "Temporary",
-          "Semi-Permanent",
-          "Demi-Permanent",
-          "Permanent"
-        ],
+        "choices": ["Temporary", "Semi-Permanent", "Demi-Permanent", "Permanent"],
         "answerIndex": 2,
         "rationale": "Demi-permanent color is excellent for enhancing natural color with a subtle change.",
         "type": "scenario"
@@ -172,24 +132,14 @@
       },
       {
         "prompt": "Which level on the hair color level system represents medium brown?",
-        "choices": [
-          "Level 3",
-          "Level 5",
-          "Level 7",
-          "Level 9"
-        ],
+        "choices": ["Level 3", "Level 5", "Level 7", "Level 9"],
         "answerIndex": 1,
         "rationale": "Level 5 is medium brown on the hair color level system.",
         "type": "recall"
       },
       {
         "prompt": "A client requests a hair color that will last only for a special event. Which product should you use?",
-        "choices": [
-          "Temporary",
-          "Semi-Permanent",
-          "Demi-Permanent",
-          "Permanent"
-        ],
+        "choices": ["Temporary", "Semi-Permanent", "Demi-Permanent", "Permanent"],
         "answerIndex": 0,
         "rationale": "Temporary hair color is ideal for short-term use, as it washes out after one or two shampoos.",
         "type": "scenario"
@@ -208,12 +158,7 @@
       },
       {
         "prompt": "Which type of hair color penetrates the hair shaft slightly and lasts through 4 to 12 shampoos?",
-        "choices": [
-          "Temporary",
-          "Semi-Permanent",
-          "Demi-Permanent",
-          "Permanent"
-        ],
+        "choices": ["Temporary", "Semi-Permanent", "Demi-Permanent", "Permanent"],
         "answerIndex": 1,
         "rationale": "Semi-permanent hair color penetrates slightly and lasts through 4 to 12 shampoos.",
         "type": "recall"

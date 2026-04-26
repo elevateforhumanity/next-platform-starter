@@ -17,8 +17,6 @@ export default async function TransferHoursPage() {
   await requireRole(['admin', 'super_admin']);
   const supabase = await createClient();
 
-
-
   const { data: transferHours, count: totalRequests } = await supabase
     .from('transfer_hours')
     .select(
@@ -29,7 +27,7 @@ export default async function TransferHoursPage() {
         program:programs(name, title, slug)
       )
     `,
-      { count: 'exact' }
+      { count: 'exact' },
     )
     .order('created_at', { ascending: false });
 
@@ -50,19 +48,16 @@ export default async function TransferHoursPage() {
 
   return (
     <div className="min-h-screen bg-white p-8">
-
       {/* Hero Image */}
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <Breadcrumbs items={[{ label: "Admin", href: "/admin" }, { label: "Transfer Hours" }]} />
-        </div>
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Admin', href: '/admin' }, { label: 'Transfer Hours' }]} />
+      </div>
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h1 className="text-3xl font-bold text-black">
-                Transfer Hours Management
-              </h1>
+              <h1 className="text-3xl font-bold text-black">Transfer Hours Management</h1>
               <p className="text-black mt-1">
                 Review and approve transfer hour requests from students
               </p>
@@ -78,25 +73,17 @@ export default async function TransferHoursPage() {
           {/* Stats */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6">
             <div className="bg-white rounded-lg shadow-sm border p-4">
-              <h3 className="text-sm font-medium text-black mb-1">
-                Total Requests
-              </h3>
-              <p className="text-base md:text-lg font-bold text-black">
-                {totalRequests || 0}
-              </p>
+              <h3 className="text-sm font-medium text-black mb-1">Total Requests</h3>
+              <p className="text-base md:text-lg font-bold text-black">{totalRequests || 0}</p>
             </div>
             <div className="bg-white rounded-lg shadow-sm border p-4">
-              <h3 className="text-sm font-medium text-black mb-1">
-                Pending Review
-              </h3>
+              <h3 className="text-sm font-medium text-black mb-1">Pending Review</h3>
               <p className="text-base md:text-lg font-bold text-yellow-600">
                 {pendingRequests || 0}
               </p>
             </div>
             <div className="bg-white rounded-lg shadow-sm border p-4">
-              <h3 className="text-sm font-medium text-black mb-1">
-                Approved
-              </h3>
+              <h3 className="text-sm font-medium text-black mb-1">Approved</h3>
               <p className="text-base md:text-lg font-bold text-brand-green-600">
                 {approvedRequests || 0}
               </p>

@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { BookOpen, Clock, TrendingUp } from "lucide-react";
+import Link from 'next/link';
+import { BookOpen, Clock, TrendingUp } from 'lucide-react';
 
 interface LearningPathCardProps {
   id: string;
@@ -9,7 +9,7 @@ interface LearningPathCardProps {
   description: string;
   pathType: string;
   estimatedWeeks: number;
-  difficulty: "beginner" | "intermediate" | "advanced";
+  difficulty: 'beginner' | 'intermediate' | 'advanced';
   programCount: number;
   enrolled?: boolean;
   progress?: number;
@@ -28,12 +28,12 @@ export function LearningPathCard({
 }: LearningPathCardProps) {
   const getDifficultyColor = () => {
     switch (difficulty) {
-      case "beginner":
-        return "text-brand-green-400 bg-brand-green-500/20";
-      case "intermediate":
-        return "text-yellow-400 bg-yellow-500/20";
-      case "advanced":
-        return "text-brand-red-400 bg-brand-orange-500/20";
+      case 'beginner':
+        return 'text-brand-green-400 bg-brand-green-500/20';
+      case 'intermediate':
+        return 'text-yellow-400 bg-yellow-500/20';
+      case 'advanced':
+        return 'text-brand-red-400 bg-brand-orange-500/20';
     }
   };
 
@@ -59,7 +59,7 @@ export function LearningPathCard({
           {difficulty.charAt(0).toUpperCase() + difficulty.slice(1)}
         </span>
         <span className="px-3 py-2 rounded-full text-xs font-semibold text-brand-blue-400 bg-brand-blue-500/20">
-          {pathType.replace("_", " ")}
+          {pathType.replace('_', ' ')}
         </span>
       </div>
 

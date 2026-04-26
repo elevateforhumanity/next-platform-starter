@@ -1,4 +1,5 @@
 # Beauty & Career Educator Training
+
 ## Program Syllabus
 
 **Provider:** Elevate for Humanity  
@@ -6,7 +7,7 @@
 **Program Code:** BEAUTY-EDU  
 **Duration:** 12-16 Weeks (320-480 Hours)  
 **Delivery Method:** Hybrid (Classroom + Teaching Practicum)  
-**Funding:** WIOA • WRG  
+**Funding:** WIOA • WRG
 
 ---
 
@@ -32,6 +33,7 @@ Become a licensed beauty instructor! This program prepares experienced cosmetolo
 ## Course Outline
 
 ### Module 1: Foundations of Adult Education (40 hours)
+
 - Adult learning theory
 - Learning styles and preferences
 - Instructional design basics
@@ -41,6 +43,7 @@ Become a licensed beauty instructor! This program prepares experienced cosmetolo
 - Diversity and inclusion in education
 
 ### Module 2: Teaching Methods & Strategies (60 hours)
+
 - Lecture and demonstration techniques
 - Hands-on instruction methods
 - Group activities and projects
@@ -50,6 +53,7 @@ Become a licensed beauty instructor! This program prepares experienced cosmetolo
 - Flipped classroom approaches
 
 ### Module 3: Classroom Management (40 hours)
+
 - Creating positive learning environment
 - Student motivation and engagement
 - Behavior management strategies
@@ -59,6 +63,7 @@ Become a licensed beauty instructor! This program prepares experienced cosmetolo
 - Professional boundaries
 
 ### Module 4: Assessment & Evaluation (40 hours)
+
 - Types of assessments (formative, summative)
 - Written test development
 - Practical skills evaluation
@@ -68,6 +73,7 @@ Become a licensed beauty instructor! This program prepares experienced cosmetolo
 - State Board exam preparation
 
 ### Module 5: Beauty Industry Curriculum (60 hours)
+
 - Cosmetology curriculum standards
 - Barbering curriculum standards
 - Esthetics curriculum standards
@@ -77,6 +83,7 @@ Become a licensed beauty instructor! This program prepares experienced cosmetolo
 - Safety and sanitation instruction
 
 ### Module 6: Lab & Clinical Instruction (40 hours)
+
 - Demonstrating technical skills
 - Supervising student practice
 - Correcting technique errors
@@ -86,6 +93,7 @@ Become a licensed beauty instructor! This program prepares experienced cosmetolo
 - Quality control
 
 ### Module 7: Professional Development (20 hours)
+
 - Indiana State Board regulations
 - Instructor licensing requirements
 - Continuing education
@@ -95,6 +103,7 @@ Become a licensed beauty instructor! This program prepares experienced cosmetolo
 - Industry networking
 
 ### Module 8: Teaching Practicum (80-160 hours)
+
 - Supervised teaching in beauty school
 - Lesson plan implementation
 - Student instruction and supervision
@@ -140,6 +149,7 @@ Become a licensed beauty instructor! This program prepares experienced cosmetolo
 ## Prerequisites
 
 Students must have:
+
 - Current Indiana cosmetology or barber license
 - Minimum 3 years professional experience
 - High school diploma or equivalent
@@ -175,6 +185,7 @@ Students must have:
 ## Indiana Instructor Licensure
 
 To obtain Indiana beauty instructor license, candidates must:
+
 1. Hold current cosmetology or barber license
 2. Have 3+ years professional experience
 3. Complete approved instructor training program (this program)

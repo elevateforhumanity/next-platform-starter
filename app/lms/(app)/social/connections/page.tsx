@@ -3,9 +3,15 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
-import { 
-  UserPlus, Search, Users, MessageSquare, 
-  CheckCircle, X, Filter, ChevronRight
+import {
+  UserPlus,
+  Search,
+  Users,
+  MessageSquare,
+  CheckCircle,
+  X,
+  Filter,
+  ChevronRight,
 } from 'lucide-react';
 import Image from 'next/image';
 
@@ -20,8 +26,9 @@ export const metadata: Metadata = {
 export default async function ConnectionsPage() {
   const supabase = await createClient();
 
-
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     redirect('/login?redirect=/lms/social/connections');
@@ -39,7 +46,9 @@ export default async function ConnectionsPage() {
   // Fetch user's existing connections
   const { data: myConnections } = await supabase
     .from('user_connections')
-    .select('connected_user_id, status, profiles!user_connections_connected_user_id_fkey(full_name, avatar_url, headline)')
+    .select(
+      'connected_user_id, status, profiles!user_connections_connected_user_id_fkey(full_name, avatar_url, headline)',
+    )
     .eq('user_id', user.id)
     .eq('status', 'accepted');
 
@@ -59,11 +68,13 @@ export default async function ConnectionsPage() {
       {/* Breadcrumbs */}
       <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[
-            { label: 'LMS', href: '/lms/dashboard' },
-            { label: 'Social', href: '/lms/social' },
-            { label: 'Connections' }
-          ]} />
+          <Breadcrumbs
+            items={[
+              { label: 'LMS', href: '/lms/dashboard' },
+              { label: 'Social', href: '/lms/social' },
+              { label: 'Connections' },
+            ]}
+          />
         </div>
       </div>
 
@@ -81,7 +92,7 @@ export default async function ConnectionsPage() {
               </p>
             </div>
           </div>
-          
+
           {/* Search Bar */}
           <div className="mt-6 max-w-2xl">
             <div className="relative">
@@ -112,14 +123,24 @@ export default async function ConnectionsPage() {
                   <div className="flex items-center gap-4">
                     <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center">
                       {request.profiles?.avatar_url ? (
-                        <Image src={request.profiles.avatar_url} alt={`${request.profiles.full_name || "User"} avatar`} width={48} height={48} className="w-full h-full rounded-full object-cover" />
+                        <Image
+                          src={request.profiles.avatar_url}
+                          alt={`${request.profiles.full_name || 'User'} avatar`}
+                          width={48}
+                          height={48}
+                          className="w-full h-full rounded-full object-cover"
+                        />
                       ) : (
                         <Users className="w-6 h-6 text-slate-700" />
                       )}
                     </div>
                     <div>
-                      <div className="font-medium text-slate-900">{request.profiles?.full_name || 'Unknown'}</div>
-                      <div className="text-sm text-slate-700">{request.profiles?.headline || 'Elevate Learner'}</div>
+                      <div className="font-medium text-slate-900">
+                        {request.profiles?.full_name || 'Unknown'}
+                      </div>
+                      <div className="text-sm text-slate-700">
+                        {request.profiles?.headline || 'Elevate Learner'}
+                      </div>
                     </div>
                   </div>
                   <div className="flex gap-2">
@@ -148,18 +169,31 @@ export default async function ConnectionsPage() {
           {connections.length > 0 ? (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 p-6">
               {connections.map((conn: any, i: number) => (
-                <div key={i} className="border rounded-xl p-4 hover:border-brand-blue-300 transition-colors">
+                <div
+                  key={i}
+                  className="border rounded-xl p-4 hover:border-brand-blue-300 transition-colors"
+                >
                   <div className="flex items-center gap-3">
                     <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center">
                       {conn.profiles?.avatar_url ? (
-                        <Image src={conn.profiles.avatar_url} alt={`${conn.profiles.full_name || "User"} avatar`} width={48} height={48} className="w-full h-full rounded-full object-cover" />
+                        <Image
+                          src={conn.profiles.avatar_url}
+                          alt={`${conn.profiles.full_name || 'User'} avatar`}
+                          width={48}
+                          height={48}
+                          className="w-full h-full rounded-full object-cover"
+                        />
                       ) : (
                         <Users className="w-6 h-6 text-slate-700" />
                       )}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <div className="font-medium text-slate-900 truncate">{conn.profiles?.full_name || 'Unknown'}</div>
-                      <div className="text-sm text-slate-700 truncate">{conn.profiles?.headline || 'Elevate Learner'}</div>
+                      <div className="font-medium text-slate-900 truncate">
+                        {conn.profiles?.full_name || 'Unknown'}
+                      </div>
+                      <div className="text-sm text-slate-700 truncate">
+                        {conn.profiles?.headline || 'Elevate Learner'}
+                      </div>
                     </div>
                   </div>
                   <div className="mt-4 flex gap-2">
@@ -192,18 +226,31 @@ export default async function ConnectionsPage() {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 p-6">
             {suggestions.length > 0 ? (
               suggestions.map((person: any) => (
-                <div key={person.id} className="border rounded-xl p-4 hover:border-brand-blue-300 transition-colors">
+                <div
+                  key={person.id}
+                  className="border rounded-xl p-4 hover:border-brand-blue-300 transition-colors"
+                >
                   <div className="flex items-start gap-3">
                     <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center flex-shrink-0">
                       {person.avatar_url ? (
-                        <Image src={person.avatar_url} alt={`${person.full_name || "User"} avatar`} width={48} height={48} className="w-full h-full rounded-full object-cover" />
+                        <Image
+                          src={person.avatar_url}
+                          alt={`${person.full_name || 'User'} avatar`}
+                          width={48}
+                          height={48}
+                          className="w-full h-full rounded-full object-cover"
+                        />
                       ) : (
                         <Users className="w-6 h-6 text-slate-700" />
                       )}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <div className="font-medium text-slate-900 truncate">{person.full_name || 'Elevate Learner'}</div>
-                      <div className="text-sm text-slate-700 truncate">{person.headline || person.role || 'Student'}</div>
+                      <div className="font-medium text-slate-900 truncate">
+                        {person.full_name || 'Elevate Learner'}
+                      </div>
+                      <div className="text-sm text-slate-700 truncate">
+                        {person.headline || person.role || 'Student'}
+                      </div>
                     </div>
                   </div>
                   <button className="w-full mt-4 px-4 py-2 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700 text-sm font-medium flex items-center justify-center gap-2">

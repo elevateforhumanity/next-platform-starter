@@ -69,7 +69,6 @@ async function pageExists(route) {
 }
 
 async function checkRoutes() {
-
   const results = [];
   const missing = [];
 
@@ -88,15 +87,14 @@ async function checkRoutes() {
   // Report
 
   if (missing.length > 0) {
-    missing.forEach(item => {
-    });
+    missing.forEach((item) => {});
     process.exit(1);
   } else {
     process.exit(0);
   }
 }
 
-checkRoutes().catch(err => {
+checkRoutes().catch((err) => {
   console.error('Error running route audit:', err);
   process.exit(1);
 });

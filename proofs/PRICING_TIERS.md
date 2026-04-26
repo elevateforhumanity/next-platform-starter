@@ -18,14 +18,17 @@ Then show the framework.
 Pricing is driven by how much of the system you run:
 
 ### 1. Programs
+
 - Number of active programs (by lifecycle, not just listings)
 - Different governance paths count as separate programs
 
 ### 2. Learners
+
 - Annual active learners moving through the lifecycle
 - Not total users, not logins—active participants
 
 ### 3. Credentials / Outcomes
+
 - Certificates or credentials issued annually
 - This matters because credentialing carries compliance and audit weight
 
@@ -48,6 +51,7 @@ Present these as typical ranges, not offers.
 **Typical annual range:** Low five figures ($15K–$30K)
 
 **Language you use:**
+
 > "This tier is about proving fit without overcommitting."
 
 ---
@@ -63,6 +67,7 @@ Present these as typical ranges, not offers.
 **Typical annual range:** Mid five figures ($40K–$75K)
 
 **Language you use:**
+
 > "This is where institutions stop managing manually and start operating."
 
 ---
@@ -78,6 +83,7 @@ Present these as typical ranges, not offers.
 **Typical annual range:** High five to low six figures ($80K–$150K+)
 
 **Language you use:**
+
 > "This replaces internal builds and permanent operational headcount."
 
 ---
@@ -85,11 +91,13 @@ Present these as typical ranges, not offers.
 ## What You Never Say
 
 **Do NOT say:**
+
 - "It depends" without context
 - "We'll customize pricing later"
 - "We're flexible"
 
 **Instead say:**
+
 > "Once we know your footprint, pricing becomes mechanical."
 
 Then stop.
@@ -99,24 +107,27 @@ Then stop.
 ## Negotiation Anchors
 
 **If they push on price:**
+
 > "The pilot tier exists to prove value before commitment. If it works, you scale. If it doesn't, you've spent less than one month of a junior developer's salary."
 
 **If they want features not in their tier:**
+
 > "That's available in the next tier. Or we can scope it as a one-time add-on."
 
 **If they want to pay per student:**
+
 > "We don't do per-seat because it penalizes growth. You should be able to scale enrollment without renegotiating price every quarter."
 
 ---
 
 ## Discounts (Use Sparingly)
 
-| Scenario | Discount |
-|----------|----------|
-| Annual prepay | 2 months free (16% effective) |
-| Multi-year (2+ years) | 20% off annual rate |
-| Nonprofit / community college | 25% off (requires verification) |
-| Case study / reference agreement | 10% off first year |
+| Scenario                         | Discount                        |
+| -------------------------------- | ------------------------------- |
+| Annual prepay                    | 2 months free (16% effective)   |
+| Multi-year (2+ years)            | 20% off annual rate             |
+| Nonprofit / community college    | 25% off (requires verification) |
+| Case study / reference agreement | 10% off first year              |
 
 **Never discount more than 30% total.** If they need more, they're not a buyer.
 

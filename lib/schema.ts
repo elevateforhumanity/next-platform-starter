@@ -44,20 +44,19 @@ export const organizationSchema: WithContext<Organization> = {
 };
 
 // Educational Organization Schema
-export const educationalOrganizationSchema: WithContext<EducationalOrganization> =
-  {
-    '@context': 'https://schema.org',
-    '@type': 'EducationalOrganization',
-    name: 'Elevate for Humanity',
-    url: baseUrl,
-    description: 'Workforce development and career training programs',
-    address: {
-      '@type': 'PostalAddress',
-      addressLocality: 'Indianapolis',
-      addressRegion: 'IN',
-      addressCountry: 'US',
-    },
-  };
+export const educationalOrganizationSchema: WithContext<EducationalOrganization> = {
+  '@context': 'https://schema.org',
+  '@type': 'EducationalOrganization',
+  name: 'Elevate for Humanity',
+  url: baseUrl,
+  description: 'Workforce development and career training programs',
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Indianapolis',
+    addressRegion: 'IN',
+    addressCountry: 'US',
+  },
+};
 
 // Course Schema Generator
 export function generateCourseSchema(course: {
@@ -134,7 +133,7 @@ export function generateArticleSchema(article: {
 
 // FAQ Schema Generator
 export function generateFAQSchema(
-  faqs: Array<{ question: string; answer: string }>
+  faqs: Array<{ question: string; answer: string }>,
 ): WithContext<FAQPage> {
   return {
     '@context': 'https://schema.org',
@@ -152,7 +151,7 @@ export function generateFAQSchema(
 
 // Breadcrumb Schema Generator
 export function generateBreadcrumbSchema(
-  breadcrumbs: Array<{ name: string; url: string }>
+  breadcrumbs: Array<{ name: string; url: string }>,
 ): WithContext<BreadcrumbList> {
   return {
     '@context': 'https://schema.org',

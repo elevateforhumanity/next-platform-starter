@@ -17,8 +17,9 @@ export default function PWAManager() {
       const lastDeploy = localStorage.getItem('elevate-deploy-version');
       if (lastDeploy !== DEPLOY_VERSION) {
         if ('caches' in window) {
-          caches.keys()
-            .then(keys => Promise.all(keys.map(k => caches.delete(k))))
+          caches
+            .keys()
+            .then((keys) => Promise.all(keys.map((k) => caches.delete(k))))
             .catch(() => {});
         }
         localStorage.setItem('elevate-deploy-version', DEPLOY_VERSION);
@@ -26,7 +27,7 @@ export default function PWAManager() {
 
       navigator.serviceWorker
         .register('/sw.js', { scope: '/', updateViaCache: 'none' })
-        .then(reg => {
+        .then((reg) => {
           setInterval(() => reg.update(), 60 * 60 * 1000);
           reg.addEventListener('updatefound', () => {
             const newWorker = reg.installing;
@@ -42,7 +43,10 @@ export default function PWAManager() {
 
       navigator.serviceWorker.addEventListener('controllerchange', () => {
         const key = 'elevate-sw-reload';
-        if (sessionStorage.getItem(key)) { sessionStorage.removeItem(key); return; }
+        if (sessionStorage.getItem(key)) {
+          sessionStorage.removeItem(key);
+          return;
+        }
         sessionStorage.setItem(key, '1');
         window.location.reload();
       });

@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from 'next/server';
 
-import { createClient } from "@/lib/supabase/server";
-import { getCurrentUser } from "@/lib/auth";
+import { createClient } from '@/lib/supabase/server';
+import { getCurrentUser } from '@/lib/auth';
 import { logger } from '@/lib/logger';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
@@ -11,15 +11,12 @@ export const maxDuration = 60;
 
 export const dynamic = 'force-dynamic';
 
-async function _GET(
-  _req: NextRequest,
-  { params }: { params: Promise<{ lessonId: string }> }
-) {
+async function _GET(_req: NextRequest, { params }: { params: Promise<{ lessonId: string }> }) {
   const supabase = await createClient();
   const user = await getCurrentUser();
 
   if (!user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   const { lessonId } = await params;
@@ -32,32 +29,29 @@ async function _GET(
   }
 
   const { data, error }: any = await supabase
-    .from("video_bookmarks")
-    .select("id, label, position_seconds, created_at")
-    .eq("lesson_id", lessonId)
-    .eq("user_id", user.id)
-    .order("position_seconds", { ascending: true });
+    .from('video_bookmarks')
+    .select('id, label, position_seconds, created_at')
+    .eq('lesson_id', lessonId)
+    .eq('user_id', user.id)
+    .order('position_seconds', { ascending: true });
 
   if (error) {
-    logger.error("bookmarks GET error", error);
-    return NextResponse.json({ error: "DB error" }, { status: 500 });
+    logger.error('bookmarks GET error', error);
+    return NextResponse.json({ error: 'DB error' }, { status: 500 });
   }
 
   return NextResponse.json({ bookmarks: data || [] });
 }
 
-async function _POST(
-  req: NextRequest,
-  { params }: { params: Promise<{ lessonId: string }> }
-) {
-    const rateLimited = await applyRateLimit(req, 'api');
-    if (rateLimited) return rateLimited;
+async function _POST(req: NextRequest, { params }: { params: Promise<{ lessonId: string }> }) {
+  const rateLimited = await applyRateLimit(req, 'api');
+  if (rateLimited) return rateLimited;
 
   const supabase = await createClient();
   const user = await getCurrentUser();
 
   if (!user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   const { lessonId } = await params;
@@ -72,14 +66,11 @@ async function _POST(
   const body = await req.json();
   const { label, positionSeconds } = body;
 
-  if (typeof positionSeconds !== "number") {
-    return NextResponse.json(
-      { error: "positionSeconds required as number" },
-      { status: 400 }
-    );
+  if (typeof positionSeconds !== 'number') {
+    return NextResponse.json({ error: 'positionSeconds required as number' }, { status: 400 });
   }
 
-  const { error } = await supabase.from("video_bookmarks").insert({
+  const { error } = await supabase.from('video_bookmarks').insert({
     user_id: user.id,
     lesson_id: lessonId,
     label: label || null,
@@ -87,11 +78,17 @@ async function _POST(
   });
 
   if (error) {
-    logger.error("bookmarks POST error", error);
-    return NextResponse.json({ error: "DB error" }, { status: 500 });
+    logger.error('bookmarks POST error', error);
+    return NextResponse.json({ error: 'DB error' }, { status: 500 });
   }
 
   return NextResponse.json({ success: true });
 }
-export const GET  = withApiAudit('/api/lessons/[lessonId]/bookmarks', _GET  as unknown as (req: Request, ...args: any[]) => Promise<Response>);
-export const POST = withApiAudit('/api/lessons/[lessonId]/bookmarks', _POST as unknown as (req: Request, ...args: any[]) => Promise<Response>);
+export const GET = withApiAudit(
+  '/api/lessons/[lessonId]/bookmarks',
+  _GET as unknown as (req: Request, ...args: any[]) => Promise<Response>,
+);
+export const POST = withApiAudit(
+  '/api/lessons/[lessonId]/bookmarks',
+  _POST as unknown as (req: Request, ...args: any[]) => Promise<Response>,
+);

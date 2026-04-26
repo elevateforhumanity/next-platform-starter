@@ -14,7 +14,7 @@ export const dynamic = 'force-dynamic';
 
 async function _POST(request: NextRequest) {
   try {
-  await hydrateProcessEnv();
+    await hydrateProcessEnv();
     const rateLimited = await applyRateLimit(request, 'strict');
     if (rateLimited) return rateLimited;
 
@@ -41,10 +41,7 @@ async function _POST(request: NextRequest) {
     const { subject, html_content, student_ids } = body;
 
     if (!student_ids || student_ids.length === 0) {
-      return NextResponse.json(
-        { error: 'No students selected' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'No students selected' }, { status: 400 });
     }
 
     // Verify instructor has access to these students through their courses
@@ -69,7 +66,7 @@ async function _POST(request: NextRequest) {
     if (!enrollments || enrollments.length === 0) {
       return NextResponse.json(
         { error: 'No valid students found in your courses' },
-        { status: 403 }
+        { status: 403 },
       );
     }
 
@@ -82,10 +79,7 @@ async function _POST(request: NextRequest) {
       .in('id', validStudentIds);
 
     if (!students || students.length === 0) {
-      return NextResponse.json(
-        { error: 'No valid students found' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'No valid students found' }, { status: 400 });
     }
 
     let sentCount = 0;
@@ -96,10 +90,7 @@ async function _POST(request: NextRequest) {
         .replace(/\{\{student_name\}\}/g, student.full_name || 'Student')
         .replace(/\{\{user_name\}\}/g, student.full_name || 'Student')
         .replace(/\{\{organization_name\}\}/g, 'Elevate for Humanity')
-        .replace(
-          /\{\{dashboard_link\}\}/g,
-          'https://www.elevateforhumanity.org/dashboard'
-        )
+        .replace(/\{\{dashboard_link\}\}/g, 'https://www.elevateforhumanity.org/dashboard')
         .replace(/\{\{support_email\}\}/g, 'support@elevateforhumanity.org')
         .replace(/\{\{support_phone\}\}/g, '(555) 123-4567');
 
@@ -113,8 +104,8 @@ async function _POST(request: NextRequest) {
 
         sentCount++;
       } catch (error) {
-          logger.error("Unhandled error", error instanceof Error ? error : undefined);
-  }
+        logger.error('Unhandled error', error instanceof Error ? error : undefined);
+      }
     }
 
     return NextResponse.json({
@@ -122,13 +113,12 @@ async function _POST(request: NextRequest) {
       sent_count: sentCount,
       total_selected: students.length,
     });
-  } catch (error) { 
+  } catch (error) {
     return NextResponse.json(
       {
-        error:
-          'Internal server error',
+        error: 'Internal server error',
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

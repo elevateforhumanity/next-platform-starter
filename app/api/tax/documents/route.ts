@@ -45,18 +45,15 @@ async function _GET(request: Request) {
           ...doc,
           download_url: urlData?.signedUrl || null,
         };
-      })
+      }),
     );
 
     return NextResponse.json({
       documents: documentsWithUrls,
       total: documents?.length || 0,
     });
-  } catch (error) { 
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+  } catch (error) {
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/tax/documents', _GET);

@@ -52,9 +52,7 @@ import { RAPIDS_CONFIG } from './rapids-config';
 /**
  * Prepare apprentice data for RAPIDS submission
  */
-export async function prepareRAPIDSData(
-  enrollmentIds: string[]
-): Promise<RAPIDSApprentice[]> {
+export async function prepareRAPIDSData(enrollmentIds: string[]): Promise<RAPIDSApprentice[]> {
   // In production, this would:
   // 1. Query enrollments for apprenticeship programs
   // 2. Format data according to RAPIDS specifications
@@ -77,9 +75,7 @@ export async function prepareRAPIDSData(
 /**
  * Submit apprentice data to RAPIDS
  */
-export async function submitToRAPIDS(
-  apprentices: RAPIDSApprentice[]
-): Promise<RAPIDSSubmission> {
+export async function submitToRAPIDS(apprentices: RAPIDSApprentice[]): Promise<RAPIDSSubmission> {
   // In production, this would:
   // 1. Format data as XML or JSON per RAPIDS spec
   // 2. Submit via RAPIDS API or web portal
@@ -109,7 +105,7 @@ export async function submitToRAPIDS(
 export async function updateRAPIDSProgress(
   apprenticeId: string,
   hoursCompleted: number,
-  relatedInstructionHours: number
+  relatedInstructionHours: number,
 ): Promise<{ success: boolean; error?: string }> {
   // In production, this would:
   // 1. Submit progress update to RAPIDS
@@ -131,7 +127,7 @@ export async function updateRAPIDSProgress(
 export async function reportRAPIDSCompletion(
   apprenticeId: string,
   completionDate: string,
-  finalWage: number
+  finalWage: number,
 ): Promise<{ success: boolean; error?: string }> {
   // In production, this would:
   // 1. Submit completion report to RAPIDS
@@ -154,7 +150,7 @@ export async function reportRAPIDSCompletion(
 export async function reportRAPIDSCancellation(
   apprenticeId: string,
   cancellationDate: string,
-  reason: string
+  reason: string,
 ): Promise<{ success: boolean; error?: string }> {
   // In production, this would:
   // 1. Submit cancellation report to RAPIDS
@@ -209,8 +205,7 @@ export function validateRAPIDSData(apprentice: RAPIDSApprentice): {
   if (!apprentice.date_of_birth) errors.push('Date of birth is required');
   if (!apprentice.program_number) errors.push('Program number is required');
   if (!apprentice.occupation_code) errors.push('Occupation code is required');
-  if (!apprentice.registration_date)
-    errors.push('Registration date is required');
+  if (!apprentice.registration_date) errors.push('Registration date is required');
   if (!apprentice.employer_name) errors.push('Employer name is required');
   if (!apprentice.employer_fein) errors.push('Employer FEIN is required');
 

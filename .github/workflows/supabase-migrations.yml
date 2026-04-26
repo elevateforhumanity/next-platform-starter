@@ -4,8 +4,8 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - "supabase/migrations/**"
-      - "supabase/seeds/**"
+      - 'supabase/migrations/**'
+      - 'supabase/seeds/**'
     branches:
       - main
 

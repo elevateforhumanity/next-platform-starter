@@ -30,7 +30,7 @@ export default function AIChat({ fileContext, onApplyCode }: AIChatProps) {
 
     const userMessage = input.trim();
     setInput('');
-    setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
+    setMessages((prev) => [...prev, { role: 'user', content: userMessage }]);
     setIsLoading(true);
 
     try {
@@ -44,14 +44,17 @@ export default function AIChat({ fileContext, onApplyCode }: AIChatProps) {
       });
 
       const data = await res.json();
-      
+
       if (data.error) {
-        setMessages(prev => [...prev, { role: 'assistant', content: `Error: ${data.error}` }]);
+        setMessages((prev) => [...prev, { role: 'assistant', content: `Error: ${data.error}` }]);
       } else {
-        setMessages(prev => [...prev, { role: 'assistant', content: data.message }]);
+        setMessages((prev) => [...prev, { role: 'assistant', content: data.message }]);
       }
     } catch (error) {
-      setMessages(prev => [...prev, { role: 'assistant', content: 'Failed to connect to AI service.' }]);
+      setMessages((prev) => [
+        ...prev,
+        { role: 'assistant', content: 'Failed to connect to AI service.' },
+      ]);
     } finally {
       setIsLoading(false);
     }
@@ -72,7 +75,12 @@ export default function AIChat({ fileContext, onApplyCode }: AIChatProps) {
 
   const extractCodeBlocks = (content: string) => {
     const codeBlockRegex = /```(\S+)?\n([\s\S]*?)```/g;
-    const parts: { type: 'text' | 'code'; content: string; language?: string; filename?: string }[] = [];
+    const parts: {
+      type: 'text' | 'code';
+      content: string;
+      language?: string;
+      filename?: string;
+    }[] = [];
     let lastIndex = 0;
     let match;
 
@@ -80,10 +88,10 @@ export default function AIChat({ fileContext, onApplyCode }: AIChatProps) {
       if (match.index > lastIndex) {
         parts.push({ type: 'text', content: content.slice(lastIndex, match.index) });
       }
-      
+
       const langOrFile = match[1] || '';
       const isFilename = langOrFile.includes('.') || langOrFile.includes('/');
-      
+
       parts.push({
         type: 'code',
         content: match[2],
@@ -120,7 +128,9 @@ export default function AIChat({ fileContext, onApplyCode }: AIChatProps) {
           <div className="text-center py-8">
             <Bot className="w-12 h-12 text-[#30363d] mx-auto mb-3" />
             <p className="text-[#8b949e] text-sm mb-2">AI Assistant ready</p>
-            <p className="text-[#6e7681] text-xs">Ask me to write code, explain something, or help debug</p>
+            <p className="text-[#6e7681] text-xs">
+              Ask me to write code, explain something, or help debug
+            </p>
           </div>
         ) : (
           messages.map((msg, i) => (
@@ -130,14 +140,18 @@ export default function AIChat({ fileContext, onApplyCode }: AIChatProps) {
                   <Bot className="w-4 h-4 text-white" />
                 </div>
               )}
-              <div className={`max-w-[85%] ${msg.role === 'user' ? 'bg-[#238636]' : 'bg-[#21262d]'} rounded-lg p-3`}>
+              <div
+                className={`max-w-[85%] ${msg.role === 'user' ? 'bg-[#238636]' : 'bg-[#21262d]'} rounded-lg p-3`}
+              >
                 {msg.role === 'assistant' ? (
                   <div className="space-y-2">
-                    {extractCodeBlocks(msg.content).map((part, j) => (
+                    {extractCodeBlocks(msg.content).map((part, j) =>
                       part.type === 'code' ? (
                         <div key={j} className="relative">
                           <div className="flex items-center justify-between bg-[#161b22] px-3 py-1 rounded-t border border-[#30363d] border-b-0">
-                            <span className="text-xs text-[#8b949e]">{part.filename || part.language || 'code'}</span>
+                            <span className="text-xs text-[#8b949e]">
+                              {part.filename || part.language || 'code'}
+                            </span>
                             <div className="flex gap-1">
                               {part.filename && onApplyCode && (
                                 <button
@@ -164,9 +178,11 @@ export default function AIChat({ fileContext, onApplyCode }: AIChatProps) {
                           </pre>
                         </div>
                       ) : (
-                        <p key={j} className="text-sm text-[#c9d1d9] whitespace-pre-wrap">{part.content}</p>
-                      )
-                    ))}
+                        <p key={j} className="text-sm text-[#c9d1d9] whitespace-pre-wrap">
+                          {part.content}
+                        </p>
+                      ),
+                    )}
                   </div>
                 ) : (
                   <p className="text-sm text-white whitespace-pre-wrap">{msg.content}</p>

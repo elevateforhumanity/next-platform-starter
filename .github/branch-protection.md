@@ -16,12 +16,14 @@ To prevent extra branches and keep everything on main:
    - ✅ Restrict who can push to matching branches
 
 This ensures:
+
 - All changes go through main branch
 - No random branches created
 - Everything stays integrated
 - Single source of truth
 
 ## Current Status
+
 - All code on main branch ✅
 - No duplicate branches ✅
 - Everything integrated ✅

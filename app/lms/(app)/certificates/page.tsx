@@ -15,8 +15,7 @@ export const metadata: Metadata = {
     canonical: 'https://www.elevateforhumanity.org/lms/certificates',
   },
   title: 'Certificates | Elevate For Humanity',
-  description:
-    'View and download your earned certificates.',
+  description: 'View and download your earned certificates.',
 };
 
 export default async function CertificatesPage() {
@@ -52,24 +51,31 @@ export default async function CertificatesPage() {
 
   return (
     <div className="min-h-screen bg-white p-4 md:p-8">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <Breadcrumbs items={[{ label: "LMS", href: "/lms/courses" }, { label: "Certificates" }]} />
-        </div>
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'LMS', href: '/lms/courses' }, { label: 'Certificates' }]} />
+      </div>
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
           <h1 className="text-3xl font-bold mb-2">My Certificates</h1>
-          <p className="text-black">
-            View and download your earned certificates
-          </p>
+          <p className="text-black">View and download your earned certificates</p>
         </div>
 
         {certificates && certificates.length > 0 ? (
           <div className="space-y-8">
             {certificates.map((cert: any) => (
-              <div key={cert.id} className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+              <div
+                key={cert.id}
+                className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden"
+              >
                 <CertificateTemplate
-                  studentName={profile?.first_name ? `${profile.first_name} ${profile.last_name || ''}` : user.email || 'Student'}
-                  courseName={cert.course_title || cert.program_name || cert.metadata?.course_name || 'Course'}
+                  studentName={
+                    profile?.first_name
+                      ? `${profile.first_name} ${profile.last_name || ''}`
+                      : user.email || 'Student'
+                  }
+                  courseName={
+                    cert.course_title || cert.program_name || cert.metadata?.course_name || 'Course'
+                  }
                   completionDate={cert.issued_at}
                   certificateId={cert.id}
                 />
@@ -97,12 +103,10 @@ export default async function CertificatesPage() {
                 />
               </svg>
             </div>
-            <h3 className="text-lg md:text-lg font-bold mb-2">
-              No Certificates Yet
-            </h3>
+            <h3 className="text-lg md:text-lg font-bold mb-2">No Certificates Yet</h3>
             <p className="text-black mb-6 max-w-md mx-auto">
-              Complete a course to earn your first certificate. Certificates are
-              automatically generated when you finish all course requirements.
+              Complete a course to earn your first certificate. Certificates are automatically
+              generated when you finish all course requirements.
             </p>
             <Link
               href="/lms/courses"
@@ -119,12 +123,21 @@ export default async function CertificatesPage() {
             <h2 className="text-xl font-bold text-slate-900 mb-4">Program Transcripts</h2>
             <div className="space-y-3">
               {transcripts.map((t: any) => (
-                <div key={t.id} className="bg-white rounded-xl border border-slate-200 p-5 flex items-center justify-between gap-4">
+                <div
+                  key={t.id}
+                  className="bg-white rounded-xl border border-slate-200 p-5 flex items-center justify-between gap-4"
+                >
                   <div>
                     <p className="font-semibold text-slate-800">{t.program_name}</p>
                     <p className="text-sm text-slate-500 mt-0.5">
-                      Completed {new Date(t.completed_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
-                      {t.courses_completed > 0 && ` · ${t.courses_completed} course${t.courses_completed !== 1 ? 's' : ''}`}
+                      Completed{' '}
+                      {new Date(t.completed_at).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                      })}
+                      {t.courses_completed > 0 &&
+                        ` · ${t.courses_completed} course${t.courses_completed !== 1 ? 's' : ''}`}
                       {t.total_hours && ` · ${t.total_hours} hours`}
                     </p>
                   </div>
@@ -156,7 +169,11 @@ export default async function CertificatesPage() {
 
         {/* Certificate Generator */}
         <div className="mt-8">
-          <CertificateGenerator courseName="Course" studentName={user?.email || 'Student'} completionDate={new Date().toISOString()} />
+          <CertificateGenerator
+            courseName="Course"
+            studentName={user?.email || 'Student'}
+            completionDate={new Date().toISOString()}
+          />
         </div>
       </div>
     </div>

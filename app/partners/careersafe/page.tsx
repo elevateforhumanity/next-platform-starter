@@ -5,15 +5,7 @@ import { createClient } from '@/lib/supabase/server';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import {
-
-  ExternalLink,
-  Clock,
-  Award,
-  Users,
-  Phone,
-  Mail,
-CheckCircle, } from 'lucide-react';
+import { ExternalLink, Clock, Award, Users, Phone, Mail, CheckCircle } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'CareerSafe OSHA Training | Short-Term Courses | Elevate For Humanity',
@@ -26,7 +18,6 @@ export const metadata: Metadata = {
 export default async function CAREERSAFEPage() {
   const supabase = await createClient();
 
-  
   // Fetch CareerSafe partner info
   const { data: partner } = await supabase
     .from('partners')
@@ -35,12 +26,11 @@ export default async function CAREERSAFEPage() {
     .maybeSingle();
   return (
     <div className="min-h-screen bg-white">
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Partners", href: "/partners" }, { label: "Careersafe" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Partners', href: '/partners' }, { label: 'Careersafe' }]} />
       </div>
-{/* Hero Section */}
-      <section className="relative h-48 md:h-64 w-full overflow-hidden">
-      </section>
+      {/* Hero Section */}
+      <section className="relative h-48 md:h-64 w-full overflow-hidden"></section>
 
       {/* Features */}
       <section className="py-16">
@@ -51,16 +41,12 @@ export default async function CAREERSAFEPage() {
           <div className="grid md:grid-cols-3 gap-6">
             <div className="bg-white p-6 rounded-xl shadow-sm flex items-start gap-3">
               <span className="text-black flex-shrink-0">•</span>
-              <div className="text-black">
-                Official OSHA certification cards
-              </div>
+              <div className="text-black">Official OSHA certification cards</div>
             </div>
 
             <div className="bg-white p-6 rounded-xl shadow-sm flex items-start gap-3">
               <span className="text-black flex-shrink-0">•</span>
-              <div className="text-black">
-                Required for many construction jobs
-              </div>
+              <div className="text-black">Required for many construction jobs</div>
             </div>
 
             <div className="bg-white p-6 rounded-xl shadow-sm flex items-start gap-3">
@@ -90,9 +76,7 @@ export default async function CAREERSAFEPage() {
           <div className="grid md:grid-cols-2 gap-6">
             <div className="bg-white border-2 border-slate-200 rounded-xl p-6 hover:border-brand-blue-500 transition-colors">
               <div className="flex items-start justify-between mb-4">
-                <h3 className="text-lg font-bold text-black">
-                  OSHA 10-Hour Construction
-                </h3>
+                <h3 className="text-lg font-bold text-black">OSHA 10-Hour Construction</h3>
               </div>
 
               <div className="flex items-center gap-2 text-black mb-2">
@@ -108,9 +92,7 @@ export default async function CAREERSAFEPage() {
 
             <div className="bg-white border-2 border-slate-200 rounded-xl p-6 hover:border-brand-blue-500 transition-colors">
               <div className="flex items-start justify-between mb-4">
-                <h3 className="text-lg font-bold text-black">
-                  OSHA 30-Hour Construction
-                </h3>
+                <h3 className="text-lg font-bold text-black">OSHA 30-Hour Construction</h3>
               </div>
 
               <div className="flex items-center gap-2 text-black mb-2">
@@ -126,9 +108,7 @@ export default async function CAREERSAFEPage() {
 
             <div className="bg-white border-2 border-slate-200 rounded-xl p-6 hover:border-brand-blue-500 transition-colors">
               <div className="flex items-start justify-between mb-4">
-                <h3 className="text-lg font-bold text-black">
-                  OSHA 10-Hour General Industry
-                </h3>
+                <h3 className="text-lg font-bold text-black">OSHA 10-Hour General Industry</h3>
               </div>
 
               <div className="flex items-center gap-2 text-black mb-2">
@@ -144,9 +124,7 @@ export default async function CAREERSAFEPage() {
 
             <div className="bg-white border-2 border-slate-200 rounded-xl p-6 hover:border-brand-blue-500 transition-colors">
               <div className="flex items-start justify-between mb-4">
-                <h3 className="text-lg font-bold text-black">
-                  OSHA 30-Hour General Industry
-                </h3>
+                <h3 className="text-lg font-bold text-black">OSHA 30-Hour General Industry</h3>
               </div>
 
               <div className="flex items-center gap-2 text-black mb-2">
@@ -166,15 +144,11 @@ export default async function CAREERSAFEPage() {
       {/* Contact Information */}
       <section className="py-16">
         <div className="max-w-4xl mx-auto px-6">
-          <h2 className="text-2xl md:text-3xl font-bold text-black mb-8 text-center">
-            Need Help?
-          </h2>
+          <h2 className="text-2xl md:text-3xl font-bold text-black mb-8 text-center">Need Help?</h2>
           <div className="bg-white rounded-xl p-8 shadow-lg">
             <div className="mb-6 pb-6 border-b border-slate-200">
               <div className="font-bold text-black mb-2">Mark Sattele</div>
-              <div className="text-black mb-3">
-                Postsecondary Account Executive
-              </div>
+              <div className="text-black mb-3">Postsecondary Account Executive</div>
               <div className="space-y-2">
                 <a
                   href="mailto:Mark.Sattele@careersafeonline.com"
@@ -225,8 +199,7 @@ export default async function CAREERSAFEPage() {
             Ready to Get Started?
           </h2>
           <p className="text-base md:text-lg text-white mb-8">
-            Enroll in CareerSafe OSHA Training courses through Elevate for
-            Humanity
+            Enroll in CareerSafe OSHA Training courses through Elevate for Humanity
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a

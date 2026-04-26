@@ -8,6 +8,7 @@ Indianapolis, Indiana
 ---
 
 # RFP 2026-003 — WIOA In-School Youth Service Provision
+
 # Budget Template & Narrative
 
 **Organization:** Elevate for Humanity
@@ -20,25 +21,25 @@ Indianapolis, Indiana
 
 ## Budget Summary
 
-| Category | Amount | % of Total |
-|---|---|---|
-| Personnel | $120,000 | 30% |
-| LMS Platform & Technology | $24,000 | 6% |
-| Participant Supportive Services | $144,000 | 36% |
-| Work-Based Learning Coordination | $50,000 | 12.5% |
-| Training & Curriculum | $24,000 | 6% |
-| Administrative Costs | $38,000 | 9.5% |
-| **TOTAL** | **$400,000** | **100%** |
+| Category                         | Amount       | % of Total |
+| -------------------------------- | ------------ | ---------- |
+| Personnel                        | $120,000     | 30%        |
+| LMS Platform & Technology        | $24,000      | 6%         |
+| Participant Supportive Services  | $144,000     | 36%        |
+| Work-Based Learning Coordination | $50,000      | 12.5%      |
+| Training & Curriculum            | $24,000      | 6%         |
+| Administrative Costs             | $38,000      | 9.5%       |
+| **TOTAL**                        | **$400,000** | **100%**   |
 
 ---
 
 ## Personnel Detail
 
-| Position | FTE | Annual Salary | Benefits (20%) | Total |
-|---|---|---|---|---|
-| Career Coach — Ameco Martin | 1.0 | $43,333 | $8,667 | $52,000 |
-| Elizabeth Greene — CEO / Program Director / Case Manager | 0.75 | $56,000 | $12,000 | $68,000 |
-| **Personnel Total** | | | | **$120,000** |
+| Position                                                 | FTE  | Annual Salary | Benefits (20%) | Total        |
+| -------------------------------------------------------- | ---- | ------------- | -------------- | ------------ |
+| Career Coach — Ameco Martin                              | 1.0  | $43,333       | $8,667         | $52,000      |
+| Elizabeth Greene — CEO / Program Director / Case Manager | 0.75 | $56,000       | $12,000        | $68,000      |
+| **Personnel Total**                                      |      |               |                | **$120,000** |
 
 ---
 
@@ -52,7 +53,6 @@ Ameco Martin serves as the dedicated Career Coach embedded at Warren Central Hig
 **Elizabeth Greene — CEO / Program Director / Case Manager (0.75 FTE) — $68,000**
 Elizabeth Greene serves as Case Manager, responsible for WIOA enrollment documentation, Indiana Career Connect data entry and maintenance, participant follow-up at 30/90/180/365 days post-exit, barrier coordination, supportive services disbursement, and quarterly performance reporting. Full-time position, 12 months.
 
-
 ---
 
 ### LMS Platform & Technology — $24,000
@@ -65,14 +65,14 @@ Covers Elevate's proprietary LMS platform hosting, maintenance, AI-assisted cont
 
 Estimated 80 participants × $1,800 average per participant. Allowable WIOA supportive services include:
 
-| Service | Estimated Cost Per Participant | Total |
-|---|---|---|
-| Transportation stipends (WBL participation) | $450 | $36,000 |
-| Work attire and tools (OJT placement) | $300 | $24,000 |
-| EPA 608 exam fees | $150 | $12,000 |
-| Participant milestone incentives | $600 | $48,000 |
-| Accessibility/multilingual supports | $300 | $24,000 |
-| **Subtotal** | **$1,800** | **$144,000** |
+| Service                                     | Estimated Cost Per Participant | Total        |
+| ------------------------------------------- | ------------------------------ | ------------ |
+| Transportation stipends (WBL participation) | $450                           | $36,000      |
+| Work attire and tools (OJT placement)       | $300                           | $24,000      |
+| EPA 608 exam fees                           | $150                           | $12,000      |
+| Participant milestone incentives            | $600                           | $48,000      |
+| Accessibility/multilingual supports         | $300                           | $24,000      |
+| **Subtotal**                                | **$1,800**                     | **$144,000** |
 
 All supportive services are disbursed by Elizabeth Greene upon documented need and in compliance with EmployIndy supportive services policy. No participant is denied services due to inability to pay.
 
@@ -98,19 +98,19 @@ Covers financial management, grant compliance, audit preparation, organizational
 
 ## Cost Effectiveness Analysis
 
-| Metric | Value |
-|---|---|
-| Total award | $400,000 |
-| Participants served | 100 |
-| Cost per participant | $5,000 |
-| WIOA median earnings target (Q2) | $4,300 |
-| Elevate projected median earnings (Q2) | $5,000 |
-| Return on investment | $1,200 above target per participant |
-| Credential attainment target | 68% |
-| Elevate projected credential attainment | 75% |
+| Metric                                  | Value                               |
+| --------------------------------------- | ----------------------------------- |
+| Total award                             | $400,000                            |
+| Participants served                     | 100                                 |
+| Cost per participant                    | $5,000                              |
+| WIOA median earnings target (Q2)        | $4,300                              |
+| Elevate projected median earnings (Q2)  | $5,000                              |
+| Return on investment                    | $1,200 above target per participant |
+| Credential attainment target            | 68%                                 |
+| Elevate projected credential attainment | 75%                                 |
 
 At $5,000 per participant, Elevate delivers a federally recognized credential (EPA 608), work-based learning placement, 12-month follow-up, and all 14 WIOA service elements — below the projected Q2 median earnings of $5,000 per participant.
 
 ---
 
-*Elevate for Humanity | www.elevateforhumanity.org | RFP 2026-003*
+_Elevate for Humanity | www.elevateforhumanity.org | RFP 2026-003_

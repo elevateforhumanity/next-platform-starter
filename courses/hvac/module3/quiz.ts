@@ -10,13 +10,20 @@ export const quiz = [
     answer: '100 ppm',
   },
   {
-    question: 'What component reverses the refrigerant flow in a heat pump to switch between heating and cooling?',
+    question:
+      'What component reverses the refrigerant flow in a heat pump to switch between heating and cooling?',
     options: ['Compressor', 'Expansion valve', 'Reversing valve', 'Accumulator'],
     answer: 'Reversing valve',
   },
   {
-    question: 'Temperature rise across a furnace should be within what range of the nameplate rating?',
-    options: ['Plus or minus 1 degree F', 'Plus or minus 5 degrees F', 'Plus or minus 10 degrees F', 'Plus or minus 20 degrees F'],
+    question:
+      'Temperature rise across a furnace should be within what range of the nameplate rating?',
+    options: [
+      'Plus or minus 1 degree F',
+      'Plus or minus 5 degrees F',
+      'Plus or minus 10 degrees F',
+      'Plus or minus 20 degrees F',
+    ],
     answer: 'Plus or minus 5 degrees F',
   },
   {
@@ -24,4 +31,4 @@ export const quiz = [
     options: ['Thermostat', 'High-limit switch', 'Pressure switch', 'Flame sensor'],
     answer: 'High-limit switch',
   },
-]
+];

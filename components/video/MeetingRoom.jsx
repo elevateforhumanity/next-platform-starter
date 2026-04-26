@@ -3,12 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
  * MeetingRoom Component - Jitsi Meet Integration
  * Provides video conferencing with screen sharing, recording, and chat
  */
-export function MeetingRoom({
-  meetingCode,
-  userName,
-  isModerator = false,
-  onLeave,
-}) {
+export function MeetingRoom({ meetingCode, userName, isModerator = false, onLeave }) {
   const jitsiContainerRef = useRef(null);
   const [api, setApi] = useState(null);
   const [isRecording, setIsRecording] = useState(false);
@@ -91,19 +86,19 @@ export function MeetingRoom({
       const jitsiApi = new window.JitsiMeetExternalAPI(domain, options);
       // Event listeners
       jitsiApi.addEventListener('videoConferenceJoined', (event) => {
-        // 
+        //
         setIsLoading(false);
       });
       jitsiApi.addEventListener('participantJoined', (event) => {
-        // 
+        //
         updateParticipants(jitsiApi);
       });
       jitsiApi.addEventListener('participantLeft', (event) => {
-        // 
+        //
         updateParticipants(jitsiApi);
       });
       jitsiApi.addEventListener('videoConferenceLeft', () => {
-        // 
+        //
         if (onLeave) onLeave();
       });
       jitsiApi.addEventListener('recordingStatusChanged', (event) => {

@@ -162,7 +162,11 @@ export function TimeclockWidget({
             onClick={async () => {
               setErrorMsg(null);
               setAutoClockOutMsg(null);
-              try { await timeclock.clockIn(); } catch (err) { logger.error('[TimeclockWidget] clockIn failed', err); }
+              try {
+                await timeclock.clockIn();
+              } catch (err) {
+                logger.error('[TimeclockWidget] clockIn failed', err);
+              }
             }}
             disabled={timeclock.loading}
             className={`w-full ${primaryButton}`}
@@ -175,7 +179,11 @@ export function TimeclockWidget({
           <button
             onClick={async () => {
               setErrorMsg(null);
-              try { await timeclock.lunchStart(); } catch (err) { logger.error('[TimeclockWidget] lunchStart failed', err); }
+              try {
+                await timeclock.lunchStart();
+              } catch (err) {
+                logger.error('[TimeclockWidget] lunchStart failed', err);
+              }
             }}
             disabled={timeclock.loading}
             className={`w-full ${secondaryButton}`}
@@ -188,7 +196,11 @@ export function TimeclockWidget({
           <button
             onClick={async () => {
               setErrorMsg(null);
-              try { await timeclock.lunchEnd(); } catch (err) { logger.error('[TimeclockWidget] lunchEnd failed', err); }
+              try {
+                await timeclock.lunchEnd();
+              } catch (err) {
+                logger.error('[TimeclockWidget] lunchEnd failed', err);
+              }
             }}
             disabled={timeclock.loading}
             className={`w-full ${secondaryButton}`}
@@ -201,7 +213,11 @@ export function TimeclockWidget({
           <button
             onClick={async () => {
               setErrorMsg(null);
-              try { await timeclock.clockOut(); } catch (err) { logger.error('[TimeclockWidget] clockOut failed', err); }
+              try {
+                await timeclock.clockOut();
+              } catch (err) {
+                logger.error('[TimeclockWidget] clockOut failed', err);
+              }
             }}
             disabled={timeclock.loading}
             className={`w-full ${dangerButton}`}

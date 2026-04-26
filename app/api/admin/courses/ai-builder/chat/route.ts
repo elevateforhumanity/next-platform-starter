@@ -96,7 +96,7 @@ export async function POST(request: NextRequest) {
   const auth = await apiRequireAdmin(request);
   if (auth.error) return auth.error;
 
-  const { messages } = await request.json() as {
+  const { messages } = (await request.json()) as {
     messages: { role: 'user' | 'assistant'; content: string }[];
   };
 
@@ -115,10 +115,7 @@ export async function POST(request: NextRequest) {
       try {
         const completion = await openai.chat.completions.create({
           model: 'gpt-4.1',
-          messages: [
-            { role: 'system', content: SYSTEM_PROMPT },
-            ...messages,
-          ],
+          messages: [{ role: 'system', content: SYSTEM_PROMPT }, ...messages],
           temperature: 0.4,
           max_tokens: 8000,
           stream: true,
@@ -150,7 +147,10 @@ export async function POST(request: NextRequest) {
             const course = JSON.parse(jsonMatch[1].trim());
             send({ type: 'course_ready', course });
           } catch {
-            send({ type: 'text', content: '\n\n⚠️ Course generation produced invalid JSON. Please try again.' });
+            send({
+              type: 'text',
+              content: '\n\n⚠️ Course generation produced invalid JSON. Please try again.',
+            });
           }
         }
 

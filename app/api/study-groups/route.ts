@@ -1,7 +1,6 @@
-
 // app/api/study-groups/route.ts
-import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@/lib/supabase/server";
+import { NextRequest, NextResponse } from 'next/server';
+import { createClient } from '@/lib/supabase/server';
 import { logger } from '@/lib/logger';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
@@ -18,19 +17,20 @@ async function _GET(request: NextRequest) {
     const supabase = await createClient();
 
     // Get current user
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
 
     if (authError || !user) {
-      return NextResponse.json(
-        { error: "Unauthorized" },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     // Get all study groups
     const { data: groups, error: groupsError } = await supabase
-      .from("study_groups")
-      .select(`
+      .from('study_groups')
+      .select(
+        `
         id,
         name,
         description,
@@ -41,15 +41,13 @@ async function _GET(request: NextRequest) {
         max_members,
         next_session,
         created_at
-      `)
-      .order("created_at", { ascending: false });
+      `,
+      )
+      .order('created_at', { ascending: false });
 
     if (groupsError) {
-      logger.error("[Study Groups API Error]:", groupsError);
-      return NextResponse.json(
-        { error: "Failed to fetch study groups" },
-        { status: 500 }
-      );
+      logger.error('[Study Groups API Error]:', groupsError);
+      return NextResponse.json({ error: 'Failed to fetch study groups' }, { status: 500 });
     }
 
     // Get membership info for each group
@@ -57,16 +55,16 @@ async function _GET(request: NextRequest) {
       (groups || []).map(async (group) => {
         // Get member count
         const { count: memberCount } = await supabase
-          .from("study_group_members")
-          .select("*", { count: "exact", head: true })
-          .eq("group_id", group.id);
+          .from('study_group_members')
+          .select('*', { count: 'exact', head: true })
+          .eq('group_id', group.id);
 
         // Check if current user is a member
         const { data: membership } = await supabase
-          .from("study_group_members")
-          .select("id")
-          .eq("group_id", group.id)
-          .eq("user_id", user.id)
+          .from('study_group_members')
+          .select('id')
+          .eq('group_id', group.id)
+          .eq('user_id', user.id)
           .maybeSingle();
 
         return {
@@ -82,16 +80,13 @@ async function _GET(request: NextRequest) {
           isMember: !!membership,
           nextSession: group.next_session,
         };
-      })
+      }),
     );
 
     return NextResponse.json(groupsWithMembership);
-  } catch (error) { 
-    logger.error("[Study Groups API Error]:", error);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    );
+  } catch (error) {
+    logger.error('[Study Groups API Error]:', error);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/study-groups', _GET);

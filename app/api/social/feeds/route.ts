@@ -8,7 +8,7 @@ import { withApiAudit } from '@/lib/audit/withApiAudit';
 /**
  * Social Media Feeds API
  * Fetches latest posts from connected social platforms
- * 
+ *
  * Platforms:
  * - Facebook (via Graph API)
  * - YouTube (via Data API v3)
@@ -55,7 +55,7 @@ async function fetchFacebookPosts(): Promise<SocialPost[]> {
   try {
     const response = await fetch(
       `https://graph.facebook.com/v18.0/${pageId}/posts?fields=id,message,created_time,full_picture,shares,reactions.summary(true),comments.summary(true)&access_token=${accessToken}&limit=5`,
-      { next: { revalidate: 300 } }
+      { next: { revalidate: 300 } },
     );
 
     if (!response.ok) return [];
@@ -93,7 +93,7 @@ async function fetchYouTubeVideos(): Promise<YouTubeVideo[]> {
     // Get channel uploads playlist
     const channelResponse = await fetch(
       `https://www.googleapis.com/youtube/v3/channels?part=contentDetails&id=${channelId}&key=${apiKey}`,
-      { next: { revalidate: 300 } }
+      { next: { revalidate: 300 } },
     );
 
     if (!channelResponse.ok) return [];
@@ -106,7 +106,7 @@ async function fetchYouTubeVideos(): Promise<YouTubeVideo[]> {
     // Get videos from uploads playlist
     const videosResponse = await fetch(
       `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet,contentDetails&playlistId=${uploadsPlaylistId}&maxResults=6&key=${apiKey}`,
-      { next: { revalidate: 300 } }
+      { next: { revalidate: 300 } },
     );
 
     if (!videosResponse.ok) return [];
@@ -115,10 +115,10 @@ async function fetchYouTubeVideos(): Promise<YouTubeVideo[]> {
 
     // Get video statistics
     const videoIds = videosData.items?.map((item: any) => item.contentDetails.videoId).join(',');
-    
+
     const statsResponse = await fetch(
       `https://www.googleapis.com/youtube/v3/videos?part=statistics,contentDetails&id=${videoIds}&key=${apiKey}`,
-      { next: { revalidate: 300 } }
+      { next: { revalidate: 300 } },
     );
 
     const statsData = await statsResponse.json();
@@ -128,15 +128,16 @@ async function fetchYouTubeVideos(): Promise<YouTubeVideo[]> {
       const videoId = item.contentDetails.videoId;
       const stats = statsMap.get(videoId) as any;
       const duration = stats?.contentDetails?.duration || 'PT0M0S';
-      
+
       // Parse ISO 8601 duration
       const match = duration.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
       const hours = parseInt(match?.[1] || '0');
       const minutes = parseInt(match?.[2] || '0');
       const seconds = parseInt(match?.[3] || '0');
-      const formattedDuration = hours > 0 
-        ? `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
-        : `${minutes}:${seconds.toString().padStart(2, '0')}`;
+      const formattedDuration =
+        hours > 0
+          ? `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
+          : `${minutes}:${seconds.toString().padStart(2, '0')}`;
 
       return {
         id: videoId,
@@ -169,11 +170,11 @@ async function fetchLinkedInPosts(): Promise<SocialPost[]> {
       `https://api.linkedin.com/v2/ugcPosts?q=authors&authors=List(urn:li:organization:${companyId})&count=5`,
       {
         headers: {
-          'Authorization': `Bearer ${accessToken}`,
+          Authorization: `Bearer ${accessToken}`,
           'X-Restli-Protocol-Version': '2.0.0',
         },
         next: { revalidate: 300 },
-      }
+      },
     );
 
     if (!response.ok) return [];
@@ -208,7 +209,7 @@ async function fetchInstagramPosts(): Promise<SocialPost[]> {
   try {
     const response = await fetch(
       `https://graph.facebook.com/v18.0/${accountId}/media?fields=id,caption,media_type,media_url,thumbnail_url,timestamp,permalink,like_count,comments_count&access_token=${accessToken}&limit=5`,
-      { next: { revalidate: 300 } }
+      { next: { revalidate: 300 } },
     );
 
     if (!response.ok) return [];
@@ -268,7 +269,7 @@ async function _GET(request: Request) {
     logger.error('Social feeds error:', error);
     return NextResponse.json(
       { success: false, error: 'Failed to fetch social feeds' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

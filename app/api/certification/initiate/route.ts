@@ -8,7 +8,10 @@ import { NextRequest, NextResponse } from 'next/server';
 import { apiAuthGuard } from '@/lib/admin/guards';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
-import { initiateCertification, checkCertificationReadiness } from '@/lib/services/exam-authorization';
+import {
+  initiateCertification,
+  checkCertificationReadiness,
+} from '@/lib/services/exam-authorization';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';

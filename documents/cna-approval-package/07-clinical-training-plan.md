@@ -1,4 +1,5 @@
 # CNA PROGRAM — CLINICAL TRAINING PLAN
+
 ## Elevate for Humanity LLC
 
 ---
@@ -14,16 +15,17 @@ No student will participate in clinical training until they have successfully co
 ## CLINICAL HOURS
 
 Indiana NATCEP Administrative Standards require a minimum of 45 total clinical training hours. Of those 45 hours:
+
 - Up to 21 hours may be conducted in a skills laboratory setting.
 - A minimum of 24 hours must be completed in a licensed long-term care (LTC) facility under direct RN supervision.
 
 Elevate for Humanity LLC meets these requirements exactly:
 
-| Component | Indiana Requirement | This Program |
-|-----------|-------------------|--------------|
-| Skills Laboratory hours | Up to 21 hours (max) | 21 hours |
-| Licensed LTC Facility hours | 24 hours (minimum) | 24 hours |
-| **Total Clinical Hours** | **45 hours (minimum)** | **45 hours** |
+| Component                   | Indiana Requirement    | This Program |
+| --------------------------- | ---------------------- | ------------ |
+| Skills Laboratory hours     | Up to 21 hours (max)   | 21 hours     |
+| Licensed LTC Facility hours | 24 hours (minimum)     | 24 hours     |
+| **Total Clinical Hours**    | **45 hours (minimum)** | **45 hours** |
 
 Skills laboratory hours are conducted at Elevate for Humanity LLC's on-site skills lab, 8888 Keystone Crossing, Suite 1300, Indianapolis, IN 46240.
 
@@ -72,6 +74,7 @@ The clinical instructor will be physically present at the clinical site at all t
 Students are expected to perform the following skills during their clinical rotation, as patient assignments and census allow:
 
 **Personal Care Skills:**
+
 - Complete or partial bed bath
 - Oral hygiene (natural teeth and/or dentures)
 - Hair care and grooming
@@ -80,6 +83,7 @@ Students are expected to perform the following skills during their clinical rota
 - Bed making (occupied and unoccupied)
 
 **Vital Signs:**
+
 - Oral, axillary, or tympanic temperature
 - Radial pulse
 - Respiratory rate
@@ -88,6 +92,7 @@ Students are expected to perform the following skills during their clinical rota
 - Height and weight
 
 **Mobility and Safety:**
+
 - Positioning and repositioning
 - Gait belt application
 - Transfer (bed to wheelchair or wheelchair to bed)
@@ -95,11 +100,13 @@ Students are expected to perform the following skills during their clinical rota
 - Range of motion exercises (passive)
 
 **Nutrition and Elimination:**
+
 - Meal assistance
 - Fluid intake and output measurement and recording
 - Bedpan or commode assistance
 
 **Documentation:**
+
 - ADL flow sheet completion
 - Vital signs documentation
 - Reporting observations to the charge nurse

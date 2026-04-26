@@ -7,12 +7,10 @@ import Image from 'next/image';
 
 export const metadata: Metadata = {
   alternates: {
-    canonical:
-      'https://www.elevateforhumanity.org/onboarding/school/orientation',
+    canonical: 'https://www.elevateforhumanity.org/onboarding/school/orientation',
   },
   title: 'School Orientation | Elevate For Humanity',
-  description:
-    'Manage orientation settings and development.',
+  description: 'Manage orientation settings and development.',
 };
 
 export default async function OrientationPage() {
@@ -31,12 +29,9 @@ export default async function OrientationPage() {
         />
 
         <div className="relative z-10 max-w-4xl mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-            Orientation
-          </h1>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">Orientation</h1>
           <p className="text-base md:text-lg mb-8 text-gray-100">
-            Manage orientation settings and
-            development.
+            Manage orientation settings and development.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
@@ -62,12 +57,9 @@ export default async function OrientationPage() {
             {/* Feature Grid */}
             <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
               <div>
-                <h2 className="text-2xl md:text-3xl font-bold mb-6">
-                  Orientation
-                </h2>
+                <h2 className="text-2xl md:text-3xl font-bold mb-6">Orientation</h2>
                 <p className="text-black mb-6">
-                  Manage orientation for career
-                  growth and development.
+                  Manage orientation for career growth and development.
                 </p>
                 <ul className="space-y-3">
                   <li className="flex items-start">
@@ -151,9 +143,7 @@ export default async function OrientationPage() {
                   </svg>
                 </div>
                 <h3 className="text-lg font-semibold mb-3">Learn</h3>
-                <p className="text-black">
-                  Access quality training programs
-                </p>
+                <p className="text-black">Access quality training programs</p>
               </div>
 
               <div className="bg-white rounded-lg shadow-sm border p-6">
@@ -204,12 +194,9 @@ export default async function OrientationPage() {
       <section className="py-16 bg-brand-blue-700 text-white">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-2xl md:text-3xl font-bold mb-4">
-              Ready to Get Started?
-            </h2>
+            <h2 className="text-2xl md:text-3xl font-bold mb-4">Ready to Get Started?</h2>
             <p className="text-base md:text-lg text-blue-100 mb-8">
-              Join thousands who have launched successful careers through our
-              programs.
+              Join thousands who have launched successful careers through our programs.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <Link

@@ -36,7 +36,7 @@ export function DocumentReviewForm({ document, adminId }: Props) {
     setRefreshing(true);
     try {
       const res = await fetch(
-        `/api/admin/documents/signed-url?id=${encodeURIComponent(document.id)}`
+        `/api/admin/documents/signed-url?id=${encodeURIComponent(document.id)}`,
       );
       if (res.ok) {
         const { url } = await res.json();
@@ -108,9 +108,7 @@ export function DocumentReviewForm({ document, adminId }: Props) {
             <FileText className="w-5 h-5 text-slate-400 mt-0.5" />
             <div>
               <p className="text-sm text-black">File Name</p>
-              <p className="font-semibold text-black">
-                {document.file_name}
-              </p>
+              <p className="font-semibold text-black">{document.file_name}</p>
             </div>
           </div>
           <div className="flex items-start gap-3">
@@ -177,26 +175,18 @@ export function DocumentReviewForm({ document, adminId }: Props) {
           <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mb-4 flex items-center gap-2 text-sm text-yellow-800">
             <AlertCircle className="w-4 h-4 flex-shrink-0" />
             Document link may have expired.
-            <button onClick={refreshUrl} className="underline font-medium">Click to refresh</button>
+            <button onClick={refreshUrl} className="underline font-medium">
+              Click to refresh
+            </button>
           </div>
         )}
         <div className="relative border rounded-lg overflow-hidden">
           {document.mime_type === 'application/pdf' ? (
-            <iframe
-              src={docUrl}
-              className="w-full h-[600px]"
-              title="Document Preview"
-            />
+            <iframe src={docUrl} className="w-full h-[600px]" title="Document Preview" />
           ) : (
             <div className="relative w-full min-h-[400px]">
               {docUrl && (
-                <Image
-                  src={docUrl}
-                  alt="Document"
-                  fill
-                  className="object-contain"
-                  sizes="100vw"
-                />
+                <Image src={docUrl} alt="Document" fill className="object-contain" sizes="100vw" />
               )}
             </div>
           )}
@@ -216,10 +206,7 @@ export function DocumentReviewForm({ document, adminId }: Props) {
 
       {/* Review Actions */}
       {document.status === 'pending' && (
-        <form
-          onSubmit={handleSubmit}
-          className="bg-white rounded-lg shadow-sm border p-6"
-        >
+        <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-sm border p-6">
           <h2 className="text-2xl font-bold mb-4">Review Decision</h2>
 
           <div className="space-y-4 mb-6">
@@ -276,9 +263,7 @@ export function DocumentReviewForm({ document, adminId }: Props) {
 
           {action === 'reject' && (
             <div className="mb-6">
-              <label className="block text-sm font-semibold mb-2">
-                Rejection Reason *
-              </label>
+              <label className="block text-sm font-semibold mb-2">Rejection Reason *</label>
               <textarea
                 value={rejectionReason}
                 onChange={(e) => setRejectionReason(e.target.value)}
@@ -300,9 +285,7 @@ export function DocumentReviewForm({ document, adminId }: Props) {
             </button>
             <button
               type="submit"
-              disabled={
-                loading || !action || (action === 'reject' && !rejectionReason)
-              }
+              disabled={loading || !action || (action === 'reject' && !rejectionReason)}
               className="px-8 py-3 bg-brand-blue-600 text-white font-semibold rounded-lg hover:bg-brand-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? 'Submitting...' : 'Submit Review'}
@@ -320,9 +303,7 @@ export function DocumentReviewForm({ document, adminId }: Props) {
           }`}
         >
           <h2 className="text-xl font-bold mb-2">
-            {document.status === 'approved'
-              ? 'Document Approved'
-              : 'Document Rejected'}
+            {document.status === 'approved' ? 'Document Approved' : 'Document Rejected'}
           </h2>
           <p className="text-sm mb-4">
             Reviewed on {new Date(document.reviewed_at).toLocaleString('en-US')}

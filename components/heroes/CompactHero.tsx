@@ -42,9 +42,7 @@ export function CompactHero({
     <section className={backgrounds[variant]}>
       <div className="mx-auto max-w-6xl px-6 py-20 md:py-28">
         {eyebrow && (
-          <p className="mb-3 text-sm font-medium text-black uppercase tracking-wide">
-            {eyebrow}
-          </p>
+          <p className="mb-3 text-sm font-medium text-black uppercase tracking-wide">{eyebrow}</p>
         )}
 
         {badge && (

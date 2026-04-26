@@ -1,4 +1,3 @@
-
 import { NextResponse } from 'next/server';
 import { getAdminClient } from '@/lib/supabase/admin';
 import { createClient } from '@/lib/supabase/server';
@@ -16,10 +15,9 @@ function csvEscape(v: any) {
 }
 
 async function _GET(req: Request) {
-  
-    const rateLimited = await applyRateLimit(req, 'api');
-    if (rateLimited) return rateLimited;
-const supabase = await createClient();
+  const rateLimited = await applyRateLimit(req, 'api');
+  if (rateLimited) return rateLimited;
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -27,7 +25,11 @@ const supabase = await createClient();
   if (!user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
-  const { data: _roleProfile } = await supabase.from('profiles').select('role').eq('id', user.id).maybeSingle();
+  const { data: _roleProfile } = await supabase
+    .from('profiles')
+    .select('role')
+    .eq('id', user.id)
+    .maybeSingle();
   if (!_roleProfile || !['admin', 'super_admin', 'staff'].includes(_roleProfile.role)) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
@@ -44,11 +46,7 @@ const supabase = await createClient();
     .maybeSingle();
 
   const orgId = prof?.organization_id;
-  if (!orgId)
-    return NextResponse.json(
-      { error: 'No active organization found' },
-      { status: 400 }
-    );
+  if (!orgId) return NextResponse.json({ error: 'No active organization found' }, { status: 400 });
 
   let query = adminClient
     .from('student_next_steps')
@@ -59,16 +57,20 @@ const supabase = await createClient();
   if (status) query = query.eq('funding_status', status);
 
   const { data: rawExportSteps, error } = await query;
-  if (error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+  if (error) return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
 
   // Hydrate profiles separately (user_id has no FK to profiles)
-  const expUserIds = [...new Set((rawExportSteps ?? []).map((r: any) => r.user_id).filter(Boolean))];
+  const expUserIds = [
+    ...new Set((rawExportSteps ?? []).map((r: any) => r.user_id).filter(Boolean)),
+  ];
   const { data: expProfiles } = expUserIds.length
     ? await adminClient.from('profiles').select('id, full_name, email').in('id', expUserIds)
     : { data: [] };
   const expProfileMap = Object.fromEntries((expProfiles ?? []).map((p: any) => [p.id, p]));
-  const data = (rawExportSteps ?? []).map((r: any) => ({ ...r, profiles: expProfileMap[r.user_id] ?? null }));
+  const data = (rawExportSteps ?? []).map((r: any) => ({
+    ...r,
+    profiles: expProfileMap[r.user_id] ?? null,
+  }));
 
   let rows = data.map((r: any) => ({
     ...r,
@@ -137,7 +139,7 @@ const supabase = await createClient();
         r.updated_at || '',
       ]
         .map(csvEscape)
-        .join(',')
+        .join(','),
     ),
   ];
 

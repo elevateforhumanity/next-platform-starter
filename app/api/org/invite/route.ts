@@ -28,7 +28,10 @@ async function _POST(req: NextRequest) {
   if (rateLimited) return rateLimited;
 
   const supabase = await createClient();
-  const { data: { user }, error: authError } = await supabase.auth.getUser();
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser();
   if (authError || !user) return safeError('Unauthorized', 401);
 
   let ctx;
@@ -109,13 +112,13 @@ async function _POST(req: NextRequest) {
     const { data: invite, error: inviteError } = await db
       .from('org_invites')
       .insert({
-        email:           normalizedEmail,
+        email: normalizedEmail,
         role,
         token,
         organization_id: targetOrgId,
-        created_by:      user.id,
-        expires_at:      expiresAt,
-        cohort_id:       cohort_id ?? null,
+        created_by: user.id,
+        expires_at: expiresAt,
+        cohort_id: cohort_id ?? null,
       })
       .select('id, email, role, expires_at')
       .maybeSingle();
@@ -132,17 +135,17 @@ async function _POST(req: NextRequest) {
         .maybeSingle();
 
       await sendOrgInviteEmail({
-        to:               normalizedEmail,
+        to: normalizedEmail,
         inviteUrl,
         organizationName: ctx.organization.name,
-        inviterName:      inviterProfile?.full_name ?? undefined,
+        inviterName: inviterProfile?.full_name ?? undefined,
       });
     }
 
     return NextResponse.json({
       invite,
-      invite_url:  inviteUrl,
-      email_sent:  !!process.env.SENDGRID_API_KEY,
+      invite_url: inviteUrl,
+      email_sent: !!process.env.SENDGRID_API_KEY,
     });
   } catch (err) {
     return safeInternalError(err, 'POST /api/org/invite');
@@ -154,7 +157,10 @@ async function _GET(req: NextRequest) {
   if (rateLimited) return rateLimited;
 
   const supabase = await createClient();
-  const { data: { user }, error: authError } = await supabase.auth.getUser();
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser();
   if (authError || !user) return safeError('Unauthorized', 401);
 
   let ctx;
@@ -188,5 +194,5 @@ async function _GET(req: NextRequest) {
   }
 }
 
-export const GET  = withRuntime(withApiAudit('/api/org/invite', _GET));
+export const GET = withRuntime(withApiAudit('/api/org/invite', _GET));
 export const POST = withRuntime(withApiAudit('/api/org/invite', _POST));

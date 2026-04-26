@@ -6,16 +6,11 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
 import { AgreementSignature } from '@/components/compliance/AgreementSignature';
-import { updateOnboardingProgress, getCurrentAgreementVersions } from '@/lib/compliance/enforcement';
 import {
-  FileText,
-  Check,
-  ChevronLeft,
-  ChevronRight,
-  Shield,
-  Users,
-  BookOpen,
-} from 'lucide-react';
+  updateOnboardingProgress,
+  getCurrentAgreementVersions,
+} from '@/lib/compliance/enforcement';
+import { FileText, Check, ChevronLeft, ChevronRight, Shield, Users, BookOpen } from 'lucide-react';
 
 interface Agreement {
   type: string;
@@ -86,9 +81,7 @@ export default function OnboardingAgreementsPage() {
       setSignedAgreements(signed);
 
       // Find first unsigned agreement
-      const firstUnsigned = REQUIRED_AGREEMENTS.findIndex(
-        (a) => !signed.has(a.type)
-      );
+      const firstUnsigned = REQUIRED_AGREEMENTS.findIndex((a) => !signed.has(a.type));
       if (firstUnsigned >= 0) {
         setCurrentAgreementIndex(firstUnsigned);
       }
@@ -126,7 +119,7 @@ export default function OnboardingAgreementsPage() {
     } else {
       // Move to next unsigned agreement
       const nextUnsigned = REQUIRED_AGREEMENTS.findIndex(
-        (a, i) => i > currentAgreementIndex && !newSigned.has(a.type)
+        (a, i) => i > currentAgreementIndex && !newSigned.has(a.type),
       );
       if (nextUnsigned >= 0) {
         setTimeout(() => {
@@ -139,11 +132,17 @@ export default function OnboardingAgreementsPage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center">
-
-      {/* Hero Image */}
-      <section className="relative h-[160px] sm:h-[220px] md:h-[280px]">
-        <Image src="/images/pages/comp-home-highlight-success.jpg" alt="Student portal" fill sizes="100vw" className="object-cover" priority />
-      </section>
+        {/* Hero Image */}
+        <section className="relative h-[160px] sm:h-[220px] md:h-[280px]">
+          <Image
+            src="/images/pages/comp-home-highlight-success.jpg"
+            alt="Student portal"
+            fill
+            sizes="100vw"
+            className="object-cover"
+            priority
+          />
+        </section>
         <div className="text-center">
           <div className="w-8 h-8 border-4 border-brand-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-slate-600">Loading agreements...</p>
@@ -160,9 +159,7 @@ export default function OnboardingAgreementsPage() {
             <div className="w-16 h-16 bg-brand-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <Check className="w-8 h-8 text-brand-green-600" />
             </div>
-            <h1 className="text-2xl font-bold text-slate-900 mb-2">
-              All Agreements Signed
-            </h1>
+            <h1 className="text-2xl font-bold text-slate-900 mb-2">All Agreements Signed</h1>
             <p className="text-slate-600 mb-6">
               You have successfully signed all required agreements.
             </p>
@@ -194,9 +191,7 @@ export default function OnboardingAgreementsPage() {
         {/* Progress Indicator */}
         <div className="bg-white rounded-xl shadow-sm p-4 mb-6">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-sm font-medium text-slate-700">
-              Agreement Progress
-            </span>
+            <span className="text-sm font-medium text-slate-700">Agreement Progress</span>
             <span className="text-sm text-slate-500">
               {signedAgreements.size} of {REQUIRED_AGREEMENTS.length} signed
             </span>
@@ -209,8 +204,8 @@ export default function OnboardingAgreementsPage() {
                   signedAgreements.has(agreement.type)
                     ? 'bg-brand-green-500'
                     : index === currentAgreementIndex
-                    ? 'bg-brand-blue-500'
-                    : 'bg-slate-200'
+                      ? 'bg-brand-blue-500'
+                      : 'bg-slate-200'
                 }`}
               />
             ))}
@@ -233,15 +228,11 @@ export default function OnboardingAgreementsPage() {
                   isSigned
                     ? 'bg-brand-green-100 text-brand-green-700'
                     : isCurrent
-                    ? 'bg-brand-blue-600 text-white'
-                    : 'bg-white text-slate-600 hover:bg-slate-100'
+                      ? 'bg-brand-blue-600 text-white'
+                      : 'bg-white text-slate-600 hover:bg-slate-100'
                 }`}
               >
-                {isSigned ? (
-                  <Check className="w-4 h-4" />
-                ) : (
-                  <Icon className="w-4 h-4" />
-                )}
+                {isSigned ? <Check className="w-4 h-4" /> : <Icon className="w-4 h-4" />}
                 <span className="text-sm font-medium">{agreement.title}</span>
               </button>
             );
@@ -260,12 +251,8 @@ export default function OnboardingAgreementsPage() {
                 })()}
               </div>
               <div>
-                <h1 className="text-xl font-bold text-slate-900">
-                  {currentAgreement.title}
-                </h1>
-                <p className="text-slate-600 mt-1">
-                  {currentAgreement.description}
-                </p>
+                <h1 className="text-xl font-bold text-slate-900">{currentAgreement.title}</h1>
+                <p className="text-slate-600 mt-1">{currentAgreement.description}</p>
                 <p className="text-sm text-slate-500 mt-2">
                   Version {versions[currentAgreement.type]?.version || currentAgreement.version}
                 </p>
@@ -276,12 +263,13 @@ export default function OnboardingAgreementsPage() {
           {/* Agreement Content Preview */}
           <div className="p-6 border-b border-slate-200">
             <div className="bg-slate-50 rounded-lg p-4 max-h-64 overflow-y-auto">
-              <h3 className="font-semibold text-slate-900 mb-2">
-                Agreement Summary
-              </h3>
+              <h3 className="font-semibold text-slate-900 mb-2">Agreement Summary</h3>
               {currentAgreement.type === 'enrollment' && (
                 <div className="text-sm text-slate-600 space-y-2">
-                  <p>This Enrollment Agreement outlines the terms and conditions of your enrollment in the training program, including:</p>
+                  <p>
+                    This Enrollment Agreement outlines the terms and conditions of your enrollment
+                    in the training program, including:
+                  </p>
                   <ul className="list-disc list-inside space-y-1 ml-2">
                     <li>Program duration and schedule</li>
                     <li>Tuition and payment terms</li>
@@ -294,7 +282,10 @@ export default function OnboardingAgreementsPage() {
               )}
               {currentAgreement.type === 'participation' && (
                 <div className="text-sm text-slate-600 space-y-2">
-                  <p>This Participation Agreement establishes expectations for your active participation in the program:</p>
+                  <p>
+                    This Participation Agreement establishes expectations for your active
+                    participation in the program:
+                  </p>
                   <ul className="list-disc list-inside space-y-1 ml-2">
                     <li>Code of conduct and professional behavior</li>
                     <li>Attendance and punctuality requirements</li>
@@ -314,7 +305,9 @@ export default function OnboardingAgreementsPage() {
                     <li>Communication with employers for job placement</li>
                     <li>Verification of enrollment and completion status</li>
                   </ul>
-                  <p className="mt-2">You may revoke this consent at any time by submitting a written request.</p>
+                  <p className="mt-2">
+                    You may revoke this consent at any time by submitting a written request.
+                  </p>
                 </div>
               )}
               <Link

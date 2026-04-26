@@ -35,10 +35,7 @@ async function _POST(request: Request) {
     // Validate file size (max 10MB)
     const maxSize = 10 * 1024 * 1024;
     if (file.size > maxSize) {
-      return NextResponse.json(
-        { error: 'File size exceeds 10MB limit' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'File size exceeds 10MB limit' }, { status: 400 });
     }
 
     // Validate file type
@@ -54,7 +51,7 @@ async function _POST(request: Request) {
     if (!allowedTypes.includes(file.type)) {
       return NextResponse.json(
         { error: 'Invalid file type. Allowed: PDF, JPG, PNG, DOC, DOCX' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -72,10 +69,7 @@ async function _POST(request: Request) {
       });
 
     if (uploadError) {
-      return NextResponse.json(
-        { error: 'Failed to upload file' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to upload file' }, { status: 500 });
     }
 
     // Create database record
@@ -104,11 +98,8 @@ async function _POST(request: Request) {
       document,
       message: 'File uploaded successfully.',
     });
-  } catch (error) { 
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+  } catch (error) {
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/tax/upload', _POST);

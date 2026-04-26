@@ -1,4 +1,5 @@
 # Welding Technology
+
 ## Program Syllabus
 
 **Provider:** Elevate for Humanity  
@@ -6,7 +7,7 @@
 **Program Code:** WELD-TECH  
 **Duration:** 12-24 Weeks (480-960 Hours)  
 **Delivery Method:** Hands-On Lab Training  
-**Funding:** Workforce Grants • Apprenticeship • WIOA  
+**Funding:** Workforce Grants • Apprenticeship • WIOA
 
 ---
 
@@ -32,6 +33,7 @@ Master a high-demand skilled trade! Learn MIG, TIG, stick welding, blueprint rea
 ## Course Outline
 
 ### Module 1: Welding Safety & Fundamentals (40 hours)
+
 - OSHA 10-Hour Construction Safety
 - Welding safety and PPE
 - Arc welding hazards
@@ -41,6 +43,7 @@ Master a high-demand skilled trade! Learn MIG, TIG, stick welding, blueprint rea
 - Shop equipment and tools
 
 ### Module 2: Oxyfuel Cutting & Plasma (60 hours)
+
 - Oxyfuel equipment setup
 - Cutting techniques
 - Plasma arc cutting
@@ -49,6 +52,7 @@ Master a high-demand skilled trade! Learn MIG, TIG, stick welding, blueprint rea
 - Cutting quality and troubleshooting
 
 ### Module 3: SMAW - Shielded Metal Arc Welding (Stick) (120 hours)
+
 - SMAW equipment and setup
 - Electrode selection and handling
 - Flat position welding
@@ -59,6 +63,7 @@ Master a high-demand skilled trade! Learn MIG, TIG, stick welding, blueprint rea
 - Weld quality and inspection
 
 ### Module 4: GMAW - Gas Metal Arc Welding (MIG) (120 hours)
+
 - GMAW equipment and setup
 - Wire and gas selection
 - Short circuit transfer
@@ -69,6 +74,7 @@ Master a high-demand skilled trade! Learn MIG, TIG, stick welding, blueprint rea
 - Troubleshooting and adjustments
 
 ### Module 5: GTAW - Gas Tungsten Arc Welding (TIG) (120 hours)
+
 - GTAW equipment and setup
 - Tungsten electrode preparation
 - Filler metal selection
@@ -79,6 +85,7 @@ Master a high-demand skilled trade! Learn MIG, TIG, stick welding, blueprint rea
 - Precision and quality control
 
 ### Module 6: Blueprint Reading & Welding Symbols (40 hours)
+
 - Reading technical drawings
 - Welding symbols and specifications
 - Dimensions and tolerances
@@ -87,6 +94,7 @@ Master a high-demand skilled trade! Learn MIG, TIG, stick welding, blueprint rea
 - Fabrication drawings
 
 ### Module 7: Metal Fabrication (80 hours)
+
 - Layout and measurement
 - Cutting and shearing
 - Bending and forming
@@ -95,6 +103,7 @@ Master a high-demand skilled trade! Learn MIG, TIG, stick welding, blueprint rea
 - Fabrication projects
 
 ### Module 8: Weld Inspection & Quality Control (40 hours)
+
 - Visual inspection techniques
 - Weld defects and causes
 - Destructive testing
@@ -103,6 +112,7 @@ Master a high-demand skilled trade! Learn MIG, TIG, stick welding, blueprint rea
 - Documentation and certification
 
 ### Module 9: Advanced Welding & Certification Prep (80-320 hours)
+
 - Pipe welding
 - Structural welding
 - Specialized processes

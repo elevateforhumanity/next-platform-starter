@@ -1,9 +1,9 @@
 /**
  * Barber Apprenticeship Welcome Email - Student Paid Version
- * 
+ *
  * Sent when student pays for barber apprenticeship program.
  * Includes Milady enrollment link for related instruction.
- * 
+ *
  * IMPORTANT: This program provides apprenticeship sponsorship, oversight,
  * and related instruction ONLY. It does NOT provide barber school training
  * or state licensure hours.
@@ -24,9 +24,9 @@ export function getBarberWelcomePaidEmail(data: BarberWelcomeEmailData): {
   html: string;
   text: string;
 } {
-  const { 
-    studentName, 
-    studentEmail, 
+  const {
+    studentName,
+    studentEmail,
     dashboardUrl,
     miladyEnrollmentUrl,
     requiredHours = 1500,
@@ -78,7 +78,9 @@ export function getBarberWelcomePaidEmail(data: BarberWelcomeEmailData): {
           <td style="padding: 8px 0; color: #334155;">Total Required (Indiana):</td>
           <td style="padding: 8px 0; text-align: right; font-weight: bold; color: #1e293b;">${requiredHours} hours</td>
         </tr>
-        ${transferHours > 0 ? `
+        ${
+          transferHours > 0
+            ? `
         <tr>
           <td style="padding: 8px 0; color: #334155;">Transfer Credits:</td>
           <td style="padding: 8px 0; text-align: right; font-weight: bold; color: #059669;">-${transferHours} hours</td>
@@ -87,7 +89,9 @@ export function getBarberWelcomePaidEmail(data: BarberWelcomeEmailData): {
           <td style="padding: 12px 0; color: #1e293b; font-weight: bold;">Hours You Need:</td>
           <td style="padding: 12px 0; text-align: right; font-weight: bold; color: #1e293b; font-size: 18px;">${remainingHours} hours</td>
         </tr>
-        ` : ''}
+        `
+            : ''
+        }
       </table>
 
       <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #bfdbfe;">
@@ -114,7 +118,9 @@ export function getBarberWelcomePaidEmail(data: BarberWelcomeEmailData): {
     </div>
 
     <!-- RAPIDS Status -->
-    ${rapidsPending ? `
+    ${
+      rapidsPending
+        ? `
     <div style="background: #f9fafb; border-left: 4px solid #e5e7eb; padding: 20px; margin-bottom: 25px; border-radius: 0 8px 8px 0;">
       <h2 style="margin: 0 0 12px 0; color: #7e22ce; font-size: 18px;">📋 DOL RAPIDS Registration</h2>
       <p style="margin: 0; color: #374151; font-size: 14px;">
@@ -122,7 +128,9 @@ export function getBarberWelcomePaidEmail(data: BarberWelcomeEmailData): {
         You'll receive confirmation within 5-7 business days.
       </p>
     </div>
-    ` : ''}
+    `
+        : ''
+    }
 
     <!-- Next Steps -->
     <div style="background: #f9fafb; border: 1px solid #e5e7eb; padding: 20px; border-radius: 8px; margin-bottom: 25px;">
@@ -190,8 +198,12 @@ Use this email to register: ${studentEmail}
 📊 YOUR HOUR REQUIREMENTS
 
 Total Required (Indiana): ${requiredHours} hours
-${transferHours > 0 ? `Transfer Credits: -${transferHours} hours
-Hours You Need: ${remainingHours} hours` : ''}
+${
+  transferHours > 0
+    ? `Transfer Credits: -${transferHours} hours
+Hours You Need: ${remainingHours} hours`
+    : ''
+}
 
 Hour Breakdown:
 • RTI (Theory via Milady): ~10% of hours

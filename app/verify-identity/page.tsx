@@ -38,12 +38,8 @@ export default async function VerifyIdentityPage() {
       <div className="min-h-screen bg-white">
         <section className="border-b py-8">
           <div className="max-w-4xl mx-auto px-6">
-            <h1 className="text-4xl font-bold text-black mb-2">
-              Identity Verification
-            </h1>
-            <p className="text-lg text-black">
-              Your identity has been verified
-            </p>
+            <h1 className="text-4xl font-bold text-black mb-2">Identity Verification</h1>
+            <p className="text-lg text-black">Your identity has been verified</p>
           </div>
         </section>
 
@@ -52,9 +48,7 @@ export default async function VerifyIdentityPage() {
             <div className="flex items-center gap-4 mb-4">
               <span className="text-slate-400 flex-shrink-0">•</span>
               <div>
-                <h2 className="text-3xl font-bold text-brand-green-900">
-                  Verification Complete!
-                </h2>
+                <h2 className="text-3xl font-bold text-brand-green-900">Verification Complete!</h2>
                 <p className="text-lg text-brand-green-700">
                   Your identity has been successfully verified.
                 </p>
@@ -72,17 +66,16 @@ export default async function VerifyIdentityPage() {
     );
   }
 
-  if (verification && (verification.status === 'pending' || verification.status === 'pending_review')) {
+  if (
+    verification &&
+    (verification.status === 'pending' || verification.status === 'pending_review')
+  ) {
     return (
       <div className="min-h-screen bg-white">
         <section className="border-b py-8">
           <div className="max-w-4xl mx-auto px-6">
-            <h1 className="text-4xl font-bold text-black mb-2">
-              Identity Verification
-            </h1>
-            <p className="text-lg text-black">
-              Your verification is being reviewed
-            </p>
+            <h1 className="text-4xl font-bold text-black mb-2">Identity Verification</h1>
+            <p className="text-lg text-black">Your verification is being reviewed</p>
           </div>
         </section>
 
@@ -91,18 +84,16 @@ export default async function VerifyIdentityPage() {
             <div className="flex items-center gap-4 mb-4">
               <Shield className="w-16 h-16 text-yellow-600" />
               <div>
-                <h2 className="text-3xl font-bold text-yellow-900">
-                  Verification Pending
-                </h2>
+                <h2 className="text-3xl font-bold text-yellow-900">Verification Pending</h2>
                 <p className="text-lg text-yellow-700">
                   We're reviewing your identity verification.
                 </p>
               </div>
             </div>
             <p className="text-yellow-800 mb-4">
-              Your verification is currently being reviewed by our team. This
-              typically takes 1-2 business days. You'll receive an email
-              notification once your verification is approved.
+              Your verification is currently being reviewed by our team. This typically takes 1-2
+              business days. You'll receive an email notification once your verification is
+              approved.
             </p>
             <div className="mt-6 p-4 bg-white rounded-lg border border-yellow-200">
               <p className="text-sm text-black">
@@ -121,27 +112,21 @@ export default async function VerifyIdentityPage() {
       <div className="min-h-screen bg-white">
         <section className="border-b py-8">
           <div className="max-w-4xl mx-auto px-6">
-            <h1 className="text-4xl font-bold text-black mb-2">
-              Identity Verification
-            </h1>
-            <p className="text-lg text-black">
-              Your verification was not approved
-            </p>
+            <h1 className="text-4xl font-bold text-black mb-2">Identity Verification</h1>
+            <p className="text-lg text-black">Your verification was not approved</p>
           </div>
         </section>
 
         <div className="max-w-4xl mx-auto px-6 py-12">
           <div className="bg-brand-red-50 border-2 border-brand-red-600 rounded-lg p-8 mb-8">
-            <h2 className="text-2xl font-bold text-brand-red-900 mb-4">
-              Verification Rejected
-            </h2>
+            <h2 className="text-2xl font-bold text-brand-red-900 mb-4">Verification Rejected</h2>
             <p className="text-brand-red-800 mb-4">
-              Unfortunately, we were unable to verify your identity with the
-              information provided.
+              Unfortunately, we were unable to verify your identity with the information provided.
             </p>
             <div className="p-4 bg-white rounded-lg border border-brand-red-200 mb-4">
               <p className="text-sm text-black">
-                Please contact support at (317) 314-3757 for details on why your verification was not approved.
+                Please contact support at (317) 314-3757 for details on why your verification was
+                not approved.
               </p>
             </div>
             <p className="text-brand-red-800">
@@ -165,12 +150,9 @@ export default async function VerifyIdentityPage() {
           <div className="flex items-center gap-4 mb-4">
             <Shield className="w-16 h-16" />
             <div>
-              <h1 className="text-4xl md:text-5xl font-bold mb-2">
-                Verify Your Identity
-              </h1>
+              <h1 className="text-4xl md:text-5xl font-bold mb-2">Verify Your Identity</h1>
               <p className="text-xl text-white">
-                Complete this one-time verification to access all platform
-                features
+                Complete this one-time verification to access all platform features
               </p>
             </div>
           </div>
@@ -180,9 +162,7 @@ export default async function VerifyIdentityPage() {
       <div className="max-w-4xl mx-auto px-6 py-12">
         {/* Why Verification */}
         <div className="bg-brand-blue-50 border-2 border-brand-blue-200 rounded-lg p-6 mb-8">
-          <h2 className="text-xl font-bold text-brand-blue-900 mb-3">
-            Why do we need this?
-          </h2>
+          <h2 className="text-xl font-bold text-brand-blue-900 mb-3">Why do we need this?</h2>
           <ul className="space-y-2 text-brand-blue-800">
             <li className="flex items-start gap-2">
               <span className="text-slate-400 flex-shrink-0">•</span>

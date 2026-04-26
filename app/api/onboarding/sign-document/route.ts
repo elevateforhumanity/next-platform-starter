@@ -31,10 +31,7 @@ async function _POST(request: NextRequest) {
     const { documentId, signature, signatureType, role } = body;
 
     if (!documentId || !signature || !signatureType || !role) {
-      return NextResponse.json(
-        { error: 'Missing required fields' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
     // Get user's profile to verify name
@@ -52,7 +49,7 @@ async function _POST(request: NextRequest) {
     if (signature.trim().toLowerCase() !== profile.full_name.toLowerCase()) {
       return NextResponse.json(
         { error: 'Digital signature must match your name exactly.' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -64,10 +61,7 @@ async function _POST(request: NextRequest) {
       .maybeSingle();
 
     if (!document) {
-      return NextResponse.json(
-        { error: 'Document not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: 'Document not found' }, { status: 404 });
     }
 
     // Get packet version
@@ -82,50 +76,37 @@ async function _POST(request: NextRequest) {
     }
 
     // Create document hash (SHA256)
-    const documentHash = crypto
-      .createHash('sha256')
-      .update(document.content)
-      .digest('hex');
+    const documentHash = crypto.createHash('sha256').update(document.content).digest('hex');
 
     // Get client IP and user agent
     const ip =
-      request.headers.get('x-forwarded-for') ||
-      request.headers.get('x-real-ip') ||
-      'unknown';
+      request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown';
     const userAgent = request.headers.get('user-agent') || 'unknown';
 
     // Insert signature
-    const { error: signError } = await supabase
-      .from('onboarding_signatures')
-      .insert({
-        user_id: user.id,
-        document_id: documentId,
-        role: role,
-        signature_data: signature.trim(),
-        signature_type: signatureType,
-        document_version: packet.version,
-        document_hash: documentHash,
-        ip_address: ip,
-        user_agent: userAgent,
-        signed_at: new Date().toISOString(),
-        is_valid: true,
-      });
+    const { error: signError } = await supabase.from('onboarding_signatures').insert({
+      user_id: user.id,
+      document_id: documentId,
+      role: role,
+      signature_data: signature.trim(),
+      signature_type: signatureType,
+      document_version: packet.version,
+      document_hash: documentHash,
+      ip_address: ip,
+      user_agent: userAgent,
+      signed_at: new Date().toISOString(),
+      is_valid: true,
+    });
 
     if (signError) {
-      return NextResponse.json(
-        { error: 'Failed to save signature' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to save signature' }, { status: 500 });
     }
 
     // Check if onboarding is complete
-    const { data: completionCheck } = await supabase.rpc(
-      'check_onboarding_completion',
-      {
-        p_user_id: user.id,
-        p_role: role,
-      }
-    );
+    const { data: completionCheck } = await supabase.rpc('check_onboarding_completion', {
+      p_user_id: user.id,
+      p_role: role,
+    });
 
     // Update onboarding progress
     await supabase.rpc('complete_onboarding_step', {
@@ -142,7 +123,7 @@ async function _POST(request: NextRequest) {
           .select('id')
           .eq('user_id', user.id)
           .maybeSingle();
-        
+
         if (partnerRecord?.id) {
           checkPartnerApproval(partnerRecord.id).catch((err) => {
             logger.error('Partner approval check error (non-blocking):', err);

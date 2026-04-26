@@ -30,10 +30,9 @@
 import { NextResponse } from 'next/server';
 import type { SupabaseClient } from '@supabase/supabase-js';
 
-const BILLING_REQUIRED_URL =
-  process.env.NEXT_PUBLIC_SITE_URL
-    ? `${process.env.NEXT_PUBLIC_SITE_URL}/billing-required`
-    : '/billing-required';
+const BILLING_REQUIRED_URL = process.env.NEXT_PUBLIC_SITE_URL
+  ? `${process.env.NEXT_PUBLIC_SITE_URL}/billing-required`
+  : '/billing-required';
 
 export async function checkBarberSuspension(
   userId: string,

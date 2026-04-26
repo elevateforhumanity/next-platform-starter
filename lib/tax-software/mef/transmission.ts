@@ -2,7 +2,7 @@ import { logger } from '@/lib/logger';
 /**
  * IRS MeF Transmission Module
  * Handles direct transmission to IRS e-file system
- * 
+ *
  * Supports both simulated (test) and real (SOAP) transmission modes.
  */
 
@@ -14,7 +14,7 @@ const EFIN = process.env.IRS_EFIN || '000000';
 // IRS MeF endpoints (production vs test)
 const IRS_MEF_ENDPOINTS = {
   production: 'https://la.www4.irs.gov/a2a/mef',
-  test: 'https://la.www4.irs.gov/a2a/mef/test'
+  test: 'https://la.www4.irs.gov/a2a/mef/test',
 };
 
 export interface MeFSubmission {
@@ -48,20 +48,20 @@ interface TransmissionConfig {
 export class IRSTransmitter {
   private config: TransmissionConfig;
   private supabase: SupabaseClient | null = null;
-  
+
   constructor(config: TransmissionConfig) {
     this.config = config;
     if (config.supabaseUrl && config.supabaseServiceKey) {
       this.supabase = createClient(config.supabaseUrl, config.supabaseServiceKey);
     }
   }
-  
+
   /**
    * Transmit a tax return to the IRS
    */
   async transmit(submission: MeFSubmission): Promise<TransmissionResult> {
     const endpoint = IRS_MEF_ENDPOINTS[this.config.environment];
-    
+
     try {
       // Store submission in database before transmitting
       if (this.supabase) {
@@ -75,36 +75,36 @@ export class IRSTransmitter {
             submission_type: submission.submissionType,
             xml_content: submission.xmlContent,
             status: 'transmitting',
-            created_at: new Date().toISOString()
+            created_at: new Date().toISOString(),
           } as Record<string, unknown>)
           .select()
           .maybeSingle();
-        
+
         if (dbError) {
           logger.warn(`Database error: ${dbError.message}`);
         }
       }
-      
+
       // Build SOAP envelope for IRS transmission
       const soapEnvelope = this.buildSOAPEnvelope(submission);
-      
+
       // In test mode, transmit to IRS ATS endpoints (not simulated).
       // Real ATS responses are required to validate the transmission pipeline.
       // Set IRS_ENVIRONMENT=test and provide IRS test certificates to use ATS.
-      
+
       // Transmit to IRS
       const response = await fetch(`${endpoint}/transmitter`, {
         method: 'POST',
         headers: {
           'Content-Type': 'text/xml; charset=utf-8',
-          'SOAPAction': 'TransmitReturn'
+          SOAPAction: 'TransmitReturn',
         },
-        body: soapEnvelope
+        body: soapEnvelope,
       });
-      
+
       if (!response.ok) {
         const errorText = await response.text();
-        
+
         // Update database with failure
         if (this.supabase) {
           await this.supabase
@@ -112,22 +112,22 @@ export class IRSTransmitter {
             .update({
               status: 'transmission_failed',
               error_message: errorText,
-              updated_at: new Date().toISOString()
+              updated_at: new Date().toISOString(),
             } as Record<string, unknown>)
             .eq('submission_id', submission.submissionId);
         }
-        
+
         return {
           success: false,
           submissionId: submission.submissionId,
           transmittedAt: new Date().toISOString(),
-          error: `IRS transmission failed: ${response.status} - ${errorText}`
+          error: `IRS transmission failed: ${response.status} - ${errorText}`,
         };
       }
-      
+
       const responseXml = await response.text();
       const acknowledgment = this.parseAcknowledgment(responseXml, submission.submissionId);
-      
+
       // Update database with result
       if (this.supabase) {
         await this.supabase
@@ -136,32 +136,29 @@ export class IRSTransmitter {
             status: acknowledgment.status === 'accepted' ? 'accepted' : 'rejected',
             dcn: acknowledgment.dcn,
             transmitted_at: new Date().toISOString(),
-            updated_at: new Date().toISOString()
+            updated_at: new Date().toISOString(),
           } as Record<string, unknown>)
           .eq('submission_id', submission.submissionId);
-        
+
         // Store acknowledgment separately
-        await this.supabase
-          .from('mef_acknowledgments')
-          .insert({
-            submission_id: submission.submissionId,
-            status: acknowledgment.status,
-            dcn: acknowledgment.dcn,
-            errors: acknowledgment.errors,
-            received_at: new Date().toISOString()
-          } as Record<string, unknown>);
+        await this.supabase.from('mef_acknowledgments').insert({
+          submission_id: submission.submissionId,
+          status: acknowledgment.status,
+          dcn: acknowledgment.dcn,
+          errors: acknowledgment.errors,
+          received_at: new Date().toISOString(),
+        } as Record<string, unknown>);
       }
-      
+
       return {
         success: acknowledgment.status === 'accepted',
         submissionId: submission.submissionId,
         transmittedAt: new Date().toISOString(),
-        acknowledgment
+        acknowledgment,
       };
-      
     } catch (error: unknown) {
       const errorMessage = 'Operation failed';
-      
+
       // Update database with error
       if (this.supabase) {
         await this.supabase
@@ -169,26 +166,26 @@ export class IRSTransmitter {
           .update({
             status: 'error',
             error_message: errorMessage,
-            updated_at: new Date().toISOString()
+            updated_at: new Date().toISOString(),
           } as Record<string, unknown>)
           .eq('submission_id', submission.submissionId);
       }
-      
+
       return {
         success: false,
         submissionId: submission.submissionId,
         transmittedAt: new Date().toISOString(),
-        error: errorMessage
+        error: errorMessage,
       };
     }
   }
-  
+
   /**
    * Check status of a previously submitted return
    */
   async checkStatus(submissionId: string): Promise<MeFAcknowledgment | null> {
     const endpoint = IRS_MEF_ENDPOINTS[this.config.environment];
-    
+
     try {
       // IRS MeF requires SOAP 1.1
       const soapEnvelope = `<?xml version="1.0" encoding="UTF-8"?>
@@ -209,23 +206,23 @@ export class IRSTransmitter {
     </mef:GetAcknowledgementRequest>
   </soap:Body>
 </soap:Envelope>`;
-      
+
       const response = await fetch(`${endpoint}/acknowledgement`, {
         method: 'POST',
         headers: {
           'Content-Type': 'text/xml; charset=utf-8',
-          'SOAPAction': 'GetAcknowledgement'
+          SOAPAction: 'GetAcknowledgement',
         },
-        body: soapEnvelope
+        body: soapEnvelope,
       });
-      
+
       if (!response.ok) {
         return null;
       }
-      
+
       const responseXml = await response.text();
       const acknowledgment = this.parseAcknowledgment(responseXml, submissionId);
-      
+
       // Update database
       if (this.supabase) {
         await this.supabase
@@ -233,34 +230,33 @@ export class IRSTransmitter {
           .update({
             status: acknowledgment.status,
             dcn: acknowledgment.dcn,
-            updated_at: new Date().toISOString()
+            updated_at: new Date().toISOString(),
           } as Record<string, unknown>)
           .eq('submission_id', submissionId);
       }
-      
+
       return acknowledgment;
-      
     } catch (error) {
       return null;
     }
   }
-  
+
   /**
    * Get submission from database
    */
   async getSubmission(submissionId: string): Promise<MeFSubmission | null> {
     if (!this.supabase) return null;
-    
+
     const { data, error } = await this.supabase
       .from('mef_submissions')
       .select('*')
       .eq('submission_id', submissionId)
       .maybeSingle();
-    
+
     if (error || !data) return null;
-    
+
     const d = data as Record<string, unknown>;
-    
+
     return {
       submissionId: d.submission_id as string,
       efin: d.efin as string,
@@ -271,25 +267,25 @@ export class IRSTransmitter {
       xmlContent: d.xml_content as string,
       submittedAt: d.transmitted_at as string,
       status: d.status as string,
-      acknowledgment: d.acknowledgment as MeFAcknowledgment
+      acknowledgment: d.acknowledgment as MeFAcknowledgment,
     };
   }
-  
+
   /**
    * Get all submissions for a taxpayer
    */
   async getSubmissionsBySSN(ssnHash: string): Promise<MeFSubmission[]> {
     if (!this.supabase) return [];
-    
+
     const { data, error } = await this.supabase
       .from('mef_submissions')
       .select('*')
       .eq('taxpayer_ssn_hash', ssnHash)
       .order('created_at', { ascending: false });
-    
+
     if (error || !data) return [];
-    
-    return (data as Record<string, unknown>[]).map(d => ({
+
+    return (data as Record<string, unknown>[]).map((d) => ({
       submissionId: d.submission_id as string,
       efin: d.efin as string,
       softwareId: d.software_id as string,
@@ -299,10 +295,10 @@ export class IRSTransmitter {
       xmlContent: d.xml_content as string,
       submittedAt: d.transmitted_at as string,
       status: d.status as string,
-      acknowledgment: d.acknowledgment as MeFAcknowledgment
+      acknowledgment: d.acknowledgment as MeFAcknowledgment,
     }));
   }
-  
+
   private buildSOAPEnvelope(submission: MeFSubmission): string {
     // IRS MeF requires SOAP 1.1 (schemas.xmlsoap.org), not SOAP 1.2 (w3.org/2003/05)
     return `<?xml version="1.0" encoding="UTF-8"?>
@@ -343,32 +339,33 @@ export class IRSTransmitter {
   </soap:Body>
 </soap:Envelope>`;
   }
-  
+
   private parseAcknowledgment(xml: string, submissionId: string): MeFAcknowledgment {
     // Parse IRS acknowledgment XML response
     const statusMatch = xml.match(/<AcceptanceStatusTxt>(\w+)<\/AcceptanceStatusTxt>/);
     const dcnMatch = xml.match(/<DCN>(\d+)<\/DCN>/);
-    const errorRegex = /<Error>[\s\S]*?<ErrorCd>(\w+)<\/ErrorCd>[\s\S]*?<ErrorCategoryTxt>(\w+)<\/ErrorCategoryTxt>[\s\S]*?<ErrorMessageTxt>(.*?)<\/ErrorMessageTxt>[\s\S]*?<\/Error>/g;
-    
+    const errorRegex =
+      /<Error>[\s\S]*?<ErrorCd>(\w+)<\/ErrorCd>[\s\S]*?<ErrorCategoryTxt>(\w+)<\/ErrorCategoryTxt>[\s\S]*?<ErrorMessageTxt>(.*?)<\/ErrorMessageTxt>[\s\S]*?<\/Error>/g;
+
     const errors: MeFError[] = [];
     let match: RegExpExecArray | null;
     while ((match = errorRegex.exec(xml)) !== null) {
       errors.push({
         errorCode: match[1],
         errorCategory: match[2].toLowerCase() as 'reject' | 'alert',
-        errorMessage: match[3]
+        errorMessage: match[3],
       });
     }
-    
+
     const status = statusMatch?.[1]?.toLowerCase() === 'accepted' ? 'accepted' : 'rejected';
-    
+
     return {
       submissionId,
       status,
       dcn: dcnMatch?.[1],
       acceptedAt: status === 'accepted' ? new Date().toISOString() : undefined,
       rejectedAt: status === 'rejected' ? new Date().toISOString() : undefined,
-      errors: errors.length > 0 ? errors : undefined
+      errors: errors.length > 0 ? errors : undefined,
     };
   }
 }
@@ -379,11 +376,12 @@ export class IRSTransmitter {
 export function createTransmitter(config?: Partial<TransmissionConfig>): IRSTransmitter {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  
+
   return new IRSTransmitter({
     softwareId: config?.softwareId || process.env.IRS_SOFTWARE_ID || 'PENDING',
-    environment: config?.environment || (process.env.IRS_ENVIRONMENT as 'production' | 'test') || 'test',
+    environment:
+      config?.environment || (process.env.IRS_ENVIRONMENT as 'production' | 'test') || 'test',
     supabaseUrl,
-    supabaseServiceKey
+    supabaseServiceKey,
   });
 }

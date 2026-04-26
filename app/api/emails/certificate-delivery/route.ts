@@ -21,14 +21,8 @@ async function _POST(req: NextRequest) {
     const rateLimited = await applyRateLimit(req, 'api');
     if (rateLimited) return rateLimited;
 
-    const {
-      email,
-      name,
-      programTitle,
-      certificateNumber,
-      certificateUrl,
-      verificationUrl,
-    } = await req.json();
+    const { email, name, programTitle, certificateNumber, certificateUrl, verificationUrl } =
+      await req.json();
 
     // Email HTML template
     const htmlContent = `
@@ -161,14 +155,14 @@ async function _POST(req: NextRequest) {
     // For now, returning success - integrate with actual email service
 
     return NextResponse.json({ success: true });
-  } catch (error) { 
+  } catch (error) {
     logger.error(
       'Email delivery error:',
-      error instanceof Error ? error : new Error(String(error))
+      error instanceof Error ? error : new Error(String(error)),
     );
     return NextResponse.json(
       { error: toErrorMessage(error) || 'Failed to send email' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

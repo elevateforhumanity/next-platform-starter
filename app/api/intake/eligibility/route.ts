@@ -1,6 +1,5 @@
 // PUBLIC ROUTE: public eligibility check
 
-
 // =====================================================
 // INTAKE STAGE 2: ELIGIBILITY
 // Pre-qualification before full application
@@ -123,7 +122,7 @@ async function _POST(req: NextRequest) {
     if (!parsed.success) {
       return NextResponse.json(
         { error: 'Invalid request', details: parsed.error.issues },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -138,10 +137,7 @@ async function _POST(req: NextRequest) {
       .maybeSingle();
 
     if (leadError || !lead) {
-      return NextResponse.json(
-        { error: 'Lead not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: 'Lead not found' }, { status: 404 });
     }
 
     // Check eligibility
@@ -167,11 +163,11 @@ async function _POST(req: NextRequest) {
       .eq('id', data.leadId);
 
     if (updateError) {
-      logger.error('Failed to update lead eligibility', { error: updateError, leadId: data.leadId });
-      return NextResponse.json(
-        { error: 'Failed to update eligibility' },
-        { status: 500 }
-      );
+      logger.error('Failed to update lead eligibility', {
+        error: updateError,
+        leadId: data.leadId,
+      });
+      return NextResponse.json({ error: 'Failed to update eligibility' }, { status: 500 });
     }
 
     // Log event
@@ -206,15 +202,13 @@ async function _POST(req: NextRequest) {
         eligible: false,
         reasons: eligibility.reasons,
         nextStep: '/resources',
-        message: 'Based on your current situation, you may not qualify for funded training at this time. However, we have other resources that may help.',
+        message:
+          'Based on your current situation, you may not qualify for funded training at this time. However, we have other resources that may help.',
       });
     }
   } catch (error) {
     logger.error('Eligibility check error', { error });
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/intake/eligibility', _POST);

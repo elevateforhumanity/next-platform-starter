@@ -42,7 +42,8 @@ export async function GET(request: NextRequest) {
   // Require either IP allowlist OR a valid internal secret header
   // Prevents open access when ADMIN_IP_ALLOWLIST is not configured
   const cronSecret = process.env.CRON_SECRET;
-  const providedSecret = request.headers.get('x-internal-secret') ?? request.nextUrl.searchParams.get('secret');
+  const providedSecret =
+    request.headers.get('x-internal-secret') ?? request.nextUrl.searchParams.get('secret');
   if (cronSecret && providedSecret !== cronSecret) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
@@ -53,16 +54,18 @@ export async function GET(request: NextRequest) {
 
   try {
     const admin = await getAdminClient();
-    const db = admin ?? await createClient();
+    const db = admin ?? (await createClient());
 
     const { data: programs, error } = await db
       .from('programs')
-      .select(`
+      .select(
+        `
         id, slug, title, published, is_active, status,
         delivery_model, enrollment_type, external_enrollment_url, has_lms_course,
         program_funding(id, type, is_active),
         training_courses(id, slug, published)
-      `)
+      `,
+      )
       .eq('published', true)
       .eq('is_active', true)
       .neq('status', 'archived')
@@ -84,7 +87,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({
         warning: 'Migration 20260503000005 not yet applied — delivery_model columns unavailable',
         program_count: basicPrograms?.length ?? 0,
-        programs: (basicPrograms ?? []).map(p => ({
+        programs: (basicPrograms ?? []).map((p) => ({
           id: p.id,
           slug: p.slug,
           title: p.title,
@@ -94,15 +97,18 @@ export async function GET(request: NextRequest) {
       });
     }
 
-    const results: ProgramHealthResult[] = (programs ?? []).map(p => {
+    const results: ProgramHealthResult[] = (programs ?? []).map((p) => {
       const issues: string[] = [];
       const lmsCourseCount = (p.training_courses ?? []).length;
-      const fundingCount = (p.program_funding ?? []).filter((f: { is_active: boolean }) => f.is_active).length;
+      const fundingCount = (p.program_funding ?? []).filter(
+        (f: { is_active: boolean }) => f.is_active,
+      ).length;
       const enrollmentType = p.enrollment_type ?? 'internal';
 
       if (!p.slug) issues.push('Missing slug');
       if (!p.delivery_model) issues.push('delivery_model not set — apply migration 20260503000005');
-      if (!p.enrollment_type) issues.push('enrollment_type not set — apply migration 20260503000005');
+      if (!p.enrollment_type)
+        issues.push('enrollment_type not set — apply migration 20260503000005');
       if (fundingCount === 0) issues.push('No active funding options in program_funding');
 
       if (enrollmentType === 'internal' && p.has_lms_course && lmsCourseCount === 0) {
@@ -123,14 +129,19 @@ export async function GET(request: NextRequest) {
         has_lms_course: p.has_lms_course,
         lms_course_count: lmsCourseCount,
         funding_count: fundingCount,
-        status: issues.length === 0 ? 'PASS' : issues.some(i => i.includes('Missing') || i.includes('external_enrollment_url')) ? 'FAIL' : 'WARN',
+        status:
+          issues.length === 0
+            ? 'PASS'
+            : issues.some((i) => i.includes('Missing') || i.includes('external_enrollment_url'))
+              ? 'FAIL'
+              : 'WARN',
         issues,
       };
     });
 
-    const pass = results.filter(r => r.status === 'PASS').length;
-    const fail = results.filter(r => r.status === 'FAIL').length;
-    const warn = results.filter(r => r.status === 'WARN').length;
+    const pass = results.filter((r) => r.status === 'PASS').length;
+    const fail = results.filter((r) => r.status === 'FAIL').length;
+    const warn = results.filter((r) => r.status === 'WARN').length;
 
     return NextResponse.json({
       summary: { total: results.length, pass, fail, warn },

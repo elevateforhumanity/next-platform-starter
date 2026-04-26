@@ -31,14 +31,11 @@ export default function ProgramTemplate() {
           </div>
 
           {/* Title */}
-          <h1 className="text-4xl md:text-5xl font-bold text-black mb-4">
-            Program Name Here
-          </h1>
+          <h1 className="text-4xl md:text-5xl font-bold text-black mb-4">Program Name Here</h1>
 
           {/* Description */}
           <p className="text-xl text-black mb-8 max-w-3xl">
-            Brief program description that explains what students will learn and
-            achieve.
+            Brief program description that explains what students will learn and achieve.
           </p>
 
           {/* Quick Stats */}
@@ -94,33 +91,23 @@ export default function ProgramTemplate() {
       {/* What You'll Learn */}
       <section className="py-16 bg-slate-900">
         <div className="max-w-7xl mx-auto px-6">
-          <h2 className="text-3xl font-bold text-black mb-8">
-            What You'll Learn
-          </h2>
+          <h2 className="text-3xl font-bold text-black mb-8">What You'll Learn</h2>
           <div className="grid md:grid-cols-2 gap-6">
             <div>
               <h3 className="font-bold text-black mb-2">Skill 1</h3>
-              <p className="text-black">
-                Description of what students will learn
-              </p>
+              <p className="text-black">Description of what students will learn</p>
             </div>
             <div>
               <h3 className="font-bold text-black mb-2">Skill 2</h3>
-              <p className="text-black">
-                Description of what students will learn
-              </p>
+              <p className="text-black">Description of what students will learn</p>
             </div>
             <div>
               <h3 className="font-bold text-black mb-2">Skill 3</h3>
-              <p className="text-black">
-                Description of what students will learn
-              </p>
+              <p className="text-black">Description of what students will learn</p>
             </div>
             <div>
               <h3 className="font-bold text-black mb-2">Skill 4</h3>
-              <p className="text-black">
-                Description of what students will learn
-              </p>
+              <p className="text-black">Description of what students will learn</p>
             </div>
           </div>
         </div>
@@ -129,9 +116,7 @@ export default function ProgramTemplate() {
       {/* How It Works */}
       <section className="py-16 bg-slate-900">
         <div className="max-w-7xl mx-auto px-6">
-          <h2 className="text-3xl font-bold text-black mb-8">
-            How It Works
-          </h2>
+          <h2 className="text-3xl font-bold text-black mb-8">How It Works</h2>
           <div className="grid md:grid-cols-3 gap-8">
             <div>
               <div className="w-12 h-12 bg-brand-red-600 text-white rounded-full flex items-center justify-center font-bold text-xl mb-4">
@@ -147,20 +132,14 @@ export default function ProgramTemplate() {
                 2
               </div>
               <h3 className="text-xl font-bold text-black mb-2">Train</h3>
-              <p className="text-black">
-                Complete hands-on training with experienced instructors.
-              </p>
+              <p className="text-black">Complete hands-on training with experienced instructors.</p>
             </div>
             <div>
               <div className="w-12 h-12 bg-brand-red-600 text-white rounded-full flex items-center justify-center font-bold text-xl mb-4">
                 3
               </div>
-              <h3 className="text-xl font-bold text-black mb-2">
-                Launch Your Career
-              </h3>
-              <p className="text-black">
-                Get certified and start working in your new career.
-              </p>
+              <h3 className="text-xl font-bold text-black mb-2">Launch Your Career</h3>
+              <p className="text-black">Get certified and start working in your new career.</p>
             </div>
           </div>
         </div>
@@ -169,9 +148,7 @@ export default function ProgramTemplate() {
       {/* Funding Options */}
       <section className="py-16 bg-brand-blue-50">
         <div className="max-w-7xl mx-auto px-6">
-          <h2 className="text-3xl font-bold text-black mb-4">
-            Funded with Funding
-          </h2>
+          <h2 className="text-3xl font-bold text-black mb-4">Funded with Funding</h2>
           <p className="text-xl text-black mb-8 max-w-3xl">
             Most students qualify for free training through WIOA, WRG, Job Ready Indy, or
             DOL-registered apprenticeships.
@@ -180,22 +157,19 @@ export default function ProgramTemplate() {
             <div className="bg-white rounded-xl p-6">
               <h3 className="font-bold text-black mb-2">WIOA Funding</h3>
               <p className="text-black text-sm">
-                Workforce Innovation and Opportunity Act funding for eligible
-                individuals.
+                Workforce Innovation and Opportunity Act funding for eligible individuals.
               </p>
             </div>
             <div className="bg-white rounded-xl p-6">
               <h3 className="font-bold text-black mb-2">WRG Funding</h3>
               <p className="text-black text-sm">
-                Workforce Ready Grant for Indiana residents pursuing in-demand
-                careers.
+                Workforce Ready Grant for Indiana residents pursuing in-demand careers.
               </p>
             </div>
             <div className="bg-white rounded-xl p-6">
               <h3 className="font-bold text-black mb-2">Job Ready Indy Funding</h3>
               <p className="text-black text-sm">
-                Job Ready Indy for individuals with criminal
-                justice involvement.
+                Job Ready Indy for individuals with criminal justice involvement.
               </p>
             </div>
           </div>
@@ -205,9 +179,7 @@ export default function ProgramTemplate() {
       {/* Final CTA */}
       <section className="py-16 bg-slate-900">
         <div className="max-w-4xl mx-auto px-6 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            Ready to Get Started?
-          </h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Ready to Get Started?</h2>
           <p className="text-white text-base leading-relaxed mb-8">
             Apply today and take the first step toward your new career.
           </p>

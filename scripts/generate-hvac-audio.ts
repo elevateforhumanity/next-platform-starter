@@ -42,31 +42,31 @@ const MARCUS_INSTRUCTION =
 
 // Module-specific opening hooks
 const MODULE_HOOKS: Record<number, string> = {
-  1:  "Let's talk about what this program is going to do for you.",
-  2:  "Before you touch a single tool, you need to understand what HVAC systems actually do.",
-  3:  "Electricity runs everything in an HVAC system. If you don't understand it, you can't diagnose anything.",
-  4:  "Heating systems keep people alive in winter. You need to know them cold.",
-  5:  "The refrigeration cycle is the foundation of everything you'll do in this trade.",
-  6:  "EPA 608 is not optional. You cannot legally touch refrigerant without it. Let's make sure you pass.",
-  7:  "Type I covers small appliances. Don't underestimate this section — it has tricky questions.",
-  8:  "Type II is the bread and butter of residential HVAC. This is what you'll use every day.",
-  9:  "Type III covers low-pressure chillers. These are commercial systems — big equipment, big consequences.",
+  1: "Let's talk about what this program is going to do for you.",
+  2: 'Before you touch a single tool, you need to understand what HVAC systems actually do.',
+  3: "Electricity runs everything in an HVAC system. If you don't understand it, you can't diagnose anything.",
+  4: 'Heating systems keep people alive in winter. You need to know them cold.',
+  5: "The refrigeration cycle is the foundation of everything you'll do in this trade.",
+  6: "EPA 608 is not optional. You cannot legally touch refrigerant without it. Let's make sure you pass.",
+  7: "Type I covers small appliances. Don't underestimate this section — it has tricky questions.",
+  8: "Type II is the bread and butter of residential HVAC. This is what you'll use every day.",
+  9: 'Type III covers low-pressure chillers. These are commercial systems — big equipment, big consequences.',
   10: "Ductwork is where most systems lose efficiency. Learn to read it and you'll find problems other techs miss.",
-  11: "Controls and thermostats are the brain of the system. When they fail, nothing works right.",
-  12: "Heat pumps are the future of residential HVAC. R-410A replacements are all heat pump compatible.",
+  11: 'Controls and thermostats are the brain of the system. When they fail, nothing works right.',
+  12: 'Heat pumps are the future of residential HVAC. R-410A replacements are all heat pump compatible.',
   13: "Troubleshooting is a skill, not a guess. We're going to build your diagnostic process from the ground up.",
-  14: "Commercial HVAC is a different world — bigger systems, more complexity, higher stakes.",
+  14: 'Commercial HVAC is a different world — bigger systems, more complexity, higher stakes.',
   15: "Your career starts the day you walk out of here. Let's make sure you're ready.",
   16: "This is the capstone. Everything we've covered comes together here.",
 };
 
 // Closing questions that prime the student before moving on
 const MODULE_CLOSINGS: Record<number, string> = {
-  5:  "Before you move on — what happens to refrigerant in the evaporator? Don't look it up. Think about it.",
-  6:  "Quick check: what is the maximum fine for knowingly venting refrigerant? If you don't know that number, go back and read it again.",
-  7:  "What is the maximum charge that defines a small appliance under EPA 608? That number is on the exam.",
-  8:  "What recovery level do you need on a system under 200 pounds using post-1993 equipment? Know that cold.",
-  9:  "Why does a low-pressure system have air leaking in rather than refrigerant leaking out? Think about the pressure relationship.",
+  5: "Before you move on — what happens to refrigerant in the evaporator? Don't look it up. Think about it.",
+  6: "Quick check: what is the maximum fine for knowingly venting refrigerant? If you don't know that number, go back and read it again.",
+  7: 'What is the maximum charge that defines a small appliance under EPA 608? That number is on the exam.',
+  8: 'What recovery level do you need on a system under 200 pounds using post-1993 equipment? Know that cold.',
+  9: 'Why does a low-pressure system have air leaking in rather than refrigerant leaking out? Think about the pressure relationship.',
   13: "You get a call — condenser fan not spinning, compressor humming. What's the first thing you check? Answer that before you move on.",
 };
 
@@ -83,15 +83,18 @@ function buildScript(defId: string): string {
 
   // Concept — cap at 200 words for audio pacing
   const conceptWords = content.concept.split(' ');
-  const concept = conceptWords.length > 200
-    ? conceptWords.slice(0, 200).join(' ') + '...'
-    : content.concept;
+  const concept =
+    conceptWords.length > 200 ? conceptWords.slice(0, 200).join(' ') + '...' : content.concept;
 
   // Top 3 key terms
-  const termsScript = content.keyTerms.slice(0, 3).length > 0
-    ? '\n\nHere are the key terms. Write these down.\n\n' +
-      content.keyTerms.slice(0, 3).map(t => `${t.term}: ${t.definition}`).join('\n\n')
-    : '';
+  const termsScript =
+    content.keyTerms.slice(0, 3).length > 0
+      ? '\n\nHere are the key terms. Write these down.\n\n' +
+        content.keyTerms
+          .slice(0, 3)
+          .map((t) => `${t.term}: ${t.definition}`)
+          .join('\n\n')
+      : '';
 
   // Job application
   const jobScript = content.jobApplication
@@ -99,17 +102,22 @@ function buildScript(defId: string): string {
     : '';
 
   // First two watch-for warnings
-  const warningsScript = content.watchFor.slice(0, 2).length > 0
-    ? '\n\nWatch out for these: ' + content.watchFor.slice(0, 2).join('. And — ')
-    : '';
+  const warningsScript =
+    content.watchFor.slice(0, 2).length > 0
+      ? '\n\nWatch out for these: ' + content.watchFor.slice(0, 2).join('. And — ')
+      : '';
 
-  const closing = MODULE_CLOSINGS[moduleNum] ??
+  const closing =
+    MODULE_CLOSINGS[moduleNum] ??
     "Take a minute before you move on. What's the one thing from this lesson you need to remember on a service call?";
 
   return `${hook}\n\n${concept}${termsScript}${jobScript}${warningsScript}\n\n${closing}`;
 }
 
-async function generateOne(defId: string, uuid: string): Promise<'skipped' | 'generated' | 'failed'> {
+async function generateOne(
+  defId: string,
+  uuid: string,
+): Promise<'skipped' | 'generated' | 'failed'> {
   const outputPath = path.join(OUTPUT_DIR, `lesson-${uuid}.mp3`);
 
   if (fs.existsSync(outputPath)) {
@@ -137,12 +145,14 @@ async function generateOne(defId: string, uuid: string): Promise<'skipped' | 'ge
   }
 }
 
-async function runBatch(batch: [string, string][]): Promise<{ skipped: number; generated: number; failed: number }> {
+async function runBatch(
+  batch: [string, string][],
+): Promise<{ skipped: number; generated: number; failed: number }> {
   const results = await Promise.all(batch.map(([defId, uuid]) => generateOne(defId, uuid)));
   return {
-    skipped:   results.filter(r => r === 'skipped').length,
-    generated: results.filter(r => r === 'generated').length,
-    failed:    results.filter(r => r === 'failed').length,
+    skipped: results.filter((r) => r === 'skipped').length,
+    generated: results.filter((r) => r === 'generated').length,
+    failed: results.filter((r) => r === 'failed').length,
   };
 }
 
@@ -169,7 +179,7 @@ async function main() {
 
   // Single-lesson mode: --lesson-id hvac-06-09 --out /path/to/output.mp3
   const singleLessonId = getArg('--lesson-id');
-  const singleOutPath  = getArg('--out');
+  const singleOutPath = getArg('--out');
 
   if (singleLessonId) {
     if (!singleOutPath) {
@@ -184,7 +194,9 @@ async function main() {
     // Override output path to the caller-specified location
     const originalPath = path.join(OUTPUT_DIR, `lesson-${uuid}.mp3`);
     const result = await generateOne(singleLessonId, uuid);
-    if (result === 'failed') { process.exit(1); }
+    if (result === 'failed') {
+      process.exit(1);
+    }
     // Copy to --out path if different
     if (path.resolve(singleOutPath) !== path.resolve(originalPath) && fs.existsSync(originalPath)) {
       fs.mkdirSync(path.dirname(singleOutPath), { recursive: true });
@@ -207,7 +219,9 @@ async function main() {
   for (let i = 0; i < entries.length; i += CONCURRENCY) {
     const batch = entries.slice(i, i + CONCURRENCY);
     const batchNums = batch.map(([id]) => id).join(', ');
-    process.stdout.write(`  [${i + 1}-${Math.min(i + CONCURRENCY, entries.length)}/${entries.length}] ${batchNums} ... `);
+    process.stdout.write(
+      `  [${i + 1}-${Math.min(i + CONCURRENCY, entries.length)}/${entries.length}] ${batchNums} ... `,
+    );
 
     const { skipped, generated, failed } = await runBatch(batch);
     totalSkipped += skipped;
@@ -216,12 +230,12 @@ async function main() {
 
     const parts = [];
     if (generated > 0) parts.push(`${generated} generated`);
-    if (skipped > 0)   parts.push(`${skipped} skipped`);
-    if (failed > 0)    parts.push(`${failed} failed`);
+    if (skipped > 0) parts.push(`${skipped} skipped`);
+    if (failed > 0) parts.push(`${failed} failed`);
     console.log(parts.join(', '));
 
     if (i + CONCURRENCY < entries.length) {
-      await new Promise(r => setTimeout(r, 500));
+      await new Promise((r) => setTimeout(r, 500));
     }
   }
 
@@ -236,7 +250,7 @@ async function main() {
   }
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.error('Fatal:', err.message);
   process.exit(1);
 });

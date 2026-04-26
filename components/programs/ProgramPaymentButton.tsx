@@ -16,7 +16,7 @@ export function ProgramPaymentButton({
   programName,
   price,
   etplProgramId,
-  partnerUrl
+  partnerUrl,
 }: ProgramPaymentButtonProps) {
   const [loading, setLoading] = useState(false);
 
@@ -40,9 +40,7 @@ export function ProgramPaymentButton({
     <div className="bg-white border-2 border-slate-200 rounded-xl p-6 sticky top-4">
       <div className="mb-6">
         <div className="text-sm text-black mb-1">Program Cost</div>
-        <div className="text-4xl font-bold text-black">
-          ${price.toLocaleString('en-US')}
-        </div>
+        <div className="text-4xl font-bold text-black">${price.toLocaleString('en-US')}</div>
         {etplProgramId && (
           <div className="text-sm text-brand-green-600 mt-2">
             • ETPL Approved - Funding Available
@@ -80,8 +78,8 @@ export function ProgramPaymentButton({
             disabled={loading}
             className="w-full py-4 bg-brand-blue-600 text-white font-bold rounded-lg hover:bg-brand-blue-700 transition flex items-center justify-center gap-2"
           >
-            <Calendar className="w-5 h-5" />
-            4 Payments of ${Math.ceil(price / 4).toLocaleString('en-US')}
+            <Calendar className="w-5 h-5" />4 Payments of $
+            {Math.ceil(price / 4).toLocaleString('en-US')}
           </button>
         )}
       </div>
@@ -110,10 +108,7 @@ export function ProgramPaymentButton({
       </div>
 
       <div className="mt-4 text-center">
-        <a
-          href="/contact"
-          className="text-sm text-brand-blue-600 hover:underline"
-        >
+        <a href="/contact" className="text-sm text-brand-blue-600 hover:underline">
           Questions? Contact us
         </a>
       </div>

@@ -35,7 +35,9 @@ async function _POST(request: NextRequest) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
@@ -64,9 +66,10 @@ async function _POST(request: NextRequest) {
 
     if (existing) {
       return NextResponse.json({
-        message: existing.status === 'voucher_assigned'
-          ? 'Voucher already assigned. Check your dashboard.'
-          : 'Exam request already submitted. Your voucher will be assigned soon.',
+        message:
+          existing.status === 'voucher_assigned'
+            ? 'Voucher already assigned. Check your dashboard.'
+            : 'Exam request already submitted. Your voucher will be assigned soon.',
         requestId: existing.id,
         status: existing.status,
         voucherCode: existing.voucher_code || null,
@@ -93,7 +96,7 @@ async function _POST(request: NextRequest) {
       if (completedCount < totalCount) {
         return NextResponse.json(
           { error: 'Complete all course lessons before requesting the exam.' },
-          { status: 403 }
+          { status: 403 },
         );
       }
     }
@@ -173,7 +176,8 @@ async function _POST(request: NextRequest) {
             currency: 'usd',
             product_data: {
               name: `Certification Exam: ${exam.name}`,
-              description: 'Certiport certification exam voucher. Proctored on-site at Elevate testing center.',
+              description:
+                'Certiport certification exam voucher. Proctored on-site at Elevate testing center.',
             },
             unit_amount: 15000, // $150.00
           },

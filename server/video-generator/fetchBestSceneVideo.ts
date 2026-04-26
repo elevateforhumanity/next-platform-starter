@@ -34,21 +34,43 @@ function detectVisualIntent(text: string): VisualIntent[] {
   const t = text.toLowerCase();
   const intents: VisualIntent[] = [];
 
-  if (/(barbicide|disinfectant jar|immerse|submerge|implements in disinfectant|dip.*tool|tool.*dip)/.test(t))
+  if (
+    /(barbicide|disinfectant jar|immerse|submerge|implements in disinfectant|dip.*tool|tool.*dip)/.test(
+      t,
+    )
+  )
     intents.push('barbicide_submersion');
-  if (/(wash.*hand|hand.*wash|clean.*hand|soap.*water|sanitize.*hand|hand.*sanitiz|hand hygiene)/.test(t))
+  if (
+    /(wash.*hand|hand.*wash|clean.*hand|soap.*water|sanitize.*hand|hand.*sanitiz|hand hygiene)/.test(
+      t,
+    )
+  )
     intents.push('hand_washing');
-  if (/(disinfect.*surface|wipe.*down|sanitize.*station|clean.*chair|clean.*counter|spray.*disinfect)/.test(t))
+  if (
+    /(disinfect.*surface|wipe.*down|sanitize.*station|clean.*chair|clean.*counter|spray.*disinfect)/.test(
+      t,
+    )
+  )
     intents.push('surface_disinfection');
-  if (/(sweep|hair.*floor|floor.*hair|broom|clean.*floor)/.test(t))
-    intents.push('sweeping_hair');
-  if (/(clean.*tool|brush.*clean|comb.*clean|clipper.*clean|shear.*clean|implement.*clean|sanitize.*tool|tool.*sanitize)/.test(t))
+  if (/(sweep|hair.*floor|floor.*hair|broom|clean.*floor)/.test(t)) intents.push('sweeping_hair');
+  if (
+    /(clean.*tool|brush.*clean|comb.*clean|clipper.*clean|shear.*clean|implement.*clean|sanitize.*tool|tool.*sanitize)/.test(
+      t,
+    )
+  )
     intents.push('tool_cleaning');
-  if (/(glove|put.*on.*glove|wear.*glove|disposable glove)/.test(t))
-    intents.push('glove_use');
-  if (/(set.*up.*station|prepare.*workstation|station.*setup|workstation.*setup|arrange.*tool)/.test(t))
+  if (/(glove|put.*on.*glove|wear.*glove|disposable glove)/.test(t)) intents.push('glove_use');
+  if (
+    /(set.*up.*station|prepare.*workstation|station.*setup|workstation.*setup|arrange.*tool)/.test(
+      t,
+    )
+  )
     intents.push('station_setup');
-  if (/(consultation|talk.*client|client.*assessment|discuss.*style|client.*preference|mirror.*client)/.test(t))
+  if (
+    /(consultation|talk.*client|client.*assessment|discuss.*style|client.*preference|mirror.*client)/.test(
+      t,
+    )
+  )
     intents.push('client_consultation');
   if (/(cutting.*hair|clipper.*over.*comb|trim.*hair|haircut|taper|blend.*hair)/.test(t))
     intents.push('haircut_closeup');
@@ -58,9 +80,11 @@ function detectVisualIntent(text: string): VisualIntent[] {
     intents.push('beard_trim');
   if (/(straight.*razor|razor.*shave|hot.*towel|shave.*face|facial.*shave)/.test(t))
     intents.push('razor_shave');
-  if (/(neckline|neck.*trim|trim.*neck|outline.*neck)/.test(t))
-    intents.push('neckline_trim');
-  if (/(fade|blend|taper|skin.*fade|high.*fade|low.*fade|mid.*fade)/.test(t) && !intents.includes('haircut_closeup'))
+  if (/(neckline|neck.*trim|trim.*neck|outline.*neck)/.test(t)) intents.push('neckline_trim');
+  if (
+    /(fade|blend|taper|skin.*fade|high.*fade|low.*fade|mid.*fade)/.test(t) &&
+    !intents.includes('haircut_closeup')
+  )
     intents.push('fade_blend');
   if (/(barbershop|barber.*shop|salon.*interior|shop.*interior)/.test(t))
     intents.push('barbershop_interior');
@@ -124,11 +148,7 @@ const INTENT_QUERIES: Record<VisualIntent, string[]> = {
     'clippers comb scissors barbershop',
     'barber equipment display',
   ],
-  beard_trim: [
-    'barber trimming beard close up',
-    'beard shaping barber',
-    'barber beard line up',
-  ],
+  beard_trim: ['barber trimming beard close up', 'beard shaping barber', 'barber beard line up'],
   razor_shave: [
     'barber straight razor shave',
     'hot towel shave barber',
@@ -178,11 +198,7 @@ interface PexelsVideo {
   tags?: Array<{ name: string }>;
 }
 
-function scoreClip(
-  video: PexelsVideo,
-  intent: VisualIntent | null,
-  usedIds: Set<number>,
-): number {
+function scoreClip(video: PexelsVideo, intent: VisualIntent | null, usedIds: Set<number>): number {
   if (usedIds.has(video.id)) return -1000;
 
   let score = 0;
@@ -192,11 +208,15 @@ function scoreClip(
 
   if (!intent) return score;
 
-  const hay = (video.tags ?? []).map((t) => t.name).join(' ').toLowerCase();
+  const hay = (video.tags ?? [])
+    .map((t) => t.name)
+    .join(' ')
+    .toLowerCase();
 
   switch (intent) {
     case 'barbicide_submersion':
-      if (/disinfect|barber|tool|comb|scissor|jar|solution|sanitize|implement/.test(hay)) score += 60;
+      if (/disinfect|barber|tool|comb|scissor|jar|solution|sanitize|implement/.test(hay))
+        score += 60;
       if (/sweep|floor|broom/.test(hay)) score -= 80;
       if (/wash.*hand|sink|soap/.test(hay)) score -= 50;
       if (/haircut|cutting|fade|blend/.test(hay)) score -= 40;
@@ -274,7 +294,7 @@ async function searchPexelsVideos(
   const res = await fetch(url, { headers: { Authorization: key } });
   if (!res.ok) throw new Error(`Pexels API error: ${res.status}`);
 
-  const data = await res.json() as { videos: PexelsVideo[] };
+  const data = (await res.json()) as { videos: PexelsVideo[] };
   const candidates = (data.videos ?? []).filter((v) => !excludeIds.has(v.id));
   if (candidates.length === 0) return null;
 
@@ -344,8 +364,12 @@ export async function fetchBestSceneVideo(
       console.log(`  📹 ${sceneId}: cache hit [${intentTag}]`);
       if (storedId) opts.usedVideoIds?.add(storedId);
       return {
-        sceneId, source: 'pexels', videoPath: cachePath,
-        width: 1280, height: 720, durationSeconds: minDurationSeconds,
+        sceneId,
+        source: 'pexels',
+        videoPath: cachePath,
+        width: 1280,
+        height: 720,
+        durationSeconds: minDurationSeconds,
         queryUsed: intentQueries[0] ?? rawQuery,
       };
     }
@@ -356,9 +380,15 @@ export async function fetchBestSceneVideo(
 
   for (const q of allQueries) {
     video = await searchPexelsVideos(
-      q, minDurationSeconds, opts.usedVideoIds ?? new Set(), primaryIntent,
+      q,
+      minDurationSeconds,
+      opts.usedVideoIds ?? new Set(),
+      primaryIntent,
     ).catch(() => null);
-    if (video) { usedQuery = q; break; }
+    if (video) {
+      usedQuery = q;
+      break;
+    }
   }
 
   if (!video) {
@@ -379,8 +409,11 @@ export async function fetchBestSceneVideo(
   opts.usedVideoIds?.add(video.id);
 
   return {
-    sceneId, source: 'pexels', videoPath: cachePath,
-    width: file.width, height: file.height,
+    sceneId,
+    source: 'pexels',
+    videoPath: cachePath,
+    width: file.width,
+    height: file.height,
     durationSeconds: video.duration,
     attributionUrl: video.url,
     queryUsed: usedQuery,

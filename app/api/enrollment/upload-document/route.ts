@@ -11,8 +11,10 @@ async function _POST(req: Request) {
 
     const supabase = await createClient();
 
-    const { data: { user } } = await supabase.auth.getUser();
-    
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -44,9 +46,7 @@ async function _POST(req: Request) {
     }
 
     // Get public URL
-    const { data: urlData } = supabase.storage
-      .from('documents')
-      .getPublicUrl(fileName);
+    const { data: urlData } = supabase.storage.from('documents').getPublicUrl(fileName);
 
     // Create document record in database
     const { data: document, error: dbError } = await supabase
@@ -79,12 +79,12 @@ async function _POST(req: Request) {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'x-internal-trigger': '1' },
           body: JSON.stringify({ document_id: document.id }),
-        }).catch(err => logger.warn('OCR trigger failed (non-fatal)', err));
+        }).catch((err) => logger.warn('OCR trigger failed (non-fatal)', err));
       }
     }
 
-    return NextResponse.json({ 
-      success: true, 
+    return NextResponse.json({
+      success: true,
       document: document || { file_url: urlData.publicUrl },
       path: fileName,
     });

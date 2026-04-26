@@ -12,7 +12,7 @@ export interface EnrollmentOrchestrationResult {
 
 /**
  * Orchestrate enrollment via atomic database RPC.
- * 
+ *
  * All business logic lives in rpc_enroll_student:
  * - Creates program enrollment
  * - Creates course enrollments
@@ -20,11 +20,11 @@ export interface EnrollmentOrchestrationResult {
  * - Updates profile status
  * - Creates notifications
  * - Writes audit log
- * 
+ *
  * This function is a thin wrapper that:
  * 1. Calls the RPC
  * 2. Triggers async email delivery (non-blocking)
- * 
+ *
  * Idempotent: safe to retry with same idempotencyKey.
  */
 export async function orchestrateEnrollment(params: {
@@ -35,12 +35,7 @@ export async function orchestrateEnrollment(params: {
   idempotencyKey: string;
 }): Promise<EnrollmentOrchestrationResult> {
   const supabase = await createClient();
-  const {
-    studentId,
-    programId,
-    fundingSource = 'WIOA',
-    idempotencyKey,
-  } = params;
+  const { studentId, programId, fundingSource = 'WIOA', idempotencyKey } = params;
 
   try {
     // ========================================
@@ -92,7 +87,7 @@ export async function orchestrateEnrollment(params: {
     // ========================================
     // Email is triggered but not awaited - delivery is handled by notification queue
     if (!isIdempotent) {
-      triggerWelcomeEmail(supabase, studentId, programId, enrollmentId).catch(err => {
+      triggerWelcomeEmail(supabase, studentId, programId, enrollmentId).catch((err) => {
         logger.warn('[Enrollment Orchestration] Email trigger failed (non-blocking):', err);
       });
     }
@@ -104,7 +99,6 @@ export async function orchestrateEnrollment(params: {
       stepsCreated,
       idempotent: isIdempotent,
     };
-
   } catch (error) {
     logger.error('[Enrollment Orchestration] Unexpected error:', error);
     return {
@@ -122,7 +116,7 @@ async function triggerWelcomeEmail(
   supabase: Awaited<ReturnType<typeof createClient>>,
   studentId: string,
   programId: string,
-  enrollmentId: string
+  enrollmentId: string,
 ): Promise<void> {
   // Get student and program info for email
   const [studentResult, programResult] = await Promise.all([
@@ -175,6 +169,7 @@ export async function enrollStudent(params: {
     studentId: params.userId,
     programId: params.programId,
     fundingSource: params.fundingSource,
-    idempotencyKey: params.idempotencyKey || `enrollment-${params.userId}-${params.programId}-${Date.now()}`,
+    idempotencyKey:
+      params.idempotencyKey || `enrollment-${params.userId}-${params.programId}-${Date.now()}`,
   });
 }

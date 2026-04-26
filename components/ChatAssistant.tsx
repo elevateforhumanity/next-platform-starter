@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -100,12 +100,7 @@ export default function ChatAssistant({
         'View my achievements',
         'Download my transcript',
       ],
-      admin: [
-        'Generate a report',
-        'View user analytics',
-        'Manage enrollments',
-        'System settings',
-      ],
+      admin: ['Generate a report', 'View user analytics', 'Manage enrollments', 'System settings'],
       general: [
         'How do I get started?',
         'What programs do you offer?',
@@ -159,7 +154,8 @@ export default function ChatAssistant({
       };
 
       setMessages((prev) => [...prev, assistantMessage]);
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
@@ -180,7 +176,8 @@ export default function ChatAssistant({
     }
   };
 
-  if (!isOpen) return null; {
+  if (!isOpen) return null;
+  {
     return (
       <button
         onClick={() => setIsOpen(true)}
@@ -205,13 +202,11 @@ export default function ChatAssistant({
         }}
         onMouseEnter={(e) => {
           e.currentTarget.style.transform = 'scale(1.1)';
-          e.currentTarget.style.boxShadow =
-            '0 6px 16px rgba(59, 130, 246, 0.5)';
+          e.currentTarget.style.boxShadow = '0 6px 16px rgba(59, 130, 246, 0.5)';
         }}
         onMouseLeave={(e) => {
           e.currentTarget.style.transform = 'scale(1)';
-          e.currentTarget.style.boxShadow =
-            '0 4px 12px rgba(59, 130, 246, 0.4)';
+          e.currentTarget.style.boxShadow = '0 4px 12px rgba(59, 130, 246, 0.4)';
         }}
         aria-label="Open chat assistant"
       >
@@ -255,12 +250,8 @@ export default function ChatAssistant({
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           <MessageCircle size={24} />
           <div>
-            <h3 style={{ margin: 0, fontSize: '16px', fontWeight: '600' }}>
-              AI Assistant
-            </h3>
-            <p style={{ margin: 0, fontSize: '12px', opacity: 0.9 }}>
-              Always here to help
-            </p>
+            <h3 style={{ margin: 0, fontSize: '16px', fontWeight: '600' }}>AI Assistant</h3>
+            <p style={{ margin: 0, fontSize: '12px', opacity: 0.9 }}>Always here to help</p>
           </div>
         </div>
         <div style={{ display: 'flex', gap: '8px' }}>
@@ -313,8 +304,7 @@ export default function ChatAssistant({
                 style={{
                   marginBottom: '16px',
                   display: 'flex',
-                  justifyContent:
-                    message.role === 'user' ? 'flex-end' : 'flex-start',
+                  justifyContent: message.role === 'user' ? 'flex-end' : 'flex-start',
                 }}
               >
                 <div
@@ -322,10 +312,8 @@ export default function ChatAssistant({
                     maxWidth: '80%',
                     padding: '12px 16px',
                     borderRadius: '12px',
-                    backgroundColor:
-                      message.role === 'user' ? 'var(--brand-info)' : 'white',
-                    color:
-                      message.role === 'user' ? 'white' : 'var(--brand-text)',
+                    backgroundColor: message.role === 'user' ? 'var(--brand-info)' : 'white',
+                    color: message.role === 'user' ? 'white' : 'var(--brand-text)',
                     boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
                     fontSize: '14px',
                     lineHeight: '1.5',
@@ -423,8 +411,7 @@ export default function ChatAssistant({
                       color: 'var(--brand-text)',
                     }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.backgroundColor =
-                        'var(--brand-border)';
+                      e.currentTarget.style.backgroundColor = 'var(--brand-border)';
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.style.backgroundColor = '#f3f4f6';
@@ -448,7 +435,9 @@ export default function ChatAssistant({
               <input
                 type="text"
                 value={input}
-                onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setInput(e.target.value)}
+                onChange={(
+                  e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+                ) => setInput(e.target.value)}
                 onKeyPress={handleKeyPress}
                 placeholder="Type your message..."
                 disabled={loading}
@@ -474,13 +463,8 @@ export default function ChatAssistant({
                 style={{
                   padding: '12px 16px',
                   backgroundColor:
-                    input.trim() && !loading
-                      ? 'var(--brand-info)'
-                      : 'var(--brand-border)',
-                  color:
-                    input.trim() && !loading
-                      ? 'white'
-                      : 'var(--brand-text-light)',
+                    input.trim() && !loading ? 'var(--brand-info)' : 'var(--brand-border)',
+                  color: input.trim() && !loading ? 'white' : 'var(--brand-text-light)',
                   border: 'none',
                   borderRadius: '8px',
                   cursor: input.trim() && !loading ? 'pointer' : 'not-allowed',

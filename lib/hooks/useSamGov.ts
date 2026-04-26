@@ -1,5 +1,5 @@
 import { logger } from '@/lib/logger';
-'use client';
+('use client');
 
 import { useState, useEffect, useCallback } from 'react';
 import { createClient } from '@/lib/supabase/client';
@@ -67,10 +67,12 @@ export function useSamGov() {
   // Fetch user's entities
   const fetchEntities = useCallback(async () => {
     if (!supabase) return;
-    
+
     setLoading(true);
     try {
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       if (!user) {
         setLoading(false);
         return;
@@ -84,7 +86,7 @@ export function useSamGov() {
 
       if (error) throw error;
       setEntities(data || []);
-      
+
       // Set first entity as current if none selected
       if (data && data.length > 0 && !currentEntity) {
         setCurrentEntity(data[0]);
@@ -137,7 +139,9 @@ export function useSamGov() {
     if (!supabase) return null;
 
     try {
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       if (!user) throw new Error('Not authenticated');
 
       const { data, error } = await supabase
@@ -152,8 +156,8 @@ export function useSamGov() {
         .maybeSingle();
 
       if (error) throw error;
-      
-      setEntities(prev => [data, ...prev]);
+
+      setEntities((prev) => [data, ...prev]);
       setCurrentEntity(data);
       return data;
     } catch (err: any) {
@@ -175,8 +179,8 @@ export function useSamGov() {
         .single();
 
       if (error) throw error;
-      
-      setEntities(prev => prev.map(e => e.id === id ? data : e));
+
+      setEntities((prev) => prev.map((e) => (e.id === id ? data : e)));
       if (currentEntity?.id === id) {
         setCurrentEntity(data);
       }
@@ -208,14 +212,14 @@ export function useSamGov() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ uei }),
       });
-      
+
       if (!response.ok) throw new Error('Sync failed');
       const data = await response.json();
-      
+
       if (data.entity && currentEntity) {
         await updateEntity(currentEntity.id, data.entity);
       }
-      
+
       return data;
     } catch (err) {
       logger.error('Sync error:', err);
@@ -237,9 +241,9 @@ export function useSamGov() {
       if (uploadError) throw uploadError;
 
       // Get public URL
-      const { data: { publicUrl } } = supabase.storage
-        .from('sam_documents')
-        .getPublicUrl(fileName);
+      const {
+        data: { publicUrl },
+      } = supabase.storage.from('sam_documents').getPublicUrl(fileName);
 
       // Create document record
       const { data, error } = await supabase
@@ -255,8 +259,8 @@ export function useSamGov() {
         .maybeSingle();
 
       if (error) throw error;
-      
-      setDocuments(prev => [data, ...prev]);
+
+      setDocuments((prev) => [data, ...prev]);
       return data;
     } catch (err: any) {
       setError('Request failed');
@@ -269,14 +273,9 @@ export function useSamGov() {
     if (!supabase) return;
 
     try {
-      await supabase
-        .from('sam_alerts')
-        .update({ is_read: true })
-        .eq('id', alertId);
+      await supabase.from('sam_alerts').update({ is_read: true }).eq('id', alertId);
 
-      setAlerts(prev => prev.map(a => 
-        a.id === alertId ? { ...a, is_read: true } : a
-      ));
+      setAlerts((prev) => prev.map((a) => (a.id === alertId ? { ...a, is_read: true } : a)));
     } catch (err) {
       logger.error('Error marking alert read:', err);
     }
@@ -303,7 +302,7 @@ export function useSamGov() {
     alerts,
     loading,
     error,
-    
+
     // Actions
     setCurrentEntity,
     createEntity,

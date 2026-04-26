@@ -17,8 +17,7 @@ export const metadata: Metadata = {
     canonical: 'https://www.elevateforhumanity.org/lms/integrations',
   },
   title: 'Integrations | Elevate For Humanity',
-  description:
-    'Connect with external learning tools and platforms.',
+  description: 'Connect with external learning tools and platforms.',
 };
 
 export default async function IntegrationsPage() {
@@ -44,12 +43,20 @@ export default async function IntegrationsPage() {
     .select('id, status, course_id, progress_percent, created_at')
     .eq('user_id', user.id)
     .order('created_at', { ascending: false });
-  const intCourseIds = [...new Set((rawIntEnrollments || []).map((e: any) => e.course_id).filter(Boolean))];
+  const intCourseIds = [
+    ...new Set((rawIntEnrollments || []).map((e: any) => e.course_id).filter(Boolean)),
+  ];
   const { data: intCourses } = intCourseIds.length
-    ? await supabase.from('courses').select('id, title, description, thumbnail_url').in('id', intCourseIds)
+    ? await supabase
+        .from('courses')
+        .select('id, title, description, thumbnail_url')
+        .in('id', intCourseIds)
     : { data: [] };
   const intCourseMap = Object.fromEntries((intCourses || []).map((c: any) => [c.id, c]));
-  const enrollments = (rawIntEnrollments || []).map((e: any) => ({ ...e, courses: intCourseMap[e.course_id] ?? null }));
+  const enrollments = (rawIntEnrollments || []).map((e: any) => ({
+    ...e,
+    courses: intCourseMap[e.course_id] ?? null,
+  }));
 
   const { count: activeCourses } = await supabase
     .from('program_enrollments')
@@ -69,18 +76,23 @@ export default async function IntegrationsPage() {
     .eq('student_id', user.id)
     .order('updated_at', { ascending: false })
     .limit(5);
-  const progCourseIds = [...new Set((rawRecentProgress || []).map((p: any) => p.course_id).filter(Boolean))];
+  const progCourseIds = [
+    ...new Set((rawRecentProgress || []).map((p: any) => p.course_id).filter(Boolean)),
+  ];
   const { data: progCourses } = progCourseIds.length
     ? await supabase.from('courses').select('id, title').in('id', progCourseIds)
     : { data: [] };
   const progCourseMap = Object.fromEntries((progCourses || []).map((c: any) => [c.id, c]));
-  const recentProgress = (rawRecentProgress || []).map((p: any) => ({ ...p, courses: progCourseMap[p.course_id] ?? null }));
+  const recentProgress = (rawRecentProgress || []).map((p: any) => ({
+    ...p,
+    courses: progCourseMap[p.course_id] ?? null,
+  }));
 
   return (
     <div className="min-h-screen bg-white">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <Breadcrumbs items={[{ label: "LMS", href: "/lms/courses" }, { label: "Integrations" }]} />
-        </div>
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'LMS', href: '/lms/courses' }, { label: 'Integrations' }]} />
+      </div>
       {/* Hero Section */}
       <section className="relative h-48 md:h-64 overflow-hidden">
         <Image
@@ -92,7 +104,6 @@ export default async function IntegrationsPage() {
           priority
           sizes="100vw"
         />
-
       </section>
 
       {/* Content Section */}
@@ -104,8 +115,8 @@ export default async function IntegrationsPage() {
               <div>
                 <h2 className="text-2xl md:text-3xl font-bold mb-6">Integrations</h2>
                 <p className="text-black mb-6">
-                  Connect with external learning tools and platforms.
-                  workforce training and career success.
+                  Connect with external learning tools and platforms. workforce training and career
+                  success.
                 </p>
                 <ul className="space-y-3">
                   <li className="flex items-start">
@@ -160,12 +171,9 @@ export default async function IntegrationsPage() {
       <section className="py-16 bg-brand-blue-700">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-2xl md:text-3xl font-bold mb-4">
-              Need Help?
-            </h2>
+            <h2 className="text-2xl md:text-3xl font-bold mb-4">Need Help?</h2>
             <p className="text-base md:text-lg text-brand-blue-100 mb-8">
-              Contact support if you have questions about the learning
-              platform or need assistance.
+              Contact support if you have questions about the learning platform or need assistance.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <Link
@@ -184,7 +192,6 @@ export default async function IntegrationsPage() {
           </div>
         </div>
       </section>
-
 
       {/* Video Conferencing */}
       <section className="max-w-7xl mx-auto px-4 py-8">

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, { useState } from 'react';
 import { Card } from '@/components/ui/Card';
@@ -81,24 +81,30 @@ export default function PeerReviewSystem() {
             <div className="flex items-start justify-between">
               <div className="flex-1">
                 <div className="flex items-center gap-3 mb-2">
-                  <h3 className="text-lg font-semibold text-black">
-                    {review.assignmentTitle}
-                  </h3>
-                  {review.status === 'pending' && (
-                    <Badge variant="warning">Pending</Badge>
-                  )}
-                  {review.status === 'completed' && (
-                    <Badge variant="success">Completed</Badge>
-                  )}
+                  <h3 className="text-lg font-semibold text-black">{review.assignmentTitle}</h3>
+                  {review.status === 'pending' && <Badge variant="warning">Pending</Badge>}
+                  {review.status === 'completed' && <Badge variant="success">Completed</Badge>}
                 </div>
                 <p className="text-sm text-black mb-1">
                   Submitted by: <span className="font-medium">{review.studentName}</span>
                 </p>
                 <p className="text-sm text-black">
-                  Submitted: {new Date(review.submittedDate).toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' })}
+                  Submitted:{' '}
+                  {new Date(review.submittedDate).toLocaleDateString('en-US', {
+                    timeZone: 'UTC',
+                    month: 'short',
+                    day: 'numeric',
+                    year: 'numeric',
+                  })}
                 </p>
                 <p className="text-sm text-black">
-                  Review due: {new Date(review.dueDate).toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' })}
+                  Review due:{' '}
+                  {new Date(review.dueDate).toLocaleDateString('en-US', {
+                    timeZone: 'UTC',
+                    month: 'short',
+                    day: 'numeric',
+                    year: 'numeric',
+                  })}
                 </p>
               </div>
               <div>
@@ -120,9 +126,7 @@ export default function PeerReviewSystem() {
       {reviews.length === 0 && (
         <div className="text-center py-12">
           <p className="text-slate-700">
-            {activeTab === 'pending'
-              ? 'No peer reviews pending'
-              : 'No completed reviews yet'}
+            {activeTab === 'pending' ? 'No peer reviews pending' : 'No completed reviews yet'}
           </p>
         </div>
       )}

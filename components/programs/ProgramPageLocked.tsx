@@ -1,13 +1,6 @@
 import Image from 'next/image';
 import { Button } from '@/components/ui/Button';
-import {
-  Clock,
-  DollarSign,
-  Award,
-  Shield,
-  Users,
-  ArrowRight,
-CheckCircle, } from 'lucide-react';
+import { Clock, DollarSign, Award, Shield, Users, ArrowRight, CheckCircle } from 'lucide-react';
 
 /**
  * LOCKED Program Page Template
@@ -66,14 +59,7 @@ export function ProgramPageLocked({
     <main className="bg-white">
       {/* Hero - Name Only */}
       <section className="relative h-[400px] flex items-center justify-center text-white overflow-hidden">
-        <Image
-          src={heroImage}
-          alt={name}
-          fill
-          className="object-cover"
-          priority
-         sizes="100vw" />
-        
+        <Image src={heroImage} alt={name} fill className="object-cover" priority sizes="100vw" />
 
         <div className="relative">
           <h1 className="text-4xl md:text-5xl font-bold">{name}</h1>
@@ -83,16 +69,11 @@ export function ProgramPageLocked({
       {/* 1. WHO THIS IS FOR */}
       <section className="py-16">
         <div className="max-w-3xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-black mb-8 text-center">
-            Is This For You?
-          </h2>
+          <h2 className="text-3xl font-bold text-black mb-8 text-center">Is This For You?</h2>
 
           <div className="space-y-4">
             {forWho.map((item, index) => (
-              <div
-                key={index}
-                className="flex items-start gap-4 bg-slate-50 p-6 rounded-lg"
-              >
+              <div key={index} className="flex items-start gap-4 bg-slate-50 p-6 rounded-lg">
                 <Users className="h-10 w-10 text-brand-blue-600 flex-shrink-0 mt-1" />
                 <p className="text-lg text-black">{item}</p>
               </div>
@@ -104,9 +85,7 @@ export function ProgramPageLocked({
       {/* 2. WHAT YOU GET */}
       <section className="py-16 bg-slate-50">
         <div className="max-w-3xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-black mb-8 text-center">
-            What You Get
-          </h2>
+          <h2 className="text-3xl font-bold text-black mb-8 text-center">What You Get</h2>
 
           <div className="space-y-4">
             {outcomes.map((outcome, index) => (
@@ -115,9 +94,7 @@ export function ProgramPageLocked({
                 className="flex items-start gap-4 bg-white p-6 rounded-lg border border-slate-200"
               >
                 <span className="text-slate-400 flex-shrink-0">•</span>
-                <p className="text-lg text-black font-semibold">
-                  {outcome}
-                </p>
+                <p className="text-lg text-black font-semibold">{outcome}</p>
               </div>
             ))}
           </div>
@@ -127,24 +104,18 @@ export function ProgramPageLocked({
       {/* 3. HOW LONG IT TAKES */}
       <section className="py-16">
         <div className="max-w-3xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-black mb-8 text-center">
-            Time Commitment
-          </h2>
+          <h2 className="text-3xl font-bold text-black mb-8 text-center">Time Commitment</h2>
 
           <div className="grid md:grid-cols-2 gap-6">
             <div className="bg-slate-50 p-8 rounded-lg text-center">
               <Clock className="h-12 w-12 text-brand-blue-600 mx-auto mb-4" />
-              <div className="text-3xl font-bold text-black mb-2">
-                {duration}
-              </div>
+              <div className="text-3xl font-bold text-black mb-2">{duration}</div>
               <div className="text-black">Total Duration</div>
             </div>
 
             <div className="bg-slate-50 p-8 rounded-lg text-center">
               <Clock className="h-12 w-12 text-brand-blue-600 mx-auto mb-4" />
-              <div className="text-3xl font-bold text-black mb-2">
-                {schedule}
-              </div>
+              <div className="text-3xl font-bold text-black mb-2">{schedule}</div>
               <div className="text-black">Schedule</div>
             </div>
           </div>
@@ -154,18 +125,14 @@ export function ProgramPageLocked({
       {/* 4. WHAT IT COSTS */}
       <section className="py-16 bg-brand-green-50">
         <div className="max-w-3xl mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold text-black mb-8">
-            What It Costs
-          </h2>
+          <h2 className="text-3xl font-bold text-black mb-8">What It Costs</h2>
 
           <div className="bg-white border-2 border-brand-green-600 rounded-lg p-12 mb-6">
             <div className="text-5xl font-bold text-brand-green-600 mb-4">{cost}</div>
             <div className="text-xl text-black">Funded by {fundedBy}</div>
           </div>
 
-          <p className="text-black">
-            No tuition. No student debt. No hidden fees.
-          </p>
+          <p className="text-black">No tuition. No student debt. No hidden fees.</p>
         </div>
       </section>
 
@@ -177,24 +144,16 @@ export function ProgramPageLocked({
               {rapidsId && (
                 <div className="bg-slate-50 p-6 rounded-lg text-center">
                   <Shield className="h-11 w-11 text-brand-blue-600 mx-auto mb-4" />
-                  <div className="text-sm text-black mb-2">
-                    DOL Registered
-                  </div>
-                  <div className="font-mono text-sm font-semibold text-black">
-                    {rapidsId}
-                  </div>
+                  <div className="text-sm text-black mb-2">DOL Registered</div>
+                  <div className="font-mono text-sm font-semibold text-black">{rapidsId}</div>
                 </div>
               )}
 
               {avgSalary && (
                 <div className="bg-slate-50 p-6 rounded-lg text-center">
                   <DollarSign className="h-11 w-11 text-brand-green-600 mx-auto mb-4" />
-                  <div className="text-sm text-black mb-2">
-                    Average Salary
-                  </div>
-                  <div className="text-2xl font-bold text-black">
-                    {avgSalary}
-                  </div>
+                  <div className="text-sm text-black mb-2">Average Salary</div>
+                  <div className="text-2xl font-bold text-black">{avgSalary}</div>
                 </div>
               )}
             </div>
@@ -226,7 +185,9 @@ export function ProgramPageLocked({
           </div>
 
           <Button variant="secondary" asChild>
-            <a href="/apply">Apply Now <ArrowRight className="w-4 h-4" /></a>
+            <a href="/apply">
+              Apply Now <ArrowRight className="w-4 h-4" />
+            </a>
           </Button>
         </div>
       </section>

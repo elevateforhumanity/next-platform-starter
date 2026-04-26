@@ -1,7 +1,7 @@
 /**
  * Student Testimonials
  * Success stories from program graduates
- * 
+ *
  * NOTE: This file will be populated with real testimonials as students graduate.
  * Do not add placeholder or fabricated testimonials.
  */
@@ -23,7 +23,7 @@ export interface Testimonial {
 export const testimonials: Testimonial[] = [];
 
 export function getTestimonialsByProgram(programSlug: string): Testimonial[] {
-  return testimonials.filter(t => t.programSlug === programSlug);
+  return testimonials.filter((t) => t.programSlug === programSlug);
 }
 
 export function getFeaturedTestimonials(count: number = 6): Testimonial[] {

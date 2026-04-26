@@ -29,7 +29,7 @@ const MODULE_IDS = {
   'BARB-SHOP-FOUNDATIONS': 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa',
   'BARB-SHOP-INTERMEDIATE': 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb',
   'BARB-SHOP-ADVANCED': 'cccccccc-cccc-cccc-cccc-cccccccccccc',
-  'BARB-CAPSTONE': 'dddddddd-dddd-dddd-dddd-dddddddddddd'
+  'BARB-CAPSTONE': 'dddddddd-dddd-dddd-dddd-dddddddddddd',
 };
 
 interface ProgramModule {
@@ -58,7 +58,6 @@ interface ProgramData {
 }
 
 async function seedAIInstructors() {
-
   const instructors = [
     {
       id: AI_INSTRUCTOR_ELIZABETH_ID,
@@ -66,7 +65,7 @@ async function seedAIInstructors() {
       title: 'Founder & Lead Barber Apprenticeship Instructor',
       avatar_image_url: '/images/instructors/elizabeth-barber.jpg',
       cloned_from_user: 'Elizabeth L. Greene',
-      bio: 'AI-guided version of Elizabeth to coach barber students, explain Indiana requirements, and walk them through Milady and shop-based modules.'
+      bio: 'AI-guided version of Elizabeth to coach barber students, explain Indiana requirements, and walk them through Milady and shop-based modules.',
     },
     {
       id: AI_INSTRUCTOR_BARBER_MENTOR_ID,
@@ -74,8 +73,8 @@ async function seedAIInstructors() {
       title: 'Shop-Based Instructor & Practical Skills Coach',
       avatar_image_url: '/images/instructors/barber-mentor.jpg',
       cloned_from_user: 'EFH Barber Mentor',
-      bio: 'AI instructor that represents the experienced barber or shop owner guiding students through in-shop practical cuts, safety, and daily expectations.'
-    }
+      bio: 'AI instructor that represents the experienced barber or shop owner guiding students through in-shop practical cuts, safety, and daily expectations.',
+    },
   ];
 
   for (const instructor of instructors) {
@@ -90,7 +89,6 @@ async function seedAIInstructors() {
 }
 
 async function seedProgram(programData: ProgramData) {
-
   const program = {
     id: BARBER_PROGRAM_ID,
     slug: programData.slug,
@@ -99,21 +97,17 @@ async function seedProgram(programData: ProgramData) {
     description: programData.description,
     delivery_mode: programData.delivery_mode,
     location_state: programData.location_state,
-    is_active: true
+    is_active: true,
   };
 
-  const { error } = await supabase
-    .from('programs')
-    .upsert(program, { onConflict: 'id' });
+  const { error } = await supabase.from('programs').upsert(program, { onConflict: 'id' });
 
   if (error) {
     throw error;
   }
-
 }
 
 async function seedModules(programData: ProgramData) {
-
   // Delete existing modules for this program (clean slate)
   const { error: deleteError } = await supabase
     .from('course_modules')
@@ -130,9 +124,10 @@ async function seedModules(programData: ProgramData) {
       continue;
     }
 
-    const aiInstructorId = module.ai_instructor === 'Elizabeth'
-      ? AI_INSTRUCTOR_ELIZABETH_ID
-      : AI_INSTRUCTOR_BARBER_MENTOR_ID;
+    const aiInstructorId =
+      module.ai_instructor === 'Elizabeth'
+        ? AI_INSTRUCTOR_ELIZABETH_ID
+        : AI_INSTRUCTOR_BARBER_MENTOR_ID;
 
     const moduleRecord = {
       id: moduleId,
@@ -148,12 +143,10 @@ async function seedModules(programData: ProgramData) {
       requires_proof: module.requires_proof,
       ai_instructor_id: aiInstructorId,
       is_capstone: module.is_capstone || false,
-      implementation_notes: module.implementation_notes
+      implementation_notes: module.implementation_notes,
     };
 
-    const { error } = await supabase
-      .from('course_modules')
-      .insert(moduleRecord);
+    const { error } = await supabase.from('course_modules').insert(moduleRecord);
 
     if (error) {
     } else {
@@ -162,7 +155,6 @@ async function seedModules(programData: ProgramData) {
 }
 
 async function verifySeeding() {
-
   // Check program
   const { data: program, error: programError } = await supabase
     .from('programs')
@@ -199,12 +191,10 @@ async function verifySeeding() {
 }
 
 async function main() {
-
   try {
     // Load program data
     const jsonPath = join(process.cwd(), 'data/programs/barber-apprenticeship-indiana.json');
     const programData: ProgramData = JSON.parse(readFileSync(jsonPath, 'utf-8'));
-
 
     // Seed in order
     await seedAIInstructors();

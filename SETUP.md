@@ -25,11 +25,11 @@ pnpm install
 The environment assembles `.env.local` automatically from secret chunks on every start.
 Secret chunks are stored as Gitpod environment secrets:
 
-| Secret name     | Contains                        |
-|-----------------|---------------------------------|
-| `ENV_LOCAL_1`   | Lines 1–100 of `.env.local`     |
-| `ENV_LOCAL_2`   | Lines 101–200 of `.env.local`   |
-| `ENV_LOCAL_3`   | Lines 201+ of `.env.local`      |
+| Secret name   | Contains                      |
+| ------------- | ----------------------------- |
+| `ENV_LOCAL_1` | Lines 1–100 of `.env.local`   |
+| `ENV_LOCAL_2` | Lines 101–200 of `.env.local` |
+| `ENV_LOCAL_3` | Lines 201+ of `.env.local`    |
 
 The `setup-env` automation task runs `cat $ENV_LOCAL_1 $ENV_LOCAL_2 $ENV_LOCAL_3 > .env.local` on every environment start.
 
@@ -49,17 +49,17 @@ Then fill in the required values (see section 3 below).
 
 These must be set or the app will refuse to start (`pnpm validate-env` exits non-zero):
 
-| Variable | Where to find it |
-|---|---|
-| `NEXT_PUBLIC_SUPABASE_URL` | Supabase Dashboard → Project Settings → API → Project URL |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase Dashboard → Project Settings → API → anon key |
-| `SUPABASE_SERVICE_ROLE_KEY` | Supabase Dashboard → Project Settings → API → service_role key |
-| `NEXT_PUBLIC_SITE_URL` | Your deployment URL (e.g. `https://www.elevateforhumanity.org`) |
+| Variable                        | Where to find it                                                |
+| ------------------------------- | --------------------------------------------------------------- |
+| `NEXT_PUBLIC_SUPABASE_URL`      | Supabase Dashboard → Project Settings → API → Project URL       |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase Dashboard → Project Settings → API → anon key          |
+| `SUPABASE_SERVICE_ROLE_KEY`     | Supabase Dashboard → Project Settings → API → service_role key  |
+| `NEXT_PUBLIC_SITE_URL`          | Your deployment URL (e.g. `https://www.elevateforhumanity.org`) |
 
 For migrations (`pnpm db:migrate`):
 
-| Variable | Where to find it |
-|---|---|
+| Variable          | Where to find it                                                              |
+| ----------------- | ----------------------------------------------------------------------------- |
 | `SUPABASE_DB_URL` | Supabase Dashboard → Project Settings → Database → Connection string (pooler) |
 
 All other variables are documented in `.env.example` with descriptions.
@@ -83,15 +83,18 @@ If env assembly fails, the server will not start. Fix the missing vars before re
 Migrations are SQL files in `supabase/migrations/`. They are **not auto-applied**.
 
 **Option A — Supabase Dashboard (always works):**
+
 1. Open [Supabase Dashboard → SQL Editor](https://supabase.com/dashboard/project/cuxzzpsyufcewtmicszk/sql/new)
 2. Paste the migration SQL and click Run
 
 **Option B — Migration script (requires `SUPABASE_DB_URL`):**
+
 ```bash
 pnpm db:migrate
 ```
 
 After applying a migration, verify with:
+
 ```sql
 SELECT tablename FROM pg_tables WHERE schemaname = 'public' ORDER BY tablename;
 ```

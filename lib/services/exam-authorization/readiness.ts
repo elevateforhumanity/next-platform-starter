@@ -15,7 +15,7 @@ import type { ReadinessResult } from './types';
 
 export async function checkCertificationReadiness(
   userId: string,
-  programId: string
+  programId: string,
 ): Promise<ReadinessResult> {
   const db = await getAdminClient();
   if (!db) {
@@ -23,7 +23,13 @@ export async function checkCertificationReadiness(
     return {
       eligible: false,
       missing: ['System error — contact support'],
-      progress: { lessonsComplete: 0, lessonsTotal: 0, quizzesPassed: 0, quizzesTotal: 0, practicalComplete: false },
+      progress: {
+        lessonsComplete: 0,
+        lessonsTotal: 0,
+        quizzesPassed: 0,
+        quizzesTotal: 0,
+        practicalComplete: false,
+      },
     };
   }
 
@@ -42,7 +48,13 @@ export async function checkCertificationReadiness(
     return {
       eligible: false,
       missing: ['No active enrollment found for this program'],
-      progress: { lessonsComplete: 0, lessonsTotal: 0, quizzesPassed: 0, quizzesTotal: 0, practicalComplete: false },
+      progress: {
+        lessonsComplete: 0,
+        lessonsTotal: 0,
+        quizzesPassed: 0,
+        quizzesTotal: 0,
+        practicalComplete: false,
+      },
     };
   }
 
@@ -66,7 +78,10 @@ export async function checkCertificationReadiness(
     .select('lesson_id')
     .eq('user_id', userId)
     .eq('completed', true)
-    .in('lesson_id', (lessons ?? []).map((l) => l.id));
+    .in(
+      'lesson_id',
+      (lessons ?? []).map((l) => l.id),
+    );
 
   const completedIds = new Set((completions ?? []).map((c) => c.lesson_id));
   const lessonsComplete = completedIds.size;
@@ -77,14 +92,19 @@ export async function checkCertificationReadiness(
 
   // ── 3. Quiz passage ─────────────────────────────────────────────────────────
   // quiz_attempts.quiz_id stores the lesson UUID (used as quiz identity)
-  const quizLessons = (lessons ?? []).filter((l) => l.lesson_type === 'quiz' || l.lesson_type === 'checkpoint');
+  const quizLessons = (lessons ?? []).filter(
+    (l) => l.lesson_type === 'quiz' || l.lesson_type === 'checkpoint',
+  );
   const totalQuizzes = quizLessons.length;
 
   const { data: quizResults } = await db
     .from('quiz_attempts')
     .select('quiz_id, passed')
     .eq('user_id', userId)
-    .in('quiz_id', quizLessons.map((l) => l.id))
+    .in(
+      'quiz_id',
+      quizLessons.map((l) => l.id),
+    )
     .eq('passed', true);
 
   const passedQuizIds = new Set((quizResults ?? []).map((r) => r.quiz_id));

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -46,11 +46,7 @@ export function ReportProduct({ productId }: { productId: string }) {
   };
 
   if (sent) {
-    return (
-      <div className="text-sm text-brand-green-600">
-        • Report submitted. Thank you.
-      </div>
-    );
+    return <div className="text-sm text-brand-green-600">• Report submitted. Thank you.</div>;
   }
 
   if (!showForm) {
@@ -97,9 +93,7 @@ export function ReportProduct({ productId }: { productId: string }) {
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-1">
-            Your Email (optional)
-          </label>
+          <label className="block text-sm font-medium mb-1">Your Email (optional)</label>
           <input
             type="email"
             value={email}

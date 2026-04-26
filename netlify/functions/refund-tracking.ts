@@ -8,25 +8,25 @@
  * Redirect: POST /api/refund-tracking -> /.netlify/functions/refund-tracking (via netlify.toml)
  */
 
-import type { Handler } from "@netlify/functions";
-import { createClient } from "@supabase/supabase-js";
+import type { Handler } from '@netlify/functions';
+import { createClient } from '@supabase/supabase-js';
 
 const ALLOWED_ORIGINS = [
-  "https://www.elevateforhumanity.org",
-  "https://elevateforhumanity.org",
-  "https://supersonicfastermoney.com",
-  "https://www.supersonicfastermoney.com",
+  'https://www.elevateforhumanity.org',
+  'https://elevateforhumanity.org',
+  'https://supersonicfastermoney.com',
+  'https://www.supersonicfastermoney.com',
 ];
 
 function getCorsHeaders(origin?: string) {
   const allowedOrigin = origin && ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
   return {
-    "Access-Control-Allow-Origin": allowedOrigin,
-    "Access-Control-Allow-Headers": "Content-Type",
-    "Access-Control-Allow-Methods": "POST, OPTIONS",
-    "Cache-Control": "no-store, no-cache, must-revalidate",
-    Pragma: "no-cache",
-    Vary: "Origin",
+    'Access-Control-Allow-Origin': allowedOrigin,
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Cache-Control': 'no-store, no-cache, must-revalidate',
+    Pragma: 'no-cache',
+    Vary: 'Origin',
   };
 }
 
@@ -56,7 +56,7 @@ function notFound(headers: Record<string, string> = getCorsHeaders()) {
   return {
     statusCode: 404,
     headers,
-    body: JSON.stringify({ error: "Not found" }),
+    body: JSON.stringify({ error: 'Not found' }),
   };
 }
 
@@ -64,30 +64,30 @@ export const handler: Handler = async (event) => {
   const origin = event.headers?.origin || event.headers?.Origin;
   const corsHeaders = getCorsHeaders(origin);
 
-  if (event.httpMethod === "OPTIONS") {
-    return { statusCode: 204, headers: corsHeaders, body: "" };
+  if (event.httpMethod === 'OPTIONS') {
+    return { statusCode: 204, headers: corsHeaders, body: '' };
   }
 
-  if (event.httpMethod !== "POST") {
+  if (event.httpMethod !== 'POST') {
     return {
       statusCode: 405,
       headers: corsHeaders,
-      body: JSON.stringify({ error: "Method Not Allowed" }),
+      body: JSON.stringify({ error: 'Method Not Allowed' }),
     };
   }
 
   // Rate limit by IP
   const clientIp =
-    event.headers["x-nf-client-connection-ip"] ||
-    (event.headers["x-forwarded-for"] || "").split(",")[0].trim() ||
-    "unknown";
+    event.headers['x-nf-client-connection-ip'] ||
+    (event.headers['x-forwarded-for'] || '').split(',')[0].trim() ||
+    'unknown';
 
   if (!checkRateLimit(`ip:${clientIp}`)) {
     await delay(FAILURE_DELAY_MS);
     return {
       statusCode: 429,
       headers: corsHeaders,
-      body: JSON.stringify({ error: "Too many requests" }),
+      body: JSON.stringify({ error: 'Too many requests' }),
     };
   }
 
@@ -99,15 +99,15 @@ export const handler: Handler = async (event) => {
       return {
         statusCode: 500,
         headers: corsHeaders,
-        body: JSON.stringify({ error: "Server configuration error" }),
+        body: JSON.stringify({ error: 'Server configuration error' }),
       };
     }
 
     const body = event.body ? JSON.parse(event.body) : {};
-    const trackingCode = (body.tracking_code || "").trim();
+    const trackingCode = (body.tracking_code || '').trim();
 
     // Validate format (must start with SFC-)
-    if (!trackingCode || !trackingCode.startsWith("SFC-")) {
+    if (!trackingCode || !trackingCode.startsWith('SFC-')) {
       await delay(FAILURE_DELAY_MS);
       return notFound(corsHeaders);
     }
@@ -118,7 +118,7 @@ export const handler: Handler = async (event) => {
       return {
         statusCode: 429,
         headers: corsHeaders,
-        body: JSON.stringify({ error: "Too many requests" }),
+        body: JSON.stringify({ error: 'Too many requests' }),
       };
     }
 
@@ -126,11 +126,11 @@ export const handler: Handler = async (event) => {
     const supabase = createClient(supabaseUrl, anonKey);
 
     const { data, error } = await supabase
-      .from("sfc_tax_return_public_status")
+      .from('sfc_tax_return_public_status')
       .select(
-        "public_tracking_code, status, rejection_reason, created_at, updated_at, client_first_name, client_last_initial"
+        'public_tracking_code, status, rejection_reason, created_at, updated_at, client_first_name, client_last_initial',
       )
-      .eq("public_tracking_code", trackingCode)
+      .eq('public_tracking_code', trackingCode)
       .maybeSingle();
 
     if (error || !data) {
@@ -140,11 +140,11 @@ export const handler: Handler = async (event) => {
 
     // Map status to user-friendly message
     const statusMessages: Record<string, string> = {
-      received: "Your return has been received and is in our queue.",
-      processing: "Your return is being reviewed by a tax professional.",
-      submitted: "Your return has been submitted to the IRS.",
-      accepted: "Your return has been accepted by the IRS.",
-      action_required: "Your return needs attention. Please contact us.",
+      received: 'Your return has been received and is in our queue.',
+      processing: 'Your return is being reviewed by a tax professional.',
+      submitted: 'Your return has been submitted to the IRS.',
+      accepted: 'Your return has been accepted by the IRS.',
+      action_required: 'Your return needs attention. Please contact us.',
     };
 
     return {
@@ -152,8 +152,8 @@ export const handler: Handler = async (event) => {
       headers: corsHeaders,
       body: JSON.stringify({
         status: data.status,
-        statusMessage: statusMessages[data.status] || "Status update pending.",
-        clientName: `${data.client_first_name || ""} ${data.client_last_initial || ""}`.trim(),
+        statusMessage: statusMessages[data.status] || 'Status update pending.',
+        clientName: `${data.client_first_name || ''} ${data.client_last_initial || ''}`.trim(),
         rejectionReason: data.rejection_reason,
         createdAt: data.created_at,
         updatedAt: data.updated_at,

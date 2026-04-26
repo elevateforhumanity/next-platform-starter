@@ -22,9 +22,7 @@ interface EnrollmentTestConfig {
   skipPayment?: boolean;
 }
 
-export async function testEnrollmentFlow(
-  config: EnrollmentTestConfig
-): Promise<{
+export async function testEnrollmentFlow(config: EnrollmentTestConfig): Promise<{
   success: boolean;
   results: TestResult[];
   summary: {
@@ -59,26 +57,24 @@ export async function testEnrollmentFlow(
   // STEP 1: Create or get test student
   try {
     // Try to sign in first
-    const { data: signInData, error: signInError } =
-      await supabase.auth.signInWithPassword({
-        email: config.studentEmail,
-        password: config.studentPassword,
-      });
+    const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
+      email: config.studentEmail,
+      password: config.studentPassword,
+    });
 
     let userId: string;
 
     if (signInError) {
       // Create new user
-      const { data: signUpData, error: signUpError } =
-        await supabase.auth.admin.createUser({
-          email: config.studentEmail,
-          password: config.studentPassword,
-          email_confirm: true,
-          user_metadata: {
-            full_name: 'Test Student (Autopilot)',
-            role: 'student',
-          },
-        });
+      const { data: signUpData, error: signUpError } = await supabase.auth.admin.createUser({
+        email: config.studentEmail,
+        password: config.studentPassword,
+        email_confirm: true,
+        user_metadata: {
+          full_name: 'Test Student (Autopilot)',
+          role: 'student',
+        },
+      });
 
       if (signUpError || !signUpData.user) {
         throw new Error(`Failed to create user: ${signUpError?.message}`);
@@ -190,9 +186,7 @@ export async function testEnrollmentFlow(
       .maybeSingle();
 
     if (instructorError) {
-      throw new Error(
-        `Failed to query instructors: ${instructorError.message}`
-      );
+      throw new Error(`Failed to query instructors: ${instructorError.message}`);
     }
 
     if (!instructor) {
@@ -240,9 +234,7 @@ export async function testEnrollmentFlow(
           .maybeSingle();
 
         if (assignError || !assignment) {
-          throw new Error(
-            `Failed to assign instructor: ${assignError?.message}`
-          );
+          throw new Error(`Failed to assign instructor: ${assignError?.message}`);
         }
 
         results.push({
@@ -273,7 +265,7 @@ export async function testEnrollmentFlow(
         `
         *,
         instructor:ai_instructors(*)
-      `
+      `,
       )
       .eq('student_id', userId)
       .eq('program_slug', config.programSlug)
@@ -382,8 +374,7 @@ export async function testEnrollmentFlow(
     results.push({
       step: 'Test Execution',
       status: 'failed',
-      message:
-        (data instanceof Error ? data.message : String(data)) || 'Unknown data',
+      message: (data instanceof Error ? data.message : String(data)) || 'Unknown data',
       data,
     });
   }
@@ -406,8 +397,7 @@ export async function testEnrollmentFlow(
 // CLI execution
 if (require.main === module) {
   const config: EnrollmentTestConfig = {
-    studentEmail:
-      process.env.TEST_STUDENT_EMAIL || 'test-student@autopilot.test',
+    studentEmail: process.env.TEST_STUDENT_EMAIL || 'test-student@autopilot.test',
     studentPassword: process.env.TEST_STUDENT_PASSWORD || 'TestPassword123!',
     programSlug: process.env.TEST_PROGRAM_SLUG || 'barber-apprenticeship',
     skipPayment: true,
@@ -416,8 +406,7 @@ if (require.main === module) {
   testEnrollmentFlow(config)
     .then((result) => {
       result.results.forEach((r, i) => {
-        const icon =
-          r.status === 'success' ? '✅' : r.status === 'failed' ? '❌' : '⏭️';
+        const icon = r.status === 'success' ? '✅' : r.status === 'failed' ? '❌' : '⏭️';
         if (r.data) {
           logger.info('  Data:', JSON.stringify(r.data, null, 2));
         }

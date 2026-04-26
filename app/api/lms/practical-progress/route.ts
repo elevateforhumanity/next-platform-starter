@@ -49,12 +49,17 @@ export async function PATCH(request: NextRequest) {
   if (auth.error) return auth.error;
 
   let body: Record<string, any>;
-  try { body = await request.json(); }
-  catch { return safeError('Invalid JSON', 400); }
+  try {
+    body = await request.json();
+  } catch {
+    return safeError('Invalid JSON', 400);
+  }
 
   const { user_id, course_id, lesson_id, hours_to_add } = body;
-  if (!user_id || !course_id || !lesson_id) return safeError('user_id, course_id, lesson_id required', 400);
-  if (typeof hours_to_add !== 'number' || hours_to_add <= 0) return safeError('hours_to_add must be a positive number', 400);
+  if (!user_id || !course_id || !lesson_id)
+    return safeError('user_id, course_id, lesson_id required', 400);
+  if (typeof hours_to_add !== 'number' || hours_to_add <= 0)
+    return safeError('hours_to_add must be a positive number', 400);
 
   const db = await getAdminClient();
 
@@ -70,8 +75,8 @@ export async function PATCH(request: NextRequest) {
       .from('student_practical_progress')
       .update({
         accumulated_hours: (existing.accumulated_hours ?? 0) + hours_to_add,
-        status:            'in_progress',
-        last_updated_at:   new Date().toISOString(),
+        status: 'in_progress',
+        last_updated_at: new Date().toISOString(),
       })
       .eq('id', existing.id)
       .select()
@@ -81,7 +86,14 @@ export async function PATCH(request: NextRequest) {
   } else {
     const { data: created, error } = await db
       .from('student_practical_progress')
-      .insert({ user_id, course_id, lesson_id, accumulated_hours: hours_to_add, approved_attempts: 0, status: 'in_progress' })
+      .insert({
+        user_id,
+        course_id,
+        lesson_id,
+        accumulated_hours: hours_to_add,
+        approved_attempts: 0,
+        status: 'in_progress',
+      })
       .select()
       .single();
     if (error) return safeDbError(error, 'Failed to create progress');

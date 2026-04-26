@@ -13,21 +13,12 @@
     <meta name="author" content="Elevate for Humanity" />
     <meta name="robots" content="index, follow" />
     <meta property="og:type" content="website" />
-    <meta
-      property="og:title"
-      content="Elevate for Humanity - Workforce Development"
-    />
-    <meta
-      property="og:description"
-      content="Government-approved career training platform"
-    />
+    <meta property="og:title" content="Elevate for Humanity - Workforce Development" />
+    <meta property="og:description" content="Government-approved career training platform" />
     <meta property="twitter:card" content="summary_large_image" />
 
     <!-- Google Analytics -->
-    <script
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=G-V9BC7WPMQC"
-    ></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-V9BC7WPMQC"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag() {
@@ -48,11 +39,7 @@
         <h1 class="text-xl font-bold">EFH User Dashboard</h1>
         <div class="flex space-x-4">
           <span id="userEmail" class="text-blue-200"></span>
-          <button
-            type="button"
-            onclick="logout()"
-            class="bg-blue-700 px-3 py-1 rounded"
-          >
+          <button type="button" onclick="logout()" class="bg-blue-700 px-3 py-1 rounded">
             Logout
           </button>
         </div>
@@ -86,12 +73,10 @@
         </div>
       </div>
 
-      <div
-        class="mt-8 bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded"
-      >
+      <div class="mt-8 bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded">
         <p class="text-sm">
-          🔒 <strong>Privacy Protected:</strong> Your personal information (SSN,
-          DOB, etc.) is encrypted and only visible to authorized personnel.
+          🔒 <strong>Privacy Protected:</strong> Your personal information (SSN, DOB, etc.) is
+          encrypted and only visible to authorized personnel.
         </p>
       </div>
     </main>
@@ -128,16 +113,12 @@
           }
 
           const userData = await verifyResponse.json();
-          document.getElementById('userEmail').textContent =
-            userData.user.email;
+          document.getElementById('userEmail').textContent = userData.user.email;
 
           // Load protected student data
-          const studentResponse = await fetch(
-            `${API_BASE}/api/protected/students/123`,
-            {
-              headers: getAuthHeaders(),
-            }
-          );
+          const studentResponse = await fetch(`${API_BASE}/api/protected/students/123`, {
+            headers: getAuthHeaders(),
+          });
 
           if (studentResponse.ok) {
             const studentData = await studentResponse.json();

@@ -150,9 +150,7 @@ class UrgencyScarcityManager {
 
   // Get random urgency message
   getUrgencyMessage() {
-    return this.urgencyMessages[
-      Math.floor(Math.random() * this.urgencyMessages.length)
-    ];
+    return this.urgencyMessages[Math.floor(Math.random() * this.urgencyMessages.length)];
   }
 
   // Get time-based urgency
@@ -195,8 +193,7 @@ class UrgencyScarcityManager {
 
     // Return social proof data
     const uniqueVisitorCount = this.saleMetrics.uniqueVisitors.size;
-    const conversionRate =
-      (this.saleMetrics.conversions / this.saleMetrics.totalViews) * 100;
+    const conversionRate = (this.saleMetrics.conversions / this.saleMetrics.totalViews) * 100;
 
     return {
       socialProof: {
@@ -274,8 +271,7 @@ class UrgencyScarcityManager {
       if (businessStatus?.isLowStock && enterpriseStatus?.available > 2) {
         recommendations.push({
           type: 'upgrade',
-          message:
-            '💎 Business Rescue selling out - Enterprise still available!',
+          message: '💎 Business Rescue selling out - Enterprise still available!',
           targetPackage: 'enterprise_emergency',
           savings: 'Unlimited licenses + revenue sharing',
         });
@@ -289,10 +285,7 @@ class UrgencyScarcityManager {
   getSalesDashboard() {
     this.clearExpiredReservations();
 
-    const totalSold = Object.values(this.inventory).reduce(
-      (sum, item) => sum + item.sold,
-      0
-    );
+    const totalSold = Object.values(this.inventory).reduce((sum, item) => sum + item.sold, 0);
     const totalRevenue =
       this.inventory.emergency_starter.sold * 299 +
       this.inventory.business_rescue.sold * 799 +
@@ -301,10 +294,9 @@ class UrgencyScarcityManager {
     return {
       totalSold,
       totalRevenue,
-      conversionRate: (
-        (this.saleMetrics.conversions / this.saleMetrics.totalViews) *
-        100
-      ).toFixed(2),
+      conversionRate: ((this.saleMetrics.conversions / this.saleMetrics.totalViews) * 100).toFixed(
+        2,
+      ),
       uniqueVisitors: this.saleMetrics.uniqueVisitors.size,
       abandonmentRate: (
         (this.saleMetrics.abandonedCarts /
@@ -314,15 +306,10 @@ class UrgencyScarcityManager {
       inventory: this.inventory,
       activeReservations: this.reservations.size,
       saleProgress: {
-        hoursElapsed: Math.round(
-          (new Date() - this.saleMetrics.startTime) / (1000 * 60 * 60)
-        ),
+        hoursElapsed: Math.round((new Date() - this.saleMetrics.startTime) / (1000 * 60 * 60)),
         timeRemaining: Math.max(
           0,
-          48 -
-            Math.round(
-              (new Date() - this.saleMetrics.startTime) / (1000 * 60 * 60)
-            )
+          48 - Math.round((new Date() - this.saleMetrics.startTime) / (1000 * 60 * 60)),
         ),
       },
     };

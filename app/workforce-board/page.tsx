@@ -102,13 +102,20 @@ export default function WorkforceBoardPage() {
       {/* Hero */}
       <section className="relative w-full">
         <div className="relative h-[50vh] sm:h-[55vh] md:h-[60vh] lg:h-[65vh] min-h-[320px] w-full overflow-hidden">
-          <LazyVideo src="/videos/training-providers-hero.mp4" poster="/images/pages/how-it-works-hero.jpg"
-            className="absolute inset-0 w-full h-full object-cover" />
+          <LazyVideo
+            src="/videos/training-providers-hero.mp4"
+            poster="/images/pages/how-it-works-hero.jpg"
+            className="absolute inset-0 w-full h-full object-cover"
+          />
         </div>
         <div className="bg-white py-10">
           <div className="max-w-5xl mx-auto px-4 text-center">
-            <h1 className="text-3xl md:text-4xl font-bold text-white mb-3">Workforce Board Portal</h1>
-            <p className="text-lg text-white max-w-3xl mx-auto">Program oversight, performance metrics, and compliance monitoring in one place</p>
+            <h1 className="text-3xl md:text-4xl font-bold text-white mb-3">
+              Workforce Board Portal
+            </h1>
+            <p className="text-lg text-white max-w-3xl mx-auto">
+              Program oversight, performance metrics, and compliance monitoring in one place
+            </p>
           </div>
         </div>
       </section>
@@ -116,9 +123,7 @@ export default function WorkforceBoardPage() {
       {/* Features Grid */}
       <section className="py-16 px-6">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl font-bold text-slate-900 mb-4 text-center">
-            Portal Features
-          </h2>
+          <h2 className="text-3xl font-bold text-slate-900 mb-4 text-center">Portal Features</h2>
           <p className="text-black text-center mb-12 max-w-2xl mx-auto">
             Everything you need for effective workforce program oversight
           </p>
@@ -135,7 +140,8 @@ export default function WorkforceBoardPage() {
                     alt={feature.title}
                     fill
                     className="object-cover group-hover:scale-105 transition duration-300"
-                    sizes="100vw" />
+                    sizes="100vw"
+                  />
                 </div>
                 <div className="p-4">
                   <h3 className="text-base font-bold text-slate-900 mb-1">{feature.title}</h3>
@@ -153,9 +159,7 @@ export default function WorkforceBoardPage() {
       {/* Quick Links */}
       <section className="py-16 px-6">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl font-bold text-slate-900 mb-4 text-center">
-            Quick Access
-          </h2>
+          <h2 className="text-3xl font-bold text-slate-900 mb-4 text-center">Quick Access</h2>
           <p className="text-black text-center mb-12 max-w-2xl mx-auto">
             Jump directly to the data you need
           </p>
@@ -172,7 +176,8 @@ export default function WorkforceBoardPage() {
                     alt={link.title}
                     fill
                     className="object-cover group-hover:scale-105 transition duration-300"
-                   sizes="100vw" />
+                    sizes="100vw"
+                  />
                   <div className="absolute bottom-4 left-4 right-4 text-white">
                     <h3 className="text-lg font-bold mb-1">{link.title}</h3>
                     <p className="text-white text-sm">{link.description}</p>
@@ -187,9 +192,7 @@ export default function WorkforceBoardPage() {
       {/* CTA Section */}
       <section className="py-16 px-6 bg-brand-blue-700 text-white">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Ready to Get Started?
-          </h2>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Get Started?</h2>
           <p className="text-xl text-white mb-8">
             Access real-time workforce data and performance metrics
           </p>

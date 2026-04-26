@@ -145,12 +145,12 @@ export default function SezzleCheckout({
 
         onComplete: async function (response: { data: SezzleCompleteData }) {
           setIsProcessing(false);
-          
+
           // Store virtual card data if showVirtualCard is enabled
           if (showVirtualCard && response.data.card) {
             setVirtualCardData(response.data.card);
           }
-          
+
           // Set order reference ID
           if (response.data.session_id) {
             try {
@@ -183,7 +183,25 @@ export default function SezzleCheckout({
       console.error('Failed to initialize Sezzle SDK:', error);
       onFailure('Failed to initialize Sezzle checkout');
     }
-  }, [sdkLoaded, publicKey, apiMode, mode, amount, programName, programSlug, customerEmail, customerFirstName, customerLastName, customerPhone, billingAddress, referenceId, useTokenization, onComplete, onCancel, onFailure]);
+  }, [
+    sdkLoaded,
+    publicKey,
+    apiMode,
+    mode,
+    amount,
+    programName,
+    programSlug,
+    customerEmail,
+    customerFirstName,
+    customerLastName,
+    customerPhone,
+    billingAddress,
+    referenceId,
+    useTokenization,
+    onComplete,
+    onCancel,
+    onFailure,
+  ]);
 
   // Check Sezzle limits
   const isBelowMinimum = amount < 35;
@@ -201,10 +219,9 @@ export default function SezzleCheckout({
   if (!isValidAmount) {
     return (
       <div className="p-4 bg-amber-50 border border-amber-200 rounded-lg text-amber-700 text-sm">
-        {isBelowMinimum 
+        {isBelowMinimum
           ? `Sezzle requires a minimum purchase of $35. Your total is $${amount.toFixed(2)}.`
-          : `Sezzle has a maximum limit of $2,500. Your total is $${amount.toFixed(2)}.`
-        }
+          : `Sezzle has a maximum limit of $2,500. Your total is $${amount.toFixed(2)}.`}
       </div>
     );
   }
@@ -248,7 +265,7 @@ export default function SezzleCheckout({
             <p className="text-sm text-slate-600">of ${paymentPerInstallment}</p>
           </div>
         </div>
-        
+
         {/* Payment Schedule */}
         <div className="grid grid-cols-4 gap-2 mt-3">
           {[1, 2, 3, 4].map((num) => (
@@ -263,8 +280,8 @@ export default function SezzleCheckout({
       </div>
 
       {/* Sezzle Button Container */}
-      <div 
-        id="sezzle-smart-button-container" 
+      <div
+        id="sezzle-smart-button-container"
         style={{ textAlign: 'center' }}
         data-template-text="Pay with %%logo%%"
         data-border-type="semi-rounded"
@@ -293,13 +310,24 @@ export default function SezzleCheckout({
       {/* Terms */}
       <p className="mt-3 text-xs text-slate-500 text-center">
         By clicking the Sezzle button, you agree to Sezzle's{' '}
-        <a href="https://sezzle.com/terms" target="_blank" rel="noopener noreferrer" className="text-purple-600 hover:underline">
+        <a
+          href="https://sezzle.com/terms"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-purple-600 hover:underline"
+        >
           Terms of Service
         </a>{' '}
         and{' '}
-        <a href="https://sezzle.com/privacy" target="_blank" rel="noopener noreferrer" className="text-purple-600 hover:underline">
+        <a
+          href="https://sezzle.com/privacy"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-purple-600 hover:underline"
+        >
           Privacy Policy
-        </a>.
+        </a>
+        .
       </p>
     </div>
   );

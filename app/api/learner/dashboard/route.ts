@@ -25,7 +25,7 @@ async function _GET(request: NextRequest) {
       achievementsResult,
       streakResult,
       pointsResult,
-      scheduleResult
+      scheduleResult,
     ] = await Promise.all([
       // Profile
       db
@@ -33,11 +33,12 @@ async function _GET(request: NextRequest) {
         .select('id, full_name, email, avatar_url, phone')
         .eq('id', user.id)
         .maybeSingle(),
-      
+
       // Active enrollment
       db
         .from('student_enrollments')
-        .select(`
+        .select(
+          `
           id,
           program_id,
           status,
@@ -54,40 +55,43 @@ async function _GET(request: NextRequest) {
             slug,
             total_hours
           )
-        `)
+        `,
+        )
         .eq('student_id', user.id)
         .eq('status', 'active')
         .maybeSingle(),
-      
+
       // Hours log from consolidated hour_entries
       db
         .from('hour_entries')
-        .select('id, hours_claimed, accepted_hours, source_type, category, status, work_date, notes, approved_by')
+        .select(
+          'id, hours_claimed, accepted_hours, source_type, category, status, work_date, notes, approved_by',
+        )
         .eq('user_id', user.id)
         .order('work_date', { ascending: false })
         .limit(10),
-      
+
       // Achievements
       db
         .from('achievements')
         .select('id, code, label, description, earned_at, icon')
         .eq('user_id', user.id)
         .order('earned_at', { ascending: false }),
-      
+
       // Streak
       db
         .from('daily_streaks')
         .select('current_streak, longest_streak, last_active_date')
         .eq('user_id', user.id)
         .maybeSingle(),
-      
+
       // Points
       db
         .from('user_points')
         .select('total_points, level, level_name, points_to_next_level')
         .eq('user_id', user.id)
         .maybeSingle(),
-      
+
       // Schedule
       db
         .from('calendar_events')
@@ -95,18 +99,27 @@ async function _GET(request: NextRequest) {
         .eq('user_id', user.id)
         .gte('date', new Date().toISOString().split('T')[0])
         .order('date', { ascending: true })
-        .limit(10)
+        .limit(10),
     ]);
 
     // Process hours
     const hourLogs = hoursResult.data || [];
-    const totalRtiMinutes = hourLogs.filter(l => l.hour_type === 'RTI').reduce((sum, l) => sum + (l.minutes || 0), 0);
-    const totalOjtMinutes = hourLogs.filter(l => l.hour_type === 'OJT').reduce((sum, l) => sum + (l.minutes || 0), 0);
-    const approvedMinutes = hourLogs.filter(l => l.status === 'APPROVED').reduce((sum, l) => sum + (l.minutes || 0), 0);
-    const pendingMinutes = hourLogs.filter(l => l.status === 'SUBMITTED' || l.status === 'DRAFT').reduce((sum, l) => sum + (l.minutes || 0), 0);
+    const totalRtiMinutes = hourLogs
+      .filter((l) => l.hour_type === 'RTI')
+      .reduce((sum, l) => sum + (l.minutes || 0), 0);
+    const totalOjtMinutes = hourLogs
+      .filter((l) => l.hour_type === 'OJT')
+      .reduce((sum, l) => sum + (l.minutes || 0), 0);
+    const approvedMinutes = hourLogs
+      .filter((l) => l.status === 'APPROVED')
+      .reduce((sum, l) => sum + (l.minutes || 0), 0);
+    const pendingMinutes = hourLogs
+      .filter((l) => l.status === 'SUBMITTED' || l.status === 'DRAFT')
+      .reduce((sum, l) => sum + (l.minutes || 0), 0);
 
     const enrollment = enrollmentResult.data;
-    const requiredHours = enrollment?.required_hours || (enrollment?.programs as any)?.total_hours || 2000;
+    const requiredHours =
+      enrollment?.required_hours || (enrollment?.programs as any)?.total_hours || 2000;
     const transferHours = enrollment?.transfer_hours || 0;
     const totalHours = (totalRtiMinutes + totalOjtMinutes) / 60;
     const effectiveTotal = totalHours + transferHours;
@@ -115,7 +128,8 @@ async function _GET(request: NextRequest) {
     // Get current module
     const { data: modules } = await db
       .from('modules')
-      .select(`
+      .select(
+        `
         id,
         title,
         description,
@@ -127,7 +141,8 @@ async function _GET(request: NextRequest) {
           duration_minutes,
           content_type
         )
-      `)
+      `,
+      )
       .order('order_index', { ascending: true })
       .limit(1);
 
@@ -136,7 +151,7 @@ async function _GET(request: NextRequest) {
       .select('lesson_id')
       .eq('user_id', user.id);
 
-    const completedIds = new Set((completedLessons || []).map(c => c.lesson_id));
+    const completedIds = new Set((completedLessons || []).map((c) => c.lesson_id));
 
     // Build response
     const dashboard = {
@@ -148,18 +163,24 @@ async function _GET(request: NextRequest) {
         phone: profileResult.data?.phone || '',
         enrolledAt: enrollment?.created_at || new Date().toISOString(),
       },
-      program: enrollment ? {
-        id: enrollment.id,
-        programId: enrollment.program_id,
-        name: (enrollment.programs as any)?.name || 'Barber Apprenticeship',
-        slug: (enrollment.programs as any)?.slug || 'barber-apprenticeship',
-        status: enrollment.status,
-        rapidsStatus: enrollment.rapids_status || 'pending',
-        rapidsId: enrollment.rapids_id,
-        lmsEnrolled: enrollment.lms_enrolled || false, // DB column lms_enrolled = LMS access granted
-        startDate: new Date(enrollment.created_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
-        expectedCompletion: 'December 2026',
-      } : null,
+      program: enrollment
+        ? {
+            id: enrollment.id,
+            programId: enrollment.program_id,
+            name: (enrollment.programs as any)?.name || 'Barber Apprenticeship',
+            slug: (enrollment.programs as any)?.slug || 'barber-apprenticeship',
+            status: enrollment.status,
+            rapidsStatus: enrollment.rapids_status || 'pending',
+            rapidsId: enrollment.rapids_id,
+            lmsEnrolled: enrollment.lms_enrolled || false, // DB column lms_enrolled = LMS access granted
+            startDate: new Date(enrollment.created_at).toLocaleDateString('en-US', {
+              month: 'long',
+              day: 'numeric',
+              year: 'numeric',
+            }),
+            expectedCompletion: 'December 2026',
+          }
+        : null,
       progress: {
         theoryModules: 0,
         practicalHours: Math.round(totalOjtMinutes / 60),
@@ -171,24 +192,26 @@ async function _GET(request: NextRequest) {
         pendingHours: Math.round(pendingMinutes / 60),
         progressPercentage: Math.round(progressPercentage),
       },
-      currentModule: modules?.[0] ? {
-        id: modules[0].id,
-        number: modules[0].order_index + 1,
-        title: modules[0].title,
-        description: modules[0].description || '',
-        progress: 0,
-        lessons: ((modules[0].lessons as any[]) || []).map((l: any) => ({
-          id: l.id,
-          title: l.title,
-          duration: l.duration_minutes || 15,
-          type: l.content_type ?? 'lesson',
-          completed: completedIds.has(l.id),
-        })),
-      } : null,
-      trainingLog: (hoursResult.data || []).map(log => ({
+      currentModule: modules?.[0]
+        ? {
+            id: modules[0].id,
+            number: modules[0].order_index + 1,
+            title: modules[0].title,
+            description: modules[0].description || '',
+            progress: 0,
+            lessons: ((modules[0].lessons as any[]) || []).map((l: any) => ({
+              id: l.id,
+              title: l.title,
+              duration: l.duration_minutes || 15,
+              type: l.content_type ?? 'lesson',
+              completed: completedIds.has(l.id),
+            })),
+          }
+        : null,
+      trainingLog: (hoursResult.data || []).map((log) => ({
         id: log.id,
         date: log.logged_date,
-        hours: Math.round((log.minutes || 0) / 60 * 10) / 10,
+        hours: Math.round(((log.minutes || 0) / 60) * 10) / 10,
         type: log.hour_type as 'OJT' | 'RTI',
         description: log.description || '',
         location: log.hour_type === 'RTI' ? 'Online - Elevate LMS' : 'Training Location',
@@ -197,7 +220,7 @@ async function _GET(request: NextRequest) {
         verified: log.status === 'APPROVED',
         skills: [],
       })),
-      schedule: (scheduleResult.data || []).map(event => ({
+      schedule: (scheduleResult.data || []).map((event) => ({
         id: event.id,
         title: event.title,
         date: formatEventDate(event.date),
@@ -207,7 +230,7 @@ async function _GET(request: NextRequest) {
         location: event.description || 'See event details',
         color: event.color || '#3b82f6',
       })),
-      achievements: (achievementsResult.data || []).map(a => ({
+      achievements: (achievementsResult.data || []).map((a) => ({
         id: a.id,
         code: a.code,
         label: a.label,
@@ -226,7 +249,6 @@ async function _GET(request: NextRequest) {
     };
 
     return NextResponse.json(dashboard);
-
   } catch (error) {
     logger.error('[Learner Dashboard] Error:', error);
     return NextResponse.json({ error: 'Failed to fetch dashboard data' }, { status: 500 });
@@ -239,12 +261,12 @@ function formatEventDate(dateStr: string): string {
   today.setHours(0, 0, 0, 0);
   const eventDate = new Date(date);
   eventDate.setHours(0, 0, 0, 0);
-  
+
   const diffDays = Math.round((eventDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
-  
+
   if (diffDays === 0) return 'Today';
   if (diffDays === 1) return 'Tomorrow';
-  
+
   return date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
 }
 export const GET = withApiAudit('/api/learner/dashboard', _GET);

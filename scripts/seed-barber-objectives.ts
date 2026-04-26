@@ -17,7 +17,7 @@ import { barberApprenticeshipBlueprint } from '../lib/curriculum/blueprints/barb
 const db = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!,
-  { auth: { persistSession: false } }
+  { auth: { persistSession: false } },
 );
 
 const BARBER_COURSE_ID = '3fb5ce19-1cde-434c-a8c6-f138d7d7aa17';
@@ -36,7 +36,8 @@ function buildBlueprintMap() {
 
 async function main() {
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
-    console.error('Supabase env vars not set.'); process.exit(1);
+    console.error('Supabase env vars not set.');
+    process.exit(1);
   }
 
   const blueprintMap = buildBlueprintMap();
@@ -49,10 +50,15 @@ async function main() {
     .eq('course_id', BARBER_COURSE_ID)
     .order('order_index');
 
-  if (error) { console.error('Fetch error:', error.message); process.exit(1); }
+  if (error) {
+    console.error('Fetch error:', error.message);
+    process.exit(1);
+  }
   console.log(`DB lessons: ${rows?.length}`);
 
-  let updated = 0, skipped = 0, missing = 0;
+  let updated = 0,
+    skipped = 0,
+    missing = 0;
 
   for (const row of rows ?? []) {
     const lesson = blueprintMap.get(row.slug);
@@ -72,29 +78,33 @@ async function main() {
     const learningObjectives: string[] = lesson.learningObjectives ?? deriveObjectives(lesson);
     const competencyChecks = lesson.competencyChecks ?? null;
     const instructorNotes = lesson.instructorNotes ?? null;
-    const practicalRequired = !!(competencyChecks?.some((c: any) => c.requiresInstructorSignoff));
+    const practicalRequired = !!competencyChecks?.some((c: any) => c.requiresInstructorSignoff);
 
     const { error: updateErr } = await db
       .from('course_lessons')
       .update({
         learning_objectives: learningObjectives,
-        competency_checks:   competencyChecks,
-        instructor_notes:    instructorNotes,
-        practical_required:  practicalRequired,
-        video_url:           lesson.videoFile ?? null,
-        updated_at:          new Date().toISOString(),
+        competency_checks: competencyChecks,
+        instructor_notes: instructorNotes,
+        practical_required: practicalRequired,
+        video_url: lesson.videoFile ?? null,
+        updated_at: new Date().toISOString(),
       })
       .eq('id', row.id);
 
     if (updateErr) {
       console.error(`  ❌ ${row.slug}: ${updateErr.message}`);
     } else {
-      console.log(`  ✅ ${row.slug} — ${learningObjectives.length} objectives${practicalRequired ? ' + practical required' : ''}`);
+      console.log(
+        `  ✅ ${row.slug} — ${learningObjectives.length} objectives${practicalRequired ? ' + practical required' : ''}`,
+      );
       updated++;
     }
   }
 
-  console.log(`\n=== Done === updated=${updated} | skipped=${skipped} | not-in-blueprint=${missing}`);
+  console.log(
+    `\n=== Done === updated=${updated} | skipped=${skipped} | not-in-blueprint=${missing}`,
+  );
 }
 
 /**
@@ -121,4 +131,7 @@ function deriveObjectives(lesson: any): string[] {
     .filter((s: string) => s.length > 10);
 }
 
-main().catch(e => { console.error('Fatal:', e); process.exit(1); });
+main().catch((e) => {
+  console.error('Fatal:', e);
+  process.exit(1);
+});

@@ -128,11 +128,9 @@ async function detectAnomalies(): Promise<AnomalyDetectionResult[]> {
       .map((m) => m.response_time_ms);
 
     if (responseTimes.length > 10) {
-      const mean =
-        responseTimes.reduce((a, b) => a + b, 0) / responseTimes.length;
+      const mean = responseTimes.reduce((a, b) => a + b, 0) / responseTimes.length;
       const stdDev = Math.sqrt(
-        responseTimes.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) /
-          responseTimes.length
+        responseTimes.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) / responseTimes.length,
       );
 
       const latestTime = responseTimes[0];
@@ -163,8 +161,7 @@ async function detectAnomalies(): Promise<AnomalyDetectionResult[]> {
         reason: `Error rate for ${kind} is ${(errorRate * 100).toFixed(1)}% (expected ${(historicalErrorRate * 100).toFixed(1)}%)`,
         expectedValue: historicalErrorRate,
         actualValue: errorRate,
-        severity:
-          errorRate > 0.5 ? 'critical' : errorRate > 0.2 ? 'high' : 'medium',
+        severity: errorRate > 0.5 ? 'critical' : errorRate > 0.2 ? 'high' : 'medium',
       });
     }
   }
@@ -195,10 +192,7 @@ async function predictFailures(): Promise<PredictiveAnalysis[]> {
   const { data: historicalData } = await supabase
     .from('automation.health_log')
     .select('kind, status, response_time_ms, checked_at')
-    .gte(
-      'checked_at',
-      new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString()
-    )
+    .gte('checked_at', new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString())
     .order('checked_at', { ascending: true });
 
   if (!historicalData || historicalData.length < 100) {
@@ -214,12 +208,8 @@ async function predictFailures(): Promise<PredictiveAnalysis[]> {
 
   for (const [kind, metrics] of Object.entries(byKind) as [string, any[]][]) {
     // Calculate error trend
-    const recentErrors = metrics
-      .slice(-24)
-      .filter((m: any) => m.status === 'error').length;
-    const olderErrors = metrics
-      .slice(-48, -24)
-      .filter((m: any) => m.status === 'error').length;
+    const recentErrors = metrics.slice(-24).filter((m: any) => m.status === 'error').length;
+    const olderErrors = metrics.slice(-48, -24).filter((m: any) => m.status === 'error').length;
     const errorTrend = recentErrors - olderErrors;
 
     if (errorTrend > 3) {
@@ -242,13 +232,9 @@ async function predictFailures(): Promise<PredictiveAnalysis[]> {
       .map((m: any) => m.response_time_ms);
 
     if (responseTimes.length > 20) {
-      const recentAvg =
-        responseTimes.slice(-10).reduce((a: number, b: number) => a + b, 0) /
-        10;
+      const recentAvg = responseTimes.slice(-10).reduce((a: number, b: number) => a + b, 0) / 10;
       const olderAvg =
-        responseTimes
-          .slice(-20, -10)
-          .reduce((a: number, b: number) => a + b, 0) / 10;
+        responseTimes.slice(-20, -10).reduce((a: number, b: number) => a + b, 0) / 10;
       const degradation = (recentAvg - olderAvg) / olderAvg;
 
       if (degradation > 0.5) {
@@ -296,10 +282,7 @@ async function analyzeTrends(data: any): Promise<any> {
   const { data: metrics } = await supabase
     .from('automation.health_log')
     .select('*')
-    .gte(
-      'checked_at',
-      new Date(Date.now() - daysAgo * 24 * 60 * 60 * 1000).toISOString()
-    )
+    .gte('checked_at', new Date(Date.now() - daysAgo * 24 * 60 * 60 * 1000).toISOString())
     .order('checked_at', { ascending: true });
 
   if (!metrics || metrics.length === 0) {
@@ -346,33 +329,22 @@ async function generateInsights(): Promise<any> {
 
   // Calculate basic insights
   const totalEvents = recentEvents?.length || 0;
-  const errors =
-    recentEvents?.filter((e: any) => e.status === 'error').length || 0;
+  const errors = recentEvents?.filter((e: any) => e.status === 'error').length || 0;
   const errorRate = totalEvents > 0 ? errors / totalEvents : 0;
 
   const totalMigrations = migrations?.length || 0;
-  const failedMigrations =
-    migrations?.filter((m: any) => m.status === 'failure').length || 0;
+  const failedMigrations = migrations?.filter((m: any) => m.status === 'failure').length || 0;
 
   const insights = {
     summary: `System processed ${totalEvents} health checks in the last 24 hours with ${(errorRate * 100).toFixed(1)}% error rate.`,
     health:
-      errorRate < 0.05
-        ? 'excellent'
-        : errorRate < 0.1
-          ? 'good'
-          : errorRate < 0.2
-            ? 'fair'
-            : 'poor',
+      errorRate < 0.05 ? 'excellent' : errorRate < 0.1 ? 'good' : errorRate < 0.2 ? 'fair' : 'poor',
     migrations: {
       total: totalMigrations,
       failed: failedMigrations,
       successRate:
         totalMigrations > 0
-          ? (
-              ((totalMigrations - failedMigrations) / totalMigrations) *
-              100
-            ).toFixed(1) + '%'
+          ? (((totalMigrations - failedMigrations) / totalMigrations) * 100).toFixed(1) + '%'
           : 'N/A',
     },
     recommendations: [],
@@ -380,32 +352,21 @@ async function generateInsights(): Promise<any> {
 
   // Generate recommendations
   if (errorRate > 0.1) {
-    insights.recommendations.push(
-      'High error rate detected - investigate root cause'
-    );
+    insights.recommendations.push('High error rate detected - investigate root cause');
   }
   if (failedMigrations > 0) {
-    insights.recommendations.push(
-      'Recent migration failures - review migration scripts'
-    );
+    insights.recommendations.push('Recent migration failures - review migration scripts');
   }
   if (errorRate < 0.01 && failedMigrations === 0) {
-    insights.recommendations.push(
-      'System is performing well - no immediate action needed'
-    );
+    insights.recommendations.push('System is performing well - no immediate action needed');
   }
 
   // If OpenAI is available, enhance insights
   if (OPENAI_API_KEY) {
     try {
-      const enhancedInsights = await enhanceWithAI(
-        insights,
-        recentEvents,
-        migrations
-      );
+      const enhancedInsights = await enhanceWithAI(insights, recentEvents, migrations);
       return enhancedInsights;
-    } catch (e) {
-    }
+    } catch (e) {}
   }
 
   return insights;
@@ -415,7 +376,7 @@ async function generateInsights(): Promise<any> {
 async function enhanceWithAI(
   insights: any,
   events: unknown[],
-  migrations: unknown[]
+  migrations: unknown[],
 ): Promise<any> {
   if (!OPENAI_API_KEY) return insights;
 

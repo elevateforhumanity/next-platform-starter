@@ -19,9 +19,7 @@ export default function ErrorFallback({
     <div className="min-h-[60vh] flex items-center justify-center bg-gray-50">
       <div className="text-center px-4 max-w-lg">
         <AlertCircle className="h-16 w-16 text-brand-red-500 mx-auto mb-4" />
-        <h2 className="text-xl md:text-2xl font-bold text-slate-900 mb-3">
-          Something went wrong
-        </h2>
+        <h2 className="text-xl md:text-2xl font-bold text-slate-900 mb-3">Something went wrong</h2>
         <p className="text-slate-700 mb-6">
           An unexpected error occurred. Please try again or return home.
         </p>

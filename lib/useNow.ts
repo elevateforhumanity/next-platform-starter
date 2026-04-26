@@ -13,7 +13,9 @@ import { useState, useEffect } from 'react';
  */
 export function useNow(): Date | null {
   const [now, setNow] = useState<Date | null>(null);
-  useEffect(() => { setNow(new Date()); }, []);
+  useEffect(() => {
+    setNow(new Date());
+  }, []);
   return now;
 }
 
@@ -23,6 +25,8 @@ export function useNow(): Date | null {
  */
 export function useCurrentYear(): number {
   const [year, setYear] = useState(0);
-  useEffect(() => { setYear(new Date().getFullYear()); }, []);
+  useEffect(() => {
+    setYear(new Date().getFullYear());
+  }, []);
   return year;
 }

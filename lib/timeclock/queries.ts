@@ -59,7 +59,9 @@ export async function getActiveShifts(): Promise<ActiveShift[]> {
 
   const { data, error } = await supabase
     .from('progress_entries')
-    .select('id, apprentice_id, partner_id, site_id, clock_in_at, lunch_start_at, lunch_end_at, work_date')
+    .select(
+      'id, apprentice_id, partner_id, site_id, clock_in_at, lunch_start_at, lunch_end_at, work_date',
+    )
     .not('clock_in_at', 'is', null)
     .is('clock_out_at', null)
     .order('clock_in_at', { ascending: false });
@@ -76,14 +78,16 @@ export async function getActiveShifts(): Promise<ActiveShift[]> {
  * Get all auto clock-out entries
  */
 export async function getAutoClockOuts(
-  options: { since?: string; limit?: number } = {}
+  options: { since?: string; limit?: number } = {},
 ): Promise<AutoClockOutEntry[]> {
   const supabase = await getAdminClient();
   if (!supabase) return [];
 
   let query = supabase
     .from('progress_entries')
-    .select('id, apprentice_id, partner_id, site_id, clock_in_at, clock_out_at, auto_clock_out_reason, work_date, hours_worked')
+    .select(
+      'id, apprentice_id, partner_id, site_id, clock_in_at, clock_out_at, auto_clock_out_reason, work_date, hours_worked',
+    )
     .eq('auto_clocked_out', true)
     .order('clock_out_at', { ascending: false });
 
@@ -111,14 +115,16 @@ export async function getAutoClockOuts(
  * - Lunch exceeding 60 minutes
  */
 export async function getLunchViolations(
-  options: { since?: string; limit?: number } = {}
+  options: { since?: string; limit?: number } = {},
 ): Promise<LunchViolation[]> {
   const supabase = await getAdminClient();
   if (!supabase) return [];
 
   let query = supabase
     .from('progress_entries')
-    .select('id, apprentice_id, partner_id, work_date, clock_in_at, clock_out_at, lunch_start_at, lunch_end_at, hours_worked')
+    .select(
+      'id, apprentice_id, partner_id, work_date, clock_in_at, clock_out_at, lunch_start_at, lunch_end_at, hours_worked',
+    )
     .not('clock_out_at', 'is', null)
     .gte('hours_worked', 6)
     .order('work_date', { ascending: false });
@@ -234,7 +240,7 @@ export async function getWeeklyCapWarnings(): Promise<WeeklyCapWarning[]> {
 export async function getApprenticeDailySummary(
   apprenticeId: string,
   startDate: string,
-  endDate: string
+  endDate: string,
 ): Promise<Array<{ work_date: string; total_hours: number; segments: number }>> {
   const supabase = await getAdminClient();
   if (!supabase) return [];

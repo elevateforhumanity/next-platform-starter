@@ -6,7 +6,8 @@ import heroBanners from '@/content/heroBanners';
 export const revalidate = 86400;
 
 export const metadata: Metadata = {
-  title: BEAUTY_CAREER_EDUCATOR.metaTitle ?? `${BEAUTY_CAREER_EDUCATOR.title} | Elevate for Humanity`,
+  title:
+    BEAUTY_CAREER_EDUCATOR.metaTitle ?? `${BEAUTY_CAREER_EDUCATOR.title} | Elevate for Humanity`,
   description: BEAUTY_CAREER_EDUCATOR.metaDescription ?? BEAUTY_CAREER_EDUCATOR.subtitle,
   alternates: { canonical: '/programs/beauty-career-educator' },
 };

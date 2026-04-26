@@ -32,33 +32,28 @@ async function _POST(request: NextRequest) {
 
     // Validate required fields
     if (!organizationName || !contactName || !email || !organizationType) {
-      return NextResponse.json(
-        { error: 'Missing required fields' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
     const supabase = await createClient();
 
     // Store the license request
-    const { error: dbError } = await supabase
-      .from('license_requests')
-      .insert({
-        organization_name: organizationName,
-        contact_name: contactName,
-        title: title || null,
-        email,
-        phone: phone || null,
-        organization_type: organizationType,
-        estimated_users: estimatedUsers || null,
-        timeline: timeline || null,
-        use_case: useCase || null,
-        technical_capability: technicalCapability || null,
-        message: message || null,
-        license_type: licenseType || 'managed',
-        status: 'pending',
-        created_at: new Date().toISOString(),
-      });
+    const { error: dbError } = await supabase.from('license_requests').insert({
+      organization_name: organizationName,
+      contact_name: contactName,
+      title: title || null,
+      email,
+      phone: phone || null,
+      organization_type: organizationType,
+      estimated_users: estimatedUsers || null,
+      timeline: timeline || null,
+      use_case: useCase || null,
+      technical_capability: technicalCapability || null,
+      message: message || null,
+      license_type: licenseType || 'managed',
+      status: 'pending',
+      created_at: new Date().toISOString(),
+    });
 
     if (dbError) {
       logger.error('Database error:', dbError);
@@ -92,11 +87,20 @@ This request was submitted via the Platform Licensing page.
         await fetch('https://api.sendgrid.com/v3/mail/send', {
           method: 'POST',
           headers: {
-            'Authorization': `Bearer ${process.env.SENDGRID_API_KEY}`,
+            Authorization: `Bearer ${process.env.SENDGRID_API_KEY}`,
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            personalizations: [{ to: [{ email: process.env.LICENSE_NOTIFICATION_EMAIL || 'elevate4humanityedu@gmail.com' }] }],
+            personalizations: [
+              {
+                to: [
+                  {
+                    email:
+                      process.env.LICENSE_NOTIFICATION_EMAIL || 'elevate4humanityedu@gmail.com',
+                  },
+                ],
+              },
+            ],
             from: { name: 'Elevate for Humanity', email: 'noreply@elevateforhumanity.org' },
             subject: `[License Request] ${licenseType === 'source_use' ? 'Enterprise Source-Use' : 'Managed LMS'} - ${organizationName}`,
             content: [{ type: 'text/plain', value: emailBody }],
@@ -110,10 +114,7 @@ This request was submitted via the Platform Licensing page.
     return NextResponse.json({ success: true });
   } catch (error) {
     logger.error('License request error:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 export const POST = withRuntime(withApiAudit('/api/licenses/request', _POST));

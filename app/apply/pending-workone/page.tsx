@@ -1,15 +1,23 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import {
-  ArrowRight, Mail, Phone, Calendar,
-  MapPin, Clock, FileText, CheckCircle, ExternalLink,
+  ArrowRight,
+  Mail,
+  Phone,
+  Calendar,
+  MapPin,
+  Clock,
+  FileText,
+  CheckCircle,
+  ExternalLink,
 } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import WorkOneChecklist from '@/components/workone/WorkOneChecklist';
 
 export const metadata: Metadata = {
   title: 'Complete WorkOne Intake | Elevate for Humanity',
-  description: 'Your application is on hold while we wait for your WorkOne eligibility confirmation.',
+  description:
+    'Your application is on hold while we wait for your WorkOne eligibility confirmation.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/apply/pending-workone',
   },
@@ -81,23 +89,19 @@ export default function PendingWorkOnePage({
   searchParams?: { ref?: string; funding?: string };
 }) {
   const referenceNumber = searchParams?.ref ?? null;
-  const fundingSource   = searchParams?.funding ?? 'workone';
+  const fundingSource = searchParams?.funding ?? 'workone';
 
   return (
     <div className="min-h-screen bg-white">
       <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
           <Breadcrumbs
-            items={[
-              { label: 'Apply', href: '/apply' },
-              { label: 'WorkOne Intake Required' },
-            ]}
+            items={[{ label: 'Apply', href: '/apply' }, { label: 'WorkOne Intake Required' }]}
           />
         </div>
       </div>
 
       <div className="max-w-2xl mx-auto px-4 py-12">
-
         {/* Header */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-20 h-20 bg-amber-100 rounded-full mb-6">
@@ -107,10 +111,9 @@ export default function PendingWorkOnePage({
             One More Step Before Enrollment
           </h1>
           <p className="text-lg text-black leading-relaxed">
-            Your application is received and your account is ready.
-            Because you selected WorkOne / WIOA funding, you must complete
-            a <strong>WorkOne intake appointment</strong> before your enrollment
-            can be activated. WorkOne — not Elevate — determines your eligibility.
+            Your application is received and your account is ready. Because you selected WorkOne /
+            WIOA funding, you must complete a <strong>WorkOne intake appointment</strong> before
+            your enrollment can be activated. WorkOne — not Elevate — determines your eligibility.
           </p>
           {referenceNumber && (
             <div className="mt-4 inline-block bg-amber-50 border border-amber-200 rounded-lg px-4 py-2">
@@ -123,10 +126,10 @@ export default function PendingWorkOnePage({
         {/* Important notice */}
         <div className="bg-amber-50 border border-amber-200 rounded-xl p-5 mb-8">
           <p className="text-sm text-amber-800 leading-relaxed">
-            <strong>Important:</strong> Elevate cannot approve WIOA or Workforce Ready Grant
-            funding on your behalf. WorkOne is the state agency that makes this determination.
-            Your spot in the program is held for <strong>30 days</strong> while you complete
-            this step. If you need more time, contact us.
+            <strong>Important:</strong> Elevate cannot approve WIOA or Workforce Ready Grant funding
+            on your behalf. WorkOne is the state agency that makes this determination. Your spot in
+            the program is held for <strong>30 days</strong> while you complete this step. If you
+            need more time, contact us.
           </p>
         </div>
 
@@ -134,8 +137,8 @@ export default function PendingWorkOnePage({
         <div className="mb-8">
           <h2 className="text-xl font-bold text-slate-900 mb-1">Track your progress</h2>
           <p className="text-sm text-black mb-4">
-            Check off each step as you complete it. Add notes like appointment dates,
-            advisor names, and authorization codes so nothing gets lost.
+            Check off each step as you complete it. Add notes like appointment dates, advisor names,
+            and authorization codes so nothing gets lost.
           </p>
           <WorkOneChecklist pendingWorkone={true} fundingSource={fundingSource} />
         </div>
@@ -158,15 +161,32 @@ export default function PendingWorkOnePage({
           <h2 className="text-xl font-bold mb-6">What to do next</h2>
           <ol className="space-y-6">
             {WORKONE_STEPS.map((step, index) => (
-              <li key={index} className={`flex items-start gap-4 ${'highlight' in step && step.highlight ? 'bg-amber-50 border-2 border-amber-300 rounded-xl p-4 -mx-2' : ''}`}>
-                <div className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center ${'highlight' in step && step.highlight ? 'bg-amber-100' : 'bg-brand-blue-50'}`}>
-                  <span className={`font-bold text-sm ${'highlight' in step && step.highlight ? 'text-amber-700' : 'text-brand-blue-700'}`}>{index + 1}</span>
+              <li
+                key={index}
+                className={`flex items-start gap-4 ${'highlight' in step && step.highlight ? 'bg-amber-50 border-2 border-amber-300 rounded-xl p-4 -mx-2' : ''}`}
+              >
+                <div
+                  className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center ${'highlight' in step && step.highlight ? 'bg-amber-100' : 'bg-brand-blue-50'}`}
+                >
+                  <span
+                    className={`font-bold text-sm ${'highlight' in step && step.highlight ? 'text-amber-700' : 'text-brand-blue-700'}`}
+                  >
+                    {index + 1}
+                  </span>
                 </div>
                 <div className="flex-1 pt-0.5">
                   <div className="flex items-center gap-2 mb-1">
                     {step.icon}
-                    <h3 className={`font-semibold ${'highlight' in step && step.highlight ? 'text-amber-900' : 'text-slate-900'}`}>{step.title}</h3>
-                    {'highlight' in step && step.highlight && <span className="text-[10px] font-bold bg-amber-400 text-amber-900 px-2 py-0.5 rounded-full uppercase tracking-wide">Required First</span>}
+                    <h3
+                      className={`font-semibold ${'highlight' in step && step.highlight ? 'text-amber-900' : 'text-slate-900'}`}
+                    >
+                      {step.title}
+                    </h3>
+                    {'highlight' in step && step.highlight && (
+                      <span className="text-[10px] font-bold bg-amber-400 text-amber-900 px-2 py-0.5 rounded-full uppercase tracking-wide">
+                        Required First
+                      </span>
+                    )}
                   </div>
                   <p className="text-black text-sm leading-relaxed">{step.description}</p>
                   {step.link && step.linkLabel && (
@@ -243,7 +263,6 @@ export default function PendingWorkOnePage({
             Track your application status
           </Link>
         </div>
-
       </div>
     </div>
   );

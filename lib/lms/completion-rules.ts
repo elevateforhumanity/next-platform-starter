@@ -49,9 +49,7 @@ export interface CompletionStatus {
  * Default completion criteria if none is set on the program.
  */
 const DEFAULT_CRITERIA: CompletionCriteria = {
-  rules: [
-    { type: 'lessons_complete', required: true },
-  ],
+  rules: [{ type: 'lessons_complete', required: true }],
 };
 
 /**
@@ -60,7 +58,7 @@ const DEFAULT_CRITERIA: CompletionCriteria = {
 export async function evaluateCompletion(
   userId: string,
   programId: string,
-  courseId: string
+  courseId: string,
 ): Promise<CompletionStatus> {
   const db = await getAdminClient();
   if (!db) return { isComplete: false, progressPercent: 0, ruleResults: [] };
@@ -114,16 +112,13 @@ export async function evaluateCompletion(
           .eq('user_id', userId);
 
         // Get quizzes for this course
-        const { data: quizzes } = await db
-          .from('quizzes')
-          .select('id')
-          .eq('course_id', courseId);
+        const { data: quizzes } = await db.from('quizzes').select('id').eq('course_id', courseId);
 
         const quizIds = new Set((quizzes || []).map((q: any) => q.id));
         const passedQuizzes = new Set(
           (attempts || [])
             .filter((a: any) => quizIds.has(a.quiz_id) && a.score >= minScore)
-            .map((a: any) => a.quiz_id)
+            .map((a: any) => a.quiz_id),
         );
 
         const passed = quizIds.size > 0 && passedQuizzes.size >= quizIds.size;
@@ -145,7 +140,8 @@ export async function evaluateCompletion(
           .eq('course_id', courseId);
 
         const totalSeconds = (progress || []).reduce(
-          (sum: number, p: any) => sum + (p.time_spent_seconds || 0), 0
+          (sum: number, p: any) => sum + (p.time_spent_seconds || 0),
+          0,
         );
         const totalHours = totalSeconds / 3600;
         const passed = totalHours >= requiredHours;
@@ -167,7 +163,7 @@ export async function evaluateCompletion(
     }
   }
 
-  const passedCount = ruleResults.filter(r => r.passed).length;
+  const passedCount = ruleResults.filter((r) => r.passed).length;
   const totalRules = ruleResults.length;
   const isComplete = totalRules > 0 && passedCount === totalRules;
   const progressPercent = totalRules > 0 ? Math.round((passedCount / totalRules) * 100) : 0;

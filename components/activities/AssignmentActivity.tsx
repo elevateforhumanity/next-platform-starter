@@ -1,5 +1,4 @@
-"use client";
-
+'use client';
 
 import React from 'react';
 
@@ -31,7 +30,7 @@ export function AssignmentActivity({
   allowedFileTypes = ['.pdf', '.doc', '.docx'],
   maxFileSizeMB = 10,
   allowLateSubmission = true,
-  onSubmit
+  onSubmit,
 }: AssignmentActivityProps) {
   const [submissionText, setSubmissionText] = useState('');
   const [submissionUrl, setSubmissionUrl] = useState('');
@@ -44,7 +43,7 @@ export function AssignmentActivity({
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const files = Array.from(e.target.files);
-      const validFiles = files.filter(file => {
+      const validFiles = files.filter((file) => {
         const extension = '.' + file.name.split('.').pop();
         return allowedFileTypes.includes(extension) && file.size <= maxFileSizeMB * 1024 * 1024;
       });
@@ -60,7 +59,7 @@ export function AssignmentActivity({
         submissionText,
         submissionUrl,
         files: selectedFiles,
-        submittedAt: new Date()
+        submittedAt: new Date(),
       };
       await onSubmit?.(submission);
     } finally {
@@ -76,7 +75,13 @@ export function AssignmentActivity({
         <div className="flex items-center gap-4 text-sm text-black">
           <span className="flex items-center gap-1">
             <Calendar className="w-4 h-4" />
-            Due: {dueDate.toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' })}
+            Due:{' '}
+            {dueDate.toLocaleDateString('en-US', {
+              timeZone: 'UTC',
+              month: 'short',
+              day: 'numeric',
+              year: 'numeric',
+            })}
           </span>
           <span>Points: {maxPoints}</span>
           {isOverdue && (
@@ -108,9 +113,7 @@ export function AssignmentActivity({
           {/* File Upload */}
           {(submissionType === 'file' || submissionType === 'multiple') && (
             <div className="mb-4">
-              <label className="block text-sm font-medium text-black mb-2">
-                Upload Files
-              </label>
+              <label className="block text-sm font-medium text-black mb-2">Upload Files</label>
               <div className="border-2 border-dashed border-slate-300 rounded-lg p-6 text-center hover:border-emerald-500 transition">
                 <Upload className="w-8 h-8 text-slate-400 mx-auto mb-2" />
                 <input
@@ -147,12 +150,12 @@ export function AssignmentActivity({
           {/* Text Submission */}
           {(submissionType === 'text' || submissionType === 'multiple') && (
             <div className="mb-4">
-              <label className="block text-sm font-medium text-black mb-2">
-                Text Submission
-              </label>
+              <label className="block text-sm font-medium text-black mb-2">Text Submission</label>
               <textarea
                 value={submissionText}
-                onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setSubmissionText(e.target.value)}
+                onChange={(
+                  e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+                ) => setSubmissionText(e.target.value)}
                 rows={8}
                 className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
                 placeholder="Enter your submission text here..."
@@ -163,15 +166,17 @@ export function AssignmentActivity({
           {/* URL Submission */}
           {(submissionType === 'url' || submissionType === 'multiple') && (
             <div className="mb-4">
-              <label className="block text-sm font-medium text-black mb-2">
-                URL Submission
-              </label>
+              <label className="block text-sm font-medium text-black mb-2">URL Submission</label>
               <div className="flex items-center gap-2">
                 <LinkIcon className="w-4 h-4 text-slate-400" />
                 <input
                   type="url"
                   value={submissionUrl}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setSubmissionUrl(e.target.value)}
+                  onChange={(
+                    e: React.ChangeEvent<
+                      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+                    >,
+                  ) => setSubmissionUrl(e.target.value)}
                   className="flex-1 px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
                   placeholder="https://..."
                 />

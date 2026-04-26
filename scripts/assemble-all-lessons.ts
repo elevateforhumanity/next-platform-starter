@@ -20,15 +20,16 @@ function main() {
   const args = process.argv.slice(2);
   const dryRun = args.includes('--dry-run');
   const force = args.includes('--force');
-  const fromArg = args.find(a => a.startsWith('--from='));
-  const toArg = args.find(a => a.startsWith('--to='));
+  const fromArg = args.find((a) => a.startsWith('--from='));
+  const toArg = args.find((a) => a.startsWith('--to='));
   const fromNum = fromArg ? parseInt(fromArg.split('=')[1], 10) : 1;
   const toNum = toArg ? parseInt(toArg.split('=')[1], 10) : 999;
 
   // Find all manifest files
-  const manifestFiles = fs.readdirSync(MANIFESTS_DIR)
-    .filter(f => f.endsWith('.json'))
-    .map(f => {
+  const manifestFiles = fs
+    .readdirSync(MANIFESTS_DIR)
+    .filter((f) => f.endsWith('.json'))
+    .map((f) => {
       const num = parseInt(f.replace('lesson-', '').replace('.json', ''), 10);
       return { file: f, num };
     })

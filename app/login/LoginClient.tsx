@@ -98,7 +98,10 @@ function LoginForm() {
             </p>
 
             {error && (
-              <div className="mb-6 p-4 bg-brand-red-50 border border-brand-red-200 rounded-lg text-brand-red-800 text-sm" role="alert">
+              <div
+                className="mb-6 p-4 bg-brand-red-50 border border-brand-red-200 rounded-lg text-brand-red-800 text-sm"
+                role="alert"
+              >
                 {error}
               </div>
             )}
@@ -139,7 +142,10 @@ function LoginForm() {
                   <input type="checkbox" className="mr-2" />
                   <span className="text-black">Remember me</span>
                 </label>
-                <Link href="/reset-password" className="text-brand-blue-600 hover:text-brand-blue-700">
+                <Link
+                  href="/reset-password"
+                  className="text-brand-blue-600 hover:text-brand-blue-700"
+                >
                   Forgot password?
                 </Link>
               </div>
@@ -167,18 +173,18 @@ function LoginForm() {
               <p className="text-center text-sm text-black mb-4">Quick Access:</p>
               <div className="grid grid-cols-2 gap-3">
                 {[
-                  { label: 'Student Portal',   dest: '/learner/dashboard' },
-                  { label: 'Admin Portal',      dest: '/admin/dashboard' },
-                  { label: 'Program Holder',    dest: '/program-holder/dashboard' },
-                  { label: 'Instructor',        dest: '/instructor/dashboard' },
-                  { label: 'Employer',          dest: '/employer/dashboard' },
-                  { label: 'Partner Portal',    dest: '/partner/dashboard' },
-                  { label: 'Staff Portal',      dest: '/staff-portal/dashboard' },
-                  { label: 'Mentor',            dest: '/mentor/dashboard' },
-                  { label: 'Case Manager',      dest: '/case-manager/dashboard' },
-                  { label: 'Workforce Board',   dest: '/workforce-board/dashboard' },
-                  { label: 'Provider Admin',    dest: '/provider/dashboard' },
-                  { label: 'Creator',           dest: '/creator/dashboard' },
+                  { label: 'Student Portal', dest: '/learner/dashboard' },
+                  { label: 'Admin Portal', dest: '/admin/dashboard' },
+                  { label: 'Program Holder', dest: '/program-holder/dashboard' },
+                  { label: 'Instructor', dest: '/instructor/dashboard' },
+                  { label: 'Employer', dest: '/employer/dashboard' },
+                  { label: 'Partner Portal', dest: '/partner/dashboard' },
+                  { label: 'Staff Portal', dest: '/staff-portal/dashboard' },
+                  { label: 'Mentor', dest: '/mentor/dashboard' },
+                  { label: 'Case Manager', dest: '/case-manager/dashboard' },
+                  { label: 'Workforce Board', dest: '/workforce-board/dashboard' },
+                  { label: 'Provider Admin', dest: '/provider/dashboard' },
+                  { label: 'Creator', dest: '/creator/dashboard' },
                 ].map((item) => (
                   <Link
                     key={item.dest}
@@ -211,9 +217,7 @@ export default function LoginClient({ redirectTo }: { redirectTo?: string }) {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen bg-white flex items-center justify-center">
-          Loading...
-        </div>
+        <div className="min-h-screen bg-white flex items-center justify-center">Loading...</div>
       }
     >
       <LoginForm />

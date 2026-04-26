@@ -19,7 +19,7 @@ export class PartnerAPIError extends Error {
   constructor(
     message: string,
     public statusCode?: number,
-    public response?: any
+    public response?: any,
   ) {
     super(message);
     this.name = 'PartnerAPIError';
@@ -45,7 +45,7 @@ export class HttpClient {
   private async executeRequest<T>(
     url: string,
     options: RequestInit,
-    attempt: number = 1
+    attempt: number = 1,
   ): Promise<HttpResponse<T>> {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), this.config.timeout);
@@ -85,7 +85,7 @@ export class HttpClient {
         throw new PartnerAPIError(
           `HTTP ${response.status}: ${data?.message || response.statusText}`,
           response.status,
-          data
+          data,
         );
       }
 
@@ -94,7 +94,8 @@ export class HttpClient {
         status: response.status,
         headers: responseHeaders,
       };
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       clearTimeout(timeoutId);
 
       if (error.name === 'AbortError') {
@@ -102,10 +103,7 @@ export class HttpClient {
       }
 
       // Retry on network errors
-      if (
-        error instanceof TypeError &&
-        attempt < (this.config.retryAttempts || 3)
-      ) {
+      if (error instanceof TypeError && attempt < (this.config.retryAttempts || 3)) {
         const delay = this.config.retryDelay! * Math.pow(2, attempt - 1);
         await this.sleep(delay);
         return this.executeRequest<T>(url, options, attempt + 1);
@@ -115,18 +113,11 @@ export class HttpClient {
         throw error;
       }
 
-      throw new PartnerAPIError(
-        `Network error: ${'Operation failed'}`,
-        undefined,
-        error
-      );
+      throw new PartnerAPIError(`Network error: ${'Operation failed'}`, undefined, error);
     }
   }
 
-  async get<T = any>(
-    path: string,
-    headers?: Record<string, string>
-  ): Promise<HttpResponse<T>> {
+  async get<T = any>(path: string, headers?: Record<string, string>): Promise<HttpResponse<T>> {
     const url = `${this.config.baseUrl}${path}`;
     return this.executeRequest<T>(url, {
       method: 'GET',
@@ -140,7 +131,7 @@ export class HttpClient {
   async post<T = any>(
     path: string,
     body?: any,
-    headers?: Record<string, string>
+    headers?: Record<string, string>,
   ): Promise<HttpResponse<T>> {
     const url = `${this.config.baseUrl}${path}`;
     return this.executeRequest<T>(url, {
@@ -157,7 +148,7 @@ export class HttpClient {
   async put<T = any>(
     path: string,
     body?: any,
-    headers?: Record<string, string>
+    headers?: Record<string, string>,
   ): Promise<HttpResponse<T>> {
     const url = `${this.config.baseUrl}${path}`;
     return this.executeRequest<T>(url, {
@@ -171,10 +162,7 @@ export class HttpClient {
     });
   }
 
-  async delete<T = any>(
-    path: string,
-    headers?: Record<string, string>
-  ): Promise<HttpResponse<T>> {
+  async delete<T = any>(path: string, headers?: Record<string, string>): Promise<HttpResponse<T>> {
     const url = `${this.config.baseUrl}${path}`;
     return this.executeRequest<T>(url, {
       method: 'DELETE',

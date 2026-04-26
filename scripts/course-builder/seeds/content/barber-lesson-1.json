@@ -16,12 +16,7 @@
       },
       {
         "prompt": "How many total hours must a barber apprentice complete in Indiana to qualify for the state board exam?",
-        "choices": [
-          "1,000 hours",
-          "1,200 hours",
-          "1,500 hours",
-          "2,000 hours"
-        ],
+        "choices": ["1,000 hours", "1,200 hours", "1,500 hours", "2,000 hours"],
         "answerIndex": 2,
         "rationale": "The Indiana State Board requires 1,500 hours of training for licensure eligibility.",
         "type": "recall"

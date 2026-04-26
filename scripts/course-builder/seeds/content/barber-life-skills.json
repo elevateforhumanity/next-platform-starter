@@ -4,24 +4,14 @@
     "questions": [
       {
         "prompt": "What does the 'S' in SMART goals stand for?",
-        "choices": [
-          "Specific",
-          "Simple",
-          "Standard",
-          "Strategic"
-        ],
+        "choices": ["Specific", "Simple", "Standard", "Strategic"],
         "answerIndex": 0,
         "rationale": "The 'S' in SMART goals stands for 'Specific,' which means that goals should be clear and well-defined.",
         "type": "recall"
       },
       {
         "prompt": "Which of the following is NOT a component of a SMART goal?",
-        "choices": [
-          "Achievable",
-          "Measurable",
-          "Flexible",
-          "Relevant"
-        ],
+        "choices": ["Achievable", "Measurable", "Flexible", "Relevant"],
         "answerIndex": 2,
         "rationale": "SMART goals are Specific, Measurable, Achievable, Relevant, and Time-bound. 'Flexible' is not part of the SMART criteria.",
         "type": "recall"
@@ -52,12 +42,7 @@
       },
       {
         "prompt": "What percentage of the Indiana state board exam focuses on ethical obligations?",
-        "choices": [
-          "10%",
-          "15%",
-          "20%",
-          "25%"
-        ],
+        "choices": ["10%", "15%", "20%", "25%"],
         "answerIndex": 2,
         "rationale": "Ethical obligations make up approximately 20% of the Indiana state board exam.",
         "type": "recall"

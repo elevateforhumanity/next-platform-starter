@@ -13,7 +13,7 @@ export const dynamic = 'force-dynamic';
 
 async function _GET(
   request: Request,
-  { params }: { params: Promise<{ courseId: string; lessonId: string }> }
+  { params }: { params: Promise<{ courseId: string; lessonId: string }> },
 ) {
   try {
     const rateLimited = await applyRateLimit(request, 'api');
@@ -23,7 +23,7 @@ async function _GET(
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const supabase = await createClient();
-      const { lessonId } = await params;
+    const { lessonId } = await params;
 
     try {
       await assertLessonAccess(user.id, lessonId);
@@ -43,11 +43,8 @@ async function _GET(
     }
 
     return NextResponse.json({ resources: resources || [] });
-  } catch (error) { 
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+  } catch (error) {
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/courses/[courseId]/lessons/[lessonId]/resources', _GET);

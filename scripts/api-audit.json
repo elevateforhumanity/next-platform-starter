@@ -169,190 +169,125 @@
   "has_auth": [
     {
       "file": "app/api/certificates/issue/route.ts",
-      "signals": [
-        "getSession()",
-        "auth.getSession"
-      ]
+      "signals": ["getSession()", "auth.getSession"]
     },
     {
       "file": "app/api/ojt/submit/route.ts",
-      "signals": [
-        "getSession()",
-        "auth.getSession"
-      ]
+      "signals": ["getSession()", "auth.getSession"]
     },
     {
       "file": "app/api/privacy/delete/route.ts",
-      "signals": [
-        "getSession()",
-        "auth.getSession"
-      ]
+      "signals": ["getSession()", "auth.getSession"]
     },
     {
       "file": "app/api/privacy/export/route.ts",
-      "signals": [
-        "getSession()",
-        "auth.getSession"
-      ]
+      "signals": ["getSession()", "auth.getSession"]
     },
     {
       "file": "app/api/quizzes/[quizId]/route.ts",
-      "signals": [
-        "getSession()",
-        "auth.getSession"
-      ]
+      "signals": ["getSession()", "auth.getSession"]
     }
   ],
   "ambiguous": [
     {
       "file": "app/api/achievements/route.ts",
-      "signals": [
-        "createServerSupabaseClient"
-      ]
+      "signals": ["createServerSupabaseClient"]
     },
     {
       "file": "app/api/ai-studio/generate-avatar/route.ts",
-      "signals": [
-        "Authorization"
-      ]
+      "signals": ["Authorization"]
     },
     {
       "file": "app/api/analytics/metrics/dol-dwd/route.ts",
-      "signals": [
-        "createServerSupabaseClient"
-      ]
+      "signals": ["createServerSupabaseClient"]
     },
     {
       "file": "app/api/applications/wioa/route.ts",
-      "signals": [
-        "Authorization"
-      ]
+      "signals": ["Authorization"]
     },
     {
       "file": "app/api/assignments/[id]/submit/route.ts",
-      "signals": [
-        "createServerSupabaseClient"
-      ]
+      "signals": ["createServerSupabaseClient"]
     },
     {
       "file": "app/api/assignments/route.ts",
-      "signals": [
-        "createServerSupabaseClient"
-      ]
+      "signals": ["createServerSupabaseClient"]
     },
     {
       "file": "app/api/certificates/route.ts",
-      "signals": [
-        "createServerSupabaseClient"
-      ]
+      "signals": ["createServerSupabaseClient"]
     },
     {
       "file": "app/api/credentials/issue/route.ts",
-      "signals": [
-        "createServerSupabaseClient"
-      ]
+      "signals": ["createServerSupabaseClient"]
     },
     {
       "file": "app/api/cron/funding-escalation/route.ts",
-      "signals": [
-        "Authorization"
-      ]
+      "signals": ["Authorization"]
     },
     {
       "file": "app/api/enrollments/route.ts",
-      "signals": [
-        "createServerSupabaseClient"
-      ]
+      "signals": ["createServerSupabaseClient"]
     },
     {
       "file": "app/api/funnel/lead/route.ts",
-      "signals": [
-        "Authorization"
-      ]
+      "signals": ["Authorization"]
     },
     {
       "file": "app/api/gamification/leaderboard/route.ts",
-      "signals": [
-        "createServerSupabaseClient"
-      ]
+      "signals": ["createServerSupabaseClient"]
     },
     {
       "file": "app/api/health/route.ts",
-      "signals": [
-        "Authorization"
-      ]
+      "signals": ["Authorization"]
     },
     {
       "file": "app/api/intake/application/route.ts",
-      "signals": [
-        "createServerSupabaseClient"
-      ]
+      "signals": ["createServerSupabaseClient"]
     },
     {
       "file": "app/api/intake/eligibility/route.ts",
-      "signals": [
-        "createServerSupabaseClient"
-      ]
+      "signals": ["createServerSupabaseClient"]
     },
     {
       "file": "app/api/intake/interest/route.ts",
-      "signals": [
-        "createServerSupabaseClient"
-      ]
+      "signals": ["createServerSupabaseClient"]
     },
     {
       "file": "app/api/jobs/process/route.ts",
-      "signals": [
-        "Authorization"
-      ]
+      "signals": ["Authorization"]
     },
     {
       "file": "app/api/leaderboard/route.ts",
-      "signals": [
-        "createServerSupabaseClient"
-      ]
+      "signals": ["createServerSupabaseClient"]
     },
     {
       "file": "app/api/milady-rise/enroll/route.ts",
-      "signals": [
-        "createServerSupabaseClient"
-      ]
+      "signals": ["createServerSupabaseClient"]
     },
     {
       "file": "app/api/partners/barbershop-apprenticeship/sign-mou/route.ts",
-      "signals": [
-        "Authorization"
-      ]
+      "signals": ["Authorization"]
     },
     {
       "file": "app/api/programs/[slug]/courses/route.ts",
-      "signals": [
-        "createServerSupabaseClient"
-      ]
+      "signals": ["createServerSupabaseClient"]
     },
     {
       "file": "app/api/reporting/dol-dwd/route.ts",
-      "signals": [
-        "createServerSupabaseClient"
-      ]
+      "signals": ["createServerSupabaseClient"]
     },
     {
       "file": "app/api/social/feeds/route.ts",
-      "signals": [
-        "Authorization"
-      ]
+      "signals": ["Authorization"]
     },
     {
       "file": "app/api/supersonic-fast-cash/sync-jotform/route.ts",
-      "signals": [
-        "Authorization"
-      ]
+      "signals": ["Authorization"]
     },
     {
       "file": "app/api/waitlist/route.ts",
-      "signals": [
-        "Authorization"
-      ]
+      "signals": ["Authorization"]
     }
   ]
 }

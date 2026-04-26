@@ -1,6 +1,10 @@
 export function PageLoadingSkeleton() {
   return (
-    <div className="min-h-screen bg-white animate-pulse" role="status" aria-label="Loading page content">
+    <div
+      className="min-h-screen bg-white animate-pulse"
+      role="status"
+      aria-label="Loading page content"
+    >
       <div className="bg-white border-b border-slate-200 h-16" />
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="h-8 w-64 bg-slate-200 rounded mb-6" />
@@ -22,7 +26,11 @@ export function PageLoadingSkeleton() {
 
 export function DashboardLoadingSkeleton() {
   return (
-    <div className="min-h-screen bg-white animate-pulse" role="status" aria-label="Loading dashboard">
+    <div
+      className="min-h-screen bg-white animate-pulse"
+      role="status"
+      aria-label="Loading dashboard"
+    >
       <div className="flex">
         <aside className="hidden lg:block w-64 bg-white border-r border-slate-200 min-h-screen">
           <div className="p-4 space-y-4">
@@ -59,7 +67,11 @@ export function DashboardLoadingSkeleton() {
 
 export function TableLoadingSkeleton() {
   return (
-    <div className="bg-white rounded-xl shadow-sm animate-pulse" role="status" aria-label="Loading table">
+    <div
+      className="bg-white rounded-xl shadow-sm animate-pulse"
+      role="status"
+      aria-label="Loading table"
+    >
       <div className="p-4 border-b border-slate-200">
         <div className="h-6 w-40 bg-slate-200 rounded" />
       </div>
@@ -124,7 +136,11 @@ export function CourseLoadingSkeleton() {
 
 export function CardGridLoadingSkeleton({ count = 6 }: { count?: number }) {
   return (
-    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 animate-pulse" role="status" aria-label="Loading content">
+    <div
+      className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 animate-pulse"
+      role="status"
+      aria-label="Loading content"
+    >
       {Array.from({ length: count }).map((_, i) => (
         <div key={i} className="bg-white rounded-xl overflow-hidden shadow-sm">
           <div className="h-48 bg-slate-200" />

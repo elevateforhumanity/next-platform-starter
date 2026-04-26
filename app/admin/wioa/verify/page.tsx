@@ -1,10 +1,19 @@
-
 import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
 import { requireAdmin } from '@/lib/auth';
 import { getAdminDocumentUrl } from '@/lib/admin/document-access';
 import Link from 'next/link';
-import { ArrowLeft, FileText, XCircle, AlertTriangle, Download, Upload, CheckCircle, Users, Loader2 } from 'lucide-react';
+import {
+  ArrowLeft,
+  FileText,
+  XCircle,
+  AlertTriangle,
+  Download,
+  Upload,
+  CheckCircle,
+  Users,
+  Loader2,
+} from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
@@ -40,14 +49,19 @@ export default async function WIOAVerifyPage({
     return (
       <div className="min-h-screen bg-white p-8">
         <div className="max-w-5xl mx-auto">
-          <Link href="/admin/wioa/eligibility" className="flex items-center gap-2 text-slate-700 hover:text-brand-blue-600 mb-6">
+          <Link
+            href="/admin/wioa/eligibility"
+            className="flex items-center gap-2 text-slate-700 hover:text-brand-blue-600 mb-6"
+          >
             <ArrowLeft className="w-4 h-4" />
             Back to Eligibility
           </Link>
           <h1 className="text-2xl font-bold text-slate-900 mb-2">Pending Verifications</h1>
-          <p className="text-slate-700 mb-8">Select a participant to verify their WIOA eligibility.</p>
+          <p className="text-slate-700 mb-8">
+            Select a participant to verify their WIOA eligibility.
+          </p>
 
-          {(!pending || pending.length === 0) ? (
+          {!pending || pending.length === 0 ? (
             <div className="bg-white rounded-xl shadow-sm p-12 text-center">
               <CheckCircle className="w-12 h-12 mx-auto mb-3 text-brand-green-400" />
               <p className="font-medium text-slate-900">All caught up</p>
@@ -55,7 +69,7 @@ export default async function WIOAVerifyPage({
             </div>
           ) : (
             <div className="bg-white rounded-xl shadow-sm divide-y">
-              {pending.map(p => (
+              {pending.map((p) => (
                 <Link
                   key={p.id}
                   href={'/admin/wioa/verify?id=' + p.id}
@@ -65,14 +79,19 @@ export default async function WIOAVerifyPage({
                     <Users className="w-5 h-5 text-yellow-600" />
                   </div>
                   <div className="flex-1">
-                    <p className="font-medium text-slate-900">{p.first_name} {p.last_name}</p>
+                    <p className="font-medium text-slate-900">
+                      {p.first_name} {p.last_name}
+                    </p>
                     <p className="text-sm text-slate-700">{p.email}</p>
                   </div>
                   <span className="px-3 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-700">
                     {p.eligibility_status}
                   </span>
                   <span className="text-sm text-slate-700">
-                    {new Date(p.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                    {new Date(p.created_at).toLocaleDateString('en-US', {
+                      month: 'short',
+                      day: 'numeric',
+                    })}
                   </span>
                 </Link>
               ))}
@@ -95,7 +114,10 @@ export default async function WIOAVerifyPage({
       <div className="min-h-screen bg-white p-8">
         <div className="max-w-5xl mx-auto text-center py-12">
           <p className="text-slate-700">Participant not found.</p>
-          <Link href="/admin/wioa/verify" className="text-brand-blue-600 hover:underline mt-2 inline-block">
+          <Link
+            href="/admin/wioa/verify"
+            className="text-brand-blue-600 hover:underline mt-2 inline-block"
+          >
             Back to list
           </Link>
         </div>
@@ -122,17 +144,19 @@ export default async function WIOAVerifyPage({
         return { ...doc, file_url: url || doc.file_url };
       }
       return doc;
-    })
+    }),
   );
   const address = participant.address as any;
-  const missingDocs = docs.filter(d => d.status === 'missing' || !d.file_url);
+  const missingDocs = docs.filter((d) => d.status === 'missing' || !d.file_url);
 
   return (
     <div className="min-h-screen bg-white p-8">
-
       {/* Hero Image */}
       <div className="max-w-5xl mx-auto">
-        <Link href="/admin/wioa/verify" className="flex items-center gap-2 text-slate-700 hover:text-brand-blue-600 mb-6">
+        <Link
+          href="/admin/wioa/verify"
+          className="flex items-center gap-2 text-slate-700 hover:text-brand-blue-600 mb-6"
+        >
           <ArrowLeft className="w-4 h-4" />
           Back to Verification List
         </Link>
@@ -140,13 +164,19 @@ export default async function WIOAVerifyPage({
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className="text-2xl font-bold text-slate-900">Eligibility Verification</h1>
-            <p className="text-slate-700">Review and verify WIOA eligibility for {participant.first_name} {participant.last_name}</p>
+            <p className="text-slate-700">
+              Review and verify WIOA eligibility for {participant.first_name}{' '}
+              {participant.last_name}
+            </p>
           </div>
           <div className="flex gap-3">
             <form action={`/api/admin/wioa/verify`} method="POST">
               <input type="hidden" name="participantId" value={participant.id} />
               <input type="hidden" name="action" value="deny" />
-              <button type="submit" className="px-4 py-2 border border-brand-red-300 text-brand-red-600 rounded-lg hover:bg-brand-red-50 transition flex items-center gap-2">
+              <button
+                type="submit"
+                className="px-4 py-2 border border-brand-red-300 text-brand-red-600 rounded-lg hover:bg-brand-red-50 transition flex items-center gap-2"
+              >
                 <XCircle className="w-4 h-4" />
                 Deny
               </button>
@@ -154,7 +184,10 @@ export default async function WIOAVerifyPage({
             <form action={`/api/admin/wioa/verify`} method="POST">
               <input type="hidden" name="participantId" value={participant.id} />
               <input type="hidden" name="action" value="approve" />
-              <button type="submit" className="px-4 py-2 bg-brand-green-600 text-white rounded-lg hover:bg-brand-green-700 transition flex items-center gap-2">
+              <button
+                type="submit"
+                className="px-4 py-2 bg-brand-green-600 text-white rounded-lg hover:bg-brand-green-700 transition flex items-center gap-2"
+              >
                 <CheckCircle className="w-4 h-4" />
                 Approve
               </button>
@@ -170,37 +203,53 @@ export default async function WIOAVerifyPage({
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
                   <p className="text-sm text-slate-700">Full Name</p>
-                  <p className="font-medium text-slate-900">{participant.first_name} {participant.last_name}</p>
+                  <p className="font-medium text-slate-900">
+                    {participant.first_name} {participant.last_name}
+                  </p>
                 </div>
                 <div>
                   <p className="text-sm text-slate-700">Email</p>
-                  <p className="font-medium text-slate-900">{participant.email || 'Not provided'}</p>
+                  <p className="font-medium text-slate-900">
+                    {participant.email || 'Not provided'}
+                  </p>
                 </div>
                 <div>
                   <p className="text-sm text-slate-700">Phone</p>
-                  <p className="font-medium text-slate-900">{participant.phone || 'Not provided'}</p>
+                  <p className="font-medium text-slate-900">
+                    {participant.phone || 'Not provided'}
+                  </p>
                 </div>
                 <div>
                   <p className="text-sm text-slate-700">Date of Birth</p>
                   <p className="font-medium text-slate-900">
                     {participant.date_of_birth
-                      ? new Date(participant.date_of_birth).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
+                      ? new Date(participant.date_of_birth).toLocaleDateString('en-US', {
+                          month: 'long',
+                          day: 'numeric',
+                          year: 'numeric',
+                        })
                       : 'Not provided'}
                   </p>
                 </div>
                 <div>
                   <p className="text-sm text-slate-700">SSN</p>
-                  <p className="font-medium text-slate-900">{participant.ssn_hash ? '***-**-****' : 'Not on file'}</p>
+                  <p className="font-medium text-slate-900">
+                    {participant.ssn_hash ? '***-**-****' : 'Not on file'}
+                  </p>
                 </div>
                 <div>
                   <p className="text-sm text-slate-700">Funding Source</p>
-                  <p className="font-medium text-slate-900">{participant.funding_source || 'WIOA'}</p>
+                  <p className="font-medium text-slate-900">
+                    {participant.funding_source || 'WIOA'}
+                  </p>
                 </div>
                 {address && (
                   <div className="md:col-span-2">
                     <p className="text-sm text-slate-700">Address</p>
                     <p className="font-medium text-slate-900">
-                      {[address.street, address.city, address.state, address.zip].filter(Boolean).join(', ') || 'Not provided'}
+                      {[address.street, address.city, address.state, address.zip]
+                        .filter(Boolean)
+                        .join(', ') || 'Not provided'}
                     </p>
                   </div>
                 )}
@@ -211,19 +260,37 @@ export default async function WIOAVerifyPage({
             <div className="bg-white rounded-xl shadow-sm p-6">
               <h2 className="text-lg font-bold text-slate-900 mb-4">Eligibility Status</h2>
               <div className="flex items-center gap-3 p-4 rounded-lg border">
-                <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                  participant.eligibility_status === 'approved' ? 'bg-brand-green-100' :
-                  participant.eligibility_status === 'denied' ? 'bg-brand-red-100' : 'bg-yellow-100'
-                }`}>
-                  {participant.eligibility_status === 'approved' && <CheckCircle className="w-5 h-5 text-brand-green-600" />}
-                  {participant.eligibility_status === 'denied' && <XCircle className="w-5 h-5 text-brand-red-600" />}
-                  {!['approved', 'denied'].includes(participant.eligibility_status) && <AlertTriangle className="w-5 h-5 text-yellow-600" />}
+                <div
+                  className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                    participant.eligibility_status === 'approved'
+                      ? 'bg-brand-green-100'
+                      : participant.eligibility_status === 'denied'
+                        ? 'bg-brand-red-100'
+                        : 'bg-yellow-100'
+                  }`}
+                >
+                  {participant.eligibility_status === 'approved' && (
+                    <CheckCircle className="w-5 h-5 text-brand-green-600" />
+                  )}
+                  {participant.eligibility_status === 'denied' && (
+                    <XCircle className="w-5 h-5 text-brand-red-600" />
+                  )}
+                  {!['approved', 'denied'].includes(participant.eligibility_status) && (
+                    <AlertTriangle className="w-5 h-5 text-yellow-600" />
+                  )}
                 </div>
                 <div>
-                  <p className="font-medium text-slate-900 capitalize">{participant.eligibility_status}</p>
+                  <p className="font-medium text-slate-900 capitalize">
+                    {participant.eligibility_status}
+                  </p>
                   {participant.eligibility_verified_at && (
                     <p className="text-sm text-slate-700">
-                      Verified {new Date(participant.eligibility_verified_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+                      Verified{' '}
+                      {new Date(participant.eligibility_verified_at).toLocaleDateString('en-US', {
+                        month: 'long',
+                        day: 'numeric',
+                        year: 'numeric',
+                      })}
                     </p>
                   )}
                 </div>
@@ -233,7 +300,9 @@ export default async function WIOAVerifyPage({
             {/* Notes */}
             <div className="bg-white rounded-xl shadow-sm p-6">
               <h2 className="text-lg font-bold text-slate-900 mb-4">Notes</h2>
-              <p className="text-slate-900 whitespace-pre-wrap">{participant.notes || 'No notes yet.'}</p>
+              <p className="text-slate-900 whitespace-pre-wrap">
+                {participant.notes || 'No notes yet.'}
+              </p>
             </div>
           </div>
 
@@ -245,19 +314,35 @@ export default async function WIOAVerifyPage({
                 <p className="text-sm text-slate-700">No documents uploaded yet.</p>
               ) : (
                 <div className="space-y-3">
-                  {docs.map(doc => (
-                    <div key={doc.id} className="flex items-center justify-between p-3 border rounded-lg">
+                  {docs.map((doc) => (
+                    <div
+                      key={doc.id}
+                      className="flex items-center justify-between p-3 border rounded-lg"
+                    >
                       <div className="flex items-center gap-3">
-                        <FileText className={`w-5 h-5 ${doc.file_url ? 'text-brand-green-600' : 'text-brand-red-500'}`} />
+                        <FileText
+                          className={`w-5 h-5 ${doc.file_url ? 'text-brand-green-600' : 'text-brand-red-500'}`}
+                        />
                         <div>
-                          <p className="text-sm font-medium text-slate-900">{doc.title || doc.document_type}</p>
+                          <p className="text-sm font-medium text-slate-900">
+                            {doc.title || doc.document_type}
+                          </p>
                           <p className="text-xs text-slate-700">
-                            {new Date(doc.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                            {new Date(doc.created_at).toLocaleDateString('en-US', {
+                              month: 'short',
+                              day: 'numeric',
+                              year: 'numeric',
+                            })}
                           </p>
                         </div>
                       </div>
                       {doc.file_url ? (
-                        <a href={doc.file_url} target="_blank" rel="noopener noreferrer" className="p-2 hover:bg-gray-100 rounded-lg">
+                        <a
+                          href={doc.file_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="p-2 hover:bg-gray-100 rounded-lg"
+                        >
                           <Download className="w-4 h-4 text-slate-700" />
                         </a>
                       ) : (
@@ -276,7 +361,8 @@ export default async function WIOAVerifyPage({
                   <div>
                     <p className="font-medium text-yellow-800">Action Required</p>
                     <p className="text-sm text-yellow-700 mt-1">
-                      {missingDocs.length} document{missingDocs.length > 1 ? 's are' : ' is'} missing. Request from applicant before approval.
+                      {missingDocs.length} document{missingDocs.length > 1 ? 's are' : ' is'}{' '}
+                      missing. Request from applicant before approval.
                     </p>
                   </div>
                 </div>
@@ -290,7 +376,13 @@ export default async function WIOAVerifyPage({
                   <div className="w-2 h-2 bg-brand-blue-500 rounded-full mt-1.5" />
                   <div>
                     <p className="text-slate-900">Application submitted</p>
-                    <p className="text-slate-700">{new Date(participant.created_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</p>
+                    <p className="text-slate-700">
+                      {new Date(participant.created_at).toLocaleDateString('en-US', {
+                        month: 'long',
+                        day: 'numeric',
+                        year: 'numeric',
+                      })}
+                    </p>
                   </div>
                 </div>
                 {participant.enrollment_date && (
@@ -298,7 +390,13 @@ export default async function WIOAVerifyPage({
                     <div className="w-2 h-2 bg-brand-green-500 rounded-full mt-1.5" />
                     <div>
                       <p className="text-slate-900">Enrolled</p>
-                      <p className="text-slate-700">{new Date(participant.enrollment_date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</p>
+                      <p className="text-slate-700">
+                        {new Date(participant.enrollment_date).toLocaleDateString('en-US', {
+                          month: 'long',
+                          day: 'numeric',
+                          year: 'numeric',
+                        })}
+                      </p>
                     </div>
                   </div>
                 )}
@@ -307,7 +405,13 @@ export default async function WIOAVerifyPage({
                     <div className="w-2 h-2 bg-gray-400 rounded-full mt-1.5" />
                     <div>
                       <p className="text-slate-900">Exited</p>
-                      <p className="text-slate-700">{new Date(participant.exit_date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</p>
+                      <p className="text-slate-700">
+                        {new Date(participant.exit_date).toLocaleDateString('en-US', {
+                          month: 'long',
+                          day: 'numeric',
+                          year: 'numeric',
+                        })}
+                      </p>
                     </div>
                   </div>
                 )}

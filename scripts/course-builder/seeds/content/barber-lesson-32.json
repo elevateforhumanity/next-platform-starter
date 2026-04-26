@@ -16,24 +16,14 @@
       },
       {
         "prompt": "How long should a cold towel be applied to the face after shaving?",
-        "choices": [
-          "30 seconds",
-          "1-2 minutes",
-          "5 minutes",
-          "10 minutes"
-        ],
+        "choices": ["30 seconds", "1-2 minutes", "5 minutes", "10 minutes"],
         "answerIndex": 1,
         "rationale": "A cold towel should be applied for 1-2 minutes to effectively reduce swelling and provide a refreshing sensation.",
         "type": "recall"
       },
       {
         "prompt": "What property of the alum block makes it effective for treating nicks and cuts?",
-        "choices": [
-          "Moisturizing",
-          "Antiseptic and astringent",
-          "Exfoliating",
-          "Emollient"
-        ],
+        "choices": ["Moisturizing", "Antiseptic and astringent", "Exfoliating", "Emollient"],
         "answerIndex": 1,
         "rationale": "The alum block has antiseptic and astringent properties, which help disinfect the area and constrict blood vessels to stop bleeding.",
         "type": "recall"

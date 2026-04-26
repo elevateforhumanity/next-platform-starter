@@ -72,16 +72,19 @@ export async function getJobMatches(userId: string, limit = 10): Promise<JobMatc
     .eq('user_id', userId)
     .eq('status', 'active');
 
-  const completedProgramSlugs = completedEnrollments?.map(e => (e.programs as any)?.slug).filter(Boolean) || [];
-  const certNames = certifications?.map(c => c.certification_name) || [];
+  const completedProgramSlugs =
+    completedEnrollments?.map((e) => (e.programs as any)?.slug).filter(Boolean) || [];
+  const certNames = certifications?.map((c) => c.certification_name) || [];
 
   // Get active job posts
   const { data: jobs } = await supabase
     .from('job_postings')
-    .select(`
+    .select(
+      `
       *,
       employers(name, logo_url)
-    `)
+    `,
+    )
     .eq('is_active', true)
     .order('posted_at', { ascending: false })
     .limit(50);
@@ -98,8 +101,8 @@ export async function getJobMatches(userId: string, limit = 10): Promise<JobMatc
 
     // Check program match
     const requiredPrograms = job.required_programs || [];
-    const programMatch = requiredPrograms.some((p: string) => 
-      completedProgramSlugs.includes(p.toLowerCase())
+    const programMatch = requiredPrograms.some((p: string) =>
+      completedProgramSlugs.includes(p.toLowerCase()),
     );
     if (programMatch) {
       score += 40;
@@ -108,8 +111,8 @@ export async function getJobMatches(userId: string, limit = 10): Promise<JobMatc
 
     // Check certification match
     const requiredCerts = job.required_certifications || [];
-    const certMatch = requiredCerts.some((c: string) => 
-      certNames.some(cert => cert.toLowerCase().includes(c.toLowerCase()))
+    const certMatch = requiredCerts.some((c: string) =>
+      certNames.some((cert) => cert.toLowerCase().includes(c.toLowerCase())),
     );
     if (certMatch) {
       score += 40;
@@ -125,7 +128,11 @@ export async function getJobMatches(userId: string, limit = 10): Promise<JobMatc
     }
 
     // Boost if no strict requirements and student has any completion
-    if (requiredPrograms.length === 0 && requiredCerts.length === 0 && completedProgramSlugs.length > 0) {
+    if (
+      requiredPrograms.length === 0 &&
+      requiredCerts.length === 0 &&
+      completedProgramSlugs.length > 0
+    ) {
       score += 20;
       reasons.push('Open to program graduates');
     }
@@ -171,9 +178,7 @@ export async function getJobMatches(userId: string, limit = 10): Promise<JobMatc
   }
 
   // Sort by match score
-  return matches
-    .sort((a, b) => b.match_score - a.match_score)
-    .slice(0, limit);
+  return matches.sort((a, b) => b.match_score - a.match_score).slice(0, limit);
 }
 
 /**
@@ -184,7 +189,8 @@ export async function getCohortSuccessStories(programId: string, limit = 5): Pro
 
   const { data: placements } = await supabase
     .from('job_placements')
-    .select(`
+    .select(
+      `
       id,
       user_id,
       employer_name,
@@ -192,7 +198,8 @@ export async function getCohortSuccessStories(programId: string, limit = 5): Pro
       start_date,
       created_at,
       profiles!job_placements_user_id_fkey(full_name, avatar_url)
-    `)
+    `,
+    )
     .eq('status', 'hired')
     .order('created_at', { ascending: false })
     .limit(limit);
@@ -203,7 +210,10 @@ export async function getCohortSuccessStories(programId: string, limit = 5): Pro
 /**
  * Apply to a job
  */
-export async function applyToJob(userId: string, jobId: string): Promise<{ success: boolean; error?: string }> {
+export async function applyToJob(
+  userId: string,
+  jobId: string,
+): Promise<{ success: boolean; error?: string }> {
   const supabase = await createClient();
 
   // Check if already applied
@@ -219,13 +229,11 @@ export async function applyToJob(userId: string, jobId: string): Promise<{ succe
   }
 
   // Create application
-  const { error } = await supabase
-    .from('job_applications')
-    .insert({
-      user_id: userId,
-      job_id: jobId,
-      status: 'pending',
-    });
+  const { error } = await supabase.from('job_applications').insert({
+    user_id: userId,
+    job_id: jobId,
+    status: 'pending',
+  });
 
   if (error) {
     return { success: false, error: 'Operation failed' };
@@ -264,13 +272,15 @@ export async function getEmployerTalentPipeline(employerId: string, limit = 20):
   // Find matching students
   const { data: candidates } = await supabase
     .from('program_enrollments')
-    .select(`
+    .select(
+      `
       user_id,
       progress,
       status,
       profiles!enrollments_user_id_fkey(full_name, avatar_url, email),
       programs(name, slug)
-    `)
+    `,
+    )
     .in('status', ['active', 'completed'])
     .gte('progress', 75) // At least 75% complete
     .order('progress', { ascending: false })

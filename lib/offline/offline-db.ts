@@ -2,7 +2,6 @@
  * Offline Database - IndexedDB wrapper for offline functionality
  */
 
-
 const DB_NAME = 'efh-offline-db';
 const DB_VERSION = 1;
 
@@ -78,10 +77,7 @@ class OfflineDB {
     if (!this.db) await this.init();
 
     return new Promise((resolve, reject) => {
-      const transaction = this.db!.transaction(
-        ['offline-actions'],
-        'readwrite'
-      );
+      const transaction = this.db!.transaction(['offline-actions'], 'readwrite');
       const store = transaction.objectStore('offline-actions');
       const request = store.add(action);
 
@@ -107,10 +103,7 @@ class OfflineDB {
     if (!this.db) await this.init();
 
     return new Promise((resolve, reject) => {
-      const transaction = this.db!.transaction(
-        ['offline-actions'],
-        'readwrite'
-      );
+      const transaction = this.db!.transaction(['offline-actions'], 'readwrite');
       const store = transaction.objectStore('offline-actions');
       const request = store.delete(id);
 
@@ -125,11 +118,7 @@ class OfflineDB {
   }
 
   // Cached Data
-  async setCachedData(
-    key: string,
-    data: Record<string, any>,
-    expiresIn?: number
-  ): Promise<void> {
+  async setCachedData(key: string, data: Record<string, any>, expiresIn?: number): Promise<void> {
     if (!this.db) await this.init();
 
     const cachedData: CachedData = {
@@ -235,10 +224,7 @@ class OfflineDB {
     };
 
     return new Promise((resolve, reject) => {
-      const transaction = this.db!.transaction(
-        ['course-progress'],
-        'readwrite'
-      );
+      const transaction = this.db!.transaction(['course-progress'], 'readwrite');
       const store = transaction.objectStore('course-progress');
       const request = store.add(progressData);
 

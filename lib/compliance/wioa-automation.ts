@@ -5,11 +5,13 @@ export async function generateWIOAReport(startDate: Date, endDate: Date) {
 
   const { data: enrollments } = await supabase
     .from('program_enrollments')
-    .select(`
+    .select(
+      `
       *,
       user:profiles!enrollments_user_id_fkey(full_name, email),
       course:courses!enrollments_course_id_fkey(title, category)
-    `)
+    `,
+    )
     .gte('started_at', startDate.toISOString())
     .lte('started_at', endDate.toISOString());
 
@@ -20,15 +22,15 @@ export async function generateWIOAReport(startDate: Date, endDate: Date) {
     },
     metrics: {
       total_enrollments: enrollments?.length || 0,
-      completed: enrollments?.filter(e => e.status === 'completed').length || 0,
-      active: enrollments?.filter(e => e.status === 'active').length || 0,
-      dropped: enrollments?.filter(e => e.status === 'dropped').length || 0,
+      completed: enrollments?.filter((e) => e.status === 'completed').length || 0,
+      active: enrollments?.filter((e) => e.status === 'active').length || 0,
+      dropped: enrollments?.filter((e) => e.status === 'dropped').length || 0,
     },
     by_category: {} as Record<string, number>,
     enrollments: enrollments || [],
   };
 
-  enrollments?.forEach(enrollment => {
+  enrollments?.forEach((enrollment) => {
     const category = enrollment.course?.category || 'Uncategorized';
     report.by_category[category] = (report.by_category[category] || 0) + 1;
   });

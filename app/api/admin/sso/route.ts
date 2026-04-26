@@ -1,4 +1,3 @@
-
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { requireRole, handleRBACError } from '@/lib/rbac';
@@ -31,7 +30,7 @@ const _GET = withAuth(
       return NextResponse.json({ error }, { status });
     }
   },
-  { roles: ['admin', 'super_admin'] }
+  { roles: ['admin', 'super_admin'] },
 );
 
 // POST /api/admin/sso - Create SSO connection
@@ -65,7 +64,7 @@ const _POST = withAuth(
       if (!provider || !display_name) {
         return NextResponse.json(
           { error: 'provider and display_name are required' },
-          { status: 400 }
+          { status: 400 },
         );
       }
 
@@ -95,7 +94,14 @@ const _POST = withAuth(
 
       if (error) throw error;
 
-      await logAdminAudit({ action: AdminAction.SSO_CONFIG_CREATED, actorId: user.id, entityType: 'sso_connections', entityId: data.id, metadata: { provider, domain }, req });
+      await logAdminAudit({
+        action: AdminAction.SSO_CONFIG_CREATED,
+        actorId: user.id,
+        entityType: 'sso_connections',
+        entityId: data.id,
+        metadata: { provider, domain },
+        req,
+      });
 
       return NextResponse.json({ connection: data }, { status: 201 });
     } catch (err: any) {
@@ -103,7 +109,7 @@ const _POST = withAuth(
       return NextResponse.json({ error }, { status });
     }
   },
-  { roles: ['admin', 'super_admin'] }
+  { roles: ['admin', 'super_admin'] },
 );
 export const GET = withApiAudit('/api/admin/sso', _GET);
 export const POST = withApiAudit('/api/admin/sso', _POST);

@@ -13,7 +13,7 @@ type Announcement = {
 
 /**
  * AnnouncementsList - Full announcements page
- * 
+ *
  * Rules:
  * - Fetches from /api/announcements (student audience)
  * - No data = helpful message (not fake data)
@@ -130,7 +130,8 @@ export default function AnnouncementsList() {
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { timeZone: 'UTC',
+    return date.toLocaleDateString('en-US', {
+      timeZone: 'UTC',
       weekday: 'long',
       month: 'long',
       day: 'numeric',
@@ -151,12 +152,8 @@ export default function AnnouncementsList() {
                 {getIcon(announcement.severity)}
               </div>
               <div>
-                <h2 className="text-xl font-bold text-slate-900">
-                  {announcement.title}
-                </h2>
-                <p className="text-sm text-slate-700">
-                  {formatDate(announcement.published_at)}
-                </p>
+                <h2 className="text-xl font-bold text-slate-900">{announcement.title}</h2>
+                <p className="text-sm text-slate-700">{formatDate(announcement.published_at)}</p>
               </div>
             </div>
             <span

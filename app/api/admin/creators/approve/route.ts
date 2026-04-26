@@ -77,7 +77,7 @@ export async function POST(req: Request) {
           name: profile.full_name || 'Creator',
         });
       } catch (error) {
-          logger.error("Unhandled error", error instanceof Error ? error : undefined);
+        logger.error('Unhandled error', error instanceof Error ? error : undefined);
       }
     }
 

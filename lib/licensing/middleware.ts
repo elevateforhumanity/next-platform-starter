@@ -5,7 +5,7 @@ import { checkLicenseAccess } from './billing-authority';
 /**
  * License validation for API routes
  * Use this in API route handlers to check license status
- * 
+ *
  * Uses billing authority rules:
  * - DB-Authoritative tiers: Access via expires_at
  * - Stripe-Authoritative tiers: Access via current_period_end
@@ -15,16 +15,16 @@ export async function validateLicenseForAPI(
   options: {
     requireActive?: boolean;
     checkLimit?: 'students' | 'admins' | 'programs';
-  } = {}
-): Promise<{ 
-  valid: boolean; 
-  error?: NextResponse; 
-  organizationId?: string; 
+  } = {},
+): Promise<{
+  valid: boolean;
+  error?: NextResponse;
+  organizationId?: string;
   license?: any;
   billingAuthority?: BillingAuthority;
 }> {
   const supabase = await createClient();
-  
+
   if (!supabase) {
     return {
       valid: false,
@@ -33,7 +33,9 @@ export async function validateLicenseForAPI(
   }
 
   // Get user
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) {
     return {
       valid: false,
@@ -64,10 +66,7 @@ export async function validateLicenseForAPI(
   if (!license) {
     return {
       valid: false,
-      error: NextResponse.json(
-        { error: 'No active license', code: 'NO_LICENSE' },
-        { status: 403 }
-      ),
+      error: NextResponse.json({ error: 'No active license', code: 'NO_LICENSE' }, { status: 403 }),
     };
   }
 
@@ -95,12 +94,12 @@ export async function validateLicenseForAPI(
       return {
         valid: false,
         error: NextResponse.json(
-          { 
-            error: accessResult.reason, 
+          {
+            error: accessResult.reason,
             code,
             billingAuthority: accessResult.authority,
           },
-          { status: 403 }
+          { status: 403 },
         ),
         billingAuthority: accessResult.authority,
       };
@@ -118,7 +117,7 @@ export async function validateLicenseForAPI(
     if (usage) {
       const countKey = `${options.checkLimit.slice(0, -1)}_count`;
       const limitKey = `${options.checkLimit.slice(0, -1)}_limit`;
-      
+
       const current = usage[countKey] || 0;
       const limit = usage[limitKey] || -1;
 
@@ -132,7 +131,7 @@ export async function validateLicenseForAPI(
               current,
               limit,
             },
-            { status: 403 }
+            { status: 403 },
           ),
         };
       }
@@ -150,15 +149,18 @@ export async function validateLicenseForAPI(
  * Higher-order function to wrap API handlers with license validation
  */
 export function withLicenseValidation(
-  handler: (request: NextRequest, context: { organizationId?: string; license?: any }) => Promise<NextResponse>,
+  handler: (
+    request: NextRequest,
+    context: { organizationId?: string; license?: any },
+  ) => Promise<NextResponse>,
   options: {
     requireActive?: boolean;
     checkLimit?: 'students' | 'admins' | 'programs';
-  } = {}
+  } = {},
 ) {
   return async (request: NextRequest): Promise<NextResponse> => {
     const validation = await validateLicenseForAPI(request, options);
-    
+
     if (!validation.valid && validation.error) {
       return validation.error;
     }
@@ -175,13 +177,8 @@ export function withLicenseValidation(
  */
 export function isPlanFeatureAvailable(planId: string, feature: string): boolean {
   const planFeatures: Record<string, string[]> = {
-    'starter': [
-      'basic_lms',
-      'student_portal',
-      'course_management',
-      'basic_reports',
-    ],
-    'pro': [
+    starter: ['basic_lms', 'student_portal', 'course_management', 'basic_reports'],
+    pro: [
       'basic_lms',
       'student_portal',
       'course_management',
@@ -192,7 +189,7 @@ export function isPlanFeatureAvailable(planId: string, feature: string): boolean
       'priority_support',
       'ai_features',
     ],
-    'enterprise': [
+    enterprise: [
       'basic_lms',
       'student_portal',
       'course_management',
@@ -208,12 +205,7 @@ export function isPlanFeatureAvailable(planId: string, feature: string): boolean
       'custom_integrations',
       'unlimited_storage',
     ],
-    'clone-starter': [
-      'full_codebase',
-      'single_deployment',
-      'email_support',
-      'updates_1year',
-    ],
+    'clone-starter': ['full_codebase', 'single_deployment', 'email_support', 'updates_1year'],
     'clone-pro': [
       'full_codebase',
       'multi_deployment',

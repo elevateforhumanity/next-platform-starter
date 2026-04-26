@@ -2,79 +2,79 @@
 // Catches broken JSX props and placeholder garbage before the build runs.
 // Errors (empty props, broken routes) exit 1 and block CI.
 // Warnings (console.log, TODOs) are reported but do not block.
-import fs from "node:fs";
-import path from "node:path";
+import fs from 'node:fs';
+import path from 'node:path';
 
 const ROOT = process.cwd();
-const SCAN_DIRS = ["app", "components", "lib", "pages", "src"].filter((d) =>
-  fs.existsSync(path.join(ROOT, d))
+const SCAN_DIRS = ['app', 'components', 'lib', 'pages', 'src'].filter((d) =>
+  fs.existsSync(path.join(ROOT, d)),
 );
-const EXTENSIONS = new Set([".ts", ".tsx", ".js", ".jsx"]);
+const EXTENSIONS = new Set(['.ts', '.tsx', '.js', '.jsx']);
 
 const checks = [
   {
-    name: "Empty href/src/action prop",
-    severity: "error",
+    name: 'Empty href/src/action prop',
+    severity: 'error',
     regex: /\b(href|src|action|formAction)=\{\}/g,
   },
   {
-    name: "Empty event handler",
-    severity: "error",
+    name: 'Empty event handler',
+    severity: 'error',
     regex: /\bon[A-Z][A-Za-z0-9]*=\{\}/g,
   },
   {
-    name: "Empty core prop",
-    severity: "error",
+    name: 'Empty core prop',
+    severity: 'error',
     regex: /\b(className|style|id|value|defaultValue|role|title|alt)=\{\}/g,
   },
   {
-    name: "Undefined/null route target",
-    severity: "error",
+    name: 'Undefined/null route target',
+    severity: 'error',
     regex: /\bhref=\{[^}]*\b(undefined|null)\b[^}]*\}/g,
   },
   {
-    name: "Broken Link tag",
-    severity: "error",
+    name: 'Broken Link tag',
+    severity: 'error',
     regex: /<Link[^>]*href=\{\}/g,
   },
   {
-    name: "Broken Image tag",
-    severity: "error",
+    name: 'Broken Image tag',
+    severity: 'error',
     regex: /<Image[^>]*src=\{\}/g,
   },
   {
-    name: "Explicit debug statement",
-    severity: "warn",
+    name: 'Explicit debug statement',
+    severity: 'warn',
     regex: /\b(console\.(log|debug)\(|debugger;)/g,
   },
   {
-    name: "AI/refactor placeholder",
-    severity: "warn",
+    name: 'AI/refactor placeholder',
+    severity: 'warn',
     // 'coming soon' excluded — appears in schema comments and banned-token definitions (false positives)
     regex: /\b(TODO|FIXME|TBD|HACK|BROKEN|REVISIT|temporary fix)\b/g,
   },
   {
-    name: "Dead boolean branch",
-    severity: "warn",
+    name: 'Dead boolean branch',
+    severity: 'warn',
     regex: /\bif\s*\(\s*(true|false)\s*\)|(&&\s*false)|(\|\|\s*true)/g,
   },
 ];
 
 const IGNORE_DIRS = new Set([
-  "node_modules",
-  ".git",
-  ".next",
-  "dist",
-  "build",
-  "coverage",
-  ".turbo",
+  'node_modules',
+  '.git',
+  '.next',
+  'dist',
+  'build',
+  'coverage',
+  '.turbo',
 ]);
 
 const IGNORE_FILES = [
   /\.generated\./,
   /database\.generated\./,
   /\.d\.ts$/,
-  /lib\/banned-tokens\.ts$/,   // defines the banned token list itself
+  /lib\/banned-tokens\.ts$/, // defines the banned token list itself
   /scripts\/ci-garbage-audit/, // the audit script itself
 ];
 
@@ -83,16 +83,40 @@ const IGNORE_FILES = [
 // A match hit is suppressed when BOTH the file path and the line content match.
 const LINE_SUPPRESSIONS = [
   // Email subject/body fallbacks — intentional runtime defaults, not placeholder content
-  { file: /app\/api\/funnel\/lead\/route\.ts/, line: /Program TBD/, reason: 'internal admin email fallback' },
-  { file: /app\/api\/testing\/calendly-webhook\/route\.ts/, line: /Exam TBD/, reason: 'internal staff email fallback' },
+  {
+    file: /app\/api\/funnel\/lead\/route\.ts/,
+    line: /Program TBD/,
+    reason: 'internal admin email fallback',
+  },
+  {
+    file: /app\/api\/testing\/calendly-webhook\/route\.ts/,
+    line: /Exam TBD/,
+    reason: 'internal staff email fallback',
+  },
   // HR email templates — nullish-coalescing fallbacks for optional params
-  { file: /lib\/email\/templates\/hr-emails\.ts/, line: /\?\?\s*['"]TBD['"]/, reason: 'nullish coalescing fallback for optional HR email param' },
+  {
+    file: /lib\/email\/templates\/hr-emails\.ts/,
+    line: /\?\?\s*['"]TBD['"]/,
+    reason: 'nullish coalescing fallback for optional HR email param',
+  },
   // AI prompt instructions — "no TBD" is an instruction to the model, not placeholder content
-  { file: /lib\/ai\/generate-course-outline-fn\.ts/, line: /No placeholders.*TBD/, reason: 'AI prompt instruction forbidding TBD in output' },
+  {
+    file: /lib\/ai\/generate-course-outline-fn\.ts/,
+    line: /No placeholders.*TBD/,
+    reason: 'AI prompt instruction forbidding TBD in output',
+  },
   // Test runner section comments — structural comments, not placeholder content
-  { file: /app\/api\/test-production-ready\/route\.ts/, line: /\/\/\s*\d+\.\s*(BROKEN|ERRORS|LINKS)/, reason: 'test runner section comment' },
+  {
+    file: /app\/api\/test-production-ready\/route\.ts/,
+    line: /\/\/\s*\d+\.\s*(BROKEN|ERRORS|LINKS)/,
+    reason: 'test runner section comment',
+  },
   // Barber webhook — TODO documents an intentionally deferred call-site, function is complete
-  { file: /app\/api\/barber\/webhook\/route\.ts/, line: /TODO: replace createWeeklySubscription/, reason: 'deferred call-site note on complete function' },
+  {
+    file: /app\/api\/barber\/webhook\/route\.ts/,
+    line: /TODO: replace createWeeklySubscription/,
+    reason: 'deferred call-site note on complete function',
+  },
 ];
 
 function shouldIgnoreFile(file) {
@@ -118,14 +142,19 @@ function getLineCol(text, index) {
   let line = 1;
   let col = 1;
   for (let i = 0; i < index; i++) {
-    if (text[i] === "\n") { line++; col = 1; } else { col++; }
+    if (text[i] === '\n') {
+      line++;
+      col = 1;
+    } else {
+      col++;
+    }
   }
   return { line, col };
 }
 
 function getLineSnippet(text, index) {
-  const start = text.lastIndexOf("\n", index) + 1;
-  const endPos = text.indexOf("\n", index);
+  const start = text.lastIndexOf('\n', index) + 1;
+  const endPos = text.indexOf('\n', index);
   const end = endPos === -1 ? text.length : endPos;
   return text.slice(start, end).trim();
 }
@@ -135,7 +164,7 @@ let errorCount = 0;
 let warnCount = 0;
 
 for (const file of files) {
-  const text = fs.readFileSync(file, "utf8");
+  const text = fs.readFileSync(file, 'utf8');
   const rel = path.relative(ROOT, file);
   for (const check of checks) {
     for (const match of text.matchAll(check.regex)) {
@@ -143,15 +172,13 @@ for (const file of files) {
       const snippet = getLineSnippet(text, match.index);
 
       // Check per-file line-level suppressions before reporting
-      const suppressed = LINE_SUPPRESSIONS.some(
-        (s) => s.file.test(rel) && s.line.test(snippet)
-      );
+      const suppressed = LINE_SUPPRESSIONS.some((s) => s.file.test(rel) && s.line.test(snippet));
       if (suppressed) continue;
 
-      const prefix = check.severity === "error" ? "ERROR" : "WARN ";
+      const prefix = check.severity === 'error' ? 'ERROR' : 'WARN ';
       console.log(`${prefix} [${check.name}] ${rel}:${line}:${col}`);
       console.log(`  ${snippet}`);
-      if (check.severity === "error") errorCount++;
+      if (check.severity === 'error') errorCount++;
       else warnCount++;
     }
   }
@@ -159,6 +186,6 @@ for (const file of files) {
 
 console.log(`\nSummary: ${errorCount} error(s), ${warnCount} warning(s)`);
 if (errorCount > 0) {
-  console.log("\nFix all errors above before pushing.");
+  console.log('\nFix all errors above before pushing.');
   process.exit(1);
 }

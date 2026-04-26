@@ -4,7 +4,7 @@ import { ProvisioningJob } from '../queue';
 
 /**
  * STEP 6B: Async email send job handler
- * 
+ *
  * Email types:
  * - license_activated: Welcome email with license details
  * - license_suspended: Notification of suspension
@@ -12,7 +12,7 @@ import { ProvisioningJob } from '../queue';
  * - payment_failed: Payment retry notification
  */
 
-export type EmailType = 
+export type EmailType =
   | 'license_activated'
   | 'license_suspended'
   | 'license_expiring'
@@ -31,19 +31,19 @@ interface EmailPayload {
 export async function processEmailSend(job: ProvisioningJob): Promise<void> {
   const supabase = await getAdminClient();
   const payload = job.payload as EmailPayload;
-  
+
   if (!payload.to || !payload.emailType) {
     throw new Error('Missing required fields: to, emailType');
   }
-  
+
   const startTime = Date.now();
-  
+
   try {
     // Send email via configured provider
     await sendEmail(payload);
-    
+
     const duration = Date.now() - startTime;
-    
+
     // Log success
     await supabase.from('provisioning_events').insert({
       correlation_id: job.correlation_id,
@@ -57,7 +57,7 @@ export async function processEmailSend(job: ProvisioningJob): Promise<void> {
         durationMs: duration,
       },
     });
-    
+
     logger.info('Email sent', {
       emailType: payload.emailType,
       to: maskEmail(payload.to),
@@ -78,7 +78,7 @@ export async function processEmailSend(job: ProvisioningJob): Promise<void> {
         to: maskEmail(payload.to),
       },
     });
-    
+
     throw error;
   }
 }
@@ -88,14 +88,15 @@ export async function processEmailSend(job: ProvisioningJob): Promise<void> {
  */
 async function sendEmail(payload: EmailPayload): Promise<void> {
   const { emailType, to, templateData } = payload;
-  
+
   // Get template content
   const template = getEmailTemplate(emailType, templateData);
-  
+
   const sendgridApiKey = process.env.SENDGRID_API_KEY;
 
   if (sendgridApiKey) {
-    const fromRaw = process.env.EMAIL_FROM || 'Elevate for Humanity <noreply@elevateforhumanity.org>';
+    const fromRaw =
+      process.env.EMAIL_FROM || 'Elevate for Humanity <noreply@elevateforhumanity.org>';
     const fromMatch = fromRaw.match(/^(.+?)\s*<(.+?)>$/);
     const from = fromMatch
       ? { name: fromMatch[1].trim(), email: fromMatch[2].trim() }
@@ -104,7 +105,7 @@ async function sendEmail(payload: EmailPayload): Promise<void> {
     const response = await fetch('https://api.sendgrid.com/v3/mail/send', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${sendgridApiKey}`,
+        Authorization: `Bearer ${sendgridApiKey}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
@@ -122,7 +123,7 @@ async function sendEmail(payload: EmailPayload): Promise<void> {
 
     return;
   }
-  
+
   // Fallback: log email (development)
   logger.info('Email would be sent (no provider configured)', {
     to: maskEmail(to),
@@ -135,8 +136,8 @@ async function sendEmail(payload: EmailPayload): Promise<void> {
  * Get email template by type
  */
 function getEmailTemplate(
-  emailType: EmailType, 
-  data: Record<string, unknown>
+  emailType: EmailType,
+  data: Record<string, unknown>,
 ): { subject: string; html: string } {
   const templates: Record<EmailType, { subject: string; html: string }> = {
     license_activated: {
@@ -194,7 +195,7 @@ function getEmailTemplate(
       `,
     },
   };
-  
+
   return templates[emailType] || templates.welcome;
 }
 
@@ -204,8 +205,6 @@ function getEmailTemplate(
 function maskEmail(email: string): string {
   const [local, domain] = email.split('@');
   if (!domain) return '***';
-  const maskedLocal = local.length > 2 
-    ? local[0] + '***' + local[local.length - 1]
-    : '***';
+  const maskedLocal = local.length > 2 ? local[0] + '***' + local[local.length - 1] : '***';
   return `${maskedLocal}@${domain}`;
 }

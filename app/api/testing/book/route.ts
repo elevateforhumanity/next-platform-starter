@@ -22,53 +22,94 @@ function generateCode(): string {
 }
 
 // ISO date string YYYY-MM-DD, or empty/null (Calendly flow — date chosen later)
-const isoDate = z.string().refine(
-  v => !v || /^\d{4}-\d{2}-\d{2}$/.test(v) && !isNaN(new Date(v + 'T12:00:00').getTime()),
-  { message: 'Invalid date — use YYYY-MM-DD' }
-).transform(v => v || null).nullable().optional();
+const isoDate = z
+  .string()
+  .refine(
+    (v) => !v || (/^\d{4}-\d{2}-\d{2}$/.test(v) && !isNaN(new Date(v + 'T12:00:00').getTime())),
+    { message: 'Invalid date — use YYYY-MM-DD' },
+  )
+  .transform((v) => v || null)
+  .nullable()
+  .optional();
 
 const BookingSchema = z.object({
-  examType:         z.string().min(1),
-  examName:         z.string().min(1),
-  bookingType:      z.enum(['individual', 'organization']).default('individual'),
-  firstName:        z.string().min(1),
-  lastName:         z.string().min(1),
-  email:            z.string().email(),
-  phone:            z.string().nullish().transform(v => v || null),
-  organization:     z.string().nullish().transform(v => v || null),
+  examType: z.string().min(1),
+  examName: z.string().min(1),
+  bookingType: z.enum(['individual', 'organization']).default('individual'),
+  firstName: z.string().min(1),
+  lastName: z.string().min(1),
+  email: z.string().email(),
+  phone: z
+    .string()
+    .nullish()
+    .transform((v) => v || null),
+  organization: z
+    .string()
+    .nullish()
+    .transform((v) => v || null),
   participantCount: z.number().int().positive().default(1),
-  preferredDate:    isoDate,
-  preferredTime:    z.string().nullish().transform(v => v || null),
-  alternateDate:    isoDate,
-  notes:            z.string().nullish().transform(v => v || null),
-  addOn:            z.boolean().default(false),
-  slotId:           z.string().nullish().transform(v => v || null),
-  paymentStatus:    z.string().nullish().transform(v => v || null),
-  stripeSessionId:  z.string().nullish().transform(v => v || null),
+  preferredDate: isoDate,
+  preferredTime: z
+    .string()
+    .nullish()
+    .transform((v) => v || null),
+  alternateDate: isoDate,
+  notes: z
+    .string()
+    .nullish()
+    .transform((v) => v || null),
+  addOn: z.boolean().default(false),
+  slotId: z
+    .string()
+    .nullish()
+    .transform((v) => v || null),
+  paymentStatus: z
+    .string()
+    .nullish()
+    .transform((v) => v || null),
+  stripeSessionId: z
+    .string()
+    .nullish()
+    .transform((v) => v || null),
 });
 
-export const POST = withRuntime(
-  { rateLimit: 'contact' },
-  async (req) => {
-    let rawBody: unknown;
-    try { rawBody = await req.json(); }
-    catch { return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 }); }
+export const POST = withRuntime({ rateLimit: 'contact' }, async (req) => {
+  let rawBody: unknown;
+  try {
+    rawBody = await req.json();
+  } catch {
+    return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 });
+  }
 
-    const parsed = BookingSchema.safeParse(rawBody);
-    if (!parsed.success) {
-      return NextResponse.json(
-        { error: 'Invalid request', details: parsed.error.flatten() },
-        { status: 400 }
-      );
-    }
+  const parsed = BookingSchema.safeParse(rawBody);
+  if (!parsed.success) {
+    return NextResponse.json(
+      { error: 'Invalid request', details: parsed.error.flatten() },
+      { status: 400 },
+    );
+  }
 
-    const {
-      examType, examName, bookingType, firstName, lastName, email, phone,
-      organization, participantCount, preferredDate, preferredTime,
-      alternateDate, notes, addOn, slotId, paymentStatus, stripeSessionId,
-    } = parsed.data;
+  const {
+    examType,
+    examName,
+    bookingType,
+    firstName,
+    lastName,
+    email,
+    phone,
+    organization,
+    participantCount,
+    preferredDate,
+    preferredTime,
+    alternateDate,
+    notes,
+    addOn,
+    slotId,
+    paymentStatus,
+    stripeSessionId,
+  } = parsed.data;
 
-    const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+  const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
 
   const db = await getAdminClient();
   const confirmationCode = generateCode();
@@ -90,7 +131,10 @@ export const POST = withRuntime(
       return NextResponse.json({ error: 'Selected slot has been cancelled' }, { status: 400 });
     }
     if (slot.booked_count >= slot.capacity) {
-      return NextResponse.json({ error: 'Selected slot is now full — please choose another time' }, { status: 409 });
+      return NextResponse.json(
+        { error: 'Selected slot is now full — please choose another time' },
+        { status: 409 },
+      );
     }
   }
 
@@ -195,7 +239,8 @@ export const POST = withRuntime(
 </body></html>`;
 
   // ── Add-on delivery email ────────────────────────────────────────────────
-  const addOnHtml = hasAddOn ? `<!DOCTYPE html>
+  const addOnHtml = hasAddOn
+    ? `<!DOCTYPE html>
 <html><head><meta charset="utf-8"></head>
 <body style="margin:0;padding:0;background:#fffbeb;font-family:Arial,sans-serif">
 <div style="max-width:600px;margin:24px auto;background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.08)">
@@ -222,21 +267,37 @@ export const POST = withRuntime(
     <p style="margin:0">${TESTING_CENTER.address} · ${TESTING_CENTER.phone}</p>
   </div>
 </div>
-</body></html>` : null;
+</body></html>`
+    : null;
 
   const emailJobs: Promise<unknown>[] = [
-    sendEmail({ to: email, from: FROM, subject: `Exam Booking Confirmed — ${confirmationCode} | Elevate Testing Center`, html: candidateHtml }),
-    sendEmail({ to: ADMIN_EMAIL, from: FROM, replyTo: email, subject: `New Exam Booking: ${examLabel} — ${firstName} ${lastName} (${confirmationCode})`, html: adminHtml }),
+    sendEmail({
+      to: email,
+      from: FROM,
+      subject: `Exam Booking Confirmed — ${confirmationCode} | Elevate Testing Center`,
+      html: candidateHtml,
+    }),
+    sendEmail({
+      to: ADMIN_EMAIL,
+      from: FROM,
+      replyTo: email,
+      subject: `New Exam Booking: ${examLabel} — ${firstName} ${lastName} (${confirmationCode})`,
+      html: adminHtml,
+    }),
   ];
 
   if (addOnHtml) {
     emailJobs.push(
-      sendEmail({ to: email, from: FROM, subject: `Your Certification Success Package — ${examLabel} | Elevate Testing Center`, html: addOnHtml })
+      sendEmail({
+        to: email,
+        from: FROM,
+        subject: `Your Certification Success Package — ${examLabel} | Elevate Testing Center`,
+        html: addOnHtml,
+      }),
     );
   }
 
   await Promise.allSettled(emailJobs);
 
   return NextResponse.json({ success: true, confirmationCode, addOn: hasAddOn });
-  }
-);
+});

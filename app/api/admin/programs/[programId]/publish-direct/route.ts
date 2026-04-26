@@ -48,13 +48,10 @@ export async function POST(
   // Minimum completeness gate
   const missing: string[] = [];
   if (!program.title?.trim()) missing.push('Program title');
-  if (!program.slug?.trim())  missing.push('Program slug');
+  if (!program.slug?.trim()) missing.push('Program slug');
 
   if (missing.length > 0) {
-    return NextResponse.json(
-      { error: 'Program is incomplete', missing },
-      { status: 422 },
-    );
+    return NextResponse.json({ error: 'Program is incomplete', missing }, { status: 422 });
   }
 
   // Publish
@@ -62,24 +59,27 @@ export async function POST(
   const { error: updateErr } = await db
     .from('programs')
     .update({
-      published:     true,
-      is_active:     true,
-      status:        'published',
+      published: true,
+      is_active: true,
+      status: 'published',
       review_status: 'approved',
-      published_at:  now,
-      updated_at:    now,
+      published_at: now,
+      updated_at: now,
     })
     .eq('id', programId);
 
   if (updateErr) return safeInternalError(updateErr, 'Publish failed');
 
   // Audit log — fire-and-forget
-  db.from('audit_logs').insert({
-    actor_id:      auth.user.id,
-    action:        'publish_direct',
-    resource_type: 'program',
-    resource_id:   programId,
-  }).then(() => {}).catch(() => {});
+  db.from('audit_logs')
+    .insert({
+      actor_id: auth.user.id,
+      action: 'publish_direct',
+      resource_type: 'program',
+      resource_id: programId,
+    })
+    .then(() => {})
+    .catch(() => {});
 
   // Revalidate public routes so the program appears immediately
   revalidatePath('/programs');

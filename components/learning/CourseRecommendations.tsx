@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { Sparkles, TrendingUp, Users, Target } from "lucide-react";
+import Link from 'next/link';
+import { Sparkles, TrendingUp, Users, Target } from 'lucide-react';
 
 interface Recommendation {
   program_id: string;
@@ -19,13 +19,13 @@ interface CourseRecommendationsProps {
 export function CourseRecommendations({ recommendations }: CourseRecommendationsProps) {
   const getRecommendationIcon = (type: string) => {
     switch (type) {
-      case "based_on_progress":
+      case 'based_on_progress':
         return <Target className="w-5 h-5 text-brand-blue-400" />;
-      case "similar_students":
+      case 'similar_students':
         return <Users className="w-5 h-5 text-brand-green-400" />;
-      case "trending":
+      case 'trending':
         return <TrendingUp className="w-5 h-5 text-brand-orange-400" />;
-      case "personalized":
+      case 'personalized':
         return <Sparkles className="w-5 h-5 text-purple-400" />;
       default:
         return <Sparkles className="w-5 h-5 text-slate-400" />;
@@ -34,16 +34,16 @@ export function CourseRecommendations({ recommendations }: CourseRecommendations
 
   const getRecommendationLabel = (type: string) => {
     switch (type) {
-      case "based_on_progress":
-        return "Next Step";
-      case "similar_students":
-        return "Popular Choice";
-      case "trending":
-        return "Trending Now";
-      case "personalized":
-        return "For You";
+      case 'based_on_progress':
+        return 'Next Step';
+      case 'similar_students':
+        return 'Popular Choice';
+      case 'trending':
+        return 'Trending Now';
+      case 'personalized':
+        return 'For You';
       default:
-        return "Recommended";
+        return 'Recommended';
     }
   };
 

@@ -11,9 +11,9 @@ const VALID_ROLES = ['student', 'staff', 'instructor', 'admin', 'super_admin'];
 
 /**
  * POST /api/admin/users/role
- * 
+ *
  * Update a user's role. Only super_admin can do this.
- * 
+ *
  * Body: { email: string, role: string }
  */
 async function _POST(request: NextRequest) {
@@ -24,7 +24,9 @@ async function _POST(request: NextRequest) {
     const supabase = await createClient();
 
     // Check if current user is super_admin
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -48,7 +50,10 @@ async function _POST(request: NextRequest) {
     }
 
     if (!VALID_ROLES.includes(role)) {
-      return NextResponse.json({ error: `Invalid role. Must be one of: ${VALID_ROLES.join(', ')}` }, { status: 400 });
+      return NextResponse.json(
+        { error: `Invalid role. Must be one of: ${VALID_ROLES.join(', ')}` },
+        { status: 400 },
+      );
     }
 
     // Update the user's role
@@ -77,10 +82,10 @@ async function _POST(request: NextRequest) {
       req: request,
     });
 
-    return NextResponse.json({ 
-      success: true, 
+    return NextResponse.json({
+      success: true,
       message: `User ${email} role updated to ${role}`,
-      user: data 
+      user: data,
     });
   } catch (error) {
     logger.error('Role API error:', error);
@@ -90,7 +95,7 @@ async function _POST(request: NextRequest) {
 
 /**
  * GET /api/admin/users/role
- * 
+ *
  * List all users with admin/staff roles. Only super_admin can do this.
  */
 async function _GET(request: NextRequest) {
@@ -101,7 +106,9 @@ async function _GET(request: NextRequest) {
     const supabase = await createClient();
 
     // Check if current user is super_admin
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }

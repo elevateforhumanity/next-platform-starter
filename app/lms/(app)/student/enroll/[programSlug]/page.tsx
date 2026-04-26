@@ -14,9 +14,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { programSlug } = await params;
   const title = programSlug
     .split('-')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ');
-  
+
   return {
     title: `Enroll in ${title} | Elevate for Humanity`,
     description: `Start your enrollment in the ${title} program.`,
@@ -28,7 +28,9 @@ export default async function EnrollProgramPage({ params }: Props) {
   const supabase = await createClient();
 
   // Check if user is logged in
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     redirect(`/login?redirect=/lms/student/enroll/${programSlug}`);
@@ -60,9 +62,7 @@ export default async function EnrollProgramPage({ params }: Props) {
           <div className="p-8">
             <div className="mb-8">
               <h2 className="text-xl font-semibold text-slate-900 mb-4">Program Details</h2>
-              {course.description && (
-                <p className="text-slate-600 mb-4">{course.description}</p>
-              )}
+              {course.description && <p className="text-slate-600 mb-4">{course.description}</p>}
               <div className="grid md:grid-cols-2 gap-4">
                 {course.credential && (
                   <div className="flex items-center gap-3 p-4 bg-slate-50 rounded-lg">
@@ -87,12 +87,20 @@ export default async function EnrollProgramPage({ params }: Props) {
               <h2 className="text-xl font-semibold text-slate-900 mb-4">Next Steps</h2>
               <ol className="space-y-4">
                 {[
-                  ['Verify WIOA Eligibility', 'Complete the eligibility check to qualify for free training'],
-                  ['Submit Application', 'Provide your information and select your preferred start date'],
+                  [
+                    'Verify WIOA Eligibility',
+                    'Complete the eligibility check to qualify for free training',
+                  ],
+                  [
+                    'Submit Application',
+                    'Provide your information and select your preferred start date',
+                  ],
                   ['Begin Training', 'Start your journey to a new career'],
                 ].map(([title, desc], i) => (
                   <li key={i} className="flex items-start gap-4">
-                    <span className="flex-shrink-0 w-8 h-8 bg-brand-blue-100 text-brand-blue-600 rounded-full flex items-center justify-center font-semibold">{i + 1}</span>
+                    <span className="flex-shrink-0 w-8 h-8 bg-brand-blue-100 text-brand-blue-600 rounded-full flex items-center justify-center font-semibold">
+                      {i + 1}
+                    </span>
                     <div>
                       <p className="font-medium text-slate-900">{title}</p>
                       <p className="text-sm text-slate-600">{desc}</p>

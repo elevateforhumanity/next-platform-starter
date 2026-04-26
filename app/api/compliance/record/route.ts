@@ -13,9 +13,13 @@ async function _POST(request: NextRequest) {
     await hydrateProcessEnv();
     const supabase = await createClient();
     const db = await getAdminClient();
-    if (!db) return NextResponse.json({ error: 'Admin client failed to initialize' }, { status: 500 });
+    if (!db)
+      return NextResponse.json({ error: 'Admin client failed to initialize' }, { status: 500 });
 
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
     if (authError || !user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -28,12 +32,16 @@ async function _POST(request: NextRequest) {
         user_id: user.id,
         handbook_version: params.handbookVersion || '1.0',
         acknowledged_at: new Date().toISOString(),
-        ip_address: request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || '0.0.0.0',
+        ip_address:
+          request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || '0.0.0.0',
         user_agent: request.headers.get('user-agent') || 'unknown',
       });
       if (error) {
         logger.error('[Compliance] Handbook acknowledgment failed:', error.message);
-        return NextResponse.json({ success: false, error: 'Failed to record acknowledgment' }, { status: 500 });
+        return NextResponse.json(
+          { success: false, error: 'Failed to record acknowledgment' },
+          { status: 500 },
+        );
       }
       return NextResponse.json({ success: true });
     }
@@ -52,7 +60,8 @@ async function _POST(request: NextRequest) {
         acceptance_context: params.acceptanceContext || null,
         role_at_signing: params.roleAtSigning || 'student',
         accepted_at: new Date().toISOString(),
-        ip_address: request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || '0.0.0.0',
+        ip_address:
+          request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || '0.0.0.0',
         user_agent: request.headers.get('user-agent') || 'unknown',
       };
 
@@ -87,16 +96,22 @@ async function _POST(request: NextRequest) {
             .maybeSingle();
           return NextResponse.json({ success: true, acceptanceId: race?.id });
         }
-        return NextResponse.json({ success: false, error: 'Failed to record agreement. Please try again.' }, { status: 500 });
+        return NextResponse.json(
+          { success: false, error: 'Failed to record agreement. Please try again.' },
+          { status: 500 },
+        );
       }
       return NextResponse.json({ success: true, acceptanceId: data?.id });
     }
 
     if (action === 'update_onboarding') {
-      const { error } = await db.from('profiles').update({
-        [params.field]: params.value,
-        updated_at: new Date().toISOString(),
-      }).eq('id', user.id);
+      const { error } = await db
+        .from('profiles')
+        .update({
+          [params.field]: params.value,
+          updated_at: new Date().toISOString(),
+        })
+        .eq('id', user.id);
       if (error) {
         logger.error('[Compliance] Onboarding update failed:', error.message);
         return NextResponse.json({ success: false, error: 'Failed to update' }, { status: 500 });
@@ -117,9 +132,13 @@ async function _GET(request: NextRequest) {
     await hydrateProcessEnv();
     const supabase = await createClient();
     const db = await getAdminClient();
-    if (!db) return NextResponse.json({ error: 'Admin client failed to initialize' }, { status: 500 });
+    if (!db)
+      return NextResponse.json({ error: 'Admin client failed to initialize' }, { status: 500 });
 
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
     if (authError || !user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -127,14 +146,16 @@ async function _GET(request: NextRequest) {
     const type = request.nextUrl.searchParams.get('type');
 
     if (type === 'handbook') {
-      const { data } = await db.from('handbook_acknowledgments')
+      const { data } = await db
+        .from('handbook_acknowledgments')
         .select('handbook_version, acknowledged_at')
         .eq('user_id', user.id);
       return NextResponse.json({ data: data || [] });
     }
 
     if (type === 'agreements') {
-      const { data } = await db.from('license_agreement_acceptances')
+      const { data } = await db
+        .from('license_agreement_acceptances')
         .select('id, agreement_type, document_version, accepted_at')
         .eq('user_id', user.id);
       return NextResponse.json({ data: data || [] });
@@ -142,8 +163,14 @@ async function _GET(request: NextRequest) {
 
     // Return all
     const [handbook, agreements] = await Promise.all([
-      db.from('handbook_acknowledgments').select('handbook_version, acknowledged_at').eq('user_id', user.id),
-      db.from('license_agreement_acceptances').select('id, agreement_type, document_version, accepted_at').eq('user_id', user.id),
+      db
+        .from('handbook_acknowledgments')
+        .select('handbook_version, acknowledged_at')
+        .eq('user_id', user.id),
+      db
+        .from('license_agreement_acceptances')
+        .select('id, agreement_type, document_version, accepted_at')
+        .eq('user_id', user.id),
     ]);
 
     return NextResponse.json({

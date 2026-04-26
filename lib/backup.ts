@@ -1,6 +1,8 @@
 // Database backup and recovery utilities
 import { createClient } from '@/lib/supabase/server';
-export async function createBackup(tables: string[] = ['profiles', 'courses', 'enrollments', 'certificates']) {
+export async function createBackup(
+  tables: string[] = ['profiles', 'courses', 'enrollments', 'certificates'],
+) {
   const supabase = await createClient();
   const backup: Record<string, any[]> = {};
   const timestamp = new Date().toISOString();
@@ -27,7 +29,8 @@ export async function createBackup(tables: string[] = ['profiles', 'courses', 'e
       backup,
       recordCount: Object.values(backup).reduce((sum, records) => sum + records.length, 0),
     };
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     // Error: $1
     return {
       success: false,
@@ -43,12 +46,14 @@ export async function exportBackupToCSV(tableName: string, data: any[]): Promise
   const headers = Object.keys(data[0]);
   const csvRows = [
     headers.join(','),
-    ...data.map(row =>
-      headers.map(header => {
-        const value = row[header];
-        const stringValue = value === null ? '' : String(value);
-        return `"${stringValue.replace(/"/g, '""')}"`;
-      }).join(',')
+    ...data.map((row) =>
+      headers
+        .map((header) => {
+          const value = row[header];
+          const stringValue = value === null ? '' : String(value);
+          return `"${stringValue.replace(/"/g, '""')}"`;
+        })
+        .join(','),
     ),
   ];
   return csvRows.join('\n');
@@ -65,7 +70,10 @@ export async function scheduleBackup(intervalHours: number = 24) {
   };
   return backupConfig;
 }
-export async function restoreFromBackup(backup: Record<string, any[]>, options: { overwrite?: boolean } = {}) {
+export async function restoreFromBackup(
+  backup: Record<string, any[]>,
+  options: { overwrite?: boolean } = {},
+) {
   const supabase = await createClient();
   const results: Record<string, { success: boolean; count: number; error?: string }> = {};
   try {
@@ -82,7 +90,8 @@ export async function restoreFromBackup(backup: Record<string, any[]>, options: 
           count: count || records.length,
           error: error?.message,
         };
-      } catch (error) { /* Error handled silently */ 
+      } catch (error) {
+        /* Error handled silently */
         results[table] = {
           success: false,
           count: 0,
@@ -94,7 +103,8 @@ export async function restoreFromBackup(backup: Record<string, any[]>, options: 
       success: true,
       results,
     };
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     return {
       success: false,
       error: 'Operation failed',

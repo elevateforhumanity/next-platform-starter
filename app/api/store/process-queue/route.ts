@@ -1,4 +1,3 @@
-
 import { processFulfillmentQueue, getQueueStats } from '@/lib/store/fulfillment-queue';
 import { logger } from '@/lib/logger';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
@@ -25,33 +24,35 @@ async function _POST(req: Request) {
     // Verify authorization (cron secret or admin)
     const authHeader = req.headers.get('authorization');
     const cronSecret = process.env.CRON_SECRET;
-    
+
     if (cronSecret && authHeader !== `Bearer ${cronSecret}`) {
       // Check if it's an admin request
       const { createClient } = await import('@/lib/supabase/server');
       const supabase = await createClient();
-      const { data: { user } } = await supabase.auth.getUser();
-      
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
       if (!user) {
         return Response.json({ error: 'Unauthorized' }, { status: 401 });
       }
-      
+
       const { data: profile } = await supabase
         .from('profiles')
         .select('role')
         .eq('id', user.id)
         .single();
-      
+
       if (!profile || !['admin', 'super_admin'].includes(profile.role)) {
         return Response.json({ error: 'Forbidden' }, { status: 403 });
       }
     }
-    
+
     const processed = await processFulfillmentQueue();
     const stats = await getQueueStats();
-    
+
     logger.info('Queue processing complete', { processed, stats });
-    
+
     return Response.json({
       success: true,
       processed,
@@ -59,10 +60,7 @@ async function _POST(req: Request) {
     });
   } catch (error) {
     logger.error('Queue processing failed', error as Error);
-    return Response.json(
-      { error: 'Processing failed' },
-      { status: 500 }
-    );
+    return Response.json({ error: 'Processing failed' }, { status: 500 });
   }
 }
 

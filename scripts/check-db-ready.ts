@@ -13,7 +13,6 @@ if (!url || !key) {
 const supabase = createClient(url, key);
 
 async function main() {
-
   // Check programs table
   const { data: programs, error: programsError } = await supabase
     .from('programs')
@@ -53,7 +52,6 @@ async function main() {
   if (errors.length > 0) {
     process.exit(1);
   }
-
 }
 
 main().catch((err) => {

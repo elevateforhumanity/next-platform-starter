@@ -1378,11 +1378,7 @@
       "label": "Check Eligibility",
       "variant": "secondary"
     },
-    "trustIndicators": [
-      "CompTIA Authorized",
-      "WIOA Approved",
-      "Indianapolis, Indiana"
-    ],
+    "trustIndicators": ["CompTIA Authorized", "WIOA Approved", "Indianapolis, Indiana"],
     "analyticsName": "technology"
   },
   "business": {
@@ -1450,11 +1446,7 @@
       "href": "/partners/mou",
       "variant": "secondary"
     },
-    "trustIndicators": [
-      "DOL Registered Apprenticeship Sponsor",
-      "ETPL approved",
-      "WIOA partner"
-    ],
+    "trustIndicators": ["DOL Registered Apprenticeship Sponsor", "ETPL approved", "WIOA partner"],
     "transcript": "Elevate partners with workforce agencies, employers, and community organizations to build training pathways that work. Join us.",
     "analyticsName": "partners"
   },
@@ -1476,11 +1468,7 @@
       "href": "/login",
       "variant": "secondary"
     },
-    "trustIndicators": [
-      "Industry credentials",
-      "Self-paced learning",
-      "Instructor support"
-    ],
+    "trustIndicators": ["Industry credentials", "Self-paced learning", "Instructor support"],
     "transcript": "The Elevate student portal gives you access to career training programs, lesson content, and credential pathways \u2014 all in one place.",
     "analyticsName": "lms"
   },
@@ -1522,11 +1510,7 @@
       "href": "/jri#programs",
       "variant": "secondary"
     },
-    "trustIndicators": [
-      "WIOA eligible",
-      "Reentry-focused employers",
-      "Record-friendly programs"
-    ],
+    "trustIndicators": ["WIOA eligible", "Reentry-focused employers", "Record-friendly programs"],
     "transcript": "Elevate for Humanity provides career training and employer connections specifically designed for justice-involved individuals re-entering the workforce.",
     "analyticsName": "jri"
   },
@@ -1545,11 +1529,7 @@
       "href": "/mission",
       "variant": "secondary"
     },
-    "trustIndicators": [
-      "Indiana-based",
-      "Community-driven",
-      "ETPL Certified"
-    ],
+    "trustIndicators": ["Indiana-based", "Community-driven", "ETPL Certified"],
     "transcript": "Meet the team behind Elevate for Humanity \u2014 workforce professionals and educators committed to expanding access to career training.",
     "analyticsName": "about-team"
   },
@@ -1568,11 +1548,7 @@
       "href": "/partners",
       "variant": "secondary"
     },
-    "trustIndicators": [
-      "WIOA Partners",
-      "Employer Network",
-      "Community Orgs"
-    ],
+    "trustIndicators": ["WIOA Partners", "Employer Network", "Community Orgs"],
     "transcript": "Elevate for Humanity partners with employers, workforce agencies, and community organizations to connect Hoosiers to real careers.",
     "analyticsName": "about-partners"
   },
@@ -1586,11 +1562,7 @@
       "label": "Browse Articles",
       "href": "/blog"
     },
-    "trustIndicators": [
-      "Student Stories",
-      "Program Updates",
-      "Career Tips"
-    ],
+    "trustIndicators": ["Student Stories", "Program Updates", "Career Tips"],
     "transcript": "Stay current with workforce training news, student success stories, and career development insights from Elevate for Humanity.",
     "analyticsName": "blog"
   },
@@ -1609,11 +1581,7 @@
       "href": "/programs",
       "variant": "secondary"
     },
-    "trustIndicators": [
-      "Job Placement Support",
-      "Resume Coaching",
-      "Employer Network"
-    ],
+    "trustIndicators": ["Job Placement Support", "Resume Coaching", "Employer Network"],
     "transcript": "Elevate for Humanity provides career services from resume building and interview prep to job placement and ongoing support for every graduate.",
     "analyticsName": "career-services"
   },
@@ -1632,11 +1600,7 @@
       "href": "/mission",
       "variant": "secondary"
     },
-    "trustIndicators": [
-      "Mission-driven",
-      "Competitive pay",
-      "Remote-friendly roles"
-    ],
+    "trustIndicators": ["Mission-driven", "Competitive pay", "Remote-friendly roles"],
     "transcript": "Join the Elevate for Humanity team and help expand access to workforce training across Indiana.",
     "analyticsName": "careers"
   },
@@ -1655,11 +1619,7 @@
       "href": "/check-eligibility",
       "variant": "secondary"
     },
-    "trustIndicators": [
-      "WIOA Eligible",
-      "Indiana State Board",
-      "Employer Connections"
-    ],
+    "trustIndicators": ["WIOA Eligible", "Indiana State Board", "Employer Connections"],
     "transcript": "Indiana CNA certification training is opening soon at Elevate for Humanity. Join the waitlist to be notified when enrollment opens.",
     "analyticsName": "cna-waitlist"
   },
@@ -1678,11 +1638,7 @@
       "href": "tel:+13178889999",
       "variant": "secondary"
     },
-    "trustIndicators": [
-      "1-business-day response",
-      "Indiana-based team",
-      "Free consultations"
-    ],
+    "trustIndicators": ["1-business-day response", "Indiana-based team", "Free consultations"],
     "transcript": "Contact Elevate for Humanity with questions about programs, funding, enrollment, or partnerships. We respond within one business day.",
     "analyticsName": "contact"
   },
@@ -1701,11 +1657,7 @@
       "href": "/impact",
       "variant": "secondary"
     },
-    "trustIndicators": [
-      "501(c)(3) Nonprofit",
-      "Tax-deductible",
-      "100% to programs"
-    ],
+    "trustIndicators": ["501(c)(3) Nonprofit", "Tax-deductible", "100% to programs"],
     "transcript": "Your donation to Elevate for Humanity funds free and low-cost workforce training for Hoosiers who need it most.",
     "analyticsName": "donate"
   },
@@ -1724,11 +1676,7 @@
       "href": "/apply",
       "variant": "secondary"
     },
-    "trustIndicators": [
-      "Free to attend",
-      "Employer hiring events",
-      "Graduation ceremonies"
-    ],
+    "trustIndicators": ["Free to attend", "Employer hiring events", "Graduation ceremonies"],
     "transcript": "Elevate for Humanity hosts orientation sessions, employer hiring events, graduation ceremonies, and community workshops \u2014 all free to attend.",
     "analyticsName": "events"
   },
@@ -1747,11 +1695,7 @@
       "href": "/partners",
       "variant": "secondary"
     },
-    "trustIndicators": [
-      "WIOA Compliant",
-      "RAPIDS Tracked",
-      "ETPL Certified"
-    ],
+    "trustIndicators": ["WIOA Compliant", "RAPIDS Tracked", "ETPL Certified"],
     "transcript": "Partner with Elevate for Humanity to connect your clients to real career training. We are WIOA compliant, RAPIDS tracked, and ETPL certified.",
     "analyticsName": "for-partners"
   },
@@ -1793,11 +1737,7 @@
       "href": "/programs",
       "variant": "secondary"
     },
-    "trustIndicators": [
-      "Indiana-based",
-      "Community-driven",
-      "ETPL Certified"
-    ],
+    "trustIndicators": ["Indiana-based", "Community-driven", "ETPL Certified"],
     "transcript": "Learn about the vision and values behind Elevate for Humanity and the founder's commitment to workforce equity in Indiana.",
     "analyticsName": "founder"
   },
@@ -1816,11 +1756,7 @@
       "href": "/programs",
       "variant": "secondary"
     },
-    "trustIndicators": [
-      "WIOA Approved",
-      "Next Level Jobs",
-      "Workforce Ready Grant"
-    ],
+    "trustIndicators": ["WIOA Approved", "Next Level Jobs", "Workforce Ready Grant"],
     "transcript": "Elevate for Humanity programs are funded through WIOA, Workforce Ready Grant, Next Level Jobs, and other sources for eligible Indiana residents.",
     "analyticsName": "funding"
   },
@@ -1834,11 +1770,7 @@
       "label": "Read Latest",
       "href": "/news#articles"
     },
-    "trustIndicators": [
-      "Program Updates",
-      "Student Stories",
-      "Partnership News"
-    ],
+    "trustIndicators": ["Program Updates", "Student Stories", "Partnership News"],
     "transcript": "Stay current with the latest news from Elevate for Humanity \u2014 program announcements, partnerships, and student success stories.",
     "analyticsName": "news"
   },
@@ -1857,11 +1789,7 @@
       "href": "/apply",
       "variant": "secondary"
     },
-    "trustIndicators": [
-      "5 career sectors",
-      "Employer-aligned credentials",
-      "WIOA funded"
-    ],
+    "trustIndicators": ["5 career sectors", "Employer-aligned credentials", "WIOA funded"],
     "transcript": "Explore career pathways at Elevate for Humanity in healthcare, skilled trades, technology, beauty, and business \u2014 all designed for Indiana's job market.",
     "analyticsName": "pathways"
   },
@@ -1903,11 +1831,7 @@
       "href": "/programs",
       "variant": "secondary"
     },
-    "trustIndicators": [
-      "Free for eligible students",
-      "Payment plans available",
-      "No hidden fees"
-    ],
+    "trustIndicators": ["Free for eligible students", "Payment plans available", "No hidden fees"],
     "transcript": "Elevate for Humanity offers transparent pricing. Most programs are free for eligible Indiana residents, with self-pay and payment plan options for others.",
     "analyticsName": "pricing"
   },
@@ -1926,11 +1850,7 @@
       "href": "/mission",
       "variant": "secondary"
     },
-    "trustIndicators": [
-      "Flexible hours",
-      "Remote options",
-      "Community impact"
-    ],
+    "trustIndicators": ["Flexible hours", "Remote options", "Community impact"],
     "transcript": "Volunteer with Elevate for Humanity as a mentor, mock interviewer, guest speaker, or event helper. Every hour makes a difference.",
     "analyticsName": "volunteer"
   },
@@ -1949,11 +1869,7 @@
       "href": "/apply",
       "variant": "secondary"
     },
-    "trustIndicators": [
-      "ETPL Certified",
-      "DOL Registered",
-      "RAPIDS Tracked"
-    ],
+    "trustIndicators": ["ETPL Certified", "DOL Registered", "RAPIDS Tracked"],
     "transcript": "Elevate for Humanity provides credential-bearing career training, employer connections, and funding navigation for Indiana residents.",
     "analyticsName": "what-we-do"
   },
@@ -1974,11 +1890,7 @@
       "href": "/workone-partner-packet",
       "variant": "secondary"
     },
-    "trustIndicators": [
-      "WIOA Compliant",
-      "RAPIDS Tracked",
-      "ETPL Certified"
-    ],
+    "trustIndicators": ["WIOA Compliant", "RAPIDS Tracked", "ETPL Certified"],
     "transcript": "Elevate for Humanity partners with WorkOne, FSSA, employers, and community organizations to deliver WIOA-compliant workforce training at scale.",
     "analyticsName": "workforce-partners"
   },
@@ -1999,11 +1911,7 @@
       "href": "/partners",
       "variant": "secondary"
     },
-    "trustIndicators": [
-      "ETPL Certified",
-      "DOL Registered",
-      "RAPIDS Tracked"
-    ],
+    "trustIndicators": ["ETPL Certified", "DOL Registered", "RAPIDS Tracked"],
     "transcript": "Elevate for Humanity measures every outcome \u2014 credentials earned, jobs placed, and wages increased. Our programs are ETPL certified, DOL registered, and RAPIDS tracked.",
     "analyticsName": "impact"
   },
@@ -2048,11 +1956,7 @@
       "href": "/programs",
       "variant": "secondary"
     },
-    "trustIndicators": [
-      "WIOA & state funding",
-      "Career coaching included",
-      "Employer network"
-    ],
+    "trustIndicators": ["WIOA & state funding", "Career coaching included", "Employer network"],
     "transcript": "Elevate provides end-to-end workforce services \u2014 training, credential preparation, career coaching, and employer connections \u2014 all coordinated in one system.",
     "analyticsName": "services"
   },
@@ -2250,11 +2154,7 @@
       "href": "/contact",
       "variant": "secondary"
     },
-    "trustIndicators": [
-      "Free for eligible students",
-      "WIOA & state funding",
-      "No hidden fees"
-    ],
+    "trustIndicators": ["Free for eligible students", "WIOA & state funding", "No hidden fees"],
     "transcript": "Find answers to common questions about Elevate programs, funding eligibility, enrollment, and credentials.",
     "analyticsName": "faq"
   },
@@ -2273,12 +2173,7 @@
       "href": "/apply",
       "variant": "secondary"
     },
-    "trustIndicators": [
-      "WIOA funding",
-      "Next Level Jobs",
-      "DOL grants",
-      "No upfront cost"
-    ],
+    "trustIndicators": ["WIOA funding", "Next Level Jobs", "DOL grants", "No upfront cost"],
     "transcript": "Most Elevate programs are available at no cost to eligible Indiana residents through WIOA, Next Level Jobs, and DOL funding. Check your eligibility today.",
     "analyticsName": "financial-aid"
   },
@@ -2397,11 +2292,7 @@
       "href": "/programs",
       "variant": "secondary"
     },
-    "trustIndicators": [
-      "Free for eligible students",
-      "Fast enrollment",
-      "Funding pre-checked"
-    ],
+    "trustIndicators": ["Free for eligible students", "Fast enrollment", "Funding pre-checked"],
     "transcript": "Start your career training journey at Elevate. Tell us about yourself and we will match you with the right program and funding pathway.",
     "analyticsName": "start"
   },
@@ -2478,11 +2369,7 @@
       "href": "/check-eligibility",
       "variant": "secondary"
     },
-    "trustIndicators": [
-      "CompTIA Security+",
-      "CompTIA CySA+",
-      "WIOA funding available"
-    ],
+    "trustIndicators": ["CompTIA Security+", "CompTIA CySA+", "WIOA funding available"],
     "transcript": "Earn CompTIA Security+ and CySA+ certifications in 12 weeks.",
     "analyticsName": "cybersecurity"
   },
@@ -2503,11 +2390,7 @@
       "label": "Check Eligibility",
       "variant": "secondary"
     },
-    "trustIndicators": [
-      "ServSafe Certified",
-      "WIOA Approved",
-      "Indianapolis, Indiana"
-    ],
+    "trustIndicators": ["ServSafe Certified", "WIOA Approved", "Indianapolis, Indiana"],
     "analyticsName": "hospitality"
   },
   "direct-support-professional": {

@@ -47,7 +47,9 @@ export default function CareerTrainingIndianaPage() {
         <div className="max-w-6xl mx-auto px-4">
           <div className="flex items-center gap-2 text-green-200 mb-4">
             <MapPin className="w-5 h-5" />
-            <span className="text-sm font-medium uppercase tracking-wider">Serving All of Indiana</span>
+            <span className="text-sm font-medium uppercase tracking-wider">
+              Serving All of Indiana
+            </span>
           </div>
           <h1 className="text-4xl md:text-5xl font-black text-white mb-6">
             Indiana Career Training &amp; Workforce Development
@@ -142,7 +144,9 @@ export default function CareerTrainingIndianaPage() {
               <ul className="space-y-3 mb-6">
                 <li className="flex items-start gap-3">
                   <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
-                  <span className="text-gray-700">Certified Nursing Assistant (CNA) - Indiana State Board approved</span>
+                  <span className="text-gray-700">
+                    Certified Nursing Assistant (CNA) - Indiana State Board approved
+                  </span>
                 </li>
                 <li className="flex items-start gap-3">
                   <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
@@ -285,7 +289,10 @@ export default function CareerTrainingIndianaPage() {
                   Our training programs meet Indiana state requirements and industry certification
                   standards. We maintain transparent outcome reporting.
                 </p>
-                <Link href="/governance/compliance" className="text-blue-600 hover:underline text-sm mt-2 inline-block">
+                <Link
+                  href="/governance/compliance"
+                  className="text-blue-600 hover:underline text-sm mt-2 inline-block"
+                >
                   View our compliance standards →
                 </Link>
               </div>
@@ -301,7 +308,10 @@ export default function CareerTrainingIndianaPage() {
                   As a 501(c)(3) nonprofit, our mission is workforce development - not profit. Every
                   dollar supports Indiana residents building careers.
                 </p>
-                <Link href="/governance/operational-controls" className="text-blue-600 hover:underline text-sm mt-2 inline-block">
+                <Link
+                  href="/governance/operational-controls"
+                  className="text-blue-600 hover:underline text-sm mt-2 inline-block"
+                >
                   Learn about our operations →
                 </Link>
               </div>
@@ -317,7 +327,10 @@ export default function CareerTrainingIndianaPage() {
                   We work directly with Indiana's WorkOne centers to connect eligible residents with
                   funded training opportunities.
                 </p>
-                <Link href="/lms" className="text-blue-600 hover:underline text-sm mt-2 inline-block">
+                <Link
+                  href="/lms"
+                  className="text-blue-600 hover:underline text-sm mt-2 inline-block"
+                >
                   Explore our learning platform →
                 </Link>
               </div>
@@ -333,7 +346,10 @@ export default function CareerTrainingIndianaPage() {
                   Evening, weekend, and online options available. We design programs for working
                   adults and those with family responsibilities.
                 </p>
-                <Link href="/resources" className="text-blue-600 hover:underline text-sm mt-2 inline-block">
+                <Link
+                  href="/resources"
+                  className="text-blue-600 hover:underline text-sm mt-2 inline-block"
+                >
                   View student resources →
                 </Link>
               </div>

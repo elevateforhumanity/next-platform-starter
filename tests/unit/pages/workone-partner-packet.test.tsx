@@ -98,7 +98,7 @@ describe('WorkOnePartnerPacketPage', () => {
   it('has correct contact links', () => {
     render(<WorkOnePartnerPacketPage />);
     const contactLinks = screen.getAllByRole('link', { name: /contact/i });
-    const hasContactHref = contactLinks.some(link => link.getAttribute('href') === '/contact');
+    const hasContactHref = contactLinks.some((link) => link.getAttribute('href') === '/contact');
     expect(hasContactHref).toBe(true);
   });
 

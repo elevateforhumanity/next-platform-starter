@@ -14,14 +14,11 @@ export const maxDuration = 60;
 export const dynamic = 'force-dynamic';
 
 async function _POST(request: Request) {
-    const rateLimited = await applyRateLimit(request, 'contact');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(request, 'contact');
+  if (rateLimited) return rateLimited;
 
   if (!process.env.STRIPE_SECRET_KEY) {
-    return NextResponse.json(
-      { error: 'Stripe not configured' },
-      { status: 503 }
-    );
+    return NextResponse.json({ error: 'Stripe not configured' }, { status: 503 });
   }
 
   const supabase = await createClient();
@@ -29,18 +26,12 @@ async function _POST(request: Request) {
   const user = data?.user;
 
   if (!user) {
-    return NextResponse.json(
-      { error: 'Unauthorized' },
-      { status: 401 }
-    );
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   const careerPrice = PRICES.CAREER;
   if (!careerPrice) {
-    return NextResponse.json(
-      { error: 'Career pricing not configured' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Career pricing not configured' }, { status: 500 });
   }
 
   try {
@@ -58,10 +49,7 @@ async function _POST(request: Request) {
     return NextResponse.json({ sessionId: session.id });
   } catch (err: any) {
     const error = toError(err);
-    return NextResponse.json(
-      { error: toErrorMessage(err) },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: toErrorMessage(err) }, { status: 500 });
   }
 }
 export const POST = withRuntime(withApiAudit('/api/checkout/career', _POST));

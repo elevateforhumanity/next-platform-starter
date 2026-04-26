@@ -1,4 +1,3 @@
-
 export const revalidate = 3600;
 
 import { Metadata } from 'next';
@@ -15,7 +14,7 @@ export const metadata: Metadata = {
 
 /**
  * Access Paused Page
- * 
+ *
  * Shown to non-admin users when their organization's license has expired.
  * Clear, non-alarming message directing them to contact their admin.
  */
@@ -30,24 +29,23 @@ export default function AccessPausedPage() {
           </div>
 
           {/* Heading */}
-          <h1 className="text-2xl font-bold text-slate-900 mb-2">
-            Access Paused
-          </h1>
+          <h1 className="text-2xl font-bold text-slate-900 mb-2">Access Paused</h1>
 
           {/* Message */}
           <p className="text-slate-600 mb-2">
-            Your organization&apos;s subscription needs attention.
-            Please contact your administrator to restore access.
+            Your organization&apos;s subscription needs attention. Please contact your administrator
+            to restore access.
           </p>
           <p className="text-sm text-slate-500 mb-6">
-            You were redirected here because your organization&apos;s license has expired or is being renewed.
+            You were redirected here because your organization&apos;s license has expired or is
+            being renewed.
           </p>
 
           {/* Reassurance */}
           <div className="bg-white rounded-lg p-4 mb-6">
             <p className="text-sm text-slate-500">
-              Your progress and data are safe.
-              Once your administrator resolves the billing, you&apos;ll have full access again.
+              Your progress and data are safe. Once your administrator resolves the billing,
+              you&apos;ll have full access again.
             </p>
           </div>
 
@@ -60,7 +58,7 @@ export default function AccessPausedPage() {
               <Mail className="w-5 h-5" />
               Contact Support
             </Link>
-            
+
             <Link
               href="/"
               className="w-full inline-flex items-center justify-center gap-2 text-slate-600 px-6 py-3 rounded-lg font-medium hover:bg-white transition-colors"

@@ -9,7 +9,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 export default function CourseLeaderboardPage() {
@@ -52,20 +52,28 @@ export default function CourseLeaderboardPage() {
       .limit(100);
 
     // Hydrate profiles separately (course_progress.user_id has no FK to profiles)
-    const lbCourseUserIds = [...new Set((rawProgressData ?? []).map((r: any) => r.user_id).filter(Boolean))];
+    const lbCourseUserIds = [
+      ...new Set((rawProgressData ?? []).map((r: any) => r.user_id).filter(Boolean)),
+    ];
     const { data: lbCourseProfiles } = lbCourseUserIds.length
-      ? await supabase.from('profiles').select('id, full_name, avatar_url').in('id', lbCourseUserIds)
+      ? await supabase
+          .from('profiles')
+          .select('id, full_name, avatar_url')
+          .in('id', lbCourseUserIds)
       : { data: [] };
-    const lbCourseProfileMap = Object.fromEntries((lbCourseProfiles ?? []).map((p: any) => [p.id, p]));
-    const progressData = (rawProgressData ?? []).map((r: any) => ({ ...r, profiles: lbCourseProfileMap[r.user_id] ?? null }));
+    const lbCourseProfileMap = Object.fromEntries(
+      (lbCourseProfiles ?? []).map((p: any) => [p.id, p]),
+    );
+    const progressData = (rawProgressData ?? []).map((r: any) => ({
+      ...r,
+      profiles: lbCourseProfileMap[r.user_id] ?? null,
+    }));
 
     // Calculate points and rank
     const rankedData = (progressData || []).map((item, index) => ({
       ...item,
       rank: index + 1,
-      points: Math.round(
-        item.progress_percentage * 10 + (item.completed_lessons || 0) * 5
-      ),
+      points: Math.round(item.progress_percentage * 10 + (item.completed_lessons || 0) * 5),
     }));
 
     setLeaderboard(rankedData);
@@ -97,7 +105,6 @@ export default function CourseLeaderboardPage() {
             priority
             sizes="100vw"
           />
-
         </section>
 
         <div className="text-center">
@@ -114,10 +121,9 @@ export default function CourseLeaderboardPage() {
                       Your Journey Starts Here
                     </h2>
                     <p className="text-lg text-black mb-6 leading-relaxed">
-                      Every great career begins with a single step. Whether
-                      you're looking to change careers, upgrade your skills, or
-                      enter the workforce for the first time, we're here to help
-                      you succeed. Many programs are funded through government grants
+                      Every great career begins with a single step. Whether you're looking to change
+                      careers, upgrade your skills, or enter the workforce for the first time, we're
+                      here to help you succeed. Many programs are funded through government grants
                       and designed to get you hired fast.
                     </p>
                     <ul className="space-y-4">
@@ -130,8 +136,7 @@ export default function CourseLeaderboardPage() {
                       <li className="flex items-start">
                         <span className="text-slate-500 flex-shrink-0">•</span>
                         <span className="text-black">
-                          Industry-recognized certifications that employers
-                          value
+                          Industry-recognized certifications that employers value
                         </span>
                       </li>
                       <li className="flex items-start">
@@ -142,9 +147,7 @@ export default function CourseLeaderboardPage() {
                       </li>
                       <li className="flex items-start">
                         <span className="text-slate-500 flex-shrink-0">•</span>
-                        <span className="text-black">
-                          Flexible scheduling for working adults
-                        </span>
+                        <span className="text-black">Flexible scheduling for working adults</span>
                       </li>
                     </ul>
                   </div>
@@ -171,8 +174,8 @@ export default function CourseLeaderboardPage() {
                   Ready to Improve Your Career?
                 </h2>
                 <p className="text-base md:text-lg mb-8 text-brand-blue-100">
-                  Explore training programs and earn industry certifications through
-                  Elevate for Humanity.
+                  Explore training programs and earn industry certifications through Elevate for
+                  Humanity.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <Link
@@ -211,9 +214,7 @@ export default function CourseLeaderboardPage() {
             <h1 className="text-4xl font-bold mb-4 text-2xl md:text-3xl lg:text-4xl">
               {course?.title}
             </h1>
-            <p className="text-base md:text-lg text-brand-blue-100">
-              Course Leaderboard
-            </p>
+            <p className="text-base md:text-lg text-brand-blue-100">Course Leaderboard</p>
           </div>
         </div>
       </section>
@@ -285,12 +286,8 @@ export default function CourseLeaderboardPage() {
                     2
                   </div>
                 </div>
-                <p className="font-semibold text-black">
-                  {leaderboard[1]?.profiles?.full_name}
-                </p>
-                <p className="text-sm text-black">
-                  {leaderboard[1]?.points} points
-                </p>
+                <p className="font-semibold text-black">{leaderboard[1]?.profiles?.full_name}</p>
+                <p className="text-sm text-black">{leaderboard[1]?.points} points</p>
               </div>
 
               {/* 1st Place */}
@@ -319,9 +316,7 @@ export default function CourseLeaderboardPage() {
                 <p className="font-bold text-black text-lg">
                   {leaderboard[0]?.profiles?.full_name}
                 </p>
-                <p className="text-sm text-black">
-                  {leaderboard[0]?.points} points
-                </p>
+                <p className="text-sm text-black">{leaderboard[0]?.points} points</p>
               </div>
 
               {/* 3rd Place */}
@@ -347,12 +342,8 @@ export default function CourseLeaderboardPage() {
                     3
                   </div>
                 </div>
-                <p className="font-semibold text-black">
-                  {leaderboard[2]?.profiles?.full_name}
-                </p>
-                <p className="text-sm text-black">
-                  {leaderboard[2]?.points} points
-                </p>
+                <p className="font-semibold text-black">{leaderboard[2]?.profiles?.full_name}</p>
+                <p className="text-sm text-black">{leaderboard[2]?.points} points</p>
               </div>
             </div>
           )}
@@ -365,10 +356,7 @@ export default function CourseLeaderboardPage() {
             {leaderboard.length > 0 ? (
               <div className="divide-y">
                 {leaderboard.map((enstart) => (
-                  <div
-                    key={enstart.id}
-                    className="p-4 hover:bg-white transition-colors"
-                  >
+                  <div key={enstart.id} className="p-4 hover:bg-white transition-colors">
                     <div className="flex items-center gap-4">
                       <div className="w-12 text-center">
                         <span
@@ -406,14 +394,12 @@ export default function CourseLeaderboardPage() {
                           {enstart.profiles?.full_name || 'Anonymous'}
                         </p>
                         <p className="text-sm text-black">
-                          {enstart.progress_percentage}% complete •{' '}
-                          {enstart.completed_lessons || 0} lessons
+                          {enstart.progress_percentage}% complete • {enstart.completed_lessons || 0}{' '}
+                          lessons
                         </p>
                       </div>
                       <div className="text-right">
-                        <p className="text-lg font-bold text-brand-blue-600">
-                          {enstart.points}
-                        </p>
+                        <p className="text-lg font-bold text-brand-blue-600">{enstart.points}</p>
                         <p className="text-xs text-black">points</p>
                       </div>
                     </div>
@@ -435,12 +421,8 @@ export default function CourseLeaderboardPage() {
                     d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
                   />
                 </svg>
-                <h3 className="text-lg font-semibold text-black mb-2">
-                  No rankings yet
-                </h3>
-                <p className="text-black">
-                  Be the first to complete lessons and earn points!
-                </p>
+                <h3 className="text-lg font-semibold text-black mb-2">No rankings yet</h3>
+                <p className="text-black">Be the first to complete lessons and earn points!</p>
               </div>
             )}
           </div>

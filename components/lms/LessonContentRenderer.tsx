@@ -37,20 +37,25 @@ import dynamic from 'next/dynamic';
 
 const LessonVideoWithSimulation = dynamic(
   () => import('@/components/lms/LessonVideoWithSimulation'),
-  { ssr: false }
+  { ssr: false },
 );
 
 interface Props {
-  lesson:      Record<string, unknown>;
-  lessonId:    string;
-  courseId:    string;
+  lesson: Record<string, unknown>;
+  lessonId: string;
+  courseId: string;
   isCompleted: boolean;
-  onComplete:  () => void;
+  onComplete: () => void;
   onQuizComplete: (score: number, answers: Record<string, unknown>) => void;
 }
 
 export default function LessonContentRenderer({
-  lesson, lessonId, courseId, isCompleted, onComplete, onQuizComplete,
+  lesson,
+  lessonId,
+  courseId,
+  isCompleted,
+  onComplete,
+  onQuizComplete,
 }: Props) {
   const renderConfig = getLessonRenderMode(lesson);
   const { mode, content } = renderConfig;
@@ -76,7 +81,7 @@ export default function LessonContentRenderer({
     if (process.env.NODE_ENV !== 'production') {
       throw new Error(
         `[LessonContentRenderer] ${mode} lesson "${lesson.title}" (${lessonId}) ` +
-        `is missing required field: ${missingField}. Fix the lesson data — do not add a UI fallback.`
+          `is missing required field: ${missingField}. Fix the lesson data — do not add a UI fallback.`,
       );
     }
     logger.error('[LessonContentRenderer] Required lesson data missing — lesson skipped', ctx);
@@ -93,15 +98,26 @@ export default function LessonContentRenderer({
     if (!questions?.length) return handleMissingData('quiz_questions');
   }
 
-  if (['lab', 'assignment', 'simulation', 'practicum', 'externship', 'clinical', 'observation', 'capstone'].includes(mode)) {
-    const instructions = content.activityInstructions || (lesson.practical_instructions as string | undefined);
+  if (
+    [
+      'lab',
+      'assignment',
+      'simulation',
+      'practicum',
+      'externship',
+      'clinical',
+      'observation',
+      'capstone',
+    ].includes(mode)
+  ) {
+    const instructions =
+      content.activityInstructions || (lesson.practical_instructions as string | undefined);
     if (!instructions?.trim()) return handleMissingData('activityInstructions');
   }
 
   // ── Canonical render switch ───────────────────────────────────────────────
 
   switch (mode) {
-
     // ── Video ───────────────────────────────────────────────────────────────
     case 'video': {
       const videoFile = (lesson.video_file ?? content.video?.videoFile) as string;
@@ -116,12 +132,18 @@ export default function LessonContentRenderer({
               videoUrl={videoFile}
               minimumTimeSeconds={120}
               onMinimumTimeReached={() => {}}
-              onSimulationComplete={() => { if (!isCompleted) onComplete(); }}
+              onSimulationComplete={() => {
+                if (!isCompleted) onComplete();
+              }}
             />
             {content.instructionalContent && (
               <div className="mt-6 bg-white rounded-xl p-8 shadow-sm">
-                <div className="prose max-w-none"
-                  dangerouslySetInnerHTML={{ __html: sanitizeRichHtml(content.instructionalContent) }} />
+                <div
+                  className="prose max-w-none"
+                  dangerouslySetInnerHTML={{
+                    __html: sanitizeRichHtml(content.instructionalContent),
+                  }}
+                />
               </div>
             )}
             {lesson.quiz_questions && (
@@ -130,8 +152,12 @@ export default function LessonContentRenderer({
                   <ClipboardList className="w-6 h-6 text-brand-blue-600" />
                   Quick Check
                 </h3>
-                <QuizPlayer questions={lesson.quiz_questions} title="Quick Check"
-                  passingScore={60} onComplete={() => {}} />
+                <QuizPlayer
+                  questions={lesson.quiz_questions}
+                  title="Quick Check"
+                  passingScore={60}
+                  onComplete={() => {}}
+                />
               </div>
             )}
           </div>
@@ -143,20 +169,26 @@ export default function LessonContentRenderer({
           <InteractiveVideoPlayer
             videoUrl={videoFile}
             title={lesson.title as string}
-            onComplete={() => { if (!isCompleted) onComplete(); }}
+            onComplete={() => {
+              if (!isCompleted) onComplete();
+            }}
           />
           {transcript && (
             <details className="mt-4 border border-slate-200 rounded-lg">
               <summary className="px-4 py-2 text-sm font-semibold text-slate-600 cursor-pointer">
                 Transcript
               </summary>
-              <div className="px-4 pb-4 text-sm text-slate-600 whitespace-pre-wrap">{transcript}</div>
+              <div className="px-4 pb-4 text-sm text-slate-600 whitespace-pre-wrap">
+                {transcript}
+              </div>
             </details>
           )}
           {content.instructionalContent && (
             <div className="mt-6 bg-white rounded-xl p-8 shadow-sm">
-              <div className="prose max-w-none"
-                dangerouslySetInnerHTML={{ __html: sanitizeRichHtml(content.instructionalContent) }} />
+              <div
+                className="prose max-w-none"
+                dangerouslySetInnerHTML={{ __html: sanitizeRichHtml(content.instructionalContent) }}
+              />
             </div>
           )}
           {lesson.quiz_questions && (
@@ -165,8 +197,12 @@ export default function LessonContentRenderer({
                 <ClipboardList className="w-6 h-6 text-brand-blue-600" />
                 Quick Check
               </h3>
-              <QuizPlayer questions={lesson.quiz_questions} title="Quick Check"
-                passingScore={60} onComplete={() => {}} />
+              <QuizPlayer
+                questions={lesson.quiz_questions}
+                title="Quick Check"
+                passingScore={60}
+                onComplete={() => {}}
+              />
             </div>
           )}
         </div>
@@ -242,7 +278,7 @@ export default function LessonContentRenderer({
           `legacy_hvac runtime path is disabled. ` +
             `Retirement target was ${HVAC_LEGACY_RETIREMENT_TARGET}. ` +
             `All HVAC lessons must be served from curriculum_lessons. ` +
-            `Run: pnpm verify:hvac-legacy-retirement`
+            `Run: pnpm verify:hvac-legacy-retirement`,
         );
       }
       const videoUrl = lesson.video_url as string | undefined;
@@ -256,12 +292,16 @@ export default function LessonContentRenderer({
               videoUrl={videoUrl}
               minimumTimeSeconds={120}
               onMinimumTimeReached={() => {}}
-              onSimulationComplete={() => { if (!isCompleted) onComplete(); }}
+              onSimulationComplete={() => {
+                if (!isCompleted) onComplete();
+              }}
             />
             {lesson.content && (
               <div className="mt-6 bg-white rounded-xl p-8 shadow-sm">
-                <div className="prose max-w-none"
-                  dangerouslySetInnerHTML={{ __html: sanitizeRichHtml(lesson.content as string) }} />
+                <div
+                  className="prose max-w-none"
+                  dangerouslySetInnerHTML={{ __html: sanitizeRichHtml(lesson.content as string) }}
+                />
               </div>
             )}
             {lesson.quiz_questions && (
@@ -270,8 +310,12 @@ export default function LessonContentRenderer({
                   <ClipboardList className="w-6 h-6 text-brand-blue-600" />
                   Quick Check
                 </h3>
-                <QuizPlayer questions={lesson.quiz_questions} title="Quick Check"
-                  passingScore={60} onComplete={() => {}} />
+                <QuizPlayer
+                  questions={lesson.quiz_questions}
+                  title="Quick Check"
+                  passingScore={60}
+                  onComplete={() => {}}
+                />
               </div>
             )}
           </div>
@@ -284,12 +328,16 @@ export default function LessonContentRenderer({
             <InteractiveVideoPlayer
               videoUrl={videoUrl}
               title={lesson.title as string}
-              onComplete={() => { if (!isCompleted) onComplete(); }}
+              onComplete={() => {
+                if (!isCompleted) onComplete();
+              }}
             />
             {lesson.content && (
               <div className="mt-6 bg-white rounded-xl p-8 shadow-sm">
-                <div className="prose max-w-none"
-                  dangerouslySetInnerHTML={{ __html: sanitizeRichHtml(lesson.content as string) }} />
+                <div
+                  className="prose max-w-none"
+                  dangerouslySetInnerHTML={{ __html: sanitizeRichHtml(lesson.content as string) }}
+                />
               </div>
             )}
             {lesson.quiz_questions && (
@@ -298,8 +346,12 @@ export default function LessonContentRenderer({
                   <ClipboardList className="w-6 h-6 text-brand-blue-600" />
                   Quick Check
                 </h3>
-                <QuizPlayer questions={lesson.quiz_questions} title="Quick Check"
-                  passingScore={60} onComplete={() => {}} />
+                <QuizPlayer
+                  questions={lesson.quiz_questions}
+                  title="Quick Check"
+                  passingScore={60}
+                  onComplete={() => {}}
+                />
               </div>
             )}
           </div>
@@ -313,8 +365,10 @@ export default function LessonContentRenderer({
             <div className="bg-white rounded-xl p-8 shadow-sm">
               {lesson.content ? (
                 <>
-                  <div className="prose max-w-none"
-                    dangerouslySetInnerHTML={{ __html: sanitizeRichHtml(lesson.content as string) }} />
+                  <div
+                    className="prose max-w-none"
+                    dangerouslySetInnerHTML={{ __html: sanitizeRichHtml(lesson.content as string) }}
+                  />
                   <div className="mt-6 pt-4 border-t border-slate-100 flex flex-wrap gap-3">
                     <ExplainSimply content={lesson.content as string} />
                     <TranslateToggle content={lesson.content as string} />
@@ -336,8 +390,10 @@ export default function LessonContentRenderer({
         <div className="bg-white py-8">
           <div className="max-w-4xl mx-auto px-4">
             <div className="bg-white rounded-xl p-8 shadow-sm">
-              <div className="prose max-w-none"
-                dangerouslySetInnerHTML={{ __html: sanitizeRichHtml(rawContent) }} />
+              <div
+                className="prose max-w-none"
+                dangerouslySetInnerHTML={{ __html: sanitizeRichHtml(rawContent) }}
+              />
               <div className="mt-6 pt-4 border-t border-slate-100 flex flex-wrap gap-3">
                 <ExplainSimply content={rawContent} />
                 <TranslateToggle content={rawContent} />

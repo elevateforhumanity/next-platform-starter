@@ -1,4 +1,4 @@
-export const dynamic = 'force-dynamic'
+export const dynamic = 'force-dynamic';
 
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
@@ -23,7 +23,12 @@ export default async function AcceptInvitePage({ searchParams }: Props) {
   // Fetch invite details server-side so the page renders with context.
   // GET /api/org/accept-invite queries org_invites directly — no RPC dependency.
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000';
-  let inviteDetails: { email: string; role: string; organization_name: string; expires_at: string } | null = null;
+  let inviteDetails: {
+    email: string;
+    role: string;
+    organization_name: string;
+    expires_at: string;
+  } | null = null;
   let fetchError: string | null = null;
 
   try {
@@ -43,7 +48,9 @@ export default async function AcceptInvitePage({ searchParams }: Props) {
 
   // Check if user is already logged in
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   return (
     <div className="min-h-screen bg-white flex items-center justify-center px-4">
@@ -55,8 +62,18 @@ export default async function AcceptInvitePage({ searchParams }: Props) {
         {fetchError ? (
           <div className="text-center">
             <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-red-100 mb-4">
-              <svg className="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              <svg
+                className="h-6 w-6 text-red-600"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
               </svg>
             </div>
             <p className="text-sm text-slate-900">{fetchError}</p>

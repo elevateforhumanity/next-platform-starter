@@ -27,9 +27,7 @@ export async function GET(request: Request) {
   // Handle OAuth errors from Supabase
   if (error) {
     const errorMessage = encodeURIComponent(errorDescription || error);
-    return NextResponse.redirect(
-      new URL(`/login?error=${errorMessage}`, requestUrl.origin)
-    );
+    return NextResponse.redirect(new URL(`/login?error=${errorMessage}`, requestUrl.origin));
   }
 
   if (code) {
@@ -40,7 +38,7 @@ export async function GET(request: Request) {
       if (exchangeError) {
         logger.error('Auth callback error:', exchangeError);
         return NextResponse.redirect(
-          new URL(`/login?error=${encodeURIComponent(exchangeError.message)}`, requestUrl.origin)
+          new URL(`/login?error=${encodeURIComponent(exchangeError.message)}`, requestUrl.origin),
         );
       }
 
@@ -55,7 +53,9 @@ export async function GET(request: Request) {
       // Reconcile all pre-auth tables (program_enrollments, applications,
       // barber_subscriptions). Registry-driven — see lib/pre-auth-tables.ts.
       try {
-        const { data: { user: callbackUser } } = await supabase.auth.getUser();
+        const {
+          data: { user: callbackUser },
+        } = await supabase.auth.getUser();
         if (callbackUser?.email) {
           await reconcilePreAuthRows(supabase, callbackUser.email);
         }
@@ -67,9 +67,20 @@ export async function GET(request: Request) {
       // Resolve role — check user_metadata first (set at signup), then profiles table
       let resolvedRole = 'student';
       try {
-        const { data: { user } } = await supabase.auth.getUser();
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
         if (user) {
-          const allowedRoles = ['student', 'staff', 'partner', 'employer', 'program_holder', 'instructor', 'admin', 'super_admin'];
+          const allowedRoles = [
+            'student',
+            'staff',
+            'partner',
+            'employer',
+            'program_holder',
+            'instructor',
+            'admin',
+            'super_admin',
+          ];
           const metaRole = user.user_metadata?.role;
 
           if (metaRole && allowedRoles.includes(metaRole)) {
@@ -81,10 +92,7 @@ export async function GET(request: Request) {
               .upsert({ id: user.id, role: resolvedRole, email: user.email }, { onConflict: 'id' });
             if (upsertErr) {
               // Profile already exists from trigger — just update the role
-              await supabase
-                .from('profiles')
-                .update({ role: resolvedRole })
-                .eq('id', user.id);
+              await supabase.from('profiles').update({ role: resolvedRole }).eq('id', user.id);
             }
           } else {
             // Returning user — read from profiles table
@@ -113,14 +121,10 @@ export async function GET(request: Request) {
       return NextResponse.redirect(new URL(next, requestUrl.origin));
     } catch (err) {
       logger.error('Auth callback exception:', err);
-      return NextResponse.redirect(
-        new URL('/login?error=auth_failed', requestUrl.origin)
-      );
+      return NextResponse.redirect(new URL('/login?error=auth_failed', requestUrl.origin));
     }
   }
 
   // No code provided
-  return NextResponse.redirect(
-    new URL('/login?error=no_code', requestUrl.origin)
-  );
+  return NextResponse.redirect(new URL('/login?error=no_code', requestUrl.origin));
 }

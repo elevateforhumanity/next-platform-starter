@@ -12,7 +12,18 @@ All shared Tailwind class patterns live in `lib/page-design-tokens.ts`.
 Import from there. Do not invent one-off class strings for typography, spacing, buttons, chips, or grids.
 
 ```ts
-import { type, layout, hero, card, btn, bg, chip, grid, ICC_URL, ICC_INSTRUCTION } from '@/lib/page-design-tokens';
+import {
+  type,
+  layout,
+  hero,
+  card,
+  btn,
+  bg,
+  chip,
+  grid,
+  ICC_URL,
+  ICC_INSTRUCTION,
+} from '@/lib/page-design-tokens';
 ```
 
 ---
@@ -48,6 +59,7 @@ Pages that omit sections 3–8 are considered incomplete and must be expanded.
 - Video heroes attempt unmuted autoplay via `useHeroVideo` hook — no mute button shown
 
 **Correct:**
+
 ```tsx
 <section className="relative h-[45vh] min-h-[280px] max-h-[560px] w-full overflow-hidden">
   <Image src="..." alt="..." fill className="object-cover" priority />
@@ -58,6 +70,7 @@ Pages that omit sections 3–8 are considered incomplete and must be expanded.
 ```
 
 **Wrong:**
+
 ```tsx
 {/* ❌ text stacked on video */}
 <section className="relative h-[60vh]">
@@ -72,16 +85,16 @@ Pages that omit sections 3–8 are considered incomplete and must be expanded.
 
 ## 4. Typography Rules
 
-| Element | Class |
-|---------|-------|
-| Page H1 | `text-3xl sm:text-4xl font-extrabold text-slate-900 leading-tight` |
-| Section H2 | `text-2xl sm:text-3xl font-extrabold text-slate-900` |
-| Card H3 | `text-lg font-bold text-slate-900` |
-| Eyebrow | `text-brand-red-600 font-bold text-xs uppercase tracking-widest` |
-| Body | `text-slate-700 text-base leading-relaxed` |
-| Secondary body | `text-slate-600 text-sm leading-relaxed` |
-| Metadata | `text-slate-600 text-sm font-semibold` |
-| Fine print | `text-slate-500 text-xs` |
+| Element        | Class                                                              |
+| -------------- | ------------------------------------------------------------------ |
+| Page H1        | `text-3xl sm:text-4xl font-extrabold text-slate-900 leading-tight` |
+| Section H2     | `text-2xl sm:text-3xl font-extrabold text-slate-900`               |
+| Card H3        | `text-lg font-bold text-slate-900`                                 |
+| Eyebrow        | `text-brand-red-600 font-bold text-xs uppercase tracking-widest`   |
+| Body           | `text-slate-700 text-base leading-relaxed`                         |
+| Secondary body | `text-slate-600 text-sm leading-relaxed`                           |
+| Metadata       | `text-slate-600 text-sm font-semibold`                             |
+| Fine print     | `text-slate-500 text-xs`                                           |
 
 - Never use `text-gray-*` — use `text-slate-*`
 - Never use `text-white` or `text-white/90` on a white or light background
@@ -95,11 +108,11 @@ Pages that omit sections 3–8 are considered incomplete and must be expanded.
 
 Every student-facing program page must have these buttons:
 
-| Button | Style | Action |
-|--------|-------|--------|
-| **Enroll Now / Apply Now** | `bg-brand-red-600` primary | `/apply?program=...` |
-| **Request Information** | `border-2 border-slate-300` secondary | `/contact?program=...` |
-| **Go to Indiana Career Connect** | `bg-brand-blue-600` | `https://www.indianacareerconnect.com` |
+| Button                           | Style                                 | Action                                 |
+| -------------------------------- | ------------------------------------- | -------------------------------------- |
+| **Enroll Now / Apply Now**       | `bg-brand-red-600` primary            | `/apply?program=...`                   |
+| **Request Information**          | `border-2 border-slate-300` secondary | `/contact?program=...`                 |
+| **Go to Indiana Career Connect** | `bg-brand-blue-600`                   | `https://www.indianacareerconnect.com` |
 
 CTA row wrapper: `flex flex-col sm:flex-row items-stretch sm:items-center gap-3`
 
@@ -155,6 +168,7 @@ All program cards use `components/programs/ProgramCard.tsx`. Structure is locked
 5. CTA — `bg-brand-red-600` "View Program" button
 
 **Prohibited in cards:**
+
 - Green checkmarks
 - Colored badge clutter
 - Lucide icons as content items
@@ -177,20 +191,20 @@ All program cards use `components/programs/ProgramCard.tsx`. Structure is locked
 
 These patterns are banned on all student-facing pages:
 
-| Pattern | Why |
-|---------|-----|
-| `text-gray-*` | Use `text-slate-*` |
-| `bg-green-*` / `text-green-*` | Use `brand-green-*` |
-| `CheckCircle2` / `✓` as list bullets | Use `w-1.5 h-1.5 rounded-full bg-brand-red-500` dot |
-| `Award` / `Briefcase` / `GraduationCap` as content icons | Use text-only cards |
-| Gradient overlay on hero | Content goes below hero |
-| `text-white` on `bg-white` | Invisible — use `bg-slate-900` for dark CTAs |
-| `text-white/90` on light background | Invisible |
-| `bg-white/10 border-white/10` on white | Invisible |
-| `bg-gradient-to-r from-indigo-600 to-purple-600` | Non-brand color |
-| Step numbers: `bg-white text-white` | Invisible — use `bg-brand-red-600 text-white` |
-| Sparse pages (hero + 2 cards + CTA) | Every page must fully explain itself |
-| Icon-led content sections | Use real images or text-only cards |
+| Pattern                                                  | Why                                                 |
+| -------------------------------------------------------- | --------------------------------------------------- |
+| `text-gray-*`                                            | Use `text-slate-*`                                  |
+| `bg-green-*` / `text-green-*`                            | Use `brand-green-*`                                 |
+| `CheckCircle2` / `✓` as list bullets                     | Use `w-1.5 h-1.5 rounded-full bg-brand-red-500` dot |
+| `Award` / `Briefcase` / `GraduationCap` as content icons | Use text-only cards                                 |
+| Gradient overlay on hero                                 | Content goes below hero                             |
+| `text-white` on `bg-white`                               | Invisible — use `bg-slate-900` for dark CTAs        |
+| `text-white/90` on light background                      | Invisible                                           |
+| `bg-white/10 border-white/10` on white                   | Invisible                                           |
+| `bg-gradient-to-r from-indigo-600 to-purple-600`         | Non-brand color                                     |
+| Step numbers: `bg-white text-white`                      | Invisible — use `bg-brand-red-600 text-white`       |
+| Sparse pages (hero + 2 cards + CTA)                      | Every page must fully explain itself                |
+| Icon-led content sections                                | Use real images or text-only cards                  |
 
 ---
 
@@ -198,15 +212,15 @@ These patterns are banned on all student-facing pages:
 
 Use these components. Do not create page-specific alternatives.
 
-| Component | Path | Purpose |
-|-----------|------|---------|
-| `ProgramDetailPage` | `components/programs/ProgramDetailPage.tsx` | All individual program pages |
-| `ProgramPageLayout` | `components/programs/ProgramPageLayout.tsx` | Category-level program pages |
-| `ProgramCard` | `components/programs/ProgramCard.tsx` | All program grid cards |
+| Component             | Path                                          | Purpose                                 |
+| --------------------- | --------------------------------------------- | --------------------------------------- |
+| `ProgramDetailPage`   | `components/programs/ProgramDetailPage.tsx`   | All individual program pages            |
+| `ProgramPageLayout`   | `components/programs/ProgramPageLayout.tsx`   | Category-level program pages            |
+| `ProgramCard`         | `components/programs/ProgramCard.tsx`         | All program grid cards                  |
 | `ProgramCategoryPage` | `components/programs/ProgramCategoryPage.tsx` | Healthcare, Trades, Tech category pages |
-| `ProgramHeroBanner` | `components/ProgramHeroBanner.tsx` | Video hero for program pages |
-| `PageVideoHero` | `components/ui/PageVideoHero.tsx` | Video hero for marketing pages |
-| `HomeHeroVideo` | `components/ui/HomeHeroVideo.tsx` | Home page video only |
+| `ProgramHeroBanner`   | `components/ProgramHeroBanner.tsx`            | Video hero for program pages            |
+| `PageVideoHero`       | `components/ui/PageVideoHero.tsx`             | Video hero for marketing pages          |
+| `HomeHeroVideo`       | `components/ui/HomeHeroVideo.tsx`             | Home page video only                    |
 
 ---
 

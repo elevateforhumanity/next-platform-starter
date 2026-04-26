@@ -2,10 +2,10 @@
 
 import { useEffect, useState } from 'react';
 import { TrialBanner } from './TrialBanner';
-import { 
-  getLicenseAccessMode, 
-  type License, 
-  type AccessMode 
+import {
+  getLicenseAccessMode,
+  type License,
+  type AccessMode,
 } from '@/lib/licensing/billing-authority';
 
 interface AdminLicenseWrapperProps {
@@ -33,10 +33,11 @@ export function AdminLicenseWrapper({
   useEffect(() => {
     const result = getLicenseAccessMode(license, userRole);
     setAccessMode(result.mode);
-    
+
     // Show banner for trial licenses (active or in hold)
     const isTrial = license?.tier === 'trial';
-    const shouldShowBanner = isTrial && (result.mode === 'full' || result.mode === 'admin_readonly_hold');
+    const shouldShowBanner =
+      isTrial && (result.mode === 'full' || result.mode === 'admin_readonly_hold');
     setShowBanner(shouldShowBanner);
   }, [license, userRole]);
 
@@ -61,7 +62,7 @@ export function AdminLicenseWrapper({
         <div className="bg-amber-50 border-b border-amber-200 px-4 py-3">
           <div className="max-w-7xl mx-auto flex items-center justify-between">
             <p className="text-amber-800 font-medium">
-              <span className="font-bold">Billing Hold:</span> Your workspace is in read-only mode. 
+              <span className="font-bold">Billing Hold:</span> Your workspace is in read-only mode.
               Upgrade to restore full access.
             </p>
           </div>
@@ -69,9 +70,7 @@ export function AdminLicenseWrapper({
       )}
 
       {/* Main content */}
-      <div data-access-mode={accessMode}>
-        {children}
-      </div>
+      <div data-access-mode={accessMode}>{children}</div>
     </div>
   );
 }
@@ -82,7 +81,7 @@ export function AdminLicenseWrapper({
  */
 export function useLicenseAccess(license: License | null, userRole: string) {
   const result = getLicenseAccessMode(license, userRole);
-  
+
   return {
     mode: result.mode,
     canRead: result.canRead,

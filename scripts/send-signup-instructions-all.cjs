@@ -4,11 +4,14 @@ const fs = require('fs');
 const path = require('path');
 
 const API_KEY = process.env.SENDGRID_API_KEY;
-if (!API_KEY) { console.error('SENDGRID_API_KEY not set'); process.exit(1); }
+if (!API_KEY) {
+  console.error('SENDGRID_API_KEY not set');
+  process.exit(1);
+}
 
-const logoBase64 = fs.readFileSync(
-  path.join(__dirname, '../public/images/Elevate_for_Humanity_logo_81bf0fab.jpg')
-).toString('base64');
+const logoBase64 = fs
+  .readFileSync(path.join(__dirname, '../public/images/Elevate_for_Humanity_logo_81bf0fab.jpg'))
+  .toString('base64');
 
 const people = [
   {
@@ -17,7 +20,8 @@ const people = [
     role: 'Staff / Employee',
     roleValue: 'staff',
     landsOn: 'Staff Onboarding Portal',
-    extra: 'You will complete your orientation, handbook acknowledgment, payroll/direct deposit setup, and skills profile.',
+    extra:
+      'You will complete your orientation, handbook acknowledgment, payroll/direct deposit setup, and skills profile.',
   },
   {
     name: 'Anita Bell',
@@ -25,7 +29,8 @@ const people = [
     role: 'Program Partner / Instructor',
     roleValue: 'partner',
     landsOn: 'Partner Onboarding Portal',
-    extra: 'You will complete your partner application, upload your RN-BSN license and documents, and set up payroll.',
+    extra:
+      'You will complete your partner application, upload your RN-BSN license and documents, and set up payroll.',
   },
   {
     name: 'Carlina Wilkes',
@@ -41,7 +46,8 @@ const people = [
     role: 'Program Partner / Instructor',
     roleValue: 'partner',
     landsOn: 'Partner Onboarding Portal',
-    extra: 'You will complete your partner application, upload your CPR instructor cert and IT credentials, and set up payroll.',
+    extra:
+      'You will complete your partner application, upload your CPR instructor cert and IT credentials, and set up payroll.',
   },
   {
     name: 'Jozanna George',
@@ -49,7 +55,8 @@ const people = [
     role: 'Program Partner / Instructor',
     roleValue: 'partner',
     landsOn: 'Partner Onboarding Portal',
-    extra: 'You will complete your partner application, upload your Indiana beauty licenses, and set up payroll.',
+    extra:
+      'You will complete your partner application, upload your Indiana beauty licenses, and set up payroll.',
   },
 ];
 
@@ -172,51 +179,62 @@ function buildPayload(p) {
 </body></html>`;
 
   return JSON.stringify({
-    personalizations: [{
-      to: [{ email: p.email, name: p.name }],
-      cc: [{ email: 'elevate4humanityedu@gmail.com', name: 'Elizabeth Greene' }],
-    }],
-    from: { email: 'noreply@elevateforhumanity.org', name: 'Elizabeth Greene | Elevate for Humanity' },
+    personalizations: [
+      {
+        to: [{ email: p.email, name: p.name }],
+        cc: [{ email: 'elevate4humanityedu@gmail.com', name: 'Elizabeth Greene' }],
+      },
+    ],
+    from: {
+      email: 'noreply@elevateforhumanity.org',
+      name: 'Elizabeth Greene | Elevate for Humanity',
+    },
     reply_to: { email: 'elevate4humanityedu@gmail.com', name: 'Elizabeth Greene' },
     subject: `${firstName} — Your Elevate Account Signup Steps`,
     content: [
       { type: 'text/plain', value: plain },
-      { type: 'text/html',  value: html },
+      { type: 'text/html', value: html },
     ],
-    attachments: [{
-      content: logoBase64,
-      filename: 'Elevate_for_Humanity_logo.jpg',
-      type: 'image/jpeg',
-      disposition: 'inline',
-      content_id: 'elevate_logo',
-    }],
+    attachments: [
+      {
+        content: logoBase64,
+        filename: 'Elevate_for_Humanity_logo.jpg',
+        type: 'image/jpeg',
+        disposition: 'inline',
+        content_id: 'elevate_logo',
+      },
+    ],
   });
 }
 
 function send(person) {
   return new Promise((resolve, reject) => {
     const payload = buildPayload(person);
-    const req = https.request({
-      hostname: 'api.sendgrid.com',
-      path: '/v3/mail/send',
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${API_KEY}`,
-        'Content-Type': 'application/json',
-        'Content-Length': Buffer.byteLength(payload),
+    const req = https.request(
+      {
+        hostname: 'api.sendgrid.com',
+        path: '/v3/mail/send',
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${API_KEY}`,
+          'Content-Type': 'application/json',
+          'Content-Length': Buffer.byteLength(payload),
+        },
       },
-    }, res => {
-      let d = ''; res.on('data', c => d += c);
-      res.on('end', () => {
-        if (res.statusCode === 202) {
-          console.log(`✅ ${person.name} <${person.email}>`);
-          resolve();
-        } else {
-          console.error(`❌ ${person.email} (${res.statusCode}):`, d);
-          reject(new Error(d));
-        }
-      });
-    });
+      (res) => {
+        let d = '';
+        res.on('data', (c) => (d += c));
+        res.on('end', () => {
+          if (res.statusCode === 202) {
+            console.log(`✅ ${person.name} <${person.email}>`);
+            resolve();
+          } else {
+            console.error(`❌ ${person.email} (${res.statusCode}):`, d);
+            reject(new Error(d));
+          }
+        });
+      },
+    );
     req.on('error', reject);
     req.write(payload);
     req.end();
@@ -227,7 +245,7 @@ function send(person) {
   console.log('Sending signup instructions...\n');
   for (const p of people) {
     await send(p);
-    await new Promise(r => setTimeout(r, 500));
+    await new Promise((r) => setTimeout(r, 500));
   }
   console.log('\n✅ All sent. CC on each: elevate4humanityedu@gmail.com');
 })();

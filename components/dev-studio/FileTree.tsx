@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -19,8 +19,15 @@ interface FileTreeProps {
   filterCourses?: boolean;
 }
 
-export default function FileTree({ files, onFileSelect, selectedFile, filterCourses }: FileTreeProps) {
-  const [expandedFolders, setExpandedFolders] = useState<Set<string>>(new Set(['app', 'components', 'content']));
+export default function FileTree({
+  files,
+  onFileSelect,
+  selectedFile,
+  filterCourses,
+}: FileTreeProps) {
+  const [expandedFolders, setExpandedFolders] = useState<Set<string>>(
+    new Set(['app', 'components', 'content']),
+  );
 
   // Build tree structure from flat file list
   const fileTree = useMemo(() => {
@@ -28,16 +35,17 @@ export default function FileTree({ files, onFileSelect, selectedFile, filterCour
 
     // Filter to course files if requested
     if (filterCourses) {
-      filteredFiles = files.filter(f =>
-        f.startsWith('content/courses/') ||
-        f.startsWith('lms-content/') ||
-        f.includes('/courses/')
+      filteredFiles = files.filter(
+        (f) =>
+          f.startsWith('content/courses/') ||
+          f.startsWith('lms-content/') ||
+          f.includes('/courses/'),
       );
     }
 
     const root: FileNode = { name: 'root', path: '', type: 'folder', children: [] };
 
-    filteredFiles.forEach(filePath => {
+    filteredFiles.forEach((filePath) => {
       const parts = filePath.split('/');
       let current = root;
 
@@ -49,14 +57,14 @@ export default function FileTree({ files, onFileSelect, selectedFile, filterCour
           current.children = [];
         }
 
-        let node = current.children.find(n => n.name === part);
+        let node = current.children.find((n) => n.name === part);
 
         if (!node) {
           node = {
             name: part,
             path,
             type: isLast ? 'file' : 'folder',
-            children: isLast ? undefined : []
+            children: isLast ? undefined : [],
           };
           current.children.push(node);
         }
@@ -75,7 +83,7 @@ export default function FileTree({ files, onFileSelect, selectedFile, filterCour
         }
         return a.name.localeCompare(b.name);
       });
-      nodes.forEach(node => {
+      nodes.forEach((node) => {
         if (node.children) {
           sortNodes(node.children);
         }
@@ -90,7 +98,7 @@ export default function FileTree({ files, onFileSelect, selectedFile, filterCour
   }, [files, filterCourses]);
 
   const toggleFolder = (path: string) => {
-    setExpandedFolders(prev => {
+    setExpandedFolders((prev) => {
       const next = new Set(prev);
       if (next.has(path)) {
         next.delete(path);
@@ -139,9 +147,7 @@ export default function FileTree({ files, onFileSelect, selectedFile, filterCour
         </div>
 
         {node.type === 'folder' && isExpanded && node.children && (
-          <div>
-            {node.children.map(child => renderNode(child, depth + 1))}
-          </div>
+          <div>{node.children.map((child) => renderNode(child, depth + 1))}</div>
         )}
       </div>
     );
@@ -154,7 +160,7 @@ export default function FileTree({ files, onFileSelect, selectedFile, filterCour
           {filterCourses ? 'No course files found' : 'No files found'}
         </div>
       ) : (
-        fileTree.map(node => renderNode(node))
+        fileTree.map((node) => renderNode(node))
       )}
     </div>
   );

@@ -1,6 +1,6 @@
 /**
  * Upload API Security Tests
- * 
+ *
  * Tests authentication, rate limiting, file validation, and path traversal prevention
  */
 
@@ -17,10 +17,12 @@ const ALLOWED_FILE_TYPES: Record<string, string[]> = {
 
 const FILE_SIGNATURES: Record<string, number[][]> = {
   'application/pdf': [[0x25, 0x50, 0x44, 0x46]], // %PDF
-  'image/jpeg': [[0xFF, 0xD8, 0xFF]],
-  'image/png': [[0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A]],
-  'application/msword': [[0xD0, 0xCF, 0x11, 0xE0, 0xA1, 0xB1, 0x1A, 0xE1]],
-  'application/vnd.openxmlformats-officedocument.wordprocessingml.document': [[0x50, 0x4B, 0x03, 0x04]],
+  'image/jpeg': [[0xff, 0xd8, 0xff]],
+  'image/png': [[0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]],
+  'application/msword': [[0xd0, 0xcf, 0x11, 0xe0, 0xa1, 0xb1, 0x1a, 0xe1]],
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document': [
+    [0x50, 0x4b, 0x03, 0x04],
+  ],
 };
 
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
@@ -34,18 +36,18 @@ function isValidExtension(mimeType: string, extension: string): boolean {
 
 function sanitizeFilename(filename: string): string {
   let sanitized = filename.replace(/[\/\\:\*\?"<>\|]/g, '').replace(/\0/g, '');
-  
+
   // Remove all dot sequences (path traversal prevention)
   sanitized = sanitized.replace(/\.{2,}/g, '.');
-  
+
   sanitized = sanitized.replace(/^\.+/, '');
-  
+
   if (sanitized.length > 100) {
     const ext = sanitized.split('.').pop() || '';
     const name = sanitized.slice(0, 90);
     sanitized = ext ? `${name}.${ext}` : name;
   }
-  
+
   return sanitized || 'unnamed';
 }
 
@@ -59,7 +61,7 @@ function validateFileContent(bytes: Uint8Array, declaredMimeType: string): boole
   const signatures = FILE_SIGNATURES[declaredMimeType];
   if (!signatures) return true;
 
-  return signatures.some(signature => {
+  return signatures.some((signature) => {
     if (bytes.length < signature.length) return false;
     return signature.every((byte, index) => bytes[index] === byte);
   });
@@ -123,7 +125,7 @@ class MockUploadService {
 
   async upload(
     userId: string | null,
-    file: { name: string; type: string; size: number; content: Uint8Array }
+    file: { name: string; type: string; size: number; content: Uint8Array },
   ): Promise<UploadResult> {
     // Authentication check
     if (!userId) {
@@ -152,7 +154,10 @@ class MockUploadService {
 
     // MIME type validation
     if (!ALLOWED_FILE_TYPES[file.type]) {
-      return { success: false, error: 'File type not allowed. Allowed types: PDF, DOC, DOCX, JPG, PNG' };
+      return {
+        success: false,
+        error: 'File type not allowed. Allowed types: PDF, DOC, DOCX, JPG, PNG',
+      };
     }
 
     // Filename sanitization and validation
@@ -191,7 +196,10 @@ class MockUploadService {
     };
   }
 
-  async delete(userId: string | null, filename: string): Promise<{ success: boolean; error?: string }> {
+  async delete(
+    userId: string | null,
+    filename: string,
+  ): Promise<{ success: boolean; error?: string }> {
     // Authentication check
     if (!userId || !this.authenticatedUsers.has(userId)) {
       return { success: false, error: 'Authentication required' };
@@ -366,7 +374,7 @@ describe('Upload API Security', () => {
         name: 'script.js',
         type: 'application/javascript',
         size: 1024,
-        content: new Uint8Array([0x63, 0x6F, 0x6E, 0x73, 0x74]), // "const"
+        content: new Uint8Array([0x63, 0x6f, 0x6e, 0x73, 0x74]), // "const"
       };
 
       const result = await uploadService.upload('user-1', file);
@@ -380,7 +388,7 @@ describe('Upload API Security', () => {
         name: 'page.html',
         type: 'text/html',
         size: 1024,
-        content: new Uint8Array([0x3C, 0x68, 0x74, 0x6D, 0x6C]), // "<html"
+        content: new Uint8Array([0x3c, 0x68, 0x74, 0x6d, 0x6c]), // "<html"
       };
 
       const result = await uploadService.upload('user-1', file);
@@ -391,9 +399,17 @@ describe('Upload API Security', () => {
 
     it('should accept allowed MIME types', async () => {
       const allowedFiles = [
-        { name: 'doc.pdf', type: 'application/pdf', content: new Uint8Array([0x25, 0x50, 0x44, 0x46]) },
-        { name: 'image.jpg', type: 'image/jpeg', content: new Uint8Array([0xFF, 0xD8, 0xFF]) },
-        { name: 'image.png', type: 'image/png', content: new Uint8Array([0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A]) },
+        {
+          name: 'doc.pdf',
+          type: 'application/pdf',
+          content: new Uint8Array([0x25, 0x50, 0x44, 0x46]),
+        },
+        { name: 'image.jpg', type: 'image/jpeg', content: new Uint8Array([0xff, 0xd8, 0xff]) },
+        {
+          name: 'image.png',
+          type: 'image/png',
+          content: new Uint8Array([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]),
+        },
       ];
 
       for (const fileData of allowedFiles) {
@@ -454,7 +470,7 @@ describe('Upload API Security', () => {
         name: 'fake.jpg',
         type: 'image/jpeg',
         size: 1024,
-        content: new Uint8Array([0x89, 0x50, 0x4E, 0x47]), // PNG magic bytes
+        content: new Uint8Array([0x89, 0x50, 0x4e, 0x47]), // PNG magic bytes
       };
 
       const result = await uploadService.upload('user-1', file);
@@ -468,7 +484,7 @@ describe('Upload API Security', () => {
         name: 'valid.pdf',
         type: 'application/pdf',
         size: 1024,
-        content: new Uint8Array([0x25, 0x50, 0x44, 0x46, 0x2D, 0x31, 0x2E, 0x34]), // %PDF-1.4
+        content: new Uint8Array([0x25, 0x50, 0x44, 0x46, 0x2d, 0x31, 0x2e, 0x34]), // %PDF-1.4
       };
 
       const result = await uploadService.upload('user-1', file);
@@ -624,7 +640,12 @@ describe('File Extension Validation', () => {
 
   it('should validate DOC extensions', () => {
     expect(isValidExtension('application/msword', 'doc')).toBe(true);
-    expect(isValidExtension('application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'docx')).toBe(true);
+    expect(
+      isValidExtension(
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        'docx',
+      ),
+    ).toBe(true);
   });
 
   it('should reject unknown MIME types', () => {
@@ -635,7 +656,7 @@ describe('File Extension Validation', () => {
 
 describe('File Content Validation', () => {
   it('should validate PDF magic bytes', () => {
-    const validPdf = new Uint8Array([0x25, 0x50, 0x44, 0x46, 0x2D, 0x31, 0x2E, 0x34]);
+    const validPdf = new Uint8Array([0x25, 0x50, 0x44, 0x46, 0x2d, 0x31, 0x2e, 0x34]);
     const invalidPdf = new Uint8Array([0x00, 0x00, 0x00, 0x00]);
 
     expect(validateFileContent(validPdf, 'application/pdf')).toBe(true);
@@ -643,16 +664,16 @@ describe('File Content Validation', () => {
   });
 
   it('should validate JPEG magic bytes', () => {
-    const validJpeg = new Uint8Array([0xFF, 0xD8, 0xFF, 0xE0]);
-    const invalidJpeg = new Uint8Array([0x89, 0x50, 0x4E, 0x47]);
+    const validJpeg = new Uint8Array([0xff, 0xd8, 0xff, 0xe0]);
+    const invalidJpeg = new Uint8Array([0x89, 0x50, 0x4e, 0x47]);
 
     expect(validateFileContent(validJpeg, 'image/jpeg')).toBe(true);
     expect(validateFileContent(invalidJpeg, 'image/jpeg')).toBe(false);
   });
 
   it('should validate PNG magic bytes', () => {
-    const validPng = new Uint8Array([0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A]);
-    const invalidPng = new Uint8Array([0xFF, 0xD8, 0xFF]);
+    const validPng = new Uint8Array([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
+    const invalidPng = new Uint8Array([0xff, 0xd8, 0xff]);
 
     expect(validateFileContent(validPng, 'image/png')).toBe(true);
     expect(validateFileContent(invalidPng, 'image/png')).toBe(false);

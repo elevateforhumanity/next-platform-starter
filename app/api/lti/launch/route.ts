@@ -34,8 +34,8 @@ async function _POST(request: Request) {
 
   const req = request as Request & { cookies?: any };
   const formData = await request.formData();
-  const idToken    = String(formData.get('id_token') || '');
-  const stateParam = String(formData.get('state')    || '');
+  const idToken = String(formData.get('id_token') || '');
+  const stateParam = String(formData.get('state') || '');
 
   if (!idToken || !stateParam) {
     return NextResponse.json({ error: 'Missing id_token or state' }, { status: 400 });
@@ -50,7 +50,10 @@ async function _POST(request: Request) {
 
   if (!cookieState || cookieState !== stateParam) {
     logger.error('[LTI launch] State mismatch — possible CSRF', { stateParam, cookieState });
-    return NextResponse.json({ error: 'Invalid state — launch request may have been tampered with' }, { status: 403 });
+    return NextResponse.json(
+      { error: 'Invalid state — launch request may have been tampered with' },
+      { status: 403 },
+    );
   }
 
   // Clear the state cookie immediately — single use
@@ -63,9 +66,10 @@ async function _POST(request: Request) {
   try {
     const [headerB64, payloadB64] = idToken.split('.');
     const payload = JSON.parse(Buffer.from(payloadB64, 'base64url').toString());
-    rawIssuer   = payload.iss;
+    rawIssuer = payload.iss;
     rawClientId = Array.isArray(payload.aud) ? payload.aud[0] : payload.aud;
-    if (!rawIssuer || !rawClientId) return NextResponse.json({ error: 'Missing iss/aud' }, { status: 500 });
+    if (!rawIssuer || !rawClientId)
+      return NextResponse.json({ error: 'Missing iss/aud' }, { status: 500 });
   } catch {
     return NextResponse.json({ error: 'Malformed id_token' }, { status: 400 });
   }
@@ -92,7 +96,7 @@ async function _POST(request: Request) {
   try {
     const JWKS = getJWKS(platform.jwks_uri);
     const { payload } = await jwtVerify(idToken, JWKS, {
-      issuer:   rawIssuer,
+      issuer: rawIssuer,
       audience: rawClientId,
     });
     decoded = payload;
@@ -109,10 +113,11 @@ async function _POST(request: Request) {
 
   // ── Step 4: Extract verified claims ──────────────────────────────────────
   const subject = decoded.sub as string;
-  const email   = (decoded.email || decoded['https://purl.imsglobal.org/spec/lti/claim/custom']?.email) as string | undefined;
-  const name    = (decoded.name || decoded.given_name) as string | undefined;
-  const context       = decoded['https://purl.imsglobal.org/spec/lti/claim/context'] as any;
-  const resourceLink  = decoded['https://purl.imsglobal.org/spec/lti/claim/resource_link'] as any;
+  const email = (decoded.email ||
+    decoded['https://purl.imsglobal.org/spec/lti/claim/custom']?.email) as string | undefined;
+  const name = (decoded.name || decoded.given_name) as string | undefined;
+  const context = decoded['https://purl.imsglobal.org/spec/lti/claim/context'] as any;
+  const resourceLink = decoded['https://purl.imsglobal.org/spec/lti/claim/resource_link'] as any;
 
   if (!subject) {
     return NextResponse.json({ error: 'Missing sub claim' }, { status: 400 });
@@ -131,7 +136,7 @@ async function _POST(request: Request) {
 
   // ── Step 6: Upsert course from context ───────────────────────────────────
   const courseTitle = context?.title || 'LTI Course';
-  const contextId   = context?.id    || '';
+  const contextId = context?.id || '';
 
   const { data: course } = await supabase
     .from('training_courses')

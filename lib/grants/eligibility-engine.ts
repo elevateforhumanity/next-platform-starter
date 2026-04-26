@@ -1,4 +1,3 @@
-
 /**
  * Grant Eligibility Engine
  * Validates entity eligibility for federal grants using SAM.gov data
@@ -8,7 +7,9 @@ import { getEntityByUEI, checkExclusions } from '@/lib/integrations/sam-gov';
 import { getAdminClient } from '@/lib/supabase/admin';
 import { setAuditContext } from '@/lib/audit-context';
 
-function getDb() { return getAdminClient(); }
+function getDb() {
+  return getAdminClient();
+}
 
 export interface EligibilityCheck {
   entityId: string;
@@ -47,9 +48,7 @@ export interface GrantEligibilityResult {
 /**
  * Run comprehensive eligibility check for an entity
  */
-export async function checkEntityEligibility(
-  entityId: string
-): Promise<EligibilityCheck> {
+export async function checkEntityEligibility(entityId: string): Promise<EligibilityCheck> {
   const db = getDb();
   await setAuditContext(db, { systemActor: 'grants_eligibility_engine' }).catch(() => {});
   const { data: entity, error } = await db
@@ -138,25 +137,19 @@ export async function checkEntityEligibility(
     const expirationDate = new Date(reg.registrationExpirationDate);
     const now = new Date();
     const daysUntilExpiration = Math.floor(
-      (expirationDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)
+      (expirationDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24),
     );
 
     checks.registrationNotExpired = daysUntilExpiration > 0;
     if (!checks.registrationNotExpired) {
-      issues.push(
-        `SAM.gov registration expired on ${reg.registrationExpirationDate}`
-      );
+      issues.push(`SAM.gov registration expired on ${reg.registrationExpirationDate}`);
     } else if (daysUntilExpiration < 30) {
-      warnings.push(
-        `SAM.gov registration expires in ${daysUntilExpiration} days`
-      );
+      warnings.push(`SAM.gov registration expires in ${daysUntilExpiration} days`);
     }
 
     checks.repsAndCertsCurrent = daysUntilExpiration > 0;
     if (daysUntilExpiration < 60 && daysUntilExpiration > 0) {
-      warnings.push(
-        'Representations and Certifications should be updated soon'
-      );
+      warnings.push('Representations and Certifications should be updated soon');
     }
 
     const score = Object.values(checks).filter(Boolean).length * 14.3;
@@ -180,7 +173,7 @@ export async function checkEntityEligibility(
         checked_at: new Date().toISOString(),
         sam_data: samEntity,
       },
-      { onConflict: 'entity_id' }
+      { onConflict: 'entity_id' },
     );
 
     return {
@@ -194,7 +187,8 @@ export async function checkEntityEligibility(
       score: Math.round(score),
       checkedAt: new Date(),
     };
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     // Error: $1
     issues.push(`SAM.gov API error: ${(error as Error).message}`);
 
@@ -217,7 +211,7 @@ export async function checkEntityEligibility(
  */
 export async function checkGrantEligibility(
   grantId: string,
-  entityId: string
+  entityId: string,
 ): Promise<GrantEligibilityResult> {
   const db = getDb();
   await setAuditContext(db, { systemActor: 'grants_eligibility_engine' }).catch(() => {});
@@ -246,13 +240,11 @@ export async function checkGrantEligibility(
 
   const entityNaics = (entity.naics_list || []) as string[];
   const grantNaics = (grant.naics_tags || []) as string[];
-  const naicsMatch =
-    grantNaics.length === 0 ||
-    entityNaics.some((n) => grantNaics.includes(n));
+  const naicsMatch = grantNaics.length === 0 || entityNaics.some((n) => grantNaics.includes(n));
 
   if (!naicsMatch && grantNaics.length > 0) {
     reasons.push(
-      `NAICS mismatch: Grant requires ${grantNaics.join(', ')}, entity has ${entityNaics.join(', ')}`
+      `NAICS mismatch: Grant requires ${grantNaics.join(', ')}, entity has ${entityNaics.join(', ')}`,
     );
   } else if (naicsMatch && grantNaics.length > 0) {
     const matching = entityNaics.filter((n) => grantNaics.includes(n));
@@ -261,15 +253,10 @@ export async function checkGrantEligibility(
 
   const locationLimit = grant.location_limit as string | null;
   const entityState = entity.state as string | null;
-  const locationMatch =
-    !locationLimit ||
-    locationLimit === 'US' ||
-    locationLimit === entityState;
+  const locationMatch = !locationLimit || locationLimit === 'US' || locationLimit === entityState;
 
   if (!locationMatch) {
-    reasons.push(
-      `Location mismatch: Grant limited to ${locationLimit}, entity in ${entityState}`
-    );
+    reasons.push(`Location mismatch: Grant limited to ${locationLimit}, entity in ${entityState}`);
   }
 
   const grantCategories = (grant.categories || []) as string[];
@@ -281,19 +268,12 @@ export async function checkGrantEligibility(
     reasons.push('Grant requires nonprofit status');
   }
 
-  if (
-    grantCategories.includes('small_business') &&
-    entityType !== 'for_profit'
-  ) {
+  if (grantCategories.includes('small_business') && entityType !== 'for_profit') {
     entityTypeMatch = false;
     reasons.push('Grant requires for-profit/small business status');
   }
 
-  const eligible =
-    eligibilityCheck.eligible &&
-    naicsMatch &&
-    locationMatch &&
-    entityTypeMatch;
+  const eligible = eligibilityCheck.eligible && naicsMatch && locationMatch && entityTypeMatch;
 
   let matchScore = 0;
   if (naicsMatch) matchScore += 40;
@@ -318,7 +298,7 @@ export async function checkGrantEligibility(
       reasons: reasons,
       checked_at: new Date().toISOString(),
     },
-    { onConflict: 'grant_id,entity_id' }
+    { onConflict: 'grant_id,entity_id' },
   );
 
   return {

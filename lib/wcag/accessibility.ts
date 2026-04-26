@@ -17,7 +17,7 @@ export function announceToScreenReader(message: string) {
 
 export function trapFocus(element: HTMLElement) {
   const focusableElements = element.querySelectorAll(
-    'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])'
+    'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])',
   );
 
   const firstElement = focusableElements[0] as HTMLElement;
@@ -53,8 +53,8 @@ export function getContrastRatio(color1: string, color2: string): number {
     const g = ((rgb >> 8) & 0xff) / 255;
     const b = (rgb & 0xff) / 255;
 
-    const [rs, gs, bs] = [r, g, b].map(c =>
-      c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4)
+    const [rs, gs, bs] = [r, g, b].map((c) =>
+      c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4),
     );
 
     return 0.2126 * rs + 0.7152 * gs + 0.0722 * bs;
@@ -69,7 +69,11 @@ export function getContrastRatio(color1: string, color2: string): number {
   return (lighter + 0.05) / (darker + 0.05);
 }
 
-export function meetsWCAG(ratio: number, level: 'AA' | 'AAA' = 'AA', size: 'normal' | 'large' = 'normal'): boolean {
+export function meetsWCAG(
+  ratio: number,
+  level: 'AA' | 'AAA' = 'AA',
+  size: 'normal' | 'large' = 'normal',
+): boolean {
   if (level === 'AAA') {
     return size === 'large' ? ratio >= 4.5 : ratio >= 7;
   }

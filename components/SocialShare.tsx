@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, { useState, useEffect } from 'react';
 
@@ -13,7 +13,9 @@ export function SocialShare({ url, title, description }: SocialShareProps) {
   const [copied, setCopied] = useState(false);
 
   const [origin, setOrigin] = useState('');
-  useEffect(() => { setOrigin(window.location.origin); }, []);
+  useEffect(() => {
+    setOrigin(window.location.origin);
+  }, []);
   const shareUrl = origin ? origin + url : url;
   const encodedUrl = encodeURIComponent(shareUrl);
   const encodedTitle = encodeURIComponent(title);
@@ -30,7 +32,8 @@ export function SocialShare({ url, title, description }: SocialShareProps) {
       await navigator.clipboard.writeText(shareUrl);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
     }
   }
@@ -43,7 +46,8 @@ export function SocialShare({ url, title, description }: SocialShareProps) {
           text: description,
           url: shareUrl,
         });
-      } catch (error) { /* Error handled silently */ 
+      } catch (error) {
+        /* Error handled silently */
         // Error: $1
       }
     } else {
@@ -65,10 +69,7 @@ export function SocialShare({ url, title, description }: SocialShareProps) {
       {showMenu && (
         <>
           {/* Backdrop */}
-          <div
-            className="fixed inset-0 z-40"
-            onClick={() => setShowMenu(false)}
-          />
+          <div className="fixed inset-0 z-40" onClick={() => setShowMenu(false)} />
 
           {/* Share Menu */}
           <div className="absolute right-0 top-full mt-2 w-64 bg-white rounded-lg shadow-xl border border-slate-200 z-50 p-4">

@@ -57,7 +57,9 @@ async function getZoomAccessToken(): Promise<string> {
   const clientSecret = process.env.ZOOM_CLIENT_SECRET;
 
   if (!accountId || !clientId || !clientSecret) {
-    throw new Error('Zoom OAuth credentials not configured. Set ZOOM_ACCOUNT_ID, ZOOM_CLIENT_ID, and ZOOM_CLIENT_SECRET');
+    throw new Error(
+      'Zoom OAuth credentials not configured. Set ZOOM_ACCOUNT_ID, ZOOM_CLIENT_ID, and ZOOM_CLIENT_SECRET',
+    );
   }
 
   const credentials = Buffer.from(`${clientId}:${clientSecret}`).toString('base64');
@@ -67,10 +69,10 @@ async function getZoomAccessToken(): Promise<string> {
     {
       method: 'POST',
       headers: {
-        'Authorization': `Basic ${credentials}`,
+        Authorization: `Basic ${credentials}`,
         'Content-Type': 'application/x-www-form-urlencoded',
       },
-    }
+    },
   );
 
   if (!response.ok) {
@@ -93,7 +95,7 @@ export async function createZoomMeeting(params: ZoomMeetingParams): Promise<Zoom
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${accessToken}`,
+      Authorization: `Bearer ${accessToken}`,
     },
     body: JSON.stringify({
       topic: params.topic,
@@ -131,7 +133,7 @@ export async function getMeeting(meetingId: string): Promise<ZoomMeeting> {
 
   const response = await fetch(`https://api.zoom.us/v2/meetings/${meetingId}`, {
     headers: {
-      'Authorization': `Bearer ${accessToken}`,
+      Authorization: `Bearer ${accessToken}`,
     },
   });
 
@@ -146,14 +148,17 @@ export async function getMeeting(meetingId: string): Promise<ZoomMeeting> {
 /**
  * Update a meeting
  */
-export async function updateMeeting(meetingId: string, params: Partial<ZoomMeetingParams>): Promise<void> {
+export async function updateMeeting(
+  meetingId: string,
+  params: Partial<ZoomMeetingParams>,
+): Promise<void> {
   const accessToken = await getZoomAccessToken();
 
   const response = await fetch(`https://api.zoom.us/v2/meetings/${meetingId}`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${accessToken}`,
+      Authorization: `Bearer ${accessToken}`,
     },
     body: JSON.stringify(params),
   });
@@ -173,7 +178,7 @@ export async function deleteMeeting(meetingId: string): Promise<void> {
   const response = await fetch(`https://api.zoom.us/v2/meetings/${meetingId}`, {
     method: 'DELETE',
     headers: {
-      'Authorization': `Bearer ${accessToken}`,
+      Authorization: `Bearer ${accessToken}`,
     },
   });
 
@@ -191,7 +196,7 @@ export async function listMeetings(userId: string = 'me'): Promise<ZoomMeeting[]
 
   const response = await fetch(`https://api.zoom.us/v2/users/${userId}/meetings?type=scheduled`, {
     headers: {
-      'Authorization': `Bearer ${accessToken}`,
+      Authorization: `Bearer ${accessToken}`,
     },
   });
 
@@ -210,11 +215,14 @@ export async function listMeetings(userId: string = 'me'): Promise<ZoomMeeting[]
 export async function getMeetingParticipants(meetingId: string): Promise<any[]> {
   const accessToken = await getZoomAccessToken();
 
-  const response = await fetch(`https://api.zoom.us/v2/metrics/meetings/${meetingId}/participants`, {
-    headers: {
-      'Authorization': `Bearer ${accessToken}`,
+  const response = await fetch(
+    `https://api.zoom.us/v2/metrics/meetings/${meetingId}/participants`,
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
     },
-  });
+  );
 
   if (!response.ok) {
     const error = await response.text();
@@ -233,7 +241,7 @@ export async function getMeetingRecordings(meetingId: string): Promise<any> {
 
   const response = await fetch(`https://api.zoom.us/v2/meetings/${meetingId}/recordings`, {
     headers: {
-      'Authorization': `Bearer ${accessToken}`,
+      Authorization: `Bearer ${accessToken}`,
     },
   });
 
@@ -256,7 +264,7 @@ export async function createInstantMeeting(topic: string): Promise<ZoomMeeting> 
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${accessToken}`,
+      Authorization: `Bearer ${accessToken}`,
     },
     body: JSON.stringify({
       topic,

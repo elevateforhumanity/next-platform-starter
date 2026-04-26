@@ -33,31 +33,25 @@ export default async function EnrollmentJobsPage() {
           last_name
         )
       )
-    `
+    `,
     )
     .in('status', ['failed', 'retrying'])
     .order('created_at', { ascending: false })
     .limit(100);
 
   const failedCount = jobs?.filter((j) => j.status === 'failed').length || 0;
-  const retryingCount =
-    jobs?.filter((j) => j.status === 'retrying').length || 0;
+  const retryingCount = jobs?.filter((j) => j.status === 'retrying').length || 0;
 
   return (
     <div className="min-h-screen bg-white py-8">
-
       {/* Hero Image */}
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <Breadcrumbs items={[{ label: "Admin", href: "/admin" }, { label: "Enrollment Jobs" }]} />
-        </div>
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Admin', href: '/admin' }, { label: 'Enrollment Jobs' }]} />
+      </div>
       <div className="container mx-auto px-4">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-black mb-2">
-            Enrollment Jobs Monitor
-          </h1>
-          <p className="text-black">
-            View and retry failed enrollment orchestration jobs
-          </p>
+          <h1 className="text-3xl font-bold text-black mb-2">Enrollment Jobs Monitor</h1>
+          <p className="text-black">View and retry failed enrollment orchestration jobs</p>
         </div>
 
         {/* Stats */}
@@ -76,9 +70,7 @@ export default async function EnrollmentJobsPage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-black mb-1">Retrying</p>
-                <p className="text-3xl font-bold text-yellow-600">
-                  {retryingCount}
-                </p>
+                <p className="text-3xl font-bold text-yellow-600">{retryingCount}</p>
               </div>
               <RefreshCw className="h-12 w-12 text-yellow-600" />
             </div>
@@ -88,9 +80,7 @@ export default async function EnrollmentJobsPage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-black mb-1">Total Issues</p>
-                <p className="text-3xl font-bold text-black">
-                  {failedCount + retryingCount}
-                </p>
+                <p className="text-3xl font-bold text-black">{failedCount + retryingCount}</p>
               </div>
               <AlertCircle className="h-12 w-12 text-black" />
             </div>
@@ -100,20 +90,14 @@ export default async function EnrollmentJobsPage() {
         {/* Jobs List */}
         <div className="bg-white rounded-lg shadow">
           <div className="px-6 py-4 border-b border-gray-200">
-            <h2 className="text-xl font-semibold text-black">
-              Failed & Retrying Jobs
-            </h2>
+            <h2 className="text-xl font-semibold text-black">Failed & Retrying Jobs</h2>
           </div>
 
           {!jobs || jobs.length === 0 ? (
             <div className="p-8 text-center">
               <span className="text-slate-400 flex-shrink-0">•</span>
-              <p className="text-lg font-medium text-black mb-2">
-                All Clear!
-              </p>
-              <p className="text-black">
-                No failed or retrying jobs at this time.
-              </p>
+              <p className="text-lg font-medium text-black mb-2">All Clear!</p>
+              <p className="text-black">No failed or retrying jobs at this time.</p>
             </div>
           ) : (
             <div className="divide-y divide-gray-200">
@@ -138,8 +122,7 @@ export default async function EnrollmentJobsPage() {
 
                       <div className="text-sm text-black space-y-1">
                         <p>
-                          <span className="font-medium">Enrollment:</span>{' '}
-                          {job.enrollment_id}
+                          <span className="font-medium">Enrollment:</span> {job.enrollment_id}
                         </p>
                         {job.program_enrollments?.profiles && (
                           <p>
@@ -154,13 +137,12 @@ export default async function EnrollmentJobsPage() {
                           {job.program_enrollments?.program_id}
                         </p>
                         <p>
-                          <span className="font-medium">Attempts:</span>{' '}
-                          {job.attempt_count} / {job.max_attempts}
+                          <span className="font-medium">Attempts:</span> {job.attempt_count} /{' '}
+                          {job.max_attempts}
                         </p>
                         {job.last_error && (
                           <p className="text-brand-red-600 mt-2">
-                            <span className="font-medium">Error:</span>{' '}
-                            {job.last_error}
+                            <span className="font-medium">Error:</span> {job.last_error}
                           </p>
                         )}
                       </div>
@@ -184,11 +166,7 @@ export default async function EnrollmentJobsPage() {
                   <div className="text-xs text-black">
                     Created: {new Date(job.created_at).toLocaleString()}
                     {job.scheduled_for && (
-                      <>
-                        {' '}
-                        | Next attempt:{' '}
-                        {new Date(job.scheduled_for).toLocaleString()}
-                      </>
+                      <> | Next attempt: {new Date(job.scheduled_for).toLocaleString()}</>
                     )}
                   </div>
                 </div>

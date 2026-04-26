@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { createClient } from '@/lib/supabase/client';
 
@@ -26,7 +26,9 @@ export function ShopReportForm({ placements: initialPlacements }: { placements: 
   // Load placements and previous reports from DB
   useEffect(() => {
     async function loadData() {
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       if (!user) return;
 
       // Load active placements for this shop
@@ -35,7 +37,7 @@ export function ShopReportForm({ placements: initialPlacements }: { placements: 
         .select('id, profiles:apprentice_id (id, full_name)')
         .eq('shop_user_id', user.id)
         .eq('status', 'active');
-      
+
       if (placementData && placementData.length > 0) {
         setPlacements(placementData as any);
         setPlacementId(placementData[0].id);
@@ -48,7 +50,7 @@ export function ShopReportForm({ placements: initialPlacements }: { placements: 
         .eq('submitted_by', user.id)
         .order('submitted_at', { ascending: false })
         .limit(5);
-      
+
       if (reports) setPreviousReports(reports);
     }
     loadData();
@@ -105,7 +107,8 @@ export function ShopReportForm({ placements: initialPlacements }: { placements: 
           text: error.error || 'Could not submit report',
         });
       }
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       setMessage({ type: 'error', text: 'Network error. Please try again.' });
     } finally {
       setSaving(false);
@@ -119,12 +122,10 @@ export function ShopReportForm({ placements: initialPlacements }: { placements: 
           <div className="flex items-start gap-3">
             <AlertCircle className="w-6 h-6 text-brand-orange-600 mt-0.5" />
             <div>
-              <h2 className="text-lg font-bold text-black">
-                No Active Apprentices
-              </h2>
+              <h2 className="text-lg font-bold text-black">No Active Apprentices</h2>
               <p className="mt-1 text-sm text-black">
-                You don't have any active apprentices assigned yet. Contact your
-                program sponsor to get started.
+                You don't have any active apprentices assigned yet. Contact your program sponsor to
+                get started.
               </p>
             </div>
           </div>
@@ -136,9 +137,7 @@ export function ShopReportForm({ placements: initialPlacements }: { placements: 
   return (
     <div className="max-w-3xl mx-auto px-6 py-8">
       <div className="mb-6">
-        <h1 className="text-3xl font-bold text-black">
-          Submit Weekly Apprentice Report
-        </h1>
+        <h1 className="text-3xl font-bold text-black">Submit Weekly Apprentice Report</h1>
         <p className="mt-2 text-black">
           Indiana weekly hours & attendance reporting for RAPIDS compliance
         </p>
@@ -150,9 +149,7 @@ export function ShopReportForm({ placements: initialPlacements }: { placements: 
       >
         {/* Apprentice Selection */}
         <div>
-          <label className="block text-sm font-bold text-black mb-2">
-            Apprentice *
-          </label>
+          <label className="block text-sm font-bold text-black mb-2">Apprentice *</label>
           <select
             className="w-full rounded-lg border border-slate-300 p-3 focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
             value={placementId}
@@ -170,9 +167,7 @@ export function ShopReportForm({ placements: initialPlacements }: { placements: 
         {/* Week Range */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-bold text-black mb-2">
-              Week Start *
-            </label>
+            <label className="block text-sm font-bold text-black mb-2">Week Start *</label>
             <input
               type="date"
               className="w-full rounded-lg border border-slate-300 p-3 focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
@@ -182,9 +177,7 @@ export function ShopReportForm({ placements: initialPlacements }: { placements: 
             />
           </div>
           <div>
-            <label className="block text-sm font-bold text-black mb-2">
-              Week End *
-            </label>
+            <label className="block text-sm font-bold text-black mb-2">Week End *</label>
             <input
               type="date"
               className="w-full rounded-lg border border-slate-300 p-3 focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
@@ -211,9 +204,7 @@ export function ShopReportForm({ placements: initialPlacements }: { placements: 
               onChange={(e) => setHoursOjt(e.target.value)}
               required
             />
-            <p className="mt-1 text-xs text-black">
-              Hours worked at the shop
-            </p>
+            <p className="mt-1 text-xs text-black">Hours worked at the shop</p>
           </div>
           <div>
             <label className="block text-sm font-bold text-black mb-2">
@@ -228,17 +219,13 @@ export function ShopReportForm({ placements: initialPlacements }: { placements: 
               value={hoursRelated}
               onChange={(e) => setHoursRelated(e.target.value)}
             />
-            <p className="mt-1 text-xs text-black">
-              Elevate LMS coursework hours
-            </p>
+            <p className="mt-1 text-xs text-black">Elevate LMS coursework hours</p>
           </div>
         </div>
 
         {/* Total Hours Display */}
         <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-lg p-4">
-          <div className="text-sm font-semibold text-black">
-            Total Hours This Week
-          </div>
+          <div className="text-sm font-semibold text-black">Total Hours This Week</div>
           <div className="text-2xl font-bold text-brand-blue-600">
             {(Number(hoursOjt) || 0) + (Number(hoursRelated) || 0)} hours
           </div>

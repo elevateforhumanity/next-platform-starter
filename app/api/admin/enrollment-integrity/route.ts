@@ -40,9 +40,9 @@ async function _GET(request: NextRequest) {
     status: 'ok',
     timestamp: new Date().toISOString(),
     tables: {
-      program_enrollments:  totalProgramEnrollments  ?? 0,
-      student_enrollments:  totalStudentEnrollments  ?? 0,
-      training_enrollments: totalLegacyEnrollments   ?? 0,
+      program_enrollments: totalProgramEnrollments ?? 0,
+      student_enrollments: totalStudentEnrollments ?? 0,
+      training_enrollments: totalLegacyEnrollments ?? 0,
     },
     note: 'Canonical authority: program_enrollments. Others are legacy.',
   });

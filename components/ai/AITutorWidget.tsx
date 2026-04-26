@@ -14,8 +14,8 @@ export function AITutorWidget({ courseId, courseName }: { courseId: string; cour
   const [messages, setMessages] = useState<Message[]>([
     {
       role: 'assistant',
-      content: `Hi! I'm your AI tutor for ${courseName}. How can I help you today?`
-    }
+      content: `Hi! I'm your AI tutor for ${courseName}. How can I help you today?`,
+    },
   ]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
@@ -24,23 +24,25 @@ export function AITutorWidget({ courseId, courseName }: { courseId: string; cour
 
   // Log AI tutor interaction to DB
   const logTutorInteraction = async (userMessage: string, assistantResponse: string) => {
-    const { data: { user } } = await supabase.auth.getUser();
-    await supabase
-      .from('ai_tutor_interactions')
-      .insert({
-        user_id: user?.id,
-        session_id: sessionId.current,
-        course_id: courseId,
-        user_message: userMessage,
-        assistant_response: assistantResponse.substring(0, 2000),
-        timestamp: new Date().toISOString()
-      });
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    await supabase.from('ai_tutor_interactions').insert({
+      user_id: user?.id,
+      session_id: sessionId.current,
+      course_id: courseId,
+      user_message: userMessage,
+      assistant_response: assistantResponse.substring(0, 2000),
+      timestamp: new Date().toISOString(),
+    });
   };
 
   // Load previous chat history from DB
   useEffect(() => {
     async function loadHistory() {
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       if (!user) return;
 
       const { data } = await supabase
@@ -53,11 +55,11 @@ export function AITutorWidget({ courseId, courseName }: { courseId: string; cour
 
       if (data && data.length > 0) {
         const history: Message[] = [];
-        data.forEach(d => {
+        data.forEach((d) => {
           history.push({ role: 'user', content: d.user_message });
           history.push({ role: 'assistant', content: d.assistant_response });
         });
-        setMessages(prev => [...prev, ...history]);
+        setMessages((prev) => [...prev, ...history]);
       }
     }
     if (isOpen) loadHistory();
@@ -68,7 +70,7 @@ export function AITutorWidget({ courseId, courseName }: { courseId: string; cour
 
     const userMessage = input;
     setInput('');
-    setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
+    setMessages((prev) => [...prev, { role: 'user', content: userMessage }]);
     setLoading(true);
 
     try {
@@ -79,17 +81,20 @@ export function AITutorWidget({ courseId, courseName }: { courseId: string; cour
           courseId,
           courseName,
           message: userMessage,
-          history: messages
-        })
+          history: messages,
+        }),
       });
 
       const data = await response.json();
-      setMessages(prev => [...prev, { role: 'assistant', content: data.response }]);
+      setMessages((prev) => [...prev, { role: 'assistant', content: data.response }]);
     } catch (error) {
-      setMessages(prev => [...prev, { 
-        role: 'assistant', 
-        content: 'Sorry, I encountered an error. Please try again.' 
-      }]);
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: 'assistant',
+          content: 'Sorry, I encountered an error. Please try again.',
+        },
+      ]);
     } finally {
       setLoading(false);
     }
@@ -130,9 +135,7 @@ export function AITutorWidget({ courseId, courseName }: { courseId: string; cour
               >
                 <div
                   className={`max-w-[80%] rounded-lg p-3 ${
-                    msg.role === 'user'
-                      ? 'bg-brand-blue-600 text-white'
-                      : 'bg-gray-100 text-black'
+                    msg.role === 'user' ? 'bg-brand-blue-600 text-white' : 'bg-gray-100 text-black'
                   }`}
                 >
                   {msg.content}

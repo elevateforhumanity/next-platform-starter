@@ -12,7 +12,10 @@ export async function POST(req: Request) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
     if (authError || !user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -34,23 +37,24 @@ export async function POST(req: Request) {
     if (profile?.role && blockedRoles.includes(profile.role)) {
       return NextResponse.json(
         { error: 'This onboarding flow is for learners only.' },
-        { status: 403 }
+        { status: 403 },
       );
     }
 
     const now = new Date().toISOString();
 
     // Upsert into onboarding_progress
-    const { error: progressError } = await supabase
-      .from('onboarding_progress')
-      .upsert({
+    const { error: progressError } = await supabase.from('onboarding_progress').upsert(
+      {
         user_id: user.id,
         step,
         completed: true,
         data: stepData,
         completed_at: now,
         updated_at: now,
-      }, { onConflict: 'user_id,step' });
+      },
+      { onConflict: 'user_id,step' },
+    );
 
     if (progressError) {
       logger.warn('[onboarding/complete-step] onboarding_progress upsert failed', progressError);
@@ -100,9 +104,9 @@ export async function POST(req: Request) {
       .eq('user_id', user.id)
       .eq('completed', true);
 
-    const completedSteps = allSteps?.map(s => s.step) ?? [];
+    const completedSteps = allSteps?.map((s) => s.step) ?? [];
     const requiredSteps = ['profile', 'documents', 'agreements', 'orientation'];
-    const allComplete = requiredSteps.every(s => completedSteps.includes(s));
+    const allComplete = requiredSteps.every((s) => completedSteps.includes(s));
 
     if (allComplete) {
       await supabase

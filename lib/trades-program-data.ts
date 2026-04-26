@@ -8,21 +8,26 @@ const SHARED = {
   bilingualSupport: true,
   tutoringAvailable: true,
   nextLevelJobsEligible: true,
-  location: 'Hybrid — RTI online via LMS. OJT internship at employer partner sites, Indianapolis, IN (Marion County)',
+  location:
+    'Hybrid — RTI online via LMS. OJT internship at employer partner sites, Indianapolis, IN (Marion County)',
   schedule: 'Coordinated with LOC partner — evening and weekend options available',
-  attendanceTracking: 'LMS-tracked daily attendance with instructor sign-off. Absence alerts within 24 hours.',
-  escalationProcess: 'Automated alert to LOC case manager after 2 consecutive absences. Weekly status summary to LOC contact.',
+  attendanceTracking:
+    'LMS-tracked daily attendance with instructor sign-off. Absence alerts within 24 hours.',
+  escalationProcess:
+    'Automated alert to LOC case manager after 2 consecutive absences. Weekly status summary to LOC contact.',
   reportFrequency: 'Bi-weekly during program; monthly post-placement for 12 months',
   reportFormat: 'CSV and PDF — Salesforce-compatible fields',
   retentionTracking: '90-day and 180-day post-placement follow-up with employer verification',
-  paymentTerms: 'Net 30 invoice per cohort. Milestone billing: 50% at enrollment, 50% at completion.',
+  paymentTerms:
+    'Net 30 invoice per cohort. Milestone billing: 50% at enrollment, 50% at completion.',
   employerPartners: [] as string[],
 };
 
 export const HVAC_DATA: TradesProgramData = {
   slug: 'hvac-technician',
   name: 'HVAC Technician',
-  tagline: 'Heating, ventilation, and air conditioning — installation, maintenance, and repair. Year-round demand, strong pay.',
+  tagline:
+    'Heating, ventilation, and air conditioning — installation, maintenance, and repair. Year-round demand, strong pay.',
   heroImage: '/images/pages/hvac-technician.jpg',
   secondaryImage: '/images/pages/training-classroom.jpg',
   careerImage: '/images/pages/hvac-technician.jpg',
@@ -32,32 +37,124 @@ export const HVAC_DATA: TradesProgramData = {
   ojtHours: '160+ hours (internship at employer)',
   modality: 'Hybrid — RTI online via LMS + OJT internship at employer sites',
   credentials: [
-    { name: 'EPA Section 608 Universal Certification', issuingBody: 'U.S. Environmental Protection Agency (EPA)' },
+    {
+      name: 'EPA Section 608 Universal Certification',
+      issuingBody: 'U.S. Environmental Protection Agency (EPA)',
+    },
     { name: 'Residential HVAC Certification 1', issuingBody: 'Industry Certification Body' },
-    { name: 'Residential HVAC Certification 2 — Refrigeration Diagnostics', issuingBody: 'Industry Certification Body' },
-    { name: 'OSHA 10-Hour — Construction Safety', issuingBody: 'CareerSafe / U.S. Department of Labor' },
+    {
+      name: 'Residential HVAC Certification 2 — Refrigeration Diagnostics',
+      issuingBody: 'Industry Certification Body',
+    },
+    {
+      name: 'OSHA 10-Hour — Construction Safety',
+      issuingBody: 'CareerSafe / U.S. Department of Labor',
+    },
     { name: 'CPR/AED & First Aid', issuingBody: 'CareerSafe' },
-    { name: 'Rise Up — Retail Industry Fundamentals', issuingBody: 'National Retail Federation (NRF)' },
+    {
+      name: 'Rise Up — Retail Industry Fundamentals',
+      issuingBody: 'National Retail Federation (NRF)',
+    },
   ],
   curriculum: [
-    { week: 'Weeks 1–2', title: 'HVAC Fundamentals', topics: ['Heating and cooling principles', 'System components and terminology', 'Safety protocols and OSHA standards', 'Basic electrical theory'], image: '/images/pages/hvac-technician.jpg', project: 'Identify and diagram a complete HVAC system' },
-    { week: 'Weeks 3–4', title: 'Heating Systems', topics: ['Furnace operation and maintenance', 'Heat pump technology', 'Gas and electric heating', 'Combustion analysis'], image: '/images/pages/training-classroom.jpg', project: 'Perform a complete furnace inspection and tune-up' },
-    { week: 'Weeks 5–6', title: 'Cooling Systems', topics: ['Air conditioning fundamentals', 'Refrigeration cycle', 'Compressor and condenser operation', 'Evaporator coil maintenance'], project: 'Diagnose and repair a malfunctioning AC unit' },
-    { week: 'Weeks 7–8', title: 'Refrigerant Handling & EPA 608 Prep', topics: ['EPA 608 certification prep (Core, Type I, II, III, Universal)', 'Refrigerant types and properties', 'Recovery and recycling procedures', 'Refrigeration diagnostics', 'Environmental regulations'], project: 'EPA 608 Universal Certification Exam' },
-    { week: 'Weeks 9–10', title: 'Installation Techniques', topics: ['Ductwork design and installation', 'Equipment sizing and selection', 'Brazing and soldering', 'System startup procedures'], project: 'Complete a mini-split installation' },
-    { week: 'Weeks 11–12', title: 'Troubleshooting & Diagnostics', topics: ['Systematic troubleshooting', 'Electrical diagnostics', 'Reading schematics', 'Customer service skills'], project: 'Diagnose and repair multiple system faults' },
-    { week: 'Weeks 13–16', title: 'Advanced Systems & Career Prep', topics: ['Commercial HVAC overview', 'Building automation basics', 'Energy efficiency upgrades', 'Resume, interview skills, employer connections'], project: 'Complete job shadowing and secure employment' },
+    {
+      week: 'Weeks 1–2',
+      title: 'HVAC Fundamentals',
+      topics: [
+        'Heating and cooling principles',
+        'System components and terminology',
+        'Safety protocols and OSHA standards',
+        'Basic electrical theory',
+      ],
+      image: '/images/pages/hvac-technician.jpg',
+      project: 'Identify and diagram a complete HVAC system',
+    },
+    {
+      week: 'Weeks 3–4',
+      title: 'Heating Systems',
+      topics: [
+        'Furnace operation and maintenance',
+        'Heat pump technology',
+        'Gas and electric heating',
+        'Combustion analysis',
+      ],
+      image: '/images/pages/training-classroom.jpg',
+      project: 'Perform a complete furnace inspection and tune-up',
+    },
+    {
+      week: 'Weeks 5–6',
+      title: 'Cooling Systems',
+      topics: [
+        'Air conditioning fundamentals',
+        'Refrigeration cycle',
+        'Compressor and condenser operation',
+        'Evaporator coil maintenance',
+      ],
+      project: 'Diagnose and repair a malfunctioning AC unit',
+    },
+    {
+      week: 'Weeks 7–8',
+      title: 'Refrigerant Handling & EPA 608 Prep',
+      topics: [
+        'EPA 608 certification prep (Core, Type I, II, III, Universal)',
+        'Refrigerant types and properties',
+        'Recovery and recycling procedures',
+        'Refrigeration diagnostics',
+        'Environmental regulations',
+      ],
+      project: 'EPA 608 Universal Certification Exam',
+    },
+    {
+      week: 'Weeks 9–10',
+      title: 'Installation Techniques',
+      topics: [
+        'Ductwork design and installation',
+        'Equipment sizing and selection',
+        'Brazing and soldering',
+        'System startup procedures',
+      ],
+      project: 'Complete a mini-split installation',
+    },
+    {
+      week: 'Weeks 11–12',
+      title: 'Troubleshooting & Diagnostics',
+      topics: [
+        'Systematic troubleshooting',
+        'Electrical diagnostics',
+        'Reading schematics',
+        'Customer service skills',
+      ],
+      project: 'Diagnose and repair multiple system faults',
+    },
+    {
+      week: 'Weeks 13–16',
+      title: 'Advanced Systems & Career Prep',
+      topics: [
+        'Commercial HVAC overview',
+        'Building automation basics',
+        'Energy efficiency upgrades',
+        'Resume, interview skills, employer connections',
+      ],
+      project: 'Complete job shadowing and secure employment',
+    },
   ],
   admissionsRequirements: [
     '18 years or older',
     'High school diploma or GED',
-    'Valid driver\'s license (HVAC work requires travel to job sites)',
+    "Valid driver's license (HVAC work requires travel to job sites)",
     'Ability to lift 50+ pounds',
     'Pass background check',
     'Basic math skills (fractions, measurements)',
   ],
-  materialsIncluded: ['All textbooks', 'PPE and safety gear', 'Tool kit', 'Certification exam fees', 'Job placement assistance'],
-  workBasedLearning: 'OJT internship at employer partner sites — supervised HVAC installation, maintenance, and service calls',
+  materialsIncluded: [
+    'All textbooks',
+    'PPE and safety gear',
+    'Tool kit',
+    'Certification exam fees',
+    'Job placement assistance',
+  ],
+  workBasedLearning:
+    'OJT internship at employer partner sites — supervised HVAC installation, maintenance, and service calls',
   careers: [
     { title: 'HVAC Installer', salaryRange: '$40K–$55K' },
     { title: 'Service Technician', salaryRange: '$45K–$65K' },
@@ -70,7 +167,8 @@ export const HVAC_DATA: TradesProgramData = {
 export const ELECTRICAL_DATA: TradesProgramData = {
   slug: 'electrical',
   name: 'Electrical Technology',
-  tagline: 'Residential and commercial wiring, NEC code, troubleshooting. Path to licensed journeyman electrician.',
+  tagline:
+    'Residential and commercial wiring, NEC code, troubleshooting. Path to licensed journeyman electrician.',
   heroImage: '/images/pages/hvac-technician.jpg',
   secondaryImage: '/images/pages/training-classroom.jpg',
   careerImage: '/images/pages/hvac-technician.jpg',
@@ -83,16 +181,91 @@ export const ELECTRICAL_DATA: TradesProgramData = {
     { name: 'OSHA 10 — General Industry Safety', issuingBody: 'OSHA / CareerSafe' },
     { name: 'Indiana Electrical Apprentice Registration', issuingBody: 'Indiana IDHS' },
     { name: 'CPR / First Aid', issuingBody: 'American Heart Association' },
-    { name: 'Program Completion Certificate', issuingBody: 'Elevate for Humanity Career & Technical Institute' },
+    {
+      name: 'Program Completion Certificate',
+      issuingBody: 'Elevate for Humanity Career & Technical Institute',
+    },
   ],
   curriculum: [
-    { week: 'Weeks 1–2', title: 'Electrical Fundamentals', topics: ['Voltage, current, resistance', 'Ohm\'s Law and power calculations', 'AC vs DC electricity', 'Electrical safety and OSHA'], image: '/images/pages/hvac-technician.jpg', project: 'Build and test basic circuits' },
-    { week: 'Weeks 3–4', title: 'National Electrical Code (NEC)', topics: ['NEC structure and usage', 'Wiring methods and materials', 'Box fill calculations', 'Conductor sizing and ampacity'], image: '/images/pages/hvac-technician.jpg', project: 'NEC code lookup exercises' },
-    { week: 'Weeks 5–6', title: 'Residential Wiring', topics: ['Service entrance and panels', 'Branch circuit installation', 'Outlet and switch wiring', 'GFCI and AFCI protection'], project: 'Wire a complete room with outlets, switches, and lights' },
-    { week: 'Weeks 7–8', title: 'Lighting Systems', topics: ['Lighting circuit design', 'Three-way and four-way switches', 'Dimmer installation', 'LED and fluorescent systems'], project: 'Install multi-location lighting control' },
-    { week: 'Weeks 9–10', title: 'Commercial Electrical', topics: ['Three-phase power systems', 'Commercial panel boards', 'Conduit bending and installation', 'Motor circuits and controls'], project: 'Install conduit run with proper bends' },
-    { week: 'Weeks 11–12', title: 'Troubleshooting & Testing', topics: ['Multimeter and megger usage', 'Systematic troubleshooting', 'Circuit tracing techniques', 'Common electrical faults'], project: 'Diagnose and repair circuit faults' },
-    { week: 'Weeks 13–16', title: 'Specialty Systems & Career Prep', topics: ['Low voltage wiring (data, phone, security)', 'EV charger installation', 'Solar PV basics', 'Apprenticeship requirements, resume, employer connections'], project: 'Secure apprenticeship placement' },
+    {
+      week: 'Weeks 1–2',
+      title: 'Electrical Fundamentals',
+      topics: [
+        'Voltage, current, resistance',
+        "Ohm's Law and power calculations",
+        'AC vs DC electricity',
+        'Electrical safety and OSHA',
+      ],
+      image: '/images/pages/hvac-technician.jpg',
+      project: 'Build and test basic circuits',
+    },
+    {
+      week: 'Weeks 3–4',
+      title: 'National Electrical Code (NEC)',
+      topics: [
+        'NEC structure and usage',
+        'Wiring methods and materials',
+        'Box fill calculations',
+        'Conductor sizing and ampacity',
+      ],
+      image: '/images/pages/hvac-technician.jpg',
+      project: 'NEC code lookup exercises',
+    },
+    {
+      week: 'Weeks 5–6',
+      title: 'Residential Wiring',
+      topics: [
+        'Service entrance and panels',
+        'Branch circuit installation',
+        'Outlet and switch wiring',
+        'GFCI and AFCI protection',
+      ],
+      project: 'Wire a complete room with outlets, switches, and lights',
+    },
+    {
+      week: 'Weeks 7–8',
+      title: 'Lighting Systems',
+      topics: [
+        'Lighting circuit design',
+        'Three-way and four-way switches',
+        'Dimmer installation',
+        'LED and fluorescent systems',
+      ],
+      project: 'Install multi-location lighting control',
+    },
+    {
+      week: 'Weeks 9–10',
+      title: 'Commercial Electrical',
+      topics: [
+        'Three-phase power systems',
+        'Commercial panel boards',
+        'Conduit bending and installation',
+        'Motor circuits and controls',
+      ],
+      project: 'Install conduit run with proper bends',
+    },
+    {
+      week: 'Weeks 11–12',
+      title: 'Troubleshooting & Testing',
+      topics: [
+        'Multimeter and megger usage',
+        'Systematic troubleshooting',
+        'Circuit tracing techniques',
+        'Common electrical faults',
+      ],
+      project: 'Diagnose and repair circuit faults',
+    },
+    {
+      week: 'Weeks 13–16',
+      title: 'Specialty Systems & Career Prep',
+      topics: [
+        'Low voltage wiring (data, phone, security)',
+        'EV charger installation',
+        'Solar PV basics',
+        'Apprenticeship requirements, resume, employer connections',
+      ],
+      project: 'Secure apprenticeship placement',
+    },
   ],
   admissionsRequirements: [
     '18 years or older',
@@ -102,8 +275,15 @@ export const ELECTRICAL_DATA: TradesProgramData = {
     'Pass background check',
     'Physical ability to climb ladders and work in confined spaces',
   ],
-  materialsIncluded: ['All textbooks and NEC codebook', 'PPE and safety gear', 'Basic tool set', 'Certification exam fees', 'Job placement assistance'],
-  workBasedLearning: 'OJT internship at electrical contractor sites — supervised residential and commercial wiring, installation, and troubleshooting',
+  materialsIncluded: [
+    'All textbooks and NEC codebook',
+    'PPE and safety gear',
+    'Basic tool set',
+    'Certification exam fees',
+    'Job placement assistance',
+  ],
+  workBasedLearning:
+    'OJT internship at electrical contractor sites — supervised residential and commercial wiring, installation, and troubleshooting',
   careers: [
     { title: 'Electrical Apprentice', salaryRange: '$35K–$45K' },
     { title: 'Residential Electrician', salaryRange: '$45K–$60K' },
@@ -116,7 +296,8 @@ export const ELECTRICAL_DATA: TradesProgramData = {
 export const PLUMBING_DATA: TradesProgramData = {
   slug: 'plumbing',
   name: 'Plumbing Technology',
-  tagline: 'Water supply, drainage, fixtures, gas piping. Essential trade with steady demand and strong earnings.',
+  tagline:
+    'Water supply, drainage, fixtures, gas piping. Essential trade with steady demand and strong earnings.',
   heroImage: '/images/pages/hvac-technician.jpg',
   secondaryImage: '/images/pages/hvac-technician.jpg',
   careerImage: '/images/pages/training-classroom.jpg',
@@ -128,16 +309,91 @@ export const PLUMBING_DATA: TradesProgramData = {
   credentials: [
     { name: 'OSHA 10 — Construction Safety', issuingBody: 'OSHA / CareerSafe' },
     { name: 'CPR / First Aid', issuingBody: 'American Heart Association' },
-    { name: 'Program Completion Certificate', issuingBody: 'Elevate for Humanity Career & Technical Institute' },
+    {
+      name: 'Program Completion Certificate',
+      issuingBody: 'Elevate for Humanity Career & Technical Institute',
+    },
   ],
   curriculum: [
-    { week: 'Weeks 1–2', title: 'Plumbing Fundamentals', topics: ['Plumbing codes and regulations', 'Water supply and drainage principles', 'Pipe materials (copper, PVC, PEX, cast iron)', 'Safety and tool identification'], image: '/images/pages/hvac-technician.jpg', project: 'Identify and assemble various pipe types' },
-    { week: 'Weeks 3–4', title: 'Water Supply Systems', topics: ['Water distribution design', 'Copper soldering and brazing', 'PEX installation methods', 'Pressure testing and leak detection'], image: '/images/pages/hvac-technician.jpg', project: 'Install a complete water supply rough-in' },
-    { week: 'Weeks 5–6', title: 'Drain, Waste, and Vent (DWV)', topics: ['DWV system design principles', 'Proper venting requirements', 'PVC and ABS installation', 'Slope and grade calculations'], project: 'Install DWV system for bathroom group' },
-    { week: 'Weeks 7–8', title: 'Fixture Installation', topics: ['Toilet installation and repair', 'Sink and faucet installation', 'Shower and tub installation', 'Garbage disposal and dishwasher connections'], project: 'Complete bathroom fixture installation' },
-    { week: 'Weeks 9–10', title: 'Water Heaters', topics: ['Tank water heater installation', 'Tankless water heater systems', 'Gas and electric connections', 'Expansion tanks and safety devices'], project: 'Install and commission water heater' },
-    { week: 'Weeks 11–12', title: 'Gas Piping', topics: ['Natural gas and propane systems', 'Gas pipe sizing and materials', 'Appliance connections', 'Leak testing and safety'], project: 'Install gas line to appliance' },
-    { week: 'Weeks 13–16', title: 'Service, Repair & Career Prep', topics: ['Troubleshooting drain problems', 'Leak repair techniques', 'Blueprint reading for plumbers', 'Apprenticeship requirements, resume, job placement'], project: 'Secure apprenticeship placement' },
+    {
+      week: 'Weeks 1–2',
+      title: 'Plumbing Fundamentals',
+      topics: [
+        'Plumbing codes and regulations',
+        'Water supply and drainage principles',
+        'Pipe materials (copper, PVC, PEX, cast iron)',
+        'Safety and tool identification',
+      ],
+      image: '/images/pages/hvac-technician.jpg',
+      project: 'Identify and assemble various pipe types',
+    },
+    {
+      week: 'Weeks 3–4',
+      title: 'Water Supply Systems',
+      topics: [
+        'Water distribution design',
+        'Copper soldering and brazing',
+        'PEX installation methods',
+        'Pressure testing and leak detection',
+      ],
+      image: '/images/pages/hvac-technician.jpg',
+      project: 'Install a complete water supply rough-in',
+    },
+    {
+      week: 'Weeks 5–6',
+      title: 'Drain, Waste, and Vent (DWV)',
+      topics: [
+        'DWV system design principles',
+        'Proper venting requirements',
+        'PVC and ABS installation',
+        'Slope and grade calculations',
+      ],
+      project: 'Install DWV system for bathroom group',
+    },
+    {
+      week: 'Weeks 7–8',
+      title: 'Fixture Installation',
+      topics: [
+        'Toilet installation and repair',
+        'Sink and faucet installation',
+        'Shower and tub installation',
+        'Garbage disposal and dishwasher connections',
+      ],
+      project: 'Complete bathroom fixture installation',
+    },
+    {
+      week: 'Weeks 9–10',
+      title: 'Water Heaters',
+      topics: [
+        'Tank water heater installation',
+        'Tankless water heater systems',
+        'Gas and electric connections',
+        'Expansion tanks and safety devices',
+      ],
+      project: 'Install and commission water heater',
+    },
+    {
+      week: 'Weeks 11–12',
+      title: 'Gas Piping',
+      topics: [
+        'Natural gas and propane systems',
+        'Gas pipe sizing and materials',
+        'Appliance connections',
+        'Leak testing and safety',
+      ],
+      project: 'Install gas line to appliance',
+    },
+    {
+      week: 'Weeks 13–16',
+      title: 'Service, Repair & Career Prep',
+      topics: [
+        'Troubleshooting drain problems',
+        'Leak repair techniques',
+        'Blueprint reading for plumbers',
+        'Apprenticeship requirements, resume, job placement',
+      ],
+      project: 'Secure apprenticeship placement',
+    },
   ],
   admissionsRequirements: [
     '18 years or older',
@@ -146,8 +402,15 @@ export const PLUMBING_DATA: TradesProgramData = {
     'Pass background check',
     'Basic math skills (measurements, slope calculations)',
   ],
-  materialsIncluded: ['All textbooks', 'PPE and safety gear', 'Basic tool set', 'Certification exam fees', 'Job placement assistance'],
-  workBasedLearning: 'OJT internship at plumbing contractor sites — supervised residential and commercial plumbing installation and service',
+  materialsIncluded: [
+    'All textbooks',
+    'PPE and safety gear',
+    'Basic tool set',
+    'Certification exam fees',
+    'Job placement assistance',
+  ],
+  workBasedLearning:
+    'OJT internship at plumbing contractor sites — supervised residential and commercial plumbing installation and service',
   careers: [
     { title: 'Plumbing Apprentice', salaryRange: '$35K–$45K' },
     { title: 'Residential Plumber', salaryRange: '$45K–$60K' },
@@ -160,7 +423,8 @@ export const PLUMBING_DATA: TradesProgramData = {
 export const FORKLIFT_DATA: TradesProgramData = {
   slug: 'forklift',
   name: 'Forklift Operator Certification',
-  tagline: 'OSHA-compliant powered industrial truck certification. Classroom instruction, hands-on evaluation, and written test in one day.',
+  tagline:
+    'OSHA-compliant powered industrial truck certification. Classroom instruction, hands-on evaluation, and written test in one day.',
   heroImage: '/images/pages/hvac-technician.jpg',
   secondaryImage: '/images/pages/training-classroom.jpg',
   careerImage: '/images/pages/hvac-technician.jpg',
@@ -170,13 +434,54 @@ export const FORKLIFT_DATA: TradesProgramData = {
   ojtHours: '4 hours (hands-on driving evaluation)',
   modality: 'In-person — classroom instruction + hands-on driving evaluation and written test',
   credentials: [
-    { name: 'OSHA-Compliant Forklift Operator Certification', issuingBody: 'OSHA / Employer-Verified (29 CFR 1910.178)' },
+    {
+      name: 'OSHA-Compliant Forklift Operator Certification',
+      issuingBody: 'OSHA / Employer-Verified (29 CFR 1910.178)',
+    },
   ],
   curriculum: [
-    { week: 'Morning', title: 'OSHA Regulations & Safety', topics: ['OSHA 29 CFR 1910.178 requirements', 'Employer and operator responsibilities', 'Accident prevention and reporting', 'PPE requirements'], image: '/images/pages/training-classroom.jpg' },
-    { week: 'Morning', title: 'Pre-Operation & Operating Principles', topics: ['Daily inspection checklist', 'Stability triangle and load capacity', 'Center of gravity and turning radius', 'Speed control and braking'], image: '/images/pages/hvac-technician.jpg' },
-    { week: 'Afternoon', title: 'Load Handling & Hazard Recognition', topics: ['Proper load engagement and stacking', 'Dock operations and ramp travel', 'Pedestrian safety and blind spots', 'Confined space operation'] },
-    { week: 'Afternoon', title: 'Practical Evaluation', topics: ['Forward and reverse travel', 'Turning and maneuvering', 'Stacking and unstacking', 'Written test and certification'] },
+    {
+      week: 'Morning',
+      title: 'OSHA Regulations & Safety',
+      topics: [
+        'OSHA 29 CFR 1910.178 requirements',
+        'Employer and operator responsibilities',
+        'Accident prevention and reporting',
+        'PPE requirements',
+      ],
+      image: '/images/pages/training-classroom.jpg',
+    },
+    {
+      week: 'Morning',
+      title: 'Pre-Operation & Operating Principles',
+      topics: [
+        'Daily inspection checklist',
+        'Stability triangle and load capacity',
+        'Center of gravity and turning radius',
+        'Speed control and braking',
+      ],
+      image: '/images/pages/hvac-technician.jpg',
+    },
+    {
+      week: 'Afternoon',
+      title: 'Load Handling & Hazard Recognition',
+      topics: [
+        'Proper load engagement and stacking',
+        'Dock operations and ramp travel',
+        'Pedestrian safety and blind spots',
+        'Confined space operation',
+      ],
+    },
+    {
+      week: 'Afternoon',
+      title: 'Practical Evaluation',
+      topics: [
+        'Forward and reverse travel',
+        'Turning and maneuvering',
+        'Stacking and unstacking',
+        'Written test and certification',
+      ],
+    },
   ],
   admissionsRequirements: [
     '18 years or older',
@@ -184,7 +489,12 @@ export const FORKLIFT_DATA: TradesProgramData = {
     'Physical ability to operate powered industrial truck',
     'No active restrictions on operating heavy equipment',
   ],
-  materialsIncluded: ['All training materials', 'PPE (safety vest, hard hat)', 'Certification card', 'Exam fee'],
+  materialsIncluded: [
+    'All training materials',
+    'PPE (safety vest, hard hat)',
+    'Certification card',
+    'Exam fee',
+  ],
   workBasedLearning: 'Hands-on forklift operation during training — warehouse and dock simulation',
   careers: [
     { title: 'Forklift Operator', salaryRange: '$32K–$42K' },

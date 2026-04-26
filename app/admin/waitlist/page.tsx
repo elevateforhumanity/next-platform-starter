@@ -23,8 +23,6 @@ export default async function AdminWaitlistPage() {
   await requireRole(['admin', 'super_admin']);
   const supabase = await createClient();
 
-
-
   const { data: entries, error } = await supabase
     .from('waitlist')
     .select('*')
@@ -38,7 +36,6 @@ export default async function AdminWaitlistPage() {
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* Hero Image */}
       <div className="max-w-7xl mx-auto px-4 py-4">
         <Breadcrumbs items={[{ label: 'Admin', href: '/admin' }, { label: 'Waitlist' }]} />
@@ -89,11 +86,21 @@ export default async function AdminWaitlistPage() {
               <table className="w-full">
                 <thead className="bg-gray-50 border-b">
                   <tr>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-slate-700 uppercase">Name</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-slate-700 uppercase">Contact</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-slate-700 uppercase">Program</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-slate-700 uppercase">Status</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-slate-700 uppercase">Date</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-slate-700 uppercase">
+                      Name
+                    </th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-slate-700 uppercase">
+                      Contact
+                    </th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-slate-700 uppercase">
+                      Program
+                    </th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-slate-700 uppercase">
+                      Status
+                    </th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-slate-700 uppercase">
+                      Date
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200">
@@ -114,7 +121,9 @@ export default async function AdminWaitlistPage() {
                         </span>
                       </td>
                       <td className="px-4 py-4 whitespace-nowrap">
-                        <span className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${statusColors[entry.status] || 'bg-gray-100 text-slate-900'}`}>
+                        <span
+                          className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${statusColors[entry.status] || 'bg-gray-100 text-slate-900'}`}
+                        >
                           {entry.status}
                         </span>
                       </td>
@@ -127,9 +136,7 @@ export default async function AdminWaitlistPage() {
               </table>
             </div>
           ) : (
-            <div className="p-8 text-center text-slate-700">
-              No waitlist entries yet.
-            </div>
+            <div className="p-8 text-center text-slate-700">No waitlist entries yet.</div>
           )}
         </div>
       </div>

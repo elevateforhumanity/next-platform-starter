@@ -18,10 +18,12 @@ Commits: 3
 ```
 
 ### Cherry-picked from audit branch:
+
 - Database migration for partner_lms tables (6 tables + RLS)
 - HeaderErrorBoundary for graceful header failure handling
 
 ### Excluded from audit branch:
+
 - 72 eslint-disable suppressions
 - 163 redirect stub pages
 
@@ -51,12 +53,15 @@ This branch was created fresh from main and does not include the 163 redirect st
 ## 4. Auth Redirects (requireRole)
 
 ### Implementation
+
 Auth enforcement moved to `proxy.ts` (Next.js 16 proxy file):
+
 - Unauthenticated → 307 redirect to `/login?redirect=<path>`
 - Wrong role → 307 redirect to `/unauthorized`
 - Correct role → 200 (pass through)
 
 ### Protected Routes
+
 ```typescript
 const PROTECTED_ROUTES = {
   '/admin': ['admin', 'super_admin'],
@@ -69,6 +74,7 @@ const PROTECTED_ROUTES = {
 ```
 
 ### Test Coverage
+
 - `tests/unit/auth-redirects.test.ts`: 9 tests covering route configuration
 
 ---
@@ -76,6 +82,7 @@ const PROTECTED_ROUTES = {
 ## 5. Blog SSR Determinism
 
 ### Architecture
+
 - `/blog` is an async Server Component with `force-dynamic`
 - Data fetched server-side from Supabase
 - Removed Suspense boundary from `ConditionalLayout` that was causing spinner
@@ -84,15 +91,18 @@ const PROTECTED_ROUTES = {
 ### BAILOUT_TO_CLIENT_SIDE_RENDERING Fix
 
 **Problem identified:** The `ConditionalLayout` component had a Suspense boundary with a spinner fallback that was causing:
+
 1. `BAILOUT_TO_CLIENT_SIDE_RENDERING` markers in HTML
 2. A visible spinner on initial load
 
 **Fix applied:**
+
 1. Removed Suspense boundary from `ConditionalLayout`
 2. Children now render directly without intermediate loading state
 3. `loading.tsx` in `/blog` provides streaming skeleton if needed
 
 ### Verification
+
 ```bash
 # After fix:
 curl -s http://localhost:3000/blog | grep -c "BAILOUT_TO_CLIENT_SIDE_RENDERING"
@@ -103,6 +113,7 @@ curl -s http://localhost:3000/blog | grep -c "animate-spin"
 ```
 
 ### Build Output
+
 ```
 ├ ƒ /blog (Dynamic - server-rendered on demand)
 ```
@@ -112,28 +123,29 @@ curl -s http://localhost:3000/blog | grep -c "animate-spin"
 ## 6. Stripe Webhook Signature Verification
 
 ### Test File
+
 `tests/unit/stripe-webhook-signature.test.ts`
 
 ### Coverage
-| Test Category | Count |
-|---------------|-------|
-| Valid signatures | 2 |
-| Invalid signatures | 5 |
-| Idempotency | 2 |
-| Event type handling | 8 |
-| Response codes | 3 |
-| **Total** | **20** |
+
+| Test Category       | Count  |
+| ------------------- | ------ |
+| Valid signatures    | 2      |
+| Invalid signatures  | 5      |
+| Idempotency         | 2      |
+| Event type handling | 8      |
+| Response codes      | 3      |
+| **Total**           | **20** |
 
 ### Real Signature Verification
+
 Tests use `stripe.webhooks.constructEvent()` with actual HMAC-SHA256 signing:
+
 ```typescript
 function generateSignature(payload: string, secret: string, timestamp?: number): string {
   const ts = timestamp || Math.floor(Date.now() / 1000);
   const signedPayload = `${ts}.${payload}`;
-  const signature = crypto
-    .createHmac('sha256', secret)
-    .update(signedPayload)
-    .digest('hex');
+  const signature = crypto.createHmac('sha256', secret).update(signedPayload).digest('hex');
   return `t=${ts},v1=${signature}`;
 }
 ```
@@ -155,10 +167,10 @@ Tests       254 passed, 23 skipped (277)
 
 ### Skipped Tests (Legacy Failures)
 
-| File | Tests | Reason | Status |
-|------|-------|--------|--------|
-| `tests/unit/stripe-service.test.ts` | 4 | Mock configuration incompatible with Stripe constructor | LEGACY-FAIL: Skipped |
-| `tests/unit/pages/government.test.tsx` | 11 | Async Server Component cannot be tested with React Testing Library | LEGACY-FAIL: Skipped |
+| File                                   | Tests | Reason                                                             | Status               |
+| -------------------------------------- | ----- | ------------------------------------------------------------------ | -------------------- |
+| `tests/unit/stripe-service.test.ts`    | 4     | Mock configuration incompatible with Stripe constructor            | LEGACY-FAIL: Skipped |
+| `tests/unit/pages/government.test.tsx` | 11    | Async Server Component cannot be tested with React Testing Library | LEGACY-FAIL: Skipped |
 
 Both failures verified to exist on `main` branch before this PR.
 
@@ -173,19 +185,23 @@ eslint-disable count: 0
 ```
 
 ### Lint Configuration Fix
+
 Disabled `react-refresh/only-export-components` rule in `eslint.config.mjs`:
+
 - This rule only affects Hot Module Replacement during development
 - Was generating 1533 false-positive warnings for production code
 - No runtime impact - purely a development tooling concern
 
 ### Remaining Warning Types (78 total)
-| Count | Rule |
-|-------|------|
-| ~70 | react-hooks/exhaustive-deps |
-| ~5 | @typescript-eslint/no-unsafe-optional-chaining |
-| ~3 | other |
+
+| Count | Rule                                           |
+| ----- | ---------------------------------------------- |
+| ~70   | react-hooks/exhaustive-deps                    |
+| ~5    | @typescript-eslint/no-unsafe-optional-chaining |
+| ~3    | other                                          |
 
 ### Warnings Plan
+
 - **No mass suppressions** - warnings remain visible
 - `exhaustive-deps`: Track and fix incrementally (target: 20% reduction per sprint)
 - Fix Category A stale-state bugs first (loadData, supabase dependencies)
@@ -225,11 +241,11 @@ tests/unit/stripe-webhook-signature.test.ts        | 338 +++
 
 ## 11. What This Branch Does NOT Include
 
-| Item | Reason |
-|------|--------|
-| 72 eslint-disable comments | Mass suppression hides bugs |
-| 163 redirect stub pages | Pollutes routing, hurts SEO |
-| Client-side auth guards | Security must be server-side |
+| Item                                  | Reason                                 |
+| ------------------------------------- | -------------------------------------- |
+| 72 eslint-disable comments            | Mass suppression hides bugs            |
+| 163 redirect stub pages               | Pollutes routing, hurts SEO            |
+| Client-side auth guards               | Security must be server-side           |
 | Loading spinners for protected routes | Auth should redirect, not show spinner |
 
 ---
@@ -239,6 +255,7 @@ tests/unit/stripe-webhook-signature.test.ts        | 338 +++
 **SAFE TO MERGE**
 
 This branch:
+
 1. ✅ Adds legitimate database migration with RLS (6 tables)
 2. ✅ Adds defensive HeaderErrorBoundary
 3. ✅ Implements proper server-side auth redirects via proxy (307)

@@ -43,7 +43,12 @@ async function canCompleteLesson(userId: string, lessonId: string): Promise<bool
     .eq('id', lessonId)
     .maybeSingle();
 
-  let lesson: { required_skill_id: string | null; required_reps: number; requires_verification: boolean; lesson_type: string } | null = null;
+  let lesson: {
+    required_skill_id: string | null;
+    required_reps: number;
+    requires_verification: boolean;
+    lesson_type: string;
+  } | null = null;
 
   if (cl) {
     lesson = cl;
@@ -86,10 +91,14 @@ async function canCompleteLesson(userId: string, lessonId: string): Promise<bool
 
   if (!logs || logs.length === 0) return false;
 
-  const verifiedReps = logs.filter(l => l.supervisor_verified).reduce((s, l) => s + (l.service_count ?? 1), 0);
-  const totalReps    = logs.reduce((s, l) => s + (l.service_count ?? 1), 0);
+  const verifiedReps = logs
+    .filter((l) => l.supervisor_verified)
+    .reduce((s, l) => s + (l.service_count ?? 1), 0);
+  const totalReps = logs.reduce((s, l) => s + (l.service_count ?? 1), 0);
 
-  return lesson.requires_verification ? verifiedReps >= lesson.required_reps : totalReps >= lesson.required_reps;
+  return lesson.requires_verification
+    ? verifiedReps >= lesson.required_reps
+    : totalReps >= lesson.required_reps;
 }
 
 // Test user ID — resolved at runtime from a real profiles row.
@@ -128,11 +137,11 @@ async function setPlacement(shopId: string, active: boolean) {
   await db.from('apprentice_placements').delete().eq('student_id', TEST_USER_ID);
   if (active) {
     await db.from('apprentice_placements').insert({
-      student_id:  TEST_USER_ID,
-      shop_id:     shopId,
+      student_id: TEST_USER_ID,
+      shop_id: shopId,
       program_slug: 'barber-apprenticeship',
-      status:      'active',
-      start_date:  new Date().toISOString().split('T')[0],
+      status: 'active',
+      start_date: new Date().toISOString().split('T')[0],
     });
   }
 }
@@ -143,22 +152,22 @@ async function setReps(skillId: string, verified: number, pending: number) {
   const rows = [];
   for (let i = 0; i < verified; i++) {
     rows.push({
-      apprentice_id:      TEST_USER_ID,
-      skill_id:           skillId,
-      work_date:          new Date().toISOString().split('T')[0],
-      service_count:      1,
+      apprentice_id: TEST_USER_ID,
+      skill_id: skillId,
+      work_date: new Date().toISOString().split('T')[0],
+      service_count: 1,
       supervisor_verified: true,
-      status:             'verified',
+      status: 'verified',
     });
   }
   for (let i = 0; i < pending; i++) {
     rows.push({
-      apprentice_id:      TEST_USER_ID,
-      skill_id:           skillId,
-      work_date:          new Date().toISOString().split('T')[0],
-      service_count:      1,
+      apprentice_id: TEST_USER_ID,
+      skill_id: skillId,
+      work_date: new Date().toISOString().split('T')[0],
+      service_count: 1,
       supervisor_verified: false,
-      status:             'pending',
+      status: 'pending',
     });
   }
   if (rows.length > 0) {
@@ -171,11 +180,7 @@ async function runLesson(lesson: LabLesson, shopId: string): Promise<TestResult[
   const { id: lessonId, required_skill_id: skillId, required_reps: threshold } = lesson;
   const results: TestResult[] = [];
 
-  const check = async (
-    state: string,
-    expected: boolean,
-    setup: () => Promise<void>,
-  ) => {
+  const check = async (state: string, expected: boolean, setup: () => Promise<void>) => {
     await setup();
     const actual = await canCompleteLesson(TEST_USER_ID, lessonId);
     results.push({ state, expected, actual, pass: actual === expected });
@@ -229,7 +234,7 @@ async function runLesson(lesson: LabLesson, shopId: string): Promise<TestResult[
 
 async function main() {
   const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const SERVICE_KEY  = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!SUPABASE_URL || !SERVICE_KEY) {
     console.error('Missing NEXT_PUBLIC_SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY');
     process.exit(1);
@@ -239,12 +244,19 @@ async function main() {
   // Resolve a real profile ID for placement FK compliance.
   // We write test placements under this ID and clean them up after.
   const { data: profileRow } = await db.from('profiles').select('id').limit(1).single();
-  if (!profileRow) { console.error('No profiles in DB'); process.exit(1); }
+  if (!profileRow) {
+    console.error('No profiles in DB');
+    process.exit(1);
+  }
   TEST_USER_ID = profileRow.id;
   console.log(`Using test profile: ${TEST_USER_ID}`);
 
-  const onlySlug = process.argv.find(a => a.startsWith('--lesson='))?.split('=')[1]
-    ?? (() => { const i = process.argv.indexOf('--lesson'); return i !== -1 ? process.argv[i + 1] : undefined; })();
+  const onlySlug =
+    process.argv.find((a) => a.startsWith('--lesson='))?.split('=')[1] ??
+    (() => {
+      const i = process.argv.indexOf('--lesson');
+      return i !== -1 ? process.argv[i + 1] : undefined;
+    })();
 
   // Fetch all barber lab lessons
   let query = db
@@ -292,7 +304,7 @@ async function main() {
 
   if (blockers.length > 0) {
     console.log('\nFAILURES (release blockers):');
-    blockers.forEach(b => console.log(`  ❌ ${b}`));
+    blockers.forEach((b) => console.log(`  ❌ ${b}`));
     process.exit(1);
   } else {
     console.log('\nAll states pass. Enforcement is verified.');
@@ -300,7 +312,7 @@ async function main() {
   }
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.error('Test runner error:', err);
   process.exit(1);
 });

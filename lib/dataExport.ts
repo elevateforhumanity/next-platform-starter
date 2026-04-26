@@ -24,15 +24,11 @@ export interface ExportOptions {
 /**
  * Convert data to CSV format
  */
-export function convertToCSV(
-  data: any[],
-  columns?: ExportColumn[]
-): string {
+export function convertToCSV(data: any[], columns?: ExportColumn[]): string {
   if (data.length === 0) return '';
 
   // Determine columns
-  const cols =
-    columns || Object.keys(data[0]).map((key: any) => ({ key, label: key }));
+  const cols = columns || Object.keys(data[0]).map((key: any) => ({ key, label: key }));
 
   // Create header row
   const headers = cols.map((col) => escapeCSVValue(col.label)).join(',');
@@ -42,9 +38,7 @@ export function convertToCSV(
     return cols
       .map((col) => {
         const value = row[col.key];
-        const formatted = col.format
-          ? col.format(value)
-          : value;
+        const formatted = col.format ? col.format(value) : value;
         return escapeCSVValue(formatted);
       })
       .join(',');
@@ -72,10 +66,7 @@ function escapeCSVValue(value: any): string {
 /**
  * Download CSV file
  */
-export function downloadCSV(
-  csv: string,
-  filename: string = 'export.csv'
-): void {
+export function downloadCSV(csv: string, filename: string = 'export.csv'): void {
   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
   const link = document.createElement('a');
   const url = URL.createObjectURL(blob);
@@ -96,9 +87,7 @@ export function downloadCSV(
 /**
  * Export students data
  */
-export async function exportStudents(
-  options: ExportOptions = {}
-): Promise<any[]> {
+export async function exportStudents(options: ExportOptions = {}): Promise<any[]> {
   const supabase = await createClient();
 
   let query = supabase
@@ -135,9 +124,7 @@ export async function exportStudents(
 /**
  * Export courses data
  */
-export async function exportCourses(
-  options: ExportOptions = {}
-): Promise<any[]> {
+export async function exportCourses(options: ExportOptions = {}): Promise<any[]> {
   const supabase = await createClient();
 
   let query = supabase.from('training_courses').select(`
@@ -186,9 +173,7 @@ export async function exportCourses(
 /**
  * Export enrollments data
  */
-export async function exportEnrollments(
-  options: ExportOptions = {}
-): Promise<any[]> {
+export async function exportEnrollments(options: ExportOptions = {}): Promise<any[]> {
   const supabase = await createClient();
 
   let query = supabase.from('program_enrollments').select(`
@@ -237,9 +222,7 @@ export async function exportEnrollments(
 /**
  * Export assignments data
  */
-export async function exportAssignments(
-  options: ExportOptions = {}
-): Promise<any[]> {
+export async function exportAssignments(options: ExportOptions = {}): Promise<any[]> {
   const supabase = await createClient();
 
   let query = supabase.from('assignments').select(`
@@ -281,9 +264,7 @@ export async function exportAssignments(
 /**
  * Export grades data
  */
-export async function exportGrades(
-  options: ExportOptions = {}
-): Promise<any[]> {
+export async function exportGrades(options: ExportOptions = {}): Promise<any[]> {
   const supabase = await createClient();
 
   let query = supabase.from('assignment_submissions').select(`
@@ -324,8 +305,7 @@ export async function exportGrades(
     student_email: submission.student?.[0]?.email || 'N/A',
     assignment_title: submission.assignment?.[0]?.title || 'N/A',
     assignment_points: submission.assignment?.points || 0,
-    course_title:
-      submission.assignment?.course?.[0]?.title || 'N/A',
+    course_title: submission.assignment?.course?.[0]?.title || 'N/A',
   }));
 }
 
@@ -335,7 +315,7 @@ export async function exportGrades(
 export async function exportAnalytics(
   type: 'course' | 'student' | 'instructor',
   id: string,
-  options: ExportOptions = {}
+  options: ExportOptions = {},
 ): Promise<any[]> {
   const supabase = await createClient();
 
@@ -439,9 +419,7 @@ export interface BatchExportOptions {
 /**
  * Export multiple tables at once
  */
-export async function batchExport(
-  options: BatchExportOptions
-): Promise<Record<string, any>> {
+export async function batchExport(options: BatchExportOptions): Promise<Record<string, any>> {
   const results: Record<string, any> = {};
 
   for (const table of options.tables) {

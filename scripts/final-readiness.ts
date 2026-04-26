@@ -29,19 +29,19 @@ const results: CheckResult[] = [];
 
 for (const check of CHECKS) {
   console.log(`Running: ${check.name}...`);
-  
+
   try {
     const output = execSync(check.script, {
       encoding: 'utf8',
       stdio: 'pipe',
     });
-    
+
     results.push({
       name: check.name,
       passed: true,
       output: output.trim(),
     });
-    
+
     console.log(`✅ ${check.name} PASSED\n`);
   } catch (error: any) {
     results.push({
@@ -49,7 +49,7 @@ for (const check of CHECKS) {
       passed: false,
       output: error.stdout || error.message,
     });
-    
+
     console.log(`❌ ${check.name} FAILED\n`);
   }
 }
@@ -125,13 +125,13 @@ ${failed} validation check(s) failed. Address the issues above before launching 
 
 ### Required Actions:
 `;
-  
+
   for (const result of results) {
     if (!result.passed) {
       report += `- Fix: ${result.name}\n`;
     }
   }
-  
+
   report += `
 After fixing issues, run:
 \`\`\`bash

@@ -26,15 +26,12 @@ async function _GET(req: Request) {
     if (error) throw error;
 
     return NextResponse.json({ success: true, campaigns });
-  } catch (error) { 
+  } catch (error) {
     logger.error(
       'Error fetching campaigns:',
-      error instanceof Error ? error : new Error(String(error))
+      error instanceof Error ? error : new Error(String(error)),
     );
-    return NextResponse.json(
-      { success: false, error: toErrorMessage(error) },
-      { status: 500 }
-    );
+    return NextResponse.json({ success: false, error: toErrorMessage(error) }, { status: 500 });
   }
 }
 
@@ -65,15 +62,12 @@ async function _POST(req: Request) {
     if (error) throw error;
 
     return NextResponse.json({ success: true, campaign });
-  } catch (error) { 
+  } catch (error) {
     logger.error(
       'Error creating campaign:',
-      error instanceof Error ? error : new Error(String(error))
+      error instanceof Error ? error : new Error(String(error)),
     );
-    return NextResponse.json(
-      { success: false, error: toErrorMessage(error) },
-      { status: 500 }
-    );
+    return NextResponse.json({ success: false, error: toErrorMessage(error) }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/social-media/campaigns', _GET);

@@ -17,8 +17,9 @@ export const dynamic = 'force-dynamic';
 export default async function InstructorSettingsPage() {
   const supabase = await createClient();
 
-
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login');
 
   const { data: profile } = await supabase
@@ -33,15 +34,23 @@ export default async function InstructorSettingsPage() {
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* Hero Image */}
       <section className="relative h-[160px] sm:h-[220px] md:h-[280px] overflow-hidden">
-        <Image src="/images/pages/instructor-page-12.jpg" alt="Instructor portal" fill sizes="100vw" className="object-cover" priority />
+        <Image
+          src="/images/pages/instructor-page-12.jpg"
+          alt="Instructor portal"
+          fill
+          sizes="100vw"
+          className="object-cover"
+          priority
+        />
       </section>
       {/* Breadcrumbs */}
       <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[{ label: 'Instructor', href: '/instructor' }, { label: 'Settings' }]} />
+          <Breadcrumbs
+            items={[{ label: 'Instructor', href: '/instructor' }, { label: 'Settings' }]}
+          />
         </div>
       </div>
 
@@ -52,7 +61,10 @@ export default async function InstructorSettingsPage() {
               <h1 className="text-2xl font-bold text-slate-900">Account Settings</h1>
               <p className="text-slate-700">Manage your profile and preferences</p>
             </div>
-            <Link href="/instructor/dashboard" className="px-4 py-2 text-slate-700 hover:text-slate-900">
+            <Link
+              href="/instructor/dashboard"
+              className="px-4 py-2 text-slate-700 hover:text-slate-900"
+            >
               ← Dashboard
             </Link>
           </div>
@@ -66,7 +78,7 @@ export default async function InstructorSettingsPage() {
             <User className="w-6 h-6 text-brand-blue-600" />
             <h2 className="text-lg font-semibold">Profile Information</h2>
           </div>
-          
+
           <form action={updateInstructorProfile} className="space-y-4">
             <div className="grid md:grid-cols-2 gap-4">
               <div>
@@ -128,7 +140,10 @@ export default async function InstructorSettingsPage() {
               />
             </div>
 
-            <button type="submit" className="px-6 py-2 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700 font-medium transition-colors">
+            <button
+              type="submit"
+              className="px-6 py-2 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700 font-medium transition-colors"
+            >
               Save Profile
             </button>
           </form>
@@ -140,30 +155,48 @@ export default async function InstructorSettingsPage() {
             <Bell className="w-6 h-6 text-brand-orange-600" />
             <h2 className="text-lg font-semibold">Notifications</h2>
           </div>
-          
+
           <div className="space-y-4">
             <label className="flex items-center justify-between p-3 bg-white rounded-lg cursor-pointer">
               <div>
                 <div className="font-medium">New Enrollments</div>
-                <div className="text-sm text-slate-700">Get notified when students enroll in your courses</div>
+                <div className="text-sm text-slate-700">
+                  Get notified when students enroll in your courses
+                </div>
               </div>
-              <input type="checkbox" defaultChecked className="w-5 h-5 text-brand-blue-600 rounded" />
+              <input
+                type="checkbox"
+                defaultChecked
+                className="w-5 h-5 text-brand-blue-600 rounded"
+              />
             </label>
-            
+
             <label className="flex items-center justify-between p-3 bg-white rounded-lg cursor-pointer">
               <div>
                 <div className="font-medium">Student Messages</div>
-                <div className="text-sm text-slate-700">Get notified when students send you messages</div>
+                <div className="text-sm text-slate-700">
+                  Get notified when students send you messages
+                </div>
               </div>
-              <input type="checkbox" defaultChecked className="w-5 h-5 text-brand-blue-600 rounded" />
+              <input
+                type="checkbox"
+                defaultChecked
+                className="w-5 h-5 text-brand-blue-600 rounded"
+              />
             </label>
-            
+
             <label className="flex items-center justify-between p-3 bg-white rounded-lg cursor-pointer">
               <div>
                 <div className="font-medium">Course Completions</div>
-                <div className="text-sm text-slate-700">Get notified when students complete your courses</div>
+                <div className="text-sm text-slate-700">
+                  Get notified when students complete your courses
+                </div>
               </div>
-              <input type="checkbox" defaultChecked className="w-5 h-5 text-brand-blue-600 rounded" />
+              <input
+                type="checkbox"
+                defaultChecked
+                className="w-5 h-5 text-brand-blue-600 rounded"
+              />
             </label>
           </div>
         </div>

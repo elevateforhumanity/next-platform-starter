@@ -1,6 +1,6 @@
-import Link from "next/link";
-import { CheckCircle, ArrowRight } from "lucide-react";
-import type { InactiveLearner } from "./types";
+import Link from 'next/link';
+import { CheckCircle, ArrowRight } from 'lucide-react';
+import type { InactiveLearner } from './types';
 
 export function InactiveLearnersList({ items }: { items: InactiveLearner[] }) {
   return (
@@ -27,17 +27,20 @@ export function InactiveLearnersList({ items }: { items: InactiveLearner[] }) {
               className="flex items-center gap-3 px-5 py-3 hover:bg-slate-50 transition-colors group"
             >
               <div className="w-8 h-8 rounded-full bg-amber-100 flex items-center justify-center text-xs font-bold text-amber-700 flex-shrink-0">
-                {(l.fullName || l.email || "?")[0].toUpperCase()}
+                {(l.fullName || l.email || '?')[0].toUpperCase()}
               </div>
               <div className="flex-1 min-w-0">
                 <div className="text-sm font-medium text-slate-800 truncate">
-                  {l.fullName || l.email || "Unknown"}
+                  {l.fullName || l.email || 'Unknown'}
                 </div>
                 <div className="text-xs text-slate-400 mt-0.5">
-                  Enrolled{" "}
+                  Enrolled{' '}
                   {l.enrolledAt
-                    ? new Date(l.enrolledAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })
-                    : "—"}{" "}
+                    ? new Date(l.enrolledAt).toLocaleDateString('en-US', {
+                        month: 'short',
+                        day: 'numeric',
+                      })
+                    : '—'}{' '}
                   · No activity 3+ days
                 </div>
               </div>

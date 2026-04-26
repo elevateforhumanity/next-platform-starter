@@ -8,12 +8,10 @@ import { withApiAudit } from '@/lib/audit/withApiAudit';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
-
 async function _GET(request: Request) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const auth = await apiRequireAdmin(request);
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const auth = await apiRequireAdmin(request);
   if (auth.error) return auth.error;
   try {
     const data = await listCourses();
@@ -24,8 +22,8 @@ const auth = await apiRequireAdmin(request);
 }
 
 async function _POST(request: Request) {
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
 
   const auth = await apiRequireAdmin(request);
   if (auth.error) return auth.error;
@@ -33,7 +31,10 @@ async function _POST(request: Request) {
     const body = await request.json().catch(() => null);
     const parsed = CourseCreateSchema.safeParse(body);
     if (!parsed.success) {
-      return NextResponse.json({ error: 'Invalid input', details: parsed.error.flatten() }, { status: 400 });
+      return NextResponse.json(
+        { error: 'Invalid input', details: parsed.error.flatten() },
+        { status: 400 },
+      );
     }
     const data = await createCourse(parsed.data);
     return NextResponse.json({ data }, { status: 201 });

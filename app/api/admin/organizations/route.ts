@@ -40,8 +40,14 @@ export async function GET(request: NextRequest) {
 
 const createSchema = z.object({
   name: z.string().min(2).max(120),
-  slug: z.string().min(2).max(80).regex(/^[a-z0-9]+(-[a-z0-9]+)*$/, 'must be lowercase kebab-case'),
-  type: z.enum(['training_provider', 'workforce_board', 'state_agency', 'employer', 'partner']).default('training_provider'),
+  slug: z
+    .string()
+    .min(2)
+    .max(80)
+    .regex(/^[a-z0-9]+(-[a-z0-9]+)*$/, 'must be lowercase kebab-case'),
+  type: z
+    .enum(['training_provider', 'workforce_board', 'state_agency', 'employer', 'partner'])
+    .default('training_provider'),
 });
 
 export async function POST(request: NextRequest) {

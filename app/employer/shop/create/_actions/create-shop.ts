@@ -10,7 +10,9 @@ export async function createShop(formData: FormData) {
   if (!db) throw new Error('Admin client failed to initialize');
 
   // Get authenticated user
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     redirect('/login');
@@ -61,13 +63,11 @@ export async function createShop(formData: FormData) {
   }
 
   // Create shop_staff entry (make user the owner)
-  const { error: staffError } = await db
-    .from('shop_staff')
-    .insert({
-      shop_id: shop.id,
-      user_id: user.id,
-      role: 'owner',
-    });
+  const { error: staffError } = await db.from('shop_staff').insert({
+    shop_id: shop.id,
+    user_id: user.id,
+    role: 'owner',
+  });
 
   if (staffError) {
     // Shop was created but staff link failed - this is a problem

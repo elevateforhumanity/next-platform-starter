@@ -20,7 +20,11 @@ export async function POST(req: Request) {
   if (authResult instanceof NextResponse) return authResult;
 
   let body: { apprenticeId?: string; userId?: string };
-  try { body = await req.json(); } catch { return safeError('Invalid JSON', 400); }
+  try {
+    body = await req.json();
+  } catch {
+    return safeError('Invalid JSON', 400);
+  }
 
   const { apprenticeId, userId } = body;
   if (!apprenticeId || !userId) return safeError('apprenticeId and userId are required', 400);

@@ -18,7 +18,8 @@ import {
   Video,
   Users,
   HelpCircle,
-CheckCircle, } from 'lucide-react';
+  CheckCircle,
+} from 'lucide-react';
 import ContentLibrary from '@/components/ContentLibrary';
 
 export const dynamic = 'force-dynamic';
@@ -28,8 +29,7 @@ export const metadata: Metadata = {
     canonical: 'https://www.elevateforhumanity.org/lms/resources',
   },
   title: 'Student Resources | Elevate For Humanity',
-  description:
-    'Access career resources, study materials, job search tools, and support services.',
+  description: 'Access career resources, study materials, job search tools, and support services.',
 };
 
 const resourceCategories = [
@@ -203,9 +203,9 @@ export default async function ResourcesPage() {
 
   return (
     <div className="min-h-screen bg-white">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <Breadcrumbs items={[{ label: "LMS", href: "/lms/courses" }, { label: "Resources" }]} />
-        </div>
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'LMS', href: '/lms/courses' }, { label: 'Resources' }]} />
+      </div>
       {/* Header */}
       <div className="bg-white border-b">
         <div className="max-w-7xl mx-auto px-4 py-8">
@@ -228,9 +228,7 @@ export default async function ResourcesPage() {
                 className="flex flex-col items-center p-4 bg-white rounded-xl border border-gray-200 hover:border-brand-blue-500 hover:shadow-md transition-all"
               >
                 <link.icon className="w-6 h-6 text-brand-blue-600 mb-2" />
-                <span className="text-sm font-medium text-slate-900 text-center">
-                  {link.title}
-                </span>
+                <span className="text-sm font-medium text-slate-900 text-center">{link.title}</span>
               </Link>
             ))}
           </div>
@@ -238,9 +236,7 @@ export default async function ResourcesPage() {
 
         {/* Resource Categories */}
         <section className="mb-12">
-          <h2 className="text-lg font-semibold text-slate-900 mb-4">
-            Resource Categories
-          </h2>
+          <h2 className="text-lg font-semibold text-slate-900 mb-4">Resource Categories</h2>
           <div className="grid md:grid-cols-2 gap-6">
             {resourceCategories.map((category) => {
               const colorClasses: Record<string, string> = {
@@ -262,12 +258,8 @@ export default async function ResourcesPage() {
                   className={`rounded-xl border-2 ${colorClasses[category.color]} p-6`}
                 >
                   <div className="flex items-center gap-3 mb-4">
-                    <category.icon
-                      className={`w-6 h-6 ${iconColors[category.color]}`}
-                    />
-                    <h3 className="text-xl font-bold text-slate-900">
-                      {category.title}
-                    </h3>
+                    <category.icon className={`w-6 h-6 ${iconColors[category.color]}`} />
+                    <h3 className="text-xl font-bold text-slate-900">{category.title}</h3>
                   </div>
                   <ul className="space-y-3">
                     {category.resources.map((resource) => (
@@ -277,12 +269,8 @@ export default async function ResourcesPage() {
                           className="flex items-start gap-3 p-3 bg-white rounded-lg hover:shadow-md transition-shadow"
                         >
                           <div className="flex-1">
-                            <p className="font-medium text-slate-900">
-                              {resource.title}
-                            </p>
-                            <p className="text-sm text-slate-700">
-                              {resource.description}
-                            </p>
+                            <p className="font-medium text-slate-900">{resource.title}</p>
+                            <p className="text-sm text-slate-700">{resource.description}</p>
                           </div>
                           <ExternalLink className="w-4 h-4 text-slate-700 flex-shrink-0 mt-1" />
                         </Link>
@@ -297,9 +285,7 @@ export default async function ResourcesPage() {
 
         {/* Downloadable Resources */}
         <section className="mb-12">
-          <h2 className="text-lg font-semibold text-slate-900 mb-4">
-            Downloadable Guides
-          </h2>
+          <h2 className="text-lg font-semibold text-slate-900 mb-4">Downloadable Guides</h2>
           <div className="bg-white rounded-xl border border-gray-200 divide-y">
             {downloadableResources.map((resource) => (
               <div
@@ -333,8 +319,8 @@ export default async function ResourcesPage() {
             <div className="max-w-2xl">
               <h2 className="text-2xl font-bold mb-2">Need Help?</h2>
               <p className="text-brand-blue-100 mb-6">
-                Our student success team is here to support you with any questions
-                about your program, career goals, or support services.
+                Our student success team is here to support you with any questions about your
+                program, career goals, or support services.
               </p>
               <div className="flex flex-wrap gap-4">
                 <Link

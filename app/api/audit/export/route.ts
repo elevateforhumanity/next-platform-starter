@@ -1,4 +1,3 @@
-
 import { NextResponse } from 'next/server';
 import { getAdminClient } from '@/lib/supabase/admin';
 import { auditExport } from '@/lib/auditLog';
@@ -23,10 +22,7 @@ export async function GET(req: Request) {
     const supabase = await getAdminClient();
 
     if (!supabase) {
-      return NextResponse.json(
-        { error: 'Service temporarily unavailable.' },
-        { status: 503 }
-      );
+      return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });
     }
 
     // Query audit snapshot view
@@ -37,10 +33,7 @@ export async function GET(req: Request) {
     }
 
     if (!data || data.length === 0) {
-      return NextResponse.json(
-        { error: 'No data available for export' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: 'No data available for export' }, { status: 404 });
     }
 
     // Log the export action
@@ -48,7 +41,7 @@ export async function GET(req: Request) {
       'audit_snapshot',
       req.headers.get('x-user-id') || undefined,
       (req.headers.get('x-user-role') as any) || 'workone',
-      req
+      req,
     );
 
     if (format === 'json') {
@@ -60,7 +53,7 @@ export async function GET(req: Request) {
     const rows = data.map((item: any) =>
       Object.values(item)
         .map((v) => `"${String(v ?? '').replace(/"/g, '""')}"`)
-        .join(',')
+        .join(','),
     );
 
     const csv = [header, ...rows].join('\n');
@@ -71,10 +64,7 @@ export async function GET(req: Request) {
         'Content-Disposition': `attachment; filename="audit_export_${new Date().toISOString().split('T')[0]}.csv"`,
       },
     });
-  } catch (error) { 
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+  } catch (error) {
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

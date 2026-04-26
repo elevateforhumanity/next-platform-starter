@@ -39,7 +39,7 @@ const BOT_UA_PATTERNS = [
 
 function isBot(userAgent: string): boolean {
   const ua = userAgent.toLowerCase();
-  return BOT_UA_PATTERNS.some(p => ua.includes(p));
+  return BOT_UA_PATTERNS.some((p) => ua.includes(p));
 }
 
 export const dynamic = 'force-dynamic';
@@ -58,12 +58,8 @@ export const dynamic = 'force-dynamic';
  */
 
 const getOfficialDomains = () => {
-  const siteUrl =
-    process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
-  const domain = siteUrl
-    .replace('https://', '')
-    .replace('http://', '')
-    .split('/')[0];
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+  const domain = siteUrl.replace('https://', '').replace('http://', '').split('/')[0];
   return [
     domain,
     // Primary domain
@@ -74,8 +70,8 @@ const getOfficialDomains = () => {
     'elevateforhumanityeducation.com',
     // Hosting / dev
     'elevate317.netlify.app',
-    '.netlify.app',          // Netlify deploy previews
-    '.gitpod.dev',           // Gitpod dev environments
+    '.netlify.app', // Netlify deploy previews
+    '.gitpod.dev', // Gitpod dev environments
     'localhost',
   ];
 };
@@ -101,7 +97,7 @@ export async function POST(request: NextRequest) {
     // Check if this is an unauthorized copy
     const officialDomains = getOfficialDomains();
     const isUnauthorized = !officialDomains.some((officialDomain) =>
-      domain.includes(officialDomain)
+      domain.includes(officialDomain),
     );
 
     if (isUnauthorized) {
@@ -119,11 +115,10 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         {
           status: 'unauthorized',
-          message:
-            'This appears to be an unauthorized copy of Elevate for Humanity',
+          message: 'This appears to be an unauthorized copy of Elevate for Humanity',
           action: 'Legal team has been notified. DMCA takedown initiated.',
         },
-        { status: 403 }
+        { status: 403 },
       );
     }
 
@@ -134,7 +129,7 @@ export async function POST(request: NextRequest) {
       status: 'ok',
       message: 'Tracking recorded',
     });
-  } catch (error) { 
+  } catch (error) {
     logger.error('Tracking error:', error);
     return NextResponse.json({ error: 'Tracking failed' }, { status: 500 });
   }
@@ -236,11 +231,7 @@ async function logUnauthorizedAccess(data: {
  * Resolve hosting provider abuse contacts and send a formal DMCA takedown notice.
  * Uses common abuse email patterns and known provider mappings.
  */
-async function sendDMCATakedown(data: {
-  domain: string;
-  url: string;
-  timestamp: string;
-}) {
+async function sendDMCATakedown(data: { domain: string; url: string; timestamp: string }) {
   const { sendEmail } = await import('@/lib/email/sendgrid');
 
   // Check if we already sent a takedown for this domain in the last 24h (avoid spam)

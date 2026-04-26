@@ -19,8 +19,10 @@ async function _GET(request: NextRequest) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-  const db = await getAdminClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const db = await getAdminClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -35,11 +37,7 @@ async function _GET(request: NextRequest) {
     }
 
     // Security: Only allow users to view their own access (unless admin)
-    const { data: profile } = await db
-      .from('profiles')
-      .select('role')
-      .eq('id', user.id)
-      .single();
+    const { data: profile } = await db.from('profiles').select('role').eq('id', user.id).single();
 
     const isAdmin = profile?.role === 'admin' || profile?.role === 'super_admin';
     if (studentId !== user.id && !isAdmin) {
@@ -85,7 +83,7 @@ async function _GET(request: NextRequest) {
         return NextResponse.json({
           status: 'pending_approval',
           docsVerified: pendingEnrollment.docs_verified,
-          message: pendingEnrollment.docs_verified 
+          message: pendingEnrollment.docs_verified
             ? 'Your enrollment is pending admin approval.'
             : 'Please upload required documents to complete enrollment.',
         });
@@ -106,10 +104,7 @@ async function _GET(request: NextRequest) {
     });
   } catch (error) {
     logger.error('[Milady Access API] Error:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -123,8 +118,10 @@ async function _POST(request: NextRequest) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-  const db = await getAdminClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const db = await getAdminClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -133,10 +130,7 @@ async function _POST(request: NextRequest) {
     const { studentId, programSlug } = await request.json();
 
     if (!studentId || !programSlug) {
-      return NextResponse.json(
-        { error: 'studentId and programSlug required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'studentId and programSlug required' }, { status: 400 });
     }
 
     // Get student profile
@@ -152,25 +146,24 @@ async function _POST(request: NextRequest) {
 
     // Import and run provisioning
     const { provisionMiladyAccess } = await import('@/lib/vendors/milady-provisioning');
-    
+
     const result = await provisionMiladyAccess(
       {
         id: studentId,
         email: studentProfile.email,
-        firstName: studentProfile.first_name || studentProfile.full_name?.split(' ')[0] || 'Student',
-        lastName: studentProfile.last_name || studentProfile.full_name?.split(' ').slice(1).join(' ') || '',
+        firstName:
+          studentProfile.first_name || studentProfile.full_name?.split(' ')[0] || 'Student',
+        lastName:
+          studentProfile.last_name || studentProfile.full_name?.split(' ').slice(1).join(' ') || '',
         phone: studentProfile.phone,
       },
-      programSlug
+      programSlug,
     );
 
     return NextResponse.json(result);
   } catch (error) {
     logger.error('[Milady Access API] Provision error:', error);
-    return NextResponse.json(
-      { error: 'Failed to provision access' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to provision access' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/milady/access', _GET);

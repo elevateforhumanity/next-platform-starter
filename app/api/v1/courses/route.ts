@@ -3,12 +3,7 @@
 // Public REST API - Courses Endpoint
 import { NextRequest, NextResponse } from 'next/server';
 import { parseBody } from '@/lib/api-helpers';
-import {
-  authenticateAPI,
-  apiResponse,
-  hasScope,
-  logAPIRequest,
-} from '@/lib/api/rest-api';
+import { authenticateAPI, apiResponse, hasScope, logAPIRequest } from '@/lib/api/rest-api';
 import { createClient } from '@/lib/supabase/server';
 import { logger } from '@/lib/logger';
 import { sanitizeSearchInput } from '@/lib/utils';
@@ -21,10 +16,9 @@ export const dynamic = 'force-dynamic';
 
 // GET /api/v1/courses - List all courses
 async function _GET(request: NextRequest) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const startTime = Date.now();
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const startTime = Date.now();
   let statusCode = 200;
   let error: string | undefined;
 
@@ -34,19 +28,17 @@ const startTime = Date.now();
 
     if (!apiKey) {
       statusCode = 401;
-      return NextResponse.json(
-        apiResponse(false, null, 'Invalid or missing API credentials'),
-        { status: 401 }
-      );
+      return NextResponse.json(apiResponse(false, null, 'Invalid or missing API credentials'), {
+        status: 401,
+      });
     }
 
     // Check scope
     if (!hasScope(apiKey, 'courses:read')) {
       statusCode = 403;
-      return NextResponse.json(
-        apiResponse(false, null, 'Insufficient permissions'),
-        { status: 403 }
-      );
+      return NextResponse.json(apiResponse(false, null, 'Insufficient permissions'), {
+        status: 403,
+      });
     }
 
     const supabase = await createClient();
@@ -81,7 +73,7 @@ const startTime = Date.now();
         instructor:profiles!instructor_id(id, full_name, email),
         enrollments:enrollments(count)
       `,
-        { count: 'exact' }
+        { count: 'exact' },
       )
       .eq('status', status)
       .order('created_at', { ascending: false })
@@ -110,7 +102,7 @@ const startTime = Date.now();
       statusCode,
       responseTime,
       request.headers.get('x-forwarded-for') || undefined,
-      request.headers.get('user-agent') || undefined
+      request.headers.get('user-agent') || undefined,
     );
 
     return NextResponse.json(
@@ -119,23 +111,20 @@ const startTime = Date.now();
         limit,
         total: count,
         totalPages: Math.ceil((count || 0) / limit),
-      })
+      }),
     );
   } catch (err: any) {
     error = 'Internal server error';
     statusCode = 500;
-    logger.error(
-      'API Error:',
-      err instanceof Error ? err : new Error(String(err))
-    );
+    logger.error('API Error:', err instanceof Error ? err : new Error(String(err)));
     return NextResponse.json(apiResponse(false, null, error), { status: 500 });
   }
 }
 
 // POST /api/v1/courses - Create a new course
 async function _POST(request: NextRequest) {
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
 
   const startTime = Date.now();
   let statusCode = 201;
@@ -146,18 +135,16 @@ async function _POST(request: NextRequest) {
 
     if (!apiKey) {
       statusCode = 401;
-      return NextResponse.json(
-        apiResponse(false, null, 'Invalid or missing API credentials'),
-        { status: 401 }
-      );
+      return NextResponse.json(apiResponse(false, null, 'Invalid or missing API credentials'), {
+        status: 401,
+      });
     }
 
     if (!hasScope(apiKey, 'courses:write')) {
       statusCode = 403;
-      return NextResponse.json(
-        apiResponse(false, null, 'Insufficient permissions'),
-        { status: 403 }
-      );
+      return NextResponse.json(apiResponse(false, null, 'Insufficient permissions'), {
+        status: 403,
+      });
     }
 
     const body = await parseBody<Record<string, any>>(request);
@@ -191,17 +178,14 @@ async function _POST(request: NextRequest) {
       statusCode,
       responseTime,
       request.headers.get('x-forwarded-for') || undefined,
-      request.headers.get('user-agent') || undefined
+      request.headers.get('user-agent') || undefined,
     );
 
     return NextResponse.json(apiResponse(true, course), { status: 201 });
   } catch (err: any) {
     error = 'Internal server error';
     statusCode = 500;
-    logger.error(
-      'API Error:',
-      err instanceof Error ? err : new Error(String(err))
-    );
+    logger.error('API Error:', err instanceof Error ? err : new Error(String(err)));
     return NextResponse.json(apiResponse(false, null, error), { status: 500 });
   }
 }

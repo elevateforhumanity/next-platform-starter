@@ -7,9 +7,10 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const filesToUpdate = fs.readFileSync('/tmp/pages_to_update.txt', 'utf-8')
+const filesToUpdate = fs
+  .readFileSync('/tmp/pages_to_update.txt', 'utf-8')
   .split('\n')
-  .filter(f => f.trim());
+  .filter((f) => f.trim());
 
 let updated = 0;
 let skipped = 0;
@@ -26,18 +27,22 @@ filesToUpdate.forEach((filePath) => {
   const original = content;
 
   // Skip if already has proper user filtering
-  if (content.includes('.eq(\'user_id\'') ||
-      content.includes('.eq(\'student_id\'') ||
-      content.includes('.eq(\'id\', user.id)')) {
+  if (
+    content.includes(".eq('user_id'") ||
+    content.includes(".eq('student_id'") ||
+    content.includes(".eq('id', user.id)")
+  ) {
     skipped++;
     return;
   }
 
   // Skip admin user management pages (they should use profiles)
-  if ((filePath.includes('/admin/users') ||
-       filePath.includes('/admin/students') ||
-       filePath.includes('/admin/staff')) &&
-      content.includes('.eq(\'role\'')) {
+  if (
+    (filePath.includes('/admin/users') ||
+      filePath.includes('/admin/students') ||
+      filePath.includes('/admin/staff')) &&
+    content.includes(".eq('role'")
+  ) {
     skipped++;
     return;
   }
@@ -60,29 +65,23 @@ filesToUpdate.forEach((filePath) => {
   if (isStudent && filePath.includes('/calendar/')) {
     content = content.replace(
       /\.from\('profiles'\)\s*\.select\('\*', \{ count: 'exact' \}\)/g,
-      ".from('calendar_events').select('*', { count: 'exact' }).eq('user_id', user.id)"
+      ".from('calendar_events').select('*', { count: 'exact' }).eq('user_id', user.id)",
     );
     changed = true;
   } else if (isStudent && filePath.includes('/badges/')) {
     content = content.replace(
       /\.from\('profiles'\)\s*\.select\('\*', \{ count: 'exact' \}\)/g,
-      ".from('user_badges').select('*, badges(*)', { count: 'exact' }).eq('user_id', user.id)"
+      ".from('user_badges').select('*, badges(*)', { count: 'exact' }).eq('user_id', user.id)",
     );
     changed = true;
   }
 
   // Staff portal: tickets, processes
   if (isStaff && filePath.includes('/customer-service/')) {
-    content = content.replace(
-      /\.from\('service_tickets'\)/g,
-      ".from('customer_service_tickets')"
-    );
+    content = content.replace(/\.from\('service_tickets'\)/g, ".from('customer_service_tickets')");
     changed = true;
   } else if (isStaff && filePath.includes('/processes/')) {
-    content = content.replace(
-      /\.from\('processes'\)/g,
-      ".from('staff_processes')"
-    );
+    content = content.replace(/\.from\('processes'\)/g, ".from('staff_processes')");
     changed = true;
   }
 
@@ -93,4 +92,3 @@ filesToUpdate.forEach((filePath) => {
     skipped++;
   }
 });
-

@@ -14,25 +14,24 @@ export interface ScormPackage {
  */
 export const scormPackages: ScormPackage[] = [
   {
-    id: "jri-core-1",
-    title: "Job Ready Indy: Core Module 1",
-    provider: "Job Ready Indy (EmployIndy)",
+    id: 'jri-core-1',
+    title: 'Job Ready Indy: Core Module 1',
+    provider: 'Job Ready Indy (EmployIndy)',
     notes:
-      "Map this to your first JRI SCORM 2004 package. Update launchUrl to the SCORM launch URL once hosted.",
+      'Map this to your first JRI SCORM 2004 package. Update launchUrl to the SCORM launch URL once hosted.',
   },
   {
-    id: "jri-core-2",
-    title: "Job Ready Indy: Core Module 2",
-    provider: "Job Ready Indy (EmployIndy)",
-    notes:
-      "Map this to your second JRI SCORM 2004 package. Update launchUrl when configured.",
+    id: 'jri-core-2',
+    title: 'Job Ready Indy: Core Module 2',
+    provider: 'Job Ready Indy (EmployIndy)',
+    notes: 'Map this to your second JRI SCORM 2004 package. Update launchUrl when configured.',
   },
   {
-    id: "vita-link-learn-1",
-    title: "IRS Link & Learn / VITA Training",
-    provider: "IRS VITA / Link & Learn",
+    id: 'vita-link-learn-1',
+    title: 'IRS Link & Learn / VITA Training',
+    provider: 'IRS VITA / Link & Learn',
     notes:
-      "This can represent the external IRS Link & Learn environment. You can keep this as an external link instead of SCORM if you prefer.",
+      'This can represent the external IRS Link & Learn environment. You can keep this as an external link instead of SCORM if you prefer.',
   },
 ];
 

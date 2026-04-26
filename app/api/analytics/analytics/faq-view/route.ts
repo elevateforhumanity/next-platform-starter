@@ -6,7 +6,7 @@ import { withApiAudit } from '@/lib/audit/withApiAudit';
 async function _POST(req: Request) {
   try {
     const supabase = await createClient();
-      const { faq_id } = await req.json();
+    const { faq_id } = await req.json();
 
     await supabase.from('page_views').insert({
       page: `/faq/${faq_id}`,

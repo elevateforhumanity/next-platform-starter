@@ -18,18 +18,18 @@ import { getAdminClient } from '@/lib/supabase/admin';
 import { sendEmail } from '@/lib/email/sendgrid';
 import { logger } from '@/lib/logger';
 
-export const dynamic     = 'force-dynamic';
-export const runtime     = 'nodejs';
+export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
 export const maxDuration = 60;
 
-const SCHOOL_NAME  = 'Mesmerized by Beauty Cosmetology Academy';
+const SCHOOL_NAME = 'Mesmerized by Beauty Cosmetology Academy';
 const SCHOOL_EMAIL = 'mesmerizedbybeautyl@yahoo.com';
-const ELEVATE_BCC  = 'info@elevateforhumanity.org';
-const SITE_URL     = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org';
+const ELEVATE_BCC = 'info@elevateforhumanity.org';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org';
 
 const PROGRAM_LABELS: Record<string, string> = {
-  'cosmetology-apprenticeship':     'Cosmetology',
-  'esthetician-apprenticeship':     'Esthetician',
+  'cosmetology-apprenticeship': 'Cosmetology',
+  'esthetician-apprenticeship': 'Esthetician',
   'nail-technician-apprenticeship': 'Nail Technician',
 };
 
@@ -166,14 +166,30 @@ function email96h(firstName: string, programLabel: string): { subject: string; h
           <p style="margin:0 0 12px;font-weight:700;color:#1e293b;font-size:14px">If something came up, we understand. Tell us:</p>
           <div style="display:flex;flex-direction:column;gap:8px">
             ${[
-              ['Still interested — just busy', `mailto:${SCHOOL_EMAIL}?subject=Still interested in ${programLabel}`],
-              ['Have questions before deciding', `mailto:${SCHOOL_EMAIL}?subject=Questions about ${programLabel}`],
-              ['Need help with transportation or funding', `mailto:${SCHOOL_EMAIL}?subject=Need help with ${programLabel} application`],
-              ['Not the right time — remove me', `mailto:${SCHOOL_EMAIL}?subject=Remove me from ${programLabel} list`],
-            ].map(([label, href]) => `
+              [
+                'Still interested — just busy',
+                `mailto:${SCHOOL_EMAIL}?subject=Still interested in ${programLabel}`,
+              ],
+              [
+                'Have questions before deciding',
+                `mailto:${SCHOOL_EMAIL}?subject=Questions about ${programLabel}`,
+              ],
+              [
+                'Need help with transportation or funding',
+                `mailto:${SCHOOL_EMAIL}?subject=Need help with ${programLabel} application`,
+              ],
+              [
+                'Not the right time — remove me',
+                `mailto:${SCHOOL_EMAIL}?subject=Remove me from ${programLabel} list`,
+              ],
+            ]
+              .map(
+                ([label, href]) => `
             <a href="${href}" style="display:block;padding:10px 14px;background:#fff;border:1px solid #e2e8f0;border-radius:8px;text-decoration:none;color:#1e293b;font-size:14px;font-weight:500">
               → ${label}
-            </a>`).join('')}
+            </a>`,
+              )
+              .join('')}
           </div>
         </div>
 
@@ -197,9 +213,9 @@ interface FollowupWindow {
 }
 
 const WINDOWS: FollowupWindow[] = [
-  { sequence: '24h', minHours: 24,  maxHours: 48,  build: email24h },
-  { sequence: '72h', minHours: 72,  maxHours: 96,  build: email72h },
-  { sequence: '96h', minHours: 96,  maxHours: 120, build: email96h },
+  { sequence: '24h', minHours: 24, maxHours: 48, build: email24h },
+  { sequence: '72h', minHours: 72, maxHours: 96, build: email72h },
+  { sequence: '96h', minHours: 96, maxHours: 120, build: email96h },
 ];
 
 export async function POST(request: NextRequest) {
@@ -214,9 +230,9 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Service unavailable' }, { status: 503 });
   }
 
-  const now     = new Date();
+  const now = new Date();
   const h120ago = new Date(now.getTime() - 120 * 60 * 60 * 1000);
-  const h24ago  = new Date(now.getTime() -  24 * 60 * 60 * 1000);
+  const h24ago = new Date(now.getTime() - 24 * 60 * 60 * 1000);
 
   const counts: Record<string, number> = { '24h': 0, '72h': 0, '96h': 0, errors: 0 };
 
@@ -237,24 +253,22 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ ...counts, processed: 0, message: 'No applications in window' });
     }
 
-    const appIds = applications.map(a => a.id);
+    const appIds = applications.map((a) => a.id);
     const { data: alreadySent } = await supabase
       .from('school_application_followups')
       .select('application_id, sequence')
       .in('application_id', appIds);
 
-    const sentSet = new Set(
-      (alreadySent ?? []).map(r => `${r.application_id}:${r.sequence}`)
-    );
+    const sentSet = new Set((alreadySent ?? []).map((r) => `${r.application_id}:${r.sequence}`));
 
     for (const app of applications) {
-      const ageMs       = now.getTime() - new Date(app.created_at).getTime();
+      const ageMs = now.getTime() - new Date(app.created_at).getTime();
       const programLabel = PROGRAM_LABELS[app.program_interest] ?? app.program_interest;
 
       for (const window of WINDOWS) {
         const minMs = window.minHours * 3600 * 1000;
         const maxMs = window.maxHours * 3600 * 1000;
-        const key   = `${app.id}:${window.sequence}`;
+        const key = `${app.id}:${window.sequence}`;
 
         if (ageMs < minMs || ageMs >= maxMs) continue;
         if (sentSet.has(key)) continue;
@@ -263,8 +277,8 @@ export async function POST(request: NextRequest) {
           const { subject, html } = window.build(app.first_name, programLabel);
 
           await sendEmail({
-            to:      app.email,
-            bcc:     ELEVATE_BCC,
+            to: app.email,
+            bcc: ELEVATE_BCC,
             subject,
             html,
             replyTo: SCHOOL_EMAIL,
@@ -272,8 +286,8 @@ export async function POST(request: NextRequest) {
 
           await supabase.from('school_application_followups').insert({
             application_id: app.id,
-            sequence:       window.sequence,
-            sent_at:        now.toISOString(),
+            sequence: window.sequence,
+            sent_at: now.toISOString(),
           });
 
           sentSet.add(key);

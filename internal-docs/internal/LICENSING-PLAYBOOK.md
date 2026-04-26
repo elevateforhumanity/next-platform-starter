@@ -4,18 +4,18 @@
 
 ### Self-Serve (Stripe Checkout)
 
-| Plan | Monthly | Annual | Students | Admins | Programs |
-|------|---------|--------|----------|--------|----------|
-| **Starter** | $99/mo | $899/yr | 100 | 1 | 3 |
-| **Professional** | $299/mo | $2,499/yr | 500 | 5 | Unlimited |
+| Plan             | Monthly | Annual    | Students | Admins | Programs  |
+| ---------------- | ------- | --------- | -------- | ------ | --------- |
+| **Starter**      | $99/mo  | $899/yr   | 100      | 1      | 3         |
+| **Professional** | $299/mo | $2,499/yr | 500      | 5      | Unlimited |
 
 ### Enterprise (Contact Sales)
 
-| Plan | Price | Type |
-|------|-------|------|
-| **Implementation License** | $35,000 – $50,000 | One-time |
-| **Implementation + Annual** | $60,000 – $90,000 | Year 1 |
-| **Annual Renewal** | $15,000 – $30,000 | Per year |
+| Plan                        | Price             | Type     |
+| --------------------------- | ----------------- | -------- |
+| **Implementation License**  | $35,000 – $50,000 | One-time |
+| **Implementation + Annual** | $60,000 – $90,000 | Year 1   |
+| **Annual Renewal**          | $15,000 – $30,000 | Per year |
 
 ---
 
@@ -32,11 +32,13 @@ This is the plan you anchor almost every conversation around.
 ### When to Lead with Starter
 
 Only when:
+
 - A very small nonprofit
 - A pilot cohort
 - A funder-mandated proof-of-concept
 
 Script:
+
 > "Starter is intended for small pilots. Most teams outgrow it quickly."
 
 ---
@@ -46,21 +48,25 @@ Script:
 These are walls, not suggestions.
 
 ### Student Limits
+
 - **Starter**: 100 max (hard stop)
 - **Professional**: 500 max (hard stop)
 - **Enterprise**: Unlimited
 
 ### Admin Limits
+
 - **Starter**: 1 admin
 - **Professional**: 5 admins
 - **Enterprise**: Unlimited
 
 ### Program Limits
+
 - **Starter**: 3 programs
 - **Professional**: Unlimited
 - **Enterprise**: Unlimited
 
 ### Multi-Site
+
 - Any multi-site deployment = Enterprise. Full stop.
 
 ---
@@ -104,6 +110,7 @@ These features are gated regardless of usage:
 Then stop talking.
 
 If they still push:
+
 > "Starter is available for pilots."
 
 **Never discount Professional.**
@@ -119,16 +126,19 @@ You are selling risk removal, not features.
 ## Limit Enforcement Behavior
 
 ### At 80% of Limit
+
 - Warning banner appears
 - "You're approaching your limit" message
 - Upgrade CTA visible
 
 ### At 95% of Limit
+
 - Critical warning banner (red)
 - "Almost at limit" message
 - Prominent upgrade CTA
 
 ### At 100% of Limit
+
 - **Hard stop** on the limited action
 - Modal blocks the action
 - "Contact sales to continue" message
@@ -138,11 +148,11 @@ You are selling risk removal, not features.
 
 ## Upgrade Paths
 
-| From | To | Trigger |
-|------|-----|---------|
-| Starter | Professional | Any limit hit |
-| Professional | Enterprise | 500 students OR multi-site OR compliance needs |
-| Any SaaS | Enterprise | Source code request OR audit support |
+| From         | To           | Trigger                                        |
+| ------------ | ------------ | ---------------------------------------------- |
+| Starter      | Professional | Any limit hit                                  |
+| Professional | Enterprise   | 500 students OR multi-site OR compliance needs |
+| Any SaaS     | Enterprise   | Source code request OR audit support           |
 
 ---
 
@@ -153,20 +163,20 @@ You are selling risk removal, not features.
 ❌ Offer one-off discounts  
 ❌ Let limits slide quietly  
 ❌ Auto-upgrade without conversation  
-❌ Allow silent overages  
+❌ Allow silent overages
 
 ---
 
 ## Files Implementing This
 
-| File | Purpose |
-|------|---------|
-| `/lib/license/types.ts` | Plan definitions, pricing, limits |
-| `/lib/license/limits.ts` | Limit checking, enterprise triggers |
-| `/lib/license/enforcement.ts` | Server-side enforcement functions |
-| `/components/license/LimitWarning.tsx` | UI components for warnings/blocks |
-| `/app/store/page.tsx` | Store with all tiers |
-| `/app/store/request-license/page.tsx` | Enterprise inquiry form |
+| File                                   | Purpose                             |
+| -------------------------------------- | ----------------------------------- |
+| `/lib/license/types.ts`                | Plan definitions, pricing, limits   |
+| `/lib/license/limits.ts`               | Limit checking, enterprise triggers |
+| `/lib/license/enforcement.ts`          | Server-side enforcement functions   |
+| `/components/license/LimitWarning.tsx` | UI components for warnings/blocks   |
+| `/app/store/page.tsx`                  | Store with all tiers                |
+| `/app/store/request-license/page.tsx`  | Enterprise inquiry form             |
 
 ---
 

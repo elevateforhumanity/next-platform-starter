@@ -238,7 +238,7 @@ export interface QuestionStats {
 export async function createQuestionBank(
   name: string,
   description: string,
-  courseId?: string
+  courseId?: string,
 ): Promise<QuestionBank> {
   const { createClient } = await import('@/lib/supabase/server');
   const supabase = await createClient();
@@ -265,7 +265,7 @@ export async function createQuestionBank(
  */
 export async function addQuestionToBank(
   bankId: string,
-  question: Omit<Question, 'id' | 'bankId' | 'createdAt' | 'updatedAt' | 'createdBy'>
+  question: Omit<Question, 'id' | 'bankId' | 'createdAt' | 'updatedAt' | 'createdBy'>,
 ): Promise<Question> {
   const { createClient } = await import('@/lib/supabase/server');
   const supabase = await createClient();
@@ -298,16 +298,13 @@ export async function createAssessmentFromBank(
     randomize?: boolean;
     difficulty?: 'easy' | 'medium' | 'hard';
     tags?: string[];
-  } = {}
+  } = {},
 ): Promise<Assessment> {
   const { createClient } = await import('@/lib/supabase/server');
   const supabase = await createClient();
 
   // Get questions from bank
-  let query = supabase
-    .from('questions')
-    .select('*')
-    .eq('bank_id', bankId);
+  let query = supabase.from('questions').select('*').eq('bank_id', bankId);
 
   if (options.difficulty) {
     query = query.eq('difficulty', options.difficulty);
@@ -359,20 +356,20 @@ export async function createAssessmentFromBank(
 /**
  * Grade assessment attempt
  */
-export async function gradeAssessmentAttempt(
-  attemptId: string
-): Promise<AssessmentAttempt> {
+export async function gradeAssessmentAttempt(attemptId: string): Promise<AssessmentAttempt> {
   const { createClient } = await import('@/lib/supabase/server');
   const supabase = await createClient();
 
   // Get attempt with questions
   const { data: attempt } = await supabase
     .from('assessment_attempts')
-    .select(`
+    .select(
+      `
       *,
       assessment:assessments(*),
       answers:student_answers(*)
-    `)
+    `,
+    )
     .eq('id', attemptId)
     .maybeSingle();
 
@@ -380,10 +377,7 @@ export async function gradeAssessmentAttempt(
 
   // Get questions
   const questionIds = attempt.answers.map((a: Record<string, any>) => a.question_id);
-  const { data: questions } = await supabase
-    .from('questions')
-    .select('*')
-    .in('id', questionIds);
+  const { data: questions } = await supabase.from('questions').select('*').in('id', questionIds);
 
   if (!questions) throw new Error('Questions not found');
 
@@ -392,7 +386,7 @@ export async function gradeAssessmentAttempt(
   const gradedAnswers: StudentAnswer[] = [];
 
   for (const answer of attempt.answers) {
-    const question = questions.find(q => q.id === answer.question_id);
+    const question = questions.find((q) => q.id === answer.question_id);
     if (!question) continue;
 
     const graded = gradeAnswer(question, answer.answer);
@@ -436,7 +430,7 @@ export async function gradeAssessmentAttempt(
  */
 function gradeAnswer(
   question: Question,
-  studentAnswer: string | string[]
+  studentAnswer: string | string[],
 ): { isCorrect: boolean; pointsEarned: number; feedback?: string } {
   switch (question.type) {
     case 'multiple-choice':
@@ -450,13 +444,17 @@ function gradeAnswer(
 
     case 'multiple-select':
       const studentAnswers = Array.isArray(studentAnswer) ? studentAnswer : [studentAnswer];
-      const allCorrect = question.correctAnswers.every(a => studentAnswers.includes(a));
-      const noExtra = studentAnswers.every(a => question.correctAnswers.includes(a));
+      const allCorrect = question.correctAnswers.every((a) => studentAnswers.includes(a));
+      const noExtra = studentAnswers.every((a) => question.correctAnswers.includes(a));
       const correct = allCorrect && noExtra;
 
       if (question.allowPartialCredit) {
-        const correctCount = studentAnswers.filter(a => question.correctAnswers.includes(a)).length;
-        const incorrectCount = studentAnswers.filter(a => !question.correctAnswers.includes(a)).length;
+        const correctCount = studentAnswers.filter((a) =>
+          question.correctAnswers.includes(a),
+        ).length;
+        const incorrectCount = studentAnswers.filter(
+          (a) => !question.correctAnswers.includes(a),
+        ).length;
         const score = Math.max(0, correctCount - incorrectCount);
         const maxScore = question.correctAnswers.length;
         const points = (score / maxScore) * question.points;
@@ -477,7 +475,7 @@ function gradeAnswer(
     case 'short-answer':
     case 'fill-in-blank':
       const answer = typeof studentAnswer === 'string' ? studentAnswer : studentAnswer[0];
-      const matches = question.correctAnswers.some(correct => {
+      const matches = question.correctAnswers.some((correct) => {
         if (question.caseSensitive) {
           return answer === correct;
         }
@@ -512,7 +510,7 @@ function gradeAnswer(
  * Calculate assessment analytics
  */
 export async function calculateAssessmentAnalytics(
-  assessmentId: string
+  assessmentId: string,
 ): Promise<AssessmentAnalytics> {
   const { createClient } = await import('@/lib/supabase/server');
   const supabase = await createClient();
@@ -527,8 +525,8 @@ export async function calculateAssessmentAnalytics(
     throw new Error('No graded attempts found');
   }
 
-  const scores = attempts.map(a => a.percentage);
-  const times = attempts.map(a => a.time_spent);
+  const scores = attempts.map((a) => a.percentage);
+  const times = attempts.map((a) => a.time_spent);
 
   const averageScore = scores.reduce((sum, s) => sum + s, 0) / scores.length;
   const medianScore = calculateMedian(scores);
@@ -541,11 +539,11 @@ export async function calculateAssessmentAnalytics(
 
   // Score distribution
   const distribution = [
-    { range: '0-59%', count: scores.filter(s => s < 60).length },
-    { range: '60-69%', count: scores.filter(s => s >= 60 && s < 70).length },
-    { range: '70-79%', count: scores.filter(s => s >= 70 && s < 80).length },
-    { range: '80-89%', count: scores.filter(s => s >= 80 && s < 90).length },
-    { range: '90-100%', count: scores.filter(s => s >= 90).length },
+    { range: '0-59%', count: scores.filter((s) => s < 60).length },
+    { range: '60-69%', count: scores.filter((s) => s >= 60 && s < 70).length },
+    { range: '70-79%', count: scores.filter((s) => s >= 70 && s < 80).length },
+    { range: '80-89%', count: scores.filter((s) => s >= 80 && s < 90).length },
+    { range: '90-100%', count: scores.filter((s) => s >= 90).length },
   ];
 
   // Difficulty rating
@@ -584,14 +582,12 @@ function shuffleArray<T>(array: T[]): T[] {
 function calculateMedian(numbers: number[]): number {
   const sorted = [...numbers].sort((a, b) => a - b);
   const mid = Math.floor(sorted.length / 2);
-  return sorted.length % 2 === 0
-    ? (sorted[mid - 1] + sorted[mid]) / 2
-    : sorted[mid];
+  return sorted.length % 2 === 0 ? (sorted[mid - 1] + sorted[mid]) / 2 : sorted[mid];
 }
 
 function calculateStandardDeviation(numbers: number[]): number {
   const avg = numbers.reduce((sum, n) => sum + n, 0) / numbers.length;
-  const squareDiffs = numbers.map(n => Math.pow(n - avg, 2));
+  const squareDiffs = numbers.map((n) => Math.pow(n - avg, 2));
   const avgSquareDiff = squareDiffs.reduce((sum, n) => sum + n, 0) / numbers.length;
   return Math.sqrt(avgSquareDiff);
 }

@@ -15,7 +15,12 @@ export const dynamic = 'force-dynamic';
  * Body: { course_lesson_id, course_id, step_type, submission_text?, file_urls?, competency_key? }
  */
 export async function POST(request: NextRequest) {
-  try { const rl = await applyRateLimit(request, 'api'); if (rl) return rl; } catch { /* continue on rate-limit backend failure */ }
+  try {
+    const rl = await applyRateLimit(request, 'api');
+    if (rl) return rl;
+  } catch {
+    /* continue on rate-limit backend failure */
+  }
 
   const auth = await apiAuthGuard(request);
   if (auth.error) return auth.error;
@@ -36,7 +41,8 @@ export async function POST(request: NextRequest) {
     return safeError('Invalid JSON', 400);
   }
 
-  const { course_lesson_id, course_id, step_type, submission_text, file_urls, competency_key } = body;
+  const { course_lesson_id, course_id, step_type, submission_text, file_urls, competency_key } =
+    body;
 
   if (!course_lesson_id || !course_id || !step_type) {
     return safeError('course_lesson_id, course_id, and step_type are required', 400);
@@ -70,7 +76,13 @@ export async function POST(request: NextRequest) {
   }
 
   // Verify learner is enrolled — check program_enrollments (canonical)
-  const ACCESS_STATES = ['active', 'in_progress', 'enrolled', 'confirmed', 'pending_funding_verification'];
+  const ACCESS_STATES = [
+    'active',
+    'in_progress',
+    'enrolled',
+    'confirmed',
+    'pending_funding_verification',
+  ];
 
   const { data: enrollment } = await db
     .from('program_enrollments')
@@ -94,16 +106,16 @@ export async function POST(request: NextRequest) {
   const { data: submission, error: insertErr } = await db
     .from('step_submissions')
     .insert({
-      user_id:          user.id,
-      lesson_id:        course_lesson_id,
+      user_id: user.id,
+      lesson_id: course_lesson_id,
       course_lesson_id,
       course_id,
       step_type,
-      submission_text:  submission_text?.trim() || null,
-      file_urls:        file_urls ?? [],
-      status:           'submitted',
-      competency_key:   competency_key ?? null,
-      updated_at:       new Date().toISOString(),
+      submission_text: submission_text?.trim() || null,
+      file_urls: file_urls ?? [],
+      status: 'submitted',
+      competency_key: competency_key ?? null,
+      updated_at: new Date().toISOString(),
     })
     .select('id, status, created_at')
     .maybeSingle();
@@ -119,16 +131,21 @@ export async function POST(request: NextRequest) {
  * Returns the learner's own submissions for a lesson.
  */
 export async function GET(request: NextRequest) {
-  try { const rl = await applyRateLimit(request, 'api'); if (rl) return rl; } catch { /* continue on rate-limit backend failure */ }
+  try {
+    const rl = await applyRateLimit(request, 'api');
+    if (rl) return rl;
+  } catch {
+    /* continue on rate-limit backend failure */
+  }
 
   const auth = await apiAuthGuard(request);
   if (auth.error) return auth.error;
   const { user } = auth;
 
   const { searchParams } = new URL(request.url);
-  const course_id        = searchParams.get('course_id');
+  const course_id = searchParams.get('course_id');
   const course_lesson_id = searchParams.get('course_lesson_id');
-  const competency_key   = searchParams.get('competency_key');
+  const competency_key = searchParams.get('competency_key');
 
   if (!course_id) return safeError('course_id is required', 400);
 
@@ -136,13 +153,15 @@ export async function GET(request: NextRequest) {
 
   let query = db
     .from('step_submissions')
-    .select('id, course_lesson_id, step_type, submission_text, file_urls, status, instructor_note, reviewed_at, created_at, competency_key')
+    .select(
+      'id, course_lesson_id, step_type, submission_text, file_urls, status, instructor_note, reviewed_at, created_at, competency_key',
+    )
     .eq('user_id', user.id)
     .eq('course_id', course_id)
     .order('created_at', { ascending: false });
 
   if (course_lesson_id) query = query.eq('course_lesson_id', course_lesson_id);
-  if (competency_key)   query = query.eq('competency_key', competency_key);
+  if (competency_key) query = query.eq('competency_key', competency_key);
 
   const { data, error } = await query;
   if (error) return safeDbError(error, 'Failed to fetch submissions');

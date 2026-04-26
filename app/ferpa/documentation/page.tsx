@@ -3,14 +3,7 @@ import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { Metadata } from 'next';
-import {
-  ChevronRight,
-  FileText,
-  Download,
-  ExternalLink,
-  FolderOpen,
-  Search,
-} from 'lucide-react';
+import { ChevronRight, FileText, Download, ExternalLink, FolderOpen, Search } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Documentation | FERPA Portal',
@@ -45,8 +38,9 @@ const DOCUMENT_TYPE_LABELS: Record<string, string> = {
 export default async function FerpaDocumentationPage() {
   const supabase = await createClient();
 
-
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/ferpa/documentation');
 
   const { data: profile } = await supabase
@@ -103,15 +97,23 @@ export default async function FerpaDocumentationPage() {
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* Hero Image */}
       <section className="relative h-[160px] sm:h-[220px] md:h-[280px] overflow-hidden">
-        <Image src="/images/pages/ferpa-page-3.jpg" alt="FERPA compliance" fill sizes="100vw" className="object-cover" priority />
+        <Image
+          src="/images/pages/ferpa-page-3.jpg"
+          alt="FERPA compliance"
+          fill
+          sizes="100vw"
+          className="object-cover"
+          priority
+        />
       </section>
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <nav className="flex items-center gap-2 text-sm text-slate-700 mb-4">
-            <Link href="/ferpa" className="hover:text-slate-900">FERPA Portal</Link>
+            <Link href="/ferpa" className="hover:text-slate-900">
+              FERPA Portal
+            </Link>
             <ChevronRight className="w-4 h-4" />
             <span className="text-slate-900 font-medium">Documentation</span>
           </nav>
@@ -147,7 +149,10 @@ export default async function FerpaDocumentationPage() {
                 </div>
                 <div className="divide-y divide-gray-200">
                   {docs.map((doc) => (
-                    <div key={doc.id} className="px-6 py-4 flex items-center justify-between hover:bg-white">
+                    <div
+                      key={doc.id}
+                      className="px-6 py-4 flex items-center justify-between hover:bg-white"
+                    >
                       <div className="flex items-center gap-4">
                         <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
                           <FileText className="w-5 h-5 text-slate-700" />

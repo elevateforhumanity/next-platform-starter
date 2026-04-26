@@ -10,9 +10,15 @@ export const dynamic = 'force-dynamic';
 
 async function requireAdmin() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return { error: 'Unauthorized', status: 401 };
-  const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).maybeSingle();
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('role')
+    .eq('id', user.id)
+    .maybeSingle();
   if (!profile || !['admin', 'super_admin'].includes(profile.role)) {
     return { error: 'Forbidden', status: 403 };
   }
@@ -48,7 +54,10 @@ async function _PATCH(request: NextRequest, { params }: { params: Promise<{ id: 
     const body = await request.json().catch(() => null);
     const parsed = EnrollmentUpdateSchema.safeParse(body);
     if (!parsed.success) {
-      return NextResponse.json({ error: 'Invalid input', details: parsed.error.flatten() }, { status: 400 });
+      return NextResponse.json(
+        { error: 'Invalid input', details: parsed.error.flatten() },
+        { status: 400 },
+      );
     }
     if (Object.keys(parsed.data).length === 0) {
       return NextResponse.json({ error: 'No fields to update' }, { status: 400 });
@@ -83,4 +92,6 @@ async function _DELETE(request: NextRequest, { params }: { params: Promise<{ id:
 
 export const GET = withApiAudit('/api/admin/enrollments/[id]', _GET as any, { critical: true });
 export const PATCH = withApiAudit('/api/admin/enrollments/[id]', _PATCH as any, { critical: true });
-export const DELETE = withApiAudit('/api/admin/enrollments/[id]', _DELETE as any, { critical: true });
+export const DELETE = withApiAudit('/api/admin/enrollments/[id]', _DELETE as any, {
+  critical: true,
+});

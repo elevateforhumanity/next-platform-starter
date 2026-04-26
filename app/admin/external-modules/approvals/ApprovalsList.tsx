@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
 import React from 'react';
 
 // app/admin/external-modules/approvals/ApprovalsList.tsx
 // Client component for managing external module approvals
 
-import { supabase } from "@/lib/supabase/client";
-import { useState } from "react";
+import { supabase } from '@/lib/supabase/client';
+import { useState } from 'react';
 
 type Submission = {
   id: string;
@@ -51,20 +51,20 @@ export default function ApprovalsList({
 
     try {
       if (!supabase || typeof supabase === 'string') {
-        throw new Error("Supabase client not initialized");
+        throw new Error('Supabase client not initialized');
       }
 
       const { data: userData } = await supabase.auth.getUser();
-      if (!userData.user) throw new Error("Not authenticated");
+      if (!userData.user) throw new Error('Not authenticated');
 
       const { error } = await supabase
-        .from("external_partner_progress")
+        .from('external_partner_progress')
         .update({
-          status: "approved",
+          status: 'approved',
           approved_by: userData.user.id,
           approved_at: new Date().toISOString(),
         })
-        .eq("id", submissionId);
+        .eq('id', submissionId);
 
       if (error) throw error;
 
@@ -73,14 +73,14 @@ export default function ApprovalsList({
       if (submission) {
         setPending(pending.filter((s) => s.id !== submissionId));
         setApproved([
-          { ...submission, status: "approved", approved_at: new Date().toISOString() },
+          { ...submission, status: 'approved', approved_at: new Date().toISOString() },
           ...approved,
         ]);
       }
 
-      setMessage("Submission approved successfully");
+      setMessage('Submission approved successfully');
     } catch (err: any) {
-      setMessage("An error occurred");
+      setMessage('An error occurred');
     } finally {
       setProcessing(null);
     }
@@ -92,23 +92,23 @@ export default function ApprovalsList({
 
     try {
       if (!supabase || typeof supabase === 'string') {
-        throw new Error("Supabase client not initialized");
+        throw new Error('Supabase client not initialized');
       }
 
       const { error } = await supabase
-        .from("external_partner_progress")
+        .from('external_partner_progress')
         .update({
-          status: "in_progress",
+          status: 'in_progress',
           proof_file_url: null,
         })
-        .eq("id", submissionId);
+        .eq('id', submissionId);
 
       if (error) throw error;
 
       setPending(pending.filter((s) => s.id !== submissionId));
-      setMessage("Submission rejected - student can resubmit");
+      setMessage('Submission rejected - student can resubmit');
     } catch (err: any) {
-      setMessage("An error occurred");
+      setMessage('An error occurred');
     } finally {
       setProcessing(null);
     }
@@ -124,49 +124,35 @@ export default function ApprovalsList({
 
       {/* Pending Submissions */}
       <div>
-        <h2 className="text-lg font-semibold mb-3">
-          Pending Approvals ({pending.length})
-        </h2>
+        <h2 className="text-lg font-semibold mb-3">Pending Approvals ({pending.length})</h2>
         {pending.length === 0 ? (
           <div className="rounded-lg border bg-white p-6 text-center">
-            <p className="text-sm text-black">
-              No pending submissions to review
-            </p>
+            <p className="text-sm text-black">No pending submissions to review</p>
           </div>
         ) : (
           <div className="space-y-3">
             {pending.map((submission) => (
-              <div
-                key={submission.id}
-                className="rounded-lg border bg-white p-4 shadow-sm"
-              >
+              <div key={submission.id} className="rounded-lg border bg-white p-4 shadow-sm">
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex-1 space-y-2">
                     <div>
-                      <h3 className="text-sm font-semibold">
-                        {submission.profiles.full_name}
-                      </h3>
-                      <p className="text-xs text-black">
-                        {submission.profiles.email}
-                      </p>
+                      <h3 className="text-sm font-semibold">{submission.profiles.full_name}</h3>
+                      <p className="text-xs text-black">{submission.profiles.email}</p>
                     </div>
                     <div>
                       <p className="text-xs font-semibold text-emerald-700">
                         {submission.external_partner_modules.title}
                       </p>
                       <p className="text-xs text-black">
-                        {submission.external_partner_modules.partner_name} •{" "}
+                        {submission.external_partner_modules.partner_name} •{' '}
                         {submission.external_partner_modules.courses.title}
                       </p>
                     </div>
                     <p className="text-[11px] text-slate-500">
-                      Submitted:{" "}
-                      {new Date(submission.created_at).toLocaleString()}
+                      Submitted: {new Date(submission.created_at).toLocaleString()}
                     </p>
                     {submission.notes && (
-                      <p className="text-xs text-black italic">
-                        Note: {submission.notes}
-                      </p>
+                      <p className="text-xs text-black italic">Note: {submission.notes}</p>
                     )}
                   </div>
                   <div className="flex flex-col gap-2">
@@ -204,14 +190,14 @@ export default function ApprovalsList({
                       disabled={processing === submission.id}
                       className="inline-flex items-center justify-center rounded-full bg-emerald-600 px-3 py-2.5 text-xs font-semibold text-white hover:bg-emerald-700 disabled:opacity-50"
                     >
-                      {processing === submission.id ? "..." : "• Approve"}
+                      {processing === submission.id ? '...' : '• Approve'}
                     </button>
                     <button
                       onClick={() => handleReject(submission.id)}
                       disabled={processing === submission.id}
                       className="inline-flex items-center justify-center rounded-full bg-brand-red-100 px-3 py-2.5 text-xs font-semibold text-brand-red-700 hover:bg-brand-red-200 disabled:opacity-50"
                     >
-                      {processing === submission.id ? "..." : "✗ Reject"}
+                      {processing === submission.id ? '...' : '✗ Reject'}
                     </button>
                   </div>
                 </div>
@@ -223,9 +209,7 @@ export default function ApprovalsList({
 
       {/* Recently Approved */}
       <div>
-        <h2 className="text-lg font-semibold mb-3">
-          Recently Approved ({approved.length})
-        </h2>
+        <h2 className="text-lg font-semibold mb-3">Recently Approved ({approved.length})</h2>
         {approved.length === 0 ? (
           <div className="rounded-lg border bg-white p-6 text-center">
             <p className="text-sm text-black">No recent approvals</p>
@@ -239,18 +223,14 @@ export default function ApprovalsList({
               >
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-xs font-semibold">
-                      {submission.profiles.full_name}
-                    </p>
+                    <p className="text-xs font-semibold">{submission.profiles.full_name}</p>
                     <p className="text-xs text-black">
-                      {submission.external_partner_modules.title} •{" "}
+                      {submission.external_partner_modules.title} •{' '}
                       {submission.external_partner_modules.partner_name}
                     </p>
                   </div>
                   <div className="text-right">
-                    <p className="text-[11px] text-emerald-700 font-semibold">
-                      • Approved
-                    </p>
+                    <p className="text-[11px] text-emerald-700 font-semibold">• Approved</p>
                     {submission.approved_at && (
                       <p className="text-[11px] text-black">
                         {new Date(submission.approved_at).toLocaleDateString()}

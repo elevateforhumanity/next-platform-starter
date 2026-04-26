@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -29,12 +29,8 @@ export function EcdCourseCard({ course }: Props) {
         />
       </div>
       <div className="flex flex-1 flex-col gap-2 p-4">
-        <h3 className="text-base font-semibold text-black">
-          {course.course_name}
-        </h3>
-        <p className="line-clamp-3 text-sm text-black">
-          {course.shortDescription}
-        </p>
+        <h3 className="text-base font-semibold text-black">{course.course_name}</h3>
+        <p className="line-clamp-3 text-sm text-black">{course.shortDescription}</p>
         <span className="mt-2 inline-flex items-center text-xs font-medium text-brand-orange-600 group-hover:underline">
           View program details
         </span>

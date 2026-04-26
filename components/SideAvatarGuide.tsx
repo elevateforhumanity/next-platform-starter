@@ -1,7 +1,17 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { Send, ChevronLeft, ChevronRight, MessageCircle, Volume2, VolumeX, Play, Pause, X } from 'lucide-react';
+import {
+  Send,
+  ChevronLeft,
+  ChevronRight,
+  MessageCircle,
+  Volume2,
+  VolumeX,
+  Play,
+  Pause,
+  X,
+} from 'lucide-react';
 
 interface Message {
   role: 'user' | 'assistant';
@@ -35,7 +45,7 @@ export default function SideAvatarGuide({
   const [isMuted, setIsMuted] = useState(true);
   const [isPlaying, setIsPlaying] = useState(false);
   const [videoFailed, setVideoFailed] = useState(false);
-  
+
   const videoRef = useRef<HTMLVideoElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -50,13 +60,13 @@ export default function SideAvatarGuide({
   // Play video when visible - with retry for mobile
   useEffect(() => {
     if (!isVisible || !videoRef.current) return;
-    
+
     const video = videoRef.current;
     video.muted = true;
     video.playsInline = true;
     video.setAttribute('playsinline', '');
     video.setAttribute('webkit-playsinline', '');
-    
+
     const playVideo = async () => {
       try {
         await video.play();
@@ -72,7 +82,7 @@ export default function SideAvatarGuide({
         }, 500);
       }
     };
-    
+
     playVideo();
   }, [isVisible]);
 
@@ -115,12 +125,12 @@ export default function SideAvatarGuide({
 
     const userMessage = input.trim();
     setInput('');
-    setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
+    setMessages((prev) => [...prev, { role: 'user', content: userMessage }]);
     setIsLoading(true);
 
     try {
       const currentRoute = typeof window !== 'undefined' ? window.location.pathname : '/';
-      
+
       const response = await fetch('/api/chat/avatar-assistant', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -135,37 +145,42 @@ export default function SideAvatarGuide({
       const data = await response.json();
 
       if (data.error) {
-        setMessages(prev => [...prev, {
-          role: 'assistant',
-          content: "I'm sorry, I encountered an issue. Please try again or call (317) 314-3757.",
-        }]);
+        setMessages((prev) => [
+          ...prev,
+          {
+            role: 'assistant',
+            content: "I'm sorry, I encountered an issue. Please try again or call (317) 314-3757.",
+          },
+        ]);
       } else {
-        setMessages(prev => [...prev, {
-          role: 'assistant',
-          content: data.message,
-        }]);
+        setMessages((prev) => [
+          ...prev,
+          {
+            role: 'assistant',
+            content: data.message,
+          },
+        ]);
         playVideo();
       }
     } catch {
-      setMessages(prev => [...prev, {
-        role: 'assistant',
-        content: "Connection issue. Please try again.",
-      }]);
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: 'assistant',
+          content: 'Connection issue. Please try again.',
+        },
+      ]);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const sideClasses = side === 'right' 
-    ? 'right-0 rounded-l-2xl' 
-    : 'left-0 rounded-r-2xl';
+  const sideClasses = side === 'right' ? 'right-0 rounded-l-2xl' : 'left-0 rounded-r-2xl';
 
-  const toggleClasses = side === 'right'
-    ? '-left-12 rounded-l-xl'
-    : '-right-12 rounded-r-xl';
+  const toggleClasses = side === 'right' ? '-left-12 rounded-l-xl' : '-right-12 rounded-r-xl';
 
   return (
-    <div 
+    <div
       className={`fixed top-1/4 ${sideClasses} z-40 transition-all duration-300 ${
         isExpanded ? 'w-96' : 'w-0'
       }`}
@@ -177,9 +192,15 @@ export default function SideAvatarGuide({
         title={isExpanded ? 'Hide Guide' : 'Show Guide'}
       >
         {isExpanded ? (
-          side === 'right' ? <ChevronRight className="w-6 h-6" /> : <ChevronLeft className="w-6 h-6" />
+          side === 'right' ? (
+            <ChevronRight className="w-6 h-6" />
+          ) : (
+            <ChevronLeft className="w-6 h-6" />
+          )
+        ) : side === 'right' ? (
+          <ChevronLeft className="w-6 h-6" />
         ) : (
-          side === 'right' ? <ChevronLeft className="w-6 h-6" /> : <ChevronRight className="w-6 h-6" />
+          <ChevronRight className="w-6 h-6" />
         )}
       </button>
 
@@ -196,7 +217,9 @@ export default function SideAvatarGuide({
 
       {/* Main Panel */}
       {isExpanded && (
-        <div className={`bg-white shadow-2xl border border-gray-200 h-[600px] flex flex-col overflow-hidden ${side === 'right' ? 'rounded-l-2xl' : 'rounded-r-2xl'}`}>
+        <div
+          className={`bg-white shadow-2xl border border-gray-200 h-[600px] flex flex-col overflow-hidden ${side === 'right' ? 'rounded-l-2xl' : 'rounded-r-2xl'}`}
+        >
           {/* Avatar Video Section - Larger */}
           <div className="bg-slate-900 p-4">
             <div className="relative">
@@ -220,7 +243,7 @@ export default function SideAvatarGuide({
                   </div>
                 </div>
               )}
-              
+
               {/* Play/Pause overlay */}
               <div className="absolute inset-0 flex items-center justify-center">
                 <button
@@ -234,7 +257,7 @@ export default function SideAvatarGuide({
                   )}
                 </button>
               </div>
-              
+
               {/* Mute/unmute button */}
               <button
                 onClick={toggleMute}
@@ -272,8 +295,14 @@ export default function SideAvatarGuide({
                 <div className="bg-white px-4 py-3 rounded-2xl rounded-bl-md border border-gray-200 shadow-sm">
                   <div className="flex gap-1">
                     <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" />
-                    <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                    <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                    <span
+                      className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+                      style={{ animationDelay: '150ms' }}
+                    />
+                    <span
+                      className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+                      style={{ animationDelay: '300ms' }}
+                    />
                   </div>
                 </div>
               </div>

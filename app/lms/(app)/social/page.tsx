@@ -3,9 +3,20 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
-import { 
-  Users, MessageSquare, Heart, Share2, Image as ImageIcon,
-  Plus, Search, Bell, UserPlus, TrendingUp, Trophy, Flame, Award
+import {
+  Users,
+  MessageSquare,
+  Heart,
+  Share2,
+  Image as ImageIcon,
+  Plus,
+  Search,
+  Bell,
+  UserPlus,
+  TrendingUp,
+  Trophy,
+  Flame,
+  Award,
 } from 'lucide-react';
 import Image from 'next/image';
 
@@ -20,8 +31,9 @@ export const metadata: Metadata = {
 export default async function SocialPage() {
   const supabase = await createClient();
 
-
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     redirect('/login?redirect=/lms/social');
@@ -38,10 +50,9 @@ export default async function SocialPage() {
       {/* Breadcrumbs */}
       <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[
-            { label: 'LMS', href: '/lms/dashboard' },
-            { label: 'Social Feed' }
-          ]} />
+          <Breadcrumbs
+            items={[{ label: 'LMS', href: '/lms/dashboard' }, { label: 'Social Feed' }]}
+          />
         </div>
       </div>
 
@@ -55,7 +66,13 @@ export default async function SocialPage() {
               <div className="px-4 pb-4">
                 <div className="w-16 h-16 bg-gray-200 rounded-full border-4 border-white -mt-8 flex items-center justify-center">
                   {profile?.avatar_url ? (
-                    <Image src={profile.avatar_url} alt={profile?.full_name || 'Your profile'} width={48} height={48} className="w-full h-full rounded-full object-cover" />
+                    <Image
+                      src={profile.avatar_url}
+                      alt={profile?.full_name || 'Your profile'}
+                      width={48}
+                      height={48}
+                      className="w-full h-full rounded-full object-cover"
+                    />
                   ) : (
                     <Users className="w-8 h-8 text-slate-700" />
                   )}
@@ -63,9 +80,7 @@ export default async function SocialPage() {
                 <h3 className="font-semibold text-slate-900 mt-2">
                   {profile?.full_name || 'Student'}
                 </h3>
-                <p className="text-sm text-slate-700">
-                  {profile?.headline || 'Elevate Learner'}
-                </p>
+                <p className="text-sm text-slate-700">{profile?.headline || 'Elevate Learner'}</p>
                 <div className="flex gap-4 mt-4 text-sm">
                   <div>
                     <span className="font-semibold text-slate-900">0</span>
@@ -83,15 +98,24 @@ export default async function SocialPage() {
             <div className="bg-white rounded-xl p-4 shadow-sm border">
               <h3 className="font-semibold text-slate-900 mb-3">Quick Links</h3>
               <nav className="space-y-1">
-                <Link href="/lms/social/connections" className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white text-slate-900">
+                <Link
+                  href="/lms/social/connections"
+                  className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white text-slate-900"
+                >
                   <UserPlus className="w-5 h-5 text-slate-700" />
                   Find Connections
                 </Link>
-                <Link href="/lms/social/groups" className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white text-slate-900">
+                <Link
+                  href="/lms/social/groups"
+                  className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white text-slate-900"
+                >
                   <Users className="w-5 h-5 text-slate-700" />
                   Study Groups
                 </Link>
-                <Link href="/lms/social/trending" className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white text-slate-900">
+                <Link
+                  href="/lms/social/trending"
+                  className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white text-slate-900"
+                >
                   <TrendingUp className="w-5 h-5 text-slate-700" />
                   Trending Topics
                 </Link>
@@ -106,7 +130,13 @@ export default async function SocialPage() {
               <div className="flex gap-4">
                 <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center flex-shrink-0">
                   {profile?.avatar_url ? (
-                    <Image src={profile.avatar_url} alt={profile?.full_name || 'Your profile'} width={48} height={48} className="w-full h-full rounded-full object-cover" />
+                    <Image
+                      src={profile.avatar_url}
+                      alt={profile?.full_name || 'Your profile'}
+                      width={48}
+                      height={48}
+                      className="w-full h-full rounded-full object-cover"
+                    />
                   ) : (
                     <Users className="w-5 h-5 text-slate-700" />
                   )}
@@ -134,7 +164,7 @@ export default async function SocialPage() {
                 Welcome to the Community!
               </h3>
               <p className="text-slate-700 mb-6 max-w-md mx-auto">
-                Connect with fellow learners, share your achievements, and engage in discussions. 
+                Connect with fellow learners, share your achievements, and engage in discussions.
                 Start by finding connections or joining a study group.
               </p>
               <div className="flex gap-4 justify-center">
@@ -195,15 +225,24 @@ export default async function SocialPage() {
             <div className="bg-white rounded-xl p-4 shadow-sm border">
               <h3 className="font-semibold text-slate-900 mb-4">Popular Groups</h3>
               <div className="space-y-3">
-                <Link href="/lms/social/groups/healthcare" className="block p-3 rounded-lg hover:bg-white">
+                <Link
+                  href="/lms/social/groups/healthcare"
+                  className="block p-3 rounded-lg hover:bg-white"
+                >
                   <div className="font-medium text-slate-900">Healthcare Professionals</div>
                   <div className="text-sm text-slate-700">234 members</div>
                 </Link>
-                <Link href="/lms/social/groups/trades" className="block p-3 rounded-lg hover:bg-white">
+                <Link
+                  href="/lms/social/groups/trades"
+                  className="block p-3 rounded-lg hover:bg-white"
+                >
                   <div className="font-medium text-slate-900">Skilled Trades Network</div>
                   <div className="text-sm text-slate-700">189 members</div>
                 </Link>
-                <Link href="/lms/social/groups/career" className="block p-3 rounded-lg hover:bg-white">
+                <Link
+                  href="/lms/social/groups/career"
+                  className="block p-3 rounded-lg hover:bg-white"
+                >
                   <div className="font-medium text-slate-900">Career Changers</div>
                   <div className="text-sm text-slate-700">156 members</div>
                 </Link>

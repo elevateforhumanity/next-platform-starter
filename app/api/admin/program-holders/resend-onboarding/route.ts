@@ -1,4 +1,3 @@
-
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { getAdminClient } from '@/lib/supabase/admin';
@@ -27,7 +26,9 @@ export async function POST(req: NextRequest) {
   }
 
   // Auth check — admin/staff only
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   const { data: profile } = await adminDb
@@ -61,14 +62,25 @@ export async function POST(req: NextRequest) {
   }
 
   if (!holder.user_id) {
-    return NextResponse.json({ error: 'This program holder has no linked auth account. They must sign up first.' }, { status: 422 });
+    return NextResponse.json(
+      { error: 'This program holder has no linked auth account. They must sign up first.' },
+      { status: 422 },
+    );
   }
 
   // Resolve the canonical email from the auth account, not the contact record.
-  const { data: authUser, error: authUserError } = await adminDb.auth.admin.getUserById(holder.user_id);
+  const { data: authUser, error: authUserError } = await adminDb.auth.admin.getUserById(
+    holder.user_id,
+  );
   if (authUserError || !authUser?.user?.email) {
-    logger.error('[Admin] Could not resolve auth account for program holder', { holderId, userId: holder.user_id });
-    return NextResponse.json({ error: 'Could not resolve auth account for this holder.' }, { status: 500 });
+    logger.error('[Admin] Could not resolve auth account for program holder', {
+      holderId,
+      userId: holder.user_id,
+    });
+    return NextResponse.json(
+      { error: 'Could not resolve auth account for this holder.' },
+      { status: 500 },
+    );
   }
   const authEmail = authUser.user.email;
 
@@ -83,7 +95,10 @@ export async function POST(req: NextRequest) {
 
   if (linkError || !linkData?.properties?.action_link) {
     logger.error('[Admin] Failed to generate magic link for program holder', linkError);
-    return NextResponse.json({ error: 'Could not generate login link. Check that this email has an auth account.' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Could not generate login link. Check that this email has an auth account.' },
+      { status: 500 },
+    );
   }
 
   const magicLink = linkData.properties.action_link;
@@ -99,9 +114,10 @@ export async function POST(req: NextRequest) {
     reply_to: { email: 'elevate4humanityedu@gmail.com', name: 'Elizabeth Greene' },
     personalizations: [{ to: [{ email: authEmail, name: holder.contact_name }] }],
     subject: 'Your Onboarding Link — Elevate for Humanity',
-    content: [{
-      type: 'text/html',
-      value: `<!DOCTYPE html>
+    content: [
+      {
+        type: 'text/html',
+        value: `<!DOCTYPE html>
 <html><head><meta charset="utf-8"></head>
 <body style="margin:0;padding:0;font-family:Arial,sans-serif;background:#f8fafc">
   <table width="100%" cellpadding="0" cellspacing="0" style="background:#f8fafc;padding:40px 20px">
@@ -134,7 +150,8 @@ export async function POST(req: NextRequest) {
     </td></tr>
   </table>
 </body></html>`,
-    }],
+      },
+    ],
   };
 
   const sgRes = await fetch('https://api.sendgrid.com/v3/mail/send', {
@@ -152,7 +169,12 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Email delivery failed' }, { status: 500 });
   }
 
-  logger.info('[Admin] Onboarding link resent', { holderId, authEmail, contactEmail: holder.contact_email, sentBy: user.id });
+  logger.info('[Admin] Onboarding link resent', {
+    holderId,
+    authEmail,
+    contactEmail: holder.contact_email,
+    sentBy: user.id,
+  });
 
   return NextResponse.json({ success: true, email: holder.contact_email });
 }

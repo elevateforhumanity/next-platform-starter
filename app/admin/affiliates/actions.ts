@@ -12,9 +12,15 @@ export async function createAffiliate(formData: FormData) {
   if (!db) throw new Error('Admin client failed to initialize');
   if (!supabase) throw new Error('Database unavailable');
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) throw new Error('Not authenticated');
-  const { data: _profile } = await db.from('profiles').select('role').eq('id', user.id).maybeSingle();
+  const { data: _profile } = await db
+    .from('profiles')
+    .select('role')
+    .eq('id', user.id)
+    .maybeSingle();
   if (!_profile || !['admin', 'super_admin'].includes(_profile.role)) throw new Error('Forbidden');
 
   const name = formData.get('name') as string;
@@ -46,7 +52,13 @@ export async function createAffiliate(formData: FormData) {
     if (fallbackError) throw new Error(fallbackError.message);
   }
 
-  await logAdminAudit({ action: AdminAction.AFFILIATE_CREATED, actorId: user.id, entityType: 'affiliates', entityId: BULK_ENTITY_ID, metadata: { name, email } });
+  await logAdminAudit({
+    action: AdminAction.AFFILIATE_CREATED,
+    actorId: user.id,
+    entityType: 'affiliates',
+    entityId: BULK_ENTITY_ID,
+    metadata: { name, email },
+  });
 
   revalidatePath('/admin/affiliates');
   redirect('/admin/affiliates');

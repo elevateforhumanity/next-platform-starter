@@ -26,15 +26,19 @@ export default async function CurriculumPage() {
     .select('course_id, step_type');
 
   // Build per-course stats
-  const courseStats = new Map<string, {
-    total: number;
-    checkpoints: number;
-  }>();
+  const courseStats = new Map<
+    string,
+    {
+      total: number;
+      checkpoints: number;
+    }
+  >();
 
   for (const row of lessonRows ?? []) {
     const s = courseStats.get(row.course_id) ?? { total: 0, checkpoints: 0 };
     s.total++;
-    if (row.step_type === 'checkpoint' || row.step_type === 'quiz' || row.step_type === 'exam') s.checkpoints++;
+    if (row.step_type === 'checkpoint' || row.step_type === 'quiz' || row.step_type === 'exam')
+      s.checkpoints++;
     courseStats.set(row.course_id, s);
   }
 
@@ -42,21 +46,15 @@ export default async function CurriculumPage() {
 
   // Resolve course names from training_courses
   const { data: trainingCourses } = courseIds.length
-    ? await supabase
-        .from('courses')
-        .select('id, title')
-        .in('id', courseIds)
+    ? await supabase.from('courses').select('id, title').in('id', courseIds)
     : { data: [] };
 
   // Resolve remaining from programs
   const resolvedIds = new Set((trainingCourses ?? []).map((c: any) => c.id));
-  const unresolvedIds = courseIds.filter(id => !resolvedIds.has(id));
+  const unresolvedIds = courseIds.filter((id) => !resolvedIds.has(id));
 
   const { data: programs } = unresolvedIds.length
-    ? await supabase
-        .from('programs')
-        .select('id, title')
-        .in('id', unresolvedIds)
+    ? await supabase.from('programs').select('id, title').in('id', unresolvedIds)
     : { data: [] };
 
   const nameMap = new Map<string, string>();
@@ -65,7 +63,7 @@ export default async function CurriculumPage() {
 
   // Build display list sorted by lesson count desc
   const courses = courseIds
-    .map(id => ({
+    .map((id) => ({
       id,
       name: nameMap.get(id) ?? id,
       ...courseStats.get(id)!,
@@ -107,16 +105,24 @@ export default async function CurriculumPage() {
         {/* Stats */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
           <div className="bg-white rounded-xl border border-slate-200 p-5">
-            <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">Courses</p>
+            <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">
+              Courses
+            </p>
             <p className="text-3xl font-bold text-brand-blue-600">{courses.length}</p>
           </div>
           <div className="bg-white rounded-xl border border-slate-200 p-5">
-            <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">Total Lessons</p>
+            <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">
+              Total Lessons
+            </p>
             <p className="text-3xl font-bold text-slate-800">{totalLessons}</p>
           </div>
           <div className="bg-white rounded-xl border border-slate-200 p-5">
-            <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">Checkpoints</p>
-            <p className="text-3xl font-bold text-amber-600">{courses.reduce((sum, c) => sum + c.checkpoints, 0)}</p>
+            <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">
+              Checkpoints
+            </p>
+            <p className="text-3xl font-bold text-amber-600">
+              {courses.reduce((sum, c) => sum + c.checkpoints, 0)}
+            </p>
           </div>
         </div>
 
@@ -137,36 +143,35 @@ export default async function CurriculumPage() {
           </div>
         ) : (
           <div className="bg-white rounded-xl border border-slate-200 divide-y divide-slate-100">
-            {courses.map(course => (
-                <Link
-                  key={course.id}
-                  href={'/admin/curriculum/' + course.id}
-                  className="flex items-center justify-between px-5 py-4 hover:bg-slate-50 transition group"
-                >
-                  <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-slate-800 group-hover:text-brand-blue-600 truncate">
-                      {course.title || course.title || course.name}
-                    </p>
-                    <p className="text-xs text-slate-400 mt-0.5 font-mono">{course.id}</p>
+            {courses.map((course) => (
+              <Link
+                key={course.id}
+                href={'/admin/curriculum/' + course.id}
+                className="flex items-center justify-between px-5 py-4 hover:bg-slate-50 transition group"
+              >
+                <div className="flex-1 min-w-0">
+                  <p className="font-semibold text-slate-800 group-hover:text-brand-blue-600 truncate">
+                    {course.title || course.title || course.name}
+                  </p>
+                  <p className="text-xs text-slate-400 mt-0.5 font-mono">{course.id}</p>
+                </div>
+
+                <div className="flex items-center gap-6 ml-4 shrink-0">
+                  <div className="text-right">
+                    <p className="text-sm font-semibold text-slate-700">{course.total}</p>
+                    <p className="text-xs text-slate-400">lessons</p>
                   </div>
 
-                  <div className="flex items-center gap-6 ml-4 shrink-0">
-
-                    <div className="text-right">
-                      <p className="text-sm font-semibold text-slate-700">{course.total}</p>
-                      <p className="text-xs text-slate-400">lessons</p>
+                  {course.checkpoints > 0 && (
+                    <div className="text-right hidden md:block">
+                      <p className="text-sm font-semibold text-amber-600">{course.checkpoints}</p>
+                      <p className="text-xs text-slate-400">gated</p>
                     </div>
+                  )}
 
-                    {course.checkpoints > 0 && (
-                      <div className="text-right hidden md:block">
-                        <p className="text-sm font-semibold text-amber-600">{course.checkpoints}</p>
-                        <p className="text-xs text-slate-400">gated</p>
-                      </div>
-                    )}
-
-                    <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-brand-blue-400 transition" />
-                  </div>
-                </Link>
+                  <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-brand-blue-400 transition" />
+                </div>
+              </Link>
             ))}
           </div>
         )}

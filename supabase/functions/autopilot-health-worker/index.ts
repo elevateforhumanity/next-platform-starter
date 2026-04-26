@@ -6,8 +6,7 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers':
-    'authorization, x-client-info, apikey, content-type',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
 serve(async (req) => {
@@ -203,8 +202,7 @@ async function checkDatabase(supabase: any) {
 
   const allExist = tableChecks.every((t) => t.exists);
   const avgResponseTime =
-    tableChecks.reduce((sum, t) => sum + t.responseTime, 0) /
-    tableChecks.length;
+    tableChecks.reduce((sum, t) => sum + t.responseTime, 0) / tableChecks.length;
 
   return {
     status: allExist ? 'healthy' : 'unhealthy',
@@ -218,10 +216,7 @@ async function checkAPI(supabase: any) {
   const startTime = Date.now();
 
   // Test read
-  const { error: readError } = await supabase
-    .from('programs')
-    .select('id')
-    .limit(1);
+  const { error: readError } = await supabase.from('programs').select('id').limit(1);
 
   const readTime = Date.now() - startTime;
 

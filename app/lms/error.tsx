@@ -21,9 +21,7 @@ export default function LMSError({
       <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 text-center">
         <AlertCircle className="h-16 w-16 text-brand-red-600 mx-auto mb-6" />
 
-        <h1 className="text-2xl font-bold text-black mb-4">
-          LMS Loading Error
-        </h1>
+        <h1 className="text-2xl font-bold text-black mb-4">LMS Loading Error</h1>
 
         <p className="text-black mb-6">
           We couldn't load your learning content. Your progress is saved.
@@ -31,9 +29,7 @@ export default function LMSError({
 
         {error.message && process.env.NODE_ENV === 'development' && (
           <div className="bg-brand-red-50 border border-brand-red-200 rounded-lg p-4 mb-6 text-left">
-            <p className="text-sm text-brand-red-800 font-mono break-words">
-              {error.message}
-            </p>
+            <p className="text-sm text-brand-red-800 font-mono break-words">{error.message}</p>
           </div>
         )}
 

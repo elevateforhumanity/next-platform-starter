@@ -5,13 +5,13 @@ import { applyRateLimit } from '@/lib/api/withRateLimit';
 
 /**
  * Compliance Export API
- * 
+ *
  * Provides audit-ready exports of:
  * - Agreement acceptances
  * - Handbook acknowledgments
  * - Onboarding progress
  * - Compliance audit logs
- * 
+ *
  * Access restricted to admin and super_admin roles.
  */
 
@@ -22,7 +22,10 @@ export async function GET(request: NextRequest) {
   const supabase = await createClient();
 
   // Verify authentication
-  const { data: { user }, error: authError } = await supabase.auth.getUser();
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser();
   if (authError || !user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
@@ -69,7 +72,8 @@ export async function GET(request: NextRequest) {
     if (exportType === 'all' || exportType === 'agreements') {
       let query = supabase
         .from('license_agreement_acceptances')
-        .select(`
+        .select(
+          `
           id,
           user_id,
           agreement_type,
@@ -83,7 +87,8 @@ export async function GET(request: NextRequest) {
           user_agent,
           acceptance_context,
           legal_acknowledgment
-        `)
+        `,
+        )
         .order('accepted_at', { ascending: false });
 
       query = dateFilter(query, 'accepted_at');
@@ -103,7 +108,8 @@ export async function GET(request: NextRequest) {
     if (exportType === 'all' || exportType === 'handbook') {
       let query = supabase
         .from('handbook_acknowledgments')
-        .select(`
+        .select(
+          `
           id,
           user_id,
           handbook_version,
@@ -116,7 +122,8 @@ export async function GET(request: NextRequest) {
           safety_policy_ack,
           grievance_policy_ack,
           full_acknowledgment
-        `)
+        `,
+        )
         .order('acknowledged_at', { ascending: false });
 
       query = dateFilter(query, 'acknowledged_at');
@@ -136,7 +143,8 @@ export async function GET(request: NextRequest) {
     if (exportType === 'all' || exportType === 'onboarding') {
       let query = supabase
         .from('onboarding_progress')
-        .select(`
+        .select(
+          `
           id,
           user_id,
           profile_completed,
@@ -151,7 +159,8 @@ export async function GET(request: NextRequest) {
           completed_at,
           created_at,
           updated_at
-        `)
+        `,
+        )
         .order('created_at', { ascending: false });
 
       if (userId) query = query.eq('user_id', userId);
@@ -170,7 +179,8 @@ export async function GET(request: NextRequest) {
     if (exportType === 'all' || exportType === 'audit') {
       let query = supabase
         .from('compliance_audit_log')
-        .select(`
+        .select(
+          `
           id,
           event_type,
           event_timestamp,
@@ -183,7 +193,8 @@ export async function GET(request: NextRequest) {
           ip_address,
           user_agent,
           request_path
-        `)
+        `,
+        )
         .order('event_timestamp', { ascending: false })
         .limit(1000); // Limit audit logs to prevent huge exports
 
@@ -211,8 +222,14 @@ export async function GET(request: NextRequest) {
       ] = await Promise.all([
         supabase.from('license_agreement_acceptances').select('*', { count: 'exact', head: true }),
         supabase.from('handbook_acknowledgments').select('*', { count: 'exact', head: true }),
-        supabase.from('onboarding_progress').select('*', { count: 'exact', head: true }).eq('status', 'completed'),
-        supabase.from('onboarding_progress').select('*', { count: 'exact', head: true }).neq('status', 'completed'),
+        supabase
+          .from('onboarding_progress')
+          .select('*', { count: 'exact', head: true })
+          .eq('status', 'completed'),
+        supabase
+          .from('onboarding_progress')
+          .select('*', { count: 'exact', head: true })
+          .neq('status', 'completed'),
       ]);
 
       exportData.summary = {
@@ -238,10 +255,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(exportData);
   } catch (error) {
     logger.error('Compliance export error:', error);
-    return NextResponse.json(
-      { error: 'Failed to export compliance data' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to export compliance data' }, { status: 500 });
   }
 }
 
@@ -273,7 +287,7 @@ function convertToCSV(data: Record<string, any>): string {
     const headers = Object.keys(data.agreement_acceptances.records[0]);
     lines.push(headers.join(','));
     for (const record of data.agreement_acceptances.records) {
-      lines.push(headers.map(h => escapeCSV(record[h])).join(','));
+      lines.push(headers.map((h) => escapeCSV(record[h])).join(','));
     }
     lines.push('');
   }
@@ -284,7 +298,7 @@ function convertToCSV(data: Record<string, any>): string {
     const headers = Object.keys(data.handbook_acknowledgments.records[0]);
     lines.push(headers.join(','));
     for (const record of data.handbook_acknowledgments.records) {
-      lines.push(headers.map(h => escapeCSV(record[h])).join(','));
+      lines.push(headers.map((h) => escapeCSV(record[h])).join(','));
     }
     lines.push('');
   }
@@ -295,7 +309,7 @@ function convertToCSV(data: Record<string, any>): string {
     const headers = Object.keys(data.onboarding_progress.records[0]);
     lines.push(headers.join(','));
     for (const record of data.onboarding_progress.records) {
-      lines.push(headers.map(h => escapeCSV(record[h])).join(','));
+      lines.push(headers.map((h) => escapeCSV(record[h])).join(','));
     }
     lines.push('');
   }
@@ -319,7 +333,10 @@ export async function POST(request: NextRequest) {
   const supabase = await createClient();
 
   // Verify authentication
-  const { data: { user }, error: authError } = await supabase.auth.getUser();
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser();
   if (authError || !user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
@@ -345,11 +362,7 @@ export async function POST(request: NextRequest) {
       const results = [];
 
       for (const userId of user_ids || []) {
-        const [
-          { data: agreements },
-          { data: handbook },
-          { data: onboarding },
-        ] = await Promise.all([
+        const [{ data: agreements }, { data: handbook }, { data: onboarding }] = await Promise.all([
           supabase
             .from('license_agreement_acceptances')
             .select('agreement_type, accepted_at')
@@ -359,22 +372,16 @@ export async function POST(request: NextRequest) {
             .select('acknowledged_at')
             .eq('user_id', userId)
             .maybeSingle(),
-          supabase
-            .from('onboarding_progress')
-            .select('*')
-            .eq('user_id', userId)
-            .maybeSingle(),
+          supabase.from('onboarding_progress').select('*').eq('user_id', userId).maybeSingle(),
         ]);
 
         results.push({
           user_id: userId,
-          agreements_signed: agreements?.map(a => a.agreement_type) || [],
+          agreements_signed: agreements?.map((a) => a.agreement_type) || [],
           handbook_acknowledged: !!handbook,
           onboarding_status: onboarding?.status || 'not_started',
-          is_compliant: 
-            (agreements?.length || 0) >= 3 && 
-            !!handbook && 
-            onboarding?.status === 'completed',
+          is_compliant:
+            (agreements?.length || 0) >= 3 && !!handbook && onboarding?.status === 'completed',
         });
       }
 
@@ -389,9 +396,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Invalid report type' }, { status: 400 });
   } catch (error) {
     logger.error('Compliance report error:', error);
-    return NextResponse.json(
-      { error: 'Failed to generate compliance report' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to generate compliance report' }, { status: 500 });
   }
 }

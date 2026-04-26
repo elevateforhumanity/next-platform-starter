@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { createClient } from '@/lib/supabase/client';
 
@@ -7,7 +7,7 @@ import { AlertTriangle, CheckSquare, Square } from 'lucide-react';
 
 /**
  * Barber Enrollment Acknowledgment Component
- * 
+ *
  * REQUIRED checkbox acknowledgment for barber apprenticeship enrollment.
  * Must be checked before enrollment can proceed.
  */
@@ -20,12 +20,12 @@ interface BarberEnrollmentAcknowledgmentProps {
   programId?: string;
 }
 
-export function BarberEnrollmentAcknowledgment({ 
+export function BarberEnrollmentAcknowledgment({
   onAcknowledge,
   acknowledged = false,
   className = '',
   userId,
-  programId
+  programId,
 }: BarberEnrollmentAcknowledgmentProps) {
   const [isChecked, setIsChecked] = useState(acknowledged);
   const supabase = createClient();
@@ -51,15 +51,16 @@ export function BarberEnrollmentAcknowledgment({
   // Save acknowledgment to DB when checked
   const saveAcknowledgment = async () => {
     if (!userId) return;
-    await supabase
-      .from('enrollment_acknowledgments')
-      .upsert({
+    await supabase.from('enrollment_acknowledgments').upsert(
+      {
         user_id: userId,
         program_id: programId,
         acknowledgment_type: 'barber_enrollment',
         acknowledged: true,
-        acknowledged_at: new Date().toISOString()
-      }, { onConflict: 'user_id,acknowledgment_type' });
+        acknowledged_at: new Date().toISOString(),
+      },
+      { onConflict: 'user_id,acknowledgment_type' },
+    );
   };
 
   const handleToggle = async () => {
@@ -85,18 +86,21 @@ export function BarberEnrollmentAcknowledgment({
 
       <div className="bg-white border border-amber-200 rounded-lg p-4 mb-4">
         <p className="text-sm text-slate-700 leading-relaxed">
-          <strong>Program Scope:</strong> This program provides apprenticeship sponsorship, oversight, and related instruction only. 
-          It includes DOL Registered Apprenticeship sponsorship, compliance and RAPIDS reporting, employer coordination, 
-          program monitoring, and Elevate LMS theory curriculum.
+          <strong>Program Scope:</strong> This program provides apprenticeship sponsorship,
+          oversight, and related instruction only. It includes DOL Registered Apprenticeship
+          sponsorship, compliance and RAPIDS reporting, employer coordination, program monitoring,
+          and Elevate LMS theory curriculum.
         </p>
         <p className="text-sm text-slate-700 leading-relaxed mt-3">
-          <strong>What This Program Does NOT Provide:</strong> This program does not replace barber school, 
-          does not provide practical hands-on barber skills training, and does not grant state licensure hours. 
-          Enrollment requires concurrent or subsequent participation in a licensed barber school for state licensure eligibility.
+          <strong>What This Program Does NOT Provide:</strong> This program does not replace barber
+          school, does not provide practical hands-on barber skills training, and does not grant
+          state licensure hours. Enrollment requires concurrent or subsequent participation in a
+          licensed barber school for state licensure eligibility.
         </p>
         <p className="text-sm text-slate-700 leading-relaxed mt-3">
-          <strong>Program Fee:</strong> The program fee of $4,980 is a flat rate. Credit for prior learning (transferred hours) 
-          may reduce the duration of participation but does not alter the program fee.
+          <strong>Program Fee:</strong> The program fee of $4,980 is a flat rate. Credit for prior
+          learning (transferred hours) may reduce the duration of participation but does not alter
+          the program fee.
         </p>
       </div>
 
@@ -104,8 +108,8 @@ export function BarberEnrollmentAcknowledgment({
         type="button"
         onClick={handleToggle}
         className={`w-full flex items-start gap-3 p-4 rounded-lg border-2 transition-all ${
-          isChecked 
-            ? 'bg-brand-green-50 border-brand-green-500' 
+          isChecked
+            ? 'bg-brand-green-50 border-brand-green-500'
             : 'bg-white border-slate-300 hover:border-amber-400'
         }`}
       >
@@ -114,10 +118,13 @@ export function BarberEnrollmentAcknowledgment({
         ) : (
           <Square className="w-6 h-6 text-slate-400 flex-shrink-0" />
         )}
-        <span className={`text-left text-sm ${isChecked ? 'text-brand-green-800' : 'text-slate-700'}`}>
-          <strong>I understand</strong> this program provides apprenticeship sponsorship, oversight, and related instruction only 
-          and does not replace barber school or grant state licensure hours. I acknowledge that the program fee of $4,980 
-          applies regardless of any transferred hours.
+        <span
+          className={`text-left text-sm ${isChecked ? 'text-brand-green-800' : 'text-slate-700'}`}
+        >
+          <strong>I understand</strong> this program provides apprenticeship sponsorship, oversight,
+          and related instruction only and does not replace barber school or grant state licensure
+          hours. I acknowledge that the program fee of $4,980 applies regardless of any transferred
+          hours.
         </span>
       </button>
 

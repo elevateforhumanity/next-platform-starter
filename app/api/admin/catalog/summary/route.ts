@@ -11,12 +11,18 @@ async function _GET(request: Request) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-  
-    const { data: { user } } = await supabase.auth.getUser();
+
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
-    const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).maybeSingle();
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('id', user.id)
+      .maybeSingle();
     if (!profile || !['admin', 'super_admin'].includes(profile.role)) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
@@ -41,7 +47,7 @@ async function _GET(request: Request) {
       .select('category')
       .eq('status', 'active');
 
-    const uniqueCategories = [...new Set(categories?.map(c => c.category).filter(Boolean))];
+    const uniqueCategories = [...new Set(categories?.map((c) => c.category).filter(Boolean))];
 
     return NextResponse.json({
       totalPrograms: programCount || 0,

@@ -40,7 +40,9 @@ export default async function StudentPortalPage() {
     );
   }
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login?next=/student');
 
   const { data: profile } = await supabase
@@ -65,12 +67,42 @@ export default async function StudentPortalPage() {
     .eq('status', 'completed');
 
   const quickLinks = [
-    { href: '/student/courses', icon: BookOpen, label: 'My Courses', color: 'bg-blue-100 text-blue-600' },
-    { href: '/student/progress', icon: TrendingUp, label: 'Progress', color: 'bg-green-100 text-green-600' },
-    { href: '/student/hours/history', icon: Clock, label: 'Hours Log', color: 'bg-blue-100 text-blue-600' },
-    { href: '/student/chat', icon: MessageCircle, label: 'Messages', color: 'bg-orange-100 text-orange-600' },
-    { href: '/student/handbook', icon: FileText, label: 'Handbook', color: 'bg-pink-100 text-pink-600' },
-    { href: '/lms/schedule', icon: Calendar, label: 'Schedule', color: 'bg-indigo-100 text-indigo-600' },
+    {
+      href: '/student/courses',
+      icon: BookOpen,
+      label: 'My Courses',
+      color: 'bg-blue-100 text-blue-600',
+    },
+    {
+      href: '/student/progress',
+      icon: TrendingUp,
+      label: 'Progress',
+      color: 'bg-green-100 text-green-600',
+    },
+    {
+      href: '/student/hours/history',
+      icon: Clock,
+      label: 'Hours Log',
+      color: 'bg-blue-100 text-blue-600',
+    },
+    {
+      href: '/student/chat',
+      icon: MessageCircle,
+      label: 'Messages',
+      color: 'bg-orange-100 text-orange-600',
+    },
+    {
+      href: '/student/handbook',
+      icon: FileText,
+      label: 'Handbook',
+      color: 'bg-pink-100 text-pink-600',
+    },
+    {
+      href: '/lms/schedule',
+      icon: Calendar,
+      label: 'Schedule',
+      color: 'bg-indigo-100 text-indigo-600',
+    },
   ];
 
   return (
@@ -161,7 +193,9 @@ export default async function StudentPortalPage() {
                 href={link.href}
                 className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 hover:shadow-md transition-shadow text-center"
               >
-                <div className={`w-12 h-12 ${link.color} rounded-lg flex items-center justify-center mx-auto mb-3`}>
+                <div
+                  className={`w-12 h-12 ${link.color} rounded-lg flex items-center justify-center mx-auto mb-3`}
+                >
                   <Icon className="w-6 h-6" />
                 </div>
                 <p className="font-medium text-gray-900">{link.label}</p>
@@ -174,7 +208,10 @@ export default async function StudentPortalPage() {
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 mb-8">
           <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
             <h2 className="text-lg font-semibold text-gray-900">Current Courses</h2>
-            <Link href="/student/courses" className="text-blue-600 hover:text-blue-700 text-sm font-medium">
+            <Link
+              href="/student/courses"
+              className="text-blue-600 hover:text-blue-700 text-sm font-medium"
+            >
               View All
             </Link>
           </div>

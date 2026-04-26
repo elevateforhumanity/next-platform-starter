@@ -13,7 +13,9 @@ export const dynamic = 'force-dynamic';
 
 export default async function ProfilePage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     redirect('/login?redirect=/account/profile');
@@ -41,10 +43,7 @@ export default async function ProfilePage() {
           <p className="text-slate-700 mt-2">Update your personal information and preferences</p>
         </div>
 
-        <ProfileEditForm 
-          user={user} 
-          profile={profile} 
-        />
+        <ProfileEditForm user={user} profile={profile} />
       </div>
     </div>
   );

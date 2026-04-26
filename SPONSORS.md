@@ -15,21 +15,25 @@ All donations go to 2Exclusive LLC-S d/b/a Elevate for Humanity Career & Trainin
 ## Sponsorship Tiers
 
 ### Community Supporter — any amount
+
 - Name listed in this file
 - Our gratitude
 
 ### Program Sponsor — $500+
+
 - Logo on the Elevate for Humanity website
 - Named sponsor for one training cohort
 - Recognition in program completion certificates
 
 ### Workforce Partner — $2,500+
+
 - Everything in Program Sponsor
 - Priority access to trained graduates for hiring
 - Co-branded employer pipeline page on the platform
 - Quarterly impact report
 
 ### Institutional Partner — $10,000+
+
 - Everything in Workforce Partner
 - Named scholarship fund for learners in your sponsored program
 - Joint press release and media recognition
@@ -47,5 +51,5 @@ To discuss sponsorship or partnership:
 
 ---
 
-*Elevate for Humanity is operated by 2Exclusive LLC-S. For tax purposes, consult your advisor
-regarding deductibility of contributions to for-profit workforce training organizations.*
+_Elevate for Humanity is operated by 2Exclusive LLC-S. For tax purposes, consult your advisor
+regarding deductibility of contributions to for-profit workforce training organizations._

@@ -20,13 +20,39 @@ export default async function UploadVideosPage() {
   return (
     <div className="min-h-screen bg-white">
       <section className="relative h-[160px] sm:h-[220px] md:h-[280px]">
-        <Image src="/images/pages/admin-videos-upload-hero.jpg" alt="Upload videos" fill sizes="100vw" className="object-cover" priority />
+        <Image
+          src="/images/pages/admin-videos-upload-hero.jpg"
+          alt="Upload videos"
+          fill
+          sizes="100vw"
+          className="object-cover"
+          priority
+        />
       </section>
       <div className="max-w-3xl mx-auto px-4 py-8">
         <div className="mb-8">
-          <nav className="text-sm mb-4"><ol className="flex items-center space-x-2 text-slate-700"><li><Link href="/admin" className="hover:text-primary">Admin</Link></li><li>/</li><li><Link href="/admin/videos" className="hover:text-primary">Videos</Link></li><li>/</li><li className="text-slate-900 font-medium">Upload</li></ol></nav>
+          <nav className="text-sm mb-4">
+            <ol className="flex items-center space-x-2 text-slate-700">
+              <li>
+                <Link href="/admin" className="hover:text-primary">
+                  Admin
+                </Link>
+              </li>
+              <li>/</li>
+              <li>
+                <Link href="/admin/videos" className="hover:text-primary">
+                  Videos
+                </Link>
+              </li>
+              <li>/</li>
+              <li className="text-slate-900 font-medium">Upload</li>
+            </ol>
+          </nav>
           <h1 className="text-3xl font-bold text-slate-900">Upload Videos</h1>
-          <p className="text-slate-700 mt-2">Upload video files to the course library. After uploading, copy the URL and paste it into a lesson.</p>
+          <p className="text-slate-700 mt-2">
+            Upload video files to the course library. After uploading, copy the URL and paste it
+            into a lesson.
+          </p>
         </div>
         <VideoUploadClient />
       </div>

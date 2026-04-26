@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -12,7 +12,13 @@ interface PayNowButtonProps {
   children: React.ReactNode;
 }
 
-export function PayNowButton({ programName, programSlug, price, className, children }: PayNowButtonProps) {
+export function PayNowButton({
+  programName,
+  programSlug,
+  price,
+  className,
+  children,
+}: PayNowButtonProps) {
   const [isProcessing, setIsProcessing] = useState(false);
 
   const handleClick = async (e: React.MouseEvent) => {
@@ -42,18 +48,15 @@ export function PayNowButton({ programName, programSlug, price, className, child
         alert('Error: ' + (data.error || 'Unable to start checkout'));
         setIsProcessing(false);
       }
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       alert('Error connecting to payment system. Call 317-314-3757');
       setIsProcessing(false);
     }
   };
 
   return (
-    <button
-      onClick={handleClick}
-      disabled={isProcessing}
-      className={className}
-    >
+    <button onClick={handleClick} disabled={isProcessing} className={className}>
       {isProcessing ? 'Loading...' : children}
     </button>
   );

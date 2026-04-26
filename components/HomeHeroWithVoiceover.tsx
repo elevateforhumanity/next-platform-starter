@@ -63,7 +63,7 @@ export function HomeHeroWithVoiceover({
 
         if (heroConfig?.value) {
           const parsed = JSON.parse(heroConfig.value);
-          setConfig(prev => ({
+          setConfig((prev) => ({
             ...prev,
             ...parsed,
             // Props override database config
@@ -86,14 +86,19 @@ export function HomeHeroWithVoiceover({
   // Track hero interaction
   const trackInteraction = async (action: string) => {
     const supabase = createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
-    await supabase.from('analytics_events').insert({
-      event_type: 'hero_interaction',
-      event_data: { action },
-      user_id: user?.id,
-      page_url: window.location.href,
-    }).catch(() => {});
+    await supabase
+      .from('analytics_events')
+      .insert({
+        event_type: 'hero_interaction',
+        event_data: { action },
+        user_id: user?.id,
+        page_url: window.location.href,
+      })
+      .catch(() => {});
   };
 
   const handlePlaySound = () => {
@@ -177,7 +182,7 @@ export function HomeHeroWithVoiceover({
       <audio ref={audioRef} src={config.audio_src} preload="none" />
 
       {/* Overlay */}
-      <div 
+      <div
         className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent"
         style={{ opacity: config.overlay_opacity }}
       />
@@ -193,9 +198,7 @@ export function HomeHeroWithVoiceover({
                 </h1>
               )}
               {config.subheadline && (
-                <p className="text-lg md:text-xl text-white/90 mb-8">
-                  {config.subheadline}
-                </p>
+                <p className="text-lg md:text-xl text-white/90 mb-8">{config.subheadline}</p>
               )}
               <div className="flex flex-wrap gap-4">
                 {config.cta_text && config.cta_link && (

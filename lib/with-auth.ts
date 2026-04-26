@@ -2,12 +2,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { createServerClient } from '@supabase/ssr';
-import type {
-  AuthedUser,
-  UserRole,
-  AuthHandler,
-  WithAuthOptions,
-} from '@/types/auth';
+import type { AuthedUser, UserRole, AuthHandler, WithAuthOptions } from '@/types/auth';
 
 // Get the current user + role from Supabase
 async function getAuthedUser(req: NextRequest): Promise<AuthedUser | null> {
@@ -21,7 +16,7 @@ async function getAuthedUser(req: NextRequest): Promise<AuthedUser | null> {
           return cookieStore.get(name)?.value;
         },
       },
-    }
+    },
   );
 
   const {
@@ -52,7 +47,7 @@ async function getAuthedUser(req: NextRequest): Promise<AuthedUser | null> {
  */
 export function withAuth<TParams = Record<string, string>>(
   handler: AuthHandler<TParams>,
-  options: WithAuthOptions = {}
+  options: WithAuthOptions = {},
 ) {
   return async (req: NextRequest, context: { params: Promise<TParams> }) => {
     const user = await getAuthedUser(req);

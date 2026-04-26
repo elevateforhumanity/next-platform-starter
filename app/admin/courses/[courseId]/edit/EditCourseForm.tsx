@@ -20,9 +20,7 @@ export function EditCourseForm({ course, programs }: Props) {
   const [title, setTitle] = useState(course.title || '');
   const [description, setDescription] = useState(course.description || '');
   const [programId, setProgramId] = useState(course.program_id || '');
-  const [durationHours, setDurationHours] = useState(
-    course.duration_hours?.toString() || ''
-  );
+  const [durationHours, setDurationHours] = useState(course.duration_hours?.toString() || '');
   const [isPublished, setIsPublished] = useState(course.is_published || false);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -90,9 +88,7 @@ export function EditCourseForm({ course, programs }: Props) {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-slate-900 mb-2">
-          Description
-        </label>
+        <label className="block text-sm font-medium text-slate-900 mb-2">Description</label>
         <textarea
           value={description}
           onChange={(e) => setDescription(e.target.value)}
@@ -103,9 +99,7 @@ export function EditCourseForm({ course, programs }: Props) {
 
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium text-slate-900 mb-2">
-            Program
-          </label>
+          <label className="block text-sm font-medium text-slate-900 mb-2">Program</label>
           <select
             value={programId}
             onChange={(e) => setProgramId(e.target.value)}
@@ -120,9 +114,7 @@ export function EditCourseForm({ course, programs }: Props) {
           </select>
         </div>
         <div>
-          <label className="block text-sm font-medium text-slate-900 mb-2">
-            Duration (hours)
-          </label>
+          <label className="block text-sm font-medium text-slate-900 mb-2">Duration (hours)</label>
           <input
             type="number"
             value={durationHours}
@@ -152,11 +144,7 @@ export function EditCourseForm({ course, programs }: Props) {
           disabled={saving}
           className="flex-1 bg-brand-blue-600 text-white px-4 py-2.5 rounded-lg hover:bg-brand-blue-700 disabled:opacity-50 flex items-center justify-center gap-2 font-medium"
         >
-          {saving ? (
-            <Loader2 className="w-4 h-4 animate-spin" />
-          ) : (
-            <Save className="w-4 h-4" />
-          )}
+          {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
           {saving ? 'Saving...' : 'Save Changes'}
         </button>
         <Link

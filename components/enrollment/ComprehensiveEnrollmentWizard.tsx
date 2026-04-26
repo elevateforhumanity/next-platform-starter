@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -17,7 +17,8 @@ import {
   Save,
   Eye,
   EyeOff,
-CheckCircle, } from 'lucide-react';
+  CheckCircle,
+} from 'lucide-react';
 import SignatureCanvas from 'react-signature-canvas';
 import { useRef } from 'react';
 
@@ -123,7 +124,7 @@ export default function ComprehensiveEnrollmentWizard({
   programId,
   programName,
   programSlug,
-  price
+  price,
 }: Props) {
   const [currentStep, setCurrentStep] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -197,7 +198,7 @@ export default function ComprehensiveEnrollmentWizard({
     if (saved) {
       try {
         const data = JSON.parse(saved);
-        setFormData(prev => ({ ...prev, ...data }));
+        setFormData((prev) => ({ ...prev, ...data }));
       } catch (e) {
         // Error logged
       }
@@ -230,20 +231,20 @@ export default function ComprehensiveEnrollmentWizard({
   };
 
   const updateField = (data: any) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
   const updateNestedField = (data: any) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [parent]: { ...(prev as any)[parent], [field]: value }
+      [parent]: { ...(prev as any)[parent], [field]: value },
     }));
   };
 
   const handleFileUpload = (field: string, file: File | null) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      documents: { ...prev.documents, [field]: file }
+      documents: { ...prev.documents, [field]: file },
     }));
   };
 
@@ -356,17 +357,15 @@ export default function ComprehensiveEnrollmentWizard({
       <div className="max-w-5xl mx-auto px-4">
         {/* Header */}
         <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
-          <h1 className="text-3xl font-bold text-black mb-2">
-            Enroll in {programName}
-          </h1>
-          <p className="text-black">
-            Complete all steps to finalize your enrollment
-          </p>
+          <h1 className="text-3xl font-bold text-black mb-2">Enroll in {programName}</h1>
+          <p className="text-black">Complete all steps to finalize your enrollment</p>
 
           {/* Progress Bar */}
           <div className="mt-6">
             <div className="flex justify-between text-sm text-black mb-2">
-              <span>Step {currentStep} of {STEPS.length}</span>
+              <span>
+                Step {currentStep} of {STEPS.length}
+              </span>
               <span>{Math.round(progress)}% Complete</span>
               {saving && (
                 <span className="flex items-center gap-1 text-brand-blue-600">
@@ -392,11 +391,15 @@ export default function ComprehensiveEnrollmentWizard({
               return (
                 <div key={step.id} className="flex items-center">
                   <div className="flex flex-col items-center">
-                    <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
-                      currentStep > step.id ? 'bg-brand-green-600 text-white' :
-                      currentStep === step.id ? 'bg-brand-blue-600 text-white' :
-                      'bg-gray-200 text-slate-700'
-                    }`}>
+                    <div
+                      className={`w-12 h-12 rounded-full flex items-center justify-center ${
+                        currentStep > step.id
+                          ? 'bg-brand-green-600 text-white'
+                          : currentStep === step.id
+                            ? 'bg-brand-blue-600 text-white'
+                            : 'bg-gray-200 text-slate-700'
+                      }`}
+                    >
                       {currentStep > step.id ? (
                         <span className="text-slate-500 flex-shrink-0">•</span>
                       ) : (
@@ -408,9 +411,11 @@ export default function ComprehensiveEnrollmentWizard({
                     </div>
                   </div>
                   {idx < STEPS.length - 1 && (
-                    <div className={`w-12 h-1 mx-2 ${
-                      currentStep > step.id ? 'bg-brand-green-600' : 'bg-gray-200'
-                    }`} />
+                    <div
+                      className={`w-12 h-1 mx-2 ${
+                        currentStep > step.id ? 'bg-brand-green-600' : 'bg-gray-200'
+                      }`}
+                    />
                   )}
                 </div>
               );
@@ -427,9 +432,7 @@ export default function ComprehensiveEnrollmentWizard({
 
               <div className="grid md:grid-cols-3 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-black mb-2">
-                    First Name *
-                  </label>
+                  <label className="block text-sm font-medium text-black mb-2">First Name *</label>
                   <input
                     type="text"
                     value={formData.firstName}
@@ -440,9 +443,7 @@ export default function ComprehensiveEnrollmentWizard({
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-black mb-2">
-                    Middle Name
-                  </label>
+                  <label className="block text-sm font-medium text-black mb-2">Middle Name</label>
                   <input
                     type="text"
                     value={formData.middleName}
@@ -452,9 +453,7 @@ export default function ComprehensiveEnrollmentWizard({
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-black mb-2">
-                    Last Name *
-                  </label>
+                  <label className="block text-sm font-medium text-black mb-2">Last Name *</label>
                   <input
                     type="text"
                     value={formData.lastName}
@@ -497,7 +496,11 @@ export default function ComprehensiveEnrollmentWizard({
                       onClick={() => setShowSSN(!showSSN)}
                       className="absolute right-3 top-1/2 -translate-y-1/2"
                     >
-                      {showSSN ? <EyeOff className="w-5 h-5 text-slate-700" /> : <Eye className="w-5 h-5 text-slate-700" />}
+                      {showSSN ? (
+                        <EyeOff className="w-5 h-5 text-slate-700" />
+                      ) : (
+                        <Eye className="w-5 h-5 text-slate-700" />
+                      )}
                     </button>
                   </div>
                   <p className="text-xs text-slate-700 mt-1">
@@ -507,9 +510,7 @@ export default function ComprehensiveEnrollmentWizard({
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-black mb-2">
-                  Gender *
-                </label>
+                <label className="block text-sm font-medium text-black mb-2">Gender *</label>
                 <select
                   value={formData.gender}
                   onChange={(e) => updateField('gender', e.target.value)}
@@ -600,9 +601,7 @@ export default function ComprehensiveEnrollmentWizard({
 
               <div className="grid md:grid-cols-3 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-black mb-2">
-                    City *
-                  </label>
+                  <label className="block text-sm font-medium text-black mb-2">City *</label>
                   <input
                     type="text"
                     value={formData.city}
@@ -613,9 +612,7 @@ export default function ComprehensiveEnrollmentWizard({
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-black mb-2">
-                    State *
-                  </label>
+                  <label className="block text-sm font-medium text-black mb-2">State *</label>
                   <select
                     value={formData.state}
                     onChange={(e) => updateField('state', e.target.value)}
@@ -633,9 +630,7 @@ export default function ComprehensiveEnrollmentWizard({
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-black mb-2">
-                    ZIP Code *
-                  </label>
+                  <label className="block text-sm font-medium text-black mb-2">ZIP Code *</label>
                   <input
                     type="text"
                     value={formData.zip}

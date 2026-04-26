@@ -1,13 +1,25 @@
-"use client";
+'use client';
 
 import React from 'react';
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  Heart, Wrench, Scissors, Truck, Stethoscope, Code,
-  ChevronRight, ChevronLeft, Clock, DollarSign,
-  TrendingUp, Award, ArrowRight, Sparkles, Circle,
+  Heart,
+  Wrench,
+  Scissors,
+  Truck,
+  Stethoscope,
+  Code,
+  ChevronRight,
+  ChevronLeft,
+  Clock,
+  DollarSign,
+  TrendingUp,
+  Award,
+  ArrowRight,
+  Sparkles,
+  Circle,
 } from 'lucide-react';
 
 interface Question {
@@ -44,8 +56,8 @@ const questions: Question[] = [
       { id: '1b', text: 'Working with my hands', icon: Wrench, value: 'trades' },
       { id: '1c', text: 'Beauty & personal care', icon: Scissors, value: 'beauty' },
       { id: '1d', text: 'Driving & transportation', icon: Truck, value: 'transportation' },
-      { id: '1e', text: 'Technology & computers', icon: Code, value: 'technology' }
-    ]
+      { id: '1e', text: 'Technology & computers', icon: Code, value: 'technology' },
+    ],
   },
   {
     id: 2,
@@ -53,27 +65,27 @@ const questions: Question[] = [
     options: [
       { id: '2a', text: 'As soon as possible (4-8 weeks)', icon: Clock, value: 'fast' },
       { id: '2b', text: 'Within 3 months', icon: Clock, value: 'medium' },
-      { id: '2c', text: 'I can take my time (6+ months)', icon: Clock, value: 'slow' }
-    ]
+      { id: '2c', text: 'I can take my time (6+ months)', icon: Clock, value: 'slow' },
+    ],
   },
   {
     id: 3,
-    question: 'What\'s your primary goal?',
+    question: "What's your primary goal?",
     options: [
       { id: '3a', text: 'Get a job quickly', icon: TrendingUp, value: 'employment' },
       { id: '3b', text: 'Increase my income', icon: DollarSign, value: 'income' },
       { id: '3c', text: 'Start a new career', icon: Award, value: 'career' },
-      { id: '3d', text: 'Gain certifications', icon: Circle, value: 'certification' }
-    ]
+      { id: '3d', text: 'Gain certifications', icon: Circle, value: 'certification' },
+    ],
   },
   {
     id: 4,
-    question: 'What\'s your experience level?',
+    question: "What's your experience level?",
     options: [
       { id: '4a', text: 'Complete beginner', icon: Sparkles, value: 'beginner' },
       { id: '4b', text: 'Some related experience', icon: Award, value: 'intermediate' },
-      { id: '4c', text: 'Looking to advance', icon: TrendingUp, value: 'advanced' }
-    ]
+      { id: '4c', text: 'Looking to advance', icon: TrendingUp, value: 'advanced' },
+    ],
   },
   {
     id: 5,
@@ -81,78 +93,84 @@ const questions: Question[] = [
     options: [
       { id: '5a', text: 'Full-time (weekdays)', icon: Clock, value: 'fulltime' },
       { id: '5b', text: 'Part-time (evenings/weekends)', icon: Clock, value: 'parttime' },
-      { id: '5c', text: 'Online/self-paced', icon: Code, value: 'online' }
-    ]
-  }
+      { id: '5c', text: 'Online/self-paced', icon: Code, value: 'online' },
+    ],
+  },
 ];
 
 const programs: Program[] = [
   {
     id: 'healthcare-assistant',
     name: 'Certified Nursing Assistant (CNA)',
-    description: 'Provide essential care and support to patients in hospitals, nursing homes, and care facilities. Learn vital signs monitoring, patient hygiene, mobility assistance, and basic medical procedures. This fast-track program prepares you for immediate employment in the growing healthcare field.',
+    description:
+      'Provide essential care and support to patients in hospitals, nursing homes, and care facilities. Learn vital signs monitoring, patient hygiene, mobility assistance, and basic medical procedures. This fast-track program prepares you for immediate employment in the growing healthcare field.',
     duration: '4-8 weeks',
     salary: '$32K-$45K',
     demand: 'Very High',
     icon: Stethoscope,
     matchScore: 0,
-    path: '/programs/cna'
+    path: '/programs/cna',
   },
   {
     id: 'medical-coding',
     name: 'Medical Coding & Billing',
-    description: 'Work from home processing medical records, insurance claims, and healthcare documentation. Learn ICD-10, CPT coding, medical terminology, and billing software. High demand for remote positions with flexible schedules and excellent job security.',
+    description:
+      'Work from home processing medical records, insurance claims, and healthcare documentation. Learn ICD-10, CPT coding, medical terminology, and billing software. High demand for remote positions with flexible schedules and excellent job security.',
     duration: '12-16 weeks',
     salary: '$42K-$52K',
     demand: 'High',
     icon: Code,
     matchScore: 0,
-    path: '/programs/healthcare'
+    path: '/programs/healthcare',
   },
   {
     id: 'hvac',
     name: 'HVAC Technician',
-    description: 'Install, maintain, and repair heating, ventilation, and air conditioning systems. Learn electrical systems, refrigeration, troubleshooting, and EPA certification. High-paying skilled trade with year-round demand and opportunities for self-employment.',
+    description:
+      'Install, maintain, and repair heating, ventilation, and air conditioning systems. Learn electrical systems, refrigeration, troubleshooting, and EPA certification. High-paying skilled trade with year-round demand and opportunities for self-employment.',
     duration: '16-20 weeks',
     salary: '$48K-$65K',
     demand: 'Very High',
     icon: Wrench,
     matchScore: 0,
-    path: '/programs/hvac-technician'
+    path: '/programs/hvac-technician',
   },
   {
     id: 'cosmetology',
     name: 'Cosmetology',
-    description: 'Master hair cutting, styling, coloring, chemical treatments, and salon management. Build your own clientele, work in high-end salons, or open your own business. Creative career with flexible hours and unlimited earning potential through tips and commissions.',
+    description:
+      'Master hair cutting, styling, coloring, chemical treatments, and salon management. Build your own clientele, work in high-end salons, or open your own business. Creative career with flexible hours and unlimited earning potential through tips and commissions.',
     duration: '12-18 months',
     salary: '$35K-$60K+',
     demand: 'High',
     icon: Scissors,
     matchScore: 0,
-    path: '/programs/cosmetology-apprenticeship'
+    path: '/programs/cosmetology-apprenticeship',
   },
   {
     id: 'cdl',
     name: 'CDL Class A Training',
-    description: 'Get your commercial driver\'s license and start earning immediately. Learn to operate tractor-trailers, pass DOT requirements, and secure high-paying trucking jobs. Many companies offer sign-on bonuses and benefits. Start earning $55K+ in just 4-6 weeks.',
+    description:
+      "Get your commercial driver's license and start earning immediately. Learn to operate tractor-trailers, pass DOT requirements, and secure high-paying trucking jobs. Many companies offer sign-on bonuses and benefits. Start earning $55K+ in just 4-6 weeks.",
     duration: '4-6 weeks',
     salary: '$55K-$75K',
     demand: 'Very High',
     icon: Truck,
     matchScore: 0,
-    path: '/programs/cdl-training'
+    path: '/programs/cdl-training',
   },
   {
     id: 'phlebotomy',
     name: 'Phlebotomy Technician',
-    description: 'Draw blood and collect samples for medical testing in hospitals, labs, and clinics. Quick entry into healthcare with minimal training time. Learn venipuncture techniques, patient care, lab safety, and specimen handling. High demand with flexible shift options.',
+    description:
+      'Draw blood and collect samples for medical testing in hospitals, labs, and clinics. Quick entry into healthcare with minimal training time. Learn venipuncture techniques, patient care, lab safety, and specimen handling. High demand with flexible shift options.',
     duration: '6-8 weeks',
     salary: '$32K-$42K',
     demand: 'High',
     icon: Stethoscope,
     matchScore: 0,
-    path: '/programs/healthcare'
-  }
+    path: '/programs/healthcare',
+  },
 ];
 
 export default function ProgramFinder() {
@@ -162,11 +180,11 @@ export default function ProgramFinder() {
   const [recommendations, setRecommendations] = useState<Program[]>([]);
 
   const handleAnswer = (questionId: number, value: string) => {
-    setAnswers(prev => ({ ...prev, [questionId]: value }));
+    setAnswers((prev) => ({ ...prev, [questionId]: value }));
 
     if (currentQuestion < questions.length - 1) {
       setTimeout(() => {
-        setCurrentQuestion(prev => prev + 1);
+        setCurrentQuestion((prev) => prev + 1);
       }, 300);
     } else {
       // Calculate recommendations
@@ -177,7 +195,7 @@ export default function ProgramFinder() {
   };
 
   const calculateRecommendations = () => {
-    const scored = programs.map(program => {
+    const scored = programs.map((program) => {
       let score = 0;
 
       // Interest matching
@@ -216,7 +234,7 @@ export default function ProgramFinder() {
 
   const handleBack = () => {
     if (currentQuestion > 0) {
-      setCurrentQuestion(prev => prev - 1);
+      setCurrentQuestion((prev) => prev - 1);
     }
   };
 
@@ -269,18 +287,14 @@ export default function ProgramFinder() {
                         </div>
                         <div>
                           <div className="flex items-center gap-3 mb-2">
-                            <h3 className="text-2xl font-bold text-black">
-                              {program.name}
-                            </h3>
+                            <h3 className="text-2xl font-bold text-black">{program.name}</h3>
                             {index === 0 && (
                               <span className="px-3 py-2 bg-brand-green-100 text-brand-green-700 rounded-full text-xs font-semibold">
                                 BEST MATCH
                               </span>
                             )}
                           </div>
-                          <p className="text-black mb-4">
-                            {program.description}
-                          </p>
+                          <p className="text-black mb-4">{program.description}</p>
                         </div>
                       </div>
                       <div className="text-right">
@@ -344,7 +358,10 @@ export default function ProgramFinder() {
               Start Over
             </button>
             <p className="text-black">
-              Not sure yet? <a href="/programs" className="text-brand-blue-600 hover:underline">Browse all programs</a>
+              Not sure yet?{' '}
+              <a href="/programs" className="text-brand-blue-600 hover:underline">
+                Browse all programs
+              </a>
             </p>
           </div>
         </div>
@@ -367,9 +384,7 @@ export default function ProgramFinder() {
             <Sparkles className="w-4 h-4" />
             Find Your Perfect Program
           </div>
-          <h2 className="text-4xl md:text-5xl font-bold text-black mb-4">
-            Let's Find Your Path
-          </h2>
+          <h2 className="text-4xl md:text-5xl font-bold text-black mb-4">Let's Find Your Path</h2>
           <p className="text-xl text-black">
             Answer 5 quick questions to get personalized program recommendations
           </p>
@@ -381,9 +396,7 @@ export default function ProgramFinder() {
             <span className="text-sm font-semibold text-black">
               Question {currentQuestion + 1} of {questions.length}
             </span>
-            <span className="text-sm text-black">
-              {Math.round(progress)}% Complete
-            </span>
+            <span className="text-sm text-black">{Math.round(progress)}% Complete</span>
           </div>
           <div className="h-3 bg-gray-200 rounded-full overflow-hidden">
             <motion.div
@@ -404,9 +417,7 @@ export default function ProgramFinder() {
             exit={{ opacity: 0, x: -20 }}
             className="bg-white rounded-2xl shadow-2xl p-8 md:p-12"
           >
-            <h3 className="text-3xl font-bold text-black mb-8 text-center">
-              {question.question}
-            </h3>
+            <h3 className="text-3xl font-bold text-black mb-8 text-center">{question.question}</h3>
 
             <div className="grid gap-4">
               {question.options.map((option) => {
@@ -425,19 +436,17 @@ export default function ProgramFinder() {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
-                    <div className={`w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 ${
-                      isSelected
-                        ? 'bg-brand-blue-600 text-white'
-                        : 'bg-gray-100 text-black group-hover:bg-brand-blue-600 group-hover:text-white'
-                    }`}>
+                    <div
+                      className={`w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 ${
+                        isSelected
+                          ? 'bg-brand-blue-600 text-white'
+                          : 'bg-gray-100 text-black group-hover:bg-brand-blue-600 group-hover:text-white'
+                      }`}
+                    >
                       <Icon className="w-6 h-6" />
                     </div>
-                    <span className="text-lg font-semibold text-black flex-1">
-                      {option.text}
-                    </span>
-                    {isSelected && (
-                      <span className="text-slate-500 flex-shrink-0">•</span>
-                    )}
+                    <span className="text-lg font-semibold text-black flex-1">{option.text}</span>
+                    {isSelected && <span className="text-slate-500 flex-shrink-0">•</span>}
                   </motion.button>
                 );
               })}
@@ -459,13 +468,9 @@ export default function ProgramFinder() {
             <ChevronLeft className="w-5 h-5" />
             Back
           </button>
-
           <div className="text-center">
-            <p className="text-sm text-black">
-              Takes less than 2 minutes
-            </p>
+            <p className="text-sm text-black">Takes less than 2 minutes</p>
           </div>
-
           <div className="w-24" /> {/* Spacer for alignment */}
         </div>
       </div>

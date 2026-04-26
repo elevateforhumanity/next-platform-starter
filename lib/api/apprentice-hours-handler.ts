@@ -16,8 +16,8 @@ import { safeError, safeInternalError } from '@/lib/api/safe-error';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { logger } from '@/lib/logger';
 
-const MAX_HOURS_PER_DAY = 10;  // IPLA audit standard
-const MAX_BACKDATE_DAYS = 14;  // Prevent retroactive fraud
+const MAX_HOURS_PER_DAY = 10; // IPLA audit standard
+const MAX_BACKDATE_DAYS = 14; // Prevent retroactive fraud
 
 export async function handleLogHours(request: NextRequest, discipline: string) {
   const rateLimited = await applyRateLimit(request, 'api');
@@ -25,7 +25,9 @@ export async function handleLogHours(request: NextRequest, discipline: string) {
 
   try {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) return safeError('Unauthorized', 401);
 
     const body = await request.json();
@@ -35,7 +37,7 @@ export async function handleLogHours(request: NextRequest, discipline: string) {
     if (!date) return safeError('Date is required', 400);
     if (hours === undefined || hours === null) return safeError('Hours are required', 400);
 
-    const parsedHours   = parseFloat(hours);
+    const parsedHours = parseFloat(hours);
     const parsedMinutes = parseInt(minutes, 10) || 0;
 
     if (isNaN(parsedHours) || parsedHours <= 0) {
@@ -71,7 +73,7 @@ export async function handleLogHours(request: NextRequest, discipline: string) {
     if (entryDate < oldestAllowed) {
       return safeError(
         `Cannot log hours more than ${MAX_BACKDATE_DAYS} days in the past. Contact your supervisor to correct older records.`,
-        400
+        400,
       );
     }
 
@@ -93,7 +95,7 @@ export async function handleLogHours(request: NextRequest, discipline: string) {
     }
 
     const hoursAlreadyLogged = (existingToday ?? []).reduce((s, r) => s + (r.hours ?? 0), 0);
-    const hoursAfterEntry    = hoursAlreadyLogged + parsedHours;
+    const hoursAfterEntry = hoursAlreadyLogged + parsedHours;
 
     if (hoursAfterEntry > MAX_HOURS_PER_DAY) {
       const remaining = Math.max(0, MAX_HOURS_PER_DAY - hoursAlreadyLogged);
@@ -101,27 +103,25 @@ export async function handleLogHours(request: NextRequest, discipline: string) {
         remaining > 0
           ? `You have already logged ${hoursAlreadyLogged}h on this date. You can log up to ${remaining.toFixed(1)} more hours (${MAX_HOURS_PER_DAY}h daily maximum).`
           : `You have already reached the ${MAX_HOURS_PER_DAY}-hour daily maximum for this date.`,
-        400
+        400,
       );
     }
 
     // ── Insert ────────────────────────────────────────────────────────────────
     const totalMinutes = Math.round(parsedHours * 60 + parsedMinutes);
 
-    const { error: insertErr } = await supabase
-      .from('apprentice_hours')
-      .insert({
-        user_id:       user.id,
-        discipline,
-        date:          dateStr,
-        hours:         parsedHours,
-        minutes:       parsedMinutes,
-        total_minutes: totalMinutes,
-        category:      category || 'practical',
-        notes:         notes?.trim() || null,
-        status:        'pending',
-        submitted_at:  new Date().toISOString(),
-      });
+    const { error: insertErr } = await supabase.from('apprentice_hours').insert({
+      user_id: user.id,
+      discipline,
+      date: dateStr,
+      hours: parsedHours,
+      minutes: parsedMinutes,
+      total_minutes: totalMinutes,
+      category: category || 'practical',
+      notes: notes?.trim() || null,
+      status: 'pending',
+      submitted_at: new Date().toISOString(),
+    });
 
     if (insertErr) {
       // Unique constraint violation — race condition where two concurrent
@@ -129,28 +129,31 @@ export async function handleLogHours(request: NextRequest, discipline: string) {
       if (insertErr.code === '23505') {
         return safeError(
           `You already have a pending or approved entry for this date. Wait for it to be reviewed before submitting again.`,
-          409
+          409,
         );
       }
       // DB check constraint — future date or hours out of range caught at DB level
       if (insertErr.code === '23514') {
-        return safeError('Entry violates a data integrity rule. Check the date and hours and try again.', 400);
+        return safeError(
+          'Entry violates a data integrity rule. Check the date and hours and try again.',
+          400,
+        );
       }
       logger.error(`[pwa/${discipline}/log-hours] insert error`, insertErr);
       return safeError('Failed to save hours. Please try again.', 500);
     }
 
     logger.info(`[pwa/${discipline}/log-hours] hours logged`, {
-      user_id:            user.id,
-      date:               dateStr,
-      hours:              parsedHours,
+      user_id: user.id,
+      date: dateStr,
+      hours: parsedHours,
       discipline,
-      daily_total_after:  hoursAfterEntry,
+      daily_total_after: hoursAfterEntry,
     });
 
     return NextResponse.json({
-      success:        true,
-      dailyTotal:     Math.round(hoursAfterEntry * 10) / 10,
+      success: true,
+      dailyTotal: Math.round(hoursAfterEntry * 10) / 10,
       dailyRemaining: Math.max(0, Math.round((MAX_HOURS_PER_DAY - hoursAfterEntry) * 10) / 10),
     });
   } catch (err) {

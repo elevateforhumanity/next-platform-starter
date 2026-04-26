@@ -1,6 +1,6 @@
 /**
  * AI Instructor System
- * 
+ *
  * Creates virtual instructors with unique voices and personalities
  * for different course categories.
  */
@@ -25,7 +25,19 @@ export const AI_INSTRUCTORS: AIInstructor[] = [
     voice: 'nova',
     avatar: '/images/team/instructors/instructor-health.jpg',
     bio: 'Dr. Chen brings 15 years of clinical nursing experience and healthcare education expertise. She specializes in CNA training, medical terminology, and patient care fundamentals.',
-    categories: ['healthcare', 'cna', 'medical', 'nurse', 'phlebotomy', 'pharmacy', 'dental', 'emt', 'dsp', 'peer', 'recovery'],
+    categories: [
+      'healthcare',
+      'cna',
+      'medical',
+      'nurse',
+      'phlebotomy',
+      'pharmacy',
+      'dental',
+      'emt',
+      'dsp',
+      'peer',
+      'recovery',
+    ],
   },
   {
     id: 'marcus-johnson',
@@ -35,7 +47,17 @@ export const AI_INSTRUCTORS: AIInstructor[] = [
     voice: 'onyx',
     avatar: '/images/team/instructors/instructor-trades.jpg',
     bio: 'Marcus is a licensed master electrician and HVAC technician with 20 years in the field. He leads our skilled trades programs with hands-on expertise.',
-    categories: ['hvac', 'electrical', 'welding', 'construction', 'plumbing', 'carpentry', 'solar', 'building', 'manufacturing'],
+    categories: [
+      'hvac',
+      'electrical',
+      'welding',
+      'construction',
+      'plumbing',
+      'carpentry',
+      'solar',
+      'building',
+      'manufacturing',
+    ],
   },
   {
     id: 'james-williams',
@@ -75,7 +97,17 @@ export const AI_INSTRUCTORS: AIInstructor[] = [
     voice: 'alloy',
     avatar: '/images/team/instructors/instructor-business.jpg',
     bio: 'Angela is a certified career coach and business trainer. She helps students develop professional skills, build resumes, and succeed in interviews.',
-    categories: ['business', 'career', 'professional', 'office', 'admin', 'customer', 'retail', 'tax', 'accounting'],
+    categories: [
+      'business',
+      'career',
+      'professional',
+      'office',
+      'admin',
+      'customer',
+      'retail',
+      'tax',
+      'accounting',
+    ],
   },
 ];
 
@@ -84,7 +116,7 @@ export const AI_INSTRUCTORS: AIInstructor[] = [
  */
 export function getInstructorForCourse(courseName: string): AIInstructor {
   const lowerName = courseName.toLowerCase();
-  
+
   for (const instructor of AI_INSTRUCTORS) {
     for (const category of instructor.categories) {
       if (lowerName.includes(category)) {
@@ -92,7 +124,7 @@ export function getInstructorForCourse(courseName: string): AIInstructor {
       }
     }
   }
-  
+
   // Default to Angela for general courses
   return AI_INSTRUCTORS[5];
 }
@@ -113,15 +145,14 @@ export function generateLessonScript(
   lessonNumber: number,
   lessonTitle: string,
   lessonContent: string,
-  topics: string[]
+  topics: string[],
 ): string {
-  const intro = lessonNumber === 1 
-    ? generateInstructorIntro(instructor, courseName) + ' '
-    : `Welcome back to ${courseName}. I'm ${instructor.name}. `;
-  
-  const topicsText = topics.length > 0 
-    ? `In this lesson, we'll cover: ${topics.join(', ')}. `
-    : '';
-  
+  const intro =
+    lessonNumber === 1
+      ? generateInstructorIntro(instructor, courseName) + ' '
+      : `Welcome back to ${courseName}. I'm ${instructor.name}. `;
+
+  const topicsText = topics.length > 0 ? `In this lesson, we'll cover: ${topics.join(', ')}. ` : '';
+
   return `${intro}This is Lesson ${lessonNumber}: ${lessonTitle}. ${topicsText}${lessonContent} Remember, practice makes perfect. Take notes, ask questions, and apply what you learn. Let's get started.`;
 }

@@ -65,9 +65,7 @@ export const STATE_DATABASES: Record<string, StateDatabase> = {
 /**
  * Verify credential against state database
  */
-export async function verifyCredential(
-  request: CredentialVerificationRequest
-): Promise<{
+export async function verifyCredential(request: CredentialVerificationRequest): Promise<{
   verified: boolean;
   verification_method: string;
   verification_date: string;
@@ -99,10 +97,7 @@ export async function verifyCredential(
   });
 
   // For now, log the verification request
-  if (
-    !process.env.NEXT_PUBLIC_SUPABASE_URL ||
-    !process.env.SUPABASE_SERVICE_ROLE_KEY
-  ) {
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
     return {
       verified: false,
       verification_method: 'manual',
@@ -113,7 +108,7 @@ export async function verifyCredential(
 
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!
+    process.env.SUPABASE_SERVICE_ROLE_KEY!,
   );
 
   // Create verification record
@@ -146,11 +141,7 @@ export async function verifyCredential(
 function determineDatabase(credentialType: string): StateDatabase | null {
   const type = credentialType.toLowerCase();
 
-  if (
-    type.includes('nursing') ||
-    type.includes('cna') ||
-    type.includes('lpn')
-  ) {
+  if (type.includes('nursing') || type.includes('cna') || type.includes('lpn')) {
     return STATE_DATABASES.IPLA;
   }
 
@@ -166,11 +157,7 @@ function determineDatabase(credentialType: string): StateDatabase | null {
     return STATE_DATABASES.RED_CROSS;
   }
 
-  if (
-    type.includes('comptia') ||
-    type.includes('a+') ||
-    type.includes('network+')
-  ) {
+  if (type.includes('comptia') || type.includes('a+') || type.includes('network+')) {
     return STATE_DATABASES.COMPTIA;
   }
 
@@ -181,9 +168,7 @@ function determineDatabase(credentialType: string): StateDatabase | null {
 /**
  * Bulk verify credentials
  */
-export async function bulkVerifyCredentials(
-  requests: CredentialVerificationRequest[]
-): Promise<
+export async function bulkVerifyCredentials(requests: CredentialVerificationRequest[]): Promise<
   Array<{
     student_id: string;
     verified: boolean;
@@ -216,16 +201,13 @@ export async function bulkVerifyCredentials(
  * Get pending verifications
  */
 export async function getPendingVerifications() {
-  if (
-    !process.env.NEXT_PUBLIC_SUPABASE_URL ||
-    !process.env.SUPABASE_SERVICE_ROLE_KEY
-  ) {
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
     return [];
   }
 
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!
+    process.env.SUPABASE_SERVICE_ROLE_KEY!,
   );
 
   const { data }: any = await supabase
@@ -243,18 +225,15 @@ export async function getPendingVerifications() {
 export async function markCredentialVerified(
   verificationId: string,
   verifiedBy: string,
-  notes?: string
+  notes?: string,
 ) {
-  if (
-    !process.env.NEXT_PUBLIC_SUPABASE_URL ||
-    !process.env.SUPABASE_SERVICE_ROLE_KEY
-  ) {
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
     throw new Error('Supabase not configured');
   }
 
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!
+    process.env.SUPABASE_SERVICE_ROLE_KEY!,
   );
 
   await supabase
@@ -274,29 +253,21 @@ export async function markCredentialVerified(
  * Generate credential verification report
  */
 export async function generateCredentialReport() {
-  if (
-    !process.env.NEXT_PUBLIC_SUPABASE_URL ||
-    !process.env.SUPABASE_SERVICE_ROLE_KEY
-  ) {
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
     throw new Error('Supabase not configured');
   }
 
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!
+    process.env.SUPABASE_SERVICE_ROLE_KEY!,
   );
 
-  const { data: all } = await supabase
-    .from('credential_verification')
-    .select('*');
+  const { data: all } = await supabase.from('credential_verification').select('*');
 
   const total = all?.length || 0;
-  const verified =
-    all?.filter((c) => c.verification_status === 'verified').length || 0;
-  const pending =
-    all?.filter((c) => c.verification_status === 'pending').length || 0;
-  const failed =
-    all?.filter((c) => c.verification_status === 'failed').length || 0;
+  const verified = all?.filter((c) => c.verification_status === 'verified').length || 0;
+  const pending = all?.filter((c) => c.verification_status === 'pending').length || 0;
+  const failed = all?.filter((c) => c.verification_status === 'failed').length || 0;
 
   return {
     total_credentials: total,

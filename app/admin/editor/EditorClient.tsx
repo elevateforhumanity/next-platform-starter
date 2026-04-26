@@ -6,9 +6,22 @@ import Split from 'react-split';
 import FileTree from '@/components/editor/FileTree';
 import CodeEditor from '@/components/editor/CodeEditor';
 import {
-  Play, Square, RefreshCw, Send, Loader2, ChevronRight,
-  FileCode2, Terminal as TermIcon, Globe, Bot, PanelLeft,
-  GitBranch, Save, Plus, Trash2, X
+  Play,
+  Square,
+  RefreshCw,
+  Send,
+  Loader2,
+  ChevronRight,
+  FileCode2,
+  Terminal as TermIcon,
+  Globe,
+  Bot,
+  PanelLeft,
+  GitBranch,
+  Save,
+  Plus,
+  Trash2,
+  X,
 } from 'lucide-react';
 
 const XTerminal = dynamic(() => import('@/components/editor/XTerminal'), { ssr: false });
@@ -70,14 +83,18 @@ export default function EditorClient() {
   // Bottom panel
   const [bottomTab, setBottomTab] = useState<Tab>('terminal');
   const [previewUrl, setPreviewUrl] = useState(
-    process.env.NEXT_PUBLIC_ADMIN_URL ?? 'https://elevate-admin-production.up.railway.app'
+    process.env.NEXT_PUBLIC_ADMIN_URL ?? 'https://elevate-admin-production.up.railway.app',
   );
   const [previewKey, setPreviewKey] = useState(0);
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
   // AI chat
   const [aiMessages, setAiMessages] = useState<AiMessage[]>([
-    { role: 'assistant', content: 'I have access to your open files and can run shell commands. Ask me to explain code, fix bugs, generate components, or run commands.' }
+    {
+      role: 'assistant',
+      content:
+        'I have access to your open files and can run shell commands. Ask me to explain code, fix bugs, generate components, or run commands.',
+    },
   ]);
   const [aiInput, setAiInput] = useState('');
   const [aiLoading, setAiLoading] = useState(false);
@@ -99,69 +116,93 @@ export default function EditorClient() {
     }
   }, []);
 
-  useEffect(() => { loadTree(); }, [loadTree]);
+  useEffect(() => {
+    loadTree();
+  }, [loadTree]);
 
   // Load git branch
   useEffect(() => {
-    handleCommand('git branch --show-current').then(b => setGitBranch(b.trim() || 'main'));
+    handleCommand('git branch --show-current').then((b) => setGitBranch(b.trim() || 'main'));
   }, []);
 
   // ── Open file in tab ────────────────────────────────────────────────────────
-  const openFile = useCallback(async (filePath: string) => {
-    if (!openTabs.includes(filePath)) {
-      setOpenTabs(prev => [...prev, filePath]);
-    }
-    setActiveTab(filePath);
+  const openFile = useCallback(
+    async (filePath: string) => {
+      if (!openTabs.includes(filePath)) {
+        setOpenTabs((prev) => [...prev, filePath]);
+      }
+      setActiveTab(filePath);
 
-    if (!fileContents[filePath]) {
-      try {
-        const res = await fetch(`/api/devstudio/files?path=${encodeURIComponent(filePath)}`);
-        const data = await res.json();
-        if (data.content !== undefined) {
-          setFileContents(prev => ({ ...prev, [filePath]: data.content }));
+      if (!fileContents[filePath]) {
+        try {
+          const res = await fetch(`/api/devstudio/files?path=${encodeURIComponent(filePath)}`);
+          const data = await res.json();
+          if (data.content !== undefined) {
+            setFileContents((prev) => ({ ...prev, [filePath]: data.content }));
+          }
+        } catch {
+          /* ignore */
         }
-      } catch { /* ignore */ }
-    }
-  }, [openTabs, fileContents]);
+      }
+    },
+    [openTabs, fileContents],
+  );
 
-  const closeTab = useCallback((filePath: string, e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (unsavedTabs.has(filePath) && !confirm('Discard unsaved changes?')) return;
-    setOpenTabs(prev => {
-      const next = prev.filter(t => t !== filePath);
-      if (activeTab === filePath) setActiveTab(next[next.length - 1] ?? '');
-      return next;
-    });
-    setUnsavedTabs(prev => { const s = new Set(prev); s.delete(filePath); return s; });
-  }, [activeTab, unsavedTabs]);
+  const closeTab = useCallback(
+    (filePath: string, e: React.MouseEvent) => {
+      e.stopPropagation();
+      if (unsavedTabs.has(filePath) && !confirm('Discard unsaved changes?')) return;
+      setOpenTabs((prev) => {
+        const next = prev.filter((t) => t !== filePath);
+        if (activeTab === filePath) setActiveTab(next[next.length - 1] ?? '');
+        return next;
+      });
+      setUnsavedTabs((prev) => {
+        const s = new Set(prev);
+        s.delete(filePath);
+        return s;
+      });
+    },
+    [activeTab, unsavedTabs],
+  );
 
   // ── Save file ───────────────────────────────────────────────────────────────
-  const saveFile = useCallback(async (filePath?: string) => {
-    const path = filePath ?? activeTab;
-    if (!path || saving) return;
-    setSaving(true);
-    try {
-      const res = await fetch('/api/devstudio/files', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ path, content: fileContents[path] ?? '' }),
-      });
-      if (res.ok) {
-        setUnsavedTabs(prev => { const s = new Set(prev); s.delete(path); return s; });
-        setSaveStatus(`Saved`);
-        setTimeout(() => setSaveStatus(''), 2000);
-        // Reload preview on save
-        setPreviewKey(k => k + 1);
+  const saveFile = useCallback(
+    async (filePath?: string) => {
+      const path = filePath ?? activeTab;
+      if (!path || saving) return;
+      setSaving(true);
+      try {
+        const res = await fetch('/api/devstudio/files', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ path, content: fileContents[path] ?? '' }),
+        });
+        if (res.ok) {
+          setUnsavedTabs((prev) => {
+            const s = new Set(prev);
+            s.delete(path);
+            return s;
+          });
+          setSaveStatus(`Saved`);
+          setTimeout(() => setSaveStatus(''), 2000);
+          // Reload preview on save
+          setPreviewKey((k) => k + 1);
+        }
+      } finally {
+        setSaving(false);
       }
-    } finally {
-      setSaving(false);
-    }
-  }, [activeTab, fileContents, saving]);
+    },
+    [activeTab, fileContents, saving],
+  );
 
   // Cmd+S / Ctrl+S
   useEffect(() => {
     const h = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === 's') { e.preventDefault(); saveFile(); }
+      if ((e.metaKey || e.ctrlKey) && e.key === 's') {
+        e.preventDefault();
+        saveFile();
+      }
     };
     window.addEventListener('keydown', h);
     return () => window.removeEventListener('keydown', h);
@@ -169,45 +210,54 @@ export default function EditorClient() {
 
   // ── Shell execution ─────────────────────────────────────────────────────────
   const handleCommand = useCallback(async (command: string): Promise<string> => {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       let output = '';
       fetch('/api/devstudio/shell', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ command }),
-      }).then(async res => {
-        if (!res.ok || !res.body) { resolve(`Error: ${res.status}`); return; }
-        const reader = res.body.getReader();
-        const dec = new TextDecoder();
-        let buf = '';
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
-          buf += dec.decode(value, { stream: true });
-          const lines = buf.split('\n');
-          buf = lines.pop() ?? '';
-          for (const line of lines) {
-            if (!line.startsWith('data: ')) continue;
-            try {
-              const ev = JSON.parse(line.slice(6));
-              if (ev.type === 'stdout' || ev.type === 'stderr') output += ev.text;
-              else if (ev.type === 'exit') output += output.endsWith('\n') ? '' : '\n';
-              else if (ev.type === 'error') output += `Error: ${ev.text}`;
-            } catch { /* skip */ }
+      })
+        .then(async (res) => {
+          if (!res.ok || !res.body) {
+            resolve(`Error: ${res.status}`);
+            return;
           }
-        }
-        resolve(output || '(no output)');
-      }).catch(e => resolve(`Error: ${e.message}`));
+          const reader = res.body.getReader();
+          const dec = new TextDecoder();
+          let buf = '';
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+            buf += dec.decode(value, { stream: true });
+            const lines = buf.split('\n');
+            buf = lines.pop() ?? '';
+            for (const line of lines) {
+              if (!line.startsWith('data: ')) continue;
+              try {
+                const ev = JSON.parse(line.slice(6));
+                if (ev.type === 'stdout' || ev.type === 'stderr') output += ev.text;
+                else if (ev.type === 'exit') output += output.endsWith('\n') ? '' : '\n';
+                else if (ev.type === 'error') output += `Error: ${ev.text}`;
+              } catch {
+                /* skip */
+              }
+            }
+          }
+          resolve(output || '(no output)');
+        })
+        .catch((e) => resolve(`Error: ${e.message}`));
     });
   }, []);
 
   // ── AI chat ─────────────────────────────────────────────────────────────────
-  useEffect(() => { aiBottomRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [aiMessages]);
+  useEffect(() => {
+    aiBottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [aiMessages]);
 
   const sendAi = useCallback(async () => {
     const text = aiInput.trim();
     if (!text || aiLoading) return;
-    setAiMessages(prev => [...prev, { role: 'user', content: text }]);
+    setAiMessages((prev) => [...prev, { role: 'user', content: text }]);
     setAiInput('');
     setAiLoading(true);
 
@@ -226,12 +276,15 @@ export default function EditorClient() {
         }),
       });
       const data = await res.json();
-      setAiMessages(prev => [...prev, {
-        role: 'assistant',
-        content: data.reply ?? data.message ?? data.error ?? 'No response'
-      }]);
+      setAiMessages((prev) => [
+        ...prev,
+        {
+          role: 'assistant',
+          content: data.reply ?? data.message ?? data.error ?? 'No response',
+        },
+      ]);
     } catch {
-      setAiMessages(prev => [...prev, { role: 'assistant', content: 'Connection error.' }]);
+      setAiMessages((prev) => [...prev, { role: 'assistant', content: 'Connection error.' }]);
     } finally {
       setAiLoading(false);
     }
@@ -239,8 +292,10 @@ export default function EditorClient() {
 
   // ── Render ──────────────────────────────────────────────────────────────────
   return (
-    <div className="h-screen flex flex-col bg-[#0d1117] text-[#e6edf3] overflow-hidden" style={{ fontFamily: '"Inter", system-ui, sans-serif' }}>
-
+    <div
+      className="h-screen flex flex-col bg-[#0d1117] text-[#e6edf3] overflow-hidden"
+      style={{ fontFamily: '"Inter", system-ui, sans-serif' }}
+    >
       {/* ── Top bar ── */}
       <div className="h-10 bg-[#161b22] border-b border-[#30363d] flex items-center px-3 gap-3 shrink-0 z-10">
         {/* Logo */}
@@ -252,13 +307,16 @@ export default function EditorClient() {
         </div>
 
         {/* Sidebar toggle */}
-        <button onClick={() => setSidebarOpen(o => !o)} className="p-1 hover:bg-[#21262d] rounded text-[#8b949e] hover:text-[#e6edf3]">
+        <button
+          onClick={() => setSidebarOpen((o) => !o)}
+          className="p-1 hover:bg-[#21262d] rounded text-[#8b949e] hover:text-[#e6edf3]"
+        >
           <PanelLeft className="w-4 h-4" />
         </button>
 
         {/* File tabs */}
         <div className="flex-1 flex items-center gap-0.5 overflow-x-auto scrollbar-none">
-          {openTabs.map(tab => (
+          {openTabs.map((tab) => (
             <div
               key={tab}
               onClick={() => setActiveTab(tab)}
@@ -272,7 +330,7 @@ export default function EditorClient() {
               <span>{tab.split('/').pop()}</span>
               {unsavedTabs.has(tab) && <span className="w-1.5 h-1.5 rounded-full bg-orange-400" />}
               <button
-                onClick={e => closeTab(tab, e)}
+                onClick={(e) => closeTab(tab, e)}
                 className="opacity-0 group-hover:opacity-100 hover:text-red-400 ml-0.5"
               >
                 <X className="w-3 h-3" />
@@ -293,7 +351,10 @@ export default function EditorClient() {
             {saving ? 'Saving…' : 'Save'}
           </button>
           <button
-            onClick={() => { setPreviewKey(k => k + 1); setBottomTab('preview'); }}
+            onClick={() => {
+              setPreviewKey((k) => k + 1);
+              setBottomTab('preview');
+            }}
             className="flex items-center gap-1 px-2.5 py-1 bg-[#1f6feb] hover:bg-[#388bfd] text-white text-xs rounded font-medium transition-colors"
           >
             <Play className="w-3 h-3" />
@@ -309,7 +370,6 @@ export default function EditorClient() {
 
       {/* ── Main body ── */}
       <div className="flex-1 overflow-hidden flex">
-
         {/* ── Activity bar ── */}
         <div className="w-10 bg-[#161b22] border-r border-[#30363d] flex flex-col items-center py-2 gap-1 shrink-0">
           {[
@@ -318,7 +378,10 @@ export default function EditorClient() {
           ].map(({ id, icon: Icon, label }) => (
             <button
               key={id}
-              onClick={() => { setSidePanel(id as Panel); setSidebarOpen(true); }}
+              onClick={() => {
+                setSidePanel(id as Panel);
+                setSidebarOpen(true);
+              }}
               title={label}
               className={`w-8 h-8 flex items-center justify-center rounded transition-colors ${
                 sidePanel === id && sidebarOpen
@@ -341,17 +404,12 @@ export default function EditorClient() {
               </button>
             </div>
             <div className="flex-1 overflow-auto">
-              {sidePanel === 'files' && (
-                treeLoading ? (
+              {sidePanel === 'files' &&
+                (treeLoading ? (
                   <div className="p-3 text-xs text-[#8b949e]">Loading…</div>
                 ) : (
-                  <FileTree
-                    files={fileTree}
-                    onFileSelect={openFile}
-                    selectedFile={activeTab}
-                  />
-                )
-              )}
+                  <FileTree files={fileTree} onFileSelect={openFile} selectedFile={activeTab} />
+                ))}
               {sidePanel === 'git' && (
                 <div className="p-3 text-xs text-[#8b949e] space-y-2">
                   <div className="flex items-center gap-1 text-[#e6edf3]">
@@ -364,13 +422,17 @@ export default function EditorClient() {
                     git status
                   </button>
                   <button
-                    onClick={() => handleCommand('git add -A && git status --short').then(setGitStatus)}
+                    onClick={() =>
+                      handleCommand('git add -A && git status --short').then(setGitStatus)
+                    }
                     className="w-full text-left px-2 py-1 bg-[#21262d] hover:bg-[#30363d] rounded text-xs"
                   >
                     Stage all
                   </button>
                   {gitStatus && (
-                    <pre className="text-[10px] text-[#8b949e] whitespace-pre-wrap">{gitStatus}</pre>
+                    <pre className="text-[10px] text-[#8b949e] whitespace-pre-wrap">
+                      {gitStatus}
+                    </pre>
                   )}
                 </div>
               )}
@@ -396,9 +458,9 @@ export default function EditorClient() {
               {activeTab ? (
                 <CodeEditor
                   value={fileContents[activeTab] ?? ''}
-                  onChange={v => {
-                    setFileContents(prev => ({ ...prev, [activeTab]: v ?? '' }));
-                    setUnsavedTabs(prev => new Set(prev).add(activeTab));
+                  onChange={(v) => {
+                    setFileContents((prev) => ({ ...prev, [activeTab]: v ?? '' }));
+                    setUnsavedTabs((prev) => new Set(prev).add(activeTab));
                   }}
                   language={getLanguage(activeTab)}
                 />
@@ -440,11 +502,11 @@ export default function EditorClient() {
                   <div className="ml-auto flex items-center gap-1">
                     <input
                       value={previewUrl}
-                      onChange={e => setPreviewUrl(e.target.value)}
+                      onChange={(e) => setPreviewUrl(e.target.value)}
                       className="bg-[#21262d] border border-[#30363d] rounded px-2 py-0.5 text-xs text-[#e6edf3] w-56 focus:outline-none focus:border-[#58a6ff]"
                     />
                     <button
-                      onClick={() => setPreviewKey(k => k + 1)}
+                      onClick={() => setPreviewKey((k) => k + 1)}
                       className="p-1 hover:bg-[#21262d] rounded text-[#8b949e] hover:text-[#e6edf3]"
                     >
                       <RefreshCw className="w-3 h-3" />
@@ -455,9 +517,7 @@ export default function EditorClient() {
 
               {/* Panel content */}
               <div className="flex-1 overflow-hidden">
-                {bottomTab === 'terminal' && (
-                  <XTerminal onCommand={handleCommand} />
-                )}
+                {bottomTab === 'terminal' && <XTerminal onCommand={handleCommand} />}
 
                 {bottomTab === 'preview' && (
                   <iframe
@@ -474,17 +534,22 @@ export default function EditorClient() {
                   <div className="h-full flex flex-col bg-[#0d1117]">
                     <div className="flex-1 overflow-y-auto p-3 space-y-3">
                       {aiMessages.map((m, i) => (
-                        <div key={i} className={`flex gap-2 ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                        <div
+                          key={i}
+                          className={`flex gap-2 ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}
+                        >
                           {m.role === 'assistant' && (
                             <div className="w-6 h-6 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center shrink-0 mt-0.5">
                               <Bot className="w-3 h-3 text-white" />
                             </div>
                           )}
-                          <div className={`max-w-[85%] rounded-xl px-3 py-2 text-xs whitespace-pre-wrap leading-relaxed ${
-                            m.role === 'user'
-                              ? 'bg-[#1f6feb] text-white'
-                              : 'bg-[#21262d] text-[#e6edf3]'
-                          }`}>
+                          <div
+                            className={`max-w-[85%] rounded-xl px-3 py-2 text-xs whitespace-pre-wrap leading-relaxed ${
+                              m.role === 'user'
+                                ? 'bg-[#1f6feb] text-white'
+                                : 'bg-[#21262d] text-[#e6edf3]'
+                            }`}
+                          >
                             {m.content}
                           </div>
                         </div>
@@ -504,8 +569,13 @@ export default function EditorClient() {
                     <div className="border-t border-[#30363d] p-2 flex gap-2">
                       <textarea
                         value={aiInput}
-                        onChange={e => setAiInput(e.target.value)}
-                        onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendAi(); } }}
+                        onChange={(e) => setAiInput(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' && !e.shiftKey) {
+                            e.preventDefault();
+                            sendAi();
+                          }
+                        }}
                         placeholder="Ask about the current file, fix a bug, generate code…"
                         rows={2}
                         className="flex-1 bg-[#21262d] border border-[#30363d] rounded-lg px-3 py-2 text-xs text-[#e6edf3] placeholder-[#8b949e] resize-none focus:outline-none focus:border-[#58a6ff]"

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { Trophy, TrendingUp, Award } from 'lucide-react';
 
@@ -75,9 +75,7 @@ export function Leaderboard() {
                   {user.rank}
                 </div>
               ) : (
-                <div className="text-lg font-bold text-slate-700">
-                  {user.rank}
-                </div>
+                <div className="text-lg font-bold text-slate-700">{user.rank}</div>
               )}
             </div>
             {/* Avatar */}
@@ -93,9 +91,7 @@ export function Leaderboard() {
               >
                 {user.name}
               </p>
-              <p className="text-xs text-slate-700">
-                {user.courses} courses completed
-              </p>
+              <p className="text-xs text-slate-700">{user.courses} courses completed</p>
             </div>
             {/* Points */}
             <div className="text-right">

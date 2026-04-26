@@ -1,4 +1,3 @@
-
 export const revalidate = 3600;
 
 import { Metadata } from 'next';
@@ -13,7 +12,8 @@ import {
   ArrowRight,
   AlertCircle,
   FileText,
-CheckCircle, } from 'lucide-react';
+  CheckCircle,
+} from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Direct Deposit - Get Your Refund Faster | Elevate for Humanity',
@@ -27,16 +27,22 @@ export const metadata: Metadata = {
 export default function DirectDepositPage() {
   return (
     <div className="bg-white">
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Banking", href: "/banking" }, { label: "Direct Deposit" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs
+          items={[{ label: 'Banking', href: '/banking' }, { label: 'Direct Deposit' }]}
+        />
       </div>
-{/* Breadcrumb */}
+      {/* Breadcrumb */}
       <div className="bg-white border-b">
         <div className="max-w-7xl mx-auto px-4 py-3">
           <nav className="flex items-center text-sm text-slate-700">
-            <Link href="/" className="hover:text-brand-blue-600">Home</Link>
+            <Link href="/" className="hover:text-brand-blue-600">
+              Home
+            </Link>
             <span className="mx-2">/</span>
-            <Link href="/banking" className="hover:text-brand-blue-600">Banking</Link>
+            <Link href="/banking" className="hover:text-brand-blue-600">
+              Banking
+            </Link>
             <span className="mx-2">/</span>
             <span className="text-slate-900 font-medium">Direct Deposit</span>
           </nav>
@@ -53,8 +59,6 @@ export default function DirectDepositPage() {
           priority
           sizes="100vw"
         />
-        
-
       </section>
 
       {/* Key Benefits */}
@@ -64,7 +68,9 @@ export default function DirectDepositPage() {
             <div className="bg-white rounded-lg p-6 text-center shadow-sm">
               <Zap className="w-10 h-10 text-brand-green-600 mx-auto mb-3" />
               <h3 className="font-bold text-slate-900 mb-2">Fastest Method</h3>
-              <p className="text-sm text-slate-700">Get your refund 2-3 weeks faster than paper checks</p>
+              <p className="text-sm text-slate-700">
+                Get your refund 2-3 weeks faster than paper checks
+              </p>
             </div>
             <div className="bg-white rounded-lg p-6 text-center shadow-sm">
               <Shield className="w-10 h-10 text-brand-green-600 mx-auto mb-3" />
@@ -100,10 +106,12 @@ export default function DirectDepositPage() {
                     1
                   </div>
                   <div className="ml-4">
-                    <h3 className="text-xl font-bold text-slate-900 mb-2">Provide Your Bank Info</h3>
+                    <h3 className="text-xl font-bold text-slate-900 mb-2">
+                      Provide Your Bank Info
+                    </h3>
                     <p className="text-slate-700">
-                      During tax preparation, provide your bank routing number and your account number. 
-                      You can find these on a check or through your bank online portal.
+                      During tax preparation, provide your bank routing number and your account
+                      number. You can find these on a check or through your bank online portal.
                     </p>
                   </div>
                 </div>
@@ -113,9 +121,11 @@ export default function DirectDepositPage() {
                     2
                   </div>
                   <div className="ml-4">
-                    <h3 className="text-xl font-bold text-slate-900 mb-2">IRS Processes Your Return</h3>
+                    <h3 className="text-xl font-bold text-slate-900 mb-2">
+                      IRS Processes Your Return
+                    </h3>
                     <p className="text-slate-700">
-                      Once your return is accepted, the IRS processes it and schedules your refund. 
+                      Once your return is accepted, the IRS processes it and schedules your refund.
                       E-filed returns with direct deposit are processed fastest.
                     </p>
                   </div>
@@ -128,8 +138,8 @@ export default function DirectDepositPage() {
                   <div className="ml-4">
                     <h3 className="text-xl font-bold text-slate-900 mb-2">Funds Deposited</h3>
                     <p className="text-slate-700">
-                      Your refund is electronically deposited directly into your bank account. 
-                      Most refunds arrive within 21 days of acceptance.
+                      Your refund is electronically deposited directly into your bank account. Most
+                      refunds arrive within 21 days of acceptance.
                     </p>
                   </div>
                 </div>
@@ -150,7 +160,9 @@ export default function DirectDepositPage() {
                   <FileText className="w-6 h-6 text-brand-green-600 mr-3 flex-shrink-0 mt-1" />
                   <div>
                     <p className="font-semibold text-slate-900">Account Number</p>
-                    <p className="text-sm text-slate-700">Your personal checking or savings account number</p>
+                    <p className="text-sm text-slate-700">
+                      Your personal checking or savings account number
+                    </p>
                   </div>
                 </li>
                 <li className="flex items-start">
@@ -166,7 +178,8 @@ export default function DirectDepositPage() {
                 <div className="flex items-start">
                   <AlertCircle className="w-5 h-5 text-yellow-600 mr-2 flex-shrink-0 mt-0.5" />
                   <p className="text-sm text-yellow-800">
-                    Double-check your account numbers. Incorrect information can delay your refund by weeks.
+                    Double-check your account numbers. Incorrect information can delay your refund
+                    by weeks.
                   </p>
                 </div>
               </div>
@@ -178,9 +191,7 @@ export default function DirectDepositPage() {
       {/* Timeline */}
       <section className="py-16">
         <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-slate-900 mb-8 text-center">
-            Expected Timeline
-          </h2>
+          <h2 className="text-3xl font-bold text-slate-900 mb-8 text-center">Expected Timeline</h2>
 
           <div className="bg-white rounded-xl shadow-md overflow-hidden">
             <table className="w-full">
@@ -217,7 +228,8 @@ export default function DirectDepositPage() {
           </div>
 
           <p className="text-center text-slate-700 mt-4 text-sm">
-            Times are estimates. Actual processing may vary based on IRS workload and return complexity.
+            Times are estimates. Actual processing may vary based on IRS workload and return
+            complexity.
           </p>
         </div>
       </section>
@@ -226,12 +238,10 @@ export default function DirectDepositPage() {
       <section className="py-16">
         <div className="max-w-4xl mx-auto px-4">
           <div className="bg-brand-blue-50 border-2 border-brand-blue-200 rounded-xl p-8">
-            <h2 className="text-2xl font-bold text-slate-900 mb-4">
-              Split Your Refund
-            </h2>
+            <h2 className="text-2xl font-bold text-slate-900 mb-4">Split Your Refund</h2>
             <p className="text-slate-900 mb-6">
-              Did you know you can split your refund into up to three different accounts? 
-              This is a great way to automatically save a portion of your refund.
+              Did you know you can split your refund into up to three different accounts? This is a
+              great way to automatically save a portion of your refund.
             </p>
             <div className="grid md:grid-cols-3 gap-4">
               <div className="bg-white rounded-lg p-4 text-center">
@@ -262,16 +272,18 @@ export default function DirectDepositPage() {
             <div className="bg-white rounded-lg shadow-sm p-6">
               <h3 className="font-bold text-slate-900 mb-2">Can I use any bank account?</h3>
               <p className="text-slate-700">
-                Yes, you can use any U.S. bank account that accepts electronic deposits. This includes 
-                checking accounts, savings accounts, and many prepaid debit card accounts.
+                Yes, you can use any U.S. bank account that accepts electronic deposits. This
+                includes checking accounts, savings accounts, and many prepaid debit card accounts.
               </p>
             </div>
 
             <div className="bg-white rounded-lg shadow-sm p-6">
-              <h3 className="font-bold text-slate-900 mb-2">What if I enter the wrong account number?</h3>
+              <h3 className="font-bold text-slate-900 mb-2">
+                What if I enter the wrong account number?
+              </h3>
               <p className="text-slate-700">
-                If the account number is invalid, the bank will reject the deposit and the IRS will 
-                mail you a paper check. If the account belongs to someone else, recovering the funds 
+                If the account number is invalid, the bank will reject the deposit and the IRS will
+                mail you a paper check. If the account belongs to someone else, recovering the funds
                 can be difficult. Always double-check your information.
               </p>
             </div>
@@ -279,17 +291,17 @@ export default function DirectDepositPage() {
             <div className="bg-white rounded-lg shadow-sm p-6">
               <h3 className="font-bold text-slate-900 mb-2">Can I track my refund status?</h3>
               <p className="text-slate-700">
-                Yes! Use the IRS Where is My Refund tool at irs.gov or the IRS2Go mobile app. 
-                You will need your Social Security number, filing status, and exact refund amount.
+                Yes! Use the IRS Where is My Refund tool at irs.gov or the IRS2Go mobile app. You
+                will need your Social Security number, filing status, and exact refund amount.
               </p>
             </div>
 
             <div className="bg-white rounded-lg shadow-sm p-6">
               <h3 className="font-bold text-slate-900 mb-2">Is direct deposit safe?</h3>
               <p className="text-slate-700">
-                Absolutely. Direct deposit is the most secure way to receive your refund. There is no 
-                risk of a check being lost, stolen, or delayed in the mail. All transfers are encrypted 
-                and FDIC insured.
+                Absolutely. Direct deposit is the most secure way to receive your refund. There is
+                no risk of a check being lost, stolen, or delayed in the mail. All transfers are
+                encrypted and FDIC insured.
               </p>
             </div>
           </div>
@@ -299,9 +311,7 @@ export default function DirectDepositPage() {
       {/* CTA */}
       <section className="py-16">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-6">
-            Ready to File Your Taxes?
-          </h2>
+          <h2 className="text-3xl font-bold mb-6">Ready to File Your Taxes?</h2>
           <p className="text-xl mb-8 text-white">
             Set up direct deposit and get your refund faster.
           </p>

@@ -1,6 +1,4 @@
-
 export const revalidate = 3600;
-
 
 import { requireRole } from '@/lib/auth/require-role';
 import { Metadata } from 'next';
@@ -18,12 +16,11 @@ export default async function NewGrantPage() {
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* Hero Image */}
       <div className="max-w-3xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8">
-          <Link 
+          <Link
             href="/admin/grants"
             className="inline-flex items-center gap-2 text-slate-700 hover:text-slate-900 mb-4"
           >
@@ -35,7 +32,10 @@ export default async function NewGrantPage() {
         </div>
 
         {/* Form */}
-        <form action={createGrantOpportunity} className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <form
+          action={createGrantOpportunity}
+          className="bg-white rounded-xl shadow-sm border border-gray-200 p-6"
+        >
           {/* Basic Information */}
           <div className="mb-8">
             <h2 className="text-lg font-semibold text-slate-900 mb-4">Grant Details</h2>
@@ -52,7 +52,7 @@ export default async function NewGrantPage() {
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                 />
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-slate-900 mb-1">
                   Funder / Organization *
@@ -67,9 +67,7 @@ export default async function NewGrantPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-slate-900 mb-1">
-                  Description
-                </label>
+                <label className="block text-sm font-medium text-slate-900 mb-1">Description</label>
                 <textarea
                   name="description"
                   rows={3}
@@ -134,9 +132,7 @@ export default async function NewGrantPage() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-slate-900 mb-1">
-                  Status
-                </label>
+                <label className="block text-sm font-medium text-slate-900 mb-1">Status</label>
                 <select
                   name="status"
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
@@ -203,10 +199,7 @@ export default async function NewGrantPage() {
 
           {/* Actions */}
           <div className="flex items-center justify-end gap-4 pt-4 border-t border-gray-200">
-            <Link
-              href="/admin/grants"
-              className="px-4 py-2 text-slate-900 hover:text-slate-900"
-            >
+            <Link href="/admin/grants" className="px-4 py-2 text-slate-900 hover:text-slate-900">
               Cancel
             </Link>
             <button

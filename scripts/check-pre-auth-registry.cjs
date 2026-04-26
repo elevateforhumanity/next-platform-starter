@@ -23,13 +23,13 @@
 
 'use strict';
 
-const fs   = require('fs');
+const fs = require('fs');
 const path = require('path');
 
-const ROOT          = path.resolve(__dirname, '..');
-const API_DIR       = path.join(ROOT, 'app', 'api');
+const ROOT = path.resolve(__dirname, '..');
+const API_DIR = path.join(ROOT, 'app', 'api');
 const REGISTRY_FILE = path.join(ROOT, 'lib', 'pre-auth-tables.ts');
-const REPORT_DIR    = path.join(ROOT, 'reports');
+const REPORT_DIR = path.join(ROOT, 'reports');
 
 // 1. Parse registered tables from lib/pre-auth-tables.ts
 const registrySource = fs.readFileSync(REGISTRY_FILE, 'utf8');
@@ -73,8 +73,8 @@ const AUTH_PATTERNS = [
   /auditPiiAccess/,
 ];
 
-const EXEMPT_RE     = /\/\/\s*pre-auth-registry:\s*exempt/i;
-const INSERT_RE     = /\.from\s*\(\s*['"]([^'"]+)['"]\s*\)[\s\S]{0,300}?\.(insert|upsert)\s*\(/g;
+const EXEMPT_RE = /\/\/\s*pre-auth-registry:\s*exempt/i;
+const INSERT_RE = /\.from\s*\(\s*['"]([^'"]+)['"]\s*\)[\s\S]{0,300}?\.(insert|upsert)\s*\(/g;
 const IDENTITY_COLS = /user_id|student_id|customer_email|recipient_id/;
 
 // 3. Walk app/api
@@ -89,23 +89,31 @@ function walkDir(dir, results = []) {
 const routeFiles = walkDir(API_DIR);
 
 // 4. Scan
-const issues   = [];
+const issues = [];
 const coverage = [];
 
 for (const file of routeFiles) {
   const source = fs.readFileSync(file, 'utf8');
-  const rel    = path.relative(ROOT, file);
+  const rel = path.relative(ROOT, file);
 
-  if (EXEMPT_RE.test(source)) { coverage.push({ file: rel, status: 'exempt', tables: [] }); continue; }
-  if (AUTH_PATTERNS.some(p => p.test(source))) { coverage.push({ file: rel, status: 'authenticated', tables: [] }); continue; }
-  if (!source.includes('.insert(') && !source.includes('.upsert(')) { continue; }
+  if (EXEMPT_RE.test(source)) {
+    coverage.push({ file: rel, status: 'exempt', tables: [] });
+    continue;
+  }
+  if (AUTH_PATTERNS.some((p) => p.test(source))) {
+    coverage.push({ file: rel, status: 'authenticated', tables: [] });
+    continue;
+  }
+  if (!source.includes('.insert(') && !source.includes('.upsert(')) {
+    continue;
+  }
 
   const tableMatches = [...source.matchAll(INSERT_RE)];
   if (tableMatches.length === 0) continue;
 
   const fileTables = [];
   for (const match of tableMatches) {
-    const table       = match[1];
+    const table = match[1];
     const insertBlock = source.slice(match.index, match.index + 800);
     if (!IDENTITY_COLS.test(insertBlock)) continue;
     const registered = registeredTables.has(table);
@@ -116,7 +124,7 @@ for (const file of routeFiles) {
   if (fileTables.length > 0) {
     coverage.push({
       file: rel,
-      status: fileTables.every(t => t.registered) ? 'registered' : 'UNREGISTERED',
+      status: fileTables.every((t) => t.registered) ? 'registered' : 'UNREGISTERED',
       tables: fileTables,
     });
   }
@@ -126,14 +134,18 @@ for (const file of routeFiles) {
 if (!fs.existsSync(REPORT_DIR)) fs.mkdirSync(REPORT_DIR, { recursive: true });
 fs.writeFileSync(
   path.join(REPORT_DIR, 'pre_auth_registry_report.json'),
-  JSON.stringify({
-    generated_at: new Date().toISOString(),
-    registered_tables: [...registeredTables].sort(),
-    total_routes: routeFiles.length,
-    issues_count: issues.length,
-    issues,
-    coverage: coverage.filter(c => c.status !== 'authenticated'),
-  }, null, 2),
+  JSON.stringify(
+    {
+      generated_at: new Date().toISOString(),
+      registered_tables: [...registeredTables].sort(),
+      total_routes: routeFiles.length,
+      issues_count: issues.length,
+      issues,
+      coverage: coverage.filter((c) => c.status !== 'authenticated'),
+    },
+    null,
+    2,
+  ),
 );
 
 // 6. Output
@@ -153,8 +165,12 @@ for (const { file, table } of issues) {
   console.error(`  File: ${file}`);
   console.error('');
   console.error('  Fix — choose one:');
-  console.error(`    A. Register: add { table: '${table}', mode: 'reconcile'|'anonymous', ... } to lib/pre-auth-tables.ts`);
-  console.error(`    B. Exempt:   add // pre-auth-registry: exempt — <reason>  to the top of the route file`);
+  console.error(
+    `    A. Register: add { table: '${table}', mode: 'reconcile'|'anonymous', ... } to lib/pre-auth-tables.ts`,
+  );
+  console.error(
+    `    B. Exempt:   add // pre-auth-registry: exempt — <reason>  to the top of the route file`,
+  );
   console.error('');
 }
 console.error(`[pre-auth-check] ${issues.length} issue(s). Merge blocked.`);

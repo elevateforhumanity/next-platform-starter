@@ -2,14 +2,17 @@
 import { readFileSync, writeFileSync } from 'fs';
 
 const data = JSON.parse(readFileSync('reports/page-audit.json', 'utf-8'));
-const issues = data.pages.filter(p => p.issueCount > 0);
+const issues = data.pages.filter((p) => p.issueCount > 0);
 
-const actualIssues = issues.filter(page => {
-  const hasPlaceholder = page.issues.some(i => i.type === 'placeholder_text');
-  const hasMissingHero = page.issues.some(i => i.type === 'missing_hero_media');
+const actualIssues = issues.filter((page) => {
+  const hasPlaceholder = page.issues.some((i) => i.type === 'placeholder_text');
+  const hasMissingHero = page.issues.some((i) => i.type === 'missing_hero_media');
 
   // Skip form pages
-  if (hasPlaceholder && (page.route.includes('/new') || page.route.includes('/edit') || page.route.includes('/create'))) {
+  if (
+    hasPlaceholder &&
+    (page.route.includes('/new') || page.route.includes('/edit') || page.route.includes('/create'))
+  ) {
     return false;
   }
   // Skip redirect pages
@@ -19,8 +22,7 @@ const actualIssues = issues.filter(page => {
   return true;
 });
 
-actualIssues.slice(0, 20).forEach((p, i) => {
-});
+actualIssues.slice(0, 20).forEach((p, i) => {});
 
 if (actualIssues.length > 20) {
 }

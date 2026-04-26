@@ -1,9 +1,9 @@
 /**
  * Flag certificates when a payment refund/void occurs.
- * 
+ *
  * Certificates are NOT revoked — training was delivered and the credential
  * remains valid. But the funding_status is flagged for audit traceability.
- * 
+ *
  * This is the correct behavior for workforce/ETPL programs:
  * - Instruction delivered = credential earned
  * - Refund = financial event, not academic event
@@ -30,15 +30,38 @@ interface FlagParams {
  * Searches across all certificate tables.
  */
 export async function flagCertificatesOnRefund(params: FlagParams): Promise<number> {
-  const { supabase, studentEmail, studentId, enrollmentId, reason, paymentProvider, paymentReference } = params;
+  const {
+    supabase,
+    studentEmail,
+    studentId,
+    enrollmentId,
+    reason,
+    paymentProvider,
+    paymentReference,
+  } = params;
   const now = new Date().toISOString();
   const flagReason = `${paymentProvider}:${paymentReference}:${reason}`;
   let totalFlagged = 0;
 
   const tables = [
-    { name: 'certificates', emailCol: 'student_email', userCol: 'student_id', enrollCol: 'enrollment_id' },
-    { name: 'issued_certificates', emailCol: 'recipient_email', userCol: 'student_id', enrollCol: null },
-    { name: 'program_completion_certificates', emailCol: null, userCol: 'user_id', enrollCol: null },
+    {
+      name: 'certificates',
+      emailCol: 'student_email',
+      userCol: 'student_id',
+      enrollCol: 'enrollment_id',
+    },
+    {
+      name: 'issued_certificates',
+      emailCol: 'recipient_email',
+      userCol: 'student_id',
+      enrollCol: null,
+    },
+    {
+      name: 'program_completion_certificates',
+      emailCol: null,
+      userCol: 'user_id',
+      enrollCol: null,
+    },
     { name: 'partner_certificates', emailCol: null, userCol: 'user_id', enrollCol: null },
     { name: 'module_certificates', emailCol: null, userCol: 'user_id', enrollCol: null },
   ];
@@ -46,13 +69,11 @@ export async function flagCertificatesOnRefund(params: FlagParams): Promise<numb
   for (const table of tables) {
     try {
       // Build query — match by enrollment_id first (most specific), then student_id, then email
-      let query = supabase
-        .from(table.name)
-        .update({
-          funding_status: reason,
-          funding_status_changed_at: now,
-          funding_status_reason: flagReason,
-        });
+      let query = supabase.from(table.name).update({
+        funding_status: reason,
+        funding_status_changed_at: now,
+        funding_status_reason: flagReason,
+      });
 
       if (enrollmentId && table.enrollCol) {
         query = query.eq(table.enrollCol, enrollmentId);
@@ -111,7 +132,9 @@ export async function flagCertificatesOnRefund(params: FlagParams): Promise<numb
           enrollment_id: enrollmentId,
         },
       });
-    } catch { /* audit best-effort */ }
+    } catch {
+      /* audit best-effort */
+    }
   }
 
   return totalFlagged;

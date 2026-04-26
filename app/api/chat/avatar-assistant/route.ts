@@ -2,11 +2,7 @@ import { logger } from '@/lib/logger';
 import { NextRequest, NextResponse } from 'next/server';
 import { getOpenAIClient, isOpenAIConfigured } from '@/lib/openai-client';
 import { createClient } from '@/lib/supabase/server';
-import { 
-  MASTER_AVATAR_PROMPT, 
-  getPageScript,
-  getStatusScript 
-} from '@/lib/avatar-scripts';
+import { MASTER_AVATAR_PROMPT, getPageScript, getStatusScript } from '@/lib/avatar-scripts';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 
@@ -15,10 +11,10 @@ export const dynamic = 'force-dynamic';
 
 interface ChatRequest {
   message: string;
-  route?: string;           // Current page route (e.g., "/programs/cna")
-  userRole?: string;        // learner, employer, partner, staff
+  route?: string; // Current page route (e.g., "/programs/cna")
+  userRole?: string; // learner, employer, partner, staff
   enrollmentStatus?: string; // submitted, under_review, approved, denied, enrolled, etc.
-  fundingType?: string;     // wioa, wrg, jri, self_pay, employer_sponsored
+  fundingType?: string; // wioa, wrg, jri, self_pay, employer_sponsored
   hasMissingDocs?: boolean;
   history?: Array<{ role: 'user' | 'assistant'; content: string }>;
   // Legacy support
@@ -81,21 +77,41 @@ function buildSystemPrompt(req: ChatRequest): string {
 
 // Fallback responses when OpenAI is not configured
 const FALLBACK_RESPONSES: Record<string, string> = {
-  programs: "We offer career training in Healthcare (CNA, Medical Assistant), Skilled Trades (HVAC, Electrical, Welding), Technology, CDL Transportation, Barber/Cosmetology, and Tax Preparation. Some programs may qualify for WIOA funding assistance! Call (317) 314-3757 to learn more.",
-  funding: "Most of our programs are FREE through WIOA (Workforce Innovation and Opportunity Act) funding. We also offer Workforce Ready Grants and other financial assistance. Call (317) 314-3757 to check your eligibility!",
-  apply: "Ready to apply? Visit elevateforhumanity.org/apply or call (317) 314-3757. You'll need a valid ID and proof of income. The process takes about 15 minutes!",
-  default: "I'm here to help! We offer FREE career training in healthcare, skilled trades, technology, and more. Call (317) 314-3757 or visit /apply to get started. What would you like to know?",
+  programs:
+    'We offer career training in Healthcare (CNA, Medical Assistant), Skilled Trades (HVAC, Electrical, Welding), Technology, CDL Transportation, Barber/Cosmetology, and Tax Preparation. Some programs may qualify for WIOA funding assistance! Call (317) 314-3757 to learn more.',
+  funding:
+    'Most of our programs are FREE through WIOA (Workforce Innovation and Opportunity Act) funding. We also offer Workforce Ready Grants and other financial assistance. Call (317) 314-3757 to check your eligibility!',
+  apply:
+    "Ready to apply? Visit elevateforhumanity.org/apply or call (317) 314-3757. You'll need a valid ID and proof of income. The process takes about 15 minutes!",
+  default:
+    "I'm here to help! We offer FREE career training in healthcare, skilled trades, technology, and more. Call (317) 314-3757 or visit /apply to get started. What would you like to know?",
 };
 
 function getFallbackResponse(message: string): string {
   const lowerMsg = message.toLowerCase();
-  if (lowerMsg.includes('program') || lowerMsg.includes('course') || lowerMsg.includes('training') || lowerMsg.includes('offer')) {
+  if (
+    lowerMsg.includes('program') ||
+    lowerMsg.includes('course') ||
+    lowerMsg.includes('training') ||
+    lowerMsg.includes('offer')
+  ) {
     return FALLBACK_RESPONSES.programs;
   }
-  if (lowerMsg.includes('free') || lowerMsg.includes('cost') || lowerMsg.includes('pay') || lowerMsg.includes('fund') || lowerMsg.includes('wioa')) {
+  if (
+    lowerMsg.includes('free') ||
+    lowerMsg.includes('cost') ||
+    lowerMsg.includes('pay') ||
+    lowerMsg.includes('fund') ||
+    lowerMsg.includes('wioa')
+  ) {
     return FALLBACK_RESPONSES.funding;
   }
-  if (lowerMsg.includes('apply') || lowerMsg.includes('start') || lowerMsg.includes('enroll') || lowerMsg.includes('sign up')) {
+  if (
+    lowerMsg.includes('apply') ||
+    lowerMsg.includes('start') ||
+    lowerMsg.includes('enroll') ||
+    lowerMsg.includes('sign up')
+  ) {
     return FALLBACK_RESPONSES.apply;
   }
   return FALLBACK_RESPONSES.default;
@@ -110,16 +126,13 @@ async function _POST(request: NextRequest) {
     const { message, history = [] } = body;
 
     if (!message?.trim()) {
-      return NextResponse.json(
-        { error: 'Message is required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Message is required' }, { status: 400 });
     }
 
     // If OpenAI is not configured, use fallback responses
     if (!isOpenAIConfigured()) {
-      return NextResponse.json({ 
-        message: getFallbackResponse(message) 
+      return NextResponse.json({
+        message: getFallbackResponse(message),
       });
     }
 
@@ -129,7 +142,7 @@ async function _POST(request: NextRequest) {
 
     const messages = [
       { role: 'system' as const, content: systemPrompt },
-      ...history.slice(-6).map(m => ({
+      ...history.slice(-6).map((m) => ({
         role: m.role as 'user' | 'assistant',
         content: m.content,
       })),
@@ -143,23 +156,29 @@ async function _POST(request: NextRequest) {
       temperature: 0.3,
     });
 
-    const reply = completion.choices[0]?.message?.content || 
-      "I can help with that. What specific information do you need?";
+    const reply =
+      completion.choices[0]?.message?.content ||
+      'I can help with that. What specific information do you need?';
 
     // Log interaction to database
     try {
       const supabase = await createClient();
-      const { data: { user } } = await supabase.auth.getUser();
-      await supabase.from('avatar_chat_interactions').insert({
-        user_id: user?.id || null,
-        route: body.route || null,
-        user_message: message,
-        assistant_response: reply,
-        context: body.context || null,
-      }).catch(() => {});
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      await supabase
+        .from('avatar_chat_interactions')
+        .insert({
+          user_id: user?.id || null,
+          route: body.route || null,
+          user_message: message,
+          assistant_response: reply,
+          context: body.context || null,
+        })
+        .catch(() => {});
     } catch (err) {
-        logger.error("Unhandled error", err instanceof Error ? err : undefined);
-      }
+      logger.error('Unhandled error', err instanceof Error ? err : undefined);
+    }
 
     return NextResponse.json({ message: reply });
   } catch (error) {
@@ -167,12 +186,12 @@ async function _POST(request: NextRequest) {
     // Fall back to static responses on any error (including quota exceeded)
     try {
       const body: ChatRequest = await request.clone().json();
-      return NextResponse.json({ 
-        message: getFallbackResponse(body.message || '') 
+      return NextResponse.json({
+        message: getFallbackResponse(body.message || ''),
       });
     } catch {
-      return NextResponse.json({ 
-        message: FALLBACK_RESPONSES.default 
+      return NextResponse.json({
+        message: FALLBACK_RESPONSES.default,
       });
     }
   }
@@ -183,17 +202,13 @@ async function _POST(request: NextRequest) {
  * Used for initial avatar message on page load
  */
 async function _GET(request: NextRequest) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const { searchParams } = new URL(request.url);
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const { searchParams } = new URL(request.url);
   const route = searchParams.get('route');
 
   if (!route) {
-    return NextResponse.json(
-      { error: 'Route parameter required' },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: 'Route parameter required' }, { status: 400 });
   }
 
   const pageScript = getPageScript(route);
@@ -201,7 +216,8 @@ const { searchParams } = new URL(request.url);
   if (!pageScript) {
     // Default opening for unknown pages
     return NextResponse.json({
-      opening: "Welcome. I can help you navigate training, funding, enrollment, or credentials. What do you need?",
+      opening:
+        'Welcome. I can help you navigate training, funding, enrollment, or credentials. What do you need?',
       nextAction: "Tell me what you're looking for.",
     });
   }

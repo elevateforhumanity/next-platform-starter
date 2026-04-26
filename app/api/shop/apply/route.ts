@@ -1,6 +1,5 @@
 // PUBLIC ROUTE: shop application form
 
-
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { logAuditEvent, AuditActions } from '@/lib/audit';
@@ -15,7 +14,7 @@ export const dynamic = 'force-dynamic';
 
 export async function POST(req: Request) {
   try {
-  await hydrateProcessEnv();
+    await hydrateProcessEnv();
     const rateLimited = await applyRateLimit(req, 'strict');
     if (rateLimited) return rateLimited;
 
@@ -38,18 +37,14 @@ export async function POST(req: Request) {
 
     // Validate required fields
     if (!shop_name || !owner_name || !email || !phone || !license_number) {
-      return NextResponse.json(
-        { error: 'Missing required fields' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
     // Create or get auth user for shop owner
-    const { data: authUser, error: authError } =
-      await supabase.auth.admin.createUser({
-        email,
-        email_confirm: true,
-      });
+    const { data: authUser, error: authError } = await supabase.auth.admin.createUser({
+      email,
+      email_confirm: true,
+    });
 
     const userId = authUser?.user?.id;
 
@@ -137,7 +132,7 @@ Welcome to the Elevate for Humanity network!
         `,
       });
     } catch (emailError) {
-        logger.error("Unhandled error", emailError instanceof Error ? emailError : undefined);
+      logger.error('Unhandled error', emailError instanceof Error ? emailError : undefined);
     }
 
     // Log audit event
@@ -162,9 +157,6 @@ Welcome to the Elevate for Humanity network!
     });
   } catch (err: any) {
     // Error: $1
-    return NextResponse.json(
-      { error: 'Application failed' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Application failed' }, { status: 500 });
   }
 }

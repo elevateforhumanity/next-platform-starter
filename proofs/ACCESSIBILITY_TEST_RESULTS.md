@@ -2,7 +2,7 @@
 
 **Test Date:** 2025-02-06  
 **Test Framework:** Playwright  
-**WCAG Standard:** WCAG 2.1 AA  
+**WCAG Standard:** WCAG 2.1 AA
 
 ## Summary
 
@@ -12,43 +12,43 @@ All 15 accessibility tests passed, demonstrating WCAG AA compliance for keyboard
 
 ### Keyboard Navigation Tests (All Passed ✅)
 
-| Test | Status | Description |
-|------|--------|-------------|
-| Header navigation keyboard accessible | ✅ Pass | Tab navigation works through header elements |
-| Dropdown menus work with keyboard | ✅ Pass | Arrow keys and Enter work for dropdowns |
-| Mobile menu accessible | ✅ Pass | Mobile menu can be opened/closed via keyboard |
-| Escape key closes mobile menu | ✅ Pass | ESC key properly dismisses mobile menu |
-| Skip to main content link works | ✅ Pass | Skip link is first focusable element |
-| Focus indicators visible | ✅ Pass | All focusable elements have visible focus states |
+| Test                                  | Status  | Description                                      |
+| ------------------------------------- | ------- | ------------------------------------------------ |
+| Header navigation keyboard accessible | ✅ Pass | Tab navigation works through header elements     |
+| Dropdown menus work with keyboard     | ✅ Pass | Arrow keys and Enter work for dropdowns          |
+| Mobile menu accessible                | ✅ Pass | Mobile menu can be opened/closed via keyboard    |
+| Escape key closes mobile menu         | ✅ Pass | ESC key properly dismisses mobile menu           |
+| Skip to main content link works       | ✅ Pass | Skip link is first focusable element             |
+| Focus indicators visible              | ✅ Pass | All focusable elements have visible focus states |
 
 ### Screen Reader Support Tests (All Passed ✅)
 
-| Test | Status | Description |
-|------|--------|-------------|
-| All images have alt text | ✅ Pass | Images have descriptive alt attributes |
-| All buttons have accessible names | ✅ Pass | Buttons have text or aria-label |
-| Form inputs have labels | ✅ Pass | Inputs are properly labeled |
-| Headings in correct order | ✅ Pass | H1-H6 hierarchy is maintained |
-| Links have descriptive text | ✅ Pass | No "click here" or empty links |
-| Proper ARIA attributes | ✅ Pass | Interactive elements use correct ARIA |
-| Page has language attribute | ✅ Pass | `<html lang="en">` is set |
+| Test                              | Status  | Description                            |
+| --------------------------------- | ------- | -------------------------------------- |
+| All images have alt text          | ✅ Pass | Images have descriptive alt attributes |
+| All buttons have accessible names | ✅ Pass | Buttons have text or aria-label        |
+| Form inputs have labels           | ✅ Pass | Inputs are properly labeled            |
+| Headings in correct order         | ✅ Pass | H1-H6 hierarchy is maintained          |
+| Links have descriptive text       | ✅ Pass | No "click here" or empty links         |
+| Proper ARIA attributes            | ✅ Pass | Interactive elements use correct ARIA  |
+| Page has language attribute       | ✅ Pass | `<html lang="en">` is set              |
 
 ### Visual Accessibility Tests (All Passed ✅)
 
-| Test | Status | Description |
-|------|--------|-------------|
-| No accessibility violations | ✅ Pass | axe-core scan found no violations |
-| Color contrast meets WCAG AA | ✅ Pass | Text contrast ratio ≥ 4.5:1 |
+| Test                         | Status  | Description                       |
+| ---------------------------- | ------- | --------------------------------- |
+| No accessibility violations  | ✅ Pass | axe-core scan found no violations |
+| Color contrast meets WCAG AA | ✅ Pass | Text contrast ratio ≥ 4.5:1       |
 
 ## Enrollment Journey Accessibility
 
 Additional accessibility tests for the enrollment flow:
 
-| Test | Status | Description |
-|------|--------|-------------|
+| Test                            | Status  | Description                        |
+| ------------------------------- | ------- | ---------------------------------- |
 | Inquiry form keyboard navigable | ✅ Pass | Form can be completed via keyboard |
-| Form inputs have proper labels | ✅ Pass | All inputs are labeled |
-| Login form accessible | ✅ Pass | Auth forms are keyboard accessible |
+| Form inputs have proper labels  | ✅ Pass | All inputs are labeled             |
+| Login form accessible           | ✅ Pass | Auth forms are keyboard accessible |
 
 ## Test Commands
 

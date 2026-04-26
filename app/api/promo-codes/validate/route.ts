@@ -29,41 +29,41 @@ async function _POST(req: Request) {
       .maybeSingle();
 
     if (error || !promo) {
-      return NextResponse.json({ 
-        valid: false, 
-        error: 'Invalid promo code' 
+      return NextResponse.json({
+        valid: false,
+        error: 'Invalid promo code',
       });
     }
 
     // Check if expired
     if (promo.valid_until && new Date(promo.valid_until) < new Date()) {
-      return NextResponse.json({ 
-        valid: false, 
-        error: 'This promo code has expired' 
+      return NextResponse.json({
+        valid: false,
+        error: 'This promo code has expired',
       });
     }
 
     // Check if not yet valid
     if (promo.valid_from && new Date(promo.valid_from) > new Date()) {
-      return NextResponse.json({ 
-        valid: false, 
-        error: 'This promo code is not yet active' 
+      return NextResponse.json({
+        valid: false,
+        error: 'This promo code is not yet active',
       });
     }
 
     // Check max uses
     if (promo.max_uses && promo.current_uses >= promo.max_uses) {
-      return NextResponse.json({ 
-        valid: false, 
-        error: 'This promo code has reached its usage limit' 
+      return NextResponse.json({
+        valid: false,
+        error: 'This promo code has reached its usage limit',
       });
     }
 
     // Check minimum purchase
     if (promo.min_purchase && subtotal < promo.min_purchase) {
-      return NextResponse.json({ 
-        valid: false, 
-        error: `Minimum purchase of $${promo.min_purchase} required` 
+      return NextResponse.json({
+        valid: false,
+        error: `Minimum purchase of $${promo.min_purchase} required`,
       });
     }
 

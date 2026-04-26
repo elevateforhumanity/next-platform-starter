@@ -33,27 +33,33 @@ export interface DiagramEntry {
 export const DIAGRAM_CATEGORIES: Record<DiagramCategory, { label: string; description: string }> = {
   'core-system': {
     label: 'Core System Diagrams',
-    description: 'Show how the entire HVAC system works. Appear in early modules and are reused throughout the program.',
+    description:
+      'Show how the entire HVAC system works. Appear in early modules and are reused throughout the program.',
   },
   'equipment-breakdown': {
     label: 'Equipment Breakdown Diagrams',
-    description: 'Show internal parts of equipment technicians service. Used in component identification and maintenance modules.',
+    description:
+      'Show internal parts of equipment technicians service. Used in component identification and maintenance modules.',
   },
   electrical: {
     label: 'Electrical System Diagrams',
-    description: 'Explain control circuits, wiring, and electrical components. Support the electrical and thermostat modules.',
+    description:
+      'Explain control circuits, wiring, and electrical components. Support the electrical and thermostat modules.',
   },
   airflow: {
     label: 'Airflow & Ventilation Diagrams',
-    description: 'Show how conditioned air moves through ductwork. Used in airflow, ventilation, and troubleshooting modules.',
+    description:
+      'Show how conditioned air moves through ductwork. Used in airflow, ventilation, and troubleshooting modules.',
   },
   diagnostic: {
     label: 'Diagnostic & Troubleshooting Diagrams',
-    description: 'Help students learn systematic problem-solving. Used in troubleshooting and service call modules.',
+    description:
+      'Help students learn systematic problem-solving. Used in troubleshooting and service call modules.',
   },
   tool: {
     label: 'Tool & Equipment Diagrams',
-    description: 'Help students visually recognize diagnostic tools and understand how to use them.',
+    description:
+      'Help students visually recognize diagnostic tools and understand how to use them.',
   },
 };
 
@@ -77,7 +83,8 @@ export const HVAC_VISUAL_LIBRARY: DiagramEntry[] = [
     category: 'core-system',
     description:
       'Illustrates the four stages: compression, condensation, expansion, and evaporation. Each stage is labeled with pressure and temperature changes. The compressor, condenser coil, expansion device, and evaporator coil are clearly identified.',
-    learningObjective: 'Students learn how refrigerant moves through the system and how cooling is produced.',
+    learningObjective:
+      'Students learn how refrigerant moves through the system and how cooling is produced.',
     moduleIds: ['hvac-05', 'hvac-06', 'hvac-07', 'hvac-08', 'hvac-11', 'hvac-13', 'hvac-16'],
     equipmentModelId: 'split-system-ac',
     hasInteractive: true,
@@ -101,7 +108,8 @@ export const HVAC_VISUAL_LIBRARY: DiagramEntry[] = [
     category: 'equipment-breakdown',
     description:
       'Shows the inside of an outdoor condenser unit with labeled parts: compressor, condenser coil, fan motor, capacitor, contactor, and service valves.',
-    learningObjective: 'Students recognize internal components technicians inspect during service calls.',
+    learningObjective:
+      'Students recognize internal components technicians inspect during service calls.',
     moduleIds: ['hvac-02', 'hvac-03', 'hvac-05', 'hvac-11', 'hvac-12', 'hvac-13'],
     equipmentModelId: 'split-system-ac',
     hasInteractive: true,
@@ -125,7 +133,8 @@ export const HVAC_VISUAL_LIBRARY: DiagramEntry[] = [
     category: 'equipment-breakdown',
     description:
       'Shows the reversing valve, compressor, outdoor coil, indoor coil, and auxiliary heat strips. Illustrates how the system operates in both heating and cooling modes.',
-    learningObjective: 'Students understand how heat pumps reverse the refrigeration cycle for heating.',
+    learningObjective:
+      'Students understand how heat pumps reverse the refrigeration cycle for heating.',
     moduleIds: ['hvac-04', 'hvac-09', 'hvac-13'],
     equipmentModelId: 'heat-pump',
     hasInteractive: false,
@@ -218,7 +227,8 @@ export const HVAC_VISUAL_LIBRARY: DiagramEntry[] = [
     category: 'diagnostic',
     description:
       'Shows the relationship between refrigerant pressure and saturation temperature for R-410A and R-22. Used to calculate superheat and subcooling.',
-    learningObjective: 'Students learn to convert between pressure and temperature for diagnostics.',
+    learningObjective:
+      'Students learn to convert between pressure and temperature for diagnostics.',
     moduleIds: ['hvac-05', 'hvac-06', 'hvac-08', 'hvac-11'],
     hasInteractive: false,
   },
@@ -241,7 +251,8 @@ export const HVAC_VISUAL_LIBRARY: DiagramEntry[] = [
     category: 'tool',
     description:
       'Labels the dial positions for voltage (AC/DC), resistance (ohms), continuity, capacitance, and amperage. Shows proper probe placement for each measurement.',
-    learningObjective: 'Students learn to select the correct meter function and connect probes safely.',
+    learningObjective:
+      'Students learn to select the correct meter function and connect probes safely.',
     moduleIds: ['hvac-03', 'hvac-04', 'hvac-13'],
     hasInteractive: false,
   },

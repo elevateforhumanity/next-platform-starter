@@ -23,8 +23,7 @@ async function fetchHTML(url) {
         url,
         {
           headers: {
-            'User-Agent':
-              'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
           },
         },
         (res) => {
@@ -37,7 +36,7 @@ async function fetchHTML(url) {
           res.on('end', () => {
             resolve(data);
           });
-        }
+        },
       )
       .on('error', (err) => {
         reject(err);
@@ -53,19 +52,11 @@ async function downloadImage(url, filename) {
       .get(url, (res) => {
         if (res.statusCode === 302 || res.statusCode === 301) {
           // Follow redirect
-          downloadImage(res.headers.location, filename)
-            .then(resolve)
-            .catch(reject);
+          downloadImage(res.headers.location, filename).then(resolve).catch(reject);
           return;
         }
 
-        const filePath = path.join(
-          process.cwd(),
-          'public',
-          'images',
-          'partners',
-          filename
-        );
+        const filePath = path.join(process.cwd(), 'public', 'images', 'partners', filename);
         const fileStream = require('fs').createWriteStream(filePath);
 
         res.pipe(fileStream);
@@ -86,11 +77,7 @@ async function downloadImage(url, filename) {
 }
 
 async function scrapeJRIPrograms() {
-
-  const urls = [
-    'https://learning.employindy.org',
-    'https://jri.employindy.org',
-  ];
+  const urls = ['https://learning.employindy.org', 'https://jri.employindy.org'];
 
   const scrapedData = [];
 
@@ -105,20 +92,16 @@ async function scrapeJRIPrograms() {
         .filter((title) => title.length > 5 && title.length < 100);
 
       // Extract course/badge mentions
-      const courseMatches =
-        html.match(/badge|course|certification|skill|training/gi) || [];
+      const courseMatches = html.match(/badge|course|certification|skill|training/gi) || [];
 
       // Extract logo URLs
-      const logoMatches =
-        html.match(/<img[^>]+src=["']([^"']+)["'][^>]*>/gi) || [];
+      const logoMatches = html.match(/<img[^>]+src=["']([^"']+)["'][^>]*>/gi) || [];
       const logos = logoMatches
         .map((match) => {
           const srcMatch = match.match(/src=["']([^"']+)["']/);
           return srcMatch ? srcMatch[1] : null;
         })
-        .filter(
-          (src) => src && (src.includes('logo') || src.includes('brand'))
-        );
+        .filter((src) => src && (src.includes('logo') || src.includes('brand')));
 
       scrapedData.push({
         source: url,
@@ -126,9 +109,7 @@ async function scrapeJRIPrograms() {
         courseCount: courseMatches.length,
         logos: logos.slice(0, 3),
       });
-
-    } catch (error) {
-    }
+    } catch (error) {}
   }
 
   return scrapedData;
@@ -279,7 +260,6 @@ export default jobReadyIndyCourses;
 
 async function main() {
   try {
-
     // Ensure images directory exists
     const imagesDir = path.join(process.cwd(), 'public', 'images', 'partners');
     await fs.mkdir(imagesDir, { recursive: true });
@@ -291,7 +271,6 @@ async function main() {
     jriData.scrapedData = scrapedPrograms;
 
     await saveJRIData(jriData);
-
   } catch (error) {
     console.error('❌ Error:', error);
     process.exit(1);

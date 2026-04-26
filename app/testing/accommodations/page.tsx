@@ -1,4 +1,3 @@
-
 export const revalidate = 3600;
 
 import { Metadata } from 'next';
@@ -16,25 +15,52 @@ export const metadata: Metadata = {
 };
 
 const ACCOMMODATION_TYPES = [
-  { title: 'Extended Time', desc: 'Time-and-a-half or double time for candidates with documented disabilities.' },
-  { title: 'Screen Reader', desc: 'Assistive technology support for visually impaired candidates.' },
+  {
+    title: 'Extended Time',
+    desc: 'Time-and-a-half or double time for candidates with documented disabilities.',
+  },
+  {
+    title: 'Screen Reader',
+    desc: 'Assistive technology support for visually impaired candidates.',
+  },
   { title: 'Large Print', desc: 'Enlarged exam materials for candidates with visual impairments.' },
   { title: 'Separate Testing Room', desc: 'Private testing environment to minimize distractions.' },
-  { title: 'Frequent Breaks', desc: 'Scheduled breaks during the exam for candidates who require them.' },
-  { title: 'Other', desc: 'Additional accommodations reviewed on a case-by-case basis with supporting documentation.' },
+  {
+    title: 'Frequent Breaks',
+    desc: 'Scheduled breaks during the exam for candidates who require them.',
+  },
+  {
+    title: 'Other',
+    desc: 'Additional accommodations reviewed on a case-by-case basis with supporting documentation.',
+  },
 ];
 
 const STEPS = [
-  { step: '1', title: 'Submit at least 30 days before your exam', desc: 'Accommodation requests must be received no later than 30 days before your scheduled exam date. Late requests may not be processed in time.' },
-  { step: '2', title: 'Provide supporting documentation', desc: 'Include documentation from a licensed professional (physician, psychologist, or specialist) describing your disability and the accommodations required.' },
-  { step: '3', title: 'Receive confirmation', desc: 'We will review your request and confirm approved accommodations within 5–7 business days of receiving complete documentation.' },
-  { step: '4', title: 'Schedule your exam', desc: 'Once accommodations are confirmed, schedule your exam through our testing center. Your approved accommodations will be applied automatically.' },
+  {
+    step: '1',
+    title: 'Submit at least 30 days before your exam',
+    desc: 'Accommodation requests must be received no later than 30 days before your scheduled exam date. Late requests may not be processed in time.',
+  },
+  {
+    step: '2',
+    title: 'Provide supporting documentation',
+    desc: 'Include documentation from a licensed professional (physician, psychologist, or specialist) describing your disability and the accommodations required.',
+  },
+  {
+    step: '3',
+    title: 'Receive confirmation',
+    desc: 'We will review your request and confirm approved accommodations within 5–7 business days of receiving complete documentation.',
+  },
+  {
+    step: '4',
+    title: 'Schedule your exam',
+    desc: 'Once accommodations are confirmed, schedule your exam through our testing center. Your approved accommodations will be applied automatically.',
+  },
 ];
 
 export default function TestingAccommodationsPage() {
   return (
     <main className="bg-white">
-
       {/* HERO */}
       <section className="bg-[#1E3A5F] text-white py-16 px-4">
         <div className="max-w-3xl mx-auto text-center">
@@ -45,7 +71,8 @@ export default function TestingAccommodationsPage() {
             Testing Accommodations
           </h1>
           <p className="text-slate-300 text-lg max-w-xl mx-auto">
-            We are committed to providing equal access to all candidates. Accommodation requests must be submitted at least 30 days before your exam date.
+            We are committed to providing equal access to all candidates. Accommodation requests
+            must be submitted at least 30 days before your exam date.
           </p>
         </div>
       </section>
@@ -55,8 +82,9 @@ export default function TestingAccommodationsPage() {
         <div className="max-w-3xl mx-auto flex items-start gap-3">
           <AlertTriangle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
           <p className="text-amber-800 text-sm leading-relaxed">
-            <strong className="text-amber-900">30-Day Deadline.</strong>{' '}
-            Accommodation requests must be submitted at least 30 days before your exam date. Submit early — late requests cannot be guaranteed.
+            <strong className="text-amber-900">30-Day Deadline.</strong> Accommodation requests must
+            be submitted at least 30 days before your exam date. Submit early — late requests cannot
+            be guaranteed.
           </p>
         </div>
       </section>
@@ -65,10 +93,15 @@ export default function TestingAccommodationsPage() {
       <section className="py-14 px-4">
         <div className="max-w-3xl mx-auto">
           <h2 className="text-2xl font-extrabold text-slate-900 mb-2">Available Accommodations</h2>
-          <p className="text-slate-500 text-sm mb-8">All accommodations require supporting documentation from a licensed professional.</p>
+          <p className="text-slate-500 text-sm mb-8">
+            All accommodations require supporting documentation from a licensed professional.
+          </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {ACCOMMODATION_TYPES.map((item) => (
-              <div key={item.title} className="bg-slate-50 border border-slate-200 rounded-xl px-5 py-4">
+              <div
+                key={item.title}
+                className="bg-slate-50 border border-slate-200 rounded-xl px-5 py-4"
+              >
                 <div className="flex items-start gap-2">
                   <CheckCircle className="w-4 h-4 text-brand-green-600 flex-shrink-0 mt-0.5" />
                   <div>
@@ -85,8 +118,12 @@ export default function TestingAccommodationsPage() {
       {/* HOW TO REQUEST */}
       <section className="bg-slate-50 border-y border-slate-200 py-14 px-4">
         <div className="max-w-2xl mx-auto">
-          <h2 className="text-2xl font-extrabold text-slate-900 text-center mb-2">How to Request Accommodations</h2>
-          <p className="text-slate-500 text-sm text-center mb-10">Four steps to get your accommodations approved before exam day.</p>
+          <h2 className="text-2xl font-extrabold text-slate-900 text-center mb-2">
+            How to Request Accommodations
+          </h2>
+          <p className="text-slate-500 text-sm text-center mb-10">
+            Four steps to get your accommodations approved before exam day.
+          </p>
           <div className="space-y-6">
             {STEPS.map(({ step, title, desc }) => (
               <div key={step} className="flex items-start gap-4">
@@ -108,7 +145,8 @@ export default function TestingAccommodationsPage() {
         <div className="max-w-2xl mx-auto text-center">
           <h2 className="text-2xl font-extrabold text-slate-900 mb-2">Submit Your Request</h2>
           <p className="text-slate-500 text-sm mb-8">
-            Contact our testing center directly to begin the accommodations process. Include your name, exam type, intended exam date, and supporting documentation.
+            Contact our testing center directly to begin the accommodations process. Include your
+            name, exam type, intended exam date, and supporting documentation.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <a
@@ -137,7 +175,6 @@ export default function TestingAccommodationsPage() {
           </div>
         </div>
       </section>
-
     </main>
   );
 }

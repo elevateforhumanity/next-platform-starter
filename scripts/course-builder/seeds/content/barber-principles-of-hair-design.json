@@ -16,12 +16,7 @@
       },
       {
         "prompt": "Which element of hair design refers to the overall shape and structure of a hairstyle?",
-        "choices": [
-          "Texture",
-          "Form",
-          "Space",
-          "Color"
-        ],
+        "choices": ["Texture", "Form", "Space", "Color"],
         "answerIndex": 1,
         "rationale": "Form is the element that refers to the overall shape and structure of a hairstyle, providing its silhouette.",
         "type": "recall"
@@ -52,12 +47,7 @@
       },
       {
         "prompt": "Which design principle involves the relationship between different parts of the hairstyle?",
-        "choices": [
-          "Rhythm",
-          "Proportion",
-          "Balance",
-          "Harmony"
-        ],
+        "choices": ["Rhythm", "Proportion", "Balance", "Harmony"],
         "answerIndex": 1,
         "rationale": "Proportion involves the relationship between different parts of the hairstyle, ensuring they work together harmoniously.",
         "type": "recall"
@@ -76,24 +66,14 @@
       },
       {
         "prompt": "What is the effect of using horizontal lines in a hairstyle?",
-        "choices": [
-          "Add length",
-          "Add width",
-          "Create movement",
-          "Highlight features"
-        ],
+        "choices": ["Add length", "Add width", "Create movement", "Highlight features"],
         "answerIndex": 1,
         "rationale": "Horizontal lines add width to a hairstyle, which can make a face appear wider.",
         "type": "recall"
       },
       {
         "prompt": "Which element of hair design can create contrast and highlight features?",
-        "choices": [
-          "Line",
-          "Space",
-          "Color",
-          "Form"
-        ],
+        "choices": ["Line", "Space", "Color", "Form"],
         "answerIndex": 2,
         "rationale": "Color adds dimension and depth, creating contrast and highlighting features in a hairstyle.",
         "type": "recall"
@@ -112,48 +92,28 @@
       },
       {
         "prompt": "During a service, you notice a client has a square face shape. Which texture would help soften their strong jawline?",
-        "choices": [
-          "Straight texture",
-          "Curly or wavy texture",
-          "Flat texture",
-          "Spiky texture"
-        ],
+        "choices": ["Straight texture", "Curly or wavy texture", "Flat texture", "Spiky texture"],
         "answerIndex": 1,
         "rationale": "Curly or wavy textures can help soften the angular features of a square face shape.",
         "type": "scenario"
       },
       {
         "prompt": "What is the principle of design that ensures all elements work together seamlessly?",
-        "choices": [
-          "Rhythm",
-          "Emphasis",
-          "Harmony",
-          "Balance"
-        ],
+        "choices": ["Rhythm", "Emphasis", "Harmony", "Balance"],
         "answerIndex": 2,
         "rationale": "Harmony is achieved when all elements and principles work together seamlessly, resulting in an attractive and suitable hairstyle.",
         "type": "recall"
       },
       {
         "prompt": "A client wants a hairstyle that emphasizes their eyes. Which design principle should you focus on?",
-        "choices": [
-          "Proportion",
-          "Rhythm",
-          "Emphasis",
-          "Harmony"
-        ],
+        "choices": ["Proportion", "Rhythm", "Emphasis", "Harmony"],
         "answerIndex": 2,
         "rationale": "Emphasis is the focal point of the hairstyle, which can be used to draw attention to features like the eyes.",
         "type": "scenario"
       },
       {
         "prompt": "Which element of hair design refers to the surface quality of the hair?",
-        "choices": [
-          "Line",
-          "Texture",
-          "Space",
-          "Color"
-        ],
+        "choices": ["Line", "Texture", "Space", "Color"],
         "answerIndex": 1,
         "rationale": "Texture refers to the surface quality of the hair, such as whether it is smooth, wavy, curly, or coiled.",
         "type": "recall"
@@ -172,24 +132,14 @@
       },
       {
         "prompt": "Which design principle involves the flow or movement within a hairstyle?",
-        "choices": [
-          "Proportion",
-          "Rhythm",
-          "Balance",
-          "Emphasis"
-        ],
+        "choices": ["Proportion", "Rhythm", "Balance", "Emphasis"],
         "answerIndex": 1,
         "rationale": "Rhythm involves the flow or movement within a hairstyle, guiding the eye smoothly from one part of the style to another.",
         "type": "recall"
       },
       {
         "prompt": "What is the best approach for creating a balanced hairstyle for a client with a triangle face shape?",
-        "choices": [
-          "Add volume on top",
-          "Keep hair flat",
-          "Avoid layers",
-          "Add width at the chin"
-        ],
+        "choices": ["Add volume on top", "Keep hair flat", "Avoid layers", "Add width at the chin"],
         "answerIndex": 0,
         "rationale": "For a triangle face shape, adding volume on top helps balance the narrow forehead with the wider jawline.",
         "type": "applied"
@@ -220,12 +170,7 @@
       },
       {
         "prompt": "Which design principle is focused on the distribution of visual weight within the hairstyle?",
-        "choices": [
-          "Rhythm",
-          "Proportion",
-          "Balance",
-          "Harmony"
-        ],
+        "choices": ["Rhythm", "Proportion", "Balance", "Harmony"],
         "answerIndex": 2,
         "rationale": "Balance refers to the distribution of visual weight within the hairstyle, which can be symmetrical or asymmetrical.",
         "type": "recall"

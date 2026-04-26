@@ -41,9 +41,11 @@ export default function SpacedRepetitionReview() {
     try {
       const stored: StoredQuestion[] = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
       const now = Date.now();
-      const dueNow = stored.filter(q => q.reviewAfter <= now);
+      const dueNow = stored.filter((q) => q.reviewAfter <= now);
       setDue(dueNow);
-    } catch { /* localStorage unavailable */ }
+    } catch {
+      /* localStorage unavailable */
+    }
   }, []);
 
   const handleAnswer = (oi: number) => {
@@ -51,31 +53,35 @@ export default function SpacedRepetitionReview() {
     setSelected(oi);
     setState('answered');
     const isCorrect = oi === due[current].answer;
-    setResults(r => [...r, isCorrect]);
+    setResults((r) => [...r, isCorrect]);
 
     // Update storage
     try {
       const stored: StoredQuestion[] = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
       const now = Date.now();
-      const updated = stored.map(q => {
-        if (q.question !== due[current].question) return q;
-        const streak = (q.correctStreak || 0) + (isCorrect ? 1 : 0);
-        if (streak >= 2) return null; // mastered — remove
-        return {
-          ...q,
-          correctStreak: streak,
-          reviewAfter: isCorrect ? now + 48 * 60 * 60 * 1000 : now + 12 * 60 * 60 * 1000,
-        };
-      }).filter(Boolean) as StoredQuestion[];
+      const updated = stored
+        .map((q) => {
+          if (q.question !== due[current].question) return q;
+          const streak = (q.correctStreak || 0) + (isCorrect ? 1 : 0);
+          if (streak >= 2) return null; // mastered — remove
+          return {
+            ...q,
+            correctStreak: streak,
+            reviewAfter: isCorrect ? now + 48 * 60 * 60 * 1000 : now + 12 * 60 * 60 * 1000,
+          };
+        })
+        .filter(Boolean) as StoredQuestion[];
       localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
-    } catch { /* ignore */ }
+    } catch {
+      /* ignore */
+    }
   };
 
   const next = () => {
     if (current + 1 >= due.length) {
       setState('done');
     } else {
-      setCurrent(c => c + 1);
+      setCurrent((c) => c + 1);
       setSelected(null);
       setState('reviewing');
     }
@@ -98,7 +104,8 @@ export default function SpacedRepetitionReview() {
             {due.length} question{due.length > 1 ? 's' : ''} ready for review
           </p>
           <p className="text-xs text-brand-blue-700 mt-0.5">
-            These are questions you missed previously. Reviewing them now locks them into long-term memory.
+            These are questions you missed previously. Reviewing them now locks them into long-term
+            memory.
           </p>
           <div className="flex gap-2 mt-3">
             <button
@@ -115,7 +122,10 @@ export default function SpacedRepetitionReview() {
             </button>
           </div>
         </div>
-        <button onClick={() => setDismissed(true)} className="text-brand-blue-400 hover:text-brand-blue-600 flex-shrink-0">
+        <button
+          onClick={() => setDismissed(true)}
+          className="text-brand-blue-400 hover:text-brand-blue-600 flex-shrink-0"
+        >
           <X className="w-4 h-4" />
         </button>
       </div>
@@ -159,14 +169,16 @@ export default function SpacedRepetitionReview() {
           <span className="text-sm font-bold text-slate-900">Spaced Review</span>
           {q.source && <span className="text-xs text-slate-400">· {q.source}</span>}
         </div>
-        <span className="text-xs text-slate-400">{current + 1} / {due.length}</span>
+        <span className="text-xs text-slate-400">
+          {current + 1} / {due.length}
+        </span>
       </div>
 
       {/* Progress */}
       <div className="w-full bg-slate-100 rounded-full h-1.5">
         <div
           className="bg-brand-blue-500 h-1.5 rounded-full transition-all"
-          style={{ width: `${((current) / due.length) * 100}%` }}
+          style={{ width: `${(current / due.length) * 100}%` }}
         />
       </div>
 
@@ -178,7 +190,8 @@ export default function SpacedRepetitionReview() {
         {q.options.map((opt, oi) => {
           let cls = 'w-full text-left px-4 py-3 rounded-xl text-sm border transition ';
           if (!isAnswered) {
-            cls += 'bg-white text-slate-700 border-slate-200 hover:border-brand-blue-300 hover:bg-brand-blue-50';
+            cls +=
+              'bg-white text-slate-700 border-slate-200 hover:border-brand-blue-300 hover:bg-brand-blue-50';
           } else if (oi === q.answer) {
             cls += 'bg-brand-green-50 text-brand-green-800 border-brand-green-300 font-semibold';
           } else if (oi === selected) {
@@ -188,7 +201,8 @@ export default function SpacedRepetitionReview() {
           }
           return (
             <button key={oi} onClick={() => handleAnswer(oi)} disabled={isAnswered} className={cls}>
-              <span className="font-bold mr-2">{String.fromCharCode(65 + oi)}.</span>{opt}
+              <span className="font-bold mr-2">{String.fromCharCode(65 + oi)}.</span>
+              {opt}
             </button>
           );
         })}
@@ -196,7 +210,9 @@ export default function SpacedRepetitionReview() {
 
       {/* Feedback */}
       {isAnswered && (
-        <div className={`rounded-xl px-4 py-3 text-sm ${isCorrect ? 'bg-brand-green-50 border border-brand-green-200 text-brand-green-800' : 'bg-red-50 border border-red-200 text-red-800'}`}>
+        <div
+          className={`rounded-xl px-4 py-3 text-sm ${isCorrect ? 'bg-brand-green-50 border border-brand-green-200 text-brand-green-800' : 'bg-red-50 border border-red-200 text-red-800'}`}
+        >
           <div className="flex items-center gap-2 font-bold mb-1">
             {isCorrect ? <CheckCircle className="w-4 h-4" /> : <XCircle className="w-4 h-4" />}
             {isCorrect ? 'Correct!' : 'Incorrect'}
@@ -209,7 +225,8 @@ export default function SpacedRepetitionReview() {
           )}
           {isCorrect && (
             <p className="mt-1 text-xs opacity-80 flex items-center gap-1">
-              <Clock className="w-3 h-3" /> Next review in 48 hours. Two correct answers removes it permanently.
+              <Clock className="w-3 h-3" /> Next review in 48 hours. Two correct answers removes it
+              permanently.
             </p>
           )}
         </div>
@@ -220,7 +237,13 @@ export default function SpacedRepetitionReview() {
           onClick={next}
           className="w-full py-3 bg-brand-blue-600 text-white font-bold rounded-xl hover:bg-brand-blue-700 transition flex items-center justify-center gap-2"
         >
-          {current + 1 < due.length ? <>Next <ChevronRight className="w-4 h-4" /></> : 'Finish Review'}
+          {current + 1 < due.length ? (
+            <>
+              Next <ChevronRight className="w-4 h-4" />
+            </>
+          ) : (
+            'Finish Review'
+          )}
         </button>
       )}
     </div>

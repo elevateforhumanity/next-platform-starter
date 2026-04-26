@@ -69,7 +69,6 @@ export const COMPLIANCE_PROFILES: Record<string, ComplianceRuleSet> = {
     requiredDomains: [],
   },
 
-
   naadac_peer_support: {
     profileKey: 'naadac_peer_support',
     profileLabel: 'NAADAC Peer Support',

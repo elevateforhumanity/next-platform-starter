@@ -1,8 +1,7 @@
 export const siteConfig = {
   name: 'Elevate for Humanity',
   url: 'https://www.elevateforhumanity.org',
-  description:
-    'Career training, workforce pathways, and community-centered education programs.',
+  description: 'Career training, workforce pathways, and community-centered education programs.',
   learnUrl: 'https://www.elevateforhumanity.org',
   phone: '(317) 314-3757',
   email: 'info@elevateforhumanity.org',

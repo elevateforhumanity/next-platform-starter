@@ -13,7 +13,10 @@ export async function GET(request: NextRequest) {
   if (rateLimited) return rateLimited;
 
   const supabase = await createClient();
-  const { data: { user }, error: authError } = await supabase.auth.getUser();
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser();
   if (authError || !user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
@@ -39,18 +42,18 @@ export async function GET(request: NextRequest) {
     .select('lesson_id, completed, completed_at, course_id')
     .eq('user_id', user.id);
 
-  const completedLessons = progress?.filter(p => p.completed) ?? [];
+  const completedLessons = progress?.filter((p) => p.completed) ?? [];
   const recentCompleted = completedLessons.filter(
-    p => p.completed_at && new Date(p.completed_at) >= rangeStart
+    (p) => p.completed_at && new Date(p.completed_at) >= rangeStart,
   );
 
   // Build per-course progress
   const courseMap = new Map<string, { title: string; completed: number; total: number }>();
   for (const enr of enrollments ?? []) {
-    const prog = enrollments ? progress?.filter(p => p.course_id === enr.program_id) ?? [] : [];
+    const prog = enrollments ? (progress?.filter((p) => p.course_id === enr.program_id) ?? []) : [];
     courseMap.set(enr.program_id, {
       title: (enr.programs as any)?.title ?? 'Course',
-      completed: prog.filter(p => p.completed).length,
+      completed: prog.filter((p) => p.completed).length,
       total: prog.length || 1,
     });
   }
@@ -72,9 +75,7 @@ export async function GET(request: NextRequest) {
     const d = new Date();
     d.setDate(d.getDate() - (6 - i));
     const dayStr = d.toISOString().slice(0, 10);
-    const count = completedLessons.filter(
-      p => p.completed_at?.slice(0, 10) === dayStr
-    ).length;
+    const count = completedLessons.filter((p) => p.completed_at?.slice(0, 10) === dayStr).length;
     return { day, hours: Math.round(count * 0.5 * 10) / 10, completed: count };
   });
 
@@ -83,8 +84,8 @@ export async function GET(request: NextRequest) {
       ? Math.round(courses.reduce((s, c) => s + c.progress, 0) / courses.length)
       : 0,
     studyHours: Math.round(completedLessons.length * 0.5 * 10) / 10,
-    coursesInProgress: (enrollments ?? []).filter(e => e.status === 'active').length,
-    coursesCompleted: (enrollments ?? []).filter(e => e.status === 'completed').length,
+    coursesInProgress: (enrollments ?? []).filter((e) => e.status === 'active').length,
+    coursesCompleted: (enrollments ?? []).filter((e) => e.status === 'completed').length,
     streak: 0,
     averageScore: 0,
   };

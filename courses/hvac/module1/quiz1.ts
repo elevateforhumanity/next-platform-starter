@@ -30,7 +30,8 @@ export const quiz = [
     answer: 'On the refrigerant lines where they exit the condenser',
   },
   {
-    question: 'During a service call, what should a technician check FIRST when the condenser fan is not spinning?',
+    question:
+      'During a service call, what should a technician check FIRST when the condenser fan is not spinning?',
     options: [
       'Replace the compressor',
       'Check the capacitor with a multimeter',
@@ -39,4 +40,4 @@ export const quiz = [
     ],
     answer: 'Check the capacitor with a multimeter',
   },
-]
+];

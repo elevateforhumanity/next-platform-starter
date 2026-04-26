@@ -32,14 +32,14 @@ export async function geminiJSON<T = unknown>(prompt: string): Promise<T> {
     model: 'gemini-1.5-flash',
     generationConfig: {
       responseMimeType: 'application/json',
-      temperature:      0.4,
-      maxOutputTokens:  2048,
+      temperature: 0.4,
+      maxOutputTokens: 2048,
     },
     systemInstruction:
       'You are a professional curriculum architect. Always respond with valid JSON only. No markdown, no prose, no code fences.',
   });
 
   const result = await model.generateContent(prompt);
-  const raw    = result.response.text();
+  const raw = result.response.text();
   return JSON.parse(raw) as T;
 }

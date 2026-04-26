@@ -11,7 +11,7 @@ interface LicenseBannerProps {
 
 /**
  * License Status Banner
- * 
+ *
  * Displays license status messaging based on subscription state:
  * - Trial: Shows days remaining
  * - Active: No banner
@@ -20,7 +20,7 @@ interface LicenseBannerProps {
  */
 export function LicenseBanner({ license, onDismiss }: LicenseBannerProps) {
   const bannerType = getStatusBannerType(license.status);
-  
+
   // Active users see no banner
   if (!bannerType) {
     return null;
@@ -30,7 +30,7 @@ export function LicenseBanner({ license, onDismiss }: LicenseBannerProps) {
 
   // Trial Banner
   if (license.status === 'trial') {
-    const daysRemaining = license.trialEndsAt 
+    const daysRemaining = license.trialEndsAt
       ? Math.ceil((license.trialEndsAt.getTime() - Date.now()) / (1000 * 60 * 60 * 24))
       : 0;
 
@@ -139,7 +139,13 @@ export function LicenseBanner({ license, onDismiss }: LicenseBannerProps) {
  * Compact License Badge
  * For use in headers or sidebars
  */
-export function LicenseBadge({ status, trialEndsAt }: { status: LicenseStatus; trialEndsAt?: Date | null }) {
+export function LicenseBadge({
+  status,
+  trialEndsAt,
+}: {
+  status: LicenseStatus;
+  trialEndsAt?: Date | null;
+}) {
   if (status === 'active') return null;
 
   if (status === 'trial' && trialEndsAt) {
@@ -185,12 +191,10 @@ export function TrialExpiredModal({ onClose }: { onClose: () => void }) {
           <div className="w-16 h-16 bg-brand-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
             <AlertTriangle className="w-8 h-8 text-brand-red-600" />
           </div>
-          <h2 className="text-2xl font-black text-slate-900 mb-4">
-            Trial Period Ended
-          </h2>
+          <h2 className="text-2xl font-black text-slate-900 mb-4">Trial Period Ended</h2>
           <p className="text-slate-700 mb-6">
-            Your evaluation period has ended. To continue using the Elevate Workforce Platform, 
-            your subscription will now begin.
+            Your evaluation period has ended. To continue using the Elevate Workforce Platform, your
+            subscription will now begin.
           </p>
           <p className="text-sm text-slate-700 mb-8">
             Your data has been preserved. No information has been deleted.

@@ -9,7 +9,7 @@ import { NextRequest } from 'next/server';
  * Parse JSON body with type safety
  */
 export async function parseBody<T = Record<string, any>>(
-  request: NextRequest | Request
+  request: NextRequest | Request,
 ): Promise<T> {
   const body = await request.json();
   return body as T;
@@ -20,7 +20,7 @@ export async function parseBody<T = Record<string, any>>(
  */
 export function validateRequired<T extends Record<string, any>>(
   body: T,
-  fields: (keyof T)[]
+  fields: (keyof T)[],
 ): { valid: true } | { valid: false; missing: string[] } {
   const missing = fields.filter((field) => !body[field]);
   if (missing.length > 0) {
@@ -52,9 +52,6 @@ export function isObject(value: any): value is Record<string, any> {
 /**
  * Type guard for checking if value has a specific property
  */
-export function hasProperty<K extends string>(
-  obj: any,
-  key: K
-): obj is Record<K, unknown> {
+export function hasProperty<K extends string>(obj: any, key: K): obj is Record<K, unknown> {
   return isObject(obj) && key in obj;
 }

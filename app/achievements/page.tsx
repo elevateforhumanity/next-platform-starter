@@ -1,18 +1,19 @@
 import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
 import Link from 'next/link';
-import { 
-  Trophy, 
-  Star, 
-  Award, 
-  Target, 
-  Flame, 
+import {
+  Trophy,
+  Star,
+  Award,
+  Target,
+  Flame,
   Zap,
   BookOpen,
   Clock,
   Users,
   Lock,
-CheckCircle, } from 'lucide-react';
+  CheckCircle,
+} from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const metadata: Metadata = {
@@ -36,17 +37,20 @@ const achievementIcons: Record<string, any> = {
   'hours-10': Clock,
   'hours-50': Clock,
   'hours-100': Award,
-  'helper': Users,
+  helper: Users,
   'goal-setter': Target,
   default: Trophy,
 };
 
 export default async function AchievementsPage() {
   const supabase = await createClient();
-  
+
   // Get current user
-  const { data: { user }, error: authError } = await supabase.auth.getUser();
-  
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser();
+
   if (authError || !user) {
     // Show public preview instead of blocking with login
     return (
@@ -60,16 +64,45 @@ export default async function AchievementsPage() {
           <div className="max-w-4xl mx-auto px-4 text-center">
             <Trophy className="w-16 h-16 mx-auto mb-4" />
             <h1 className="text-4xl font-extrabold mb-4">Earn Achievements & Badges</h1>
-            <p className="text-xl text-white/90 mb-8">Complete courses, hit milestones, and earn badges that showcase your skills to employers. Every step of your learning journey is recognized.</p>
+            <p className="text-xl text-white/90 mb-8">
+              Complete courses, hit milestones, and earn badges that showcase your skills to
+              employers. Every step of your learning journey is recognized.
+            </p>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
-              <div className="bg-white/20 rounded-xl p-4"><Star className="w-8 h-8 mx-auto mb-2" /><p className="font-bold">First Steps</p><p className="text-sm text-white/80">Complete your first lesson</p></div>
-              <div className="bg-white/20 rounded-xl p-4"><BookOpen className="w-8 h-8 mx-auto mb-2" /><p className="font-bold">Course Complete</p><p className="text-sm text-white/80">Finish an entire course</p></div>
-              <div className="bg-white/20 rounded-xl p-4"><Flame className="w-8 h-8 mx-auto mb-2" /><p className="font-bold">Streak Master</p><p className="text-sm text-white/80">7-day learning streak</p></div>
-              <div className="bg-white/20 rounded-xl p-4"><Award className="w-8 h-8 mx-auto mb-2" /><p className="font-bold">Certified</p><p className="text-sm text-white/80">Earn a certification</p></div>
+              <div className="bg-white/20 rounded-xl p-4">
+                <Star className="w-8 h-8 mx-auto mb-2" />
+                <p className="font-bold">First Steps</p>
+                <p className="text-sm text-white/80">Complete your first lesson</p>
+              </div>
+              <div className="bg-white/20 rounded-xl p-4">
+                <BookOpen className="w-8 h-8 mx-auto mb-2" />
+                <p className="font-bold">Course Complete</p>
+                <p className="text-sm text-white/80">Finish an entire course</p>
+              </div>
+              <div className="bg-white/20 rounded-xl p-4">
+                <Flame className="w-8 h-8 mx-auto mb-2" />
+                <p className="font-bold">Streak Master</p>
+                <p className="text-sm text-white/80">7-day learning streak</p>
+              </div>
+              <div className="bg-white/20 rounded-xl p-4">
+                <Award className="w-8 h-8 mx-auto mb-2" />
+                <p className="font-bold">Certified</p>
+                <p className="text-sm text-white/80">Earn a certification</p>
+              </div>
             </div>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/signup" className="bg-white text-brand-orange-600 font-bold px-8 py-4 rounded-lg hover:bg-brand-orange-50 transition">Create Free Account</Link>
-              <Link href="/programs" className="border-2 border-white text-white font-bold px-8 py-4 rounded-lg hover:bg-white/10 transition">Browse Programs</Link>
+              <Link
+                href="/signup"
+                className="bg-white text-brand-orange-600 font-bold px-8 py-4 rounded-lg hover:bg-brand-orange-50 transition"
+              >
+                Create Free Account
+              </Link>
+              <Link
+                href="/programs"
+                className="border-2 border-white text-white font-bold px-8 py-4 rounded-lg hover:bg-white/10 transition"
+              >
+                Browse Programs
+              </Link>
             </div>
           </div>
         </section>
@@ -80,7 +113,8 @@ export default async function AchievementsPage() {
   // Fetch user's earned achievements
   const { data: earnedAchievements } = await supabase
     .from('user_achievements')
-    .select(`
+    .select(
+      `
       id,
       earned_at,
       achievements (
@@ -91,7 +125,8 @@ export default async function AchievementsPage() {
         category,
         points
       )
-    `)
+    `,
+    )
     .eq('user_id', user.id)
     .order('earned_at', { ascending: false });
 
@@ -111,7 +146,9 @@ export default async function AchievementsPage() {
 
   // Calculate stats
   const earnedIds = new Set(earnedAchievements?.map((ea: any) => ea.achievements?.id) || []);
-  const totalPoints = earnedAchievements?.reduce((sum: number, ea: any) => sum + (ea.achievements?.points || 0), 0) || 0;
+  const totalPoints =
+    earnedAchievements?.reduce((sum: number, ea: any) => sum + (ea.achievements?.points || 0), 0) ||
+    0;
   const earnedCount = earnedAchievements?.length || 0;
   const totalCount = allAchievements?.length || 0;
 
@@ -133,7 +170,10 @@ export default async function AchievementsPage() {
             <Link href="/" className="text-xl font-bold text-slate-900">
               Elevate for Humanity
             </Link>
-            <Link href="/learner/dashboard" className="text-sm text-brand-orange-600 hover:text-brand-orange-700">
+            <Link
+              href="/learner/dashboard"
+              className="text-sm text-brand-orange-600 hover:text-brand-orange-700"
+            >
               Back to Dashboard
             </Link>
           </div>
@@ -158,7 +198,9 @@ export default async function AchievementsPage() {
               </div>
               <div>
                 <p className="text-sm text-slate-700">Achievements Earned</p>
-                <p className="text-2xl font-bold text-slate-900">{earnedCount} / {totalCount}</p>
+                <p className="text-2xl font-bold text-slate-900">
+                  {earnedCount} / {totalCount}
+                </p>
               </div>
             </div>
           </div>
@@ -198,9 +240,10 @@ export default async function AchievementsPage() {
               {earnedAchievements.map((item: any) => {
                 const achievement = item.achievements;
                 if (!achievement) return null;
-                
-                const IconComponent = achievementIcons[achievement.icon] || achievementIcons.default;
-                
+
+                const IconComponent =
+                  achievementIcons[achievement.icon] || achievementIcons.default;
+
                 return (
                   <div
                     key={item.id}
@@ -239,23 +282,22 @@ export default async function AchievementsPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {allAchievements.map((achievement: any) => {
                 const isEarned = earnedIds.has(achievement.id);
-                const IconComponent = achievementIcons[achievement.icon] || achievementIcons.default;
-                
+                const IconComponent =
+                  achievementIcons[achievement.icon] || achievementIcons.default;
+
                 return (
                   <div
                     key={achievement.id}
                     className={`rounded-xl p-6 shadow-sm border transition ${
-                      isEarned 
-                        ? 'bg-white border-gray-200' 
-                        : 'bg-white border-gray-200 opacity-60'
+                      isEarned ? 'bg-white border-gray-200' : 'bg-white border-gray-200 opacity-60'
                     }`}
                   >
                     <div className="flex items-start gap-4">
-                      <div className={`w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0 ${
-                        isEarned 
-                          ? 'bg-yellow-500' 
-                          : 'bg-gray-300'
-                      }`}>
+                      <div
+                        className={`w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0 ${
+                          isEarned ? 'bg-yellow-500' : 'bg-gray-300'
+                        }`}
+                      >
                         {isEarned ? (
                           <IconComponent className="w-7 h-7 text-white" />
                         ) : (
@@ -263,17 +305,25 @@ export default async function AchievementsPage() {
                         )}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <h3 className={`font-semibold mb-1 ${isEarned ? 'text-slate-900' : 'text-slate-700'}`}>
+                        <h3
+                          className={`font-semibold mb-1 ${isEarned ? 'text-slate-900' : 'text-slate-700'}`}
+                        >
                           {achievement.name}
                         </h3>
-                        <p className={`text-sm mb-2 line-clamp-2 ${isEarned ? 'text-slate-700' : 'text-slate-700'}`}>
+                        <p
+                          className={`text-sm mb-2 line-clamp-2 ${isEarned ? 'text-slate-700' : 'text-slate-700'}`}
+                        >
                           {achievement.description}
                         </p>
                         <div className="flex items-center justify-between">
-                          <span className={`text-xs ${isEarned ? 'text-brand-green-600 font-medium' : 'text-slate-700'}`}>
+                          <span
+                            className={`text-xs ${isEarned ? 'text-brand-green-600 font-medium' : 'text-slate-700'}`}
+                          >
                             {isEarned ? '• Earned' : 'Locked'}
                           </span>
-                          <span className={`text-xs font-medium ${isEarned ? 'text-brand-orange-600' : 'text-slate-700'}`}>
+                          <span
+                            className={`text-xs font-medium ${isEarned ? 'text-brand-orange-600' : 'text-slate-700'}`}
+                          >
                             {achievement.points} pts
                           </span>
                         </div>

@@ -29,7 +29,9 @@ export function LiveChatWidget({ forceShow = false }: Props) {
 
       try {
         // Get user info
-        const { data: { user: authUser } } = await supabase.auth.getUser();
+        const {
+          data: { user: authUser },
+        } = await supabase.auth.getUser();
         setUser(authUser);
 
         // Fetch chat widget config from database
@@ -52,9 +54,12 @@ export function LiveChatWidget({ forceShow = false }: Props) {
             }
 
             // Delay loading
-            setTimeout(() => {
-              setShouldShow(true);
-            }, (chatConfig.delay_seconds || 0) * 1000);
+            setTimeout(
+              () => {
+                setShouldShow(true);
+              },
+              (chatConfig.delay_seconds || 0) * 1000,
+            );
           }
         } else {
           // Default to Tawk.to
@@ -92,14 +97,17 @@ export function LiveChatWidget({ forceShow = false }: Props) {
     if (config?.provider === 'tawk' && typeof window !== 'undefined') {
       const Tawk_API = (window as any).Tawk_API;
       if (Tawk_API) {
-        Tawk_API.onLoad = function() {
-          Tawk_API.setAttributes({
-            name: user.user_metadata?.full_name || user.email?.split('@')[0],
-            email: user.email,
-            userId: user.id,
-          }, function(error: any) {
-            if (error) console.error('Tawk setAttributes error:', error);
-          });
+        Tawk_API.onLoad = function () {
+          Tawk_API.setAttributes(
+            {
+              name: user.user_metadata?.full_name || user.email?.split('@')[0],
+              email: user.email,
+              userId: user.id,
+            },
+            function (error: any) {
+              if (error) console.error('Tawk setAttributes error:', error);
+            },
+          );
         };
       }
     }
@@ -121,7 +129,11 @@ export function LiveChatWidget({ forceShow = false }: Props) {
       const $crisp = (window as any).$crisp;
       if ($crisp) {
         $crisp.push(['set', 'user:email', user.email]);
-        $crisp.push(['set', 'user:nickname', user.user_metadata?.full_name || user.email?.split('@')[0]]);
+        $crisp.push([
+          'set',
+          'user:nickname',
+          user.user_metadata?.full_name || user.email?.split('@')[0],
+        ]);
       }
     }
   }, [loaded, user, config]);
@@ -131,14 +143,17 @@ export function LiveChatWidget({ forceShow = false }: Props) {
     if (!user) return;
 
     const supabase = createClient();
-    await supabase.from('user_activity').insert({
-      user_id: user.id,
-      activity_type: `chat_${eventType}`,
-      metadata: {
-        provider: config?.provider,
-        ...metadata,
-      },
-    }).catch(() => {});
+    await supabase
+      .from('user_activity')
+      .insert({
+        user_id: user.id,
+        activity_type: `chat_${eventType}`,
+        metadata: {
+          provider: config?.provider,
+          ...metadata,
+        },
+      })
+      .catch(() => {});
   };
 
   if (!shouldShow || !config) return null;

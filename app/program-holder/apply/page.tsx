@@ -7,4 +7,6 @@ export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/program-holder/apply' },
 };
 
-export default function Page() { redirect('/franchise'); }
+export default function Page() {
+  redirect('/franchise');
+}

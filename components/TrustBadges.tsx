@@ -105,9 +105,7 @@ export function SecurityBadge() {
   return (
     <div className="inline-flex items-center gap-2 px-4 py-2 bg-brand-green-50 border border-brand-green-200 rounded-lg">
       <Lock className="w-4 h-4 text-brand-green-600" />
-      <span className="text-sm font-medium text-brand-green-900">
-        Secure & FERPA Compliant
-      </span>
+      <span className="text-sm font-medium text-brand-green-900">Secure & FERPA Compliant</span>
     </div>
   );
 }
@@ -116,9 +114,7 @@ export function AccreditationBadge() {
   return (
     <div className="inline-flex items-center gap-2 px-4 py-2 bg-brand-blue-50 border border-brand-blue-200 rounded-lg">
       <Award className="w-4 h-4 text-brand-blue-600" />
-      <span className="text-sm font-medium text-brand-blue-900">
-        WIOA Approved Provider
-      </span>
+      <span className="text-sm font-medium text-brand-blue-900">WIOA Approved Provider</span>
     </div>
   );
 }

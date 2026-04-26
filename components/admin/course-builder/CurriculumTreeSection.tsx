@@ -2,20 +2,36 @@
 
 import { useState, type ElementType } from 'react';
 import {
-  ChevronDown, ChevronRight, Plus, Trash2, GripVertical,
-  Video, BookOpen, ClipboardCheck, FlaskConical, FileQuestion, GraduationCap,
-  CheckCircle, AlertCircle,
+  ChevronDown,
+  ChevronRight,
+  Plus,
+  Trash2,
+  GripVertical,
+  Video,
+  BookOpen,
+  ClipboardCheck,
+  FlaskConical,
+  FileQuestion,
+  GraduationCap,
+  CheckCircle,
+  AlertCircle,
 } from 'lucide-react';
 import BuilderSection from './BuilderSection';
-import type { ProgramBuilderState, ProgramPhase, ProgramModule, ProgramLesson, LessonType } from './types';
+import type {
+  ProgramBuilderState,
+  ProgramPhase,
+  ProgramModule,
+  ProgramLesson,
+  LessonType,
+} from './types';
 
 const LESSON_TYPE_META: Record<LessonType, { label: string; icon: ElementType; color: string }> = {
-  lesson:      { label: 'Lesson',      icon: BookOpen,       color: 'text-brand-blue-600 bg-brand-blue-50' },
-  quiz:        { label: 'Quiz',        icon: FileQuestion,   color: 'text-amber-600 bg-amber-50' },
-  checkpoint:  { label: 'Checkpoint',  icon: ClipboardCheck, color: 'text-purple-600 bg-purple-50' },
-  lab:         { label: 'Lab',         icon: FlaskConical,   color: 'text-emerald-600 bg-emerald-50' },
-  exam:        { label: 'Exam',        icon: GraduationCap,  color: 'text-red-600 bg-red-50' },
-  orientation: { label: 'Orientation', icon: Video,          color: 'text-slate-600 bg-slate-100' },
+  lesson: { label: 'Lesson', icon: BookOpen, color: 'text-brand-blue-600 bg-brand-blue-50' },
+  quiz: { label: 'Quiz', icon: FileQuestion, color: 'text-amber-600 bg-amber-50' },
+  checkpoint: { label: 'Checkpoint', icon: ClipboardCheck, color: 'text-purple-600 bg-purple-50' },
+  lab: { label: 'Lab', icon: FlaskConical, color: 'text-emerald-600 bg-emerald-50' },
+  exam: { label: 'Exam', icon: GraduationCap, color: 'text-red-600 bg-red-50' },
+  orientation: { label: 'Orientation', icon: Video, color: 'text-slate-600 bg-slate-100' },
 };
 
 interface Props {
@@ -25,11 +41,16 @@ interface Props {
 
 export default function CurriculumTreeSection({ state, onChange }: Props) {
   const phases = state.phases;
-  const [expandedPhases, setExpandedPhases] = useState<Set<string>>(new Set(phases.map(p => p.id)));
+  const [expandedPhases, setExpandedPhases] = useState<Set<string>>(
+    new Set(phases.map((p) => p.id)),
+  );
   const [expandedModules, setExpandedModules] = useState<Set<string>>(new Set());
 
   const totalModules = phases.reduce((n, p) => n + p.modules.length, 0);
-  const totalLessons = phases.reduce((n, p) => n + p.modules.reduce((m, mod) => m + mod.lessons.length, 0), 0);
+  const totalLessons = phases.reduce(
+    (n, p) => n + p.modules.reduce((m, mod) => m + mod.lessons.length, 0),
+    0,
+  );
 
   const updatePhases = (next: ProgramPhase[]) => onChange({ phases: next });
 
@@ -44,54 +65,63 @@ export default function CurriculumTreeSection({ state, onChange }: Props) {
     };
     const next = [...phases, newPhase];
     updatePhases(next);
-    setExpandedPhases(prev => new Set([...prev, newPhase.id]));
+    setExpandedPhases((prev) => new Set([...prev, newPhase.id]));
   };
 
   const updatePhaseTitle = (phaseId: string, title: string) => {
-    updatePhases(phases.map(p => p.id === phaseId ? { ...p, title } : p));
+    updatePhases(phases.map((p) => (p.id === phaseId ? { ...p, title } : p)));
   };
 
   const removePhase = (phaseId: string) => {
-    updatePhases(phases.filter(p => p.id !== phaseId).map((p, i) => ({ ...p, sort_order: i })));
+    updatePhases(phases.filter((p) => p.id !== phaseId).map((p, i) => ({ ...p, sort_order: i })));
   };
 
   // ── Module ops ─────────────────────────────────────────────────────────────
 
   const addModule = (phaseId: string) => {
-    const phase = phases.find(p => p.id === phaseId)!;
+    const phase = phases.find((p) => p.id === phaseId)!;
     const newMod: ProgramModule = {
       id: crypto.randomUUID(),
       title: `Module ${phase.modules.length + 1}`,
       sort_order: phase.modules.length,
       lessons: [],
     };
-    updatePhases(phases.map(p =>
-      p.id === phaseId ? { ...p, modules: [...p.modules, newMod] } : p
-    ));
-    setExpandedModules(prev => new Set([...prev, newMod.id]));
+    updatePhases(
+      phases.map((p) => (p.id === phaseId ? { ...p, modules: [...p.modules, newMod] } : p)),
+    );
+    setExpandedModules((prev) => new Set([...prev, newMod.id]));
   };
 
   const updateModuleTitle = (phaseId: string, moduleId: string, title: string) => {
-    updatePhases(phases.map(p =>
-      p.id === phaseId
-        ? { ...p, modules: p.modules.map(m => m.id === moduleId ? { ...m, title } : m) }
-        : p
-    ));
+    updatePhases(
+      phases.map((p) =>
+        p.id === phaseId
+          ? { ...p, modules: p.modules.map((m) => (m.id === moduleId ? { ...m, title } : m)) }
+          : p,
+      ),
+    );
   };
 
   const removeModule = (phaseId: string, moduleId: string) => {
-    updatePhases(phases.map(p =>
-      p.id === phaseId
-        ? { ...p, modules: p.modules.filter(m => m.id !== moduleId).map((m, i) => ({ ...m, sort_order: i })) }
-        : p
-    ));
+    updatePhases(
+      phases.map((p) =>
+        p.id === phaseId
+          ? {
+              ...p,
+              modules: p.modules
+                .filter((m) => m.id !== moduleId)
+                .map((m, i) => ({ ...m, sort_order: i })),
+            }
+          : p,
+      ),
+    );
   };
 
   // ── Lesson ops ─────────────────────────────────────────────────────────────
 
   const addLesson = (phaseId: string, moduleId: string) => {
-    const phase = phases.find(p => p.id === phaseId)!;
-    const mod = phase.modules.find(m => m.id === moduleId)!;
+    const phase = phases.find((p) => p.id === phaseId)!;
+    const mod = phase.modules.find((m) => m.id === moduleId)!;
     const newLesson: ProgramLesson = {
       id: crypto.randomUUID(),
       title: `Lesson ${mod.lessons.length + 1}`,
@@ -102,50 +132,80 @@ export default function CurriculumTreeSection({ state, onChange }: Props) {
       has_video: false,
       has_reading: false,
     };
-    updatePhases(phases.map(p =>
-      p.id === phaseId
-        ? { ...p, modules: p.modules.map(m =>
-            m.id === moduleId ? { ...m, lessons: [...m.lessons, newLesson] } : m
-          )}
-        : p
-    ));
+    updatePhases(
+      phases.map((p) =>
+        p.id === phaseId
+          ? {
+              ...p,
+              modules: p.modules.map((m) =>
+                m.id === moduleId ? { ...m, lessons: [...m.lessons, newLesson] } : m,
+              ),
+            }
+          : p,
+      ),
+    );
   };
 
-  const updateLesson = (phaseId: string, moduleId: string, lessonId: string, patch: Partial<ProgramLesson>) => {
-    updatePhases(phases.map(p =>
-      p.id === phaseId
-        ? { ...p, modules: p.modules.map(m =>
-            m.id === moduleId
-              ? { ...m, lessons: m.lessons.map(l => l.id === lessonId ? { ...l, ...patch } : l) }
-              : m
-          )}
-        : p
-    ));
+  const updateLesson = (
+    phaseId: string,
+    moduleId: string,
+    lessonId: string,
+    patch: Partial<ProgramLesson>,
+  ) => {
+    updatePhases(
+      phases.map((p) =>
+        p.id === phaseId
+          ? {
+              ...p,
+              modules: p.modules.map((m) =>
+                m.id === moduleId
+                  ? {
+                      ...m,
+                      lessons: m.lessons.map((l) => (l.id === lessonId ? { ...l, ...patch } : l)),
+                    }
+                  : m,
+              ),
+            }
+          : p,
+      ),
+    );
   };
 
   const removeLesson = (phaseId: string, moduleId: string, lessonId: string) => {
-    updatePhases(phases.map(p =>
-      p.id === phaseId
-        ? { ...p, modules: p.modules.map(m =>
-            m.id === moduleId
-              ? { ...m, lessons: m.lessons.filter(l => l.id !== lessonId).map((l, i) => ({ ...l, sort_order: i })) }
-              : m
-          )}
-        : p
-    ));
+    updatePhases(
+      phases.map((p) =>
+        p.id === phaseId
+          ? {
+              ...p,
+              modules: p.modules.map((m) =>
+                m.id === moduleId
+                  ? {
+                      ...m,
+                      lessons: m.lessons
+                        .filter((l) => l.id !== lessonId)
+                        .map((l, i) => ({ ...l, sort_order: i })),
+                    }
+                  : m,
+              ),
+            }
+          : p,
+      ),
+    );
   };
 
-  const togglePhase = (id: string) => setExpandedPhases(prev => {
-    const next = new Set(prev);
-    next.has(id) ? next.delete(id) : next.add(id);
-    return next;
-  });
+  const togglePhase = (id: string) =>
+    setExpandedPhases((prev) => {
+      const next = new Set(prev);
+      next.has(id) ? next.delete(id) : next.add(id);
+      return next;
+    });
 
-  const toggleModule = (id: string) => setExpandedModules(prev => {
-    const next = new Set(prev);
-    next.has(id) ? next.delete(id) : next.add(id);
-    return next;
-  });
+  const toggleModule = (id: string) =>
+    setExpandedModules((prev) => {
+      const next = new Set(prev);
+      next.has(id) ? next.delete(id) : next.add(id);
+      return next;
+    });
 
   const missingContent = totalModules < 3 || totalLessons < 10;
 
@@ -162,13 +222,22 @@ export default function CurriculumTreeSection({ state, onChange }: Props) {
     >
       {/* Summary strip */}
       <div className="flex items-center gap-6 mb-4 text-sm text-slate-500">
-        <span><strong className="text-slate-900">{phases.length}</strong> phases</span>
-        <span><strong className="text-slate-900">{totalModules}</strong> modules</span>
-        <span><strong className={totalLessons >= 10 ? 'text-emerald-600' : 'text-amber-600'}>{totalLessons}</strong> lessons</span>
+        <span>
+          <strong className="text-slate-900">{phases.length}</strong> phases
+        </span>
+        <span>
+          <strong className="text-slate-900">{totalModules}</strong> modules
+        </span>
+        <span>
+          <strong className={totalLessons >= 10 ? 'text-emerald-600' : 'text-amber-600'}>
+            {totalLessons}
+          </strong>{' '}
+          lessons
+        </span>
       </div>
 
       <div className="space-y-3">
-        {phases.map(phase => (
+        {phases.map((phase) => (
           <PhaseBlock
             key={phase.id}
             phase={phase}
@@ -176,12 +245,12 @@ export default function CurriculumTreeSection({ state, onChange }: Props) {
             expandedModules={expandedModules}
             onToggle={() => togglePhase(phase.id)}
             onToggleModule={toggleModule}
-            onTitleChange={title => updatePhaseTitle(phase.id, title)}
+            onTitleChange={(title) => updatePhaseTitle(phase.id, title)}
             onRemove={() => removePhase(phase.id)}
             onAddModule={() => addModule(phase.id)}
             onModuleTitleChange={(mId, t) => updateModuleTitle(phase.id, mId, t)}
-            onRemoveModule={mId => removeModule(phase.id, mId)}
-            onAddLesson={mId => addLesson(phase.id, mId)}
+            onRemoveModule={(mId) => removeModule(phase.id, mId)}
+            onAddLesson={(mId) => addLesson(phase.id, mId)}
             onUpdateLesson={(mId, lId, patch) => updateLesson(phase.id, mId, lId, patch)}
             onRemoveLesson={(mId, lId) => removeLesson(phase.id, mId, lId)}
           />
@@ -202,10 +271,19 @@ export default function CurriculumTreeSection({ state, onChange }: Props) {
 // ── Sub-components ────────────────────────────────────────────────────────────
 
 function PhaseBlock({
-  phase, expanded, expandedModules, onToggle, onToggleModule,
-  onTitleChange, onRemove, onAddModule,
-  onModuleTitleChange, onRemoveModule,
-  onAddLesson, onUpdateLesson, onRemoveLesson,
+  phase,
+  expanded,
+  expandedModules,
+  onToggle,
+  onToggleModule,
+  onTitleChange,
+  onRemove,
+  onAddModule,
+  onModuleTitleChange,
+  onRemoveModule,
+  onAddLesson,
+  onUpdateLesson,
+  onRemoveLesson,
 }: {
   phase: ProgramPhase;
   expanded: boolean;
@@ -234,10 +312,12 @@ function PhaseBlock({
         <input
           type="text"
           value={phase.title}
-          onChange={e => onTitleChange(e.target.value)}
+          onChange={(e) => onTitleChange(e.target.value)}
           className="flex-1 bg-transparent text-sm font-semibold text-slate-900 focus:outline-none focus:ring-0 border-0 p-0"
         />
-        <span className="text-xs text-slate-400">{phase.modules.length} modules · {lessonCount} lessons</span>
+        <span className="text-xs text-slate-400">
+          {phase.modules.length} modules · {lessonCount} lessons
+        </span>
         <button
           onClick={onRemove}
           className="opacity-0 group-hover:opacity-100 p-1 text-slate-300 hover:text-red-500 transition-colors"
@@ -250,17 +330,17 @@ function PhaseBlock({
       {/* Phase body */}
       {expanded && (
         <div className="px-4 py-3 space-y-2 bg-white">
-          {phase.modules.map(mod => (
+          {phase.modules.map((mod) => (
             <ModuleBlock
               key={mod.id}
               module={mod}
               expanded={expandedModules.has(mod.id)}
               onToggle={() => onToggleModule(mod.id)}
-              onTitleChange={t => onModuleTitleChange(mod.id, t)}
+              onTitleChange={(t) => onModuleTitleChange(mod.id, t)}
               onRemove={() => onRemoveModule(mod.id)}
               onAddLesson={() => onAddLesson(mod.id)}
               onUpdateLesson={(lId, patch) => onUpdateLesson(mod.id, lId, patch)}
-              onRemoveLesson={lId => onRemoveLesson(mod.id, lId)}
+              onRemoveLesson={(lId) => onRemoveLesson(mod.id, lId)}
             />
           ))}
 
@@ -278,8 +358,14 @@ function PhaseBlock({
 }
 
 function ModuleBlock({
-  module, expanded, onToggle, onTitleChange, onRemove,
-  onAddLesson, onUpdateLesson, onRemoveLesson,
+  module,
+  expanded,
+  onToggle,
+  onTitleChange,
+  onRemove,
+  onAddLesson,
+  onUpdateLesson,
+  onRemoveLesson,
 }: {
   module: ProgramModule;
   expanded: boolean;
@@ -296,12 +382,16 @@ function ModuleBlock({
       <div className="flex items-center gap-2 bg-slate-50/60 px-3 py-2.5 group">
         <GripVertical className="h-3.5 w-3.5 text-slate-300 cursor-grab flex-shrink-0" />
         <button onClick={onToggle} className="flex-shrink-0 text-slate-400 hover:text-slate-700">
-          {expanded ? <ChevronDown className="h-3.5 w-3.5" /> : <ChevronRight className="h-3.5 w-3.5" />}
+          {expanded ? (
+            <ChevronDown className="h-3.5 w-3.5" />
+          ) : (
+            <ChevronRight className="h-3.5 w-3.5" />
+          )}
         </button>
         <input
           type="text"
           value={module.title}
-          onChange={e => onTitleChange(e.target.value)}
+          onChange={(e) => onTitleChange(e.target.value)}
           className="flex-1 bg-transparent text-sm font-medium text-slate-800 focus:outline-none focus:ring-0 border-0 p-0"
         />
         <span className="text-xs text-slate-400">{module.lessons.length} lessons</span>
@@ -316,11 +406,11 @@ function ModuleBlock({
       {/* Lessons */}
       {expanded && (
         <div className="px-3 py-2 space-y-1.5 bg-white">
-          {module.lessons.map(lesson => (
+          {module.lessons.map((lesson) => (
             <LessonRow
               key={lesson.id}
               lesson={lesson}
-              onUpdate={patch => onUpdateLesson(lesson.id, patch)}
+              onUpdate={(patch) => onUpdateLesson(lesson.id, patch)}
               onRemove={() => onRemoveLesson(lesson.id)}
             />
           ))}
@@ -339,7 +429,9 @@ function ModuleBlock({
 }
 
 function LessonRow({
-  lesson, onUpdate, onRemove,
+  lesson,
+  onUpdate,
+  onRemove,
 }: {
   lesson: ProgramLesson;
   onUpdate: (patch: Partial<ProgramLesson>) => void;
@@ -354,7 +446,9 @@ function LessonRow({
       <GripVertical className="h-3 w-3 text-slate-200 cursor-grab flex-shrink-0" />
 
       {/* Type icon */}
-      <div className={`flex h-6 w-6 flex-shrink-0 items-center justify-center rounded ${meta.color}`}>
+      <div
+        className={`flex h-6 w-6 flex-shrink-0 items-center justify-center rounded ${meta.color}`}
+      >
         <Icon className="h-3.5 w-3.5" />
       </div>
 
@@ -362,18 +456,20 @@ function LessonRow({
       <input
         type="text"
         value={lesson.title}
-        onChange={e => onUpdate({ title: e.target.value })}
+        onChange={(e) => onUpdate({ title: e.target.value })}
         className="flex-1 bg-transparent text-xs text-slate-800 focus:outline-none focus:ring-0 border-0 p-0 min-w-0"
       />
 
       {/* Type selector */}
       <select
         value={lesson.lesson_type}
-        onChange={e => onUpdate({ lesson_type: e.target.value as LessonType })}
+        onChange={(e) => onUpdate({ lesson_type: e.target.value as LessonType })}
         className="rounded border-0 bg-transparent text-xs text-slate-500 focus:outline-none focus:ring-0 cursor-pointer"
       >
         {Object.entries(LESSON_TYPE_META).map(([val, m]) => (
-          <option key={val} value={val}>{m.label}</option>
+          <option key={val} value={val}>
+            {m.label}
+          </option>
         ))}
       </select>
 
@@ -382,16 +478,19 @@ function LessonRow({
         type="number"
         min={1}
         value={lesson.duration_minutes ?? ''}
-        onChange={e => onUpdate({ duration_minutes: e.target.value ? Number(e.target.value) : null })}
+        onChange={(e) =>
+          onUpdate({ duration_minutes: e.target.value ? Number(e.target.value) : null })
+        }
         placeholder="min"
         className="w-12 rounded border-0 bg-transparent text-xs text-slate-400 focus:outline-none focus:ring-0 text-right"
       />
 
       {/* Content status */}
-      {hasContent
-        ? <CheckCircle className="h-3.5 w-3.5 flex-shrink-0 text-emerald-500" title="Has content" />
-        : <AlertCircle className="h-3.5 w-3.5 flex-shrink-0 text-amber-400" title="No content yet" />
-      }
+      {hasContent ? (
+        <CheckCircle className="h-3.5 w-3.5 flex-shrink-0 text-emerald-500" title="Has content" />
+      ) : (
+        <AlertCircle className="h-3.5 w-3.5 flex-shrink-0 text-amber-400" title="No content yet" />
+      )}
 
       {/* Published toggle */}
       <button

@@ -5,7 +5,7 @@ import { withApiAudit } from '@/lib/audit/withApiAudit';
 async function _GET(req: Request) {
   try {
     const supabase = await createClient();
-      const { searchParams } = new URL(req.url);
+    const { searchParams } = new URL(req.url);
     const courseId = searchParams.get('courseId');
 
     let query = supabase
@@ -33,7 +33,10 @@ async function _GET(req: Request) {
 async function _POST(req: Request) {
   try {
     const supabase = await createClient();
-      const { data: { user }, error: authError } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
 
     if (authError || !user) {
       return NextResponse.json({ error: 'Authentication required' }, { status: 401 });

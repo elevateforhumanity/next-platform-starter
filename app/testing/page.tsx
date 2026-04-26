@@ -1,11 +1,17 @@
-
 export const revalidate = 3600;
 
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { TESTING_CENTER, CALENDLY_CONFIG } from '@/lib/testing/testing-config';
 import Image from 'next/image';
-import { CalendarDays, DollarSign, AlertTriangle, CheckCircle, Info, CreditCard } from 'lucide-react';
+import {
+  CalendarDays,
+  DollarSign,
+  AlertTriangle,
+  CheckCircle,
+  Info,
+  CreditCard,
+} from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { ACTIVE_PROVIDERS } from '@/lib/testing/proctoring-capabilities';
 
@@ -19,13 +25,13 @@ export const metadata: Metadata = {
 };
 
 const PROVIDER_IMAGES: Record<string, string> = {
-  esco:       '/images/pages/hvac-technician.jpg',
-  nrf:        '/images/pages/apply-employer-hero.jpg',
-  certiport:  '/images/pages/testing-page-1.jpg',
-  nha:        '/images/pages/medical-assistant.jpg',
-  workkeys:   '/images/pages/career-services-page-4.jpg',
+  esco: '/images/pages/hvac-technician.jpg',
+  nrf: '/images/pages/apply-employer-hero.jpg',
+  certiport: '/images/pages/testing-page-1.jpg',
+  nha: '/images/pages/medical-assistant.jpg',
+  workkeys: '/images/pages/career-services-page-4.jpg',
   careersafe: '/images/pages/apprenticeships-hero.jpg',
-  midland:    '/images/pages/hvac-technician.jpg',
+  midland: '/images/pages/hvac-technician.jpg',
 };
 
 const CAPABILITY_LABELS: Record<string, string> = {
@@ -48,7 +54,8 @@ export default function TestingPage() {
         <Image
           src="/images/pages/career-services-page-1.jpg"
           alt="Workforce credential testing"
-          fill sizes="100vw"
+          fill
+          sizes="100vw"
           className="object-cover"
           priority
         />
@@ -59,16 +66,26 @@ export default function TestingPage() {
         <div className="max-w-5xl mx-auto px-4">
           {/* Pathway context — testing is step 3, not a standalone service */}
           <div className="flex items-center gap-2 text-xs font-semibold text-slate-500 mb-4">
-            <Link href="/programs" className="hover:text-brand-red-600 transition-colors">Get Trained</Link>
+            <Link href="/programs" className="hover:text-brand-red-600 transition-colors">
+              Get Trained
+            </Link>
             <span className="text-slate-500">→</span>
             <span className="text-brand-red-600 font-bold">Get Tested</span>
             <span className="text-slate-500">→</span>
-            <Link href="/employers" className="hover:text-brand-red-600 transition-colors">Get Hired</Link>
+            <Link href="/employers" className="hover:text-brand-red-600 transition-colors">
+              Get Hired
+            </Link>
           </div>
-          <h1 className="text-3xl md:text-4xl font-black text-slate-900 mb-2">Testing &amp; Credential Exams</h1>
-          <p className="text-slate-700 text-lg mb-1">Authorized testing center for workforce certifications</p>
+          <h1 className="text-3xl md:text-4xl font-black text-slate-900 mb-2">
+            Testing &amp; Credential Exams
+          </h1>
+          <p className="text-slate-700 text-lg mb-1">
+            Authorized testing center for workforce certifications
+          </p>
           <p className="text-slate-500 text-sm max-w-2xl">
-            Elevate provides training and proctored testing access. Certifications are issued by official credentialing bodies — NHA, ACT, Certiport, ESCO, and NRF — upon passing their exam.
+            Elevate provides training and proctored testing access. Certifications are issued by
+            official credentialing bodies — NHA, ACT, Certiport, ESCO, and NRF — upon passing their
+            exam.
           </p>
         </div>
       </section>
@@ -80,14 +97,22 @@ export default function TestingPage() {
             <AlertTriangle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
             <div className="text-sm text-amber-900 leading-relaxed space-y-2">
               <p>
-                <strong>Important Notice:</strong> Elevate for Humanity is an authorized testing and proctoring site — we do not issue credentials. All certifications and credentials are issued solely by the respective credentialing authority (NHA, ACT, Certiport, EPA/ESCO, NRF, etc.) upon passing their exam.
+                <strong>Important Notice:</strong> Elevate for Humanity is an authorized testing and
+                proctoring site — we do not issue credentials. All certifications and credentials
+                are issued solely by the respective credentialing authority (NHA, ACT, Certiport,
+                EPA/ESCO, NRF, etc.) upon passing their exam.
               </p>
               <p>
-                Exam fees listed are candidate-pay rates and are subject to change without notice. Fees are collected at time of booking and are <strong>non-refundable</strong> unless the exam is canceled by Elevate. {TESTING_CENTER.policy.workforceFunding}
+                Exam fees listed are candidate-pay rates and are subject to change without notice.
+                Fees are collected at time of booking and are <strong>non-refundable</strong> unless
+                the exam is canceled by Elevate. {TESTING_CENTER.policy.workforceFunding}
               </p>
               <p>
-                Passing an exam does not guarantee employment. Credential requirements vary by employer and state. Some credentials require additional state licensure.{' '}
-                <Link href="/compliance" className="underline font-medium hover:text-amber-700">View full compliance disclosure →</Link>
+                Passing an exam does not guarantee employment. Credential requirements vary by
+                employer and state. Some credentials require additional state licensure.{' '}
+                <Link href="/compliance" className="underline font-medium hover:text-amber-700">
+                  View full compliance disclosure →
+                </Link>
               </p>
             </div>
           </div>
@@ -98,17 +123,33 @@ export default function TestingPage() {
       <section className="py-14">
         <div className="max-w-5xl mx-auto px-4">
           <h2 className="text-3xl font-black text-slate-900 mb-2">Available Credential Exams</h2>
-          <p className="text-slate-500 mb-4 text-sm">All exams are proctored. Most are administered in-person at the {TESTING_CENTER.name}. Some providers support remote proctoring through their own systems. All exam fees are set by the credentialing provider and may change without notice.</p>
-          <p className="text-slate-500 mb-10 text-sm font-medium">{TESTING_CENTER.policy.noWalkIns} {TESTING_CENTER.policy.idRequired} Arrive at least {TESTING_CENTER.policy.arriveMinutesBefore} minutes before your scheduled time.</p>
+          <p className="text-slate-500 mb-4 text-sm">
+            All exams are proctored. Most are administered in-person at the {TESTING_CENTER.name}.
+            Some providers support remote proctoring through their own systems. All exam fees are
+            set by the credentialing provider and may change without notice.
+          </p>
+          <p className="text-slate-500 mb-10 text-sm font-medium">
+            {TESTING_CENTER.policy.noWalkIns} {TESTING_CENTER.policy.idRequired} Arrive at least{' '}
+            {TESTING_CENTER.policy.arriveMinutesBefore} minutes before your scheduled time.
+          </p>
 
           <div className="space-y-10">
             {ACTIVE_PROVIDERS.map((provider) => (
-              <div key={provider.key} id={provider.key} className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+              <div
+                key={provider.key}
+                id={provider.key}
+                className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow"
+              >
                 <div className="grid lg:grid-cols-3">
                   {/* Image — clicking goes to provider detail page */}
-                  <Link href={`/testing/${provider.key}`} className="relative h-64 sm:h-80 lg:h-full min-h-[280px] overflow-hidden block group">
+                  <Link
+                    href={`/testing/${provider.key}`}
+                    className="relative h-64 sm:h-80 lg:h-full min-h-[280px] overflow-hidden block group"
+                  >
                     <Image
-                      src={PROVIDER_IMAGES[provider.key] || '/images/pages/career-services-page-1.jpg'}
+                      src={
+                        PROVIDER_IMAGES[provider.key] || '/images/pages/career-services-page-1.jpg'
+                      }
                       alt={provider.name}
                       fill
                       className="object-cover object-center group-hover:scale-105 transition-transform duration-300"
@@ -118,22 +159,29 @@ export default function TestingPage() {
                   </Link>
                   <div className="lg:col-span-2 p-6">
                     <div className="flex items-start justify-between gap-4 mb-2">
-                      <Link href={`/testing/${provider.key}`} className="hover:text-brand-blue-600 transition-colors">
+                      <Link
+                        href={`/testing/${provider.key}`}
+                        className="hover:text-brand-blue-600 transition-colors"
+                      >
                         <h3 className="text-xl font-bold text-slate-900">{provider.name}</h3>
                       </Link>
                       <span className="text-xs font-medium bg-slate-100 text-slate-600 px-3 py-1 rounded-full whitespace-nowrap flex-shrink-0">
                         {CAPABILITY_LABELS[provider.capability]}
                       </span>
                     </div>
-                    <p className="text-slate-700 text-sm mb-5 leading-relaxed">{provider.description}</p>
+                    <p className="text-slate-700 text-sm mb-5 leading-relaxed">
+                      {provider.description}
+                    </p>
 
                     {/* Exams — each links to provider detail page */}
                     <div className="mb-5">
-                      <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">Exams Available</p>
+                      <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">
+                        Exams Available
+                      </p>
                       <div className="grid sm:grid-cols-2 gap-x-4 gap-y-2">
                         {provider.exams.map((exam) => {
                           const isObj = typeof exam === 'object' && exam !== null;
-                          const label = isObj ? (exam as ExamDefinition).name : exam as string;
+                          const label = isObj ? (exam as ExamDefinition).name : (exam as string);
                           const desc = isObj ? (exam as ExamDefinition).description : undefined;
                           return (
                             <Link
@@ -143,8 +191,14 @@ export default function TestingPage() {
                             >
                               <CheckCircle className="w-3.5 h-3.5 text-brand-green-600 flex-shrink-0 mt-0.5 group-hover/exam:text-brand-blue-500" />
                               <span>
-                                <span className="font-medium group-hover/exam:underline">{label}</span>
-                                {desc && <span className="block text-xs text-slate-500 mt-0.5">{desc}</span>}
+                                <span className="font-medium group-hover/exam:underline">
+                                  {label}
+                                </span>
+                                {desc && (
+                                  <span className="block text-xs text-slate-500 mt-0.5">
+                                    {desc}
+                                  </span>
+                                )}
                               </span>
                             </Link>
                           );
@@ -155,15 +209,24 @@ export default function TestingPage() {
                     {/* Fees */}
                     {provider.fees && provider.fees.length > 0 ? (
                       <div className="mb-5">
-                        <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">Exam Fees</p>
+                        <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">
+                          Exam Fees
+                        </p>
                         <div className="bg-slate-50 rounded-xl divide-y divide-slate-100 border border-slate-100">
                           {provider.fees.map((fee) => (
-                            <div key={fee.label} className="flex items-center justify-between gap-4 px-4 py-2.5">
+                            <div
+                              key={fee.label}
+                              className="flex items-center justify-between gap-4 px-4 py-2.5"
+                            >
                               <div>
                                 <p className="text-sm font-medium text-slate-800">{fee.label}</p>
-                                {fee.note && <p className="text-xs text-slate-600 mt-0.5">{fee.note}</p>}
+                                {fee.note && (
+                                  <p className="text-xs text-slate-600 mt-0.5">{fee.note}</p>
+                                )}
                               </div>
-                              <span className="text-brand-red-600 font-black text-lg shrink-0">${fee.amount}</span>
+                              <span className="text-brand-red-600 font-black text-lg shrink-0">
+                                ${fee.amount}
+                              </span>
                             </div>
                           ))}
                         </div>
@@ -244,24 +307,29 @@ export default function TestingPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
-                {ACTIVE_PROVIDERS
-                  .filter(p => p.fees && p.fees.length > 0)
-                  .flatMap(p =>
-                    p.fees!.map((fee, i) => (
-                      <tr key={`${p.key}-${i}`} className="hover:bg-slate-50 transition-colors">
-                        <td className="px-5 py-3 text-slate-600 text-xs align-top pt-3.5">{i === 0 ? p.name : ''}</td>
-                        <td className="px-5 py-3 text-slate-800 font-medium">
-                          {fee.label}
-                          {fee.note && <span className="block text-xs text-slate-600 font-normal">{fee.note}</span>}
-                        </td>
-                        <td className="px-5 py-3 text-right font-black text-brand-red-600 text-base">${fee.amount}</td>
-                      </tr>
-                    ))
-                  )}
+                {ACTIVE_PROVIDERS.filter((p) => p.fees && p.fees.length > 0).flatMap((p) =>
+                  p.fees!.map((fee, i) => (
+                    <tr key={`${p.key}-${i}`} className="hover:bg-slate-50 transition-colors">
+                      <td className="px-5 py-3 text-slate-600 text-xs align-top pt-3.5">
+                        {i === 0 ? p.name : ''}
+                      </td>
+                      <td className="px-5 py-3 text-slate-800 font-medium">
+                        {fee.label}
+                        {fee.note && (
+                          <span className="block text-xs text-slate-600 font-normal">
+                            {fee.note}
+                          </span>
+                        )}
+                      </td>
+                      <td className="px-5 py-3 text-right font-black text-brand-red-600 text-base">
+                        ${fee.amount}
+                      </td>
+                    </tr>
+                  )),
+                )}
               </tbody>
             </table>
           </div>
-
         </div>
       </section>
 
@@ -271,14 +339,43 @@ export default function TestingPage() {
           <h2 className="text-3xl font-black text-slate-900 mb-8 text-center">How Testing Works</h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {[
-              { step: '1', title: 'Book Your Seat',        img: '/images/pages/academic-calendar-hero.jpg',    desc: `Select your exam and preferred date. Pay the exam fee at booking to reserve your seat. ${TESTING_CENTER.policy.noWalkIns}` },
-              { step: '2', title: 'Arrive Prepared',       img: '/images/pages/apply-page-1.jpg',              desc: `Arrive at least ${TESTING_CENTER.policy.arriveMinutesBefore} minutes early. ${TESTING_CENTER.policy.idRequired} No ID, no exam — no exceptions.` },
-              { step: '3', title: 'Take the Exam',         img: '/images/pages/testing-page-1.jpg',            desc: 'All exams are proctored. No phones or outside materials unless explicitly permitted by the provider.' },
-              { step: '4', title: 'Receive Your Credential', img: '/images/pages/certificates-page-1.jpg',     desc: 'Results and credentials are issued directly by the certifying body. Elevate records your outcome for your training record.' },
+              {
+                step: '1',
+                title: 'Book Your Seat',
+                img: '/images/pages/academic-calendar-hero.jpg',
+                desc: `Select your exam and preferred date. Pay the exam fee at booking to reserve your seat. ${TESTING_CENTER.policy.noWalkIns}`,
+              },
+              {
+                step: '2',
+                title: 'Arrive Prepared',
+                img: '/images/pages/apply-page-1.jpg',
+                desc: `Arrive at least ${TESTING_CENTER.policy.arriveMinutesBefore} minutes early. ${TESTING_CENTER.policy.idRequired} No ID, no exam — no exceptions.`,
+              },
+              {
+                step: '3',
+                title: 'Take the Exam',
+                img: '/images/pages/testing-page-1.jpg',
+                desc: 'All exams are proctored. No phones or outside materials unless explicitly permitted by the provider.',
+              },
+              {
+                step: '4',
+                title: 'Receive Your Credential',
+                img: '/images/pages/certificates-page-1.jpg',
+                desc: 'Results and credentials are issued directly by the certifying body. Elevate records your outcome for your training record.',
+              },
             ].map((s) => (
-              <div key={s.step} className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
+              <div
+                key={s.step}
+                className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm"
+              >
                 <div className="relative h-40 w-full">
-                  <Image src={s.img} alt={s.title} fill className="object-cover object-center" sizes="(max-width:640px) 100vw, (max-width:1024px) 50vw, 25vw" />
+                  <Image
+                    src={s.img}
+                    alt={s.title}
+                    fill
+                    className="object-cover object-center"
+                    sizes="(max-width:640px) 100vw, (max-width:1024px) 50vw, 25vw"
+                  />
                   <div className="absolute inset-0 bg-brand-blue-900/50" />
                   <div className="absolute top-3 left-3 w-8 h-8 bg-brand-blue-700 rounded-full flex items-center justify-center text-white font-bold text-sm border-2 border-white">
                     {s.step}
@@ -313,12 +410,21 @@ export default function TestingPage() {
               </ul>
             </div>
             <div>
-              <h3 className="font-semibold text-slate-900 mb-2">Appointments &amp; Cancellations</h3>
-              <p className="text-slate-600 text-sm">All exams are by appointment only — walk-ins are not accepted. Appointments may be rescheduled with at least 24 hours&apos; notice. Exam fees are non-refundable once a session is reserved.</p>
+              <h3 className="font-semibold text-slate-900 mb-2">
+                Appointments &amp; Cancellations
+              </h3>
+              <p className="text-slate-600 text-sm">
+                All exams are by appointment only — walk-ins are not accepted. Appointments may be
+                rescheduled with at least 24 hours&apos; notice. Exam fees are non-refundable once a
+                session is reserved.
+              </p>
             </div>
             <div>
               <h3 className="font-semibold text-slate-900 mb-2">Retakes</h3>
-              <p className="text-slate-600 text-sm">Retake eligibility and waiting periods are set by each credentialing provider. Contact us for provider-specific retake policies.</p>
+              <p className="text-slate-600 text-sm">
+                Retake eligibility and waiting periods are set by each credentialing provider.
+                Contact us for provider-specific retake policies.
+              </p>
             </div>
           </div>
         </div>
@@ -328,7 +434,10 @@ export default function TestingPage() {
       <section className="py-16 border-t border-slate-100">
         <div className="max-w-3xl mx-auto px-4 text-center">
           <h2 className="text-3xl font-black text-slate-900 mb-4">Ready to Get Certified?</h2>
-          <p className="text-slate-600 mb-8">Book your exam seat online or call us to schedule. Appointments required — walk-ins not accepted.</p>
+          <p className="text-slate-600 mb-8">
+            Book your exam seat online or call us to schedule. Appointments required — walk-ins not
+            accepted.
+          </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <Link
               href="/testing/book"
@@ -346,7 +455,10 @@ export default function TestingPage() {
           </div>
           <p className="text-slate-500 text-sm">
             Not enrolled in training yet?{' '}
-            <Link href="/programs" className="text-brand-red-600 hover:text-brand-red-700 font-semibold">
+            <Link
+              href="/programs"
+              className="text-brand-red-600 hover:text-brand-red-700 font-semibold"
+            >
               Browse programs →
             </Link>
           </p>

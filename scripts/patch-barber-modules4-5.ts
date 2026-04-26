@@ -17,13 +17,13 @@ const COURSE_ID = '3fb5ce19-1cde-434c-a8c6-f138d7d7aa17';
 // Each lesson already has 5 questions. We merge these in to reach 8+.
 
 const EXTRA_QUESTIONS: Record<string, object[]> = {
-
   // ── Lesson 22: Head Shape & Sectioning ──────────────────────────────────────
   'barber-lesson-22': [
     {
       id: 'mod4-l22-q6',
       type: 'multiple_choice',
-      question: 'A client has a pronounced occipital bone that projects significantly. How does this affect your sectioning plan?',
+      question:
+        'A client has a pronounced occipital bone that projects significantly. How does this affect your sectioning plan?',
       options: [
         'No adjustment needed — the occipital bone does not affect sectioning',
         'Set the fade line lower than usual to avoid the projection creating a weight buildup',
@@ -31,33 +31,33 @@ const EXTRA_QUESTIONS: Record<string, object[]> = {
         'Use scissor over comb only — clippers cannot navigate the projection',
       ],
       correctAnswer: 2,
-      explanation: 'A pronounced occipital bone creates a natural shelf if the fade line is set below it. Setting the fade line higher so the projection falls within the blended section prevents weight buildup and produces a smooth graduation.',
+      explanation:
+        'A pronounced occipital bone creates a natural shelf if the fade line is set below it. Setting the fade line higher so the projection falls within the blended section prevents weight buildup and produces a smooth graduation.',
     },
     {
       id: 'mod4-l22-q7',
       type: 'multiple_choice',
-      question: 'Which reference point determines where the fade transitions from the sides to the top?',
-      options: [
-        'The occipital bone',
-        'The apex',
-        'The parietal ridge',
-        'The temporal recession',
-      ],
+      question:
+        'Which reference point determines where the fade transitions from the sides to the top?',
+      options: ['The occipital bone', 'The apex', 'The parietal ridge', 'The temporal recession'],
       correctAnswer: 2,
-      explanation: 'The parietal ridge is the widest point of the head and the natural transition point between the sides and the top. Fade lines that cross the parietal ridge require careful blending to avoid a visible shelf.',
+      explanation:
+        'The parietal ridge is the widest point of the head and the natural transition point between the sides and the top. Fade lines that cross the parietal ridge require careful blending to avoid a visible shelf.',
     },
     {
       id: 'mod4-l22-q8',
       type: 'multiple_choice',
-      question: 'Before beginning any haircut service, which sanitation step must be completed first?',
+      question:
+        'Before beginning any haircut service, which sanitation step must be completed first?',
       options: [
-        'Apply disinfectant spray to the client\'s hair',
+        "Apply disinfectant spray to the client's hair",
         'Pre-clean all tools to remove hair and debris, then apply EPA-registered disinfectant',
         'Apply disinfectant directly to tools without pre-cleaning',
         'Sanitize the workstation only — tools are cleaned after the service',
       ],
       correctAnswer: 1,
-      explanation: 'Pre-cleaning removes organic matter (hair, skin cells) that blocks disinfectant contact. Disinfectant applied to a dirty surface cannot reach the tool surface and will not achieve the required kill. Pre-clean first, then disinfect.',
+      explanation:
+        'Pre-cleaning removes organic matter (hair, skin cells) that blocks disinfectant contact. Disinfectant applied to a dirty surface cannot reach the tool surface and will not achieve the required kill. Pre-clean first, then disinfect.',
     },
   ],
 
@@ -74,25 +74,29 @@ const EXTRA_QUESTIONS: Record<string, object[]> = {
         'At the occipital bone',
       ],
       correctAnswer: 1,
-      explanation: 'A mid fade begins at the temple, level with the top of the ear. This is the most versatile and most-requested fade type. A low fade starts just above the ear; a high fade starts at the parietal ridge.',
+      explanation:
+        'A mid fade begins at the temple, level with the top of the ear. This is the most versatile and most-requested fade type. A low fade starts just above the ear; a high fade starts at the parietal ridge.',
     },
     {
       id: 'mod4-l23-q7',
       type: 'multiple_choice',
-      question: 'You are executing a skin fade and notice the clipper is leaving track marks near the skin. What is the most likely cause?',
+      question:
+        'You are executing a skin fade and notice the clipper is leaving track marks near the skin. What is the most likely cause?',
       options: [
         'The blade is set too open — close the taper lever',
         'The blade is dull or misaligned — clean, oil, and check alignment before continuing',
-        'The client\'s hair is too coarse for a skin fade',
+        "The client's hair is too coarse for a skin fade",
         'The clipper speed is too high — reduce to a lower setting',
       ],
       correctAnswer: 1,
-      explanation: 'Track marks near the skin are the signature of a dull or misaligned blade. A dull blade drags rather than cuts cleanly, leaving visible lines. Clean, oil, and check that the top blade sits 1/16" behind the bottom blade. If the blade is worn, replace it before continuing.',
+      explanation:
+        'Track marks near the skin are the signature of a dull or misaligned blade. A dull blade drags rather than cuts cleanly, leaving visible lines. Clean, oil, and check that the top blade sits 1/16" behind the bottom blade. If the blade is worn, replace it before continuing.',
     },
     {
       id: 'mod4-l23-q8',
       type: 'multiple_choice',
-      question: 'After completing a fade, you notice a visible line between the #1.5 and #2 guard sections. What is the correct correction technique?',
+      question:
+        'After completing a fade, you notice a visible line between the #1.5 and #2 guard sections. What is the correct correction technique?',
       options: [
         'Take the entire #2 section shorter to match the #1.5',
         'Use the open-lever technique with the #1.5 guard at the boundary, blending with a flicking motion',
@@ -100,7 +104,8 @@ const EXTRA_QUESTIONS: Record<string, object[]> = {
         'The line will disappear when the hair dries — no correction needed',
       ],
       correctAnswer: 1,
-      explanation: 'A visible line between guard sizes means no blending pass was made at the transition. The correction is to use the open-lever technique with the smaller guard at the boundary, blending with a flicking motion upward through the transition zone. This creates a gradual graduation without removing significant length.',
+      explanation:
+        'A visible line between guard sizes means no blending pass was made at the transition. The correction is to use the open-lever technique with the smaller guard at the boundary, blending with a flicking motion upward through the transition zone. This creates a gradual graduation without removing significant length.',
     },
   ],
 
@@ -109,7 +114,8 @@ const EXTRA_QUESTIONS: Record<string, object[]> = {
     {
       id: 'mod4-l24-q6',
       type: 'multiple_choice',
-      question: 'What is the primary advantage of clipper over comb compared to using guards alone?',
+      question:
+        'What is the primary advantage of clipper over comb compared to using guards alone?',
       options: [
         'It is faster than using guards',
         'It allows precise length control on curved surfaces where guards cannot follow the contour',
@@ -117,7 +123,8 @@ const EXTRA_QUESTIONS: Record<string, object[]> = {
         'It requires less skill than guard work',
       ],
       correctAnswer: 1,
-      explanation: 'Guards are fixed-length tools that cannot adapt to the curves of the head. Clipper over comb allows the barber to control length precisely by adjusting comb angle and position, making it essential for blending on curved surfaces like the occipital area and around the ears.',
+      explanation:
+        'Guards are fixed-length tools that cannot adapt to the curves of the head. Clipper over comb allows the barber to control length precisely by adjusting comb angle and position, making it essential for blending on curved surfaces like the occipital area and around the ears.',
     },
     {
       id: 'mod4-l24-q7',
@@ -130,12 +137,14 @@ const EXTRA_QUESTIONS: Record<string, object[]> = {
         'Detangling comb — prevents breakage on fine hair',
       ],
       correctAnswer: 1,
-      explanation: 'A barber comb with fine teeth on one end provides the precise control needed for clipper over comb. The fine teeth lift hair evenly and allow accurate length control. Wide-tooth combs lift too much hair at once, making fine control difficult.',
+      explanation:
+        'A barber comb with fine teeth on one end provides the precise control needed for clipper over comb. The fine teeth lift hair evenly and allow accurate length control. Wide-tooth combs lift too much hair at once, making fine control difficult.',
     },
     {
       id: 'mod4-l24-q8',
       type: 'multiple_choice',
-      question: 'During a clipper over comb pass, the comb should be held at what position relative to the clipper blade?',
+      question:
+        'During a clipper over comb pass, the comb should be held at what position relative to the clipper blade?',
       options: [
         'The comb spine should angle into the blade to guide hair toward the cutting edge',
         'The comb spine should be parallel to the blade, with the clipper running across the top of the comb teeth',
@@ -143,7 +152,8 @@ const EXTRA_QUESTIONS: Record<string, object[]> = {
         'The comb position does not matter — only the clipper angle affects the result',
       ],
       correctAnswer: 1,
-      explanation: 'The clipper runs parallel across the top of the comb teeth. The comb lifts the hair to the desired length; the clipper cuts whatever projects above the comb. Angling the blade into the comb causes gouging. The comb spine parallel to the blade is the correct position.',
+      explanation:
+        'The clipper runs parallel across the top of the comb teeth. The comb lifts the hair to the desired length; the clipper cuts whatever projects above the comb. Angling the blade into the comb causes gouging. The comb spine parallel to the blade is the correct position.',
     },
   ],
 
@@ -160,7 +170,8 @@ const EXTRA_QUESTIONS: Record<string, object[]> = {
         'Scissor over comb is never preferred — clippers always produce a better result',
       ],
       correctAnswer: 1,
-      explanation: 'Scissor over comb produces a softer, more diffused blend than clipper over comb because scissors cut individual hairs rather than all hairs at a fixed length. This makes it the preferred technique for fine or thin hair where clipper marks show easily, and for the final blending passes on any fade.',
+      explanation:
+        'Scissor over comb produces a softer, more diffused blend than clipper over comb because scissors cut individual hairs rather than all hairs at a fixed length. This makes it the preferred technique for fine or thin hair where clipper marks show easily, and for the final blending passes on any fade.',
     },
     {
       id: 'mod4-l25-q7',
@@ -173,20 +184,23 @@ const EXTRA_QUESTIONS: Record<string, object[]> = {
         'One blade stationary against the comb, the other blade moving to cut',
       ],
       correctAnswer: 1,
-      explanation: 'In scissor over comb, the blades are parallel to the comb spine and cut with a continuous opening-and-closing motion as the comb moves upward through the section. This produces a smooth, even cut across the lifted hair. Stopping the scissor motion mid-pass creates a visible line.',
+      explanation:
+        'In scissor over comb, the blades are parallel to the comb spine and cut with a continuous opening-and-closing motion as the comb moves upward through the section. This produces a smooth, even cut across the lifted hair. Stopping the scissor motion mid-pass creates a visible line.',
     },
     {
       id: 'mod4-l25-q8',
       type: 'multiple_choice',
-      question: 'A client\'s hair is showing scissor marks (visible lines) after scissor over comb blending. What is the most likely cause?',
+      question:
+        "A client's hair is showing scissor marks (visible lines) after scissor over comb blending. What is the most likely cause?",
       options: [
         'The scissors are too sharp — dull scissors produce a softer result',
         'The scissor motion stopped mid-pass, cutting all hair at the same point and creating a line',
         'The comb angle was too flat, lifting too much hair above the teeth',
-        'The client\'s hair is too fine for scissor over comb',
+        "The client's hair is too fine for scissor over comb",
       ],
       correctAnswer: 1,
-      explanation: 'Scissor marks are caused by stopping the scissor motion mid-pass. When the scissors stop, they cut all the lifted hair at the same point, creating a visible horizontal line. The scissor must maintain a continuous opening-and-closing motion throughout the entire comb pass.',
+      explanation:
+        'Scissor marks are caused by stopping the scissor motion mid-pass. When the scissors stop, they cut all the lifted hair at the same point, creating a visible horizontal line. The scissor must maintain a continuous opening-and-closing motion throughout the entire comb pass.',
     },
   ],
 
@@ -195,15 +209,17 @@ const EXTRA_QUESTIONS: Record<string, object[]> = {
     {
       id: 'mod4-l26-q6',
       type: 'multiple_choice',
-      question: 'A client\'s natural hairline is uneven on one side. How should you approach the lineup?',
+      question:
+        "A client's natural hairline is uneven on one side. How should you approach the lineup?",
       options: [
         'Follow the natural hairline exactly on both sides — never alter the natural line',
-        'Create a symmetrical line based on the client\'s facial structure, consulting with the client before cutting',
+        "Create a symmetrical line based on the client's facial structure, consulting with the client before cutting",
         'Always create a straight horizontal line regardless of the natural hairline',
         'Refuse to do a lineup if the natural hairline is uneven',
       ],
       correctAnswer: 1,
-      explanation: 'A lineup should enhance the client\'s appearance. When the natural hairline is uneven, the barber should create a symmetrical line based on the client\'s facial structure — but must consult with the client first. Cutting without consultation risks removing more hair than the client expects.',
+      explanation:
+        "A lineup should enhance the client's appearance. When the natural hairline is uneven, the barber should create a symmetrical line based on the client's facial structure — but must consult with the client first. Cutting without consultation risks removing more hair than the client expects.",
     },
     {
       id: 'mod4-l26-q7',
@@ -216,12 +232,14 @@ const EXTRA_QUESTIONS: Record<string, object[]> = {
         'Thinning shears along the hairline',
       ],
       correctAnswer: 1,
-      explanation: 'A straight razor with a fresh blade produces the sharpest possible lineup edge because it cuts at the skin level with no gap. T-outliners are the most common tool for lineups, but a razor finish produces a crisper line. The razor must be a shavette with a single-use blade — never a fixed-blade straight razor for this purpose.',
+      explanation:
+        'A straight razor with a fresh blade produces the sharpest possible lineup edge because it cuts at the skin level with no gap. T-outliners are the most common tool for lineups, but a razor finish produces a crisper line. The razor must be a shavette with a single-use blade — never a fixed-blade straight razor for this purpose.',
     },
     {
       id: 'mod4-l26-q8',
       type: 'multiple_choice',
-      question: 'After completing a lineup, you notice the sideburn on the left is 3mm lower than the right. What is the correct correction?',
+      question:
+        'After completing a lineup, you notice the sideburn on the left is 3mm lower than the right. What is the correct correction?',
       options: [
         'Lower the right sideburn to match the left',
         'Raise the left sideburn to match the right — always correct by removing less, not more',
@@ -229,7 +247,8 @@ const EXTRA_QUESTIONS: Record<string, object[]> = {
         'Consult the client and correct whichever side they prefer adjusted',
       ],
       correctAnswer: 3,
-      explanation: 'Asymmetry corrections require client consultation. The barber should show the client the discrepancy and ask which side they prefer adjusted. The general principle is to correct by removing less (raising the lower side), but the client\'s preference takes priority. Never make a correction without informing the client.',
+      explanation:
+        "Asymmetry corrections require client consultation. The barber should show the client the discrepancy and ask which side they prefer adjusted. The general principle is to correct by removing less (raising the lower side), but the client's preference takes priority. Never make a correction without informing the client.",
     },
   ],
 
@@ -246,7 +265,8 @@ const EXTRA_QUESTIONS: Record<string, object[]> = {
         'The top must be cut with scissors only — clippers cannot achieve a flat top',
       ],
       correctAnswer: 1,
-      explanation: 'The flat top is defined by a perfectly level top plane — every hair on the crown cut to the same height. Any deviation from level is immediately visible. A level comb and a flat clipper pass are the tools; the barber\'s eye for level is the skill.',
+      explanation:
+        "The flat top is defined by a perfectly level top plane — every hair on the crown cut to the same height. Any deviation from level is immediately visible. A level comb and a flat clipper pass are the tools; the barber's eye for level is the skill.",
     },
     {
       id: 'mod4-l27-q7',
@@ -259,7 +279,8 @@ const EXTRA_QUESTIONS: Record<string, object[]> = {
         'There is no difference — Ivy League and taper are the same cut',
       ],
       correctAnswer: 1,
-      explanation: 'The Ivy League is a taper with enough length on top to create a clean part and comb the hair. The sides and back are tapered short, but the top retains enough length to lie flat when combed. A standard taper may be cut shorter on top without the requirement for a combable part.',
+      explanation:
+        'The Ivy League is a taper with enough length on top to create a clean part and comb the hair. The sides and back are tapered short, but the top retains enough length to lie flat when combed. A standard taper may be cut shorter on top without the requirement for a combable part.',
     },
     {
       id: 'mod4-l27-q8',
@@ -272,7 +293,8 @@ const EXTRA_QUESTIONS: Record<string, object[]> = {
         'A disconnected undercut with a long top',
       ],
       correctAnswer: 1,
-      explanation: 'The Caesar cut is defined by uniform length throughout and a horizontal fringe cut straight across the forehead. There is no graduation — the same length from front to back. The fringe must be straight and even; any angle to the fringe changes the cut\'s character.',
+      explanation:
+        "The Caesar cut is defined by uniform length throughout and a horizontal fringe cut straight across the forehead. There is no graduation — the same length from front to back. The fringe must be straight and even; any angle to the fringe changes the cut's character.",
     },
   ],
 
@@ -282,7 +304,8 @@ const EXTRA_QUESTIONS: Record<string, object[]> = {
     {
       id: 'mod5-l30-q8',
       type: 'multiple_choice',
-      question: 'After completing a straight razor shave, which step is required before storing the razor?',
+      question:
+        'After completing a straight razor shave, which step is required before storing the razor?',
       options: [
         'Rinse with water only and air dry',
         'Pre-clean to remove debris, then immerse in EPA-registered disinfectant for the full contact time',
@@ -290,7 +313,8 @@ const EXTRA_QUESTIONS: Record<string, object[]> = {
         'Apply shaving cream to the blade to prevent rust',
       ],
       correctAnswer: 1,
-      explanation: 'Straight razors are multi-use implements that contact blood-contact surfaces. Pre-cleaning removes organic matter, then full-contact-time disinfection with an EPA-registered solution is required before storage. Rinsing or wiping alone does not meet state board sanitation standards.',
+      explanation:
+        'Straight razors are multi-use implements that contact blood-contact surfaces. Pre-cleaning removes organic matter, then full-contact-time disinfection with an EPA-registered solution is required before storage. Rinsing or wiping alone does not meet state board sanitation standards.',
     },
   ],
 
@@ -307,12 +331,14 @@ const EXTRA_QUESTIONS: Record<string, object[]> = {
         'Pre-shave oil is only used for clients with sensitive skin',
       ],
       correctAnswer: 1,
-      explanation: 'Pre-shave oil creates a protective layer directly on the skin before the lather is applied. This reduces razor drag, protects against nicks, and allows the razor to glide more smoothly. The lather sits on top of the oil, providing additional lubrication. Together they produce a closer, more comfortable shave.',
+      explanation:
+        'Pre-shave oil creates a protective layer directly on the skin before the lather is applied. This reduces razor drag, protects against nicks, and allows the razor to glide more smoothly. The lather sits on top of the oil, providing additional lubrication. Together they produce a closer, more comfortable shave.',
     },
     {
       id: 'mod5-l29-q7',
       type: 'multiple_choice',
-      question: 'A client presents with several active pustules on the neck. What is the correct action?',
+      question:
+        'A client presents with several active pustules on the neck. What is the correct action?',
       options: [
         'Proceed with the shave but avoid the affected area',
         'Apply antiseptic to the pustules before beginning the shave',
@@ -320,7 +346,8 @@ const EXTRA_QUESTIONS: Record<string, object[]> = {
         'Use a safety razor instead of a straight razor on the affected area',
       ],
       correctAnswer: 2,
-      explanation: 'Active pustules are a contraindication for shaving services. Shaving over pustules risks spreading infection, causing additional skin trauma, and exposing the barber to bloodborne pathogens if the pustule is nicked. The service must be declined and the client referred to a dermatologist.',
+      explanation:
+        'Active pustules are a contraindication for shaving services. Shaving over pustules risks spreading infection, causing additional skin trauma, and exposing the barber to bloodborne pathogens if the pustule is nicked. The service must be declined and the client referred to a dermatologist.',
     },
     {
       id: 'mod5-l29-q8',
@@ -333,7 +360,8 @@ const EXTRA_QUESTIONS: Record<string, object[]> = {
         '5–7 minutes — maximum softening requires extended application',
       ],
       correctAnswer: 2,
-      explanation: '2–3 minutes is the standard hot towel application time. This is sufficient to soften the beard, open the pores, and prepare the skin for shaving. Shorter application does not fully soften the beard; longer application can cause skin irritation or discomfort.',
+      explanation:
+        '2–3 minutes is the standard hot towel application time. This is sufficient to soften the beard, open the pores, and prepare the skin for shaving. Shorter application does not fully soften the beard; longer application can cause skin irritation or discomfort.',
     },
   ],
 
@@ -344,18 +372,20 @@ const EXTRA_QUESTIONS: Record<string, object[]> = {
       type: 'multiple_choice',
       question: 'Where is the correct neckline position for a beard trim?',
       options: [
-        'At the Adam\'s apple',
-        'One finger-width above the Adam\'s apple',
-        'Two finger-widths above the Adam\'s apple',
+        "At the Adam's apple",
+        "One finger-width above the Adam's apple",
+        "Two finger-widths above the Adam's apple",
         'At the jawline',
       ],
       correctAnswer: 2,
-      explanation: 'Two finger-widths above the Adam\'s apple is the standard neckline position. Setting the neckline at or below the Adam\'s apple creates an unkempt appearance. Setting it too high (at the jawline) makes the neck appear short and the beard disconnected from the face.',
+      explanation:
+        "Two finger-widths above the Adam's apple is the standard neckline position. Setting the neckline at or below the Adam's apple creates an unkempt appearance. Setting it too high (at the jawline) makes the neck appear short and the beard disconnected from the face.",
     },
     {
       id: 'mod5-l31-q7',
       type: 'multiple_choice',
-      question: 'A client with a round face requests a beard style. Which approach best enhances their facial structure?',
+      question:
+        'A client with a round face requests a beard style. Which approach best enhances their facial structure?',
       options: [
         'Keep the beard full and round on all sides to complement the face shape',
         'Add length on the chin and keep the sides tight to create the illusion of an oval face',
@@ -363,7 +393,8 @@ const EXTRA_QUESTIONS: Record<string, object[]> = {
         'Create a wide cheek line to balance the round face',
       ],
       correctAnswer: 1,
-      explanation: 'For a round face, adding length on the chin elongates the face visually while keeping the sides tight prevents additional width. This creates the illusion of a more oval face shape. A full, round beard on a round face amplifies the roundness.',
+      explanation:
+        'For a round face, adding length on the chin elongates the face visually while keeping the sides tight prevents additional width. This creates the illusion of a more oval face shape. A full, round beard on a round face amplifies the roundness.',
     },
     {
       id: 'mod5-l31-q8',
@@ -376,7 +407,8 @@ const EXTRA_QUESTIONS: Record<string, object[]> = {
         'Using a trimmer instead of a razor for the cheek line',
       ],
       correctAnswer: 1,
-      explanation: 'Setting the neckline too high is the most common beard design error. When the neckline is set at or near the jawline, the beard appears to float on the face and the neck looks short. Two finger-widths above the Adam\'s apple is the correct position for most clients.',
+      explanation:
+        "Setting the neckline too high is the most common beard design error. When the neckline is set at or near the jawline, the beard appears to float on the face and the neck looks short. Two finger-widths above the Adam's apple is the correct position for most clients.",
     },
   ],
 
@@ -385,7 +417,8 @@ const EXTRA_QUESTIONS: Record<string, object[]> = {
     {
       id: 'mod5-l32-q6',
       type: 'multiple_choice',
-      question: 'A client experiences razor burn after a shave. Which post-shave product is most appropriate?',
+      question:
+        'A client experiences razor burn after a shave. Which post-shave product is most appropriate?',
       options: [
         'Alcohol-based aftershave — kills bacteria and closes pores',
         'Alum block — reduces inflammation and closes pores without alcohol irritation',
@@ -393,7 +426,8 @@ const EXTRA_QUESTIONS: Record<string, object[]> = {
         'Pre-shave oil applied after the shave to rehydrate the skin',
       ],
       correctAnswer: 2,
-      explanation: 'Razor burn is inflammation — alcohol-based products will worsen it. Witch hazel is a mild astringent that reduces inflammation without the harshness of alcohol. Following with a fragrance-free moisturizer restores the skin barrier. Alum is appropriate for nicks, not razor burn.',
+      explanation:
+        'Razor burn is inflammation — alcohol-based products will worsen it. Witch hazel is a mild astringent that reduces inflammation without the harshness of alcohol. Following with a fragrance-free moisturizer restores the skin barrier. Alum is appropriate for nicks, not razor burn.',
     },
     {
       id: 'mod5-l32-q7',
@@ -406,12 +440,14 @@ const EXTRA_QUESTIONS: Record<string, object[]> = {
         'It neutralizes the pH of the skin after alkaline shaving products',
       ],
       correctAnswer: 1,
-      explanation: 'An alum block is a potassium alum crystal that acts as a mild antiseptic and astringent. When applied to nicks, it constricts blood vessels to stop minor bleeding and closes pores. It is a standard post-shave tool in professional barbering.',
+      explanation:
+        'An alum block is a potassium alum crystal that acts as a mild antiseptic and astringent. When applied to nicks, it constricts blood vessels to stop minor bleeding and closes pores. It is a standard post-shave tool in professional barbering.',
     },
     {
       id: 'mod5-l32-q8',
       type: 'multiple_choice',
-      question: 'After a shave service, a client develops a small nick that is bleeding. What is the correct sequence of actions?',
+      question:
+        'After a shave service, a client develops a small nick that is bleeding. What is the correct sequence of actions?',
       options: [
         'Apply styptic pencil or alum block directly to the nick, then continue the service',
         'Stop the service, put on gloves, apply antiseptic to the nick, dispose of contaminated materials, then complete the service if bleeding stops',
@@ -419,7 +455,8 @@ const EXTRA_QUESTIONS: Record<string, object[]> = {
         'Apply aftershave to the nick — the alcohol will stop the bleeding',
       ],
       correctAnswer: 1,
-      explanation: 'A nick that draws blood triggers the blood exposure protocol: stop the service, put on gloves before touching the affected area, apply antiseptic (alum or styptic), dispose of all contaminated single-use materials in a sealed bag, and clean blood-contaminated tools. The service may continue only after bleeding stops and the area is properly treated.',
+      explanation:
+        'A nick that draws blood triggers the blood exposure protocol: stop the service, put on gloves before touching the affected area, apply antiseptic (alum or styptic), dispose of all contaminated single-use materials in a sealed bag, and clean blood-contaminated tools. The service may continue only after bleeding stops and the area is properly treated.',
     },
   ],
 
@@ -436,7 +473,8 @@ const EXTRA_QUESTIONS: Record<string, object[]> = {
         'The mustache line position depends entirely on client preference with no standard',
       ],
       correctAnswer: 1,
-      explanation: 'The mustache line follows the natural lip line — the mustache hair should just touch the top of the upper lip. Setting the line above the lip creates a gap that looks unnatural. Setting it below removes the definition of the mustache shape.',
+      explanation:
+        'The mustache line follows the natural lip line — the mustache hair should just touch the top of the upper lip. Setting the line above the lip creates a gap that looks unnatural. Setting it below removes the definition of the mustache shape.',
     },
     {
       id: 'mod5-l33-q7',
@@ -449,7 +487,8 @@ const EXTRA_QUESTIONS: Record<string, object[]> = {
         'A mustache that connects to the beard on both sides',
       ],
       correctAnswer: 1,
-      explanation: 'The chevron is a full, wide mustache that covers the entire upper lip and extends slightly past the corners of the mouth. It is one of the most classic mustache styles. The defining feature is its full coverage of the upper lip with a clean, straight bottom edge.',
+      explanation:
+        'The chevron is a full, wide mustache that covers the entire upper lip and extends slightly past the corners of the mouth. It is one of the most classic mustache styles. The defining feature is its full coverage of the upper lip with a clean, straight bottom edge.',
     },
     {
       id: 'mod5-l33-q8',
@@ -462,7 +501,8 @@ const EXTRA_QUESTIONS: Record<string, object[]> = {
         'Apply mustache wax before trimming to hold the hair in position',
       ],
       correctAnswer: 1,
-      explanation: 'Combing the mustache downward to its natural fall before trimming ensures you are cutting the hair at its actual length, not stretched or compressed. Trimming without combing first produces uneven results because the hair is not in its natural position.',
+      explanation:
+        'Combing the mustache downward to its natural fall before trimming ensures you are cutting the hair at its actual length, not stretched or compressed. Trimming without combing first produces uneven results because the hair is not in its natural position.',
     },
   ],
 };
@@ -476,7 +516,10 @@ async function getLessonId(slug: string): Promise<string | null> {
     .eq('course_id', COURSE_ID)
     .eq('slug', slug)
     .single();
-  if (error || !data) { console.error(`  ✗ Not found: ${slug}`, error?.message); return null; }
+  if (error || !data) {
+    console.error(`  ✗ Not found: ${slug}`, error?.message);
+    return null;
+  }
   return data.id;
 }
 

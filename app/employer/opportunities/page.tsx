@@ -15,8 +15,9 @@ export const metadata: Metadata = {
 export default async function OpportunitiesPage() {
   const supabase = await createClient();
 
-
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/employer/opportunities');
 
   const { data: opportunities } = await supabase
@@ -37,7 +38,9 @@ export default async function OpportunitiesPage() {
                 <Briefcase className="w-7 h-7 text-brand-blue-600" />
                 <h1 className="text-2xl md:text-3xl font-bold text-slate-900">Job Opportunities</h1>
               </div>
-              <p className="text-slate-700 ml-10">Post positions and connect with trained, certified graduates.</p>
+              <p className="text-slate-700 ml-10">
+                Post positions and connect with trained, certified graduates.
+              </p>
             </div>
             <Link
               href="/employer/opportunities"
@@ -58,21 +61,37 @@ export default async function OpportunitiesPage() {
               <table className="w-full">
                 <thead className="bg-white border-b">
                   <tr>
-                    <th className="text-left px-6 py-3 text-sm font-semibold text-slate-900">Position</th>
-                    <th className="text-left px-6 py-3 text-sm font-semibold text-slate-900 hidden md:table-cell">Location</th>
-                    <th className="text-left px-6 py-3 text-sm font-semibold text-slate-900 hidden md:table-cell">Status</th>
-                    <th className="text-left px-6 py-3 text-sm font-semibold text-slate-900 hidden md:table-cell">Posted</th>
+                    <th className="text-left px-6 py-3 text-sm font-semibold text-slate-900">
+                      Position
+                    </th>
+                    <th className="text-left px-6 py-3 text-sm font-semibold text-slate-900 hidden md:table-cell">
+                      Location
+                    </th>
+                    <th className="text-left px-6 py-3 text-sm font-semibold text-slate-900 hidden md:table-cell">
+                      Status
+                    </th>
+                    <th className="text-left px-6 py-3 text-sm font-semibold text-slate-900 hidden md:table-cell">
+                      Posted
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100">
                   {opportunities.map((opp: any) => (
                     <tr key={opp.id} className="hover:bg-white">
-                      <td className="px-6 py-4 font-medium text-slate-900">{opp.title || 'Untitled Position'}</td>
-                      <td className="px-6 py-4 text-slate-700 text-sm hidden md:table-cell">{opp.location || '—'}</td>
+                      <td className="px-6 py-4 font-medium text-slate-900">
+                        {opp.title || 'Untitled Position'}
+                      </td>
+                      <td className="px-6 py-4 text-slate-700 text-sm hidden md:table-cell">
+                        {opp.location || '—'}
+                      </td>
                       <td className="px-6 py-4 hidden md:table-cell">
-                        <span className={`text-xs font-medium px-2 py-1 rounded-full ${
-                          opp.status === 'active' ? 'bg-brand-green-50 text-brand-green-700' : 'bg-white text-slate-700'
-                        }`}>
+                        <span
+                          className={`text-xs font-medium px-2 py-1 rounded-full ${
+                            opp.status === 'active'
+                              ? 'bg-brand-green-50 text-brand-green-700'
+                              : 'bg-white text-slate-700'
+                          }`}
+                        >
                           {opp.status || 'draft'}
                         </span>
                       </td>
@@ -88,7 +107,9 @@ export default async function OpportunitiesPage() {
             <div className="bg-white rounded-xl border border-gray-200 p-12 text-center">
               <Search className="w-12 h-12 text-slate-700 mx-auto mb-4" />
               <h3 className="text-lg font-semibold text-slate-900 mb-2">No Opportunities Posted</h3>
-              <p className="text-slate-700 mb-6">Post your first job opportunity to connect with trained graduates.</p>
+              <p className="text-slate-700 mb-6">
+                Post your first job opportunity to connect with trained graduates.
+              </p>
               <Link
                 href="/employer/opportunities"
                 className="bg-brand-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-brand-blue-700 transition inline-flex items-center gap-2"

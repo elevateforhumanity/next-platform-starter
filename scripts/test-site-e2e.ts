@@ -20,16 +20,16 @@ const results: TestResult[] = [];
 async function testPage(name: string, path: string): Promise<void> {
   const url = `${BASE_URL}${path}`;
   const start = Date.now();
-  
+
   try {
     const response = await fetch(url, {
       method: 'GET',
-      headers: { 'Accept': 'text/html' },
+      headers: { Accept: 'text/html' },
     });
-    
+
     const responseTime = Date.now() - start;
     const passed = response.status >= 200 && response.status < 400;
-    
+
     results.push({
       name,
       url: path,
@@ -37,7 +37,7 @@ async function testPage(name: string, path: string): Promise<void> {
       status: response.status,
       responseTime,
     });
-    
+
     if (passed) {
       console.log(`✅ ${name} (${response.status}) - ${responseTime}ms`);
     } else {
@@ -57,17 +57,17 @@ async function testPage(name: string, path: string): Promise<void> {
 async function testAPI(name: string, path: string, method: string = 'GET'): Promise<void> {
   const url = `${BASE_URL}${path}`;
   const start = Date.now();
-  
+
   try {
     const response = await fetch(url, {
       method,
-      headers: { 'Accept': 'application/json' },
+      headers: { Accept: 'application/json' },
     });
-    
+
     const responseTime = Date.now() - start;
     // API routes may return 401 for unauthenticated requests, which is expected
     const passed = response.status >= 200 && response.status < 500;
-    
+
     results.push({
       name,
       url: path,
@@ -75,7 +75,7 @@ async function testAPI(name: string, path: string, method: string = 'GET'): Prom
       status: response.status,
       responseTime,
     });
-    
+
     if (passed) {
       console.log(`✅ ${name} (${response.status}) - ${responseTime}ms`);
     } else {
@@ -94,18 +94,18 @@ async function testAPI(name: string, path: string, method: string = 'GET'): Prom
 
 async function testStaticAsset(name: string, path: string): Promise<void> {
   const url = `${BASE_URL}${path}`;
-  
+
   try {
     const response = await fetch(url, { method: 'HEAD' });
     const passed = response.status === 200;
-    
+
     results.push({
       name,
       url: path,
       passed,
       status: response.status,
     });
-    
+
     if (passed) {
       console.log(`✅ ${name}`);
     } else {
@@ -130,7 +130,7 @@ async function main() {
   // PUBLIC PAGES
   // ============================================================================
   console.log('\n📄 TESTING PUBLIC PAGES...\n');
-  
+
   await testPage('Homepage', '/');
   await testPage('About', '/about');
   await testPage('Contact', '/contact');
@@ -155,7 +155,7 @@ async function main() {
   // STORE PAGES
   // ============================================================================
   console.log('\n🛒 TESTING STORE PAGES...\n');
-  
+
   await testPage('Store', '/store');
   await testPage('Store - Licenses', '/store/licenses');
   await testPage('Store - Courses', '/store/courses');
@@ -166,7 +166,7 @@ async function main() {
   // COMMUNITY PAGES
   // ============================================================================
   console.log('\n👥 TESTING COMMUNITY PAGES...\n');
-  
+
   await testPage('Community', '/community');
   await testPage('Community - Events', '/community/events');
   await testPage('Social', '/social');
@@ -175,7 +175,7 @@ async function main() {
   // HUB PAGES
   // ============================================================================
   console.log('\n🏠 TESTING HUB PAGES...\n');
-  
+
   await testPage('Hub', '/hub');
   await testPage('Hub - Welcome', '/hub/welcome');
 
@@ -183,7 +183,7 @@ async function main() {
   // PORTAL LANDING PAGES
   // ============================================================================
   console.log('\n🚪 TESTING PORTAL LANDING PAGES...\n');
-  
+
   await testPage('Admin Portal', '/admin');
   await testPage('Staff Portal', '/staff-portal');
   await testPage('Student Portal', '/student-portal');
@@ -194,7 +194,7 @@ async function main() {
   // API ROUTES
   // ============================================================================
   console.log('\n🔌 TESTING API ROUTES...\n');
-  
+
   await testAPI('API - Auth Me', '/api/auth/me');
   await testAPI('API - Programs', '/api/programs');
   await testAPI('API - Courses', '/api/courses');
@@ -204,7 +204,7 @@ async function main() {
   // STATIC ASSETS
   // ============================================================================
   console.log('\n📦 TESTING STATIC ASSETS...\n');
-  
+
   await testStaticAsset('Avatar Video - Home Welcome', '/videos/avatars/home-welcome.mp4');
   await testStaticAsset('Avatar Video - Healthcare Guide', '/videos/avatars/healthcare-guide.mp4');
   await testStaticAsset('Avatar Video - Trades Guide', '/videos/avatars/trades-guide.mp4');
@@ -221,8 +221,8 @@ async function main() {
   console.log('📊 TEST SUMMARY');
   console.log('='.repeat(60));
 
-  const passed = results.filter(r => r.passed).length;
-  const failed = results.filter(r => !r.passed).length;
+  const passed = results.filter((r) => r.passed).length;
+  const failed = results.filter((r) => !r.passed).length;
   const total = results.length;
 
   console.log(`\nTotal Tests: ${total}`);
@@ -232,13 +232,15 @@ async function main() {
 
   if (failed > 0) {
     console.log('\n❌ FAILED TESTS:');
-    results.filter(r => !r.passed).forEach(r => {
-      console.log(`  - ${r.name}: ${r.error || `Status ${r.status}`} (${r.url})`);
-    });
+    results
+      .filter((r) => !r.passed)
+      .forEach((r) => {
+        console.log(`  - ${r.name}: ${r.error || `Status ${r.status}`} (${r.url})`);
+      });
   }
 
   // Calculate average response time
-  const responseTimes = results.filter(r => r.responseTime).map(r => r.responseTime!);
+  const responseTimes = results.filter((r) => r.responseTime).map((r) => r.responseTime!);
   if (responseTimes.length > 0) {
     const avgTime = responseTimes.reduce((a, b) => a + b, 0) / responseTimes.length;
     console.log(`\n⏱️  Average Response Time: ${avgTime.toFixed(0)}ms`);

@@ -16,14 +16,17 @@ interface RateLimitStore {
 const store: RateLimitStore = {};
 
 // Clean up old entries every 5 minutes
-setInterval(() => {
-  const now = Date.now();
-  Object.keys(store).forEach((key) => {
-    if (store[key].resetTime < now) {
-      delete store[key];
-    }
-  });
-}, 5 * 60 * 1000);
+setInterval(
+  () => {
+    const now = Date.now();
+    Object.keys(store).forEach((key) => {
+      if (store[key].resetTime < now) {
+        delete store[key];
+      }
+    });
+  },
+  5 * 60 * 1000,
+);
 
 export interface RateLimitConfig {
   /**
@@ -53,7 +56,7 @@ export interface RateLimitResult {
  */
 export function rateLimit(
   identifier: string,
-  config: RateLimitConfig = { limit: 100, window: 60 * 1000 } // 100 requests per minute default
+  config: RateLimitConfig = { limit: 100, window: 60 * 1000 }, // 100 requests per minute default
 ): RateLimitResult {
   const now = Date.now();
   const key = `ratelimit:${identifier}`;
@@ -142,7 +145,7 @@ export const RATE_LIMITS = {
  */
 export function rateLimitNew(
   identifier: string,
-  config: { limit: number; windowMs: number }
+  config: { limit: number; windowMs: number },
 ): { ok: boolean; remaining: number; resetAt?: number } {
   const result = rateLimit(identifier, {
     limit: config.limit,
@@ -162,12 +165,12 @@ export function rateLimitNew(
  */
 export function getClientIdentifier(headers: Headers): string {
   // Try to get real IP from various headers
-  const forwardedFor = headers.get("x-forwarded-for");
-  const realIp = headers.get("x-real-ip");
-  const cfConnectingIp = headers.get("cf-connecting-ip"); // Cloudflare
+  const forwardedFor = headers.get('x-forwarded-for');
+  const realIp = headers.get('x-real-ip');
+  const cfConnectingIp = headers.get('cf-connecting-ip'); // Cloudflare
 
   if (forwardedFor) {
-    return forwardedFor.split(",")[0].trim();
+    return forwardedFor.split(',')[0].trim();
   }
 
   if (realIp) {
@@ -179,7 +182,7 @@ export function getClientIdentifier(headers: Headers): string {
   }
 
   // Fallback to user agent hash (less reliable)
-  const userAgent = headers.get("user-agent") || "unknown";
+  const userAgent = headers.get('user-agent') || 'unknown';
   return `ua:${hashString(userAgent)}`;
 }
 
@@ -201,9 +204,9 @@ function hashString(str: string): string {
  */
 export function createRateLimitHeaders(result: RateLimitResult): Record<string, string> {
   return {
-    "X-RateLimit-Limit": result.limit.toString(),
-    "X-RateLimit-Remaining": result.remaining.toString(),
-    "X-RateLimit-Reset": new Date(result.reset).toISOString(),
-    "Retry-After": Math.ceil((result.reset - Date.now()) / 1000).toString(),
+    'X-RateLimit-Limit': result.limit.toString(),
+    'X-RateLimit-Remaining': result.remaining.toString(),
+    'X-RateLimit-Reset': new Date(result.reset).toISOString(),
+    'Retry-After': Math.ceil((result.reset - Date.now()) / 1000).toString(),
   };
 }

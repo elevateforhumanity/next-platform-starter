@@ -1,4 +1,3 @@
-
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { getOpenAIClient, isOpenAIConfigured } from '@/lib/openai-client';
@@ -14,22 +13,18 @@ export const maxDuration = 60;
 export const dynamic = 'force-dynamic';
 
 async function _GET(request: Request) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-if (!isOpenAIConfigured()) {
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  if (!isOpenAIConfigured()) {
     return NextResponse.json(
       { error: 'AI features not configured. Please set OPENAI_API_KEY.' },
-      { status: 503 }
+      { status: 503 },
     );
   }
 
   const client = getOpenAIClient();
   if (!client) {
-    return NextResponse.json(
-      { error: 'AI service unavailable' },
-      { status: 503 }
-    );
+    return NextResponse.json({ error: 'AI service unavailable' }, { status: 503 });
   }
 
   const supabase = await createClient();
@@ -59,12 +54,17 @@ if (!isOpenAIConfigured()) {
     .limit(100);
 
   // Hydrate profiles separately (user_id → auth.users, no FK to profiles)
-  const dropoutUserIds = [...new Set((rawEnrollments ?? []).map((e: any) => e.user_id).filter(Boolean))];
+  const dropoutUserIds = [
+    ...new Set((rawEnrollments ?? []).map((e: any) => e.user_id).filter(Boolean)),
+  ];
   const { data: dropoutProfiles } = dropoutUserIds.length
     ? await supabase.from('profiles').select('id, email, full_name').in('id', dropoutUserIds)
     : { data: [] };
   const dropoutProfileMap = Object.fromEntries((dropoutProfiles ?? []).map((p: any) => [p.id, p]));
-  const enrollments = (rawEnrollments ?? []).map((e: any) => ({ ...e, profiles: dropoutProfileMap[e.user_id] ?? null }));
+  const enrollments = (rawEnrollments ?? []).map((e: any) => ({
+    ...e,
+    profiles: dropoutProfileMap[e.user_id] ?? null,
+  }));
 
   if (!enrollments || enrollments.length === 0) {
     return NextResponse.json({ scores: [] });
@@ -72,10 +72,10 @@ if (!isOpenAIConfigured()) {
 
   const features = enrollments.map((e: Record<string, any>) => {
     const daysSinceStart = Math.floor(
-      (Date.now() - new Date(e.created_at).getTime()) / (1000 * 60 * 60 * 24)
+      (Date.now() - new Date(e.created_at).getTime()) / (1000 * 60 * 60 * 24),
     );
     const daysSinceActivity = Math.floor(
-      (Date.now() - new Date(e.updated_at).getTime()) / (1000 * 60 * 60 * 24)
+      (Date.now() - new Date(e.updated_at).getTime()) / (1000 * 60 * 60 * 24),
     );
 
     return {
@@ -124,14 +124,14 @@ ${JSON.stringify(features, null, 2)}
     }
 
     return NextResponse.json({ scores: parsed });
-  } catch (error) { 
+  } catch (error) {
     logger.error(
       'Dropout risk prediction error:',
-      error instanceof Error ? error : new Error(String(error))
+      error instanceof Error ? error : new Error(String(error)),
     );
     return NextResponse.json(
       { error: toErrorMessage(error) || 'Failed to predict dropout risk' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

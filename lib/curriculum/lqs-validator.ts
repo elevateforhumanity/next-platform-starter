@@ -60,7 +60,13 @@ const LQS_REQUIRED_TYPES = ['lesson', 'skill', 'checkpoint', 'lab', 'assignment'
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
 function stripHtml(html: string): string {
-  return html.replace(/<[^>]+>/g, ' ').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/\s+/g, ' ').trim();
+  return html
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/\s+/g, ' ')
+    .trim();
 }
 
 function countWords(text: string): number {
@@ -69,7 +75,7 @@ function countWords(text: string): number {
 
 function containsAny(text: string, phrases: string[]): boolean {
   const lower = text.toLowerCase();
-  return phrases.some(p => lower.includes(p.toLowerCase()));
+  return phrases.some((p) => lower.includes(p.toLowerCase()));
 }
 
 function inferLessonType(slug: string): string {
@@ -92,7 +98,8 @@ function checkInstructionalCompleteness(
     violations.push({
       category: 'instructional_completeness',
       rule: 'objective_required',
-      detail: 'Lesson must have an objective of at least 20 characters describing what the learner will be able to do.',
+      detail:
+        'Lesson must have an objective of at least 20 characters describing what the learner will be able to do.',
     });
   }
 
@@ -110,7 +117,9 @@ function checkInstructionalCompleteness(
 
   // Step-by-step execution — required for skill/lab lessons
   if (['lesson', 'skill', 'lab'].includes(type)) {
-    const hasSteps = /<ol[\s>]/i.test(lesson.content ?? '') || containsAny(body, ['step 1', 'step-by-step', 'step by step', 'execution', 'procedure']);
+    const hasSteps =
+      /<ol[\s>]/i.test(lesson.content ?? '') ||
+      containsAny(body, ['step 1', 'step-by-step', 'step by step', 'execution', 'procedure']);
     if (!hasSteps) {
       violations.push({
         category: 'instructional_completeness',
@@ -121,20 +130,31 @@ function checkInstructionalCompleteness(
   }
 }
 
-function checkDecisionLogic(
-  lesson: BlueprintLessonRef,
-  body: string,
-  violations: LQSViolation[],
-) {
+function checkDecisionLogic(lesson: BlueprintLessonRef, body: string, violations: LQSViolation[]) {
   const type = inferLessonType(lesson.slug);
   if (!['lesson', 'skill', 'lab'].includes(type)) return;
 
-  const hasIfThen = containsAny(body, ['if the client', 'if client', 'if hair', 'if skin', 'if the hair', 'depending on', 'for coarse', 'for fine', 'for curly', 'for straight', 'hair type', 'skin type', 'growth pattern']);
+  const hasIfThen = containsAny(body, [
+    'if the client',
+    'if client',
+    'if hair',
+    'if skin',
+    'if the hair',
+    'depending on',
+    'for coarse',
+    'for fine',
+    'for curly',
+    'for straight',
+    'hair type',
+    'skin type',
+    'growth pattern',
+  ]);
   if (!hasIfThen) {
     violations.push({
       category: 'decision_logic',
       rule: 'if_then_required',
-      detail: 'Skill lessons must include at least one IF/THEN decision block covering hair type, skin condition, or client variation.',
+      detail:
+        'Skill lessons must include at least one IF/THEN decision block covering hair type, skin condition, or client variation.',
     });
   }
 }
@@ -147,34 +167,76 @@ function checkSafetyCompliance(
   const type = inferLessonType(lesson.slug);
   if (!['lesson', 'skill', 'lab'].includes(type)) return;
 
-  const hasSanitation = containsAny(body, ['disinfect', 'sanit', 'clean', 'steriliz', 'infection control', 'ppe', 'gloves', 'neck strip', 'drape', 'cape']);
+  const hasSanitation = containsAny(body, [
+    'disinfect',
+    'sanit',
+    'clean',
+    'steriliz',
+    'infection control',
+    'ppe',
+    'gloves',
+    'neck strip',
+    'drape',
+    'cape',
+  ]);
   if (!hasSanitation) {
     violations.push({
       category: 'safety_compliance',
       rule: 'sanitation_required',
-      detail: 'Skill lessons must reference sanitation, disinfection, or infection control procedures.',
+      detail:
+        'Skill lessons must reference sanitation, disinfection, or infection control procedures.',
     });
   }
 
-  const hasContraindication = containsAny(body, ['contraindic', 'do not', 'avoid', 'never', 'not use', 'not apply', 'not perform', 'stop if', 'caution', 'warning', 'acne', 'open skin', 'irritat', 'keloid', 'abrasion']);
+  const hasContraindication = containsAny(body, [
+    'contraindic',
+    'do not',
+    'avoid',
+    'never',
+    'not use',
+    'not apply',
+    'not perform',
+    'stop if',
+    'caution',
+    'warning',
+    'acne',
+    'open skin',
+    'irritat',
+    'keloid',
+    'abrasion',
+  ]);
   if (!hasContraindication) {
     violations.push({
       category: 'safety_compliance',
       rule: 'contraindications_required',
-      detail: 'Skill lessons must include at least one contraindication, caution, or "do not" safety rule.',
+      detail:
+        'Skill lessons must include at least one contraindication, caution, or "do not" safety rule.',
     });
   }
 }
 
-function checkFailureModes(
-  lesson: BlueprintLessonRef,
-  body: string,
-  violations: LQSViolation[],
-) {
+function checkFailureModes(lesson: BlueprintLessonRef, body: string, violations: LQSViolation[]) {
   const type = inferLessonType(lesson.slug);
   if (!['lesson', 'skill', 'lab'].includes(type)) return;
 
-  const hasFailure = containsAny(body, ['failure', 'mistake', 'error', 'goes wrong', 'incorrect', 'recovery', 'recover', 'cause:', 'cause —', 'what causes', 'common mistake', 'avoid', 'problem', 'fix', 'correction', 'correct it']);
+  const hasFailure = containsAny(body, [
+    'failure',
+    'mistake',
+    'error',
+    'goes wrong',
+    'incorrect',
+    'recovery',
+    'recover',
+    'cause:',
+    'cause —',
+    'what causes',
+    'common mistake',
+    'avoid',
+    'problem',
+    'fix',
+    'correction',
+    'correct it',
+  ]);
   if (!hasFailure) {
     violations.push({
       category: 'failure_modes',
@@ -184,28 +246,35 @@ function checkFailureModes(
   }
 }
 
-function checkVisualLogic(
-  lesson: BlueprintLessonRef,
-  body: string,
-  violations: LQSViolation[],
-) {
+function checkVisualLogic(lesson: BlueprintLessonRef, body: string, violations: LQSViolation[]) {
   const type = inferLessonType(lesson.slug);
   if (!['lesson', 'skill', 'lab'].includes(type)) return;
 
-  const hasVisual = containsAny(body, ['correct looks', 'looks like', 'should look', 'visual', 'angle', 'position', 'appearance', 'what correct', 'what incorrect', 'incorrect looks', 'you should see', 'result should']);
+  const hasVisual = containsAny(body, [
+    'correct looks',
+    'looks like',
+    'should look',
+    'visual',
+    'angle',
+    'position',
+    'appearance',
+    'what correct',
+    'what incorrect',
+    'incorrect looks',
+    'you should see',
+    'result should',
+  ]);
   if (!hasVisual) {
     violations.push({
       category: 'visual_logic',
       rule: 'visual_logic_required',
-      detail: 'Skill lessons must describe what correct execution looks like versus incorrect, including angles, positioning, or visual cues.',
+      detail:
+        'Skill lessons must describe what correct execution looks like versus incorrect, including angles, positioning, or visual cues.',
     });
   }
 }
 
-function checkAssessmentQuality(
-  lesson: BlueprintLessonRef,
-  violations: LQSViolation[],
-) {
+function checkAssessmentQuality(lesson: BlueprintLessonRef, violations: LQSViolation[]) {
   const type = inferLessonType(lesson.slug);
   // Checkpoints and exams have their own question requirements
   if (['exam', 'certification'].includes(type)) return;
@@ -223,10 +292,21 @@ function checkAssessmentQuality(
 
   // Check for judgment-based questions (not pure recall)
   // Judgment questions contain scenario language or decision prompts
-  const judgmentPhrases = ['what should', 'what is the best', 'what would', 'which adjustment', 'how should', 'what is the correct', 'what is the most', 'a client has', 'you notice', 'you finish', 'during', 'after'];
-  const judgmentCount = questions.filter(q =>
-    containsAny(q.question, judgmentPhrases)
-  ).length;
+  const judgmentPhrases = [
+    'what should',
+    'what is the best',
+    'what would',
+    'which adjustment',
+    'how should',
+    'what is the correct',
+    'what is the most',
+    'a client has',
+    'you notice',
+    'you finish',
+    'during',
+    'after',
+  ];
+  const judgmentCount = questions.filter((q) => containsAny(q.question, judgmentPhrases)).length;
 
   if (judgmentCount < 2) {
     violations.push({
@@ -237,7 +317,9 @@ function checkAssessmentQuality(
   }
 
   // Check that all questions have explanations
-  const missingExplanations = questions.filter(q => !q.explanation || q.explanation.trim().length < 20);
+  const missingExplanations = questions.filter(
+    (q) => !q.explanation || q.explanation.trim().length < 20,
+  );
   if (missingExplanations.length > 0) {
     violations.push({
       category: 'assessment_quality',
@@ -303,9 +385,7 @@ export function validateLessonQuality(lesson: BlueprintLessonRef): LQSResult {
  * Validates all lessons in a blueprint module array.
  * Returns all results — caller decides whether to throw on any failure.
  */
-export function validateBlueprintLessons(
-  lessons: BlueprintLessonRef[],
-): LQSResult[] {
+export function validateBlueprintLessons(lessons: BlueprintLessonRef[]): LQSResult[] {
   return lessons.map(validateLessonQuality);
 }
 
@@ -318,13 +398,11 @@ export function assertBlueprintLessonQuality(
   context = 'Blueprint',
 ): void {
   const results = validateBlueprintLessons(lessons);
-  const failures = results.filter(r => !r.passed);
+  const failures = results.filter((r) => !r.passed);
 
   if (failures.length === 0) return;
 
-  const lines: string[] = [
-    `\n${context}: ${failures.length} lesson(s) failed LQS validation.\n`,
-  ];
+  const lines: string[] = [`\n${context}: ${failures.length} lesson(s) failed LQS validation.\n`];
 
   for (const f of failures) {
     lines.push(`  ❌ ${f.slug} (${f.wordCount} words, ${f.questionCount} questions)`);

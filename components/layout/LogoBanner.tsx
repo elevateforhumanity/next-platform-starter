@@ -12,12 +12,12 @@ import { usePathname } from 'next/navigation';
  */
 export function LogoStamp() {
   const pathname = usePathname();
-  
+
   // Don't show on homepage (it has its own brand section)
   if (pathname === '/') return null;
 
   return (
-    <Link 
+    <Link
       href="/"
       className="fixed bottom-6 left-6 z-40 group hidden md:flex flex-col items-center gap-1 opacity-60 hover:opacity-100 transition-opacity"
       aria-label="Elevate for Humanity - Go to homepage"

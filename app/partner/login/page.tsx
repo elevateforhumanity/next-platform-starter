@@ -9,7 +9,8 @@ import { createClient } from '@/lib/supabase/client';
 
 const IDENTITY_ERRORS: Record<string, string> = {
   identity: 'Your account could not be verified. Please contact support.',
-  no_partner: 'Your account is not linked to a partner organization. Please contact support at info@elevateforhumanity.org.',
+  no_partner:
+    'Your account is not linked to a partner organization. Please contact support at info@elevateforhumanity.org.',
 };
 
 function PartnerLoginPageInner() {
@@ -78,7 +79,9 @@ function PartnerLoginPageInner() {
 
       // Check partner status
       if (partnerUser.status === 'pending_activation') {
-        throw new Error('Your partner account is pending activation. Please check your email for the activation link.');
+        throw new Error(
+          'Your partner account is pending activation. Please check your email for the activation link.',
+        );
       }
 
       if (partnerUser.status === 'suspended') {
@@ -88,10 +91,11 @@ function PartnerLoginPageInner() {
 
       // Success - redirect to partner dashboard
       router.push('/partner/attendance');
-
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : (err as any)?.message;
-      setError(typeof msg === 'string' && msg ? msg : 'Login failed. Please check your credentials.');
+      setError(
+        typeof msg === 'string' && msg ? msg : 'Login failed. Please check your credentials.',
+      );
     } finally {
       setIsLoading(false);
     }
@@ -132,10 +136,16 @@ function PartnerLoginPageInner() {
 
   return (
     <div className="min-h-screen bg-white flex items-center justify-center px-4">
-
       {/* Hero Image */}
       <section className="relative h-[160px] sm:h-[220px] md:h-[280px] overflow-hidden">
-        <Image src="/images/pages/partner-page-8.jpg" alt="Partner login" fill sizes="100vw" className="object-cover" priority />
+        <Image
+          src="/images/pages/partner-page-8.jpg"
+          alt="Partner login"
+          fill
+          sizes="100vw"
+          className="object-cover"
+          priority
+        />
       </section>
       <div className="max-w-md w-full">
         <div className="text-center mb-8">
@@ -153,19 +163,19 @@ function PartnerLoginPageInner() {
               <span>{error}</span>
             </div>
           )}
-          
+
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label className="block text-sm font-medium text-slate-900 mb-2">Email Address</label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-700" />
-                <input 
-                  type="email" 
-                  required 
-                  value={email} 
+                <input
+                  type="email"
+                  required
+                  value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500" 
-                  placeholder="partner@company.com" 
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                  placeholder="partner@company.com"
                 />
               </div>
             </div>
@@ -174,33 +184,41 @@ function PartnerLoginPageInner() {
               <label className="block text-sm font-medium text-slate-900 mb-2">Password</label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-700" />
-                <input 
-                  type="password" 
-                  required 
-                  value={password} 
+                <input
+                  type="password"
+                  required
+                  value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500" 
-                  placeholder="••••••••" 
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                  placeholder="••••••••"
                 />
               </div>
             </div>
 
             <div className="flex items-center justify-between">
               <label className="flex items-center">
-                <input type="checkbox" className="w-4 h-4 text-brand-blue-600 border-gray-300 rounded focus:ring-brand-blue-500" />
+                <input
+                  type="checkbox"
+                  className="w-4 h-4 text-brand-blue-600 border-gray-300 rounded focus:ring-brand-blue-500"
+                />
                 <span className="ml-2 text-sm text-slate-700">Remember me</span>
               </label>
-              <Link href="/reset-password" className="text-sm text-brand-blue-600 hover:text-brand-blue-700">
+              <Link
+                href="/reset-password"
+                className="text-sm text-brand-blue-600 hover:text-brand-blue-700"
+              >
                 Forgot password?
               </Link>
             </div>
 
-            <button 
-              type="submit" 
+            <button
+              type="submit"
               disabled={isLoading}
               className="w-full bg-brand-blue-600 hover:bg-brand-blue-700 text-white py-3 rounded-lg font-bold transition disabled:opacity-50 flex items-center justify-center"
             >
-              {isLoading ? 'Signing in...' : (
+              {isLoading ? (
+                'Signing in...'
+              ) : (
                 <>
                   <span>Sign In</span>
                   <ArrowRight className="ml-2 w-5 h-5" />
@@ -229,7 +247,10 @@ function PartnerLoginPageInner() {
           <div className="mt-6 pt-6 border-t text-center">
             <p className="text-slate-700">
               Not a partner yet?{' '}
-              <Link href="/partner/onboarding" className="text-brand-blue-600 font-medium hover:text-brand-blue-700">
+              <Link
+                href="/partner/onboarding"
+                className="text-brand-blue-600 font-medium hover:text-brand-blue-700"
+              >
                 Apply here
               </Link>
             </p>

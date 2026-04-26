@@ -17,30 +17,49 @@ export default async function JRIPage() {
   await requireRole(['admin', 'super_admin']);
   const supabase = await createClient();
 
+  const [totalRes, activeRes, completedRes, placedRes, recentRes, breakdownRes] = await Promise.all(
+    [
+      supabase.from('jri_participants').select('id', { count: 'exact', head: true }),
+      supabase
+        .from('jri_participants')
+        .select('id', { count: 'exact', head: true })
+        .eq('status', 'active'),
+      supabase
+        .from('jri_participants')
+        .select('id', { count: 'exact', head: true })
+        .eq('status', 'completed'),
+      supabase
+        .from('jri_participants')
+        .select('id', { count: 'exact', head: true })
+        .eq('employment_status', 'employed'),
+      supabase
+        .from('jri_participants')
+        .select('id, status, program, enrolled_at, employment_status, profiles(full_name, email)')
+        .order('enrolled_at', { ascending: false })
+        .limit(12),
+      supabase.from('jri_participants').select('program, status').limit(500),
+    ],
+  );
 
+  if (totalRes.error)
+    throw new Error(`jri_participants total count failed: ${totalRes.error.message}`);
+  if (activeRes.error)
+    throw new Error(`jri_participants active count failed: ${activeRes.error.message}`);
+  if (completedRes.error)
+    throw new Error(`jri_participants completed count failed: ${completedRes.error.message}`);
+  if (placedRes.error)
+    throw new Error(`jri_participants placed count failed: ${placedRes.error.message}`);
+  if (recentRes.error)
+    throw new Error(`jri_participants recent query failed: ${recentRes.error.message}`);
+  if (breakdownRes.error)
+    throw new Error(`jri_participants breakdown query failed: ${breakdownRes.error.message}`);
 
-  const [totalRes, activeRes, completedRes, placedRes, recentRes, breakdownRes] = await Promise.all([
-    supabase.from('jri_participants').select('id', { count: 'exact', head: true }),
-    supabase.from('jri_participants').select('id', { count: 'exact', head: true }).eq('status', 'active'),
-    supabase.from('jri_participants').select('id', { count: 'exact', head: true }).eq('status', 'completed'),
-    supabase.from('jri_participants').select('id', { count: 'exact', head: true }).eq('employment_status', 'employed'),
-    supabase.from('jri_participants').select('id, status, program, enrolled_at, employment_status, profiles(full_name, email)').order('enrolled_at', { ascending: false }).limit(12),
-    supabase.from('jri_participants').select('program, status').limit(500),
-  ]);
-
-  if (totalRes.error)     throw new Error(`jri_participants total count failed: ${totalRes.error.message}`);
-  if (activeRes.error)    throw new Error(`jri_participants active count failed: ${activeRes.error.message}`);
-  if (completedRes.error) throw new Error(`jri_participants completed count failed: ${completedRes.error.message}`);
-  if (placedRes.error)    throw new Error(`jri_participants placed count failed: ${placedRes.error.message}`);
-  if (recentRes.error)    throw new Error(`jri_participants recent query failed: ${recentRes.error.message}`);
-  if (breakdownRes.error) throw new Error(`jri_participants breakdown query failed: ${breakdownRes.error.message}`);
-
-  const totalParticipants     = totalRes.count;
-  const activeParticipants    = activeRes.count;
+  const totalParticipants = totalRes.count;
+  const activeParticipants = activeRes.count;
   const completedParticipants = completedRes.count;
-  const placedParticipants    = placedRes.count;
-  const recentParticipants    = recentRes.data;
-  const programBreakdown      = breakdownRes.data;
+  const placedParticipants = placedRes.count;
+  const recentParticipants = recentRes.data;
+  const programBreakdown = breakdownRes.data;
 
   const byProgram: Record<string, number> = {};
   for (const p of programBreakdown) {
@@ -48,8 +67,10 @@ export default async function JRIPage() {
     byProgram[prog] = (byProgram[prog] || 0) + 1;
   }
 
-  const placementRate = (totalParticipants || 0) > 0
-    ? Math.round(((placedParticipants || 0) / (totalParticipants || 1)) * 100) : 0;
+  const placementRate =
+    (totalParticipants || 0) > 0
+      ? Math.round(((placedParticipants || 0) / (totalParticipants || 1)) * 100)
+      : 0;
 
   const statusBadge: Record<string, string> = {
     active: 'bg-green-100 text-green-700',
@@ -68,13 +89,21 @@ export default async function JRIPage() {
           <div className="flex justify-between items-center mt-4">
             <div>
               <h1 className="text-3xl font-bold text-slate-900">Job Ready Indy</h1>
-              <p className="text-slate-700 mt-1">Job Ready Indy — Indianapolis Workforce Initiative</p>
+              <p className="text-slate-700 mt-1">
+                Job Ready Indy — Indianapolis Workforce Initiative
+              </p>
             </div>
             <div className="flex gap-3">
-              <Link href="/admin/jri/reports" className="border border-gray-300 text-slate-900 px-4 py-2 rounded-lg hover:bg-gray-50 text-sm">
+              <Link
+                href="/admin/jri/reports"
+                className="border border-gray-300 text-slate-900 px-4 py-2 rounded-lg hover:bg-gray-50 text-sm"
+              >
                 Reports
               </Link>
-              <Link href="/admin/jri/participants/new" className="bg-brand-blue-600 text-white px-4 py-2 rounded-lg hover:bg-brand-blue-700 text-sm font-medium">
+              <Link
+                href="/admin/jri/participants/new"
+                className="bg-brand-blue-600 text-white px-4 py-2 rounded-lg hover:bg-brand-blue-700 text-sm font-medium"
+              >
                 Add Participant
               </Link>
             </div>
@@ -118,20 +147,30 @@ export default async function JRIPage() {
             <h2 className="text-base font-semibold text-slate-900 mb-4">Participants by Program</h2>
             {Object.keys(byProgram).length > 0 ? (
               <div className="space-y-3">
-                {Object.entries(byProgram).sort(([, a], [, b]) => b - a).map(([prog, count]) => {
-                  const pct = (totalParticipants || 0) > 0 ? Math.round((count / (totalParticipants || 1)) * 100) : 0;
-                  return (
-                    <div key={prog}>
-                      <div className="flex justify-between text-sm mb-1">
-                        <span className="text-slate-900 truncate max-w-[160px]">{prog}</span>
-                        <span className="font-medium text-slate-900">{count} <span className="text-slate-700 font-normal">({pct}%)</span></span>
+                {Object.entries(byProgram)
+                  .sort(([, a], [, b]) => b - a)
+                  .map(([prog, count]) => {
+                    const pct =
+                      (totalParticipants || 0) > 0
+                        ? Math.round((count / (totalParticipants || 1)) * 100)
+                        : 0;
+                    return (
+                      <div key={prog}>
+                        <div className="flex justify-between text-sm mb-1">
+                          <span className="text-slate-900 truncate max-w-[160px]">{prog}</span>
+                          <span className="font-medium text-slate-900">
+                            {count} <span className="text-slate-700 font-normal">({pct}%)</span>
+                          </span>
+                        </div>
+                        <div className="w-full bg-gray-100 rounded-full h-2">
+                          <div
+                            className="h-2 rounded-full bg-brand-blue-500"
+                            style={{ width: `${pct}%` }}
+                          />
+                        </div>
                       </div>
-                      <div className="w-full bg-gray-100 rounded-full h-2">
-                        <div className="h-2 rounded-full bg-brand-blue-500" style={{ width: `${pct}%` }} />
-                      </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
               </div>
             ) : (
               <p className="text-slate-700 text-sm text-center py-4">No program data yet</p>
@@ -141,7 +180,10 @@ export default async function JRIPage() {
           <div className="lg:col-span-2 bg-white rounded-xl shadow-sm border">
             <div className="p-5 border-b flex justify-between items-center">
               <h2 className="text-base font-semibold text-slate-900">Recent Participants</h2>
-              <Link href="/admin/jri/participants" className="text-sm text-brand-blue-600 hover:text-brand-blue-800 flex items-center gap-1">
+              <Link
+                href="/admin/jri/participants"
+                className="text-sm text-brand-blue-600 hover:text-brand-blue-800 flex items-center gap-1"
+              >
                 View all <ArrowRight size={14} />
               </Link>
             </div>
@@ -149,44 +191,68 @@ export default async function JRIPage() {
               <table className="w-full text-sm">
                 <thead className="bg-gray-50 border-b">
                   <tr>
-                    <th className="text-left px-4 py-3 text-xs font-medium text-slate-700 uppercase">Participant</th>
-                    <th className="text-left px-4 py-3 text-xs font-medium text-slate-700 uppercase">Program</th>
-                    <th className="text-left px-4 py-3 text-xs font-medium text-slate-700 uppercase">Status</th>
-                    <th className="text-left px-4 py-3 text-xs font-medium text-slate-700 uppercase">Employment</th>
-                    <th className="text-left px-4 py-3 text-xs font-medium text-slate-700 uppercase">Enrolled</th>
+                    <th className="text-left px-4 py-3 text-xs font-medium text-slate-700 uppercase">
+                      Participant
+                    </th>
+                    <th className="text-left px-4 py-3 text-xs font-medium text-slate-700 uppercase">
+                      Program
+                    </th>
+                    <th className="text-left px-4 py-3 text-xs font-medium text-slate-700 uppercase">
+                      Status
+                    </th>
+                    <th className="text-left px-4 py-3 text-xs font-medium text-slate-700 uppercase">
+                      Employment
+                    </th>
+                    <th className="text-left px-4 py-3 text-xs font-medium text-slate-700 uppercase">
+                      Enrolled
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="divide-y">
-                  {recentParticipants && recentParticipants.length > 0 ? recentParticipants.map((p: any) => (
-                    <tr key={p.id} className="hover:bg-gray-50">
-                      <td className="px-4 py-3">
-                        <div className="flex items-center gap-2">
-                          <div className="w-7 h-7 bg-brand-blue-100 rounded-full flex items-center justify-center">
-                            <User className="w-3.5 h-3.5 text-brand-blue-600" />
+                  {recentParticipants && recentParticipants.length > 0 ? (
+                    recentParticipants.map((p: any) => (
+                      <tr key={p.id} className="hover:bg-gray-50">
+                        <td className="px-4 py-3">
+                          <div className="flex items-center gap-2">
+                            <div className="w-7 h-7 bg-brand-blue-100 rounded-full flex items-center justify-center">
+                              <User className="w-3.5 h-3.5 text-brand-blue-600" />
+                            </div>
+                            <div>
+                              <p className="font-medium text-slate-900">
+                                {(p.profiles as any)?.full_name || 'Participant'}
+                              </p>
+                              <p className="text-xs text-slate-700">
+                                {(p.profiles as any)?.email || '—'}
+                              </p>
+                            </div>
                           </div>
-                          <div>
-                            <p className="font-medium text-slate-900">{(p.profiles as any)?.full_name || 'Participant'}</p>
-                            <p className="text-xs text-slate-700">{(p.profiles as any)?.email || '—'}</p>
-                          </div>
-                        </div>
-                      </td>
-                      <td className="px-4 py-3 text-slate-700 text-xs">{p.program || '—'}</td>
-                      <td className="px-4 py-3">
-                        <span className={`text-xs px-2 py-1 rounded-full capitalize ${statusBadge[p.status] || 'bg-gray-100 text-slate-700'}`}>
-                          {p.status || 'pending'}
-                        </span>
-                      </td>
-                      <td className="px-4 py-3">
-                        <span className={`text-xs px-2 py-1 rounded-full capitalize ${statusBadge[p.employment_status] || 'bg-gray-100 text-slate-700'}`}>
-                          {p.employment_status || '—'}
-                        </span>
-                      </td>
-                      <td className="px-4 py-3 text-slate-700 text-xs">
-                        {p.enrolled_at ? new Date(p.enrolled_at).toLocaleDateString() : '—'}
+                        </td>
+                        <td className="px-4 py-3 text-slate-700 text-xs">{p.program || '—'}</td>
+                        <td className="px-4 py-3">
+                          <span
+                            className={`text-xs px-2 py-1 rounded-full capitalize ${statusBadge[p.status] || 'bg-gray-100 text-slate-700'}`}
+                          >
+                            {p.status || 'pending'}
+                          </span>
+                        </td>
+                        <td className="px-4 py-3">
+                          <span
+                            className={`text-xs px-2 py-1 rounded-full capitalize ${statusBadge[p.employment_status] || 'bg-gray-100 text-slate-700'}`}
+                          >
+                            {p.employment_status || '—'}
+                          </span>
+                        </td>
+                        <td className="px-4 py-3 text-slate-700 text-xs">
+                          {p.enrolled_at ? new Date(p.enrolled_at).toLocaleDateString() : '—'}
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan={5} className="px-4 py-8 text-center text-slate-700">
+                        No Job Ready Indy participants yet
                       </td>
                     </tr>
-                  )) : (
-                    <tr><td colSpan={5} className="px-4 py-8 text-center text-slate-700">No Job Ready Indy participants yet</td></tr>
                   )}
                 </tbody>
               </table>
@@ -196,11 +262,30 @@ export default async function JRIPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {[
-            { href: '/admin/jri/participants', icon: Users, label: 'All Participants', desc: 'View and manage all Job Ready Indy participants' },
-            { href: '/admin/jri/reports', icon: FileText, label: 'Compliance Reports', desc: 'Generate Job Ready Indy compliance reports' },
-            { href: '/admin/funding', icon: Briefcase, label: 'Funding Tracking', desc: 'Job Ready Indy funding allocations and disbursements' },
+            {
+              href: '/admin/jri/participants',
+              icon: Users,
+              label: 'All Participants',
+              desc: 'View and manage all Job Ready Indy participants',
+            },
+            {
+              href: '/admin/jri/reports',
+              icon: FileText,
+              label: 'Compliance Reports',
+              desc: 'Generate Job Ready Indy compliance reports',
+            },
+            {
+              href: '/admin/funding',
+              icon: Briefcase,
+              label: 'Funding Tracking',
+              desc: 'Job Ready Indy funding allocations and disbursements',
+            },
           ].map((item) => (
-            <Link key={item.href} href={item.href} className="bg-white rounded-xl shadow-sm border p-5 hover:shadow-md transition-shadow flex items-start gap-4">
+            <Link
+              key={item.href}
+              href={item.href}
+              className="bg-white rounded-xl shadow-sm border p-5 hover:shadow-md transition-shadow flex items-start gap-4"
+            >
               <div className="w-10 h-10 bg-brand-blue-50 rounded-lg flex items-center justify-center flex-shrink-0">
                 <item.icon className="w-5 h-5 text-brand-blue-600" />
               </div>

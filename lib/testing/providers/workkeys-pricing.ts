@@ -6,34 +6,34 @@ import { calculatePrice, calculateRetakePrice, calculateNoShowFee } from '../pri
 
 /** ⚠️ ESTIMATE — verify against your ACT WorkKeys agreement */
 const VOUCHER_COST_PER_ASSESSMENT = 18;
-const PROCTOR_COST                = 22;
-const OVERHEAD_COST               = 12;
+const PROCTOR_COST = 22;
+const OVERHEAD_COST = 12;
 
 // ─── Calculated prices ───────────────────────────────────────────────────────
 
 const individual = calculatePrice({
-  voucherCost:  VOUCHER_COST_PER_ASSESSMENT,
-  proctorCost:  PROCTOR_COST,
+  voucherCost: VOUCHER_COST_PER_ASSESSMENT,
+  proctorCost: PROCTOR_COST,
   overheadCost: OVERHEAD_COST,
-  provider:     'workkeys',
+  provider: 'workkeys',
 });
 
 // NCRC = 3 assessments. Proctor cost is shared across the session (not 3×).
-const ncrcTrueCost = (VOUCHER_COST_PER_ASSESSMENT * 3) + PROCTOR_COST + OVERHEAD_COST;
-const ncrcPrice    = Math.ceil(ncrcTrueCost * 1.9); // same multiplier as individual
-const ncrcProfit   = ncrcPrice - ncrcTrueCost;
-const ncrcMargin   = ncrcProfit / ncrcPrice;
+const ncrcTrueCost = VOUCHER_COST_PER_ASSESSMENT * 3 + PROCTOR_COST + OVERHEAD_COST;
+const ncrcPrice = Math.ceil(ncrcTrueCost * 1.9); // same multiplier as individual
+const ncrcProfit = ncrcPrice - ncrcTrueCost;
+const ncrcMargin = ncrcProfit / ncrcPrice;
 
 // Agency referral — WorkOne / WIOA-referred candidates.
 // Reduced price is a business decision, not a cost reduction.
 // Must still clear the margin floor — if it doesn't, raise it.
-const agencyPrice  = Math.ceil(individual.price * 0.80); // 20% below individual
+const agencyPrice = Math.ceil(individual.price * 0.8); // 20% below individual
 const agencyMargin = (agencyPrice - individual.trueCost) / agencyPrice;
 
-if (agencyMargin < 0.30) {
+if (agencyMargin < 0.3) {
   throw new Error(
     `[workkeys-pricing] Agency referral price $${agencyPrice} produces ` +
-    `${(agencyMargin * 100).toFixed(1)}% margin — below 30% floor. Raise agency price.`
+      `${(agencyMargin * 100).toFixed(1)}% margin — below 30% floor. Raise agency price.`,
   );
 }
 
@@ -43,9 +43,9 @@ export const WORKKEYS_PRICING = {
    * Applied Math · Workplace Documents · Graphic Literacy
    */
   individual: {
-    price:    individual.price,
+    price: individual.price,
     trueCost: individual.trueCost,
-    margin:   individual.margin,
+    margin: individual.margin,
   },
 
   /**
@@ -53,9 +53,9 @@ export const WORKKEYS_PRICING = {
    * Discount vs 3× individual because proctor time is shared.
    */
   ncrc: {
-    price:    ncrcPrice,
+    price: ncrcPrice,
     trueCost: ncrcTrueCost,
-    margin:   ncrcMargin,
+    margin: ncrcMargin,
   },
 
   /**
@@ -65,9 +65,9 @@ export const WORKKEYS_PRICING = {
    *     a government agency's program costs.
    */
   agencyReferral: {
-    price:    agencyPrice,
+    price: agencyPrice,
     trueCost: individual.trueCost,
-    margin:   agencyMargin,
+    margin: agencyMargin,
   },
 
   /** Retake fee — voucher + reduced overhead, no full proctor allocation */
@@ -80,18 +80,18 @@ export const WORKKEYS_PRICING = {
 /** Fee rows for display in proctoring-capabilities.ts */
 export const WORKKEYS_FEES = [
   {
-    label:  'Per assessment (individual)',
+    label: 'Per assessment (individual)',
     amount: WORKKEYS_PRICING.individual.price,
-    note:   'Applied Math · Workplace Documents · Graphic Literacy',
+    note: 'Applied Math · Workplace Documents · Graphic Literacy',
   },
   {
-    label:  'Full NCRC (3 assessments)',
+    label: 'Full NCRC (3 assessments)',
     amount: WORKKEYS_PRICING.ncrc.price,
-    note:   'All 3 sections in one session — save vs individual rate',
+    note: 'All 3 sections in one session — save vs individual rate',
   },
   {
-    label:  'Per assessment (workforce agency referral)',
+    label: 'Per assessment (workforce agency referral)',
     amount: WORKKEYS_PRICING.agencyReferral.price,
-    note:   'WorkOne / WIOA-referred candidates',
+    note: 'WorkOne / WIOA-referred candidates',
   },
 ] as const;

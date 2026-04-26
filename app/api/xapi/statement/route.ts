@@ -1,4 +1,3 @@
-
 // app/api/xapi/statement/route.ts
 // xAPI Learning Record Store (LRS) endpoint
 import { NextRequest, NextResponse } from 'next/server';
@@ -18,13 +17,19 @@ export const dynamic = 'force-dynamic';
  */
 async function _POST(request: NextRequest) {
   const supabase = await getAdminClient();
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
 
-    const { apiAuthGuard } = await import('@/lib/admin/guards');
-    try { await apiAuthGuard(request); } catch (e) { return e instanceof Response ? e : NextResponse.json({ error: 'Unauthorized' }, { status: 401 }); }
+  const { apiAuthGuard } = await import('@/lib/admin/guards');
+  try {
+    await apiAuthGuard(request);
+  } catch (e) {
+    return e instanceof Response
+      ? e
+      : NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
 
-    try {
+  try {
     const body = await parseBody<Record<string, any>>(request);
 
     // xAPI statement can be single or array; normalize
@@ -58,25 +63,17 @@ async function _POST(request: NextRequest) {
       };
     });
 
-    const { error } = await supabase
-      .from('xapi_statements')
-      .insert(records);
+    const { error } = await supabase.from('xapi_statements').insert(records);
 
     if (error) {
       logger.error('xAPI storage error:', error);
-      return NextResponse.json(
-        { error: 'Failed to store statements' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to store statements' }, { status: 500 });
     }
 
     return NextResponse.json({ stored: records.length });
-  } catch (error) { 
+  } catch (error) {
     logger.error('xAPI endpoint error:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -86,9 +83,9 @@ async function _POST(request: NextRequest) {
  */
 async function _GET(request: NextRequest) {
   const supabase = await getAdminClient();
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
+
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
   try {
     const { searchParams } = new URL(request.url);
     const learnerId = searchParams.get('actor');
@@ -113,19 +110,13 @@ async function _GET(request: NextRequest) {
 
     if (error) {
       logger.error('xAPI query error:', error);
-      return NextResponse.json(
-        { error: 'Failed to retrieve statements' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to retrieve statements' }, { status: 500 });
     }
 
     return NextResponse.json({ statements: data });
-  } catch (error) { 
+  } catch (error) {
     logger.error('xAPI query endpoint error:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/xapi/statement', _GET);

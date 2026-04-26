@@ -1,6 +1,5 @@
 import { getStripeServer } from '@/lib/stripe/get-stripe-server';
 
-
 import { NextRequest, NextResponse } from 'next/server';
 
 // Stripe is loaded lazily via getStripeServer() inside each handler.
@@ -41,7 +40,7 @@ async function verifyCustomerOwnership(userId: string, customerId: string): Prom
     .select('stripe_customer_id')
     .eq('id', userId)
     .maybeSingle();
-  
+
   return profile?.stripe_customer_id === customerId;
 }
 
@@ -56,7 +55,7 @@ async function verifyPaymentOwnership(userId: string, paymentId: string): Promis
     .select('user_id')
     .eq('id', paymentId)
     .maybeSingle();
-  
+
   return payment?.user_id === userId;
 }
 
@@ -64,14 +63,17 @@ async function verifyPaymentOwnership(userId: string, paymentId: string): Promis
  * Verify that the subscription belongs to the authenticated user.
  * Prevents unauthorized subscription cancellation.
  */
-async function verifySubscriptionOwnership(userId: string, subscriptionId: string): Promise<boolean> {
+async function verifySubscriptionOwnership(
+  userId: string,
+  subscriptionId: string,
+): Promise<boolean> {
   const supabase = await createClient();
   const { data: subscription } = await supabase
     .from('subscriptions')
     .select('user_id')
     .eq('stripe_subscription_id', subscriptionId)
     .maybeSingle();
-  
+
   return subscription?.user_id === userId;
 }
 
@@ -86,7 +88,7 @@ async function getUserStripeCustomerId(userId: string): Promise<string | null> {
     .select('stripe_customer_id')
     .eq('id', userId)
     .maybeSingle();
-  
+
   return profile?.stripe_customer_id || null;
 }
 
@@ -113,16 +115,13 @@ async function _GET(request: NextRequest) {
       case 'methods':
         const customerId = searchParams.get('customerId');
         if (!customerId) {
-          return NextResponse.json(
-            { error: 'customerId required' },
-            { status: 400 }
-          );
+          return NextResponse.json({ error: 'customerId required' }, { status: 400 });
         }
         // Verify the customer belongs to the authenticated user
         if (!(await verifyCustomerOwnership(user.id, customerId))) {
           return NextResponse.json(
             { error: 'Access denied: customer does not belong to you' },
-            { status: 403 }
+            { status: 403 },
           );
         }
         const methods = await getPaymentMethods(customerId);
@@ -131,12 +130,9 @@ async function _GET(request: NextRequest) {
       default:
         return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
     }
-  } catch (error) { 
+  } catch (error) {
     logger.error('Payments GET error:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch payment data' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to fetch payment data' }, { status: 500 });
   }
 }
 
@@ -154,17 +150,10 @@ async function _POST(request: NextRequest) {
     if (action === 'webhook') {
       const signature = request.headers.get('stripe-signature');
       if (!signature) {
-        return NextResponse.json(
-          { error: 'Missing signature' },
-          { status: 400 }
-        );
+        return NextResponse.json({ error: 'Missing signature' }, { status: 400 });
       }
 
-      const event = verifyWebhookSignature(
-        rawBody,
-        signature,
-        process.env.STRIPE_WEBHOOK_SECRET!
-      );
+      const event = verifyWebhookSignature(rawBody, signature, process.env.STRIPE_WEBHOOK_SECRET!);
 
       await handleStripeWebhook(event);
       return NextResponse.json({ received: true });
@@ -182,43 +171,34 @@ async function _POST(request: NextRequest) {
       case 'create-intent':
         const { courseId, amount, currency, referralCode } = body;
         if (!courseId || !amount) {
-          return NextResponse.json(
-            { error: 'courseId and amount required' },
-            { status: 400 }
-          );
+          return NextResponse.json({ error: 'courseId and amount required' }, { status: 400 });
         }
         const intent = await createCoursePaymentIntent(
           user.id,
           courseId,
           amount,
           currency,
-          referralCode
+          referralCode,
         );
         return NextResponse.json({ intent });
 
       case 'create-subscription-intent':
         const { planId, subscriptionAmount, subscriptionCurrency } = body;
         if (!planId || !subscriptionAmount) {
-          return NextResponse.json(
-            { error: 'planId and amount required' },
-            { status: 400 }
-          );
+          return NextResponse.json({ error: 'planId and amount required' }, { status: 400 });
         }
         const subIntent = await createSubscriptionPaymentIntent(
           user.id,
           planId,
           subscriptionAmount,
-          subscriptionCurrency
+          subscriptionCurrency,
         );
         return NextResponse.json({ intent: subIntent });
 
       case 'confirm':
         const { paymentIntentId } = body;
         if (!paymentIntentId) {
-          return NextResponse.json(
-            { error: 'paymentIntentId required' },
-            { status: 400 }
-          );
+          return NextResponse.json({ error: 'paymentIntentId required' }, { status: 400 });
         }
         const result = await confirmPayment(paymentIntentId);
         return NextResponse.json({ result });
@@ -226,16 +206,13 @@ async function _POST(request: NextRequest) {
       case 'refund':
         const { paymentId, refundAmount, reason } = body;
         if (!paymentId) {
-          return NextResponse.json(
-            { error: 'paymentId required' },
-            { status: 400 }
-          );
+          return NextResponse.json({ error: 'paymentId required' }, { status: 400 });
         }
         // Verify the payment belongs to the authenticated user
         if (!(await verifyPaymentOwnership(user.id, paymentId))) {
           return NextResponse.json(
             { error: 'Access denied: payment does not belong to you' },
-            { status: 403 }
+            { status: 403 },
           );
         }
         const refund = await processRefund(paymentId, refundAmount, reason);
@@ -246,14 +223,14 @@ async function _POST(request: NextRequest) {
         if (!paymentMethodId || !attachCustomerId) {
           return NextResponse.json(
             { error: 'paymentMethodId and customerId required' },
-            { status: 400 }
+            { status: 400 },
           );
         }
         // Verify the customer belongs to the authenticated user
         if (!(await verifyCustomerOwnership(user.id, attachCustomerId))) {
           return NextResponse.json(
             { error: 'Access denied: customer does not belong to you' },
-            { status: 403 }
+            { status: 403 },
           );
         }
         await attachPaymentMethod(paymentMethodId, attachCustomerId);
@@ -262,31 +239,22 @@ async function _POST(request: NextRequest) {
       case 'detach-method':
         const { methodId } = body;
         if (!methodId) {
-          return NextResponse.json(
-            { error: 'methodId required' },
-            { status: 400 }
-          );
+          return NextResponse.json({ error: 'methodId required' }, { status: 400 });
         }
         // Verify the payment method belongs to the authenticated user's customer
         const stripe = await getStripeServer();
         if (!stripe) {
-          return NextResponse.json(
-            { error: 'Payment service not configured' },
-            { status: 503 }
-          );
+          return NextResponse.json({ error: 'Payment service not configured' }, { status: 503 });
         }
         const userCustomerId = await getUserStripeCustomerId(user.id);
         if (!userCustomerId) {
-          return NextResponse.json(
-            { error: 'No payment profile found' },
-            { status: 400 }
-          );
+          return NextResponse.json({ error: 'No payment profile found' }, { status: 400 });
         }
         const paymentMethodDetails = await stripe.paymentMethods.retrieve(methodId);
         if (paymentMethodDetails.customer !== userCustomerId) {
           return NextResponse.json(
             { error: 'Access denied: payment method does not belong to you' },
-            { status: 403 }
+            { status: 403 },
           );
         }
         await detachPaymentMethod(methodId);
@@ -295,16 +263,13 @@ async function _POST(request: NextRequest) {
       case 'set-default':
         const { defaultCustomerId, defaultMethodId } = body;
         if (!defaultCustomerId || !defaultMethodId) {
-          return NextResponse.json(
-            { error: 'customerId and methodId required' },
-            { status: 400 }
-          );
+          return NextResponse.json({ error: 'customerId and methodId required' }, { status: 400 });
         }
         // Verify the customer belongs to the authenticated user
         if (!(await verifyCustomerOwnership(user.id, defaultCustomerId))) {
           return NextResponse.json(
             { error: 'Access denied: customer does not belong to you' },
-            { status: 403 }
+            { status: 403 },
           );
         }
         await setDefaultPaymentMethod(defaultCustomerId, defaultMethodId);
@@ -313,31 +278,21 @@ async function _POST(request: NextRequest) {
       case 'create-subscription':
         const { priceId, paymentMethod } = body;
         if (!priceId) {
-          return NextResponse.json(
-            { error: 'priceId required' },
-            { status: 400 }
-          );
+          return NextResponse.json({ error: 'priceId required' }, { status: 400 });
         }
-        const subscription = await createSubscription(
-          user.id,
-          priceId,
-          paymentMethod
-        );
+        const subscription = await createSubscription(user.id, priceId, paymentMethod);
         return NextResponse.json({ subscription });
 
       case 'cancel-subscription':
         const { subscriptionId, immediately } = body;
         if (!subscriptionId) {
-          return NextResponse.json(
-            { error: 'subscriptionId required' },
-            { status: 400 }
-          );
+          return NextResponse.json({ error: 'subscriptionId required' }, { status: 400 });
         }
         // Verify the subscription belongs to the authenticated user
         if (!(await verifySubscriptionOwnership(user.id, subscriptionId))) {
           return NextResponse.json(
             { error: 'Access denied: subscription does not belong to you' },
-            { status: 403 }
+            { status: 403 },
           );
         }
         await cancelSubscription(subscriptionId, immediately);
@@ -346,14 +301,13 @@ async function _POST(request: NextRequest) {
       default:
         return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
     }
-  } catch (error) { 
+  } catch (error) {
     logger.error('Payments POST error:', error);
     return NextResponse.json(
       {
-        error:
-          'Internal server error',
+        error: 'Internal server error',
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

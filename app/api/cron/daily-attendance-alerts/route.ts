@@ -28,7 +28,7 @@ async function _POST(request: NextRequest) {
           autoRefreshToken: false,
           persistSession: false,
         },
-      }
+      },
     );
 
     // Calculate yesterday's date
@@ -48,7 +48,7 @@ async function _POST(request: NextRequest) {
           error: 'Internal server error',
           date: ymd,
         },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
@@ -72,14 +72,13 @@ async function _POST(request: NextRequest) {
       critical_alerts: result.critical_count,
       timestamp: new Date().toISOString(),
     });
-  } catch (error) { 
+  } catch (error) {
     return NextResponse.json(
       {
         ok: false,
-        error:
-          'Internal server error',
+        error: 'Internal server error',
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -88,10 +87,7 @@ async function _POST(request: NextRequest) {
 async function _GET(request: NextRequest) {
   // Only allow in development
   if (process.env.NODE_ENV === 'production') {
-    return NextResponse.json(
-      { error: 'Method not allowed in production' },
-      { status: 405 }
-    );
+    return NextResponse.json({ error: 'Method not allowed in production' }, { status: 405 });
   }
 
   // Manually trigger the cron job for testing

@@ -137,6 +137,7 @@ components/
 ## Component Registry
 
 All components are registered in the database table `component_registry` for:
+
 - Feature flag management
 - Usage analytics
 - A/B testing

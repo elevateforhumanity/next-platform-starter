@@ -37,7 +37,7 @@ export interface CertiportVoucher {
   examName: string;
   assignedTo: string; // student user ID
   assignedAt: string; // ISO date
-  expiresAt: string;  // ISO date — vouchers expire
+  expiresAt: string; // ISO date — vouchers expire
   status: CertiportExamStatus;
   score?: number;
   passingScore?: number;
@@ -52,21 +52,65 @@ export interface CertiportVoucher {
  */
 export const CERTIPORT_EXAMS = {
   // Microsoft Office Specialist
-  'MOS-WORD-ASSOC': { name: 'Microsoft Office Specialist: Word (Associate)', category: 'Microsoft Office', passingScore: 700 },
-  'MOS-WORD-EXPERT': { name: 'Microsoft Office Specialist: Word (Expert)', category: 'Microsoft Office', passingScore: 700 },
-  'MOS-EXCEL-ASSOC': { name: 'Microsoft Office Specialist: Excel (Associate)', category: 'Microsoft Office', passingScore: 700 },
-  'MOS-EXCEL-EXPERT': { name: 'Microsoft Office Specialist: Excel (Expert)', category: 'Microsoft Office', passingScore: 700 },
-  'MOS-POWERPOINT': { name: 'Microsoft Office Specialist: PowerPoint', category: 'Microsoft Office', passingScore: 700 },
-  'MOS-OUTLOOK': { name: 'Microsoft Office Specialist: Outlook', category: 'Microsoft Office', passingScore: 700 },
-  'MOS-ACCESS': { name: 'Microsoft Office Specialist: Access', category: 'Microsoft Office', passingScore: 700 },
+  'MOS-WORD-ASSOC': {
+    name: 'Microsoft Office Specialist: Word (Associate)',
+    category: 'Microsoft Office',
+    passingScore: 700,
+  },
+  'MOS-WORD-EXPERT': {
+    name: 'Microsoft Office Specialist: Word (Expert)',
+    category: 'Microsoft Office',
+    passingScore: 700,
+  },
+  'MOS-EXCEL-ASSOC': {
+    name: 'Microsoft Office Specialist: Excel (Associate)',
+    category: 'Microsoft Office',
+    passingScore: 700,
+  },
+  'MOS-EXCEL-EXPERT': {
+    name: 'Microsoft Office Specialist: Excel (Expert)',
+    category: 'Microsoft Office',
+    passingScore: 700,
+  },
+  'MOS-POWERPOINT': {
+    name: 'Microsoft Office Specialist: PowerPoint',
+    category: 'Microsoft Office',
+    passingScore: 700,
+  },
+  'MOS-OUTLOOK': {
+    name: 'Microsoft Office Specialist: Outlook',
+    category: 'Microsoft Office',
+    passingScore: 700,
+  },
+  'MOS-ACCESS': {
+    name: 'Microsoft Office Specialist: Access',
+    category: 'Microsoft Office',
+    passingScore: 700,
+  },
 
   // IC3 Digital Literacy
-  'IC3-COMPUTING': { name: 'IC3 Digital Literacy: Computing Fundamentals', category: 'Digital Literacy', passingScore: 700 },
-  'IC3-APPS': { name: 'IC3 Digital Literacy: Key Applications', category: 'Digital Literacy', passingScore: 700 },
-  'IC3-ONLINE': { name: 'IC3 Digital Literacy: Living Online', category: 'Digital Literacy', passingScore: 700 },
+  'IC3-COMPUTING': {
+    name: 'IC3 Digital Literacy: Computing Fundamentals',
+    category: 'Digital Literacy',
+    passingScore: 700,
+  },
+  'IC3-APPS': {
+    name: 'IC3 Digital Literacy: Key Applications',
+    category: 'Digital Literacy',
+    passingScore: 700,
+  },
+  'IC3-ONLINE': {
+    name: 'IC3 Digital Literacy: Living Online',
+    category: 'Digital Literacy',
+    passingScore: 700,
+  },
 
   // Entrepreneurship & Small Business
-  'ESB': { name: 'Entrepreneurship and Small Business (ESB)', category: 'Business', passingScore: 700 },
+  ESB: {
+    name: 'Entrepreneurship and Small Business (ESB)',
+    category: 'Business',
+    passingScore: 700,
+  },
 
   // IT Specialist
   'ITS-PYTHON': { name: 'IT Specialist: Python', category: 'IT', passingScore: 700 },
@@ -77,8 +121,16 @@ export const CERTIPORT_EXAMS = {
   'ITS-CYBERSECURITY': { name: 'IT Specialist: Cybersecurity', category: 'IT', passingScore: 700 },
 
   // Intuit QuickBooks
-  'QB-DESKTOP': { name: 'Intuit QuickBooks Certified User: Desktop', category: 'Business', passingScore: 700 },
-  'QB-ONLINE': { name: 'Intuit QuickBooks Certified User: Online', category: 'Business', passingScore: 700 },
+  'QB-DESKTOP': {
+    name: 'Intuit QuickBooks Certified User: Desktop',
+    category: 'Business',
+    passingScore: 700,
+  },
+  'QB-ONLINE': {
+    name: 'Intuit QuickBooks Certified User: Online',
+    category: 'Business',
+    passingScore: 700,
+  },
 } as const;
 
 export type CertiportExamCode = keyof typeof CERTIPORT_EXAMS;
@@ -112,8 +164,6 @@ export function getExamsByCategory(category: string) {
  * Get all available exam categories.
  */
 export function getExamCategories(): string[] {
-  const categories = new Set(
-    Object.values(CERTIPORT_EXAMS).map((exam) => exam.category)
-  );
+  const categories = new Set(Object.values(CERTIPORT_EXAMS).map((exam) => exam.category));
   return Array.from(categories).sort();
 }

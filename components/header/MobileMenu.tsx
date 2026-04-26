@@ -33,13 +33,13 @@ export function MobileMenu({ isOpen, onClose, items, user }: MobileMenuProps) {
   useEffect(() => {
     async function loadUserData() {
       if (!user?.id) return;
-      
+
       const { data: profile } = await supabase
         .from('profiles')
         .select('full_name, avatar_url, role')
         .eq('id', user.id)
         .single();
-      
+
       if (profile) setUserProfile(profile);
 
       const { count } = await supabase
@@ -47,7 +47,7 @@ export function MobileMenu({ isOpen, onClose, items, user }: MobileMenuProps) {
         .select('*', { count: 'exact', head: true })
         .eq('user_id', user.id)
         .eq('read', false);
-      
+
       setUnreadNotifications(count || 0);
     }
     if (isOpen && user) loadUserData();

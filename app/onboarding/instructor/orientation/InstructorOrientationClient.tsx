@@ -25,7 +25,12 @@ export default function InstructorOrientationClient({ userId, alreadyDone, compl
             <p className="font-semibold">Orientation complete</p>
             {completedAt && (
               <p className="text-sm text-green-600">
-                Completed {new Date(completedAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+                Completed{' '}
+                {new Date(completedAt).toLocaleDateString('en-US', {
+                  month: 'long',
+                  day: 'numeric',
+                  year: 'numeric',
+                })}
               </p>
             )}
           </div>
@@ -71,11 +76,12 @@ export default function InstructorOrientationClient({ userId, alreadyDone, compl
         <input
           type="checkbox"
           checked={checked}
-          onChange={e => setChecked(e.target.checked)}
+          onChange={(e) => setChecked(e.target.checked)}
           className="mt-1 w-4 h-4 rounded border-slate-300 text-brand-blue-700 focus:ring-brand-blue-500"
         />
         <span className="text-sm text-slate-700">
-          I have read all sections of this orientation and understand my responsibilities as an Elevate instructor.
+          I have read all sections of this orientation and understand my responsibilities as an
+          Elevate instructor.
         </span>
       </label>
 

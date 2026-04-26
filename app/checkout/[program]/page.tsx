@@ -9,9 +9,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import { Calendar, CheckCircle, CreditCard, Lightbulb } from 'lucide-react';
 
 // Initialize Stripe
-const stripePromise = loadStripe(
-  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || ''
-);
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '');
 
 interface ProgramPricing {
   name: string;
@@ -42,8 +40,6 @@ const programPricing: Record<string, ProgramPricing> = {
   },
 };
 
-
-
 function CheckoutPageInner() {
   const params = useParams();
   const searchParams = useSearchParams();
@@ -63,7 +59,7 @@ function CheckoutPageInner() {
       }
 
       const publicKey = process.env.NEXT_PUBLIC_AFFIRM_PUBLIC_KEY;
-      
+
       const configScript = document.createElement('script');
       configScript.innerHTML = `
         _affirm_config = {
@@ -72,21 +68,21 @@ function CheckoutPageInner() {
         };
       `;
       document.head.appendChild(configScript);
-      
+
       const script = document.createElement('script');
       script.src = 'https://cdn1.affirm.com/js/v2/affirm.js';
       script.async = true;
-      
+
       script.onload = () => {
         if (window.affirm) {
           window.affirm.ui.ready(() => {});
         }
       };
-      
+
       script.onerror = () => {
         setError('Failed to load Affirm. Please try Stripe instead.');
       };
-      
+
       document.body.appendChild(script);
 
       return () => {
@@ -176,7 +172,7 @@ function CheckoutPageInner() {
         total: programData.price * 100,
         currency: 'USD',
       });
-      
+
       window.affirm.checkout.open({
         onFail: (error: any) => {
           console.error('Affirm checkout failed:', error);
@@ -221,12 +217,8 @@ function CheckoutPageInner() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
         <div className="bg-white rounded-lg shadow-lg p-8 max-w-md text-center">
-          <h1 className="text-2xl font-bold text-black mb-4">
-            Program Not Found
-          </h1>
-          <p className="text-black mb-6">
-            The program you're trying to purchase doesn't exist.
-          </p>
+          <h1 className="text-2xl font-bold text-black mb-4">Program Not Found</h1>
+          <p className="text-black mb-6">The program you're trying to purchase doesn't exist.</p>
           <Link
             href="/programs"
             className="inline-block px-6 py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700"
@@ -249,8 +241,10 @@ function CheckoutPageInner() {
           <p className="text-lg text-black">{programData.name}</p>
           {program === 'barber-apprenticeship' && (
             <p className="text-sm text-slate-600 mt-1">
-              Fee-based enrollment within a USDOL Registered Apprenticeship framework.<br />
-              Sponsor of Record: 2Exclusive LLC-S d/b/a Elevate for Humanity Career & Technical Institute.
+              Fee-based enrollment within a USDOL Registered Apprenticeship framework.
+              <br />
+              Sponsor of Record: 2Exclusive LLC-S d/b/a Elevate for Humanity Career & Technical
+              Institute.
             </p>
           )}
         </div>
@@ -259,29 +253,19 @@ function CheckoutPageInner() {
           {/* Order Summary */}
           <div className="md:col-span-1">
             <div className="bg-white rounded-lg shadow-lg p-6 sticky top-4">
-              <h2 className="text-xl font-bold text-black mb-4">
-                Order Summary
-              </h2>
+              <h2 className="text-xl font-bold text-black mb-4">Order Summary</h2>
 
               <div className="space-y-4 mb-6">
                 <div>
-                  <h3 className="font-bold text-black">
-                    {programData.name}
-                  </h3>
-                  <p className="text-sm text-black">
-                    {programData.duration}
-                  </p>
-                  <p className="text-sm text-black mt-2">
-                    {programData.description}
-                  </p>
+                  <h3 className="font-bold text-black">{programData.name}</h3>
+                  <p className="text-sm text-black">{programData.duration}</p>
+                  <p className="text-sm text-black mt-2">{programData.description}</p>
                 </div>
 
                 <div className="border-t pt-4">
                   <div className="flex justify-between mb-2">
                     <span className="text-black">Program Cost</span>
-                    <span className="font-bold">
-                      ${programData.price.toLocaleString()}
-                    </span>
+                    <span className="font-bold">${programData.price.toLocaleString()}</span>
                   </div>
                   <div className="flex justify-between text-lg font-bold text-black pt-2 border-t">
                     <span>Total</span>
@@ -295,13 +279,8 @@ function CheckoutPageInner() {
                   <p className="font-bold mb-2">
                     <Lightbulb className="w-5 h-5 inline-block" /> Did you know?
                   </p>
-                  <p>
-                    Some programs qualify for funding assistance through WIOA.
-                  </p>
-                  <Link
-                    href="/funding"
-                    className="text-blue-600 underline mt-2 inline-block"
-                  >
+                  <p>Some programs qualify for funding assistance through WIOA.</p>
+                  <Link href="/funding" className="text-blue-600 underline mt-2 inline-block">
                     Check your eligibility →
                   </Link>
                 </div>
@@ -312,16 +291,17 @@ function CheckoutPageInner() {
                     <p className="font-bold mb-2">
                       <Lightbulb className="w-5 h-5 inline-block" /> Fee-Based Program
                     </p>
-                    <p>
-                      This is a self-pay program. Payment plans and Affirm financing available.
-                    </p>
+                    <p>This is a self-pay program. Payment plans and Affirm financing available.</p>
                   </div>
                   <details className="bg-slate-50 border border-slate-200 rounded-lg overflow-hidden text-sm">
                     <summary className="px-4 py-3 cursor-pointer font-semibold text-black hover:bg-slate-100 transition-colors">
                       Registration Details (USDOL)
                     </summary>
                     <div className="px-4 py-3 border-t border-slate-200 text-slate-600 space-y-2">
-                      <p>Elevate for Humanity is the program brand operated by 2Exclusive LLC-S, the USDOL Registered Apprenticeship Sponsor of Record.</p>
+                      <p>
+                        Elevate for Humanity is the program brand operated by 2Exclusive LLC-S, the
+                        USDOL Registered Apprenticeship Sponsor of Record.
+                      </p>
                       <p>This program is fee-based and not funded by the State of Indiana.</p>
                       <p>Registration documentation available upon request.</p>
                     </div>
@@ -334,9 +314,7 @@ function CheckoutPageInner() {
           {/* Payment Method */}
           <div className="md:col-span-2">
             <div className="bg-white rounded-lg shadow-lg p-6 md:p-8">
-              <h2 className="text-2xl font-bold text-black mb-6">
-                Payment Method
-              </h2>
+              <h2 className="text-2xl font-bold text-black mb-6">Payment Method</h2>
 
               {error && (
                 <div className="bg-red-50 border-2 border-red-200 rounded-lg p-4 mb-6">
@@ -348,29 +326,21 @@ function CheckoutPageInner() {
                 <div>
                   <div className="flex items-center gap-3 mb-6">
                     <CreditCard className="w-6 h-6 text-blue-600" />
-                    <h3 className="text-xl font-bold text-black">
-                      Pay with Stripe
-                    </h3>
+                    <h3 className="text-xl font-bold text-black">Pay with Stripe</h3>
                   </div>
 
                   <div className="space-y-4 mb-6">
                     <div className="flex items-start gap-3">
                       <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
-                      <span className="text-black">
-                        Secure one-time payment
-                      </span>
+                      <span className="text-black">Secure one-time payment</span>
                     </div>
                     <div className="flex items-start gap-3">
                       <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
-                      <span className="text-black">
-                        All major credit and debit cards accepted
-                      </span>
+                      <span className="text-black">All major credit and debit cards accepted</span>
                     </div>
                     <div className="flex items-start gap-3">
                       <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
-                      <span className="text-black">
-                        Instant enrollment confirmation
-                      </span>
+                      <span className="text-black">Instant enrollment confirmation</span>
                     </div>
                   </div>
 
@@ -399,23 +369,17 @@ function CheckoutPageInner() {
                 <div>
                   <div className="flex items-center gap-3 mb-6">
                     <Calendar className="w-6 h-6 text-cyan-600" />
-                    <h3 className="text-xl font-bold text-black">
-                      Pay with Affirm
-                    </h3>
+                    <h3 className="text-xl font-bold text-black">Pay with Affirm</h3>
                   </div>
 
                   <div className="space-y-4 mb-6">
                     <div className="flex items-start gap-3">
                       <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
-                      <span className="text-black">
-                        Monthly payment plans available
-                      </span>
+                      <span className="text-black">Monthly payment plans available</span>
                     </div>
                     <div className="flex items-start gap-3">
                       <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
-                      <span className="text-black">
-                        0% APR options for qualified buyers
-                      </span>
+                      <span className="text-black">0% APR options for qualified buyers</span>
                     </div>
                     <div className="flex items-start gap-3">
                       <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
@@ -467,7 +431,9 @@ function CheckoutPageInner() {
 
 export default function CheckoutPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
+    <Suspense
+      fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}
+    >
       <CheckoutPageInner />
     </Suspense>
   );

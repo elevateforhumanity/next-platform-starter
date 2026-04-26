@@ -26,9 +26,7 @@ function fetch(path) {
     const data = await fetch('/api/readiness');
     const overall = data.overall;
     console.log('Readiness Overall:', overall);
-    const sorted = [...data.checks]
-      .sort((a, b) => a.score - b.score)
-      .slice(0, 5);
+    const sorted = [...data.checks].sort((a, b) => a.score - b.score).slice(0, 5);
     console.log('Lowest 5 checks:');
     for (const c of sorted) console.log('-', c.name, c.score, c.detail);
     if (overall < threshold) {

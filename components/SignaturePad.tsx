@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -12,15 +12,9 @@ interface SignaturePadProps {
   height?: number;
 }
 
-export default function SignaturePad({
-  onSave,
-  width = 500,
-  height = 200,
-}: SignaturePadProps) {
+export default function SignaturePad({ onSave, width = 500, height = 200 }: SignaturePadProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [signaturePad, setSignaturePad] = useState<SignatureCanvas | null>(
-    null
-  );
+  const [signaturePad, setSignaturePad] = useState<SignatureCanvas | null>(null);
   const [isEmpty, setIsEmpty] = useState(true);
 
   useEffect(() => {
@@ -80,12 +74,7 @@ export default function SignaturePad({
         />
       </div>
       <div className="flex gap-3">
-        <Button
-          type="button"
-          variant="outline"
-          onClick={handleClear}
-          disabled={isEmpty}
-        >
+        <Button type="button" variant="outline" onClick={handleClear} disabled={isEmpty}>
           Clear Signature
         </Button>
         <Button type="button" onClick={handleSave} disabled={isEmpty}>

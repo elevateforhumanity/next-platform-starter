@@ -58,7 +58,7 @@ const PROGRAMS = [
   },
 ];
 
-function ProgramCard({ prog, priority }: { prog: typeof PROGRAMS[number]; priority?: boolean }) {
+function ProgramCard({ prog, priority }: { prog: (typeof PROGRAMS)[number]; priority?: boolean }) {
   return (
     <div className="group relative rounded-2xl overflow-hidden" style={{ aspectRatio: '9/14' }}>
       {/* Background image — not a link, avoids nested <a> */}
@@ -77,7 +77,9 @@ function ProgramCard({ prog, priority }: { prog: typeof PROGRAMS[number]; priori
       {/* Content */}
       <div className="absolute bottom-0 left-0 right-0 p-5 flex flex-col gap-3">
         <div>
-          <p className="text-xs font-bold uppercase tracking-widest text-brand-red-400 mb-1">{prog.tag}</p>
+          <p className="text-xs font-bold uppercase tracking-widest text-brand-red-400 mb-1">
+            {prog.tag}
+          </p>
           <h3 className="font-extrabold text-white text-base leading-snug">{prog.full}</h3>
           <div className="mt-1.5 space-y-0.5">
             <p className="text-xs text-slate-300">{prog.duration}</p>

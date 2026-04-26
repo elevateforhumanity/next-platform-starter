@@ -99,7 +99,7 @@ describe('Email Service Integration', () => {
     it('email API routes exist', async () => {
       const fs = await import('fs');
       const path = await import('path');
-      
+
       // Check for email-related API routes
       const apiDir = path.join(process.cwd(), 'app/api');
       expect(fs.existsSync(apiDir)).toBe(true);

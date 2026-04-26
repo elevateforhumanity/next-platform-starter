@@ -12,7 +12,6 @@ export function captureError(error: Error, context?: Record<string, any>) {
 }
 
 export function captureMessage(message: string, level: 'info' | 'warning' | 'error' = 'info') {
-
   if (process.env.NODE_ENV === 'production') {
     Sentry.captureMessage(message, level);
   }

@@ -11,12 +11,7 @@ const MAX_ACCURACY_M = 50;
 /**
  * Haversine formula to calculate distance between two GPS coordinates
  */
-function haversineDistance(
-  lat1: number,
-  lng1: number,
-  lat2: number,
-  lng2: number
-): number {
+function haversineDistance(lat1: number, lng1: number, lat2: number, lng2: number): number {
   const R = 6371000; // Earth's radius in meters
   const dLat = ((lat2 - lat1) * Math.PI) / 180;
   const dLng = ((lng2 - lng1) * Math.PI) / 180;
@@ -42,7 +37,7 @@ async function _POST(request: NextRequest) {
     if (!progress_entry_id || lat === undefined || lng === undefined) {
       return NextResponse.json(
         { error: 'Missing required fields: progress_entry_id, lat, lng' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -50,25 +45,22 @@ async function _POST(request: NextRequest) {
     if (accuracy_m && accuracy_m > MAX_ACCURACY_M) {
       return NextResponse.json(
         { error: 'GPS accuracy too low', accuracy_m, max_allowed: MAX_ACCURACY_M },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     // Verify authenticated user
     const authClient = await createClient();
     if (!authClient) {
-      return NextResponse.json(
-        { error: 'Database not configured' },
-        { status: 503 }
-      );
+      return NextResponse.json({ error: 'Database not configured' }, { status: 503 });
     }
-    
-    const { data: { user }, error: authError } = await authClient.auth.getUser();
+
+    const {
+      data: { user },
+      error: authError,
+    } = await authClient.auth.getUser();
     if (authError || !user) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const supabase = await getAdminClient();
@@ -79,36 +71,32 @@ async function _POST(request: NextRequest) {
       if (suspended) return suspended;
     }
     if (!supabase) {
-      return NextResponse.json(
-        { error: 'Database not configured' },
-        { status: 503 }
-      );
+      return NextResponse.json({ error: 'Database not configured' }, { status: 503 });
     }
 
     // Load progress_entries row with apprentice ownership check
     const { data: entry, error: entryError } = await supabase
       .from('progress_entries')
-      .select(`
+      .select(
+        `
         id, clock_in_at, clock_out_at, site_id, auto_clocked_out, auto_clock_out_reason,
         apprentice_id,
         apprentices!inner(user_id)
-      `)
+      `,
+      )
       .eq('id', progress_entry_id)
       .maybeSingle();
-    
+
     // Verify user owns this entry via apprentice relationship
     if (entry && entry.apprentices && (entry.apprentices as any).user_id !== user.id) {
       return NextResponse.json(
         { error: 'Forbidden: entry does not belong to you' },
-        { status: 403 }
+        { status: 403 },
       );
     }
 
     if (entryError || !entry) {
-      return NextResponse.json(
-        { error: 'Progress entry not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: 'Progress entry not found' }, { status: 404 });
     }
 
     // If already clocked out, return closed status
@@ -129,10 +117,7 @@ async function _POST(request: NextRequest) {
       .maybeSingle();
 
     if (siteError || !site) {
-      return NextResponse.json(
-        { error: 'Site geofence not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: 'Site geofence not found' }, { status: 404 });
     }
 
     // Call update_geofence_state — DB function takes (p_entry_id, p_lat, p_lng)
@@ -151,10 +136,9 @@ async function _POST(request: NextRequest) {
     }
 
     // Call auto_clock_out_if_needed — DB function takes only (p_entry_id UUID)
-    const { error: autoClockError } = await supabase.rpc(
-      'auto_clock_out_if_needed',
-      { p_entry_id: progress_entry_id },
-    );
+    const { error: autoClockError } = await supabase.rpc('auto_clock_out_if_needed', {
+      p_entry_id: progress_entry_id,
+    });
 
     if (autoClockError) {
       logger.error('[Heartbeat] auto_clock_out_if_needed error:', autoClockError);
@@ -179,10 +163,7 @@ async function _POST(request: NextRequest) {
       .maybeSingle();
 
     if (reloadError) {
-      return NextResponse.json(
-        { error: 'Failed to reload entry state' },
-        { status: 500 },
-      );
+      return NextResponse.json({ error: 'Failed to reload entry state' }, { status: 500 });
     }
 
     // Compute within_geofence for response (haversine against loaded site)
@@ -198,10 +179,7 @@ async function _POST(request: NextRequest) {
     });
   } catch (error) {
     logger.error('[Heartbeat] Unexpected error:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/timeclock/heartbeat', _POST);

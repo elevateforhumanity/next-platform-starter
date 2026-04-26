@@ -1,4 +1,3 @@
-
 export const revalidate = 3600;
 
 import { Metadata } from 'next';
@@ -8,7 +7,8 @@ import { ArrowRight, Phone, Mail, Clock } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Application Received | Salon Partner | Elevate for Humanity',
-  description: 'Thank you for applying to become a host salon for the Indiana Cosmetology Apprenticeship program.',
+  description:
+    'Thank you for applying to become a host salon for the Indiana Cosmetology Apprenticeship program.',
   robots: { index: false, follow: false },
 };
 
@@ -26,18 +26,34 @@ export default function CosmetologyThankYouPage() {
           </div>
           <h1 className="text-3xl font-bold text-slate-900 mb-4">Application Received!</h1>
           <p className="text-lg text-black mb-8">
-            Thank you for applying to become a host salon for the Indiana Cosmetology
-            Apprenticeship program. We&apos;ve received your application and will be in touch soon.
+            Thank you for applying to become a host salon for the Indiana Cosmetology Apprenticeship
+            program. We&apos;ve received your application and will be in touch soon.
           </p>
 
           <div className="bg-white p-8 rounded-xl shadow-sm border text-left mb-8">
             <h2 className="text-xl font-bold text-slate-900 mb-4">What Happens Next</h2>
             <div className="space-y-4">
               {[
-                { n: '1', title: 'Verification (1–3 business days)', desc: "We'll verify your salon license and supervisor credentials with the Indiana Professional Licensing Agency (IPLA)." },
-                { n: '2', title: 'MOU Review & Signing', desc: "We'll send you the official MOU for review and electronic signature." },
-                { n: '3', title: 'Site Approval', desc: 'Once verified and MOU signed, your salon becomes an approved worksite.' },
-                { n: '4', title: 'Apprentice Matching', desc: "We'll work with you to match qualified apprentice candidates to your salon." },
+                {
+                  n: '1',
+                  title: 'Verification (1–3 business days)',
+                  desc: "We'll verify your salon license and supervisor credentials with the Indiana Professional Licensing Agency (IPLA).",
+                },
+                {
+                  n: '2',
+                  title: 'MOU Review & Signing',
+                  desc: "We'll send you the official MOU for review and electronic signature.",
+                },
+                {
+                  n: '3',
+                  title: 'Site Approval',
+                  desc: 'Once verified and MOU signed, your salon becomes an approved worksite.',
+                },
+                {
+                  n: '4',
+                  title: 'Apprentice Matching',
+                  desc: "We'll work with you to match qualified apprentice candidates to your salon.",
+                },
               ].map((item) => (
                 <div key={item.n} className="flex items-start gap-4">
                   <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0">
@@ -55,8 +71,8 @@ export default function CosmetologyThankYouPage() {
           <div className="bg-purple-50 border border-purple-200 p-8 rounded-xl mb-8 text-center">
             <h3 className="text-xl font-bold text-slate-900 mb-2">Schedule Your Site Visit</h3>
             <p className="text-black mb-4">
-              Ready to move forward? Book your 15-minute Zoom site visit now. We&apos;ll walk through
-              your salon and answer any questions.
+              Ready to move forward? Book your 15-minute Zoom site visit now. We&apos;ll walk
+              through your salon and answer any questions.
             </p>
             <a
               href="https://calendly.com/elevate4humanityedu/30min"
@@ -74,17 +90,24 @@ export default function CosmetologyThankYouPage() {
               <span className="font-semibold text-slate-900">Confirmation Email Sent</span>
             </div>
             <p className="text-black text-sm">
-              Check your inbox for a confirmation email with your application details and program info.
+              Check your inbox for a confirmation email with your application details and program
+              info.
             </p>
           </div>
 
           <div className="bg-white p-6 rounded-xl mb-8">
             <h3 className="font-semibold text-slate-900 mb-3">Questions?</h3>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a href="tel:+13173143757" className="inline-flex items-center justify-center gap-2 text-slate-900 hover:text-brand-blue-600">
+              <a
+                href="tel:+13173143757"
+                className="inline-flex items-center justify-center gap-2 text-slate-900 hover:text-brand-blue-600"
+              >
                 <Phone className="w-4 h-4" /> (317) 314-3757
               </a>
-              <a href="/contact" className="inline-flex items-center justify-center gap-2 text-slate-900 hover:text-brand-blue-600">
+              <a
+                href="/contact"
+                className="inline-flex items-center justify-center gap-2 text-slate-900 hover:text-brand-blue-600"
+              >
                 <Mail className="w-4 h-4" /> Contact Us
               </a>
             </div>

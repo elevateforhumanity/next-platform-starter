@@ -8,11 +8,11 @@ import { join } from 'node:path';
 import { existsSync } from 'node:fs';
 
 const REMOVE = [
-  'googleapis',          // 194 MB — never imported, only raw fetch
-  'monaco-editor',       // 75 MB — browser-only
-  'node-pty',            // 63 MB — browser-only
-  'video.js',            // 19 MB — browser-only
-  'pdfjs-dist',          // 28 MB — browser-only
+  'googleapis', // 194 MB — never imported, only raw fetch
+  'monaco-editor', // 75 MB — browser-only
+  'node-pty', // 63 MB — browser-only
+  'video.js', // 19 MB — browser-only
+  'pdfjs-dist', // 28 MB — browser-only
   'playwright',
   'playwright-core',
   'puppeteer',

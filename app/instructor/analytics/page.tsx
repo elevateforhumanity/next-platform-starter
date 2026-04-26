@@ -15,45 +15,96 @@ export const metadata: Metadata = {
 
 export default async function InstructorAnalyticsPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login');
 
   // Get courses assigned to this instructor
-  const { data: myCourses } = await supabase.from('training_courses').select('id').eq('instructor_id', user.id);
+  const { data: myCourses } = await supabase
+    .from('training_courses')
+    .select('id')
+    .eq('instructor_id', user.id);
   const courseIds = (myCourses || []).map((c: any) => c.id);
   const totalCourses = courseIds.length;
 
   // Get enrollment counts for those courses
-  const { count: totalStudents } = courseIds.length > 0
-    ? await supabase.from('training_enrollments').select('*', { count: 'exact', head: true }).in('course_id', courseIds)
-    : { count: 0 };
-  const { count: completedEnrollments } = courseIds.length > 0
-    ? await supabase.from('training_enrollments').select('*', { count: 'exact', head: true }).in('course_id', courseIds).eq('status', 'completed')
-    : { count: 0 };
-  const completionRate = (totalStudents && totalStudents > 0) ? Math.round(((completedEnrollments || 0) / totalStudents) * 100) : 0;
+  const { count: totalStudents } =
+    courseIds.length > 0
+      ? await supabase
+          .from('training_enrollments')
+          .select('*', { count: 'exact', head: true })
+          .in('course_id', courseIds)
+      : { count: 0 };
+  const { count: completedEnrollments } =
+    courseIds.length > 0
+      ? await supabase
+          .from('training_enrollments')
+          .select('*', { count: 'exact', head: true })
+          .in('course_id', courseIds)
+          .eq('status', 'completed')
+      : { count: 0 };
+  const completionRate =
+    totalStudents && totalStudents > 0
+      ? Math.round(((completedEnrollments || 0) / totalStudents) * 100)
+      : 0;
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* Hero Image */}
       <section className="relative h-[160px] sm:h-[220px] md:h-[280px] overflow-hidden">
-        <Image src="/images/pages/instructor-page-1.jpg" alt="Instructor portal" fill sizes="100vw" className="object-cover" priority />
+        <Image
+          src="/images/pages/instructor-page-1.jpg"
+          alt="Instructor portal"
+          fill
+          sizes="100vw"
+          className="object-cover"
+          priority
+        />
       </section>
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="mb-8">
-          <nav className="text-sm mb-4"><ol className="flex items-center space-x-2 text-slate-700"><li><Link href="/instructor" className="hover:text-primary">Instructor</Link></li><li>/</li><li className="text-slate-900 font-medium">Analytics</li></ol></nav>
+          <nav className="text-sm mb-4">
+            <ol className="flex items-center space-x-2 text-slate-700">
+              <li>
+                <Link href="/instructor" className="hover:text-primary">
+                  Instructor
+                </Link>
+              </li>
+              <li>/</li>
+              <li className="text-slate-900 font-medium">Analytics</li>
+            </ol>
+          </nav>
           <h1 className="text-3xl font-bold text-slate-900">Teaching Analytics</h1>
           <p className="text-slate-700 mt-2">Track your teaching performance</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white rounded-lg shadow-sm border p-6"><h3 className="text-sm font-medium text-slate-700">Total Students</h3><p className="text-3xl font-bold text-brand-blue-600 mt-2">{totalStudents || 0}</p></div>
-          <div className="bg-white rounded-lg shadow-sm border p-6"><h3 className="text-sm font-medium text-slate-700">Active Courses</h3><p className="text-3xl font-bold text-brand-green-600 mt-2">{totalCourses || 0}</p></div>
-          <div className="bg-white rounded-lg shadow-sm border p-6"><h3 className="text-sm font-medium text-slate-700">Avg. Rating</h3><p className="text-3xl font-bold text-yellow-600 mt-2">N/A</p></div>
-          <div className="bg-white rounded-lg shadow-sm border p-6"><h3 className="text-sm font-medium text-slate-700">Completion Rate</h3><p className="text-3xl font-bold text-brand-blue-600 mt-2">{completionRate}%</p></div>
+          <div className="bg-white rounded-lg shadow-sm border p-6">
+            <h3 className="text-sm font-medium text-slate-700">Total Students</h3>
+            <p className="text-3xl font-bold text-brand-blue-600 mt-2">{totalStudents || 0}</p>
+          </div>
+          <div className="bg-white rounded-lg shadow-sm border p-6">
+            <h3 className="text-sm font-medium text-slate-700">Active Courses</h3>
+            <p className="text-3xl font-bold text-brand-green-600 mt-2">{totalCourses || 0}</p>
+          </div>
+          <div className="bg-white rounded-lg shadow-sm border p-6">
+            <h3 className="text-sm font-medium text-slate-700">Avg. Rating</h3>
+            <p className="text-3xl font-bold text-yellow-600 mt-2">N/A</p>
+          </div>
+          <div className="bg-white rounded-lg shadow-sm border p-6">
+            <h3 className="text-sm font-medium text-slate-700">Completion Rate</h3>
+            <p className="text-3xl font-bold text-brand-blue-600 mt-2">{completionRate}%</p>
+          </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="bg-white rounded-lg shadow-sm border p-6"><h2 className="text-lg font-semibold mb-4">Student Engagement</h2><StudentEngagementChart /></div>
-          <div className="bg-white rounded-lg shadow-sm border p-6"><h2 className="text-lg font-semibold mb-4">Course Performance</h2><CoursePerformanceChart /></div>
+          <div className="bg-white rounded-lg shadow-sm border p-6">
+            <h2 className="text-lg font-semibold mb-4">Student Engagement</h2>
+            <StudentEngagementChart />
+          </div>
+          <div className="bg-white rounded-lg shadow-sm border p-6">
+            <h2 className="text-lg font-semibold mb-4">Course Performance</h2>
+            <CoursePerformanceChart />
+          </div>
         </div>
       </div>
     </div>

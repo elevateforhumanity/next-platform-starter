@@ -3,8 +3,17 @@ import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import {
-  Video, FileText, Users, Monitor, DollarSign,
-  BookOpen, CheckCircle, Clock, Lock, ChevronRight, Star
+  Video,
+  FileText,
+  Users,
+  Monitor,
+  DollarSign,
+  BookOpen,
+  CheckCircle,
+  Clock,
+  Lock,
+  ChevronRight,
+  Star,
 } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
@@ -18,7 +27,9 @@ export const metadata: Metadata = {
 
 export default async function StaffOnboardingPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/onboarding/staff');
 
   // Ensure role is set correctly — DB trigger defaults to 'student'
@@ -35,15 +46,13 @@ export default async function StaffOnboardingPage() {
     .maybeSingle();
 
   // Check completion state of each step
-  const [
-    { data: payrollProfile },
-    { data: handbookAck },
-    { data: userSkills },
-  ] = await Promise.all([
-    supabase.from('payroll_profiles').select('id, status').eq('user_id', user.id).maybeSingle(),
-    supabase.from('handbook_acknowledgments').select('id').eq('user_id', user.id).maybeSingle(),
-    supabase.from('user_skills').select('skill_name').eq('user_id', user.id),
-  ]);
+  const [{ data: payrollProfile }, { data: handbookAck }, { data: userSkills }] = await Promise.all(
+    [
+      supabase.from('payroll_profiles').select('id, status').eq('user_id', user.id).maybeSingle(),
+      supabase.from('handbook_acknowledgments').select('id').eq('user_id', user.id).maybeSingle(),
+      supabase.from('user_skills').select('skill_name').eq('user_id', user.id),
+    ],
+  );
 
   const skillsCompleted = (userSkills ?? []).length;
   const payrollDone = !!payrollProfile;
@@ -117,8 +126,8 @@ export default async function StaffOnboardingPage() {
     },
   ];
 
-  const requiredSteps = steps.filter(s => s.required);
-  const completedRequired = requiredSteps.filter(s => s.done).length;
+  const requiredSteps = steps.filter((s) => s.required);
+  const completedRequired = requiredSteps.filter((s) => s.done).length;
   const allRequiredDone = completedRequired === requiredSteps.length;
   const pct = Math.round((completedRequired / requiredSteps.length) * 100);
 
@@ -136,10 +145,16 @@ export default async function StaffOnboardingPage() {
       <div className="bg-brand-blue-700 text-white py-10">
         <div className="max-w-3xl mx-auto px-4">
           <h1 className="text-2xl font-bold mb-1">Welcome to Elevate, {firstName}!</h1>
-          <p className="text-slate-500 text-sm mb-6">Complete the steps below to finish your onboarding. Required steps must be done before your first day.</p>
+          <p className="text-slate-500 text-sm mb-6">
+            Complete the steps below to finish your onboarding. Required steps must be done before
+            your first day.
+          </p>
           <div className="flex items-center gap-4">
             <div className="flex-1 bg-white rounded-full h-2.5">
-              <div className="bg-white h-2.5 rounded-full transition-all" style={{ width: `${pct}%` }} />
+              <div
+                className="bg-white h-2.5 rounded-full transition-all"
+                style={{ width: `${pct}%` }}
+              />
             </div>
             <span className="text-sm font-bold text-brand-green-400 whitespace-nowrap">
               {completedRequired}/{requiredSteps.length} required
@@ -154,38 +169,55 @@ export default async function StaffOnboardingPage() {
             <CheckCircle className="w-6 h-6 flex-shrink-0 text-brand-green-600" />
             <div>
               <p className="font-bold">All required steps complete!</p>
-              <p className="text-sm text-brand-green-700">You're ready for your first day. HR will confirm your start details by email.</p>
+              <p className="text-sm text-brand-green-700">
+                You're ready for your first day. HR will confirm your start details by email.
+              </p>
             </div>
           </div>
         )}
 
         {/* Required steps */}
-        <h2 className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">Required</h2>
+        <h2 className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">
+          Required
+        </h2>
         <div className="bg-white rounded-xl border divide-y mb-6">
-          {steps.filter(s => s.required).map((step) => (
-            <StepRow key={step.id} step={step} />
-          ))}
+          {steps
+            .filter((s) => s.required)
+            .map((step) => (
+              <StepRow key={step.id} step={step} />
+            ))}
         </div>
 
         {/* Optional steps */}
-        <h2 className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">Recommended</h2>
+        <h2 className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">
+          Recommended
+        </h2>
         <div className="bg-white rounded-xl border divide-y mb-8">
-          {steps.filter(s => !s.required).map((step) => (
-            <StepRow key={step.id} step={step} />
-          ))}
+          {steps
+            .filter((s) => !s.required)
+            .map((step) => (
+              <StepRow key={step.id} step={step} />
+            ))}
         </div>
 
         {/* Help */}
         <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-xl p-6">
           <h3 className="font-semibold text-slate-900 mb-1">Need help?</h3>
-          <p className="text-slate-600 text-sm mb-3">Contact HR if you have questions about any onboarding step.</p>
+          <p className="text-slate-600 text-sm mb-3">
+            Contact HR if you have questions about any onboarding step.
+          </p>
           <div className="flex flex-wrap gap-3">
-            <Link href="mailto:hr@elevateforhumanity.org"
-              className="text-sm text-brand-blue-600 hover:underline font-medium">
+            <Link
+              href="mailto:hr@elevateforhumanity.org"
+              className="text-sm text-brand-blue-600 hover:underline font-medium"
+            >
               hr@elevateforhumanity.org
             </Link>
             <span className="text-slate-300">·</span>
-            <Link href="tel:+13173143757" className="text-sm text-brand-blue-600 hover:underline font-medium">
+            <Link
+              href="tel:+13173143757"
+              className="text-sm text-brand-blue-600 hover:underline font-medium"
+            >
               (317) 314-3757
             </Link>
           </div>
@@ -198,22 +230,32 @@ export default async function StaffOnboardingPage() {
 function StepRow({ step }: { step: any }) {
   const Icon = step.icon;
   return (
-    <Link href={step.href}
-      className="flex items-center gap-4 px-5 py-4 hover:bg-white transition group">
-      <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${
-        step.done ? 'bg-brand-green-100' : 'bg-white group-hover:bg-brand-blue-100'
-      }`}>
-        {step.done
-          ? <CheckCircle className="w-5 h-5 text-brand-green-600" />
-          : <Icon className="w-5 h-5 text-slate-500 group-hover:text-brand-blue-600" />}
+    <Link
+      href={step.href}
+      className="flex items-center gap-4 px-5 py-4 hover:bg-white transition group"
+    >
+      <div
+        className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${
+          step.done ? 'bg-brand-green-100' : 'bg-white group-hover:bg-brand-blue-100'
+        }`}
+      >
+        {step.done ? (
+          <CheckCircle className="w-5 h-5 text-brand-green-600" />
+        ) : (
+          <Icon className="w-5 h-5 text-slate-500 group-hover:text-brand-blue-600" />
+        )}
       </div>
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2">
-          <p className={`font-semibold text-sm ${step.done ? 'text-slate-400 line-through' : 'text-slate-900'}`}>
+          <p
+            className={`font-semibold text-sm ${step.done ? 'text-slate-400 line-through' : 'text-slate-900'}`}
+          >
             {step.title}
           </p>
           {step.done && (
-            <span className="text-xs bg-brand-green-100 text-brand-green-700 px-2 py-0.5 rounded-full font-medium">Done</span>
+            <span className="text-xs bg-brand-green-100 text-brand-green-700 px-2 py-0.5 rounded-full font-medium">
+              Done
+            </span>
           )}
         </div>
         <p className="text-xs text-slate-500 mt-0.5 truncate">{step.desc}</p>

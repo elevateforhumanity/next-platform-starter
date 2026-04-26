@@ -35,7 +35,9 @@ export default function AdminLoginPage() {
       const check = await fetch('/api/auth/verify-admin-role', { method: 'POST' });
       if (!check.ok) {
         await supabase.auth.signOut();
-        setError('This login is for administrators only. Use the main sign-in page for your portal.');
+        setError(
+          'This login is for administrators only. Use the main sign-in page for your portal.',
+        );
         setLoading(false);
         return;
       }
@@ -62,7 +64,8 @@ export default function AdminLoginPage() {
           fill
           className="object-cover"
           priority
-         sizes="100vw" />
+          sizes="100vw"
+        />
         <div className="relative z-10 flex flex-col justify-center px-12">
           <div className="flex items-center gap-3 mb-6">
             <Shield className="w-10 h-10 text-cyan-400" />

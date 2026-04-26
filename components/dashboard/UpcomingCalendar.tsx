@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { Calendar, Clock } from 'lucide-react';
 
@@ -46,14 +46,10 @@ export function UpcomingCalendar() {
           >
             <div className="flex items-start justify-between gap-2">
               <div className="flex-1">
-                <h4 className="font-semibold text-black text-sm">
-                  {event.title}
-                </h4>
+                <h4 className="font-semibold text-black text-sm">{event.title}</h4>
                 <p className="text-xs text-black mt-1">{event.course}</p>
               </div>
-              <span className="elevate-pill elevate-pill--red text-xs">
-                {event.type}
-              </span>
+              <span className="elevate-pill elevate-pill--red text-xs">{event.type}</span>
             </div>
             <div className="flex items-center gap-4 mt-2 text-xs text-slate-700">
               <div className="flex items-center gap-1">

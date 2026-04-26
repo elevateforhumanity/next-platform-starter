@@ -58,15 +58,9 @@ export function StateAwareDashboard({
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center justify-between">
             <div className="flex-1">
-              <div className="text-sm font-semibold text-white mb-1">
-                NEXT STEP
-              </div>
-              <h2 className="text-2xl md:text-3xl font-bold mb-2">
-                {dominantAction.label}
-              </h2>
-              <p className="text-white text-lg">
-                {dominantAction.description}
-              </p>
+              <div className="text-sm font-semibold text-white mb-1">NEXT STEP</div>
+              <h2 className="text-2xl md:text-3xl font-bold mb-2">{dominantAction.label}</h2>
+              <p className="text-white text-lg">{dominantAction.description}</p>
             </div>
             <Link
               href={dominantAction.href}
@@ -158,9 +152,7 @@ export function StateAwareDashboard({
       {/* LOCKED SECTIONS - Visible But Not Accessible */}
       {lockedSections.length > 0 && (
         <section className="max-w-7xl mx-auto px-4 py-8">
-          <h3 className="text-xl font-bold text-black mb-6">
-            Locked Until Prerequisites Complete
-          </h3>
+          <h3 className="text-xl font-bold text-black mb-6">Locked Until Prerequisites Complete</h3>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
             {lockedSections.map((section) => (
               <div
@@ -193,14 +185,7 @@ interface SectionCardProps {
   badge?: string;
 }
 
-export function SectionCard({
-  title,
-  description,
-  href,
-  image,
-  icon,
-  badge,
-}: SectionCardProps) {
+export function SectionCard({ title, description, href, image, icon, badge }: SectionCardProps) {
   return (
     <Link
       href={href}
@@ -213,7 +198,8 @@ export function SectionCard({
             alt={title}
             fill
             className="object-cover group-hover:scale-105 transition-transform duration-500"
-           sizes="100vw" />
+            sizes="100vw"
+          />
           <div className="absolute bottom-0 left-0 right-0 h-16 bg-black/50" />
           {badge && (
             <span className="absolute top-3 right-3 px-3 py-1 bg-brand-red-600 text-white text-xs font-bold rounded-full shadow-lg">
@@ -298,9 +284,7 @@ export function ProgressIndicator({ steps }: ProgressIndicatorProps) {
                 {step.label}
               </div>
               {step.status === 'current' && (
-                <div className="text-sm text-brand-blue-600 font-semibold">
-                  Current Step
-                </div>
+                <div className="text-sm text-brand-blue-600 font-semibold">Current Step</div>
               )}
             </div>
           </div>

@@ -10,10 +10,9 @@ export const maxDuration = 60;
 export const dynamic = 'force-dynamic';
 
 async function _GET(request: Request) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const supabase = await createRouteHandlerClient({ cookies });
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const supabase = await createRouteHandlerClient({ cookies });
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -23,12 +22,9 @@ const supabase = await createRouteHandlerClient({ cookies });
     .select('role')
     .eq('user_id', user.id)
     .maybeSingle();
-  if (!['admin', 'partner'].includes(prof?.role))
-    return new Response('Forbidden', { status: 403 });
+  if (!['admin', 'partner'].includes(prof?.role)) return new Response('Forbidden', { status: 403 });
 
-  const { data, error }: any = await supabase
-    .from('cert_revocation_log')
-    .select('*');
+  const { data, error }: any = await supabase.from('cert_revocation_log').select('*');
   if (error) return new Response(toErrorMessage(error), { status: 500 });
   const header =
     'serial,learner_email,course_title,issued_at,expires_at,revoked_at,revoked_reason\n';
@@ -44,7 +40,7 @@ const supabase = await createRouteHandlerClient({ cookies });
         r.revoked_reason,
       ]
         .map((v) => `"${String(v ?? '').replace(/"/g, '""')}"`)
-        .join(',')
+        .join(','),
     )
     .join('\n');
   return new Response(header + csv, {

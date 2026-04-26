@@ -1,18 +1,9 @@
-"use client";
+'use client';
 
 import React from 'react';
 
 import { useState, useEffect } from 'react';
-import {
-  Users,
-  DollarSign,
-  TrendingUp,
-  Copy,
-  Check,
-  Share2,
-  Gift,
-  Award
-} from 'lucide-react';
+import { Users, DollarSign, TrendingUp, Copy, Check, Share2, Gift, Award } from 'lucide-react';
 
 interface ReferralDashboardProps {
   userId: string;
@@ -47,7 +38,8 @@ export default function ReferralDashboard({ userId }: ReferralDashboardProps) {
       const referralsRes = await fetch('/api/referrals?action=my-referrals');
       const referralsData = await referralsRes.json();
       setReferrals(referralsData.referrals || []);
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
     } finally {
       setLoading(false);
@@ -71,7 +63,8 @@ export default function ReferralDashboard({ userId }: ReferralDashboardProps) {
           text: shareText,
           url: shareUrl,
         });
-      } catch (error) { /* Error handled silently */ 
+      } catch (error) {
+        /* Error handled silently */
         // Error: $1
       }
     } else {
@@ -104,9 +97,7 @@ export default function ReferralDashboard({ userId }: ReferralDashboardProps) {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-black">Total Referrals</p>
-              <p className="text-3xl font-bold text-black mt-2">
-                {stats?.totalReferrals || 0}
-              </p>
+              <p className="text-3xl font-bold text-black mt-2">{stats?.totalReferrals || 0}</p>
             </div>
             <Users className="w-12 h-12 text-brand-blue-600 opacity-20" />
           </div>
@@ -214,9 +205,7 @@ export default function ReferralDashboard({ userId }: ReferralDashboardProps) {
               <Users className="w-8 h-8 text-brand-green-600" />
             </div>
             <h4 className="font-semibold text-black mb-2">2. They Sign Up</h4>
-            <p className="text-sm text-black">
-              Your friends get 10% off when they use your code
-            </p>
+            <p className="text-sm text-black">Your friends get 10% off when they use your code</p>
           </div>
 
           <div className="text-center">
@@ -224,9 +213,7 @@ export default function ReferralDashboard({ userId }: ReferralDashboardProps) {
               <Gift className="w-8 h-8 text-brand-orange-600" />
             </div>
             <h4 className="font-semibold text-black mb-2">3. Earn Rewards</h4>
-            <p className="text-sm text-black">
-              You earn $50 when they complete their first course
-            </p>
+            <p className="text-sm text-black">You earn $50 when they complete their first course</p>
           </div>
         </div>
       </div>
@@ -297,18 +284,18 @@ export default function ReferralDashboard({ userId }: ReferralDashboardProps) {
                       <div className="text-sm font-medium text-black">
                         {referral.referred_user?.first_name} {referral.referred_user?.last_name}
                       </div>
-                      <div className="text-sm text-slate-700">
-                        {referral.referred_user?.email}
-                      </div>
+                      <div className="text-sm text-slate-700">{referral.referred_user?.email}</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`px-2 py-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                        referral.status === 'completed'
-                          ? 'bg-brand-green-100 text-brand-green-800'
-                          : referral.status === 'pending'
-                          ? 'bg-yellow-100 text-yellow-800'
-                          : 'bg-gray-100 text-black'
-                      }`}>
+                      <span
+                        className={`px-2 py-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                          referral.status === 'completed'
+                            ? 'bg-brand-green-100 text-brand-green-800'
+                            : referral.status === 'pending'
+                              ? 'bg-yellow-100 text-yellow-800'
+                              : 'bg-gray-100 text-black'
+                        }`}
+                      >
                         {referral.status}
                       </span>
                     </td>
@@ -316,7 +303,12 @@ export default function ReferralDashboard({ userId }: ReferralDashboardProps) {
                       {referral.reward_amount ? `$${referral.reward_amount.toFixed(2)}` : '-'}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-700">
-                      {new Date(referral.created_at).toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' })}
+                      {new Date(referral.created_at).toLocaleDateString('en-US', {
+                        timeZone: 'UTC',
+                        month: 'short',
+                        day: 'numeric',
+                        year: 'numeric',
+                      })}
                     </td>
                   </tr>
                 ))}

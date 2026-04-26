@@ -14,7 +14,6 @@ export const metadata: Metadata = {
 export default async function StaffApplicationSuccess() {
   const supabase = await createClient();
 
-  
   // Log success page visit
   await supabase.from('page_views').insert({ page: 'staff_application_success' }).select();
   return (
@@ -23,12 +22,10 @@ export default async function StaffApplicationSuccess() {
         <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-brand-green-100 text-brand-green-700 mb-4">
           <span className="text-black flex-shrink-0">•</span>
         </div>
-        <h1 className="text-3xl font-bold text-black mb-3">
-          Application Submitted!
-        </h1>
+        <h1 className="text-3xl font-bold text-black mb-3">Application Submitted!</h1>
         <p className="text-lg text-black mb-6">
-          Thank you for your interest in joining our team. We'll review your
-          application and contact you if we'd like to move forward.
+          Thank you for your interest in joining our team. We'll review your application and contact
+          you if we'd like to move forward.
         </p>
         <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-lg p-6 mb-6 text-left">
           <h2 className="font-semibold text-black mb-2">What's Next?</h2>

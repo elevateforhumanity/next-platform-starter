@@ -7,8 +7,7 @@
 
 const https = require('https');
 
-const CLOUDFLARE_EMAIL =
-  process.env.CLOUDFLARE_EMAIL || 'elevateforhumanity@gmail.com';
+const CLOUDFLARE_EMAIL = process.env.CLOUDFLARE_EMAIL || 'elevateforhumanity@gmail.com';
 const CLOUDFLARE_GLOBAL_API_KEY = process.env.CLOUDFLARE_GLOBAL_API_KEY;
 
 async function createAPIToken() {

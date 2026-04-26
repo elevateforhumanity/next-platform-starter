@@ -1,6 +1,4 @@
-
 export const revalidate = 3600;
-
 
 import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
@@ -17,13 +15,12 @@ export const metadata: Metadata = {
 };
 
 export default function PartnerCompliancePage() {
-
   return (
     <div className="min-h-screen py-12">
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Partners", href: "/partners" }, { label: "Compliance" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Partners', href: '/partners' }, { label: 'Compliance' }]} />
       </div>
-<div className="container mx-auto px-4 max-w-4xl">
+      <div className="container mx-auto px-4 max-w-4xl">
         <Link
           href="/partners"
           className="inline-flex items-center text-brand-orange-600 hover:underline mb-6"
@@ -44,9 +41,7 @@ export default function PartnerCompliancePage() {
           <div className="bg-white rounded-lg shadow-sm p-6 text-center">
             <FileText className="h-12 w-12 text-brand-orange-600 mx-auto mb-4" />
             <h3 className="font-semibold text-lg mb-2">Reporting</h3>
-            <p className="text-black text-sm mb-4">
-              Automated WIOA reporting and documentation
-            </p>
+            <p className="text-black text-sm mb-4">Automated WIOA reporting and documentation</p>
             <Link href="/program-holder/reports">
               <Button variant="outline" size="sm">
                 View Reports
@@ -57,9 +52,7 @@ export default function PartnerCompliancePage() {
           <div className="bg-white rounded-lg shadow-sm p-6 text-center">
             <BarChart3 className="h-12 w-12 text-brand-orange-600 mx-auto mb-4" />
             <h3 className="font-semibold text-lg mb-2">Analytics</h3>
-            <p className="text-black text-sm mb-4">
-              Track student outcomes and performance
-            </p>
+            <p className="text-black text-sm mb-4">Track student outcomes and performance</p>
             <Link href="/program-holder/dashboard">
               <Button variant="outline" size="sm">
                 View Dashboard
@@ -70,9 +63,7 @@ export default function PartnerCompliancePage() {
           <div className="bg-white rounded-lg shadow-sm p-6 text-center">
             <Shield className="h-12 w-12 text-brand-orange-600 mx-auto mb-4" />
             <h3 className="font-semibold text-lg mb-2">Documentation</h3>
-            <p className="text-black text-sm mb-4">
-              Access compliance guides and templates
-            </p>
+            <p className="text-black text-sm mb-4">Access compliance guides and templates</p>
             <Link href="/program-holder/documents">
               <Button variant="outline" size="sm">
                 View Documents
@@ -84,8 +75,8 @@ export default function PartnerCompliancePage() {
         <div className="bg-brand-orange-50 border border-brand-orange-200 rounded-lg p-6">
           <h2 className="text-xl font-bold mb-2">Need Help?</h2>
           <p className="text-black mb-4">
-            Our compliance team is here to support you. Access your partner
-            portal for full compliance tools and support.
+            Our compliance team is here to support you. Access your partner portal for full
+            compliance tools and support.
           </p>
           <Link href="/program-holder/dashboard">
             <Button>Access Partner Portal</Button>

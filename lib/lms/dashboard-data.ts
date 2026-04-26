@@ -38,14 +38,10 @@ export interface ProgramMetrics {
 /**
  * Get dashboard statistics for admin
  */
-export async function getAdminDashboardStats(
-  orgId?: string
-): Promise<DashboardStats> {
+export async function getAdminDashboardStats(orgId?: string): Promise<DashboardStats> {
   const supabase = await createClient();
 
-  let query = supabase
-    .from('program_enrollments')
-    .select('*', { count: 'exact', head: true });
+  let query = supabase.from('program_enrollments').select('*', { count: 'exact', head: true });
 
   if (orgId) {
     query = query.eq('organization_id', orgId);
@@ -66,10 +62,7 @@ export async function getAdminDashboardStats(
       .eq('status', 'active'),
     supabase.from('program_enrollments').select('id').eq('status', 'completed'),
     supabase.from('student_risk_status').select('id').eq('status', 'at_risk'),
-    supabase
-      .from('student_requirements')
-      .select('id')
-      .eq('status', 'completed'),
+    supabase.from('student_requirements').select('id').eq('status', 'completed'),
     supabase
       .from('student_requirements')
       .select('id')
@@ -78,9 +71,7 @@ export async function getAdminDashboardStats(
   ]);
 
   const completionRate =
-    totalStudents && completedData
-      ? Math.round((completedData.length / totalStudents) * 100)
-      : 0;
+    totalStudents && completedData ? Math.round((completedData.length / totalStudents) * 100) : 0;
 
   return {
     totalStudents: totalStudents || 0,
@@ -95,9 +86,7 @@ export async function getAdminDashboardStats(
 /**
  * Get student progress data for program holder dashboard
  */
-export async function getStudentProgressList(
-  programIds: string[]
-): Promise<StudentProgress[]> {
+export async function getStudentProgressList(programIds: string[]): Promise<StudentProgress[]> {
   const supabase = await createClient();
 
   const { data, error }: any = await supabase
@@ -120,7 +109,7 @@ export async function getStudentProgressList(
         overdue_count,
         last_activity_date
       )
-    `
+    `,
     )
     .in('program_id', programIds)
     .order('updated_at', { ascending: false });
@@ -138,9 +127,7 @@ export async function getStudentProgressList(
     programName: enrollment.programs?.name || 'Unknown Program',
     progress: enrollment.student_risk_status?.progress_percentage || 0,
     status: enrollment.student_risk_status?.status || 'on_track',
-    lastActivity:
-      enrollment.student_risk_status?.last_activity_date ||
-      enrollment.updated_at,
+    lastActivity: enrollment.student_risk_status?.last_activity_date || enrollment.updated_at,
     overdueCount: enrollment.student_risk_status?.overdue_count || 0,
   }));
 }
@@ -148,9 +135,7 @@ export async function getStudentProgressList(
 /**
  * Get program metrics for workforce board dashboard
  */
-export async function getProgramMetrics(
-  orgId: string
-): Promise<ProgramMetrics[]> {
+export async function getProgramMetrics(orgId: string): Promise<ProgramMetrics[]> {
   const supabase = await createClient();
 
   const { data, error }: any = await supabase
@@ -167,7 +152,7 @@ export async function getProgramMetrics(
           status
         )
       )
-    `
+    `,
     )
     .eq('organization_id', orgId);
 
@@ -178,25 +163,18 @@ export async function getProgramMetrics(
 
   return data.map((program: any) => {
     const enrollments = program.enrollments || [];
-    const activeStudents = enrollments.filter(
-      (e: any) => e.status === 'active'
-    ).length;
-    const completedStudents = enrollments.filter(
-      (e: any) => e.status === 'completed'
-    ).length;
+    const activeStudents = enrollments.filter((e: any) => e.status === 'active').length;
+    const completedStudents = enrollments.filter((e: any) => e.status === 'completed').length;
     const atRiskCount = enrollments.filter(
-      (e: any) => e.student_risk_status?.status === 'at_risk'
+      (e: any) => e.student_risk_status?.status === 'at_risk',
     ).length;
 
     const totalProgress = enrollments.reduce(
-      (sum: number, e: any) =>
-        sum + (e.student_risk_status?.progress_percentage || 0),
-      0
+      (sum: number, e: any) => sum + (e.student_risk_status?.progress_percentage || 0),
+      0,
     );
     const averageProgress =
-      enrollments.length > 0
-        ? Math.round(totalProgress / enrollments.length)
-        : 0;
+      enrollments.length > 0 ? Math.round(totalProgress / enrollments.length) : 0;
 
     return {
       programId: program.id,
@@ -257,10 +235,7 @@ export async function getUpcomingAppointments(studentId: string) {
 /**
  * Get recent activity for a student
  */
-export async function getStudentActivity(
-  enrollmentId: string,
-  limit: number = 10
-) {
+export async function getStudentActivity(enrollmentId: string, limit: number = 10) {
   const supabase = await createClient();
 
   const { data, error }: any = await supabase
@@ -294,7 +269,7 @@ export async function getStudentFunding(enrollmentId: string) {
         code,
         type
       )
-    `
+    `,
     )
     .eq('enrollment_id', enrollmentId);
 
@@ -322,7 +297,7 @@ export async function getProgramCompletionStats(programId: string) {
       student_risk_status(
         progress_percentage
       )
-    `
+    `,
     )
     .eq('program_id', programId);
 
@@ -342,14 +317,12 @@ export async function getProgramCompletionStats(programId: string) {
   const inProgress = enrollments.filter((e) => e.status === 'active').length;
   const totalProgress = enrollments.reduce(
     (sum, e) => sum + (e.student_risk_status?.progress_percentage || 0),
-    0
+    0,
   );
   const averageProgress =
     enrollments.length > 0 ? Math.round(totalProgress / enrollments.length) : 0;
   const completionRate =
-    enrollments.length > 0
-      ? Math.round((completed / enrollments.length) * 100)
-      : 0;
+    enrollments.length > 0 ? Math.round((completed / enrollments.length) * 100) : 0;
 
   return {
     totalEnrolled: enrollments.length,

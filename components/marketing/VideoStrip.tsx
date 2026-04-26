@@ -37,9 +37,8 @@ export function VideoStrip() {
             Short videos you can use for learners, employers, and partners.
           </p>
           <p className="mt-3 text-sm text-slate-600">
-            These are perfect for QR codes on flyers, link-in-bio, and
-            presentations. The goal: explain Elevate in real language, in under
-            three minutes.
+            These are perfect for QR codes on flyers, link-in-bio, and presentations. The goal:
+            explain Elevate in real language, in under three minutes.
           </p>
         </header>
 
@@ -64,9 +63,7 @@ export function VideoStrip() {
               <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white">
                 {video.tag}
               </p>
-              <h3 className="mt-2 text-base font-semibold text-white">
-                {video.title}
-              </h3>
+              <h3 className="mt-2 text-base font-semibold text-white">{video.title}</h3>
               <p className="mt-2 text-sm text-slate-600">{video.body}</p>
             </Link>
           ))}

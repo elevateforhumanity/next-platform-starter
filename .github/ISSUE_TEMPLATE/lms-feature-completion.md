@@ -32,6 +32,7 @@ Complete all remaining LMS features identified in the gap analysis report. This 
 - [ ] Add RLS policies for all tables
 
 **Acceptance Criteria:**
+
 - Migration file exists
 - SQL syntax is valid
 - All tables have RLS enabled
@@ -50,6 +51,7 @@ Complete all remaining LMS features identified in the gap analysis report. This 
 - [ ] Run `20251123_lms_social_gamification.sql`
 
 **Acceptance Criteria:**
+
 - All migrations run without errors
 - 40+ tables exist in database
 - RLS is enabled on all tables
@@ -69,6 +71,7 @@ Complete all remaining LMS features identified in the gap analysis report. This 
 - [ ] Test with Postman/curl
 
 **Acceptance Criteria:**
+
 - GET returns thread list
 - POST creates new thread
 - 401 if not authenticated
@@ -87,6 +90,7 @@ Complete all remaining LMS features identified in the gap analysis report. This 
 - [ ] Test with Postman/curl
 
 **Acceptance Criteria:**
+
 - GET returns question list
 - POST creates new question
 - 401 if not authenticated
@@ -105,6 +109,7 @@ Complete all remaining LMS features identified in the gap analysis report. This 
 - [ ] Test with Postman/curl
 
 **Acceptance Criteria:**
+
 - GET returns current goals and streaks
 - POST updates daily goal
 - 401 if not authenticated
@@ -129,6 +134,7 @@ Complete all remaining LMS features identified in the gap analysis report. This 
 - [ ] Test responsive design
 
 **Acceptance Criteria:**
+
 - Page loads without errors
 - Shows real data (not hardcoded)
 - All sections render correctly
@@ -155,6 +161,7 @@ Complete all remaining LMS features identified in the gap analysis report. This 
 - [ ] Test responsive design
 
 **Acceptance Criteria:**
+
 - Page loads without errors
 - All sections render correctly
 - Accordion expands/collapses
@@ -179,6 +186,7 @@ Complete all remaining LMS features identified in the gap analysis report. This 
 - [ ] Test responsive design
 
 **Acceptance Criteria:**
+
 - Page loads without errors
 - Video plays correctly
 - All cards render
@@ -200,6 +208,7 @@ Complete all remaining LMS features identified in the gap analysis report. This 
 - [ ] Fix all TypeScript errors
 
 **Acceptance Criteria:**
+
 - Page loads without errors
 - Shows instructor's courses
 - Links navigate correctly
@@ -216,6 +225,7 @@ Complete all remaining LMS features identified in the gap analysis report. This 
 - [ ] Add placeholder content
 
 **Acceptance Criteria:**
+
 - All pages exist
 - All pages load without errors
 - Only instructors can access
@@ -236,6 +246,7 @@ Complete all remaining LMS features identified in the gap analysis report. This 
 - [ ] Fix all TypeScript errors
 
 **Acceptance Criteria:**
+
 - Page loads without errors
 - Table displays correctly
 - Only admins can access
@@ -253,6 +264,7 @@ Complete all remaining LMS features identified in the gap analysis report. This 
 - [ ] Fix all warnings
 
 **Acceptance Criteria:**
+
 - Zero lint errors
 - Build succeeds
 - Production build works
@@ -262,6 +274,7 @@ Complete all remaining LMS features identified in the gap analysis report. This 
 ### Task 8.2: Feature Testing
 
 **Video & Learning:**
+
 - [ ] Video player works
 - [ ] Speed controls work
 - [ ] Skip buttons work
@@ -270,12 +283,14 @@ Complete all remaining LMS features identified in the gap analysis report. This 
 - [ ] Auto-resume works
 
 **Gamification:**
+
 - [ ] Streaks increment correctly
 - [ ] Achievements award automatically
 - [ ] Dashboard shows widgets
 - [ ] Goals are editable
 
 **Course Pages:**
+
 - [ ] Learning outcomes display
 - [ ] Skills display
 - [ ] Instructor bio shows
@@ -283,17 +298,20 @@ Complete all remaining LMS features identified in the gap analysis report. This 
 - [ ] Reviews work
 
 **Social Features:**
+
 - [ ] Discussion API works
 - [ ] Q&A API works
 - [ ] Can create threads
 - [ ] Can ask questions
 
 **Dashboards:**
+
 - [ ] Student dashboard works
 - [ ] Instructor dashboard works
 - [ ] WIOA dashboard works
 
 **Acceptance Criteria:**
+
 - All features tested
 - All features work correctly
 - No critical bugs
@@ -309,6 +327,7 @@ Complete all remaining LMS features identified in the gap analysis report. This 
 - [ ] Mobile Safari
 
 **Acceptance Criteria:**
+
 - Works in all browsers
 - Responsive on all devices
 - No browser-specific bugs
@@ -326,6 +345,7 @@ Complete all remaining LMS features identified in the gap analysis report. This 
 - [ ] Verify performance
 
 **Acceptance Criteria:**
+
 - Staging deployment successful
 - All features work
 - No errors in logs
@@ -341,6 +361,7 @@ Complete all remaining LMS features identified in the gap analysis report. This 
 - [ ] Notify team
 
 **Acceptance Criteria:**
+
 - Production deployment successful
 - All features work
 - No errors in logs

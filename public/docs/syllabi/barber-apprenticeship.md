@@ -1,4 +1,5 @@
 # Barber Apprenticeship
+
 ## Program Syllabus
 
 **Provider:** Elevate for Humanity  
@@ -6,7 +7,7 @@
 **Program Code:** BARBER-APPR  
 **Duration:** 12-18 Months (1,500 Hours)  
 **Delivery Method:** Registered Apprenticeship (Barbershop + Classroom)  
-**Funding:** Registered Apprenticeship • WIOA • WRG  
+**Funding:** Registered Apprenticeship • WIOA • WRG
 
 ---
 
@@ -36,6 +37,7 @@ Upon successful completion, students will be able to:
 ### Phase 1: Foundations (Months 1-3, 375 Hours)
 
 #### Classroom Instruction (75 hours)
+
 - Indiana Barber Law and Rules
 - Sanitation and infection control
 - Anatomy and physiology (scalp, hair, skin)
@@ -45,6 +47,7 @@ Upon successful completion, students will be able to:
 - Professional ethics and conduct
 
 #### On-the-Job Training (300 hours)
+
 - Shop orientation and safety
 - Tool handling and maintenance
 - Shampooing and scalp treatments
@@ -56,6 +59,7 @@ Upon successful completion, students will be able to:
 ### Phase 2: Core Skills Development (Months 4-9, 750 Hours)
 
 #### Classroom Instruction (75 hours)
+
 - Advanced cutting techniques
 - Facial hair design and grooming
 - Chemical services (relaxers, texturizers)
@@ -65,6 +69,7 @@ Upon successful completion, students will be able to:
 - Customer service excellence
 
 #### On-the-Job Training (675 hours)
+
 - Men's haircuts (all styles)
 - Clipper techniques (fades, tapers, blends)
 - Scissor-over-comb techniques
@@ -77,6 +82,7 @@ Upon successful completion, students will be able to:
 ### Phase 3: Mastery & Business (Months 10-18, 375 Hours)
 
 #### Classroom Instruction (75 hours)
+
 - Advanced design and artistry
 - Trend analysis and style adaptation
 - Marketing and social media
@@ -86,6 +92,7 @@ Upon successful completion, students will be able to:
 - State Board exam preparation
 
 #### On-the-Job Training (300 hours)
+
 - Independent client services
 - Advanced fades and designs
 - Specialty services (hot towel shaves, facials)
@@ -146,11 +153,13 @@ Upon successful completion, students will be able to:
 ## Instructor/Mentor Qualifications
 
 **Classroom Instructors:**
+
 - Licensed barber instructor (Indiana State Board)
 - Minimum 5 years barbering experience
 - Teaching credential or adult education experience
 
 **On-the-Job Mentors:**
+
 - Licensed master barber (Indiana)
 - Minimum 3 years professional experience
 - Approved by Indiana State Board as apprenticeship sponsor
@@ -161,6 +170,7 @@ Upon successful completion, students will be able to:
 ## Apprenticeship Sponsor Requirements
 
 Participating barbershops must:
+
 - Hold valid Indiana barbershop license
 - Employ at least one licensed master barber
 - Maintain sanitation standards per State Board
@@ -173,6 +183,7 @@ Participating barbershops must:
 ## Compensation
 
 Apprentices earn wages while training:
+
 - **Phase 1 (Months 1-3):** 40-50% of licensed barber rate
 - **Phase 2 (Months 4-9):** 50-70% of licensed barber rate
 - **Phase 3 (Months 10-18):** 70-90% of licensed barber rate
@@ -194,6 +205,7 @@ Apprentices earn wages while training:
 ## Career Outcomes
 
 Upon licensure, graduates are prepared for:
+
 - Licensed Barber (employee)
 - Booth Renter (independent contractor)
 - Shop Owner/Operator
@@ -210,6 +222,7 @@ Upon licensure, graduates are prepared for:
 ## Indiana State Board Licensure
 
 To obtain Indiana barber license, graduates must:
+
 1. Complete 1,500 hours of approved apprenticeship
 2. Be at least 18 years old
 3. Have high school diploma or equivalent
@@ -273,7 +286,7 @@ WorkOne Indianapolis: (317) 314-3757
 
 ---
 
-*This syllabus is subject to updates to reflect current Indiana State Board requirements. Students will be notified of any changes.*
+_This syllabus is subject to updates to reflect current Indiana State Board requirements. Students will be notified of any changes._
 
 **Last Updated:** November 2024  
 **ETPL Approved:** Yes  

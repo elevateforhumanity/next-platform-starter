@@ -6,4 +6,6 @@ export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/ai/instructor' },
 };
 
-export default function Page() { redirect('/ai-chat'); }
+export default function Page() {
+  redirect('/ai-chat');
+}

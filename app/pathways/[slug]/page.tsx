@@ -1,28 +1,27 @@
-import { notFound } from "next/navigation";
+import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
-import { createClient } from "@/lib/supabase/server";
-import Link from "next/link";
-import Image from "next/image";
+import { createClient } from '@/lib/supabase/server';
+import Link from 'next/link';
+import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-import { PATHWAYS } from "@/lib/pathways/data";
+import { PATHWAYS } from '@/lib/pathways/data';
 
 export const dynamic = 'force-dynamic';
 const SLUG_IMAGES: Record<string, string> = {
-  'cna':                   '/images/pages/cna-nursing.jpg',
-  'cdl':                   '/images/pages/cdl-training.jpg',
+  cna: '/images/pages/cna-nursing.jpg',
+  cdl: '/images/pages/cdl-training.jpg',
   'barber-apprenticeship': '/images/pages/barber-training.jpg',
-  'hvac':                  '/images/pages/hvac-technician.jpg',
-  'electrical':            '/images/pages/electrical.jpg',
-  'welding':               '/images/pages/welding.jpg',
-  'it-help-desk':          '/images/pages/it-help-desk.jpg',
+  hvac: '/images/pages/hvac-technician.jpg',
+  electrical: '/images/pages/electrical.jpg',
+  welding: '/images/pages/welding.jpg',
+  'it-help-desk': '/images/pages/it-help-desk.jpg',
   'cybersecurity-analyst': '/images/pages/cybersecurity.jpg',
-  'medical-assistant':     '/images/pages/medical-assistant.jpg',
-  'phlebotomy':            '/images/pages/phlebotomy.jpg',
-  'plumbing':              '/images/pages/plumbing.jpg',
-  'healthcare':            '/images/pages/healthcare-sector.jpg',
-  'technology':            '/images/pages/technology-sector.jpg',
+  'medical-assistant': '/images/pages/medical-assistant.jpg',
+  phlebotomy: '/images/pages/phlebotomy.jpg',
+  plumbing: '/images/pages/plumbing.jpg',
+  healthcare: '/images/pages/healthcare-sector.jpg',
+  technology: '/images/pages/technology-sector.jpg',
 };
-
 
 export const metadata: Metadata = {
   title: 'pathway.title',
@@ -33,7 +32,6 @@ export default async function PathwayDetailPage({ params }: { params: Promise<{ 
   const { slug } = await params;
   const supabase = await createClient();
 
-  
   // Try to fetch from database first
   const { data: dbPathway } = await supabase
     .from('pathways')
@@ -51,7 +49,9 @@ export default async function PathwayDetailPage({ params }: { params: Promise<{ 
       {/* Breadcrumbs */}
       <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[{ label: 'Pathways', href: '/pathways' }, { label: pathway.title }]} />
+          <Breadcrumbs
+            items={[{ label: 'Pathways', href: '/pathways' }, { label: pathway.title }]}
+          />
         </div>
       </div>
 
@@ -62,7 +62,8 @@ export default async function PathwayDetailPage({ params }: { params: Promise<{ 
           fill
           className="object-cover"
           priority
-         sizes="100vw" />
+          sizes="100vw"
+        />
       </header>
 
       <section className="">
@@ -82,12 +83,24 @@ export default async function PathwayDetailPage({ params }: { params: Promise<{ 
             <div className="text-xl font-semibold">{pathway.industry}</div>
 
             <div className="mt-6 grid gap-4">
-              <div><span className="font-semibold">Format:</span> {pathway.format}</div>
-              <div><span className="font-semibold">Duration:</span> {pathway.duration}</div>
-              <div><span className="font-semibold">Location:</span> {pathway.location}</div>
-              <div><span className="font-semibold">Funding:</span> {pathway.funding.join(", ")}</div>
-              <div><span className="font-semibold">Credential:</span> {pathway.credential}</div>
-              <div><span className="font-semibold">Outcomes:</span> {pathway.outcomes.join(", ")}</div>
+              <div>
+                <span className="font-semibold">Format:</span> {pathway.format}
+              </div>
+              <div>
+                <span className="font-semibold">Duration:</span> {pathway.duration}
+              </div>
+              <div>
+                <span className="font-semibold">Location:</span> {pathway.location}
+              </div>
+              <div>
+                <span className="font-semibold">Funding:</span> {pathway.funding.join(', ')}
+              </div>
+              <div>
+                <span className="font-semibold">Credential:</span> {pathway.credential}
+              </div>
+              <div>
+                <span className="font-semibold">Outcomes:</span> {pathway.outcomes.join(', ')}
+              </div>
             </div>
 
             <div className="mt-8 rounded-md border border-gray-200 p-5 bg-white">
@@ -105,5 +118,3 @@ export default async function PathwayDetailPage({ params }: { params: Promise<{ 
     </main>
   );
 }
-
-

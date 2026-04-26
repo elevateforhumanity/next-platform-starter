@@ -28,15 +28,11 @@ export function useMobile(breakpoint: number = 1024) {
 }
 
 export function useOrientation() {
-  const [orientation, setOrientation] = useState<'portrait' | 'landscape'>(
-    'portrait'
-  );
+  const [orientation, setOrientation] = useState<'portrait' | 'landscape'>('portrait');
 
   useEffect(() => {
     const checkOrientation = () => {
-      setOrientation(
-        window.innerHeight > window.innerWidth ? 'portrait' : 'landscape'
-      );
+      setOrientation(window.innerHeight > window.innerWidth ? 'portrait' : 'landscape');
     };
 
     checkOrientation();

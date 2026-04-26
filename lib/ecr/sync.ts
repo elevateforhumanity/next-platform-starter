@@ -19,9 +19,7 @@ export interface ECRRecord {
 /**
  * Sync progress for a single student from Elevate LMS + approved OJT hours.
  */
-export async function syncStudentProgress(
-  studentId: string,
-): Promise<ECRRecord | null> {
+export async function syncStudentProgress(studentId: string): Promise<ECRRecord | null> {
   const supabase = await createClient();
 
   const { data: enrollment } = await supabase
@@ -51,13 +49,12 @@ export async function syncStudentProgress(
     .eq('enrollment_id', enrollment.id)
     .eq('approved', true);
 
-  const practicalHours = practicalRows?.reduce((sum: number, h: any) => sum + (h.hours ?? 0), 0) ?? 0;
+  const practicalHours =
+    practicalRows?.reduce((sum: number, h: any) => sum + (h.hours ?? 0), 0) ?? 0;
   const totalHours = theoryHours + practicalHours;
 
   const requiredHours = (enrollment as any).programs?.total_hours ?? 0;
-  const progressPercentage = requiredHours > 0
-    ? Math.round((totalHours / requiredHours) * 100)
-    : 0;
+  const progressPercentage = requiredHours > 0 ? Math.round((totalHours / requiredHours) * 100) : 0;
 
   await supabase
     .from('program_enrollments')
@@ -171,7 +168,8 @@ export async function generateECRReport(studentId: string) {
     .eq('approved', true)
     .order('date', { ascending: false });
 
-  const practicalHoursTotal = practicalRows?.reduce((sum: number, h: any) => sum + (h.hours ?? 0), 0) ?? 0;
+  const practicalHoursTotal =
+    practicalRows?.reduce((sum: number, h: any) => sum + (h.hours ?? 0), 0) ?? 0;
   const theory = theoryHours ?? 0;
   const totalHours = theory + practicalHoursTotal;
   const requiredHours = (enrollment as any).programs?.total_hours ?? 0;
@@ -193,12 +191,13 @@ export async function generateECRReport(studentId: string) {
       total: totalHours,
       percentage,
     },
-    practicalActivities: practicalRows?.map((h: any) => ({
-      date: h.date,
-      activity: h.activity_type ?? 'Unknown',
-      hours: h.hours ?? 0,
-      supervisor: h.profiles?.full_name ?? 'Unknown',
-    })) ?? [],
+    practicalActivities:
+      practicalRows?.map((h: any) => ({
+        date: h.date,
+        activity: h.activity_type ?? 'Unknown',
+        hours: h.hours ?? 0,
+        supervisor: h.profiles?.full_name ?? 'Unknown',
+      })) ?? [],
     generatedAt: new Date(),
   };
 }

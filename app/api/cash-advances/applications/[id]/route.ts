@@ -13,10 +13,7 @@ export const maxDuration = 60;
 
 export const dynamic = 'force-dynamic';
 
-async function _GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+async function _GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const auth = await apiRequireAdmin(request);
   if (auth.error) return auth.error;
 
@@ -38,15 +35,12 @@ async function _GET(
     }
 
     return NextResponse.json(data);
-  } catch (error) { 
+  } catch (error) {
     return NextResponse.json({ error: toErrorMessage(error) }, { status: 500 });
   }
 }
 
-async function _PATCH(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+async function _PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const auth = await apiRequireAdmin(request);
   if (auth.error) return auth.error;
 
@@ -70,7 +64,7 @@ async function _PATCH(
     }
 
     return NextResponse.json(data);
-  } catch (error) { 
+  } catch (error) {
     return NextResponse.json({ error: toErrorMessage(error) }, { status: 500 });
   }
 }

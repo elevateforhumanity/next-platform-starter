@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { createClient } from '@/lib/supabase/client';
 
@@ -21,13 +21,43 @@ import {
 
 /* Checkpoint types — exported for callers like /preview/video-quiz */
 export type CheckpointType = 'quiz' | 'hotspot' | 'scenario' | 'reflection' | 'key-concept';
-interface CheckpointBase { type: CheckpointType; timestamp: number; }
-export interface CheckpointQuiz extends CheckpointBase { type: 'quiz'; question: string; options: string[]; answer: number; explanation?: string; }
-export interface CheckpointHotspot extends CheckpointBase { type: 'hotspot'; prompt: string; areas: { label: string; correct: boolean; info: string }[]; }
-export interface CheckpointScenario extends CheckpointBase { type: 'scenario'; situation: string; choices: { text: string; feedback: string; correct: boolean }[]; }
-export interface CheckpointReflection extends CheckpointBase { type: 'reflection'; prompt: string; minChars?: number; }
-export interface CheckpointKeyConcept extends CheckpointBase { type: 'key-concept'; concept: string; bullets?: string[]; }
-export type Checkpoint = CheckpointQuiz | CheckpointHotspot | CheckpointScenario | CheckpointReflection | CheckpointKeyConcept;
+interface CheckpointBase {
+  type: CheckpointType;
+  timestamp: number;
+}
+export interface CheckpointQuiz extends CheckpointBase {
+  type: 'quiz';
+  question: string;
+  options: string[];
+  answer: number;
+  explanation?: string;
+}
+export interface CheckpointHotspot extends CheckpointBase {
+  type: 'hotspot';
+  prompt: string;
+  areas: { label: string; correct: boolean; info: string }[];
+}
+export interface CheckpointScenario extends CheckpointBase {
+  type: 'scenario';
+  situation: string;
+  choices: { text: string; feedback: string; correct: boolean }[];
+}
+export interface CheckpointReflection extends CheckpointBase {
+  type: 'reflection';
+  prompt: string;
+  minChars?: number;
+}
+export interface CheckpointKeyConcept extends CheckpointBase {
+  type: 'key-concept';
+  concept: string;
+  bullets?: string[];
+}
+export type Checkpoint =
+  | CheckpointQuiz
+  | CheckpointHotspot
+  | CheckpointScenario
+  | CheckpointReflection
+  | CheckpointKeyConcept;
 
 interface VideoQuiz {
   id: string;
@@ -83,9 +113,7 @@ export default function InteractiveVideoPlayer({
   const [showQuizResult, setShowQuizResult] = useState(false);
   const [notes, setNotes] = useState<VideoNote[]>([]);
   const [newNote, setNewNote] = useState('');
-  const [activeTab, setActiveTab] = useState<
-    'transcript' | 'notes' | 'resources'
-  >('transcript');
+  const [activeTab, setActiveTab] = useState<'transcript' | 'notes' | 'resources'>('transcript');
   const [showCaptions, setShowCaptions] = useState(false);
   const [currentCaption, setCurrentCaption] = useState('');
   const [lessonId, setLessonId] = useState<string | null>(null);
@@ -98,7 +126,9 @@ export default function InteractiveVideoPlayer({
   useEffect(() => {
     const loadNotes = async () => {
       const supabase = createClient();
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       if (!user) return;
 
       // Extract lesson ID from video URL or use title
@@ -113,12 +143,14 @@ export default function InteractiveVideoPlayer({
         .order('timestamp', { ascending: true });
 
       if (data) {
-        setNotes(data.map(n => ({
-          id: n.id,
-          timestamp: n.timestamp,
-          content: n.content,
-          createdAt: new Date(n.created_at),
-        })));
+        setNotes(
+          data.map((n) => ({
+            id: n.id,
+            timestamp: n.timestamp,
+            content: n.content,
+            createdAt: new Date(n.created_at),
+          })),
+        );
       }
     };
     loadNotes();
@@ -129,7 +161,9 @@ export default function InteractiveVideoPlayer({
     if (!newNote.trim()) return;
 
     const supabase = createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     const note: VideoNote = {
       id: Date.now().toString(),
@@ -142,36 +176,42 @@ export default function InteractiveVideoPlayer({
     setNewNote('');
 
     if (user && lessonId) {
-      await supabase.from('video_notes').insert({
-        user_id: user.id,
-        video_id: lessonId,
-        timestamp: currentTime,
-        content: newNote,
-      }).catch(() => {});
+      await supabase
+        .from('video_notes')
+        .insert({
+          user_id: user.id,
+          video_id: lessonId,
+          timestamp: currentTime,
+          content: newNote,
+        })
+        .catch(() => {});
     }
   };
 
   // Save progress to database
   const saveProgress = async (progress: number) => {
     const supabase = createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (user && lessonId) {
-      await supabase.from('video_progress').upsert({
-        user_id: user.id,
-        video_id: lessonId,
-        progress_percent: progress,
-        last_position: currentTime,
-        updated_at: new Date().toISOString(),
-      }).catch(() => {});
+      await supabase
+        .from('video_progress')
+        .upsert({
+          user_id: user.id,
+          video_id: lessonId,
+          progress_percent: progress,
+          last_position: currentTime,
+          updated_at: new Date().toISOString(),
+        })
+        .catch(() => {});
     }
   };
 
   // Check for quizzes at current timestamp
   useEffect(() => {
-    const quiz = quizzes.find(
-      (q) => Math.abs(q.timestamp - currentTime) < 0.5 && !showQuiz
-    );
+    const quiz = quizzes.find((q) => Math.abs(q.timestamp - currentTime) < 0.5 && !showQuiz);
 
     if (quiz && isPlaying) {
       setCurrentQuiz(quiz);
@@ -186,9 +226,7 @@ export default function InteractiveVideoPlayer({
   // Update caption based on current time
   useEffect(() => {
     if (showCaptions && transcript.length > 0) {
-      const segment = transcript.find(
-        (s) => currentTime >= s.start && currentTime <= s.end
-      );
+      const segment = transcript.find((s) => currentTime >= s.start && currentTime <= s.end);
       setCurrentCaption(segment?.text || '');
     }
   }, [currentTime, transcript, showCaptions]);
@@ -196,8 +234,12 @@ export default function InteractiveVideoPlayer({
   // Store callbacks in refs to avoid re-render churn
   const onProgressRef = useRef(onProgress);
   const onCompleteRef = useRef(onComplete);
-  useEffect(() => { onProgressRef.current = onProgress; }, [onProgress]);
-  useEffect(() => { onCompleteRef.current = onComplete; }, [onComplete]);
+  useEffect(() => {
+    onProgressRef.current = onProgress;
+  }, [onProgress]);
+  useEffect(() => {
+    onCompleteRef.current = onComplete;
+  }, [onComplete]);
   const lastProgressRef = useRef(-1);
   const completeFiredRef = useRef(false);
 
@@ -341,9 +383,14 @@ export default function InteractiveVideoPlayer({
           <div className="w-full aspect-video flex items-center justify-center bg-gray-900 text-white">
             <div className="text-center p-8">
               <p className="text-lg font-medium mb-2">Unable to load media</p>
-              <p className="text-sm text-slate-700 mb-4">The video may be temporarily unavailable.</p>
+              <p className="text-sm text-slate-700 mb-4">
+                The video may be temporarily unavailable.
+              </p>
               <button
-                onClick={() => { setLoadError(false); videoRef.current?.load(); }}
+                onClick={() => {
+                  setLoadError(false);
+                  videoRef.current?.load();
+                }}
                 className="px-4 py-2 bg-brand-blue-600 rounded-lg text-sm hover:bg-brand-blue-700"
               >
                 Retry
@@ -428,9 +475,7 @@ export default function InteractiveVideoPlayer({
                             : 'border-gray-300'
                         }`}
                       >
-                        {quizAnswer === index && (
-                          <div className="w-3 h-3 bg-white rounded-full" />
-                        )}
+                        {quizAnswer === index && <div className="w-3 h-3 bg-white rounded-full" />}
                       </div>
                       <span>{option}</span>
                     </div>
@@ -447,13 +492,9 @@ export default function InteractiveVideoPlayer({
                   }`}
                 >
                   <p className="font-semibold mb-2">
-                    {quizAnswer === currentQuiz.correctAnswer
-                      ? '• Correct!'
-                      : '✗ Incorrect'}
+                    {quizAnswer === currentQuiz.correctAnswer ? '• Correct!' : '✗ Incorrect'}
                   </p>
-                  {currentQuiz.explanation && (
-                    <p className="text-sm">{currentQuiz.explanation}</p>
-                  )}
+                  {currentQuiz.explanation && <p className="text-sm">{currentQuiz.explanation}</p>}
                 </div>
               )}
 
@@ -479,7 +520,9 @@ export default function InteractiveVideoPlayer({
               min="0"
               max={duration}
               value={currentTime}
-              onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => handleSeek(parseFloat(e.target.value))}
+              onChange={(
+                e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+              ) => handleSeek(parseFloat(e.target.value))}
               className="w-full h-1 bg-gray-600 rounded-lg appearance-none cursor-pointer"
               style={{
                 background: `linear-gradient(to right, #3b82f6 0%, #3b82f6 ${(currentTime / duration) * 100}%, #4b5563 ${(currentTime / duration) * 100}%, #4b5563 100%)`,
@@ -502,11 +545,7 @@ export default function InteractiveVideoPlayer({
           <div className="flex items-center justify-between text-white">
             <div className="flex items-center gap-4">
               <button onClick={togglePlay} className="hover:text-brand-blue-400">
-                {isPlaying ? (
-                  <Pause className="w-6 h-6" />
-                ) : (
-                  <Play className="w-6 h-6" />
-                )}
+                {isPlaying ? <Pause className="w-6 h-6" /> : <Play className="w-6 h-6" />}
               </button>
 
               <button onClick={() => skip(-10)} className="hover:text-brand-blue-400">
@@ -519,11 +558,7 @@ export default function InteractiveVideoPlayer({
 
               <div className="flex items-center gap-2">
                 <button onClick={toggleMute} className="hover:text-brand-blue-400">
-                  {isMuted ? (
-                    <VolumeX className="w-5 h-5" />
-                  ) : (
-                    <Volume2 className="w-5 h-5" />
-                  )}
+                  {isMuted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
                 </button>
                 <input
                   type="range"
@@ -531,9 +566,7 @@ export default function InteractiveVideoPlayer({
                   max="1"
                   step="0.1"
                   value={volume}
-                  onChange={(e) =>
-                    handleVolumeChange(parseFloat(e.target.value))
-                  }
+                  onChange={(e) => handleVolumeChange(parseFloat(e.target.value))}
                   className="w-20 h-1"
                 />
               </div>
@@ -546,7 +579,9 @@ export default function InteractiveVideoPlayer({
             <div className="flex items-center gap-4">
               <select
                 value={playbackRate}
-                onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => changePlaybackRate(parseFloat(e.target.value))}
+                onChange={(
+                  e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+                ) => changePlaybackRate(parseFloat(e.target.value))}
                 className="bg-transparent border border-gray-600 rounded px-2 py-2 text-sm"
               >
                 <option value="0.5">0.5x</option>
@@ -564,10 +599,7 @@ export default function InteractiveVideoPlayer({
                 <MessageSquare className="w-5 h-5" />
               </button>
 
-              <button
-                onClick={toggleFullscreen}
-                className="hover:text-brand-blue-400"
-              >
+              <button onClick={toggleFullscreen} className="hover:text-brand-blue-400">
                 <Maximize className="w-5 h-5" />
               </button>
             </div>
@@ -634,7 +666,11 @@ export default function InteractiveVideoPlayer({
                 <input
                   type="text"
                   value={newNote}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setNewNote(e.target.value)}
+                  onChange={(
+                    e: React.ChangeEvent<
+                      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+                    >,
+                  ) => setNewNote(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && addNote()}
                   placeholder="Add a note at current timestamp..."
                   className="flex-1 px-4 py-2 bg-gray-800 border border-gray-700 rounded text-white"

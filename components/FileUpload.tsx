@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -61,16 +61,9 @@ export function FileUpload({ label, accept = '*', maxSize = 10, onUpload }: File
             <p className="text-sm text-black">
               <span className="font-semibold">Click to upload</span> or drag and drop
             </p>
-            <p className="text-xs text-slate-500 mt-1">
-              Max file size: {maxSize}MB
-            </p>
+            <p className="text-xs text-slate-500 mt-1">Max file size: {maxSize}MB</p>
           </div>
-          <input
-            type="file"
-            className="hidden"
-            accept={accept}
-            onChange={handleFileChange}
-          />
+          <input type="file" className="hidden" accept={accept} onChange={handleFileChange} />
         </label>
       ) : (
         <div className="flex items-center justify-between p-4 bg-slate-50 border border-slate-200 rounded-lg">
@@ -78,33 +71,20 @@ export function FileUpload({ label, accept = '*', maxSize = 10, onUpload }: File
             <FileText className="h-11 w-11 text-brand-orange-600" />
             <div>
               <div className="font-medium text-black">{file.name}</div>
-              <div className="text-sm text-black">
-                {(file.size / 1024 / 1024).toFixed(2)} MB
-              </div>
+              <div className="text-sm text-black">{(file.size / 1024 / 1024).toFixed(2)} MB</div>
             </div>
           </div>
           <div className="flex items-center gap-2">
-            {uploading && (
-              <div className="text-sm text-brand-orange-600">Uploading...</div>
-            )}
-            {uploaded && (
-              <span className="text-slate-400 flex-shrink-0">•</span>
-            )}
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={handleRemove}
-              disabled={uploading}
-            >
+            {uploading && <div className="text-sm text-brand-orange-600">Uploading...</div>}
+            {uploaded && <span className="text-slate-400 flex-shrink-0">•</span>}
+            <Button variant="ghost" size="sm" onClick={handleRemove} disabled={uploading}>
               <X className="h-4 w-4" />
             </Button>
           </div>
         </div>
       )}
 
-      {error && (
-        <p className="text-sm text-brand-orange-600">{error}</p>
-      )}
+      {error && <p className="text-sm text-brand-orange-600">{error}</p>}
     </div>
   );
 }

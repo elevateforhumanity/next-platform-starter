@@ -15,11 +15,11 @@ import { createClient } from '@supabase/supabase-js';
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
+  process.env.SUPABASE_SERVICE_ROLE_KEY!,
 );
 
 const COURSE_ID = '3fb5ce19-1cde-434c-a8c6-f138d7d7aa17';
-const SLUG      = 'barber-lesson-30';
+const SLUG = 'barber-lesson-30';
 
 const content = `<h2>Straight Razor Shave Procedure</h2>
 
@@ -236,7 +236,8 @@ const content = `<h2>Straight Razor Shave Procedure</h2>
 const quizQuestions = [
   {
     id: 'mod5-l30-q1',
-    question: 'A client sits down for a straight razor shave. During your pre-service inspection you notice several raised, inflamed pustules along the jawline. What is the correct action?',
+    question:
+      'A client sits down for a straight razor shave. During your pre-service inspection you notice several raised, inflamed pustules along the jawline. What is the correct action?',
     options: [
       'Proceed with the WTG pass only and avoid the affected area',
       'Refuse the straight razor service and explain the contraindication to the client',
@@ -244,11 +245,13 @@ const quizQuestions = [
       'Use a safety razor instead of a straight razor for this client',
     ],
     correctAnswer: 1,
-    explanation: 'Active pustules are a contraindication for straight razor service. The blade will rupture them, spread bacteria across the face, and create open wounds. Refusing the service is the only correct action — a safety razor does not change this.',
+    explanation:
+      'Active pustules are a contraindication for straight razor service. The blade will rupture them, spread bacteria across the face, and create open wounds. Refusing the service is the only correct action — a safety razor does not change this.',
   },
   {
     id: 'mod5-l30-q2',
-    question: 'During a shave, the razor is dragging and pulling instead of gliding. The blade was just rinsed. What is the most likely cause?',
+    question:
+      'During a shave, the razor is dragging and pulling instead of gliding. The blade was just rinsed. What is the most likely cause?',
     options: [
       'The blade angle is too steep',
       'The client has coarse hair',
@@ -256,11 +259,13 @@ const quizQuestions = [
       'The hot towel was applied too long',
     ],
     correctAnswer: 2,
-    explanation: 'Drag after rinsing the blade points to lather consistency. Dry lather has insufficient slip — it creates friction between the blade and skin. Add water a few drops at a time and re-work the brush before continuing.',
+    explanation:
+      'Drag after rinsing the blade points to lather consistency. Dry lather has insufficient slip — it creates friction between the blade and skin. Add water a few drops at a time and re-work the brush before continuing.',
   },
   {
     id: 'mod5-l30-q3',
-    question: 'What is the primary mechanical purpose of applying skin tension during a straight razor shave?',
+    question:
+      'What is the primary mechanical purpose of applying skin tension during a straight razor shave?',
     options: [
       'To increase blood flow to the shave area',
       'To create a flat cutting surface that prevents the blade from catching skin folds',
@@ -268,11 +273,13 @@ const quizQuestions = [
       'To reduce the amount of lather needed per pass',
     ],
     correctAnswer: 1,
-    explanation: 'Skin tension flattens the cutting surface. Without it, skin folds and contours catch the blade edge, causing nicks — especially on the neck and jawline where the skin is loose and the grain direction is inconsistent.',
+    explanation:
+      'Skin tension flattens the cutting surface. Without it, skin folds and contours catch the blade edge, causing nicks — especially on the neck and jawline where the skin is loose and the grain direction is inconsistent.',
   },
   {
     id: 'mod5-l30-q4',
-    question: 'A client with pseudofolliculitis barbae (razor bumps) requests a full three-pass shave. What is the correct response?',
+    question:
+      'A client with pseudofolliculitis barbae (razor bumps) requests a full three-pass shave. What is the correct response?',
     options: [
       'Complete all three passes as requested — client preference overrides technique',
       'Perform WTG and XTG passes only; explain that ATG worsens the ingrown hair cycle for this condition',
@@ -280,11 +287,13 @@ const quizQuestions = [
       'Perform the ATG pass only on the cheeks and skip the neck',
     ],
     correctAnswer: 1,
-    explanation: 'Pseudofolliculitis barbae is caused by hairs curling back into the skin after cutting. ATG cuts hair below the follicle opening, increasing re-entry likelihood. WTG and XTG passes reduce this risk while still providing a close result.',
+    explanation:
+      'Pseudofolliculitis barbae is caused by hairs curling back into the skin after cutting. ATG cuts hair below the follicle opening, increasing re-entry likelihood. WTG and XTG passes reduce this risk while still providing a close result.',
   },
   {
     id: 'mod5-l30-q5',
-    question: "You complete a shave and notice a small nick on the client's neck. What is the correct immediate sequence?",
+    question:
+      "You complete a shave and notice a small nick on the client's neck. What is the correct immediate sequence?",
     options: [
       'Apply aftershave balm, then styptic, then cold towel',
       'Apply styptic directly to the wound, press and hold, then inform the client',
@@ -292,7 +301,8 @@ const quizQuestions = [
       'Apply cold towel first, then alcohol-based aftershave to disinfect',
     ],
     correctAnswer: 1,
-    explanation: 'Styptic is applied first and directly — it constricts the blood vessel and stops bleeding. Wiping removes the clotting agent. Alcohol on broken skin causes pain and further irritation. The client must be informed of any nick.',
+    explanation:
+      'Styptic is applied first and directly — it constricts the blood vessel and stops bleeding. Wiping removes the clotting agent. Alcohol on broken skin causes pain and further irritation. The client must be informed of any nick.',
   },
   {
     id: 'mod5-l30-q6',
@@ -304,11 +314,13 @@ const quizQuestions = [
       'The ATG pass is not recommended for any zone below the jawline',
     ],
     correctAnswer: 2,
-    explanation: 'The neck combines two high-risk factors: thinner skin more vulnerable to micro-abrasion, and inconsistent grain direction that makes a single stroke direction unreliable. Grain mapping the neck before the ATG pass is essential.',
+    explanation:
+      'The neck combines two high-risk factors: thinner skin more vulnerable to micro-abrasion, and inconsistent grain direction that makes a single stroke direction unreliable. Grain mapping the neck before the ATG pass is essential.',
   },
   {
     id: 'mod5-l30-q7',
-    question: 'Why is lather applied against the grain during the brush application phase, before the first razor pass?',
+    question:
+      'Why is lather applied against the grain during the brush application phase, before the first razor pass?',
     options: [
       'To pre-cut the hair before the razor contacts it',
       'To lift the hair away from the skin so the razor can cut closer to the base',
@@ -316,7 +328,8 @@ const quizQuestions = [
       'To close the follicles before the blade opens them',
     ],
     correctAnswer: 1,
-    explanation: 'Applying lather against the grain lifts each hair strand away from the skin surface, standing it upright. This allows the razor to cut closer to the base on the first pass, reducing the number of passes needed and minimizing skin contact time.',
+    explanation:
+      'Applying lather against the grain lifts each hair strand away from the skin surface, standing it upright. This allows the razor to cut closer to the base on the first pass, reducing the number of passes needed and minimizing skin contact time.',
   },
 ];
 
@@ -324,12 +337,12 @@ async function main() {
   const { error } = await supabase
     .from('course_lessons')
     .update({
-      title:          'Straight Razor Shave Procedure',
+      title: 'Straight Razor Shave Procedure',
       content,
       quiz_questions: quizQuestions,
-      passing_score:  70,
-      is_published:   true,
-      updated_at:     new Date().toISOString(),
+      passing_score: 70,
+      is_published: true,
+      updated_at: new Date().toISOString(),
     })
     .eq('course_id', COURSE_ID)
     .eq('slug', SLUG);
@@ -341,7 +354,9 @@ async function main() {
 
   console.log('✓ barber-lesson-30 written to gold standard');
   console.log('  title: Straight Razor Shave Procedure');
-  console.log('  content: ~' + Math.round(content.length / 1000) + 'k chars, 5 tables, full procedure');
+  console.log(
+    '  content: ~' + Math.round(content.length / 1000) + 'k chars, 5 tables, full procedure',
+  );
   console.log('  quiz_questions: 7 (2 knowledge, 3 scenario, 2 exam-trap)');
   console.log('  passing_score: 70');
 }

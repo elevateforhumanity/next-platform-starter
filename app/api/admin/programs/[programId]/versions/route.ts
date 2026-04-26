@@ -66,7 +66,7 @@ export async function POST(
   if (prog && prog.review_status !== 'approved') {
     return safeError(
       `Program must be approved before publishing. Current status: '${prog.review_status}'. ` +
-      `Submit for review via POST /api/admin/programs/${programId}/review`,
+        `Submit for review via POST /api/admin/programs/${programId}/review`,
       409,
     );
   }

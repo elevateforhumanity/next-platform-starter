@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 import { useState, useEffect } from 'react';
@@ -31,10 +31,10 @@ interface ApprenticeProgressWidgetProps {
   programName?: string;
 }
 
-export function ApprenticeProgressWidget({ 
-  enrollmentId, 
+export function ApprenticeProgressWidget({
+  enrollmentId,
   studentId,
-  programName = 'Barber Apprenticeship'
+  programName = 'Barber Apprenticeship',
 }: ApprenticeProgressWidgetProps) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -65,15 +65,15 @@ export function ApprenticeProgressWidget({
       try {
         const params = new URLSearchParams();
         if (enrollmentId) params.set('enrollment_id', enrollmentId);
-        
+
         const res = await fetch(`/api/apprentice/hours-summary?${params.toString()}`, {
           cache: 'no-store',
         });
-        
+
         if (!res.ok) {
           throw new Error('Failed to load hour summary');
         }
-        
+
         const data = await res.json();
         setSummary(data.summary || data);
       } catch (err: any) {
@@ -88,8 +88,10 @@ export function ApprenticeProgressWidget({
   }, [enrollmentId]);
 
   const effectiveTotal = summary.total_hours + summary.transfer_hours;
-  const progressPercentage = summary.progress_percentage || Math.min((effectiveTotal / summary.required_hours) * 100, 100);
-  const hoursRemaining = summary.remaining_hours || Math.max(summary.required_hours - effectiveTotal, 0);
+  const progressPercentage =
+    summary.progress_percentage || Math.min((effectiveTotal / summary.required_hours) * 100, 100);
+  const hoursRemaining =
+    summary.remaining_hours || Math.max(summary.required_hours - effectiveTotal, 0);
 
   if (loading) {
     return (
@@ -216,11 +218,13 @@ export function ApprenticeProgressWidget({
         {/* RAPIDS & LMS Status */}
         <div className="grid grid-cols-2 gap-3 pt-2 border-t border-slate-200">
           <div className="text-center p-2">
-            <div className={`text-xs font-semibold ${
-              summary.rapids_status === 'registered' || summary.rapids_status === 'active' 
-                ? 'text-brand-green-600' 
-                : 'text-amber-600'
-            }`}>
+            <div
+              className={`text-xs font-semibold ${
+                summary.rapids_status === 'registered' || summary.rapids_status === 'active'
+                  ? 'text-brand-green-600'
+                  : 'text-amber-600'
+              }`}
+            >
               RAPIDS: {summary.rapids_status?.toUpperCase() || 'PENDING'}
             </div>
             {summary.rapids_id && (
@@ -228,14 +232,21 @@ export function ApprenticeProgressWidget({
             )}
           </div>
           <div className="text-center p-2">
-            <div className={`text-xs font-semibold ${
-              summary.lms_completed 
-                ? 'text-brand-green-600' 
-                : summary.lms_enrolled 
-                  ? 'text-brand-blue-600' 
-                  : 'text-amber-600'
-            }`}>
-              LMS: {summary.lms_completed ? 'COMPLETE' : summary.lms_enrolled ? 'IN PROGRESS' : 'NOT STARTED'}
+            <div
+              className={`text-xs font-semibold ${
+                summary.lms_completed
+                  ? 'text-brand-green-600'
+                  : summary.lms_enrolled
+                    ? 'text-brand-blue-600'
+                    : 'text-amber-600'
+              }`}
+            >
+              LMS:{' '}
+              {summary.lms_completed
+                ? 'COMPLETE'
+                : summary.lms_enrolled
+                  ? 'IN PROGRESS'
+                  : 'NOT STARTED'}
             </div>
           </div>
         </div>
@@ -245,9 +256,7 @@ export function ApprenticeProgressWidget({
           <div className="bg-gradient-to-r from-brand-green-500 to-emerald-500 rounded-lg p-4 text-center text-white">
             <Award className="w-8 h-8 mx-auto mb-2" />
             <div className="font-bold">Ready for State Board!</div>
-            <div className="text-sm text-white">
-              Schedule your Indiana IPLA exam
-            </div>
+            <div className="text-sm text-white">Schedule your Indiana IPLA exam</div>
           </div>
         ) : progressPercentage >= 100 ? (
           <div className="bg-gradient-to-r from-amber-500 to-brand-orange-500 rounded-lg p-4 text-center text-white">

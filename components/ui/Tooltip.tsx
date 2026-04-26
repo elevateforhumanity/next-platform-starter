@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -62,13 +62,9 @@ export function Tooltip({ content, type = 'help', children }: TooltipProps) {
  * Pre-configured tooltips for common patterns
  */
 export const CommonTooltips = {
-  whyDoISeeThis: (
-    <Tooltip content="This section shows what's required for your next step." />
-  ),
+  whyDoISeeThis: <Tooltip content="This section shows what's required for your next step." />,
 
-  whyIsThisEmpty: (
-    <Tooltip content="This will update after you complete the step listed above." />
-  ),
+  whyIsThisEmpty: <Tooltip content="This will update after you complete the step listed above." />,
 
   whatHappensIfISubmit: (
     <Tooltip content="Your information is saved and reviewed by staff. You'll see updates here." />
@@ -78,9 +74,7 @@ export const CommonTooltips = {
     <Tooltip content="This step unlocks after you complete the requirements shown on this page." />
   ),
 
-  whoCanSeeThis: (
-    <Tooltip content="Only you and authorized staff working with your program." />
-  ),
+  whoCanSeeThis: <Tooltip content="Only you and authorized staff working with your program." />,
 
   // Dashboard-specific
   emptyCourseList: (
@@ -104,13 +98,9 @@ export const CommonTooltips = {
   ),
 
   // Form fields
-  requiredField: (
-    <Tooltip content="This information is required to process your application." />
-  ),
+  requiredField: <Tooltip content="This information is required to process your application." />,
 
-  optionalField: (
-    <Tooltip content="This information is optional but helps us serve you better." />
-  ),
+  optionalField: <Tooltip content="This information is optional but helps us serve you better." />,
 
   documentUpload: (
     <Tooltip content="Upload a clear photo or scan. Accepted formats: PDF, JPG, PNG. Maximum size: 10MB." />
@@ -174,12 +164,7 @@ interface EmptyStateProps {
   tooltipContent?: string;
 }
 
-export function EmptyState({
-  title,
-  description,
-  action,
-  tooltipContent,
-}: EmptyStateProps) {
+export function EmptyState({ title, description, action, tooltipContent }: EmptyStateProps) {
   return (
     <div className="flex flex-col items-center justify-center p-8 text-center border-2 border-dashed border-gray-300 rounded-lg">
       <div className="flex items-center gap-2 mb-2">
@@ -224,10 +209,7 @@ export function FormField({
   return (
     <div className="mb-4">
       <div className="flex items-center gap-2 mb-1">
-        <label
-          htmlFor={name}
-          className="block text-sm font-medium text-black"
-        >
+        <label htmlFor={name} className="block text-sm font-medium text-black">
           {label}
           {required && <span className="text-brand-red-500 ml-1">*</span>}
         </label>

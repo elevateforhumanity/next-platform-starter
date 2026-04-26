@@ -59,7 +59,7 @@ function CheckoutContent() {
       // Hard guard: sponsored + approved → no checkout
       if (funding.fundingSource !== 'self_pay' && funding.fundingStatus === 'approved') {
         setBlockedMessage(
-          `${SOURCE_LABELS[funding.fundingSource] ?? 'Your sponsor'} is covering your exam fee. No payment is required. Return to your credentials page to schedule your exam.`
+          `${SOURCE_LABELS[funding.fundingSource] ?? 'Your sponsor'} is covering your exam fee. No payment is required. Return to your credentials page to schedule your exam.`,
         );
         setIsProcessing(false);
         return;
@@ -68,7 +68,7 @@ function CheckoutContent() {
       // Sponsored but not yet approved → pending review
       if (funding.fundingSource !== 'self_pay' && funding.fundingStatus === 'pending') {
         setBlockedMessage(
-          'Your funding request is under review. You will be notified when it is approved. Questions? Call (317) 314-3757.'
+          'Your funding request is under review. You will be notified when it is approved. Questions? Call (317) 314-3757.',
         );
         setIsProcessing(false);
         return;
@@ -148,7 +148,10 @@ function CheckoutContent() {
     return (
       <div className="min-h-screen bg-white">
         <div className="max-w-lg mx-auto px-4 py-12">
-          <Link href="/lms/certification" className="inline-flex items-center gap-2 text-slate-700 hover:text-slate-900 mb-8">
+          <Link
+            href="/lms/certification"
+            className="inline-flex items-center gap-2 text-slate-700 hover:text-slate-900 mb-8"
+          >
             <ArrowLeft className="w-4 h-4" />
             Back to My Credentials
           </Link>
@@ -158,7 +161,9 @@ function CheckoutContent() {
                 <CreditCard className="w-8 h-8 text-brand-blue-600" />
               </div>
               <h1 className="text-2xl font-bold">Exam Fee Payment</h1>
-              <p className="text-slate-700 mt-2">Pay your credential exam fee to schedule your exam</p>
+              <p className="text-slate-700 mt-2">
+                Pay your credential exam fee to schedule your exam
+              </p>
             </div>
             {error && (
               <div className="flex items-start gap-3 bg-red-50 border border-red-200 rounded-xl p-4 mb-6">
@@ -187,7 +192,10 @@ function CheckoutContent() {
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-lg mx-auto px-4 py-12">
-        <Link href={`/programs/${program}-certification/enroll`} className="inline-flex items-center gap-2 text-slate-700 hover:text-slate-900 mb-8">
+        <Link
+          href={`/programs/${program}-certification/enroll`}
+          className="inline-flex items-center gap-2 text-slate-700 hover:text-slate-900 mb-8"
+        >
           <ArrowLeft className="w-4 h-4" />
           Back to Enrollment
         </Link>
@@ -198,7 +206,8 @@ function CheckoutContent() {
             </div>
             <h1 className="text-2xl font-bold">Complete Payment</h1>
             <p className="text-slate-700 mt-2">
-              {programNames[program] || program} — {type === 'down-payment' ? 'Down Payment' : 'Full Payment'}
+              {programNames[program] || program} —{' '}
+              {type === 'down-payment' ? 'Down Payment' : 'Full Payment'}
             </p>
           </div>
           {error && (
@@ -216,36 +225,62 @@ function CheckoutContent() {
           <form onSubmit={handleLegacySubmit} className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-slate-900 mb-1">Name on card</label>
-              <input type="text" value={name} onChange={e => setName(e.target.value)} required
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
                 className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
-                placeholder="Full name" />
+                placeholder="Full name"
+              />
             </div>
             <div>
               <label className="block text-sm font-medium text-slate-900 mb-1">Card number</label>
-              <input type="text" value={cardNumber} onChange={e => setCardNumber(e.target.value)} required maxLength={19}
+              <input
+                type="text"
+                value={cardNumber}
+                onChange={(e) => setCardNumber(e.target.value)}
+                required
+                maxLength={19}
                 className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
-                placeholder="1234 5678 9012 3456" />
+                placeholder="1234 5678 9012 3456"
+              />
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-slate-900 mb-1">Expiry</label>
-                <input type="text" value={expiry} onChange={e => setExpiry(e.target.value)} required maxLength={5}
+                <input
+                  type="text"
+                  value={expiry}
+                  onChange={(e) => setExpiry(e.target.value)}
+                  required
+                  maxLength={5}
                   className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
-                  placeholder="MM/YY" />
+                  placeholder="MM/YY"
+                />
               </div>
               <div>
                 <label className="block text-sm font-medium text-slate-900 mb-1">CVC</label>
-                <input type="text" value={cvc} onChange={e => setCvc(e.target.value)} required maxLength={4}
+                <input
+                  type="text"
+                  value={cvc}
+                  onChange={(e) => setCvc(e.target.value)}
+                  required
+                  maxLength={4}
                   className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
-                  placeholder="123" />
+                  placeholder="123"
+                />
               </div>
             </div>
             <div className="flex items-center gap-2 text-xs text-slate-700">
               <Lock className="w-3 h-3" />
               <span>Secured by Stripe. Your card details are never stored on our servers.</span>
             </div>
-            <button type="submit" disabled={isProcessing}
-              className="w-full bg-brand-blue-600 text-white py-3 rounded-xl font-semibold hover:bg-brand-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed">
+            <button
+              type="submit"
+              disabled={isProcessing}
+              className="w-full bg-brand-blue-600 text-white py-3 rounded-xl font-semibold hover:bg-brand-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
+            >
               {isProcessing ? 'Processing...' : `Pay $${amount}`}
             </button>
           </form>
@@ -257,11 +292,13 @@ function CheckoutContent() {
 
 export default function CheckoutPage() {
   return (
-    <Suspense fallback={
-      <div className="min-h-screen bg-white flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-2 border-brand-blue-600 border-t-transparent" />
-      </div>
-    }>
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-white flex items-center justify-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-2 border-brand-blue-600 border-t-transparent" />
+        </div>
+      }
+    >
       <CheckoutContent />
     </Suspense>
   );

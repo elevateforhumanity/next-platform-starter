@@ -1,4 +1,3 @@
-
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
@@ -17,7 +16,9 @@ async function _GET(req: NextRequest) {
     const supabase = await createClient();
 
     // Check authentication
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -36,11 +37,13 @@ async function _GET(req: NextRequest) {
     // Fetch employer incentives
     const { data: incentives, error } = await supabase
       .from('employer_incentives')
-      .select(`
+      .select(
+        `
         *,
         employer:employers(name),
         student:profiles!student_id(full_name)
-      `)
+      `,
+      )
       .order('created_at', { ascending: false });
 
     if (error) {
@@ -67,13 +70,9 @@ async function _GET(req: NextRequest) {
       incentives: formattedIncentives,
       count: formattedIncentives.length,
     });
-
   } catch (err: any) {
     // Error: $1
-    return NextResponse.json(
-      { error: 'Failed to fetch incentives' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to fetch incentives' }, { status: 500 });
   }
 }
 
@@ -85,7 +84,9 @@ async function _POST(req: NextRequest) {
     const supabase = await createClient();
 
     // Check authentication
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -102,22 +103,12 @@ async function _POST(req: NextRequest) {
     }
 
     const body = await req.json();
-    const {
-      employer_id,
-      student_id,
-      program_type,
-      amount,
-      hours_required,
-      start_date,
-      end_date,
-    } = body;
+    const { employer_id, student_id, program_type, amount, hours_required, start_date, end_date } =
+      body;
 
     // Validate required fields
     if (!employer_id || !student_id || !program_type || !amount) {
-      return NextResponse.json(
-        { error: 'Missing required fields' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
     // Create incentive record
@@ -143,19 +134,22 @@ async function _POST(req: NextRequest) {
       throw error;
     }
 
-    await logAdminAudit({ action: AdminAction.INCENTIVE_CREATED, actorId: user.id, entityType: 'employer_incentives', entityId: incentive.id, metadata: { program_type, amount }, req });
+    await logAdminAudit({
+      action: AdminAction.INCENTIVE_CREATED,
+      actorId: user.id,
+      entityType: 'employer_incentives',
+      entityId: incentive.id,
+      metadata: { program_type, amount },
+      req,
+    });
 
     return NextResponse.json({
       success: true,
       incentive,
     });
-
   } catch (err: any) {
     // Error: $1
-    return NextResponse.json(
-      { error: 'Failed to create incentive' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to create incentive' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/admin/incentives', _GET);

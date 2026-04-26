@@ -18,8 +18,9 @@ export const dynamic = 'force-dynamic';
 export default async function ApplicationsPage() {
   const supabase = await createClient();
 
-
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     redirect('/login?redirect=/employer-portal/applications');
@@ -28,7 +29,8 @@ export default async function ApplicationsPage() {
   // Fetch real job applications
   const { data: jobApplications } = await supabase
     .from('job_applications')
-    .select(`
+    .select(
+      `
       id,
       status,
       created_at,
@@ -36,39 +38,47 @@ export default async function ApplicationsPage() {
       job_id,
       profiles!job_applications_user_id_fkey(full_name, city, state),
       jobs(title)
-    `)
+    `,
+    )
     .order('created_at', { ascending: false })
     .limit(20);
 
-  const applications = jobApplications?.map((app: any) => {
-    const createdAt = new Date(app.created_at);
-    const now = new Date();
-    const diffHours = Math.floor((now.getTime() - createdAt.getTime()) / 3600000);
-    const diffDays = Math.floor(diffHours / 24);
-    const appliedDate = diffHours < 24 ? `${diffHours} hours ago` : diffDays < 7 ? `${diffDays} days ago` : `${Math.floor(diffDays / 7)} weeks ago`;
-    
-    return {
-      id: app.id,
-      userId: app.user_id,
-      candidate: {
-        name: app.profiles?.full_name || 'Applicant',
-        image: null,
-      },
-      position: app.jobs?.title || 'Position',
-      status: app.status || 'New',
-      appliedDate,
-      rating: 0,
-      location: app.profiles?.city && app.profiles?.state ? `${app.profiles.city}, ${app.profiles.state}` : 'Not specified',
-    };
-  }) || [];
+  const applications =
+    jobApplications?.map((app: any) => {
+      const createdAt = new Date(app.created_at);
+      const now = new Date();
+      const diffHours = Math.floor((now.getTime() - createdAt.getTime()) / 3600000);
+      const diffDays = Math.floor(diffHours / 24);
+      const appliedDate =
+        diffHours < 24
+          ? `${diffHours} hours ago`
+          : diffDays < 7
+            ? `${diffDays} days ago`
+            : `${Math.floor(diffDays / 7)} weeks ago`;
 
-
-
-
+      return {
+        id: app.id,
+        userId: app.user_id,
+        candidate: {
+          name: app.profiles?.full_name || 'Applicant',
+          image: null,
+        },
+        position: app.jobs?.title || 'Position',
+        status: app.status || 'New',
+        appliedDate,
+        rating: 0,
+        location:
+          app.profiles?.city && app.profiles?.state
+            ? `${app.profiles.city}, ${app.profiles.state}`
+            : 'Not specified',
+      };
+    }) || [];
 
   return (
     <div className="min-h-screen bg-white">
-      <Breadcrumbs items={[{ label: 'Employer Portal', href: '/employer-portal' }, { label: 'Applications' }]} />
+      <Breadcrumbs
+        items={[{ label: 'Employer Portal', href: '/employer-portal' }, { label: 'Applications' }]}
+      />
       <section className="border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="flex items-center gap-3 mb-2">

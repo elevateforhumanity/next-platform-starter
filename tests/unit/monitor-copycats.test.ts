@@ -25,8 +25,20 @@ function suspiciousReport(): MonitoringReport {
   return makeReport({
     suspiciousCount: 2,
     results: [
-      { title: 'Fake Site', url: 'https://fake.example.com', snippet: '', suspicious: true, reason: 'Found watermark: "EFH-ORIGINAL-2024"' },
-      { title: 'Another Copy', url: 'https://copy.example.com', snippet: '', suspicious: true, reason: 'Found data-site-owner attribute' },
+      {
+        title: 'Fake Site',
+        url: 'https://fake.example.com',
+        snippet: '',
+        suspicious: true,
+        reason: 'Found watermark: "EFH-ORIGINAL-2024"',
+      },
+      {
+        title: 'Another Copy',
+        url: 'https://copy.example.com',
+        snippet: '',
+        suspicious: true,
+        reason: 'Found data-site-owner attribute',
+      },
     ],
   });
 }

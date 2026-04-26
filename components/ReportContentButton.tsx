@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -67,7 +67,8 @@ export default function ReportContentButton({
       } else {
         alert('Failed to submit report. Please try again.');
       }
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
       alert('Failed to submit report. Please try again.');
     } finally {
@@ -96,12 +97,8 @@ export default function ReportContentButton({
                   <Flag className="w-5 h-5 text-brand-orange-600" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-black">
-                    Report Content
-                  </h3>
-                  <p className="text-sm text-slate-700">
-                    Help us keep the community safe
-                  </p>
+                  <h3 className="text-lg font-semibold text-black">Report Content</h3>
+                  <p className="text-sm text-slate-700">Help us keep the community safe</p>
                 </div>
               </div>
               <button
@@ -119,11 +116,10 @@ export default function ReportContentButton({
                 <div className="w-16 h-16 bg-brand-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                   <span className="text-slate-400 flex-shrink-0">•</span>
                 </div>
-                <h4 className="text-lg font-semibold text-black mb-2">
-                  Report Submitted
-                </h4>
+                <h4 className="text-lg font-semibold text-black mb-2">Report Submitted</h4>
                 <p className="text-black">
-                  Thank you for helping us maintain a safe community. We'll review this report shortly.
+                  Thank you for helping us maintain a safe community. We'll review this report
+                  shortly.
                 </p>
               </div>
             ) : (
@@ -134,7 +130,7 @@ export default function ReportContentButton({
                     Why are you reporting this?
                   </label>
                   <div className="space-y-2">
-                    {reasons.map(r => (
+                    {reasons.map((r) => (
                       <label
                         key={r.value}
                         className="flex items-center gap-3 p-3 border-2 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors"
@@ -144,7 +140,11 @@ export default function ReportContentButton({
                           name="reason"
                           value={r.value}
                           checked={reason === r.value}
-                          onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setReason(e.target.value)}
+                          onChange={(
+                            e: React.ChangeEvent<
+                              HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+                            >,
+                          ) => setReason(e.target.value)}
                           className="w-4 h-4 text-brand-orange-600 border-gray-300 focus:ring-brand-red-500"
                         />
                         <span className="text-sm text-black">{r.label}</span>
@@ -160,7 +160,11 @@ export default function ReportContentButton({
                   </label>
                   <textarea
                     value={description}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setDescription(e.target.value)}
+                    onChange={(
+                      e: React.ChangeEvent<
+                        HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+                      >,
+                    ) => setDescription(e.target.value)}
                     rows={3}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-red-500 focus:border-transparent"
                     placeholder="Provide any additional context..."
@@ -170,7 +174,8 @@ export default function ReportContentButton({
                 {/* Info */}
                 <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-lg p-4">
                   <p className="text-sm text-brand-blue-800">
-                    Your report will be reviewed by our moderation team. False reports may result in account restrictions.
+                    Your report will be reviewed by our moderation team. False reports may result in
+                    account restrictions.
                   </p>
                 </div>
 

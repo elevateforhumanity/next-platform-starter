@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -27,7 +27,9 @@ export default function InstructorPerformanceDashboard() {
     <div className="min-h-screen bg-gray-50">
       <div className="   text-white py-12">
         <div className="max-w-7xl mx-auto px-4">
-          <h1 className="text-4xl font-bold mb-2 text-2xl md:text-3xl lg:text-4xl">Instructor Performance</h1>
+          <h1 className="text-4xl font-bold mb-2 text-2xl md:text-3xl lg:text-4xl">
+            Instructor Performance
+          </h1>
           <p className="text-brand-red-100">Track your teaching effectiveness</p>
         </div>
       </div>
@@ -37,7 +39,9 @@ export default function InstructorPerformanceDashboard() {
           <h2 className="text-2xl font-bold">Overview</h2>
           <select
             value={timeRange}
-            onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setTimeRange(e.target.value)}
+            onChange={(
+              e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+            ) => setTimeRange(e.target.value)}
             className="px-4 py-2 border rounded"
           >
             <option value="7">Last 7 days</option>
@@ -116,7 +120,8 @@ export default function InstructorPerformanceDashboard() {
           <Card className="p-6   ">
             <h3 className="font-bold mb-2">🎯 Strength</h3>
             <p className="text-sm text-black">
-              Your response time is 40% faster than average. Students appreciate your quick feedback!
+              Your response time is 40% faster than average. Students appreciate your quick
+              feedback!
             </p>
           </Card>
 

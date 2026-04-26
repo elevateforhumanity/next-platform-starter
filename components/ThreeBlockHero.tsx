@@ -1,34 +1,34 @@
-import Image from "next/image";
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import Image from 'next/image';
+import Link from 'next/link';
+import { ArrowRight } from 'lucide-react';
 
 const heroBlocks = [
   {
-    image: "/images/pages/barber-fade.jpg",
-    title: "Beauty & Wellness Programs",
-    description: "Barber, Cosmetology, and Esthetics training with state licensure",
-    cta: "Explore Beauty Programs",
-    href: "/programs/barber",
-    badge: "Licensed Careers",
-    color: " ",
+    image: '/images/pages/barber-fade.jpg',
+    title: 'Beauty & Wellness Programs',
+    description: 'Barber, Cosmetology, and Esthetics training with state licensure',
+    cta: 'Explore Beauty Programs',
+    href: '/programs/barber',
+    badge: 'Licensed Careers',
+    color: ' ',
   },
   {
-    image: "/images/pages/cna-patient-care.jpg",
-    title: "Healthcare Training",
-    description: "CNA, Medical Assistant, and Phlebotomy certifications in weeks",
-    cta: "View Healthcare Programs",
-    href: "/programs/cna",
-    badge: "High Demand",
-    color: " ",
+    image: '/images/pages/cna-patient-care.jpg',
+    title: 'Healthcare Training',
+    description: 'CNA, Medical Assistant, and Phlebotomy certifications in weeks',
+    cta: 'View Healthcare Programs',
+    href: '/programs/cna',
+    badge: 'High Demand',
+    color: ' ',
   },
   {
-    image: "/images/pages/employer-handshake.jpg",
-    title: "Direct Job Placement",
-    description: "Our staffing team connects you with employers before graduation",
-    cta: "Learn About Job Support",
-    href: "/career-services",
-    badge: "ETPL Listed — Indiana DWD",
-    color: " ",
+    image: '/images/pages/employer-handshake.jpg',
+    title: 'Direct Job Placement',
+    description: 'Our staffing team connects you with employers before graduation',
+    cta: 'Learn About Job Support',
+    href: '/career-services',
+    badge: 'ETPL Listed — Indiana DWD',
+    color: ' ',
   },
 ];
 
@@ -42,7 +42,8 @@ export default function ThreeBlockHero() {
             Three Pathways to Success
           </h2>
           <p className="text-xl text-black max-w-3xl mx-auto">
-            Choose your path, get trained, and start earning. Our team supports you every step of the way.
+            Choose your path, get trained, and start earning. Our team supports you every step of
+            the way.
           </p>
         </div>
 
@@ -60,7 +61,8 @@ export default function ThreeBlockHero() {
                 alt={block.title}
                 fill
                 className="object-cover group-hover:scale-110 transition-transform duration-500"
-               sizes="100vw" />
+                sizes="100vw"
+              />
 
               {/* Content */}
               <div className="relative h-full flex flex-col justify-between p-6 text-white">
@@ -75,9 +77,7 @@ export default function ThreeBlockHero() {
                   <h3 className="text-2xl md:text-3xl font-bold mb-3 leading-tight">
                     {block.title}
                   </h3>
-                  <p className="text-white/90 mb-6 leading-relaxed">
-                    {block.description}
-                  </p>
+                  <p className="text-white/90 mb-6 leading-relaxed">{block.description}</p>
                   <div className="inline-flex items-center gap-2 text-sm font-semibold group-hover:gap-3 transition-all">
                     <span>{block.cta}</span>
                     <ArrowRight size={18} />

@@ -25,7 +25,9 @@ interface StudyGroup {
 
 export default async function GroupsPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/groups');
 
   // Fetch study groups from database
@@ -51,7 +53,11 @@ export default async function GroupsPage() {
           <div className="flex gap-3">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-700" />
-              <input type="text" placeholder="Search groups..." className="pl-10 pr-4 py-2 border rounded-lg" />
+              <input
+                type="text"
+                placeholder="Search groups..."
+                className="pl-10 pr-4 py-2 border rounded-lg"
+              />
             </div>
             <button className="flex items-center gap-2 px-4 py-2 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700">
               <Plus className="w-5 h-5" /> Create Group
@@ -62,7 +68,9 @@ export default async function GroupsPage() {
         {error && (
           <div className="bg-brand-red-50 border border-brand-red-200 rounded-lg p-4 mb-6 flex items-center gap-3">
             <AlertCircle className="w-5 h-5 text-brand-red-500" />
-            <p className="text-brand-red-700">Unable to load study groups. Please try again later.</p>
+            <p className="text-brand-red-700">
+              Unable to load study groups. Please try again later.
+            </p>
           </div>
         )}
 
@@ -70,7 +78,9 @@ export default async function GroupsPage() {
           <div className="text-center py-16 bg-white rounded-xl border">
             <Users className="w-16 h-16 text-slate-700 mx-auto mb-4" />
             <h2 className="text-xl font-semibold text-slate-900 mb-2">No Study Groups Yet</h2>
-            <p className="text-slate-700 mb-6">Be the first to create a study group for your program!</p>
+            <p className="text-slate-700 mb-6">
+              Be the first to create a study group for your program!
+            </p>
             <button className="inline-flex items-center gap-2 px-6 py-3 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700">
               <Plus className="w-5 h-5" /> Create First Group
             </button>
@@ -78,19 +88,32 @@ export default async function GroupsPage() {
         ) : (
           <div className="grid md:grid-cols-2 gap-6">
             {groups?.map((group: StudyGroup) => (
-              <div key={group.id} className="bg-white rounded-xl p-6 shadow-sm border hover:shadow-md transition-all">
+              <div
+                key={group.id}
+                className="bg-white rounded-xl p-6 shadow-sm border hover:shadow-md transition-all"
+              >
                 <div className="flex items-start justify-between mb-4">
                   <div>
                     <h3 className="font-bold text-slate-900">{group.name}</h3>
                     <p className="text-slate-700 text-sm">{group.category}</p>
                   </div>
-                  {group.is_active && <span className="px-2 py-1 bg-brand-green-100 text-brand-green-700 text-xs rounded-full">Active</span>}
+                  {group.is_active && (
+                    <span className="px-2 py-1 bg-brand-green-100 text-brand-green-700 text-xs rounded-full">
+                      Active
+                    </span>
+                  )}
                 </div>
                 <div className="flex items-center gap-4 text-sm text-slate-700 mb-4">
-                  <span className="flex items-center gap-1"><Users className="w-4 h-4" /> {group.member_count} members</span>
-                  <span className="flex items-center gap-1"><MessageSquare className="w-4 h-4" /> Chat</span>
+                  <span className="flex items-center gap-1">
+                    <Users className="w-4 h-4" /> {group.member_count} members
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <MessageSquare className="w-4 h-4" /> Chat
+                  </span>
                 </div>
-                <button className="w-full py-2 border rounded-lg text-brand-blue-600 hover:bg-brand-blue-50">Join Group</button>
+                <button className="w-full py-2 border rounded-lg text-brand-blue-600 hover:bg-brand-blue-50">
+                  Join Group
+                </button>
               </div>
             ))}
           </div>

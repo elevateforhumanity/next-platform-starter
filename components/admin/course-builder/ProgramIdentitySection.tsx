@@ -36,7 +36,7 @@ export default function ProgramIdentitySection({ state, onChange }: Props) {
           <input
             type="text"
             value={state.title}
-            onChange={e => onChange({ title: e.target.value })}
+            onChange={(e) => onChange({ title: e.target.value })}
             placeholder="e.g. HVAC Technician Certification"
             className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-900 placeholder-slate-400 focus:border-brand-blue-500 focus:outline-none focus:ring-2 focus:ring-brand-blue-500/20"
           />
@@ -48,7 +48,7 @@ export default function ProgramIdentitySection({ state, onChange }: Props) {
           <input
             type="text"
             value={state.subtitle}
-            onChange={e => onChange({ subtitle: e.target.value })}
+            onChange={(e) => onChange({ subtitle: e.target.value })}
             placeholder="e.g. EPA 608 Certification Prep — Workforce-Ready in 12 Weeks"
             className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-900 placeholder-slate-400 focus:border-brand-blue-500 focus:outline-none focus:ring-2 focus:ring-brand-blue-500/20"
           />
@@ -61,11 +61,15 @@ export default function ProgramIdentitySection({ state, onChange }: Props) {
               URL Slug <span className="text-red-500">*</span>
             </label>
             <div className="flex items-center rounded-lg border border-slate-300 overflow-hidden focus-within:border-brand-blue-500 focus-within:ring-2 focus-within:ring-brand-blue-500/20">
-              <span className="bg-slate-50 px-3 py-2 text-xs text-slate-400 border-r border-slate-300 select-none">/programs/</span>
+              <span className="bg-slate-50 px-3 py-2 text-xs text-slate-400 border-r border-slate-300 select-none">
+                /programs/
+              </span>
               <input
                 type="text"
                 value={state.slug}
-                onChange={e => onChange({ slug: e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, '-') })}
+                onChange={(e) =>
+                  onChange({ slug: e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, '-') })
+                }
                 placeholder="hvac-technician"
                 className="flex-1 px-3 py-2 text-sm text-slate-900 placeholder-slate-400 focus:outline-none bg-white"
               />
@@ -78,11 +82,15 @@ export default function ProgramIdentitySection({ state, onChange }: Props) {
             </label>
             <select
               value={state.category}
-              onChange={e => onChange({ category: e.target.value })}
+              onChange={(e) => onChange({ category: e.target.value })}
               className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-900 focus:border-brand-blue-500 focus:outline-none focus:ring-2 focus:ring-brand-blue-500/20 bg-white"
             >
               <option value="">Select category…</option>
-              {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
+              {CATEGORIES.map((c) => (
+                <option key={c} value={c}>
+                  {c}
+                </option>
+              ))}
             </select>
           </div>
         </div>
@@ -95,11 +103,13 @@ export default function ProgramIdentitySection({ state, onChange }: Props) {
           <textarea
             rows={4}
             value={state.description}
-            onChange={e => onChange({ description: e.target.value })}
+            onChange={(e) => onChange({ description: e.target.value })}
             placeholder="Describe what this program prepares learners for, who it's designed for, and what makes it workforce-ready. This appears on the public program page and in funding applications."
             className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-900 placeholder-slate-400 focus:border-brand-blue-500 focus:outline-none focus:ring-2 focus:ring-brand-blue-500/20 resize-none"
           />
-          <p className="mt-1 text-xs text-slate-400">{state.description.length} characters — aim for 150–400</p>
+          <p className="mt-1 text-xs text-slate-400">
+            {state.description.length} characters — aim for 150–400
+          </p>
         </div>
 
         {/* Hero image URL */}
@@ -110,13 +120,17 @@ export default function ProgramIdentitySection({ state, onChange }: Props) {
           <input
             type="url"
             value={state.hero_image_url || ''}
-            onChange={e => onChange({ hero_image_url: e.target.value || null })}
+            onChange={(e) => onChange({ hero_image_url: e.target.value || null })}
             placeholder="https://…"
             className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-900 placeholder-slate-400 focus:border-brand-blue-500 focus:outline-none focus:ring-2 focus:ring-brand-blue-500/20"
           />
           {state.hero_image_url && (
             <div className="mt-2 h-24 w-full overflow-hidden rounded-lg border border-slate-200">
-              <img src={state.hero_image_url} alt="Hero preview" className="h-full w-full object-cover" />
+              <img
+                src={state.hero_image_url}
+                alt="Hero preview"
+                className="h-full w-full object-cover"
+              />
             </div>
           )}
         </div>

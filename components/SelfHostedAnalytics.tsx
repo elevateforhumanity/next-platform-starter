@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -54,7 +54,8 @@ function SelfHostedAnalyticsContent() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Silently fail - don't break the app
     }
   };
@@ -101,9 +102,10 @@ export function useAnalytics() {
           timestamp: new Date().toISOString(),
         }),
       });
-    } catch (error) { /* Error handled silently */ 
-    // Error handled
-  }
+    } catch (error) {
+      /* Error handled silently */
+      // Error handled
+    }
   };
 }
 

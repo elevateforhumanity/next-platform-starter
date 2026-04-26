@@ -33,8 +33,10 @@ const LOGO_ATTACHMENT = {
 function buildHtml(bodyText) {
   const paragraphs = bodyText
     .split('\n\n')
-    .filter(p => p.trim())
-    .map(p => `<p style="margin:0 0 16px 0;color:#1e293b;">${p.trim().replace(/\n/g, '<br>')}</p>`)
+    .filter((p) => p.trim())
+    .map(
+      (p) => `<p style="margin:0 0 16px 0;color:#1e293b;">${p.trim().replace(/\n/g, '<br>')}</p>`,
+    )
     .join('\n');
 
   return `<!DOCTYPE html>
@@ -175,10 +177,12 @@ elevate4humanityedu@gmail.com
 function sendEmail(email) {
   return new Promise((resolve, reject) => {
     const payload = JSON.stringify({
-      personalizations: [{
-        to: [{ email: email.to, name: email.toName }],
-        cc: [{ email: COPY_TO, name: 'Elizabeth Greene' }],
-      }],
+      personalizations: [
+        {
+          to: [{ email: email.to, name: email.toName }],
+          cc: [{ email: COPY_TO, name: 'Elizabeth Greene' }],
+        },
+      ],
       from: { email: FROM, name: FROM_NAME },
       reply_to: { email: REPLY_TO, name: 'Elizabeth Greene' },
       subject: email.subject,
@@ -210,7 +214,7 @@ function sendEmail(email) {
             resolve({ ok: false, status: res.statusCode, body });
           }
         });
-      }
+      },
     );
     req.on('error', reject);
     req.write(payload);

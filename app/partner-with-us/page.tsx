@@ -3,15 +3,22 @@ import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { getAdminClient } from '@/lib/supabase/admin';
 import {
-  Building2, Users, Briefcase, GraduationCap,
-  CheckCircle, ArrowRight, Mail, Phone,
+  Building2,
+  Users,
+  Briefcase,
+  GraduationCap,
+  CheckCircle,
+  ArrowRight,
+  Mail,
+  Phone,
 } from 'lucide-react';
 
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: 'Partner With Us | Elevate for Humanity',
-  description: 'Employer, education, and government partnership opportunities with Elevate for Humanity. Hire graduates, co-develop programs, or refer clients.',
+  description:
+    'Employer, education, and government partnership opportunities with Elevate for Humanity. Hire graduates, co-develop programs, or refer clients.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/partner-with-us' },
 };
 
@@ -89,17 +96,24 @@ export default async function PartnerWithUsPage() {
     <div className="min-h-screen bg-white">
       <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[{ label: 'Partnerships', href: '/partnerships' }, { label: 'Partner With Us' }]} />
+          <Breadcrumbs
+            items={[{ label: 'Partnerships', href: '/partnerships' }, { label: 'Partner With Us' }]}
+          />
         </div>
       </div>
 
       {/* Hero */}
       <section className="bg-slate-900 py-16 px-4">
         <div className="max-w-4xl mx-auto">
-          <p className="text-xs font-bold uppercase tracking-widest text-brand-red-400 mb-3">Partnership Opportunities</p>
-          <h1 className="text-4xl font-extrabold text-white mb-4">Partner With Elevate for Humanity</h1>
+          <p className="text-xs font-bold uppercase tracking-widest text-brand-red-400 mb-3">
+            Partnership Opportunities
+          </p>
+          <h1 className="text-4xl font-extrabold text-white mb-4">
+            Partner With Elevate for Humanity
+          </h1>
           <p className="text-slate-300 text-lg max-w-2xl mb-6">
-            Employers, workforce agencies, education institutions, and community organizations — we build partnerships that move people into careers.
+            Employers, workforce agencies, education institutions, and community organizations — we
+            build partnerships that move people into careers.
           </p>
           <div className="flex items-center gap-3 text-slate-300 text-sm">
             <Building2 className="w-4 h-4 text-brand-red-400" />
@@ -149,12 +163,19 @@ export default async function PartnerWithUsPage() {
               {featuredPartners.map((p) => (
                 <div key={p.id} className="rounded-xl border border-slate-200 bg-white p-5">
                   <p className="font-bold text-slate-900 text-sm">{p.name}</p>
-                  {p.city && <p className="text-xs text-slate-500 mt-1">{p.city}, {p.state}</p>}
+                  {p.city && (
+                    <p className="text-xs text-slate-500 mt-1">
+                      {p.city}, {p.state}
+                    </p>
+                  )}
                 </div>
               ))}
             </div>
             <div className="mt-6">
-              <Link href="/partnerships" className="text-sm font-semibold text-brand-red-600 hover:underline flex items-center gap-1">
+              <Link
+                href="/partnerships"
+                className="text-sm font-semibold text-brand-red-600 hover:underline flex items-center gap-1"
+              >
                 View all partnerships <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
@@ -168,7 +189,8 @@ export default async function PartnerWithUsPage() {
           <div>
             <h2 className="text-2xl font-bold mb-2">Ready to Partner?</h2>
             <p className="text-slate-300 max-w-lg">
-              Contact our partnerships team to discuss how we can work together to build Indiana's workforce.
+              Contact our partnerships team to discuss how we can work together to build Indiana's
+              workforce.
             </p>
           </div>
           <div className="flex flex-col gap-3 shrink-0">

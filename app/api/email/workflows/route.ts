@@ -29,15 +29,12 @@ async function _GET(req: NextRequest) {
     if (error) throw error;
 
     return NextResponse.json({ success: true, workflows });
-  } catch (error) { 
+  } catch (error) {
     logger.error(
       'Error fetching workflows:',
-      error instanceof Error ? error : new Error(String(error))
+      error instanceof Error ? error : new Error(String(error)),
     );
-    return NextResponse.json(
-      { success: false, error: toErrorMessage(error) },
-      { status: 500 }
-    );
+    return NextResponse.json({ success: false, error: toErrorMessage(error) }, { status: 500 });
   }
 }
 
@@ -64,15 +61,12 @@ async function _POST(req: Request) {
     if (error) throw error;
 
     return NextResponse.json({ success: true, workflow });
-  } catch (error) { 
+  } catch (error) {
     logger.error(
       'Error creating workflow:',
-      error instanceof Error ? error : new Error(String(error))
+      error instanceof Error ? error : new Error(String(error)),
     );
-    return NextResponse.json(
-      { success: false, error: toErrorMessage(error) },
-      { status: 500 }
-    );
+    return NextResponse.json({ success: false, error: toErrorMessage(error) }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/email/workflows', _GET);

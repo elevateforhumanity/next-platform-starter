@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { createClient } from '@/lib/supabase/client';
 
@@ -25,7 +25,7 @@ export function TranscriptPanel({
   currentTime = 0,
   onSeek,
   className = '',
-  videoId
+  videoId,
 }: TranscriptPanelProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [isExpanded, setIsExpanded] = useState(true);
@@ -35,15 +35,15 @@ export function TranscriptPanel({
   // Log transcript search for analytics
   const logTranscriptSearch = async (query: string) => {
     if (!query.trim()) return;
-    const { data: { user } } = await supabase.auth.getUser();
-    await supabase
-      .from('transcript_search_log')
-      .insert({
-        user_id: user?.id,
-        video_id: videoId,
-        query: query.trim(),
-        searched_at: new Date().toISOString()
-      });
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    await supabase.from('transcript_search_log').insert({
+      user_id: user?.id,
+      video_id: videoId,
+      query: query.trim(),
+      searched_at: new Date().toISOString(),
+    });
   };
 
   // Auto scroll to active segment
@@ -51,7 +51,7 @@ export function TranscriptPanel({
     if (activeSegmentRef.current) {
       activeSegmentRef.current.scrollIntoView({
         behavior: 'smooth',
-        block: 'center'
+        block: 'center',
       });
     }
   }, [currentTime]);
@@ -63,9 +63,7 @@ export function TranscriptPanel({
   };
 
   const downloadTranscript = () => {
-    const text = segments
-      .map(seg => `[${formatTime(seg.timestamp)}] ${seg.text}`)
-      .join('\n\n');
+    const text = segments.map((seg) => `[${formatTime(seg.timestamp)}] ${seg.text}`).join('\n\n');
 
     const blob = new Blob([text], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
@@ -76,8 +74,8 @@ export function TranscriptPanel({
     URL.revokeObjectURL(url);
   };
 
-  const filteredSegments = segments.filter(seg =>
-    seg.text.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredSegments = segments.filter((seg) =>
+    seg.text.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
   const getActiveSegmentIndex = () => {
@@ -98,11 +96,7 @@ export function TranscriptPanel({
           className="flex items-center gap-2 font-semibold text-black hover:text-brand-orange-600 transition"
         >
           <span>Transcript</span>
-          {isExpanded ? (
-            <ChevronUp className="w-4 h-4" />
-          ) : (
-            <ChevronDown className="w-4 h-4" />
-          )}
+          {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
         </button>
         <button
           onClick={downloadTranscript}
@@ -124,7 +118,9 @@ export function TranscriptPanel({
                 type="text"
                 placeholder="Search transcript..."
                 value={searchQuery}
-                onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setSearchQuery(e.target.value)}
+                onChange={(
+                  e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+                ) => setSearchQuery(e.target.value)}
                 className="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
               />
             </div>
@@ -151,16 +147,16 @@ export function TranscriptPanel({
                     key={index}
                     ref={isActive ? activeSegmentRef : null}
                     className={`group cursor-pointer p-3 rounded-lg transition ${
-                      isActive
-                        ? 'bg-brand-red-50 border border-brand-red-200'
-                        : 'hover:bg-slate-50'
+                      isActive ? 'bg-brand-red-50 border border-brand-red-200' : 'hover:bg-slate-50'
                     }`}
                     onClick={() => onSeek && onSeek(segment.timestamp)}
                   >
                     <div className="flex items-start gap-3">
                       <span
                         className={`text-xs font-mono font-semibold flex-shrink-0 ${
-                          isActive ? 'text-brand-orange-600' : 'text-slate-500 group-hover:text-brand-orange-600'
+                          isActive
+                            ? 'text-brand-orange-600'
+                            : 'text-slate-500 group-hover:text-brand-orange-600'
                         }`}
                       >
                         {formatTime(segment.timestamp)}
@@ -206,7 +202,7 @@ function HighlightText({ text, highlight }: { text: string; highlight: string })
           </mark>
         ) : (
           <span key={i}>{part}</span>
-        )
+        ),
       )}
     </>
   );

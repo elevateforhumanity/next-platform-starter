@@ -95,7 +95,11 @@ export function useTimeclock(options: UseTimeclockOptions) {
           };
 
           if (pos.accuracy_m > MAX_ACCURACY_M) {
-            reject(new Error(`GPS accuracy too low: ${Math.round(pos.accuracy_m)}m (max ${MAX_ACCURACY_M}m)`));
+            reject(
+              new Error(
+                `GPS accuracy too low: ${Math.round(pos.accuracy_m)}m (max ${MAX_ACCURACY_M}m)`,
+              ),
+            );
             return;
           }
 
@@ -104,11 +108,12 @@ export function useTimeclock(options: UseTimeclockOptions) {
           resolve(pos);
         },
         (error) => {
-          const errorMsg = error.code === 1
-            ? 'Location permission denied'
-            : error.code === 2
-            ? 'Location unavailable'
-            : 'Location request timed out';
+          const errorMsg =
+            error.code === 1
+              ? 'Location permission denied'
+              : error.code === 2
+                ? 'Location unavailable'
+                : 'Location request timed out';
           setGpsError(errorMsg);
           reject(new Error(errorMsg));
         },
@@ -116,7 +121,7 @@ export function useTimeclock(options: UseTimeclockOptions) {
           enableHighAccuracy: true,
           timeout: 10000,
           maximumAge: 0,
-        }
+        },
       );
     });
   }, []);
@@ -146,7 +151,7 @@ export function useTimeclock(options: UseTimeclockOptions) {
         enableHighAccuracy: true,
         timeout: 30000,
         maximumAge: 5000,
-      }
+      },
     );
   }, []);
 
@@ -272,7 +277,16 @@ export function useTimeclock(options: UseTimeclockOptions) {
     } finally {
       setLoading(false);
     }
-  }, [apprenticeId, partnerId, programId, siteId, requestGPS, startGPSWatch, startHeartbeat, onError]);
+  }, [
+    apprenticeId,
+    partnerId,
+    programId,
+    siteId,
+    requestGPS,
+    startGPSWatch,
+    startHeartbeat,
+    onError,
+  ]);
 
   /**
    * Lunch start action
@@ -423,7 +437,17 @@ export function useTimeclock(options: UseTimeclockOptions) {
     } finally {
       setLoading(false);
     }
-  }, [state.progressEntryId, apprenticeId, partnerId, programId, siteId, requestGPS, stopHeartbeat, stopGPSWatch, onError]);
+  }, [
+    state.progressEntryId,
+    apprenticeId,
+    partnerId,
+    programId,
+    siteId,
+    requestGPS,
+    stopHeartbeat,
+    stopGPSWatch,
+    onError,
+  ]);
 
   /**
    * Reset state for new shift

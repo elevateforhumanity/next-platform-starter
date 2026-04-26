@@ -1,4 +1,3 @@
-
 // lib/partners/milady.ts
 // Milady RISE API Integration
 // Cosmetology, Barbering, Beauty Industry Training
@@ -17,10 +16,7 @@ import { PartnerAPIError } from './http-client';
 // Get Milady config from environment variables
 function getMiladyConfig(): PartnerConfig {
   return {
-    apiKey:
-      process.env.MILADY_API_KEY ||
-      process.env.NEXT_PUBLIC_MILADY_API_KEY ||
-      '',
+    apiKey: process.env.MILADY_API_KEY || process.env.NEXT_PUBLIC_MILADY_API_KEY || '',
     baseUrl: process.env.MILADY_API_URL || 'https://api.miladytraining.com',
     orgId: process.env.MILADY_SCHOOL_ID || '',
     enabled: true,
@@ -40,22 +36,18 @@ export function getMiladyAPI(): MiladyAPI {
 // Helper functions for easy use
 export async function createAccount(
   student: StudentData,
-  apiKey?: string
+  apiKey?: string,
 ): Promise<PartnerAccount> {
-  const api = apiKey
-    ? new MiladyAPI({ ...getMiladyConfig(), apiKey })
-    : getMiladyAPI();
+  const api = apiKey ? new MiladyAPI({ ...getMiladyConfig(), apiKey }) : getMiladyAPI();
   return api.createAccount(student);
 }
 
 export async function enrollInCourse(
   accountExternalId: string,
   courseExternalCode: string,
-  apiKey?: string
+  apiKey?: string,
 ): Promise<CourseEnrollment> {
-  const api = apiKey
-    ? new MiladyAPI({ ...getMiladyConfig(), apiKey })
-    : getMiladyAPI();
+  const api = apiKey ? new MiladyAPI({ ...getMiladyConfig(), apiKey }) : getMiladyAPI();
   return api.enrollInCourse(accountExternalId, courseExternalCode);
 }
 
@@ -63,11 +55,9 @@ export async function getSsoLaunchUrl(
   accountExternalId: string,
   externalEnrollmentId: string,
   apiKey?: string,
-  returnTo?: string
+  returnTo?: string,
 ): Promise<string> {
-  const api = apiKey
-    ? new MiladyAPI({ ...getMiladyConfig(), apiKey })
-    : getMiladyAPI();
+  const api = apiKey ? new MiladyAPI({ ...getMiladyConfig(), apiKey }) : getMiladyAPI();
   return api.getSsoLaunchUrl({
     accountExternalId,
     externalEnrollmentId,
@@ -114,7 +104,8 @@ export class MiladyAPI extends BasePartnerAPI {
         username: response.data.username,
         loginUrl: response.data.accessUrl,
       };
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       this.log('error', 'Failed to create Milady RISE account', {
         error: 'Operation failed',
       });
@@ -124,7 +115,7 @@ export class MiladyAPI extends BasePartnerAPI {
 
   async enrollInCourse(
     accountExternalId: string,
-    courseExternalCode: string
+    courseExternalCode: string,
   ): Promise<CourseEnrollment> {
     this.log('info', 'Enrolling in Milady RISE course', {
       accountExternalId,
@@ -152,7 +143,8 @@ export class MiladyAPI extends BasePartnerAPI {
         courseName: response.data.courseName,
         accessUrl: response.data.courseUrl,
       };
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       this.log('error', 'Failed to enroll in Milady RISE course', {
         error: 'Operation failed',
       });
@@ -160,9 +152,7 @@ export class MiladyAPI extends BasePartnerAPI {
     }
   }
 
-  async getProgress(
-    externalEnrollmentId: string
-  ): Promise<ProgressData | null> {
+  async getProgress(externalEnrollmentId: string): Promise<ProgressData | null> {
     this.log('info', 'Fetching Milady RISE progress', {
       externalEnrollmentId,
     });
@@ -191,7 +181,8 @@ export class MiladyAPI extends BasePartnerAPI {
         lessonsCompleted: response.data.lessonsCompleted,
         totalLessons: response.data.totalLessons,
       };
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       if (error instanceof PartnerAPIError && error.statusCode === 404) {
         return null;
       }
@@ -202,9 +193,7 @@ export class MiladyAPI extends BasePartnerAPI {
     }
   }
 
-  async getCertificate(
-    externalEnrollmentId: string
-  ): Promise<CertificateData | null> {
+  async getCertificate(externalEnrollmentId: string): Promise<CertificateData | null> {
     this.log('info', 'Fetching Milady RISE certificate', {
       externalEnrollmentId,
     });
@@ -223,7 +212,8 @@ export class MiladyAPI extends BasePartnerAPI {
         issuedDate: new Date(response.data.issuedDate),
         downloadUrl: response.data.downloadUrl,
       };
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       if (error instanceof PartnerAPIError && error.statusCode === 404) {
         return null;
       }
@@ -252,7 +242,8 @@ export class MiladyAPI extends BasePartnerAPI {
       });
 
       return response.data.launchUrl;
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       this.log('error', 'Failed to generate Milady RISE SSO URL', {
         error: 'Operation failed',
       });

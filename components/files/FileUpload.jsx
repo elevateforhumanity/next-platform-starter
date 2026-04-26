@@ -3,11 +3,7 @@ import React, { useState, useRef } from 'react';
 /**
  * FileUpload Component - Drag and drop file upload
  */
-export function FileUpload({
-  onUpload,
-  folderId = null,
-  maxSize = 100 * 1024 * 1024,
-}) {
+export function FileUpload({ onUpload, folderId = null, maxSize = 100 * 1024 * 1024 }) {
   const [isDragging, setIsDragging] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -38,9 +34,7 @@ export function FileUpload({
   const uploadFiles = async (files) => {
     for (const file of files) {
       if (file.size > maxSize) {
-        alert(
-          `File ${file.name} is too large. Maximum size is ${formatBytes(maxSize)}`
-        );
+        alert(`File ${file.name} is too large. Maximum size is ${formatBytes(maxSize)}`);
         continue;
       }
 
@@ -111,9 +105,7 @@ export function FileUpload({
           padding: '3rem 2rem',
           textAlign: 'center',
           cursor: 'pointer',
-          backgroundColor: isDragging
-            ? 'var(--brand-surface)'
-            : 'var(--brand-surface)',
+          backgroundColor: isDragging ? 'var(--brand-surface)' : 'var(--brand-surface)',
           transition: 'all 0.2s',
         }}
       >
@@ -194,13 +186,9 @@ export function FileUpload({
                 marginBottom: '0.5rem',
               }}
             >
-              {isDragging
-                ? 'Drop files here'
-                : 'Click to upload or drag and drop'}
+              {isDragging ? 'Drop files here' : 'Click to upload or drag and drop'}
             </p>
-            <p
-              style={{ fontSize: '0.875rem', color: 'var(--brand-text-muted)' }}
-            >
+            <p style={{ fontSize: '0.875rem', color: 'var(--brand-text-muted)' }}>
               Maximum file size: {formatBytes(maxSize)}
             </p>
           </>

@@ -14,90 +14,98 @@
  *   - write config/site-map.auto.ts with siteMapSections
  */
 
-const fs = require("fs");
-const path = require("path");
+const fs = require('fs');
+const path = require('path');
 
-const APP_DIR = path.join(process.cwd(), "app");
-const OUTPUT_FILE = path.join(process.cwd(), "config", "site-map.auto.ts");
+const APP_DIR = path.join(process.cwd(), 'app');
+const OUTPUT_FILE = path.join(process.cwd(), 'config', 'site-map.auto.ts');
 
-const PAGE_FILES = new Set(["page.tsx", "page.jsx", "page.ts", "page.js"]);
+const PAGE_FILES = new Set(['page.tsx', 'page.jsx', 'page.ts', 'page.js']);
 
 const SECTION_RULES = [
-  { id: "programs", title: "Programs", prefixes: ["/programs"] },
-  { id: "funding", title: "Funding", prefixes: ["/funding"] },
-  { id: "for-students", title: "For Students", prefixes: ["/student", "/students"] },
-  { id: "lms", title: "LMS", prefixes: ["/lms", "/courses"] },
-  { id: "credentials", title: "Credentials", prefixes: ["/credentials"] },
-  { id: "employers", title: "For Employers", prefixes: ["/employers"] },
+  { id: 'programs', title: 'Programs', prefixes: ['/programs'] },
+  { id: 'funding', title: 'Funding', prefixes: ['/funding'] },
+  { id: 'for-students', title: 'For Students', prefixes: ['/student', '/students'] },
+  { id: 'lms', title: 'LMS', prefixes: ['/lms', '/courses'] },
+  { id: 'credentials', title: 'Credentials', prefixes: ['/credentials'] },
+  { id: 'employers', title: 'For Employers', prefixes: ['/employers'] },
   {
-    id: "program-holders",
-    title: "Program Holders",
-    prefixes: ["/program-holders"],
+    id: 'program-holders',
+    title: 'Program Holders',
+    prefixes: ['/program-holders'],
   },
   {
-    id: "career-services",
-    title: "Career Services",
-    prefixes: ["/career-services", "/career-center"],
+    id: 'career-services',
+    title: 'Career Services',
+    prefixes: ['/career-services', '/career-center'],
   },
   {
-    id: "admin-staff",
-    title: "Admin & Staff",
-    prefixes: ["/admin", "/staff"],
+    id: 'admin-staff',
+    title: 'Admin & Staff',
+    prefixes: ['/admin', '/staff'],
   },
   {
-    id: "community",
-    title: "Community",
-    prefixes: ["/community", "/partners", "/developer"],
+    id: 'community',
+    title: 'Community',
+    prefixes: ['/community', '/partners', '/developer'],
   },
   {
-    id: "legal",
-    title: "Legal & Policies",
-    prefixes: ["/legal"],
+    id: 'legal',
+    title: 'Legal & Policies',
+    prefixes: ['/legal'],
   },
   {
-    id: "hr-payroll",
-    title: "HR & Payroll",
-    prefixes: ["/hr"],
+    id: 'hr-payroll',
+    title: 'HR & Payroll',
+    prefixes: ['/hr'],
   },
   {
-    id: "case-management",
-    title: "Case Management",
-    prefixes: ["/case-management", "/delegate"],
+    id: 'case-management',
+    title: 'Case Management',
+    prefixes: ['/case-management', '/delegate'],
   },
   {
-    id: "boards",
-    title: "Boards",
-    prefixes: ["/boards"],
+    id: 'boards',
+    title: 'Boards',
+    prefixes: ['/boards'],
   },
   {
-    id: "special-programs",
-    title: "Special Programs",
-    prefixes: ["/kingdom", "/vita", "/serene", "/urban", "/selfish", "/programs/kingdom", "/programs/vita"],
+    id: 'special-programs',
+    title: 'Special Programs',
+    prefixes: [
+      '/kingdom',
+      '/vita',
+      '/serene',
+      '/urban',
+      '/selfish',
+      '/programs/kingdom',
+      '/programs/vita',
+    ],
   },
   {
-    id: "tools",
-    title: "Tools",
-    prefixes: ["/tools"],
+    id: 'tools',
+    title: 'Tools',
+    prefixes: ['/tools'],
   },
   {
-    id: "builders",
-    title: "Builders",
-    prefixes: ["/builders"],
+    id: 'builders',
+    title: 'Builders',
+    prefixes: ['/builders'],
   },
   {
-    id: "documents",
-    title: "Documents",
-    prefixes: ["/documents"],
+    id: 'documents',
+    title: 'Documents',
+    prefixes: ['/documents'],
   },
   {
-    id: "instructor",
-    title: "Instructor",
-    prefixes: ["/instructor"],
+    id: 'instructor',
+    title: 'Instructor',
+    prefixes: ['/instructor'],
   },
   {
-    id: "reports",
-    title: "Reports & Analytics",
-    prefixes: ["/reports", "/analytics"],
+    id: 'reports',
+    title: 'Reports & Analytics',
+    prefixes: ['/reports', '/analytics'],
   },
 ];
 
@@ -119,53 +127,58 @@ function routeFromFile(filePath) {
   // e.g. app/page.tsx -> /
   // e.g. app/about/page.tsx -> /about
   // e.g. app/(site)/programs/cna/page.tsx -> /programs/cna
-  const rel = path.relative(APP_DIR, filePath).replace(/\\/g, "/");
-  const parts = rel.split("/");
+  const rel = path.relative(APP_DIR, filePath).replace(/\\/g, '/');
+  const parts = rel.split('/');
 
   // remove last segment "page.tsx"
   parts.pop();
 
   // remove empty + route groups like "(site)"
-  const segments = parts.filter(
-    (seg) => seg && !seg.startsWith("(") && !seg.endsWith(")")
-  );
+  const segments = parts.filter((seg) => seg && !seg.startsWith('(') && !seg.endsWith(')'));
 
   // skip if any dynamic segment like [id]
-  if (segments.some((s) => s.includes("["))) {
+  if (segments.some((s) => s.includes('['))) {
     return null;
   }
 
-  if (segments.length === 0) return "/";
+  if (segments.length === 0) return '/';
 
-  return "/" + segments.join("/");
+  return '/' + segments.join('/');
 }
 
 function labelFromPath(route) {
-  if (route === "/") return "Home";
-  const segments = route.split("/").filter(Boolean);
+  if (route === '/') return 'Home';
+  const segments = route.split('/').filter(Boolean);
   const last = segments[segments.length - 1];
   if (!last) return route;
 
   // special simple overrides
-  if (last === "faq") return "FAQ";
-  if (last === "lms") return "LMS";
-  if (last === "api") return "API";
+  if (last === 'faq') return 'FAQ';
+  if (last === 'lms') return 'LMS';
+  if (last === 'api') return 'API';
 
   return last
-    .replace(/-/g, " ")
-    .split(" ")
+    .replace(/-/g, ' ')
+    .split(' ')
     .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-    .join(" ");
+    .join(' ');
 }
 
 function getSectionIdForRoute(route) {
-  if (route === "/") return "main-pages";
+  if (route === '/') return 'main-pages';
   if (
-    ["/about", "/contact", "/apply", "/blog", "/faq", "/success-stories", "/get-started", "/sitemap-page"].includes(
-      route
-    )
+    [
+      '/about',
+      '/contact',
+      '/apply',
+      '/blog',
+      '/faq',
+      '/success-stories',
+      '/get-started',
+      '/sitemap-page',
+    ].includes(route)
   ) {
-    return "main-pages";
+    return 'main-pages';
   }
 
   for (const rule of SECTION_RULES) {
@@ -174,7 +187,7 @@ function getSectionIdForRoute(route) {
     }
   }
 
-  return "other";
+  return 'other';
 }
 
 function buildSections(routes) {
@@ -188,8 +201,8 @@ function buildSections(routes) {
   }
 
   // always create main + other
-  ensureSection("main-pages", "Main Pages");
-  ensureSection("other", "Other Pages");
+  ensureSection('main-pages', 'Main Pages');
+  ensureSection('other', 'Other Pages');
 
   for (const rule of SECTION_RULES) {
     ensureSection(rule.id, rule.title);
@@ -199,7 +212,10 @@ function buildSections(routes) {
     const id = getSectionIdForRoute(route);
     const section =
       sections.get(id) ||
-      ensureSection(id, id.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()));
+      ensureSection(
+        id,
+        id.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase()),
+      );
 
     // avoid duplicates
     if (section.items.some((i) => i.href === route)) continue;
@@ -217,10 +233,10 @@ function buildSections(routes) {
 
   // sort sections, keep main-pages first, other last
   const ordered = Array.from(sections.values()).sort((a, b) => {
-    if (a.id === "main-pages") return -1;
-    if (b.id === "main-pages") return 1;
-    if (a.id === "other") return 1;
-    if (b.id === "other") return -1;
+    if (a.id === 'main-pages') return -1;
+    if (b.id === 'main-pages') return 1;
+    if (a.id === 'other') return 1;
+    if (b.id === 'other') return -1;
     return a.title.localeCompare(b.title);
   });
 
@@ -253,13 +269,8 @@ export const siteMapSections: SiteMapSection[] = [
   const body = sections
     .map((s) => {
       const items = s.items
-        .map(
-          (i) =>
-            `      { label: ${JSON.stringify(i.label)}, href: ${JSON.stringify(
-              i.href
-            )} }`
-        )
-        .join(",\n");
+        .map((i) => `      { label: ${JSON.stringify(i.label)}, href: ${JSON.stringify(i.href)} }`)
+        .join(',\n');
 
       return `  {
     id: ${JSON.stringify(s.id)},
@@ -269,7 +280,7 @@ ${items}
     ],
   }`;
     })
-    .join(",\n");
+    .join(',\n');
 
   const footer = `
 ];
@@ -280,11 +291,11 @@ ${items}
 
 function main() {
   if (!fs.existsSync(APP_DIR)) {
-    console.error("❌ app/ directory not found. Run from your Next.js repo root.");
+    console.error('❌ app/ directory not found. Run from your Next.js repo root.');
     process.exit(1);
   }
 
-  console.log("🔍 Scanning app/ for page routes...");
+  console.log('🔍 Scanning app/ for page routes...');
   const files = walk(APP_DIR);
   const routes = [];
 
@@ -292,7 +303,7 @@ function main() {
     const route = routeFromFile(file);
     if (!route) continue;
     // skip api routes just in case
-    if (route.startsWith("/api")) continue;
+    if (route.startsWith('/api')) continue;
     routes.push(route);
   }
 
@@ -304,12 +315,12 @@ function main() {
   const tsContent = generateTs(sections);
 
   // ensure config directory
-  const configDir = path.join(process.cwd(), "config");
+  const configDir = path.join(process.cwd(), 'config');
   if (!fs.existsSync(configDir)) {
     fs.mkdirSync(configDir, { recursive: true });
   }
 
-  fs.writeFileSync(OUTPUT_FILE, tsContent, "utf8");
+  fs.writeFileSync(OUTPUT_FILE, tsContent, 'utf8');
   console.log(`✅ Wrote ${path.relative(process.cwd(), OUTPUT_FILE)}`);
   console.log("📌 Import siteMapSections from './site-map.auto' where needed.");
 }

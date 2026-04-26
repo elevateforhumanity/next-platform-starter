@@ -234,22 +234,22 @@
 ### Desktop Chrome:
 
 - [ ] All journeys passed
-- [ ] Issues found: ******\_\_\_******
+- [ ] Issues found: **\*\***\_\_\_**\*\***
 
 ### Desktop Firefox:
 
 - [ ] All journeys passed
-- [ ] Issues found: ******\_\_\_******
+- [ ] Issues found: **\*\***\_\_\_**\*\***
 
 ### Mobile Safari:
 
 - [ ] All journeys passed
-- [ ] Issues found: ******\_\_\_******
+- [ ] Issues found: **\*\***\_\_\_**\*\***
 
 ### Mobile Chrome:
 
 - [ ] All journeys passed
-- [ ] Issues found: ******\_\_\_******
+- [ ] Issues found: **\*\***\_\_\_**\*\***
 
 ---
 
@@ -260,6 +260,6 @@
 - [ ] Mobile experience verified
 - [ ] Ready for production
 
-**Tested by:** ******\_\_\_******
-**Date:** ******\_\_\_******
-**Approved by:** ******\_\_\_******
+**Tested by:** **\*\***\_\_\_**\*\***
+**Date:** **\*\***\_\_\_**\*\***
+**Approved by:** **\*\***\_\_\_**\*\***

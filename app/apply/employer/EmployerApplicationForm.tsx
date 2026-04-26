@@ -60,22 +60,20 @@ export default function EmployerApplicationForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       {error && (
-        <div className="p-4 bg-brand-red-50 border border-brand-red-200 rounded-lg text-brand-red-800 text-sm" role="alert">
+        <div
+          className="p-4 bg-brand-red-50 border border-brand-red-200 rounded-lg text-brand-red-800 text-sm"
+          role="alert"
+        >
           {error}
         </div>
       )}
 
       <div className="bg-white border border-slate-200 rounded-lg p-6">
-        <h2 className="text-xl font-bold text-black mb-4">
-          Company Information
-        </h2>
+        <h2 className="text-xl font-bold text-black mb-4">Company Information</h2>
 
         <div className="space-y-4">
           <div>
-            <label
-              htmlFor="companyName"
-              className="block text-sm font-medium text-black mb-2"
-            >
+            <label htmlFor="companyName" className="block text-sm font-medium text-black mb-2">
               Company Name *
             </label>
             <input
@@ -89,10 +87,7 @@ export default function EmployerApplicationForm() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label
-                htmlFor="industry"
-                className="block text-sm font-medium text-black mb-2"
-              >
+              <label htmlFor="industry" className="block text-sm font-medium text-black mb-2">
                 Industry *
               </label>
               <select
@@ -113,10 +108,7 @@ export default function EmployerApplicationForm() {
             </div>
 
             <div>
-              <label
-                htmlFor="companySize"
-                className="block text-sm font-medium text-black mb-2"
-              >
+              <label htmlFor="companySize" className="block text-sm font-medium text-black mb-2">
                 Company Size *
               </label>
               <select
@@ -136,10 +128,7 @@ export default function EmployerApplicationForm() {
           </div>
 
           <div>
-            <label
-              htmlFor="website"
-              className="block text-sm font-medium text-black mb-2"
-            >
+            <label htmlFor="website" className="block text-sm font-medium text-black mb-2">
               Website
             </label>
             <input
@@ -154,16 +143,11 @@ export default function EmployerApplicationForm() {
       </div>
 
       <div className="bg-white border border-slate-200 rounded-lg p-6">
-        <h2 className="text-xl font-bold text-black mb-4">
-          Contact Information
-        </h2>
+        <h2 className="text-xl font-bold text-black mb-4">Contact Information</h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label
-              htmlFor="firstName"
-              className="block text-sm font-medium text-black mb-2"
-            >
+            <label htmlFor="firstName" className="block text-sm font-medium text-black mb-2">
               First Name *
             </label>
             <input
@@ -176,10 +160,7 @@ export default function EmployerApplicationForm() {
           </div>
 
           <div>
-            <label
-              htmlFor="lastName"
-              className="block text-sm font-medium text-black mb-2"
-            >
+            <label htmlFor="lastName" className="block text-sm font-medium text-black mb-2">
               Last Name *
             </label>
             <input
@@ -192,10 +173,7 @@ export default function EmployerApplicationForm() {
           </div>
 
           <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-black mb-2"
-            >
+            <label htmlFor="email" className="block text-sm font-medium text-black mb-2">
               Email *
             </label>
             <input
@@ -208,10 +186,7 @@ export default function EmployerApplicationForm() {
           </div>
 
           <div>
-            <label
-              htmlFor="phone"
-              className="block text-sm font-medium text-black mb-2"
-            >
+            <label htmlFor="phone" className="block text-sm font-medium text-black mb-2">
               Phone *
             </label>
             <input
@@ -226,10 +201,7 @@ export default function EmployerApplicationForm() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
           <div>
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-black mb-2"
-            >
+            <label htmlFor="password" className="block text-sm font-medium text-black mb-2">
               Create Password *
             </label>
             <div className="relative">
@@ -245,21 +217,20 @@ export default function EmployerApplicationForm() {
               />
               <button
                 type="button"
-                onClick={() => setShowPassword(v => !v)}
+                onClick={() => setShowPassword((v) => !v)}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-black hover:text-black"
                 tabIndex={-1}
               >
                 {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
               </button>
             </div>
-            <p className="mt-1 text-xs text-black">You'll use this to log in to your employer dashboard.</p>
+            <p className="mt-1 text-xs text-black">
+              You'll use this to log in to your employer dashboard.
+            </p>
           </div>
 
           <div>
-            <label
-              htmlFor="confirmPassword"
-              className="block text-sm font-medium text-black mb-2"
-            >
+            <label htmlFor="confirmPassword" className="block text-sm font-medium text-black mb-2">
               Confirm Password *
             </label>
             <input
@@ -281,10 +252,7 @@ export default function EmployerApplicationForm() {
 
         <div className="space-y-4">
           <div>
-            <label
-              htmlFor="hiringNeeds"
-              className="block text-sm font-medium text-black mb-2"
-            >
+            <label htmlFor="hiringNeeds" className="block text-sm font-medium text-black mb-2">
               What are your hiring needs?
             </label>
             <textarea

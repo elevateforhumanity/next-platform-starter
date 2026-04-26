@@ -1,4 +1,3 @@
-
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
@@ -24,7 +23,9 @@ export default async function CertificationPage({ params }: Props) {
   const admin = await getAdminClient();
   const db = admin || supabase;
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect(`/login?redirect=/lms/courses/${courseId}/certification`);
 
   // Course info
@@ -58,7 +59,9 @@ export default async function CertificationPage({ params }: Props) {
   const { data: primaryCred } = course.program_id
     ? await supabase
         .from('program_credentials')
-        .select('credential_id, credential_registry(id, name, abbreviation, issuing_body, exam_url)')
+        .select(
+          'credential_id, credential_registry(id, name, abbreviation, issuing_body, exam_url)',
+        )
         .eq('program_id', course.program_id)
         .eq('is_primary', true)
         .maybeSingle()
@@ -84,22 +87,33 @@ export default async function CertificationPage({ params }: Props) {
     .eq('course_id', courseId)
     .maybeSingle();
   const certificate = rawCertificate
-    ? { ...rawCertificate, issued_at: rawCertificate.issued_at ?? rawCertificate.issued_date ?? null }
+    ? {
+        ...rawCertificate,
+        issued_at: rawCertificate.issued_at ?? rawCertificate.issued_date ?? null,
+      }
     : null;
 
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-3xl mx-auto px-4 py-12">
-
         {/* Back */}
-        <Link href={`/lms/courses/${courseId}`} className="text-sm text-brand-blue-600 hover:underline flex items-center gap-1 mb-8">
+        <Link
+          href={`/lms/courses/${courseId}`}
+          className="text-sm text-brand-blue-600 hover:underline flex items-center gap-1 mb-8"
+        >
           ← Back to course
         </Link>
 
         {/* Completion banner */}
-        <div className={`rounded-2xl p-8 mb-8 text-center ${courseComplete ? 'bg-brand-green-50 border border-brand-green-200' : 'bg-amber-50 border border-amber-200'}`}>
-          <div className={`w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 ${courseComplete ? 'bg-brand-green-100' : 'bg-amber-100'}`}>
-            <CheckCircle className={`w-8 h-8 ${courseComplete ? 'text-brand-green-600' : 'text-amber-600'}`} />
+        <div
+          className={`rounded-2xl p-8 mb-8 text-center ${courseComplete ? 'bg-brand-green-50 border border-brand-green-200' : 'bg-amber-50 border border-amber-200'}`}
+        >
+          <div
+            className={`w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 ${courseComplete ? 'bg-brand-green-100' : 'bg-amber-100'}`}
+          >
+            <CheckCircle
+              className={`w-8 h-8 ${courseComplete ? 'text-brand-green-600' : 'text-amber-600'}`}
+            />
           </div>
           <h1 className="text-2xl font-bold text-slate-900 mb-2">
             {courseComplete ? 'Course Complete' : 'Almost There'}
@@ -164,13 +178,15 @@ export default async function CertificationPage({ params }: Props) {
             {certRequest ? (
               <div className="bg-slate-50 rounded-lg p-4 text-sm">
                 <p className="font-semibold text-slate-700">Certification request submitted</p>
-                <p className="text-slate-500 capitalize">Status: {certRequest.status?.replace(/_/g, ' ')}</p>
+                <p className="text-slate-500 capitalize">
+                  Status: {certRequest.status?.replace(/_/g, ' ')}
+                </p>
               </div>
             ) : courseComplete ? (
               <div className="space-y-3">
                 <p className="text-sm text-slate-600">
-                  You are eligible to apply for the {cred.abbreviation} exam. Elevate will verify your
-                  completion and coordinate exam authorization.
+                  You are eligible to apply for the {cred.abbreviation} exam. Elevate will verify
+                  your completion and coordinate exam authorization.
                 </p>
                 <form action={`/api/certification/initiate`} method="POST">
                   <input type="hidden" name="course_id" value={courseId} />
@@ -231,7 +247,6 @@ export default async function CertificationPage({ params }: Props) {
             </Link>
           </div>
         </div>
-
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -20,8 +20,7 @@ export default function NotificationPreferencesForm({
   programHolderId: string;
   initialPreferences: NotificationPreferences;
 }) {
-  const [preferences, setPreferences] =
-    useState<NotificationPreferences>(initialPreferences);
+  const [preferences, setPreferences] = useState<NotificationPreferences>(initialPreferences);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
 
@@ -30,17 +29,14 @@ export default function NotificationPreferencesForm({
     setSaved(false);
 
     try {
-      const response = await fetch(
-        '/api/program-holder/notification-preferences',
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            program_holder_id: programHolderId,
-            ...preferences,
-          }),
-        }
-      );
+      const response = await fetch('/api/program-holder/notification-preferences', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          program_holder_id: programHolderId,
+          ...preferences,
+        }),
+      });
 
       if (!response.ok) {
         throw new Error('Failed to save preferences');
@@ -48,7 +44,8 @@ export default function NotificationPreferencesForm({
 
       setSaved(true);
       setTimeout(() => setSaved(false), 3000);
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       alert('Failed to save preferences. Please try again.');
     } finally {
       setSaving(false);
@@ -61,9 +58,7 @@ export default function NotificationPreferencesForm({
       <div className="flex items-start gap-4">
         <Bell className="w-6 h-6 text-brand-blue-600 mt-1" />
         <div className="flex-1">
-          <h3 className="text-lg font-semibold text-black mb-1">
-            In-App Notifications
-          </h3>
+          <h3 className="text-lg font-semibold text-black mb-1">In-App Notifications</h3>
           <p className="text-sm text-black mb-2">
             Always enabled. You'll see notifications in your dashboard.
           </p>
@@ -80,9 +75,7 @@ export default function NotificationPreferencesForm({
       <div className="flex items-start gap-4">
         <Mail className="w-6 h-6 text-brand-blue-600 mt-1" />
         <div className="flex-1">
-          <h3 className="text-lg font-semibold text-black mb-1">
-            Email Notifications
-          </h3>
+          <h3 className="text-lg font-semibold text-black mb-1">Email Notifications</h3>
           <p className="text-sm text-black mb-3">
             Receive email alerts when students enroll or complete milestones.
           </p>
@@ -98,9 +91,7 @@ export default function NotificationPreferencesForm({
               }
               className="w-5 h-5 text-brand-blue-600 rounded border-gray-300 focus:ring-brand-blue-500"
             />
-            <span className="text-sm font-medium text-black">
-              Enable email notifications
-            </span>
+            <span className="text-sm font-medium text-black">Enable email notifications</span>
           </label>
         </div>
       </div>
@@ -111,9 +102,7 @@ export default function NotificationPreferencesForm({
       <div className="flex items-start gap-4">
         <MessageSquare className="w-6 h-6 text-brand-blue-600 mt-1" />
         <div className="flex-1">
-          <h3 className="text-lg font-semibold text-black mb-1">
-            SMS Notifications
-          </h3>
+          <h3 className="text-lg font-semibold text-black mb-1">SMS Notifications</h3>
           <p className="text-sm text-black mb-3">
             Receive text message alerts for urgent updates. Requires consent.
           </p>
@@ -132,9 +121,7 @@ export default function NotificationPreferencesForm({
                 disabled={!preferences.sms_consent}
                 className="w-5 h-5 text-brand-blue-600 rounded border-gray-300 focus:ring-brand-blue-500 disabled:opacity-50"
               />
-              <span className="text-sm font-medium text-black">
-                Enable SMS notifications
-              </span>
+              <span className="text-sm font-medium text-black">Enable SMS notifications</span>
             </label>
 
             <div className="pl-8 space-y-2">
@@ -142,9 +129,7 @@ export default function NotificationPreferencesForm({
                 type="tel"
                 placeholder="+1 (317) 314-3757"
                 value={preferences.phone_e164 || ''}
-                onChange={(e) =>
-                  setPreferences({ ...preferences, phone_e164: e.target.value })
-                }
+                onChange={(e) => setPreferences({ ...preferences, phone_e164: e.target.value })}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
               />
 
@@ -161,8 +146,8 @@ export default function NotificationPreferencesForm({
                   className="w-4 h-4 text-brand-blue-600 rounded border-gray-300 focus:ring-brand-blue-500 mt-0.5"
                 />
                 <span className="text-xs text-black">
-                  I consent to receive SMS notifications at this number. Message
-                  and data rates may apply. Reply STOP to opt out.
+                  I consent to receive SMS notifications at this number. Message and data rates may
+                  apply. Reply STOP to opt out.
                 </span>
               </label>
 
@@ -181,9 +166,7 @@ export default function NotificationPreferencesForm({
 
       {/* Save Button */}
       <div className="flex items-center justify-between">
-        <p className="text-sm text-black">
-          Changes take effect immediately after saving.
-        </p>
+        <p className="text-sm text-black">Changes take effect immediately after saving.</p>
         <button
           onClick={handleSave}
           disabled={saving}

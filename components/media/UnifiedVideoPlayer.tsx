@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import React from "react";
+import React from 'react';
 
 type UnifiedVideoPlayerProps = {
   src: string;
@@ -14,13 +14,13 @@ type UnifiedVideoPlayerProps = {
 export function UnifiedVideoPlayer({
   src,
   poster,
-  title = "Course video",
+  title = 'Course video',
   autoPlay = false,
   controls = true,
-  className = "",
+  className = '',
 }: UnifiedVideoPlayerProps) {
-  const isYouTube = src.includes("youtube.com") || src.includes("youtu.be");
-  const isVimeo = src.includes("vimeo.com");
+  const isYouTube = src.includes('youtube.com') || src.includes('youtu.be');
+  const isVimeo = src.includes('vimeo.com');
 
   if (isYouTube || isVimeo) {
     return (

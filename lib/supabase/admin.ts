@@ -31,14 +31,11 @@ export function createAdminClient(): SupabaseClient<any> {
   // We detect the likely-cold-start condition (NEXT_RUNTIME set but key
   // missing) and throw with an actionable message rather than letting the
   // Supabase client silently fail on the first query.
-  if (
-    process.env.NEXT_RUNTIME &&
-    !process.env.SUPABASE_SERVICE_ROLE_KEY
-  ) {
+  if (process.env.NEXT_RUNTIME && !process.env.SUPABASE_SERVICE_ROLE_KEY) {
     throw new Error(
       // SAFE: non-request-time context — scripts/ or internal admin.ts, hydration guaranteed by caller
       'createAdminClient() called before env hydration in a Next.js runtime context. ' +
-      'Use getAdminClient() instead — it calls hydrateProcessEnv() first.'
+        'Use getAdminClient() instead — it calls hydrateProcessEnv() first.',
     );
   }
   // ────────────────────────────────────────────────────────────────────────

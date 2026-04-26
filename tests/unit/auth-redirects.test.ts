@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 
 /**
  * Auth Redirect Tests
- * 
+ *
  * These tests verify the protected route configuration and expected behavior.
  * The actual proxy function requires Supabase environment variables,
  * so we test the configuration and expected responses.

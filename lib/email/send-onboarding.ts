@@ -28,15 +28,15 @@ const PROGRAM_NAMES: Record<string, string> = {
   'barber-apprenticeship': 'Barber Apprenticeship',
   'Barber Apprenticeship': 'Barber Apprenticeship',
   'nail-technician': 'Nail Technician',
-  'electrical': 'Electrical Technician',
+  electrical: 'Electrical Technician',
   'peer-recovery-specialist-jri': 'Peer Recovery Specialist',
-  'bookkeeping': 'Bookkeeping',
+  bookkeeping: 'Bookkeeping',
   'tax-prep-financial-services': 'Tax Preparation & Financial Services',
   'Home Health Aide': 'Home Health Aide',
-  'Accounting': 'Accounting',
-  'Entrepreneurship': 'Entrepreneurship',
+  Accounting: 'Accounting',
+  Entrepreneurship: 'Entrepreneurship',
   'not-sure': 'Career Training',
-  'Other': 'Career Training',
+  Other: 'Career Training',
 };
 
 function formatProgramName(slug: string): string {

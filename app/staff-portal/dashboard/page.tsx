@@ -1,9 +1,20 @@
-
 import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
 import { requireRole } from '@/lib/auth/require-role';
 import Link from 'next/link';
-import { Users, BookOpen, AlertCircle, Clock, UserPlus, DollarSign, FileText, Timer, CalendarOff, ClipboardList, Scissors } from 'lucide-react';
+import {
+  Users,
+  BookOpen,
+  AlertCircle,
+  Clock,
+  UserPlus,
+  DollarSign,
+  FileText,
+  Timer,
+  CalendarOff,
+  ClipboardList,
+  Scissors,
+} from 'lucide-react';
 import { safeFormatDate } from '@/lib/format-utils';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
@@ -14,8 +25,7 @@ export const metadata: Metadata = {
     canonical: 'https://www.elevateforhumanity.org/staff-portal/dashboard',
   },
   title: 'Staff Dashboard | Elevate For Humanity',
-  description:
-    'Staff portal for managing students, enrollments, and support tasks.',
+  description: 'Staff portal for managing students, enrollments, and support tasks.',
 };
 
 /**
@@ -29,14 +39,9 @@ export const metadata: Metadata = {
  */
 export default async function StaffDashboard() {
   // Require staff or admin role
-  const { user, profile } = await requireRole([
-    'staff',
-    'admin',
-    'super_admin',
-  ]);
+  const { user, profile } = await requireRole(['staff', 'admin', 'super_admin']);
 
   const supabase = await createClient();
-
 
   // Get student counts
   const { count: totalStudents } = await supabase
@@ -70,7 +75,9 @@ export default async function StaffDashboard() {
     .limit(10);
 
   // Hydrate user profiles separately (program_enrollments.user_id has no FK to profiles)
-  const staffUserIds = [...new Set((recentEnrollments || []).map((e: any) => e.user_id).filter(Boolean))];
+  const staffUserIds = [
+    ...new Set((recentEnrollments || []).map((e: any) => e.user_id).filter(Boolean)),
+  ];
   const { data: staffProfiles } = staffUserIds.length
     ? await supabase.from('profiles').select('id, full_name, email').in('id', staffUserIds)
     : { data: [] };
@@ -85,7 +92,9 @@ export default async function StaffDashboard() {
       {/* Breadcrumbs */}
       <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[{ label: 'Staff Portal', href: '/staff-portal' }, { label: 'Dashboard' }]} />
+          <Breadcrumbs
+            items={[{ label: 'Staff Portal', href: '/staff-portal' }, { label: 'Dashboard' }]}
+          />
         </div>
       </div>
 
@@ -93,9 +102,7 @@ export default async function StaffDashboard() {
       <section className="border-b border-slate-200 py-6">
         <div className="max-w-7xl mx-auto px-4">
           <h1 className="text-3xl font-bold text-black">Staff Dashboard</h1>
-          <p className="text-black mt-2">
-            Welcome back, {profile.full_name || profile.email}
-          </p>
+          <p className="text-black mt-2">Welcome back, {profile.full_name || profile.email}</p>
         </div>
       </section>
 
@@ -106,9 +113,7 @@ export default async function StaffDashboard() {
           <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
             <div className="flex items-center justify-between mb-2">
               <Users className="h-11 w-11 text-brand-blue-600" />
-              <span className="text-3xl font-bold text-black">
-                {totalStudents || 0}
-              </span>
+              <span className="text-3xl font-bold text-black">{totalStudents || 0}</span>
             </div>
             <div className="text-sm text-black">Total Students</div>
           </div>
@@ -116,9 +121,7 @@ export default async function StaffDashboard() {
           <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
             <div className="flex items-center justify-between mb-2">
               <BookOpen className="h-11 w-11 text-brand-green-600" />
-              <span className="text-3xl font-bold text-black">
-                {activeEnrollments || 0}
-              </span>
+              <span className="text-3xl font-bold text-black">{activeEnrollments || 0}</span>
             </div>
             <div className="text-sm text-black">Active Enrollments</div>
           </div>
@@ -144,11 +147,7 @@ export default async function StaffDashboard() {
                 {atRiskCount || 0}
               </span>
             </div>
-            <div
-              className={`text-sm ${
-                (atRiskCount || 0) > 0 ? 'text-yellow-900' : 'text-black'
-              }`}
-            >
+            <div className={`text-sm ${(atRiskCount || 0) > 0 ? 'text-yellow-900' : 'text-black'}`}>
               At-Risk Students
             </div>
           </div>
@@ -156,9 +155,7 @@ export default async function StaffDashboard() {
           <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
             <div className="flex items-center justify-between mb-2">
               <Clock className="h-11 w-11 text-brand-blue-600" />
-              <span className="text-3xl font-bold text-black">
-                {pendingEnrollments || 0}
-              </span>
+              <span className="text-3xl font-bold text-black">{pendingEnrollments || 0}</span>
             </div>
             <div className="text-sm text-black">Pending Enrollments</div>
           </div>
@@ -174,27 +171,21 @@ export default async function StaffDashboard() {
                 className="block p-3 border rounded-lg hover:bg-slate-50 transition"
               >
                 <div className="font-semibold">View All Students</div>
-                <div className="text-sm text-black">
-                  Manage student accounts and enrollments
-                </div>
+                <div className="text-sm text-black">Manage student accounts and enrollments</div>
               </Link>
               <Link
                 href="/admin/programs"
                 className="block p-3 border rounded-lg hover:bg-slate-50 transition"
               >
                 <div className="font-semibold">View Programs</div>
-                <div className="text-sm text-black">
-                  Browse available training programs
-                </div>
+                <div className="text-sm text-black">Browse available training programs</div>
               </Link>
               <Link
                 href="/admin/reports"
                 className="block p-3 border rounded-lg hover:bg-slate-50 transition"
               >
                 <div className="font-semibold">Generate Reports</div>
-                <div className="text-sm text-black">
-                  Access analytics and insights
-                </div>
+                <div className="text-sm text-black">Access analytics and insights</div>
               </Link>
             </div>
           </div>
@@ -267,9 +258,7 @@ export default async function StaffDashboard() {
                   {recentEnrollmentsWithProfiles.map((enrollment: any) => (
                     <tr key={enrollment.id} className="hover:bg-slate-50">
                       <td className="px-6 py-4 text-sm text-black">
-                        {enrollment.profiles?.full_name ||
-                          enrollment.profiles?.email ||
-                          'N/A'}
+                        {enrollment.profiles?.full_name || enrollment.profiles?.email || 'N/A'}
                       </td>
                       <td className="px-6 py-4 text-sm text-black">
                         {enrollment.programs?.title || 'N/A'}
@@ -308,22 +297,32 @@ export default async function StaffDashboard() {
         <div className="mt-8">
           <h3 className="text-lg font-semibold text-black mb-4">Booth &amp; Suite Rentals</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            <Link href="/staff-portal/booth-renters" className="flex items-start gap-4 p-4 bg-white border border-slate-200 rounded-xl hover:border-brand-blue-500 hover:shadow-sm transition-all">
+            <Link
+              href="/staff-portal/booth-renters"
+              className="flex items-start gap-4 p-4 bg-white border border-slate-200 rounded-xl hover:border-brand-blue-500 hover:shadow-sm transition-all"
+            >
               <div className="w-10 h-10 rounded-lg bg-brand-blue-50 flex items-center justify-center flex-shrink-0">
                 <Scissors className="w-5 h-5 text-brand-blue-600" />
               </div>
               <div>
                 <div className="font-semibold text-slate-900 text-sm">Manage Renters</div>
-                <div className="text-xs text-slate-500 mt-0.5">View all booth renters, payment status, and MOU</div>
+                <div className="text-xs text-slate-500 mt-0.5">
+                  View all booth renters, payment status, and MOU
+                </div>
               </div>
             </Link>
-            <Link href="/booth-rental/apply" className="flex items-start gap-4 p-4 bg-white border border-slate-200 rounded-xl hover:border-brand-blue-500 hover:shadow-sm transition-all">
+            <Link
+              href="/booth-rental/apply"
+              className="flex items-start gap-4 p-4 bg-white border border-slate-200 rounded-xl hover:border-brand-blue-500 hover:shadow-sm transition-all"
+            >
               <div className="w-10 h-10 rounded-lg bg-emerald-50 flex items-center justify-center flex-shrink-0">
                 <UserPlus className="w-5 h-5 text-emerald-600" />
               </div>
               <div>
                 <div className="font-semibold text-slate-900 text-sm">Add New Renter</div>
-                <div className="text-xs text-slate-500 mt-0.5">Start the signup and payment flow</div>
+                <div className="text-xs text-slate-500 mt-0.5">
+                  Start the signup and payment flow
+                </div>
               </div>
             </Link>
           </div>
@@ -333,13 +332,55 @@ export default async function StaffDashboard() {
         <div className="mt-8">
           <h3 className="text-lg font-semibold text-black mb-4">Staff Tools</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            <Link href="/staff-portal/students" aria-label="Link" className="p-3 bg-white border rounded-lg hover:border-brand-blue-500 hover:shadow text-sm">Students</Link>
-            <Link href="/staff-portal/courses" aria-label="Link" className="p-3 bg-white border rounded-lg hover:border-brand-blue-500 hover:shadow text-sm">Courses</Link>
-            <Link href="/staff-portal/campaigns" aria-label="Link" className="p-3 bg-white border rounded-lg hover:border-brand-blue-500 hover:shadow text-sm">Campaigns</Link>
-            <Link href="/staff-portal/customer-service" aria-label="Link" className="p-3 bg-white border rounded-lg hover:border-brand-blue-500 hover:shadow text-sm">Customer Service</Link>
-            <Link href="/staff-portal/dashboard" aria-label="Link" className="p-3 bg-white border rounded-lg hover:border-brand-blue-500 hover:shadow text-sm">Processes</Link>
-            <Link href="/staff-portal/qa-checklist" aria-label="Link" className="p-3 bg-white border rounded-lg hover:border-brand-blue-500 hover:shadow text-sm">QA Checklist</Link>
-            <Link href="/staff-portal/training" aria-label="Link" className="p-3 bg-white border rounded-lg hover:border-brand-blue-500 hover:shadow text-sm">Training</Link>
+            <Link
+              href="/staff-portal/students"
+              aria-label="Link"
+              className="p-3 bg-white border rounded-lg hover:border-brand-blue-500 hover:shadow text-sm"
+            >
+              Students
+            </Link>
+            <Link
+              href="/staff-portal/courses"
+              aria-label="Link"
+              className="p-3 bg-white border rounded-lg hover:border-brand-blue-500 hover:shadow text-sm"
+            >
+              Courses
+            </Link>
+            <Link
+              href="/staff-portal/campaigns"
+              aria-label="Link"
+              className="p-3 bg-white border rounded-lg hover:border-brand-blue-500 hover:shadow text-sm"
+            >
+              Campaigns
+            </Link>
+            <Link
+              href="/staff-portal/customer-service"
+              aria-label="Link"
+              className="p-3 bg-white border rounded-lg hover:border-brand-blue-500 hover:shadow text-sm"
+            >
+              Customer Service
+            </Link>
+            <Link
+              href="/staff-portal/dashboard"
+              aria-label="Link"
+              className="p-3 bg-white border rounded-lg hover:border-brand-blue-500 hover:shadow text-sm"
+            >
+              Processes
+            </Link>
+            <Link
+              href="/staff-portal/qa-checklist"
+              aria-label="Link"
+              className="p-3 bg-white border rounded-lg hover:border-brand-blue-500 hover:shadow text-sm"
+            >
+              QA Checklist
+            </Link>
+            <Link
+              href="/staff-portal/training"
+              aria-label="Link"
+              className="p-3 bg-white border rounded-lg hover:border-brand-blue-500 hover:shadow text-sm"
+            >
+              Training
+            </Link>
           </div>
         </div>
 
@@ -348,83 +389,116 @@ export default async function StaffDashboard() {
           <div className="mt-8">
             <h3 className="text-lg font-semibold text-black mb-4">HR, Hiring &amp; Payroll</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-
               {/* Hiring */}
-              <Link href="/apply/staff" className="flex items-start gap-4 p-4 bg-white border border-slate-200 rounded-xl hover:border-brand-blue-500 hover:shadow-sm transition-all">
+              <Link
+                href="/apply/staff"
+                className="flex items-start gap-4 p-4 bg-white border border-slate-200 rounded-xl hover:border-brand-blue-500 hover:shadow-sm transition-all"
+              >
                 <div className="w-10 h-10 rounded-lg bg-brand-blue-50 flex items-center justify-center flex-shrink-0">
                   <UserPlus className="w-5 h-5 text-brand-blue-600" />
                 </div>
                 <div>
                   <div className="font-semibold text-slate-900 text-sm">Staff Application</div>
-                  <div className="text-xs text-slate-500 mt-0.5">Public hiring form — share with candidates</div>
+                  <div className="text-xs text-slate-500 mt-0.5">
+                    Public hiring form — share with candidates
+                  </div>
                 </div>
               </Link>
 
-              <Link href="/admin/applicants" className="flex items-start gap-4 p-4 bg-white border border-slate-200 rounded-xl hover:border-brand-blue-500 hover:shadow-sm transition-all">
+              <Link
+                href="/admin/applicants"
+                className="flex items-start gap-4 p-4 bg-white border border-slate-200 rounded-xl hover:border-brand-blue-500 hover:shadow-sm transition-all"
+              >
                 <div className="w-10 h-10 rounded-lg bg-brand-blue-50 flex items-center justify-center flex-shrink-0">
                   <ClipboardList className="w-5 h-5 text-brand-blue-600" />
                 </div>
                 <div>
                   <div className="font-semibold text-slate-900 text-sm">Applicant Review</div>
-                  <div className="text-xs text-slate-500 mt-0.5">Review and process incoming applications</div>
+                  <div className="text-xs text-slate-500 mt-0.5">
+                    Review and process incoming applications
+                  </div>
                 </div>
               </Link>
 
               {/* Employees */}
-              <Link href="/admin/hr/employees" className="flex items-start gap-4 p-4 bg-white border border-slate-200 rounded-xl hover:border-brand-blue-500 hover:shadow-sm transition-all">
+              <Link
+                href="/admin/hr/employees"
+                className="flex items-start gap-4 p-4 bg-white border border-slate-200 rounded-xl hover:border-brand-blue-500 hover:shadow-sm transition-all"
+              >
                 <div className="w-10 h-10 rounded-lg bg-emerald-50 flex items-center justify-center flex-shrink-0">
                   <Users className="w-5 h-5 text-emerald-600" />
                 </div>
                 <div>
                   <div className="font-semibold text-slate-900 text-sm">Employee Directory</div>
-                  <div className="text-xs text-slate-500 mt-0.5">View and manage all staff records</div>
+                  <div className="text-xs text-slate-500 mt-0.5">
+                    View and manage all staff records
+                  </div>
                 </div>
               </Link>
 
               {/* Payroll */}
-              <Link href="/admin/hr/payroll" className="flex items-start gap-4 p-4 bg-white border border-slate-200 rounded-xl hover:border-brand-blue-500 hover:shadow-sm transition-all">
+              <Link
+                href="/admin/hr/payroll"
+                className="flex items-start gap-4 p-4 bg-white border border-slate-200 rounded-xl hover:border-brand-blue-500 hover:shadow-sm transition-all"
+              >
                 <div className="w-10 h-10 rounded-lg bg-emerald-50 flex items-center justify-center flex-shrink-0">
                   <DollarSign className="w-5 h-5 text-emerald-600" />
                 </div>
                 <div>
                   <div className="font-semibold text-slate-900 text-sm">Payroll</div>
-                  <div className="text-xs text-slate-500 mt-0.5">Run payroll and view pay history</div>
+                  <div className="text-xs text-slate-500 mt-0.5">
+                    Run payroll and view pay history
+                  </div>
                 </div>
               </Link>
 
               {/* Time tracking */}
-              <Link href="/admin/hr/time" className="flex items-start gap-4 p-4 bg-white border border-slate-200 rounded-xl hover:border-brand-blue-500 hover:shadow-sm transition-all">
+              <Link
+                href="/admin/hr/time"
+                className="flex items-start gap-4 p-4 bg-white border border-slate-200 rounded-xl hover:border-brand-blue-500 hover:shadow-sm transition-all"
+              >
                 <div className="w-10 h-10 rounded-lg bg-amber-50 flex items-center justify-center flex-shrink-0">
                   <Timer className="w-5 h-5 text-amber-600" />
                 </div>
                 <div>
                   <div className="font-semibold text-slate-900 text-sm">Time Tracking</div>
-                  <div className="text-xs text-slate-500 mt-0.5">Review staff hours and timesheets</div>
+                  <div className="text-xs text-slate-500 mt-0.5">
+                    Review staff hours and timesheets
+                  </div>
                 </div>
               </Link>
 
               {/* Leave */}
-              <Link href="/admin/hr/leave" className="flex items-start gap-4 p-4 bg-white border border-slate-200 rounded-xl hover:border-brand-blue-500 hover:shadow-sm transition-all">
+              <Link
+                href="/admin/hr/leave"
+                className="flex items-start gap-4 p-4 bg-white border border-slate-200 rounded-xl hover:border-brand-blue-500 hover:shadow-sm transition-all"
+              >
                 <div className="w-10 h-10 rounded-lg bg-amber-50 flex items-center justify-center flex-shrink-0">
                   <CalendarOff className="w-5 h-5 text-amber-600" />
                 </div>
                 <div>
                   <div className="font-semibold text-slate-900 text-sm">Leave Requests</div>
-                  <div className="text-xs text-slate-500 mt-0.5">Approve or deny time-off requests</div>
+                  <div className="text-xs text-slate-500 mt-0.5">
+                    Approve or deny time-off requests
+                  </div>
                 </div>
               </Link>
 
               {/* Onboarding */}
-              <Link href="/onboarding/staff" className="flex items-start gap-4 p-4 bg-white border border-slate-200 rounded-xl hover:border-brand-blue-500 hover:shadow-sm transition-all">
+              <Link
+                href="/onboarding/staff"
+                className="flex items-start gap-4 p-4 bg-white border border-slate-200 rounded-xl hover:border-brand-blue-500 hover:shadow-sm transition-all"
+              >
                 <div className="w-10 h-10 rounded-lg bg-purple-50 flex items-center justify-center flex-shrink-0">
                   <FileText className="w-5 h-5 text-purple-600" />
                 </div>
                 <div>
                   <div className="font-semibold text-slate-900 text-sm">Staff Onboarding</div>
-                  <div className="text-xs text-slate-500 mt-0.5">New hire onboarding checklist and docs</div>
+                  <div className="text-xs text-slate-500 mt-0.5">
+                    New hire onboarding checklist and docs
+                  </div>
                 </div>
               </Link>
-
             </div>
           </div>
         )}

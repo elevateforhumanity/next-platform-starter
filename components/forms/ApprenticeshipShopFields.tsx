@@ -38,15 +38,18 @@ function useShopFormDB(applicationId?: string) {
   };
 
   const saveDraft = async (formData: ShopFormData) => {
-    const { data: { user } } = await supabase.auth.getUser();
-    await supabase
-      .from('apprenticeship_shop_drafts')
-      .upsert({
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    await supabase.from('apprenticeship_shop_drafts').upsert(
+      {
         user_id: user?.id,
         application_id: applicationId,
         form_data: formData,
-        updated_at: new Date().toISOString()
-      }, { onConflict: 'user_id,application_id' });
+        updated_at: new Date().toISOString(),
+      },
+      { onConflict: 'user_id,application_id' },
+    );
   };
 
   return { loadExistingShop, saveDraft };
@@ -86,10 +89,10 @@ const SUPERVISOR_LICENSE_TYPES: Record<string, { value: string; label: string }[
   ],
 };
 
-export function ApprenticeshipShopFields({ 
-  formData, 
-  onChange, 
-  errors = {} 
+export function ApprenticeshipShopFields({
+  formData,
+  onChange,
+  errors = {},
 }: ApprenticeshipShopFieldsProps) {
   const showOtherRegion = formData.trainingRegion === 'other';
   const licenseTypes = SUPERVISOR_LICENSE_TYPES[formData.programTrack] || [];
@@ -103,9 +106,10 @@ export function ApprenticeshipShopFields({
           <div>
             <h3 className="font-bold text-lg mb-2">Multi-Region Requirements</h3>
             <p className="text-purple-100 text-sm">
-              We are based in Indiana, but apprenticeship and host-site requirements can vary by region 
-              (state licensing rules, local workforce board policies, and employer eligibility standards). 
-              Your selected region determines the host shop guidelines we apply.
+              We are based in Indiana, but apprenticeship and host-site requirements can vary by
+              region (state licensing rules, local workforce board policies, and employer
+              eligibility standards). Your selected region determines the host shop guidelines we
+              apply.
             </p>
           </div>
         </div>
@@ -196,8 +200,8 @@ export function ApprenticeshipShopFields({
           <p className="text-sm text-brand-blue-800 flex items-start gap-2">
             <Info className="w-4 h-4 flex-shrink-0 mt-0.5" />
             <span>
-              <strong>Tip:</strong> Submit 2–3 shop options if possible. Requirements vary by region, 
-              and verification may differ by state/local policy.
+              <strong>Tip:</strong> Submit 2–3 shop options if possible. Requirements vary by
+              region, and verification may differ by state/local policy.
             </span>
           </p>
         </div>
@@ -218,9 +222,7 @@ export function ApprenticeshipShopFields({
           }`}
           required
         />
-        {errors.shopName && (
-          <p className="mt-1 text-sm text-brand-red-600">{errors.shopName}</p>
-        )}
+        {errors.shopName && <p className="mt-1 text-sm text-brand-red-600">{errors.shopName}</p>}
       </div>
 
       {/* Shop Address */}
@@ -264,9 +266,7 @@ export function ApprenticeshipShopFields({
             required
           />
         </div>
-        {errors.shopPhone && (
-          <p className="mt-1 text-sm text-brand-red-600">{errors.shopPhone}</p>
-        )}
+        {errors.shopPhone && <p className="mt-1 text-sm text-brand-red-600">{errors.shopPhone}</p>}
       </div>
 
       {/* Owner/Manager Name */}
@@ -354,13 +354,15 @@ export function ApprenticeshipShopFields({
         </h3>
 
         {/* Region Acknowledgment */}
-        <label className={`flex items-start gap-3 p-4 rounded-lg border-2 cursor-pointer transition-colors ${
-          formData.regionAcknowledgment 
-            ? 'bg-brand-green-50 border-brand-green-300' 
-            : errors.regionAcknowledgment 
-              ? 'bg-brand-red-50 border-brand-red-300' 
-              : 'bg-slate-50 border-slate-200 hover:border-purple-300'
-        }`}>
+        <label
+          className={`flex items-start gap-3 p-4 rounded-lg border-2 cursor-pointer transition-colors ${
+            formData.regionAcknowledgment
+              ? 'bg-brand-green-50 border-brand-green-300'
+              : errors.regionAcknowledgment
+                ? 'bg-brand-red-50 border-brand-red-300'
+                : 'bg-slate-50 border-slate-200 hover:border-purple-300'
+          }`}
+        >
           <input
             type="checkbox"
             checked={formData.regionAcknowledgment}
@@ -369,8 +371,8 @@ export function ApprenticeshipShopFields({
             required
           />
           <span className="text-sm text-slate-700">
-            <strong>I understand requirements can vary by region/state</strong> and my host shop must 
-            meet the guidelines for my selected training region before placement is confirmed.
+            <strong>I understand requirements can vary by region/state</strong> and my host shop
+            must meet the guidelines for my selected training region before placement is confirmed.
           </span>
         </label>
         {errors.regionAcknowledgment && (
@@ -378,13 +380,15 @@ export function ApprenticeshipShopFields({
         )}
 
         {/* Shop Acknowledgment */}
-        <label className={`flex items-start gap-3 p-4 rounded-lg border-2 cursor-pointer transition-colors ${
-          formData.shopAcknowledgment 
-            ? 'bg-brand-green-50 border-brand-green-300' 
-            : errors.shopAcknowledgment 
-              ? 'bg-brand-red-50 border-brand-red-300' 
-              : 'bg-slate-50 border-slate-200 hover:border-purple-300'
-        }`}>
+        <label
+          className={`flex items-start gap-3 p-4 rounded-lg border-2 cursor-pointer transition-colors ${
+            formData.shopAcknowledgment
+              ? 'bg-brand-green-50 border-brand-green-300'
+              : errors.shopAcknowledgment
+                ? 'bg-brand-red-50 border-brand-red-300'
+                : 'bg-slate-50 border-slate-200 hover:border-purple-300'
+          }`}
+        >
           <input
             type="checkbox"
             checked={formData.shopAcknowledgment}
@@ -393,7 +397,7 @@ export function ApprenticeshipShopFields({
             required
           />
           <span className="text-sm text-slate-700">
-            <strong>I understand my host shop must be licensed and approved</strong> for my selected 
+            <strong>I understand my host shop must be licensed and approved</strong> for my selected
             training region and track before placement is confirmed.
           </span>
         </label>

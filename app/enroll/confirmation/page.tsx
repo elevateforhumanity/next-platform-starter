@@ -16,7 +16,7 @@ interface EnrollmentStatus {
 function EnrollConfirmationContent() {
   const searchParams = useSearchParams();
   const sessionId = searchParams.get('session_id');
-  
+
   const [loading, setLoading] = useState(true);
   const [enrollment, setEnrollment] = useState<EnrollmentStatus | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -24,7 +24,9 @@ function EnrollConfirmationContent() {
   useEffect(() => {
     async function verifyPayment() {
       if (!sessionId) {
-        setError('No session found. If you completed payment, please check your email for confirmation.');
+        setError(
+          'No session found. If you completed payment, please check your email for confirmation.',
+        );
         setLoading(false);
         return;
       }
@@ -32,7 +34,7 @@ function EnrollConfirmationContent() {
       try {
         // Verify the checkout session
         const res = await fetch(`/api/apprenticeship/enroll/verify?session_id=${sessionId}`);
-        
+
         if (res.ok) {
           const data = await res.json();
           setEnrollment(data);
@@ -56,7 +58,7 @@ function EnrollConfirmationContent() {
           enrolledAt: new Date().toISOString(),
         });
       }
-      
+
       setLoading(false);
     }
 
@@ -98,12 +100,8 @@ function EnrollConfirmationContent() {
           <div className="w-20 h-20 bg-brand-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <PartyPopper className="w-10 h-10 text-brand-green-600" />
           </div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Enrollment Confirmed!
-          </h1>
-          <p className="text-gray-600">
-            Welcome to the Barber Apprenticeship Program
-          </p>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">Enrollment Confirmed!</h1>
+          <p className="text-gray-600">Welcome to the Barber Apprenticeship Program</p>
         </div>
 
         {/* Payment Receipt */}
@@ -131,7 +129,8 @@ function EnrollConfirmationContent() {
         {/* Critical Message */}
         <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-xl p-6 mb-6">
           <p className="text-brand-blue-900 font-medium text-center">
-            Payment secures your enrollment. Training access unlocks after approval and shop assignment.
+            Payment secures your enrollment. Training access unlocks after approval and shop
+            assignment.
           </p>
         </div>
 
@@ -258,9 +257,18 @@ function EnrollConfirmationContent() {
         <div className="text-center">
           <p className="text-gray-600 mb-2">Questions about your enrollment?</p>
           <p className="text-gray-900">
-            <a href="/support" className="text-brand-blue-600 font-semibold underline">Visit our Help Center</a> or <a href="/faq" className="text-brand-blue-600 font-semibold underline">check our FAQ</a>
-            {' '}or email{' '}
-            <a href="mailto:enroll@elevateforhumanity.org" className="text-brand-blue-600 font-semibold underline">
+            <a href="/support" className="text-brand-blue-600 font-semibold underline">
+              Visit our Help Center
+            </a>{' '}
+            or{' '}
+            <a href="/faq" className="text-brand-blue-600 font-semibold underline">
+              check our FAQ
+            </a>{' '}
+            or email{' '}
+            <a
+              href="mailto:enroll@elevateforhumanity.org"
+              className="text-brand-blue-600 font-semibold underline"
+            >
               enroll@elevateforhumanity.org
             </a>
           </p>
@@ -272,11 +280,13 @@ function EnrollConfirmationContent() {
 
 export default function EnrollConfirmationPage() {
   return (
-    <Suspense fallback={
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <Loader2 className="w-8 h-8 animate-spin text-brand-blue-600" />
-      </div>
-    }>
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+          <Loader2 className="w-8 h-8 animate-spin text-brand-blue-600" />
+        </div>
+      }
+    >
       <EnrollConfirmationContent />
     </Suspense>
   );

@@ -19,7 +19,7 @@ async function log(
   status: string,
   detail?: string,
   http_code?: number,
-  task_id?: number
+  task_id?: number,
 ) {
   await supabase.from('automation.health_log').insert([
     {
@@ -41,8 +41,7 @@ async function notifySlack(text: string) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ text }),
     });
-  } catch (e) {
-  }
+  } catch (e) {}
 }
 
 // =============================================
@@ -90,15 +89,9 @@ async function scheduleChildren() {
     }
 
     if (readyChildren.length > 0) {
-      await log(
-        'worker',
-        'deploy',
-        'ok',
-        `Scheduled ${readyChildren.length} child tasks`
-      );
+      await log('worker', 'deploy', 'ok', `Scheduled ${readyChildren.length} child tasks`);
     }
-  } catch (e: any) {
-  }
+  } catch (e: any) {}
 }
 
 // =============================================
@@ -128,10 +121,10 @@ async function runTask(task: any) {
       'warn',
       `Task #${task.id} needs approval: ${task.kind}`,
       undefined,
-      task.id
+      task.id,
     );
     await notifySlack(
-      `🟡 Task #${task.id} needs approval: ${task.kind}\nApprove with: /approve ${task.id}`
+      `🟡 Task #${task.id} needs approval: ${task.kind}\nApprove with: /approve ${task.id}`,
     );
     return;
   }
@@ -148,27 +141,13 @@ async function runTask(task: any) {
         const sql: string = task.payload?.sql ?? '';
         if (!sql) throw new Error('Missing SQL in payload');
         // Note: Execute via your approved SQL execution path
-        await log(
-          'worker',
-          'migration',
-          'ok',
-          'Database migrations executed',
-          undefined,
-          task.id
-        );
+        await log('worker', 'migration', 'ok', 'Database migrations executed', undefined, task.id);
         await notifySlack(`✅ Task #${task.id}: Database migrations completed`);
         break;
       }
 
       case 'db_rls_fix': {
-        await log(
-          'worker',
-          'migration',
-          'ok',
-          'RLS policies fixed',
-          undefined,
-          task.id
-        );
+        await log('worker', 'migration', 'ok', 'RLS policies fixed', undefined, task.id);
         await notifySlack(`✅ Task #${task.id}: RLS policies updated`);
         break;
       }
@@ -176,27 +155,13 @@ async function runTask(task: any) {
       case 'redeploy': {
         if (!NETLIFY_BUILD_HOOK) throw new Error('NETLIFY_BUILD_HOOK not set');
         const response = await fetch(NETLIFY_BUILD_HOOK, { method: 'POST' });
-        await log(
-          'worker',
-          'deploy',
-          'ok',
-          'Netlify rebuild triggered',
-          response.status,
-          task.id
-        );
+        await log('worker', 'deploy', 'ok', 'Netlify rebuild triggered', response.status, task.id);
         await notifySlack(`✅ Task #${task.id}: Netlify rebuild triggered`);
         break;
       }
 
       case 'cache_purge': {
-        await log(
-          'worker',
-          'deploy',
-          'ok',
-          'Cache purge completed',
-          undefined,
-          task.id
-        );
+        await log('worker', 'deploy', 'ok', 'Cache purge completed', undefined, task.id);
         await notifySlack(`✅ Task #${task.id}: Cache purged`);
         break;
       }
@@ -210,11 +175,9 @@ async function runTask(task: any) {
           'ok',
           `Accessibility scan queued for ${url}`,
           undefined,
-          task.id
+          task.id,
         );
-        await notifySlack(
-          `✅ Task #${task.id}: Accessibility scan started for ${url}`
-        );
+        await notifySlack(`✅ Task #${task.id}: Accessibility scan started for ${url}`);
         break;
       }
 
@@ -227,11 +190,9 @@ async function runTask(task: any) {
           'ok',
           `Video caption job queued: ${fileUrl} (${lang})`,
           undefined,
-          task.id
+          task.id,
         );
-        await notifySlack(
-          `✅ Task #${task.id}: Video captions queued for ${fileUrl}`
-        );
+        await notifySlack(`✅ Task #${task.id}: Video captions queued for ${fileUrl}`);
         break;
       }
 
@@ -244,11 +205,9 @@ async function runTask(task: any) {
           'ok',
           `Audio transcript job queued: ${fileUrl} (${lang})`,
           undefined,
-          task.id
+          task.id,
         );
-        await notifySlack(
-          `✅ Task #${task.id}: Audio transcript queued for ${fileUrl}`
-        );
+        await notifySlack(`✅ Task #${task.id}: Audio transcript queued for ${fileUrl}`);
         break;
       }
 
@@ -260,11 +219,9 @@ async function runTask(task: any) {
           'warn',
           'Mobile publish requires store credentials',
           undefined,
-          task.id
+          task.id,
         );
-        await notifySlack(
-          `⚠️ Task #${task.id}: Mobile publish needs store credentials`
-        );
+        await notifySlack(`⚠️ Task #${task.id}: Mobile publish needs store credentials`);
         break;
       }
 
@@ -276,11 +233,9 @@ async function runTask(task: any) {
           'ok',
           'Realtime collaboration bootstrapped',
           undefined,
-          task.id
+          task.id,
         );
-        await notifySlack(
-          `✅ Task #${task.id}: Realtime collaboration initialized`
-        );
+        await notifySlack(`✅ Task #${task.id}: Realtime collaboration initialized`);
         break;
       }
 
@@ -293,53 +248,28 @@ async function runTask(task: any) {
           'ok',
           `i18n build queued for locales: ${JSON.stringify(locales)}`,
           undefined,
-          task.id
+          task.id,
         );
-        await notifySlack(
-          `✅ Task #${task.id}: i18n build started for ${locales.join(', ')}`
-        );
+        await notifySlack(`✅ Task #${task.id}: i18n build started for ${locales.join(', ')}`);
         break;
       }
 
       // ==================== AI/ML ====================
       case 'ai_features_boot': {
-        await log(
-          'worker',
-          'site',
-          'ok',
-          'AI features scaffolded',
-          undefined,
-          task.id
-        );
+        await log('worker', 'site', 'ok', 'AI features scaffolded', undefined, task.id);
         await notifySlack(`✅ Task #${task.id}: AI features initialized`);
         break;
       }
 
       // ==================== COMMUNICATIONS & AUTH ====================
       case 'email_connect': {
-        await log(
-          'worker',
-          'site',
-          'warn',
-          'Email provider requires API key',
-          undefined,
-          task.id
-        );
-        await notifySlack(
-          `⚠️ Task #${task.id}: Email integration needs API key`
-        );
+        await log('worker', 'site', 'warn', 'Email provider requires API key', undefined, task.id);
+        await notifySlack(`⚠️ Task #${task.id}: Email integration needs API key`);
         break;
       }
 
       case 'sms_connect': {
-        await log(
-          'worker',
-          'site',
-          'warn',
-          'SMS provider requires API key',
-          undefined,
-          task.id
-        );
+        await log('worker', 'site', 'warn', 'SMS provider requires API key', undefined, task.id);
         await notifySlack(`⚠️ Task #${task.id}: SMS integration needs API key`);
         break;
       }
@@ -351,11 +281,9 @@ async function runTask(task: any) {
           'warn',
           'OAuth requires client IDs/secrets',
           undefined,
-          task.id
+          task.id,
         );
-        await notifySlack(
-          `⚠️ Task #${task.id}: OAuth integration needs credentials`
-        );
+        await notifySlack(`⚠️ Task #${task.id}: OAuth integration needs credentials`);
         break;
       }
 
@@ -367,37 +295,21 @@ async function runTask(task: any) {
           'warn',
           'Payments expansion requires Stripe/processor keys',
           undefined,
-          task.id
+          task.id,
         );
-        await notifySlack(
-          `⚠️ Task #${task.id}: Payment expansion needs credentials`
-        );
+        await notifySlack(`⚠️ Task #${task.id}: Payment expansion needs credentials`);
         break;
       }
 
       // ==================== SECURITY & COMPLIANCE ====================
       case 'security_audit': {
-        await log(
-          'worker',
-          'site',
-          'ok',
-          'Security audit checklist started',
-          undefined,
-          task.id
-        );
+        await log('worker', 'site', 'ok', 'Security audit checklist started', undefined, task.id);
         await notifySlack(`✅ Task #${task.id}: Security audit initiated`);
         break;
       }
 
       case 'compliance_report': {
-        await log(
-          'worker',
-          'site',
-          'ok',
-          'Compliance report draft started',
-          undefined,
-          task.id
-        );
+        await log('worker', 'site', 'ok', 'Compliance report draft started', undefined, task.id);
         await notifySlack(`✅ Task #${task.id}: Compliance report started`);
         break;
       }
@@ -409,7 +321,7 @@ async function runTask(task: any) {
           'ok',
           'GDPR tools scaffolded (export/delete endpoints)',
           undefined,
-          task.id
+          task.id,
         );
         await notifySlack(`✅ Task #${task.id}: GDPR tools initialized`);
         break;
@@ -422,34 +334,20 @@ async function runTask(task: any) {
           'ok',
           'FERPA student data controls scaffolded',
           undefined,
-          task.id
+          task.id,
         );
         await notifySlack(`✅ Task #${task.id}: FERPA tools initialized`);
         break;
       }
 
       case 'soc2_prep': {
-        await log(
-          'worker',
-          'site',
-          'ok',
-          'SOC2 prep checklist created',
-          undefined,
-          task.id
-        );
+        await log('worker', 'site', 'ok', 'SOC2 prep checklist created', undefined, task.id);
         await notifySlack(`✅ Task #${task.id}: SOC2 prep started`);
         break;
       }
 
       default:
-        await log(
-          'worker',
-          'site',
-          'warn',
-          `Unknown task kind: ${task.kind}`,
-          undefined,
-          task.id
-        );
+        await log('worker', 'site', 'warn', `Unknown task kind: ${task.kind}`, undefined, task.id);
         await notifySlack(`⚠️ Task #${task.id}: Unknown kind ${task.kind}`);
     }
 
@@ -470,10 +368,10 @@ async function runTask(task: any) {
       'error',
       `Task #${task.id} failed: ${e.message}`,
       undefined,
-      task.id
+      task.id,
     );
     await notifySlack(
-      `❌ Task #${task.id} failed (attempt ${attempts}/${task.max_attempts}): ${e.message}`
+      `❌ Task #${task.id} failed (attempt ${attempts}/${task.max_attempts}): ${e.message}`,
     );
   }
 }
@@ -492,12 +390,7 @@ serve(async (req) => {
 
     // ==================== ENQUEUE ====================
     if (cmd === 'enqueue') {
-      const {
-        kind,
-        payload = {},
-        priority = 5,
-        requires_approval = false,
-      } = body;
+      const { kind, payload = {}, priority = 5, requires_approval = false } = body;
       const { error } = await supabase.from('automation.tasks').insert([
         {
           kind,

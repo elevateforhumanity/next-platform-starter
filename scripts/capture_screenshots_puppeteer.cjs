@@ -36,7 +36,7 @@ async function captureScreenshots() {
     try {
       console.log(`Capturing: ${url}`);
       await page.goto(url, { waitUntil: 'networkidle0', timeout: 30000 });
-      await new Promise(r => setTimeout(r, 1000));
+      await new Promise((r) => setTimeout(r, 1000));
       await page.screenshot({ path: outputPath });
       console.log(`  ✓ Saved: ${outputPath}`);
       results.push({ route: route.name, status: 'success', path: outputPath });
@@ -49,7 +49,7 @@ async function captureScreenshots() {
   await browser.close();
 
   console.log('\n=== Screenshot Capture Summary ===');
-  results.forEach(r => {
+  results.forEach((r) => {
     console.log(`${r.status === 'success' ? '✓' : '✗'} ${r.route}: ${r.status}`);
   });
 

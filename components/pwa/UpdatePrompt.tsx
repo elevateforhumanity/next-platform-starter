@@ -60,17 +60,17 @@ export function UpdatePrompt({ onUpdate }: UpdatePromptProps) {
 
   const handleUpdateClick = async () => {
     setUpdating(true);
-    
+
     try {
       const registration = await navigator.serviceWorker.ready;
-      
+
       if (registration.waiting) {
         // Tell the waiting service worker to activate
         registration.waiting.postMessage({ type: 'SKIP_WAITING' });
       }
-      
+
       onUpdate?.();
-      
+
       // Reload after a short delay to allow SW to activate
       setTimeout(() => {
         window.location.reload();
@@ -94,9 +94,7 @@ export function UpdatePrompt({ onUpdate }: UpdatePromptProps) {
       <div className="flex items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <RefreshCw className={`w-5 h-5 ${updating ? 'animate-spin' : ''}`} />
-          <p className="text-sm font-medium">
-            A new version is available
-          </p>
+          <p className="text-sm font-medium">A new version is available</p>
         </div>
         <div className="flex items-center gap-2">
           <button
@@ -106,10 +104,7 @@ export function UpdatePrompt({ onUpdate }: UpdatePromptProps) {
           >
             {updating ? 'Updating...' : 'Update'}
           </button>
-          <button
-            onClick={handleDismiss}
-            className="p-1 hover:bg-brand-blue-500 rounded"
-          >
+          <button onClick={handleDismiss} className="p-1 hover:bg-brand-blue-500 rounded">
             <X className="w-4 h-4" />
           </button>
         </div>

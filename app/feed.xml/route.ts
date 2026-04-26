@@ -25,7 +25,9 @@ export async function GET() {
     <language>en-us</language>
     <lastBuildDate>${buildDate}</lastBuildDate>
     <atom:link href="${siteUrl}/feed.xml" rel="self" type="application/rss+xml"/>
-    ${(posts || []).map(post => `
+    ${(posts || [])
+      .map(
+        (post) => `
     <item>
       <title><![CDATA[${post.title}]]></title>
       <link>${siteUrl}/blog/${post.slug}</link>
@@ -35,7 +37,9 @@ export async function GET() {
       ${post.author ? `<author>${post.author}</author>` : ''}
       ${post.category ? `<category>${post.category}</category>` : ''}
       ${post.featured_image ? `<enclosure url="${siteUrl}${post.featured_image}" type="image/jpeg"/>` : ''}
-    </item>`).join('')}
+    </item>`,
+      )
+      .join('')}
   </channel>
 </rss>`;
 
@@ -45,7 +49,8 @@ export async function GET() {
         'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate',
       },
     });
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     return new NextResponse('Error generating RSS feed', { status: 500 });
   }
 }

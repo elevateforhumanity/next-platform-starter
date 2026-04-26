@@ -27,7 +27,10 @@ async function main() {
     },
   });
 
-  if (error) { console.error('❌ Create user error:', error.message); process.exit(1); }
+  if (error) {
+    console.error('❌ Create user error:', error.message);
+    process.exit(1);
+  }
 
   console.log('\n✅ Test user created');
   console.log('   ID:       ', data.user.id);
@@ -36,4 +39,7 @@ async function main() {
   console.log('   Login at: /login\n');
 }
 
-main().catch(e => { console.error(e); process.exit(1); });
+main().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});

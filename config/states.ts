@@ -29,10 +29,19 @@ export const STATES: Record<string, StateConfig> = {
     name: 'Indiana',
     abbreviation: 'IN',
     demonym: 'Hoosiers',
-    majorCities: ['Indianapolis', 'Fort Wayne', 'Evansville', 'South Bend', 'Carmel', 'Fishers', 'Bloomington'],
+    majorCities: [
+      'Indianapolis',
+      'Fort Wayne',
+      'Evansville',
+      'South Bend',
+      'Carmel',
+      'Fishers',
+      'Bloomington',
+    ],
     careerTraining: {
       headline: 'Career Training & Workforce Programs in Indiana',
-      description: 'Workforce development and career training programs in Indiana. WIOA-eligible training, apprenticeships, and certification programs serving Indianapolis, Fort Wayne, and statewide. Free for qualifying residents.',
+      description:
+        'Workforce development and career training programs in Indiana. WIOA-eligible training, apprenticeships, and certification programs serving Indianapolis, Fort Wayne, and statewide. Free for qualifying residents.',
       features: [
         'WIOA-eligible training programs',
         'Registered apprenticeships',
@@ -42,7 +51,8 @@ export const STATES: Record<string, StateConfig> = {
     },
     taxPreparation: {
       headline: 'Free Tax Preparation in Indiana',
-      description: 'VITA-certified free tax preparation services across Indiana. Serving Indianapolis, Fort Wayne, and communities statewide.',
+      description:
+        'VITA-certified free tax preparation services across Indiana. Serving Indianapolis, Fort Wayne, and communities statewide.',
       features: [
         'IRS-certified VITA volunteers',
         'Free federal and state filing',
@@ -52,7 +62,8 @@ export const STATES: Record<string, StateConfig> = {
     },
     communityServices: {
       headline: 'Community Services in Indiana',
-      description: 'Trusted support services for Indiana families. We connect Hoosiers with resources for employment, housing, financial stability, and personal growth.',
+      description:
+        'Trusted support services for Indiana families. We connect Hoosiers with resources for employment, housing, financial stability, and personal growth.',
     },
   },
   illinois: {
@@ -63,7 +74,8 @@ export const STATES: Record<string, StateConfig> = {
     majorCities: ['Chicago', 'Aurora', 'Naperville', 'Joliet', 'Rockford', 'Springfield', 'Peoria'],
     careerTraining: {
       headline: 'Career Training & Workforce Programs in Illinois',
-      description: 'Illinois workforce initiatives often span multiple regions and partners. Structured learning platforms help ensure consistency and accountability across programs.',
+      description:
+        'Illinois workforce initiatives often span multiple regions and partners. Structured learning platforms help ensure consistency and accountability across programs.',
       features: [
         'Structured learning paths',
         'Progress tracking',
@@ -73,7 +85,8 @@ export const STATES: Record<string, StateConfig> = {
     },
     taxPreparation: {
       headline: 'Free Tax Preparation in Illinois',
-      description: 'VITA-certified free tax preparation services across Illinois. Serving Chicago, Aurora, and communities statewide.',
+      description:
+        'VITA-certified free tax preparation services across Illinois. Serving Chicago, Aurora, and communities statewide.',
       features: [
         'IRS-certified VITA volunteers',
         'Free federal and state filing',
@@ -83,7 +96,8 @@ export const STATES: Record<string, StateConfig> = {
     },
     communityServices: {
       headline: 'Community Services in Illinois',
-      description: 'Trusted support services for Illinois families. We connect residents with resources for employment, housing, financial stability, and personal growth.',
+      description:
+        'Trusted support services for Illinois families. We connect residents with resources for employment, housing, financial stability, and personal growth.',
     },
   },
   ohio: {
@@ -94,7 +108,8 @@ export const STATES: Record<string, StateConfig> = {
     majorCities: ['Columbus', 'Cleveland', 'Cincinnati', 'Toledo', 'Akron', 'Dayton', 'Youngstown'],
     careerTraining: {
       headline: 'Career Training & Workforce Programs in Ohio',
-      description: "Ohio's workforce includes a diverse mix of industries, employers, and training needs. Career training programs supported by structured learning platforms help ensure consistency, accountability, and measurable progress.",
+      description:
+        "Ohio's workforce includes a diverse mix of industries, employers, and training needs. Career training programs supported by structured learning platforms help ensure consistency, accountability, and measurable progress.",
       features: [
         'Skills aligned with employment and industry demand',
         'Defined participation and completion criteria',
@@ -104,7 +119,8 @@ export const STATES: Record<string, StateConfig> = {
     },
     taxPreparation: {
       headline: 'Free Tax Preparation in Ohio',
-      description: 'VITA-certified free tax preparation services across Ohio. Serving Columbus, Cleveland, Cincinnati, and communities statewide.',
+      description:
+        'VITA-certified free tax preparation services across Ohio. Serving Columbus, Cleveland, Cincinnati, and communities statewide.',
       features: [
         'IRS-certified VITA volunteers',
         'Free federal and state filing',
@@ -114,7 +130,8 @@ export const STATES: Record<string, StateConfig> = {
     },
     communityServices: {
       headline: 'Community Services in Ohio',
-      description: 'Trusted support services for Ohio families. We connect Ohioans with resources for employment, housing, financial stability, and personal growth.',
+      description:
+        'Trusted support services for Ohio families. We connect Ohioans with resources for employment, housing, financial stability, and personal growth.',
     },
   },
   tennessee: {
@@ -122,10 +139,19 @@ export const STATES: Record<string, StateConfig> = {
     name: 'Tennessee',
     abbreviation: 'TN',
     demonym: 'Tennesseans',
-    majorCities: ['Nashville', 'Memphis', 'Knoxville', 'Chattanooga', 'Clarksville', 'Murfreesboro', 'Franklin'],
+    majorCities: [
+      'Nashville',
+      'Memphis',
+      'Knoxville',
+      'Chattanooga',
+      'Clarksville',
+      'Murfreesboro',
+      'Franklin',
+    ],
     careerTraining: {
       headline: 'Career Training & Workforce Programs in Tennessee',
-      description: 'Tennessee workforce programs rely on structured training environments to support learners and program administrators statewide. Digital learning platforms help maintain consistency and accountability.',
+      description:
+        'Tennessee workforce programs rely on structured training environments to support learners and program administrators statewide. Digital learning platforms help maintain consistency and accountability.',
       features: [
         'Industry-aligned curriculum',
         'Hands-on training opportunities',
@@ -135,7 +161,8 @@ export const STATES: Record<string, StateConfig> = {
     },
     taxPreparation: {
       headline: 'Free Tax Preparation in Tennessee',
-      description: 'VITA-certified free tax preparation services across Tennessee. Serving Nashville, Memphis, and communities statewide.',
+      description:
+        'VITA-certified free tax preparation services across Tennessee. Serving Nashville, Memphis, and communities statewide.',
       features: [
         'IRS-certified VITA volunteers',
         'Free federal filing (no state income tax)',
@@ -145,7 +172,8 @@ export const STATES: Record<string, StateConfig> = {
     },
     communityServices: {
       headline: 'Community Services in Tennessee',
-      description: 'Trusted support services for Tennessee families. We connect Tennesseans with resources for employment, housing, financial stability, and personal growth.',
+      description:
+        'Trusted support services for Tennessee families. We connect Tennesseans with resources for employment, housing, financial stability, and personal growth.',
     },
   },
   texas: {
@@ -153,10 +181,19 @@ export const STATES: Record<string, StateConfig> = {
     name: 'Texas',
     abbreviation: 'TX',
     demonym: 'Texans',
-    majorCities: ['Houston', 'San Antonio', 'Dallas', 'Austin', 'Fort Worth', 'El Paso', 'Arlington'],
+    majorCities: [
+      'Houston',
+      'San Antonio',
+      'Dallas',
+      'Austin',
+      'Fort Worth',
+      'El Paso',
+      'Arlington',
+    ],
     careerTraining: {
       headline: 'Career Training & Workforce Programs in Texas',
-      description: "Texas offers diverse workforce development opportunities across its major metropolitan areas. Training programs emphasize industry-relevant skills and employer connections.",
+      description:
+        'Texas offers diverse workforce development opportunities across its major metropolitan areas. Training programs emphasize industry-relevant skills and employer connections.',
       features: [
         'Industry certifications',
         'Apprenticeship programs',
@@ -166,7 +203,8 @@ export const STATES: Record<string, StateConfig> = {
     },
     taxPreparation: {
       headline: 'Free Tax Preparation in Texas',
-      description: 'VITA-certified free tax preparation services across Texas. Serving Houston, Dallas, San Antonio, and communities statewide.',
+      description:
+        'VITA-certified free tax preparation services across Texas. Serving Houston, Dallas, San Antonio, and communities statewide.',
       features: [
         'IRS-certified VITA volunteers',
         'Free federal filing (no state income tax)',
@@ -176,7 +214,8 @@ export const STATES: Record<string, StateConfig> = {
     },
     communityServices: {
       headline: 'Community Services in Texas',
-      description: 'Trusted support services for Texas families. We connect Texans with resources for employment, housing, financial stability, and personal growth.',
+      description:
+        'Trusted support services for Texas families. We connect Texans with resources for employment, housing, financial stability, and personal growth.',
     },
   },
 };
@@ -188,7 +227,7 @@ export function getStateConfig(slug: string): StateConfig | undefined {
 }
 
 export function getOtherStates(currentSlug: string): StateConfig[] {
-  return STATE_SLUGS
-    .filter(slug => slug !== currentSlug.toLowerCase())
-    .map(slug => STATES[slug]);
+  return STATE_SLUGS.filter((slug) => slug !== currentSlug.toLowerCase()).map(
+    (slug) => STATES[slug],
+  );
 }

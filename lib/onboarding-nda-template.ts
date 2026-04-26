@@ -14,10 +14,10 @@ export interface NDAData {
 
 export function generateNDAText(data: NDAData): string {
   const recipientTypeLabel = {
-    'employee': 'Employee',
-    'contractor': 'Independent Contractor',
-    'partner': 'Partner',
-    'program-holder': 'Program Holder / Training Provider'
+    employee: 'Employee',
+    contractor: 'Independent Contractor',
+    partner: 'Partner',
+    'program-holder': 'Program Holder / Training Provider',
   }[data.recipientType];
 
   return `ELEVATE FOR HUMANITY CAREER & TECHNICAL INSTITUTE

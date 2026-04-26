@@ -1,7 +1,7 @@
 import { logger } from '@/lib/logger';
 /**
  * File Storage Service
- * 
+ *
  * Handles secure file storage and signed URL generation for digital downloads.
  * Supports Cloudflare R2 (S3-compatible) and AWS S3.
  */
@@ -27,7 +27,9 @@ let s3Client: S3Client | null = null;
 function getS3Client(): S3Client {
   if (!s3Client) {
     if (!STORAGE_CONFIG.credentials.accessKeyId || !STORAGE_CONFIG.credentials.secretAccessKey) {
-      throw new Error('Storage credentials not configured. Set R2_ACCESS_KEY/R2_SECRET_KEY or AWS credentials.');
+      throw new Error(
+        'Storage credentials not configured. Set R2_ACCESS_KEY/R2_SECRET_KEY or AWS credentials.',
+      );
     }
 
     s3Client = new S3Client({
@@ -55,7 +57,10 @@ export function isStorageConfigured(): boolean {
  * Product file paths mapping
  * Maps product IDs to their file paths in storage
  */
-export const PRODUCT_FILES: Record<string, { path: string; filename: string; contentType: string; publicPath: string }> = {
+export const PRODUCT_FILES: Record<
+  string,
+  { path: string; filename: string; contentType: string; publicPath: string }
+> = {
   'capital-readiness-guide': {
     path: 'guides/capital-readiness-guide-v1.pdf',
     publicPath: '/downloads/guides/capital-readiness-guide-v1.pdf',
@@ -98,7 +103,7 @@ export function getPublicFallbackUrl(productId: string, baseUrl: string): string
  */
 export async function generateSignedDownloadUrl(
   productId: string,
-  expiresInSeconds: number = 3600
+  expiresInSeconds: number = 3600,
 ): Promise<string | null> {
   const fileInfo = PRODUCT_FILES[productId];
   if (!fileInfo) {
@@ -138,7 +143,7 @@ export async function generateSignedDownloadUrl(
 export async function uploadFile(
   key: string,
   body: Buffer | Uint8Array,
-  contentType: string
+  contentType: string,
 ): Promise<boolean> {
   if (!isStorageConfigured()) {
     throw new Error('Storage not configured');

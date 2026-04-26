@@ -51,15 +51,15 @@ export function mapCourseRow(row: RawCourseRow): CourseRecord {
       : 'draft';
 
   return {
-    id:               row.id,
-    title:            row.title?.trim() || 'Untitled Course',
-    slug:             row.slug ?? row.id,
-    description:      row.description ?? '',
+    id: row.id,
+    title: row.title?.trim() || 'Untitled Course',
+    slug: row.slug ?? row.id,
+    description: row.description ?? '',
     shortDescription: row.short_description ?? null,
     status,
-    isActive:         row.is_active ?? true,
-    publishedAt:      row.published_at ?? null,
-    thumbnailUrl:     row.thumbnail_url ?? null,
-    programId:        row.program_id ?? null,
+    isActive: row.is_active ?? true,
+    publishedAt: row.published_at ?? null,
+    thumbnailUrl: row.thumbnail_url ?? null,
+    programId: row.program_id ?? null,
   };
 }

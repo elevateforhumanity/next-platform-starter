@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -70,9 +70,7 @@ export default function OfflineIndicator() {
             <>
               <Wifi size={18} />
               <span>Back online</span>
-              {syncing && (
-                <span className="text-xs opacity-90">• Syncing...</span>
-              )}
+              {syncing && <span className="text-xs opacity-90">• Syncing...</span>}
             </>
           ) : (
             <>

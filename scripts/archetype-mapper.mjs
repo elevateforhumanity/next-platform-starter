@@ -3,14 +3,14 @@
 // Purpose: Fail build if any page is unmapped, uses forbidden phrases, lacks basic contracts,
 // duplicates metadata, or dashboard routes lack server auth heuristics.
 
-import fs from "node:fs";
-import path from "node:path";
-import process from "node:process";
+import fs from 'node:fs';
+import path from 'node:path';
+import process from 'node:process';
 
 const ROOT = process.cwd();
-const APP_DIR = path.join(ROOT, "app");
+const APP_DIR = path.join(ROOT, 'app');
 
-const readText = (p) => fs.readFileSync(p, "utf8");
+const readText = (p) => fs.readFileSync(p, 'utf8');
 
 const exists = (p) => fs.existsSync(p);
 
@@ -24,10 +24,14 @@ const walk = (dir) => {
   return out;
 };
 
-const isAppPage = (file) => file.endsWith(`${path.sep}page.tsx`) || file.endsWith(`${path.sep}page.jsx`) || file.endsWith(`${path.sep}page.ts`) || file.endsWith(`${path.sep}page.js`);
+const isAppPage = (file) =>
+  file.endsWith(`${path.sep}page.tsx`) ||
+  file.endsWith(`${path.sep}page.jsx`) ||
+  file.endsWith(`${path.sep}page.ts`) ||
+  file.endsWith(`${path.sep}page.js`);
 
-const isRouteGroup = (segment) => segment.startsWith("(") && segment.endsWith(")");
-const isParallelSegment = (segment) => segment.startsWith("@");
+const isRouteGroup = (segment) => segment.startsWith('(') && segment.endsWith(')');
+const isParallelSegment = (segment) => segment.startsWith('@');
 
 const toRoutePath = (file) => {
   // Convert /app/foo/bar/page.tsx => /foo/bar
@@ -36,13 +40,13 @@ const toRoutePath = (file) => {
   rel.pop();
 
   const cleaned = rel
-    .filter((seg) => seg !== "app")
+    .filter((seg) => seg !== 'app')
     .filter((seg) => !isRouteGroup(seg))
     .filter((seg) => !isParallelSegment(seg))
-    .map((seg) => (seg === "page" ? "" : seg));
+    .map((seg) => (seg === 'page' ? '' : seg));
 
-  const route = "/" + cleaned.filter(Boolean).join("/");
-  return route === "/" ? "/" : route.replace(/\/+/g, "/");
+  const route = '/' + cleaned.filter(Boolean).join('/');
+  return route === '/' ? '/' : route.replace(/\/+/g, '/');
 };
 
 const loadArchetypes = async () => {
@@ -50,7 +54,7 @@ const loadArchetypes = async () => {
   // require user to maintain a JSON mirror for scripts, OR we parse simple exports.
   // For simplicity and reliability, we read forbidden phrases directly from archetypes.ts,
   // and require a mapping file for matchers.
-  const archetypesTs = path.join(ROOT, "lib", "archetypes.ts");
+  const archetypesTs = path.join(ROOT, 'lib', 'archetypes.ts');
   if (!exists(archetypesTs)) {
     throw new Error(`Missing lib/archetypes.ts (expected at ${archetypesTs})`);
   }
@@ -58,7 +62,9 @@ const loadArchetypes = async () => {
 
   // Extract FORBIDDEN_PHRASES array values via regex (simple but effective).
   const forbidden = [];
-  const forbiddenMatch = src.match(/export const FORBIDDEN_PHRASES:\s*string\[\]\s*=\s*\[([\s\S]*?)\];/);
+  const forbiddenMatch = src.match(
+    /export const FORBIDDEN_PHRASES:\s*string\[\]\s*=\s*\[([\s\S]*?)\];/,
+  );
   if (forbiddenMatch) {
     const inner = forbiddenMatch[1];
     const strMatches = inner.matchAll(/"([^"]+)"/g);
@@ -67,10 +73,10 @@ const loadArchetypes = async () => {
 
   // For routeMatchers, we avoid executing TS. Instead, require a JSON mirror file:
   // scripts/archetypes.routes.json
-  const routesJsonPath = path.join(ROOT, "scripts", "archetypes.routes.json");
+  const routesJsonPath = path.join(ROOT, 'scripts', 'archetypes.routes.json');
   if (!exists(routesJsonPath)) {
     throw new Error(
-      `Missing scripts/archetypes.routes.json.\nCreate it to mirror archetype route matchers in a script-friendly format.`
+      `Missing scripts/archetypes.routes.json.\nCreate it to mirror archetype route matchers in a script-friendly format.`,
     );
   }
 
@@ -78,20 +84,20 @@ const loadArchetypes = async () => {
   return { forbidden, routesJson };
 };
 
-const lower = (s) => (s || "").toLowerCase();
+const lower = (s) => (s || '').toLowerCase();
 
 const fail = (errors) => {
-  console.error("\nARCTYPE CHECK FAILED:\n");
+  console.error('\nARCTYPE CHECK FAILED:\n');
   for (const e of errors) console.error(`- ${e}`);
-  console.error("\nFix the above and re-run.\n");
+  console.error('\nFix the above and re-run.\n');
   process.exit(1);
 };
 
 const warn = (warnings) => {
   if (!warnings.length) return;
-  console.warn("\nARCTYPE WARNINGS:\n");
+  console.warn('\nARCTYPE WARNINGS:\n');
   for (const w of warnings) console.warn(`- ${w}`);
-  console.warn("");
+  console.warn('');
 };
 
 const main = async () => {
@@ -131,7 +137,7 @@ const main = async () => {
       errors.push(
         `Ambiguous archetype mapping for ${p.route} (file: ${path.relative(ROOT, p.file)}) matches: ${matches
           .map((m) => m.key)
-          .join(", ")}`
+          .join(', ')}`,
       );
       continue;
     }
@@ -141,13 +147,17 @@ const main = async () => {
     const s = lower(p.src);
     for (const phrase of forbidden) {
       if (phrase && s.includes(phrase)) {
-        errors.push(`Forbidden phrase "${phrase}" found in ${p.route} (file: ${path.relative(ROOT, p.file)})`);
+        errors.push(
+          `Forbidden phrase "${phrase}" found in ${p.route} (file: ${path.relative(ROOT, p.file)})`,
+        );
       }
     }
 
     // 3) Metadata check: require export const metadata OR generateMetadata OR <title> via metadata system
     const hasMetadataExport =
-      /export\s+(const\s+metadata|async\s+function\s+generateMetadata|function\s+generateMetadata)\b/.test(p.src);
+      /export\s+(const\s+metadata|async\s+function\s+generateMetadata|function\s+generateMetadata)\b/.test(
+        p.src,
+      );
     if (!hasMetadataExport) {
       errors.push(`Missing metadata export on ${p.route} (file: ${path.relative(ROOT, p.file)})`);
     }
@@ -163,7 +173,9 @@ const main = async () => {
       /<h1[^>]*>/.test(p.src) ||
       /className="[^"]*hero[^"]*"/.test(p.src);
     if (!hasHero) {
-      warnings.push(`Missing hero implementation on ${p.route} (file: ${path.relative(ROOT, p.file)})`);
+      warnings.push(
+        `Missing hero implementation on ${p.route} (file: ${path.relative(ROOT, p.file)})`,
+      );
     }
 
     // 5) Token checks per archetype (soft fail -> can be error if you want)
@@ -172,10 +184,10 @@ const main = async () => {
       const missing = archetype.requiredTokens.filter((t) => !p.src.includes(t));
       if (missing.length) {
         warnings.push(
-          `Archetype "${archetype.key}" token(s) missing on ${p.route}: ${missing.join(", ")} (file: ${path.relative(
+          `Archetype "${archetype.key}" token(s) missing on ${p.route}: ${missing.join(', ')} (file: ${path.relative(
             ROOT,
-            p.file
-          )})`
+            p.file,
+          )})`,
         );
       }
     }
@@ -189,8 +201,8 @@ const main = async () => {
         errors.push(
           `Protected archetype "${archetype.key}" route lacks server-side auth guard heuristic: ${p.route} (file: ${path.relative(
             ROOT,
-            p.file
-          )})`
+            p.file,
+          )})`,
         );
       }
     }
@@ -213,7 +225,9 @@ const main = async () => {
 
   for (const [title, routes] of titleToRoutes.entries()) {
     if (routes.length >= 3) {
-      warnings.push(`Duplicate metadata title "${title}" appears on ${routes.length} routes: ${routes.join(", ")}`);
+      warnings.push(
+        `Duplicate metadata title "${title}" appears on ${routes.length} routes: ${routes.join(', ')}`,
+      );
     }
   }
 
@@ -222,7 +236,7 @@ const main = async () => {
   if (errors.length) fail(errors);
 
   console.log(
-    `ARCTYPE CHECK PASSED: ${pages.length} pages mapped, forbidden phrases clear, metadata/hero contracts enforced.`
+    `ARCTYPE CHECK PASSED: ${pages.length} pages mapped, forbidden phrases clear, metadata/hero contracts enforced.`,
   );
 };
 

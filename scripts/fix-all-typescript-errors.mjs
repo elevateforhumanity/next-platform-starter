@@ -12,8 +12,7 @@ const fixes = {
   unusedReact: {
     pattern: /^import React from ['"]react['"];?\n/gm,
     replacement: '',
-    condition: (content) =>
-      !content.includes('React.') && !content.includes('<React.'),
+    condition: (content) => !content.includes('React.') && !content.includes('<React.'),
   },
 
   // Remove unused imports
@@ -30,14 +29,12 @@ const fixes = {
       {
         // Add null check before supabase usage
         find: /(\s+)(const \{ data.*?\} = await supabase)/g,
-        replace:
-          '$1if (!supabase) throw new Error("Supabase not initialized");\n$1$2',
+        replace: '$1if (!supabase) throw new Error("Supabase not initialized");\n$1$2',
       },
       {
         // Add null check for direct supabase calls
         find: /(\s+)(supabase\.from\()/g,
-        replace:
-          '$1if (!supabase) throw new Error("Supabase not initialized");\n$1$2',
+        replace: '$1if (!supabase) throw new Error("Supabase not initialized");\n$1$2',
       },
     ],
   },
@@ -114,9 +111,7 @@ function fixFile(filePath) {
         !line.includes('if (!supabase)')
       ) {
         const indent = line.match(/^\s*/)[0];
-        newLines.push(
-          `${indent}if (!supabase) throw new Error('Supabase not initialized');`
-        );
+        newLines.push(`${indent}if (!supabase) throw new Error('Supabase not initialized');`);
         addedCheck = true;
         modified = true;
       }
@@ -147,7 +142,6 @@ function fixFile(filePath) {
 const srcDir = join(process.cwd(), 'src');
 const files = getAllTsxFiles(srcDir);
 
-
 let fixedCount = 0;
 files.forEach((file) => {
   if (fixFile(file)) {
@@ -155,10 +149,8 @@ files.forEach((file) => {
   }
 });
 
-
 // Run typecheck
 import { execSync } from 'child_process';
 try {
   execSync('pnpm typecheck', { stdio: 'inherit' });
-} catch (error) {
-}
+} catch (error) {}

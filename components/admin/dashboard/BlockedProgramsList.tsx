@@ -1,6 +1,6 @@
-import Link from "next/link";
-import { CheckCircle, ArrowRight } from "lucide-react";
-import type { BlockedProgram } from "./types";
+import Link from 'next/link';
+import { CheckCircle, ArrowRight } from 'lucide-react';
+import type { BlockedProgram } from './types';
 
 export function BlockedProgramsList({ items }: { items: BlockedProgram[] }) {
   return (
@@ -29,7 +29,8 @@ export function BlockedProgramsList({ items }: { items: BlockedProgram[] }) {
                 <div className="text-sm font-medium text-slate-800 truncate">{p.title}</div>
                 <div className="text-xs text-slate-400 mt-0.5">
                   Status: <span className="capitalize">{p.status}</span>
-                  {p.updatedAt && ` · ${new Date(p.updatedAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })}`}
+                  {p.updatedAt &&
+                    ` · ${new Date(p.updatedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`}
                 </div>
               </div>
               <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-red-100 text-red-700 flex-shrink-0">

@@ -1,4 +1,3 @@
-
 /**
  * Comprehensive Credential System
  * Integrates with all partner platforms and credential providers
@@ -141,8 +140,7 @@ export const CREDENTIALS: Record<string, Credential> = {
     name: 'OSHA 30-Hour Safety Certification',
     type: 'Industry-Recognized Certification',
     provider: 'CareerSafe (OSHA)',
-    description:
-      '30-hour OSHA safety training for supervisors and safety coordinators.',
+    description: '30-hour OSHA safety training for supervisors and safety coordinators.',
     externalId: 'OSHA-30',
     verificationUrl: 'https://www.careersafeonline.com/verify',
     expirationMonths: 60,
@@ -180,8 +178,7 @@ export const CREDENTIALS: Record<string, Credential> = {
     name: 'First Aid Certification',
     type: 'Industry-Recognized Certification',
     provider: 'American Heart Association (CPR)',
-    description:
-      'First Aid certification covering emergency response and basic medical care.',
+    description: 'First Aid certification covering emergency response and basic medical care.',
     externalId: 'AHA-FA',
     verificationUrl: 'https://www.heart.org/verify',
     expirationMonths: 24,
@@ -219,8 +216,7 @@ export const CREDENTIALS: Record<string, Credential> = {
     name: 'Home Health Aide (HHA)',
     type: 'Licensure',
     provider: 'State of Indiana',
-    description:
-      'State licensure for home health aides providing in-home patient care.',
+    description: 'State licensure for home health aides providing in-home patient care.',
     externalId: 'IN-HHA',
     verificationUrl: 'https://www.in.gov/pla/verify',
     expirationMonths: 24,
@@ -257,8 +253,7 @@ export const CREDENTIALS: Record<string, Credential> = {
     name: 'Certified Peer Recovery Coach (CPRC)',
     type: 'Industry-Recognized Certification',
     provider: 'Indiana Commission on Peer Recovery (ICPR)',
-    description:
-      'Certification for peer recovery coaches supporting individuals in recovery.',
+    description: 'Certification for peer recovery coaches supporting individuals in recovery.',
     externalId: 'ICPR-CPRC',
     verificationUrl: 'https://www.in.gov/fssa/dmha/peer-recovery',
     expirationMonths: 24,
@@ -295,8 +290,7 @@ export const CREDENTIALS: Record<string, Credential> = {
     name: 'Customer Service and Sales Certified Specialist',
     type: 'Industry-Recognized Certification',
     provider: 'National Retail Federation (NRF)',
-    description:
-      'NRF certification in customer service and sales fundamentals.',
+    description: 'NRF certification in customer service and sales fundamentals.',
     externalId: 'NRF-CSS',
     verificationUrl: 'https://www.nrf.com/verify',
     expirationMonths: null,
@@ -314,8 +308,7 @@ export const CREDENTIALS: Record<string, Credential> = {
     name: 'Business of Retail Certified Specialist',
     type: 'Industry-Recognized Certification',
     provider: 'National Retail Federation (NRF)',
-    description:
-      'NRF certification in retail business operations and management.',
+    description: 'NRF certification in retail business operations and management.',
     externalId: 'NRF-BRC',
     verificationUrl: 'https://www.nrf.com/verify',
     expirationMonths: null,
@@ -333,8 +326,7 @@ export const CREDENTIALS: Record<string, Credential> = {
     name: 'Retail Industry Fundamentals Specialist',
     type: 'Industry-Recognized Certification',
     provider: 'National Retail Federation (NRF)',
-    description:
-      'Foundational retail industry knowledge and skills certification.',
+    description: 'Foundational retail industry knowledge and skills certification.',
     externalId: 'NRF-RIF',
     verificationUrl: 'https://www.nrf.com/verify',
     expirationMonths: null,
@@ -393,8 +385,7 @@ export const CREDENTIALS: Record<string, Credential> = {
     name: 'Residential HVAC Certification 1',
     type: 'Industry-Recognized Certification',
     provider: 'HVAC Excellence',
-    description:
-      'Entry-level residential HVAC installation and maintenance certification.',
+    description: 'Entry-level residential HVAC installation and maintenance certification.',
     externalId: 'HVAC-R1',
     verificationUrl: 'https://www.hvacexcellence.org/verify',
     expirationMonths: 24,
@@ -469,7 +460,8 @@ export const CREDENTIALS: Record<string, Credential> = {
     name: 'Certificate of Completion',
     type: 'Certificate',
     provider: 'Elevate for Humanity Career & Technical Institute',
-    description: 'Elevate for Humanity Career & Technical Institute certificate of program completion.',
+    description:
+      'Elevate for Humanity Career & Technical Institute certificate of program completion.',
     externalId: 'EFH-CERT',
     verificationUrl: 'https://www.elevateforhumanity.org/verify',
     expirationMonths: null,
@@ -495,7 +487,7 @@ export async function awardCredential(
     completionDate?: Date;
     externalCredentialId?: string;
     verificationCode?: string;
-  }
+  },
 ): Promise<string> {
   const supabase = await createClient();
   const credential = CREDENTIALS[credentialId];
@@ -505,9 +497,7 @@ export async function awardCredential(
   }
 
   const expirationDate = credential.expirationMonths
-    ? new Date(
-        Date.now() + credential.expirationMonths * 30 * 24 * 60 * 60 * 1000
-      )
+    ? new Date(Date.now() + credential.expirationMonths * 30 * 24 * 60 * 60 * 1000)
     : null;
 
   const { data, error }: any = await supabase
@@ -518,8 +508,7 @@ export async function awardCredential(
       course_id: courseId,
       awarded_at: new Date().toISOString(),
       expires_at: expirationDate?.toISOString(),
-      verification_code:
-        metadata?.verificationCode || generateVerificationCode(),
+      verification_code: metadata?.verificationCode || generateVerificationCode(),
       external_credential_id: metadata?.externalCredentialId,
       score: metadata?.score,
       status: 'active',
@@ -574,7 +563,7 @@ export async function verifyCredential(verificationCode: string): Promise<any> {
       *,
       user:profiles(first_name, last_name),
       course:courses(name)
-    `
+    `,
     )
     .eq('verification_code', verificationCode)
     .maybeSingle();
@@ -589,8 +578,7 @@ export async function verifyCredential(verificationCode: string): Promise<any> {
     ...data,
     credential,
     isValid:
-      data.status === 'active' &&
-      (!data.expires_at || new Date(data.expires_at) > new Date()),
+      data.status === 'active' && (!data.expires_at || new Date(data.expires_at) > new Date()),
   };
 }
 

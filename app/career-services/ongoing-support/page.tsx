@@ -7,14 +7,17 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const metadata: Metadata = {
   title: 'Ongoing Support | Career Services | Elevate For Humanity',
-  description: 'Career support doesn\'t end at graduation. Access continued mentorship, job assistance, and professional development resources.',
+  description:
+    "Career support doesn't end at graduation. Access continued mentorship, job assistance, and professional development resources.",
 };
 
 export const dynamic = 'force-dynamic';
 
 export default async function OngoingSupportPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   // Get alumni count
   const { count: alumniCount } = await supabase
@@ -47,7 +50,8 @@ export default async function OngoingSupportPage() {
     {
       icon: TrendingUp,
       title: 'Career Advancement',
-      description: 'Get help with promotions, raises, and career transitions even after you\'re employed.',
+      description:
+        "Get help with promotions, raises, and career transitions even after you're employed.",
       features: ['Salary negotiation coaching', 'Promotion strategies', 'Career path planning'],
     },
     {
@@ -65,7 +69,7 @@ export default async function OngoingSupportPage() {
     {
       icon: Heart,
       title: 'Personal Support',
-      description: 'Life happens. We\'re here to help with challenges that affect your career.',
+      description: "Life happens. We're here to help with challenges that affect your career.",
       features: ['Resource referrals', 'Emergency assistance', 'Work-life balance support'],
     },
   ];
@@ -80,27 +84,42 @@ export default async function OngoingSupportPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-white">      {/* Breadcrumbs */}
+    <div className="min-h-screen bg-white">
+      {' '}
+      {/* Breadcrumbs */}
       <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[{ label: 'Career Services', href: '/career-services' }, { label: 'Ongoing Support' }]} />
+          <Breadcrumbs
+            items={[
+              { label: 'Career Services', href: '/career-services' },
+              { label: 'Ongoing Support' },
+            ]}
+          />
         </div>
       </div>
-
       {/* Hero */}
       {/* Hero */}
       <section className="relative w-full">
         <div className="relative h-[300px] md:h-[400px] w-full overflow-hidden">
-          <Image src="/images/pages/career-services-page-5.jpg" alt="Hero image" fill className="object-cover" priority sizes="100vw" />
+          <Image
+            src="/images/pages/career-services-page-5.jpg"
+            alt="Hero image"
+            fill
+            className="object-cover"
+            priority
+            sizes="100vw"
+          />
         </div>
         <div className="bg-white py-10">
           <div className="max-w-5xl mx-auto px-4 text-center">
             <h1 className="text-3xl md:text-4xl font-bold text-white mb-3">Ongoing Support</h1>
-            <p className="text-lg text-white max-w-3xl mx-auto">Your success is our success. Career support doesn't end at graduation—we're here for the long haul.</p>
+            <p className="text-lg text-white max-w-3xl mx-auto">
+              Your success is our success. Career support doesn't end at graduation—we're here for
+              the long haul.
+            </p>
           </div>
         </div>
       </section>
-
       {/* Stats */}
       <section className="py-10 border-b">
         <div className="max-w-7xl mx-auto px-4">
@@ -120,7 +139,6 @@ export default async function OngoingSupportPage() {
           </div>
         </div>
       </section>
-
       <div className="max-w-7xl mx-auto px-4 py-16">
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Main Content */}
@@ -152,7 +170,10 @@ export default async function OngoingSupportPage() {
                 <h2 className="text-xl font-semibold mb-4">Your Support History</h2>
                 <div className="space-y-3">
                   {supportHistory.map((session: any) => (
-                    <div key={session.id} className="flex items-center justify-between p-3 bg-white rounded-lg">
+                    <div
+                      key={session.id}
+                      className="flex items-center justify-between p-3 bg-white rounded-lg"
+                    >
                       <div>
                         <p className="font-medium">{session.type}</p>
                         <p className="text-sm text-black">
@@ -221,10 +242,16 @@ export default async function OngoingSupportPage() {
             <div className="bg-white rounded-xl p-6">
               <h3 className="font-semibold mb-3">Related Services</h3>
               <div className="space-y-2 text-sm">
-                <Link href="/career-services/job-placement" className="block text-pink-600 hover:underline">
+                <Link
+                  href="/career-services/job-placement"
+                  className="block text-pink-600 hover:underline"
+                >
                   Job Placement
                 </Link>
-                <Link href="/career-services/career-counseling" className="block text-pink-600 hover:underline">
+                <Link
+                  href="/career-services/career-counseling"
+                  className="block text-pink-600 hover:underline"
+                >
                   Career Counseling
                 </Link>
                 <Link href="/alumni" className="block text-pink-600 hover:underline">

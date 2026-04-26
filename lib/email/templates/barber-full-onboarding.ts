@@ -91,9 +91,25 @@ export function barberFullOnboardingEmail(data: BarberFullOnboardingData) {
     <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:24px;margin:24px 0;">
       <h2 style="margin:0 0 12px;color:#1e293b;font-size:17px;">Skills You Will Learn</h2>
       <div style="display:flex;flex-wrap:wrap;gap:6px;">
-        ${['Fades & tapers', 'Lineups & shape-ups', 'Scissor-over-comb', 'Clipper techniques', 'Straight razor shaving', 'Beard shaping & grooming', 'Sanitation & disinfection', 'Scalp conditions & treatment', 'Client consultation', 'Time management', 'Shop operations', 'Business fundamentals'].map(s =>
-          `<span style="display:inline-block;background:#e0f2fe;color:#0369a1;padding:4px 10px;border-radius:4px;font-size:12px;font-weight:500;">${s}</span>`
-        ).join('')}
+        ${[
+          'Fades & tapers',
+          'Lineups & shape-ups',
+          'Scissor-over-comb',
+          'Clipper techniques',
+          'Straight razor shaving',
+          'Beard shaping & grooming',
+          'Sanitation & disinfection',
+          'Scalp conditions & treatment',
+          'Client consultation',
+          'Time management',
+          'Shop operations',
+          'Business fundamentals',
+        ]
+          .map(
+            (s) =>
+              `<span style="display:inline-block;background:#e0f2fe;color:#0369a1;padding:4px 10px;border-radius:4px;font-size:12px;font-weight:500;">${s}</span>`,
+          )
+          .join('')}
       </div>
     </div>
 
@@ -250,10 +266,14 @@ export function barberConfirmationAdminEmail(data: {
       <tr><td style="padding:8px 0;font-weight:600;">Response</td><td style="padding:8px 0;"><strong style="color:${isYes ? '#16a34a' : '#dc2626'};">${isYes ? 'YES — wants to proceed' : 'NO — not interested'}</strong></td></tr>
       <tr><td style="padding:8px 0;font-weight:600;">Application ID</td><td style="padding:8px 0;font-size:12px;color:#64748b;">${data.applicationId}</td></tr>
     </table>
-    ${isYes ? `
+    ${
+      isYes
+        ? `
     <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:6px;padding:16px;margin-top:16px;">
       <p style="margin:0;font-size:14px;color:#166534;"><strong>Next steps:</strong> Schedule orientation call, send enrollment paperwork, collect down payment.</p>
-    </div>` : ''}
+    </div>`
+        : ''
+    }
   </div>
 </body></html>`;
 

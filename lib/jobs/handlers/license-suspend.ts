@@ -12,34 +12,34 @@ export async function processLicenseSuspend(job: ProvisioningJob): Promise<void>
     reason: string;
     action: 'suspend' | 'reactivate';
   };
-  
+
   if (!licenseId) {
     throw new Error('Missing required field: licenseId');
   }
-  
+
   if (action === 'reactivate' || job.job_type === 'license_reactivate') {
     const { data, error } = await supabase.rpc('reactivate_license', {
       p_license_id: licenseId,
     });
-    
+
     if (error) throw error;
-    
-    logger.info('License reactivated', { 
-      licenseId, 
-      correlationId: job.correlation_id 
+
+    logger.info('License reactivated', {
+      licenseId,
+      correlationId: job.correlation_id,
     });
   } else {
     const { data, error } = await supabase.rpc('suspend_license', {
       p_license_id: licenseId,
       p_reason: reason || 'Automated suspension',
     });
-    
+
     if (error) throw error;
-    
-    logger.info('License suspended', { 
-      licenseId, 
-      reason, 
-      correlationId: job.correlation_id 
+
+    logger.info('License suspended', {
+      licenseId,
+      reason,
+      correlationId: job.correlation_id,
     });
   }
 }

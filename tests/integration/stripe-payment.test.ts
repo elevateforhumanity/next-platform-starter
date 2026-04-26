@@ -80,7 +80,7 @@ describe('Stripe Payment Integration', () => {
       const path = await import('path');
       const filePath = path.join(process.cwd(), 'lib/enrollmentProvisioning.ts');
       const content = fs.readFileSync(filePath, 'utf-8');
-      
+
       expect(content).toContain('stripeRefId');
     });
 
@@ -89,7 +89,7 @@ describe('Stripe Payment Integration', () => {
       const path = await import('path');
       const filePath = path.join(process.cwd(), 'lib/db/enrollments.ts');
       const content = fs.readFileSync(filePath, 'utf-8');
-      
+
       expect(content).toContain('stripe_ref_id');
     });
   });

@@ -10,7 +10,7 @@ export async function notifySlack(
   opts?: {
     severity?: SlackSeverity;
     context?: Record<string, any>;
-  }
+  },
 ): Promise<void> {
   if (!SLACK_WEBHOOK_URL) {
     return;
@@ -23,7 +23,7 @@ export async function notifySlack(
     info: 'ℹ️',
     warning: '⚠️',
     error: '❌',
-    critical: '🚨'
+    critical: '🚨',
   };
 
   const emoji = emojiMap[severity];
@@ -43,10 +43,7 @@ export async function notifySlack(
       type: 'section',
       text: {
         type: 'mrkdwn',
-        text:
-          '```' +
-          JSON.stringify(opts.context, null, 2).slice(0, 2900) +
-          '```',
+        text: '```' + JSON.stringify(opts.context, null, 2).slice(0, 2900) + '```',
       },
     });
   }
@@ -70,7 +67,8 @@ export async function notifySlack(
       },
       body: JSON.stringify({ blocks }),
     });
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     // Error: $1
   }
 }
@@ -83,7 +81,7 @@ export async function notifyTeams(
   opts?: {
     severity?: SlackSeverity;
     context?: Record<string, any>;
-  }
+  },
 ): Promise<void> {
   const TEAMS_WEBHOOK_URL = process.env.TEAMS_WEBHOOK_URL;
 
@@ -122,7 +120,8 @@ export async function notifyTeams(
       },
       body: JSON.stringify(card),
     });
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     // Error: $1
   }
 }

@@ -1,7 +1,7 @@
 import { logger } from '@/lib/logger';
 /**
  * Notification Queue Processor
- * 
+ *
  * Processes queued notifications from the outbox table.
  * Designed to be called by a scheduled function (cron) every 1-5 minutes.
  */
@@ -35,7 +35,12 @@ interface ProcessResult {
 export async function processNotificationQueue(): Promise<ProcessResult> {
   const supabase = await getAdminClient();
   if (!supabase) {
-    return { processed: 0, sent: 0, failed: 0, errors: [{ id: 'system', error: 'Database unavailable' }] };
+    return {
+      processed: 0,
+      sent: 0,
+      failed: 0,
+      errors: [{ id: 'system', error: 'Database unavailable' }],
+    };
   }
 
   const result: ProcessResult = {
@@ -162,35 +167,36 @@ export async function getQueueStats(): Promise<{
     return { queued: 0, processing: 0, sent: 0, failed: 0, dead_letter: 0 };
   }
 
-  const [queuedResult, processingResult, sentResult, failedResult, deadLetterResult, oldestResult] = await Promise.all([
-    supabase
-      .from('notification_outbox')
-      .select('id', { count: 'exact', head: true })
-      .eq('status', 'queued'),
-    supabase
-      .from('notification_outbox')
-      .select('id', { count: 'exact', head: true })
-      .eq('status', 'processing'),
-    supabase
-      .from('notification_outbox')
-      .select('id', { count: 'exact', head: true })
-      .eq('status', 'sent'),
-    supabase
-      .from('notification_outbox')
-      .select('id', { count: 'exact', head: true })
-      .eq('status', 'failed'),
-    supabase
-      .from('notification_outbox')
-      .select('id', { count: 'exact', head: true })
-      .eq('dead_letter', true),
-    supabase
-      .from('notification_outbox')
-      .select('created_at')
-      .eq('status', 'queued')
-      .order('created_at', { ascending: true })
-      .limit(1)
-      .maybeSingle(),
-  ]);
+  const [queuedResult, processingResult, sentResult, failedResult, deadLetterResult, oldestResult] =
+    await Promise.all([
+      supabase
+        .from('notification_outbox')
+        .select('id', { count: 'exact', head: true })
+        .eq('status', 'queued'),
+      supabase
+        .from('notification_outbox')
+        .select('id', { count: 'exact', head: true })
+        .eq('status', 'processing'),
+      supabase
+        .from('notification_outbox')
+        .select('id', { count: 'exact', head: true })
+        .eq('status', 'sent'),
+      supabase
+        .from('notification_outbox')
+        .select('id', { count: 'exact', head: true })
+        .eq('status', 'failed'),
+      supabase
+        .from('notification_outbox')
+        .select('id', { count: 'exact', head: true })
+        .eq('dead_letter', true),
+      supabase
+        .from('notification_outbox')
+        .select('created_at')
+        .eq('status', 'queued')
+        .order('created_at', { ascending: true })
+        .limit(1)
+        .maybeSingle(),
+    ]);
 
   return {
     queued: queuedResult.count || 0,

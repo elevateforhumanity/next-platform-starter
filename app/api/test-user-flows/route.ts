@@ -19,7 +19,7 @@ export async function GET() {
 
     const supabase = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL,
-      process.env.SUPABASE_SERVICE_ROLE_KEY
+      process.env.SUPABASE_SERVICE_ROLE_KEY,
     );
 
     const results: any = {
@@ -166,7 +166,8 @@ export async function GET() {
       note: '/api/enroll routes compiled successfully',
     });
 
-    enrollmentFlow.passed = enrollmentFlow.steps.filter((s: any) => s.passed).length === enrollmentFlow.steps.length;
+    enrollmentFlow.passed =
+      enrollmentFlow.steps.filter((s: any) => s.passed).length === enrollmentFlow.steps.length;
     results.flows.push(enrollmentFlow);
 
     // ============================================
@@ -220,7 +221,8 @@ export async function GET() {
       });
     }
 
-    stripeFlow.passed = stripeFlow.steps.filter((s: any) => s.passed).length === stripeFlow.steps.length;
+    stripeFlow.passed =
+      stripeFlow.steps.filter((s: any) => s.passed).length === stripeFlow.steps.length;
     results.flows.push(stripeFlow);
 
     // ============================================
@@ -292,7 +294,8 @@ export async function GET() {
       ],
     };
 
-    completeJourney.passed = completeJourney.steps.filter((s: any) => s.passed).length === completeJourney.steps.length;
+    completeJourney.passed =
+      completeJourney.steps.filter((s: any) => s.passed).length === completeJourney.steps.length;
     results.flows.push(completeJourney);
 
     // ============================================
@@ -305,7 +308,7 @@ export async function GET() {
     const totalSteps = results.flows.reduce((sum: number, f: any) => sum + f.steps.length, 0);
     const passedSteps = results.flows.reduce(
       (sum: number, f: any) => sum + f.steps.filter((s: any) => s.passed).length,
-      0
+      0,
     );
 
     results.summary = {
@@ -324,14 +327,14 @@ export async function GET() {
       enrollment_flow: results.flows[1].passed ? '10/10' : '7/10',
       stripe_flow: results.flows[2].passed ? '10/10' : '7/10',
       complete_journey: results.flows[3].passed ? '10/10' : '7/10',
-      overall: results.summary.all_flows_passed ? '10/10 - ALL FLOWS WORKING ✅' : '8/10 - SOME ISSUES ⚠️',
+      overall: results.summary.all_flows_passed
+        ? '10/10 - ALL FLOWS WORKING ✅'
+        : '8/10 - SOME ISSUES ⚠️',
     };
 
     return NextResponse.json(results);
-  } catch (error) { /* Error handled silently */ 
-    return NextResponse.json(
-      { error: error.message, stack: error.stack },
-      { status: 500 }
-    );
+  } catch (error) {
+    /* Error handled silently */
+    return NextResponse.json({ error: error.message, stack: error.stack }, { status: 500 });
   }
 }

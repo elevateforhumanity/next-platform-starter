@@ -7,11 +7,31 @@
  */
 
 const COMMON_PASSWORDS = new Set([
-  'password', '12345678', '123456789', '1234567890', 'qwerty123',
-  'password1', 'iloveyou', 'sunshine1', 'princess1', 'football1',
-  'charlie1', 'access14', 'master12', 'michael1', 'shadow12',
-  'jennifer', 'trustno1', 'letmein1', 'baseball', 'superman',
-  'elevate1', 'training', 'workforce', 'student1', 'admin123',
+  'password',
+  '12345678',
+  '123456789',
+  '1234567890',
+  'qwerty123',
+  'password1',
+  'iloveyou',
+  'sunshine1',
+  'princess1',
+  'football1',
+  'charlie1',
+  'access14',
+  'master12',
+  'michael1',
+  'shadow12',
+  'jennifer',
+  'trustno1',
+  'letmein1',
+  'baseball',
+  'superman',
+  'elevate1',
+  'training',
+  'workforce',
+  'student1',
+  'admin123',
 ]);
 
 // Keyboard rows and common ascending/descending sequences to detect anywhere in the password

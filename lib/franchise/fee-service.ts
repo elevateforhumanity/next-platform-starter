@@ -9,11 +9,11 @@ import { TaxFeeSchedule } from './types';
 function getSupabase(): SupabaseClient {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  
+
   if (!supabaseUrl || !supabaseServiceKey) {
     throw new Error('Missing Supabase environment variables');
   }
-  
+
   return createClient(supabaseUrl, supabaseServiceKey);
 }
 
@@ -80,7 +80,7 @@ class FeeService {
       .insert({
         ...input,
         created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
+        updated_at: new Date().toISOString(),
       })
       .select()
       .maybeSingle();
@@ -149,8 +149,8 @@ class FeeService {
    * Update fee schedule
    */
   async updateFeeSchedule(
-    scheduleId: string, 
-    updates: Partial<CreateFeeScheduleInput>
+    scheduleId: string,
+    updates: Partial<CreateFeeScheduleInput>,
   ): Promise<TaxFeeSchedule> {
     // If setting as default, unset other defaults
     if (updates.is_default) {
@@ -168,7 +168,7 @@ class FeeService {
       .from('franchise_fee_schedules')
       .update({
         ...updates,
-        updated_at: new Date().toISOString()
+        updated_at: new Date().toISOString(),
       })
       .eq('id', scheduleId)
       .select()
@@ -215,24 +215,23 @@ class FeeService {
       hasReferral: boolean;
       isSenior: boolean;
       isMilitary: boolean;
-    }
+    },
   ): FeeCalculation {
     const breakdown: { item: string; amount: number }[] = [];
-    
+
     // Base fee
-    const baseFee = returnDetails.formType === '1040' 
-      ? schedule.base_fee_1040 
-      : schedule.base_fee_1040_ez;
+    const baseFee =
+      returnDetails.formType === '1040' ? schedule.base_fee_1040 : schedule.base_fee_1040_ez;
     breakdown.push({ item: `Form ${returnDetails.formType}`, amount: baseFee });
 
     // Schedule fees
     let scheduleFees = 0;
     const scheduleMap: Record<string, number> = {
-      'A': schedule.fee_schedule_a,
-      'C': schedule.fee_schedule_c,
-      'D': schedule.fee_schedule_d,
-      'E': schedule.fee_schedule_e,
-      'SE': schedule.fee_schedule_se
+      A: schedule.fee_schedule_a,
+      C: schedule.fee_schedule_c,
+      D: schedule.fee_schedule_d,
+      E: schedule.fee_schedule_e,
+      SE: schedule.fee_schedule_se,
     };
 
     for (const sched of returnDetails.schedules) {
@@ -322,7 +321,7 @@ class FeeService {
       bankProductFees,
       discounts,
       totalFee,
-      breakdown
+      breakdown,
     };
   }
 }

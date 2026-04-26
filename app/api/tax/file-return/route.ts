@@ -29,23 +29,28 @@ const EFIN = '358459';
 
 export async function POST(request: NextRequest) {
   await hydrateProcessEnv();
-    const rateLimited = await applyRateLimit(request, 'contact');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(request, 'contact');
+  if (rateLimited) return rateLimited;
 
-    await auditPiiAccess({ action: 'PII_ACCESS', entity: 'pii', req: request, metadata: { route: '/api/tax/file-return' } });
+  await auditPiiAccess({
+    action: 'PII_ACCESS',
+    entity: 'pii',
+    req: request,
+    metadata: { route: '/api/tax/file-return' },
+  });
 
   const supabase = createClient(supabaseUrl, supabaseServiceKey);
-  
+
   try {
     const body = await request.json();
-    
+
     // Build TaxReturn object from request
     const taxReturn: TaxReturn = {
       taxYear: body.taxYear || 2024,
       efin: EFIN,
       softwareId: SOFTWARE_ID,
       returnId: `${EFIN}-${Date.now()}`,
-      
+
       taxpayer: {
         firstName: body.firstName,
         middleInitial: body.middleInitial,
@@ -54,26 +59,29 @@ export async function POST(request: NextRequest) {
         dateOfBirth: body.dateOfBirth,
         occupation: body.occupation,
         phone: body.phone,
-        email: body.email
+        email: body.email,
       },
-      
+
       address: {
         street: body.address,
         apartment: body.apartment,
         city: body.city,
         state: body.state,
-        zip: body.zip
+        zip: body.zip,
       },
-      
+
       filingStatus: body.filingStatus,
-      
-      spouse: body.filingStatus === 'married_filing_jointly' && body.spouseFirstName ? {
-        firstName: body.spouseFirstName,
-        lastName: body.spouseLastName,
-        ssn: body.spouseSSN,
-        dateOfBirth: body.spouseDateOfBirth
-      } : undefined,
-      
+
+      spouse:
+        body.filingStatus === 'married_filing_jointly' && body.spouseFirstName
+          ? {
+              firstName: body.spouseFirstName,
+              lastName: body.spouseLastName,
+              ssn: body.spouseSSN,
+              dateOfBirth: body.spouseDateOfBirth,
+            }
+          : undefined,
+
       dependents: (body.dependents || []).map((dep: any) => ({
         firstName: dep.firstName,
         lastName: dep.lastName,
@@ -82,9 +90,9 @@ export async function POST(request: NextRequest) {
         dateOfBirth: dep.dateOfBirth,
         monthsLivedWithYou: dep.monthsLivedWithYou || 12,
         childTaxCredit: dep.childTaxCredit || false,
-        otherDependentCredit: dep.otherDependentCredit || false
+        otherDependentCredit: dep.otherDependentCredit || false,
       })),
-      
+
       w2Income: (body.w2Income || []).map((w2: any) => ({
         employerEIN: w2.ein || w2.employerEIN,
         employerName: w2.employer || w2.employerName,
@@ -92,7 +100,7 @@ export async function POST(request: NextRequest) {
           street: w2.employerAddress?.street || '',
           city: w2.employerAddress?.city || '',
           state: w2.employerAddress?.state || body.state,
-          zip: w2.employerAddress?.zip || ''
+          zip: w2.employerAddress?.zip || '',
         },
         wages: w2.wages || 0,
         federalWithholding: w2.federalWithholding || 0,
@@ -102,37 +110,46 @@ export async function POST(request: NextRequest) {
         medicareTax: w2.medicareTax || 0,
         stateWages: w2.stateWages,
         stateWithholding: w2.stateWithholding,
-        stateCode: w2.stateCode || body.state
+        stateCode: w2.stateCode || body.state,
       })),
-      
+
       form1099INT: body.form1099Income?.filter((f: any) => f.type === 'INT'),
       form1099DIV: body.form1099Income?.filter((f: any) => f.type === 'DIV'),
       form1099MISC: body.form1099Income?.filter((f: any) => f.type === 'MISC'),
       form1099NEC: body.form1099Income?.filter((f: any) => f.type === 'NEC'),
-      
-      scheduleCBusiness: body.selfEmploymentIncome?.hasIncome ? [{
-        businessName: body.selfEmploymentIncome.businessName || 'Self-Employment',
-        businessCode: body.selfEmploymentIncome.businessCode || '999999',
-        accountingMethod: 'cash',
-        grossReceipts: body.selfEmploymentIncome.grossReceipts || 0,
-        grossProfit: body.selfEmploymentIncome.grossReceipts || 0,
-        expenses: {
-          otherExpenses: body.selfEmploymentIncome.expenses || 0
-        },
-        netProfit: (body.selfEmploymentIncome.grossReceipts || 0) - (body.selfEmploymentIncome.expenses || 0)
-      }] : undefined,
-      
+
+      scheduleCBusiness: body.selfEmploymentIncome?.hasIncome
+        ? [
+            {
+              businessName: body.selfEmploymentIncome.businessName || 'Self-Employment',
+              businessCode: body.selfEmploymentIncome.businessCode || '999999',
+              accountingMethod: 'cash',
+              grossReceipts: body.selfEmploymentIncome.grossReceipts || 0,
+              grossProfit: body.selfEmploymentIncome.grossReceipts || 0,
+              expenses: {
+                otherExpenses: body.selfEmploymentIncome.expenses || 0,
+              },
+              netProfit:
+                (body.selfEmploymentIncome.grossReceipts || 0) -
+                (body.selfEmploymentIncome.expenses || 0),
+            },
+          ]
+        : undefined,
+
       deductionType: body.deductionType || 'standard',
-      
-      itemizedDeductions: body.deductionType === 'itemized' ? {
-        medicalExpenses: body.itemizedDeductions?.medicalExpenses || 0,
-        stateLocalTaxes: body.itemizedDeductions?.stateLocalTaxes || 0,
-        realEstateTaxes: body.itemizedDeductions?.propertyTax || 0,
-        personalPropertyTaxes: 0,
-        mortgageInterest: body.itemizedDeductions?.mortgageInterest || 0,
-        charitableCash: body.itemizedDeductions?.charitableContributions || 0
-      } : undefined,
-      
+
+      itemizedDeductions:
+        body.deductionType === 'itemized'
+          ? {
+              medicalExpenses: body.itemizedDeductions?.medicalExpenses || 0,
+              stateLocalTaxes: body.itemizedDeductions?.stateLocalTaxes || 0,
+              realEstateTaxes: body.itemizedDeductions?.propertyTax || 0,
+              personalPropertyTaxes: 0,
+              mortgageInterest: body.itemizedDeductions?.mortgageInterest || 0,
+              charitableCash: body.itemizedDeductions?.charitableContributions || 0,
+            }
+          : undefined,
+
       // These will be calculated
       totalIncome: 0,
       adjustedGrossIncome: 0,
@@ -142,25 +159,27 @@ export async function POST(request: NextRequest) {
         childTaxCredit: 0,
         creditForOtherDependents: 0,
         earnedIncomeCredit: 0,
-        additionalChildTaxCredit: 0
+        additionalChildTaxCredit: 0,
       },
       totalCredits: 0,
       federalWithholding: 0,
       totalTax: 0,
       totalPayments: 0,
-      
-      directDeposit: body.bankAccount ? {
-        routingNumber: body.bankAccount.routingNumber,
-        accountNumber: body.bankAccount.accountNumber,
-        accountType: body.bankAccount.accountType
-      } : undefined,
-      
+
+      directDeposit: body.bankAccount
+        ? {
+            routingNumber: body.bankAccount.routingNumber,
+            accountNumber: body.bankAccount.accountNumber,
+            accountType: body.bankAccount.accountType,
+          }
+        : undefined,
+
       taxpayerSignature: {
         pin: body.pin || body.taxpayerPin,
-        signedDate: new Date().toISOString().split('T')[0]
-      }
+        signedDate: new Date().toISOString().split('T')[0],
+      },
     };
-    
+
     // Calculate tax
     const calculation = calculateTax(taxReturn);
     taxReturn.totalIncome = calculation.totalIncome;
@@ -174,60 +193,61 @@ export async function POST(request: NextRequest) {
     taxReturn.totalPayments = calculation.totalPayments;
     taxReturn.refundAmount = calculation.refund > 0 ? calculation.refund : undefined;
     taxReturn.amountOwed = calculation.owed > 0 ? calculation.owed : undefined;
-    
+
     // Hash SSN for storage
     const ssnData = prepareSSNForStorage(body.ssn);
-    
+
     // Create client record
     const { data: client, error: clientError } = await supabase
       .from('tax_clients')
-      .upsert({
-        first_name: body.firstName,
-        last_name: body.lastName,
-        ssn_hash: ssnData.ssn_hash,
-        ssn_last4: ssnData.ssn_last4,
-        date_of_birth: body.dateOfBirth,
-        email: body.email,
-        phone: body.phone,
-        address_street: body.address,
-        address_city: body.city,
-        address_state: body.state,
-        address_zip: body.zip,
-        updated_at: new Date().toISOString()
-      }, {
-        onConflict: 'ssn_hash'
-      })
+      .upsert(
+        {
+          first_name: body.firstName,
+          last_name: body.lastName,
+          ssn_hash: ssnData.ssn_hash,
+          ssn_last4: ssnData.ssn_last4,
+          date_of_birth: body.dateOfBirth,
+          email: body.email,
+          phone: body.phone,
+          address_street: body.address,
+          address_city: body.city,
+          address_state: body.state,
+          address_zip: body.zip,
+          updated_at: new Date().toISOString(),
+        },
+        {
+          onConflict: 'ssn_hash',
+        },
+      )
       .select()
       .single();
-    
+
     if (clientError) {
       logger.error('Client creation error:', clientError);
     }
-    
+
     // Create MeF submission
     const submission = createMeFSubmission(taxReturn, SOFTWARE_ID);
-    
+
     // Store submission in database
-    const { error: submissionError } = await supabase
-      .from('mef_submissions')
-      .insert({
-        submission_id: submission.submissionId,
-        user_id: client?.user_id,
-        efin: EFIN,
-        software_id: SOFTWARE_ID,
-        tax_year: taxReturn.taxYear,
-        submission_type: 'IRS1040',
-        taxpayer_ssn_hash: ssnData.ssn_hash,
-        taxpayer_name: `${body.firstName} ${body.lastName}`,
-        return_data: taxReturn,
-        xml_content: submission.xmlContent,
-        status: 'pending'
-      });
-    
+    const { error: submissionError } = await supabase.from('mef_submissions').insert({
+      submission_id: submission.submissionId,
+      user_id: client?.user_id,
+      efin: EFIN,
+      software_id: SOFTWARE_ID,
+      tax_year: taxReturn.taxYear,
+      submission_type: 'IRS1040',
+      taxpayer_ssn_hash: ssnData.ssn_hash,
+      taxpayer_name: `${body.firstName} ${body.lastName}`,
+      return_data: taxReturn,
+      xml_content: submission.xmlContent,
+      status: 'pending',
+    });
+
     if (submissionError) {
       logger.error('Submission storage error:', submissionError);
     }
-    
+
     // Create tax return record
     const { data: taxReturnRecord, error: returnError } = await supabase
       .from('tax_returns')
@@ -244,11 +264,11 @@ export async function POST(request: NextRequest) {
         total_payments: taxReturn.totalPayments,
         refund_amount: taxReturn.refundAmount,
         amount_owed: taxReturn.amountOwed,
-        status: 'pending'
+        status: 'pending',
       })
       .select()
       .single();
-    
+
     // Store W2 income
     if (taxReturn.w2Income && taxReturn.w2Income.length > 0) {
       for (const w2 of taxReturn.w2Income) {
@@ -268,11 +288,11 @@ export async function POST(request: NextRequest) {
           medicare_tax: w2.medicareTax,
           state_wages: w2.stateWages,
           state_withholding: w2.stateWithholding,
-          state_code: w2.stateCode
+          state_code: w2.stateCode,
         });
       }
     }
-    
+
     // Store dependents
     if (taxReturn.dependents && taxReturn.dependents.length > 0) {
       for (const dep of taxReturn.dependents) {
@@ -288,31 +308,31 @@ export async function POST(request: NextRequest) {
           relationship: dep.relationship,
           months_lived_with_taxpayer: dep.monthsLivedWithYou,
           child_tax_credit_eligible: dep.childTaxCredit,
-          other_dependent_credit_eligible: dep.otherDependentCredit
+          other_dependent_credit_eligible: dep.otherDependentCredit,
         });
       }
     }
-    
+
     // Transmit to IRS (when Software ID is approved)
     let transmissionResult = null;
     if (SOFTWARE_ID !== 'PENDING_APPROVAL') {
       const transmitter = createTransmitter({
         softwareId: SOFTWARE_ID,
-        environment: process.env.NODE_ENV === 'production' ? 'production' : 'test'
+        environment: process.env.NODE_ENV === 'production' ? 'production' : 'test',
       });
-      
+
       transmissionResult = await transmitter.transmit(submission);
-      
+
       // Update status based on transmission result
       await supabase
         .from('tax_returns')
         .update({
           status: transmissionResult.success ? 'transmitted' : 'transmission_failed',
-          filed_at: transmissionResult.success ? new Date().toISOString() : null
+          filed_at: transmissionResult.success ? new Date().toISOString() : null,
         })
         .eq('id', taxReturnRecord?.id);
     }
-    
+
     // Send confirmation email
     if (resend && body.email) {
       try {
@@ -320,13 +340,13 @@ export async function POST(request: NextRequest) {
           from: 'Supersonic Fast Cash <noreply@supersonicfastcash.com>',
           to: body.email,
           subject: `Tax Return ${SOFTWARE_ID === 'PENDING_APPROVAL' ? 'Prepared' : 'Filed'} - ${taxReturn.taxYear}`,
-          html: generateConfirmationEmail(taxReturn, submission.submissionId, calculation)
+          html: generateConfirmationEmail(taxReturn, submission.submissionId, calculation),
         });
       } catch (emailError) {
         logger.error('Email error:', emailError);
       }
     }
-    
+
     return NextResponse.json({
       success: true,
       submissionId: submission.submissionId,
@@ -340,135 +360,157 @@ export async function POST(request: NextRequest) {
       totalPayments: taxReturn.totalPayments,
       refundAmount: taxReturn.refundAmount,
       amountOwed: taxReturn.amountOwed,
-      status: SOFTWARE_ID === 'PENDING_APPROVAL' ? 'pending_software_approval' : 
-              transmissionResult?.success ? 'transmitted' : 'pending',
-      message: SOFTWARE_ID === 'PENDING_APPROVAL' 
-        ? 'Return prepared and saved. Will be transmitted once IRS Software ID is approved.'
-        : transmissionResult?.success 
-          ? 'Return successfully transmitted to IRS.'
-          : 'Return saved. Transmission pending.'
+      status:
+        SOFTWARE_ID === 'PENDING_APPROVAL'
+          ? 'pending_software_approval'
+          : transmissionResult?.success
+            ? 'transmitted'
+            : 'pending',
+      message:
+        SOFTWARE_ID === 'PENDING_APPROVAL'
+          ? 'Return prepared and saved. Will be transmitted once IRS Software ID is approved.'
+          : transmissionResult?.success
+            ? 'Return successfully transmitted to IRS.'
+            : 'Return saved. Transmission pending.',
     });
-    
   } catch (error: any) {
     logger.error('Tax filing error:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
 function calculateTax(taxReturn: TaxReturn) {
   // Calculate total income
   const w2Wages = taxReturn.w2Income?.reduce((sum, w2) => sum + (w2.wages || 0), 0) || 0;
-  const interestIncome = taxReturn.form1099INT?.reduce((sum, f) => sum + (f.interestIncome || 0), 0) || 0;
-  const dividendIncome = taxReturn.form1099DIV?.reduce((sum, f) => sum + (f.ordinaryDividends || 0), 0) || 0;
-  const businessIncome = taxReturn.scheduleCBusiness?.reduce((sum, b) => sum + (b.netProfit || 0), 0) || 0;
-  
+  const interestIncome =
+    taxReturn.form1099INT?.reduce((sum, f) => sum + (f.interestIncome || 0), 0) || 0;
+  const dividendIncome =
+    taxReturn.form1099DIV?.reduce((sum, f) => sum + (f.ordinaryDividends || 0), 0) || 0;
+  const businessIncome =
+    taxReturn.scheduleCBusiness?.reduce((sum, b) => sum + (b.netProfit || 0), 0) || 0;
+
   const totalIncome = w2Wages + interestIncome + dividendIncome + businessIncome;
-  
+
   // Calculate adjustments
-  const adjustments = taxReturn.adjustments ? (
-    (taxReturn.adjustments.educatorExpenses || 0) +
-    (taxReturn.adjustments.hsaDeduction || 0) +
-    (taxReturn.adjustments.selfEmploymentTax || 0) +
-    (taxReturn.adjustments.selfEmployedHealthInsurance || 0) +
-    (taxReturn.adjustments.iraDeduction || 0) +
-    (taxReturn.adjustments.studentLoanInterest || 0)
-  ) : 0;
-  
+  const adjustments = taxReturn.adjustments
+    ? (taxReturn.adjustments.educatorExpenses || 0) +
+      (taxReturn.adjustments.hsaDeduction || 0) +
+      (taxReturn.adjustments.selfEmploymentTax || 0) +
+      (taxReturn.adjustments.selfEmployedHealthInsurance || 0) +
+      (taxReturn.adjustments.iraDeduction || 0) +
+      (taxReturn.adjustments.studentLoanInterest || 0)
+    : 0;
+
   const agi = totalIncome - adjustments;
-  
+
   // Calculate deduction
   let deduction = 0;
   if (taxReturn.deductionType === 'standard') {
     const standardDeductions: Record<string, number> = {
-      'single': 14600,
-      'married_filing_jointly': 29200,
-      'married_filing_separately': 14600,
-      'head_of_household': 21900,
-      'qualifying_surviving_spouse': 29200
+      single: 14600,
+      married_filing_jointly: 29200,
+      married_filing_separately: 14600,
+      head_of_household: 21900,
+      qualifying_surviving_spouse: 29200,
     };
     deduction = standardDeductions[taxReturn.filingStatus] || 14600;
   } else if (taxReturn.itemizedDeductions) {
     const d = taxReturn.itemizedDeductions;
     const saltCap = Math.min(
       (d.stateLocalTaxes || 0) + (d.realEstateTaxes || 0) + (d.personalPropertyTaxes || 0),
-      10000
+      10000,
     );
-    deduction = (d.medicalExpenses || 0) + saltCap + (d.mortgageInterest || 0) + 
-                (d.charitableCash || 0) + (d.charitableNoncash || 0);
+    deduction =
+      (d.medicalExpenses || 0) +
+      saltCap +
+      (d.mortgageInterest || 0) +
+      (d.charitableCash || 0) +
+      (d.charitableNoncash || 0);
   }
-  
-  const taxableIncome = Math.max(0, agi - deduction - (taxReturn.qualifiedBusinessIncomeDeduction || 0));
-  
+
+  const taxableIncome = Math.max(
+    0,
+    agi - deduction - (taxReturn.qualifiedBusinessIncomeDeduction || 0),
+  );
+
   // Calculate tax using 2024 brackets
   let taxBeforeCredits = 0;
-  if (taxReturn.filingStatus === 'single' || taxReturn.filingStatus === 'married_filing_separately') {
-    if (taxableIncome <= 11600) taxBeforeCredits = taxableIncome * 0.10;
+  if (
+    taxReturn.filingStatus === 'single' ||
+    taxReturn.filingStatus === 'married_filing_separately'
+  ) {
+    if (taxableIncome <= 11600) taxBeforeCredits = taxableIncome * 0.1;
     else if (taxableIncome <= 47150) taxBeforeCredits = 1160 + (taxableIncome - 11600) * 0.12;
     else if (taxableIncome <= 100525) taxBeforeCredits = 5426 + (taxableIncome - 47150) * 0.22;
-    else if (taxableIncome <= 191950) taxBeforeCredits = 17168.50 + (taxableIncome - 100525) * 0.24;
-    else if (taxableIncome <= 243725) taxBeforeCredits = 39110.50 + (taxableIncome - 191950) * 0.32;
-    else if (taxableIncome <= 609350) taxBeforeCredits = 55678.50 + (taxableIncome - 243725) * 0.35;
+    else if (taxableIncome <= 191950) taxBeforeCredits = 17168.5 + (taxableIncome - 100525) * 0.24;
+    else if (taxableIncome <= 243725) taxBeforeCredits = 39110.5 + (taxableIncome - 191950) * 0.32;
+    else if (taxableIncome <= 609350) taxBeforeCredits = 55678.5 + (taxableIncome - 243725) * 0.35;
     else taxBeforeCredits = 183647.25 + (taxableIncome - 609350) * 0.37;
-  } else if (taxReturn.filingStatus === 'married_filing_jointly' || taxReturn.filingStatus === 'qualifying_surviving_spouse') {
-    if (taxableIncome <= 23200) taxBeforeCredits = taxableIncome * 0.10;
+  } else if (
+    taxReturn.filingStatus === 'married_filing_jointly' ||
+    taxReturn.filingStatus === 'qualifying_surviving_spouse'
+  ) {
+    if (taxableIncome <= 23200) taxBeforeCredits = taxableIncome * 0.1;
     else if (taxableIncome <= 94300) taxBeforeCredits = 2320 + (taxableIncome - 23200) * 0.12;
     else if (taxableIncome <= 201050) taxBeforeCredits = 10852 + (taxableIncome - 94300) * 0.22;
     else if (taxableIncome <= 383900) taxBeforeCredits = 34337 + (taxableIncome - 201050) * 0.24;
     else if (taxableIncome <= 487450) taxBeforeCredits = 78221 + (taxableIncome - 383900) * 0.32;
     else if (taxableIncome <= 731200) taxBeforeCredits = 111357 + (taxableIncome - 487450) * 0.35;
-    else taxBeforeCredits = 196669.50 + (taxableIncome - 731200) * 0.37;
+    else taxBeforeCredits = 196669.5 + (taxableIncome - 731200) * 0.37;
   } else if (taxReturn.filingStatus === 'head_of_household') {
-    if (taxableIncome <= 16550) taxBeforeCredits = taxableIncome * 0.10;
+    if (taxableIncome <= 16550) taxBeforeCredits = taxableIncome * 0.1;
     else if (taxableIncome <= 63100) taxBeforeCredits = 1655 + (taxableIncome - 16550) * 0.12;
     else if (taxableIncome <= 100500) taxBeforeCredits = 7241 + (taxableIncome - 63100) * 0.22;
     else if (taxableIncome <= 191950) taxBeforeCredits = 15469 + (taxableIncome - 100500) * 0.24;
     else if (taxableIncome <= 243700) taxBeforeCredits = 37417 + (taxableIncome - 191950) * 0.32;
     else if (taxableIncome <= 609350) taxBeforeCredits = 53977 + (taxableIncome - 243700) * 0.35;
-    else taxBeforeCredits = 181954.50 + (taxableIncome - 609350) * 0.37;
+    else taxBeforeCredits = 181954.5 + (taxableIncome - 609350) * 0.37;
   }
-  
+
   // Calculate credits
-  const numDependentsForCTC = taxReturn.dependents?.filter(d => d.childTaxCredit).length || 0;
-  const numDependentsForODC = taxReturn.dependents?.filter(d => d.otherDependentCredit).length || 0;
-  
+  const numDependentsForCTC = taxReturn.dependents?.filter((d) => d.childTaxCredit).length || 0;
+  const numDependentsForODC =
+    taxReturn.dependents?.filter((d) => d.otherDependentCredit).length || 0;
+
   const childTaxCredit = Math.min(numDependentsForCTC * 2000, taxBeforeCredits);
-  const creditForOtherDependents = Math.min(numDependentsForODC * 500, taxBeforeCredits - childTaxCredit);
-  
+  const creditForOtherDependents = Math.min(
+    numDependentsForODC * 500,
+    taxBeforeCredits - childTaxCredit,
+  );
+
   // EITC calculation (simplified)
   let earnedIncomeCredit = 0;
   const numChildren = taxReturn.dependents?.length || 0;
   if (taxReturn.filingStatus !== 'married_filing_separately') {
     if (numChildren === 0 && agi < 17640) earnedIncomeCredit = Math.min(600, w2Wages * 0.0765);
     else if (numChildren === 1 && agi < 46560) earnedIncomeCredit = Math.min(3995, w2Wages * 0.34);
-    else if (numChildren === 2 && agi < 52918) earnedIncomeCredit = Math.min(6604, w2Wages * 0.40);
+    else if (numChildren === 2 && agi < 52918) earnedIncomeCredit = Math.min(6604, w2Wages * 0.4);
     else if (numChildren >= 3 && agi < 56838) earnedIncomeCredit = Math.min(7430, w2Wages * 0.45);
   }
-  
+
   // Additional Child Tax Credit (refundable portion)
-  const additionalChildTaxCredit = Math.max(0, (numDependentsForCTC * 2000) - childTaxCredit);
-  
+  const additionalChildTaxCredit = Math.max(0, numDependentsForCTC * 2000 - childTaxCredit);
+
   const credits = {
     childTaxCredit,
     creditForOtherDependents,
     earnedIncomeCredit,
-    additionalChildTaxCredit
+    additionalChildTaxCredit,
   };
-  
+
   const totalCredits = childTaxCredit + creditForOtherDependents;
   const totalTax = Math.max(0, taxBeforeCredits - totalCredits);
-  
+
   // Calculate payments
-  const federalWithholding = taxReturn.w2Income?.reduce((sum, w2) => sum + (w2.federalWithholding || 0), 0) || 0;
+  const federalWithholding =
+    taxReturn.w2Income?.reduce((sum, w2) => sum + (w2.federalWithholding || 0), 0) || 0;
   const estimatedPayments = taxReturn.estimatedTaxPayments || 0;
   const refundableCredits = earnedIncomeCredit + additionalChildTaxCredit;
   const totalPayments = federalWithholding + estimatedPayments + refundableCredits;
-  
+
   const refund = totalPayments - totalTax;
   const owed = totalTax - totalPayments;
-  
+
   return {
     totalIncome,
     agi,
@@ -480,15 +522,20 @@ function calculateTax(taxReturn: TaxReturn) {
     totalTax,
     totalPayments,
     refund: refund > 0 ? refund : 0,
-    owed: owed > 0 ? owed : 0
+    owed: owed > 0 ? owed : 0,
   };
 }
 
-function generateConfirmationEmail(taxReturn: TaxReturn, submissionId: string, calculation: any): string {
-  const refundOrOwed = calculation.refund > 0 
-    ? `<div style="color: #16a34a; font-size: 36px; font-weight: bold;">Refund: $${calculation.refund.toLocaleString()}</div>`
-    : `<div style="color: #dc2626; font-size: 36px; font-weight: bold;">Amount Owed: $${calculation.owed.toLocaleString()}</div>`;
-  
+function generateConfirmationEmail(
+  taxReturn: TaxReturn,
+  submissionId: string,
+  calculation: any,
+): string {
+  const refundOrOwed =
+    calculation.refund > 0
+      ? `<div style="color: #16a34a; font-size: 36px; font-weight: bold;">Refund: $${calculation.refund.toLocaleString()}</div>`
+      : `<div style="color: #dc2626; font-size: 36px; font-weight: bold;">Amount Owed: $${calculation.owed.toLocaleString()}</div>`;
+
   return `
 <!DOCTYPE html>
 <html>

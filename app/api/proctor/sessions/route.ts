@@ -12,9 +12,12 @@ async function getProctor() {
   const supabase = await createClient();
   if (!supabase) return null;
   const db = await getAdminClient();
-  if (!db) return NextResponse.json({ error: 'Admin client failed to initialize' }, { status: 500 });
+  if (!db)
+    return NextResponse.json({ error: 'Admin client failed to initialize' }, { status: 500 });
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return null;
 
   const { data: profile } = await db
@@ -77,17 +80,28 @@ async function _POST(req: NextRequest) {
     const body = await req.json();
 
     const {
-      provider, exam_name, exam_code, duration_min,
-      student_name, student_email, student_id, program_slug,
-      id_verified, id_type, id_notes,
-      start_code, start_key, proctor_notes,
-      delivery_method, evidence_url,
+      provider,
+      exam_name,
+      exam_code,
+      duration_min,
+      student_name,
+      student_email,
+      student_id,
+      program_slug,
+      id_verified,
+      id_type,
+      id_notes,
+      start_code,
+      start_key,
+      proctor_notes,
+      delivery_method,
+      evidence_url,
     } = body;
 
     if (!provider || !exam_name || !student_name) {
       return NextResponse.json(
         { error: 'Missing required fields: provider, exam_name, student_name' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -96,18 +110,14 @@ async function _POST(req: NextRequest) {
     if (effectiveDelivery === 'online_proctored' && !evidence_url) {
       return NextResponse.json(
         { error: 'evidence_url is required for online proctored sessions' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     // Detect retest: check for any prior attempt for this student + provider
     let isRetest = false;
     if (student_email || student_id) {
-      let priorQuery = db
-        .from('exam_sessions')
-        .select('id')
-        .eq('provider', provider)
-        .limit(1);
+      let priorQuery = db.from('exam_sessions').select('id').eq('provider', provider).limit(1);
 
       if (student_id) {
         priorQuery = priorQuery.eq('student_id', student_id);
@@ -158,18 +168,26 @@ async function _POST(req: NextRequest) {
 
     // Append immutable chain-of-custody events
     await appendSessionEvent(db, data.id, 'session_created', profile.id, profile.role, {
-      provider, exam_name, delivery_method: effectiveDelivery, student_name,
+      provider,
+      exam_name,
+      delivery_method: effectiveDelivery,
+      student_name,
     });
     if (isRetest) {
-      await appendSessionEvent(db, data.id, 'retest_detected', profile.id, profile.role, { provider });
+      await appendSessionEvent(db, data.id, 'retest_detected', profile.id, profile.role, {
+        provider,
+      });
     }
     if (evidence_url) {
       await appendSessionEvent(db, data.id, 'recording_uploaded', profile.id, profile.role, {
-        evidence_url, evidence_storage_key: body.evidence_storage_key || null,
+        evidence_url,
+        evidence_storage_key: body.evidence_storage_key || null,
       });
     }
 
-    logger.info(`[Proctor] Session created: ${data.id} for ${student_name} — ${exam_name}${isRetest ? ' (retest)' : ''}`);
+    logger.info(
+      `[Proctor] Session created: ${data.id} for ${student_name} — ${exam_name}${isRetest ? ' (retest)' : ''}`,
+    );
     return NextResponse.json({ session: data }, { status: 201 });
   } catch (err) {
     logger.error('[Proctor] POST error:', err);

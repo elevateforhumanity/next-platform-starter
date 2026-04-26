@@ -1,12 +1,12 @@
 import { logger } from '@/lib/logger';
 /**
  * Milady Course Purchase & Student Provisioning
- * 
+ *
  * When a student pays Elevate, we:
  * 1. Pay Milady for the course access ($295 per student)
  * 2. Create student account in Milady
  * 3. Send student their login credentials
- * 
+ *
  * Milady accepts payments via:
  * - Stripe Connect (if partner)
  * - Direct API purchase
@@ -15,8 +15,6 @@ import { logger } from '@/lib/logger';
 
 import { stripe } from '@/lib/stripe/client';
 import { createClient } from '@/lib/supabase/server';
-
-
 
 // Milady pricing per program
 const MILADY_COSTS: Record<string, number> = {
@@ -61,7 +59,7 @@ export interface StudentData {
 export async function purchaseMiladyCourse(
   student: StudentData,
   programSlug: string,
-  elevatePaymentId: string
+  elevatePaymentId: string,
 ): Promise<MiladyPurchaseResult> {
   const supabase = await createClient();
   const cost = MILADY_COSTS[programSlug] || 295;
@@ -86,10 +84,9 @@ export async function purchaseMiladyCourse(
 
     // Method 4: Queue for manual purchase and provisioning
     return await queueManualPurchase(supabase, student, programSlug, cost);
-
   } catch (error: any) {
     logger.error('[Milady Purchase] Error:', error);
-    
+
     // Record failed attempt
     await supabase.from('vendor_payments').insert({
       student_id: student.id,
@@ -115,15 +112,15 @@ export async function purchaseMiladyCourse(
 async function purchaseViaMiladyAPI(
   student: StudentData,
   programSlug: string,
-  cost: number
+  cost: number,
 ): Promise<MiladyPurchaseResult> {
   const courseSku = MILADY_COURSE_SKUS[programSlug];
-  
+
   // Call Milady API to create account and purchase course
   const response = await fetch(`${process.env.MILADY_API_URL}/v1/school/enroll`, {
     method: 'POST',
     headers: {
-      'Authorization': `Bearer ${process.env.MILADY_API_KEY}`,
+      Authorization: `Bearer ${process.env.MILADY_API_KEY}`,
       'X-School-ID': process.env.MILADY_SCHOOL_ID!,
       'Content-Type': 'application/json',
     },
@@ -162,7 +159,7 @@ async function purchaseViaMiladyAPI(
 async function assignPrePurchasedLicense(
   supabase: any,
   student: StudentData,
-  programSlug: string
+  programSlug: string,
 ): Promise<MiladyPurchaseResult> {
   // Get available license code
   const { data: license, error } = await supabase
@@ -192,17 +189,20 @@ async function assignPrePurchasedLicense(
   }
 
   // Record in milady_access
-  await supabase.from('milady_access').upsert({
-    student_id: student.id,
-    program_slug: programSlug,
-    provisioning_method: 'license_code',
-    license_code: license.code,
-    access_url: 'https://www.miladytraining.com/redeem',
-    status: 'active',
-    provisioned_at: new Date().toISOString(),
-  }, {
-    onConflict: 'student_id,program_slug',
-  });
+  await supabase.from('milady_access').upsert(
+    {
+      student_id: student.id,
+      program_slug: programSlug,
+      provisioning_method: 'license_code',
+      license_code: license.code,
+      access_url: 'https://www.miladytraining.com/redeem',
+      status: 'active',
+      provisioned_at: new Date().toISOString(),
+    },
+    {
+      onConflict: 'student_id,program_slug',
+    },
+  );
 
   return {
     success: true,
@@ -222,7 +222,7 @@ async function purchaseViaStripeConnect(
   student: StudentData,
   programSlug: string,
   cost: number,
-  elevatePaymentId: string
+  elevatePaymentId: string,
 ): Promise<MiladyPurchaseResult> {
   // Create a transfer to Milady's connected account
   const transfer = await stripe.transfers.create({
@@ -258,22 +258,25 @@ async function queueManualPurchase(
   supabase: any,
   student: StudentData,
   programSlug: string,
-  cost: number
+  cost: number,
 ): Promise<MiladyPurchaseResult> {
   // Create provisioning queue entry
-  await supabase.from('milady_provisioning_queue').upsert({
-    student_id: student.id,
-    student_email: student.email,
-    student_name: `${student.firstName} ${student.lastName}`,
-    program_slug: programSlug,
-    course_code: MILADY_COURSE_SKUS[programSlug],
-    status: 'pending',
-    amount_to_pay: cost,
-    notes: 'Auto-queued after student payment. Admin needs to purchase on Milady portal.',
-    created_at: new Date().toISOString(),
-  }, {
-    onConflict: 'student_id,program_slug',
-  });
+  await supabase.from('milady_provisioning_queue').upsert(
+    {
+      student_id: student.id,
+      student_email: student.email,
+      student_name: `${student.firstName} ${student.lastName}`,
+      program_slug: programSlug,
+      course_code: MILADY_COURSE_SKUS[programSlug],
+      status: 'pending',
+      amount_to_pay: cost,
+      notes: 'Auto-queued after student payment. Admin needs to purchase on Milady portal.',
+      created_at: new Date().toISOString(),
+    },
+    {
+      onConflict: 'student_id,program_slug',
+    },
+  );
 
   // Record pending vendor payment
   await supabase.from('vendor_payments').insert({
@@ -286,15 +289,18 @@ async function queueManualPurchase(
   });
 
   // Record access as pending
-  await supabase.from('milady_access').upsert({
-    student_id: student.id,
-    program_slug: programSlug,
-    provisioning_method: 'manual',
-    status: 'pending_setup',
-    provisioned_at: new Date().toISOString(),
-  }, {
-    onConflict: 'student_id,program_slug',
-  });
+  await supabase.from('milady_access').upsert(
+    {
+      student_id: student.id,
+      program_slug: programSlug,
+      provisioning_method: 'manual',
+      status: 'pending_setup',
+      provisioned_at: new Date().toISOString(),
+    },
+    {
+      onConflict: 'student_id,program_slug',
+    },
+  );
 
   return {
     success: true, // Queued successfully
@@ -316,37 +322,43 @@ export async function completeMiladyPurchase(
     username?: string;
     temporaryPassword?: string;
     licenseCode?: string;
-  }
+  },
 ) {
   const supabase = await createClient();
 
   // Update access record
-  await supabase.from('milady_access').update({
-    status: 'active',
-    username: credentials.username,
-    license_code: credentials.licenseCode,
-    access_url: 'https://www.miladytraining.com/users/sign_in',
-    manually_provisioned_at: new Date().toISOString(),
-  })
-  .eq('student_id', studentId)
-  .eq('program_slug', programSlug);
+  await supabase
+    .from('milady_access')
+    .update({
+      status: 'active',
+      username: credentials.username,
+      license_code: credentials.licenseCode,
+      access_url: 'https://www.miladytraining.com/users/sign_in',
+      manually_provisioned_at: new Date().toISOString(),
+    })
+    .eq('student_id', studentId)
+    .eq('program_slug', programSlug);
 
   // Update queue
-  await supabase.from('milady_provisioning_queue').update({
-    status: 'completed',
-    processed_at: new Date().toISOString(),
-  })
-  .eq('student_id', studentId)
-  .eq('program_slug', programSlug);
+  await supabase
+    .from('milady_provisioning_queue')
+    .update({
+      status: 'completed',
+      processed_at: new Date().toISOString(),
+    })
+    .eq('student_id', studentId)
+    .eq('program_slug', programSlug);
 
   // Update vendor payment
-  await supabase.from('vendor_payments').update({
-    status: 'paid',
-    paid_at: new Date().toISOString(),
-  })
-  .eq('student_id', studentId)
-  .eq('vendor_name', 'milady')
-  .eq('status', 'pending_manual');
+  await supabase
+    .from('vendor_payments')
+    .update({
+      status: 'paid',
+      paid_at: new Date().toISOString(),
+    })
+    .eq('student_id', studentId)
+    .eq('vendor_name', 'milady')
+    .eq('status', 'pending_manual');
 
   // Send credentials email to student
   const { data: student } = await supabase
@@ -368,10 +380,10 @@ export async function completeMiladyPurchase(
 async function sendMiladyCredentialsEmail(
   student: { email: string; full_name?: string; first_name?: string },
   credentials: { username?: string; temporaryPassword?: string; licenseCode?: string },
-  programSlug: string
+  programSlug: string,
 ) {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
-  
+
   const emailHtml = `
 <!DOCTYPE html>
 <html>
@@ -392,22 +404,34 @@ async function sendMiladyCredentialsEmail(
     <div style="background: #f3f4f6; padding: 20px; border-radius: 8px; margin: 20px 0;">
       <h3 style="margin-top: 0; color: #4f46e5;">Your Login Details</h3>
       
-      ${credentials.licenseCode ? `
+      ${
+        credentials.licenseCode
+          ? `
       <p><strong>License Code:</strong></p>
       <p style="font-family: monospace; font-size: 18px; background: white; padding: 10px; border-radius: 4px; letter-spacing: 2px;">${credentials.licenseCode}</p>
       <p style="font-size: 14px; color: #6b7280;">Use this code at: <a href="https://www.miladytraining.com/redeem">miladytraining.com/redeem</a></p>
-      ` : ''}
+      `
+          : ''
+      }
       
-      ${credentials.username ? `
+      ${
+        credentials.username
+          ? `
       <p><strong>Username:</strong> ${credentials.username}</p>
-      ` : `
+      `
+          : `
       <p><strong>Email:</strong> ${student.email}</p>
-      `}
+      `
+      }
       
-      ${credentials.temporaryPassword ? `
+      ${
+        credentials.temporaryPassword
+          ? `
       <p><strong>Temporary Password:</strong> ${credentials.temporaryPassword}</p>
       <p style="font-size: 14px; color: #dc2626;">⚠️ Please change your password after first login.</p>
-      ` : ''}
+      `
+          : ''
+      }
     </div>
     
     <div style="text-align: center; margin: 30px 0;">

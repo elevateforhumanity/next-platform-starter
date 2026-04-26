@@ -10,6 +10,7 @@
 ## Step 2: Create Prices
 
 ### Monthly Price
+
 - Click "Add Price" on the product
 - Pricing model: Recurring
 - Amount: $99.00
@@ -17,6 +18,7 @@
 - Copy the Price ID (starts with `price_`)
 
 ### Annual Price
+
 - Click "Add Price" on the product
 - Pricing model: Recurring
 - Amount: $899.00

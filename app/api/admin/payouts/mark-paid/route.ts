@@ -55,10 +55,16 @@ export async function POST(req: NextRequest) {
     }
 
     if (!salesData || salesData.length === 0) {
-      return NextResponse.json({ error: 'No unpaid sales found for this creator' }, { status: 404 });
+      return NextResponse.json(
+        { error: 'No unpaid sales found for this creator' },
+        { status: 404 },
+      );
     }
 
-    const totalAmount = salesData.reduce((sum, sale) => sum + (sale.creator_earnings_cents ?? 0), 0);
+    const totalAmount = salesData.reduce(
+      (sum, sale) => sum + (sale.creator_earnings_cents ?? 0),
+      0,
+    );
 
     // Mark all unpaid sales for this creator as paid
     const { data, error }: any = await supabase

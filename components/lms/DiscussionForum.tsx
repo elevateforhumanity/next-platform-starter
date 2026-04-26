@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { createClient } from '@/lib/supabase/client';
 
@@ -22,10 +22,7 @@ interface DiscussionForumProps {
   initialComments?: Comment[];
 }
 
-export function DiscussionForum({
-  lessonId,
-  initialComments = [],
-}: DiscussionForumProps) {
+export function DiscussionForum({ lessonId, initialComments = [] }: DiscussionForumProps) {
   const [comments, setComments] = useState<Comment[]>(initialComments);
   const [newComment, setNewComment] = useState('');
   const [replyingTo, setReplyingTo] = useState<string | null>(null);
@@ -43,7 +40,7 @@ export function DiscussionForum({
         .order('created_at', { ascending: false });
 
       if (data) {
-        const formatted: Comment[] = data.map(c => ({
+        const formatted: Comment[] = data.map((c) => ({
           id: c.id,
           author: (c.profiles as any)?.full_name || 'Anonymous',
           avatar: (c.profiles as any)?.avatar_url || 'AU',
@@ -62,7 +59,9 @@ export function DiscussionForum({
     if (!newComment.trim()) return;
 
     const supabase = createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     const { data, error } = await supabase
       .from('lesson_comments')
@@ -111,7 +110,7 @@ export function DiscussionForum({
           };
         }
         return comment;
-      })
+      }),
     );
 
     setReplyText('');
@@ -125,7 +124,7 @@ export function DiscussionForum({
           return { ...comment, likes: comment.likes + 1 };
         }
         return comment;
-      })
+      }),
     );
   };
 
@@ -165,9 +164,7 @@ export function DiscussionForum({
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-1">
                     <span className="font-semibold">{comment.author}</span>
-                    <span className="text-sm text-slate-500">
-                      {comment.timestamp}
-                    </span>
+                    <span className="text-sm text-slate-500">{comment.timestamp}</span>
                   </div>
                   <p className="text-black">{comment.content}</p>
                 </div>
@@ -235,16 +232,10 @@ export function DiscussionForum({
                       </div>
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-1">
-                          <span className="font-semibold text-sm">
-                            {reply.author}
-                          </span>
-                          <span className="text-xs text-slate-500">
-                            {reply.timestamp}
-                          </span>
+                          <span className="font-semibold text-sm">{reply.author}</span>
+                          <span className="text-xs text-slate-500">{reply.timestamp}</span>
                         </div>
-                        <p className="text-sm text-black">
-                          {reply.content}
-                        </p>
+                        <p className="text-sm text-black">{reply.content}</p>
                       </div>
                     </div>
                   ))}
@@ -256,9 +247,7 @@ export function DiscussionForum({
           <div className="bg-white rounded-lg p-12 text-center">
             <MessageSquare className="w-16 h-16 text-slate-300 mx-auto mb-4" />
             <h3 className="text-xl font-bold mb-2">No discussions yet</h3>
-            <p className="text-black">
-              Be the first to start a conversation about this lesson!
-            </p>
+            <p className="text-black">Be the first to start a conversation about this lesson!</p>
           </div>
         )}
       </div>

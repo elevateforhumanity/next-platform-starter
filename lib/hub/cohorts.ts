@@ -41,14 +41,16 @@ export async function getProgramCohorts(programId: string): Promise<Cohort[]> {
   // Get all enrollments for this program
   const { data: enrollments } = await supabase
     .from('program_enrollments')
-    .select(`
+    .select(
+      `
       id,
       user_id,
       created_at,
       status,
       progress,
       programs(id, name, total_hours)
-    `)
+    `,
+    )
     .eq('program_id', programId)
     .order('created_at', { ascending: false });
 
@@ -58,11 +60,11 @@ export async function getProgramCohorts(programId: string): Promise<Cohort[]> {
 
   // Group by month
   const cohortMap = new Map<string, any[]>();
-  
+
   for (const enrollment of enrollments) {
     const date = new Date(enrollment.created_at);
     const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
-    
+
     if (!cohortMap.has(monthKey)) {
       cohortMap.set(monthKey, []);
     }
@@ -71,15 +73,15 @@ export async function getProgramCohorts(programId: string): Promise<Cohort[]> {
 
   // Build cohort objects
   const cohorts: Cohort[] = [];
-  const program = (enrollments[0].programs as any);
+  const program = enrollments[0].programs as any;
 
   for (const [monthKey, members] of cohortMap) {
     const date = new Date(monthKey + '-01');
     const monthName = date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
 
-    const onTrack = members.filter(m => m.status === 'active' && (m.progress || 0) >= 50).length;
-    const atRisk = members.filter(m => m.status === 'active' && (m.progress || 0) < 50).length;
-    const completed = members.filter(m => m.status === 'completed').length;
+    const onTrack = members.filter((m) => m.status === 'active' && (m.progress || 0) >= 50).length;
+    const atRisk = members.filter((m) => m.status === 'active' && (m.progress || 0) < 50).length;
+    const completed = members.filter((m) => m.status === 'completed').length;
 
     cohorts.push({
       id: `${programId}-${monthKey}`,
@@ -101,7 +103,10 @@ export async function getProgramCohorts(programId: string): Promise<Cohort[]> {
 /**
  * Get members of a specific cohort
  */
-export async function getCohortMembers(programId: string, startMonth: string): Promise<CohortMember[]> {
+export async function getCohortMembers(
+  programId: string,
+  startMonth: string,
+): Promise<CohortMember[]> {
   const supabase = await createClient();
 
   const startDate = new Date(startMonth + '-01');
@@ -110,7 +115,8 @@ export async function getCohortMembers(programId: string, startMonth: string): P
 
   const { data: enrollments } = await supabase
     .from('program_enrollments')
-    .select(`
+    .select(
+      `
       id,
       user_id,
       created_at,
@@ -118,7 +124,8 @@ export async function getCohortMembers(programId: string, startMonth: string): P
       progress,
       profiles!enrollments_user_id_fkey(full_name, avatar_url),
       programs(total_hours)
-    `)
+    `,
+    )
     .eq('program_id', programId)
     .gte('created_at', startDate.toISOString())
     .lt('created_at', endDate.toISOString())
@@ -168,12 +175,14 @@ export async function getUserCohort(userId: string): Promise<Cohort | null> {
 
   const { data: enrollment } = await supabase
     .from('program_enrollments')
-    .select(`
+    .select(
+      `
       id,
       program_id,
       created_at,
       programs(name)
-    `)
+    `,
+    )
     .eq('user_id', userId)
     .eq('status', 'active')
     .order('created_at', { ascending: false })
@@ -186,7 +195,7 @@ export async function getUserCohort(userId: string): Promise<Cohort | null> {
   const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
 
   const cohorts = await getProgramCohorts(enrollment.program_id);
-  return cohorts.find(c => c.start_month === monthKey) || null;
+  return cohorts.find((c) => c.start_month === monthKey) || null;
 }
 
 /**
@@ -211,7 +220,5 @@ export async function getAllActiveCohorts(limit = 10): Promise<Cohort[]> {
     allCohorts.push(...cohorts.slice(0, 2)); // Latest 2 cohorts per program
   }
 
-  return allCohorts
-    .sort((a, b) => b.start_month.localeCompare(a.start_month))
-    .slice(0, limit);
+  return allCohorts.sort((a, b) => b.start_month.localeCompare(a.start_month)).slice(0, limit);
 }

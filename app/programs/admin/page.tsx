@@ -27,32 +27,23 @@ export default async function AdminPage() {
 
   if (!user) redirect('/login');
 
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('*')
-    .eq('id', user.id)
-    .single();
+  const { data: profile } = await supabase.from('profiles').select('*').eq('id', user.id).single();
 
   return (
     <div className="min-h-screen bg-white">
-      <Breadcrumbs
-        items={[
-          { label: 'Programs', href: '/programs' },
-          { label: 'Admin' },
-        ]}
-      />
+      <Breadcrumbs items={[{ label: 'Programs', href: '/programs' }, { label: 'Admin' }]} />
       {/* Hero Section */}
       <section className="relative h-48 md:h-64 overflow-hidden">
         <Image
           src="/images/pages/programs-admin-hero.jpg"
           alt="Program Holder Admin Portal"
-          fill sizes="100vw"
+          fill
+          sizes="100vw"
           className="object-cover"
           quality={100}
           priority
           sizes="100vw"
         />
-
       </section>
 
       {/* Content Section */}
@@ -63,10 +54,7 @@ export default async function AdminPage() {
             <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
               <div>
                 <h2 className="text-2xl md:text-3xl font-bold mb-6">Admin</h2>
-                <p className="text-black mb-6">
-                  Manage your program administration
-                  development.
-                </p>
+                <p className="text-black mb-6">Manage your program administration development.</p>
                 <ul className="space-y-3">
                   <li className="flex items-start">
                     <span className="text-black flex-shrink-0">•</span>
@@ -86,7 +74,8 @@ export default async function AdminPage() {
                 <Image
                   src="/images/pages/programs-admin-detail.jpg"
                   alt="Admin"
-                  fill sizes="100vw"
+                  fill
+                  sizes="100vw"
                   className="object-cover"
                   quality={100}
                   sizes="(max-width: 768px) 100vw, 50vw"
@@ -120,9 +109,7 @@ export default async function AdminPage() {
       <section className="py-16 bg-brand-blue-700 text-black">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-2xl md:text-3xl font-bold mb-4">
-              Ready to Get Started?
-            </h2>
+            <h2 className="text-2xl md:text-3xl font-bold mb-4">Ready to Get Started?</h2>
             <p className="text-base md:text-lg text-brand-blue-100 mb-8">
               Start your career in program administration and workforce development.
             </p>

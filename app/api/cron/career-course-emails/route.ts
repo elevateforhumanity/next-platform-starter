@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server';
 import { getAdminClient } from '@/lib/supabase/admin';
-import { 
-  getDay3Email, 
-  getDay7Email, 
+import {
+  getDay3Email,
+  getDay7Email,
   getReengagementEmail,
-  CourseEmailData 
+  CourseEmailData,
 } from '@/lib/email/career-course-sequences';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 
@@ -24,23 +24,22 @@ async function _GET(req: Request) {
 
   const supabase = await getAdminClient();
 
-    if (!supabase) {
-      return NextResponse.json(
-        { error: 'Service temporarily unavailable.' },
-        { status: 503 }
-      );
-    }
+  if (!supabase) {
+    return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });
+  }
   const results = { day3: 0, day7: 0, reengagement: 0, errors: [] as string[] };
 
   try {
     // Get all purchases with user info
     const { data: purchases } = await supabase
       .from('career_course_purchases')
-      .select(`
+      .select(
+        `
         *,
         course:career_courses(title, slug),
         profile:profiles(first_name, email)
-      `)
+      `,
+      )
       .eq('status', 'completed');
 
     if (!purchases) {
@@ -51,7 +50,9 @@ async function _GET(req: Request) {
 
     for (const purchase of purchases) {
       const purchaseDate = new Date(purchase.purchased_at);
-      const daysSincePurchase = Math.floor((now.getTime() - purchaseDate.getTime()) / (1000 * 60 * 60 * 24));
+      const daysSincePurchase = Math.floor(
+        (now.getTime() - purchaseDate.getTime()) / (1000 * 60 * 60 * 24),
+      );
 
       const emailData: CourseEmailData = {
         email: purchase.email || purchase.profile?.email,
@@ -96,9 +97,9 @@ async function _GET(req: Request) {
       }
     }
 
-    return NextResponse.json({ 
+    return NextResponse.json({
       message: 'Email sequence processed',
-      results 
+      results,
     });
   } catch (error: any) {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });

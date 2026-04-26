@@ -3,7 +3,7 @@ import { getStripe } from '@/lib/stripe/client';
 import { NextRequest, NextResponse } from 'next/server';
 import type Stripe from 'stripe';
 import {
-// AUTH: Intentionally public — no authentication required
+  // AUTH: Intentionally public — no authentication required
   handleCheckoutCompleted,
   handleInvoicePaid,
   handleSubscriptionUpdated,
@@ -19,7 +19,7 @@ function getWebhookSecret() {
 
 /**
  * POST /api/licenses/webhook
- * 
+ *
  * Handles Stripe webhook events for license purchases.
  * Uses shared linking logic from lib/license/linkStripeToLicense.ts
  */
@@ -86,4 +86,6 @@ async function _POST(request: NextRequest) {
     return NextResponse.json({ error: 'Webhook processing failed' }, { status: 500 });
   }
 }
-export const POST = withRuntime(withApiAudit('/api/licenses/webhook', _POST, { actor_type: 'webhook', skip_body: true }));
+export const POST = withRuntime(
+  withApiAudit('/api/licenses/webhook', _POST, { actor_type: 'webhook', skip_body: true }),
+);

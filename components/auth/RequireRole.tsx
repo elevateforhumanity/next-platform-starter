@@ -28,12 +28,12 @@ export function RequireRole({ role, children, fallback }: RequireRoleProps) {
       })
       .then((data) => {
         if (!data) return;
-        
+
         if (!data.hasRole) {
           router.push('/');
           return;
         }
-        
+
         setHasAccess(true);
         setAuthChecked(true);
       })
@@ -43,13 +43,15 @@ export function RequireRole({ role, children, fallback }: RequireRoleProps) {
   }, [role, router]);
 
   if (!authChecked) {
-    return fallback || (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-blue-600 mx-auto mb-4"></div>
-          <p className="text-black">Checking permissions...</p>
+    return (
+      fallback || (
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-blue-600 mx-auto mb-4"></div>
+            <p className="text-black">Checking permissions...</p>
+          </div>
         </div>
-      </div>
+      )
     );
   }
 

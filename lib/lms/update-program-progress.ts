@@ -18,10 +18,7 @@ import { logger } from '@/lib/logger';
  * @param userId     - auth.users.id
  * @param courseId   - courses.id
  */
-export async function updateProgramProgress(
-  userId: string,
-  courseId: string,
-): Promise<void> {
+export async function updateProgramProgress(userId: string, courseId: string): Promise<void> {
   const db = await getAdminClient();
   if (!db) {
     logger.error('updateProgramProgress: admin client unavailable');
@@ -36,24 +33,25 @@ export async function updateProgramProgress(
     progressPercent = progress.progressPercent;
     courseCompleted = progress.courseCompleted;
   } catch (err) {
-    logger.error('updateProgramProgress: getLearnerProgress failed', err instanceof Error ? err : undefined);
+    logger.error(
+      'updateProgramProgress: getLearnerProgress failed',
+      err instanceof Error ? err : undefined,
+    );
     // Do not throw — progress update is best-effort and must not block the caller
     return;
   }
 
-  const { error } = await db
-    .from('lms_progress')
-    .upsert(
-      {
-        user_id: userId,
-        course_id: courseId,
-        progress_percent: progressPercent,
-        status: courseCompleted ? 'completed' : 'in_progress',
-        last_activity_at: new Date().toISOString(),
-        ...(courseCompleted ? { completed_at: new Date().toISOString() } : {}),
-      },
-      { onConflict: 'user_id,course_id' },
-    );
+  const { error } = await db.from('lms_progress').upsert(
+    {
+      user_id: userId,
+      course_id: courseId,
+      progress_percent: progressPercent,
+      status: courseCompleted ? 'completed' : 'in_progress',
+      last_activity_at: new Date().toISOString(),
+      ...(courseCompleted ? { completed_at: new Date().toISOString() } : {}),
+    },
+    { onConflict: 'user_id,course_id' },
+  );
 
   if (error) {
     logger.error('updateProgramProgress: upsert failed', error);
@@ -68,10 +66,7 @@ export async function updateProgramProgress(
  * @param userId  - auth.users.id
  * @param quizId  - quizzes.id  (or course_lessons.id for checkpoint quizzes)
  */
-export async function updateProgressAfterQuiz(
-  userId: string,
-  quizId: string,
-): Promise<void> {
+export async function updateProgressAfterQuiz(userId: string, quizId: string): Promise<void> {
   const db = await getAdminClient();
   if (!db) return;
 

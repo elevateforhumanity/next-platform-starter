@@ -19,9 +19,10 @@ export default async function AdminGradebookPage({
 }) {
   const { courseId } = await params;
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login');
-
 
   const { data: profile } = await supabase
     .from('profiles')
@@ -50,7 +51,9 @@ export default async function AdminGradebookPage({
     .order('created_at');
 
   // Hydrate profiles separately (program_enrollments.user_id → auth.users, not profiles)
-  const gbUserIds = [...new Set((rawGradebookEnrollments || []).map((e: any) => e.user_id).filter(Boolean))];
+  const gbUserIds = [
+    ...new Set((rawGradebookEnrollments || []).map((e: any) => e.user_id).filter(Boolean)),
+  ];
   const { data: gbProfiles } = gbUserIds.length
     ? await supabase.from('profiles').select('id, full_name, email').in('id', gbUserIds)
     : { data: [] };
@@ -77,7 +80,6 @@ export default async function AdminGradebookPage({
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* Hero Image */}
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="mb-6">
@@ -88,9 +90,7 @@ export default async function AdminGradebookPage({
             <ArrowLeft className="w-4 h-4" />
             Back to Courses
           </Link>
-          <h1 className="text-2xl font-bold text-slate-900">
-            Gradebook: {course.title}
-          </h1>
+          <h1 className="text-2xl font-bold text-slate-900">Gradebook: {course.title}</h1>
         </div>
 
         <GradebookClient

@@ -28,7 +28,11 @@ interface MessagesClientProps {
   participants: Record<string, any>;
 }
 
-export default function MessagesClient({ userId, initialConversations, participants }: MessagesClientProps) {
+export default function MessagesClient({
+  userId,
+  initialConversations,
+  participants,
+}: MessagesClientProps) {
   const [conversations, setConversations] = useState(initialConversations);
   const [selectedConversation, setSelectedConversation] = useState<string | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -38,7 +42,8 @@ export default function MessagesClient({ userId, initialConversations, participa
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const getOtherParticipant = (conv: Conversation) => {
-    const otherId = conv.participant_1_id === userId ? conv.participant_2_id : conv.participant_1_id;
+    const otherId =
+      conv.participant_1_id === userId ? conv.participant_2_id : conv.participant_1_id;
     return participants[otherId] || { full_name: 'Unknown User' };
   };
 
@@ -92,7 +97,7 @@ export default function MessagesClient({ userId, initialConversations, participa
       .maybeSingle();
 
     if (data && !error) {
-      setMessages(prev => [...prev, data]);
+      setMessages((prev) => [...prev, data]);
       setNewMessage('');
 
       // Update conversation preview
@@ -111,7 +116,7 @@ export default function MessagesClient({ userId, initialConversations, participa
     const date = new Date(dateStr);
     const now = new Date();
     const isToday = date.toDateString() === now.toDateString();
-    
+
     if (isToday) {
       return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     }
@@ -129,7 +134,9 @@ export default function MessagesClient({ userId, initialConversations, participa
 
         <div className="flex h-[calc(100vh-120px)]">
           {/* Conversations List */}
-          <div className={`w-full md:w-80 border-r bg-white ${selectedConversation ? 'hidden md:block' : ''}`}>
+          <div
+            className={`w-full md:w-80 border-r bg-white ${selectedConversation ? 'hidden md:block' : ''}`}
+          >
             <div className="p-4 border-b">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-700" />
@@ -169,14 +176,22 @@ export default function MessagesClient({ userId, initialConversations, participa
                     >
                       <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center flex-shrink-0">
                         {other.avatar_url ? (
-                          <Image src={other.avatar_url} alt={other.full_name || 'Contact'} width={48} height={48} className="w-full h-full rounded-full object-cover" />
+                          <Image
+                            src={other.avatar_url}
+                            alt={other.full_name || 'Contact'}
+                            width={48}
+                            height={48}
+                            className="w-full h-full rounded-full object-cover"
+                          />
                         ) : (
                           <User className="w-6 h-6 text-slate-700" />
                         )}
                       </div>
                       <div className="flex-1 min-w-0 text-left">
                         <p className="font-medium text-slate-900 truncate">{other.full_name}</p>
-                        <p className="text-sm text-slate-700 truncate">{conv.last_message_preview || 'No messages'}</p>
+                        <p className="text-sm text-slate-700 truncate">
+                          {conv.last_message_preview || 'No messages'}
+                        </p>
                       </div>
                       <span className="text-xs text-slate-500">
                         {conv.last_message_at ? formatTime(conv.last_message_at) : ''}
@@ -189,7 +204,9 @@ export default function MessagesClient({ userId, initialConversations, participa
           </div>
 
           {/* Messages Area */}
-          <div className={`flex-1 flex flex-col bg-white ${!selectedConversation ? 'hidden md:flex' : ''}`}>
+          <div
+            className={`flex-1 flex flex-col bg-white ${!selectedConversation ? 'hidden md:flex' : ''}`}
+          >
             {selectedConversation ? (
               <>
                 {/* Header */}
@@ -201,13 +218,19 @@ export default function MessagesClient({ userId, initialConversations, participa
                     <ArrowLeft className="w-5 h-5" />
                   </button>
                   {(() => {
-                    const conv = conversations.find(c => c.id === selectedConversation);
+                    const conv = conversations.find((c) => c.id === selectedConversation);
                     const other = conv ? getOtherParticipant(conv) : { full_name: 'Unknown' };
                     return (
                       <>
                         <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center">
                           {other.avatar_url ? (
-                            <Image src={other.avatar_url} alt={other.full_name || 'Contact'} width={48} height={48} className="w-full h-full rounded-full object-cover" />
+                            <Image
+                              src={other.avatar_url}
+                              alt={other.full_name || 'Contact'}
+                              width={48}
+                              height={48}
+                              className="w-full h-full rounded-full object-cover"
+                            />
                           ) : (
                             <User className="w-5 h-5 text-slate-700" />
                           )}
@@ -242,9 +265,11 @@ export default function MessagesClient({ userId, initialConversations, participa
                           }`}
                         >
                           <p>{msg.content}</p>
-                          <p className={`text-xs mt-1 ${
-                            msg.sender_id === userId ? 'text-white' : 'text-slate-700'
-                          }`}>
+                          <p
+                            className={`text-xs mt-1 ${
+                              msg.sender_id === userId ? 'text-white' : 'text-slate-700'
+                            }`}
+                          >
                             {formatTime(msg.created_at)}
                           </p>
                         </div>
@@ -283,7 +308,9 @@ export default function MessagesClient({ userId, initialConversations, participa
                 <div className="text-center">
                   <User className="w-16 h-16 text-slate-700 mx-auto mb-4" />
                   <p className="font-medium text-slate-900 mb-1">Select a conversation</p>
-                  <p className="text-sm text-slate-700">Choose a thread from the list to read and reply.</p>
+                  <p className="text-sm text-slate-700">
+                    Choose a thread from the list to read and reply.
+                  </p>
                 </div>
               </div>
             )}

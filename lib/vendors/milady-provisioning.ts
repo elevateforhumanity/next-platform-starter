@@ -1,10 +1,10 @@
 import { logger } from '@/lib/logger';
 /**
  * Milady Access Provisioning
- * 
+ *
  * Handles provisioning Milady RISE access for students.
  * Supports multiple provisioning methods:
- * 
+ *
  * 1. API Integration - Direct API calls to create accounts (requires Milady API access)
  * 2. License Codes - Assign pre-purchased license codes to students
  * 3. School Portal - Manual provisioning via Milady school admin portal
@@ -24,9 +24,12 @@ const MILADY_COURSE_CODES: Record<string, string> = {
 // Milady bundle URLs (for link-based access)
 const MILADY_BUNDLE_URLS: Record<string, string> = {
   'barber-apprenticeship': 'https://www.miladytraining.com/bundles/barber-apprentice-program',
-  'cosmetology-apprenticeship': 'https://www.miladytraining.com/bundles/cosmetology-apprentice-program',
-  'esthetician-apprenticeship': 'https://www.miladytraining.com/bundles/esthetics-apprentice-program',
-  'nail-technician-apprenticeship': 'https://www.miladytraining.com/bundles/nail-tech-apprentice-program',
+  'cosmetology-apprenticeship':
+    'https://www.miladytraining.com/bundles/cosmetology-apprentice-program',
+  'esthetician-apprenticeship':
+    'https://www.miladytraining.com/bundles/esthetics-apprentice-program',
+  'nail-technician-apprenticeship':
+    'https://www.miladytraining.com/bundles/nail-tech-apprentice-program',
 };
 
 export interface MiladyProvisioningResult {
@@ -54,7 +57,7 @@ export interface StudentInfo {
  */
 export async function provisionMiladyAccess(
   student: StudentInfo,
-  programSlug: string
+  programSlug: string,
 ): Promise<MiladyProvisioningResult> {
   const supabase = await createClient();
 
@@ -88,7 +91,7 @@ export async function provisionMiladyAccess(
  */
 async function provisionViaAPI(
   student: StudentInfo,
-  programSlug: string
+  programSlug: string,
 ): Promise<MiladyProvisioningResult> {
   const { createAccount, enrollInCourse } = await import('@/lib/partners/milady');
 
@@ -121,7 +124,7 @@ async function provisionViaAPI(
 async function assignLicenseCode(
   supabase: any,
   student: StudentInfo,
-  programSlug: string
+  programSlug: string,
 ): Promise<MiladyProvisioningResult> {
   // Check for available license codes
   const { data: availableCode, error } = await supabase
@@ -172,20 +175,18 @@ async function assignLicenseCode(
 async function queueManualProvisioning(
   supabase: any,
   student: StudentInfo,
-  programSlug: string
+  programSlug: string,
 ): Promise<MiladyProvisioningResult> {
   // Create manual provisioning request
-  const { error } = await supabase
-    .from('milady_provisioning_queue')
-    .insert({
-      student_id: student.id,
-      student_email: student.email,
-      student_name: `${student.firstName} ${student.lastName}`,
-      program_slug: programSlug,
-      course_code: MILADY_COURSE_CODES[programSlug],
-      status: 'pending',
-      created_at: new Date().toISOString(),
-    });
+  const { error } = await supabase.from('milady_provisioning_queue').insert({
+    student_id: student.id,
+    student_email: student.email,
+    student_name: `${student.firstName} ${student.lastName}`,
+    program_slug: programSlug,
+    course_code: MILADY_COURSE_CODES[programSlug],
+    status: 'pending',
+    created_at: new Date().toISOString(),
+  });
 
   if (error) {
     logger.error('[Milady] Failed to queue manual provisioning:', error);
@@ -207,20 +208,23 @@ async function recordProvisioning(
   supabase: any,
   studentId: string,
   programSlug: string,
-  result: MiladyProvisioningResult
+  result: MiladyProvisioningResult,
 ) {
-  await supabase.from('milady_access').upsert({
-    student_id: studentId,
-    program_slug: programSlug,
-    provisioning_method: result.method,
-    access_url: result.accessUrl,
-    license_code: result.licenseCode,
-    username: result.username,
-    status: result.requiresManualSetup ? 'pending_setup' : 'active',
-    provisioned_at: new Date().toISOString(),
-  }, {
-    onConflict: 'student_id,program_slug',
-  });
+  await supabase.from('milady_access').upsert(
+    {
+      student_id: studentId,
+      program_slug: programSlug,
+      provisioning_method: result.method,
+      access_url: result.accessUrl,
+      license_code: result.licenseCode,
+      username: result.username,
+      status: result.requiresManualSetup ? 'pending_setup' : 'active',
+      provisioned_at: new Date().toISOString(),
+    },
+    {
+      onConflict: 'student_id,program_slug',
+    },
+  );
 }
 
 /**
@@ -228,7 +232,7 @@ async function recordProvisioning(
  */
 export async function getMiladyAccess(
   studentId: string,
-  programSlug: string
+  programSlug: string,
 ): Promise<MiladyProvisioningResult | null> {
   const supabase = await createClient();
 
@@ -260,7 +264,7 @@ export async function getMiladyAccess(
 export async function markManuallyProvisioned(
   studentId: string,
   programSlug: string,
-  credentials: { username?: string; accessUrl?: string }
+  credentials: { username?: string; accessUrl?: string },
 ) {
   const supabase = await createClient();
 

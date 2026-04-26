@@ -10,12 +10,11 @@ export function WorkOneBanner() {
               Appointment-based info + WorkOne steps (required for funding)
             </p>
             <p className="text-sm text-brand-blue-900/90">
-              We are appointment-based for program + funding information. Step
-              1: Submit the Elevate for Humanity inquiry form. Step 2: Create
-              your account at www.indianacareerconnect.com. Step 3: Schedule an
-              appointment with a WorkOne advisor. At your appointment, tell them
-              you are there for Elevate for Humanity. After you schedule, come
-              back and complete your progress checklist.
+              We are appointment-based for program + funding information. Step 1: Submit the Elevate
+              for Humanity inquiry form. Step 2: Create your account at
+              www.indianacareerconnect.com. Step 3: Schedule an appointment with a WorkOne advisor.
+              At your appointment, tell them you are there for Elevate for Humanity. After you
+              schedule, come back and complete your progress checklist.
             </p>
           </div>
 

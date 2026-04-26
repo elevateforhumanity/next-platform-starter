@@ -20,6 +20,7 @@
 ### Scenario: Application stuck / user claims they submitted
 
 **Diagnosis:**
+
 ```sql
 SELECT id, application_state, submitted_at, state_history
 FROM career_applications
@@ -30,20 +31,22 @@ WHERE email = 'user@example.com';
 
 **Actions:**
 
-| State | Meaning | Action |
-|-------|---------|--------|
-| `started` | User abandoned early | Contact user, they must complete |
-| `eligibility_complete` | Stopped at education | User must continue |
-| `documents_complete` | Stopped at program selection | User must continue |
-| `review_ready` | Ready but didn't click submit | User must accept terms and submit |
-| `submitted` | Valid submission | No action needed |
+| State                  | Meaning                       | Action                            |
+| ---------------------- | ----------------------------- | --------------------------------- |
+| `started`              | User abandoned early          | Contact user, they must complete  |
+| `eligibility_complete` | Stopped at education          | User must continue                |
+| `documents_complete`   | Stopped at program selection  | User must continue                |
+| `review_ready`         | Ready but didn't click submit | User must accept terms and submit |
+| `submitted`            | Valid submission              | No action needed                  |
 
 **If user is genuinely blocked:**
+
 1. Allow backward transition via admin tool (if available)
 2. User re-completes steps normally
 3. Document the intervention in `audit_logs`
 
 **Never do this:**
+
 - Manually set `application_state = 'submitted'` unless correcting a documented system failure
 - Trust user screenshots over database state
 
@@ -52,15 +55,17 @@ WHERE email = 'user@example.com';
 ### Scenario: Invalid transition logged in audit_logs
 
 **Check:**
+
 ```sql
-SELECT * FROM audit_logs 
+SELECT * FROM audit_logs
 WHERE action = 'invalid_state_transition'
 ORDER BY created_at DESC LIMIT 10;
 ```
 
 **Meaning:** User or system attempted an illegal state jump.
 
-**Action:** 
+**Action:**
+
 - If isolated: No action, system correctly rejected
 - If pattern: Investigate client-side bug or manipulation attempt
 
@@ -73,31 +78,36 @@ ORDER BY created_at DESC LIMIT 10;
 **Diagnosis checklist:**
 
 1. **Check program enrollment:**
+
 ```sql
-SELECT * FROM program_enrollments 
+SELECT * FROM program_enrollments
 WHERE student_id = 'USER_UUID';
 ```
 
 2. **Check course enrollments:**
+
 ```sql
-SELECT e.*, c.title 
+SELECT e.*, c.title
 FROM enrollments e
 JOIN courses c ON c.id = e.course_id
 WHERE e.user_id = 'USER_UUID';
 ```
 
 3. **Check audit log:**
+
 ```sql
-SELECT * FROM audit_logs 
+SELECT * FROM audit_logs
 WHERE action = 'enrollment_created'
 AND details->>'user_id' = 'USER_UUID';
 ```
 
 **If missing enrollments:**
+
 - Re-run enrollment via admin using **new** idempotency key
 - Do NOT manually insert rows
 
 **Command (via Supabase SQL editor):**
+
 ```sql
 SELECT rpc_enroll_student(
   'USER_UUID'::uuid,
@@ -113,12 +123,14 @@ SELECT rpc_enroll_student(
 ### Scenario: Duplicate enrollment attempt / error on retry
 
 **Safe actions:**
+
 - Retry with **same** idempotency key → returns existing enrollment
 - Retry with **new** key → only if no `program_enrollment` exists
 
 **Check existing:**
+
 ```sql
-SELECT * FROM program_enrollments 
+SELECT * FROM program_enrollments
 WHERE student_id = 'USER_UUID' AND program_id = 'PROGRAM_UUID';
 ```
 
@@ -129,11 +141,13 @@ If row exists → enrollment succeeded, investigate course access separately.
 ### Scenario: Profile shows wrong enrollment_status
 
 **Check:**
+
 ```sql
 SELECT id, enrollment_status FROM profiles WHERE id = 'USER_UUID';
 ```
 
 **If stuck at 'pending' but enrollment exists:**
+
 ```sql
 UPDATE profiles SET enrollment_status = 'active' WHERE id = 'USER_UUID';
 ```
@@ -147,8 +161,9 @@ Document this correction.
 ### Scenario: Partner approved but cannot log in
 
 **Diagnosis:**
+
 ```sql
-SELECT 
+SELECT
   pa.id,
   pa.shop_name,
   pa.approval_status,
@@ -164,16 +179,17 @@ WHERE pa.contact_email = 'partner@example.com';
 
 **Status meanings:**
 
-| approval_status | account_status | user_id | Meaning |
-|-----------------|----------------|---------|---------|
-| `approved_pending_user` | `pending_user` | NULL | Auth user creation failed |
-| `approved` | `active` | UUID | Fully approved |
-| `approved` | `pending_user` | UUID | Link RPC didn't complete |
+| approval_status         | account_status | user_id | Meaning                   |
+| ----------------------- | -------------- | ------- | ------------------------- |
+| `approved_pending_user` | `pending_user` | NULL    | Auth user creation failed |
+| `approved`              | `active`       | UUID    | Fully approved            |
+| `approved`              | `pending_user` | UUID    | Link RPC didn't complete  |
 
 **If `approved_pending_user`:**
 
 1. Create auth user manually via Supabase dashboard
 2. Run link RPC:
+
 ```sql
 SELECT rpc_link_partner_user(
   'PARTNER_UUID'::uuid,
@@ -184,6 +200,7 @@ SELECT rpc_link_partner_user(
 ```
 
 **Do NOT:**
+
 - Delete partner records
 - Downgrade approval status
 - Create duplicate partner entries
@@ -195,6 +212,7 @@ SELECT rpc_link_partner_user(
 **This triggers automatic alert via `/api/cron/check-stuck-approvals`**
 
 **Manual check:**
+
 ```sql
 SELECT * FROM partner_applications
 WHERE approval_status = 'approved_pending_user'
@@ -202,6 +220,7 @@ AND reviewed_at < NOW() - INTERVAL '24 hours';
 ```
 
 **Action:**
+
 1. Investigate why auth creation failed (check Supabase auth logs)
 2. Manually create auth user if needed
 3. Run `rpc_link_partner_user`
@@ -225,6 +244,7 @@ Log reason in `audit_logs`.
 ### Scenario: User didn't receive email
 
 **Check queue:**
+
 ```sql
 SELECT * FROM notification_outbox
 WHERE to_email = 'user@example.com'
@@ -232,11 +252,13 @@ ORDER BY created_at DESC;
 ```
 
 **Status meanings:**
+
 - `queued` → Waiting for cron processor
 - `sent` → Delivered to email provider
 - `failed` → Exhausted retries
 
 **If failed:**
+
 ```sql
 -- Reset for retry
 UPDATE notification_outbox
@@ -245,6 +267,7 @@ WHERE id = 'NOTIFICATION_UUID';
 ```
 
 **If missing entirely:** Queue manually:
+
 ```sql
 INSERT INTO notification_outbox (to_email, template_key, template_data, status, scheduled_for)
 VALUES (
@@ -263,12 +286,14 @@ VALUES (
 ### "How do you prevent partial records?"
 
 **Answer:**
+
 1. DB-enforced state machine with `application_state` enum
 2. Atomic RPC orchestration (`rpc_enroll_student`, `rpc_approve_partner`)
 3. Idempotent retries via `idempotency_keys` table
 4. Full audit logging in `audit_logs`
 
 **Evidence:**
+
 ```sql
 -- Show state machine enforcement
 SELECT * FROM audit_logs WHERE action = 'invalid_state_transition';
@@ -283,7 +308,7 @@ SELECT * FROM idempotency_keys ORDER BY created_at DESC LIMIT 20;
 ### "Show me the enrollment for student X"
 
 ```sql
-SELECT 
+SELECT
   pe.id as enrollment_id,
   pe.created_at as enrolled_at,
   pe.status,
@@ -299,7 +324,7 @@ WHERE pe.student_id = 'USER_UUID';
 ### "Prove this application was submitted correctly"
 
 ```sql
-SELECT 
+SELECT
   id,
   application_state,
   submitted_at,
@@ -337,27 +362,27 @@ WHERE id = 'APPLICATION_UUID';
 
 ## Appendix: Key Tables
 
-| Table | Purpose |
-|-------|---------|
-| `career_applications` | Application lifecycle state |
-| `program_enrollments` | Student-program relationship |
-| `enrollments` | Student-course access |
-| `partners` | Partner entities |
-| `partner_applications` | Partner approval workflow |
-| `partner_users` | Partner-auth user link |
-| `audit_logs` | All lifecycle events |
-| `idempotency_keys` | Retry safety |
-| `notification_outbox` | Email queue |
+| Table                  | Purpose                      |
+| ---------------------- | ---------------------------- |
+| `career_applications`  | Application lifecycle state  |
+| `program_enrollments`  | Student-program relationship |
+| `enrollments`          | Student-course access        |
+| `partners`             | Partner entities             |
+| `partner_applications` | Partner approval workflow    |
+| `partner_users`        | Partner-auth user link       |
+| `audit_logs`           | All lifecycle events         |
+| `idempotency_keys`     | Retry safety                 |
+| `notification_outbox`  | Email queue                  |
 
 ---
 
 ## Appendix: Key RPCs
 
-| RPC | Purpose |
-|-----|---------|
-| `start_application` | Begin application |
-| `advance_application_state` | Move through steps |
-| `submit_application` | Final submission |
-| `rpc_enroll_student` | Atomic enrollment |
-| `rpc_approve_partner` | Phase 1 partner approval |
-| `rpc_link_partner_user` | Phase 2 auth linking |
+| RPC                         | Purpose                  |
+| --------------------------- | ------------------------ |
+| `start_application`         | Begin application        |
+| `advance_application_state` | Move through steps       |
+| `submit_application`        | Final submission         |
+| `rpc_enroll_student`        | Atomic enrollment        |
+| `rpc_approve_partner`       | Phase 1 partner approval |
+| `rpc_link_partner_user`     | Phase 2 auth linking     |

@@ -22,8 +22,9 @@ async function runSeeds() {
     return;
   }
 
-  const files = fs.readdirSync(seedsDir)
-    .filter(f => f.endsWith('.sql'))
+  const files = fs
+    .readdirSync(seedsDir)
+    .filter((f) => f.endsWith('.sql'))
     .sort();
 
   if (files.length === 0) {

@@ -19,10 +19,14 @@ interface QuizFormProps {
 export function QuizForm({ quizId, quizTitle, questions }: QuizFormProps) {
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
-  const [result, setResult] = useState<{ success: boolean; message: string; score?: number } | null>(null);
+  const [result, setResult] = useState<{
+    success: boolean;
+    message: string;
+    score?: number;
+  } | null>(null);
 
   function handleAnswerChange(questionId: string, optionId: string) {
-    setAnswers(prev => ({ ...prev, [questionId]: optionId }));
+    setAnswers((prev) => ({ ...prev, [questionId]: optionId }));
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -39,8 +43,8 @@ export function QuizForm({ quizId, quizTitle, questions }: QuizFormProps) {
     if (response.error) {
       setResult({ success: false, message: response.error });
     } else {
-      setResult({ 
-        success: true, 
+      setResult({
+        success: true,
         message: response.message || 'Submitted!',
         score: response.score ?? undefined,
       });
@@ -62,7 +66,9 @@ export function QuizForm({ quizId, quizTitle, questions }: QuizFormProps) {
       </div>
 
       {result ? (
-        <div className={`p-8 text-center ${result.success ? 'bg-brand-green-50' : 'bg-brand-red-50'}`}>
+        <div
+          className={`p-8 text-center ${result.success ? 'bg-brand-green-50' : 'bg-brand-red-50'}`}
+        >
           <span className="text-slate-400 flex-shrink-0">•</span>
           <h3 className="text-xl font-bold mb-2">{result.message}</h3>
           {result.score !== undefined && (
@@ -78,7 +84,7 @@ export function QuizForm({ quizId, quizTitle, questions }: QuizFormProps) {
                   {index + 1}. {question.text}
                 </p>
                 <div className="space-y-2">
-                  {question.options.map(option => (
+                  {question.options.map((option) => (
                     <label
                       key={option.id}
                       className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition ${

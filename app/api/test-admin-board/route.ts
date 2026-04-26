@@ -108,9 +108,10 @@ export async function GET() {
     };
 
     // Check if running in dev container
-    const isDevContainer = process.env.REMOTE_CONTAINERS === 'true' ||
-                          process.env.CODESPACES === 'true' ||
-                          process.env.GITPOD_WORKSPACE_ID;
+    const isDevContainer =
+      process.env.REMOTE_CONTAINERS === 'true' ||
+      process.env.CODESPACES === 'true' ||
+      process.env.GITPOD_WORKSPACE_ID;
 
     devContainer.tests.push({
       test: 'Dev container detected',
@@ -152,7 +153,7 @@ export async function GET() {
 
       const supabase = createClient(
         process.env.NEXT_PUBLIC_SUPABASE_URL,
-        process.env.SUPABASE_SERVICE_ROLE_KEY
+        process.env.SUPABASE_SERVICE_ROLE_KEY,
       );
 
       // Check if admin role exists in profiles
@@ -237,7 +238,7 @@ export async function GET() {
     const totalTests = results.tests.reduce((sum: number, s: any) => sum + s.tests.length, 0);
     const passedTests = results.tests.reduce(
       (sum: number, s: any) => sum + s.tests.filter((t: any) => t.passed).length,
-      0
+      0,
     );
 
     results.summary = {
@@ -262,10 +263,8 @@ export async function GET() {
     };
 
     return NextResponse.json(results);
-  } catch (error) { /* Error handled silently */ 
-    return NextResponse.json(
-      { error: error.message, stack: error.stack },
-      { status: 500 }
-    );
+  } catch (error) {
+    /* Error handled silently */
+    return NextResponse.json({ error: error.message, stack: error.stack }, { status: 500 });
   }
 }

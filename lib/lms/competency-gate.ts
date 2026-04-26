@@ -48,7 +48,10 @@ export async function checkCompetencyGate(
 
   if (lessonErr) {
     // Surface real DB errors — do not swallow them
-    logger.error('[competency-gate] Failed to load lesson metadata', { lessonId, error: lessonErr.message });
+    logger.error('[competency-gate] Failed to load lesson metadata', {
+      lessonId,
+      error: lessonErr.message,
+    });
     throw new Error(`Failed to load lesson for competency gate: ${lessonErr.message}`);
   }
 
@@ -61,9 +64,7 @@ export async function checkCompetencyGate(
     ? (lesson.competency_checks as CompetencyCheck[])
     : [];
 
-  const requiredKeys = checks
-    .filter(c => c.requiresInstructorSignoff)
-    .map(c => c.key);
+  const requiredKeys = checks.filter((c) => c.requiresInstructorSignoff).map((c) => c.key);
 
   // No sign-off checks defined — practical flag set but no checks configured yet
   if (requiredKeys.length === 0) {
@@ -80,12 +81,16 @@ export async function checkCompetencyGate(
     .in('competency_key', requiredKeys);
 
   if (subErr) {
-    logger.error('[competency-gate] Failed to query step_submissions', { lessonId, userId, error: subErr.message });
+    logger.error('[competency-gate] Failed to query step_submissions', {
+      lessonId,
+      userId,
+      error: subErr.message,
+    });
     throw new Error(`Failed to query competency submissions: ${subErr.message}`);
   }
 
-  const approvedKeys = new Set((approved ?? []).map(s => s.competency_key));
-  const missingKeys = requiredKeys.filter(k => !approvedKeys.has(k));
+  const approvedKeys = new Set((approved ?? []).map((s) => s.competency_key));
+  const missingKeys = requiredKeys.filter((k) => !approvedKeys.has(k));
 
   return {
     allowed: missingKeys.length === 0,

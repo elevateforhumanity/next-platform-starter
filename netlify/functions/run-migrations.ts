@@ -1,7 +1,7 @@
-import type { Handler } from "@netlify/functions";
-import postgres from "postgres";
+import type { Handler } from '@netlify/functions';
+import postgres from 'postgres';
 
-const SECRET = "run-mig-efh-2026";
+const SECRET = 'run-mig-efh-2026';
 
 const ALL_SQL = `-- =============================================================================
 -- Seed credential_registry — workforce credentials for Elevate programs
@@ -2865,26 +2865,30 @@ ALTER TABLE public.program_lessons
 `;
 
 export const handler: Handler = async (event) => {
-  if (event.httpMethod !== "POST") return { statusCode: 405, body: "Method Not Allowed" };
+  if (event.httpMethod !== 'POST') return { statusCode: 405, body: 'Method Not Allowed' };
   let secret: string | undefined;
-  try { secret = JSON.parse(event.body || "{}").secret; } catch { return { statusCode: 400, body: "Bad JSON" }; }
-  if (secret !== SECRET) return { statusCode: 403, body: "Forbidden" };
+  try {
+    secret = JSON.parse(event.body || '{}').secret;
+  } catch {
+    return { statusCode: 400, body: 'Bad JSON' };
+  }
+  if (secret !== SECRET) return { statusCode: 403, body: 'Forbidden' };
 
-  const sql = postgres(process.env.DATABASE_URL!, { ssl: "require", max: 1 });
+  const sql = postgres(process.env.DATABASE_URL!, { ssl: 'require', max: 1 });
   try {
     await sql.unsafe(ALL_SQL);
     await sql.end();
     return {
       statusCode: 200,
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ok: true, message: "All 35 migrations executed" }),
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ok: true, message: 'All 35 migrations executed' }),
     };
   } catch (err: unknown) {
     await sql.end();
     const msg = err instanceof Error ? err.message : String(err);
     return {
       statusCode: 500,
-      headers: { "Content-Type": "application/json" },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ ok: false, error: msg.slice(0, 1000) }),
     };
   }

@@ -34,7 +34,7 @@ serve(async (req) => {
       'cpr-aed': 'Adult CPR/AED',
       'first-aid': 'Adult First Aid',
       'cpr-first-aid': 'Adult CPR/AED + First Aid',
-      'bls': 'BLS for Healthcare Providers',
+      bls: 'BLS for Healthcare Providers',
     };
 
     const courseName = courseNames[enrollment.course_type] || enrollment.course_type;
@@ -130,20 +130,14 @@ serve(async (req) => {
       },
     });
 
-    return new Response(
-      JSON.stringify({ success: true, emailId: emailData.id }),
-      {
-        headers: { 'Content-Type': 'application/json' },
-        status: 200,
-      }
-    );
+    return new Response(JSON.stringify({ success: true, emailId: emailData.id }), {
+      headers: { 'Content-Type': 'application/json' },
+      status: 200,
+    });
   } catch (error: any) {
-    return new Response(
-      JSON.stringify({ error: error.message }),
-      {
-        headers: { 'Content-Type': 'application/json' },
-        status: 500,
-      }
-    );
+    return new Response(JSON.stringify({ error: error.message }), {
+      headers: { 'Content-Type': 'application/json' },
+      status: 500,
+    });
   }
 });

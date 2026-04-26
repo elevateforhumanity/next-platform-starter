@@ -9,11 +9,11 @@ import { PreparerPayout } from './types';
 function getSupabase(): SupabaseClient {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  
+
   if (!supabaseUrl || !supabaseServiceKey) {
     throw new Error('Missing Supabase environment variables');
   }
-  
+
   return createClient(supabaseUrl, supabaseServiceKey);
 }
 
@@ -85,7 +85,7 @@ class PayoutService {
         net_earnings: grossEarnings,
         status: 'pending',
         created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
+        updated_at: new Date().toISOString(),
       })
       .select()
       .maybeSingle();
@@ -117,12 +117,15 @@ class PayoutService {
   /**
    * List payouts for an office
    */
-  async listPayoutsByOffice(officeId: string, filters?: {
-    preparerId?: string;
-    status?: string;
-    limit?: number;
-    offset?: number;
-  }): Promise<{ payouts: PreparerPayout[]; total: number }> {
+  async listPayoutsByOffice(
+    officeId: string,
+    filters?: {
+      preparerId?: string;
+      status?: string;
+      limit?: number;
+      offset?: number;
+    },
+  ): Promise<{ payouts: PreparerPayout[]; total: number }> {
     let query = this.supabase
       .from('franchise_preparer_payouts')
       .select('*, preparer:franchise_preparers(first_name, last_name)', { count: 'exact' })
@@ -152,18 +155,21 @@ class PayoutService {
 
     return {
       payouts: data || [],
-      total: count || 0
+      total: count || 0,
     };
   }
 
   /**
    * List payouts for a preparer
    */
-  async listPayoutsByPreparer(preparerId: string, filters?: {
-    status?: string;
-    limit?: number;
-    offset?: number;
-  }): Promise<{ payouts: PreparerPayout[]; total: number }> {
+  async listPayoutsByPreparer(
+    preparerId: string,
+    filters?: {
+      status?: string;
+      limit?: number;
+      offset?: number;
+    },
+  ): Promise<{ payouts: PreparerPayout[]; total: number }> {
     let query = this.supabase
       .from('franchise_preparer_payouts')
       .select('*', { count: 'exact' })
@@ -190,7 +196,7 @@ class PayoutService {
 
     return {
       payouts: data || [],
-      total: count || 0
+      total: count || 0,
     };
   }
 
@@ -204,7 +210,7 @@ class PayoutService {
         status: 'approved',
         approved_by: approverId,
         approved_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
+        updated_at: new Date().toISOString(),
       })
       .eq('id', payoutId)
       .eq('status', 'pending')
@@ -222,8 +228,8 @@ class PayoutService {
    * Mark payout as paid
    */
   async markPaid(
-    payoutId: string, 
-    paymentDetails: { method: string; reference: string }
+    payoutId: string,
+    paymentDetails: { method: string; reference: string },
   ): Promise<PreparerPayout> {
     const { data, error } = await this.supabase
       .from('franchise_preparer_payouts')
@@ -232,7 +238,7 @@ class PayoutService {
         paid_at: new Date().toISOString(),
         payment_method: paymentDetails.method,
         payment_reference: paymentDetails.reference,
-        updated_at: new Date().toISOString()
+        updated_at: new Date().toISOString(),
       })
       .eq('id', payoutId)
       .eq('status', 'approved')
@@ -295,7 +301,7 @@ class PayoutService {
         returns_count: returnsCount,
         gross_earnings: grossEarnings,
         pending_payout: pendingPayout,
-        paid_to_date: paidToDate
+        paid_to_date: paidToDate,
       });
     }
 
@@ -306,9 +312,9 @@ class PayoutService {
    * Generate payouts for all preparers in an office for a period
    */
   async generateOfficePayouts(
-    officeId: string, 
-    periodStart: string, 
-    periodEnd: string
+    officeId: string,
+    periodStart: string,
+    periodEnd: string,
   ): Promise<{ generated: PreparerPayout[]; errors: { preparerId: string; error: string }[] }> {
     const { data: preparers } = await this.supabase
       .from('franchise_preparers')
@@ -327,13 +333,13 @@ class PayoutService {
           preparer_id: preparer.id,
           office_id: officeId,
           period_start: periodStart,
-          period_end: periodEnd
+          period_end: periodEnd,
         });
         generated.push(payout);
       } catch (error) {
         errors.push({
           preparerId: preparer.id,
-          error: 'Operation failed'
+          error: 'Operation failed',
         });
       }
     }

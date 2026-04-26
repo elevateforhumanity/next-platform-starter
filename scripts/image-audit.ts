@@ -27,11 +27,11 @@ interface AuditResult {
   };
   failures: ImageRequest[];
   failuresByCategory: {
-    notFound: ImageRequest[];      // 404
-    forbidden: ImageRequest[];     // 403
-    serverError: ImageRequest[];   // 5xx
-    blocked: ImageRequest[];       // CSP/CORS
-    mixedContent: ImageRequest[];  // http on https
+    notFound: ImageRequest[]; // 404
+    forbidden: ImageRequest[]; // 403
+    serverError: ImageRequest[]; // 5xx
+    blocked: ImageRequest[]; // CSP/CORS
+    mixedContent: ImageRequest[]; // http on https
     other: ImageRequest[];
   };
 }
@@ -58,12 +58,12 @@ const PAGES_TO_AUDIT = [
 async function auditPage(page: Page, url: string, baseUrl: string): Promise<ImageRequest[]> {
   const images: ImageRequest[] = [];
   const pageUrl = `${baseUrl}${url}`;
-  
+
   // Track all image requests
   page.on('response', async (response) => {
     const reqUrl = response.url();
     const contentType = response.headers()['content-type'] || '';
-    
+
     // Check if it's an image request
     if (
       contentType.includes('image') ||
@@ -104,13 +104,12 @@ async function auditPage(page: Page, url: string, baseUrl: string): Promise<Imag
     await page.goto(pageUrl, { waitUntil: 'networkidle', timeout: 30000 });
     // Wait a bit more for lazy-loaded images
     await page.waitForTimeout(2000);
-    
+
     // Scroll to trigger lazy loading
     await page.evaluate(() => {
       window.scrollTo(0, document.body.scrollHeight);
     });
     await page.waitForTimeout(1000);
-    
   } catch (error: any) {
     console.error(`Error loading ${url}: ${error.message}`);
   }
@@ -131,9 +130,10 @@ async function runAudit(baseUrl: string): Promise<AuditResult> {
   const browser = await chromium.launch({ headless: true });
   const context = await browser.newContext({
     viewport: { width: 1920, height: 1080 },
-    userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    userAgent:
+      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
   });
-  
+
   const result: AuditResult = {
     timestamp: new Date().toISOString(),
     baseUrl,
@@ -160,8 +160,8 @@ async function runAudit(baseUrl: string): Promise<AuditResult> {
     const images = await auditPage(page, pageUrl, baseUrl);
     await page.close();
 
-    const failed = images.filter(img => img.status >= 400 || img.status === 0);
-    
+    const failed = images.filter((img) => img.status >= 400 || img.status === 0);
+
     result.pages[pageUrl] = {
       total: images.length,
       failed: failed.length,
@@ -246,7 +246,7 @@ ${Object.entries(result.pages)
 
 async function main() {
   const baseUrl = process.argv[2] || 'http://localhost:3000';
-  
+
   console.log('🖼️  Image Audit Tool');
   console.log('====================\n');
 
@@ -273,7 +273,7 @@ async function main() {
   console.log(`   Total images: ${result.totalImages}`);
   console.log(`   Successful: ${result.successImages}`);
   console.log(`   Failed: ${result.failedImages}`);
-  
+
   if (result.failedImages > 0) {
     console.log('\n❌ Failed images by category:');
     if (result.failuresByCategory.notFound.length > 0) {

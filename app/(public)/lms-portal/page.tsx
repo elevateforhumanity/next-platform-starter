@@ -5,7 +5,8 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const metadata: Metadata = {
   title: 'Learning Management System | Elevate For Humanity',
-  description: 'Access your courses, track progress, earn certificates, and advance your career with our online learning platform.',
+  description:
+    'Access your courses, track progress, earn certificates, and advance your career with our online learning platform.',
 };
 
 export default function LMSPortalPublicPage() {
@@ -54,27 +55,38 @@ export default function LMSPortalPublicPage() {
             <div className="bg-white rounded-xl p-6">
               <Play className="w-10 h-10 text-brand-blue-600 mb-4" />
               <h3 className="text-xl font-bold mb-2">Video Courses</h3>
-              <p className="text-slate-600">Professional video lessons and interactive content with instructor oversight and progress checkpoints.</p>
+              <p className="text-slate-600">
+                Professional video lessons and interactive content with instructor oversight and
+                progress checkpoints.
+              </p>
             </div>
             <div className="bg-white rounded-xl p-6">
               <BarChart3 className="w-10 h-10 text-brand-green-600 mb-4" />
               <h3 className="text-xl font-bold mb-2">Progress Tracking</h3>
-              <p className="text-slate-600">Monitor your progress, see completion rates, and stay on track with your goals.</p>
+              <p className="text-slate-600">
+                Monitor your progress, see completion rates, and stay on track with your goals.
+              </p>
             </div>
             <div className="bg-white rounded-xl p-6">
               <Award className="w-10 h-10 text-amber-600 mb-4" />
               <h3 className="text-xl font-bold mb-2">Certificates</h3>
-              <p className="text-slate-600">Earn industry-recognized certificates upon completing your training programs.</p>
+              <p className="text-slate-600">
+                Earn industry-recognized certificates upon completing your training programs.
+              </p>
             </div>
             <div className="bg-white rounded-xl p-6">
               <Users className="w-10 h-10 text-brand-blue-600 mb-4" />
               <h3 className="text-xl font-bold mb-2">Community</h3>
-              <p className="text-slate-600">Connect with fellow students, join study groups, and participate in forums.</p>
+              <p className="text-slate-600">
+                Connect with fellow students, join study groups, and participate in forums.
+              </p>
             </div>
             <div className="bg-white rounded-xl p-6">
               <span className="text-slate-400 flex-shrink-0">•</span>
               <h3 className="text-xl font-bold mb-2">Assessments</h3>
-              <p className="text-slate-600">Test your knowledge with quizzes and practical assessments.</p>
+              <p className="text-slate-600">
+                Test your knowledge with quizzes and practical assessments.
+              </p>
             </div>
           </div>
         </div>
@@ -84,7 +96,9 @@ export default function LMSPortalPublicPage() {
       <section className="bg-brand-blue-600 text-white py-12">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-2xl md:text-3xl font-bold mb-4">Ready to Start Learning?</h2>
-          <p className="text-white mb-6">Enroll in a program today and begin your career transformation.</p>
+          <p className="text-white mb-6">
+            Enroll in a program today and begin your career transformation.
+          </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/start"

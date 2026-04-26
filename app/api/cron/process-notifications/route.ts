@@ -12,7 +12,7 @@ export const maxDuration = 60;
 /**
  * Cron endpoint to process notification queue.
  * Should be called every 1-5 minutes by a scheduled function.
- * 
+ *
  * Security: Requires CRON_SECRET header to prevent unauthorized access.
  */
 async function _POST(request: NextRequest) {
@@ -39,7 +39,7 @@ async function _POST(request: NextRequest) {
         success: false,
         error: 'Internal server error',
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -70,7 +70,7 @@ async function _GET(request: NextRequest) {
         success: false,
         error: 'Internal server error',
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

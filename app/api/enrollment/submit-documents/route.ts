@@ -13,8 +13,10 @@ async function _POST(req: Request) {
 
     const supabase = await createClient();
 
-    const { data: { user } } = await supabase.auth.getUser();
-    
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -56,8 +58,16 @@ async function _POST(req: Request) {
       .eq('user_id', user.id); // ownership re-check on write
 
     if (error) {
-      logger.error('Error updating enrollment:', { code: error.code, message: error.message, userId: user.id, enrollmentId: targetId, route: '/api/enrollment/submit-documents' });
-      return failure('Failed to record document submission. Please try again or call (317) 314-3757.');
+      logger.error('Error updating enrollment:', {
+        code: error.code,
+        message: error.message,
+        userId: user.id,
+        enrollmentId: targetId,
+        route: '/api/enrollment/submit-documents',
+      });
+      return failure(
+        'Failed to record document submission. Please try again or call (317) 314-3757.',
+      );
     }
 
     return success({ program, enrollmentId: targetId });

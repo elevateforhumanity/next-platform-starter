@@ -10,21 +10,26 @@ import { useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
 
 interface CourseCompetency {
-  code:        string;
-  label:       string;
+  code: string;
+  label: string;
   description: string;
 }
 
 interface Props {
-  courseId:         string;
-  lessonId:         string;
-  mappedCodes:      string[];
-  onChange:         (codes: string[]) => void;
+  courseId: string;
+  lessonId: string;
+  mappedCodes: string[];
+  onChange: (codes: string[]) => void;
 }
 
-export default function LessonCompetencyEditor({ courseId, lessonId, mappedCodes, onChange }: Props) {
+export default function LessonCompetencyEditor({
+  courseId,
+  lessonId,
+  mappedCodes,
+  onChange,
+}: Props) {
   const [available, setAvailable] = useState<CourseCompetency[]>([]);
-  const [loading, setLoading]     = useState(true);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function load() {
@@ -42,7 +47,7 @@ export default function LessonCompetencyEditor({ courseId, lessonId, mappedCodes
 
   const toggle = (code: string) => {
     const next = mappedCodes.includes(code)
-      ? mappedCodes.filter(c => c !== code)
+      ? mappedCodes.filter((c) => c !== code)
       : [...mappedCodes, code];
     onChange(next);
   };
@@ -72,7 +77,7 @@ export default function LessonCompetencyEditor({ courseId, lessonId, mappedCodes
       </p>
 
       <div className="space-y-2">
-        {available.map(comp => {
+        {available.map((comp) => {
           const isMapped = mappedCodes.includes(comp.code);
           return (
             <label
@@ -91,7 +96,9 @@ export default function LessonCompetencyEditor({ courseId, lessonId, mappedCodes
               />
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
-                  <span className="text-xs font-mono font-semibold text-slate-500">{comp.code}</span>
+                  <span className="text-xs font-mono font-semibold text-slate-500">
+                    {comp.code}
+                  </span>
                   <span className="text-sm font-semibold text-slate-800">{comp.label}</span>
                 </div>
                 {comp.description && (

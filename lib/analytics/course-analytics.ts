@@ -64,13 +64,15 @@ export async function getCourseAnalytics(courseId: string): Promise<CourseAnalyt
   // Get all enrollments
   const { data: enrollments } = await supabase
     .from('program_enrollments')
-    .select(`
+    .select(
+      `
       id,
       student_id,
       status,
       enrolled_at,
       profiles (full_name)
-    `)
+    `,
+    )
     .eq('course_id', courseId);
 
   // Get progress data
@@ -90,43 +92,42 @@ export async function getCourseAnalytics(courseId: string): Promise<CourseAnalyt
   const { data: lessonProgress } = await supabase
     .from('lesson_progress')
     .select('*')
-    .in('lesson_id', lessons?.map(l => l.id) || []);
+    .in('lesson_id', lessons?.map((l) => l.id) || []);
 
   const totalEnrollments = enrollments?.length || 0;
-  const activeStudents = enrollments?.filter(e => e.status === 'active').length || 0;
-  const completedStudents = progressData?.filter(p => p.status === 'completed').length || 0;
+  const activeStudents = enrollments?.filter((e) => e.status === 'active').length || 0;
+  const completedStudents = progressData?.filter((p) => p.status === 'completed').length || 0;
 
-  const completionRate = totalEnrollments > 0
-    ? (completedStudents / totalEnrollments) * 100
-    : 0;
+  const completionRate = totalEnrollments > 0 ? (completedStudents / totalEnrollments) * 100 : 0;
 
-  const averageProgress = progressData && progressData.length > 0
-    ? progressData.reduce((sum, p) => sum + (p.progress_percent || 0), 0) / progressData.length
-    : 0;
+  const averageProgress =
+    progressData && progressData.length > 0
+      ? progressData.reduce((sum, p) => sum + (p.progress_percent || 0), 0) / progressData.length
+      : 0;
 
   // Calculate average completion time
-  const completedWithDates = progressData?.filter(p =>
-    p.status === 'completed' && p.completed_at
-  ) || [];
+  const completedWithDates =
+    progressData?.filter((p) => p.status === 'completed' && p.completed_at) || [];
 
-  const averageCompletionTime = completedWithDates.length > 0
-    ? completedWithDates.reduce((sum, p) => {
-        const enrolled = enrollments?.find(e => e.student_id === p.user_id);
-        if (!enrolled) return sum;
-        const days = Math.floor(
-          (new Date(p.completed_at!).getTime() - new Date(enrolled.enrolled_at).getTime())
-          / (1000 * 60 * 60 * 24)
-        );
-        return sum + days;
-      }, 0) / completedWithDates.length
-    : 0;
+  const averageCompletionTime =
+    completedWithDates.length > 0
+      ? completedWithDates.reduce((sum, p) => {
+          const enrolled = enrollments?.find((e) => e.student_id === p.user_id);
+          if (!enrolled) return sum;
+          const days = Math.floor(
+            (new Date(p.completed_at!).getTime() - new Date(enrolled.enrolled_at).getTime()) /
+              (1000 * 60 * 60 * 24),
+          );
+          return sum + days;
+        }, 0) / completedWithDates.length
+      : 0;
 
   // Top performers (highest progress)
   const topPerformers: StudentPerformance[] = (progressData || [])
     .sort((a, b) => (b.progress_percent || 0) - (a.progress_percent || 0))
     .slice(0, 5)
-    .map(p => {
-      const enrollment = enrollments?.find(e => e.student_id === p.user_id);
+    .map((p) => {
+      const enrollment = enrollments?.find((e) => e.student_id === p.user_id);
       return {
         studentId: p.user_id,
         studentName: (enrollment?.profiles as any)?.full_name || 'Unknown',
@@ -139,11 +140,11 @@ export async function getCourseAnalytics(courseId: string): Promise<CourseAnalyt
 
   // Struggling students (low progress, inactive)
   const strugglingStudents: StudentPerformance[] = (progressData || [])
-    .filter(p => (p.progress_percent || 0) < 30 && p.status !== 'completed')
+    .filter((p) => (p.progress_percent || 0) < 30 && p.status !== 'completed')
     .sort((a, b) => (a.progress_percent || 0) - (b.progress_percent || 0))
     .slice(0, 5)
-    .map(p => {
-      const enrollment = enrollments?.find(e => e.student_id === p.user_id);
+    .map((p) => {
+      const enrollment = enrollments?.find((e) => e.student_id === p.user_id);
       return {
         studentId: p.user_id,
         studentName: (enrollment?.profiles as any)?.full_name || 'Unknown',
@@ -154,14 +155,11 @@ export async function getCourseAnalytics(courseId: string): Promise<CourseAnalyt
     });
 
   // Lesson analytics
-  const lessonAnalytics: LessonAnalytics[] = (lessons || []).map(lesson => {
-    const lessonCompletions = lessonProgress?.filter(
-      lp => lp.lesson_id === lesson.id && lp.completed
-    ).length || 0;
+  const lessonAnalytics: LessonAnalytics[] = (lessons || []).map((lesson) => {
+    const lessonCompletions =
+      lessonProgress?.filter((lp) => lp.lesson_id === lesson.id && lp.completed).length || 0;
 
-    const completionRate = totalEnrollments > 0
-      ? (lessonCompletions / totalEnrollments) * 100
-      : 0;
+    const completionRate = totalEnrollments > 0 ? (lessonCompletions / totalEnrollments) * 100 : 0;
 
     return {
       lessonId: lesson.id,
@@ -195,7 +193,7 @@ export async function getCourseAnalytics(courseId: string): Promise<CourseAnalyt
  */
 export async function getEnrollmentTrends(
   courseId: string,
-  period: 'week' | 'month' | 'quarter' = 'month'
+  period: 'week' | 'month' | 'quarter' = 'month',
 ): Promise<EnrollmentTrends[]> {
   const supabase = await getAdminClient();
 
@@ -228,21 +226,17 @@ export async function getStudentEngagement(courseId: string) {
   const dayAgo = now - 24 * 60 * 60 * 1000;
   const weekAgo = now - 7 * 24 * 60 * 60 * 1000;
 
-  const activeToday = progress?.filter(p =>
-    new Date(p.last_activity_at).getTime() > dayAgo
-  ).length || 0;
+  const activeToday =
+    progress?.filter((p) => new Date(p.last_activity_at).getTime() > dayAgo).length || 0;
 
-  const activeThisWeek = progress?.filter(p =>
-    new Date(p.last_activity_at).getTime() > weekAgo
-  ).length || 0;
+  const activeThisWeek =
+    progress?.filter((p) => new Date(p.last_activity_at).getTime() > weekAgo).length || 0;
 
   return {
     totalStudents: progress?.length || 0,
     activeToday,
     activeThisWeek,
-    engagementRate: progress && progress.length > 0
-      ? (activeThisWeek / progress.length) * 100
-      : 0,
+    engagementRate: progress && progress.length > 0 ? (activeThisWeek / progress.length) * 100 : 0,
   };
 }
 
@@ -266,16 +260,15 @@ export async function generateCourseReport(courseId: string) {
 /**
  * Generate recommendations based on analytics
  */
-function generateRecommendations(
-  analytics: CourseAnalytics | null,
-  engagement: any
-): string[] {
+function generateRecommendations(analytics: CourseAnalytics | null, engagement: any): string[] {
   const recommendations: string[] = [];
 
   if (!analytics) return recommendations;
 
   if (analytics.completionRate < 50) {
-    recommendations.push('⚠️ Low completion rate - consider reviewing course difficulty and support resources');
+    recommendations.push(
+      '⚠️ Low completion rate - consider reviewing course difficulty and support resources',
+    );
   }
 
   if (analytics.dropoutRate > 30) {
@@ -290,13 +283,17 @@ function generateRecommendations(
     recommendations.push('📧 Send engagement reminders to inactive students');
   }
 
-  const hardLessons = analytics.lessonAnalytics.filter(l => l.difficulty === 'hard');
+  const hardLessons = analytics.lessonAnalytics.filter((l) => l.difficulty === 'hard');
   if (hardLessons.length > 0) {
-    recommendations.push(`📚 Review difficult lessons: ${hardLessons.map(l => l.lessonName).join(', ')}`);
+    recommendations.push(
+      `📚 Review difficult lessons: ${hardLessons.map((l) => l.lessonName).join(', ')}`,
+    );
   }
 
   if (analytics.completionRate > 80) {
-    recommendations.push('✅ Excellent completion rate - share success strategies with other courses');
+    recommendations.push(
+      '✅ Excellent completion rate - share success strategies with other courses',
+    );
   }
 
   return recommendations;

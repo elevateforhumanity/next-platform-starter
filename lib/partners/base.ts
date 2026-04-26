@@ -1,13 +1,13 @@
 // lib/partners/base.ts
 // Shared types + abstract base for all partner LMS APIs
 export type PartnerType =
-  | "hsi"
-  | "certiport"
-  | "careersafe"
+  | 'hsi'
+  | 'certiport'
+  | 'careersafe'
   // "milady" removed — theory delivered via Elevate LMS
-  | "jri"
-  | "nrf"
-  | "nds";
+  | 'jri'
+  | 'nrf'
+  | 'nds';
 export interface StudentData {
   id: string;
   email: string;
@@ -66,8 +66,7 @@ export class BasePartnerAPI {
   /**
    * Logging helper
    */
-  protected log(data: any): void {
-  }
+  protected log(data: any): void {}
   /**
    * Get default headers for API requests
    */
@@ -80,20 +79,13 @@ export class BasePartnerAPI {
   createAccount(student: StudentData): Promise<PartnerAccount> {
     throw new Error('createAccount must be implemented by subclass');
   }
-  enrollInCourse(
-    accountExternalId: string,
-    courseExternalCode: string
-  ): Promise<CourseEnrollment> {
+  enrollInCourse(accountExternalId: string, courseExternalCode: string): Promise<CourseEnrollment> {
     throw new Error('enrollInCourse must be implemented by subclass');
   }
-  getProgress(
-    externalEnrollmentId: string
-  ): Promise<ProgressData | null> {
+  getProgress(externalEnrollmentId: string): Promise<ProgressData | null> {
     throw new Error('getProgress must be implemented by subclass');
   }
-  getCertificate(
-    externalEnrollmentId: string
-  ): Promise<CertificateData | null> {
+  getCertificate(externalEnrollmentId: string): Promise<CertificateData | null> {
     throw new Error('getCertificate must be implemented by subclass');
   }
   /**

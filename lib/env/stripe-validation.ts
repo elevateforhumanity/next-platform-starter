@@ -1,6 +1,6 @@
 /**
  * Stripe Environment Variable Validation
- * 
+ *
  * Fail-fast validation for Stripe configuration.
  * Ensures all required Stripe env vars are present before processing payments.
  */
@@ -16,7 +16,10 @@ export interface StripeEnvConfig {
 }
 
 export class StripeConfigError extends Error {
-  constructor(message: string, public missingVars: string[]) {
+  constructor(
+    message: string,
+    public missingVars: string[],
+  ) {
     super(message);
     this.name = 'StripeConfigError';
   }
@@ -27,17 +30,14 @@ export class StripeConfigError extends Error {
  * Call this at the start of any payment-related API route
  */
 export function validateStripeEnv(): StripeEnvConfig {
-  const required = [
-    'STRIPE_SECRET_KEY',
-    'STRIPE_WEBHOOK_SECRET',
-  ];
+  const required = ['STRIPE_SECRET_KEY', 'STRIPE_WEBHOOK_SECRET'];
 
   const missing = required.filter((key) => !process.env[key]);
 
   if (missing.length > 0) {
     throw new StripeConfigError(
       `Missing required Stripe environment variables: ${missing.join(', ')}`,
-      missing
+      missing,
     );
   }
 
@@ -59,12 +59,14 @@ export function validateStripePriceIds(): void {
     ANNUAL: PRICES.ANNUAL,
   };
 
-  const missing = Object.entries(priceIds).filter(([, v]) => !v).map(([k]) => k);
+  const missing = Object.entries(priceIds)
+    .filter(([, v]) => !v)
+    .map(([k]) => k);
 
   if (missing.length === Object.keys(priceIds).length) {
     throw new StripeConfigError(
       'No Stripe price IDs configured. Set STRIPE_PRICES_JSON or individual STRIPE_PRICE_MONTHLY / STRIPE_PRICE_ANNUAL.',
-      missing
+      missing,
     );
   }
 }
@@ -107,11 +109,10 @@ export function validateWebhookSecret(): boolean {
  */
 export function assertStripeConfigured(): void {
   validateStripeEnv();
-  
+
   if (!validateWebhookSecret()) {
-    throw new StripeConfigError(
-      'Invalid STRIPE_WEBHOOK_SECRET format. Must start with "whsec_"',
-      ['STRIPE_WEBHOOK_SECRET']
-    );
+    throw new StripeConfigError('Invalid STRIPE_WEBHOOK_SECRET format. Must start with "whsec_"', [
+      'STRIPE_WEBHOOK_SECRET',
+    ]);
   }
 }

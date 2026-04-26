@@ -8,24 +8,24 @@
  * Redirect: POST /api/file-return -> /.netlify/functions/file-return (via netlify.toml)
  */
 
-import type { Handler } from "@netlify/functions";
-import { createClient } from "@supabase/supabase-js";
+import type { Handler } from '@netlify/functions';
+import { createClient } from '@supabase/supabase-js';
 
 const ALLOWED_ORIGINS = [
-  "https://www.elevateforhumanity.org",
-  "https://elevateforhumanity.org",
-  "https://supersonicfastermoney.com",
-  "https://www.supersonicfastermoney.com",
+  'https://www.elevateforhumanity.org',
+  'https://elevateforhumanity.org',
+  'https://supersonicfastermoney.com',
+  'https://www.supersonicfastermoney.com',
 ];
 
 function getCorsHeaders(origin?: string) {
   const allowedOrigin = origin && ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
   return {
-    "Access-Control-Allow-Origin": allowedOrigin,
-    "Access-Control-Allow-Headers": "Content-Type, Authorization",
-    "Access-Control-Allow-Methods": "POST, OPTIONS",
-    "Cache-Control": "no-store",
-    "Vary": "Origin",
+    'Access-Control-Allow-Origin': allowedOrigin,
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Cache-Control': 'no-store',
+    Vary: 'Origin',
   };
 }
 
@@ -37,15 +37,15 @@ export const handler: Handler = async (event) => {
   const corsHeaders = getCorsHeaders(origin);
 
   // CORS preflight
-  if (event.httpMethod === "OPTIONS") {
-    return { statusCode: 204, headers: corsHeaders, body: "" };
+  if (event.httpMethod === 'OPTIONS') {
+    return { statusCode: 204, headers: corsHeaders, body: '' };
   }
 
-  if (event.httpMethod !== "POST") {
+  if (event.httpMethod !== 'POST') {
     return {
       statusCode: 405,
       headers: corsHeaders,
-      body: JSON.stringify({ error: "Method Not Allowed" }),
+      body: JSON.stringify({ error: 'Method Not Allowed' }),
     };
   }
 
@@ -57,7 +57,7 @@ export const handler: Handler = async (event) => {
       return {
         statusCode: 500,
         headers: corsHeaders,
-        body: JSON.stringify({ error: "Server configuration error" }),
+        body: JSON.stringify({ error: 'Server configuration error' }),
       };
     }
 
@@ -68,7 +68,7 @@ export const handler: Handler = async (event) => {
     // Generate tracking ID if not provided
     const timestamp = new Date()
       .toISOString()
-      .replace(/[-:TZ.]/g, "")
+      .replace(/[-:TZ.]/g, '')
       .slice(0, 17);
     // Use randomBytes — Math.random() has collision risk for concurrent submissions.
     const { randomBytes } = require('crypto') as typeof import('crypto');
@@ -77,29 +77,29 @@ export const handler: Handler = async (event) => {
 
     const insertPayload = {
       tracking_id,
-      source_system: body.source_system || "netlify_function",
+      source_system: body.source_system || 'netlify_function',
       source_submission_id: body.source_submission_id || null,
       client_first_name: body.client_first_name || null,
       client_last_name: body.client_last_name || null,
       client_email: body.client_email || null,
       filing_status: body.filing_status || null,
       tax_year: body.tax_year || new Date().getFullYear(),
-      status: "received",
+      status: 'received',
       payload: body.payload || null,
     };
 
     const { data, error } = await supabase
-      .from("sfc_tax_returns")
+      .from('sfc_tax_returns')
       .insert(insertPayload)
-      .select("tracking_id, status, created_at")
+      .select('tracking_id, status, created_at')
       .single();
 
     if (error) {
-      console.error("Supabase insert error:", error.code);
+      console.error('Supabase insert error:', error.code);
       return {
         statusCode: 400,
         headers: corsHeaders,
-        body: JSON.stringify({ error: "Failed to create tax return" }),
+        body: JSON.stringify({ error: 'Failed to create tax return' }),
       };
     }
 
@@ -109,11 +109,11 @@ export const handler: Handler = async (event) => {
       body: JSON.stringify({ ok: true, ...data }),
     };
   } catch (e) {
-    console.error("file-return function error");
+    console.error('file-return function error');
     return {
       statusCode: 500,
       headers: corsHeaders,
-      body: JSON.stringify({ error: "Internal server error" }),
+      body: JSON.stringify({ error: 'Internal server error' }),
     };
   }
 };
