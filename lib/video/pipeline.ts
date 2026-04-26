@@ -207,7 +207,7 @@ async function getOrFetchBroll(brollKey: string, tmpDir: string): Promise<string
   execSync(`ffmpeg -y -i "${tmpPath}" -t 30 -c copy "${trimPath}" 2>/dev/null`, { stdio: 'pipe' });
 
   const url = await uploadToSupabase(fs.readFileSync(trimPath), 'course-videos', storagePath, 'video/mp4');
-  try { fs.unlinkSync(tmpPath); fs.unlinkSync(trimPath); } catch {}
+  try { fs.unlinkSync(tmpPath); fs.unlinkSync(trimPath); } catch (error) { void error; }
   return url;
 }
 
@@ -449,7 +449,7 @@ export async function processLesson(
     brollAssembled, overlaidBroll, videoNoAudio, finalVideo,
     concatPath, finalConcatPath,
   ];
-  for (const p of toClean) { try { fs.unlinkSync(p); } catch {} }
+  for (const p of toClean) { try { fs.unlinkSync(p); } catch (error) { void error; } }
 
   return videoUrl;
 }
