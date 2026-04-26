@@ -7,6 +7,8 @@ import Image from 'next/image';
 import { createClient } from '@/lib/supabase/server';
 import HeroVideo from '@/components/marketing/HeroVideo';
 import heroBanners from '@/content/heroBanners';
+import { ACTIVE_BNPL_PROVIDERS, BNPL_PROVIDER_NAMES } from '@/lib/bnpl-config';
+import { TransferHoursCalculator } from './TransferHoursCalculator';
 import ReactMarkdown from 'react-markdown';
 import {
   ExternalLink,
@@ -171,23 +173,16 @@ export default async function BarberApprenticeshipPage() {
 
                 {/* Payment Buttons */}
                 <div className="space-y-3">
-                  {/* Stripe Payment */}
                   <Link
-                    href="/checkout/barber-apprenticeship?method=stripe"
+                    href="/programs/barber-apprenticeship/apply?type=apprentice&payment=pay_in_full"
                     className="w-full flex items-center justify-between px-6 py-4 bg-brand-blue-600 hover:bg-brand-blue-700 text-white font-bold rounded-lg transition-all"
                   >
                     <div className="flex items-center gap-3">
-                      <svg
-                        className="w-6 h-6"
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                      >
-                        <path d="M13.976 9.15c-2.172-.806-3.356-1.426-3.356-2.409 0-.831.683-1.305 1.901-1.305 2.227 0 4.515.858 6.09 1.631l.89-5.494C18.252.975 15.697 0 12.165 0 9.667 0 7.589.654 6.104 1.872 4.56 3.147 3.757 4.992 3.757 7.218c0 4.039 2.467 5.76 6.476 7.219 2.585.92 3.445 1.574 3.445 2.583 0 .98-.84 1.545-2.354 1.545-1.875 0-4.965-.921-6.99-2.109l-.9 5.555C5.175 22.99 8.385 24 11.714 24c2.641 0 4.843-.624 6.328-1.813 1.664-1.305 2.525-3.236 2.525-5.732 0-4.128-2.524-5.851-6.591-7.305z" />
-                      </svg>
+                      <Image src="/images/icons/dollar.png" alt="Pay in full" width={24} height={24} />
                       <div className="text-left">
-                        <div className="font-bold">Pay with Stripe</div>
+                        <div className="font-bold">Pay in Full</div>
                         <div className="text-sm text-brand-blue-100">
-                          Secure one-time payment
+                          One-time full payment
                         </div>
                       </div>
                     </div>
@@ -206,23 +201,76 @@ export default async function BarberApprenticeshipPage() {
                     </svg>
                   </Link>
 
-                  {/* Affirm Payment */}
                   <Link
-                    href="/checkout/barber-apprenticeship?method=affirm"
-                    className="w-full flex items-center justify-between px-6 py-4 bg-brand-blue-500 hover:bg-brand-blue-600 text-white font-bold rounded-lg transition-all"
+                    href="/programs/barber-apprenticeship/apply?type=apprentice&payment=payment_plan"
+                    className="w-full flex items-center justify-between px-6 py-4 bg-brand-orange-600 hover:bg-brand-orange-700 text-white font-bold rounded-lg transition-all"
                   >
                     <div className="flex items-center gap-3">
-                      <svg
-                        className="w-6 h-6"
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                      >
-                        <path d="M10.5 17.5h3v-11h-3v11zm-7 0h3v-7h-3v7zm14-11v11h3v-11h-3z" />
-                      </svg>
+                      <Image src="/images/icons/clock.png" alt="Payment plan" width={24} height={24} />
                       <div className="text-left">
-                        <div className="font-bold">Pay with Affirm</div>
-                        <div className="text-sm text-brand-blue-100">
-                          As low as $206/month • 0% APR available
+                        <div className="font-bold">Payment Plan</div>
+                        <div className="text-sm text-orange-100">
+                          Starts at $600 down, then weekly payments
+                        </div>
+                      </div>
+                    </div>
+                    <svg
+                      className="w-5 h-5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 5l7 7-7 7"
+                      />
+                    </svg>
+                  </Link>
+
+                  {/* BNPL provider buttons */}
+                  {ACTIVE_BNPL_PROVIDERS.map((provider) => (
+                    <Link
+                      key={provider.id}
+                      href={`/programs/barber-apprenticeship/apply?type=apprentice&payment=${provider.id}`}
+                      className="w-full flex items-center justify-between px-6 py-4 bg-brand-blue-500 hover:bg-brand-blue-600 text-white font-bold rounded-lg transition-all"
+                    >
+                      <div className="flex items-center gap-3">
+                        <Image src="/images/icons/shield.png" alt={`${provider.name} BNPL`} width={24} height={24} />
+                        <div className="text-left">
+                          <div className="font-bold">{provider.name}</div>
+                          <div className="text-sm text-brand-blue-100">
+                            {provider.description}
+                          </div>
+                        </div>
+                      </div>
+                      <svg
+                        className="w-5 h-5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M9 5l7 7-7 7"
+                        />
+                      </svg>
+                    </Link>
+                  ))}
+
+                  <Link
+                    href="/programs/barber-apprenticeship/apply"
+                    className="w-full flex items-center justify-between px-6 py-4 bg-slate-900 hover:bg-black text-white font-bold rounded-lg transition-all"
+                  >
+                    <div className="flex items-center gap-3">
+                      <Image src="/images/icons/check-circle.png" alt="All payment options" width={24} height={24} />
+                      <div className="text-left">
+                        <div className="font-bold">See All Payment Options</div>
+                        <div className="text-sm text-slate-300">
+                          BNPL providers: {BNPL_PROVIDER_NAMES}
                         </div>
                       </div>
                     </div>
@@ -440,6 +488,9 @@ export default async function BarberApprenticeshipPage() {
                 school, you only need 700 more hours in our apprenticeship
                 program to reach the 1,500-hour requirement.
               </p>
+            </div>
+            <div className="mt-6">
+              <TransferHoursCalculator />
             </div>
             <p className="text-sm text-black">
               Source:{' '}

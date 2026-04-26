@@ -53,11 +53,19 @@ export default function HomePage() {
 
       {/* PHOTO STRIP */}
       <section className="grid grid-cols-3 h-56 sm:h-80 overflow-hidden">
-        <div className="relative">
-          <Image src="/images/pages/comp-home-pathways-train.jpg" alt="Learner in training" fill className="object-cover" sizes="33vw" />
+        <div
+          className="bg-cover bg-center"
+          style={{ backgroundImage: "url('https://github.com/user-attachments/assets/f93116a1-a087-41ae-8ae9-bb7a5f29261a')" }}
+          aria-label="Home highlight image 1"
+          role="img"
+        >
         </div>
-        <div className="relative">
-          <Image src="/images/pages/comp-home-highlight-health.jpg" alt="Healthcare training" fill className="object-cover" sizes="33vw" />
+        <div
+          className="bg-cover bg-center"
+          style={{ backgroundImage: "url('https://github.com/user-attachments/assets/1d1301cd-34d7-4b3f-ac30-bcc4057eba6e')" }}
+          aria-label="Home highlight image 2"
+          role="img"
+        >
         </div>
         <div className="relative">
           <Image src="/images/pages/comp-home-highlight-success.jpg" alt="Graduate success" fill className="object-cover" sizes="33vw" />
