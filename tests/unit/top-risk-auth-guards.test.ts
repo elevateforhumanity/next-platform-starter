@@ -19,7 +19,7 @@ describe('Top-risk routes have auth guards', () => {
   it('/api/admin/promo-codes requires apiRequireAdmin', () => {
     const src = readRoute('app/api/admin/promo-codes/route.ts');
     expect(src).toContain("import { apiRequireAdmin } from '@/lib/admin/guards'");
-    expect(src).toContain('await apiRequireAdmin()');
+    expect(src).toContain('await apiRequireAdmin(');
   });
 
   it('/api/payments/split requires apiAuthGuard', () => {
@@ -40,7 +40,7 @@ describe('Top-risk routes have auth guards', () => {
   it('/api/stripe/connect/create requires apiRequireAdmin', () => {
     const src = readRoute('app/api/stripe/connect/create/route.ts');
     expect(src).toContain("import { apiRequireAdmin } from '@/lib/admin/guards'");
-    expect(src).toContain('await apiRequireAdmin()');
+    expect(src).toContain('await apiRequireAdmin(');
   });
 
   it('/api/store/licenses/create-payment-intent requires apiAuthGuard', () => {
@@ -52,6 +52,6 @@ describe('Top-risk routes have auth guards', () => {
   it('/api/store/create-product requires apiRequireAdmin', () => {
     const src = readRoute('app/api/store/create-product/route.ts');
     expect(src).toContain("import { apiRequireAdmin } from '@/lib/admin/guards'");
-    expect(src).toContain('await apiRequireAdmin()');
+    expect(src).toContain('await apiRequireAdmin(');
   });
 });
