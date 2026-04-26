@@ -14,7 +14,7 @@ jobs:
   platform-doctor:
     name: Platform Doctor
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 30
 
     steps:
       - name: Checkout
@@ -44,56 +44,52 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Platform Doctor — check
-        run: pnpm predeploy:check
+      - name: Run Platform Doctor (PR)
+        if: github.event_name == 'pull_request'
+        run: pnpm platform:doctor
         env:
-          # These are needed so TypeScript env imports don't fail at check time
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co' }}
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder' }}
           SKIP_ENV_VALIDATION: 'true'
-        # Warnings do not fail the workflow — only CRITICAL issues do (exit code 1)
-        continue-on-error: false
 
-      - name: Upload doctor report
+      - name: Run Platform Doctor Strict (main)
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: pnpm platform:doctor:strict
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co' }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder' }}
+          SKIP_ENV_VALIDATION: 'true'
+
+      - name: Upload Platform Doctor artifacts
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: platform-doctor-reports
+          name: platform-doctor-artifacts
           path: |
-            reports/platform_doctor_report.json
+            artifacts/platform-doctor-report.json
+            artifacts/design-enforcer-report.json
+            artifacts/image-contract-report.json
+            artifacts/program-template-audit-report.json
             reports/platform_polish_report.json
           retention-days: 14
 
-  platform-polish:
-    name: Platform Polish Audit
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    # Polish audit is always informational — never blocks deploy
-    continue-on-error: true
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Platform Polish Audit
-        run: node scripts/platform-polish-audit.mjs
-        continue-on-error: true
-
-      - name: Upload polish report
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: platform-polish-report
-          path: reports/platform_polish_report.json
-          retention-days: 14
+      - name: Explain failure severity (CRITICAL vs STRICT)
+        if: failure()
+        run: |
+          node - <<'NODE'
+          const fs = require('fs');
+          const p = 'artifacts/platform-doctor-report.json';
+          if (!fs.existsSync(p)) {
+            console.log('::error::Platform Doctor failed before report was generated.');
+            process.exit(0);
+          }
+          const r = JSON.parse(fs.readFileSync(p, 'utf8'));
+          const c = r.countsBySeverity || { CRITICAL: 0, STRICT: 0, REPORT: 0 };
+          console.log(`::error::Platform Doctor blocked deploy. CRITICAL=${c.CRITICAL}, STRICT=${c.STRICT}, REPORT=${c.REPORT}`);
+          if ((c.CRITICAL || 0) > 0) {
+            console.log('::error::CRITICAL issues must be fixed on all branches.');
+          }
+          if ((c.STRICT || 0) > 0) {
+            console.log('::warning::STRICT issues block on main/strict mode and should be fixed before merge to main.');
+          }
+          NODE
