@@ -14,32 +14,20 @@ export async function POST(
 ) {
   const rateLimited = await applyRateLimit(request, 'strict');
   if (rateLimited) return rateLimited;
+  const auth = await apiRequireAdmin(request);
+  if (auth.error) return auth.error;
 
   const { tenantId } = await params;
 
-  const userSupabase = await createClient();
-  const { data: { user } } = await userSupabase.auth.getUser();
-  if (!user) return safeError('Unauthorized', 401);
-
   const db = await getAdminClient();
   if (!db) return safeError('Service unavailable', 503);
-
-  const { data: profile } = await db
-    .from('profiles')
-    .select('role')
-    .eq('id', user.id)
-    .maybeSingle();
-
-  if (!profile || !['admin', 'super_admin'].includes(profile.role)) {
-    return safeError('Forbidden', 403);
-  }
 
   let body: { reason?: string } = {};
   try { body = await request.json(); } catch { /* reason is optional */ }
 
   const { data, error } = await db.rpc('suspend_provider', {
     p_tenant_id: tenantId,
-    p_admin_user_id: user.id,
+    p_admin_user_id: auth.id,
     p_reason: body.reason ?? null,
   });
 

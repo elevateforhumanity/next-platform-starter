@@ -28,6 +28,8 @@ export async function GET(
   try {
     const rateLimited = await applyRateLimit(request, 'api');
     if (rateLimited) return rateLimited;
+    const auth = await apiRequireAdmin(request);
+    if (auth.error) return auth.error;
 
     const { id: applicationId } = await params;
 
@@ -36,19 +38,6 @@ export async function GET(
   if (!db) return NextResponse.json({ error: 'Admin client failed to initialize' }, { status: 500 });
 
     if (!supabase) return safeError('Database not configured', 503);
-
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return safeError('Unauthorized', 401);
-
-    const { data: profile } = await db
-      .from('profiles')
-      .select('role')
-      .eq('id', user.id)
-      .maybeSingle();
-
-    if (!profile || !['admin', 'super_admin', 'staff'].includes(profile.role)) {
-      return safeError('Forbidden', 403);
-    }
 
     const { data, error } = await db.rpc('check_application_access_readiness', {
       p_application_id: applicationId,

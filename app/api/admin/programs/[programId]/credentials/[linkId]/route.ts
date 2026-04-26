@@ -4,16 +4,6 @@ import { getAdminClient } from '@/lib/supabase/admin';
 import { z } from 'zod';
 import { logger } from '@/lib/logger';
 
-const ADMIN_ROLES = ['admin', 'super_admin', 'org_admin', 'staff'];
-
-async function authorize(supabase: any, db: any) {
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return null;
-  const { data: profile } = await db.from('profiles').select('role').eq('id', user.id).maybeSingle();
-  if (!profile || !ADMIN_ROLES.includes(profile.role)) return null;
-  return user;
-}
-
 const PatchSchema = z.object({
   is_required: z.boolean().optional(),
   sort_order:  z.number().int().min(0).optional(),
@@ -26,10 +16,9 @@ export async function PATCH(
   { params }: { params: Promise<{ programId: string; linkId: string }> }
 ) {
   const { programId, linkId } = await params;
-  const supabase = await createClient();
+  const auth = await apiRequireAdmin(req);
+  if (auth.error) return auth.error;
   const db = await getAdminClient();
-  const user = await authorize(supabase, db);
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   const body = await req.json().catch(() => null);
   const parsed = PatchSchema.safeParse(body);
@@ -55,14 +44,13 @@ export async function PATCH(
 
 // DELETE /api/admin/programs/[programId]/credentials/[linkId]
 export async function DELETE(
-  _req: NextRequest,
+  req: NextRequest,
   { params }: { params: Promise<{ programId: string; linkId: string }> }
 ) {
   const { programId, linkId } = await params;
-  const supabase = await createClient();
+  const auth = await apiRequireAdmin(req);
+  if (auth.error) return auth.error;
   const db = await getAdminClient();
-  const user = await authorize(supabase, db);
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   const { error } = await db
     .from('program_credentials')
