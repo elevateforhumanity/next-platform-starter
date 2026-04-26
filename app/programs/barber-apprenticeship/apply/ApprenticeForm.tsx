@@ -251,7 +251,7 @@ export default function ApprenticeForm({ initialPayment }: { initialPayment?: st
         }
         return;
       } else if (paymentOption === 'sezzle') {
-        // Sezzle - pay over time. Minimum is the setup fee ($1,743).
+        // Sezzle - pay over time. Minimum is the configured down payment ($600).
         const sezzleAmount = Math.min(2500, Math.max(PRICING.setupFee, clampedCheckoutAmount));
         checkoutResponse = await fetch('/api/sezzle/checkout', {
           method: 'POST',

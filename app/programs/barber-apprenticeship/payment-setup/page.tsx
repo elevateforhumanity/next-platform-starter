@@ -153,11 +153,11 @@ export default function PaymentSetupPage() {
           </div>
 
           <div className="grid grid-cols-3 gap-3 pt-2">
-            {[
-              { label: 'Total Tuition', value: '$4,980' },
-              { label: 'Paid Today', value: '$2,000' },
-              { label: 'Weekly', value: `$${(weeklyAmount / 100).toFixed(2)}` },
-            ].map(({ label, value }) => (
+              {[
+                { label: 'Total Tuition', value: '$4,980' },
+                { label: 'Paid Today (Minimum)', value: '$600' },
+                { label: 'Weekly', value: `$${(weeklyAmount / 100).toFixed(2)}` },
+              ].map(({ label, value }) => (
               <div key={label} className="bg-slate-900 rounded-xl p-3 text-center">
                 <p className="text-white font-bold text-lg">{value}</p>
                 <p className="text-slate-400 text-xs mt-0.5">{label}</p>

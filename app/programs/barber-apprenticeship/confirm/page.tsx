@@ -86,7 +86,10 @@ function ConfirmContent() {
                 <ol className="text-sm text-green-800 space-y-2 list-decimal list-inside">
                   <li>We will call or email you within 24 hours to schedule your orientation</li>
                   <li>During orientation, we walk through the program and answer your questions</li>
-                  <li>After orientation, you submit your $500 down payment to secure your spot</li>
+                  <li>
+                    After orientation, you submit your $600 minimum down payment to secure your
+                    spot
+                  </li>
                   <li>We match you with a licensed partner barbershop</li>
                   <li>You begin your apprenticeship training</li>
                 </ol>

@@ -28,12 +28,12 @@ At 30 hours/week, it takes about 67 weeks (15-18 months).`,
 
   'cost|price|tuition|fee': `**Program Cost: $4,980**
 
-• Setup Fee (35%): $1,743 - due at enrollment
-• Remaining Balance: $3,237 - paid weekly
+• Minimum Down Payment: $600 - due at enrollment
+• Remaining Balance: $4,380 - paid weekly
 
-Weekly payment examples:
-• 40 hrs/week: ~$64.74/week for 50 weeks
-• 30 hrs/week: ~$48.31/week for 67 weeks
+Weekly payment examples (29-week plan):
+• $600 down: ~$151.03/week
+• $1,000 down: ~$137.24/week
 
 Payment plans are available. Contact us for employer-sponsored funding options.`,
 
@@ -42,7 +42,7 @@ Payment plans are available. Contact us for employer-sponsored funding options.`
 **Payment Options:**
 • Pay in full: $4,980 (card or bank transfer)
 • Affirm/Klarna/Afterpay: Split into payments (terms set by lender)
-• Setup fee + weekly: $1,743 setup fee, then weekly payments until complete
+• Minimum down + weekly: start at $600, then weekly payments until complete
 
 Payment is collected after your enrollment is approved.
 
