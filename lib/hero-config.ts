@@ -20,8 +20,8 @@ export const VIDEO_HEROES = {
   careerServices: `${R2}/career-services-hero.mp4`,
 
   // Program Categories
-  barber: `${R2}/barber-hero.mp4`,
-  barberApprenticeship: `${R2}/barber-hero.mp4`,
+  barber: `${R2}/barber-hero-final.mp4`,
+  barberApprenticeship: `${R2}/barber-hero-final.mp4`,
   healthcare: `${R2}/cna-hero.mp4`,
   skilledTrades: `${R2}/hvac-hero-final.mp4`,
   technology: `${R2}/hero-home-fast.mp4`,
