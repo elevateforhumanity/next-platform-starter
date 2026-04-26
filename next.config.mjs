@@ -1,4 +1,6 @@
 import { withSentryConfig } from '@sentry/nextjs';
+import fs from 'node:fs';
+import path from 'node:path';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -354,6 +356,14 @@ const nextConfig = {
 
   // Redirects for consolidated routes
   async redirects() {
+    const canonicalRoutesPath = path.join(process.cwd(), 'lib/routes/canonical-routes.json');
+    const canonicalConfig = JSON.parse(fs.readFileSync(canonicalRoutesPath, 'utf8'));
+    const canonicalAliasRedirects = (canonicalConfig.legacyAliases || []).map((alias) => ({
+      source: alias.source,
+      destination: alias.destination,
+      permanent: alias.permanent !== false,
+    }));
+
     return [
       // ============================================
       // DELETED PAGE REDIRECTS
@@ -442,18 +452,12 @@ const nextConfig = {
         destination: '/programs/healthcare',
         permanent: true,
       },
-      { source: '/programs/home-health-aide', destination: '/programs/cna', permanent: true },
       {
         source: '/programs/public-safety-reentry-specialist',
         destination: '/programs/peer-recovery-specialist',
         permanent: true,
       },
       { source: '/programs/cdl-class-a', destination: '/programs/cdl-training', permanent: true },
-      {
-        source: '/programs/certified-nursing-assistant',
-        destination: '/programs/cna',
-        permanent: true,
-      },
       {
         source: '/programs/medical-coding-billing',
         destination: '/programs/healthcare',
@@ -702,11 +706,7 @@ const nextConfig = {
         destination: '/programs/cdl-training',
         permanent: true,
       },
-      // CNA — /programs/cna is the canonical page
-      { source: '/programs/cna-cert', destination: '/programs/cna', permanent: true },
-      { source: '/programs/cna-certification', destination: '/programs/cna', permanent: true },
-      // HVAC
-      { source: '/programs/hvac', destination: '/programs/hvac-technician', permanent: true },
+      // CNA and HVAC aliases are appended from lib/routes/canonical-routes.json
       // Barber & Beauty
       {
         source: '/programs/barber',
@@ -1017,6 +1017,7 @@ const nextConfig = {
       { source: '/student-portal/courses', destination: '/student-portal', permanent: true },
       { source: '/student-portal/certificates', destination: '/student-portal', permanent: true },
       { source: '/student-portal/progress', destination: '/student-portal', permanent: true },
+      ...canonicalAliasRedirects,
       // /student-portal/settings → /lms/settings handled by middleware (Rule B)
 
       // Partner portal redirects

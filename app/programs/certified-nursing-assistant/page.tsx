@@ -15,3 +15,4 @@ export default function Page() {
   const banner = heroBanners['cna'] ?? null;
   return <ProgramDetailPage program={CNA} banner={banner} />;
 }
+

@@ -1,0 +1,95 @@
+{
+  "canonicalRoutes": {
+    "publicMarketing": {
+      "home": "/",
+      "programs": "/programs",
+      "funding": "/funding",
+      "disclosures": "/disclosures",
+      "partners": "/partners",
+      "contact": "/contact"
+    },
+    "programs": {
+      "certifiedNursingAssistant": "/programs/certified-nursing-assistant",
+      "hvacTechnician": "/programs/hvac-technician",
+      "cdlTraining": "/programs/cdl-training",
+      "itHelpDesk": "/programs/it-help-desk",
+      "barberApprenticeship": "/programs/barber-apprenticeship"
+    },
+    "complianceFunding": {
+      "funding": "/funding",
+      "disclosures": "/disclosures",
+      "privacyPolicy": "/privacy-policy",
+      "termsOfService": "/terms-of-service"
+    },
+    "partners": {
+      "index": "/partners",
+      "employers": "/employers",
+      "partnerWithUs": "/partner-with-us"
+    }
+  },
+  "legacyAliases": [
+    {
+      "source": "/programs/cna",
+      "destination": "/programs/certified-nursing-assistant",
+      "permanent": true
+    },
+    {
+      "source": "/programs/cna-training",
+      "destination": "/programs/certified-nursing-assistant",
+      "permanent": true
+    },
+    {
+      "source": "/programs/cna-certification",
+      "destination": "/programs/certified-nursing-assistant",
+      "permanent": true
+    },
+    {
+      "source": "/programs/cna-cert",
+      "destination": "/programs/certified-nursing-assistant",
+      "permanent": true
+    },
+    {
+      "source": "/programs/home-health-aide",
+      "destination": "/programs/certified-nursing-assistant",
+      "permanent": true
+    },
+    {
+      "source": "/programs/hvac",
+      "destination": "/programs/hvac-technician",
+      "permanent": true
+    },
+    {
+      "source": "/programs/hvac-technician-program",
+      "destination": "/programs/hvac-technician",
+      "permanent": true
+    },
+    {
+      "source": "/training/hvac-technician",
+      "destination": "/programs/hvac-technician",
+      "permanent": true
+    }
+  ],
+  "railwayOnlyPrefixes": [
+    "/admin",
+    "/lms",
+    "/learner",
+    "/student",
+    "/instructor",
+    "/employer",
+    "/partner",
+    "/api",
+    "/cron",
+    "/jobs",
+    "/billing",
+    "/video",
+    "/ai",
+    "/ocr",
+    "/pdf",
+    "/migrations",
+    "/internal"
+  ],
+  "externalOrAppHostedAllowlist": [
+    "/login",
+    "/signup"
+  ]
+}

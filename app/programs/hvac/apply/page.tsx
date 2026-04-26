@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { ArrowLeft, CheckCircle, Clock, DollarSign, Calendar, ArrowRight } from 'lucide-react';
+import { canonicalRoutes } from '@/lib/routes/canonical-routes';
 
 export const metadata: Metadata = {
   title: 'Apply for HVAC Technician | Free Funded Training | Elevate for Humanity',
@@ -29,7 +30,7 @@ export default function ApplyPage() {
             <Breadcrumbs
               items={[
                 { label: 'Programs', href: '/programs' },
-                { label: 'HVAC Technician', href: '/programs/hvac' },
+                { label: 'HVAC Technician', href: canonicalRoutes.programs.hvacTechnician },
                 { label: 'Apply' },
               ]}
               className="text-white/80 mb-4"
@@ -199,7 +200,7 @@ export default function ApplyPage() {
         {/* Back Link */}
         <div className="mt-8">
           <Link
-            href="/programs/hvac"
+            href={canonicalRoutes.programs.hvacTechnician}
             className="inline-flex items-center text-blue-600 hover:text-blue-700"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />

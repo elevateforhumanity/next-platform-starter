@@ -6,6 +6,7 @@ import { ArrowRight, ExternalLink } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { TEAM } from '@/data/team';
 import { createClient } from '@/lib/supabase/server';
+import { canonicalRoutes } from '@/lib/routes/canonical-routes';
 
 export const revalidate = 3600; // re-fetch team from DB hourly
 
@@ -828,7 +829,7 @@ export default async function AboutPage() {
                 name: 'CNA Certification',
                 duration: '4–6 weeks',
                 image: '/images/pages/about-hero.jpg',
-                href: '/programs/cna',
+                href: canonicalRoutes.programs.certifiedNursingAssistant,
               },
               {
                 name: 'CDL Training',
@@ -840,7 +841,7 @@ export default async function AboutPage() {
                 name: 'HVAC Technician',
                 duration: '12 weeks',
                 image: '/images/pages/about-hero.jpg',
-                href: '/programs/hvac-technician',
+                href: canonicalRoutes.programs.hvacTechnician,
               },
               {
                 name: 'Electrical',

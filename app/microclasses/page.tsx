@@ -8,6 +8,7 @@ import {
   NRF_COURSES,
   type PartnerCourse,
 } from '@/lib/partners/link-based-integration';
+import { canonicalRoutes } from '@/lib/routes/canonical-routes';
 
 export const metadata: Metadata = {
   title: 'Microclasses | Elevate for Humanity',
@@ -184,7 +185,7 @@ export default function MicroclassesPage() {
               },
               {
                 title: 'HVAC Technician',
-                href: '/programs/hvac-technician',
+                href: canonicalRoutes.programs.hvacTechnician,
                 cert: 'EPA 608 + HVAC Certification',
                 duration: '6–12 months',
               },
@@ -214,7 +215,7 @@ export default function MicroclassesPage() {
               },
               {
                 title: 'CNA Certification',
-                href: '/programs/cna',
+                href: canonicalRoutes.programs.certifiedNursingAssistant,
                 cert: 'Indiana CNA License',
                 duration: '6–8 weeks',
               },

@@ -8,6 +8,7 @@ import LogoImage from '@/components/site/LogoImage';
 import { ALL_PROGRAMS } from '@/data/programs/catalog';
 import HeaderMobileMenu from './HeaderMobileMenu.client';
 import HeaderDesktopNav from './HeaderDesktopNav';
+import { canonicalRoutes } from '@/lib/routes/canonical-routes';
 
 // Marketing site navigation.
 //
@@ -29,7 +30,10 @@ export const NAV_ITEMS = [
     href: '/programs',
     subItems: [
       { name: '— Healthcare —', href: '/programs/healthcare', isHeader: true },
-      { name: 'CNA / Nursing Assistant', href: '/programs/cna' },
+      {
+        name: 'CNA / Nursing Assistant',
+        href: canonicalRoutes.programs.certifiedNursingAssistant,
+      },
       { name: 'Medical Assistant', href: '/programs/medical-assistant' },
       { name: 'Peer Recovery Specialist', href: '/programs/peer-recovery-specialist' },
       { name: 'Pharmacy Technician', href: '/programs/pharmacy-technician' },
@@ -40,7 +44,7 @@ export const NAV_ITEMS = [
       { name: 'Home Health Aide', href: '/programs/home-health-aide' },
       { name: 'All Healthcare Programs', href: '/programs/healthcare' },
       { name: '— Skilled Trades —', href: '/programs/skilled-trades', isHeader: true },
-      { name: 'HVAC Technician', href: '/programs/hvac-technician' },
+      { name: 'HVAC Technician', href: canonicalRoutes.programs.hvacTechnician },
 
       { name: 'Electrical', href: '/programs/electrical' },
       { name: 'Welding', href: '/programs/welding' },

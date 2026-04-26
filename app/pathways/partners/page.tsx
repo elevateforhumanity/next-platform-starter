@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowRight } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { canonicalRoutes } from '@/lib/routes/canonical-routes';
 
 export const metadata: Metadata = {
   title: 'Partners & Cohort Training | Career Pathways | Elevate for Humanity',
@@ -325,7 +326,7 @@ export default function PartnersPage() {
                 {[
                   {
                     name: 'CNA Certification',
-                    href: '/programs/cna',
+                    href: canonicalRoutes.programs.certifiedNursingAssistant,
                     duration: '4–6 weeks',
                     credential: 'CNA (Indiana ISDH)',
                     funding: 'WIOA, Job Ready Indy, Self-Pay',
@@ -339,7 +340,7 @@ export default function PartnersPage() {
                   },
                   {
                     name: 'HVAC Technician',
-                    href: '/programs/hvac-technician',
+                    href: canonicalRoutes.programs.hvacTechnician,
                     duration: '12 weeks',
                     credential: 'EPA 608 + OSHA 10',
                     funding: 'WIOA, WRG, Employer',

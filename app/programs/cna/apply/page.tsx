@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { canonicalRoutes } from '@/lib/routes/canonical-routes';
 
 type Step = 1 | 2 | 3;
 
@@ -73,7 +74,7 @@ export default function CNAApplyPage() {
     <main className="min-h-screen bg-white text-slate-900">
       <div className="mx-auto max-w-lg px-6 py-12">
         <Link
-          href="/programs/cna"
+          href={canonicalRoutes.programs.certifiedNursingAssistant}
           className="inline-flex items-center gap-2 text-sm text-slate-500 hover:text-slate-900 mb-8"
         >
           ← Back to program

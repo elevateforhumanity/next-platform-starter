@@ -14,6 +14,7 @@ import {
   TrendingUp,
 } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { canonicalRoutes } from '@/lib/routes/canonical-routes';
 
 export const dynamic = 'force-dynamic';
 
@@ -221,7 +222,7 @@ export default async function StudentsPage() {
 
           <div className="grid md:grid-cols-3 gap-8 mb-8">
             <Link
-              href="/programs/cna"
+              href={canonicalRoutes.programs.certifiedNursingAssistant}
               className="bg-white rounded-xl p-6 shadow-sm border-2 border-gray-100 hover:border-blue-500 transition group"
             >
               <Award className="w-12 h-12 text-blue-600 mb-4" />

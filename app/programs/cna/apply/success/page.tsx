@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { canonicalRoutes } from '@/lib/routes/canonical-routes';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -70,7 +71,10 @@ export default function CNAApplySuccessPage() {
         </div>
 
         <p className="mt-10 text-xs text-slate-400">
-          <Link href="/programs/cna" className="underline hover:text-slate-600">
+          <Link
+            href={canonicalRoutes.programs.certifiedNursingAssistant}
+            className="underline hover:text-slate-600"
+          >
             ← Back to CNA program
           </Link>
         </p>

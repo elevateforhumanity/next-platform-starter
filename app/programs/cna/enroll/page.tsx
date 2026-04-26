@@ -15,6 +15,7 @@ import {
   DollarSign,
   CheckCircle,
 } from 'lucide-react';
+import { canonicalRoutes } from '@/lib/routes/canonical-routes';
 
 const PROGRAM_DETAILS = {
   name: 'Certified Nursing Assistant (CNA)',
@@ -134,7 +135,7 @@ export default function CNAEnrollPage() {
       <div className="bg-slate-900 py-8">
         <div className="max-w-4xl mx-auto px-4">
           <Link
-            href="/programs/cna"
+            href={canonicalRoutes.programs.certifiedNursingAssistant}
             className="inline-flex items-center gap-2 text-white hover:text-white mb-4"
           >
             <ArrowLeft className="w-4 h-4" />

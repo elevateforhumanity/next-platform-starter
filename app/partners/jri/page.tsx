@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { canonicalRoutes } from '@/lib/routes/canonical-routes';
 
 export const revalidate = 86400;
 
@@ -71,11 +72,14 @@ export default function JriPage() {
           </h2>
           <div className="grid sm:grid-cols-2 gap-4">
             {[
-              { name: 'HVAC Technician', href: '/programs/hvac-technician' },
+              { name: 'HVAC Technician', href: canonicalRoutes.programs.hvacTechnician },
               { name: 'IT Help Desk', href: '/programs/it-help-desk' },
               { name: 'Cybersecurity Analyst', href: '/programs/cybersecurity-analyst' },
               { name: 'Medical Assistant', href: '/programs/medical-assistant' },
-              { name: 'CNA / Nursing Assistant', href: '/programs/cna' },
+              {
+                name: 'CNA / Nursing Assistant',
+                href: canonicalRoutes.programs.certifiedNursingAssistant,
+              },
               { name: 'Welding', href: '/programs/welding' },
             ].map((p) => (
               <Link

@@ -9,6 +9,7 @@ import Copyright from '@/components/ui/Copyright';
 import { Facebook, Instagram, Linkedin, Youtube } from 'lucide-react';
 import { SOCIAL_LINKS } from '@/config/social-links';
 import FooterAccordion from '@/components/site/FooterAccordion.client';
+import { canonicalRoutes } from '@/lib/routes/canonical-routes';
 
 // FOOTER STRUCTURE — 5 columns
 // Col 1: Programs
@@ -25,8 +26,8 @@ const footerLinks = {
   // Column 1 — Programs by area
   programs: [
     { name: 'All Programs', href: '/programs' },
-    { name: 'HVAC Technician', href: '/programs/hvac-technician' },
-    { name: 'CNA Training', href: '/programs/cna' },
+    { name: 'HVAC Technician', href: canonicalRoutes.programs.hvacTechnician },
+    { name: 'CNA Training', href: canonicalRoutes.programs.certifiedNursingAssistant },
     { name: 'Medical Assistant', href: '/programs/medical-assistant' },
     { name: 'Phlebotomy', href: '/programs/phlebotomy' },
     { name: 'IT Help Desk', href: '/programs/it-help-desk' },

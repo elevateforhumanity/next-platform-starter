@@ -12,6 +12,7 @@ import {
   GraduationCap,
   MapPin,
 } from 'lucide-react';
+import { canonicalRoutes } from '@/lib/routes/canonical-routes';
 
 export const metadata: Metadata = {
   title: 'For Job Seekers | Elevate for Humanity',
@@ -26,7 +27,7 @@ const PROGRAMS = [
     duration: '4–6 weeks',
     salary: '$30K–$42K',
     image: '/images/pages/cna-patient-care.jpg',
-    href: '/programs/cna',
+    href: canonicalRoutes.programs.certifiedNursingAssistant,
   },
   {
     title: 'HVAC Technician',
@@ -34,7 +35,7 @@ const PROGRAMS = [
     duration: '12 weeks',
     salary: '$48K–$80K',
     image: '/images/pages/hvac-unit.jpg',
-    href: '/programs/hvac-technician',
+    href: canonicalRoutes.programs.hvacTechnician,
   },
   {
     title: 'CDL Class A',

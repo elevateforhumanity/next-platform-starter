@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { Heart, BookOpen } from 'lucide-react';
 import GroupDiscussions from '@/components/lms/GroupDiscussions';
+import { canonicalRoutes } from '@/lib/routes/canonical-routes';
 
 export const dynamic = 'force-dynamic';
 
@@ -69,7 +70,7 @@ export default async function GroupPage() {
               <h3 className="font-semibold text-slate-900 mb-4">Group Resources</h3>
               <div className="space-y-3">
                 <Link
-                  href="/programs/cna"
+                  href={canonicalRoutes.programs.certifiedNursingAssistant}
                   className="flex items-center gap-3 p-3 rounded-lg bg-slate-50 hover:bg-slate-100 transition-colors"
                 >
                   <BookOpen className="w-5 h-5 text-brand-blue-600 flex-shrink-0" />

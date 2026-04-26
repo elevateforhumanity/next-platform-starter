@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowRight } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { canonicalRoutes } from '@/lib/routes/canonical-routes';
 
 export const metadata: Metadata = {
   title: 'Outcomes & What You Can Expect | Career Pathways | Elevate for Humanity',
@@ -15,7 +16,7 @@ const PROGRAMS = [
   {
     name: 'CNA Certification',
     image: '/images/pages/cna-nursing.jpg',
-    href: '/programs/cna',
+    href: canonicalRoutes.programs.certifiedNursingAssistant,
     credential: 'Certified Nursing Assistant (CNA)',
     issuedBy: 'Indiana State Department of Health (ISDH)',
     whatItMeans:
@@ -91,7 +92,7 @@ const PROGRAMS = [
   {
     name: 'HVAC Technician',
     image: '/images/pages/hvac-technician.jpg',
-    href: '/programs/hvac-technician',
+    href: canonicalRoutes.programs.hvacTechnician,
     credential: 'EPA Section 608 Certification + OSHA 30-Hour Safety Certification',
     issuedBy:
       'U.S. Environmental Protection Agency (EPA) + Occupational Safety and Health Administration (OSHA)',
