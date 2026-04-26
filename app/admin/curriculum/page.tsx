@@ -140,7 +140,7 @@ export default async function CurriculumPage() {
             {courses.map(course => (
                 <Link
                   key={course.id}
-                  href={`/admin/curriculum/${course.id}`}
+                  href={'/admin/curriculum/' + course.id}
                   className="flex items-center justify-between px-5 py-4 hover:bg-slate-50 transition group"
                 >
                   <div className="flex-1 min-w-0">

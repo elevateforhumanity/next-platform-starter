@@ -24,7 +24,7 @@ const supabase = createClient(SUPABASE_URL, SERVICE_KEY);
 
 function ok(label, data, error) {
   if (error) { console.error(`❌ ${label}:`, error.message); process.exit(1); }
-  console.log(`✅ ${label}`);
+  console.info(`✅ ${label}`);
   return data;
 }
 
@@ -32,7 +32,7 @@ function ok(label, data, error) {
 
 const { data: orgs } = await supabase.from('organizations').select('id').eq('slug', 'elevate-for-humanity').limit(1);
 const orgId = orgs?.[0]?.id ?? null;
-console.log('org_id:', orgId);
+console.info('org_id:', orgId);
 
 // ── 2. Upsert courses row ─────────────────────────────────────────────────────
 
@@ -166,7 +166,7 @@ for (const cl of clLessons) {
     lessonCount++;
   }
 }
-console.log(`✅ course_lessons upserted: ${lessonCount}/95`);
+console.info(`✅ course_lessons upserted: ${lessonCount}/95`);
 
 // ── 7. program_course_map ─────────────────────────────────────────────────────
 
@@ -191,9 +191,9 @@ ok('program_course_links', true, linkErr);
 
 // ── 9. Summary ────────────────────────────────────────────────────────────────
 
-console.log('\n=== HVAC COURSE SEEDED ===');
-console.log(`Course ID:  ${COURSE_ID}`);
-console.log(`Program ID: ${PROGRAM_ID}`);
-console.log(`Modules:    ${Object.keys(moduleGroups).length}`);
-console.log(`Lessons:    ${lessonCount}`);
-console.log(`LMS URL:    /lms/courses/${COURSE_ID}`);
+console.info('\n=== HVAC COURSE SEEDED ===');
+console.info(`Course ID:  ${COURSE_ID}`);
+console.info(`Program ID: ${PROGRAM_ID}`);
+console.info(`Modules:    ${Object.keys(moduleGroups).length}`);
+console.info(`Lessons:    ${lessonCount}`);
+console.info(`LMS URL:    /lms/courses/${COURSE_ID}`);

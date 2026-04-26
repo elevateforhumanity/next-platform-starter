@@ -17,3 +17,10 @@ healthcheckPath = "/api/health"
 healthcheckTimeout = 60
 restartPolicyType = "ON_FAILURE"
 restartPolicyMaxRetries = 3
+
+# Daily follow-up emails for funded applicants stuck in pending_funding or
+# pending_admin_review. Runs at 09:00 ET (14:00 UTC) every day.
+# Requires CRON_SECRET env var set in Railway service variables.
+[[cron]]
+schedule = "0 14 * * *"
+command = "curl -sf -H 'x-cron-secret: $CRON_SECRET' http://localhost:$PORT/api/cron/funding-followup || true"

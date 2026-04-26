@@ -36,21 +36,8 @@ async function _PATCH(
 ) {
   const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;
-
-  // Auth check — user client (cookie-based)
-  const userClient = await createClient();
-  const { data: { user }, error: authError } = await userClient.auth.getUser();
-  if (authError || !user) return safeError('Unauthorized', 401);
-
-  const { data: profile } = await userClient
-    .from('profiles')
-    .select('role')
-    .eq('id', user.id)
-    .maybeSingle();
-
-  if (!profile || !['admin', 'super_admin', 'staff'].includes(profile.role)) {
-    return safeError('Forbidden', 403);
-  }
+  const auth = await apiRequireAdmin(request);
+  if (auth.error) return auth.error;
 
   const { lessonId } = await params;
   if (!lessonId) return safeError('lessonId required', 400);

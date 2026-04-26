@@ -23,26 +23,11 @@ async function _GET(request: NextRequest) {
   try {
     const rateLimited = await applyRateLimit(request, 'strict');
     if (rateLimited) return rateLimited;
+    const auth = await apiRequireAdmin(request);
+    if (auth.error) return auth.error;
     const supabase = await createClient();
     const admin = await getAdminClient();
     const db = admin || supabase;
-
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
-    if (authError || !user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
-    // Role check — admin only
-    const { data: profile } = await db
-      .from('profiles')
-      .select('role')
-      .eq('id', user.id)
-      .maybeSingle();
-
-    const allowedRoles = ['admin', 'super_admin', 'org_admin'];
-    if (!profile || !allowedRoles.includes(profile.role)) {
-      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
-    }
 
     const { searchParams } = new URL(request.url);
     const documentId = searchParams.get('id');
@@ -50,7 +35,7 @@ async function _GET(request: NextRequest) {
     // Preferred path: delegate to centralized document access
     if (documentId) {
       const url = await getAdminDocumentUrl({
-        adminId: user.id,
+        adminId: auth.id,
         documentId,
         context: 'api_endpoint',
       });
@@ -108,13 +93,13 @@ async function _GET(request: NextRequest) {
 
     // Audit the legacy path access
     await db.from('admin_audit_events').insert({
-      actor_user_id: user.id,
+      actor_user_id: auth.id,
       action: 'DOCUMENT_URL_ISSUED',
       target_type: 'document',
       target_id: matchingDoc.id,
       metadata: {
         bucket,
-        admin_role: profile.role,
+        admin_role: auth.role,
         document_owner_id: matchingDoc.user_id,
         document_type: matchingDoc.document_type,
         file_path: filePath,

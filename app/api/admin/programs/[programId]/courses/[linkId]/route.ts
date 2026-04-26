@@ -9,7 +9,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { z } from 'zod';
 import { getAdminClient } from '@/lib/supabase/admin';
-import { getCurrentUser } from '@/lib/auth';
 import { logger } from '@/lib/logger';
 
 export const dynamic = 'force-dynamic';
@@ -25,8 +24,8 @@ export async function PATCH(
   { params }: { params: Promise<{ programId: string; linkId: string }> }
 ) {
   const { programId, linkId } = await params;
-  const user = await requireAdmin();
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  const auth = await apiRequireAdmin(req);
+  if (auth.error) return auth.error;
 
   const body = await req.json().catch(() => null);
   if (!body) return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 });
@@ -50,12 +49,12 @@ export async function PATCH(
 }
 
 export async function DELETE(
-  _req: NextRequest,
+  req: NextRequest,
   { params }: { params: Promise<{ programId: string; linkId: string }> }
 ) {
   const { programId, linkId } = await params;
-  const user = await requireAdmin();
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  const auth = await apiRequireAdmin(req);
+  if (auth.error) return auth.error;
 
   const db = await getAdminClient();
   const { error } = await db

@@ -45,7 +45,16 @@ const programImages: Record<string, string> = {
 export default function SkilledTradesProgramsPage() {
   const [programs, setPrograms] = useState<Program[]>([]);
   const [loading, setLoading] = useState(true);
-  const b = heroBanners['skilled-trades'];
+  const b = heroBanners['skilled-trades'] ?? {
+    videoSrcDesktop: 'https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hvac-hero-final.mp4',
+    posterImage: '/hero-images/skilled-trades-category.webp',
+    microLabel: 'Skilled Trades Programs',
+    analyticsName: 'skilled-trades',
+    belowHeroHeadline: 'Skilled Trades — HVAC, Electrical, Welding, Plumbing and more.',
+    belowHeroSubheadline: 'Industry-recognized credentials. Job-ready in weeks.',
+    ctas: [],
+    trustIndicators: [],
+  };
 
   useEffect(() => {
     async function fetchPrograms() {

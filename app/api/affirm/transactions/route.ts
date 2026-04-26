@@ -218,9 +218,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         error:
-          error instanceof Error
-            ? error.message
-            : 'Failed to process transaction',
+          'Failed to process transaction',
       },
       { status: 500 }
     );
@@ -268,7 +266,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(
       {
         error:
-          error instanceof Error ? error.message : 'Failed to get transaction',
+          'Failed to get transaction',
       },
       { status: 500 }
     );

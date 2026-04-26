@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
+import { requireAdmin } from '@/lib/auth';
 import { AlertCircle, RefreshCw, XCircle } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
@@ -12,17 +13,8 @@ export const metadata: Metadata = {
 };
 
 export default async function EnrollmentJobsPage() {
+  await requireAdmin();
   const supabase = await createClient();
-
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('role')
-    .eq('id', user.id)
-    .maybeSingle();
-
-  if (!profile || !['admin', 'staff'].includes(profile.role)) {
-    redirect('/');
-  }
 
   // Get failed and retrying jobs
   const { data: jobs } = await supabase

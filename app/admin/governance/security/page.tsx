@@ -111,7 +111,7 @@ export default async function SecurityDocumentPage() {
             <p className="text-slate-700 leading-relaxed mt-4">
               Tax preparation services operated under the SupersonicFastCash brand (a separate DBA of 2Exclusive LLC-S) 
               are governed by a separate security addendum available at{' '}
-              <Link href="/supersonic-fast-cash/governance" className="text-brand-blue-600 hover:underline">
+              <Link href="/supersonic" className="text-brand-blue-600 hover:underline">
                 supersonicfastcash security documentation
               </Link>.
             </p>

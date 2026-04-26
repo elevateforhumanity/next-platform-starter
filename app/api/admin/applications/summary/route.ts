@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { getAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
+import { safeInternalError } from '@/lib/api/safe-error';
 export const runtime = 'nodejs';
 
 export const dynamic = 'force-dynamic';
@@ -35,7 +36,7 @@ export async function GET(request: NextRequest) {
     .select('status, program_slug');
 
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return safeInternalError(error, 'Failed to load application summary');
   }
 
   // Group by program_slug + status

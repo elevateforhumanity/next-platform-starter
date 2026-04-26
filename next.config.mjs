@@ -91,10 +91,10 @@ const nextConfig = {
   // Railway needs standalone for the persistent Node server.
   // Netlify breaks with standalone — gate behind RAILWAY env var.
   ...(process.env.RAILWAY === 'true' ? { output: 'standalone' } : {}),
-  // edge-tts@1.0.1 ships index.ts as its entry point (uncompiled TypeScript).
-  // transpilePackages tells Next.js to run it through the TypeScript compiler
-  // so webpack can parse it. serverExternalPackages does not help here because
-  // the dynamic import() in the TTS route still causes webpack to trace it.
+  // edge-tts ships index.ts as its entry point (uncompiled TypeScript).
+  // Netlify/webpack build: transpilePackages compiles it so webpack can parse it.
+  // Railway build uses next.config.railway.mjs where edge-tts is in
+  // serverExternalPackages instead — a package cannot be in both arrays under Turbopack.
   transpilePackages: ['edge-tts'],
 
 
@@ -631,9 +631,10 @@ const nextConfig = {
       { source: '/enroll/:path*', destination: '/apply', permanent: false },
       { source: '/financial-aid', destination: '/funding', permanent: true },
       { source: '/financial-support', destination: '/funding', permanent: true },
-      { source: '/community', destination: '/contact', permanent: false },
-      { source: '/supersonic-fast-cash', destination: '/programs', permanent: false },
-      { source: '/supersonic-fast-cash/:path*', destination: '/programs', permanent: false },
+      { source: '/community', destination: '/community-services', permanent: true },
+      { source: '/community/:path*', destination: '/community-services', permanent: true },
+      { source: '/supersonic-fast-cash', destination: '/supersonic', permanent: true },
+      { source: '/supersonic-fast-cash/:path*', destination: '/supersonic', permanent: true },
       { source: '/compliance/:path*', destination: '/disclosures', permanent: false },
       { source: '/docs/:path*', destination: '/resources', permanent: false },
       { source: '/videos/:path*', destination: '/resources', permanent: false },
@@ -667,9 +668,9 @@ const nextConfig = {
       { source: '/privacy', destination: '/privacy-policy', permanent: true },
       { source: '/terms', destination: '/terms-of-service', permanent: true },
       { source: '/legal/privacy', destination: '/privacy-policy', permanent: true },
-      { source: '/legal/terms-of-service', destination: '/terms-of-service', permanent: true },
-      { source: '/legal/governance/lms', destination: '/legal/governance/platform-overview', permanent: true },
-      { source: '/legal/governance/store', destination: '/legal/governance/platform-overview', permanent: true },
+      { source: '/legal/terms-of-service', destination: '/legal/privacy', permanent: true },
+      { source: '/legal/governance/lms', destination: '/legal/governance/lms-standards', permanent: true },
+      { source: '/legal/governance/store', destination: '/legal/governance/store-payments', permanent: true },
       { source: '/policies/privacy', destination: '/privacy-policy', permanent: true },
       { source: '/policies/terms', destination: '/terms-of-service', permanent: true },
       { source: '/policies/grievance', destination: '/grievance', permanent: true },
@@ -688,7 +689,7 @@ const nextConfig = {
       // Those routes are not compiled in this Netlify marketing deploy.
 
       // Store / platform aliases
-      { source: '/store/demo', destination: '/store/demos', permanent: true },
+      { source: '/store/demo', destination: '/store', permanent: true },
       { source: '/store/orders', destination: '/shop/orders', permanent: true },
       { source: '/platform/licensing', destination: '/licensing-partnerships', permanent: true },
       { source: '/chat', destination: '/support/chat', permanent: true },

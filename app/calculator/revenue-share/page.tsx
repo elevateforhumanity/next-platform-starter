@@ -385,7 +385,7 @@ export default function RevenueShareCalculator() {
               Start Onboarding
             </Link>
             <Link
-              href="/docs/revenue-sharing-policy.md"
+              href="/legal/license-agreement"
               className="bg-white hover:bg-gray-100 text-brand-blue-900 px-8 py-4 rounded-lg text-lg font-bold transition-all flex items-center justify-center"
             >
               <FileText className="w-5 h-5 mr-2" />

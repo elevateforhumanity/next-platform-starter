@@ -888,6 +888,108 @@
   status = 301
   force = true
 
+# ── Broken link fixes (audit 2026-04-25) ─────────────────────────────────────
+# NOTE: supersonic-fast-cash, legal/*, financial-aid, community, store/demo
+# are handled in next.config.mjs redirects array — do NOT duplicate here.
+# Only add Netlify-edge redirects for paths that next.config cannot handle
+# (Railway portal routes, external domains, force-overrides).
+
+[[redirects]]
+  from = "/legal/agreements"
+  to = "/legal/enrollment-agreement"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/governance/compliance"
+  to = "/legal/governance/compliance"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/governance/operational-controls"
+  to = "/admin/governance/operational-controls"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/governance/security"
+  to = "/legal/governance/security"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/hvac"
+  to = "/programs/hvac-technician"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/demo/admin"
+  to = "/admin/dashboard"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/store/licenses/starter-license"
+  to = "/store"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/ferpa/reports"
+  to = "/ferpa/compliance"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/pwa/barber"
+  to = "/lms/courses"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/pwa/barber/*"
+  to = "/lms/courses"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/pwa/cosmetology"
+  to = "/lms/courses"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/pwa/cosmetology/*"
+  to = "/lms/courses"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/pwa/esthetician"
+  to = "/lms/courses"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/pwa/esthetician/*"
+  to = "/lms/courses"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/pwa/nail-tech"
+  to = "/lms/courses"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/pwa/nail-tech/*"
+  to = "/lms/courses"
+  status = 302
+  force = true
+
 
 
 

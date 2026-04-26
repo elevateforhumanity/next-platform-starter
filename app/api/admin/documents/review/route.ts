@@ -2,6 +2,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { sendEmail } from '@/lib/email';
+import { createClient } from '@/lib/supabase/server';
+import { getAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { logAdminAudit, AdminAction } from '@/lib/admin/audit-log';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
@@ -15,29 +17,11 @@ async function _POST(request: NextRequest) {
   try {
     const rateLimited = await applyRateLimit(request, 'api');
     if (rateLimited) return rateLimited;
+    const auth = await apiRequireAdmin(request);
+    if (auth.error) return auth.error;
 
     const supabase = await createClient();
-
-    const {
-      data: { user },
-      error: authError,
-    } = await supabase.auth.getUser();
-    if (authError || !user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('role')
-      .eq('id', user.id)
-      .maybeSingle();
-
-    if (
-      !profile ||
-      (profile.role !== 'admin' && profile.role !== 'super_admin')
-    ) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
+    const db = await getAdminClient();
 
     const { documentId, action, rejectionReason, adminId } =
       await request.json();
@@ -63,7 +47,7 @@ async function _POST(request: NextRequest) {
       filter: { id: documentId },
       audit: {
         action: 'api:post:/api/admin/documents/review',
-        actorId: user.id,
+        actorId: auth.id,
         targetType: 'documents',
         targetId: documentId,
         metadata: { decision: action },
@@ -98,7 +82,7 @@ async function _POST(request: NextRequest) {
 
     await logAdminAudit({
       action: AdminAction.DOCUMENT_REVIEWED,
-      actorId: user.id,
+      actorId: auth.id,
       entityType: 'documents',
       entityId: documentId,
       metadata: { decision: action, file_name: document.file_name, student_user_id: studentUserId },
@@ -128,7 +112,7 @@ async function _POST(request: NextRequest) {
           .eq('id', studentUserId)
           .maybeSingle();
 
-        if (ownerProfile?.role === 'employer') {
+        if (db && ownerProfile?.role === 'employer') {
           const { tryAutoActivate } = await import('@/lib/employer/check-onboarding-complete');
           employerActivated = await tryAutoActivate(db, studentUserId);
         }

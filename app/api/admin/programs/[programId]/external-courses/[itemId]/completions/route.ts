@@ -10,19 +10,18 @@ import { NextRequest, NextResponse } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { z } from 'zod';
 import { getAdminClient } from '@/lib/supabase/admin';
-import { getCurrentUser } from '@/lib/auth';
 import { logger } from '@/lib/logger';
 
 export const dynamic = 'force-dynamic';
 
 
 export async function GET(
-  _req: NextRequest,
+  req: NextRequest,
   { params }: { params: Promise<{ programId: string; itemId: string }> }
 ) {
   const { programId, itemId } = await params;
-  const user = await requireAdmin();
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  const auth = await apiRequireAdmin(req);
+  if (auth.error) return auth.error;
 
   const db = await getAdminClient();
   const { data, error } = await db
@@ -51,8 +50,8 @@ export async function POST(
   { params }: { params: Promise<{ programId: string; itemId: string }> }
 ) {
   const { programId, itemId } = await params;
-  const user = await requireAdmin();
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  const auth = await apiRequireAdmin(req);
+  if (auth.error) return auth.error;
 
   const body = await req.json().catch(() => null);
   if (!body) return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 });
@@ -70,7 +69,7 @@ export async function POST(
         external_course_id: itemId,
         program_id:         programId,
         user_id:            parsed.data.user_id,
-        marked_by:          user.id,
+        marked_by:          auth.id,
         notes:              parsed.data.notes || null,
         proof_url:          parsed.data.proof_url || null,
         completed_at:       new Date().toISOString(),
@@ -85,7 +84,7 @@ export async function POST(
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 
-  logger.info('External training marked complete', { itemId, userId: parsed.data.user_id, adminId: user.id });
+  logger.info('External training marked complete', { itemId, userId: parsed.data.user_id, adminId: auth.id });
   return NextResponse.json({ completion: data }, { status: 201 });
 }
 
@@ -94,8 +93,8 @@ export async function DELETE(
   { params }: { params: Promise<{ programId: string; itemId: string }> }
 ) {
   const { itemId } = await params;
-  const user = await requireAdmin();
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  const auth = await apiRequireAdmin(req);
+  if (auth.error) return auth.error;
 
   const { searchParams } = new URL(req.url);
   const userId = searchParams.get('user_id');

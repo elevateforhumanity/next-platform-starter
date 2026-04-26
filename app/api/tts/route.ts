@@ -13,8 +13,11 @@ export async function POST(request: NextRequest) {
     // Limit text length
     const trimmedText = text.slice(0, 1000);
 
-    // Dynamic import edge-tts
-    const { tts } = await import('edge-tts');
+    // Dynamic import with turbopackIgnore — edge-tts ships index.ts which
+    // Turbopack cannot bundle. The package is in serverExternalPackages so
+    // Node.js resolves it at runtime. The ignore comment prevents Turbopack
+    // from tracing into the package during the build.
+    const { tts } = await import(/* turbopackIgnore: true */ 'edge-tts');
     
     // Generate audio buffer
     const audioBuffer = await tts(trimmedText, {

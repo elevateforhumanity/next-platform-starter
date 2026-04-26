@@ -27,24 +27,13 @@ const VALID_TRANSITIONS: Record<string, string[]> = {
 export async function POST(req: NextRequest) {
   const rateLimited = await applyRateLimit(req, 'api');
   if (rateLimited) return rateLimited;
+  const auth = await apiRequireAdmin(req);
+  if (auth.error) return auth.error;
 
   const supabase = await createClient();
   const db = await getAdminClient();
   if (!supabase || !db) {
     return NextResponse.json({ error: 'Database not configured' }, { status: 503 });
-  }
-
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-
-  const { data: profile } = await db
-    .from('profiles')
-    .select('role')
-    .eq('id', user.id)
-    .maybeSingle();
-
-  if (!profile || !['admin', 'super_admin', 'staff'].includes(profile.role)) {
-    return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
 
   let application_id: string;
@@ -243,8 +232,8 @@ export async function POST(req: NextRequest) {
     entity_type: 'application',
     entity_id: application_id,
     action: 'status_transition',
-    actor_id: user.id,
-    actor_role: profile.role,
+    actor_id: auth.id,
+    actor_role: auth.role,
     metadata: {
       from: currentStatus,
       to: next_status,

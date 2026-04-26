@@ -58,7 +58,7 @@ export default async function WIOAVerifyPage({
               {pending.map(p => (
                 <Link
                   key={p.id}
-                  href={`/admin/wioa/verify?id=${p.id}`}
+                  href={'/admin/wioa/verify?id=' + p.id}
                   className="flex items-center gap-4 p-4 hover:bg-gray-50 transition"
                 >
                   <div className="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center">

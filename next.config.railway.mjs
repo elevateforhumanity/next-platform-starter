@@ -92,8 +92,9 @@ const railwayConfig = {
     'ffmpeg-static',
   ],
 
-  // edge-tts ships uncompiled TypeScript — must transpile before webpack sees it
-  transpilePackages: ['edge-tts'],
+  // edge-tts is kept external (serverExternalPackages above) — do NOT add to transpilePackages.
+  // A package cannot appear in both arrays; Turbopack rejects it.
+  transpilePackages: [],
 
   // Prevent Turbopack from tracing the entire repo for fs-heavy devstudio routes
   outputFileTracingExcludes: {
@@ -119,8 +120,10 @@ const railwayConfig = {
     resolveAlias: {
       // Force 'remotion' imports to resolve from node_modules, not local dir
       remotion: 'remotion',
-      // edge-tts ships index.ts as entry — Turbopack can't externalize .ts files.
-      // Alias forces Node.js require() at runtime (already in serverExternalPackages).
+      // edge-tts ships index.ts as its entry point — Turbopack can't handle
+      // uncompiled TypeScript from node_modules. Aliasing it to itself tells
+      // Turbopack to treat it as a Node.js external (it's already in
+      // serverExternalPackages) rather than attempting to bundle the .ts file.
       'edge-tts': 'edge-tts',
     },
   },

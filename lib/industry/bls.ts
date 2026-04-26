@@ -58,7 +58,7 @@ export interface BlsOccupationData {
  * Formula: strip hyphen/dot → right-pad to 7 digits → prepend '0'.
  */
 function socToOeunSegment(socCode: string): string {
-  const digits = socCode.replace(/[-\.]/g, '').slice(0, 6); // e.g. '499021'
+  const digits = socCode.replace(/[-.]/g, '').slice(0, 6); // e.g. '499021'
   const padded = digits.padEnd(7, '0');                      // e.g. '4990210'
   return '0' + padded;                                       // e.g. '04990210'
 }

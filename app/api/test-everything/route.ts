@@ -1,4 +1,6 @@
+import { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
+import { apiRequireAdmin } from '@/lib/admin/guards';
 
 export const runtime = 'nodejs';
 export const maxDuration = 60;
@@ -10,6 +12,8 @@ export const maxDuration = 60;
  * Runs all test suites and provides complete production readiness report
  */
 export async function GET(request: Request) {
+  const auth = await apiRequireAdmin(request);
+  if (auth.error) return auth.error;
   try {
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
 
