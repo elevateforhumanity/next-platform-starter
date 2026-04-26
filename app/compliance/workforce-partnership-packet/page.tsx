@@ -1,14 +1,13 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import HeroVideo from '@/components/marketing/HeroVideo';
 import {
   Shield,
   GraduationCap,
   Building2,
   Award,
   FileCheck,
-  CheckCircle,
   Clock,
   Users,
   BarChart3,
@@ -127,28 +126,20 @@ export default function WorkforcePartnershipPacketPage() {
         </div>
       </div>
 
-      {/* Hero — hidden on print */}
-      <section className="relative h-[240px] sm:h-[300px] print:hidden overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
-        <Image
-          src="/images/pages/admin-automation-qa-hero.jpg"
-          alt="Workforce partnership meeting"
-          fill
-          sizes="100vw"
-          className="object-cover"
-          priority
+      <div className="print:hidden">
+        <HeroVideo
+          videoSrcDesktop="https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero.mp4"
+          posterImage="/images/pages/admin-automation-qa-hero.jpg"
+          microLabel="Partnership"
+          belowHeroHeadline="Workforce Partnership Packet"
+          belowHeroSubheadline="Share-ready partner packet covering delivery model, credential chain, reporting practices, and implementation timeline."
+          ctas={[
+            { label: 'Request Information', href: '/contact?program=workforce-partnership' },
+            { label: 'Instructional Framework', href: '/instructional-framework', variant: 'secondary' },
+          ]}
+          analyticsName="Workforce Partnership Packet"
         />
-        <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-10">
-          <div className="max-w-6xl mx-auto">
-            <p className="text-slate-600 text-sm font-medium uppercase tracking-wider mb-2">
-              Partnership Documentation
-            </p>
-            <h1 className="text-3xl sm:text-4xl font-bold text-slate-900">
-              Workforce Partnership Packet
-            </h1>
-          </div>
-        </div>
-      </section>
+      </div>
 
       {/* Print header */}
       <div className="hidden print:block px-8 pt-8 pb-4 border-b-2 border-gray-900">
@@ -245,35 +236,53 @@ export default function WorkforcePartnershipPacketPage() {
             </p>
             <div className="grid sm:grid-cols-2 gap-3 text-sm">
               <div className="flex items-start gap-2">
-                <CheckCircle className="w-4 h-4 text-brand-green-600 flex-shrink-0 mt-0.5" />
+                <span
+                  aria-hidden
+                  className="w-1.5 h-1.5 rounded-full bg-brand-red-500 flex-shrink-0 mt-2"
+                />
                 <span className="text-gray-700">
                   RTI via licensed credential partners (mapped hours)
                 </span>
               </div>
               <div className="flex items-start gap-2">
-                <CheckCircle className="w-4 h-4 text-brand-green-600 flex-shrink-0 mt-0.5" />
+                <span
+                  aria-hidden
+                  className="w-1.5 h-1.5 rounded-full bg-brand-red-500 flex-shrink-0 mt-2"
+                />
                 <span className="text-gray-700">OJT via approved employer partners</span>
               </div>
               <div className="flex items-start gap-2">
-                <CheckCircle className="w-4 h-4 text-brand-green-600 flex-shrink-0 mt-0.5" />
+                <span
+                  aria-hidden
+                  className="w-1.5 h-1.5 rounded-full bg-brand-red-500 flex-shrink-0 mt-2"
+                />
                 <span className="text-gray-700">
                   Competency-based assessment with mapped standards
                 </span>
               </div>
               <div className="flex items-start gap-2">
-                <CheckCircle className="w-4 h-4 text-brand-green-600 flex-shrink-0 mt-0.5" />
+                <span
+                  aria-hidden
+                  className="w-1.5 h-1.5 rounded-full bg-brand-red-500 flex-shrink-0 mt-2"
+                />
                 <span className="text-gray-700">
                   LMS tracking for RTI hours, modules, and evaluations
                 </span>
               </div>
               <div className="flex items-start gap-2">
-                <CheckCircle className="w-4 h-4 text-brand-green-600 flex-shrink-0 mt-0.5" />
+                <span
+                  aria-hidden
+                  className="w-1.5 h-1.5 rounded-full bg-brand-red-500 flex-shrink-0 mt-2"
+                />
                 <span className="text-gray-700">
                   Credentials issued by licensed authorities (not Elevate)
                 </span>
               </div>
               <div className="flex items-start gap-2">
-                <CheckCircle className="w-4 h-4 text-brand-green-600 flex-shrink-0 mt-0.5" />
+                <span
+                  aria-hidden
+                  className="w-1.5 h-1.5 rounded-full bg-brand-red-500 flex-shrink-0 mt-2"
+                />
                 <span className="text-gray-700">MOU-governed partner relationships</span>
               </div>
             </div>
@@ -473,15 +482,24 @@ export default function WorkforcePartnershipPacketPage() {
                 <p className="font-semibold text-gray-900 mb-1">Assessment Authority</p>
                 <ul className="space-y-1 text-gray-700 text-xs">
                   <li className="flex items-start gap-2">
-                    <CheckCircle className="w-3.5 h-3.5 text-brand-green-600 flex-shrink-0 mt-0.5" />
+                    <span
+                      aria-hidden
+                      className="w-1.5 h-1.5 rounded-full bg-brand-red-500 flex-shrink-0 mt-2"
+                    />
                     RTI competencies verified by Credential Partner / Instructor
                   </li>
                   <li className="flex items-start gap-2">
-                    <CheckCircle className="w-3.5 h-3.5 text-brand-green-600 flex-shrink-0 mt-0.5" />
+                    <span
+                      aria-hidden
+                      className="w-1.5 h-1.5 rounded-full bg-brand-red-500 flex-shrink-0 mt-2"
+                    />
                     OJT competencies verified by Employer Supervisor
                   </li>
                   <li className="flex items-start gap-2">
-                    <CheckCircle className="w-3.5 h-3.5 text-brand-green-600 flex-shrink-0 mt-0.5" />
+                    <span
+                      aria-hidden
+                      className="w-1.5 h-1.5 rounded-full bg-brand-red-500 flex-shrink-0 mt-2"
+                    />
                     Final completion verified by Program Holder + Sponsor (Elevate)
                   </li>
                 </ul>
@@ -490,19 +508,31 @@ export default function WorkforcePartnershipPacketPage() {
                 <p className="font-semibold text-gray-900 mb-1">Evaluation Checkpoints</p>
                 <ul className="space-y-1 text-gray-700 text-xs">
                   <li className="flex items-start gap-2">
-                    <CheckCircle className="w-3.5 h-3.5 text-brand-green-600 flex-shrink-0 mt-0.5" />
+                    <span
+                      aria-hidden
+                      className="w-1.5 h-1.5 rounded-full bg-brand-red-500 flex-shrink-0 mt-2"
+                    />
                     30-day evaluation (initial progress review)
                   </li>
                   <li className="flex items-start gap-2">
-                    <CheckCircle className="w-3.5 h-3.5 text-brand-green-600 flex-shrink-0 mt-0.5" />
+                    <span
+                      aria-hidden
+                      className="w-1.5 h-1.5 rounded-full bg-brand-red-500 flex-shrink-0 mt-2"
+                    />
                     Midpoint evaluation (competency milestone check)
                   </li>
                   <li className="flex items-start gap-2">
-                    <CheckCircle className="w-3.5 h-3.5 text-brand-green-600 flex-shrink-0 mt-0.5" />
+                    <span
+                      aria-hidden
+                      className="w-1.5 h-1.5 rounded-full bg-brand-red-500 flex-shrink-0 mt-2"
+                    />
                     Final competency review (certification readiness)
                   </li>
                   <li className="flex items-start gap-2">
-                    <CheckCircle className="w-3.5 h-3.5 text-brand-green-600 flex-shrink-0 mt-0.5" />
+                    <span
+                      aria-hidden
+                      className="w-1.5 h-1.5 rounded-full bg-brand-red-500 flex-shrink-0 mt-2"
+                    />
                     Completion documentation (credential issuance + placement)
                   </li>
                 </ul>

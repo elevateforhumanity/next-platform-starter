@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import HeroVideo from '@/components/marketing/HeroVideo';
 import {
   Shield,
   GraduationCap,
@@ -260,28 +260,18 @@ export default function InstructionalFrameworkPage() {
         </div>
       </div>
 
-      {/* Hero */}
-      <section className="relative h-[50vh] sm:h-[55vh] md:h-[60vh] lg:h-[65vh] min-h-[320px] overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
-        <Image
-          src="/images/pages/instructional-framework-page-1.jpg"
-          alt="Instructor-led classroom training session"
-          fill
-          sizes="100vw"
-          className="object-cover"
-          priority
-        />
-        <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-10">
-          <div className="max-w-6xl mx-auto">
-            <p className="text-slate-600 text-sm font-medium uppercase tracking-wider mb-2">
-              Official Compliance Document
-            </p>
-            <h1 className="text-3xl sm:text-4xl font-bold text-slate-900">
-              Instructional Delivery Framework
-            </h1>
-          </div>
-        </div>
-      </section>
+      <HeroVideo
+        videoSrcDesktop="https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hvac-hero-final.mp4"
+        posterImage="/images/pages/instructional-framework-page-1.jpg"
+        microLabel="Framework"
+        belowHeroHeadline="Instructional Delivery Framework"
+        belowHeroSubheadline="Official RTI and OJT operating framework for partner-ready workforce delivery, credential alignment, and LMS-governed progression."
+        ctas={[
+          { label: 'Workforce Partnership Packet', href: '/compliance/workforce-partnership-packet' },
+          { label: 'Apprenticeship Structure', href: '/compliance/apprenticeship-structure', variant: 'secondary' },
+        ]}
+        analyticsName="Instructional Framework"
+      />
 
       {/* Governance Statement */}
       <section className="py-12">

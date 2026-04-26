@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import HeroVideo from '@/components/marketing/HeroVideo';
 import {
   Shield,
   GraduationCap,
@@ -11,7 +11,6 @@ import {
   ClipboardCheck,
   Monitor,
   Users,
-  CheckCircle,
 } from 'lucide-react';
 import { PrintButton } from './PrintButton';
 
@@ -131,28 +130,20 @@ export default function ApprenticeshipStructurePage() {
         </div>
       </div>
 
-      {/* Hero — hidden on print */}
-      <section className="relative h-[240px] sm:h-[300px] print:hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
-        <Image
-          src="/images/pages/apprenticeship-structure.jpg"
-          alt="Workforce training program overview"
-          fill
-          sizes="100vw"
-          className="object-cover"
-          priority
+      <div className="print:hidden">
+        <HeroVideo
+          videoSrcDesktop="https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/cna-hero.mp4"
+          posterImage="/images/pages/apprenticeship-structure.jpg"
+          microLabel="Compliance"
+          belowHeroHeadline="Apprenticeship & RTI Structure"
+          belowHeroSubheadline="Master operating structure for apprenticeship hierarchy, instructional authority, mapped training hours, and credential accountability."
+          ctas={[
+            { label: 'Instructional Framework', href: '/instructional-framework' },
+            { label: 'Partnership Packet', href: '/compliance/workforce-partnership-packet', variant: 'secondary' },
+          ]}
+          analyticsName="Apprenticeship Structure"
         />
-        <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-10">
-          <div className="max-w-6xl mx-auto">
-            <p className="text-slate-600 text-sm font-medium uppercase tracking-wider mb-2">
-              Master Compliance Document
-            </p>
-            <h1 className="text-3xl sm:text-4xl font-bold text-slate-900">
-              Apprenticeship & RTI Structure
-            </h1>
-          </div>
-        </div>
-      </section>
+      </div>
 
       {/* Print header — visible only on print */}
       <div className="hidden print:block px-8 pt-8 pb-4 border-b-2 border-gray-900">
@@ -457,19 +448,31 @@ export default function ApprenticeshipStructurePage() {
                 </p>
                 <ul className="space-y-1 text-sm text-gray-700">
                   <li className="flex items-start gap-2">
-                    <CheckCircle className="w-4 h-4 text-brand-green-600 flex-shrink-0 mt-0.5" />
+                    <span
+                      aria-hidden
+                      className="w-1.5 h-1.5 rounded-full bg-brand-red-500 flex-shrink-0 mt-2"
+                    />
                     Licensed/State-Approved Training Providers
                   </li>
                   <li className="flex items-start gap-2">
-                    <CheckCircle className="w-4 h-4 text-brand-green-600 flex-shrink-0 mt-0.5" />
+                    <span
+                      aria-hidden
+                      className="w-1.5 h-1.5 rounded-full bg-brand-red-500 flex-shrink-0 mt-2"
+                    />
                     Credentialed Subject Matter Experts (supplemental)
                   </li>
                   <li className="flex items-start gap-2">
-                    <CheckCircle className="w-4 h-4 text-brand-green-600 flex-shrink-0 mt-0.5" />
+                    <span
+                      aria-hidden
+                      className="w-1.5 h-1.5 rounded-full bg-brand-red-500 flex-shrink-0 mt-2"
+                    />
                     LMS Modules (structured, tracked)
                   </li>
                   <li className="flex items-start gap-2">
-                    <CheckCircle className="w-4 h-4 text-brand-green-600 flex-shrink-0 mt-0.5" />
+                    <span
+                      aria-hidden
+                      className="w-1.5 h-1.5 rounded-full bg-brand-red-500 flex-shrink-0 mt-2"
+                    />
                     AI-Assisted Tutoring (academic support, not primary instruction)
                   </li>
                 </ul>
@@ -480,19 +483,31 @@ export default function ApprenticeshipStructurePage() {
                 </p>
                 <ul className="space-y-1 text-sm text-gray-700">
                   <li className="flex items-start gap-2">
-                    <CheckCircle className="w-4 h-4 text-brand-green-600 flex-shrink-0 mt-0.5" />
+                    <span
+                      aria-hidden
+                      className="w-1.5 h-1.5 rounded-full bg-brand-red-500 flex-shrink-0 mt-2"
+                    />
                     Credential match: instructor license matches occupation
                   </li>
                   <li className="flex items-start gap-2">
-                    <CheckCircle className="w-4 h-4 text-brand-green-600 flex-shrink-0 mt-0.5" />
+                    <span
+                      aria-hidden
+                      className="w-1.5 h-1.5 rounded-full bg-brand-red-500 flex-shrink-0 mt-2"
+                    />
                     Fixed RTI hour minimums per program
                   </li>
                   <li className="flex items-start gap-2">
-                    <CheckCircle className="w-4 h-4 text-brand-green-600 flex-shrink-0 mt-0.5" />
+                    <span
+                      aria-hidden
+                      className="w-1.5 h-1.5 rounded-full bg-brand-red-500 flex-shrink-0 mt-2"
+                    />
                     MOU-governed partner relationships
                   </li>
                   <li className="flex items-start gap-2">
-                    <CheckCircle className="w-4 h-4 text-brand-green-600 flex-shrink-0 mt-0.5" />
+                    <span
+                      aria-hidden
+                      className="w-1.5 h-1.5 rounded-full bg-brand-red-500 flex-shrink-0 mt-2"
+                    />
                     LMS as single system of record
                   </li>
                 </ul>
@@ -560,15 +575,24 @@ export default function ApprenticeshipStructurePage() {
               <p className="font-semibold text-gray-900 text-sm mb-2">Assessment Authority</p>
               <ul className="space-y-1 text-xs text-gray-700">
                 <li className="flex items-start gap-2">
-                  <CheckCircle className="w-3.5 h-3.5 text-brand-green-600 flex-shrink-0 mt-0.5" />
+                  <span
+                    aria-hidden
+                    className="w-1.5 h-1.5 rounded-full bg-brand-red-500 flex-shrink-0 mt-2"
+                  />
                   RTI competencies → Credential Partner / Instructor
                 </li>
                 <li className="flex items-start gap-2">
-                  <CheckCircle className="w-3.5 h-3.5 text-brand-green-600 flex-shrink-0 mt-0.5" />
+                  <span
+                    aria-hidden
+                    className="w-1.5 h-1.5 rounded-full bg-brand-red-500 flex-shrink-0 mt-2"
+                  />
                   OJT competencies → Employer Supervisor
                 </li>
                 <li className="flex items-start gap-2">
-                  <CheckCircle className="w-3.5 h-3.5 text-brand-green-600 flex-shrink-0 mt-0.5" />
+                  <span
+                    aria-hidden
+                    className="w-1.5 h-1.5 rounded-full bg-brand-red-500 flex-shrink-0 mt-2"
+                  />
                   Final completion → Program Holder + Sponsor
                 </li>
               </ul>
@@ -577,15 +601,24 @@ export default function ApprenticeshipStructurePage() {
               <p className="font-semibold text-gray-900 text-sm mb-2">Evaluation Checkpoints</p>
               <ul className="space-y-1 text-xs text-gray-700">
                 <li className="flex items-start gap-2">
-                  <CheckCircle className="w-3.5 h-3.5 text-brand-green-600 flex-shrink-0 mt-0.5" />
+                  <span
+                    aria-hidden
+                    className="w-1.5 h-1.5 rounded-full bg-brand-red-500 flex-shrink-0 mt-2"
+                  />
                   30-day evaluation (initial progress)
                 </li>
                 <li className="flex items-start gap-2">
-                  <CheckCircle className="w-3.5 h-3.5 text-brand-green-600 flex-shrink-0 mt-0.5" />
+                  <span
+                    aria-hidden
+                    className="w-1.5 h-1.5 rounded-full bg-brand-red-500 flex-shrink-0 mt-2"
+                  />
                   Midpoint evaluation (competency milestone)
                 </li>
                 <li className="flex items-start gap-2">
-                  <CheckCircle className="w-3.5 h-3.5 text-brand-green-600 flex-shrink-0 mt-0.5" />
+                  <span
+                    aria-hidden
+                    className="w-1.5 h-1.5 rounded-full bg-brand-red-500 flex-shrink-0 mt-2"
+                  />
                   Final review (certification readiness)
                 </li>
               </ul>
