@@ -23,6 +23,7 @@ const IGNORE_PREFIXES = [
   '#',
   '/#',
   '/_next/',
+  '/api/',
   '/images/',
   '/img/',
   '/icons/',
@@ -70,6 +71,7 @@ function shouldIgnoreHref(rawHref) {
   if (!rawHref || typeof rawHref !== 'string') return true;
   if (rawHref.includes('${') || rawHref.startsWith('{') || rawHref.includes('{{')) return true;
   if (/^(sms|mailto|tel|ftp|javascript):/i.test(rawHref)) return true;
+  if (rawHref.includes('(') || rawHref.includes(')')) return true;
   if (IGNORE_PREFIXES.some((prefix) => rawHref.startsWith(prefix))) return true;
   const lower = rawHref.toLowerCase();
   if (IGNORE_EXTENSIONS.some((ext) => lower.endsWith(ext))) return true;
@@ -183,6 +185,41 @@ function isMarketingFile(relFilePath) {
   return !MARKETING_APP_EXCLUDE_SEGMENTS.has(firstSegment);
 }
 
+function shouldScanFile(relFilePath) {
+  if (relFilePath.startsWith('content/') || relFilePath.startsWith('data/')) return true;
+
+  if (relFilePath.startsWith('app/')) {
+    return isMarketingFile(relFilePath);
+  }
+
+  if (relFilePath.startsWith('components/')) {
+    const excluded = [
+      'components/admin/',
+      'components/lms/',
+      'components/dashboards/',
+      'components/demo/',
+      'components/store/',
+      'components/navigation/DashboardDropdown',
+      'components/navigation/HubNavigation',
+      'components/proof/',
+    ];
+    if (excluded.some((prefix) => relFilePath.startsWith(prefix))) return false;
+    return true;
+  }
+
+  if (relFilePath.startsWith('lib/')) {
+    return (
+      relFilePath.startsWith('lib/navigation/') ||
+      relFilePath.startsWith('lib/nav/') ||
+      relFilePath.startsWith('lib/pathways/') ||
+      relFilePath.startsWith('lib/pageVisuals') ||
+      relFilePath.startsWith('lib/search/')
+    );
+  }
+
+  return false;
+}
+
 function walkFiles(dir) {
   const absRoot = path.join(ROOT, dir);
   const files = [];
@@ -240,6 +277,7 @@ function main() {
 
   for (const file of files) {
     const relFile = path.relative(ROOT, file);
+    if (!shouldScanFile(relFile)) continue;
     if (IS_NETLIFY && !isMarketingFile(relFile)) continue;
 
     const source = fs.readFileSync(file, 'utf8');
@@ -302,4 +340,3 @@ function main() {
 }
 
 main();
-
