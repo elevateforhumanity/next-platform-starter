@@ -182,7 +182,7 @@ async function uploadToSupabase(
       'Content-Type': contentType,
       'x-upsert': 'true',
     },
-    body: buf,
+    body: new Uint8Array(buf),
   });
   if (!res.ok) throw new Error(`Upload failed (${storagePath}): ${await res.text()}`);
   return `${SUPA_URL}/storage/v1/object/public/${bucket}/${storagePath}`;

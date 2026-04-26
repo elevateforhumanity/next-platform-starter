@@ -158,7 +158,7 @@ export async function addSignature(
   const { data: signature, error } = await supabase
     .from('agreement_acceptances')
     .insert({
-      subject_type: params.signerRole === 'host_shop' ? 'host_shop' : 'apprentice',
+      subject_type: params.signerRole === 'employer' ? 'host_shop' : 'apprentice',
       subject_id: params.signerId,
       agreement_key: params.agreementType,
       agreement_version: params.agreementVersion || '1.0',

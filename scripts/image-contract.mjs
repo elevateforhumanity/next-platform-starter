@@ -51,12 +51,26 @@ function checkRawImg(content, relPath) {
   }
 }
 
-function parseImageBlocks(content) {
-  const blocks = [];
-  const re = /<Image\b[\s\S]*?(?:\/?>)/g;
-  for (const m of content.matchAll(re)) {
-    blocks.push({ text: m[0], index: m.index });
+function getNextImageComponentNames(content) {
+  const names = new Set();
+  const defaultImportRe = /import\s+([A-Za-z_$][\w$]*)\s+from\s+['"]next\/image['"]/g;
+  for (const m of content.matchAll(defaultImportRe)) {
+    names.add(m[1]);
   }
+  return names;
+}
+
+function parseImageBlocks(content, componentNames) {
+  if (!componentNames.size) return [];
+  const blocks = [];
+  for (const name of componentNames) {
+    const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const re = new RegExp(`<${escaped}\\b[\\s\\S]*?(?:\\/?>)`, 'g');
+    for (const m of content.matchAll(re)) {
+      blocks.push({ text: m[0], index: m.index });
+    }
+  }
+  blocks.sort((a, b) => a.index - b.index);
   return blocks;
 }
 
@@ -75,10 +89,11 @@ function maybeFixSizes(block, relPath, original) {
 function scanFile(absPath) {
   const rel = path.relative(ROOT, absPath);
   let content = fs.readFileSync(absPath, 'utf8');
+  const nextImageNames = getNextImageComponentNames(content);
 
   checkRawImg(content, rel);
 
-  const blocks = parseImageBlocks(content);
+  const blocks = parseImageBlocks(content, nextImageNames);
   if (!blocks.length) return;
 
   let changed = false;

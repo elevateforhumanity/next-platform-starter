@@ -95,7 +95,12 @@ export async function finalizeWebhookEvent(
       .eq('event_id', eventId);
 
     if (error) {
-      logger.error('Webhook event tracker finalize error', { provider, eventId, status, error });
+      logger.error('Webhook event tracker finalize error', undefined, {
+        provider,
+        eventId,
+        status,
+        error,
+      });
     }
   } catch (err) {
     logger.error('Webhook event tracker finalize exception', err);

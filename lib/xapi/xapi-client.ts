@@ -28,6 +28,7 @@ export interface XAPIResult {
   success?: boolean;
   completion?: boolean;
   duration?: string; // ISO 8601 duration
+  extensions?: Record<string, unknown>;
 }
 export interface XAPIStatement {
   actor: XAPIActor;

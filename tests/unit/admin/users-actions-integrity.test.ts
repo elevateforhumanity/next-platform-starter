@@ -15,24 +15,25 @@ import fs from 'fs';
 import path from 'path';
 
 const src = fs.readFileSync(path.resolve('app/admin/users/actions.ts'), 'utf-8');
+const hasProfilesSelect = (code: string) => /from\('profiles'\)\s*\.select\(/.test(code);
 
 describe('admin/users/actions.ts integrity contracts', () => {
   it('activateUser: pre-reads target before update', () => {
     // Must fetch the profile row before calling .update()
     const activateFn = src.slice(src.indexOf('export async function activateUser'));
-    expect(activateFn).toContain("from('profiles').select(");
+    expect(hasProfilesSelect(activateFn)).toBe(true);
     expect(activateFn).toContain('User not found');
   });
 
   it('deactivateUser: pre-reads target before update', () => {
     const deactivateFn = src.slice(src.indexOf('export async function deactivateUser'));
-    expect(deactivateFn).toContain("from('profiles').select(");
+    expect(hasProfilesSelect(deactivateFn)).toBe(true);
     expect(deactivateFn).toContain('User not found');
   });
 
   it('deleteUser: pre-reads target before delete', () => {
     const deleteFn = src.slice(src.indexOf('export async function deleteUser'));
-    expect(deleteFn).toContain("from('profiles').select(");
+    expect(hasProfilesSelect(deleteFn)).toBe(true);
     expect(deleteFn).toContain('User not found');
   });
 

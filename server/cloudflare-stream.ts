@@ -4,8 +4,8 @@
  * https://developers.cloudflare.com/stream/
  */
 
-import fs from 'fs/promises';
-import { createReadStream } from 'fs';
+import { readFile } from 'node:fs/promises';
+import * as path from 'node:path';
 
 export interface CloudflareStreamConfig {
   accountId: string;
@@ -99,8 +99,11 @@ export class CloudflareStreamService {
     },
   ): Promise<StreamVideo> {
     try {
+      const fileBuffer = await readFile(videoPath);
+      const fileName = path.basename(videoPath);
+      const fileBlob = new Blob([fileBuffer]);
       const form = new FormData();
-      form.append('file', createReadStream(videoPath));
+      form.append('file', fileBlob, fileName);
 
       // Add metadata
       const meta: Record<string, string> = {
@@ -127,9 +130,8 @@ export class CloudflareStreamService {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${this.apiToken}`,
-          ...form.getHeaders(),
         },
-        body: form as any as BodyInit,
+        body: form,
       });
 
       const data = (await response.json()) as StreamUploadResponse;

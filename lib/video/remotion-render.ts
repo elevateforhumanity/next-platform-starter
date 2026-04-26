@@ -19,8 +19,6 @@ import { getPexelsImage } from './pexels';
 import { logger } from '@/lib/logger';
 // Type-only import — never bundled, only used for type checking
 import type { ElevateLessonProps } from '@/remotion-src/compositions/ElevateLesson';
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type RemotionProps = Record<string, any>;
 
 // Remotion's inputProps requires Record<string, unknown> — this cast is safe
 // because ElevateLessonProps is a plain serialisable object.
