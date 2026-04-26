@@ -9,6 +9,8 @@ import {
   MapPin,
   AlertCircle,
 } from 'lucide-react';
+import HeroVideo from '@/components/marketing/HeroVideo';
+import { TransferHoursCalculator } from '../TransferHoursCalculator';
 
 export const metadata: Metadata = {
   title: 'Payment & Funding Information | Barber Apprenticeship | Elevate for Humanity',
@@ -19,24 +21,28 @@ export const metadata: Metadata = {
 export default function BarberEligibilityPage() {
   return (
     <div className="min-h-screen bg-white">
-      {/* Hero */}
-      <section className="bg-gradient-to-br from-blue-900 via-blue-800 to-slate-900 text-white py-16">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6">
+      <HeroVideo
+        videoSrcDesktop="/videos/barber-hero-final.mp4"
+        posterImage="/hero-images/barber-hero.jpg"
+        microLabel="Barber Apprenticeship"
+        analyticsName="barber-eligibility"
+      >
+        <div className="max-w-4xl">
           <Link
             href="/programs/barber-apprenticeship"
-            className="inline-flex items-center gap-2 text-blue-200 hover:text-white mb-6 transition"
+            className="inline-flex items-center gap-2 text-slate-600 hover:text-slate-900 mb-5 transition text-sm"
           >
             ← Back to Program Details
           </Link>
-          <h1 className="text-3xl sm:text-4xl font-bold mb-4">
-            Payment & Funding Information
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 mb-4">
+            Payment &amp; Funding Information
           </h1>
-          <p className="text-xl text-blue-100">
-            The Barber Apprenticeship is a <strong>self-pay program</strong>. We offer a flexible
-            weekly payment plan so you can start training without paying the full tuition upfront.
+          <p className="text-slate-700 text-lg leading-relaxed">
+            The Barber Apprenticeship is a <strong>self-pay program</strong>. Use the calculator
+            below to estimate weekly payments based on your transfer hours and down payment.
           </p>
         </div>
-      </section>
+      </HeroVideo>
 
       {/* Self-Pay Notice */}
       <section className="py-10 bg-amber-50">
@@ -71,21 +77,21 @@ export default function BarberEligibilityPage() {
       </section>
 
       {/* Self-Pay Options */}
-      <section className="py-12 bg-gray-50">
+      <section className="py-12 bg-slate-50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Self-Pay Options</h2>
+          <h2 className="text-2xl font-bold text-slate-900 mb-6">Self-Pay Options</h2>
 
           <div className="grid md:grid-cols-2 gap-6">
             <div className="bg-white rounded-xl p-6 shadow-sm border">
               <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4">
                 <DollarSign className="w-6 h-6 text-blue-600" />
               </div>
-              <h3 className="text-lg font-bold text-gray-900 mb-2">Weekly Payment Plan</h3>
-              <p className="text-gray-600 text-sm mb-3">
+              <h3 className="text-lg font-bold text-slate-900 mb-2">Weekly Payment Plan</h3>
+              <p className="text-slate-600 text-sm mb-3">
                 Pay a minimum $600 deposit to start, then make weekly payments every Friday for
                 29 weeks. No interest — flat weekly rate based on your chosen deposit amount.
               </p>
-              <ul className="text-sm text-gray-600 space-y-1">
+              <ul className="text-sm text-slate-600 space-y-1">
                 <li>• $600 minimum deposit due at enrollment</li>
                 <li>• 29 fixed weekly payments</li>
                 <li>• Total program cost: $4,980</li>
@@ -97,12 +103,12 @@ export default function BarberEligibilityPage() {
               <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mb-4">
                 <FileText className="w-6 h-6 text-green-600" />
               </div>
-              <h3 className="text-lg font-bold text-gray-900 mb-2">Pay in Full</h3>
-              <p className="text-gray-600 text-sm mb-3">
+              <h3 className="text-lg font-bold text-slate-900 mb-2">Pay in Full</h3>
+              <p className="text-slate-600 text-sm mb-3">
                 Pay the full $4,980 upfront using our secure checkout. We accept credit/debit
                 cards and BNPL options including Klarna, Afterpay, Affirm, and more.
               </p>
-              <ul className="text-sm text-gray-600 space-y-1">
+              <ul className="text-sm text-slate-600 space-y-1">
                 <li>• One-time payment of $4,980</li>
                 <li>• Instant enrollment confirmation</li>
                 <li>• BNPL options available</li>
@@ -113,11 +119,18 @@ export default function BarberEligibilityPage() {
         </div>
       </section>
 
+      <section className="py-12">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6">
+          <h2 className="text-2xl font-bold text-slate-900 mb-6">Payment Calculator</h2>
+          <TransferHoursCalculator />
+        </div>
+      </section>
+
       {/* Indiana Career Connect Reference */}
       <section className="py-12">
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Indiana Career Connect</h2>
-          <p className="text-gray-600 mb-6">
+          <h2 className="text-2xl font-bold text-slate-900 mb-2">Indiana Career Connect</h2>
+          <p className="text-slate-600 mb-6">
             While WIOA and WRG do not cover this program, Indiana Career Connect is still a
             valuable free resource for career exploration, résumé building, and job search.
             WorkOne case managers can also connect you with other funded training programs if
@@ -134,15 +147,15 @@ export default function BarberEligibilityPage() {
             <ExternalLink className="w-4 h-4" />
           </a>
 
-          <div className="mt-8 bg-gray-50 rounded-lg p-4">
-            <p className="font-medium text-gray-900 mb-2">Marion County WorkOne (Indianapolis):</p>
-            <div className="flex items-center gap-2 text-gray-600 mb-1">
+          <div className="mt-8 bg-slate-50 rounded-lg p-4">
+            <p className="font-medium text-slate-900 mb-2">Marion County WorkOne (Indianapolis):</p>
+            <div className="flex items-center gap-2 text-slate-600 mb-1">
               <Phone className="w-4 h-4" />
               <a href="tel:3176842400" className="hover:text-blue-600">
                 (317) 684-2400
               </a>
             </div>
-            <div className="flex items-center gap-2 text-gray-600">
+            <div className="flex items-center gap-2 text-slate-600">
               <MapPin className="w-4 h-4" />
               <span>3500 DePauw Blvd, Indianapolis, IN 46268</span>
             </div>

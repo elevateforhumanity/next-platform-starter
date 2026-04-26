@@ -6,6 +6,7 @@ import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, Loader2, CreditCard, Calculator, Info } from 'lucide-react';
+import HeroVideo from '@/components/marketing/HeroVideo';
 
 // Pricing constants - matches lib/programs/pricing.ts
 const PRICING = {
@@ -312,31 +313,29 @@ function BarberApprenticeshipApplyPageInner() {
 
   return (
     <main className="min-h-screen bg-white">
-      {/* Video Hero */}
-      <section className="relative h-[40vh] min-h-[300px] flex items-center">
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover"
-          poster="/hero-images/barber-hero.jpg"
-        >
-          <source src="/videos/barber-hero-final.mp4" type="video/mp4" />
-        </video>
-
-        <div className="relative z-10 max-w-5xl mx-auto px-6 w-full">
+      <HeroVideo
+        videoSrcDesktop="/videos/barber-hero-final.mp4"
+        posterImage="/hero-images/barber-hero.jpg"
+        microLabel="Barber Apprenticeship"
+        analyticsName="barber-apply"
+      >
+        <div className="max-w-5xl">
           <Link
             href="/programs/barber-apprenticeship"
-            className="inline-flex items-center gap-2 text-white/80 hover:text-white text-sm mb-4"
+            className="inline-flex items-center gap-2 text-slate-600 hover:text-slate-900 text-sm mb-4"
           >
             <ArrowLeft className="w-4 h-4" />
             Back to Program
           </Link>
-          <h1 className="text-4xl md:text-5xl font-bold text-white drop-shadow-lg">Enroll & Pay</h1>
-          <p className="text-xl text-white/90 mt-2 drop-shadow-md">Barber Apprenticeship Program</p>
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 leading-tight mb-3">
+            Enroll &amp; Pay
+          </h1>
+          <p className="text-slate-700 text-lg leading-relaxed">
+            Barber Apprenticeship Program — payment calculator, flexible down payment, and secure
+            checkout.
+          </p>
         </div>
-      </section>
+      </HeroVideo>
 
       <div className="max-w-5xl mx-auto px-6 py-12">
         <div className="grid lg:grid-cols-5 gap-8">
