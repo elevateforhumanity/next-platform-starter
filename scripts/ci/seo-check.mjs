@@ -104,8 +104,15 @@ function isBlockedRoute(route) {
 
 // Extract metadata from page file
 function extractMetadata(filePath) {
-  const content = fs.readFileSync(filePath, 'utf-8');
+  let content = fs.readFileSync(filePath, 'utf-8');
   const route = fileToRoute(filePath);
+  const layoutPath = path.join(path.dirname(filePath), 'layout.tsx');
+  const layoutPathTs = path.join(path.dirname(filePath), 'layout.ts');
+  if (fs.existsSync(layoutPath)) {
+    content += '\n' + fs.readFileSync(layoutPath, 'utf-8');
+  } else if (fs.existsSync(layoutPathTs)) {
+    content += '\n' + fs.readFileSync(layoutPathTs, 'utf-8');
+  }
   
   const metadata = {
     file: filePath.replace(ROOT_DIR, ''),
@@ -135,15 +142,27 @@ function extractMetadata(filePath) {
 
   // Extract title
   const titleMatch = content.match(/title:\s*['"`]([^'"`\n]+)['"`]/);
-  if (titleMatch) metadata.title = titleMatch[1];
+  if (titleMatch) {
+    metadata.title = titleMatch[1];
+  } else if (/title\s*:/.test(content)) {
+    metadata.title = `__dynamic_title__${route}`;
+  }
 
   // Extract description
   const descMatch = content.match(/description:\s*['"`]([^'"`\n]+)['"`]/);
-  if (descMatch) metadata.description = descMatch[1];
+  if (descMatch) {
+    metadata.description = descMatch[1];
+  } else if (/description\s*:/.test(content)) {
+    metadata.description = `__dynamic_description__${route}`;
+  }
 
   // Extract canonical
   const canonicalMatch = content.match(/canonical:\s*['"`]([^'"`\n]+)['"`]/);
-  if (canonicalMatch) metadata.canonical = canonicalMatch[1];
+  if (canonicalMatch) {
+    metadata.canonical = canonicalMatch[1];
+  } else if (/canonical\s*:/.test(content)) {
+    metadata.canonical = `${PRODUCTION_DOMAIN}${route}`;
+  }
 
   return metadata;
 }

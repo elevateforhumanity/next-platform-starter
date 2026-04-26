@@ -793,6 +793,32 @@ const nextConfig = {
 
       // ============================================
       // DEAD LINK FIXES — public-facing
+      { source: '/logout', destination: '/login', permanent: false },
+      { source: '/demo/admin', destination: '/admin/dashboard', permanent: false },
+      { source: '/student/support', destination: '/support', permanent: false },
+      { source: '/community/groups', destination: '/community', permanent: false },
+      { source: '/workforce-board/reports', destination: '/workforce-board', permanent: false },
+
+      { source: '/governance/security', destination: '/admin/governance/security', permanent: false },
+      { source: '/governance/compliance', destination: '/admin/governance/compliance', permanent: false },
+      { source: '/governance/operational-controls', destination: '/admin/governance/operational-controls', permanent: false },
+
+      { source: '/ferpa/reports', destination: '/admin/ferpa', permanent: false },
+      { source: '/store/licenses/starter-license', destination: '/store/licenses', permanent: false },
+      { source: '/elevate-platform-overview.pdf', destination: '/resources', permanent: false },
+
+      { source: '/pwa/cosmetology', destination: '/programs/cosmetology-apprenticeship', permanent: false },
+      { source: '/pwa/esthetician', destination: '/programs/esthetician', permanent: false },
+      { source: '/pwa/nail-tech', destination: '/programs/nail-technician-apprenticeship', permanent: false },
+      { source: '/pwa/barber/log-hours', destination: '/programs/barber-apprenticeship', permanent: false },
+      { source: '/pwa/barber/training', destination: '/programs/barber-apprenticeship', permanent: false },
+      { source: '/pwa/barber/progress', destination: '/programs/barber-apprenticeship', permanent: false },
+
+      { source: '/admin/accreditation/evidence/new', destination: '/admin/accreditation/evidence', permanent: false },
+      { source: '/admin/blog/new', destination: '/admin/blog', permanent: false },
+      { source: '/admin/users/invite', destination: '/admin/users', permanent: false },
+      { source: '/admin/wioa/documents/upload', destination: '/admin/wioa/documents', permanent: false },
+      { source: '/admin/live-sessions/new', destination: '/admin/live-sessions', permanent: false },
     ];
   },
   async headers() {

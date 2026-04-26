@@ -69,19 +69,19 @@ export interface OnetOccupation {
   education: OnetEducation;
 }
 
-function authHeader(): string {
+function authHeaders(): Record<string, string> {
   const apiKey = process.env.ONET_API_KEY;
-  if (apiKey) return `Bearer ${apiKey}`;
+  if (apiKey) return { 'X-API-Key': apiKey };
   const user = process.env.ONET_USERNAME;
   const pass = process.env.ONET_PASSWORD;
   if (!user || !pass) throw new Error('ONET_API_KEY or ONET_USERNAME/ONET_PASSWORD must be set');
-  return 'Basic ' + Buffer.from(`${user}:${pass}`).toString('base64');
+  return { Authorization: 'Basic ' + Buffer.from(`${user}:${pass}`).toString('base64') };
 }
 
 async function onetGet<T>(path: string): Promise<T> {
   const res = await fetch(`${BASE}${path}`, {
     headers: {
-      Authorization: authHeader(),
+      ...authHeaders(),
       Accept: 'application/json',
     },
     next: { revalidate: 0 }, // always fresh — we cache in Supabase

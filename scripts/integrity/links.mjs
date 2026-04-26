@@ -211,6 +211,21 @@ const links = extractLinks(appDir);
 const redirectSources = typeof nextConfig?.redirects === 'function'
   ? (await nextConfig.redirects()).map((r) => r.source)
   : [];
+const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+const sourceToRegex = (source) => {
+  const [pathOnly] = source.split('?');
+  const parts = pathOnly.split('/').filter(Boolean);
+  if (parts.length === 0) return /^\/$/;
+  const pattern = parts
+    .map((part) => {
+      if (part === ':path*') return '.*';
+      if (part.startsWith(':')) return '[^/]+';
+      return escapeRegExp(part);
+    })
+    .join('\\/');
+  return new RegExp(`^\\/${pattern}$`);
+};
+const redirectPatterns = redirectSources.map(sourceToRegex);
 
 // Combine all valid paths
 const allValidPaths = new Set([
@@ -245,6 +260,11 @@ for (const link of links) {
   // Allow known redirects and deferred routes
   if (ALLOWED_MISSING.has(link)) {
     validLinks.push({ link, status: 'redirect-or-deferred' });
+    continue;
+  }
+
+  if (redirectPatterns.some((pattern) => pattern.test(link))) {
+    validLinks.push({ link, status: 'redirect-match' });
     continue;
   }
 

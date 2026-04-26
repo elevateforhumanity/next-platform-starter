@@ -46,7 +46,7 @@ async function _POST(request: NextRequest) {
     if (!standards) {
       return NextResponse.json({
         ok: false,
-        message: 'No data returned. Check ONET_USERNAME/ONET_PASSWORD and BLS_API_KEY.',
+        message: 'No data returned. Check ONET_API_KEY (or ONET_USERNAME/ONET_PASSWORD) and BLS_API_KEY.',
         soc_code,
       }, { status: 200 });
     }
