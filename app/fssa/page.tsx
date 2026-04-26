@@ -5,7 +5,7 @@ import { CheckCircle, XCircle, AlertCircle, FileText, Phone, Mail, ArrowRight, S
 export const metadata: Metadata = {
   title: 'FSSA / IMPACT Program — Funded Workforce Training | Elevate for Humanity',
   description: 'Elevate for Humanity provides workforce training through the Indiana FSSA IMPACT program. Review eligibility requirements before applying.',
-  robots: { index: true, follow: true },
+  robots: { index: false, follow: false },
   alternates: { canonical: 'https://www.elevateforhumanity.org/fssa' },
 };
 

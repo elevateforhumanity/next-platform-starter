@@ -11,6 +11,10 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 export const metadata: Metadata = {
   title: 'Legal & Entity Information | Elevate for Humanity',
   description: 'Corporate structure, entity relationships, and governance documents for Elevate for Humanity Career & Technical Institute.',
+  robots: {
+    index: false,
+    follow: false,
+  },
 };
 
 export default async function LegalGovernancePage() {

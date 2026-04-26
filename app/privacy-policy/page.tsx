@@ -2,7 +2,6 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
-const SITE_URL = 'https://www.elevateforhumanity.org';
 const EFFECTIVE_DATE = 'February 17, 2026';
 const LEGAL_ENTITY = '2Exclusive LLC-S (d/b/a Elevate for Humanity Career & Technical Institute)';
 const ORG_NAME = 'Elevate for Humanity';
@@ -16,7 +15,7 @@ export const metadata: Metadata = {
   title: 'Privacy Policy | Elevate for Humanity',
   description:
     'Privacy policy for Elevate for Humanity / Technical Career Institute. How we collect, use, share, and protect personal information in compliance with FERPA, WIOA, and Indiana state law.',
-  alternates: { canonical: `${SITE_URL}/privacy-policy` },
+  alternates: { canonical: 'https://www.elevateforhumanity.org/privacy-policy' },
 };
 
 function Section({ id, number, title, children }: { id: string; number: string; title: string; children: React.ReactNode }) {

@@ -8,7 +8,7 @@
  * work activities for every SOC-coded occupation.
  *
  * Free account required: https://services.onetcenter.org/
- * Set ONET_USERNAME and ONET_PASSWORD in environment.
+ * Set ONET_API_KEY or ONET_USERNAME/ONET_PASSWORD in environment.
  *
  * Rate limit: 1 req/sec on free tier. This client adds a 1.1s delay between
  * calls when fetching multiple endpoints for the same SOC code.
@@ -70,9 +70,11 @@ export interface OnetOccupation {
 }
 
 function authHeader(): string {
+  const apiKey = process.env.ONET_API_KEY;
+  if (apiKey) return `Bearer ${apiKey}`;
   const user = process.env.ONET_USERNAME;
   const pass = process.env.ONET_PASSWORD;
-  if (!user || !pass) throw new Error('ONET_USERNAME and ONET_PASSWORD must be set');
+  if (!user || !pass) throw new Error('ONET_API_KEY or ONET_USERNAME/ONET_PASSWORD must be set');
   return 'Basic ' + Buffer.from(`${user}:${pass}`).toString('base64');
 }
 
@@ -172,7 +174,10 @@ export async function fetchOnetOccupation(socCode: string): Promise<OnetOccupati
 
 /** Check if O*NET credentials are configured. */
 export function isOnetConfigured(): boolean {
-  return !!(process.env.ONET_USERNAME && process.env.ONET_PASSWORD);
+  return !!(
+    process.env.ONET_API_KEY ||
+    (process.env.ONET_USERNAME && process.env.ONET_PASSWORD)
+  );
 }
 
 /**

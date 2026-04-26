@@ -7,7 +7,7 @@ import { Shield, CheckCircle, Building2, Users, TrendingUp, Mail } from 'lucide-
 export const metadata: Metadata = {
   title: 'Institutional Status | Elevate for Humanity Career & Technical Institute',
   description: 'Elevate for Humanity Career & Technical Institute is a workforce training provider delivering industry-recognized certifications and career pathways.',
-  robots: { index: true, follow: true },
+  robots: { index: false, follow: false },
   alternates: { canonical: 'https://www.elevateforhumanity.org/accreditation' },
 };
 

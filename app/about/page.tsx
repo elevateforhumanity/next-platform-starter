@@ -9,16 +9,14 @@ import { createClient } from '@/lib/supabase/server';
 
 export const revalidate = 3600; // re-fetch team from DB hourly
 
-const SITE_URL = 'https://www.elevateforhumanity.org';
-
 export const metadata: Metadata = {
   title: 'About Us | Elevate for Humanity',
   description: 'Elevate for Humanity is a workforce development institute in Indianapolis providing funded career training in healthcare, trades, CDL, technology, and barbering. Founded by Elizabeth Greene.',
-  alternates: { canonical: `${SITE_URL}/about` },
+  alternates: { canonical: 'https://www.elevateforhumanity.org/about' },
   openGraph: {
     title: 'About Elevate for Humanity',
     description: 'A workforce development institute providing funded career training in Indianapolis, Indiana. Founded by Elizabeth Greene.',
-    url: `${SITE_URL}/about`,
+    url: 'https://www.elevateforhumanity.org/about',
     siteName: 'Elevate for Humanity',
     images: [{ url: '/images/team/elizabeth-greene-headshot.jpg', width: 800, height: 1080, alt: 'Elizabeth Greene, Founder of Elevate for Humanity' }],
     type: 'website',

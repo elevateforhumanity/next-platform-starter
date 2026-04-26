@@ -8,7 +8,7 @@ import { CheckCircle, Users, TrendingUp, Briefcase, Mail, Award } from 'lucide-r
 export const metadata: Metadata = {
   title: 'Transparency & Outcomes | Elevate for Humanity Career & Technical Institute',
   description: 'Elevate for Humanity Career & Technical Institute is committed to transparency in how we deliver training and track outcomes.',
-  robots: { index: true, follow: true },
+  robots: { index: false, follow: false },
   alternates: { canonical: 'https://www.elevateforhumanity.org/verification-approvals' },
 };
 

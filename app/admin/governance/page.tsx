@@ -15,8 +15,8 @@ export const metadata: Metadata = {
   title: 'Governance | Elevate for Humanity',
   description: 'Platform governance, authoritative documents, and operational controls. For partners, buyers, reviewers, and agency representatives.',
   robots: {
-    index: true,
-    follow: true,
+    index: false,
+    follow: false,
   },
 };
 

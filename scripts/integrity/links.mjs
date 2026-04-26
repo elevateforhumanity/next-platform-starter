@@ -11,6 +11,7 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import nextConfig from '../../next.config.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.resolve(__dirname, '../..');
@@ -207,12 +208,16 @@ const pageRoutes = collectRoutes(appDir);
 const apiRoutes = collectApiRoutes(apiDir);
 const staticFiles = collectStaticFiles(publicDir);
 const links = extractLinks(appDir);
+const redirectSources = typeof nextConfig?.redirects === 'function'
+  ? (await nextConfig.redirects()).map((r) => r.source)
+  : [];
 
 // Combine all valid paths
 const allValidPaths = new Set([
   ...pageRoutes,
   ...apiRoutes,
   ...staticFiles,
+  ...redirectSources,
 ]);
 
 // Check which links don't have corresponding routes

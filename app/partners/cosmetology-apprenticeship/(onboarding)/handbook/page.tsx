@@ -208,7 +208,7 @@ export default function CosmetologyPartnerHandbookPage() {
           <p className="text-purple-900 font-bold text-lg mb-2">Ready to continue?</p>
           <p className="text-purple-700 text-sm mb-5">After reading this handbook, proceed to sign the MOU and complete your onboarding.</p>
           <Link
-            href="/partners/cosmetology-apprenticeship/(onboarding)/sign-mou"
+            href="/partners/cosmetology-apprenticeship/sign-mou"
             className="inline-flex items-center gap-2 px-6 py-3 bg-purple-600 text-white font-bold rounded-lg hover:bg-purple-700 transition"
           >
             Continue to MOU <ArrowRight className="w-4 h-4" />

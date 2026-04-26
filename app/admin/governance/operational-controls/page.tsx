@@ -12,8 +12,8 @@ export const metadata: Metadata = {
   title: 'Operational Controls | Governance | Elevate for Humanity',
   description: 'How quality, integrity, and risk controls are enforced across the platform including audits, CI gates, and deployment controls.',
   robots: {
-    index: true,
-    follow: true,
+    index: false,
+    follow: false,
   },
 };
 

@@ -15,8 +15,8 @@ export const metadata: Metadata = {
   title: 'Authoritative Documents | Governance | Elevate for Humanity',
   description: 'The seven governing documents that define platform operations for website, LMS, Store, and tax services.',
   robots: {
-    index: true,
-    follow: true,
+    index: false,
+    follow: false,
   },
 };
 

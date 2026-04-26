@@ -129,7 +129,7 @@ export default function IndustryStandardsPanel({
           <div>
             <p className="font-semibold">Fetch failed</p>
             <p className="text-xs mt-0.5">{error}</p>
-            <p className="text-xs mt-1 text-red-600">Check ONET_USERNAME, ONET_PASSWORD, and BLS_API_KEY in environment.</p>
+            <p className="text-xs mt-1 text-red-600">Check ONET_API_KEY (or ONET_USERNAME/ONET_PASSWORD) and BLS_API_KEY in environment.</p>
           </div>
         </div>
       )}

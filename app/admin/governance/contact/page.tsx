@@ -12,8 +12,8 @@ export const metadata: Metadata = {
   title: 'Governance Contact | Elevate for Humanity',
   description: 'Contact information for governance, compliance, and diligence inquiries.',
   robots: {
-    index: true,
-    follow: true,
+    index: false,
+    follow: false,
   },
 };
 

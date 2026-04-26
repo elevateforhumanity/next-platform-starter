@@ -3,12 +3,10 @@ import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { Shield, Lock, Eye, FileText, Phone } from 'lucide-react';
 
-const SITE_URL = 'https://www.elevateforhumanity.org';
-
 export const metadata: Metadata = {
-  title: 'Privacy Policy | Elevate for Humanity',
+  title: 'Privacy Overview | Elevate for Humanity',
   description: 'Learn how Elevate for Humanity collects, uses, and protects your personal information.',
-  alternates: { canonical: `${SITE_URL}/privacy` },
+  alternates: { canonical: 'https://www.elevateforhumanity.org/privacy' },
 };
 
 export default function PrivacyPolicyPage() {

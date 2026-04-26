@@ -11,6 +11,10 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 export const metadata: Metadata = {
   title: 'Security & Data Protection Statement | Elevate for Humanity',
   description: 'How 2Exclusive LLC-S (d/b/a Elevate for Humanity Career & Technical Institute) protects personal, educational, and operational data.',
+  robots: {
+    index: false,
+    follow: false,
+  },
 };
 
 export default async function SecurityDocumentPage() {

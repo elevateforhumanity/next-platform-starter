@@ -14,6 +14,10 @@ import {
 export const metadata: Metadata = {
   title: 'Data Governance | Elevate for Humanity',
   description: 'Data retention, deletion policies, and governance framework for the Elevate Workforce Operating System.',
+  robots: {
+    index: false,
+    follow: false,
+  },
 };
 
 function PolicySection({ 

@@ -27,6 +27,7 @@
     "tsBuildInfoFile": ".next/cache/tsbuildinfo.json",
     "noImplicitReturns": true,
     "noUncheckedIndexedAccess": true,
+    "ignoreDeprecations": "6.0",
     "baseUrl": ".",
     "paths": {
       "@/*": [
