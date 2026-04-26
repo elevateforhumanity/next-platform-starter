@@ -17,8 +17,9 @@ export const ESTHETICIAN: ProgramSchema = {
   hoursBreakdown: { onlineInstruction: 30, handsOnLab: 55, examPrep: 8, careerPlacement: 7 },
   schedule: 'Monthly enrollment — flexible hybrid scheduling',
   cohortSize: '8–12 participants per cohort',
-  fundingStatement: '$0 with WIOA or Workforce Ready Grant. Self-pay: $4,575.',
-  selfPayCost: '$6,000',
+  fundingStatement:
+    '$0 with WIOA or Workforce Ready Grant. Self-pay starts at a $600 deposit, then weekly or BNPL options.',
+  selfPayCost: '$4,575',
   badge: 'ETPL Approved',
   badgeColor: 'green',
 
@@ -274,7 +275,7 @@ export const ESTHETICIAN: ProgramSchema = {
     'Career placement support',
   ],
   paymentTerms:
-    'WIOA and Workforce Ready Grant accepted. Self-pay: $4,575 with payment plans available.',
+    'WIOA and Workforce Ready Grant accepted. Self-pay starts with a $600 deposit, then weekly payments or BNPL (Affirm, Sezzle, Afterpay, Klarna).',
 
   faqs: [
     {

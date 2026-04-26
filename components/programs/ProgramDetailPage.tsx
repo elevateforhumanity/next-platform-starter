@@ -22,7 +22,6 @@ import {
   ChevronRight,
   Award,
   ExternalLink,
-  CheckCircle2,
   Layers,
 } from 'lucide-react';
 import type { ProgramSchema } from '@/lib/programs/program-schema';
@@ -64,6 +63,14 @@ export default function ProgramDetailPage({
   const hoursRange = getTotalHoursRange(p);
   const primaryCTA = getPrimaryCTA(p);
   const enrollmentTracks = getEnrollmentTracks(p);
+  const selfPayNumeric = Number((p.selfPayCost || '').replace(/[^0-9.]/g, '')) || 0;
+  const bnplDepositStart = ['barber-apprenticeship', 'cosmetology-apprenticeship', 'esthetician', 'nail-technician-apprenticeship'].includes(p.slug)
+    ? 600
+    : null;
+  const estimatedWeeklyAfterDeposit =
+    bnplDepositStart && selfPayNumeric > bnplDepositStart && p.durationWeeks > 0
+      ? Math.ceil((selfPayNumeric - bnplDepositStart) / p.durationWeeks)
+      : null;
 
   return (
     <div className="min-h-screen bg-white">
@@ -388,7 +395,11 @@ export default function ProgramDetailPage({
                     </div>
                     <div className="flex-shrink-0">
                       <span className="flex items-center gap-1 text-brand-green-600 text-xs font-semibold">
-                        <CheckCircle2 className="w-4 h-4" /> Required
+                        <span
+                          aria-hidden
+                          className="w-1.5 h-1.5 rounded-full bg-brand-red-500 inline-block"
+                        />{' '}
+                        Required
                       </span>
                     </div>
                   </div>
@@ -447,7 +458,10 @@ export default function ProgramDetailPage({
                         key={c.courseId}
                         className="bg-white rounded-xl border border-slate-200 px-4 py-3 flex items-center gap-3"
                       >
-                        <CheckCircle2 className="w-4 h-4 text-brand-green-600 flex-shrink-0" />
+                        <span
+                          aria-hidden
+                          className="w-1.5 h-1.5 rounded-full bg-brand-red-500 flex-shrink-0"
+                        />
                         <div>
                           <p className="font-semibold text-slate-900 text-sm">{c.label}</p>
                           <p className="text-slate-500 text-xs">
@@ -541,19 +555,38 @@ export default function ProgramDetailPage({
                 {enrollmentTracks.selfPay.cost}
                 <span className="text-sm font-normal text-slate-500 ml-1">tuition</span>
               </p>
-              <p className="text-slate-600 text-sm leading-relaxed mb-4 flex-1">
-                {enrollmentTracks.selfPay.description}
-              </p>
-              <div className="bg-slate-50 rounded-xl p-4 mb-5 text-sm text-slate-600 space-y-1.5">
-                <p className="font-semibold text-slate-700 text-xs uppercase tracking-wider mb-2">
-                  Payment options
+                <p className="text-slate-600 text-sm leading-relaxed mb-4 flex-1">
+                  {enrollmentTracks.selfPay.description}
+                </p>
+                {bnplDepositStart && (
+                  <div className="bg-brand-orange-50 border border-brand-orange-200 rounded-xl p-3 mb-4">
+                    <p className="text-xs font-bold text-brand-orange-800 uppercase tracking-wider">
+                      BNPL & Payment Plan
+                    </p>
+                    <p className="text-sm text-brand-orange-900 mt-1">
+                      Start with a <strong>${bnplDepositStart.toLocaleString()}</strong> deposit
+                      {estimatedWeeklyAfterDeposit
+                        ? (
+                            <>
+                              {' '}
+                              then about <strong>${estimatedWeeklyAfterDeposit}/week</strong> over{' '}
+                              {p.durationWeeks} weeks.
+                            </>
+                          )
+                        : '.'}
+                    </p>
+                  </div>
+                )}
+                <div className="bg-slate-50 rounded-xl p-4 mb-5 text-sm text-slate-600 space-y-1.5">
+                  <p className="font-semibold text-slate-700 text-xs uppercase tracking-wider mb-2">
+                    Payment options
                 </p>
                 {[
                   'Debit / Credit card',
                   'ACH bank transfer',
-                  'Payment plan (split over time)',
-                  'BNPL — Klarna, Afterpay, Zip',
-                ].map((item) => (
+                    'Payment plan (split over time)',
+                    'BNPL — Affirm, Sezzle, Afterpay, Klarna',
+                  ].map((item) => (
                   <div key={item} className="flex items-start gap-2">
                     <span className="flex-shrink-0 w-1.5 h-1.5 rounded-full bg-slate-400 mt-1.5" />
                     <span>{item}</span>
@@ -570,7 +603,9 @@ export default function ProgramDetailPage({
                     {enrollmentTracks.selfPay.cost ? ` · ${enrollmentTracks.selfPay.cost}` : ''}
                   </Link>
                   <p className="text-center text-xs text-slate-500">
-                    Payment plans, Affirm, Sezzle &amp; Afterpay available at checkout
+                    {bnplDepositStart && estimatedWeeklyAfterDeposit
+                      ? `Start with $${bnplDepositStart}, then about $${estimatedWeeklyAfterDeposit}/week.`
+                      : 'Payment plans, Affirm, Sezzle & Afterpay available at checkout.'}
                   </p>
                 </div>
               ) : (
@@ -591,11 +626,11 @@ export default function ProgramDetailPage({
 
           {/* Reassurance line */}
           <p className="text-center text-slate-500 text-sm mt-8">
-            Not sure which path is right?{' '}
+            Not in Indiana or not currently funding-eligible?{' '}
             <Link href="/contact" className="text-brand-blue-600 hover:underline font-medium">
-              Talk to an advisor
+              Talk to an advisor about self-pay and payment plan options
             </Link>{' '}
-            — it&apos;s free and takes 10 minutes.
+            — we&apos;ll map the right next step in about 10 minutes.
           </p>
 
           {/* Indiana Career Connect */}

@@ -17,7 +17,8 @@ export const COSMETOLOGY: ProgramSchema = {
   hoursBreakdown: { onlineInstruction: 200, handsOnLab: 1600, examPrep: 100, careerPlacement: 100 },
   schedule: 'Full-time, Mon–Sat (varies by salon)',
   cohortSize: '1–3 apprentices per salon',
-  fundingStatement: 'Earn while you learn — paid apprenticeship',
+  fundingStatement:
+    'Paid apprenticeship track available. For self-pay enrollment, BNPL starts at a $600 deposit with weekly payment options.',
   selfPayCost: '$6,000',
   badge: 'Earn & Learn',
   badgeColor: 'purple',
@@ -265,7 +266,8 @@ export const COSMETOLOGY: ProgramSchema = {
     'Licensing exam prep',
     'Career placement support',
   ],
-  paymentTerms: 'Earn while you learn — apprentices are paid by the host salon. No tuition cost.',
+  paymentTerms:
+    'Paid apprenticeship track remains available. For self-pay enrollment, start with a $600 deposit, then weekly payments or BNPL (Affirm, Sezzle, Afterpay, Klarna).',
   // ─── Content model ──────────────────────────────────────────────
   deliveryModel: 'partner',
   deliveryModelDetail: 'hybrid',

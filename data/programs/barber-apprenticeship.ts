@@ -30,7 +30,8 @@ export const BARBER_APPRENTICESHIP: ProgramSchema = {
   },
   schedule: 'Flexible — 15–20 hrs/week (OJT at host shop + RTI online)',
   cohortSize: '8–12 apprentices per cohort',
-  fundingStatement: '$4,980. Payment plans available.',
+  fundingStatement:
+    '$4,980 self-pay option. Start with a $600 deposit, then continue with weekly payments or BNPL.',
   selfPayCost: '$4,980',
   badge: 'DOL Registered',
   badgeColor: 'blue',
@@ -375,7 +376,8 @@ export const BARBER_APPRENTICESHIP: ProgramSchema = {
     'LMS access for full program duration',
     'Career placement and shop matching',
   ],
-  paymentTerms: '$4,980. Payment plans available.',
+  paymentTerms:
+    'Self-pay starts with a $600 deposit, then weekly payments through completion. BNPL options (Affirm, Sezzle, Afterpay, Klarna) are available at checkout.',
 
   // ─── Content model ──────────────────────────────────────────────
   deliveryModel: 'partner',

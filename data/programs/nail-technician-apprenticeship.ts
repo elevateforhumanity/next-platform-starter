@@ -15,7 +15,8 @@ export const NAIL_TECH: ProgramSchema = {
   hoursBreakdown: { onlineInstruction: 60, handsOnLab: 450, examPrep: 40, careerPlacement: 50 },
   schedule: 'Mon–Fri, varies by salon (25–30 hrs/week)',
   cohortSize: '1–3 apprentices per salon',
-  fundingStatement: 'Earn while you learn — paid apprenticeship',
+  fundingStatement:
+    'Paid apprenticeship track available. For self-pay enrollment, BNPL starts at a $600 deposit with weekly payment options.',
   selfPayCost: '$5,000',
   badge: 'Earn & Learn',
   badgeColor: 'purple',
@@ -227,7 +228,8 @@ export const NAIL_TECH: ProgramSchema = {
     'CPR/First Aid',
     'Licensing exam prep',
   ],
-  paymentTerms: 'Earn while you learn — apprentices are paid by the host salon.',
+  paymentTerms:
+    'Paid apprenticeship track remains available. For self-pay enrollment, start with a $600 deposit, then weekly payments or BNPL (Affirm, Sezzle, Afterpay, Klarna).',
   faqs: [
     {
       question: 'How long does it take?',

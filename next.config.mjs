@@ -481,7 +481,6 @@ const nextConfig = {
 
       // Dashboard
       { source: '/dashboard/sub-offices/new', destination: '/dashboard', permanent: true },
-      { source: '/demo/admin', destination: '/admin/dashboard', permanent: false },
 
       // Employer
       { source: '/employer/apprenticeship', destination: '/employer', permanent: true },
@@ -570,16 +569,8 @@ const nextConfig = {
         destination: '/legal/governance/platform-overview',
         permanent: true,
       },
-      { source: '/ferpa/reports', destination: '/ferpa/records', permanent: true },
       { source: '/community', destination: '/help', permanent: false },
       { source: '/financial-aid', destination: '/funding', permanent: true },
-      { source: '/hvac', destination: '/programs/hvac-technician', permanent: true },
-      { source: '/pwa/barber', destination: '/programs/barber-apprenticeship', permanent: true },
-      {
-        source: '/pwa/cosmetology',
-        destination: '/programs/cosmetology-apprenticeship',
-        permanent: true,
-      },
       { source: '/workforce-board/reports', destination: '/workone-partner-packet', permanent: true },
       {
         source: '/admin/accreditation/evidence/new',
