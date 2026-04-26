@@ -175,7 +175,12 @@ function checkBrokenInternalRoutes() {
 
 function checkFakeStats() {
   const files = [...walk(path.join(ROOT, 'app')), ...walk(path.join(ROOT, 'components'))];
-  const patterns = [/\b10,000\+?\s+students\b/i, /\b\d{1,3},\d{3}\+\s+(students|graduates|learners)\b/i, /join thousands/i, /demo stats?/i];
+  const patterns = [
+    /\b10,000\+?\s+students\b/gi,
+    /\b\d{1,3},\d{3}\+\s+(students|graduates|learners)\b/gi,
+    /join thousands/gi,
+    /demo stats?/gi,
+  ];
   let count = 0;
   for (const file of files) {
     const content = fs.readFileSync(file, 'utf8');
