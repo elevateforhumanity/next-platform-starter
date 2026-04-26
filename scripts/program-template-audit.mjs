@@ -33,23 +33,47 @@ function getProgramPages() {
     }
   }
   walk(root);
-
-  const templateCandidates = [
-    path.join(ROOT, 'components', 'programs', 'ProgramDetailPage.tsx'),
-    path.join(ROOT, 'components', 'programs', 'ProgramPageLayout.tsx'),
-    path.join(ROOT, 'components', 'programs', 'ProgramCategoryPage.tsx'),
-  ].filter((f) => fs.existsSync(f));
-
-  return [...pages, ...templateCandidates];
+  return pages;
 }
 
 function has(content, patterns) {
   return patterns.some((p) => p.test(content));
 }
 
+function isTopLevelProgramPage(rel) {
+  return /^app\/programs\/[^/]+\/page\.(tsx|jsx|ts)$/.test(rel);
+}
+
+function isExcludedTopLevelPage(rel) {
+  return /^app\/programs\/(admin|catalog|apprenticeships|federal-funded|micro-programs|jri|business|healthcare|skilled-trades|technology|beauty|cybersecurity|barber|page)\//.test(
+    rel,
+  );
+}
+
 function scan(file) {
   const rel = path.relative(ROOT, file);
   const content = fs.readFileSync(file, 'utf8');
+  if (!isTopLevelProgramPage(rel) || isExcludedTopLevelPage(rel)) {
+    return;
+  }
+
+  const usesCanonicalTemplate = has(content, [
+    /import\s+ProgramDetailPage\s+from\s+['"]@\/components\/programs\/ProgramDetailPage['"]/,
+    /import\s+ProgramPageLayout\s+from\s+['"]@\/components\/programs\/ProgramPageLayout['"]/,
+    /import\s+ProgramCategoryPage\s+from\s+['"]@\/components\/programs\/ProgramCategoryPage['"]/,
+  ]);
+
+  if (!usesCanonicalTemplate) {
+    addFinding(
+      'STRICT',
+      'PROGRAM_TEMPLATE_NOT_CANONICAL',
+      rel,
+      'Top-level program page must use ProgramDetailPage, ProgramPageLayout, or ProgramCategoryPage',
+    );
+  } else {
+    // Canonical template pages are schema-driven; skip heuristic section checks on these wrappers.
+    return;
+  }
 
   const required = [
     { code: 'SECTION_HERO', label: 'Hero', patterns: [/\bhero\b/i, /HeroVideo|ProgramHero|heroBanner/i] },

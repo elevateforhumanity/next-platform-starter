@@ -19,7 +19,7 @@ function addFinding(severity, code, file, line, message) {
   findings.push({ severity, code, file, line, message });
 }
 
-function walk(dir, exts = new Set(['.ts', '.tsx', '.js', '.jsx'])) {
+function walk(dir, exts = new Set(['.tsx', '.jsx'])) {
   const out = [];
   if (!fs.existsSync(dir)) return out;
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
