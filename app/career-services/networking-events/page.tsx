@@ -143,7 +143,7 @@ export default async function NetworkingEventsPage() {
             </p>
           </div>
           <Link
-            href="/employer"
+            href="/employers"
             className="flex-shrink-0 bg-brand-blue-600 text-white px-6 py-3 rounded-lg font-semibold text-sm hover:bg-brand-blue-700 transition-colors"
           >
             Partner with us

@@ -43,7 +43,7 @@ const NODES = [
     detail: 'Job placement, OJT/WEX agreements, apprenticeship hours, wage tracking',
     color: 'bg-slate-800 border-slate-700',
     accent: 'text-blue-400',
-    href: '/employer',
+    href: '/employers',
   },
   {
     step: '05',

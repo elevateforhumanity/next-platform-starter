@@ -30,7 +30,7 @@ const STAKEHOLDERS = [
       'Registered Apprenticeship setup and compliance support',
     ],
     cta: 'Access Talent Pipeline',
-    href: '/employer',
+    href: '/employers',
     gradient: 'bg-emerald-600',
     bg: 'bg-emerald-50',
     border: 'border-emerald-200',

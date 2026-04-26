@@ -188,7 +188,7 @@ export default async function ApplyPage({
               </p>
               <div className="space-y-1.5 mb-3">
                 <Link
-                  href="/employer"
+                  href="/employers"
                   className="block text-sm text-brand-blue-600 hover:text-brand-blue-800 hover:underline"
                 >
                   <strong>WOTC</strong> — Work Opportunity Tax Credit up to $9,600 per hire
@@ -220,7 +220,7 @@ export default async function ApplyPage({
                 </Link>
               </div>
               <Link
-                href="/employer"
+                href="/employers"
                 className="inline-flex items-center gap-2 bg-brand-blue-600 text-white font-semibold px-5 py-2.5 rounded-lg text-sm hover:bg-brand-blue-700 transition-colors"
               >
                 Partner With Us <ArrowRight className="w-4 h-4" />

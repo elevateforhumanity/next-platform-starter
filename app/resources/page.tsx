@@ -49,9 +49,9 @@ const sections = [
     title: 'For Employers',
     icon: Briefcase,
     links: [
-      { label: 'Employer Portal', href: '/employer', external: false },
-      { label: 'Post a Job', href: '/employer/post-job', external: false },
-      { label: 'Apprenticeship Partnerships', href: '/employer', external: false },
+      { label: 'Employer Portal', href: '/employers', external: false },
+      { label: 'Post a Job', href: '/employers', external: false },
+      { label: 'Apprenticeship Partnerships', href: '/employers', external: false },
       { label: 'WOTC Tax Credits', href: 'https://www.dol.gov/agencies/eta/wotc', external: true },
     ],
   },

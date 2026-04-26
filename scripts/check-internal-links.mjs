@@ -55,6 +55,40 @@ const IGNORE_EXTENSIONS = [
 const SCAN_ROOTS = ['app', 'components', 'lib', 'content', 'data'];
 const FILE_EXTENSIONS = new Set(['.ts', '.tsx', '.js', '.jsx', '.mjs', '.cjs', '.json', '.md', '.mdx']);
 
+const PUBLIC_COMPONENT_PREFIXES = [
+  'components/site/',
+  'components/marketing/',
+  'components/layout/',
+  'components/programs/',
+  'components/home/',
+];
+
+const PUBLIC_LIB_PREFIXES = ['lib/routes/', 'lib/pathways/'];
+
+function loadNetlifyAllowedTopLevel() {
+  const scriptPath = path.join(ROOT, 'scripts/netlify-quarantine-railway-routes.mjs');
+  if (!fs.existsSync(scriptPath)) return null;
+  const script = fs.readFileSync(scriptPath, 'utf8');
+  const match = script.match(/const ALLOWED_TOP_LEVEL\s*=\s*new Set\(\[([\s\S]*?)\]\)/m);
+  if (!match) return null;
+  return new Set(
+    [...match[1].matchAll(/'([^']+)'/g)]
+      .map((m) => m[1])
+      .filter((v) => !['components', 'actions', 'data'].includes(v)),
+  );
+}
+
+const NETLIFY_ALLOWED_TOP_LEVEL = loadNetlifyAllowedTopLevel();
+function loadNetlifyForbiddenSubpaths() {
+  const scriptPath = path.join(ROOT, 'scripts/netlify-quarantine-railway-routes.mjs');
+  if (!fs.existsSync(scriptPath)) return new Set();
+  const script = fs.readFileSync(scriptPath, 'utf8');
+  const match = script.match(/const FORBIDDEN_SUBPATHS\s*=\s*new Set\(\[([\s\S]*?)\]\)/m);
+  if (!match) return new Set();
+  return new Set([...match[1].matchAll(/'([^']+)'/g)].map((m) => m[1]));
+}
+const NETLIFY_FORBIDDEN_SUBPATHS = loadNetlifyForbiddenSubpaths();
+
 const MARKETING_APP_EXCLUDE_SEGMENTS = new Set(
   RAILWAY_ONLY_PREFIXES.map((prefix) => prefix.replace(/^\//, '').split('/')[0]).filter(Boolean),
 );
@@ -173,16 +207,36 @@ function isRailwayOnlyRoute(href) {
 }
 
 function isMarketingFile(relFilePath) {
-  if (relFilePath.startsWith('components/site/')) return true;
-  if (relFilePath.startsWith('components/marketing/')) return true;
-  if (relFilePath.startsWith('components/layout/')) return true;
+  if (PUBLIC_COMPONENT_PREFIXES.some((prefix) => relFilePath.startsWith(prefix))) return true;
   if (relFilePath.startsWith('content/')) return true;
   if (relFilePath.startsWith('data/')) return true;
   if (!relFilePath.startsWith('app/')) return false;
-  const firstSegment = relFilePath.replace(/^app\//, '').split('/')[0];
-  if (!firstSegment) return true;
-  if (firstSegment.startsWith('(')) return true;
-  return !MARKETING_APP_EXCLUDE_SEGMENTS.has(firstSegment);
+  const rawSegments = relFilePath.replace(/^app\//, '').split('/');
+  const segments = rawSegments.filter((seg) => seg && !seg.startsWith('(') && !seg.startsWith('_'));
+  if (segments.some((seg) => MARKETING_APP_EXCLUDE_SEGMENTS.has(seg))) return false;
+  const normalizedPath = segments
+    .filter((seg) => !/^page\.(tsx|ts|jsx|js)$/.test(seg))
+    .join('/');
+  if (
+    normalizedPath.includes('/enrollment-success') ||
+    normalizedPath.includes('/payment-setup') ||
+    normalizedPath.includes('/programs/admin/')
+  ) {
+    return false;
+  }
+  if (
+    normalizedPath &&
+    [...NETLIFY_FORBIDDEN_SUBPATHS].some(
+      (forbidden) => normalizedPath === forbidden || normalizedPath.startsWith(`${forbidden}/`),
+    )
+  ) {
+    return false;
+  }
+  const firstRouteSegment = segments.find((seg) => seg && !seg.startsWith('(') && !seg.startsWith('_'));
+  if (!firstRouteSegment) return true;
+  if (MARKETING_APP_EXCLUDE_SEGMENTS.has(firstRouteSegment)) return false;
+  if (NETLIFY_ALLOWED_TOP_LEVEL) return NETLIFY_ALLOWED_TOP_LEVEL.has(firstRouteSegment);
+  return true;
 }
 
 function shouldScanFile(relFilePath) {
@@ -193,28 +247,11 @@ function shouldScanFile(relFilePath) {
   }
 
   if (relFilePath.startsWith('components/')) {
-    const excluded = [
-      'components/admin/',
-      'components/lms/',
-      'components/dashboards/',
-      'components/demo/',
-      'components/store/',
-      'components/navigation/DashboardDropdown',
-      'components/navigation/HubNavigation',
-      'components/proof/',
-    ];
-    if (excluded.some((prefix) => relFilePath.startsWith(prefix))) return false;
-    return true;
+    return PUBLIC_COMPONENT_PREFIXES.some((prefix) => relFilePath.startsWith(prefix));
   }
 
   if (relFilePath.startsWith('lib/')) {
-    return (
-      relFilePath.startsWith('lib/navigation/') ||
-      relFilePath.startsWith('lib/nav/') ||
-      relFilePath.startsWith('lib/pathways/') ||
-      relFilePath.startsWith('lib/pageVisuals') ||
-      relFilePath.startsWith('lib/search/')
-    );
+    return PUBLIC_LIB_PREFIXES.some((prefix) => relFilePath.startsWith(prefix));
   }
 
   return false;

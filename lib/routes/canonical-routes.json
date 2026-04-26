@@ -67,6 +67,11 @@
       "source": "/training/hvac-technician",
       "destination": "/programs/hvac-technician",
       "permanent": true
+    },
+    {
+      "source": "/partners/esthetician-apprenticeship",
+      "destination": "/partners/cosmetology-apprenticeship",
+      "permanent": true
     }
   ],
   "railwayOnlyPrefixes": [
@@ -90,6 +95,11 @@
   ],
   "externalOrAppHostedAllowlist": [
     "/login",
-    "/signup"
+    "/signup",
+    "/admin/dashboard",
+    "/instructor/dashboard",
+    "/partner/login",
+    "/learner/dashboard",
+    "/lms/dashboard"
   ]
 }

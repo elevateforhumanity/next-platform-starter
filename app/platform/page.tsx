@@ -79,7 +79,7 @@ const audiences = [
     alt: 'Employer hiring portal and apprenticeship management',
     title: 'Employers',
     desc: 'Access a verified pipeline of credentialed graduates. Manage apprenticeship agreements, track OJT hours, and document WOTC eligibility — all in one place.',
-    href: '/employer',
+    href: '/employers',
     cta: 'Employer portal',
   },
   {
