@@ -369,7 +369,7 @@ export default function NewFerpaRequestPage() {
                   onChange={(e) => setFormData({ ...formData, purpose: e.target.value })}
                   rows={4}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
-                  placeholder="Describe why these records are being requested..."
+                  placeholder="State the educational, compliance, or legal purpose for this request"
                   required
                 />
               </div>

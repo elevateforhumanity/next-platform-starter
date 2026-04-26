@@ -168,7 +168,7 @@ export default async function FerpaRecordsSearchPage({
                     id="q"
                     name="q"
                     defaultValue={query}
-                    placeholder="Enter student name or email..."
+                    placeholder="Enter full student name or verified student email"
                     className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                     minLength={2}
                     required

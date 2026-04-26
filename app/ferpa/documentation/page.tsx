@@ -127,7 +127,7 @@ export default async function FerpaDocumentationPage() {
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-700" />
               <input
                 type="text"
-                placeholder="Search documents..."
+                placeholder="Search by policy title, form name, or keyword"
                 className="pl-9 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 w-64"
               />
             </div>
