@@ -582,11 +582,17 @@ export async function proxy(request: NextRequest) {
       return NextResponse.redirect(loginUrl, { status: 307 });
     }
 
-    const { data: profile } = await adminSupabase
+    const profilePromise = adminSupabase
       .from('profiles')
       .select('role, tenant_id')
       .eq('id', user.id)
       .single();
+
+    const timeoutPromise = new Promise<{ data: null; error: Error }>((resolve) =>
+      setTimeout(() => resolve({ data: null, error: new Error('profile lookup timeout') }), 5000)
+    );
+
+    const { data: profile } = await Promise.race([profilePromise, timeoutPromise]);
 
     if (!profile) {
       return NextResponse.redirect(new URL('/unauthorized', request.url), { status: 307 });
