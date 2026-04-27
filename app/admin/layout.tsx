@@ -28,6 +28,7 @@ export const metadata: Metadata = {
     'compliance',
     'operations',
   ],
+  robots: { index: false, follow: false },
   manifest: '/admin/manifest.webmanifest',
   openGraph: {
     title: 'Admin Portal | Elevate for Humanity',
@@ -212,7 +213,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   }
 
   const content = (
-    <div className="min-h-screen bg-slate-50 text-slate-900">
+    <div className="min-h-screen bg-white text-slate-900">
       <AdminNav userName={headerData.userName} notifs={headerData.notifs} />
       <IdleTimeoutGuard />
       <PWAManager />

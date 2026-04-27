@@ -7,11 +7,9 @@ import LearningBarrierAnalyzer from '@/components/admin/LearningBarrierAnalyzer'
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  alternates: {
-    canonical: 'https://www.elevateforhumanity.org/admin/barriers',
-  },
   title: 'Barriers Management | Elevate For Humanity',
   description: 'Track and manage participant barriers to employment and training.',
+  robots: { index: false, follow: false },
 };
 
 export default async function BarriersPage() {
