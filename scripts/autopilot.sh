@@ -4,22 +4,22 @@ set -euo pipefail
 echo "== Autopilot (Builder Mode) =="
 
 # 1) Prevent "analysis-only" churn: fail if someone adds NEW audit docs beyond required evidence.
-# Allowed docs:
+# Allowed docs (newly added/introduced files only):
 # - dashboard-schema-verification.md
 # - dashboard-orphans-disposition.md
 # - dashboard-consolidation-verification.md
 # - autopilot-run-log.md
-# Existing locked docs are also allowed.
+# Modifications to existing docs are allowed; only brand-new files are checked.
 ALLOWED_DOCS_REGEX='^(docs/(dashboard-inventory\.md|dashboard-canonical-architecture\.md|dashboard-crossed-analysis\.md|dashboard-schema-verification\.md|dashboard-orphans-disposition\.md|dashboard-consolidation-verification\.md|autopilot-run-log\.md|dashboard-consolidation-baseline\.md|SECURITY\.md))$'
 
-NEW_DOCS=$(git diff --name-only --diff-filter=ACMRT origin/main...HEAD 2>/dev/null | grep '^docs/.*\.md$' || true)
+NEW_DOCS=$(git diff --name-only --diff-filter=ACR origin/main...HEAD 2>/dev/null | grep '^docs/.*\.md$' || true)
 
 if [[ -n "${NEW_DOCS}" ]]; then
-  echo "Checking newly added/changed docs under docs/..."
+  echo "Checking newly added docs under docs/..."
   while IFS= read -r f; do
     if [[ ! "$f" =~ $ALLOWED_DOCS_REGEX ]]; then
-      echo "FAIL: New/changed doc not allowed in Builder Mode: $f"
-      echo "Allowed docs are execution evidence docs only."
+      echo "FAIL: New doc not allowed in Builder Mode: $f"
+      echo "Allowed new docs are execution evidence docs only."
       exit 1
     fi
   done <<< "${NEW_DOCS}"
