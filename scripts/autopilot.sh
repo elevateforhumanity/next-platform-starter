@@ -77,4 +77,3 @@ if [[ $missing -eq 1 ]]; then
 fi
 
 echo "PASS: Autopilot checks complete."
-
