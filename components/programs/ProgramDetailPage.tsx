@@ -13,7 +13,7 @@ import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import HeroVideo from '@/components/marketing/HeroVideo';
 import HeroPicture from '@/components/marketing/HeroPicture';
-const PaymentPlanCalculator = dynamic(() => import('./PaymentPlanCalculator'), { ssr: false });
+// PaymentPlanCalculator: not yet implemented — import removed to unblock build
 import heroBanners, { type HeroBannerConfig } from '@/content/heroBanners';
 import {
   BookOpen,
@@ -650,8 +650,7 @@ export default function ProgramDetailPage({
                 <p className="text-slate-600 text-sm leading-relaxed mb-4 flex-1">
                   {enrollmentTracks.selfPay.description}
                 </p>
-                {/* DB-driven payment calculator — fetches pricing from program_pricing table */}
-                <PaymentPlanCalculator programSlug={p.slug} />
+                {/* PaymentPlanCalculator: placeholder — component not yet built */}
 
               {!enrollmentTracks.selfPay.available && (
                 <div className="mt-4">
