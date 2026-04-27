@@ -55,7 +55,9 @@ export default function AdminLoginPage() {
         }
       }
 
-      router.push('/admin/dashboard');
+      // Hard redirect so the browser sends the fresh session cookie on the next request.
+      // router.push() is a client-side navigation and the middleware won't see the cookie.
+      window.location.href = '/admin/dashboard';
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : (err as any)?.message;
       if (typeof msg === 'string' && msg.toLowerCase().includes('invalid')) {
