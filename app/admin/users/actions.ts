@@ -129,10 +129,19 @@ export async function deleteUser(userId: string) {
     .maybeSingle();
   if (fetchError || !target) return { error: 'User not found' };
 
-  const { error } = await db.from('profiles').delete().eq('id', userId);
-  if (error) return { error: 'Failed to delete user' };
+  // Delete profile row first (FK child), then auth user (FK parent).
+  const { error: profileError } = await db.from('profiles').delete().eq('id', userId);
+  if (profileError) return { error: 'Failed to delete user profile' };
 
-  // Audit log written after confirmed delete, not before.
+  // Delete from Supabase Auth — requires service role key (admin client).
+  const { error: authError } = await db.auth.admin.deleteUser(userId);
+  if (authError) {
+    // Auth delete failed — profile is already gone. Log and surface the error
+    // so the admin knows the auth record may need manual cleanup.
+    console.error('[deleteUser] Auth delete failed after profile delete:', authError.message);
+    return { error: `Profile deleted but auth account removal failed: ${authError.message}` };
+  }
+
   await writeAdminAuditEvent(supabase, {
     action: AuditActions.USER_DELETED,
     target_type: 'profile',

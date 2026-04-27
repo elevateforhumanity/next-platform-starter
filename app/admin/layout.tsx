@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     'compliance',
     'operations',
   ],
-  manifest: '/manifest-admin.json',
+  manifest: '/admin/manifest.webmanifest',
   openGraph: {
     title: 'Admin Portal | Elevate for Humanity',
     description: 'Manage programs, students, certificates, and workforce development operations.',
