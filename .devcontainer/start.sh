@@ -37,7 +37,7 @@ set +a
 echo "▶ Installing dependencies..."
 corepack enable 2>/dev/null || true
 corepack prepare pnpm@10.28.2 --activate 2>/dev/null || true
-pnpm install --frozen-lockfile 2>/dev/null || pnpm install
+pnpm install --frozen-lockfile 2>/dev/null || pnpm install --no-frozen-lockfile
 
 # ── 3. HVAC audio (optional) ─────────────────────────────────────────────────
 if [ -z "$OPENAI_API_KEY" ]; then

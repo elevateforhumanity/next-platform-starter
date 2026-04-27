@@ -61,6 +61,6 @@ services:
     name: Dev Server
     description: Next.js development server with Turbopack on port 3000.
     commands:
-      start: pnpm dev --turbopack
+      start: pnpm dev
       stop: kill $(lsof -ti:3000) 2>/dev/null || true
       ready: curl -sf http://localhost:3000
