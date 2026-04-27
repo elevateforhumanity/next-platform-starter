@@ -272,7 +272,7 @@ export const COSMETOLOGY: ProgramSchema = {
   deliveryModel: 'partner',
   deliveryModelDetail: 'hybrid',
   partnerProvider: 'milady',
-  fundingOptions: ['employer_paid', 'wioa'],
+  fundingOptions: ['impact', 'employer_paid', 'self_pay'],
   enrollmentType: 'internal',
   partnerCourses: [
     {

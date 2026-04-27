@@ -173,6 +173,7 @@ export default async function BarberApprenticeshipPage() {
 
                 {/* Payment Buttons */}
                 <div className="space-y-3">
+                  {/* Pay in full */}
                   <Link
                     href="/programs/barber-apprenticeship/apply?type=apprentice&payment=pay_in_full"
                     className="w-full flex items-center justify-between px-6 py-4 bg-brand-blue-600 hover:bg-brand-blue-700 text-white font-bold rounded-lg transition-all"
@@ -181,26 +182,15 @@ export default async function BarberApprenticeshipPage() {
                       <Image src="/images/icons/dollar.png" alt="Pay in full" width={24} height={24} />
                       <div className="text-left">
                         <div className="font-bold">Pay in Full</div>
-                        <div className="text-sm text-brand-blue-100">
-                          One-time full payment
-                        </div>
+                        <div className="text-sm text-brand-blue-100">One-time full payment</div>
                       </div>
                     </div>
-                    <svg
-                      className="w-5 h-5"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9 5l7 7-7 7"
-                      />
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
                   </Link>
 
+                  {/* Payment plan */}
                   <Link
                     href="/programs/barber-apprenticeship/apply?type=apprentice&payment=payment_plan"
                     className="w-full flex items-center justify-between px-6 py-4 bg-brand-orange-600 hover:bg-brand-orange-700 text-white font-bold rounded-lg transition-all"
@@ -209,27 +199,15 @@ export default async function BarberApprenticeshipPage() {
                       <Image src="/images/icons/clock.png" alt="Payment plan" width={24} height={24} />
                       <div className="text-left">
                         <div className="font-bold">Payment Plan</div>
-                        <div className="text-sm text-orange-100">
-                          Starts at $600 down, then weekly payments
-                        </div>
+                        <div className="text-sm text-orange-100">Starts at $600 down, then weekly payments</div>
                       </div>
                     </div>
-                    <svg
-                      className="w-5 h-5"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9 5l7 7-7 7"
-                      />
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
                   </Link>
 
-                  {/* BNPL provider buttons */}
+                  {/* BNPL providers — driven by lib/bnpl-config.ts */}
                   {ACTIVE_BNPL_PROVIDERS.map((provider) => (
                     <Link
                       key={provider.id}
@@ -240,27 +218,16 @@ export default async function BarberApprenticeshipPage() {
                         <Image src="/images/icons/shield.png" alt={`${provider.name} BNPL`} width={24} height={24} />
                         <div className="text-left">
                           <div className="font-bold">{provider.name}</div>
-                          <div className="text-sm text-brand-blue-100">
-                            {provider.description}
-                          </div>
+                          <div className="text-sm text-brand-blue-100">{provider.description}</div>
                         </div>
                       </div>
-                      <svg
-                        className="w-5 h-5"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M9 5l7 7-7 7"
-                        />
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                       </svg>
                     </Link>
                   ))}
 
+                  {/* See all options */}
                   <Link
                     href="/programs/barber-apprenticeship/apply"
                     className="w-full flex items-center justify-between px-6 py-4 bg-slate-900 hover:bg-black text-white font-bold rounded-lg transition-all"
@@ -269,23 +236,11 @@ export default async function BarberApprenticeshipPage() {
                       <Image src="/images/icons/check-circle.png" alt="All payment options" width={24} height={24} />
                       <div className="text-left">
                         <div className="font-bold">See All Payment Options</div>
-                        <div className="text-sm text-slate-300">
-                          BNPL providers: {BNPL_PROVIDER_NAMES}
-                        </div>
+                        <div className="text-sm text-slate-300">BNPL providers: {BNPL_PROVIDER_NAMES}</div>
                       </div>
                     </div>
-                    <svg
-                      className="w-5 h-5"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9 5l7 7-7 7"
-                      />
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
                   </Link>
                 </div>

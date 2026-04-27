@@ -374,6 +374,29 @@ export default function ProgramDetailPage({
         </div>
       </section>
 
+      {/* WORKFORCE PATHWAY — 5 steps from intake to wage outcome */}
+      <section className="py-12 bg-slate-50 border-y border-slate-100">
+        <div className="max-w-6xl mx-auto px-4">
+          <h2 className="text-2xl font-extrabold text-slate-900 mb-2">Full Workforce Pathway</h2>
+          <p className="text-slate-600 text-sm mb-8">Built for agency deployment: intake to wage outcome in one system.</p>
+          <div className="grid gap-3 md:grid-cols-5">
+            {[
+              { step: 'Step 1', title: 'Eligibility & Intake', detail: 'Funding and readiness screening to start the right track immediately.' },
+              { step: 'Step 2', title: 'Training & Assessments', detail: 'Structured modules, lessons, and checkpoints in a tracked LMS path.' },
+              { step: 'Step 3', title: 'Credential', detail: 'Industry credential completion plus verifiable training records.' },
+              { step: 'Step 4', title: 'Employer Placement', detail: 'Placement support through named employer partners and matching workflow.' },
+              { step: 'Step 5', title: 'Wage Outcome', detail: `Target entry wages aligned to ${p.laborMarket?.salaryRange ?? 'regional labor data'}.` },
+            ].map((item) => (
+              <div key={item.step} className="rounded-xl border border-slate-200 bg-white p-4">
+                <p className="text-[10px] uppercase tracking-widest font-bold text-brand-red-600 mb-2">{item.step}</p>
+                <h3 className="text-sm font-extrabold text-slate-900 mb-1">{item.title}</h3>
+                <p className="text-xs text-slate-600 leading-relaxed">{item.detail}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* WHAT'S INCLUDED */}
       {((p.partnerCourses && p.partnerCourses.length > 0) ||
         (p.microCourses && p.microCourses.length > 0) ||
