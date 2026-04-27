@@ -140,7 +140,7 @@ export default function UserManagementClient({ initialUsers, stats }: Props) {
       if (result.error) throw new Error(result.error);
       setUsers(users.filter((u) => u.id !== userId));
     } catch (err: any) {
-      setError('An error occurred');
+      setError(err?.message ?? 'Failed to delete user');
     } finally {
       setLoading(false);
     }
