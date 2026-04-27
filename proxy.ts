@@ -384,9 +384,11 @@ export async function proxy(request: NextRequest) {
   // video generation routes to the Railway service.
   // This keeps Netlify's bundle lean and lets Railway handle heavy workloads.
   // RAILWAY_ADMIN_URL — admin service (Elevate-admin on Railway)
+  // Guard: skip proxying when already running on Railway to prevent self-proxy loops.
+  const isOnRailway = !!process.env.RAILWAY_SERVICE_NAME;
   const RAILWAY_ADMIN_URL = process.env.RAILWAY_ADMIN_URL ?? '';
 
-  if (RAILWAY_ADMIN_URL) {
+  if (RAILWAY_ADMIN_URL && !isOnRailway) {
     const ADMIN_PREFIXES = ['/admin', '/instructor', '/api/admin'];
     if (ADMIN_PREFIXES.some((prefix) => pathname.startsWith(prefix))) {
       const target = new URL(pathname, RAILWAY_ADMIN_URL);
@@ -397,7 +399,7 @@ export async function proxy(request: NextRequest) {
     }
   }
 
-  if (RAILWAY_LMS_URL) {
+  if (RAILWAY_LMS_URL && !isOnRailway) {
     // All /api/* routes go to Railway LMS — Netlify has no API routes (quarantined).
     // Webhooks are excluded: they must hit Netlify's own function handlers.
     const WEBHOOK_BYPASS = [
