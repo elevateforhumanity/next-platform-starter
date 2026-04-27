@@ -10,7 +10,10 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import HeroVideo from '@/components/marketing/HeroVideo';
+import HeroPicture from '@/components/marketing/HeroPicture';
+const PaymentPlanCalculator = dynamic(() => import('./PaymentPlanCalculator'), { ssr: false });
 import heroBanners, { type HeroBannerConfig } from '@/content/heroBanners';
 import {
   BookOpen,
@@ -64,9 +67,12 @@ export default function ProgramDetailPage({
   const primaryCTA = getPrimaryCTA(p);
   const enrollmentTracks = getEnrollmentTracks(p);
   const selfPayNumeric = Number((p.selfPayCost || '').replace(/[^0-9.]/g, '')) || 0;
-  const bnplDepositStart = ['barber-apprenticeship', 'cosmetology-apprenticeship', 'esthetician', 'nail-technician-apprenticeship'].includes(p.slug)
-    ? 600
-    : null;
+  // Use depositAmount from program data if set, otherwise fall back to $600 minimum.
+  const bnplDepositStart = p.depositAmount
+    ? Number(p.depositAmount.replace(/[^0-9.]/g, ''))
+    : ['barber-apprenticeship', 'cosmetology-apprenticeship', 'esthetician', 'nail-technician-apprenticeship'].includes(p.slug)
+      ? 600
+      : null;
   const estimatedWeeklyAfterDeposit =
     bnplDepositStart && selfPayNumeric > bnplDepositStart && p.durationWeeks > 0
       ? Math.ceil((selfPayNumeric - bnplDepositStart) / p.durationWeeks)
@@ -101,6 +107,23 @@ export default function ProgramDetailPage({
                 banner.primaryCta,
                 ...(banner.secondaryCta ? [banner.secondaryCta] : []),
               ];
+              // Use HeroPicture when no video is configured — avoids passing
+              // undefined to HeroVideo's required videoSrcDesktop prop.
+              if (!banner.videoSrcDesktop) {
+                return (
+                  <HeroPicture
+                    src={banner.posterImage ?? p.heroImage}
+                    alt={banner.microLabel ?? p.heroImageAlt}
+                    microLabel={banner.microLabel}
+                    analyticsName={banner.analyticsName}
+                    belowHeroHeadline={banner.belowHeroHeadline}
+                    belowHeroSubheadline={banner.belowHeroSubheadline}
+                    ctas={bannerCtas}
+                    trustIndicators={banner.trustIndicators}
+                    transcript={banner.transcript}
+                  />
+                );
+              }
               return (
                 <HeroVideo
                   videoSrcDesktop={banner.videoSrcDesktop}
@@ -627,58 +650,11 @@ export default function ProgramDetailPage({
                 <p className="text-slate-600 text-sm leading-relaxed mb-4 flex-1">
                   {enrollmentTracks.selfPay.description}
                 </p>
-                {bnplDepositStart && (
-                  <div className="bg-brand-orange-50 border border-brand-orange-200 rounded-xl p-3 mb-4">
-                    <p className="text-xs font-bold text-brand-orange-800 uppercase tracking-wider">
-                      BNPL & Payment Plan
-                    </p>
-                    <p className="text-sm text-brand-orange-900 mt-1">
-                      Start with a <strong>${bnplDepositStart.toLocaleString()}</strong> deposit
-                      {estimatedWeeklyAfterDeposit
-                        ? (
-                            <>
-                              {' '}
-                              then about <strong>${estimatedWeeklyAfterDeposit}/week</strong> over{' '}
-                              {p.durationWeeks} weeks.
-                            </>
-                          )
-                        : '.'}
-                    </p>
-                  </div>
-                )}
-                <div className="bg-slate-50 rounded-xl p-4 mb-5 text-sm text-slate-600 space-y-1.5">
-                  <p className="font-semibold text-slate-700 text-xs uppercase tracking-wider mb-2">
-                    Payment options
-                </p>
-                {[
-                  'Debit / Credit card',
-                  'ACH bank transfer',
-                    'Payment plan (split over time)',
-                    'BNPL — Affirm, Sezzle, Afterpay, Klarna',
-                  ].map((item) => (
-                  <div key={item} className="flex items-start gap-2">
-                    <span className="flex-shrink-0 w-1.5 h-1.5 rounded-full bg-slate-400 mt-1.5" />
-                    <span>{item}</span>
-                  </div>
-                ))}
-              </div>
-              {enrollmentTracks.selfPay.available ? (
-                <div className="space-y-2">
-                  <Link
-                    href={enrollmentTracks.selfPay.applyHref}
-                    className="block w-full text-center bg-brand-red-600 hover:bg-brand-red-700 text-white font-bold py-3.5 rounded-xl transition-colors text-sm"
-                  >
-                    Enroll Now
-                    {enrollmentTracks.selfPay.cost ? ` · ${enrollmentTracks.selfPay.cost}` : ''}
-                  </Link>
-                  <p className="text-center text-xs text-slate-500">
-                    {bnplDepositStart && estimatedWeeklyAfterDeposit
-                      ? `Start with $${bnplDepositStart}, then about $${estimatedWeeklyAfterDeposit}/week.`
-                      : 'Payment plans, Affirm, Sezzle & Afterpay available at checkout.'}
-                  </p>
-                </div>
-              ) : (
-                <div>
+                {/* DB-driven payment calculator — fetches pricing from program_pricing table */}
+                <PaymentPlanCalculator programSlug={p.slug} />
+
+              {!enrollmentTracks.selfPay.available && (
+                <div className="mt-4">
                   <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-3 text-sm text-amber-800">
                     {enrollmentTracks.selfPay.comingSoonMessage}
                   </div>
