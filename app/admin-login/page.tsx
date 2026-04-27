@@ -25,7 +25,7 @@ export default function AdminLoginPage() {
 
       const { data, error: authError }: any = await supabase.auth.signInWithPassword({
         email: email.trim(),
-        password: password.trim(),
+        password, // never trim passwords — leading/trailing spaces are valid
       });
 
       if (authError) throw authError;
@@ -55,56 +55,37 @@ export default function AdminLoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-900 flex">
-      {/* Left side — branding */}
-      <div className="hidden lg:flex lg:w-1/2 relative aspect-video">
+    <div className="min-h-screen bg-white">
+      {/* Hero Banner */}
+      <section className="relative h-[200px] w-full overflow-hidden">
         <Image
           src="/images/pages/admin-login-hero.jpg"
           alt="Elevate administration"
           fill
           className="object-cover"
           priority
+          quality={100}
           sizes="100vw"
         />
-        <div className="relative z-10 flex flex-col justify-center px-12">
-          <div className="flex items-center gap-3 mb-6">
-            <Shield className="w-10 h-10 text-cyan-400" />
-            <div>
-              <div className="text-2xl font-bold text-white">Admin Dashboard</div>
-              <div className="text-sm text-slate-700">Elevate for Humanity</div>
-            </div>
+        <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+          <div className="flex items-center gap-3">
+            <Shield className="w-8 h-8 text-white" />
+            <h1 className="text-3xl font-bold text-white">Admin Portal</h1>
           </div>
-          <p className="text-slate-700 text-lg max-w-md">
-            Manage programs, users, enrollments, analytics, and platform configuration.
-          </p>
         </div>
-      </div>
+      </section>
 
-      {/* Right side — login form */}
-      <div className="flex-1 flex items-center justify-center px-6 py-12">
-        <div className="w-full max-w-md">
-          <div className="lg:hidden flex items-center gap-3 mb-8">
-            <Image
-              src="/logo.jpg"
-              alt="Elevate for Humanity"
-              width={140}
-              height={40}
-              className="h-9 w-auto brightness-0 invert"
-            />
-          </div>
-
-          <div className="lg:hidden flex items-center gap-2 mb-6">
-            <Shield className="w-6 h-6 text-cyan-400" />
-            <h1 className="text-xl font-bold text-white">Admin Login</h1>
-          </div>
-
-          <div className="hidden lg:block mb-8">
-            <h1 className="text-3xl font-bold text-white mb-2">Sign In</h1>
-            <p className="text-slate-700">Enter your administrator credentials</p>
-          </div>
+      {/* Login Form */}
+      <section className="py-12">
+        <div className="max-w-md mx-auto px-4">
+          <div className="bg-white rounded-lg shadow-lg p-8">
+            <h2 className="text-2xl font-bold text-center mb-2">Administrator Sign In</h2>
+            <p className="text-center text-slate-600 mb-8 text-sm">
+              Restricted to authorized staff only.
+            </p>
 
           {error && (
-            <div className="mb-6 flex items-start gap-2 bg-red-900/30 border border-red-800 text-red-300 px-4 py-3 rounded-lg text-sm">
+            <div className="mb-6 flex items-start gap-2 bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg text-sm" role="alert">
               <AlertCircle className="w-5 h-5 shrink-0 mt-0.5" />
               <span>{error}</span>
             </div>
@@ -112,7 +93,7 @@ export default function AdminLoginPage() {
 
           <form onSubmit={handleLogin} className="space-y-5">
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-1.5">
+              <label htmlFor="email" className="block text-sm font-semibold text-slate-700 mb-2">
                 Email Address
               </label>
               <input
@@ -122,13 +103,13 @@ export default function AdminLoginPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 autoComplete="email"
-                className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
-                placeholder="elevate4humanityedu@gmail.com"
+                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+                placeholder="you@elevateforhumanity.org"
               />
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-slate-700 mb-1.5">
+              <label htmlFor="password" className="block text-sm font-semibold text-slate-700 mb-2">
                 Password
               </label>
               <div className="relative">
@@ -139,13 +120,13 @@ export default function AdminLoginPage() {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                   autoComplete="current-password"
-                  className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent pr-12"
-                  placeholder="Enter your password"
+                  className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent pr-12"
+                  placeholder="••••••••"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-700 hover:text-slate-700"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
                   aria-label={showPassword ? 'Hide password' : 'Show password'}
                 >
                   {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
@@ -156,7 +137,7 @@ export default function AdminLoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full flex items-center justify-center gap-2 bg-cyan-600 hover:bg-cyan-700 disabled:bg-cyan-800 disabled:cursor-not-allowed text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+              className="w-full flex items-center justify-center gap-2 bg-brand-blue-600 hover:bg-brand-blue-700 disabled:bg-slate-400 disabled:cursor-not-allowed text-white px-6 py-4 rounded-lg font-bold text-lg transition-colors"
             >
               {loading ? (
                 <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -168,22 +149,30 @@ export default function AdminLoginPage() {
             </button>
           </form>
 
-          <div className="mt-6 text-center space-y-3">
+          <div className="mt-6 text-center text-sm text-slate-600">
+            Need help?{' '}
+            <a href="tel:+13173143757" className="text-brand-blue-600 font-semibold">
+              (317) 314-3757
+            </a>
+          </div>
+        </div>
+
+          <div className="mt-6 text-center space-y-2 text-sm text-slate-600">
             <Link
-              href="/auth/forgot-password"
-              className="text-sm text-cyan-400 hover:text-cyan-300 transition-colors block"
+              href="/reset-password"
+              className="text-brand-blue-600 hover:text-brand-blue-700 transition-colors block"
             >
               Forgot your password?
             </Link>
-            <div className="text-sm text-slate-700">
+            <div>
               Not an admin?{' '}
-              <Link href="/login" className="text-cyan-400 hover:text-cyan-300">
+              <Link href="/login" className="text-brand-blue-600 hover:text-brand-blue-700 font-semibold">
                 Sign in to your portal
               </Link>
             </div>
           </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 }

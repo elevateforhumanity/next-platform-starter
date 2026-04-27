@@ -520,6 +520,7 @@ export async function proxy(request: NextRequest) {
     pathname.startsWith('/api') ||
     pathname.includes('.') ||
     pathname === '/login' ||
+    pathname === '/admin-login' ||
     pathname === '/signup' ||
     pathname === '/unauthorized'
   ) {
