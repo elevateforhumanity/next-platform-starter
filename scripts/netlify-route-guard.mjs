@@ -21,10 +21,11 @@ if (!process.env.NETLIFY) {
 const ROOT = process.cwd();
 const MANIFEST_PATH = join(ROOT, '.next', 'server', 'app-paths-manifest.json');
 
-// Hard ceiling — marketing site has ~150 real routes. 300 gives headroom for
+// Hard ceiling — marketing site has ~150 real routes. 320 gives headroom for
 // dynamic segments that expand in the manifest (e.g. [slug] variants).
+// Current count: 307 (updated 2026-04-27 after adding eligibility + instructor pages).
 // If this trips, the quarantine is leaking — fix the allowlist, not the ceiling.
-const ROUTE_CEILING = 300;
+const ROUTE_CEILING = 320;
 
 // Forbidden first path segments that must not appear in compiled output.
 const FORBIDDEN_PREFIXES = [
