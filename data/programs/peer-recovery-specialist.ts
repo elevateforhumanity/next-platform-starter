@@ -4,30 +4,31 @@ export const PEER_RECOVERY: ProgramSchema = {
   slug: 'peer-recovery-specialist',
   title: 'Peer Recovery Specialist',
   subtitle:
-    'Help others overcome addiction and mental health challenges. Earn your Indiana Certified Peer Recovery Specialist (CPRS) credential in 8 weeks.',
+    'Earn your Indiana Certified Peer Recovery Specialist (CPRS) credential in 8 weeks. Help others overcome addiction and mental health challenges.',
+  sector: 'healthcare',
   category: 'Healthcare & Human Services',
   heroImage: '/hero-images/healthcare-hero.jpg',
   heroImageAlt: 'Peer recovery specialist in a counseling session',
+  deliveryMode: 'hybrid',
   durationWeeks: 8,
+  hoursPerWeekMin: 20,
+  hoursPerWeekMax: 25,
+  hoursBreakdown: {
+    onlineInstruction: 60,
+    handsOnLab: 40,
+    examPrep: 20,
+    careerPlacement: 10,
+  },
+  schedule: 'Monthly enrollment — hybrid scheduling (online + in-person practicum)',
+  cohortSize: '8–15 participants per cohort',
   selfPayCost: '$5,000',
   metaTitle: 'Peer Recovery Specialist (CPRS) | Indiana Certification | Elevate for Humanity',
   metaDescription:
     'Earn your Indiana Certified Peer Recovery Specialist (CPRS) credential in 8 weeks. WIOA funding available. Help others overcome addiction and mental health challenges.',
-
   fundingStatement: 'WIOA and FSSA IMPACT funding available for eligible Indiana residents.',
-  fundingOptions: [
-    {
-      name: 'WIOA',
-      description:
-        'For eligible unemployed or underemployed Indiana residents. Covers full tuition, books, and exam fees.',
-      tag: 'Federal',
-    },
-    {
-      name: 'FSSA IMPACT',
-      description: 'For current SNAP or TANF recipients. Covers full tuition at no cost.',
-      tag: 'Indiana State',
-    },
-  ],
+  fundingOptions: ['wioa', 'impact', 'self_pay'],
+  badge: 'ETPL Approved',
+  badgeColor: 'green',
 
   credentials: [
     {
@@ -35,34 +36,61 @@ export const PEER_RECOVERY: ProgramSchema = {
       issuer: 'Indiana Family and Social Services Administration (FSSA)',
       description:
         'State-recognized credential required to work as a peer recovery specialist in Indiana. Recognized by DMHA and Medicaid-certified providers.',
-      isPortable: true,
+      validity: 'Biennial renewal',
     },
   ],
 
   outcomes: [
     {
+      statement:
+        'Articulate the peer support model, CPRS role boundaries, and ethics framework per Indiana DMHA standards.',
+      assessedAt: 'Week 2',
+    },
+    {
+      statement:
+        'Demonstrate motivational interviewing techniques and active listening in supervised role-play scenarios.',
+      assessedAt: 'Week 3',
+    },
+    {
+      statement:
+        'Identify adverse childhood experience (ACE) indicators and apply trauma-sensitive communication in case studies.',
+      assessedAt: 'Week 4',
+    },
+    {
+      statement:
+        'Complete a safety plan template and demonstrate de-escalation in a simulated crisis scenario.',
+      assessedAt: 'Week 5',
+    },
+    {
+      statement:
+        'Navigate Indiana FSSA systems, complete a referral packet, and document a mock client interaction.',
+      assessedAt: 'Week 7',
+    },
+    {
+      statement:
+        'Pass CPRS practice exam at 80%+ and complete supervised practicum hours required for CPRS application.',
+      assessedAt: 'Week 8',
+    },
+  ],
+
+  careerPathway: [
+    {
       title: 'Peer Recovery Specialist',
       timeframe: '0–3 months',
       requirements: 'Indiana CPRS credential',
       salaryRange: '$32,000–$42,000',
-      statement:
-        'Work at community mental health centers, recovery houses, or hospital systems supporting individuals in recovery.',
     },
     {
       title: 'Recovery Coach',
       timeframe: '1–2 years',
       requirements: 'CPRS + field experience',
       salaryRange: '$38,000–$50,000',
-      statement:
-        'Provide one-on-one coaching, crisis support, and care coordination for individuals with substance use disorders.',
     },
     {
       title: 'Recovery Program Coordinator',
       timeframe: '3–5 years',
       requirements: 'CPRS + supervisory experience',
       salaryRange: '$48,000–$62,000',
-      statement:
-        'Manage peer support programs, supervise peer specialists, and coordinate with clinical teams.',
     },
   ],
 
@@ -108,34 +136,75 @@ export const PEER_RECOVERY: ProgramSchema = {
   modules: [
     {
       title: 'Introduction to Peer Recovery',
-      description: 'History of peer support, roles and responsibilities, ethics and boundaries.',
-      lessonCount: 4,
+      topics: [
+        'History and philosophy of peer support',
+        'CPRS roles, responsibilities, and ethics',
+        'Indiana DMHA certification requirements',
+        'Boundaries and scope of practice',
+      ],
     },
     {
       title: 'Recovery Coaching Fundamentals',
-      description:
-        'Motivational interviewing, active listening, goal setting, and person-centered planning.',
-      lessonCount: 5,
+      topics: [
+        'Motivational interviewing techniques',
+        'Active listening and person-centered planning',
+        'Goal setting and recovery planning',
+        'Strengths-based approaches',
+      ],
     },
     {
       title: 'Trauma-Informed Care',
-      description:
-        'Understanding trauma, adverse childhood experiences (ACEs), and trauma-sensitive communication.',
-      lessonCount: 4,
+      topics: [
+        'Understanding trauma and ACEs',
+        'Trauma-sensitive communication',
+        'Secondary traumatic stress and self-care',
+        'Cultural humility in recovery support',
+      ],
     },
     {
       title: 'Crisis Intervention & Safety Planning',
-      description:
-        'Recognizing crisis, de-escalation techniques, safety planning, and mandatory reporting.',
-      lessonCount: 4,
+      topics: [
+        'Recognizing crisis and warning signs',
+        'De-escalation techniques',
+        'Safety planning frameworks',
+        'Mandatory reporting requirements',
+      ],
     },
     {
       title: 'CPRS Exam Preparation & Practicum',
-      description:
-        'Exam review, supervised practicum hours, and certification application process.',
-      lessonCount: 3,
+      topics: [
+        'CPRS exam content review',
+        'Supervised practicum hours',
+        'FSSA certification application process',
+        'Career pathways and employer connections',
+      ],
     },
   ],
+
+  complianceAlignment: [
+    {
+      standard: 'Indiana ETPL Program ID',
+      description: 'Approved on Indiana ETPL for WIOA Individual Training Account funding.',
+    },
+    {
+      standard: 'Indiana DMHA CPRS Standards',
+      description:
+        'Curriculum aligned to Indiana Division of Mental Health and Addiction certification requirements.',
+    },
+    {
+      standard: 'WIOA Title I',
+      description: 'Program meets WIOA eligibility requirements for workforce funding.',
+    },
+  ],
+
+  laborMarket: {
+    medianSalary: 38000,
+    salaryRange: '$32,000–$62,000',
+    growthRate: '22%',
+    source: 'Bureau of Labor Statistics',
+    sourceYear: 2024,
+    region: 'Indiana',
+  },
 
   faqs: [
     {
@@ -146,7 +215,7 @@ export const PEER_RECOVERY: ProgramSchema = {
     {
       question: 'Is WIOA funding available for this program?',
       answer:
-        'Yes. This program is on the Indiana ETPL and qualifies for WIOA Individual Training Accounts (ITAs). Check your eligibility at /check-eligibility.',
+        'Yes. This program is on the Indiana ETPL and qualifies for WIOA Individual Training Accounts (ITAs). Contact your local WorkOne center to check eligibility.',
     },
     {
       question: 'What can I do with a CPRS credential?',
@@ -159,6 +228,7 @@ export const PEER_RECOVERY: ProgramSchema = {
         'After completing the program and practicum hours, you apply directly to Indiana FSSA DMHA. Processing typically takes 2–4 weeks.',
     },
   ],
+
   cta: {
     applyHref: '/programs/peer-recovery-specialist/apply',
     requestInfoHref: '/contact?program=peer-recovery-specialist',
