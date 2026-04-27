@@ -716,17 +716,19 @@
 # Bots and stale bookmarks hitting these get a 302 to the nearest public page.
 # ─────────────────────────────────────────────────────────────────────────────
 
-# Admin — Railway-owned dashboard, never served by Netlify
+# Admin — served by Railway, proxied through Netlify
+# Set RAILWAY_URL in Netlify site settings → Environment variables
+# e.g. https://your-app.up.railway.app
 [[redirects]]
   from = "/admin"
-  to = "/login"
-  status = 302
+  to = ":RAILWAY_URL/admin"
+  status = 301
   force = true
 
 [[redirects]]
   from = "/admin/*"
-  to = "/login"
-  status = 302
+  to = ":RAILWAY_URL/admin/:splat"
+  status = 301
   force = true
 
 # PWA — apprentice onboarding app lives in a separate repo
