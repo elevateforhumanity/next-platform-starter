@@ -434,7 +434,7 @@ function RecentActivity({ items }: { items: { id: string; title: string; timesta
   );
 }
 
-export function DashboardShell({ data }: { data: AdminDashboardData }) {
+export function AdminDashboardContent({ data }: { data: AdminDashboardData }) {
   const firstName = data.profile?.full_name?.split(' ')[0] ?? 'Admin';
   const today = new Date().toLocaleDateString('en-US', {
     weekday: 'long',
@@ -453,7 +453,7 @@ export function DashboardShell({ data }: { data: AdminDashboardData }) {
           priority
           sizes="100vw"
         />
-        <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-slate-50 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-white to-transparent" />
       </div>
 
       <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">

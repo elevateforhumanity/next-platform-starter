@@ -10,6 +10,7 @@ export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
   title: 'API Keys | Admin | Elevate For Humanity',
   description: 'Manage API keys for integrations.',
+  robots: { index: false, follow: false },
 };
 
 const statusColors: Record<string, string> = {

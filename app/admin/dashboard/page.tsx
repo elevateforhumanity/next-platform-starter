@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 import { Metadata } from 'next';
 import { requireAdmin } from '@/lib/auth';
 import { getAdminDashboardData } from '@/lib/admin/get-admin-dashboard-data';
-import { DashboardShell } from '@/components/admin/dashboard/DashboardShell';
+import { AdminDashboardContent } from '@/components/admin/dashboard/DashboardShell';
 import { BuiltCoursesPanel } from './BuiltCoursesPanel';
 import DashboardLoading from './loading';
 
@@ -20,7 +20,7 @@ async function DashboardContent() {
   const data = await getAdminDashboardData();
   return (
     <>
-      <DashboardShell data={data} />
+      <AdminDashboardContent data={data} />
       <BuiltCoursesPanel />
     </>
   );
