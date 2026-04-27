@@ -139,19 +139,34 @@ jobs:
           else
             BASE="HEAD~1"
           fi
-          CHANGED=$(git diff --name-only "$BASE" HEAD -- '*.ts' '*.tsx' '*.js' '*.jsx' | grep -v node_modules | grep -v '.next' | tr '\n' ' ')
+
+          # Build newline-delimited list (safer than space-delimited; avoids word-splitting issues)
+          CHANGED=$(git diff --name-only "$BASE" HEAD -- '*.ts' '*.tsx' '*.js' '*.jsx' \
+            | grep -v node_modules \
+            | grep -v '\.next' \
+            || true)
+
           if [ -z "$CHANGED" ]; then
             echo "No TS/JS files changed. Skipping lint."
             exit 0
           fi
-          # Filter to only existing files (skip deleted files)
-          EXISTING_FILES=$(for file in $CHANGED; do [ -f "$file" ] && echo "$file"; done | tr '\n' ' ')
+
+          # Keep only existing files (skip deleted/renamed-away files)
+          EXISTING_FILES=$(echo "$CHANGED" | while IFS= read -r file; do
+            [ -f "$file" ] && echo "$file"
+          done)
+
           if [ -z "$EXISTING_FILES" ]; then
             echo "No existing TS/JS files to lint (changed files were deleted)."
             exit 0
           fi
-          echo "Linting changed files: $EXISTING_FILES"
-          npx eslint $EXISTING_FILES --max-warnings=0
+
+          echo "Linting changed files:"
+          echo "$EXISTING_FILES"
+
+          # Pass files via xargs to avoid argv length limits (exit code 249 was caused by
+          # a huge space-delimited argument list exceeding the OS exec limit)
+          echo "$EXISTING_FILES" | xargs npx eslint --max-warnings=0 --no-error-on-unmatched-pattern
 
   # Deployment verification (runs after successful merge to main)
   post-deployment-check:
