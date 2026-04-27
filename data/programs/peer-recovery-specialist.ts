@@ -133,7 +133,7 @@ export const PEER_RECOVERY: ProgramSchema = {
     },
   ],
 
-  modules: [
+  curriculum: [
     {
       title: 'Introduction to Peer Recovery',
       topics: [
@@ -179,6 +179,12 @@ export const PEER_RECOVERY: ProgramSchema = {
         'Career pathways and employer connections',
       ],
     },
+  ],
+
+  breadcrumbs: [
+    { label: 'Programs', href: '/programs' },
+    { label: 'Healthcare & Human Services', href: '/programs/healthcare' },
+    { label: 'Peer Recovery Specialist' },
   ],
 
   complianceAlignment: [
