@@ -72,6 +72,11 @@ export default function ProgramDetailPage({
       ? Math.ceil((selfPayNumeric - bnplDepositStart) / p.durationWeeks)
       : null;
   const hasIndianaFunding = p.fundingOptions?.some(f => f === 'wioa' || f === 'wrg' || f === 'impact');
+  const hasWIOAFunding = p.fundingOptions?.some(f => f === 'wioa' || f === 'wrg') ?? false;
+  const hasImpactOnly = !hasWIOAFunding && (p.fundingOptions?.includes('impact') ?? false);
+  // Programs with a dedicated eligibility/funding page
+  const eligibilityPageSlugs = ['barber-apprenticeship', 'cosmetology-apprenticeship', 'esthetician-apprenticeship', 'nail-technician-apprenticeship'];
+  const hasEligibilityPage = eligibilityPageSlugs.includes(p.slug);
   const requestInfoHref = p.cta?.requestInfoHref || `/contact?program=${encodeURIComponent(p.slug)}`;
   const employerPartners = Array.isArray(p.employerPartners) ? p.employerPartners : [];
   const pathwaySteps = [
@@ -563,7 +568,7 @@ export default function ProgramDetailPage({
                 {enrollmentTracks.funded.description}
               </p>
               <div className="space-y-2">
-                {p.fundingOptions?.some((f) => f === 'wioa' || f === 'wrg') && (
+                {hasWIOAFunding && (
                   <div className="flex flex-wrap gap-2 mb-4">
                     {['WorkOne', 'WIOA', 'Trade Act', 'SNAP E&T', 'JRI'].map((prog) => (
                       <span
@@ -575,14 +580,28 @@ export default function ProgramDetailPage({
                     ))}
                   </div>
                 )}
+                {hasImpactOnly && (
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {['FSSA IMPACT', 'SNAP E&T', 'Indiana Only'].map((prog) => (
+                      <span
+                        key={prog}
+                        className="bg-purple-100 text-purple-700 text-xs font-semibold px-2.5 py-1 rounded-lg"
+                      >
+                        {prog}
+                      </span>
+                    ))}
+                  </div>
+                )}
                 <Link
-                  href={enrollmentTracks.funded.applyHref}
+                  href={hasEligibilityPage ? `/programs/${p.slug}/eligibility` : enrollmentTracks.funded.applyHref}
                   className="block w-full text-center bg-green-600 hover:bg-green-700 text-white font-bold py-3.5 rounded-xl transition-colors text-sm"
                 >
-                  Apply Now — $0 Tuition if Eligible
+                  {hasImpactOnly ? 'Check Funding Eligibility' : 'Apply Now — $0 Tuition if Eligible'}
                 </Link>
                 <p className="text-center text-xs text-slate-500 mt-1">
-                  Free to apply · no payment today · takes 2 minutes
+                  {hasImpactOnly
+                    ? 'Indiana SNAP/TANF recipients · must be referred by FSSA case worker'
+                    : 'Free to apply · no payment today · takes 2 minutes'}
                 </p>
               </div>
             </div>
@@ -682,6 +701,31 @@ export default function ProgramDetailPage({
             </Link>{' '}
             — we&apos;ll map the right next step in about 10 minutes.
           </p>
+
+          {/* Indiana funding context — shown for IMPACT-only programs */}
+          {hasImpactOnly && (
+            <div className="mt-6 bg-amber-50 border border-amber-200 rounded-xl p-5 text-sm text-amber-900 max-w-3xl mx-auto">
+              <p className="font-bold mb-1">Indiana residents: funding is available through FSSA IMPACT</p>
+              <p className="text-amber-800 mb-3">
+                This program is not on Indiana&rsquo;s ETPL and does not qualify for WIOA or the
+                Workforce Ready Grant. However, Indiana SNAP and TANF recipients may qualify for
+                free training through the FSSA IMPACT (SNAP Employment &amp; Training) program.
+                Contact your FSSA/DFR case worker to request a training referral.
+              </p>
+              <p className="text-amber-800">
+                <strong>Outside Indiana?</strong> Self-pay enrollment is available to everyone —
+                no residency required. Payment plans, BNPL, and employer sponsorship are all options.
+              </p>
+              {hasEligibilityPage && (
+                <Link
+                  href={`/programs/${p.slug}/eligibility`}
+                  className="inline-flex items-center gap-1.5 mt-3 text-amber-900 font-semibold underline underline-offset-2 hover:text-amber-700 text-sm"
+                >
+                  See all funding options for this program →
+                </Link>
+              )}
+            </div>
+          )}
 
           {/* Next Step CTAs */}
           <div className="mt-8 rounded-xl border border-slate-200 bg-white p-5">

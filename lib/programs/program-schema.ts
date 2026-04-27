@@ -510,18 +510,43 @@ export function getEnrollmentTracks(
   if (p.enrollmentTracks) return p.enrollmentTracks;
 
   const hasWIOA = p.fundingOptions?.some((f) => f === 'wioa' || f === 'wrg') ?? false;
+  const hasImpact = p.fundingOptions?.includes('impact') ?? false;
   const hasEmployer = p.fundingOptions?.includes('employer_paid') ?? false;
   const applyHref = p.cta.applyHref || `/programs/${p.slug}/apply`;
 
+  // Funded track label/description varies by what funding is actually available
+  let fundedLabel = 'Workforce-Funded Training';
+  let fundedRequirement = 'Must reside in Indiana';
+  let fundedDescription =
+    'Funding assistance may be available through workforce development programs. Contact an advisor to check your eligibility.';
+
+  if (hasEmployer && !hasWIOA && !hasImpact) {
+    fundedLabel = 'Apprenticeship / Employer-Sponsored';
+    fundedRequirement = 'Requires employer sponsor agreement';
+    fundedDescription =
+      'Train while earning wages at a partner employer. Your employer covers tuition through the apprenticeship agreement. No out-of-pocket cost.';
+  } else if (hasEmployer && hasImpact && !hasWIOA) {
+    fundedLabel = 'FSSA IMPACT or Employer-Sponsored';
+    fundedRequirement = 'Indiana residents — SNAP/TANF recipients or employer sponsor';
+    fundedDescription =
+      'SNAP or TANF recipients may qualify for free training through Indiana\'s FSSA IMPACT program. Alternatively, a licensed employer can sponsor your apprenticeship at no cost to you.';
+  } else if (hasWIOA) {
+    fundedLabel = hasEmployer ? 'Workforce-Funded or Employer-Sponsored' : 'Workforce-Funded Training';
+    fundedRequirement = 'Must reside in Indiana';
+    fundedDescription =
+      'Federal and Indiana state workforce funding may cover 100% of tuition, books, and exam fees for eligible Indiana residents. We help you apply for every option you qualify for.';
+  } else if (hasImpact) {
+    fundedLabel = 'FSSA IMPACT (SNAP/TANF)';
+    fundedRequirement = 'Indiana residents receiving SNAP or TANF';
+    fundedDescription =
+      'Indiana\'s SNAP Employment & Training (IMPACT) program can cover 100% of tuition for eligible recipients. You must be referred by your FSSA/DFR case worker — contact them to request a training authorization.';
+  }
+
   return {
     funded: {
-      label: hasEmployer ? 'Apprenticeship / Employer-Sponsored' : 'Workforce-Funded Training',
-      requirement: hasEmployer ? 'Requires employer sponsor agreement' : 'Must reside in Indiana',
-      description: hasEmployer
-        ? 'Train while earning wages at a partner employer. Your employer covers tuition through the apprenticeship agreement. No out-of-pocket cost.'
-        : hasWIOA
-          ? 'Federal and Indiana state workforce funding may cover 100% of tuition, books, and exam fees for eligible Indiana residents. We help you apply for every option you qualify for.'
-          : 'Funding assistance may be available through workforce development programs. Contact an advisor to check your eligibility.',
+      label: fundedLabel,
+      requirement: fundedRequirement,
+      description: fundedDescription,
       applyHref,
       available: true as const,
     },
