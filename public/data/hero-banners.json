@@ -124,7 +124,7 @@
   },
   "store": {
     "pageKey": "store",
-    "posterImage": "/hero-images/services-hero.jpg",
+    "posterImage": "/images/pages/store-hero.jpg",
     "voiceoverSrc": "/audio/heroes/store.mp3",
     "microLabel": "White-Label Platform",
     "belowHeroHeadline": "License the LMS that runs workforce programs end to end.",
@@ -149,7 +149,7 @@
   },
   "programs": {
     "pageKey": "programs",
-    "posterImage": "/hero-images/pathways-hero.jpg",
+    "posterImage": "/images/pages/apprenticeships-page-1.jpg",
     "voiceoverSrc": "/audio/heroes/programs.mp3",
     "microLabel": "Career Training",
     "belowHeroHeadline": "Start a Career — Not Just a Class",
@@ -174,7 +174,7 @@
   },
   "learner": {
     "pageKey": "learner",
-    "posterImage": "/hero-images/how-it-works-hero.jpg",
+    "posterImage": "/images/pages/learner-page-1.jpg",
     "voiceoverSrc": "/audio/heroes/learner.mp3",
     "microLabel": "Your Training",
     "belowHeroHeadline": "Your credential is the goal. Everything here moves you toward it.",
@@ -256,7 +256,7 @@
   },
   "cdl-training": {
     "pageKey": "cdl-training",
-    "posterImage": "/hero-images/cdl-cat-new.jpg",
+    "posterImage": "/images/pages/cdl-hero.jpg",
     "voiceoverSrc": "/audio/heroes/cdl.mp3",
     "microLabel": "CDL Class A",
     "credentialLabel": "CDL Class A",
@@ -864,7 +864,7 @@
   },
   "apprenticeships": {
     "pageKey": "apprenticeships",
-    "posterImage": "/hero-images/apprenticeships-hero.jpg",
+    "posterImage": "/images/pages/apprenticeships-hero.jpg",
     "voiceoverSrc": "/audio/heroes/barber.mp3",
     "microLabel": "Earn While You Learn",
     "belowHeroHeadline": "Apprenticeships — get paid to train.",
@@ -889,7 +889,7 @@
   },
   "it-help-desk": {
     "pageKey": "it-help-desk",
-    "posterImage": "/hero-images/technology-cat-new.jpg",
+    "posterImage": "/images/pages/it-help-desk.jpg",
     "voiceoverSrc": "/audio/heroes/technology.mp3",
     "microLabel": "CompTIA A+ Prep",
     "credentialLabel": "CompTIA A+",
@@ -917,7 +917,7 @@
   },
   "cybersecurity-analyst": {
     "pageKey": "cybersecurity-analyst",
-    "posterImage": "/hero-images/technology-cat-new.jpg",
+    "posterImage": "/images/pages/cybersecurity-hero.jpg",
     "voiceoverSrc": "/audio/heroes/technology.mp3",
     "microLabel": "CompTIA Security+ Prep",
     "credentialLabel": "CompTIA Security+",
@@ -945,7 +945,7 @@
   },
   "network-administration": {
     "pageKey": "network-administration",
-    "posterImage": "/hero-images/technology-cat-new.jpg",
+    "posterImage": "/images/pages/network-administration.jpg",
     "voiceoverSrc": "/audio/heroes/technology.mp3",
     "microLabel": "CompTIA Network+ Prep",
     "credentialLabel": "CompTIA Network+",
@@ -973,7 +973,7 @@
   },
   "network-support-technician": {
     "pageKey": "network-support-technician",
-    "posterImage": "/hero-images/technology-cat-new.jpg",
+    "posterImage": "/images/pages/it-networking.jpg",
     "microLabel": "IT Specialist Networking",
     "credentialLabel": "Certiport IT Specialist Networking",
     "durationLabel": "6 weeks",
@@ -1000,7 +1000,7 @@
   },
   "software-development": {
     "pageKey": "software-development",
-    "posterImage": "/hero-images/technology-cat-new.jpg",
+    "posterImage": "/images/pages/software-development.jpg",
     "voiceoverSrc": "/audio/heroes/technology.mp3",
     "microLabel": "IT Specialist Python",
     "credentialLabel": "Certiport IT Specialist Python",
@@ -1028,7 +1028,7 @@
   },
   "web-development": {
     "pageKey": "web-development",
-    "posterImage": "/hero-images/technology-cat-new.jpg",
+    "posterImage": "/images/pages/web-development.jpg",
     "voiceoverSrc": "/audio/heroes/technology.mp3",
     "microLabel": "Meta Front-End Cert",
     "credentialLabel": "Meta Front-End Developer Professional Certificate",
@@ -1056,7 +1056,7 @@
   },
   "graphic-design": {
     "pageKey": "graphic-design",
-    "posterImage": "/hero-images/technology-cat-new.jpg",
+    "posterImage": "/images/pages/graphic-design.jpg",
     "microLabel": "Adobe Certified Professional",
     "credentialLabel": "Adobe Certified Professional",
     "durationLabel": "10 weeks",
@@ -1111,7 +1111,7 @@
   },
   "tax-preparation": {
     "pageKey": "tax-preparation",
-    "posterImage": "/hero-images/tax-hero.jpg",
+    "posterImage": "/images/pages/admin-tax-training-hero.jpg",
     "voiceoverSrc": "/audio/heroes/tax.mp3",
     "microLabel": "IRS PTIN + AFSP",
     "credentialLabel": "IRS PTIN and AFSP",
@@ -1139,7 +1139,7 @@
   },
   "bookkeeping": {
     "pageKey": "bookkeeping",
-    "posterImage": "/hero-images/business-hero.jpg",
+    "posterImage": "/images/pages/bookkeeping.jpg",
     "voiceoverSrc": "/audio/heroes/bookkeeping.mp3",
     "microLabel": "QuickBooks Certified User",
     "credentialLabel": "QuickBooks Certified User",
@@ -1167,7 +1167,7 @@
   },
   "office-administration": {
     "pageKey": "office-administration",
-    "posterImage": "/hero-images/business-hero.jpg",
+    "posterImage": "/images/pages/office-admin-desk.jpg",
     "microLabel": "Microsoft Office Specialist",
     "credentialLabel": "Microsoft Office Specialist",
     "durationLabel": "6 weeks",
@@ -1194,7 +1194,7 @@
   },
   "entrepreneurship": {
     "pageKey": "entrepreneurship",
-    "posterImage": "/hero-images/business-hero.jpg",
+    "posterImage": "/images/pages/entrepreneurship.jpg",
     "microLabel": "Certiport ESB Certification",
     "credentialLabel": "Certiport ESB",
     "durationLabel": "6 weeks",
@@ -1221,7 +1221,7 @@
   },
   "business-administration": {
     "pageKey": "business-administration",
-    "posterImage": "/hero-images/business-hero.jpg",
+    "posterImage": "/images/pages/business-sector.jpg",
     "microLabel": "MOS + Certiport ESB",
     "credentialLabel": "Microsoft Office Specialist",
     "durationLabel": "8 weeks",
@@ -1248,7 +1248,7 @@
   },
   "project-management": {
     "pageKey": "project-management",
-    "posterImage": "/hero-images/business-hero.jpg",
+    "posterImage": "/images/pages/project-management.jpg",
     "microLabel": "Certiport PM Certification",
     "credentialLabel": "Certiport Project Management",
     "durationLabel": "6 weeks",
@@ -1275,7 +1275,7 @@
   },
   "finance-bookkeeping-accounting": {
     "pageKey": "finance-bookkeeping-accounting",
-    "posterImage": "/hero-images/business-hero.jpg",
+    "posterImage": "/images/pages/finance-accounting.jpg",
     "microLabel": "IRS PTIN + QuickBooks",
     "credentialLabel": "IRS PTIN",
     "durationLabel": "12 weeks",
@@ -1332,7 +1332,7 @@
   },
   "technology": {
     "pageKey": "technology",
-    "posterImage": "/hero-images/technology-cat-new.jpg",
+    "posterImage": "/hero-images/technology-hero.jpg",
     "microLabel": "Indianapolis, Indiana",
     "belowHeroHeadline": "Technology Career Training — CompTIA A+ in 12 weeks.",
     "belowHeroSubheadline": "Launch an IT career with industry-recognized certifications. WIOA and Workforce Ready Grant funding available.",
@@ -1354,7 +1354,7 @@
   },
   "business": {
     "pageKey": "business",
-    "posterImage": "/images/pages/business-sector.jpg",
+    "posterImage": "/hero-images/business-hero.jpg",
     "voiceoverSrc": "/audio/heroes/business.mp3",
     "microLabel": "Business & Finance Programs",
     "belowHeroHeadline": "Launch a business career — certifications in 5–10 weeks.",
@@ -1425,7 +1425,7 @@
   },
   "lms": {
     "pageKey": "lms",
-    "posterImage": "/hero-images/how-it-works-hero.jpg",
+    "posterImage": "/images/pages/lms-page-1.jpg",
     "voiceoverSrc": "/audio/heroes/lms.mp3",
     "microLabel": "Student Training Portal",
     "belowHeroHeadline": "Your career training starts here.",
@@ -1922,7 +1922,7 @@
   },
   "workforce-partners": {
     "pageKey": "workforce-partners",
-    "posterImage": "/hero-images/employer-hero.jpg",
+    "posterImage": "/images/pages/workforce-partnership-hero.jpg",
     "microLabel": "Workforce Partners",
     "belowHeroHeadline": "A workforce pipeline you can count on.",
     "belowHeroSubheadline": "Elevate for Humanity partners with WorkOne, FSSA, employers, and community organizations to deliver WIOA-compliant training at scale.",
@@ -1945,7 +1945,7 @@
   },
   "impact": {
     "pageKey": "impact",
-    "posterImage": "/images/pages/impact-video-poster.jpg",
+    "posterImage": "/images/pages/funding-impact-1.jpg",
     "microLabel": "Impact & Outcomes",
     "belowHeroHeadline": "Real results for learners, employers, and communities.",
     "belowHeroSubheadline": "Elevate for Humanity tracks every outcome — credentials earned, jobs placed, wages increased. See the data.",
@@ -1968,7 +1968,7 @@
   },
   "supersonic": {
     "pageKey": "supersonic",
-    "posterImage": "/hero-images/tax-hero.jpg",
+    "posterImage": "/images/pages/admin-tax-preparers-hero.jpg",
     "voiceoverSrc": "/audio/heroes/supersonic.mp3",
     "microLabel": "SupersonicFastCash",
     "belowHeroHeadline": "Tax software built for speed.",
@@ -2015,7 +2015,7 @@
   },
   "enrollment": {
     "pageKey": "enrollment",
-    "posterImage": "/hero-images/apply-hero.jpg",
+    "posterImage": "/images/pages/enrollment-agreement-page-1.jpg",
     "voiceoverSrc": "/audio/heroes/enrollment.mp3",
     "microLabel": "Enrollment",
     "belowHeroHeadline": "Ready to start? Let's get you enrolled.",
@@ -2039,7 +2039,7 @@
   },
   "how-it-works": {
     "pageKey": "how-it-works",
-    "posterImage": "/hero-images/how-it-works-hero.jpg",
+    "posterImage": "/images/pages/how-it-works-hero.jpg",
     "voiceoverSrc": "/audio/heroes/how-it-works.mp3",
     "microLabel": "How It Works",
     "belowHeroHeadline": "From application to employment in four steps.",
@@ -2063,7 +2063,7 @@
   },
   "employer": {
     "pageKey": "employer",
-    "posterImage": "/hero-images/employer-hero.jpg",
+    "posterImage": "/images/pages/employer-hero.jpg",
     "voiceoverSrc": "/audio/heroes/career-services.mp3",
     "microLabel": "For Employers",
     "belowHeroHeadline": "Hire credentialed graduates. Access tax credits and apprenticeship support.",
@@ -2136,7 +2136,7 @@
   },
   "hire-graduates": {
     "pageKey": "hire-graduates",
-    "posterImage": "/images/pages/employer-hero.jpg",
+    "posterImage": "/images/pages/hire-graduates-page-1.jpg",
     "voiceoverSrc": "/audio/heroes/hire-graduates.mp3",
     "microLabel": "Hire Our Graduates",
     "belowHeroHeadline": "Credential-ready talent. Pre-screened. Job-ready.",
@@ -2406,7 +2406,7 @@
   },
   "cybersecurity": {
     "pageKey": "cybersecurity",
-    "posterImage": "/hero-images/technology-cat-new.jpg",
+    "posterImage": "/images/pages/cybersecurity-hero.jpg",
     "microLabel": "CompTIA Security+",
     "credentialLabel": "CompTIA Security+",
     "durationLabel": "12 weeks",
@@ -2432,7 +2432,7 @@
   },
   "hospitality": {
     "pageKey": "hospitality",
-    "posterImage": "/hero-images/business-hero.jpg",
+    "posterImage": "/hero-images/career-services-hero.jpg",
     "microLabel": "Indianapolis, Indiana",
     "belowHeroHeadline": "Hospitality & Customer Service — ServSafe certified in 8 weeks.",
     "belowHeroSubheadline": "Build a career in hotels, restaurants, and event services. WIOA and Workforce Ready Grant funding available.",
