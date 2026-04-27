@@ -106,4 +106,4 @@ USER nextjs
 # Next.js standalone reads PORT from the environment automatically.
 ENV HOSTNAME=0.0.0.0
 
-CMD ["node", "server.js"]
+CMD ["node", "--max-http-header-size=32768", "server.js"]
