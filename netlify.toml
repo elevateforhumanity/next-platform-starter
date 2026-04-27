@@ -731,115 +731,181 @@
   status = 301
   force = true
 
-# PWA — apprentice onboarding app lives in a separate repo
+# PWA — served by Railway
+[[redirects]]
+  from = "/pwa"
+  to = ":RAILWAY_URL/pwa"
+  status = 301
+  force = true
+
 [[redirects]]
   from = "/pwa/*"
-  to = "/programs"
-  status = 302
+  to = ":RAILWAY_URL/pwa/:splat"
+  status = 301
   force = true
 
 # Store / checkout — Railway-owned e-commerce
 [[redirects]]
+  from = "/store"
+  to = ":RAILWAY_URL/store"
+  status = 301
+  force = true
+
+[[redirects]]
   from = "/store/*"
-  to = "/programs"
-  status = 302
+  to = ":RAILWAY_URL/store/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/checkout"
+  to = ":RAILWAY_URL/checkout"
+  status = 301
   force = true
 
 [[redirects]]
   from = "/checkout/*"
-  to = "/apply"
-  status = 302
+  to = ":RAILWAY_URL/checkout/:splat"
+  status = 301
   force = true
 
 # LMS — Railway-owned learning platform
 [[redirects]]
+  from = "/lms"
+  to = ":RAILWAY_URL/lms"
+  status = 301
+  force = true
+
+[[redirects]]
   from = "/lms/*"
-  to = "/login"
-  status = 302
+  to = ":RAILWAY_URL/lms/:splat"
+  status = 301
   force = true
 
 # Learner / student portals — Railway
 [[redirects]]
+  from = "/learner"
+  to = ":RAILWAY_URL/learner"
+  status = 301
+  force = true
+
+[[redirects]]
   from = "/learner/*"
-  to = "/login"
-  status = 302
+  to = ":RAILWAY_URL/learner/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/student"
+  to = ":RAILWAY_URL/student"
+  status = 301
   force = true
 
 [[redirects]]
   from = "/student/*"
-  to = "/login"
-  status = 302
+  to = ":RAILWAY_URL/student/:splat"
+  status = 301
   force = true
 
 # Instructor portal — Railway
 [[redirects]]
+  from = "/instructor"
+  to = ":RAILWAY_URL/instructor"
+  status = 301
+  force = true
+
+[[redirects]]
   from = "/instructor/*"
-  to = "/login"
-  status = 302
+  to = ":RAILWAY_URL/instructor/:splat"
+  status = 301
   force = true
 
 # Staff / case manager portals — Railway
 [[redirects]]
+  from = "/staff-portal"
+  to = ":RAILWAY_URL/staff-portal"
+  status = 301
+  force = true
+
+[[redirects]]
   from = "/staff-portal/*"
-  to = "/login"
-  status = 302
+  to = ":RAILWAY_URL/staff-portal/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/case-manager"
+  to = ":RAILWAY_URL/case-manager"
+  status = 301
   force = true
 
 [[redirects]]
   from = "/case-manager/*"
-  to = "/login"
-  status = 302
+  to = ":RAILWAY_URL/case-manager/:splat"
+  status = 301
   force = true
 
 # Program holder dashboard — Railway
 [[redirects]]
   from = "/program-holder/dashboard"
-  to = "/login"
-  status = 302
+  to = ":RAILWAY_URL/program-holder/dashboard"
+  status = 301
   force = true
 
 [[redirects]]
   from = "/program-holder/dashboard/*"
-  to = "/login"
-  status = 302
+  to = ":RAILWAY_URL/program-holder/dashboard/:splat"
+  status = 301
   force = true
 
 # Partner / employer dashboards — Railway
 [[redirects]]
   from = "/partner/dashboard"
-  to = "/login"
-  status = 302
+  to = ":RAILWAY_URL/partner/dashboard"
+  status = 301
   force = true
 
 [[redirects]]
   from = "/partner/dashboard/*"
-  to = "/login"
-  status = 302
+  to = ":RAILWAY_URL/partner/dashboard/:splat"
+  status = 301
   force = true
 
 [[redirects]]
   from = "/employer/dashboard"
-  to = "/login"
-  status = 302
+  to = ":RAILWAY_URL/employer/dashboard"
+  status = 301
   force = true
 
 [[redirects]]
   from = "/employer/dashboard/*"
-  to = "/login"
-  status = 302
+  to = ":RAILWAY_URL/employer/dashboard/:splat"
+  status = 301
   force = true
 
-# Supersonic / tax — separate repo
+# Supersonic / tax — Railway
+[[redirects]]
+  from = "/supersonic"
+  to = ":RAILWAY_URL/supersonic"
+  status = 301
+  force = true
+
 [[redirects]]
   from = "/supersonic/*"
-  to = "/contact"
-  status = 302
+  to = ":RAILWAY_URL/supersonic/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/tax"
+  to = ":RAILWAY_URL/tax"
+  status = 301
   force = true
 
 [[redirects]]
   from = "/tax/*"
-  to = "/contact"
-  status = 302
+  to = ":RAILWAY_URL/tax/:splat"
+  status = 301
   force = true
 
 # BOT / SCANNER TRAP — die at the edge, never reach SSR
