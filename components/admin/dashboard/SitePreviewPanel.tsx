@@ -6,14 +6,8 @@ import Link from 'next/link';
 
 const SITES = [
   { label: 'Public Site', url: 'https://www.elevateforhumanity.org' },
-  {
-    label: 'Admin',
-    url: process.env.NEXT_PUBLIC_ADMIN_URL ?? 'https://elevate-admin-production.up.railway.app',
-  },
-  {
-    label: 'LMS',
-    url: process.env.NEXT_PUBLIC_LMS_URL ?? 'https://elevate-lms-production-3098.up.railway.app',
-  },
+  { label: 'Admin', url: process.env.NEXT_PUBLIC_ADMIN_URL ?? 'https://elevate-admin-production.up.railway.app' },
+  { label: 'LMS', url: process.env.NEXT_PUBLIC_LMS_URL ?? 'https://elevate-lms-production-3098.up.railway.app' },
 ];
 
 type ViewMode = 'desktop' | 'mobile';
@@ -27,7 +21,7 @@ export function SitePreviewPanel() {
 
   const currentUrl = customUrl || activeSite.url;
 
-  const refresh = () => setPreviewKey((k) => k + 1);
+  const refresh = () => setPreviewKey(k => k + 1);
 
   return (
     <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
@@ -38,14 +32,10 @@ export function SitePreviewPanel() {
 
         {/* Site switcher */}
         <div className="flex items-center gap-1 ml-2">
-          {SITES.map((site) => (
+          {SITES.map(site => (
             <button
               key={site.label}
-              onClick={() => {
-                setActiveSite(site);
-                setCustomUrl('');
-                setPreviewKey((k) => k + 1);
-              }}
+              onClick={() => { setActiveSite(site); setCustomUrl(''); setPreviewKey(k => k + 1); }}
               className={`px-2.5 py-1 text-xs rounded-full font-medium transition-colors ${
                 activeSite.label === site.label && !customUrl
                   ? 'bg-blue-600 text-white'
@@ -61,8 +51,8 @@ export function SitePreviewPanel() {
         <div className="flex-1 flex items-center gap-1 bg-white border border-slate-200 rounded-lg px-2 py-1 min-w-0">
           <input
             value={customUrl || activeSite.url}
-            onChange={(e) => setCustomUrl(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && refresh()}
+            onChange={e => setCustomUrl(e.target.value)}
+            onKeyDown={e => e.key === 'Enter' && refresh()}
             className="flex-1 text-xs text-slate-700 focus:outline-none min-w-0 bg-transparent"
           />
         </div>
@@ -70,15 +60,11 @@ export function SitePreviewPanel() {
         {/* Controls */}
         <div className="flex items-center gap-1 shrink-0">
           <button
-            onClick={() => setViewMode((v) => (v === 'desktop' ? 'mobile' : 'desktop'))}
+            onClick={() => setViewMode(v => v === 'desktop' ? 'mobile' : 'desktop')}
             className={`p-1.5 rounded hover:bg-slate-200 transition-colors ${viewMode === 'mobile' ? 'text-blue-600 bg-blue-50' : 'text-slate-500'}`}
             title={viewMode === 'desktop' ? 'Switch to mobile' : 'Switch to desktop'}
           >
-            {viewMode === 'desktop' ? (
-              <Monitor className="w-3.5 h-3.5" />
-            ) : (
-              <Smartphone className="w-3.5 h-3.5" />
-            )}
+            {viewMode === 'desktop' ? <Monitor className="w-3.5 h-3.5" /> : <Smartphone className="w-3.5 h-3.5" />}
           </button>
           <button
             onClick={refresh}
@@ -108,17 +94,14 @@ export function SitePreviewPanel() {
       </div>
 
       {/* Preview frame */}
-      <div
-        className={`relative bg-slate-100 flex items-center justify-center transition-all ${
-          viewMode === 'mobile' ? 'py-4' : ''
-        }`}
-        style={{ height: '520px' }}
-      >
-        <div
-          className={`h-full overflow-hidden shadow-lg transition-all ${
-            viewMode === 'mobile' ? 'w-[390px] rounded-2xl border-4 border-slate-800' : 'w-full'
-          }`}
-        >
+      <div className={`relative bg-slate-100 flex items-center justify-center transition-all ${
+        viewMode === 'mobile' ? 'py-4' : ''
+      }`} style={{ height: '520px' }}>
+        <div className={`h-full overflow-hidden shadow-lg transition-all ${
+          viewMode === 'mobile'
+            ? 'w-[390px] rounded-2xl border-4 border-slate-800'
+            : 'w-full'
+        }`}>
           <iframe
             ref={iframeRef}
             key={previewKey}
