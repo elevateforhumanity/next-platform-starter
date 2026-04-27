@@ -56,6 +56,14 @@ ENV NODE_OPTIONS="--max-old-space-size=7168 --max-semi-space-size=64 --expose-gc
 ARG SERVICE_ROLE=all
 ENV SERVICE_ROLE=${SERVICE_ROLE}
 
+# NEXT_PUBLIC_* vars must be present at build time to be inlined by Next.js
+ARG NEXT_PUBLIC_SUPABASE_URL
+ARG NEXT_PUBLIC_SUPABASE_ANON_KEY
+ARG NEXT_PUBLIC_SITE_URL
+ENV NEXT_PUBLIC_SUPABASE_URL=${NEXT_PUBLIC_SUPABASE_URL}
+ENV NEXT_PUBLIC_SUPABASE_ANON_KEY=${NEXT_PUBLIC_SUPABASE_ANON_KEY}
+ENV NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL}
+
 # Quarantine marketing-only app/ dirs before Next.js route discovery.
 # SERVICE_ROLE controls which routes survive — cuts ~1,500 pages to ~200-300.
 RUN node scripts/railway-quarantine-marketing-routes.mjs
